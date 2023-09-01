@@ -55,6 +55,9 @@ variables:
 
   colon: ':(?!=)'
 
+  # Prefer ranged quantifiers over python interpolation in raw f-strings
+  fstring_regexp_interpolation_begin: '\{(?!\d+(?:,\d*)?\})'
+
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
@@ -2658,10 +2661,10 @@ contexts:
 
   triple-double-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-b-string-content
@@ -2697,10 +2700,10 @@ contexts:
 
   triple-double-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-f-string-content
@@ -2749,10 +2752,10 @@ contexts:
 
   triple-double-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-regexp-raw-u-string-content
@@ -2917,7 +2920,7 @@ contexts:
   triple-double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -2999,10 +3002,10 @@ contexts:
 
   double-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-raw-b-string-content
@@ -3038,10 +3041,10 @@ contexts:
 
   double-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-raw-f-string-content
@@ -3090,10 +3093,10 @@ contexts:
 
   double-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-regexp-raw-u-string-content
@@ -3253,7 +3256,7 @@ contexts:
   double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3331,10 +3334,10 @@ contexts:
 
   triple-single-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-b-string-content
@@ -3370,10 +3373,10 @@ contexts:
 
   triple-single-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-f-string-content
@@ -3421,10 +3424,10 @@ contexts:
 
   triple-single-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-regexp-raw-u-string-content
@@ -3589,7 +3592,7 @@ contexts:
   triple-single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3671,10 +3674,10 @@ contexts:
 
   single-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-raw-b-string-content
@@ -3722,10 +3725,10 @@ contexts:
 
   single-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-regexp-raw-u-string-content
@@ -3776,10 +3779,10 @@ contexts:
 
   single-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-raw-f-string-content
@@ -3925,7 +3928,7 @@ contexts:
   single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta

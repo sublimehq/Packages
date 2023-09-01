@@ -946,6 +946,40 @@ rf"{value:{width!s:d}}"
 #                 ^ punctuation.separator.format-spec
 #                  ^ constant.other.format-spec
 
+fr"{var}? {var}* {var}{2,3} [{foo}-{bar}]+"
+# ^ meta.string.python string.quoted
+#  ^^^^^ meta.string.python meta.interpolation.python - string
+#       ^^ meta.string.python string.quoted
+#         ^^^^^ meta.string.python meta.interpolation.python - string
+#              ^^ meta.string.python string.quoted
+#                ^^^^^ meta.string.python meta.interpolation.python - string
+#                     ^^^^^^^ meta.string.python string.quoted
+#                            ^^^^^ meta.string.python meta.interpolation.python - string
+#                                 ^ meta.string.python string.quoted
+#                                  ^^^^^ meta.string.python meta.interpolation.python - string
+#                                       ^^ meta.string.python string.quoted
+#       ^ keyword.operator.quantifier.regexp
+#              ^ keyword.operator.quantifier.regexp
+#                     ^^^^^ keyword.operator.quantifier.regexp
+#                                        ^ keyword.operator.quantifier.regexp
+
+fr'{var}? {var}* {var}{2,3} [{foo}-{bar}]+'
+# ^ meta.string.python string.quoted
+#  ^^^^^ meta.string.python meta.interpolation.python - string
+#       ^^ meta.string.python string.quoted
+#         ^^^^^ meta.string.python meta.interpolation.python - string
+#              ^^ meta.string.python string.quoted
+#                ^^^^^ meta.string.python meta.interpolation.python - string
+#                     ^^^^^^^ meta.string.python string.quoted
+#                            ^^^^^ meta.string.python meta.interpolation.python - string
+#                                 ^ meta.string.python string.quoted
+#                                  ^^^^^ meta.string.python meta.interpolation.python - string
+#                                       ^^ meta.string.python string.quoted
+#       ^ keyword.operator.quantifier.regexp
+#              ^ keyword.operator.quantifier.regexp
+#                     ^^^^^ keyword.operator.quantifier.regexp
+#                                        ^ keyword.operator.quantifier.regexp
+
 # Most of these were inspired by
 # https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
 f'{x=:}'
@@ -1248,6 +1282,23 @@ fr"""
 # ^^^^ meta.string.python string.quoted.double.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+
+    {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# ^^ meta.string.python string.quoted
+#   ^^^^^ meta.string.python meta.interpolation.python - string
+#        ^^ meta.string.python string.quoted
+#          ^^^^^ meta.string.python meta.interpolation.python - string
+#               ^^ meta.string.python string.quoted
+#                 ^^^^^ meta.string.python meta.interpolation.python - string
+#                      ^^^^^^^ meta.string.python string.quoted
+#                             ^^^^^ meta.string.python meta.interpolation.python - string
+#                                  ^ meta.string.python string.quoted
+#                                   ^^^^^ meta.string.python meta.interpolation.python - string
+#                                        ^^ meta.string.python string.quoted
+#        ^ keyword.operator.quantifier.regexp
+#               ^ keyword.operator.quantifier.regexp
+#                      ^^^^^ keyword.operator.quantifier.regexp
+#                                         ^ keyword.operator.quantifier.regexp
 """
 # <- meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
 #^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
@@ -1259,6 +1310,23 @@ fr'''
 # ^^^^ meta.string.python string.quoted.single.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+
+    {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# ^^ meta.string.python string.quoted
+#   ^^^^^ meta.string.python meta.interpolation.python - string
+#        ^^ meta.string.python string.quoted
+#          ^^^^^ meta.string.python meta.interpolation.python - string
+#               ^^ meta.string.python string.quoted
+#                 ^^^^^ meta.string.python meta.interpolation.python - string
+#                      ^^^^^^^ meta.string.python string.quoted
+#                             ^^^^^ meta.string.python meta.interpolation.python - string
+#                                  ^ meta.string.python string.quoted
+#                                   ^^^^^ meta.string.python meta.interpolation.python - string
+#                                        ^^ meta.string.python string.quoted
+#        ^ keyword.operator.quantifier.regexp
+#               ^ keyword.operator.quantifier.regexp
+#                      ^^^^^ keyword.operator.quantifier.regexp
+#                                         ^ keyword.operator.quantifier.regexp
 '''
 # <- meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
 #^^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
