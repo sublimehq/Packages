@@ -163,6 +163,21 @@
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
+    for (x.y.z of list) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//       ^ variable.other.readwrite
+//        ^ punctuation.accessor
+//         ^ meta.property.object
+//          ^ punctuation.accessor
+//           ^ meta.property.object
+//             ^^ keyword.operator.word
+//                ^^^^ variable.other.readwrite
+//                    ^ punctuation.section.group.end
+//                      ^^ meta.block
+
     for await (const x of list) {}
 //  ^^^ keyword.control.loop.for
 //      ^^^^^ keyword.control.flow.await
