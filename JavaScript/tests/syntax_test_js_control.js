@@ -248,6 +248,19 @@
 //                        ^ punctuation.section.block.begin
 //                         ^ punctuation.section.block.end
 
+    for ( await using instanceof x ;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.control.flow.await
+//              ^^^^^ variable.other.readwrite
+//                    ^^^^^^^^^^ keyword.operator
+//                               ^ variable.other.readwrite
+//                                 ^^ punctuation.separator.expression
+//                                   ^ punctuation.section.group.end
+//                                     ^^ meta.block
+
 for
     42;
 //  ^^ constant.numeric - meta.for

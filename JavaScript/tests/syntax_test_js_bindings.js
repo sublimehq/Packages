@@ -276,3 +276,10 @@ await
 //^^^ keyword.control.flow.await
 using [ x ] = 0;
 //^^^ variable.other.readwrite
+
+await using in x;
+//^^^ keyword.control.flow.await
+//    ^^^^^ variable.other.readwrite
+//          ^^ keyword.operator
+//             ^ variable.other.readwrite
+//              ^ punctuation.terminator.statement

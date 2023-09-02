@@ -580,7 +580,7 @@ contexts:
       pop: 1
 
   plain-using-declaration:
-    - match: using{{identifier_break}}(?={{nothing}}{{identifier_start}})
+    - match: using{{identifier_break}}(?={{nothing}}{{non_reserved_identifier}})
       scope: keyword.declaration.js
       set:
         - expect-semicolon
@@ -904,7 +904,7 @@ contexts:
           (?= # await [no LineTerminator here] using [no LineTerminator here] ForBinding
             (?:await{{identifier_break}}{{nothing}})?
             using{{identifier_break}}{{nothing}}
-            {{identifier_name}}
+            {{non_reserved_identifier}}
           )
         )
       scope: keyword.declaration.js
