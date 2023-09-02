@@ -400,8 +400,12 @@ String.fromCodePoint;
 String.raw;
 //     ^^^ support.function.builtin
 
+Symbol.asyncDispose;
+//     ^^^^^^^^^^^^ support.constant.builtin
 Symbol.asyncIterator;
 //     ^^^^^^^^^^^^^ support.constant.builtin
+Symbol.dispose;
+//     ^^^^^^^ support.constant.builtin
 Symbol.hasInstance;
 //     ^^^^^^^^^^^ support.constant.builtin
 Symbol.isConcatSpreadable;
