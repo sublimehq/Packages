@@ -925,14 +925,42 @@ contexts:
           scope: punctuation.section.sequence.end.js
           pop: 1
         - include: comma-separator
-        - match: \.\.\.
-          scope: keyword.operator.spread.js
         - match: (?=\S)
           push:
             - ts-type-annotation-optional
             - ts-type-expression-end
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
+            - ts-type-tuple-spread
+            - ts-type-tuple-possible-member-label
+
+  ts-type-tuple-possible-member-label:
+    - match: (?={{identifier_name}})
+      branch_point: ts-type-tuple-member-label
+      branch:
+        - ts-type-tuple-member-label
+        - immediately-pop
+      pop: 1
+    - include: else-pop
+
+  ts-type-tuple-member-label:
+    - match: ''
+      set:
+        - - match: ':'
+            scope: punctuation.separator.type.ts
+            pop: 1
+          - match: (?=\S)
+            fail: ts-type-tuple-member-label
+        - ts-type-annotation-optional
+        - - match: '{{identifier_name}}'
+            scope: meta.mapping.key.ts
+            pop: 1
+
+  ts-type-tuple-spread:
+    - match: \.\.\.
+      scope: keyword.operator.spread.js
+      pop: 1
+    - include: else-pop
 
   ts-type-object:
     - match: \{
