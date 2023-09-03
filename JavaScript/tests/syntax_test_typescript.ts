@@ -1,102 +1,102 @@
 // SYNTAX TEST "Packages/JavaScript/TypeScript.sublime-syntax"
 
 // comment
-// <- comment.line.double-slash.js punctuation.definition.comment.js
-//^^^^^^^^^ comment.line.double-slash.js
+// <- comment.line.double-slash punctuation.definition.comment
+//^^^^^^^^^ comment.line.double-slash
 
 // comment //
-// <- comment.line.double-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^^^ comment.line.double-slash.js
-//         ^^ punctuation.definition.comment.js
+// <- comment.line.double-slash punctuation.definition.comment
+//^^^^^^^^^^^^ comment.line.double-slash
+//         ^^ punctuation.definition.comment
 
 /// comment
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^ comment.line.triple-slash.js
+// <- comment.line.triple-slash punctuation.definition.comment
+//^^^^^^^^^^ comment.line.triple-slash
 
 /// comment ///
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^ comment.line.triple-slash.js
-//          ^^^ punctuation.definition.comment.js
+// <- comment.line.triple-slash punctuation.definition.comment
+//^^^^^^^^^^^^^^ comment.line.triple-slash
+//          ^^^ punctuation.definition.comment
 
 /////////////////////////////////////////////////////////////////
-// <- comment.line.other.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
-//                                                               ^ comment.line.other.js - punctuation
+// <- comment.line.other punctuation.definition.comment
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other punctuation.definition.comment
+//                                                               ^ comment.line.other - punctuation
 
 /* */
-// <- comment.block.js punctuation.definition.comment.begin.js
-//^^^ comment.block.js
+// <- comment.block punctuation.definition.comment.begin
+//^^^ comment.block
 //   ^ - comment
 
     /**/ /***/
 // ^ - comment
-//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
+//  ^^^^ comment.block.empty punctuation.definition.comment
 //      ^ - comment
-//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
+//       ^^^^^ comment.block.empty punctuation.definition.comment
 //            ^ - comment
 
     /** @todo **/
-//  ^^^^^^^^^^^^^ comment.block.documentation.js
-//  ^^^ punctuation.definition.comment.begin.js
-//      ^^^^^ entity.other.attribute-name.documentation.js
-//            ^^^ punctuation.definition.comment.end.js
+//  ^^^^^^^^^^^^^ comment.block.documentation
+//  ^^^ punctuation.definition.comment.begin
+//      ^^^^^ entity.other.attribute-name.documentation
+//            ^^^ punctuation.definition.comment.end
 
     /**
 // ^ - comment
-//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
-//     ^ comment.block.documentation.js - punctuation
+//  ^^^ comment.block.documentation punctuation.definition.comment.begin
+//     ^ comment.block.documentation - punctuation
      * @todo test it
-//   ^ comment.block.documentation.js punctuation.definition.comment.js
-//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
-//     ^^^^^ entity.other.attribute-name.documentation.js
+//   ^ comment.block.documentation punctuation.definition.comment
+//    ^^^^^^^^^^^^^^^ comment.block.documentation
+//     ^^^^^ entity.other.attribute-name.documentation
      **/
-//^^^ comment.block.documentation.js - punctuation
-//   ^^^ comment.block.documentation.js
+//^^^ comment.block.documentation - punctuation
+//   ^^^ comment.block.documentation
 //      ^ - comment
 
     /*** @todo ***/
-//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
-//  ^^^^ punctuation.definition.comment.begin.js
-//       ^^^^^ entity.other.attribute-name.documentation.js
-//             ^^^^ punctuation.definition.comment.end.js
+//  ^^^^^^^^^^^^^^^ comment.block.documentation
+//  ^^^^ punctuation.definition.comment.begin
+//       ^^^^^ entity.other.attribute-name.documentation
+//             ^^^^ punctuation.definition.comment.end
 
     /***
 // ^ - comment
-//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
-//      ^ comment.block.documentation.js - punctuation
+//  ^^^^ comment.block.documentation punctuation.definition.comment.begin
+//      ^ comment.block.documentation - punctuation
      * @todo test it
-//   ^ comment.block.documentation.js punctuation.definition.comment.js
-//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
-//     ^^^^^ entity.other.attribute-name.documentation.js
+//   ^ comment.block.documentation punctuation.definition.comment
+//    ^^^^^^^^^^^^^^^ comment.block.documentation
+//     ^^^^^ entity.other.attribute-name.documentation
      ***/
-//^^^ comment.block.documentation.js - punctuation
-//   ^^^^ comment.block.documentation.js
+//^^^ comment.block.documentation - punctuation
+//   ^^^^ comment.block.documentation
 //       ^ - comment
 
 /// <reference no-default-lib="true"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^ comment.line.triple-slash.js punctuation.definition.comment.js
-// ^ comment.line.triple-slash.js - meta.preprocessor
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
-//                                    ^ comment.line.triple-slash.js - meta.preprocessor
+// <- comment.line.triple-slash punctuation.definition.comment
+//^ comment.line.triple-slash punctuation.definition.comment
+// ^ comment.line.triple-slash - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash meta.preprocessor.directive meta.tag.xml
+//                                    ^ comment.line.triple-slash - meta.preprocessor
 
 /// <foo bar="baz"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^ comment.line.triple-slash.js punctuation.definition.comment.js
-// ^ comment.line.triple-slash.js - meta.preprocessor
-//  ^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
-//                  ^ comment.line.triple-slash.js - meta.preprocessor
+// <- comment.line.triple-slash punctuation.definition.comment
+//^ comment.line.triple-slash punctuation.definition.comment
+// ^ comment.line.triple-slash - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^ comment.line.triple-slash meta.preprocessor.directive meta.tag.xml
+//                  ^ comment.line.triple-slash - meta.preprocessor
 
 //// <foo bar="baz"/>
-// <- comment.line.other.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
+// <- comment.line.other punctuation.definition.comment
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other - meta.preprocessor
 
 import foo;
 
 /// <normal comment="after first statement"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^ comment.line.triple-slash.js punctuation.definition.comment.js
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - punctuation - meta.preprocessor
+// <- comment.line.triple-slash punctuation.definition.comment
+//^ comment.line.triple-slash punctuation.definition.comment
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash - punctuation - meta.preprocessor
 
 
 /* Import/Export */
@@ -125,7 +125,7 @@ import foo;
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^ meta.block
 //         ^ punctuation.section.block.begin
-//           ^^^^ keyword.control.import-export.ts
+//           ^^^^ keyword.control.import-export
 //                ^ variable.other.readwrite
 //                  ^ punctuation.section.block.end
 //                    ^^^^ keyword.control.import-export
@@ -187,7 +187,7 @@ import foo;
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^ meta.block
 //         ^ punctuation.section.block.begin
-//           ^^^^ keyword.control.import-export.ts
+//           ^^^^ keyword.control.import-export
 //                ^ variable.other.readwrite
 //                  ^^ keyword.control.import-export
 //                     ^ variable.other.readwrite
@@ -270,7 +270,7 @@ import foo;
         y = 2,
 //      ^ variable.other.readwrite
 //        ^ keyword.operator.assignment
-//          ^ meta.number.integer.decimal.js constant.numeric.value.js
+//          ^ meta.number.integer.decimal constant.numeric.value
 //           ^ punctuation.separator.comma
 
         'FOO'
@@ -348,20 +348,20 @@ import foo;
     // https://github.com/sublimehq/Packages/issues/3598
     type x = {
         bar: (cb: (
-//     ^^^^^^ meta.type-alias.js meta.mapping.js - meta.group
-//           ^^^ meta.type-alias.js meta.mapping.js meta.type.js meta.group.js
-//              ^^ meta.type-alias.js meta.mapping.js - meta.group
-//                ^ meta.type-alias.js meta.function.parameters.js
-//      ^^^ variable.other.readwrite.js
-//         ^ punctuation.separator.type.js
-//           ^ punctuation.section.group.begin.js
-//            ^^ support.class.js
-//                ^ punctuation.section.group.begin.js
+//     ^^^^^^ meta.type-alias meta.mapping - meta.group
+//           ^^^ meta.type-alias meta.mapping meta.type meta.group
+//              ^^ meta.type-alias meta.mapping - meta.group
+//                ^ meta.type-alias meta.function.parameters
+//      ^^^ variable.other.readwrite
+//         ^ punctuation.separator.type
+//           ^ punctuation.section.group.begin
+//            ^^ support.class
+//                ^ punctuation.section.group.begin
     };
-//  ^ meta.type-alias.js meta.mapping.js
+//  ^ meta.type-alias meta.mapping
 //   ^ - meta.type-alias - meta.mapping
-//  ^ punctuation.section.mapping.end.js
-//   ^ punctuation.terminator.statement.empty.js
+//  ^ punctuation.section.mapping.end
+//   ^ punctuation.terminator.statement.empty
 
     class Foo {
         foo: any = 42;
@@ -807,7 +807,7 @@ let x: any [ "foo" | 'bar' ];
 let x: any [ 0 ];
 //         ^^^^^ meta.type meta.brackets
 //         ^ punctuation.section.brackets.begin
-//           ^ meta.number.integer.decimal.js constant.numeric.value.js
+//           ^ meta.number.integer.decimal constant.numeric.value
 //             ^ punctuation.section.brackets.end
 
 let x: any [
