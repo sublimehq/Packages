@@ -180,12 +180,12 @@ contexts:
   import-brace:
     - meta_prepend: true
     - match: type{{identifier_break}}
-      scope: keyword.control.import-export.ts
+      scope: keyword.control.import-export.js
 
   export-brace:
     - meta_prepend: true
     - match: type{{identifier_break}}
-      scope: keyword.control.import-export.ts
+      scope: keyword.control.import-export.js
 
   property-access:
     - meta_prepend: true
@@ -500,7 +500,7 @@ contexts:
 
   ts-namespace-name-end:
     - match: \.
-      scope: punctuation.accessor.dot.ts
+      scope: punctuation.accessor.dot.js
       push: ts-namespace-name
     - include: else-pop
 
