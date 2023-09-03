@@ -872,7 +872,7 @@ let x: [ first: any, rest: ...any ];
 //                                 ^ punctuation.terminator.statement
 
 let x: [
-    label
+    typeof
 //  ^^^^^ meta.mapping.key
     ?
 //  ^ storage.modifier.optional
