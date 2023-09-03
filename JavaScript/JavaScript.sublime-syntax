@@ -96,7 +96,7 @@ variables:
       =>
     )
 
-  function_call_lookahead: (?={{identifier_name}}\s*(?:{{dot_accessor}})?\()
+  function_call_after_lookahead: (?=\s*(?:{{dot_accessor}}\s*)?\()
 
   function_assignment_lookahead: |-
     (?x:(?=
@@ -965,7 +965,7 @@ contexts:
     - match: (?=`)
       push: literal-string-template
 
-    - match: (?=(?:{{dot_accessor}})?\()
+    - match: (?={{function_call_after_lookahead}})
       push: function-call-arguments
 
     - match: '{{line_ending_ahead}}'
@@ -1025,7 +1025,7 @@ contexts:
     - match: (?=`)
       push: literal-string-template
 
-    - match: (?=(?:{{dot_accessor}})?\()
+    - match: '{{function_call_after_lookahead}}'
       push: function-call-arguments
 
     - include: property-access
@@ -1085,8 +1085,6 @@ contexts:
       branch:
         - async-arrow-function
         - literal-variable
-
-    - include: literal-call
 
     - match: (?={{possible_arrow_function_begin}})
       pop: 1
@@ -1950,12 +1948,13 @@ contexts:
           push: expression
 
   function-call-arguments:
-    - match: ({{dot_accessor}})?(\()
-      captures:
-        1: punctuation.accessor.js
-        2: punctuation.section.group.begin.js
+    - meta_content_scope: meta.function-call.js
+    - match: '{{dot_accessor}}'
+      scope: punctuation.accessor.js
+    - match: \(
+      scope: punctuation.section.group.begin.js
       set:
-        - meta_scope: meta.group.js
+        - meta_scope: meta.function-call.arguments.js meta.group.js
         - match: \)
           scope: punctuation.section.group.end.js
           pop: 1
@@ -1986,14 +1985,7 @@ contexts:
 
     - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
-      push:
-        - match: '(?={{identifier_name}}\s*(?:{{dot_accessor}})?\()'
-          set:
-            - call-method-meta
-            - function-call-arguments
-            - call-path
-            - object-property
-        - include: object-property
+      push: object-property
 
   literal-number:
     # floats
@@ -2066,57 +2058,6 @@ contexts:
       scope: invalid.illegal.numeric.decimal.js
       pop: 1
 
-  literal-call:
-    - match: (?={{identifier_name}}\s*(?:{{dot_accessor}})?\()
-      set:
-        - call-function-meta
-        - function-call-arguments
-        - literal-variable
-
-    - match: (?={{identifier_name}}\s*(?:{{dot_accessor}}\s*#?{{identifier_name}}\s*)+(?:{{dot_accessor}})?\()
-      set:
-        - call-method-meta
-        - function-call-arguments
-        - call-path
-        - literal-variable
-
-  call-path:
-    - match: '{{dot_accessor}}'
-      scope: punctuation.accessor.js
-      push: object-property
-    - include: else-pop
-
-  call-function-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function-call.js
-    - include: immediately-pop
-
-  call-method-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function-call.method.js
-    - include: immediately-pop
-
-  call-function-name:
-    - match: '{{dollar_only_identifier}}'
-      scope: variable.function.js variable.other.dollar.only.js punctuation.dollar.js
-      pop: 1
-    - match: '{{identifier_name}}'
-      scope: variable.function.js
-      pop: 1
-    - include: else-pop
-
-  call-method-name:
-    - include: support-property
-    - match: '{{identifier_name}}'
-      scope: variable.function.js
-      pop: 1
-    - match: '(#){{identifier_name}}'
-      scope: variable.function.js
-      captures:
-        1: punctuation.definition.js
-      pop: 1
-    - include: else-pop
-
   literal-variable:
     - include: special-identifier
     - include: support
@@ -2134,8 +2075,18 @@ contexts:
       scope: support.class.js
       pop: 1
 
-    - match: '{{function_call_lookahead}}'
-      set: call-function-name
+    # If we don't capture the trailing space here,
+    # it'll get eaten by the arrow function detection.
+    - match: '({{dollar_only_identifier}}){{nothing}}{{function_call_after_lookahead}}'
+      scope: meta.function-call.js
+      captures:
+        1: variable.function.js variable.other.dollar.only.js punctuation.dollar.js
+      pop: 1
+    - match: '({{identifier_name}}){{nothing}}{{function_call_after_lookahead}}'
+      scope: meta.function-call.js
+      captures:
+       1: variable.function.js
+      pop: 1
 
     - include: literal-variable-base
 
@@ -2372,37 +2323,37 @@ contexts:
       pop: 1
 
     - match: (?:eval|isFinite|isNaN|parseFloat|parseInt|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent){{identifier_break}}
-      scope: support.function.js
+      scope: meta.function-call.js support.function.js
       pop: 1
 
   support-property-ecma-array:
     - match: (?:from|isArray|of){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-arraybuffer:
     - match: isView{{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-atomics:
     - match: (?:and|add|compareExchange|exchange|isLockFree|load|or|store|sub|wait|wake|xor){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-bigint:
     - match: (?:asUintN|asIntN){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-date:
     - match: (?:now|parse|UTC){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-json:
     - match: (?:parse|stringify){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-math:
@@ -2410,7 +2361,7 @@ contexts:
       scope: support.constant.builtin.js
       pop: 1
     - match: (?:abs|acos|acosh|asin|asin|atan|atanh|atan2|cbrt|ceil|clz32|cos|cosh|exp|expm1|floor|fround|hypot|imul|log|log1p|log10|log2|max|min|pow|random|round|sign|sin|sinh|sqrt|tan|tanh|trunc){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-number:
@@ -2418,32 +2369,32 @@ contexts:
       scope: support.constant.builtin.js
       pop: 1
     - match: (?:isFinite|isInteger|isNaN|isSafeInteger|NaN|parseFloat|parseInt){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-object:
     - match: (?:assign|create|defineProperties|defineProperty|entries|freeze|fromEntries|getOwnPropertyDescriptors?|getOwnPropertyNames|getOwnPropertySymbols|getPrototypeOf|is|isExtensible|isFrozen|isSealed|keys|preventExtensions|seal|setPrototypeOf|values){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-promise:
     - match: (?:all|race|reject|resolve|allSettled|any){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-proxy:
     - match: revocable{{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-reflect:
     - match: (?:apply|construct|defineProperty|deleteProperty|get|getOwnPropertyDescriptor|getPrototypeOf|has|isExtensible|ownKeys|preventExtensions|set|setPrototypeOf){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-string:
     - match: (?:fromCharCode|fromCodePoint|raw){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-symbol:
@@ -2451,7 +2402,7 @@ contexts:
       scope: support.constant.builtin.js
       pop: 1
     - match: (?:for|keyFor){{identifier_break}}
-      scope: support.function.builtin.js
+      scope: meta.function-call.js support.function.builtin.js
       pop: 1
 
   support-property-ecma-typedarray:
@@ -2477,7 +2428,7 @@ contexts:
       scope: support.type.object.dom.js
       pop: 1
     - match: (?:clearTimeout|clearInterval|setTimeout|setInterval){{identifier_break}}
-      scope: support.function.dom.js
+      scope: meta.function-call.js support.function.dom.js
       pop: 1
 
   support-variable-node:
@@ -2515,7 +2466,7 @@ contexts:
             - include: else-pop
         - include: else-pop
     - match: require{{identifier_break}}
-      scope: support.function.node.js
+      scope: meta.function-call.js support.function.node.js
       pop: 1
 
   support-property-node-process:
@@ -2523,7 +2474,7 @@ contexts:
       scope: support.constant.node.js
       pop: 1
     - match: (?:abort|chdir|cpuUsage|cwd|disconnect|dlopen|emitWarning|exit|getegid|geteuid|getgit|getgroups|getuid|hasUncaughtExceptionCaptureCallback|hrtime|initGroups|kill|memoryUsage|nextTick|send|setegid|seteuid|setgid|setgroups|setuid|hasUncaughtExceptionCaptureCallback|umask|uptime){{identifier_break}}
-      scope: support.function.node.js
+      scope: meta.function-call.js support.function.node.js
       pop: 1
 
   support-property-node-module:
@@ -2531,12 +2482,12 @@ contexts:
       scope: support.constant.node.js
       pop: 1
     - match: require{{identifier_break}}
-      scope: support.function.node.js
+      scope: meta.function-call.js support.function.node.js
       pop: 1
 
   builtin-console-properties:
     - match: (?:warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace|timeStamp){{identifier_break}}
-      scope: support.function.console.js
+      scope: meta.function-call.js support.function.console.js
       pop: 1
     - include: object-property
 
@@ -2548,7 +2499,7 @@ contexts:
         - function-name-meta
         - object-property-base
 
-    - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
+    - match: '(?=#?{{identifier_name}}{{function_call_after_lookahead}})'
       set: call-method-name
 
     - match: '{{identifier_name}}(?={{nothing}}`)'
@@ -2556,6 +2507,15 @@ contexts:
       pop: 1
 
     - include: object-property-base
+    - include: else-pop
+
+  call-method-name:
+    - include: support-property
+    - match: '(#)?{{identifier_name}}'
+      scope: meta.function-call.js variable.function.js
+      captures:
+        1: punctuation.definition.js
+      pop: 1
     - include: else-pop
 
   object-property-base:
@@ -2591,7 +2551,7 @@ contexts:
       pop: 1
 
     - match: (?:hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString|toString|valueOf){{identifier_break}}
-      scope: support.function.js
+      scope: meta.function-call.js support.function.js
       pop: 1
 
     # Annex B
@@ -2599,7 +2559,7 @@ contexts:
       scope: invalid.deprecated.js variable.language.prototype.js
       pop: 1
     - match: (?:__defineGetter__|__defineSetter__|__lookupGetter__){{identifier_break}}
-      scope: invalid.deprecated.js support.function.js
+      scope: invalid.deprecated.js meta.function-call.js support.function.js
       pop: 1
 
   import-meta-expression:
