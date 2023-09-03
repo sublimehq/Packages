@@ -947,13 +947,13 @@ contexts:
     - match: ''
       set:
         - - match: ':'
-            scope: punctuation.separator.type.ts
+            scope: punctuation.separator.type.js
             pop: 1
           - match: (?=\S)
             fail: ts-type-tuple-member-label
         - ts-type-annotation-optional
         - - match: '{{identifier_name}}'
-            scope: meta.mapping.key.ts
+            scope: meta.mapping.key.js
             pop: 1
 
   ts-type-tuple-spread:
