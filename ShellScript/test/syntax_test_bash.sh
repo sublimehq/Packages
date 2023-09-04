@@ -2114,34 +2114,28 @@ test expr -a expr -o expr -- | cmd |& cmd
 #                              ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                  ^^ keyword.operator.assignment.pipe.shell
 
-test ! ($line =~ ^[0-9]+$)
+test ! $line == ^[0-9]+$
 # <- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell - meta.function-call.arguments
-#   ^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
-#      ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
-#                         ^ - meta.function-call - meta.group
+#   ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier
+#                       ^ - meta.function-call
 #^^^ support.function.test.shell
 #    ^ keyword.operator.logical.shell
-#      ^ punctuation.section.group.begin.shell
-#       ^^^^^ variable.other.readwrite.shell
-#             ^^ invalid.illegal.operator.shell
-#                ^^^^^^^^ meta.string.shell string.unquoted.shell
+#      ^^^^^ variable.other.readwrite.shell
+#            ^^ keyword.operator.comparison.shell
+#               ^^^^^^^^ meta.string.shell string.unquoted.shell
 
-test ! ($line =~ ^[0-9]+$) >> /file
+test ! $line =~ ^[0-9]+$ >> /file
 # <- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell - meta.function-call.arguments
-#   ^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
-#      ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
-#                         ^^^^^^^^^ meta.function-call.arguments.shell - meta.group
-#                                  ^ - meta.function-call - meta.group
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
+#                                ^ - meta.function-call
 #^^^ support.function.test.shell
 #    ^ keyword.operator.logical.shell
-#      ^ punctuation.section.group.begin.shell
-#       ^^^^^ variable.other.readwrite.shell
-#             ^^ invalid.illegal.operator.shell
-#                ^^^^^^^^ meta.string.shell string.unquoted.shell
-#                        ^ punctuation.section.group.end.shell
-#                          ^^ keyword.operator.assignment.redirection.shell
+#      ^^^^^ variable.other.readwrite.shell
+#            ^^ invalid.illegal.operator.shell
+#               ^^^^^^^^ meta.string.shell string.unquoted.shell
+#                        ^^ keyword.operator.assignment.redirection.shell
 
 if test expr -a expr ; then echo "success"; fi
 # ^ - meta.function-call

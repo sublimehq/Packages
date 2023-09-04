@@ -724,26 +724,12 @@ contexts:
 
   cmd-test-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - include: redirections
-    - include: cmd-test-args-common
-    - include: eoc-pop
-
-  cmd-test-args-common:
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push: cmd-test-args-group-body
     - match: '[=!]='
       scope: keyword.operator.comparison.shell
     - match: =~
       scope: invalid.illegal.operator.shell
+    - include: redirections
     - include: test-expression-common
-
-  cmd-test-args-group-body:
-    - meta_scope: meta.group.shell
-    - match: \)
-      scope: punctuation.section.group.end.shell
-      pop: 1
-    - include: cmd-test-args-common
     - include: eoc-pop
 
   test-expression-body:
