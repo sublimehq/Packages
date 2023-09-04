@@ -4823,6 +4823,113 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - punctuation.separator.sequence
 
 ####################################################################
+# 6.4 Bash Conditional Expressions                                 #
+####################################################################
+
+[  ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^ meta.conditional.shell
+#  ^ support.function.test.end.shell
+
+[ -a file ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^ meta.conditional.shell
+
+[ -v varname ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+
+[ file1 -ef file2 ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+#                 ^ support.function.test.end.shell
+
+[ file1 -nt file2 ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+#                 ^ support.function.test.end.shell
+
+[ file1 -ot file2 ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+#                 ^ support.function.test.end.shell
+
+[ ! str != str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^ meta.conditional.shell
+# ^ keyword.operator.logical.shell
+#   ^^^ meta.string.shell string.unquoted.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ meta.string.shell string.unquoted.shell
+#              ^ support.function.test.end.shell
+
+[ str != str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^^ keyword.operator.comparison.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#            ^ support.function.test.end.shell
+
+[ str == str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^^ keyword.operator.comparison.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#            ^ support.function.test.end.shell
+
+[ str =~ str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^^ invalid.illegal.operator.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#            ^ support.function.test.end.shell
+
+[ str = str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^ keyword.operator.comparison.shell
+#       ^^^ meta.string.shell string.unquoted.shell
+#           ^ support.function.test.end.shell
+
+
+[ str < str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^ keyword.operator.comparison.shell
+#       ^^^ meta.string.shell string.unquoted.shell
+#           ^ support.function.test.end.shell
+
+[ str > str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^ keyword.operator.comparison.shell
+#       ^^^ meta.string.shell string.unquoted.shell
+#           ^ support.function.test.end.shell
+
+[ $arg -lt 2 ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^^ variable.other.readwrite.shell
+#      ^^^ keyword.operator.comparison.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^ support.function.test.end.shell
+
+####################################################################
 # Bash Numeric Constants                                           #
 ####################################################################
 

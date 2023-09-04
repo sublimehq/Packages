@@ -712,10 +712,10 @@ contexts:
 
   cmd-test-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - match: '[=!]='
-      scope: keyword.operator.comparison.shell
     - match: =~
       scope: invalid.illegal.operator.shell
+    - match: '!=|==?'
+      scope: keyword.operator.comparison.shell
     - include: redirections
     - include: test-expression-common
     - include: eoc-pop
@@ -726,10 +726,10 @@ contexts:
       captures:
         1: support.function.test.end.shell
       pop: 1
-    - match: '[=!]='
-      scope: keyword.operator.comparison.shell
     - match: =~
       scope: invalid.illegal.operator.shell
+    - match: '!=|==?'
+      scope: keyword.operator.comparison.shell
     - include: test-expression-common
 
   compound-test-expression-body:
@@ -741,16 +741,16 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: test-expression-group-body
-    - match: ([=!]=)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push: test-expression-pattern
     - match: (=~)\s*
       captures:
         1: keyword.operator.comparison.shell
       push:
         - test-expression-eregexp
         - eregexp-unexpected-quantifier
+    - match: (!=|==?)\s*
+      captures:
+        1: keyword.operator.comparison.shell
+      push: test-expression-pattern
     - include: test-expression-common
 
   test-expression-eregexp:
@@ -770,16 +770,16 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.shell
       pop: 1
-    - match: ([=!]=)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push: test-expression-group-pattern
     - match: (=~)\s*
       captures:
         1: keyword.operator.comparison.shell
       push:
         - test-expression-group-eregexp
         - eregexp-unexpected-quantifier
+    - match: (!=|==?)\s*
+      captures:
+        1: keyword.operator.comparison.shell
+      push: test-expression-group-pattern
     - include: test-expression-common
 
   test-expression-group-eregexp:
@@ -805,24 +805,18 @@ contexts:
       pop: 3
 
   test-expression-common:
-    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))
+    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*([=!]=|=~))
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: '<=?|>=?'
+    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*(=~|!=|==?))
+      scope: keyword.operator.comparison.shell
+    - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
-    - match: '='
-      scope: keyword.operator.assignment.shell
     - include: comments
     - include: booleans
     - include: numbers
