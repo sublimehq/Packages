@@ -700,10 +700,10 @@ contexts:
   cmd-test:
     - match: \[\[(?=\s)
       scope: support.function.test.begin.shell
-      push: compound-test-expression-body
+      push: compound-test-body
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
-      push: builtin-test-expression-body
+      push: builtin-test-body
     - match: test{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
@@ -720,7 +720,7 @@ contexts:
     - include: test-expression-common
     - include: eoc-pop
 
-  builtin-test-expression-body:
+  builtin-test-body:
     - meta_scope: meta.conditional.shell
     - match: '{{wspace}}(\])'
       captures:
@@ -732,7 +732,7 @@ contexts:
       scope: keyword.operator.comparison.shell
     - include: test-expression-common
 
-  compound-test-expression-body:
+  compound-test-body:
     - meta_scope: meta.conditional.shell
     - match: '{{wspace}}(\]\])'
       captures:
@@ -740,32 +740,32 @@ contexts:
       pop: 1
     - match: \(
       scope: punctuation.section.group.begin.shell
-      push: test-expression-group-body
+      push: compound-test-group-body
     - match: (=~)\s*
       captures:
         1: keyword.operator.comparison.shell
       push:
-        - test-expression-eregexp
+        - compound-test-eregexp
         - eregexp-unexpected-quantifier
     - match: (!=|==?)\s*
       captures:
         1: keyword.operator.comparison.shell
-      push: test-expression-pattern
+      push: compound-test-pattern
     - include: test-expression-common
 
-  test-expression-eregexp:
+  compound-test-eregexp:
     - meta_content_scope: meta.string.regexp.shell
     - match: (?=\s)
       pop: 1
     - include: eregexp-main-content
 
-  test-expression-pattern:
+  compound-test-pattern:
     - meta_content_scope: meta.string.regexp.shell
     - match: (?=\s)
       pop: 1
     - include: pattern-main-content
 
-  test-expression-group-body:
+  compound-test-group-body:
     - meta_scope: meta.group.shell
     - match: \)
       scope: punctuation.section.group.end.shell
@@ -774,25 +774,25 @@ contexts:
       captures:
         1: keyword.operator.comparison.shell
       push:
-        - test-expression-group-eregexp
+        - compound-test-group-eregexp
         - eregexp-unexpected-quantifier
     - match: (!=|==?)\s*
       captures:
         1: keyword.operator.comparison.shell
-      push: test-expression-group-pattern
+      push: compound-test-group-pattern
     - include: test-expression-common
 
-  test-expression-group-eregexp:
+  compound-test-group-eregexp:
     - meta_content_scope: meta.string.regexp.shell
-    - include: test-expression-group-pattern-end
+    - include: compound-test-group-pattern-end
     - include: eregexp-group-content
 
-  test-expression-group-pattern:
+  compound-test-group-pattern:
     - meta_content_scope: meta.string.regexp.shell
-    - include: test-expression-group-pattern-end
+    - include: compound-test-group-pattern-end
     - include: pattern-main-content
 
-  test-expression-group-pattern-end:
+  compound-test-group-pattern-end:
     - match: \)
       scope: punctuation.section.group.end.shell
       pop: 2
