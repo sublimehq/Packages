@@ -700,22 +700,10 @@ contexts:
   cmd-test:
     - match: \[\[(?=\s)
       scope: support.function.test.begin.shell
-      push:
-        - meta_scope: meta.conditional.shell
-        - match: '{{wspace}}(\]\])'
-          captures:
-            1: support.function.test.end.shell
-          pop: 1
-        - include: test-expression-body
+      push: compound-test-expression-body
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
-      push:
-        - meta_scope: meta.conditional.shell
-        - match: '{{wspace}}(\])'
-          captures:
-            1: support.function.test.end.shell
-          pop: 1
-        - include: test-expression-body
+      push: builtin-test-expression-body
     - match: test{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
@@ -732,7 +720,24 @@ contexts:
     - include: test-expression-common
     - include: eoc-pop
 
-  test-expression-body:
+  builtin-test-expression-body:
+    - meta_scope: meta.conditional.shell
+    - match: '{{wspace}}(\])'
+      captures:
+        1: support.function.test.end.shell
+      pop: 1
+    - match: '[=!]='
+      scope: keyword.operator.comparison.shell
+    - match: =~
+      scope: invalid.illegal.operator.shell
+    - include: test-expression-common
+
+  compound-test-expression-body:
+    - meta_scope: meta.conditional.shell
+    - match: '{{wspace}}(\]\])'
+      captures:
+        1: support.function.test.end.shell
+      pop: 1
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: test-expression-group-body
