@@ -150,7 +150,7 @@ contexts:
     - include: maybe-condition
 
   create-index:
-    - match: \b(?xi:(?:({{ddl_target_index_modifier}})\s+)?(index))\b
+    - match: \b(?i:(?:({{ddl_target_index_modifier}})\s+)?(index))\b
       captures:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
@@ -290,7 +290,7 @@ contexts:
     - include: immediately-pop
 
   drop-other:
-    - match: \b(?i:user)\b(?!\s+(?i:if)\b)
+    - match: \b(?i:user(?!\s+if))\b
       scope: storage.type.sql
       set:
         - grant
@@ -347,7 +347,7 @@ contexts:
     - include: maybe-condition
 
   alter-index:
-    - match: \b(?:({{ddl_target_index_modifier}})\s+)?(index)\b
+    - match: \b(?i:(?:({{ddl_target_index_modifier}})\s+)?(index))\b
       captures:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql

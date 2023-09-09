@@ -206,7 +206,7 @@ contexts:
 
   joins:
     - meta_append: true
-    - match: (?i)\b(?:(?:cross|outer)\s+)?apply\b
+    - match: \b(?i:(?:(?:cross|outer)\s+)?apply)\b
       scope: keyword.other.dml.sql
       push: table-name-or-subquery
 
