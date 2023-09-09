@@ -455,10 +455,11 @@ contexts:
       scope: keyword.other.dml.sql
       push: expect-table-name
     - include: set-statements
+    # expressions
     - match: \b(?i:(?:default\s+)?values)\b
       scope: keyword.other.dml.II.sql
     - include: distinct
-    - include: joins
+    - include: join-expressions
     - match: \b(?i:group\s+by|order\s+by|having|where)\b
       scope: keyword.other.dml.sql
     - match: \b(?i:from)\b
@@ -477,18 +478,24 @@ contexts:
     - match: \b(?i:distinct)\b
       scope: keyword.other.dml.sql
 
-  joins:
-    - match: \b(?i:(?:(?:inner|(?:full|left\s+)?outer|cross|left|right)\s+)?join)\b
+  join-expressions:
+    - match: \b(?i:(?:(?:cross|inner|(?:full|left|right)(?:\s+outer)?)\s+)?join)\b
       scope: keyword.other.dml.sql
       push:
-        - join-on
+        - join-condition
         - table-name-or-subquery
 
-  join-on:
+  join-condition:
     - match: \b(?i:on)\b
-      scope: keyword.operator.join.sql
-      pop: 1
+      scope: keyword.control.conditional.sql
+      set: conditional-expression
     - include: else-pop
+
+  conditional-expression:
+    - match: (?=[,;)}]|\b(?:{{reserved}}|{{additional_reserved}})\b)
+      pop: 1
+    - include: expressions
+    - include: expect-column-names
 
 ###[ DML SET STATEMENTS ]######################################################
 
@@ -563,7 +570,12 @@ contexts:
   alias-expressions:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-      push: expect-column-alias-name
+      push: expect-alias-name
+
+  alias-expression:
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+      set: expect-alias-name
 
   case-expressions:
     - match: \b(?i:case)\b
@@ -741,16 +753,22 @@ contexts:
     - match: \b(?i:select|insert|update|delete|truncate|execute)\b
       scope: constant.language.sql
 
-###[ TABLE NAMES ]#############################################################
+###[ TABLE NAMES OR SUBQUERIES ]###############################################
 
   table-name-or-subquery:
+    - include: table-subquery
+    - include: table-name-or-function-call
+
+  table-subquery:
     - match: (?=\()
       set:
         - maybe-table-alias
         - group
+
+  table-name-or-function-call:
     - match: (?=\S)
       pop: 1 # pop `table-name-or-subquery` before evaluating branches
-      branch_point: table-or-table-function
+      branch_point: table-name-or-function-call
       branch:
         - table-name-not-function-call
         - table-valued-function-call
@@ -759,6 +777,7 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       set:
+        - maybe-table-alias
         - table-name-fail-if-function-call
         - table-name
         - single-identifier
@@ -766,9 +785,9 @@ contexts:
   table-name-fail-if-function-call:
     - meta_include_prototype: false
     - match: (?=\()
-      fail: table-or-table-function
+      fail: table-name-or-function-call
     - match: (?=\S)
-      set: maybe-table-alias
+      pop: 1
 
   table-valued-function-call:
     - meta_include_prototype: false
@@ -785,42 +804,36 @@ contexts:
     - include: immediately-pop
 
   maybe-table-alias:
-    - match: \b(?i:as)\b
-      scope: keyword.operator.assignment.alias.sql
-    - match: (?=\S)
-      set:
-        - maybe-table-sample
-        - table-alias-name
-        - single-identifier
+    - include: pop-on-top-level-reserved-word
+    - include: table-timespecs
+    - include: alias-expression
+    - include: expect-alias-name
 
-  maybe-table-sample:
-    - match: \b(?i:tablesample(?:\s+system)?)\b
-      scope: keyword.other.sql
+  table-timespecs:
+    - match: \b(?i:for\s+system_time)\b
+      scope: keyword.other.dml.sql
+      push: table-timespec-args
+
+  table-timespec-args:
+    - match: \b(?i:as\s+of|between|and|from|to)\b
+      scope: keyword.operator.logical.sql
       push:
-        - after-tablesample-group
-        - maybe-table-sample-group
-    - include: else-pop
-
-  maybe-table-sample-group:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-tablesample-group
-    - include: else-pop
-
-  inside-tablesample-group:
-    - meta_scope: meta.group.tablesample.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
+        - table-timespec-expression
+        - table-timespec-type
+    - match: \b(?i:all)\b
+      scope: constant.other.sql
       pop: 1
-    - match: \b(?i:rows|percent)\b
-      scope: constant.language.sql
+    - include: else-pop
+
+  table-timespec-type:
+    - match: \b(?i:timestamp|transaction)\b
+      scope: storage.type.sql
+      set: else-pop
+    - include: else-pop
+
+  table-timespec-expression:
     - include: expressions
-
-  after-tablesample-group:
-    - match: \b(?i:repeatable)\b
-      scope: constant.language.sql
-      pop: 1
-    - include: else-pop
+    - include: immediately-pop
 
 ###[ COLUMN DECLARATIONS ]#####################################################
 
@@ -933,6 +946,18 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
+  expect-alias-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [alias-name, single-identifier]
+
+  alias-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.alias.sql
+    - include: immediately-pop
+
   expect-column-names:
     - match: (?=\S)
       push: [maybe-operator, column-name, single-identifier]
@@ -961,13 +986,6 @@ contexts:
     - meta_content_scope: meta.column-name.sql variable.other.member.declaration.sql
     - include: immediately-pop
 
-  expect-column-alias-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [column-alias-name, single-identifier]
-
   expect-constraint-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -978,11 +996,6 @@ contexts:
   constraint-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.constraint-name.sql
-    - include: immediately-pop
-
-  column-alias-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.column-alias.sql
     - include: immediately-pop
 
   expect-database-creation-name:
@@ -1080,6 +1093,10 @@ contexts:
     - meta_scope: entity.name.struct.partition.sql
     - include: immediately-pop
 
+  expect-partition-names:
+    - match: (?=\S)
+      push: [partition-name, single-identifier]
+
   expect-partition-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -1135,18 +1152,6 @@ contexts:
   table-name:
     - meta_include_prototype: false
     - meta_content_scope: meta.table-name.sql
-    - include: immediately-pop
-
-  expect-table-alias-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [table-alias-name, single-identifier]
-
-  table-alias-name:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.table-alias-name.sql
     - include: immediately-pop
 
   expect-user-name:
@@ -1382,5 +1387,5 @@ contexts:
       pop: 1
 
   pop-on-top-level-reserved-word:
-    - match: (?=[;)]|\b(?:{{reserved}}|{{additional_reserved}})\b)
+    - match: (?=[;)}]|\b(?:{{reserved}}|{{additional_reserved}})\b)
       pop: 1

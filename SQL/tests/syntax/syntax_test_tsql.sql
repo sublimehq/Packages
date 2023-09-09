@@ -432,7 +432,7 @@ SELECT  foo AS foobar, COUNT(*) AS tally
 -- ^^^ keyword.other.dml
 --      ^^^ meta.column-name
 --          ^^ keyword.operator.assignment.alias
---             ^^^^^^ meta.column-alias
+--             ^^^^^^ meta.alias
 --                   ^ punctuation.separator.sequence
 --                     ^^^^^^^^ meta.function-call
 --                     ^^^^^ support.function.aggregate
@@ -441,7 +441,7 @@ SELECT  foo AS foobar, COUNT(*) AS tally
 --                           ^ constant.other.wildcard.asterisk
 --                            ^ punctuation.section.arguments.end
 --                              ^^ keyword.operator.assignment.alias
---                                 ^^^^^ meta.column-alias
+--                                 ^^^^^ meta.alias
 FROM    bar
 -- ^ keyword.other.dml
 --      ^^^ meta.table-name
@@ -458,7 +458,7 @@ from (select * from some_table) alias_table WITH (NOLOCK)
 --           ^ constant.other.wildcard.asterisk
 --                  ^^^^^^^^^^ meta.table-name
 --                            ^ punctuation.section.group.end
---                              ^^^^^^^^^^^ meta.table-alias-name
+--                              ^^^^^^^^^^^ meta.alias
 --                                          ^^^^ keyword.other.dml
 --                                               ^ punctuation.section.group.begin
 --                                                ^^^^^^ meta.group constant.language.with
@@ -482,9 +482,9 @@ FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 -- ^ keyword.other.dml
 --  ^ - meta.table-name
 --   ^^^^^^^^^^^^^ meta.table-name
---                ^ - meta.table-name - meta.table-alias-name
---                 ^^^^^^^^^^ meta.table-alias-name
---                           ^ - meta.table-alias-name
+--                ^ - meta.table-name - meta.alias
+--                 ^^^^^^^^^^ meta.alias
+--                           ^ - meta.alias
 --                            ^^^^ keyword.other
 --                                 ^^^^^^^^^^^^^^^^^^^^ meta.group
 --                                                     ^ - meta.group
@@ -493,21 +493,21 @@ FROM RealTableName TableAlias WITH (UPDLOCK, SOMETHING)
 --                                         ^ punctuation.separator.sequence
 --                                           ^^^^^^^^^ meta.group constant.language.with
 --                                                    ^ punctuation.section.group.end
-INNER JOIN some_view AS v     WITH (NOLOCK) ON v.some_id = TableAlias.some_id
+INNER JOIN some_view AS AS    WITH (NOLOCK) ON v.some_id = TableAlias.some_id
 -- ^^^^^^^ keyword.other.dml
 --        ^ - meta.table-name
 --         ^^^^^^^^^ meta.table-name
 --                  ^ - meta.table-name
 --                   ^^ keyword.operator.assignment.alias
---                     ^ - meta.table-alias-name
---                      ^ meta.table-alias-name
---                       ^ - meta.table-alias-name
+--                     ^ - meta.alias
+--                      ^^ meta.alias
+--                        ^ - meta.alias
 --                            ^^^^ keyword.other.dml
 --                                 ^^^^^^^^ meta.group
 --                                 ^ punctuation.section.group.begin
 --                                  ^^^^^^ constant.language.with
 --                                        ^ punctuation.section.group.end
---                                          ^^ keyword.operator.join
+--                                          ^^ keyword.control.conditional
 --                                            ^ - meta.column-name
 --                                             ^^^^^^^^^ meta.column-name
 --                                              ^ punctuation.accessor.dot
@@ -527,9 +527,9 @@ WHERE TableAlias.some_id IN (
 --  ^^^^ keyword.other.dml
 --      ^ - meta.table-name
 --       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
---                                           ^ - meta.table-name - meta.table-alias-name
---                                            ^ meta.table-alias-name
---                                             ^ - meta.table-alias-name
+--                                           ^ - meta.table-name - meta.alias
+--                                            ^ meta.alias
+--                                             ^ - meta.alias
     WHERE a.another_id_column IS NOT NULL
 --  ^^^^^ keyword.other.dml
 --       ^ - meta.column-name - keyword
@@ -599,7 +599,7 @@ SELECT i.ProductID, p.Name, i.LocationID, i.Quantity
 --                                          ^^^^^^^^ meta.group keyword.other.dml
 --                                                              ^^^^ meta.group keyword.other.order
 --                                                                    ^^ keyword.operator.assignment.alias
---                                                                       ^^^^ meta.column-alias
+--                                                                       ^^^^ meta.alias
 FROM Production.ProductInventory AS i
 INNER JOIN Production.Product AS p
     ON i.ProductID = p.ProductID
@@ -630,7 +630,7 @@ INNER JOIN bar (NOLOCK) ON bar.Title = foo.Title COLLATE DATABASE_DEFAULT AND IS
 -- ^^^^^^^ keyword.other.dml
 --         ^^^ meta.table-name
 --              ^^^^^^ meta.group invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
---                      ^^ keyword.operator.join
+--                      ^^ keyword.control.conditional
 --                         ^^^^^^^^^ meta.column-name
 --                                   ^ keyword.operator.comparison
 --                                     ^^^^^^^^^ meta.column-name
@@ -656,8 +656,8 @@ LEFT OUTER JOIN another_long_table_name (NOLOCK) a ON s.blah = a.blah AND ISNULL
 -- ^^^^^^^^^^^^ keyword.other.dml
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
 --                                       ^^^^^^ invalid.deprecated.table-hint-without-with.tsql constant.language.table-hint.tsql
---                                               ^ meta.table-alias-name
---                                                 ^^ keyword.operator.join
+--                                               ^ meta.alias
+--                                                 ^^ keyword.control.conditional
 --                                                    ^^^^^^ meta.column-name
 --                                                           ^ keyword.operator.comparison
 --                                                             ^^^^^^ meta.column-name
@@ -742,11 +742,11 @@ from @A A
 -- ^ keyword.other.dml
 --   ^ meta.table-name.sql variable.other.readwrite.sql punctuation.definition.variable.sql
 --    ^ meta.table-name.sql variable.other.readwrite.sql
---      ^ meta.table-alias-name
+--      ^ meta.alias
 inner join B ON (SELECT TOP 1 C.ID FROM C WHERE C.B LIKE B.C + '%' ORDER BY LEN(B.C) DESC) = B.ID
 --^^^^^^^^ keyword.other.dml
 --         ^ meta.table-name
---           ^^ keyword.operator.join
+--           ^^ keyword.control.conditional
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --              ^ punctuation.section.group.begin
 --               ^^^^^^ keyword.other.dml
@@ -1089,7 +1089,7 @@ PIVOT
 --                             ^ punctuation.separator.sequence
 ) AS PivotTable;
 --^^ keyword.operator.assignment.alias
---   ^^^^^^^^^^ meta.table-alias-name
+--   ^^^^^^^^^^ meta.alias
 --             ^ punctuation.terminator.statement
 
 SELECT  item.ID AS DatePivotID,
@@ -1099,7 +1099,7 @@ UNPIVOT (dDate FOR nDate IN (date1, date2, date3, date4)) AS item
 -- <- keyword.other
 -- ^^^^ keyword.other
 --                                                        ^^ keyword.operator.assignment.alias
---                                                           ^^^^ meta.table-alias-name
+--                                                           ^^^^ meta.alias
 GROUP BY item.ID
 -- ^^^^^ keyword.other.dml
 
@@ -1131,7 +1131,7 @@ UNPIVOT
 ) AS unpvt;
 -- <- meta.group punctuation.section.group.end
 --^^ keyword.operator.assignment.alias
---   ^^^^^ meta.table-alias-name
+--   ^^^^^ meta.alias
 --        ^ punctuation.terminator.statement
 GO
 
@@ -1217,18 +1217,18 @@ MERGE sales.category t
 -- ^^ keyword.other
 --   ^ - meta.table-name
 --    ^^^^^^^^^^^^^^ meta.table-name
---                  ^ - meta.table-name - meta.table-alias-name
---                   ^ meta.table-alias-name
---                    ^ - meta.table-alias-name
+--                  ^ - meta.table-name - meta.alias
+--                   ^ meta.alias
+--                    ^ - meta.alias
     USING sales.category_staging s
 --  ^^^^^ keyword.context.resource.tsql
 --       ^ - meta.table-name
 --        ^^^^^^^^^^^^^^^^^^^^^^ meta.table-name
---                              ^ - meta.table-name - meta.table-alias-name
---                               ^ meta.table-alias-name
---                                ^ - meta.table-alias-name
+--                              ^ - meta.table-name - meta.alias
+--                               ^ meta.alias
+--                                ^ - meta.alias
 ON (s.category_id = t.category_id)
--- <- keyword.operator.join
+-- <- keyword.control.conditional
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 --  ^^^^^^^^^^^^^ meta.column-name
 --                ^ keyword.operator.comparison
@@ -1522,7 +1522,7 @@ CROSS APPLY dbo.fn_GetAllEmployeeOfADepartment(D.DepartmentID) AS func_call_resu
 --                                             ^^^^^^^^^^^^^^ meta.column-name
 --                                                           ^ punctuation.section.arguments.end
 --                                                             ^^ keyword.operator.assignment.alias - meta.function-call
---                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.table-alias-name
+--                                                                ^^^^^^^^^^^^^^^^^^^^^^^ meta.alias
 GO
 
 SELECT * FROM Department D
@@ -1544,7 +1544,7 @@ CROSS APPLY sys.dm_exec_sql_text(r.plan_handle) st
 --                              ^ meta.function-call meta.group punctuation.section.arguments.begin
 --                               ^^^^^^^^^^^^^ meta.function-call meta.group meta.column-name
 --                                            ^ meta.function-call meta.group punctuation.section.arguments.end
---                                              ^^ meta.table-alias-name
+--                                              ^^ meta.alias
 WHERE r.session_Id > 50           -- Consider spids for users only, no system spids.
 AND r.session_Id NOT IN (@@SPID)  -- Don't include request from current spid.
 --                      ^ meta.group punctuation.section.group.begin
@@ -1566,7 +1566,7 @@ SELECT p.BusinessEntityID ,
 --     ^^^^^^^^^^^^^^^^^ variable.function
 --          ^ punctuation.accessor.dot
 FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
---                      ^ meta.table-alias-name
+--                      ^ meta.alias
 --                        ^^^^^^^^^^^ keyword.other
 --                                    ^^^^^^^^^^^^ meta.group.tablesample
 --                                    ^ punctuation.section.group.begin
@@ -1578,7 +1578,7 @@ FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
 --                                                             ^^^ meta.group meta.number.integer.decimal constant.numeric.value
 --                                                                ^ meta.group punctuation.section.group.end
        LEFT OUTER JOIN Person.PersonPhone AS pp TABLESAMPLE SYSTEM (10 ROWS)
---                                           ^^ meta.table-alias-name
+--                                           ^^ meta.alias
 --                                              ^^^^^^^^^^^^^^^^^^ keyword.other
 --                                                                 ^^^^^^^^^ meta.group.tablesample
 --                                                                 ^ punctuation.section.group.begin
@@ -1586,7 +1586,7 @@ FROM   Person.Person AS p TABLESAMPLE (10 PERCENT) REPEATABLE (123)
 --                                                                     ^^^^ constant.language
 --                                                                         ^ punctuation.section.group.end
            ON pp.BusinessEntityID = p.BusinessEntityID
---         ^^ keyword.operator.join
+--         ^^ keyword.control.conditional
 --            ^^^^^^^^^^^^^^^^^^^ meta.column-name
 --                                ^ keyword.operator.comparison
 --                                  ^^^^^^^^^^^^^^^^^^ meta.column-name
@@ -1741,12 +1741,12 @@ SELECT  *
 FROM    table_name AS t1
         INNER JOIN  (SELECT foo FROM bar) AS t2(id) ON t2.ID = t1.ID
 --                                        ^^ keyword.operator.assignment.alias
---                                           ^^ meta.table-alias-name
+--                                           ^^ meta.alias
 --                                             ^^^^ meta.group
 --                                             ^ punctuation.section.group.begin
 --                                              ^^ meta.column-name
 --                                                ^ punctuation.section.group.end
---                                                  ^^ keyword.operator.join
+--                                                  ^^ keyword.control.conditional
 ----
 
 SELECT a.*
@@ -1762,7 +1762,7 @@ SELECT a.*
                    Customers) AS a;
 --                          ^ meta.function-call meta.group punctuation.section.arguments.end
 --                            ^^ keyword.operator.assignment.alias - meta.group - meta.function-call
---                               ^ meta.table-alias-name
+--                               ^ meta.alias
 
 DECLARE @Data NVARCHAR(MAX)
 --            ^^^^^^^^^^^^^ storage.type.sql
@@ -2334,7 +2334,7 @@ SELECT TOP 10 City, STRING_AGG(CONVERT(NVARCHAR(max), EmailAddress), ';') WITHIN
 --                                                                                                            ^^^ meta.group.sql keyword.other.order.sql
 --                                                                                                               ^ meta.group.sql punctuation.section.group.end.sql
 --                                                                                                                 ^^ keyword.operator.assignment.alias.sql
---                                                                                                                    ^^^^^^ meta.column-alias.sql
+--                                                                                                                    ^^^^^^ meta.alias.sql
 FROM Person.BusinessEntityAddress AS BEA
 INNER JOIN Person.Address AS A ON BEA.AddressID = A.AddressID
 INNER JOIN Person.EmailAddress AS EA ON BEA.BusinessEntityID = EA.BusinessEntityID
@@ -2448,7 +2448,7 @@ select * from @inserted
 merge into @foo foo
 -- ^^^^^^^ keyword.other.tsql
 --         ^^^^ meta.table-name.sql variable.other.readwrite.sql
---              ^^^ meta.table-alias-name.sql
+--              ^^^ meta.alias.sql
 using (values (
 -- ^^ keyword.context.resource.tsql
 --    ^ meta.group.sql punctuation.section.group.begin.sql
@@ -2461,7 +2461,7 @@ using (values (
 --   ^ meta.group.sql punctuation.section.group.end.sql - meta.group meta.group
 --     ^^ keyword.operator.assignment.alias.sql - meta.group
     bar (
---  ^^^ meta.table-alias-name.sql
+--  ^^^ meta.alias.sql
 --      ^ meta.group.sql punctuation.section.group.begin.sql
         a,
 --      ^ meta.group.sql meta.column-name.sql
@@ -2487,14 +2487,14 @@ MERGE INTO some_schema.some_table WITH (holdlock) AS target
 --                                      ^^^^^^^^ meta.group.sql constant.language.with.tsql
 --                                              ^ meta.group.sql punctuation.section.group.end.sql
 --                                                ^^ keyword.operator.assignment.alias.sql
---                                                   ^^^^^^ meta.table-alias-name.sql
+--                                                   ^^^^^^ meta.alias.sql
 USING some_schema.another_table AS source
 -- ^^ keyword.context.resource.tsql
 --    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table-name.sql
 --                              ^^ keyword.operator.assignment.alias.sql
---                                 ^^^^^^ meta.table-alias-name.sql
+--                                 ^^^^^^ meta.alias.sql
 ON source.some_id = target.some_id
--- <- keyword.operator.join.sql
+-- <- keyword.control.conditional.sql
 when matched then
     update set target.b = source.b
 when not matched then
@@ -2525,33 +2525,20 @@ FROM @table_variable AS main
 CROSS JOIN some_func(@param) AS other
 -- ^^^^^^^ keyword.other.dml.sql
 
-DROP TABLE IF EXISTS #SampleTempTable;
-GO
-CREATE TABLE #SampleTempTable (id INT, message nvarchar(50));
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
--- ^^^ keyword.other.ddl.sql
---           ^^^^^^^^^^^^^^^^ meta.table.sql entity.name.struct.table.sql
---           ^ punctuation.definition.variable.tsql
-INSERT INTO #SampleTempTable VALUES (null, 'hello');
--- ^^^^^^^^ keyword.other.dml.sql
---          ^ meta.table-name.sql punctuation.definition.variable.tsql
---           ^^^^^^^^^^^^^^^ meta.table-name.sql - punctuation
-INSERT INTO #SampleTempTable VALUES (10, null);
-INSERT INTO #SampleTempTable VALUES (17, 'abc');
-INSERT INTO #SampleTempTable VALUES (17, 'yes');
-INSERT INTO #SampleTempTable VALUES (null, null);
-GO
+SELECT * FROM table FOR SYSTEM_TIME AS OF 131512 alias
+--                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
+--                                  ^^^^^ keyword.operator.logical
+--                                        ^^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                               ^^^^^ meta.alias.sql
 
-SELECT * FROM #SampleTempTable WHERE id IS DISTINCT FROM 17;
-DROP TABLE IF EXISTS #SampleTempTable;
-GO
-
-ALTER TABLE a.b WITH CHECK
---              ^^^^^^^^^^ meta.statement.alter.sql keyword.other.ddl.tsql
-    ADD CONSTRAINT fk_b_c
---  ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
---  ^^^ keyword.other.ddl.sql
---      ^^^^^^^^^^ keyword.other.ddl.sql
---                 ^^^^^^ meta.constraint-name.sql
-    FOREIGN KEY (some_id) REFERENCES a.c (some_id);
---  ^^^^^^^^^^^ meta.statement.alter.sql storage.modifier.sql
+SELECT * FROM table FOR SYSTEM_TIME CONTAINED IN (131512, 231) alias
+--                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
+--                                  ^^^^^^^^^^^^ keyword.operator.logical
+--                                               ^^^^^^^^^^^^^ meta.group.sql
+--                                               ^ punctuation.section.group.begin.sql
+--                                                ^^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                      ^ punctuation.separator.sequence.sql
+--                                                        ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                           ^ punctuation.section.group.end.sql
+--                                                             ^^^^^ meta.alias.sql
+--

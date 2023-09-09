@@ -2713,6 +2713,401 @@ SHOW GRANTS FOR CURRENT_USER();
 
 
 -- ----------------------------------------------------------------------------
+-- Join Syntax
+-- https://mariadb.com/kb/en/join-syntax/
+--
+-- table_references:
+--     table_reference [, table_reference] ...
+--
+-- table_reference:
+--     table_factor
+--   | join_table
+--
+-- table_factor:
+--     tbl_name [PARTITION (partition_list)]
+--         [query_system_time_period_specification] [[AS] alias] [index_hint_list]
+--   | table_subquery [query_system_time_period_specification] [AS] alias
+--   | ( table_references )
+--   | { ON table_reference LEFT OUTER JOIN table_reference
+--         ON conditional_expr }
+--
+-- join_table:
+--     table_reference [INNER | CROSS] JOIN table_factor [join_condition]
+--   | table_reference STRAIGHT_JOIN table_factor
+--   | table_reference STRAIGHT_JOIN table_factor ON conditional_expr
+--   | table_reference {LEFT|RIGHT} [OUTER] JOIN table_reference join_condition
+--   | table_reference NATURAL [{LEFT|RIGHT} [OUTER]] JOIN table_factor
+--
+-- join_condition:
+--     ON conditional_expr
+--   | USING (column_list)
+--
+-- query_system_time_period_specification:
+--     FOR SYSTEM_TIME AS OF point_in_time
+--   | FOR SYSTEM_TIME BETWEEN point_in_time AND point_in_time
+--   | FOR SYSTEM_TIME FROM point_in_time TO point_in_time
+--   | FOR SYSTEM_TIME ALL
+--
+-- point_in_time:
+--     [TIMESTAMP] expression
+--   | TRANSACTION expression
+--
+-- index_hint_list:
+--     index_hint [, index_hint] ...
+--
+-- index_hint:
+--     USE {INDEX|KEY}
+--       [{FOR {JOIN|ORDER BY|GROUP BY}] ([index_list])
+--   | IGNORE {INDEX|KEY}
+--       [{FOR {JOIN|ORDER BY|GROUP BY}] (index_list)
+--   | FORCE {INDEX|KEY}
+--       [{FOR {JOIN|ORDER BY|GROUP BY}] (index_list)
+--
+-- index_list:
+--     index_name [, index_name] ...
+--
+-- ----------------------------------------------------------------------------
+
+JOIN (table1 alias, table2 AS alias ON (col1=col2), table3 PARTITION(part1) USE KEY (id), IGNORE INDEX (foo) USING (col1))
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--   ^ punctuation.section.group.begin.sql
+--    ^^^^^^ meta.table-name.sql
+--           ^^^^^ meta.alias.sql
+--                ^ punctuation.separator.sequence.sql
+--                  ^^^^^^ meta.table-name.sql
+--                         ^^ keyword.operator.assignment.alias.sql
+--                            ^^^^^ meta.alias.sql
+--                                  ^^ keyword.control.conditional.sql
+--                                     ^^^^^^^^^^^ meta.group.sql
+--                                     ^ punctuation.section.group.begin.sql
+--                                      ^^^^ meta.column-name.sql
+--                                          ^ keyword.operator.comparison.sql
+--                                           ^^^^ meta.column-name.sql
+--                                               ^ punctuation.section.group.end.sql
+--                                                ^ punctuation.separator.sequence.sql
+--                                                  ^^^^^^ meta.table-name.sql
+--                                                         ^^^^^^^^^ keyword.other.dml.sql
+--                                                                  ^^^^^^^ meta.group.partitions.sql
+--                                                                  ^ punctuation.section.group.begin.sql
+--                                                                   ^^^^^ meta.partition-name.sql
+--                                                                        ^ punctuation.section.group.end.sql
+--                                                                          ^^^^^^^ keyword.other.dml.sql
+--                                                                                  ^^^^ meta.group.sql
+--                                                                                  ^ punctuation.section.sequence.begin.sql
+--                                                                                   ^^ meta.index-name.sql
+--                                                                                     ^ punctuation.section.group.end.sql
+--                                                                                      ^ punctuation.separator.sequence.sql
+--                                                                                        ^^^^^^^^^^^^ keyword.other.dml.sql
+--                                                                                                     ^^^^^ meta.group.sql
+--                                                                                                     ^ punctuation.section.sequence.begin.sql
+--                                                                                                      ^^^ meta.index-name.sql
+--                                                                                                         ^ punctuation.section.group.end.sql
+--                                                                                                           ^^^^^ keyword.other.dml.sql
+--                                                                                                                 ^^^^^^ meta.group.table-columns.sql
+--                                                                                                                 ^ punctuation.section.group.begin.sql
+--                                                                                                                  ^^^^ meta.column-name.sql
+--                                                                                                                      ^ punctuation.section.group.end.sql
+--                                                                                                                       ^ punctuation.section.group.end.sql
+
+JOIN ( ( SELECT * FROM foo JOIN bar IGNORE KEY id ) alias, ( table1, ( SELECT * FROM baz) ) alias )
+--   ^^ meta.group.sql - meta.group meta.group
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql meta.group.sql
+--                                                 ^^^^^^^^ meta.group.sql - meta.group meta.group
+--                                                         ^^^^^^^^^^ meta.group.sql meta.group.sql - meta.group meta.group meta.group
+--                                                                   ^^^^^^^^^^^^^^^^^^^^ meta.group.sql meta.group.sql meta.group.sql
+--                                                                                       ^^ meta.group.sql meta.group.sql - meta.group meta.group meta.group
+--                                                                                         ^^^^^^^^ meta.group.sql - meta.group meta.group
+--                                                                                                 ^ - meta.group
+--   ^ punctuation.section.group.begin.sql
+--     ^ punctuation.section.group.begin.sql
+--       ^^^^^^ keyword.other.dml.sql
+--              ^ constant.other.wildcard.asterisk.sql
+--                ^^^^ keyword.other.dml.sql
+--                     ^^^ meta.table-name.sql
+--                         ^^^^ keyword.other.dml.sql
+--                              ^^^ meta.table-name.sql
+--                                  ^^^^^^^^^^ keyword.other.dml.sql
+--                                             ^^ meta.column-name.sql
+--                                                ^ punctuation.section.group.end.sql
+--                                                  ^^^^^ meta.alias.sql
+--                                                       ^ punctuation.separator.sequence.sql
+--                                                         ^ punctuation.section.group.begin.sql
+--                                                           ^^^^^^ meta.table-name.sql
+--                                                                 ^ punctuation.separator.sequence.sql
+
+-- ----------------------------------------------------------------------------
+-- table_reference
+-- ----------------------------------------------------------------------------
+
+INNER JOIN tbl_name PARTITION (part1, part2, part3)
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^^^^^ keyword.other.dml.sql
+--                            ^^^^^^^^^^^^^^^^^^^^^ meta.group.partitions.sql
+--                            ^ punctuation.section.group.begin.sql
+--                             ^^^^^ meta.partition-name.sql
+--                                  ^ punctuation.separator.sequence.sql
+--                                    ^^^^^ meta.partition-name.sql
+--                                         ^ punctuation.separator.sequence.sql
+--                                           ^^^^^ meta.partition-name.sql
+--                                                ^ punctuation.section.group.end.sql
+
+INNER JOIN tbl_name alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^ meta.alias.sql
+
+INNER JOIN tbl_name AS alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^ keyword.operator.assignment.alias.sql
+--                     ^^^^^ meta.alias.sql
+
+INNER JOIN tbl_name PARTITION () alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^^^^^ keyword.other.dml.sql
+--                            ^^ meta.group.partitions.sql
+--                               ^^^^^ meta.alias.sql
+
+INNER JOIN tbl_name PARTITION () AS alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^^^^^ keyword.other.dml.sql
+--                            ^^ meta.group.partitions.sql
+--                               ^^ keyword.operator.assignment.alias.sql
+--                                  ^^^^^ meta.alias.sql
+
+INNER JOIN tbl_name FOR SYSTEM_TIME ALL alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
+--                                  ^^^ constant.other.sql
+--                                      ^^^^^ meta.alias.sql
+
+INNER JOIN tbl_name FOR SYSTEM_TIME AS OF 20341 alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
+--                                  ^^^^^ keyword.operator.logical.sql
+--                                        ^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                              ^^^^^ meta.alias.sql
+
+INNER JOIN tbl_name FOR SYSTEM_TIME FROM 20341 TO 423204 alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
+--                                  ^^^^ keyword.operator.logical.sql
+--                                       ^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                             ^^ keyword.operator.logical.sql
+--                                                ^^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                       ^^^^^ meta.alias.sql
+
+INNER JOIN (SELECT * FROM tbl_name) alias USE KEY bar
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--         ^ punctuation.section.group.begin.sql
+--          ^^^^^^ keyword.other.dml.sql
+--                 ^ constant.other.wildcard.asterisk.sql
+--                   ^^^^ keyword.other.dml.sql
+--                        ^^^^^^^^ meta.table-name.sql
+--                                ^ punctuation.section.group.end.sql
+--                                  ^^^^^ meta.alias.sql
+--                                        ^^^^^^^ keyword.other.dml.sql
+--                                                ^^^ meta.column-name.sql
+
+INNER JOIN (SELECT * FROM tbl_name) PARTITION (part1, part2, part3) alias
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--         ^ punctuation.section.group.begin.sql
+--          ^^^^^^ keyword.other.dml.sql
+--                 ^ constant.other.wildcard.asterisk.sql
+--                   ^^^^ keyword.other.dml.sql
+--                        ^^^^^^^^ meta.table-name.sql
+--                                ^ punctuation.section.group.end.sql
+--                                  ^^^^^^^^^ keyword.other.dml.sql
+--                                            ^^^^^^^^^^^^^^^^^^^^^ meta.group.partitions.sql
+--                                            ^ punctuation.section.group.begin.sql
+--                                             ^^^^^ meta.partition-name.sql
+--                                                  ^ punctuation.separator.sequence.sql
+--                                                    ^^^^^ meta.partition-name.sql
+--                                                         ^ punctuation.separator.sequence.sql
+--                                                           ^^^^^ meta.partition-name.sql
+--                                                                ^ punctuation.section.group.end.sql
+--                                                                  ^^^^^ meta.alias.sql
+
+INNER JOIN {ON tbl_name LEFT OUTER JOIN other1 other2 ON TRUE}
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.mysql
+--    ^^^^ keyword.other.dml.sql
+--         ^ punctuation.section.braces.begin.mysql
+--          ^^ keyword.other.dml.sql
+--             ^^^^^^^^ meta.table-name.sql
+--                      ^^^^^^^^^^^^^^^ keyword.other.dml.sql
+--                                      ^^^^^^ meta.table-name.sql
+--                                             ^^^^^^ meta.alias.sql
+--                                                    ^^ keyword.control.conditional.sql
+--                                                       ^^^^ constant.language.boolean.sql
+--                                                           ^ punctuation.section.braces.end.mysql
+
+-- ----------------------------------------------------------------------------
+-- join_condition
+-- ----------------------------------------------------------------------------
+
+INNER JOIN tbl_name ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^ keyword.control.conditional.sql
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                     ^ punctuation.section.group.begin.sql
+--                      ^^^^ meta.column-name.sql
+--                          ^ keyword.operator.comparison.sql
+--                           ^^^^ meta.column-name.sql
+--                                ^^^ keyword.operator.logical.sql
+--                                    ^^^^ meta.column-name.sql
+--                                        ^ keyword.operator.comparison.sql
+--                                         ^^^^ meta.column-name.sql
+--                                              ^^^ keyword.operator.logical.sql
+--                                                  ^^^^ meta.column-name.sql
+--                                                      ^ keyword.operator.comparison.sql
+--                                                       ^^^^ meta.column-name.sql
+--                                                           ^ punctuation.section.group.end.sql
+
+INNER JOIN tbl_name USING (col1, col2)
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^ keyword.other.dml.sql
+--                        ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                        ^ punctuation.section.group.begin.sql
+--                         ^^^^ meta.column-name.sql
+--                             ^ punctuation.separator.sequence.sql
+--                               ^^^^ meta.column-name.sql
+--                                   ^ punctuation.section.group.end.sql
+
+INNER JOIN tbl_name alias USING (col1, col2)
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^^^^ meta.alias.sql
+--                        ^^^^^ keyword.other.dml.sql
+--                              ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                              ^ punctuation.section.group.begin.sql
+--                               ^^^^ meta.column-name.sql
+--                                   ^ punctuation.separator.sequence.sql
+--                                     ^^^^ meta.column-name.sql
+--                                         ^ punctuation.section.group.end.sql
+
+INNER JOIN tbl_name AS alias USING (col1, col2)
+--    ^^^^ keyword.other.dml.sql
+--         ^^^^^^^^ meta.table-name.sql
+--                  ^^ keyword.operator.assignment.alias.sql
+--                     ^^^^^ meta.alias.sql
+--                           ^^^^^ keyword.other.dml.sql
+--                                 ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                 ^ punctuation.section.group.begin.sql
+--                                  ^^^^ meta.column-name.sql
+--                                      ^ punctuation.separator.sequence.sql
+--                                        ^^^^ meta.column-name.sql
+--                                            ^ punctuation.section.group.end.sql
+
+-- ----------------------------------------------------------------------------
+-- index_hint
+-- ----------------------------------------------------------------------------
+
+FORCE INDEX FOR JOIN (index1, index2, index3)
+-- <- keyword.other.dml.sql
+-- ^^^^^^^^ keyword.other.dml.sql
+--          ^^^^^^^^ keyword.other.dml.sql
+--                   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                   ^ punctuation.section.sequence.begin.sql
+--                    ^^^^^^ meta.index-name.sql
+--                          ^ punctuation.separator.sequence.sql
+--                            ^^^^^^ meta.index-name.sql
+--                                  ^ punctuation.separator.sequence.sql
+--                                    ^^^^^^ meta.index-name.sql
+--                                          ^ punctuation.section.group.end.sql
+
+FORCE INDEX FOR ORDER BY (index1, index2, index3)
+-- <- keyword.other.dml.sql
+-- ^^^^^^^^ keyword.other.dml.sql
+--          ^^^^^^^^^^^^ keyword.other.dml.sql
+--                       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                       ^ punctuation.section.sequence.begin.sql
+--                        ^^^^^^ meta.index-name.sql
+--                              ^ punctuation.separator.sequence.sql
+--                                ^^^^^^ meta.index-name.sql
+--                                      ^ punctuation.separator.sequence.sql
+--                                        ^^^^^^ meta.index-name.sql
+--                                              ^ punctuation.section.group.end.sql
+
+FORCE INDEX FOR GROUP BY (index1, index2, index3)
+-- <- keyword.other.dml.sql
+-- ^^^^^^^^ keyword.other.dml.sql
+--          ^^^^^^^^^^^^ keyword.other.dml.sql
+--                       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                       ^ punctuation.section.sequence.begin.sql
+--                        ^^^^^^ meta.index-name.sql
+--                              ^ punctuation.separator.sequence.sql
+--                                ^^^^^^ meta.index-name.sql
+--                                      ^ punctuation.separator.sequence.sql
+--                                        ^^^^^^ meta.index-name.sql
+--                                              ^ punctuation.section.group.end.sql
+
+USE INDEX FOR JOIN (index1, index2, index3)
+-- <- keyword.other.dml.sql
+-- ^^^^^^ keyword.other.dml.sql
+--        ^^^^^^^^ keyword.other.dml.sql
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                 ^ punctuation.section.sequence.begin.sql
+--                  ^^^^^^ meta.index-name.sql
+--                        ^ punctuation.separator.sequence.sql
+--                          ^^^^^^ meta.index-name.sql
+--                                ^ punctuation.separator.sequence.sql
+--                                  ^^^^^^ meta.index-name.sql
+--                                        ^ punctuation.section.group.end.sql
+
+USE INDEX FOR ORDER BY (index1, index2, index3)
+-- <- keyword.other.dml.sql
+-- ^^^^^^ keyword.other.dml.sql
+--        ^^^^^^^^^^^^ keyword.other.dml.sql
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                     ^ punctuation.section.sequence.begin.sql
+--                      ^^^^^^ meta.index-name.sql
+--                            ^ punctuation.separator.sequence.sql
+--                              ^^^^^^ meta.index-name.sql
+--                                    ^ punctuation.separator.sequence.sql
+--                                      ^^^^^^ meta.index-name.sql
+--                                            ^ punctuation.section.group.end.sql
+
+USE INDEX FOR GROUP BY (index1, index2, index3)
+-- <- keyword.other.dml.sql
+-- ^^^^^^ keyword.other.dml.sql
+--        ^^^^^^^^^^^^ keyword.other.dml.sql
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                     ^ punctuation.section.sequence.begin.sql
+--                      ^^^^^^ meta.index-name.sql
+--                            ^ punctuation.separator.sequence.sql
+--                              ^^^^^^ meta.index-name.sql
+--                                    ^ punctuation.separator.sequence.sql
+--                                      ^^^^^^ meta.index-name.sql
+--                                            ^ punctuation.section.group.end.sql
+
+SELECT * FROM table FORCE INDEX FOR GROUP BY (Name)
+--                  ^^^^^^^^^^^ keyword.other.dml.sql
+--                              ^^^^^^^^^^^^ keyword.other.dml.sql
+--                                           ^^^^^^ meta.group.sql
+--                                           ^ punctuation.section.sequence.begin.sql
+--                                            ^^^^ meta.index-name.sql
+--                                                ^ punctuation.section.group.end.sql
+
+SELECT * FROM table USE INDEX FOR GROUP BY (Name)
+--                  ^^^^^^^^^ keyword.other.dml.sql
+--                            ^^^^^^^^^^^^ keyword.other.dml.sql
+--                                         ^^^^^^ meta.group.sql
+--                                         ^ punctuation.section.sequence.begin.sql
+--                                          ^^^^ meta.index-name.sql
+--                                              ^ punctuation.section.group.end.sql
+
+
+-- ----------------------------------------------------------------------------
 -- Legacy Tests
 -- ----------------------------------------------------------------------------
 
@@ -2812,7 +3207,7 @@ SELECT  *,
 --      ^ constant.other.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
---              ^^^^^^^^^^^ meta.column-alias
+--              ^^^^^^^^^^^ meta.alias
 FROM    foo
 WHERE   f.a IS NULL
 -- ^^ keyword.other.dml.sql

@@ -164,14 +164,11 @@ contexts:
       push:
         - maybe-table-alias
         - expect-table-name
-    - match: \b(?i:using)\b
+    - match: \b(?i:using)\b  # note: maybe valid only in merge statements
       scope: keyword.context.resource.tsql
-      push:
-        - table-name-or-subquery
-        - join-on
-        #- maybe-table-alias
-        #- maybe-with-table-options
-        - table-name-or-subquery
+      push: table-name-or-subquery
+    - match: \b(?i:on)\b
+      scope: keyword.control.conditional.sql
     # - match: \b(?i:set)\b
     #   scope: keyword.other.dml.tsql
     #   push: maybe-transaction-isolation-level
@@ -184,6 +181,12 @@ contexts:
   dml-update:
     - meta_prepend: true
     - include: top
+
+  join-expressions:
+    - meta_append: true
+    - match: \b(?i:(?:(?:cross|outer)\s+)?apply)\b
+      scope: keyword.other.dml.sql
+      push: table-name-or-subquery
 
   top:
     - match: (?i)\b(top)\b(?:\s*(?:(\()\s*)?(\d+)(?:\s*(\)))?(?:\s+(percent\b))?)?
@@ -203,12 +206,6 @@ contexts:
       pop: 1
     - include: expressions
     - include: else-pop
-
-  joins:
-    - meta_append: true
-    - match: \b(?i:(?:(?:cross|outer)\s+)?apply)\b
-      scope: keyword.other.dml.sql
-      push: table-name-or-subquery
 
 ###[ DML SET STATEMENTS ]######################################################
 
@@ -817,13 +814,13 @@ contexts:
     - match: (?=\S)
       pop: true
 
-###[ TABLE NAMES ]#############################################################
+###[ TABLE NAMES OR SUBQUERIES ]###############################################
 
-  table-name-or-subquery:
-    - meta_prepend: true
+  table-subquery:
+    - meta_append: true
     - match: \b(?i:openxml)\b
       scope: meta.table-valued-function-name.sql support.function.tsql
-      push:
+      set:
         - maybe-with-column-definition
         - function-call-arguments
     - match: \b(?i:(openrowset))\s*(\()
@@ -847,16 +844,55 @@ contexts:
     - include: table-hints-without-with
 
   maybe-table-alias:
-    - meta_prepend: true
+    - include: table-timespecs
     - include: with-table-options
     - match: (?=\b(?i:unpivot|pivot)\b)
       pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+      set: expect-table-alias-name
+    - include: expect-table-alias-name
+
+  expect-table-alias-name:
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set:
+        - maybe-table-sample
+        - alias-name
+        - single-identifier
 
   maybe-table-sample:
-    - meta_prepend: true
-    - include: groups # column-alias-list
+    - include: groups # alias-list
     - include: table-hints-without-with
     - include: with-table-options
+    - match: \b(?i:tablesample(?:\s+system)?)\b
+      scope: keyword.other.sql
+      push:
+        - after-tablesample-group
+        - maybe-table-sample-group
+    - include: else-pop
+
+  maybe-table-sample-group:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-tablesample-group
+    - include: else-pop
+
+  inside-tablesample-group:
+    - meta_scope: meta.group.tablesample.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:rows|percent)\b
+      scope: constant.language.sql
+    - include: expressions
+
+  after-tablesample-group:
+    - match: \b(?i:repeatable)\b
+      scope: constant.language.sql
+      pop: 1
+    - include: else-pop
 
   table-hints-without-with:
     # https://docs.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table?view=sql-server-ver15#arguments
@@ -878,6 +914,12 @@ contexts:
       scope: keyword.other.tsql
       set: maybe-column-declaration-list
     - include: else-pop
+
+  table-timespec-args:
+    - meta_prepend: true
+    - match: \b(?i:contained\s+in)
+      scope: keyword.operator.logical.tsql
+      set: maybe-group
 
 ###[ COLUMN DECLARATIONS ]#####################################################
 

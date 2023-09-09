@@ -80,8 +80,7 @@ contexts:
       pop: 1
     - include: else-pop
 
-  joins:
-    - match: \bjoin\b
+  join-expressions: []
 
 ###[ OTHER STATEMENTS ]########################################################
 

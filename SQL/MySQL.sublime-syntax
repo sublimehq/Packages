@@ -356,16 +356,26 @@ contexts:
 
   dml-statements:
     - meta_append: true
+    - include: index-hint-lists
     - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
       scope: keyword.other.dml.sql
       push: expect-table-name
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.sql
 
-  joins:
-    - meta_append: true
-    - match: \b(?i:straight_join|natural)\b
+  join-expressions:
+    # https://mariadb.com/kb/en/join-syntax
+    - match: \b(?i:(?:(?:cross|inner|(?:natural\s+)?(?:left|right)(?:\s+outer)?)\s+|straight_)?join)\b
       scope: keyword.other.dml.sql
+      push:
+        - join-condition
+        - table-name-or-subquery
+
+  join-condition:
+    - meta_prepend: true
+    - match: \b(?i:using)\b
+      scope: keyword.other.dml.sql
+      set: maybe-column-reference-list
 
 ###[ DML SET STATEMENTS ]######################################################
 
@@ -578,14 +588,7 @@ contexts:
     - match: \b(?i:concatenate|convert|lower|substring|translate|trim|upper)\b
       scope: support.function.string.sql
     - match: \b(?i:using)\b
-      scope: keyword.other.mysql
-
-  table-name-or-subquery:
-    - meta_prepend: true
-    - meta_include_prototype: false
-    - match: (?=#)
-      pop: 1
-    - include: comments
+      scope: keyword.other.dml.sql
 
 ###[ ALGORITHM EXPRESSIONS ]###################################################
 
@@ -792,6 +795,23 @@ contexts:
     - include: intervals
     - include: time-units
 
+  maybe-partition-name-list:
+    - include: partition-name-list
+    - include: else-pop
+
+  partition-name-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-partition-name-list
+
+  inside-partition-name-list:
+    - meta_scope: meta.group.partitions.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-partition-names
+
 ###[ TABLE EXPRESSIONS ]#######################################################
 
   table-options:
@@ -803,7 +823,7 @@ contexts:
       push: expect-table-name
     - match: \b(?i:union)\b
       scope: variable.parameter.sql
-      push: maybe-table-reference-list
+      push: maybe-table-name-list
     # common table options
     - match: \b{{table_parameters}}\b
       scope: variable.parameter.sql
@@ -822,14 +842,14 @@ contexts:
     - include: assignment-operators
     - include: expect-other-name
 
-  maybe-table-reference-list:
+  maybe-table-name-list:
     - match: \(
       scope: punctuation.section.sequence.begin.sql
-      set: inside-table-reference-list
+      set: inside-table-name-list
     - include: assignment-operators
     - include: else-pop
 
-  inside-table-reference-list:
+  inside-table-name-list:
     - meta_scope: meta.sequence.tables.sql
     - match: \)
       scope: punctuation.section.sequence.end.sql
@@ -1004,6 +1024,114 @@ contexts:
       pop: 1
     # named privilidge level: database, table or method
     - include: expect-other-name
+
+###[ TABLE NAMES OR SUBQUERIES ]###############################################
+
+  table-subquery:
+    # https://mariadb.com/kb/en/join-syntax
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: table-subquery-begin
+    - match: \{
+      scope: punctuation.section.braces.begin.mysql
+      set:
+        - table-braced-subquery-body
+        - table-name-or-subquery
+        - table-braced-subquery-on
+
+  table-braced-subquery-body:
+    - meta_scope: meta.braces.mysql
+    - match: \}
+      scope: punctuation.section.braces.end.mysql
+      pop: 1
+    - include: join-expressions
+
+  table-braced-subquery-on:
+    - match: \b(?i:on)\b
+      scope: keyword.other.dml.sql
+      pop: 1
+    - include: else-pop
+
+  table-subquery-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.sql
+    - include: comments
+    # table subquery
+    - match: (?=(?i:select)\b)
+      set:
+        - maybe-table-alias
+        - inside-group
+    # table reference list
+    - match: (?=\S)
+      set: inside-table-reference-list
+
+  inside-table-reference-list:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-table-references
+
+  expect-table-references:
+    - meta_include_prototype: false
+    - match: (?=\S)
+      push:
+        - join-condition
+        - table-name-or-subquery
+
+  table-name-not-function-call:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - maybe-index-hint-list
+        - maybe-table-alias
+        - table-name-fail-if-function-call
+        - table-name
+        - single-identifier
+
+  maybe-table-alias:
+    - meta_prepend: true
+    - match: (?=(?i:force|ignore|on|use|using)\b)
+      pop: 1
+    - match: \b(?i:partition)\b
+      scope: keyword.other.dml.sql
+      push: maybe-partition-name-list
+
+###[ INDEX HINTS ]#############################################################
+
+  maybe-index-hint-list:
+    # https://mariadb.com/kb/en/join-syntax
+    - include: index-hint-lists
+    - include: comma-separators
+    - include: else-pop
+
+  index-hint-lists:
+    - match: \b(?i:(?:force|ignore|use)\s+(?:index|key))\b
+      scope: keyword.other.dml.sql
+      push:
+        - maybe-index-name-list
+        - maybe-index-hint-target
+
+  maybe-index-hint-target:
+    - match: \b(?i:for\s+(?:join|(?:group|order)\s+by))\b
+      scope: keyword.other.dml.sql
+      pop: 1
+    - include: else-pop
+
+  maybe-index-name-list:
+    - match: \(
+      scope: punctuation.section.sequence.begin.sql
+      set: inside-index-name-list
+    - include: else-pop
+
+  inside-index-name-list:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-index-names
 
 ###[ COLUMN DECLARATIONS ]#####################################################
 
