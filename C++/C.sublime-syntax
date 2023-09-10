@@ -48,7 +48,7 @@ variables:
   type_qualifier: 'const|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -195,6 +195,19 @@ contexts:
       scope: support.type.windows.c
     - match: \b(AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b
       scope: support.type.mac-classic.c
+    - include: types-parens
+
+  types-parens:
+    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual)\b\s*(\()'
+      captures:
+        1: keyword.declaration.type.c
+        2: meta.group.c punctuation.section.group.begin.c
+      push:
+        - meta_content_scope: meta.group.c
+        - match: '\)'
+          scope: meta.group.c punctuation.section.group.end.c
+          pop: true
+        - include: expressions
 
   numbers:
     # https://en.cppreference.com/w/c/language/floating_constant
@@ -448,6 +461,7 @@ contexts:
 
   global-type:
     - include: comments
+    - include: types-parens
     - match: \*
       scope: keyword.operator.c
     - match: |-

@@ -40,11 +40,11 @@ enum { kFoo = FOO, kBar = BAR };
 /*                      ^ keyword.operator.assignment.c */
 /*                        ^^^ - entity.name.constant */
 
-enum { 
-    FOO, 
+enum {
+    FOO,
 /*  ^^^ entity.name.constant.c */
 /*     ^ punctuation.separator.c */
-    BAR 
+    BAR
 /*  ^^^ entity.name.constant.c */
 };
 
@@ -119,6 +119,42 @@ struct foo {
 
 int i;
 /* <- storage.type */
+
+typeof(i) dt;
+/* <- keyword.declaration.type */
+/*    ^ punctuation.section.group.begin */
+/*      ^ punctuation.section.group.end */
+__typeof(i) dt;
+/* <- keyword.declaration.type */
+/*      ^ punctuation.section.group.begin */
+/*        ^ punctuation.section.group.end */
+__typeof__(i) dt;
+/* <- keyword.declaration.type */
+/*        ^ punctuation.section.group.begin */
+/*          ^ punctuation.section.group.end */
+typeof_unqual(i) dt;
+/* <- keyword.declaration.type */
+/*           ^ punctuation.section.group.begin */
+/*             ^ punctuation.section.group.end */
+
+void build_default_prototype(Function *ret) {
+    static typeof(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*    ^ punctuation.section.group.begin */
+           /*                 ^ punctuation.section.group.end */
+    static __typeof(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*      ^ punctuation.section.group.begin */
+           /*                   ^ punctuation.section.group.end */
+    static __typeof__(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*        ^ punctuation.section.group.begin */
+           /*                     ^ punctuation.section.group.end */
+    static typeof_unqual(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*           ^ punctuation.section.group.begin */
+           /*                        ^ punctuation.section.group.end */
+}
 
 // The following example ensures that comments at the end of preprocessor
 // directives don't mess with context transitions
