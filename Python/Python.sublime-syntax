@@ -364,6 +364,11 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
+    # Special Sphinx comment syntax to denote documentation
+    # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoattribute
+    - match: '#:'
+      scope: punctuation.definition.comment.python
+      push: comment-sphinxdoc-body
     - match: \#
       scope: punctuation.definition.comment.python
       push:
@@ -372,6 +377,11 @@ contexts:
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
+    - match: \n
+      pop: 1
+
+  comment-sphinxdoc-body:
+    - meta_scope: comment.line.documentation.python
     - match: \n
       pop: 1
 
