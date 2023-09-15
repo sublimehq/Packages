@@ -68,6 +68,14 @@ This is a variable docstring, as supported by sphinx and epydoc
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
 """
 
+#: This is a prefixed "doc comment", supported by sphinx
+# <- comment.line.documentation.python punctuation.definition.comment.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.python
+#^ punctuation.definition.comment.python
+attribute = ... #: also supported on the same line
+#               ^^ comment.line.documentation.python punctuation.definition.comment.python
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation.python
+
 r'''This is a syntax test file.
 # <- storage.type.string - comment
 #^^^ comment.block.documentation.python punctuation.definition.comment.begin.python

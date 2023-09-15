@@ -19,6 +19,17 @@
 				<key>value</key>
 				<string>:</string>
 			</dict>
+			<dict>
+				<!--
+					Cannot be undone using `toggle_comment` at the moment
+					because the earlier `TM_COMMENT_START` is tested first
+					and is a true prefix of this one.
+				-->
+				<key>name</key>
+				<string>TM_COMMENT_START_2</string>
+				<key>value</key>
+				<string>#: </string>
+			</dict>
 		</array>
 	</dict>
 </dict>
