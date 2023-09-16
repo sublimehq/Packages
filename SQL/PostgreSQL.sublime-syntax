@@ -123,7 +123,7 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
       scope: keyword.other.psql
-      push: maybe-on-table
+      push: maybe-on-table-name
     - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
       scope: keyword.other.psql
 
@@ -188,7 +188,7 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  on-tables:
+  on-table-names:
     - match: \b(?i:(on)(?:\s+(only))?)\b
       captures:
         1: keyword.other.sql

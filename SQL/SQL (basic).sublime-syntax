@@ -165,7 +165,7 @@ contexts:
 
   create-index-args:
     - meta_scope: meta.index.sql
-    - include: on-tables
+    - include: on-table-names
     - include: create-common-args
 
   create-table:
@@ -209,7 +209,7 @@ contexts:
       scope: keyword.context.block.sql
       pop: 1
     - include: grant
-    - include: on-tables
+    - include: on-table-names
     - include: create-common-args
 
   create-common-args:
@@ -268,7 +268,7 @@ contexts:
 
   drop-index-args:
     - meta_scope: meta.index.sql
-    - include: maybe-on-table
+    - include: maybe-on-table-name
 
   drop-table:
     - match: \b(?i:(?:({{ddl_target_table_modifier}})\s+)?(table))\b
@@ -308,7 +308,7 @@ contexts:
     - include: maybe-condition
 
   drop-other-args:
-    - include: maybe-on-table
+    - include: maybe-on-table-name
 
 ###[ DDL ALTER STATEMENTS ]####################################################
 
@@ -429,11 +429,11 @@ contexts:
 
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
-  maybe-on-table:
-    - include: on-tables
+  maybe-on-table-name:
+    - include: on-table-names
     - include: else-pop
 
-  on-tables:
+  on-table-names:
     - match: \b(?i:on)\b
       scope: keyword.other.sql
       push: expect-table-name

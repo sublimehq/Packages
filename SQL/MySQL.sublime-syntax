@@ -1036,8 +1036,7 @@ contexts:
       scope: punctuation.section.braces.begin.mysql
       set:
         - table-braced-subquery-body
-        - table-name-or-subquery
-        - table-braced-subquery-on
+        - maybe-on-table
 
   table-braced-subquery-body:
     - meta_scope: meta.braces.mysql
@@ -1046,10 +1045,10 @@ contexts:
       pop: 1
     - include: join-expressions
 
-  table-braced-subquery-on:
+  maybe-on-table:
     - match: \b(?i:on)\b
       scope: keyword.other.dml.sql
-      pop: 1
+      set: table-name-or-subquery
     - include: else-pop
 
   table-subquery-begin:
