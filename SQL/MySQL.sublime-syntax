@@ -375,7 +375,7 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:using)\b
       scope: keyword.other.dml.sql
-      set: maybe-column-reference-list
+      set: maybe-column-name-list
 
 ###[ DML SET STATEMENTS ]######################################################
 
@@ -614,6 +614,15 @@ contexts:
       scope: variable.parameter.definer.sql
       push: maybe-user-assignment
 
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:auto_increment)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
+      scope: keyword.other.object-comments.sql
+
 ###[ EVENT EXPRESSIONS ]#######################################################
 
   event-options:
@@ -789,7 +798,7 @@ contexts:
       push: maybe-group
     - match: \b(?i:key)\b
       scope: support.function.sql
-      push: maybe-column-reference-list
+      push: maybe-column-name-list
     - match: \b(?i:limit|system_time)\b
       scope: keyword.other.sql
     - include: intervals
@@ -1131,15 +1140,6 @@ contexts:
       pop: 1
     - include: comma-separators
     - include: expect-index-names
-
-###[ COLUMN DECLARATIONS ]#####################################################
-
-  inside-column-declaration-list:
-    - meta_prepend: true
-    - match: \b(?i:auto_increment)\b
-      scope: storage.modifier.sql
-    - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
-      scope: keyword.other.object-comments.sql
 
 ###[ TYPES ]###################################################################
 

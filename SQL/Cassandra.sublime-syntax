@@ -143,7 +143,7 @@ contexts:
     - match: '{{simple_identifier}}'
       scope: meta.mapping.key.cql string.unquoted.cql
 
-###[ COLUMN DECLARATIONS ]#####################################################
+###[ COLUMN EXPRESSIONS ]######################################################
 
   inside-column-declaration-list:
     - meta_scope: meta.group.table-columns.sql
@@ -158,7 +158,7 @@ contexts:
     - match: \b(?i:primary\s+key)\b
       scope: storage.modifier.cql
     - include: expressions
-    - include: column-declaration
+    - include: expect-column-declarations
 
   inside-partition-key:
     - meta_content_scope: meta.group.partition-key.cql

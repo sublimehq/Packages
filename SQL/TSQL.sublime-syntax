@@ -340,7 +340,7 @@ contexts:
       scope: keyword.other.dml.sql
       push:
         - cte-as
-        - maybe-column-reference-list
+        - maybe-column-name-list
         - expect-cte-table-name
     - match: \b(?i:with)\b #(?=\s*(?:\[\w+\]|\w+)\s*\bas\b)
       scope: keyword.other.dml.sql
@@ -355,7 +355,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.cte.tsql
       push:
-        - maybe-column-reference-list
+        - maybe-column-name-list
         - expect-cte-table-name
     - include: expressions
 
@@ -492,6 +492,24 @@ contexts:
     - include: dml-statements
     - include: expressions
 
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  maybe-column-declaration-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set:
+        - maybe-with-table-options
+        - maybe-filegroup
+        - inside-column-declaration-list
+    - include: else-pop
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:rowguidcol|clustered|nonclustered)\b
+      scope: storage.modifier.tsql
+    - match: \b(?i:period\s+for\s+system_time)\b
+      scope: storage.modifier.tsql
+
 ###[ FUNCTION EXPRESSIONS ]####################################################
 
   expect-function-parameters:
@@ -593,7 +611,7 @@ contexts:
       scope: meta.group.tsql punctuation.section.group.end.tsql
       pop: 1
     - include: comma-separators
-    - include: column-reference-list
+    - include: column-name-list
     - include: literals-and-variables
     - include: expect-index-names
 
@@ -920,25 +938,6 @@ contexts:
     - match: \b(?i:contained\s+in)
       scope: keyword.operator.logical.tsql
       set: maybe-group
-
-###[ COLUMN DECLARATIONS ]#####################################################
-
-  maybe-column-declaration-list:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set:
-        - maybe-with-table-options
-        - maybe-filegroup
-        - inside-column-declaration-list
-    - match: (?=\S)
-      pop: 1
-
-  inside-column-declaration-list:
-    - meta_prepend: true
-    - match: \b(?i:rowguidcol|clustered|nonclustered)\b
-      scope: storage.modifier.tsql
-    - match: \b(?i:period\s+for\s+system_time)\b
-      scope: storage.modifier.tsql
 
 ###[ TYPES ]###################################################################
 

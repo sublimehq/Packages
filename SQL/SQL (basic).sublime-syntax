@@ -682,6 +682,79 @@ contexts:
       pop: 1
     - include: sql
 
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  maybe-column-declaration-list:
+    - include: column-declaration-list
+    - include: else-pop
+
+  column-declaration-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-column-declaration-list
+
+  inside-column-declaration-list:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:constraint)\b
+      scope: storage.modifier.sql
+      push: expect-constraint-name
+    - include: column-modifiers
+    - include: expressions
+    - include: expect-column-declarations
+
+  expect-column-declarations:
+    - match: (?=\S)
+      push:
+        - after-type
+        - expect-type
+        - column-name-declaration
+        - single-identifier
+
+  maybe-column-modifier:
+    - include: column-modifiers
+    - include: else-pop
+
+  column-modifiers:
+    - match: \b(?i:check)\b
+      scope: keyword.other.sql
+    - match: |-
+        \b(?xi:
+          (?: (?: foreign | fulltext | primary | unique ) \s+ )? key
+        | on \s+ (?: delete | update ) (?: \s+ cascade )?
+        | default
+        )\b
+      scope: storage.modifier.sql
+      push: maybe-column-name-list
+    - match: \b(?i:references)\b
+      scope: storage.modifier.sql
+      push:
+        - maybe-column-name-list
+        - expect-table-name
+
+  maybe-column-name-list:
+    - include: column-name-list
+    - include: else-pop
+
+  column-name-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-column-name-list
+
+  column-name-lists:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push: inside-column-name-list
+
+  inside-column-name-list:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: expressions-or-column-names
+
 ###[ FUNCTION EXPRESSIONS ]####################################################
 
   expect-function-parameters:
@@ -745,7 +818,7 @@ contexts:
     - include: pop-on-top-level-reserved-word
 
   user-privileges:
-    - include: column-reference-lists
+    - include: column-name-lists
     - match: \b(?i:all(?:\s+privileges)?)\b
       scope: constant.language.sql
     - match: \b(?i:(?:alter|create|drop|grant|revoke)\s+{{ddl_target}})\b
@@ -834,79 +907,6 @@ contexts:
   table-timespec-expression:
     - include: expressions
     - include: immediately-pop
-
-###[ COLUMN DECLARATIONS ]#####################################################
-
-  maybe-column-declaration-list:
-    - include: column-declaration-list
-    - include: else-pop
-
-  column-declaration-list:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-column-declaration-list
-
-  inside-column-declaration-list:
-    - meta_scope: meta.group.table-columns.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - match: \b(?i:constraint)\b
-      scope: storage.modifier.sql
-      push: expect-constraint-name
-    - include: column-modifiers
-    - include: expressions
-    - include: column-declaration
-
-  column-declaration:
-    - match: (?=\S)
-      push:
-        - after-type
-        - expect-type
-        - column-name-declaration
-        - single-identifier
-
-  maybe-column-modifier:
-    - include: column-modifiers
-    - include: else-pop
-
-  column-modifiers:
-    - match: \b(?i:check)\b
-      scope: keyword.other.sql
-    - match: |-
-        \b(?xi:
-          (?: (?: foreign | fulltext | primary | unique ) \s+ )? key
-        | on \s+ (?: delete | update ) (?: \s+ cascade )?
-        | default
-        )\b
-      scope: storage.modifier.sql
-      push: maybe-column-reference-list
-    - match: \b(?i:references)\b
-      scope: storage.modifier.sql
-      push:
-        - maybe-column-reference-list
-        - expect-table-name
-
-  maybe-column-reference-list:
-    - include: column-reference-list
-    - include: else-pop
-
-  column-reference-list:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      set: inside-column-reference-list
-
-  column-reference-lists:
-    - match: \(
-      scope: punctuation.section.group.begin.sql
-      push: inside-column-reference-list
-
-  inside-column-reference-list:
-    - meta_scope: meta.group.table-columns.sql
-    - match: \)
-      scope: punctuation.section.group.end.sql
-      pop: 1
-    - include: expressions-or-column-names
 
 ###[ TYPES ]###################################################################
 

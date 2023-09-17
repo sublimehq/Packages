@@ -206,6 +206,13 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.psql
 
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:unique)\b
+      scope: keyword.other.psql
+
 ###[ EXTENSION EXPRESSIONS ]###################################################
 
   extension-attributes:
@@ -220,13 +227,6 @@ contexts:
     - match: \b(?i:as)\b
       scope: keyword.other.ddl.sql
       pop: 1
-
-###[ COLUMN DECLARATIONS ]#####################################################
-
-  inside-column-declaration-list:
-    - meta_prepend: true
-    - match: \b(?i:unique)\b
-      scope: keyword.other.psql
 
 ###[ IDENTIFIERS ]#############################################################
 
