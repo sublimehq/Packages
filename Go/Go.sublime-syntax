@@ -1374,42 +1374,33 @@ contexts:
       set: [pop-after-type, pop-type-single]
 
   pop-type-single:
-    - include: pop-before-semicolon
-
     # Note: Go allows wrapping types in an arbitrary number of parens.
     - match: \(
       scope: punctuation.section.parens.begin.go
       push: [pop-type-nested-in-parens, pop-type]
 
+    # Note: Go allows multiple levels of slices
+    - match: \[
+      scope: punctuation.section.brackets.begin.go
+      push: pop-brackets-inner
+
     - include: match-type-operators
     - include: match-operators
 
-    - match: (?=\bchan\b)
-      set: pop-chan
-
-    - match: (?=\binterface\b)
-      set: pop-interface
-
-    - match: (?=\bmap\b)
-      set: pop-map
-
-    - match: (?=\bstruct\b)
-      set: pop-struct
+    - include: pop-chan
+    - include: pop-interface
+    - include: pop-map
+    - include: pop-struct
 
     - match: \bfunc\b
       scope: keyword.declaration.function.go
       set: pop-func-parameter-and-return-lists
 
-    - match: (?={{ident}})
-      set: pop-type-identifier
     - match: \btype\b
       scope: keyword.operator.type.go
 
-    - match: \[
-      scope: punctuation.section.brackets.begin.go
-      set: [pop-after-brackets, pop-brackets-inner]
-
-    - include: pop-before-nonblank
+    # Note: must be the last one as it pops unconditionally
+    - include: pop-type-identifier
 
   pop-after-type:
     - match: \|{{operator_break}}
