@@ -26,7 +26,7 @@ const [ x, [a, b], z] = value;
 const [ x = 42, y = [a, b, c] ] = value;
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //        ^ keyword.operator.assignment
-//          ^^ meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
+//          ^^ meta.binding.destructuring.sequence meta.number.integer.decimal constant.numeric.value
 //                ^ keyword.operator.assignment
 //                  ^^^^^^^^^ meta.sequence
 //                   ^ variable.other.readwrite - meta.binding.name
@@ -184,7 +184,7 @@ let f = ([ x = 42, y = [a, b, c] ]) => {};
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
-//             ^^ meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
+//             ^^ meta.binding.destructuring.sequence meta.number.integer.decimal constant.numeric.value
 //                   ^ keyword.operator.assignment
 //                     ^^^^^^^^^ meta.sequence
 //                      ^ variable.other.readwrite - meta.binding.name
@@ -223,3 +223,63 @@ let f = (a, ...rest) => {};
 let f = (new) => {};
 //      ^^^^^^^^^^^ meta.function
 //       ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function
+
+using x = 0;
+//^^^ keyword.declaration
+//    ^ meta.binding.name variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^ meta.number.integer.decimal constant.numeric.value
+//         ^ punctuation.terminator.statement
+
+using [ x ] = 0;
+//^^^ variable.other.readwrite
+//    ^^^^^ meta.brackets
+//    ^ punctuation.section.brackets.begin
+//      ^ variable.other.readwrite - meta.binding
+//        ^ punctuation.section.brackets.end
+//          ^ keyword.operator.assignment
+//            ^ meta.number.integer.decimal constant.numeric.value
+//             ^ punctuation.terminator.statement
+
+using
+//^^^ variable.other.readwrite
+x = 0;
+// <- variable.other.readwrite - meta.binding
+//^ keyword.operator.assignment
+//  ^ meta.number.integer.decimal constant.numeric.value
+//   ^ punctuation.terminator.statement
+
+
+await using x = 0;
+//^^^ keyword.declaration
+//    ^^^^^ keyword.declaration
+//          ^ meta.binding.name variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^ meta.number.integer.decimal constant.numeric.value
+//               ^ punctuation.terminator.statement
+
+await
+//^^^ keyword.declaration
+using x = 0;
+//^^^ keyword.declaration
+//    ^ meta.binding.name variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^ meta.number.integer.decimal constant.numeric.value
+//         ^ punctuation.terminator.statement
+
+await using;
+//^^^ keyword.control.flow.await
+//    ^^^^^ variable.other.readwrite
+//         ^ punctuation.terminator.statement
+
+await
+//^^^ keyword.control.flow.await
+using [ x ] = 0;
+//^^^ variable.other.readwrite
+
+await using in x;
+//^^^ keyword.control.flow.await
+//    ^^^^^ variable.other.readwrite
+//          ^^ keyword.operator
+//             ^ variable.other.readwrite
+//              ^ punctuation.terminator.statement

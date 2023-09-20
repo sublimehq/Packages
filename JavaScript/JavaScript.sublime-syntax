@@ -447,6 +447,7 @@ contexts:
 
   declaration:
     - include: variable-declaration
+    - include: using-declaration
     - include: class
     - include: regular-function
 
@@ -567,6 +568,32 @@ contexts:
         - expect-semicolon
         - variable-binding-list-top
         - variable-binding-top
+
+  using-declaration:
+    - include: plain-using-declaration
+
+    - match: (?=await{{identifier_break}})
+      branch_point: await-using-declaration
+      branch:
+        - await-using-declaration
+        - expression-statement
+      pop: 1
+
+  plain-using-declaration:
+    - match: using{{identifier_break}}(?={{nothing}}{{non_reserved_identifier}})
+      scope: keyword.declaration.js
+      set:
+        - expect-semicolon
+        - variable-binding-list-top
+        - variable-binding-top
+
+  await-using-declaration:
+    - match: await{{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - include: using-declaration
+        - match: (?=\S)
+          fail: await-using-declaration
 
   function-parameter-binding-pattern:
     - include: function-parameter-binding-name
@@ -849,29 +876,77 @@ contexts:
       pop: 1
 
   for-condition-contents:
-    # This could be either type of for loop.
+    - match: ''
+      branch_point: for-in-of
+      branch:
+        - for-in-of
+        - for-oldstyle
+      pop: 1
+
+  for-in-of:
+    - match: ''
+      set:
+        - expression
+        - for-in-of-word
+        - for-in-of-declaration
+
+  for-in-of-declaration:
     - match: (?:const|let|var){{identifier_break}}
       scope: keyword.declaration.js
+      set: for-in-of-binding
+
+    - match: |-
+        (?x:
+          (?! # [lookahead ≠ using of]
+            using{{identifier_break}}{{nothing}}
+            of{{identifier_break}}
+          )
+          (?= # await [no LineTerminator here] using [no LineTerminator here] ForBinding
+            (?:await{{identifier_break}}{{nothing}})?
+            using{{identifier_break}}{{nothing}}
+            {{non_reserved_identifier}}
+          )
+        )
+      scope: keyword.declaration.js
       set:
-        - - include: for-of-rest
-          - match: (?=\S)
-            set:
-              - for-oldstyle-rest
-              - variable-binding-list
-              - initializer
-        - variable-binding-pattern
+        - match: await{{identifier_break}}
+          scope: keyword.declaration.js
+        - match: using{{identifier_break}}
+          scope: keyword.declaration.js
+          set: for-in-of-binding
 
     - match: (?=\S)
       set:
-        - - include: for-of-rest
-          - match: (?=\S)
-            set: for-oldstyle-rest
-        - expression-end-no-in
+        - left-expression-end
         - expression-begin
 
-  for-of-rest:
+  for-in-of-binding:
+    - include: variable-binding-name
+    - include: variable-binding-array-destructuring
+    - include: variable-binding-object-destructuring
+    - match: (?=\S)
+      fail: for-in-of
+
+  for-in-of-word:
     - match: (?:of|in){{identifier_break}}
       scope: keyword.operator.word.js
+      pop: 1
+    - match: (?=\S)
+      fail: for-in-of
+
+  for-oldstyle:
+    - match: ''
+      set:
+        - for-oldstyle-rest
+        - for-oldstyle-first
+
+  for-oldstyle-first:
+    - match: (?:const|let|var){{identifier_break}}
+      scope: keyword.declaration.js
+      set:
+        - variable-binding-list-top
+        - variable-binding-top
+    - match: (?=\S)
       set: expression
 
   for-oldstyle-rest:
@@ -2398,7 +2473,7 @@ contexts:
       pop: 1
 
   support-property-ecma-symbol:
-    - match: (?:asyncIterator|hasInstance|isConcatSpreadable|iterator|match|replace|search|species|split|toPrimitive|toStringTag|unscopeables){{identifier_break}}
+    - match: (?:asyncDispose|asyncIterator|dispose|hasInstance|isConcatSpreadable|iterator|match|replace|search|species|split|toPrimitive|toStringTag|unscopeables){{identifier_break}}
       scope: support.constant.builtin.js
       pop: 1
     - match: (?:for|keyFor){{identifier_break}}
