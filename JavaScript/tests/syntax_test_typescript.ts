@@ -860,11 +860,11 @@ let x: [ first: any, rest: ...any ];
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 //     ^ punctuation.section.sequence.begin
-//       ^^^^^ meta.mapping.key
+//       ^^^^^ variable.other.member
 //            ^ punctuation.separator.type
 //              ^^^ support.type.any
 //                 ^ punctuation.separator.comma
-//                   ^^^^ meta.mapping.key
+//                   ^^^^ variable.other.member
 //                       ^ punctuation.separator.type
 //                         ^^^ keyword.operator.spread
 //                            ^^^ support.type.any
@@ -873,7 +873,7 @@ let x: [ first: any, rest: ...any ];
 
 let x: [
     typeof
-//  ^^^^^ meta.mapping.key
+//  ^^^^^ variable.other.member
     ?
 //  ^ storage.modifier.optional
     :
