@@ -854,6 +854,11 @@ contexts:
             - ts-type-expression-begin
 
   ts-type-expression-begin:
+    # Placeholder in LSP output. This should never occur in actual TypeScript code.
+    - match: '\.\.\. \d+ more \.\.\.'
+      scope: comment.other.ts
+      pop: true
+
     - match: keyof{{identifier_break}}
       scope: keyword.operator.type.js
     - match: typeof{{identifier_break}}
