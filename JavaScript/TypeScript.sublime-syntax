@@ -334,7 +334,7 @@ contexts:
     - include: immediately-pop
 
   ts-interface-name:
-    - match: '{{identifier_name}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.interface.js
       pop: 1
     - include: else-pop
@@ -348,6 +348,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: 1
         - include: ts-type-members
+    - include: else-pop
 
   ts-type-members:
     - match: '[,;]'
@@ -456,7 +457,7 @@ contexts:
     - include: immediately-pop
 
   ts-type-alias-name:
-    - match: '{{identifier_name}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.type.js
       pop: 1
     - include: else-pop
@@ -475,7 +476,7 @@ contexts:
       scope: keyword.declaration.js
       set:
         - ts-namespace-meta
-        - block
+        - ts-namespace-body
         - ts-namespace-name-end
         - ts-namespace-name
 
@@ -484,6 +485,10 @@ contexts:
     - meta_scope: meta.namespace.js
     - include: immediately-pop
 
+  ts-namespace-body:
+    - include: block
+    - include: else-pop
+
   ts-namespace-name-end:
     - match: \.
       scope: punctuation.accessor.dot.js
@@ -491,7 +496,7 @@ contexts:
     - include: else-pop
 
   ts-namespace-name:
-    - match: '{{identifier_name}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.namespace.js
       pop: 1
     - include: else-pop

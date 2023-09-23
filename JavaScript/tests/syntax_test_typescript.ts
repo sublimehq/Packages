@@ -553,6 +553,19 @@ import foo;
 //                ^^^ entity.name.namespace
 //                    ^^ meta.block punctuation.section.block
 
+// Don't break highlighting while typing
+interface
+class Foo {}
+// <- meta.class keyword.declaration.class
+
+type
+class Foo {}
+// <- meta.class keyword.declaration.class
+
+namespace
+class Foo {}
+// <- meta.class keyword.declaration.class
+
 /* Annotations */
 
 var x: any = 42;
