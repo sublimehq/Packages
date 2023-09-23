@@ -523,18 +523,12 @@ contexts:
       scope: punctuation.accessor.dot.d
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      push:
-        - match: '\)'
-          scope: punctuation.section.parens.end.d
-          pop: true
-        - include: tokens-in
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
     - match: '\['
       scope: punctuation.section.brackets.begin.d
-      push:
-        - match: '\]'
-          scope: punctuation.section.brackets.end.d
-          pop: true
-        - include: tokens-in
+    - match: '\]'
+      scope: punctuation.section.brackets.end.d
     - match: '\{'
       scope: punctuation.section.braces.begin.d
       push:

@@ -154,6 +154,52 @@ auto tokenString = q{
 };
 // <- meta.string.d string.unquoted.embedded.d punctuation.definition.string.end.d
 
+auto tokenString = q{ if (params.help.}~n~q{) return printHelpUsage(CLIUsage.}~n~q{Usage); };
+//                 ^^^^^^^^^^^^^^^^^^^^ meta.string.d
+//                                     ^^^ - meta.string
+//                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
+//                                                                            ^^^ - meta.string
+//                                                                               ^^^^^^^^^^^ meta.string.d
+//                 ^^ string.unquoted.embedded.d
+//                 ^ storage.modifier.string.d
+//                  ^ punctuation.definition.string.begin.d
+//                   ^^^^^^^^^^^^^^^^^ - string
+//                    ^^ keyword.d
+//                       ^ punctuation.section.parens.begin.d
+//                                    ^ string.unquoted.embedded.d punctuation.definition.string.end.d
+//                                        ^^ string.unquoted.embedded.d
+//                                        ^ storage.modifier.string.d
+//                                         ^ punctuation.definition.string.begin.d
+//                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - string
+//                                          ^ punctuation.section.parens.end.d
+//                                            ^^^^^^ keyword.d
+//                                                                 ^ punctuation.section.parens.begin.d
+//                                                                           ^ string.unquoted.embedded.d punctuation.definition.string.end.d
+//                                                                               ^^ string.unquoted.embedded.d
+//                                                                               ^ storage.modifier.string.d
+//                                                                                ^ punctuation.definition.string.begin.d
+//                                                                                 ^^^^^^^^ - string
+//                                                                                      ^ punctuation.section.parens.end.d
+//                                                                                       ^ punctuation.terminator.d
+//                                                                                         ^ string.unquoted.embedded.d punctuation.definition.string.end.d
+//                                                                                          ^ punctuation.terminator.d - string
+
+auto tokenString = q{ if { () /*}*/ else /*{*/ } };
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
+//                 ^^ string.unquoted.embedded.d
+//                 ^ storage.modifier.string.d
+//                  ^ punctuation.definition.string.begin.d
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - string
+//                       ^ punctuation.section.braces.begin.d
+//                         ^ punctuation.section.parens.begin.d
+//                          ^ punctuation.section.parens.end.d
+//                            ^^^^^ comment.block.d
+//                                  ^^^^ keyword.d
+//                                       ^^^^^ comment.block.d
+//                                             ^ punctuation.section.braces.end.d
+//                                               ^ string.unquoted.embedded.d punctuation.definition.string.end.d
+//                                                ^ punctuation.terminator.d
+
 auto c = 'a';
 //       ^^^ meta.string.d string.quoted.single.d
 c = 'Ó';
