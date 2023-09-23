@@ -562,8 +562,8 @@ contexts:
     - include: function-calls
     - include: comma-separators
     - include: groups
-    - match: \)
-      scope: invalid.illegal.trailing-paren.sql
+    - include: illegal-stray-brackets
+    - include: illegal-stray-parens
     - match: (?=;)
       pop: 1
 
@@ -1375,6 +1375,16 @@ contexts:
   statement-terminators:
     - match: ';'
       scope: punctuation.terminator.statement.sql
+
+###[ ILLEGALS ]################################################################
+
+  illegal-stray-brackets:
+    - match: \]
+      scope: invalid.illegal.stray.sql
+
+  illegal-stray-parens:
+    - match: \)
+      scope: invalid.illegal.stray.sql
 
 ###[ PROTOTYPES ]##############################################################
 
