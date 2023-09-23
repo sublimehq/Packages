@@ -657,8 +657,6 @@ contexts:
         2: keyword.other.ddl.sql
     - match: \b(?i:starts|ends)\b
       scope: keyword.other.ddl.sql
-    - match: \+
-      scope: keyword.operator.arithmetic.sql
     - match: \b(?i:at)\b
       scope: keyword.other.ddl.sql
     - match: \b(?i:every)\b
