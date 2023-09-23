@@ -1390,3 +1390,12 @@ type T<in out U> = V;
 //        ^^^ storage.modifier.variance
 //            ^ variable.parameter.generic
 //             ^ punctuation.definition.generic.end
+
+type T = Foo | ... 100 more ... | Bar;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-alias
+//       ^^^ support.class
+//           ^ keyword.operator.type.union
+//             ^^^^^^^^^^^^^^^^ comment.other.ts
+//                              ^ keyword.operator.type.union
+//                                ^^^ support.class
+//                                   ^ punctuation.terminator.statement.empty
