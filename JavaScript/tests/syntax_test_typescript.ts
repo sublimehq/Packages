@@ -866,6 +866,37 @@ let x: [ any , any ? , ... any [] ];
 //                             ^^ storage.modifier.array
 //                                ^ punctuation.section.sequence.end
 
+let x: [ first: any, rest: ...any ];
+//^ keyword.declaration
+//  ^ meta.binding.name variable.other.readwrite
+//   ^ punctuation.separator.type
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
+//     ^ punctuation.section.sequence.begin
+//       ^^^^^ variable.other.member
+//            ^ punctuation.separator.type
+//              ^^^ support.type.any
+//                 ^ punctuation.separator.comma
+//                   ^^^^ variable.other.member
+//                       ^ punctuation.separator.type
+//                         ^^^ keyword.operator.spread
+//                            ^^^ support.type.any
+//                                ^ punctuation.section.sequence.end
+//                                 ^ punctuation.terminator.statement
+
+let x: [
+    typeof
+//  ^^^^^ variable.other.member
+    ?
+//  ^ storage.modifier.optional
+    :
+//  ^ punctuation.separator.type
+    ...
+//  ^^^ keyword.operator.spread
+    any
+//  ^^^ support.type.any
+];
+
 let x: any & any;
 //     ^^^^^^^^^ meta.type
 //     ^^^ support.type.any
