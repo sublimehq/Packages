@@ -72,81 +72,7 @@ contexts:
         2: keyword.operator.assignment.rust
       push: closure
 
-    - match: '\b(fn)\s+(?={{identifier}})'
-      captures:
-        1: storage.type.function.rust
-      push: fn-definition
-
-    - match: '\bstruct\b'
-      scope: storage.type.struct.rust
-      push: struct-identifier
-
-    - match: '\bunion\b(?!\s*\()'
-      scope: storage.type.union.rust
-      push: union-identifier
-
-    - match: '\b(type)\s+({{identifier}})\b'
-      captures:
-        1: storage.type.type.rust
-        2: entity.name.type.rust
-      push:
-        - match: '=(?!=)'
-          scope: keyword.operator.assignment.rust
-          push: after-operator
-        - match: '(?=\S)'
-          pop: true
-
-    - match: '\b(trait)\s+({{identifier}})\b'
-      captures:
-        1: storage.type.trait.rust
-        2: entity.name.trait.rust
-      push:
-        - meta_scope: meta.trait.rust
-        - match: '(?=:)'
-          push: impl-where
-        - match: '(?=\bwhere\b)'
-          push: impl-where
-        - match: '(?=<)'
-          push: generic-angles
-        - include: statements-block
-
-    - match: '\bimpl\b'
-      scope: storage.type.impl.rust
-      push: impl-definition
-
-    - match: '\benum\b'
-      scope: storage.type.enum.rust
-      push: enum-identifier
-
-    - include: raw-pointer
-
-    # `const` in a function header has a different scope from `const` values.
-    - match: '\b(const)\s+(?=unsafe|extern|fn)'
-      captures:
-        1: storage.modifier.rust
-
-    - match: '\b(const)\s+({{identifier}})'
-      captures:
-        1: storage.type.rust
-        2: entity.name.constant.rust
-
-    - match: '\b(static)\s+(?:(mut)\s+)?({{identifier}})'
-      captures:
-        1: storage.type.rust
-        2: storage.modifier.rust
-        3: entity.name.constant.rust
-
-    - match: '\b(break|continue)\b(?:\s+(''{{non_raw_ident}}))?'
-      captures:
-        1: keyword.control.rust
-        2: entity.name.label.rust
-
-    - match: '\b(macro_rules!)\s+({{identifier}})\b'
-      captures:
-        1: support.function.rust
-        2: entity.name.macro.rust
-      push: macro-block
-
+    - include: declarations
     - include: comments
     - include: attributes
     - include: strings
@@ -245,6 +171,82 @@ contexts:
           scope: meta.path.rust
     - match: '\bpub\b'
       scope: storage.modifier.rust
+
+  declarations:
+    - match: '\b(fn)\s+(?={{identifier}})'
+      captures:
+        1: storage.type.function.rust
+      push: fn-definition
+
+    - match: '\bstruct\b'
+      scope: storage.type.struct.rust
+      push: struct-identifier
+
+    - match: '\bunion\b(?!\s*\()'
+      scope: storage.type.union.rust
+      push: union-identifier
+
+    - match: '\b(type)\s+({{identifier}})\b'
+      captures:
+        1: storage.type.type.rust
+        2: entity.name.type.rust
+      push:
+        - match: '=(?!=)'
+          scope: keyword.operator.assignment.rust
+          push: after-operator
+        - match: '(?=\S)'
+          pop: true
+
+    - match: '\b(trait)\s+({{identifier}})\b'
+      captures:
+        1: storage.type.trait.rust
+        2: entity.name.trait.rust
+      push:
+        - meta_scope: meta.trait.rust
+        - match: '(?=:)'
+          push: impl-where
+        - match: '(?=\bwhere\b)'
+          push: impl-where
+        - match: '(?=<)'
+          push: generic-angles
+        - include: statements-block
+
+    - match: '\bimpl\b'
+      scope: storage.type.impl.rust
+      push: impl-definition
+
+    - match: '\benum\b'
+      scope: storage.type.enum.rust
+      push: enum-identifier
+
+    - include: raw-pointer
+
+    # `const` in a function header has a different scope from `const` values.
+    - match: '\b(const)\s+(?=unsafe|extern|fn)'
+      captures:
+        1: storage.modifier.rust
+
+    - match: '\b(const)\s+({{identifier}})'
+      captures:
+        1: storage.type.rust
+        2: entity.name.constant.rust
+
+    - match: '\b(static)\s+(?:(mut)\s+)?({{identifier}})'
+      captures:
+        1: storage.type.rust
+        2: storage.modifier.rust
+        3: entity.name.constant.rust
+
+    - match: '\b(break|continue)\b(?:\s+(''{{non_raw_ident}}))?'
+      captures:
+        1: keyword.control.rust
+        2: entity.name.label.rust
+
+    - match: '\b(macro_rules!)\s+({{identifier}})\b'
+      captures:
+        1: support.function.rust
+        2: entity.name.macro.rust
+      push: macro-block
 
   attributes:
     - match: '(#)\s*(!?)\s*(\[)'
