@@ -65,35 +65,79 @@ contexts:
   #############################################################################
 
   comments:
-    - match: ^/\* =(\s*.*?)\s*= \*/$\n?
-      scope: comment.block.c
+    - include: block-comments
+    - include: line-comments
+
+  block-comments:
+    - match: ^(/\*) =\s*(.*?)\s*= (\*/)$\n?
+      scope: comment.block.banner.c
       captures:
-        1: meta.toc-list.banner.block.c
+        1: punctuation.definition.comment.begin.c
+        2: meta.toc-list.banner.block.c
+        3: punctuation.definition.comment.end.c
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.c punctuation.definition.comment.c
+    # documentation block comments
+    - match: (?:/\*!|/\*{2,})
+      scope: punctuation.definition.comment.begin.c
+      push: block-comment-documentation-body
+    # normal block comments
     - match: /\*
-      scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.block.c
-        - match: \*/
-          scope: punctuation.definition.comment.c
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.c
-    - match: \*/(?!\*)
+      scope: punctuation.definition.comment.begin.c
+      push: block-comment-body
+    # stray block comment end
+    - match: \*+/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
-    - match: ^// =(\s*.*?)\s*=\s*$\n?
+
+  block-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.c
+    - match: \*+/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+    - match: ^\s*(\*)(?!\**/)
+      captures:
+        1: punctuation.definition.comment.c
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.c
+    - match: \*/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+
+  line-comments:
+    - match: ^(//) =\s*(.*?)\s*=\s*$\n?
       scope: comment.line.banner.c
       captures:
-        1: meta.toc-list.banner.line.c
-    - match: //
+        1: punctuation.definition.comment.c
+        2: meta.toc-list.banner.line.c
+    - match: //(?:!|/(?!/))
       scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.line.double-slash.c
-        - match: '(\\)$\n'
-          captures:
-            1: punctuation.separator.continuation.c
-        - match: \n
-          pop: true
+      push: line-comment-documentation-body
+    - match: //+
+      scope: punctuation.definition.comment.c
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.c
+    - include: line-comment-end
+
+  line-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.documentation.c
+    - include: line-comment-end
+
+  line-comment-end:
+    - match: (?:(//+)\s*)?$\n?
+      captures:
+        1: punctuation.definition.comment.c
+      pop: 1
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.c
 
   strings:
     - match: '(L|u8|u|U)?(")'
