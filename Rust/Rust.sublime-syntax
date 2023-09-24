@@ -291,10 +291,14 @@ contexts:
     - match: \)
       scope: meta.function-call.rust meta.group.rust punctuation.section.group.end.rust
       pop: true
+    - match: ({{identifier}})\s*(::)\s*
+      scope: meta.path.rust
+      captures:
+        2: punctuation.accessor.rust
     - match: '({{identifier}})\s*(\()'
       scope: meta.function-call.rust
       captures:
-        1: variable.function.rust
+        1: meta.path.rust variable.function.rust
         2: meta.group.rust punctuation.section.group.begin.rust
       push:
         - meta_content_scope: meta.function-call.rust
