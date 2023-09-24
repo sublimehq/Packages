@@ -163,7 +163,7 @@ let x = |a: i32, b: Foo, c: Option<i32>, d: extern "C" fn (), e: *const u8| {};
 //          ^^^ storage.type
 //               ^ variable.parameter
 //                       ^ variable.parameter
-//                          ^^^^^^ meta.generic support.type
+//                          ^^^^^^ support.type
 //                                 ^^^ meta.generic storage.type
 //                                       ^ variable.parameter
 //                                          ^^^^^^ keyword.other

@@ -14,7 +14,7 @@ type FnPointer = fn(i32) -> i32;
 type GenFnPointer = Bar<fn(i32) -> i32>;
 // <- storage.type.type
 //   ^^^^^^^^^^^^ entity.name.type
-//                  ^^^^^^^^^^^^^^^^^^^ meta.generic
+//                     ^^^^^^^^^^^^^^^^ meta.generic
 //                      ^^ storage.type.function
 //                        ^^^^^ meta.group
 //                         ^^^ storage.type
@@ -25,7 +25,7 @@ type GenFnPointer = Bar<fn(i32) -> i32>;
 type GenFnPointer2 = Bar<extern "C" fn()>;
 // <- storage.type.type
 //   ^^^^^^^^^^^^^ entity.name.type
-//                   ^^^^^^^^^^^^^^^^^^^^ meta.generic
+//                      ^^^^^^^^^^^^^^^^^ meta.generic
 //                       ^^^^^^ keyword.other
 //                              ^^^ string.quoted.double
 //                                  ^^ storage.type.function
@@ -76,9 +76,10 @@ let mut mutable = 12;
 type Pair<'a> = (i32, &'a str);
 // <- storage.type.type
 //   ^^^^ entity.name.type
-//       ^ keyword.operator
+//       ^^^^ meta.generic
+//       ^ punctuation.definition.generic.begin
 //        ^^ storage.modifier.lifetime
-//          ^ keyword.operator
+//          ^ punctuation.definition.generic.end
 //            ^ keyword.operator.assignment
 //              ^^^^^^^^^^^^^^ meta.group
 //              ^ punctuation.section.group.begin
@@ -88,10 +89,11 @@ type Pair<'a> = (i32, &'a str);
 //                        ^^^ storage.type
 //                           ^ punctuation.section.group.end
 //                            ^ punctuation.terminator
+
 let p: Pair<'static> = (10, "ten");
 // <- storage.type
 //   ^ punctuation.separator
-//     ^^^^^^^^^^^^^ meta.generic
+//         ^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
 //          ^^^^^^^ storage.modifier.lifetime
 //                 ^ punctuation.definition.generic.end
@@ -102,6 +104,7 @@ let p: Pair<'static> = (10, "ten");
 //                          ^^^^^ string.quoted.double
 //                               ^ punctuation.section.group.end
 //                                ^ punctuation.terminator
+
 fn tuple(x: (u32, u32)) {}
 //          ^^^^^^^^^^ meta.group
 //          ^ meta.group punctuation.section.group.begin
@@ -135,7 +138,7 @@ let slice: &[i32];
 // Pointer types.
 let p: *const Foo;
 //     ^^^^^^ storage.modifier
-//            ^^^ storage.type.source
+//            ^^^ storage.type
 let p: *mut u8;
 //     ^^^^ storage.modifier
 //          ^^ storage.type
@@ -151,25 +154,25 @@ let p_imm: *const u32 = &i as *const u32;
 //                                   ^^^ storage.type
 
 type Snail = Vec<SnailNum>;
-//           ^^^^^^^^^^^^^ meta.generic.rust
 //           ^^^ support.type.rust
+//              ^^^^^^^^^^ meta.generic.rust
 //              ^ punctuation.definition.generic.begin.rust
 //               ^^^^^^^^ storage.type.rust
 //                       ^ punctuation.definition.generic.end.rust
 
 type ExampleRawPointer = HashMap<*const i32, Option<i32>, BuildHasherDefault<FnvHasher>>;
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
 //                               ^^^^^^ storage.modifier
 //                                      ^^^ meta.generic storage.type
 //                                         ^ punctuation.separator.rust
-//                                           ^^^^^^^^^^^ meta.generic.rust meta.generic.rust
 //                                           ^^^^^^ support.type.rust
+//                                                 ^^^^^ meta.generic.rust meta.generic.rust
 //                                                 ^ punctuation.definition.generic.begin.rust
 //                                                  ^^^ storage.type.rust
 //                                                     ^ punctuation.definition.generic.end.rust
 //                                                      ^ punctuation.separator.rust
-//                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust meta.generic.rust
 //                                                        ^^^^^^^^^^^^^^^^^^ storage.type
+//                                                                          ^^^^^^^^^^^ meta.generic.rust meta.generic.rust
 //                                                                          ^ punctuation.definition.generic.begin.rust
 //                                                                           ^^^^^^^^^ storage.type.rust
 //                                                                                    ^^ punctuation.definition.generic.end.rust
@@ -189,37 +192,44 @@ fn from_str() -> Result<Foo, !> {}
 //                           ^ storage.type.never.rust
 
 // Qualified path with type.
-// Note: This isn't actually a generics, but that gets reused for this purpose.
-type Item = <I as Iterator>::Item;
+// Note: This isn't actually a generic, but that gets reused for this purpose.
+type Item = <I as Iterator> :: Item;
 //          ^^^^^^^^^^^^^^^ meta.generic
+//          ^ punctuation.definition.generic.begin
+//           ^ storage.type
 //             ^^ keyword.operator
 //                ^^^^^^^^ support.type
-//                         ^^ punctuation.accessor
-//                           ^^^^ storage.type.source
-
+//                        ^ punctuation.definition.generic.end
+//                          ^^^^^^^ meta.path
+//                          ^^ punctuation.accessor
+//                             ^^^^ storage.type
+//                                 ^ punctuation.terminator
+//
 type Item = module::Temp;
 //          ^^^^^^^^ meta.path.rust
 //                ^^ punctuation.accessor.rust
-//                  ^^^^ storage.type.source.rust
+//                  ^^^^ storage.type.rust
 type Item = Iterator::Item;
 //          ^^^^^^^^^^ meta.path.rust
 //                  ^^ punctuation.accessor.rust
-//                    ^^^^ storage.type.source.rust
+//                    ^^^^ storage.type.rust
 
 impl Iterator for Struct {
     type Temp = i32;
     type Item = Self::Temp;
-//              ^^^^^^ meta.path.rust
+//              ^^^^^^^^^^ meta.path.rust
 //              ^^^^ storage.type.rust
 //                  ^^ punctuation.accessor.rust
-//                    ^^^^ storage.type.source.rust
+//                    ^^^^ storage.type.rust
 
     fn next(&mut self) -> Option<Self::Item>;
-//                        ^^^^^^^^^^^^^^^^^^ meta.impl.rust meta.block.rust meta.function.rust meta.function.return-type.rust meta.generic.rust
+//                        ^^^^^^^^^^^^^^^^^^ meta.function.rust meta.function.return-type.rust
 //                        ^^^^^^ support.type.rust
+//                              ^^^^^^^^^^^^ meta.generic
 //                              ^ punctuation.definition.generic.begin.rust
-//                               ^^^^^^ meta.path.rust - storage.type.rust storage.type.rust
+//                               ^^^^^^^^^^ meta.path.rust - storage.type.rust storage.type.rust
 //                               ^^^^ storage.type.rust
 //                                   ^^ punctuation.accessor.rust - storage.type.rust
 //                                     ^^^^
+//                                         ^ punctuation.definition.generic.end.rust
 }

@@ -1,0 +1,58 @@
+// SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
+
+let line = Cow::from(x);
+//         ^^^^^^^^^ meta.path
+//         ^^^ storage.type
+//            ^^ punctuation.accessor
+//              ^^^^ variable.function
+//                  ^^^ meta.group
+//                  ^ punctuation.section.group.begin
+
+
+buffer.rope.char();
+//^^^^^^^^^^^^^^ meta.path
+//    ^ punctuation.accessor.dot
+//         ^ punctuation.accessor.dot
+//          ^^^^ variable.function
+//              ^^ meta.group
+//                ^ punctuation.terminator
+
+env::current_dir()
+//^^^^^^^^^^^^^^ meta.path
+// ^^ punctuation.accessor
+//   ^^^^^^^^^^^ variable.function
+
+let file_bytes = fs::read(&path_buf)?;
+//               ^^^^^^^^ meta.path
+//                 ^^ punctuation.accessor
+//                   ^^^^ variable.function
+//                       ^^^^^^^^^^^ meta.group
+//                                  ^ keyword.operator
+//                                   ^ punctuation.terminator
+
+u8::try_from(), f64::from()
+// <- meta.path storage.type
+ // <- meta.path storage.type
+//^^^^^^^^^^ meta.path
+//  ^^^^^^^^ variable.function
+//          ^^^^ -meta.path
+//            ^ punctuation.separator
+//              ^^^^^^^^^ meta.path
+//              ^^^ storage.type
+//                 ^^ punctuation.accessor
+//                   ^^^^ variable.function
+
+Vec::with_capacity()
+//^^^^^^^^^^^^^^^^ meta.path
+//^ support.type
+// ^^ punctuation.accessor
+
+// The following should eventually recognize `parse` as the function name
+input.parse::<SnailNum>()
+//           ^^^^^^^^^^ meta.generic.rust
+//           ^ punctuation.definition.generic.begin.rust
+//            ^^^^^^^^ storage.type.rust
+//                    ^ punctuation.definition.generic.end.rust
+//                     ^^ meta.group.rust
+//                     ^ punctuation.section.group.begin.rust
+//                      ^ punctuation.section.group.end.rust

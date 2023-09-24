@@ -213,7 +213,10 @@ impl<T> From<AsRef<T>> for CliError<T> { }
 //                                 ^^^ meta.generic
 
 fn legal_dates_iter() -> Box<Iterator<Item = Date<UTC>>> {
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.return-type meta.generic
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.return-type
+//                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+//                                   ^^^^^^^^^^^^^^^^^^ meta.generic meta.generic
+//                                               ^^^^^ meta.generic meta.generic meta.generic
 //                                         ^ keyword.operator
     unimplemented!()
 }
@@ -229,7 +232,7 @@ fn numbers() -> impl Iterator<Item = u64> {
 
 fn collect_vec() {
     let _: Vec<(usize, usize)> = (0..10).enumerate().collect::<Vec<_>>();
-//         ^^^^^^^^^^^^^^^^^^^ meta.generic
+//            ^^^^^^^^^^^^^^^^ meta.generic
 //         ^^^ support.type
 //             ^ punctuation.section.group.begin
 //              ^^^^^ storage.type
@@ -248,7 +251,7 @@ fn collect_vec() {
 //                                                          ^^ punctuation.accessor
 //                                                             ^^^ support.type
 //                                                            ^^^^^^^^ meta.generic
-//                                                             ^^^^^^ meta.generic meta.generic
+//                                                                ^^^ meta.generic meta.generic
 //                                                                 ^ storage.type.inference.rust
     let _: Vec<(usize, usize)> = vec!();
 //                               ^^^^ support.macro

@@ -153,12 +153,3 @@ fn sum((x, y): (i32, i32)) -> i32 {
 //                   ^^^ storage.type
 //                      ^ punctuation.section.group.end
 }
-
-input.parse::<SnailNum>()
-//           ^^^^^^^^^^ meta.generic.rust
-//           ^ punctuation.definition.generic.begin.rust
-//            ^^^^^^^^ storage.type.rust
-//                    ^ punctuation.definition.generic.end.rust
-//                     ^^ meta.group.rust
-//                     ^ punctuation.section.group.begin.rust
-//                      ^ punctuation.section.group.end.rust

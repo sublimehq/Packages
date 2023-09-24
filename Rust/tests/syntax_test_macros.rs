@@ -209,7 +209,7 @@ macro_rules! forward_ref_binop [
 //                        ^ keyword.operator
 //                         ^^ storage.modifier.lifetime
 //                            ^^ variable.other
-//                                ^^^ keyword.other
+//                                ^^^ entity.name.impl
 //                                    ^ keyword.operator
 //                                     ^^ storage.modifier.lifetime
 //                                        ^^ variable.other
@@ -379,7 +379,6 @@ macro_rules! designators {
 //                                              ^^^ string.quoted.single
 //                                                  ^ keyword.operator
 //                                                    ^^^^^^ storage.type.struct
-//                                                           ^^^^ keyword.other
 //                                                               ^ punctuation.section.block.end
 //                                                                 ^^ meta.macro keyword.operator
 //                                                                    ^^ meta.macro meta.macro.transcribers
