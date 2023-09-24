@@ -144,4 +144,5 @@ unsafe impl<#[may_dangle] T: ?Sized> Drop for Box<T> { }
 #[rustfmt::skip]
 //^^^^^^^^^^^^^^ meta.annotation
 //^^^^^^^^^^^^^ meta.path
+//       ^^ punctuation.accessor
 //         ^^^^ variable.annotation
