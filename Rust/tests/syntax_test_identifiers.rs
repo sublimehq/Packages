@@ -47,6 +47,13 @@ Vec::with_capacity()
 //^ support.type
 // ^^ punctuation.accessor
 
+for x in a.union(&b) {
+    //   ^^^^^^^ meta.path
+    //    ^ punctuation.accessor.dot
+    //     ^^^^^ variable.function
+    println!("{}", x);
+}
+
 // The following should eventually recognize `parse` as the function name
 input.parse::<SnailNum>()
 //           ^^^^^^^^^^ meta.generic.rust
