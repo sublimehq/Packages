@@ -1,6 +1,51 @@
 -- SYNTAX TEST "Packages/SQL/MySQL.sublime-syntax"
 
 -- ----------------------------------------------------------------------------
+-- Constants
+-- https://mariadb.com/kb/en/reserved-words
+-- ----------------------------------------------------------------------------
+
+    null none true false
+-- ^ - constant
+--  ^^^^ constant.language.null.sql
+--      ^ - constant
+--       ^^^^ constant.language.null.sql
+--           ^ - constant
+--            ^^^^ constant.language.boolean.sql
+--                ^ - constant
+--                 ^^^^^ constant.language.boolean.sql
+--                      ^ - constant
+
+    all default maxvalue
+-- ^ - constant
+--  ^^^ constant.language.sql
+--     ^ - constant
+--      ^^^^^^^ constant.language.sql
+--             ^ - constant
+--              ^^^^^^^^ constant.language.sql
+--                      ^ - constant
+
+    inplace copy nocopy instant exclusive shared
+-- ^ - constant
+--  ^^^^^^^ constant.language.sql
+--         ^ - constant
+--          ^^^^ constant.language.sql
+--              ^ - constant
+--               ^^^^^^ constant.language.sql
+--                     ^ - constant
+--                      ^^^^^^^ constant.language.sql
+--                             ^ - constant
+--                              ^^^^^^^^^ constant.language.sql
+--                                       ^ - constant
+--                                        ^^^^^^ constant.language.sql
+--                                              ^ - constant
+
+    system versioning
+-- ^ - constant
+--  ^^^^^^^^^^^^^^^^^ constant.language.sql
+--                   ^ - constant
+
+-- ----------------------------------------------------------------------------
 -- Data Types
 -- https://mariadb.com/kb/en/data-types
 -- ----------------------------------------------------------------------------
@@ -797,7 +842,7 @@ CREATE INDEX index_name
     USING BTREE
 -- ^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
 --  ^^^^^ keyword.other.ddl.sql
---        ^^^^^ constant.language.index-type.sql
+--        ^^^^^ constant.language.sql
     ON tbl_name (col1(100) ASC, col2 DESC)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
 --  ^^ keyword.other.sql
@@ -837,11 +882,11 @@ CREATE INDEX index_name
     ALGORITHM INPLACE
 -- ^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
 --  ^^^^^^^^^ keyword.other.ddl.sql
---            ^^^^^^^ constant.language.algorithm.sql
+--            ^^^^^^^ constant.language.sql
     LOCK SHARED
 -- ^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
 --  ^^^^ keyword.other.ddl.sql
---       ^^^^^^ constant.language.lock-option.sql
+--       ^^^^^^ constant.language.sql
 
 
 -- ----------------------------------------------------------------------------
@@ -1356,7 +1401,8 @@ CREATE TABLE foo (col1, col2)
 --                                     ^ punctuation.section.sequence.end.sql
     WITH SYSTEM VERSIONING
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
---  ^^^^^^^^^^^^^^^^^^^^^^ variable.parameter.sql
+--  ^^^^ keyword.other.sql
+--       ^^^^^^^^^^^^^^^^^ constant.language.sql
 ;
 -- <- punctuation.terminator.statement.sql
 

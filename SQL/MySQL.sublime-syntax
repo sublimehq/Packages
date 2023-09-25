@@ -39,8 +39,7 @@ variables:
     | delay_key_write | encrypted | encryption_key_id | ietf_quotes | index\s+directory
     | insert_method | key_block_size | max_rows | min_rows | pack_keys | page_checksum
     | page_compressed | page_compression_level | password | row_format | sequence
-    | stats_auto_recalc | stats_persistent | stats_sample_pages | transactional | union
-    | with\s+system\s+versioning )
+    | stats_auto_recalc | stats_persistent | stats_sample_pages | transactional )
   table_row_formats: |-
     (?xi: dynamic | fixed | compressed | redundant | compact | page )
 
@@ -77,6 +76,12 @@ variables:
     (?xi: year(?: _month )? | day(?: _hour | _minute | _second | _microsecond )?
     | hour(?: _minute | _second  | _microsecond )? | minute(?: _second | _microsecond )?
     | second(?: _microsecond )? | quarter | month | week )
+
+  builtin_constants: |-
+    (?xi: all | default | maxvalue
+    # index algorithm/lock values
+    | inplace | copy | nocopy | instant | exclusive | shared
+    | system\s+versioning )
 
   builtin_user_functions: |-
     (?xi: (?: current | session | system )_(?: role | user ))
@@ -707,7 +712,6 @@ contexts:
     - match: \b(?i:every)\b
       scope: keyword.other.ddl.sql
     - include: intervals
-    - include: time-units
     - include: expressions
 
 ###[ FUNCTION EXPRESSIONS ]####################################################
@@ -737,14 +741,6 @@ contexts:
   index-algorithm-args:
     - match: \b(?i:algorithm)\b
       scope: keyword.other.ddl.sql
-      push: index-algorithm-value
-
-  index-algorithm-value:
-    - match: \b(?i:inplace|copy|nocopy|instant)\b
-      scope: constant.language.algorithm.sql
-      pop: 1
-    - include: default-constant
-    - include: else-pop
 
   index-clustering-args:
     - match: \b(?i:clustering)\b
@@ -753,15 +749,6 @@ contexts:
   index-lock-args:
     - match: \b(?i:lock)\b
       scope: keyword.other.ddl.sql
-      push: index-lock-value
-
-  index-lock-value:
-    - match: \b(?i:shared|exclusive)\b
-      scope: constant.language.lock-option.sql
-      pop: 1
-    - include: default-constant
-    - include: none-constant
-    - include: else-pop
 
   index-parser-args:
     - match: \b(?i:with\s+parser)\b
@@ -775,21 +762,13 @@ contexts:
 
   index-type-value:
     - match: \b(?i:btree|hash|rtree)\b
-      scope: constant.language.index-type.sql
+      scope: constant.language.sql
       pop: 1
     - include: else-pop
 
   index-wait-args:
-    - match: \b(?i:nowait)\b
+    - match: \b(?i:nowait|wait)\b
       scope: keyword.other.ddl.sql
-    - match: \b(?i:wait)\b
-      scope: keyword.other.ddl.sql
-      push: index-wait-value
-
-  index-wait-value:
-    - include: numbers
-    - include: time-units
-    - include: else-pop
 
   index-other-args:
     - match: \b(?i:ignored)\b
@@ -823,7 +802,6 @@ contexts:
       scope: variable.parameter.sql
     - include: partition-lists
     - include: comment-keywords
-    - include: maxvalue-constants
     - include: tablespaces
     - include: expressions
 
@@ -1286,7 +1264,7 @@ contexts:
 ###[ LITERALS ]################################################################
 
   literals-and-variables:
-    - meta_prepend: true
+    - meta_append: true
     - include: time-units
 
   comment-keywords:
@@ -1295,24 +1273,12 @@ contexts:
 
   constants:
     - meta_append: true
-    - include: default-constants
+    - include: bool-constants
     - include: none-constants
-    - include: yesno-constants
-
-  default-constants:
-    - match: \b(?i:default)\b
-      scope: constant.language.default.sql
-
-  default-constant:
-    - match: \b(?i:default)\b
-      scope: constant.language.default.sql
-      pop: 1
-
-  maxvalue-constants:
-    - match: \b(?i:maxvalue)\b
+    - match: \b{{builtin_constants}}\b
       scope: constant.language.sql
 
-  yesno-constants:
+  bool-constants:
     - match: \b(?i:yes|no)\b
       scope: constant.language.boolean.sql
 
