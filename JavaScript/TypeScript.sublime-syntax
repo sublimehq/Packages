@@ -402,30 +402,32 @@ contexts:
           - match: \]
             scope: punctuation.section.brackets.end.js
             pop: 1
-        - - meta_include_prototype: false
-          - match: ''
-            pop: 1
-            branch_point: ts-mapped-or-indexed-member
-            branch:
-              - ts-mapped-or-indexed-member
-              - ts-type-expression
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+        - ts-mapped-or-indexed-member
 
     - include: else-pop
 
   ts-mapped-or-indexed-member:
-    - match: '{{identifier_name}}'
-      scope: variable.other.readwrite.js
-      set:
-        - match: in{{identifier_break}}
-          scope: keyword.operator.type.js
-          set: ts-type-expression
-        - match: ':'
-          scope: punctuation.separator.type.js
-          set: ts-type-expression
-        - match: (?=\S)
-          fail: ts-mapped-or-indexed-member
-    - match: (?=\S)
-      fail: ts-mapped-or-indexed-member
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+      branch_point: ts-mapped-or-indexed-member
+      branch:
+        - - match: '{{identifier_name}}'
+            scope: variable.other.readwrite.js
+            set:
+              - match: in{{identifier_break}}
+                scope: keyword.operator.type.js
+                pop: 1
+              - match: ':'
+                scope: punctuation.separator.type.js
+                pop: 1
+              - match: (?=\S)
+                fail: ts-mapped-or-indexed-member
+          - include: else-pop
+        - immediately-pop
 
   ts-enum:
     - match: enum{{identifier_break}}
@@ -779,14 +781,6 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.type.js
     - include: immediately-pop
-
-  ts-type-expression:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - ts-type-expression-end
-        - ts-type-expression-end-no-line-terminator
-        - ts-type-expression-begin
 
   ts-type-expression-end:
     - match: (?=\|\||&&)
