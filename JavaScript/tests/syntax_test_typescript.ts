@@ -135,10 +135,37 @@ import foo;
 //                                    ^ punctuation.terminator.statement
 
     export type T = any;
-//  ^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^ meta.type-alias
-//                     ^ punctuation.terminator.statement.empty - meta.export
+//                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    export type { T } from 'somewhere';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ keyword.control.import-export
+//              ^^^^^ meta.block
+//              ^ punctuation.section.block.begin
+//                ^ variable.other.readwrite
+//                  ^ punctuation.section.block.end
+//                    ^^^^ keyword.control.import-export
+//                         ^^^^^^^^^^^ meta.string string.quoted.single
+//                         ^ punctuation.definition.string.begin
+//                                   ^ punctuation.definition.string.end
+//                                    ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    export type * as T from 'somewhere';
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ keyword.control.import-export
+//              ^ constant.other
+//                ^^ keyword.control.import-export
+//                   ^ variable.other.readwrite
+//                     ^^^^ keyword.control.import-export
+//                          ^^^^^^^^^^^ meta.string string.quoted.single
+//                          ^ punctuation.definition.string.begin
+//                                    ^ punctuation.definition.string.end
+//                                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
 
     export interface Foo {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export

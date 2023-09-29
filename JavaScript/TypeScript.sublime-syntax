@@ -69,13 +69,20 @@ contexts:
     - include: comments
     - include: else-pop
 
-  export-extended:
+  export-body:
     - meta_prepend: true
+
     - match: as{{identifier_break}}
       scope: storage.modifier.js
       set:
         - expect-semicolon
         - ts-export-as-namespace
+
+    - match: (?=type{{identifier_break}})
+      branch_point: ts-export-type-from
+      branch:
+        - ts-export-type-from
+        - ts-type-declaration
 
   ts-export-as-namespace:
     - match: namespace{{identifier_break}}
@@ -84,6 +91,18 @@ contexts:
         - ts-namespace-name-end
         - ts-namespace-name
     - include: else-pop
+
+  ts-export-type-from:
+    - match: type{{identifier_break}}
+      scope: keyword.control.import-export.js
+      set:
+        - match: (?=\{|\*)
+          set:
+            - expect-semicolon
+            - import-export-from
+            - export-item
+        - match: (?=\S)
+          fail: ts-export-type-from
 
   parenthesized-expression:
     - match: \(

@@ -257,13 +257,6 @@ contexts:
       fail: import-statement
     - include: else-pop
 
-  export-statement:
-    - match: export{{identifier_break}}
-      scope: keyword.control.import-export.js
-      set:
-        - export-meta
-        - export-extended
-
   import-meta:
     - meta_include_prototype: false
     - meta_scope: meta.import.js
@@ -272,15 +265,17 @@ contexts:
   import-export-alias:
     - match: as{{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - match: default{{identifier_break}}
-          scope: keyword.control.import-export.js
-          pop: 1
-        - match: '{{identifier_name}}'
-          scope: variable.other.readwrite.js
-          pop: 1
-        - include: literal-string
-        - include: else-pop
+      set: import-export-name
+    - include: else-pop
+
+  import-export-name:
+    - match: default{{identifier_break}}
+      scope: keyword.control.import-export.js
+      pop: 1
+    - match: '{{identifier_name}}'
+      scope: variable.other.readwrite.js
+      pop: 1
+    - include: literal-string
     - include: else-pop
 
   import-export-from:
@@ -340,12 +335,19 @@ contexts:
         - include: else-pop
     - include: else-pop
 
+  export-statement:
+    - match: export{{identifier_break}}
+      scope: keyword.control.import-export.js
+      set:
+        - export-meta
+        - export-body
+
   export-meta:
     - meta_include_prototype: false
     - meta_scope: meta.export.js
     - include: immediately-pop
 
-  export-extended:
+  export-body:
     - include: declaration
 
     - match: 'default{{identifier_break}}'
@@ -359,28 +361,15 @@ contexts:
       set:
         - expect-semicolon
         - import-export-from
-        - export-list
-        - import-export-alias
         - export-item
-
-  export-list:
-    - match: ','
-      scope: punctuation.separator.comma.js
-      push:
-        - import-export-alias
-        - export-item
-    - include: else-pop
 
   export-item:
     - match: '\{'
       scope: punctuation.section.block.begin.js
       set: export-brace
-    - match: '{{non_reserved_identifier}}'
-      scope: variable.other.readwrite.js
-      pop: 1
     - match: '\*'
       scope: constant.other.js
-      pop: 1
+      set: import-export-alias
     - include: else-pop
 
   export-brace:
@@ -389,12 +378,10 @@ contexts:
     - match: '\}'
       scope: punctuation.section.block.end.js
       pop: 1
-    - match: '{{identifier_name}}'
-      scope: variable.other.readwrite.js
-      push: import-export-alias
-    - match: '\*'
-      scope: constant.other.js
-      push: import-export-alias
+    - match: (?={{identifier_start}}|'|")
+      push:
+        - import-export-alias
+        - import-export-name
     - include: else-pop
 
   statements:
