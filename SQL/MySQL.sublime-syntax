@@ -209,7 +209,7 @@ contexts:
   create-table-args:
     # https://mariadb.com/kb/en/create-table
     - meta_prepend: true
-    - include: partition-lists
+    - include: partition-declaration-lists
     - include: partition-options
     - include: table-options
 
@@ -322,6 +322,8 @@ contexts:
     - include: alter-event
     - include: alter-user
 
+###[ DDL ALTER COLUMNS STATEMENTS ]############################################
+
   alter-columns:
     - meta_prepend: true
     - match: \b(?i:(change)\s+(column))\b
@@ -332,6 +334,8 @@ contexts:
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
+
+###[ DDL ALTER DATABASE STATEMENTS ]###########################################
 
   alter-database:
     # https://mariadb.com/kb/en/alter-database
@@ -355,6 +359,8 @@ contexts:
       pop: 1
     - include: create-database-args
 
+###[ DDL ALTER EVENT STATEMENTS ]##############################################
+
   alter-event:
     # https://mariadb.com/kb/en/alter-event
     - match: \b(?i:event)\b
@@ -372,6 +378,200 @@ contexts:
     - meta_scope: meta.event.sql
     - include: event-options
     - include: pop-on-top-level-reserved-word
+
+###[ DDL ALTER TABLE STATEMENTS ]##############################################
+
+  alter-table:
+    - meta_prepend: true
+    - match: \b(?i:online|ignore)\b
+      scope: keyword.other.ddl.sql
+
+  alter-table-args:
+    - match: \b(?i:add)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-add-target
+    - match: \b(?i:change)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-change-target
+    - match: \b(?i:drop)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-drop-target
+    - match: \b(?i:modify)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-modify-target
+    - match: \b(?i:rename)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-rename-target
+    # drop args
+    - match: \b(?i:cascade|restrict)\b
+      scope: keyword.other.ddl.sql
+    # partition commands
+    - match: \b(?i:check)\b
+      scope: keyword.other.sql
+    # table options
+    - include: index-wait-args
+    - include: partition-options
+    - include: table-options
+    # expressions
+    - include: pop-on-top-level-reserved-word
+    - include: literals-and-variables
+    - include: comma-separators
+    - include: operators
+
+  alter-table-add-target:
+    - include: system-versioning
+    - include: alter-table-add-index
+    - include: alter-table-add-partition
+    - include: alter-table-add-period
+    - include: alter-table-add-column # must be the last one
+
+  alter-table-add-column:
+    - match: (?=\S)
+      set:
+        - maybe-column-position
+        - expect-column-declaration
+        - maybe-condition
+        - maybe-column
+
+  alter-table-add-index:
+    - match: \b(?i:constraint)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - maybe-check
+        - expect-constraint-name
+    - match: \b(?i:(primary)\s+(key))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set: alter-table-add-index-args
+    - match: \b(?i:(?:(foreign|fulltext|spatial|unique)\s+)?(index|key))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - alter-table-add-index-args
+        - expect-index-name
+        - maybe-condition
+
+  alter-table-add-index-args:
+    - include: column-name-lists
+    - include: comment-keywords
+    - include: index-algorithm-args
+    - include: index-clustering-args
+    - include: index-lock-args
+    - include: index-parser-args
+    - include: index-type-args
+    - include: index-other-args
+    - include: literals-and-variables
+    - include: operators
+    - include: else-pop
+
+  alter-table-add-partition:
+    - match: \b(?i:partition)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - maybe-partition-declaration-list
+        - maybe-condition
+
+  alter-table-add-period:
+    - match: \b(?i:(period)\s+(for)\s+(system_time))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+        3: keyword.other.ddl.sql
+      set: maybe-column-name-list
+
+  alter-table-change-target:
+    - include: alter-table-change-column
+
+  alter-table-change-column:
+    - match: (?=\S)
+      set:
+        - after-type
+        - expect-type
+        - expect-column-name-declaration
+        - expect-column-name
+        - maybe-condition
+        - maybe-column
+
+  alter-table-drop-target:
+    - include: system-versioning
+    - include: alter-table-drop-constraint
+    - include: alter-table-drop-index
+    - include: alter-table-drop-partition
+    - include: alter-table-drop-column # must be the last one
+
+  alter-table-drop-column:
+    - match: (?=\S)
+      set:
+        - expect-column-name
+        - maybe-condition
+        - maybe-column
+
+  alter-table-drop-constraint:
+    - match: \b(?i:constraint)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-constraint-name
+        - maybe-condition
+
+  alter-table-drop-index:
+    - match: \b(?i:primary\s+key)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+    - match: \b(?i:index|(?:foreign\s+)?key)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-index-name
+        - maybe-condition
+
+  alter-table-drop-partition:
+    - match: \b(?i:partition)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-partition-name
+        - maybe-condition
+
+  alter-table-modify-target:
+    - include: alter-table-modify-column
+
+  alter-table-modify-column:
+    - match: (?=\S)
+      set:
+        - after-type
+        - expect-type
+        - expect-column-name-declaration
+        - maybe-condition
+        - maybe-column
+
+  alter-table-rename-target:
+    - include: alter-table-rename-column
+    - include: alter-table-rename-index
+    - include: alter-table-rename-table # must be the last one
+
+  alter-table-rename-column:
+    - match: \b(?i:column)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-column-name
+        - maybe-to
+        - expect-column-name
+
+  alter-table-rename-index:
+    - match: \b(?i:index|key)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-index-name
+        - maybe-to
+        - expect-index-name
+
+  alter-table-rename-table:
+    - match: (?=\S)
+      set:
+        - expect-table-name
+        - maybe-to
+
+###[ DDL ALTER USER STATEMENTS ]###############################################
 
   alter-user:
     # https://mariadb.com/kb/en/alter-user
@@ -778,20 +978,34 @@ contexts:
 
 ###[ PARTITION EXPRESSIONS ]###################################################
 
-  partition-lists:
+  maybe-partition-declaration-list:
     - match: \(
-      scope: punctuation.section.sequence.begin.sql
-      push: inside-partition-list
+      scope: punctuation.section.group.begin.sql
+      set:
+        - inside-partition-declaration-list
+        - expect-partition-creation-name
+        - maybe-partition
+    - include: else-pop
 
-  inside-partition-list:
-    - meta_scope: meta.sequence.partitions.sql
+  partition-declaration-lists:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push:
+        - inside-partition-declaration-list
+        - expect-partition-creation-name
+        - maybe-partition
+
+  inside-partition-declaration-list:
+    - meta_scope: meta.group.partitions.sql
     - match: \)
-      scope: punctuation.section.sequence.end.sql
+      scope: punctuation.section.group.end.sql
       pop: 1
     # partition and subpartition declarations
-    - match: \b(?i:(?:sub)?partition)\b
-      scope: keyword.other.ddl.sql
-      push: expect-partition-creation-name
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - expect-partition-creation-name
+        - maybe-partition
     # partition parameters
     - match: \b(?i:values)\b
       scope: keyword.other.ddl.sql
@@ -800,10 +1014,15 @@ contexts:
       push: maybe-group
     - match: \b{{partition_parameters}}\b
       scope: variable.parameter.sql
-    - include: partition-lists
+    - include: partition-declaration-lists
     - include: comment-keywords
     - include: tablespaces
     - include: expressions
+
+  maybe-partition:
+    - match: \b(?i:(?:sub)?partition)\b
+      scope: keyword.other.ddl.sql
+    - include: else-pop
 
   partition-options:
     # partition keywords
@@ -854,14 +1073,35 @@ contexts:
     - match: \b(?i:union)\b
       scope: variable.parameter.sql
       push: maybe-table-name-list
+    - match: \b(?i:with)\b
+      scope: keyword.other.sql
     # common table options
     - match: \b{{table_parameters}}\b
       scope: variable.parameter.sql
     - match: \b{{table_row_formats}}\b
       scope: constant.language.sql
     # common table option values
+    - match: \b(?i:after)\b
+      scope: keyword.other.position.sql
+      push: expect-column-name
     - match: \b(?i:first|last)\b
+      scope: keyword.other.position.sql
+    - match: \b(?i:system\s+versioning)\b
       scope: constant.language.sql
+
+  maybe-column-position:
+    - match: \b(?i:after)\b
+      scope: keyword.other.position.sql
+      set: expect-column-name
+    - match: \b(?i:first|last)\b
+      scope: keyword.other.position.sql
+      pop: 1
+    - include: else-pop
+
+  system-versioning:
+    - match: \b(?i:system\s+versioning)\b
+      scope: constant.language.sql
+      pop: 1
 
   tablespaces:
     - match: \b(?i:tablespace)\b

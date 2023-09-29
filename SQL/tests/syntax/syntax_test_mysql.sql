@@ -1557,19 +1557,19 @@ CREATE
 --  ^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
 
     (
---  ^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
---  ^ punctuation.section.sequence.begin.sql
+--  ^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
+--  ^ punctuation.section.group.begin.sql
         PARTITION partition1
---      ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--      ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --      ^^^^^^^^^ keyword.other.ddl.sql
 --                ^^^^^^^^^^ entity.name.struct.partition.sql
             VALUES LESS THAN MAXVALUE
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^ keyword.other.ddl.sql
 --                 ^^^^^^^^^ keyword.operator.logical.sql
 --                           ^^^^^^^^ constant.language.sql
             VALUES LESS THAN (20)
---         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^ keyword.other.ddl.sql
 --                 ^^^^^^^^^ keyword.operator.logical.sql
 --                           ^^^^ meta.group.sql
@@ -1577,45 +1577,45 @@ CREATE
 --                            ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                              ^ punctuation.section.group.end.sql
             ENGINE = engine_name
---         ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^ variable.parameter.sql
 --                 ^ keyword.operator.comparison.sql
             COMMENT = 'comment_text'
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^ variable.parameter.sql
 --                  ^ keyword.operator.comparison.sql
 --                    ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
             DATA DIRECTORY = 'data_dir'
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^^^^^^^^ variable.parameter.sql
 --                         ^ keyword.operator.comparison.sql
 --                           ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
             INDEX DIRECTORY = 'index_dir'
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^^^^^^^^^ variable.parameter.sql
 --                          ^ keyword.operator.comparison.sql
 --                            ^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
             MAX_ROWS = 20
---         ^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^^ variable.parameter.sql
 --                   ^ keyword.operator.comparison.sql
 --                     ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
             MIN_ROWS = 4
---         ^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^^ variable.parameter.sql
 --                   ^ keyword.operator.comparison.sql
 --                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
             TABLESPACE = tablespace_name
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^^^^ variable.parameter.sql
 --                     ^ keyword.operator.assignment.sql
 --                       ^^^^^^^^^^^^^^^ meta.other-name.sql
             NODEGROUP = 32
 
             (
---         ^ meta.sequence.partitions.sql - meta.sequence meta.sequence
---          ^^ meta.sequence.partitions.sql meta.sequence.partitions.sql
---          ^ punctuation.section.sequence.begin.sql
+--         ^ meta.group.partitions.sql - meta.sequence meta.sequence
+--          ^^ meta.group.partitions.sql meta.group.partitions.sql
+--          ^ punctuation.section.group.begin.sql
                 subpartition parition1
 --              ^^^^^^^^^^^^ keyword.other.ddl.sql
 --                           ^^^^^^^^^ entity.name.struct.partition.sql
@@ -1630,17 +1630,17 @@ CREATE
 --              ^^^^^^^^^^^^ keyword.other.ddl.sql
 --                           ^^^^^^^^^ entity.name.struct.partition.sql
             ),
---         ^^ meta.sequence.partitions.sql meta.sequence.partitions.sql
---           ^ meta.sequence.partitions.sql - meta.sequence meta.sequence
---          ^ punctuation.section.sequence.end.sql
+--         ^^ meta.group.partitions.sql meta.group.partitions.sql
+--           ^ meta.group.partitions.sql - meta.sequence meta.sequence
+--          ^ punctuation.section.group.end.sql
 --           ^ punctuation.separator.sequence.sql
 
         PARTITION partition2
---     ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--     ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --      ^^^^^^^^^ keyword.other.ddl.sql
 --                ^^^^^^^^^^ entity.name.struct.partition.sql
             VALUES IN ("value1", "value2", "value3")
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^ keyword.other.ddl.sql
 --                 ^^ keyword.operator.logical.sql
 --                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
@@ -1653,12 +1653,12 @@ CREATE
 --                                                 ^ punctuation.section.group.end.sql
 --
             STORAGE ENGINE = engine_name
---         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --          ^^^^^^^^^^^^^^ variable.parameter.sql
 --                         ^ keyword.operator.comparison.sql
     )
--- ^^ meta.statement.create.sql meta.table.sql meta.sequence.partitions.sql
---  ^ punctuation.section.sequence.end.sql
+-- ^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
+--  ^ punctuation.section.group.end.sql
 
 
 -- ----------------------------------------------------------------------------
@@ -2112,6 +2112,858 @@ ALTER EVENT event_name
 --                                                 ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                                                  ^ punctuation.terminator.statement.sql
 
+
+-- ----------------------------------------------------------------------------
+-- Alter Table Statements
+-- https://mariadb.com/kb/en/alter-table
+--
+-- ALTER [ONLINE] [IGNORE] TABLE [IF EXISTS] tbl_name
+--     [WAIT n | NOWAIT]
+--     alter_specification [, alter_specification] ...
+--
+-- alter_specification:
+--     table_option ...
+--   | ADD [COLUMN] [IF NOT EXISTS] col_name column_definition
+--         [FIRST | AFTER col_name ]
+--   | ADD [COLUMN] [IF NOT EXISTS] (col_name column_definition,...)
+--   | ADD {INDEX|KEY} [IF NOT EXISTS] [index_name]
+--         [index_type] (index_col_name,...) [index_option] ...
+--   | ADD [CONSTRAINT [symbol]] PRIMARY KEY
+--         [index_type] (index_col_name,...) [index_option] ...
+--   | ADD [CONSTRAINT [symbol]]
+--         UNIQUE [INDEX|KEY] [index_name]
+--         [index_type] (index_col_name,...) [index_option] ...
+--   | ADD FULLTEXT [INDEX|KEY] [index_name]
+--         (index_col_name,...) [index_option] ...
+--   | ADD SPATIAL [INDEX|KEY] [index_name]
+--         (index_col_name,...) [index_option] ...
+--   | ADD [CONSTRAINT [symbol]]
+--         FOREIGN KEY [IF NOT EXISTS] [index_name] (index_col_name,...)
+--         reference_definition
+--   | ADD PERIOD FOR SYSTEM_TIME (start_column_name, end_column_name)
+--   | ALTER [COLUMN] col_name SET DEFAULT literal | (expression)
+--   | ALTER [COLUMN] col_name DROP DEFAULT
+--   | ALTER {INDEX|KEY} index_name [NOT] INVISIBLE
+--   | CHANGE [COLUMN] [IF EXISTS] old_col_name new_col_name column_definition
+--         [FIRST | AFTER col_name]
+--   | MODIFY [COLUMN] [IF EXISTS] col_name column_definition
+--         [FIRST | AFTER col_name]
+--   | DROP [COLUMN] [IF EXISTS] col_name [RESTRICT|CASCADE]
+--   | DROP PRIMARY KEY
+--   | DROP {INDEX|KEY} [IF EXISTS] index_name
+--   | DROP FOREIGN KEY [IF EXISTS] index_name
+--   | DROP CONSTRAINT [IF EXISTS] constraint_name
+--   | DISABLE KEYS
+--   | ENABLE KEYS
+--   | RENAME [TO] new_tbl_name
+--   | ORDER BY col_name [, col_name] ...
+--   | RENAME COLUMN old_col_name TO new_col_name
+--   | RENAME {INDEX|KEY} old_index_name TO new_index_name
+--   | CONVERT TO CHARACTER SET charset_name [COLLATE collation_name]
+--   | [DEFAULT] CHARACTER SET [=] charset_name
+--   | [DEFAULT] COLLATE [=] collation_name
+--   | DISCARD TABLESPACE
+--   | IMPORT TABLESPACE
+--   | ALGORITHM [=] {DEFAULT|INPLACE|COPY|NOCOPY|INSTANT}
+--   | LOCK [=] {DEFAULT|NONE|SHARED|EXCLUSIVE}
+--   | FORCE
+--   | partition_options
+--   | CONVERT TABLE normal_table TO partition_definition
+--   | CONVERT PARTITION partition_name TO TABLE tbl_name
+--   | ADD PARTITION [IF NOT EXISTS] (partition_definition)
+--   | DROP PARTITION [IF EXISTS] partition_names
+--   | COALESCE PARTITION number
+--   | REORGANIZE PARTITION [partition_names INTO (partition_definitions)]
+--   | ANALYZE PARTITION partition_names
+--   | CHECK PARTITION partition_names
+--   | OPTIMIZE PARTITION partition_names
+--   | REBUILD PARTITION partition_names
+--   | REPAIR PARTITION partition_names
+--   | EXCHANGE PARTITION partition_name WITH TABLE tbl_name
+--   | REMOVE PARTITIONING
+--   | ADD SYSTEM VERSIONING
+--   | DROP SYSTEM VERSIONING
+--
+-- index_col_name:
+--     col_name [(length)] [ASC | DESC]
+--
+-- index_type:
+--     USING {BTREE | HASH | RTREE}
+--
+-- index_option:
+--     [ KEY_BLOCK_SIZE [=] value
+--   | index_type
+--   | WITH PARSER parser_name
+--   | COMMENT 'string'
+--   | CLUSTERING={YES| NO} ]
+--   [ IGNORED | NOT IGNORED ]
+--
+-- table_options:
+--     table_option [[,] table_option] ...
+-- ----------------------------------------------------------------------------
+
+ALTER ONLINE IGNORE TABLE IF EXISTS tbl_name WAIT 100
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^ keyword.other.ddl.sql
+--           ^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^ keyword.other.ddl.sql
+--                        ^^ keyword.control.conditional.if.sql
+--                           ^^^^^^ keyword.operator.logical.sql
+--                                  ^^^^^^^^ meta.table-name.sql
+--                                           ^^^^ keyword.other.ddl.sql
+--                                                ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    ADD id INTEGER PRIMARY KEY
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^ meta.column-name.sql variable.other.member.declaration.sql
+--         ^^^^^^^ storage.type.sql
+--                 ^^^^^^^^^^^ storage.modifier.sql
+
+    ADD COLUMN id INTEGER PRIMARY KEY
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                ^^^^^^^ storage.type.sql
+--                        ^^^^^^^^^^^ storage.modifier.sql
+
+    ADD COLUMN IF NOT EXISTS id INTEGER PRIMARY KEY
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^ keyword.control.conditional.if.sql
+--                ^^^ keyword.operator.logical.sql
+--                    ^^^^^^ keyword.operator.logical.sql
+--                           ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                              ^^^^^^^ storage.type.sql
+--                                      ^^^^^^^^^^^ storage.modifier.sql
+
+    ADD (id INTEGER PRIMARY KEY, )
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--      ^ punctuation.section.group.begin.sql
+--       ^^ meta.column-name.sql variable.other.member.declaration.sql
+--          ^^^^^^^ storage.type.sql
+--                  ^^^^^^^^^^^ storage.modifier.sql
+--                             ^ punctuation.separator.sequence.sql
+--                               ^ punctuation.section.group.end.sql
+
+    ADD COLUMN (id INTEGER PRIMARY KEY, ) FIRST
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--             ^ punctuation.section.group.begin.sql
+--              ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                 ^^^^^^^ storage.type.sql
+--                         ^^^^^^^^^^^ storage.modifier.sql
+--                                    ^ punctuation.separator.sequence.sql
+--                                      ^ punctuation.section.group.end.sql
+--                                        ^^^^^ keyword.other.position.sql
+
+    ADD COLUMN IF NOT EXISTS (id INTEGER PRIMARY KEY, ) AFTER col
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^ keyword.control.conditional.if.sql
+--                ^^^ keyword.operator.logical.sql
+--                    ^^^^^^ keyword.operator.logical.sql
+--                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                           ^ punctuation.section.group.begin.sql
+--                            ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                               ^^^^^^^ storage.type.sql
+--                                       ^^^^^^^^^^^ storage.modifier.sql
+--                                                  ^ punctuation.separator.sequence.sql
+--                                                    ^ punctuation.section.group.end.sql
+--                                                      ^^^^^ keyword.other.position.sql
+--                                                            ^^^ meta.column-name.sql
+
+-- ----------------------------------------------------------------------------
+--  ADD {INDEX|KEY} [IF NOT EXISTS] [index_name]
+--      [index_type] (index_col_name,...) [index_option] ...
+--  ADD FULLTEXT [INDEX|KEY] [index_name]
+--      (index_col_name,...) [index_option] ...
+--  ADD SPATIAL [INDEX|KEY] [index_name]
+--      (index_col_name,...) [index_option] ...
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    ADD INDEX index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^ keyword.other.ddl.sql
+--            ^^^^^^^^^^ meta.index-name.sql
+
+    ADD INDEX IF NOT EXISTS index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^ keyword.other.ddl.sql
+--            ^^ keyword.control.conditional.if.sql
+--               ^^^ keyword.operator.logical.sql
+--                   ^^^^^^ keyword.operator.logical.sql
+--                          ^^^^^^^^^^ meta.index-name.sql
+
+    ADD FULLTEXT INDEX index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^ keyword.other.ddl.sql
+--               ^^^^^ keyword.other.ddl.sql
+--                     ^^^^^^^^^^ meta.index-name.sql
+
+    ADD SPATIAL INDEX index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^^^ keyword.other.ddl.sql
+--                    ^^^^^^^^^^ meta.index-name.sql
+
+    ADD KEY index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^ meta.index-name.sql
+
+    ADD FULLTEXT KEY index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^ keyword.other.ddl.sql
+--               ^^^ keyword.other.ddl.sql
+--                   ^^^^^^^^^^ meta.index-name.sql
+
+    ADD SPATIAL KEY index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^ meta.index-name.sql
+
+    ADD KEY IF NOT EXISTS index_name,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^ keyword.other.ddl.sql
+--          ^^ keyword.control.conditional.if.sql
+--             ^^^ keyword.operator.logical.sql
+--                 ^^^^^^ keyword.operator.logical.sql
+--                        ^^^^^^^^^^ meta.index-name.sql
+
+    ADD INDEX index_name USING BTREE (col1, col2, col3),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^ keyword.other.ddl.sql
+--            ^^^^^^^^^^ meta.index-name.sql
+--                       ^^^^^ keyword.other.ddl.sql
+--                             ^^^^^ constant.language.sql
+--                                   ^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                   ^ punctuation.section.group.begin.sql
+--                                    ^^^^ meta.column-name.sql
+--                                        ^ punctuation.separator.sequence.sql
+--                                          ^^^^ meta.column-name.sql
+--                                              ^ punctuation.separator.sequence.sql
+--                                                ^^^^ meta.column-name.sql
+--                                                    ^ punctuation.section.group.end.sql
+
+    ADD INDEX index_name (col1, col2, col3) USING BTREE KEY_BLOCK_SIZE 10 WITH PARSER parser CLUSTERING = NO NOT IGNORED
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^ keyword.other.ddl.sql
+--            ^^^^^^^^^^ meta.index-name.sql
+--                       ^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                          ^^^^^ keyword.other.ddl.sql
+--                                                ^^^^^ constant.language.sql
+--                                                      ^^^^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                     ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                                        ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                                    ^^^^^^ meta.other-name.sql
+--                                                                                           ^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                                                      ^ keyword.operator.comparison.sql
+--                                                                                                        ^^ constant.language.boolean.sql
+--                                                                                                           ^^^ keyword.operator.logical.sql
+--                                                                                                               ^^^^^^^ keyword.other.ddl.sql
+
+-- ----------------------------------------------------------------------------
+--   ADD [CONSTRAINT [symbol]]
+--       FOREIGN KEY [IF NOT EXISTS] [index_name] (index_col_name,...)
+--       reference_definition
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    ADD FOREIGN KEY (col1, col2),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                              ^ punctuation.separator.sequence.sql
+
+    ADD FOREIGN KEY IF NOT EXISTS (col1, col2),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^ keyword.other.ddl.sql
+--                  ^^ keyword.control.conditional.if.sql
+--                     ^^^ keyword.operator.logical.sql
+--                         ^^^^^^ keyword.operator.logical.sql
+--                                ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                            ^ punctuation.separator.sequence.sql
+
+    ADD FOREIGN KEY index_name (col1, col2),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^ meta.index-name.sql
+--                             ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                         ^ punctuation.separator.sequence.sql
+
+    ADD FOREIGN KEY IF NOT EXISTS index_name (col1, col2),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^ keyword.other.ddl.sql
+--                  ^^ keyword.control.conditional.if.sql
+--                     ^^^ keyword.operator.logical.sql
+--                         ^^^^^^ keyword.operator.logical.sql
+--                                ^^^^^^^^^^ meta.index-name.sql
+--                                           ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                       ^ punctuation.separator.sequence.sql
+
+    ADD CONSTRAINT FOREIGN KEY index_name (col1, col2),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^^ keyword.other.ddl.sql
+--                         ^^^ keyword.other.ddl.sql
+--                             ^^^^^^^^^^ meta.index-name.sql
+--                                        ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                    ^ punctuation.separator.sequence.sql
+
+    ADD CONSTRAINT symbol FOREIGN KEY index_name (col1, col2),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^ meta.constraint-name.sql
+--                        ^^^^^^^ keyword.other.ddl.sql
+--                                ^^^ keyword.other.ddl.sql
+--                                    ^^^^^^^^^^ meta.index-name.sql
+--                                               ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                           ^ punctuation.separator.sequence.sql
+
+-- ----------------------------------------------------------------------------
+--   ADD [CONSTRAINT [symbol]] PRIMARY KEY
+--       [index_type] (index_col_name,...) [index_option] ...
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    ADD PRIMARY KEY (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^ keyword.other.ddl.sql
+--              ^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                               ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                           ^^^^^^ meta.other-name.sql
+--                                                 ^ punctuation.separator.sequence.sql
+
+    ADD CONSTRAINT PRIMARY KEY (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^^ keyword.other.ddl.sql
+--                         ^^^ keyword.other.ddl.sql
+--                             ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                          ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                      ^^^^^^ meta.other-name.sql
+
+    ADD CONSTRAINT symbol PRIMARY KEY (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^ meta.constraint-name.sql
+--                        ^^^^^^^ keyword.other.ddl.sql
+--                                ^^^ keyword.other.ddl.sql
+--                                    ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                 ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                             ^^^^^^ meta.other-name.sql
+
+    ADD CONSTRAINT symbol PRIMARY KEY USING BTREE (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^ meta.constraint-name.sql
+--                        ^^^^^^^ keyword.other.ddl.sql
+--                                ^^^ keyword.other.ddl.sql
+--                                    ^^^^^ keyword.other.ddl.sql
+--                                          ^^^^^ constant.language.sql
+--                                                ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                             ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                         ^^^^^^ meta.other-name.sql
+
+-- ----------------------------------------------------------------------------
+--   ADD [CONSTRAINT [symbol]]
+--       UNIQUE [INDEX|KEY] [index_name]
+--       [index_type] (index_col_name,...) [index_option] ...
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    ADD UNIQUE INDEX index_name USING BTREE (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^^^ keyword.other.ddl.sql
+--                   ^^^^^^^^^^ meta.index-name.sql
+--                              ^^^^^ keyword.other.ddl.sql
+--                                    ^^^^^ constant.language.sql
+--                                          ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                       ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                   ^^^^^^ meta.other-name.sql
+
+    ADD UNIQUE KEY index_name USING BTREE (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^^ meta.index-name.sql
+--                            ^^^^^ keyword.other.ddl.sql
+--                                  ^^^^^ constant.language.sql
+--                                        ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                     ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                 ^^^^^^ meta.other-name.sql
+
+    ADD CONSTRAINT UNIQUE KEY index_name USING BTREE (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^ keyword.other.ddl.sql
+--                        ^^^ keyword.other.ddl.sql
+--                            ^^^^^^^^^^ meta.index-name.sql
+--                                       ^^^^^ keyword.other.ddl.sql
+--                                             ^^^^^ constant.language.sql
+--                                                   ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                                ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                            ^^^^^^ meta.other-name.sql
+
+    ADD CONSTRAINT symbol UNIQUE KEY index_name USING BTREE (col1, col2) WITH PARSER parser,
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^ meta.constraint-name.sql
+--                        ^^^^^^ keyword.other.ddl.sql
+--                               ^^^ keyword.other.ddl.sql
+--                                   ^^^^^^^^^^ meta.index-name.sql
+--                                              ^^^^^ keyword.other.ddl.sql
+--                                                    ^^^^^ constant.language.sql
+--                                                          ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                                       ^^^^^^^^^^^ keyword.other.ddl.sql
+--                                                                                   ^^^^^^ meta.other-name.sql
+
+-- ----------------------------------------------------------------------------
+--   ADD PARTITION ...
+--   ADD PERIOD ...
+--   ADD SYSTEM VERSIONING
+-- ----------------------------------------------------------------------------
+
+    ADD PARTITION (
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^ keyword.other.ddl.sql
+--                ^^ meta.group.partitions.sql
+--                ^ punctuation.section.group.begin.sql
+--
+            partition1
+--          ^^^^^^^^^^ entity.name.struct.partition.sql
+            VALUES LESS THAN MAXVALUE
+--          ^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^ keyword.operator.logical.sql
+--                           ^^^^^^^^ constant.language.sql
+    ),
+
+    ADD PARTITION IF NOT EXISTS (partition1 DATA DIRECTORY '../dir'),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^ keyword.other.ddl.sql
+--                ^^ keyword.control.conditional.if.sql
+--                   ^^^ keyword.operator.logical.sql
+--                       ^^^^^^ keyword.operator.logical.sql
+--                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.partitions.sql
+--                              ^ punctuation.section.group.begin.sql
+--                                                                 ^ punctuation.section.group.end.sql
+
+    ADD PERIOD FOR SYSTEM_TIME (start_column_name, end_column_name),
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^^^ keyword.other.ddl.sql
+--                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                             ^ punctuation.section.group.begin.sql
+--                              ^^^^^^^^^^^^^^^^^ meta.column-name.sql
+--                                               ^ punctuation.separator.sequence.sql
+--                                                 ^^^^^^^^^^^^^^^ meta.column-name.sql
+--                                                                ^ punctuation.section.group.end.sql
+
+    ADD SYSTEM VERSIONING
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^^^^^^^^ constant.language.sql
+
+-- ----------------------------------------------------------------------------
+--   CHANGE [COLUMN] [IF EXISTS] old_col_name new_col_name column_definition
+--       [FIRST | AFTER col_name]
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    CHANGE old_col new_col INTEGER NOT NULL FIRST
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^ meta.column-name.sql
+--                 ^^^^^^^ meta.column-name.sql
+--                         ^^^^^^^ storage.type.sql
+--                                 ^^^ keyword.operator.logical.sql
+--                                     ^^^^ constant.language.null.sql
+--                                          ^^^^^ keyword.other.position.sql
+
+    CHANGE IF EXISTS old_col new_col INTEGER NOT NULL AFTER col
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^ keyword.control.conditional.if.sql
+--            ^^^^^^ keyword.operator.logical.sql
+--                   ^^^^^^^ meta.column-name.sql
+--                           ^^^^^^^ meta.column-name.sql
+--                                   ^^^^^^^ storage.type.sql
+--                                           ^^^ keyword.operator.logical.sql
+--                                               ^^^^ constant.language.null.sql
+--                                                    ^^^^^ keyword.other.position.sql
+--                                                          ^^^ meta.column-name.sql
+
+    CHANGE COLUMN old_col new_col INTEGER NOT NULL FIRST
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^ meta.column-name.sql
+--                        ^^^^^^^ meta.column-name.sql
+--                                ^^^^^^^ storage.type.sql
+--                                        ^^^ keyword.operator.logical.sql
+--                                            ^^^^ constant.language.null.sql
+--                                                 ^^^^^ keyword.other.position.sql
+
+    CHANGE COLUMN IF EXISTS old_col new_col INTEGER NOT NULL AFTER col
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^ keyword.other.ddl.sql
+--                ^^ keyword.control.conditional.if.sql
+--                   ^^^^^^ keyword.operator.logical.sql
+--                          ^^^^^^^ meta.column-name.sql
+--                                  ^^^^^^^ meta.column-name.sql
+--                                          ^^^^^^^ storage.type.sql
+--                                                  ^^^ keyword.operator.logical.sql
+--                                                      ^^^^ constant.language.null.sql
+--                                                           ^^^^^ keyword.other.position.sql
+--                                                                 ^^^ meta.column-name.sql
+
+    CHANGE COLUMN old_col new_col ENUM('foo', 'bar')
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^ meta.column-name.sql
+--                        ^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                ^^^^ storage.type.sql - meta.parens
+--                                    ^^^^^^^^^^^^^^ meta.group.sql
+--                                    ^ punctuation.section.group.begin.sql
+--                                     ^^^^^ meta.string.sql string.quoted.single.sql
+--                                          ^ punctuation.separator.sequence.sql
+--                                            ^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.section.group.end.sql
+
+-- ----------------------------------------------------------------------------
+--   MODIFY [COLUMN] [IF EXISTS] col_name column_definition
+--       [FIRST | AFTER col_name]
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    MODIFY col_name INTEGER NOT NULL FIRST
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^ meta.column-name.sql
+--                  ^^^^^^^ storage.type.sql
+--                          ^^^ keyword.operator.logical.sql
+--                              ^^^^ constant.language.null.sql
+--                                   ^^^^^ keyword.other.position.sql
+
+    MODIFY IF EXISTS col_name INTEGER NOT NULL AFTER col
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^ keyword.control.conditional.if.sql
+--            ^^^^^^ keyword.operator.logical.sql
+--                   ^^^^^^^ meta.column-name.sql
+--                            ^^^^^^^ storage.type.sql
+--                                    ^^^ keyword.operator.logical.sql
+--                                        ^^^^ constant.language.null.sql
+--                                             ^^^^^ keyword.other.position.sql
+--                                                   ^^^ meta.column-name.sql
+
+    MODIFY COLUMN col_name INTEGER NOT NULL FIRST
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^ keyword.other.ddl.sql
+--                ^^^^^^^^ meta.column-name.sql
+--                         ^^^^^^^ storage.type.sql
+--                                 ^^^ keyword.operator.logical.sql
+--                                     ^^^^ constant.language.null.sql
+--                                          ^^^^^ keyword.other.position.sql
+
+    MODIFY COLUMN IF EXISTS col_name INTEGER NOT NULL AFTER col
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^ keyword.other.ddl.sql
+--                ^^ keyword.control.conditional.if.sql
+--                   ^^^^^^ keyword.operator.logical.sql
+--                          ^^^^^^^ meta.column-name.sql
+--                                   ^^^^^^^ storage.type.sql
+--                                           ^^^ keyword.operator.logical.sql
+--                                               ^^^^ constant.language.null.sql
+--                                                    ^^^^^ keyword.other.position.sql
+--                                                          ^^^ meta.column-name.sql
+
+-- ----------------------------------------------------------------------------
+--   DROP [COLUMN] [IF EXISTS] col_name [RESTRICT|CASCADE]
+--   DROP PRIMARY KEY
+--   DROP {INDEX|KEY} [IF EXISTS] index_name
+--   DROP FOREIGN KEY [IF EXISTS] fk_symbol
+--   DROP CONSTRAINT [IF EXISTS] constraint_name
+--   DROP PARTITION [IF EXISTS] partition_names
+--   DROP SYSTEM VERSIONING
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    DROP col_name RESTRICT
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^ meta.column-name.sql
+--                ^^^^^^^^ keyword.other.ddl.sql
+
+    DROP IF EXISTS col_name RESTRICT
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^ keyword.control.conditional.if.sql
+--          ^^^^^^ keyword.operator.logical.sql
+--                 ^^^^^^^^ meta.column-name.sql
+--                          ^^^^^^^^ keyword.other.ddl.sql
+
+    DROP COLUMN col_name CASCADE
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^ keyword.other.ddl.sql
+--              ^^^^^^^^ meta.column-name.sql
+--                       ^^^^^^^ keyword.other.ddl.sql
+
+    DROP COLUMN IF EXISTS col_name CASCADE
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^ keyword.other.ddl.sql
+--              ^^ keyword.control.conditional.if.sql
+--                 ^^^^^^ keyword.operator.logical.sql
+--                        ^^^^^^^^ meta.column-name.sql
+--                                 ^^^^^^^ keyword.other.ddl.sql
+
+    DROP CONSTRAINT constraint_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^^^^ meta.constraint-name.sql
+
+    DROP CONSTRAINT IF EXISTS constraint_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^ keyword.other.ddl.sql
+--                  ^^ keyword.control.conditional.if.sql
+--                     ^^^^^^ keyword.operator.logical.sql
+--                            ^^^^^^^^^^^^^^^ meta.constraint-name.sql
+
+    DROP INDEX index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^^^^ meta.index-name.sql
+
+    DROP INDEX IF EXISTS index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^ keyword.other.ddl.sql
+--             ^^ keyword.control.conditional.if.sql
+--                ^^^^^^ keyword.operator.logical.sql
+--                       ^^^^^^^^^^ meta.index-name.sql
+
+    DROP KEY index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ meta.index-name.sql
+
+    DROP KEY IF EXISTS index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^ keyword.other.ddl.sql
+--           ^^ keyword.control.conditional.if.sql
+--              ^^^^^^ keyword.operator.logical.sql
+--                     ^^^^^^^^^^ meta.index-name.sql
+
+    DROP FOREIGN KEY index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^^^^^^^^^ meta.index-name.sql
+
+    DROP FOREIGN KEY IF EXISTS index_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^ keyword.control.conditional.if.sql
+--                      ^^^^^^ keyword.operator.logical.sql
+--                             ^^^^^^^^^^ meta.index-name.sql
+
+    DROP PRIMARY KEY
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^ keyword.other.ddl.sql
+
+    DROP PARTITION partition_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^^^^^^^^^ meta.partition-name.sql
+
+    DROP PARTITION IF EXISTS partition_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^ keyword.control.conditional.if.sql
+--                    ^^^^^^ keyword.operator.logical.sql
+--                           ^^^^^^^^^^^^^^ meta.partition-name.sql
+
+    DROP SYSTEM VERSIONING
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^ keyword.other.ddl.sql
+--       ^^^^^^^^^^^^^^^^^ constant.language.sql
+
+-- ----------------------------------------------------------------------------
+--   RENAME ...
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE tbl_name
+
+    RENAME new_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^ meta.table-name.sql
+
+    RENAME TO new_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^ keyword.other.ddl.sql
+--            ^^^^^^^^ meta.table-name.sql
+
+    RENAME COLUMN name TO new_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^ keyword.other.ddl.sql
+--                ^^^^ meta.column-name.sql
+--                     ^^ keyword.other.ddl.sql
+--                        ^^^^^^^^ meta.column-name.sql
+
+    RENAME INDEX name TO new_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^ keyword.other.ddl.sql
+--               ^^^^ meta.index-name.sql
+--                    ^^ keyword.other.ddl.sql
+--                       ^^^^^^^^ meta.index-name.sql
+
+    RENAME KEY name TO new_name
+-- <- meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^ keyword.other.ddl.sql
+--             ^^^^ meta.index-name.sql
+--                  ^^ keyword.other.ddl.sql
+--                     ^^^^^^^^ meta.index-name.sql
+
+ALTER TABLE tbl_name ALGORITHM = INPLACE
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 
 -- ----------------------------------------------------------------------------
 -- Alter User Statements
@@ -3494,27 +4346,6 @@ SELECT "My -- Crazy Column Name" FROM my_table;
 
 SELECT "My /* Crazy Column Name" FROM my_table;
 --         ^^ - comment - punctuation
-
-
-ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
--- <- meta.statement.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
--- ^^ keyword.other.ddl
---    ^^^^^ keyword.other.ddl
---          ^^^^^^^^^^^^^^ meta.table-name.sql
---                         ^^^ keyword.other.ddl
---                             ^^^^^^ keyword.other.ddl
---                                    ^^^^^^^^ meta.column-name
---                                             ^^^^^^^^ storage.type.sql
-
-ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');
--- <- meta.statement.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
---                     ^^^^^^ keyword.other.ddl
---                            ^^^^^^ keyword.other.ddl
---                                   ^^^^^^^^ meta.column-name
---                                            ^^^^^^^^ meta.column-name variable.other.member.declaration
---                                                     ^^^^ storage.type.sql
 
 DROP TABLE IF EXISTS testing123;
 -- <- meta.statement.drop.sql keyword.other.ddl

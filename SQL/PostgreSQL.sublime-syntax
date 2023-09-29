@@ -182,11 +182,6 @@ contexts:
     - include: numbers
     - include: else-pop
 
-  alter-common:
-    - meta_prepend: true
-    - match: \b(?i:check)\b
-      scope: keyword.other.psql
-
 ###[ DDL STATEMENT PROTOTYPES ]################################################
 
   on-table-names:
