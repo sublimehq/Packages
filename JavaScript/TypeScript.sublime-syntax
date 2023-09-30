@@ -373,68 +373,80 @@ contexts:
     - match: '[,;]'
       scope: punctuation.separator.js
 
+    - match: (?=\S)
+      push:
+        - ts-type-annotation
+        - function-declaration-expect-parameters
+        - ts-type-parameter-list
+        - ts-type-annotation-optional
+        - ts-type-annotation-modifier
+        - ts-type-member-name
+        - ts-type-element-modifiers
+
+  ts-type-element-modifiers:
     - match: '\+|-'
       scope: storage.modifier.js
-
     - match: (?={{modifier}})
-      push: class-element-modifiers
+      pop: 1
+      branch_point: ts-type-member-modifier
+      branch:
+        - ts-type-member-modifier
+        - immediately-pop
+    - include: else-pop
 
-    - match: (?=[<(])
-      push:
-        - ts-type-annotation
-        - function-declaration-expect-parameters
-        - ts-type-parameter-list
-
-    - match: \[
-      scope: punctuation.section.brackets.begin.js
-      push:
-        - - include: immediately-pop
-        -  ts-type-annotation
-        -  ts-type-annotation-optional
-        - - match: '\+|-'
-            scope: storage.modifier.js
-            pop: 1
-          - include: else-pop
-        - - meta_scope: meta.brackets.js
-          - match: \]
-            scope: punctuation.section.brackets.end.js
-            pop: 1
-          - match: '{{identifier_name}}'
-            scope: variable.other.readwrite.js
-            push:
-              - match: in{{identifier_break}}
-                scope: keyword.operator.type.js
-                set:
-                  - ts-type-expression-end
-                  - ts-type-expression-end-no-line-terminator
-                  - ts-type-expression-begin
-              - include: ts-type-annotation
-
-    - match: new{{identifier_break}}
-      scope: keyword.operator.new.js
-      push:
-        - ts-type-annotation
-        - function-declaration-expect-parameters
-        - ts-type-parameter-list
-
-    - match: (?={{identifier_start}}|['"]|\d)
-      push:
-        - - match: (?=[<(])
-            set:
-              - ts-type-annotation
-              - function-declaration-expect-parameters
-              - ts-type-parameter-list
-          - match: (?=\S)
-            set: ts-type-annotation
-        - ts-type-annotation-optional
-        - ts-type-member-name
+  ts-type-member-modifier:
+    - match: '{{modifier}}'
+      scope: storage.modifier.js
+      set:
+        - match: (?={{identifier_start}}|[-+*''"\[\d])
+          set: ts-type-element-modifiers
+        - match: (?=\S)
+          fail: ts-type-member-modifier
 
   ts-type-member-name:
+    - match: new{{identifier_break}}
+      scope: keyword.operator.new.js
+      pop: 1
+
     - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       pop: 1
     - include: literal-string
     - include: literal-number
+
+    - match: \[
+      scope: punctuation.section.brackets.begin.js
+      set:
+        - - meta_scope: meta.brackets.js
+          - match: \]
+            scope: punctuation.section.brackets.end.js
+            pop: 1
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+        - ts-mapped-or-indexed-member
+
+    - include: else-pop
+
+  ts-mapped-or-indexed-member:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+      branch_point: ts-mapped-or-indexed-member
+      branch:
+        - - match: '{{identifier_name}}'
+            scope: variable.other.readwrite.js
+            set:
+              - match: in{{identifier_break}}
+                scope: keyword.operator.type.js
+                pop: 1
+              - match: ':'
+                scope: punctuation.separator.type.js
+                pop: 1
+              - match: (?=\S)
+                fail: ts-mapped-or-indexed-member
+          - include: else-pop
+        - immediately-pop
 
   ts-enum:
     - match: enum{{identifier_break}}
@@ -775,6 +787,12 @@ contexts:
   ts-type-annotation-definite:
     - match: \!
       scope: storage.modifier.definite.js
+      pop: 1
+    - include: else-pop
+
+  ts-type-annotation-modifier:
+    - match: '\+|-'
+      scope: storage.modifier.js
       pop: 1
     - include: else-pop
 
