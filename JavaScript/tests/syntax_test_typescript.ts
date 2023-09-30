@@ -135,10 +135,37 @@ import foo;
 //                                    ^ punctuation.terminator.statement
 
     export type T = any;
-//  ^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^ meta.type-alias
-//                     ^ punctuation.terminator.statement.empty - meta.export
+//                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    export type { T } from 'somewhere';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ keyword.control.import-export
+//              ^^^^^ meta.block
+//              ^ punctuation.section.block.begin
+//                ^ variable.other.readwrite
+//                  ^ punctuation.section.block.end
+//                    ^^^^ keyword.control.import-export
+//                         ^^^^^^^^^^^ meta.string string.quoted.single
+//                         ^ punctuation.definition.string.begin
+//                                   ^ punctuation.definition.string.end
+//                                    ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    export type * as T from 'somewhere';
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ keyword.control.import-export
+//              ^ constant.other
+//                ^^ keyword.control.import-export
+//                   ^ variable.other.readwrite
+//                     ^^^^ keyword.control.import-export
+//                          ^^^^^^^^^^^ meta.string string.quoted.single
+//                          ^ punctuation.definition.string.begin
+//                                    ^ punctuation.definition.string.end
+//                                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
 
     export interface Foo {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -348,10 +375,10 @@ import foo;
     // https://github.com/sublimehq/Packages/issues/3598
     type x = {
         bar: (cb: (
-//     ^^^^^^ meta.type-alias meta.mapping - meta.group
-//           ^^^ meta.type-alias meta.mapping meta.type meta.group
-//              ^^ meta.type-alias meta.mapping - meta.group
-//                ^ meta.type-alias meta.function.parameters
+//^^^^^^^^^^^^^^^^^^ meta.type-alias meta.mapping
+//     ^^^^^^ - meta.group
+//           ^^^ meta.type meta.group
+//              ^^ - meta.group
 //      ^^^ variable.other.readwrite
 //         ^ punctuation.separator.type
 //           ^ punctuation.section.group.begin
@@ -980,6 +1007,12 @@ let x: {
 //               ^^^ support.type.any
 //                   ^ punctuation.separator
 
+    readonly: any;
+//  ^^^^^^^^ variable.other.readwrite - storage.modifier
+//          ^ punctuation.separator.type
+//            ^^^ support.type.any
+//               ^ punctuation.separator
+
     ( foo : any ) : any ;
 //  ^ punctuation.section.group.begin
 //    ^^^ meta.binding.name variable.parameter.function
@@ -1031,6 +1064,14 @@ let x: {
 //                     ^ punctuation.separator.type
 //                       ^^^ support.type.any
 //                           ^ punctuation.separator
+
+    a ? () : any ;
+//  ^ variable.other.readwrite
+//    ^ storage.modifier.optional
+//      ^^ meta.function.parameters
+//         ^ punctuation.separator.type
+//           ^^^ support.type.any
+//               ^ punctuation.separator
 
     new ( foo : any ) : any ;
 //      ^ punctuation.section.group.begin
@@ -1124,6 +1165,23 @@ let x: {
 //                                        ^ support.class
 //                                          ^ punctuation.section.brackets.end
 //                                            ^ punctuation.separator
+
+        private +readonly x;
+//      ^^^^^^^ storage.modifier
+//              ^^^^^^^^^ storage.modifier
+//                        ^ variable.other.readwrite
+
+        [Symbol.iterator](): any;
+//      ^^^^^^^^^^^^^^^^^ meta.brackets
+//      ^ punctuation.section.brackets.begin
+//       ^^^^^^ support.class
+//             ^ punctuation.accessor
+//              ^^^^^^^^ support.class
+//                      ^ punctuation.section.brackets.end
+//                       ^^ meta.function.parameters
+//                         ^ punctuation.separator.type
+//                           ^^^ support.type.any
+//                              ^ punctuation.separator
 
     }
 //  ^ meta.type punctuation.section.mapping.end
