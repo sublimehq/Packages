@@ -1266,6 +1266,7 @@ contexts:
   literals-and-variables:
     - meta_append: true
     - include: time-units
+    - include: variables
 
   comment-keywords:
     - match: \b(?i:comment)\b
@@ -1294,6 +1295,12 @@ contexts:
   time-units:
     - match: \b{{time_units}}(?!\()\b
       scope: keyword.other.unit.sql
+
+  variables:
+    - match: (@){{simple_identifier}}\b
+      scope: variable.other.sql
+      captures:
+        1: punctuation.definition.variable.sql
 
   regexps:
     - match: /(?=\S.*/)

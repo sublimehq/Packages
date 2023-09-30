@@ -697,6 +697,14 @@ CREATE PROCEDURE
 --          ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 BEGIN
 
+    DECLARE @var INT = 0;
+--  ^^^^^^^ keyword.other.sql
+--          ^^^^ variable.other.sql
+--               ^^^ storage.type
+--                   ^ keyword.operator.assignment.sql
+--                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                      ^ punctuation.terminator.statement.sql
+
     DECLARE r ROW (c1 INT, c2 VARCHAR(10));
 --            ^^^ storage.type.sql
 --                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
