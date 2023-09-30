@@ -127,6 +127,29 @@
 --                  ^^^^^^^^ storage.modifier.sql
 
 -- ----------------------------------------------------------------------------
+-- Units
+-- https://mariadb.com/kb/en/reserved-words
+-- ----------------------------------------------------------------------------
+
+    DAY_HOUR DAY_MICROSECOND DAY_MINUTE DAY_SECOND
+--  ^^^^^^^^ keyword.other.unit.sql
+--           ^^^^^^^^^^^^^^^ keyword.other.unit.sql
+--                           ^^^^^^^^^^ keyword.other.unit.sql
+--                                      ^^^^^^^^^^ keyword.other.unit.sql
+
+    HOUR_MICROSECOND HOUR_MINUTE HOUR_SECOND
+--  ^^^^^^^^^^^^^^^^ keyword.other.unit.sql
+--                   ^^^^^^^^^^^ keyword.other.unit.sql
+--                               ^^^^^^^^^^^ keyword.other.unit.sql
+
+    MINUTE_MICROSECOND MINUTE_SECOND
+--  ^^^^^^^^^^^^^^^^^^ keyword.other.unit.sql
+--                     ^^^^^^^^^^^^^ keyword.other.unit.sql
+
+    SECOND_MICROSECOND
+--  ^^^^^^^^^^^^^^^^^^ keyword.other.unit.sql
+
+-- ----------------------------------------------------------------------------
 -- Data Definition Statements
 -- https://mariadb.com/kb/en/data-definition
 -- ----------------------------------------------------------------------------
@@ -639,6 +662,54 @@ BEGIN
 --                         ^^ meta.column-name.sql variable.other.member.declaration.sql
 --                            ^^^^^^^^^^^ storage.type.sql
 --                                       ^ punctuation.section.group.end.sql
+
+    IF @var = TRUE THEN
+--  ^^ keyword.control.conditional.sql
+--     ^^^^ variable.other.sql
+--          ^ keyword.operator.comparison.sql
+--            ^^^^ constant.language.boolean.sql
+--                 ^^^^ keyword.control.conditional.sql
+
+    ELSEIF @var = FALSE THEN
+--  ^^^^^^ keyword.control.conditional.sql
+--         ^^^^ variable.other.sql
+--              ^ keyword.operator.comparison.sql
+--                ^^^^^ constant.language.boolean.sql
+--                      ^^^^ keyword.control.conditional.sql
+
+    ELSE
+--  ^^^^ keyword.control.conditional.sql
+
+    END IF
+--  ^^^^^^ keyword.control.conditional.sql
+
+    LOOP
+--  ^^^^ keyword.control.loop.sql
+
+    END LOOP
+--  ^^^^^^^^ keyword.control.loop.sql
+
+    REPEAT
+--  ^^^^^^ keyword.control.loop.sql
+
+    END REPEAT
+--  ^^^^^^^^^^ keyword.control.loop.sql
+
+    WHILE TRUE
+--  ^^^^^ keyword.control.loop.sql
+--        ^^^^ constant.language.boolean.sql
+
+    END WHILE
+--  ^^^^^^^^^ keyword.control.loop.sql
+
+    CONTINUE
+--  ^^^^^^^^ keyword.control.flow.continue.sql
+
+    EXIT
+--  ^^^^ keyword.control.flow.exit.sql
+
+    RETURN
+--  ^^^^^^ keyword.control.flow.return.sql
 
 END
 

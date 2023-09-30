@@ -10,7 +10,7 @@ variables:
   string_escape: (?:'')
   simple_identifier_break: (?![\w#@])
 
-  additional_reserved: |-
+  additional_toplevel_reserved: |-
     (?xi: backup | begin | break | bulk | continue | declare | else | end
     | exec(?:ute)? | for | go | if | insert | merge | on | print | raiserror
     | return | throw | use | waitfor | when | while | with )

@@ -10,11 +10,11 @@ variables:
   simple_identifier: (?:\w+)
   simple_identifier_break: (?!\w)
 
-  reserved: |-
+  toplevel_reserved: |-
     (?xi: alter | create | cross | delete | drop | from | grant | group | inner | insert | join
     | left | on | order | outer | revoke | right | select | set | truncate | union
     | update | where )
-  additional_reserved: (?!)
+  additional_toplevel_reserved: (?!)
 
   # TODO: not all are supported by all dialects!
   ddl_target: |-
@@ -496,7 +496,7 @@ contexts:
     - include: else-pop
 
   conditional-expression:
-    - match: (?=[,;)}]|\b(?:{{reserved}}|{{additional_reserved}})\b)
+    - match: (?=[,;)}]|\b(?:{{toplevel_reserved}}|{{additional_toplevel_reserved}})\b)
       pop: 1
     - include: expressions
     - include: expect-column-names
@@ -564,6 +564,7 @@ contexts:
     - include: alias-expressions
     - include: case-expressions
     - include: collate-expressions
+    - include: constraint-expressions
     - include: literals-and-variables
     - include: function-calls
     - include: illegal-stray-brackets
@@ -613,6 +614,11 @@ contexts:
       scope: support.constant.sql
       pop: 1
     - include: else-pop
+
+  constraint-expressions:
+    - match: \b(?i:constraint)\b
+      scope: storage.modifier.sql
+      push: expect-constraint-name
 
   function-calls:
     - include: built-in-aggregate-function-calls
@@ -702,9 +708,6 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
       pop: 1
-    - match: \b(?i:constraint)\b
-      scope: storage.modifier.sql
-      push: expect-constraint-name
     - include: column-modifiers
     - include: expressions
     - include: expect-column-declarations
@@ -1433,5 +1436,5 @@ contexts:
       pop: 1
 
   pop-on-top-level-reserved-word:
-    - match: (?=[;)}]|\b(?:{{reserved}}|{{additional_reserved}})\b)
+    - match: (?=[;)}]|\b(?:{{toplevel_reserved}}|{{additional_toplevel_reserved}})\b)
       pop: 1
