@@ -1530,23 +1530,6 @@ contexts:
     - match: (?={{modifier}})
       push: class-element-modifiers
 
-    - match: |-
-        (?x)(?=
-          \#? {{identifier_name}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
-      push:
-        - initializer
-        - function-name-meta
-        - literal-variable-base
-
-    - match: (?=(?:get|set|async){{identifier_break}})
-      branch_point: prefixed-method
-      branch:
-        - prefixed-method
-        - class-element
-
     - match: (?=\*)
       push: method-declaration
 
@@ -1557,18 +1540,9 @@ contexts:
     - match: static{{identifier_break}}
       scope: storage.modifier.js
       set:
-        - match: \{
-          scope: punctuation.section.block.begin.js
-          set: static-block-body
+        - include: block
         - match: (?=\S)
           fail: static-block
-
-  static-block-body:
-    - meta_scope: meta.block.js
-    - match: \}
-      scope: punctuation.section.block.end.js
-      pop: 1
-    - include: statements
 
   class-element-modifiers:
     - match: ''
@@ -1626,42 +1600,6 @@ contexts:
       branch:
         - class-field
         - method-declaration
-
-  prefixed-method:
-    - match: (?:get|set){{identifier_break}}
-      scope: storage.type.accessor.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?={{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-method
-    - match: (?:async){{identifier_break}}
-      scope: keyword.declaration.async.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?=\*|{{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-method
-
-  prefixed-object-literal-method:
-    - match: (?:get|set){{identifier_break}}
-      scope: storage.type.accessor.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?={{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-object-literal-method
-    - match: (?:async){{identifier_break}}
-      scope: keyword.declaration.async.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?=\*|{{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-object-literal-method
 
   class-field:
     - match: ''
@@ -1838,12 +1776,6 @@ contexts:
     - match: (?=\*)
       push: method-declaration
 
-    - match: (?=(?:get|set|async){{identifier_break}})
-      branch_point: prefixed-object-literal-method
-      branch:
-        - prefixed-object-literal-method
-        - object-literal-element
-
     - match: (?={{property_name}})
       push: object-literal-element
 
@@ -1881,6 +1813,13 @@ contexts:
     - include: literal-string
     - include: literal-number
 
+    - match: (?:get|set|async){{identifier_break}}
+      pop: 2
+      set:
+        - match: (?=\*|{{class_element_name}})
+          fail: object-literal-property
+        - include: else-pop
+
     - match: '{{identifier_name}}'
       pop: 1
 
@@ -1903,6 +1842,7 @@ contexts:
           push: expression
 
   object-literal-meta-key:
+    - meta_include_prototype: false
     - meta_scope: meta.mapping.key.js
     - include: else-pop
 
@@ -1952,19 +1892,24 @@ contexts:
     - include: else-pop
 
   field-name:
-    - match: '{{dollar_identifier}}'
-      scope: meta.mapping.key.dollar.js variable.other.readwrite.js
-      captures:
-        1: punctuation.dollar.js
-      pop: 1
-    - match: '{{identifier_name}}'
+    - match: |-
+        (?x)(?=
+          \#? {{identifier_name}}
+          {{nothing}} =
+          {{nothing}} {{either_func_lookahead}}
+        )
+      set:
+        - function-name-meta
+        - literal-variable-base
+
+    - match: (?:get|set|async){{identifier_break}}
       scope: variable.other.readwrite.js
-      pop: 1
-    - match: (#)({{identifier_name}})
-      captures:
-        1: punctuation.definition.variable.js
-        2: variable.other.readwrite.js
-      pop: 1
+      set:
+        - match: (?=\*|{{class_element_name}})
+          fail: class-field
+        - include: else-pop
+    - include: literal-variable-base
+
     - match: "'"
       scope: punctuation.definition.string.begin.js
       set:
@@ -2005,10 +1950,33 @@ contexts:
         - function-declaration-expect-parameters
         - method-name
         - method-declaration-expect-asterisk
+        - method-declaration-prefix
 
   method-declaration-expect-asterisk:
     - match: \*
       scope: keyword.generator.asterisk.js
+    - include: else-pop
+
+  method-declaration-prefix:
+    - match: (?=(?:get|set|async){{identifier_break}})
+      pop: 1
+      branch_point: method-declaration-prefix
+      branch:
+        - - match: (?:get|set){{identifier_break}}
+            scope: storage.type.accessor.js
+            set:
+              - match: (?={{class_element_name}})
+                pop: 1
+              - match: (?=\S)
+                fail: method-declaration-prefix
+          - match: (?:async){{identifier_break}}
+            scope: keyword.declaration.async.js
+            set:
+              - match: (?=\*|{{class_element_name}})
+                pop: 1
+              - match: (?=\S)
+                fail: method-declaration-prefix
+        - immediately-pop
     - include: else-pop
 
   parenthesized-expression:

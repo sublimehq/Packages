@@ -647,6 +647,7 @@ contexts:
         - ts-type-parameter-list
         - method-name
         - method-declaration-expect-asterisk
+        - method-declaration-prefix
 
   expression-end:
     - meta_prepend: true
