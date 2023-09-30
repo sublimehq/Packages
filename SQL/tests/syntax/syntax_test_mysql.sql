@@ -1,6 +1,77 @@
 -- SYNTAX TEST "Packages/SQL/MySQL.sublime-syntax"
 
 -- ----------------------------------------------------------------------------
+-- String Literals
+-- https://mariadb.com/kb/en/string-literals
+-- ----------------------------------------------------------------------------
+
+    '\0'  -- ASCII NUL (0x00).
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\''  -- Single quote (“'”).
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\"'  -- Double quote (“"”).
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\b'  -- Backspace.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\n'  -- Newline, or linefeed,.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\r'  -- Carriage return.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\t'  -- Tab.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\Z'  -- ASCII 26 (Control+Z). See note following the table.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\\'  -- Backslash (“\”).
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\%'  -- “%” character. See note following the table.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+    '\_'  -- A “_” character. See note following the table.
+--  ^^^^ meta.string.sql string.quoted.single.sql
+--  ^ punctuation.definition.string.begin.sql
+--   ^^ constant.character.escape.sql
+--     ^ punctuation.definition.string.end.sql
+
+-- ----------------------------------------------------------------------------
 -- Constants
 -- https://mariadb.com/kb/en/reserved-words
 -- ----------------------------------------------------------------------------
