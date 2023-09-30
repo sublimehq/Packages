@@ -100,7 +100,7 @@ contexts:
           set:
             - expect-semicolon
             - import-export-from
-            - export-item
+            - import-export-item
         - match: (?=\S)
           fail: ts-export-type-from
 
@@ -180,8 +180,18 @@ contexts:
         - ts-type-parameter-list
 
   ts-import-type:
-    - match: type{{identifier_break}}
-      scope: keyword.control.import-export.js
+    - match: (?=type{{identifier_break}})
+      pop: 1
+      branch_point: ts-import-type
+      branch:
+        - - match: type{{identifier_break}}
+            scope: keyword.control.import-export.js
+            set:
+              - match: (?=,|from{{identifier_break}})
+                fail: ts-import-type
+              - include: else-pop
+        - immediately-pop
+
     - include: else-pop
 
   import-statement:
@@ -190,20 +200,20 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
-        - import-assert
+        - import-export-assert
         - import-string-or-items
         - ts-import-type
         - import-check-branch
 
-  import-brace:
+  import-export-brace:
     - meta_prepend: true
     - match: type{{identifier_break}}
       scope: keyword.control.import-export.js
-
-  export-brace:
-    - meta_prepend: true
-    - match: type{{identifier_break}}
-      scope: keyword.control.import-export.js
+    - match: (?={{identifier_start}}|'|")
+      push:
+        - import-export-alias
+        - import-export-name
+        - ts-import-type
 
   ts-type-declaration:
     - match: type{{identifier_break}}

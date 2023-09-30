@@ -21,7 +21,7 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 //                ^ variable.other.readwrite
 //                        ^ keyword.control.import-export
 //                                     ^ variable.other.readwrite
-//                                             ^ constant.other.js
+//                                             ^ constant.other.wildcard.asterisk
 //                                                             ^ keyword.control.import-export
 
 import 'module';
@@ -45,6 +45,10 @@ import foo from 'bar' assert { type: "json" };
 //                                        ^ punctuation.definition.string.end.js
 //                                          ^ punctuation.section.mapping.end.js
 //                                           ^ punctuation.terminator.statement.js
+
+
+import foo from 'bar' assert { type: "json" };
+//                    ^^^^^^ meta.import keyword.control.import-export
 
 // Better highlighting while typing.
 import
@@ -160,7 +164,7 @@ export { name1 as default };
 export * from "./othermod";
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
-//     ^ constant.other
+//     ^ constant.other.wildcard.asterisk
 //       ^ keyword.control.import-export
 
 export { name1, name2 } from "./othermod";
@@ -216,8 +220,15 @@ import from from "./othermod";
 import { from } from "./othermod";
 //       ^^^^ variable.other.readwrite.js
 
-export { from } from "./othermod";
-//       ^^^^ variable.other.readwrite.js
+export {} from "./othermod" with {};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^ meta.block
+//        ^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^ meta.string string.quoted.double
+//                          ^^^^ keyword.control.import-export
+//                               ^^ meta.mapping
+//                                 ^ punctuation.terminator.statement
 
 export default$
 //     ^^^^^^^^ - keyword

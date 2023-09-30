@@ -109,6 +109,14 @@ import foo;
 //                ^^^^ keyword.control.import-export
 //                     ^^^^^^^^^^^ meta.string string.quoted.single
 
+    import type from 'somewhere';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ variable.other.readwrite
+//              ^^^^ keyword.control.import-export
+//                   ^^^^^^^^^^^ meta.string string.quoted.single
+//                              ^ punctuation.terminator.statement
+
     import type { U, V } from 'somewhere';
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
 //  ^^^^^^ keyword.control.import-export
