@@ -40,15 +40,19 @@ variables:
     (?xi: inout | in | out )
 
   simple_types: |-
-    (?xi: bit | bool | boolean | datetime | int )
+    (?xi: boolean | bool | year )
+
   types_with_optional_number: |-
-    (?xi: number | n?(?:var)?char | varbinary )
+    (?xi: bit | datetime | int | number | n?(?:var)?char | varbinary )
+
+  type_modifiers: |-
+    (?xi: signed | unsigned | zerofill )
 
   builtin_scalar_functions: |-
-    \b(?xi: current_(?: date | time(?:stamp)? ) )\b
+    (?xi: current_(?: date | time(?:stamp)? ) )
 
   builtin_user_functions: |-
-    \b(?xi: (?: current | session | system )_user )\b
+    (?xi: (?: current | session | system )_user )
 
 contexts:
   prototype:
@@ -500,7 +504,7 @@ contexts:
 ###[ DML SET STATEMENTS ]######################################################
 
   set-statements:
-    - match: \b(?i:set)\b
+    - match: \b(?i:set)\b(?!\s*\()
       scope: keyword.other.dml.sql
       push:
         - set-meta
@@ -554,14 +558,14 @@ contexts:
     - include: expect-column-names
 
   expressions:
+    - include: groups
+    - include: comma-separators
+    - include: operators
     - include: alias-expressions
     - include: case-expressions
     - include: collate-expressions
     - include: literals-and-variables
-    - include: operators
     - include: function-calls
-    - include: comma-separators
-    - include: groups
     - include: illegal-stray-brackets
     - include: illegal-stray-parens
     - match: (?=;)
@@ -624,17 +628,17 @@ contexts:
 
   built-in-scalar-function-calls:
     # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
-    - match: '{{builtin_scalar_functions}}'
+    - match: \b{{builtin_scalar_functions}}\b
       scope: support.function.scalar.sql
       push: function-call-arguments
 
   built-in-user-function-calls:
-    - match: '{{builtin_user_functions}}'
+    - match: \b{{builtin_user_functions}}\b
       scope: support.function.user.sql
       push: function-call-arguments
 
   built-in-user-function-call:
-    - match: '{{builtin_user_functions}}'
+    - match: \b{{builtin_user_functions}}\b
       scope: support.function.user.sql
       set: function-call-arguments
 
@@ -916,20 +920,47 @@ contexts:
     - include: built-in-type
     - include: expect-user-type
 
-  built-in-type:
-    - match: \b{{simple_types}}\b
+  built-in-types:
+    - match: \b(?i:enum)\b
       scope: storage.type.sql
-      set: maybe-group
+      push:
+        - after-type
+        - maybe-group
     - match: |-
-        (?xi)
-        \b{{types_with_optional_number}}\b
-        (?:\s*\((\d+)(?:\s*(,)\s*(\d+))?\))?
+        (?x)
+        \b(?: {{simple_types}} | {{types_with_optional_number}} )
+        (?: ((\()(\d+)(?:\s*(,)\s*(\d+))?(\)) | \b(?!\s*\() ) )
       scope: storage.type.sql
       captures:
-        1: constant.numeric.sql
-        2: punctuation.separator.sequence.sql
-        3: constant.numeric.sql
-      set: maybe-group
+        1: meta.parens.sql
+        2: punctuation.definition.parens.begin.sql
+        3: meta.number.integer.decimal.sql constant.numeric.value.sql
+        4: punctuation.separator.sequence.sql
+        5: meta.number.integer.decimal.sql constant.numeric.value.sql
+        6: punctuation.definition.parens.end.sql
+      push: after-type
+    - match: \b{{type_modifiers}}\b
+      scope: storage.modifier.sql
+
+  built-in-type:
+    - match: \b(?i:enum)\b
+      scope: storage.type.sql
+      set:
+        - after-type
+        - maybe-group
+    - match: |-
+        (?x)
+        \b(?: {{simple_types}} | {{types_with_optional_number}} )
+        (?: ((\()(\d+)(?:\s*(,)\s*(\d+))?(\)) | \b(?!\s*\() ) )
+      scope: storage.type.sql
+      captures:
+        1: meta.parens.sql
+        2: punctuation.definition.parens.begin.sql
+        3: meta.number.integer.decimal.sql constant.numeric.value.sql
+        4: punctuation.separator.sequence.sql
+        5: meta.number.integer.decimal.sql constant.numeric.value.sql
+        6: punctuation.definition.parens.end.sql
+      set: after-type
 
   expect-user-type:
     - match: (?=\S)
@@ -942,6 +973,10 @@ contexts:
       pop: 1
 
   after-type:
+    - match: \b{{type_modifiers}}\b
+      scope: storage.modifier.sql
+      pop: 1
+    - include: assignment-operators
     - include: else-pop
 
 ###[ IDENTIFIERS ]#############################################################
@@ -1292,6 +1327,7 @@ contexts:
 ###[ LITERALS ]################################################################
 
   literals-and-variables:
+    - include: built-in-types
     - include: constants
     - include: numbers
     - include: strings

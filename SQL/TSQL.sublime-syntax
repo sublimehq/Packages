@@ -35,10 +35,10 @@ variables:
     | geometry | hierarchyid | image | n?text | rowversion | sql_variant
     | sysname | uniqueidentifier | xml )
   types_with_optional_number: |-
-    (?xi: n?char | n?varchar | binary | varbinary | decimal | money | numeric )
+    (?xi: n?(?:var)?char | binary | varbinary | decimal | money | numeric )
 
   builtin_user_functions: |-
-    \b(?xi: (?: current_ | session_ | system_ )? user )\b
+    (?xi: (?: current_ | session_ | system_ )? user )
 
 contexts:
 
@@ -1002,9 +1002,8 @@ contexts:
         4: punctuation.separator.sequence.sql
         5: constant.numeric.sql
         6: punctuation.section.group.end.tsql
-      pop: true
-    - match: (?=\S)
-      pop: true
+      pop: 1
+    - include: else-pop
 
   inside-user-type:
     - meta_prepend: true

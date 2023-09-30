@@ -1,6 +1,132 @@
 -- SYNTAX TEST "Packages/SQL/MySQL.sublime-syntax"
 
 -- ----------------------------------------------------------------------------
+-- Data Types
+-- https://mariadb.com/kb/en/data-types
+-- ----------------------------------------------------------------------------
+
+    BIT BOOLEAN
+-- ^ - storage
+--  ^^^ storage.type.sql
+--     ^ - storage
+--      ^^^^^^^ storage.type.sql
+--             ^ - storage
+
+    INT INT1 INT2 INT3 INT4 INT8 INTEGER FLOAT FLOAT4 FLOAT8
+-- ^ - storage
+--  ^^^ storage.type.sql
+--     ^ - storage
+--      ^^^^ storage.type.sql
+--          ^ - storage
+--           ^^^^ storage.type.sql
+--               ^ - storage
+--                ^^^^ storage.type.sql
+--                    ^ - storage
+--                     ^^^^ storage.type.sql
+--                         ^ - storage
+--                          ^^^^ storage.type.sql
+--                              ^ - storage
+--                               ^^^^^^^ storage.type.sql
+--                                      ^ - storage
+--                                       ^^^^^ storage.type.sql
+--                                            ^ - storage
+--                                             ^^^^^^ storage.type.sql
+--                                                   ^ - storage
+--                                                    ^^^^^^ storage.type.sql
+--                                                          ^ - storage
+
+    BIGINT MEDIUMINT SMALLINT TINYINT
+-- ^ - storage
+--  ^^^^^^ storage.type.sql
+--        ^ - storage
+--         ^^^^^^^^^ storage.type.sql
+--                  ^ - storage
+--                   ^^^^^^^^ storage.type.sql
+--                           ^ - storage
+--                            ^^^^^^^ storage.type.sql
+--                                   ^ - storage
+
+    DECIMAL DEC NUMBER NUMERIC FIXED
+-- ^ - storage
+--  ^^^^^^^ storage.type.sql
+--         ^ - storage
+--          ^^^ storage.type.sql
+--             ^ - storage
+--              ^^^^^^ storage.type.sql
+--                    ^ - storage
+--                     ^^^^^^^ storage.type.sql
+--                            ^ - storage
+--                             ^^^^^ storage.type.sql
+--                                  ^ - storage
+
+    DOUBLE PRECISION DOUBLE FLOAT REAL
+-- ^ - storage
+--  ^^^^^^^^^^^^^^^^ storage.type.sql
+--                  ^ - storage
+--                   ^^^^^^ storage.type.sql
+--                         ^ - storage
+--                          ^^^^^ storage.type.sql
+--                               ^ - storage
+--                                ^^^^ storage.type.sql
+--                                    ^ - storage
+
+    CHAR BYTE
+--  ^^^^^^^^^ storage.type.sql
+
+    NATIONAL CHAR
+--  ^^^^^^^^^^^^^ storage.type.sql
+
+    ENUM('foo', 'bar')
+--  ^^^^^^^^^^^^^^^^^^ - meta.function-call
+--  ^^^^ storage.type.sql
+--      ^^^^^^^^^^^^^^ meta.group.sql
+--      ^ punctuation.section.group.begin.sql
+--       ^^^^^ meta.string.sql string.quoted.single.sql
+--            ^ punctuation.separator.sequence.sql
+--              ^^^^^ meta.string.sql string.quoted.single.sql
+--                   ^ punctuation.section.group.end.sql
+
+    ENUM ('foo', 'bar')
+--  ^^^^^^^^^^^^^^^^^^^ - meta.function-call
+--  ^^^^ storage.type.sql
+--       ^^^^^^^^^^^^^^ meta.group.sql
+--       ^ punctuation.section.group.begin.sql
+--        ^^^^^ meta.string.sql string.quoted.single.sql
+--             ^ punctuation.separator.sequence.sql
+--               ^^^^^ meta.string.sql string.quoted.single.sql
+--                    ^ punctuation.section.group.end.sql
+
+    INT(10) FIXED(10,2) TEXT(200) VARCHAR(10)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call
+--  ^^^^^^^ storage.type.sql
+--          ^^^^^^^^^^^ storage.type.sql
+--                      ^^^^^^^^^ storage.type.sql
+--                                ^^^^^^^^^^^ storage.type.sql
+
+    SET SET('foo', 'bar')
+--  ^^^ keyword.other.dml.sql
+--      ^^^ storage.type.sql
+--         ^^^^^^^^^^^^^^ meta.group.sql
+--         ^ punctuation.section.group.begin.sql
+--          ^^^^^ meta.string.sql string.quoted.single.sql
+--               ^ punctuation.separator.sequence.sql
+--                 ^^^^^ meta.string.sql string.quoted.single.sql
+--                      ^ punctuation.section.group.end.sql
+
+    UUID UUID()
+--  ^^^^ storage.type.sql
+--       ^^^^ meta.function-call.sql support.function.sql
+
+    YEAR YEAR()
+--  ^^^^ storage.type.sql
+--       ^^^^ meta.function-call.sql support.function.sql
+
+    SIGNED UNSIGNED ZEROFILL
+--  ^^^^^^ storage.modifier.sql
+--         ^^^^^^^^ storage.modifier.sql
+--                  ^^^^^^^^ storage.modifier.sql
+
+-- ----------------------------------------------------------------------------
 -- Data Definition Statements
 -- https://mariadb.com/kb/en/data-definition
 -- ----------------------------------------------------------------------------
@@ -326,11 +452,11 @@ CREATE FUNCTION func_name(IN param_name number, IN OUT out varchar) RETURN
 --                       ^ punctuation.section.group.begin.sql
 --                        ^^ storage.modifier.sql
 --                           ^^^^^^^^^^ variable.parameter.sql
---                                      ^^^^^^ support.type.sql
+--                                      ^^^^^^ storage.type.sql
 --                                            ^ punctuation.separator.sequence.sql
 --                                              ^^^^^^ storage.modifier.sql
 --                                                     ^^^ variable.parameter.sql
---                                                         ^^^^^^^ support.type.sql
+--                                                         ^^^^^^^ storage.type.sql
 --                                                                ^ punctuation.section.group.end.sql
 --                                                                  ^^^^^^ keyword.control.flow.return.sql
 --
@@ -354,11 +480,11 @@ CREATE AGGREGATE FUNCTION
 -- <- meta.statement.create.sql meta.function.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
 --  ^^^^^^^ keyword.other.ddl.sql
---          ^^^^^^^ support.type.sql
---                 ^^^^^ meta.group.sql
---                 ^ punctuation.section.group.begin.sql
+--          ^^^^^^^ storage.type.sql
+--                 ^^^^^ meta.parens.sql
+--                 ^ punctuation.definition.parens.begin.sql
 --                  ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
---                     ^ punctuation.section.group.end.sql
+--                     ^ punctuation.definition.parens.end.sql
 
     LANGUAGE SQL
 -- <- meta.statement.create.sql meta.function.sql
@@ -473,10 +599,11 @@ CREATE OR REPLACE PROCEDURE sp_name (param int, out args varchar(200)) SELECT fo
 --                                            ^ punctuation.separator.sequence.sql
 --                                              ^^^ storage.modifier.sql
 --                                                  ^^^^ variable.parameter.sql
---                                                       ^^^^^^^ support.type.sql
---                                                              ^ punctuation.section.group.begin.sql
---                                                               ^^^ constant.numeric.value.sql
---                                                                  ^^ punctuation.section.group.end.sql
+--                                                       ^^^^^^^ storage.type.sql - meta.parens
+--                                                              ^^^^^ storage.type.sql meta.parens.sql
+--                                                              ^ punctuation.definition.parens.begin.sql
+--                                                               ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                                  ^ punctuation.definition.parens.end.sql
 --                                                                     ^^^^^^ keyword.other.dml.sql
 --                                                                            ^^^ meta.column-name.sql
 --                                                                                ^^^^ keyword.other.dml.sql
@@ -500,7 +627,20 @@ CREATE PROCEDURE
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
 --  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+BEGIN
 
+    DECLARE r ROW (c1 INT, c2 VARCHAR(10));
+--            ^^^ storage.type.sql
+--                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                ^ punctuation.section.group.begin.sql
+--                 ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                    ^^^ storage.type.sql
+--                       ^ punctuation.separator.sequence.sql
+--                         ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                            ^^^^^^^^^^^ storage.type.sql
+--                                       ^ punctuation.section.group.end.sql
+
+END
 
 -- ----------------------------------------------------------------------------
 -- Create Index Statements
@@ -847,7 +987,7 @@ create table some_schema.test2( id serial );
 --                      ^ punctuation.accessor.dot
 --                            ^ punctuation.section.group.begin.sql
 --                              ^^ meta.column-name.sql variable.other.member.declaration.sql
---                                 ^^^^^^ storage.type.sql
+--                                 ^^^^^^ support.type.sql
 --                                        ^ punctuation.section.group.end.sql
 --                                         ^ punctuation.terminator.statement.sql
 
@@ -863,7 +1003,7 @@ create table some_schema . test2 ( id serial );
 --                       ^ punctuation.accessor.dot
 --                               ^ punctuation.section.group.begin.sql
 --                                 ^^ meta.column-name.sql variable.other.member.declaration.sql
---                                    ^^^^^^ storage.type.sql
+--                                    ^^^^^^ support.type.sql
 --                                           ^ punctuation.section.group.end.sql
 --                                            ^ punctuation.terminator.statement.sql
 
@@ -915,11 +1055,19 @@ create table IF NOT EXISTS `testing123` (
 --                  ^^^^^^ keyword.operator.logical.sql
 --                         ^^^^^^^^^^^^ entity.name.struct.table.sql
 --                                      ^ punctuation.section.group.begin.sql
+
+    -- ------------------
+    -- column definitions
+    -- ------------------
+
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
 --  ^^^^ meta.column-name.sql
---       ^^^^^^^ storage.type.sql
---           ^^ constant.numeric.sql
+--       ^^^ storage.type.sql - meta.parens
+--          ^^^^ storage.type.sql meta.parens.sql
+--          ^ punctuation.definition.parens.begin.sql
+--           ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--             ^ punctuation.definition.parens.end.sql
 --               ^^^^^^^^ storage.modifier.sql
 --                        ^^^ keyword.operator.logical.sql
 --                            ^^^^ constant.language.null.sql
@@ -939,16 +1087,35 @@ create table IF NOT EXISTS `testing123` (
     `version` tinytext DEFAULT NULL COMMENT 'important clarification',
 --            ^^^^^^^^ storage.type.sql
     `percentage` float DEFAULT '0',
+
+    `set` SET ('value1', 'value2') NOT NULL,
+--  ^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--        ^^^ storage.type.sql
+--            ^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--            ^ punctuation.section.group.begin.sql
+--             ^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                     ^ punctuation.separator.sequence.sql
+--                       ^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                               ^ punctuation.section.group.end.sql
+--                                 ^^^ keyword.operator.logical.sql
+--                                     ^^^^ constant.language.null.sql
+--                                         ^ punctuation.separator.sequence.sql
+
+    -- ------------------
+    -- index definitions
+    -- ------------------
+
     UNIQUE KEY `testing123_search` (`col`, `version`),
 --  ^^^^^^^^^^ storage.modifier.sql
     KEY `testing123_col` (`col`),
 --  ^^^ storage.modifier.sql
     FULLTEXT KEY `testing123_version` (`version`)
+
 ) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARACTER SET=utf8;
 
 create table fancy_table (
     id SERIAL,
---     ^^^^^^ storage.type.sql
+--     ^^^^^^ support.type.sql
     foreign_id integer,
 --             ^^^^^^^ storage.type.sql
     myflag boolean DEFAULT false,
@@ -960,14 +1127,14 @@ create table fancy_table (
     mytime timestamp(3) without time zone DEFAULT now(),
 --         ^^^^^^^^^^^^ storage.type.sql
 --                   ^ constant.numeric
---                      ^^^^^^^^^^^^^^^^^ storage.type.sql
+--                      ^^^^^^^^^^^^^^^^^ storage.modifier.sql
 --                                        ^^^^^^^ storage.modifier
 --                                                ^^^ meta.function-call support.function
 --                                                   ^ punctuation.section.arguments.begin
 --                                                    ^ punctuation.section.arguments.end
 --                                                     ^ punctuation.separator.sequence
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone, -- TODO: seems like :: is a postgresql cast operator
---                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
+--                       ^^^^^^^^^^^^^^^^^^^ storage.modifier.sql
     some_number numeric(5, 2) DEFAULT 0,
 --  ^^^^^^^^^^^ meta.column-name
 --              ^^^^^^^^^^^^^ storage.type

@@ -23,6 +23,7 @@ variables:
     | tsvector | tsquery
     | uuid
     | text | xml | jsonb? )
+
   types_with_optional_number: |-
     (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
 

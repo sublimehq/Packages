@@ -30,21 +30,42 @@ variables:
   table_row_formats: |-
     (?xi: dynamic | fixed | compressed | redundant | compact | page )
 
+  # https://mariadb.com/kb/en/data-types
   simple_types: |-
-    (?xi: bigint | bigserial | bit | bool | boolean | box | bytea | cidr | circle
-    | date | datetime | double\s+precision | enum | inet | integer | line
-    | longtext | lseg | macaddr | money | ntext | oid | path | point | polygon
-    | real | serial | smallint | sysdate | sysname | text | tinytext )
-  types_with_optional_number: |-
-    (?xi: bit\s+varying | character\s+(?:varying)? | tinyint | var\s+char | float
-    | int | interval | numeric | decimal | times? | timestamp(?:s | tz)? )
+    (?xi: boolean | bool | uuid | year )
 
-  time_unit: |-
-    (?xi: year | quarter | month | day | hour | minute | week | second | year_month
-    | day_hour | day_minute | day_second | hour_minute | hour_second | minute_second )
+  types_with_optional_number: |-
+    (?xi:
+    # numeric data types
+      (?: big | medium | middle | small | tiny ) int
+    | bit(?: \s+ varying )?
+    | date(?: time )?
+    | dec(?: imal )?
+    | double(?: \s+ precision )?
+    | fixed
+    | float[48]?
+    | int(?: [12348] | eger )?
+    | number
+    | numeric
+    | real
+    | (?: local )?time(?: stamp )?
+    # string data types
+    | (?: long | medium | tiny )? (?: blob | text )
+    | binary (?: \s+ varying )?
+    | char \s+ byte
+    | (?: national \s+ )? char(?: acter )? (?: \s+ varying )?
+    | inet[46]
+    | long(?: \s+ varchar )?
+    | var(?: binary | char (?: acter )? )
+    )
+
+  time_units: |-
+    (?xi: year(?: _month )? | day(?: _hour | _minute | _second | _microsecond )?
+    | hour(?: _minute | _second  | _microsecond )? | minute(?: _second | _microsecond )?
+    | second(?: _microsecond )? | quarter | month | week )
 
   builtin_user_functions: |-
-    \b(?xi: (?: current | session | system )_(?: role | user ))\b
+    (?xi: (?: current | session | system )_(?: role | user ))
 
 contexts:
   sql:
@@ -1145,13 +1166,38 @@ contexts:
     - match: \b(?i:interval)\b
       scope: storage.type.interval.sql
 
+  built-in-types:
+    - meta_prepend: true
+    # https://mariadb.com/kb/en/row
+    - match: \b(?i:row)\b
+      scope: storage.type.sql
+      push:
+        - after-type
+        - maybe-column-declaration-list
+    - match: \b(?i:set)(?=\s*\()
+      scope: storage.type.sql
+      push:
+        - after-type
+        - maybe-group
+
+  built-in-type:
+    - meta_prepend: true
+    # https://mariadb.com/kb/en/row
+    - match: \b(?i:row)\b
+      scope: storage.type.sql
+      set:
+        - after-type
+        - maybe-column-declaration-list
+    - match: \b(?i:set)\b
+      scope: storage.type.sql
+      set:
+        - after-type
+        - maybe-group
+
   after-type:
     - meta_prepend: true
-    - match: \b(?i:unsigned)\b
-      scope: storage.modifier.sql
-      pop: 1
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
-      scope: storage.type.sql
+      scope: storage.modifier.sql
       pop: 1
 
 ###[ IDENTIFIERS ]#############################################################
@@ -1252,7 +1298,7 @@ contexts:
       pop: 1
 
   time-units:
-    - match: '{{time_unit}}'
+    - match: \b{{time_unit}}(?!\()\b
       scope: keyword.other.unit.sql
 
   regexps:

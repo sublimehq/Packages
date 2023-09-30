@@ -202,9 +202,9 @@ CREATE TABLE IF NOT EXISTS date_by_userid (
 --         ^^^^ storage.type
 --              ^^^^^^^^^^^ storage.modifier
 --                         ^ punctuation.separator.sequence
-    date timestamp
---  ^^^^ meta.column-name
---       ^^^^^^^^^ storage.type
+    `date` timestamp
+--  ^^^^^^ meta.column-name
+--         ^^^^^^^^^ storage.type
 );
 
 
