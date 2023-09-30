@@ -231,6 +231,10 @@ contexts:
     - match: ''
       pop: 1
 
+  immediately-pop-2:
+    - match: ''
+      pop: 2
+
   comma-separator:
     - match: ','
       scope: punctuation.separator.comma.js
@@ -1497,7 +1501,7 @@ contexts:
       pop: 1
 
     - match: \;
-      scope: punctuation.terminator.statement.js
+      scope: punctuation.terminator.statement.empty.js
 
     - include: decorator
 
@@ -1512,15 +1516,9 @@ contexts:
       branch_point: static-block
       branch:
         - static-block
-        - class-element-modifiers
+        - class-element
 
-    - match: (?={{modifier}})
-      push: class-element-modifiers
-
-    - match: (?=\*)
-      push: method-declaration
-
-    - match: (?={{class_element_name}})
+    - match: (?=\S)
       push: class-element
 
   static-block:
@@ -1530,23 +1528,6 @@ contexts:
         - include: block
         - match: (?=\S)
           fail: static-block
-
-  class-element-modifiers:
-    - match: ''
-      pop: 1
-      branch_point: class-element-modifier
-      branch:
-        - class-element-modifier
-        - class-element
-
-  class-element-modifier:
-    - match: '{{modifier}}'
-      scope: storage.modifier.js
-      set:
-        - match: (?={{class_element_name}}|\*)
-          pop: 1
-        - match: (?=\S)
-          fail: class-element-modifier
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1581,6 +1562,8 @@ contexts:
     - include: else-pop
 
   class-element:
+    - match: (?=\*)
+      set: method-declaration
     - match: ''
       pop: 1
       branch_point: class-field
@@ -1591,13 +1574,30 @@ contexts:
   class-field:
     - match: ''
       set:
+        - expect-semicolon
         - initializer
         - class-field-check
         - field-name
+        - class-element-modifiers
 
   class-field-check:
     - match: (?=\()
       fail: class-field
+    - include: else-pop
+
+  class-element-modifiers:
+    - match: (?={{modifier}})
+      branch_point: class-element-modifier
+      branch:
+        - - match: '{{modifier}}'
+            scope: storage.modifier.js
+            set:
+              - match: (?={{class_element_name}}|\*)
+                pop: 1
+              - match: (?=\S)
+                fail: class-element-modifier
+
+        - immediately-pop-2
     - include: else-pop
 
   special-name:
@@ -1938,6 +1938,7 @@ contexts:
         - method-name
         - method-declaration-expect-asterisk
         - method-declaration-prefix
+        - class-element-modifiers
 
   method-declaration-expect-asterisk:
     - match: \*
@@ -1951,20 +1952,18 @@ contexts:
       branch:
         - - match: (?:get|set){{identifier_break}}
             scope: storage.type.accessor.js
-            set:
-              - match: (?={{class_element_name}})
-                pop: 1
-              - match: (?=\S)
-                fail: method-declaration-prefix
+            set: method-declaration-prefix-check
           - match: (?:async){{identifier_break}}
             scope: keyword.declaration.async.js
-            set:
-              - match: (?=\*|{{class_element_name}})
-                pop: 1
-              - match: (?=\S)
-                fail: method-declaration-prefix
+            set: method-declaration-prefix-check
         - immediately-pop
     - include: else-pop
+
+  method-declaration-prefix-check:
+    - match: (?=\*|{{class_element_name}})
+      pop: 1
+    - match: (?=\S)
+      fail: method-declaration-prefix
 
   parenthesized-expression:
     - match: \(

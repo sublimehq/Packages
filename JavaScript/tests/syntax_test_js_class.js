@@ -11,6 +11,7 @@ class MyClass extends TheirClass {
 //  ^ variable.other.readwrite
 //    ^ keyword.operator.assignment
 //      ^^ constant.numeric
+//        ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
 
     'y' = 42;
 //  ^^^ meta.string string.quoted.single
@@ -142,7 +143,8 @@ class MyClass extends TheirClass {
         for (const param of this.#data.get('value')) {}
 //                               ^ punctuation.definition.variable
 //                                ^^^^ meta.property.object
-    }
+    };
+//   ^ punctuation.terminator.statement.empty.js
 
     #privateMethod() {}
 //  ^^^^^^^^^^^^^^^^^^^ meta.function
@@ -168,8 +170,13 @@ class MyClass extends TheirClass {
     }
 
     get *foo()
+//  ^^^^^^^^ meta.function
+//  ^^^ storage.type.accessor
+//      ^ keyword.generator.asterisk
+//       ^^^ entity.name.function
 
     static foo(baz) {
+//  ^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^ storage.modifier
 //         ^^^^^^^^^^ meta.function
     //     ^^^ entity.name.function

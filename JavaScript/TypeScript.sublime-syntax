@@ -387,11 +387,10 @@ contexts:
     - match: '\+|-'
       scope: storage.modifier.js
     - match: (?={{modifier}})
-      pop: 1
       branch_point: ts-type-member-modifier
       branch:
         - ts-type-member-modifier
-        - immediately-pop
+        - immediately-pop-2
     - include: else-pop
 
   ts-type-member-modifier:
@@ -399,7 +398,7 @@ contexts:
       scope: storage.modifier.js
       set:
         - match: (?={{identifier_start}}|[-+*''"\[\d])
-          set: ts-type-element-modifiers
+          pop: 1
         - match: (?=\S)
           fail: ts-type-member-modifier
 
@@ -655,12 +654,14 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       set:
+        - expect-semicolon
         - initializer
         - ts-type-annotation
         - ts-type-annotation-optional
         - ts-type-annotation-definite
         - class-field-check
         - field-name
+        - class-element-modifiers
 
   class-field-check:
     - match: (?=[(<])
@@ -679,6 +680,7 @@ contexts:
         - method-name
         - method-declaration-expect-asterisk
         - method-declaration-prefix
+        - class-element-modifiers
 
   expression-end:
     - meta_prepend: true
