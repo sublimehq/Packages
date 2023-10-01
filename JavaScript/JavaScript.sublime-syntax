@@ -332,9 +332,11 @@ contexts:
   import-export-assert:
     - match: (?:assert|with){{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - include: object-literal
-        - include: else-pop
+      set: import-export-object
+    - include: else-pop
+
+  import-export-object:
+    - include: object-literal
     - include: else-pop
 
   export-statement:

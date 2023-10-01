@@ -27,7 +27,11 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 import 'module';
 // ^^^^^^^^^^^^^ meta.import
 
+import foo from 'bar' assert // incomplete!
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+
 import foo from 'bar' assert { type: "json" };
+// <- meta.import.js keyword.control.import-export.js
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 //^^^^ keyword.control.import-export.js
 //     ^^^ variable.other.readwrite.js
