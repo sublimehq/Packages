@@ -228,10 +228,12 @@ contexts:
       pop: 2
 
   immediately-pop:
+    - meta_include_prototype: false
     - match: ''
       pop: 1
 
   immediately-pop-2:
+    - meta_include_prototype: false
     - match: ''
       pop: 2
 
@@ -1562,6 +1564,7 @@ contexts:
     - include: else-pop
 
   class-element:
+    - meta_include_prototype: false
     - match: (?=\*)
       set: method-declaration
     - match: ''
@@ -1572,6 +1575,7 @@ contexts:
         - method-declaration
 
   class-field:
+    - meta_include_prototype: false
     - match: ''
       set:
         - expect-semicolon

@@ -122,9 +122,18 @@ class MyClass extends TheirClass {
     static = 42;
 //  ^^^^^^ variable.other.readwrite
 
+    static static = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^^^^ variable.other.readwrite
+
     static() {}
 //  ^^^^^^^^^^^ meta.function
 //  ^^^^^^ entity.name.function
+
+    static static() {}
+//  ^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^ storage.modifier.js
+//         ^^^^^^ entity.name.function
 
     accessor foo;
 //  ^^^^^^^^ storage.modifier
