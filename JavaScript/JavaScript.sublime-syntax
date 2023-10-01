@@ -356,10 +356,7 @@ contexts:
 
     - match: default{{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - include: declaration
-        - match: (?=\S)
-          set: expression-statement
+      set: export-default
 
     - match: (?=\S)
       set:
@@ -367,6 +364,10 @@ contexts:
         - import-export-assert
         - import-export-from
         - import-export-item
+
+  export-default:
+    - include: declaration
+    - include: expression-statement
 
   statements:
     - match: '\)|\}|\]'

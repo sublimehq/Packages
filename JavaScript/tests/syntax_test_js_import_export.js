@@ -119,7 +119,14 @@ export class Foo {};
 //     ^^^^^^^^^^^^ meta.class
 //                 ^ punctuation.terminator.statement.empty
 
+export default
+// <- meta.export.js keyword.control.import-export.js
+//^^^^^^^^^^^^^ meta.export.js
+//^^^^ keyword.control.import-export.js
+//     ^^^^^^^ keyword.control.import-export.js
+
 export default expression;
+// <- meta.export.js keyword.control.import-export.js
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^ keyword.control.import-export
