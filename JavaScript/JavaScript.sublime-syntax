@@ -1564,6 +1564,7 @@ contexts:
     - include: else-pop
 
   class-element:
+    - meta_include_prototype: false
     - match: (?=\*)
       set: method-declaration
     - match: ''
@@ -1574,6 +1575,7 @@ contexts:
         - method-declaration
 
   class-field:
+    - meta_include_prototype: false
     - match: ''
       set:
         - expect-semicolon
