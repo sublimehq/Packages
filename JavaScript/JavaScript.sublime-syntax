@@ -248,7 +248,7 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
-        - import-assert
+        - import-export-assert
         - import-string-or-items
         - import-check-branch
 
@@ -281,7 +281,11 @@ contexts:
   import-export-from:
     - match: 'from{{identifier_break}}'
       scope: keyword.control.import-export.js
-      set: literal-string
+      set: import-export-from-name
+    - include: else-pop
+
+  import-export-from-name:
+    - include: literal-string
     - include: else-pop
 
   import-string-or-items:
@@ -290,49 +294,49 @@ contexts:
       set:
         - import-export-from
         - import-list
-        - import-export-alias
-        - import-item
+        - import-export-item
 
   import-list:
     - match: ','
       scope: punctuation.separator.comma.js
-      push:
-        - import-export-alias
-        - import-item
+      push: import-export-item
     - include: else-pop
 
-  import-item:
+  import-export-item:
     - match: '\{'
       scope: punctuation.section.block.begin.js
-      set: import-brace
+      set: import-export-brace
     - match: '{{non_reserved_identifier}}'
       scope: variable.other.readwrite.js
       pop: 1
     - match: '\*'
-      scope: constant.other.js
-      pop: 1
+      scope: constant.other.wildcard.asterisk.js
+      set: import-export-alias
     - include: else-pop
 
-  import-brace:
+  import-export-brace:
     - meta_scope: meta.block.js
     - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.end.js
       pop: 1
-    - match: '{{identifier_name}}'
-      scope: variable.other.readwrite.js
-      push: import-export-alias
+    - match: (?={{identifier_start}}|'|")
+      push:
+        - import-export-alias
+        - import-export-name
     - match: '\*'
-      scope: constant.other.js
+      scope: constant.other.wildcard.asterisk.js
       push: import-export-alias
     - include: else-pop
 
-  import-assert:
-    - match: assert{{identifier_break}}
+  import-export-assert:
+    - match: (?:assert|with){{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - include: object-literal
-        - include: else-pop
+      set: import-export-object
+    - include: else-pop
+
+  import-export-object:
+    - include: object-literal
     - include: else-pop
 
   export-statement:
@@ -350,39 +354,20 @@ contexts:
   export-body:
     - include: declaration
 
-    - match: 'default{{identifier_break}}'
+    - match: default{{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - include: declaration
-        - match: (?=\S)
-          set: expression-statement
+      set: export-default
 
     - match: (?=\S)
       set:
         - expect-semicolon
+        - import-export-assert
         - import-export-from
-        - export-item
+        - import-export-item
 
-  export-item:
-    - match: '\{'
-      scope: punctuation.section.block.begin.js
-      set: export-brace
-    - match: '\*'
-      scope: constant.other.js
-      set: import-export-alias
-    - include: else-pop
-
-  export-brace:
-    - meta_scope: meta.block.js
-    - include: comma-separator
-    - match: '\}'
-      scope: punctuation.section.block.end.js
-      pop: 1
-    - match: (?={{identifier_start}}|'|")
-      push:
-        - import-export-alias
-        - import-export-name
-    - include: else-pop
+  export-default:
+    - include: declaration
+    - include: expression-statement
 
   statements:
     - match: '\)|\}|\]'
