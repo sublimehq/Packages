@@ -27,7 +27,11 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 import 'module';
 // ^^^^^^^^^^^^^ meta.import
 
+import foo from 'bar' assert // incomplete!
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+
 import foo from 'bar' assert { type: "json" };
+// <- meta.import.js keyword.control.import-export.js
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 //^^^^ keyword.control.import-export.js
 //     ^^^ variable.other.readwrite.js
@@ -115,7 +119,14 @@ export class Foo {};
 //     ^^^^^^^^^^^^ meta.class
 //                 ^ punctuation.terminator.statement.empty
 
+export default
+// <- meta.export.js keyword.control.import-export.js
+//^^^^^^^^^^^^^ meta.export.js
+//^^^^ keyword.control.import-export.js
+//     ^^^^^^^ keyword.control.import-export.js
+
 export default expression;
+// <- meta.export.js keyword.control.import-export.js
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^ keyword.control.import-export
@@ -160,6 +171,12 @@ export { name1 as default };
 //     ^^^^^^^^^^^^^^^^^^^^ meta.block
 //             ^ keyword.control.import-export
 //                ^ keyword.control.import-export
+
+export * from // incomplete, missing source!
+//^^^^^^^^^^^^ meta.export.js
+//^^^^ keyword.control.import-export.js
+//     ^ constant.other.wildcard.asterisk.js
+//       ^^^^ keyword.control.import-export.js
 
 export * from "./othermod";
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -214,7 +231,12 @@ export { member as
 let from;
 //  ^^^^ variable.other.readwrite.js
 
+import from from // incomplete, missing source!
+// <- meta.import.js keyword.control.import-export.js
+//     ^^^^ variable.other.readwrite.js
+
 import from from "./othermod";
+// <- meta.import.js keyword.control.import-export.js
 //     ^^^^ variable.other.readwrite.js
 
 import { from } from "./othermod";

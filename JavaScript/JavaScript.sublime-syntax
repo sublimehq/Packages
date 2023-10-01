@@ -281,7 +281,11 @@ contexts:
   import-export-from:
     - match: 'from{{identifier_break}}'
       scope: keyword.control.import-export.js
-      set: literal-string
+      set: import-export-from-name
+    - include: else-pop
+
+  import-export-from-name:
+    - include: literal-string
     - include: else-pop
 
   import-string-or-items:
@@ -328,9 +332,11 @@ contexts:
   import-export-assert:
     - match: (?:assert|with){{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - include: object-literal
-        - include: else-pop
+      set: import-export-object
+    - include: else-pop
+
+  import-export-object:
+    - include: object-literal
     - include: else-pop
 
   export-statement:
@@ -350,10 +356,7 @@ contexts:
 
     - match: default{{identifier_break}}
       scope: keyword.control.import-export.js
-      set:
-        - include: declaration
-        - match: (?=\S)
-          set: expression-statement
+      set: export-default
 
     - match: (?=\S)
       set:
@@ -361,6 +364,10 @@ contexts:
         - import-export-assert
         - import-export-from
         - import-export-item
+
+  export-default:
+    - include: declaration
+    - include: expression-statement
 
   statements:
     - match: '\)|\}|\]'
