@@ -228,10 +228,12 @@ contexts:
       pop: 2
 
   immediately-pop:
+    - meta_include_prototype: false
     - match: ''
       pop: 1
 
   immediately-pop-2:
+    - meta_include_prototype: false
     - match: ''
       pop: 2
 
