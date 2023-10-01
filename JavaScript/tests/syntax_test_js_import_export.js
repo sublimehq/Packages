@@ -161,6 +161,12 @@ export { name1 as default };
 //             ^ keyword.control.import-export
 //                ^ keyword.control.import-export
 
+export * from // incomplete, missing source!
+//^^^^^^^^^^^^ meta.export.js
+//^^^^ keyword.control.import-export.js
+//     ^ constant.other.wildcard.asterisk.js
+//       ^^^^ keyword.control.import-export.js
+
 export * from "./othermod";
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
@@ -214,7 +220,12 @@ export { member as
 let from;
 //  ^^^^ variable.other.readwrite.js
 
+import from from // incomplete, missing source!
+// <- meta.import.js keyword.control.import-export.js
+//     ^^^^ variable.other.readwrite.js
+
 import from from "./othermod";
+// <- meta.import.js keyword.control.import-export.js
 //     ^^^^ variable.other.readwrite.js
 
 import { from } from "./othermod";

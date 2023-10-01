@@ -281,7 +281,11 @@ contexts:
   import-export-from:
     - match: 'from{{identifier_break}}'
       scope: keyword.control.import-export.js
-      set: literal-string
+      set: import-export-from-name
+    - include: else-pop
+
+  import-export-from-name:
+    - include: literal-string
     - include: else-pop
 
   import-string-or-items:
