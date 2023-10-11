@@ -3212,14 +3212,14 @@ contexts:
     - match: |-
         (?xi:
           assert | assert_options | cli_get_process_title | cli_set_process_title | dl | extension_loaded |
-          gc_collect_cycles | gc_disable | gc_enable | gc_enabled | get_cfg_var | get_current_user |
-          get_defined_constants | get_extension_funcs | get_include_path | get_included_files | get_loaded_extensions |
-          get_magic_quotes_gpc | get_magic_quotes_runtime | get_required_files | getenv | getlastmod | getmygid |
-          getmyinode | getmypid | getmyuid | getopt | getrusage | ini_alter | ini_get | ini_get_all | ini_restore |
-          ini_set | magic_quotes_runtime | main | memory_get_peak_usage | memory_get_usage | php_ini_loaded_file |
-          php_ini_scanned_files | php_logo_guid | php_sapi_name | php_uname | phpcredits | phpinfo | phpversion |
-          putenv | restore_include_path | set_include_path | set_magic_quotes_runtime | set_time_limit |
-          sys_get_temp_dir | version_compare | zend_logo_guid | zend_thread_id | zend_version
+          gc_collect_cycles | gc_disable | gc_enable | gc_enabled | gc_mem_caches | gc_status | get_cfg_var |
+          get_current_user | get_defined_constants | get_extension_funcs | get_include_path | get_included_files |
+          get_loaded_extensions | get_magic_quotes_gpc | get_magic_quotes_runtime | get_required_files | getenv |
+          getlastmod | getmygid | getmyinode | getmypid | getmyuid | getopt | getrusage | ini_alter | ini_get |
+          ini_get_all | ini_restore | ini_set | magic_quotes_runtime | main | memory_get_peak_usage | memory_get_usage |
+          php_ini_loaded_file | php_ini_scanned_files | php_logo_guid | php_sapi_name | php_uname | phpcredits |
+          phpinfo | phpversion | putenv | restore_include_path | set_include_path | set_magic_quotes_runtime |
+          set_time_limit | sys_get_temp_dir | version_compare | zend_logo_guid | zend_thread_id | zend_version
         )\b
       scope: support.function.info.php
     - match: |-

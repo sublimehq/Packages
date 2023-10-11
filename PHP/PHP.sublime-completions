@@ -5667,6 +5667,18 @@
 			"details": "Returns status of the circular reference collector"
 		},
 		{
+			"trigger": "gc_mem_caches()",
+			"contents": "gc_mem_caches()",
+			"kind": "function",
+			"details": "Reclaims memory used by the Zend Engine memory manager"
+		},
+		{
+			"trigger": "gc_status()",
+			"contents": "gc_status()",
+			"kind": "function",
+			"details": "Gets information about the garbage collector"
+		},
+		{
 			"trigger": "gd_info()",
 			"contents": "gd_info()",
 			"kind": "function",
