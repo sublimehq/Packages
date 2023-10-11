@@ -2977,14 +2977,13 @@ contexts:
         (?xi:
           array | array_change_key_case | array_chunk | array_column | array_combine | array_count_values | array_diff | array_diff_assoc |
           array_diff_key | array_diff_uassoc | array_diff_ukey | array_fill | array_fill_keys | array_filter | array_flip | array_intersect |
-          array_intersect_assoc | array_intersect_key | array_intersect_uassoc | array_intersect_ukey | array_key_exists | array_keys | array_map | array_merge |
-          array_merge_recursive | array_multisort | array_pad | array_pop | array_product | array_push | array_rand | array_reduce |
-          array_replace | array_replace_recursive | array_reverse | array_search | array_shift | array_slice | array_splice | array_sum |
-          array_udiff | array_udiff_assoc | array_udiff_uassoc | array_uintersect | array_uintersect_assoc | array_uintersect_uassoc | array_unique | array_unshift |
-          array_values | array_walk | array_walk_recursive | arsort | asort | compact | count | current |
-          each | end | extract | in_array | key | krsort | ksort | list |
-          natcasesort | natsort | next | pos | prev | range | reset | rsort |
-          shuffle | sizeof | sort | uasort | uksort | usort
+          array_intersect_assoc | array_intersect_key | array_intersect_uassoc | array_intersect_ukey | array_is_list | array_key_exists |
+          array_key_first | array_key_last | array_keys | array_map | array_merge | array_merge_recursive | array_multisort | array_pad |
+          array_pop | array_product | array_push | array_rand | array_reduce | array_replace | array_replace_recursive | array_reverse |
+          array_search | array_shift | array_slice | array_splice | array_sum | array_udiff | array_udiff_assoc | array_udiff_uassoc |
+          array_uintersect | array_uintersect_assoc | array_uintersect_uassoc | array_unique | array_unshift | array_values | array_walk |
+          array_walk_recursive | arsort | asort | compact | count | current | each | end | extract | in_array | key | krsort | ksort | list |
+          natcasesort | natsort | next | pos | prev | range | reset | rsort | shuffle | sizeof | sort | uasort | uksort | usort
         )\b
       scope: support.function.array.php
     - match: |-
@@ -3212,12 +3211,14 @@ contexts:
       scope: support.function.image.php
     - match: |-
         (?xi:
-          assert | assert_options | dl | extension_loaded | gc_collect_cycles | gc_disable | gc_enable | gc_enabled |
-          get_cfg_var | get_current_user | get_defined_constants | get_extension_funcs | get_include_path | get_included_files | get_loaded_extensions | get_magic_quotes_gpc |
-          get_magic_quotes_runtime | get_required_files | getenv | getlastmod | getmygid | getmyinode | getmypid | getmyuid |
-          getopt | getrusage | ini_alter | ini_get | ini_get_all | ini_restore | ini_set | magic_quotes_runtime |
-          main | memory_get_peak_usage | memory_get_usage | php_ini_loaded_file | php_ini_scanned_files | php_logo_guid | php_sapi_name | php_uname |
-          phpcredits | phpinfo | phpversion | putenv | restore_include_path | set_include_path | set_magic_quotes_runtime | set_time_limit |
+          assert | assert_options | cli_get_process_title | cli_set_process_title | dl | extension_loaded |
+          gc_collect_cycles | gc_disable | gc_enable | gc_enabled | get_cfg_var | get_current_user |
+          get_defined_constants | get_extension_funcs | get_include_path | get_included_files | get_loaded_extensions |
+          get_magic_quotes_gpc | get_magic_quotes_runtime | get_required_files | getenv | getlastmod | getmygid |
+          getmyinode | getmypid | getmyuid | getopt | getrusage | ini_alter | ini_get | ini_get_all | ini_restore |
+          ini_set | magic_quotes_runtime | main | memory_get_peak_usage | memory_get_usage | php_ini_loaded_file |
+          php_ini_scanned_files | php_logo_guid | php_sapi_name | php_uname | phpcredits | phpinfo | phpversion |
+          putenv | restore_include_path | set_include_path | set_magic_quotes_runtime | set_time_limit |
           sys_get_temp_dir | version_compare | zend_logo_guid | zend_thread_id | zend_version
         )\b
       scope: support.function.info.php
