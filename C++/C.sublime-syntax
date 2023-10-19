@@ -106,6 +106,9 @@ contexts:
     - match: \*/
       scope: punctuation.definition.comment.end.c
       pop: true
+    - match: ^\s*(\*)(?!\**/)
+      captures:
+        1: punctuation.definition.comment.c
 
   line-comments:
     - match: ^(//) =\s*(.*?)\s*=\s*$\n?
