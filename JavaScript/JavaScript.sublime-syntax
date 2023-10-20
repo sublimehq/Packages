@@ -151,6 +151,9 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.block.js
     - include: block-comment-end
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.js
 
   jsdoc-comment-body:
     - meta_include_prototype: false
