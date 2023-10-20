@@ -427,7 +427,7 @@ struct X
 
 /*
     *
-/*  ^ comment.block.c - punctuation */
+/*  ^ comment.block.c punctuation.definition.comment.c */
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
