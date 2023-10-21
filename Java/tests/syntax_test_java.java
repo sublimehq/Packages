@@ -1941,12 +1941,82 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //                                ^ punctuation.section.group.end.java
 //                                 ^ punctuation.separator.comma.java
 
-    integerToken {};
+    integerToken {},
 //  ^^^^^^^^^^^^ meta.constant.identifier.java entity.name.constant.java
 //              ^ meta.constant.identifier.java - constant
 //               ^ meta.constant.java meta.block.java punctuation.section.block.begin.java
 //                ^ meta.constant.java meta.block.java punctuation.section.block.end.java
-//                 ^ punctuation.terminator.java
+//                 ^ punctuation.separator.comma.java
+
+    BYTE (0x01, Byte.FOO, Byte.FOO, Byte[].FOO, byte.FOO, byte[].FOO) {},
+//  ^^^^^ meta.constant.identifier.java
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constant.arguments.java meta.group.java
+//                                                                   ^^^ meta.constant.java
+//                                                                      ^ - meta.constant
+//  ^^^^ entity.name.constant.java
+//       ^ punctuation.section.group.begin.java
+//        ^^^^ meta.number.integer.hexadecimal.java
+//            ^ punctuation.separator.comma.java
+//              ^^^^ support.class.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^ constant.other.java
+//                      ^ punctuation.separator.comma.java
+//                        ^^^^ support.class.java
+//                            ^ punctuation.accessor.dot.java
+//                             ^^^ constant.other.java
+//                                ^ punctuation.separator.comma.java
+//                                  ^^^^ support.class.java
+//                                      ^^ storage.modifier.array.java
+//                                        ^ punctuation.accessor.dot.java
+//                                         ^^^ constant.other.java
+//                                            ^ punctuation.separator.comma.java
+//                                              ^^^^ storage.type.primitive.java
+//                                                  ^ punctuation.accessor.dot.java
+//                                                   ^^^ invalid.illegal.unexpected-member.java
+//                                                      ^ punctuation.separator.comma.java
+//                                                        ^^^^ storage.type.primitive.java
+//                                                            ^^ storage.modifier.array.java
+//                                                              ^ punctuation.accessor.dot.java
+//                                                               ^^^ invalid.illegal.unexpected-member.java
+//                                                                  ^ punctuation.section.group.end.java
+//                                                                    ^ meta.block.java punctuation.section.block.begin.java
+//                                                                     ^ meta.block.java punctuation.section.block.end.java
+//                                                                      ^ punctuation.separator.comma.java
+
+    BYTE (0x01, Byte.FOO, Byte.class, Byte[].class, byte.class, byte[].class) {};
+//  ^^^^^ meta.constant.identifier.java
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constant.arguments.java meta.group.java
+//                                                                           ^^^ meta.constant.java
+//                                                                              ^ - meta.constant
+//  ^^^^ entity.name.constant.java
+//       ^ punctuation.section.group.begin.java
+//        ^^^^ meta.number.integer.hexadecimal.java
+//            ^ punctuation.separator.comma.java
+//              ^^^^ support.class.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^ constant.other.java
+//                      ^ punctuation.separator.comma.java
+//                        ^^^^ support.class.java
+//                            ^ punctuation.accessor.dot.java
+//                             ^^^^^ variable.language.class.java
+//                                  ^ punctuation.separator.comma.java
+//                                    ^^^^ support.class.java
+//                                        ^^ storage.modifier.array.java
+//                                          ^ punctuation.accessor.dot.java
+//                                           ^^^^^ variable.language.class.java
+//                                                ^ punctuation.separator.comma.java
+//                                                  ^^^^ storage.type.primitive.java
+//                                                      ^ punctuation.accessor.dot.java
+//                                                       ^^^^^ variable.language.class.java
+//                                                            ^ punctuation.separator.comma.java
+//                                                              ^^^^ storage.type.primitive.java
+//                                                                  ^^ storage.modifier.array.java
+//                                                                    ^ punctuation.accessor.dot.java
+//                                                                     ^^^^^ variable.language.class.java
+//                                                                          ^ punctuation.section.group.end.java
+//                                                                            ^ meta.block.java punctuation.section.block.begin.java
+//                                                                             ^ meta.block.java punctuation.section.block.end.java
+//                                                                              ^ punctuation.terminator.java
 
     int {}
 //  ^^^ storage.type.primitive.java

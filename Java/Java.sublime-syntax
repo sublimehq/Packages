@@ -162,7 +162,7 @@ contexts:
     - include: punctuations
     - include: operators
     - include: type-comparisons
-    - include: primitive-types
+    - include: primitive-maybe-class-literals
     - include: var-types
     - include: array-modifiers
     - include: storage-modifiers
@@ -2137,7 +2137,7 @@ contexts:
     - include: else-pop
 
   type-pattern-type:
-    - include: primitive-maybe-array-type
+    - include: primitive-maybe-class-literal
     - include: var-type
     - match: (?={{identifier}})
       set:
@@ -3239,20 +3239,37 @@ contexts:
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
-  primitive-types:
+  primitive-maybe-class-literals:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
-      push: maybe-only-array-modifiers
+      push: maybe-only-class-literal
+
+  primitive-maybe-class-literal:
+    - match: '{{storage_types}}{{break}}'
+      scope: storage.type.primitive.java
+      set: maybe-only-class-literal
+
+  maybe-only-class-literal:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.8.2
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      set: maybe-class-literal
+    - include: array-modifiers
+    - include: annotation-else-pop
+
+  maybe-class-literal:
+    - match: class{{break}}
+      scope: variable.language.class.java
+      pop: 1
+    - match: '{{id}}'
+      scope: invalid.illegal.unexpected-member.java
+      set: maybe-only-class-literal
+    - include: else-pop
 
   primitive-type:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
       pop: 1
-
-  primitive-maybe-array-type:
-    - match: '{{storage_types}}{{break}}'
-      scope: storage.type.primitive.java
-      set: maybe-only-array-modifiers
 
   var-types:
     - match: var{{break}}
@@ -3270,9 +3287,8 @@ contexts:
 
   maybe-only-array-modifiers:
     - include: array-modifiers
-    - include: annotations
     - include: illegal-members
-    - include: else-pop
+    - include: annotation-else-pop
 
   array-modifiers:
     - match: \[\s*\]
