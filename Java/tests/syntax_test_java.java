@@ -4671,6 +4671,22 @@ class LocalVariableDeclarationTests {
 //                     ^^^^^ constant.other.java
 //                          ^ punctuation.terminator.java
 
+    int.foo bar
+//  ^^^^^^^^ meta.declaration.type.java
+//          ^^^ meta.declaration.identifier.java
+//  ^^^ storage.type.primitive.java
+//     ^ invalid.illegal.unexpected-accessor.java
+//      ^^^ invalid.illegal.unexpected-member.java
+//          ^^^ variable.other.java
+
+    int.class foo
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^ meta.declaration.identifier.java
+//  ^^^ storage.type.primitive.java
+//     ^ invalid.illegal.unexpected-accessor.java
+//      ^^^^^ invalid.illegal.unexpected-member.java
+//            ^^^ variable.other.java
+
     int[]
 //  ^^^^^^ - meta.declaration
 //  ^^^ storage.type.primitive.java
@@ -4687,6 +4703,24 @@ class LocalVariableDeclarationTests {
 //  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
 //        ^^^ variable.other.java
+
+    int[].foo bar
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^ meta.declaration.identifier.java
+//  ^^^ storage.type.primitive.java
+//     ^^ storage.modifier.array.java
+//       ^ invalid.illegal.unexpected-accessor.java
+//        ^^^ invalid.illegal.unexpected-member.java
+//            ^^^ variable.other.java
+
+    int[].class foo
+//  ^^^^^^^^^^^^ meta.declaration.type.java
+//              ^^^ meta.declaration.identifier.java
+//  ^^^ storage.type.primitive.java
+//     ^^ storage.modifier.array.java
+//       ^ invalid.illegal.unexpected-accessor.java
+//        ^^^^^ invalid.illegal.unexpected-member.java
+//              ^^^ variable.other.java
 
     int foo[], [] ;
 //  ^^^^ meta.declaration.type.java
