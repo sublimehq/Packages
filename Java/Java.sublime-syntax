@@ -985,11 +985,9 @@ contexts:
   field-type-modifier:
     - clear_scopes: 1
     - meta_scope: meta.field.type.java
-    - include: array-modifiers
-    - include: annotations
     - match: (?=[{(]|{{declaration_keywords}}{{break}})
       fail: class-members
-    - include: else-pop
+    - include: maybe-only-array-modifiers
 
   field-identifier-list:
     - match: ','

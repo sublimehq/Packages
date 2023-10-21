@@ -2623,6 +2623,22 @@ class FieldDeclarationTests {
 //     ^ meta.field.identifier.java
 //      ^ punctuation.terminator.java - meta.field
 
+  int.foo bar
+//^^^^^^^^ meta.field.type.java
+//        ^^^ meta.field.identifier.java
+//^^^ storage.type.primitive.java
+//   ^ invalid.illegal.unexpected-accessor.java
+//    ^^^ invalid.illegal.unexpected-member.java
+//        ^^^ variable.other.member.java
+
+  int.class foo
+//^^^^^^^^^^ meta.field.type.java
+//          ^^^ meta.field.identifier.java
+//^^^ storage.type.primitive.java
+//   ^ invalid.illegal.unexpected-accessor.java
+//    ^^^^^ invalid.illegal.unexpected-member.java
+//          ^^^ variable.other.member.java
+
   int[]
 //^^^^^^ - meta.field meta.field
 //^^^^^^ meta.field.type.java
@@ -2642,6 +2658,24 @@ class FieldDeclarationTests {
 //^^^ storage.type.primitive.java
 //   ^^ storage.modifier.array.java
 //      ^^^ variable.other.member.java
+
+  int[].foo bar
+//^^^^^^^^^^ meta.field.type.java
+//          ^^^ meta.field.identifier.java
+//^^^ storage.type.primitive.java
+//   ^^ storage.modifier.array.java
+//     ^ invalid.illegal.unexpected-accessor.java
+//      ^^^ invalid.illegal.unexpected-member.java
+//          ^^^ variable.other.member.java
+
+  int[].class foo
+//^^^^^^^^^^^^ meta.field.type.java
+//            ^^^ meta.field.identifier.java
+//^^^ storage.type.primitive.java
+//   ^^ storage.modifier.array.java
+//     ^ invalid.illegal.unexpected-accessor.java
+//      ^^^^^ invalid.illegal.unexpected-member.java
+//            ^^^ variable.other.member.java
 
   int foo[], []
 //^^^^^^^^^^^^^ - meta.field meta.field
