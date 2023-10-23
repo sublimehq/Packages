@@ -28,6 +28,12 @@
 //^^^ comment.block.js
 //   ^ - comment
 
+    /*
+     * comment
+//   ^ comment.block.js punctuation.definition.comment.js
+//    ^^^^^^^^^ comment.block.js - punctuation
+     */
+
     /**/ /***/
 // ^ - comment
 //  ^^^^ comment.block.empty.js punctuation.definition.comment.js
