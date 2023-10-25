@@ -125,6 +125,11 @@ contexts:
       push:
         - expect-user-name
 
+  alter-table-args:
+    - meta_prepend: true
+    - match: \b(?i:with\s+check\b)
+      scope: keyword.other.ddl.tsql
+
   target-options:
     - meta_prepend: true
     - include: with-table-options
@@ -1056,6 +1061,8 @@ contexts:
   inside-simple-identifier-part:
     - meta_prepend: true
     - include: variables
+    - match: \#
+      scope: punctuation.definition.variable.tsql
 
 ###[ LITERALS ]################################################################
 
