@@ -250,6 +250,9 @@ contexts:
     - match: (?i)sql\b
       scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.sql#match-comment-magic-language-injection-inner
+    - match: (?i)t-?sql\b
+      scope: meta.annotation.parameters.go constant.other.language-name.go
+      set: scope:source.go.embedded-backtick-string.tsql#match-comment-magic-language-injection-inner
     - match: (?i)xml\b
       scope: meta.annotation.parameters.go constant.other.language-name.go
       set: scope:source.go.embedded-backtick-string.xml#match-comment-magic-language-injection-inner

@@ -5783,6 +5783,17 @@ func lang_embedding() {
     not_sql_string = `select not sql`
     //               ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go - source.sql
 
+    //language=t-sql
+    // <- comment.line.double-slash.go punctuation.definition.comment.go
+    //^^^^^^^^^^^^^^^ comment.line.double-slash.go
+    //^^^^^^^^ meta.annotation.identifier.go
+    //        ^ meta.annotation keyword.operator.assignment.go
+    //         ^^^^^ meta.annotation.parameters.go constant.other.language-name.go
+    sqlQuery = `
+        SELECT id
+        FROM ##global_temp_table;`
+    //       ^^ punctuation.definition.variable
+
     response := &http.Response{
         StatusCode: http.StatusUnauthorized,
         //language=json
