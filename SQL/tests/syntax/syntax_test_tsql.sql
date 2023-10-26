@@ -2287,6 +2287,16 @@ create user user_name_in_sql
 --       ^ string.unquoted.tsql
 --        ^ punctuation.terminator.statement.sql
 
+DROP USER iffy ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^ meta.statement.drop.sql
+--        ^^^^ meta.other-name.sql
+
+DROP USER IF EXISTS iffy ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+--                  ^^^^ meta.other-name.sql
+
 DROP USER IF EXISTS "some-name-here";
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql

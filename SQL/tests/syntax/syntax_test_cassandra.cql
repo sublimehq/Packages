@@ -570,3 +570,13 @@ set x = 4
 --  ^ meta.column-name
 --    ^ keyword.operator
 --      ^ meta.number.integer.decimal constant.numeric.value
+
+DROP USER iffy ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^ meta.statement.drop.sql
+--        ^^^^ meta.other-name.sql
+
+DROP USER IF EXISTS iffy ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+--                  ^^^^ meta.other-name.sql

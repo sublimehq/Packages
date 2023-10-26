@@ -3341,7 +3341,13 @@ DROP USER bob@'%' ;
 --           ^ punctuation.accessor.at.sql
 --                ^ punctuation.terminator.statement.sql
 
-DROP USER IF EXISTS bob, clara@localhost ;
+DROP USER iffy ;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^ meta.statement.drop.sql - meta.user
+--   ^^^^^^^^^ meta.statement.drop.sql meta.user.sql
+--        ^^^^ meta.username.sql
+
+DROP USER IF EXISTS ify, clara@localhost ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
 -- ^^ meta.statement.drop.sql - meta.user
 --   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql meta.user.sql
