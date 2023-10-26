@@ -2525,6 +2525,37 @@ FROM @table_variable AS main
 CROSS JOIN some_func(@param) AS other
 -- ^^^^^^^ keyword.other.dml.sql
 
+DROP TABLE IF EXISTS #SampleTempTable;
+GO
+CREATE TABLE #SampleTempTable (id INT, message nvarchar(50));
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^^^^^^^ meta.table.sql entity.name.struct.table.sql
+--           ^ punctuation.definition.variable.tsql
+INSERT INTO #SampleTempTable VALUES (null, 'hello');
+-- ^^^^^^^^ keyword.other.dml.sql
+--          ^ meta.table-name.sql punctuation.definition.variable.tsql
+--           ^^^^^^^^^^^^^^^ meta.table-name.sql - punctuation
+INSERT INTO #SampleTempTable VALUES (10, null);
+INSERT INTO #SampleTempTable VALUES (17, 'abc');
+INSERT INTO #SampleTempTable VALUES (17, 'yes');
+INSERT INTO #SampleTempTable VALUES (null, null);
+GO
+
+SELECT * FROM #SampleTempTable WHERE id IS DISTINCT FROM 17;
+DROP TABLE IF EXISTS #SampleTempTable;
+GO
+
+ALTER TABLE a.b WITH CHECK
+--              ^^^^^^^^^^ meta.statement.alter.sql keyword.other.ddl.tsql
+    ADD CONSTRAINT fk_b_c
+--  ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^ keyword.other.ddl.sql
+--                 ^^^^^^ meta.constraint-name.sql
+    FOREIGN KEY (some_id) REFERENCES a.c (some_id);
+--  ^^^^^^^^^^^ meta.statement.alter.sql storage.modifier.sql
+
 SELECT * FROM table FOR SYSTEM_TIME AS OF 131512 alias
 --                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
 --                                  ^^^^^ keyword.operator.logical
