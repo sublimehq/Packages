@@ -12,11 +12,12 @@ And this right here, where we're writing in, is a docstring.
 """
 # <- comment.block.documentation.python punctuation.definition.comment.end.python
 
-ur"""Raw docstring \"""
+ur"""Raw docstring \""""
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
-#    ^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                   ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
+#    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                  ^^ constant.character.escape.python
+#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R"""
 C:\Users
@@ -87,11 +88,12 @@ And this right here, where we're writing in, is a docstring.
 '''
 # <- comment.block.documentation.python punctuation.definition.comment.end.python
 
-ur'''Raw docstring \'''
+ur'''Raw docstring \''''
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
-#    ^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                   ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
+#    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
+#                  ^^ constant.character.escape.python
+#                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R'''
 C:\Users

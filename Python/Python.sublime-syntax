@@ -2561,6 +2561,7 @@ contexts:
   double-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
     - include: double-quoted-docstring-end
+    - include: escaped-raw-quotes
 
   single-quoted-docstrings:
     - match: ^\s*(?i)(u)?(''')
@@ -2612,6 +2613,7 @@ contexts:
   single-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
     - include: single-quoted-docstring-end
+    - include: escaped-raw-quotes
 
 ###[ STRINGS ]################################################################
 
@@ -2660,6 +2662,7 @@ contexts:
 
   triple-double-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   triple-double-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
@@ -2698,6 +2701,7 @@ contexts:
 
   triple-double-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: triple-double-quoted-f-string-replacements
 
   triple-double-quoted-raw-f-strings:
@@ -2738,6 +2742,7 @@ contexts:
 
   triple-double-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: escaped-unicode-chars
 
   triple-double-quoted-raw-u-strings:
@@ -2786,6 +2791,7 @@ contexts:
 
   triple-double-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: escaped-unicode-chars
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
@@ -3001,6 +3007,7 @@ contexts:
 
   double-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   double-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
@@ -3039,6 +3046,7 @@ contexts:
 
   double-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: double-quoted-f-string-replacements
 
   double-quoted-raw-f-strings:
@@ -3079,6 +3087,7 @@ contexts:
 
   double-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   double-quoted-raw-u-strings:
     - match: ([uU]?r)(")
@@ -3126,6 +3135,7 @@ contexts:
 
   double-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: string-placeholders
     - include: double-quoted-string-replacements
 
@@ -3333,6 +3343,7 @@ contexts:
 
   triple-single-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   triple-single-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
@@ -3371,6 +3382,7 @@ contexts:
 
   triple-single-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: triple-single-quoted-f-string-replacements
 
   triple-single-quoted-raw-f-strings:
@@ -3411,6 +3423,7 @@ contexts:
 
   triple-single-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   triple-single-quoted-raw-u-strings:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -3458,6 +3471,7 @@ contexts:
 
   triple-single-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: escaped-unicode-chars
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
@@ -3673,6 +3687,7 @@ contexts:
 
   single-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   single-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
@@ -3711,6 +3726,7 @@ contexts:
 
   single-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   single-quoted-raw-u-strings:
     - match: ([uU]?r)(')
@@ -3758,6 +3774,7 @@ contexts:
 
   single-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: string-placeholders
     - include: single-quoted-string-replacements
 
@@ -3777,6 +3794,7 @@ contexts:
 
   single-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: single-quoted-f-string-replacements
 
   single-quoted-raw-f-strings:
@@ -3994,6 +4012,11 @@ contexts:
       scope: constant.character.escape.unicode.32bit.python
     - match: \\N\{[-a-zA-Z ]+\}
       scope: constant.character.escape.unicode.name.python
+
+  escaped-raw-quotes:
+    # consume escaped quotes in raw-strings to preven them terminating strings
+    - match: \\['"]
+      scope: constant.character.escape.python
 
   escaped-string-braces:
     - match: \{\{|\}\}
