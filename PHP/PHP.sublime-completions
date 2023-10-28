@@ -541,6 +541,18 @@
 			"details": "Checks if the given key or index exists in the array"
 		},
 		{
+			"trigger": "array_key_first()",
+			"contents": "array_key_first(${1:array})",
+			"kind": "function",
+			"details": "Gets the first key of an array"
+		},
+		{
+			"trigger": "array_key_last()",
+			"contents": "array_key_last(${1:array})",
+			"kind": "function",
+			"details": "Gets the last key of an array"
+		},
+		{
 			"trigger": "array_keys()",
 			"contents": "array_keys(${1:input})",
 			"kind": "function",
@@ -1759,6 +1771,18 @@
 			"contents": "clearstatcache()",
 			"kind": "function",
 			"details": "Clears file status cache"
+		},
+		{
+			"trigger": "cli_get_process_title()",
+			"contents": "cli_get_process_title()",
+			"kind": "function",
+			"details": "Returns the current process title"
+		},
+		{
+			"trigger": "cli_set_process_title()",
+			"contents": "cli_set_process_title()",
+			"kind": "function",
+			"details": "Sets the process title"
 		},
 		{
 			"trigger": "closedir()",
@@ -5641,6 +5665,18 @@
 			"contents": "gc_enabled()",
 			"kind": "function",
 			"details": "Returns status of the circular reference collector"
+		},
+		{
+			"trigger": "gc_mem_caches()",
+			"contents": "gc_mem_caches()",
+			"kind": "function",
+			"details": "Reclaims memory used by the Zend Engine memory manager"
+		},
+		{
+			"trigger": "gc_status()",
+			"contents": "gc_status()",
+			"kind": "function",
+			"details": "Gets information about the garbage collector"
 		},
 		{
 			"trigger": "gd_info()",
