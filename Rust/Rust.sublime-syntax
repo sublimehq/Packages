@@ -64,8 +64,7 @@ contexts:
     - include: keywords
     - include: numbers
 
-    - match: '(?=\{)'
-      push: block
+    - include: blocks
 
     - match: '(?=\()'
       push: group
@@ -155,7 +154,7 @@ contexts:
           push: generic-angles
         - match: '=(?!=)'
           scope: keyword.operator.assignment.rust
-          push: type-declaration-body
+          set: type-declaration-body
         - include: else-pop
 
     - match: '\b(trait)\s+({{identifier}})\b'
@@ -1540,8 +1539,9 @@ contexts:
   identifier-path:
     - meta_scope: meta.path.rust
     - include: comments
-    - match: \.
-      scope: punctuation.accessor.dot.rust
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.rust
       push: [identifier-path-second, path-after-accessor]
     - include: identifier-names
     - include: immediately-pop
@@ -1549,8 +1549,9 @@ contexts:
   identifier-path-second:
     - meta_scope: meta.path.rust
     - include: comments
-    - match: \.
-      scope: punctuation.accessor.dot.rust
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.rust
       push: path-after-accessor
     - include: in-path-identifier-names
     - include: immediately-pop
@@ -1558,8 +1559,9 @@ contexts:
   static-identifier-path:
     - meta_scope: meta.path.rust
     - include: comments
-    - match: '::'
-      scope: punctuation.accessor.rust
+    - match: \s*(::)
+      captures:
+        1: punctuation.accessor.rust
       set: [static-identifier-path-second, path-after-accessor]
     - include: type-names
     - include: identifier-names
@@ -1580,8 +1582,7 @@ contexts:
 
   path-after-accessor:
     - include: comments
-    - match: \s+
-    - include: immediately-pop
+    - include: else-pop
 
   identifier-names:
     - include: no-path-identifier-names

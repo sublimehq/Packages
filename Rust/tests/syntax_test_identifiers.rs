@@ -17,6 +17,20 @@ buffer.rope.char();
 //              ^^ meta.group
 //                ^ punctuation.terminator
 
+
+buffer . rope . char ();
+//^^^^^^^^^^^^^^^^^^ meta.path
+//     ^ punctuation.accessor.dot
+//            ^ punctuation.accessor.dot
+//              ^^^^ variable.function
+//                   ^^ meta.group
+//                     ^ punctuation.terminator
+
+path . with_a_break s.path ();
+//^^^^^^^^^^^^^^^^^ meta.path
+//                 ^ -meta.path
+//                  ^^^^^^ meta.path
+
 env::current_dir()
 //^^^^^^^^^^^^^^ meta.path
 // ^^ punctuation.accessor
@@ -30,17 +44,17 @@ let file_bytes = fs::read(&path_buf)?;
 //                                  ^ keyword.operator
 //                                   ^ punctuation.terminator
 
-u8::try_from(), f64::from()
+u8::try_from(), f64 :: from ()
 // <- meta.path storage.type
  // <- meta.path storage.type
 //^^^^^^^^^^ meta.path
 //  ^^^^^^^^ variable.function
 //          ^^^^ -meta.path
 //            ^ punctuation.separator
-//              ^^^^^^^^^ meta.path
+//              ^^^^^^^^^^^ meta.path
 //              ^^^ storage.type
-//                 ^^ punctuation.accessor
-//                   ^^^^ variable.function
+//                  ^^ punctuation.accessor
+//                     ^^^^ variable.function
 
 Vec::with_capacity()
 //^^^^^^^^^^^^^^^^ meta.path
