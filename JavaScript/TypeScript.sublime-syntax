@@ -834,7 +834,9 @@ contexts:
       push:
         - match: '{{identifier_name}}'
           scope: support.class.js
-          set: ts-type-expression-end-no-line-terminator
+          set:
+            - ts-type-expression-end-no-line-terminator
+            - ts-optional-generic-type-arguments
 
     - match: extends{{identifier_break}}
       scope: keyword.operator.type.extends.js
@@ -1063,9 +1065,13 @@ contexts:
   ts-type-basic:
     - match: '{{identifier_name}}'
       scope: support.class.js
-      set:
-        - include: ts-generic-type-arguments
-        - include: else-pop
+      set: ts-optional-generic-type-arguments
+
+  ts-optional-generic-type-arguments:
+    - match: $
+      pop: 1
+    - include: ts-generic-type-arguments
+    - include: else-pop
 
   ts-type-template-string:
     - match: '`'

@@ -1327,6 +1327,38 @@ let x: import ( "foo" ) . Bar ;
 //                      ^ punctuation.accessor
 //                        ^^^ support.class
 
+let x: T.U;
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^ punctuation.terminator.statement
+
+let x: T.U[];
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^^ storage.modifier.array
+//          ^ punctuation.terminator.statement
+
+let x: T.U<V>[];
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^^^ meta.generic
+//           ^^ storage.modifier.array
+//             ^ punctuation.terminator.statement
+
+let x: T.U
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+[];
+//<- meta.sequence - meta.type
+
     foo < bar > ();
 //  ^^^ variable.function
 //      ^^^^^^^ meta.generic
