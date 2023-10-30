@@ -886,8 +886,6 @@ contexts:
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
 
-    - include: ts-generic-type-arguments
-
     - include: else-pop
 
   ts-generic-type-arguments:
@@ -1034,6 +1032,12 @@ contexts:
     - match: 'boolean{{identifier_break}}'
       scope: 'support.type.primitive.boolean.js'
       pop: 1
+    - match: 'true{{identifier_break}}'
+      scope: 'support.type.primitive.boolean.true.js'
+      pop: 1
+    - match: 'false{{identifier_break}}'
+      scope: 'support.type.primitive.boolean.false.js'
+      pop: 1
     - match: 'number{{identifier_break}}'
       scope: 'support.type.primitive.number.js'
       pop: 1
@@ -1059,7 +1063,9 @@ contexts:
   ts-type-basic:
     - match: '{{identifier_name}}'
       scope: support.class.js
-      pop: 1
+      set:
+        - include: ts-generic-type-arguments
+        - include: else-pop
 
   ts-type-template-string:
     - match: '`'

@@ -803,6 +803,10 @@ let x: unknown;
 
 let x: boolean;
 //     ^^^^^^^ support.type.primitive.boolean
+let x: true;
+//     ^^^^ support.type.primitive.boolean.true
+let x: false;
+//     ^^^^^ support.type.primitive.boolean.false
 let x: number;
 //     ^^^^^^ support.type.primitive.number
 let x: string;
@@ -1509,3 +1513,11 @@ type T = Foo | ... 100 more ... | Bar;
 //                              ^ keyword.operator.type.union
 //                                ^^^ support.class
 //                                   ^ punctuation.terminator.statement.empty
+
+    x as number < 3;
+//  ^ variable.other.readwrite
+//    ^^ keyword.operator.type
+//       ^^^^^^ meta.type support.type.primitive.number
+//              ^ keyword.operator.comparison
+//                ^ meta.number.integer.decimal constant.numeric.value
+//                 ^ punctuation.terminator.statement
