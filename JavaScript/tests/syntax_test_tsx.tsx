@@ -125,6 +125,15 @@ let x : T.U<V>;
 //         ^^^ meta.generic
 //          ^ support.class
 
+let x : T.U
+//      ^^^ meta.type
+//      ^ support.class
+//       ^ punctuation.accessor
+//        ^ support.class
+
+<V />;
+// <- meta.jsx - meta.type
+
 // This is invalid TSX as the TypeScript type assertion is parsed as a JSX tag
 let strLength: number = (<string>someValue).length; // </string> );
 //                       ^^^^^^^^ meta.tag - meta.assertion

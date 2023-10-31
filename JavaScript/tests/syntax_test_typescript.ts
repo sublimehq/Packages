@@ -803,6 +803,10 @@ let x: unknown;
 
 let x: boolean;
 //     ^^^^^^^ support.type.primitive.boolean
+let x: true;
+//     ^^^^ support.type.primitive.boolean.true
+let x: false;
+//     ^^^^^ support.type.primitive.boolean.false
 let x: number;
 //     ^^^^^^ support.type.primitive.number
 let x: string;
@@ -1323,6 +1327,38 @@ let x: import ( "foo" ) . Bar ;
 //                      ^ punctuation.accessor
 //                        ^^^ support.class
 
+let x: T.U;
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^ punctuation.terminator.statement
+
+let x: T.U[];
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^^ storage.modifier.array
+//          ^ punctuation.terminator.statement
+
+let x: T.U<V>[];
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^^^ meta.generic
+//           ^^ storage.modifier.array
+//             ^ punctuation.terminator.statement
+
+let x: T.U
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+[];
+//<- meta.sequence - meta.type
+
     foo < bar > ();
 //  ^^^ variable.function
 //      ^^^^^^^ meta.generic
@@ -1509,3 +1545,11 @@ type T = Foo | ... 100 more ... | Bar;
 //                              ^ keyword.operator.type.union
 //                                ^^^ support.class
 //                                   ^ punctuation.terminator.statement.empty
+
+    x as number < 3;
+//  ^ variable.other.readwrite
+//    ^^ keyword.operator.type
+//       ^^^^^^ meta.type support.type.primitive.number
+//              ^ keyword.operator.comparison
+//                ^ meta.number.integer.decimal constant.numeric.value
+//                 ^ punctuation.terminator.statement

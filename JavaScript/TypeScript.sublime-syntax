@@ -837,7 +837,9 @@ contexts:
       push:
         - match: '{{identifier_name}}'
           scope: support.class.js
-          set: ts-type-expression-end-no-line-terminator
+          set:
+            - ts-type-expression-end-no-line-terminator
+            - ts-optional-generic-type-arguments
 
     - match: extends{{identifier_break}}
       scope: keyword.operator.type.extends.js
@@ -888,8 +890,6 @@ contexts:
             - ts-type-expression-end
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
-
-    - include: ts-generic-type-arguments
 
     - include: else-pop
 
@@ -1037,6 +1037,12 @@ contexts:
     - match: 'boolean{{identifier_break}}'
       scope: 'support.type.primitive.boolean.js'
       pop: 1
+    - match: 'true{{identifier_break}}'
+      scope: 'support.type.primitive.boolean.true.js'
+      pop: 1
+    - match: 'false{{identifier_break}}'
+      scope: 'support.type.primitive.boolean.false.js'
+      pop: 1
     - match: 'number{{identifier_break}}'
       scope: 'support.type.primitive.number.js'
       pop: 1
@@ -1062,7 +1068,13 @@ contexts:
   ts-type-basic:
     - match: '{{identifier_name}}'
       scope: support.class.js
+      set: ts-optional-generic-type-arguments
+
+  ts-optional-generic-type-arguments:
+    - match: $
       pop: 1
+    - include: ts-generic-type-arguments
+    - include: else-pop
 
   ts-type-template-string:
     - match: '`'
