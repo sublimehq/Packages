@@ -515,7 +515,7 @@ BEGIN
 --                                                      ^^^^ keyword.control.loop
         output[I] := compute_result(vals[I], something, something_else);
     END LOOP;
---  ^^^ keyword.control.flow.end
+--  ^^^ keyword.control.loop
 --      ^^^^ keyword.control.loop
     RETURN output;
 --  ^^^^^^ keyword.control.flow.return
