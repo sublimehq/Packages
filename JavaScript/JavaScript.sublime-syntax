@@ -231,8 +231,14 @@ contexts:
       pop: 2
 
   immediately-pop:
+    - meta_include_prototype: false
     - match: ''
       pop: 1
+
+  immediately-pop-2:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
 
   comma-separator:
     - match: ','
@@ -1485,7 +1491,7 @@ contexts:
       pop: 1
 
     - match: \;
-      scope: punctuation.terminator.statement.js
+      scope: punctuation.terminator.statement.empty.js
 
     - include: decorator
 
@@ -1500,67 +1506,18 @@ contexts:
       branch_point: static-block
       branch:
         - static-block
-        - class-element-modifiers
-
-    - match: (?={{modifier}})
-      push: class-element-modifiers
-
-    - match: |-
-        (?x)(?=
-          \#? {{identifier_name}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
-      push:
-        - initializer
-        - function-name-meta
-        - literal-variable-base
-
-    - match: (?=(?:get|set|async){{identifier_break}})
-      branch_point: prefixed-method
-      branch:
-        - prefixed-method
         - class-element
 
-    - match: (?=\*)
-      push: method-declaration
-
-    - match: (?={{class_element_name}})
+    - match: (?=\S)
       push: class-element
 
   static-block:
     - match: static{{identifier_break}}
       scope: storage.modifier.js
       set:
-        - match: \{
-          scope: punctuation.section.block.begin.js
-          set: static-block-body
+        - include: block
         - match: (?=\S)
           fail: static-block
-
-  static-block-body:
-    - meta_scope: meta.block.js
-    - match: \}
-      scope: punctuation.section.block.end.js
-      pop: 1
-    - include: statements
-
-  class-element-modifiers:
-    - match: ''
-      pop: 1
-      branch_point: class-element-modifier
-      branch:
-        - class-element-modifier
-        - class-element
-
-  class-element-modifier:
-    - match: '{{modifier}}'
-      scope: storage.modifier.js
-      set:
-        - match: (?={{class_element_name}}|\*)
-          pop: 1
-        - match: (?=\S)
-          fail: class-element-modifier
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1595,6 +1552,9 @@ contexts:
     - include: else-pop
 
   class-element:
+    - meta_include_prototype: false
+    - match: (?=\*)
+      set: method-declaration
     - match: ''
       pop: 1
       branch_point: class-field
@@ -1602,52 +1562,34 @@ contexts:
         - class-field
         - method-declaration
 
-  prefixed-method:
-    - match: (?:get|set){{identifier_break}}
-      scope: storage.type.accessor.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?={{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-method
-    - match: (?:async){{identifier_break}}
-      scope: keyword.declaration.async.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?=\*|{{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-method
-
-  prefixed-object-literal-method:
-    - match: (?:get|set){{identifier_break}}
-      scope: storage.type.accessor.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?={{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-object-literal-method
-    - match: (?:async){{identifier_break}}
-      scope: keyword.declaration.async.js
-      set:
-        - meta_scope: meta.function.js
-        - match: (?=\*|{{class_element_name}})
-          set: method-declaration
-        - match: (?=\S)
-          fail: prefixed-object-literal-method
-
   class-field:
+    - meta_include_prototype: false
     - match: ''
       set:
+        - expect-semicolon
         - initializer
         - class-field-check
         - field-name
+        - class-element-modifiers
 
   class-field-check:
     - match: (?=\()
       fail: class-field
+    - include: else-pop
+
+  class-element-modifiers:
+    - match: (?={{modifier}})
+      branch_point: class-element-modifier
+      branch:
+        - - match: '{{modifier}}'
+            scope: storage.modifier.js
+            set:
+              - match: (?={{class_element_name}}|\*)
+                pop: 1
+              - match: (?=\S)
+                fail: class-element-modifier
+
+        - immediately-pop-2
     - include: else-pop
 
   special-name:
@@ -1813,12 +1755,6 @@ contexts:
     - match: (?=\*)
       push: method-declaration
 
-    - match: (?=(?:get|set|async){{identifier_break}})
-      branch_point: prefixed-object-literal-method
-      branch:
-        - prefixed-object-literal-method
-        - object-literal-element
-
     - match: (?={{property_name}})
       push: object-literal-element
 
@@ -1856,6 +1792,13 @@ contexts:
     - include: literal-string
     - include: literal-number
 
+    - match: (?:get|set|async){{identifier_break}}
+      pop: 2
+      set:
+        - match: (?=\*|{{class_element_name}})
+          fail: object-literal-property
+        - include: else-pop
+
     - match: '{{identifier_name}}'
       pop: 1
 
@@ -1878,6 +1821,7 @@ contexts:
           push: expression
 
   object-literal-meta-key:
+    - meta_include_prototype: false
     - meta_scope: meta.mapping.key.js
     - include: else-pop
 
@@ -1927,19 +1871,24 @@ contexts:
     - include: else-pop
 
   field-name:
-    - match: '{{dollar_identifier}}'
-      scope: meta.mapping.key.dollar.js variable.other.readwrite.js
-      captures:
-        1: punctuation.dollar.js
-      pop: 1
-    - match: '{{identifier_name}}'
+    - match: |-
+        (?x)(?=
+          \#? {{identifier_name}}
+          {{nothing}} =
+          {{nothing}} {{either_func_lookahead}}
+        )
+      set:
+        - function-name-meta
+        - literal-variable-base
+
+    - match: (?:get|set|async){{identifier_break}}
       scope: variable.other.readwrite.js
-      pop: 1
-    - match: (#)({{identifier_name}})
-      captures:
-        1: punctuation.definition.variable.js
-        2: variable.other.readwrite.js
-      pop: 1
+      set:
+        - match: (?=\*|{{class_element_name}})
+          fail: class-field
+        - include: else-pop
+    - include: literal-variable-base
+
     - match: "'"
       scope: punctuation.definition.string.begin.js
       set:
@@ -1980,11 +1929,33 @@ contexts:
         - function-declaration-expect-parameters
         - method-name
         - method-declaration-expect-asterisk
+        - method-declaration-prefix
+        - class-element-modifiers
 
   method-declaration-expect-asterisk:
     - match: \*
       scope: keyword.generator.asterisk.js
     - include: else-pop
+
+  method-declaration-prefix:
+    - match: (?=(?:get|set|async){{identifier_break}})
+      pop: 1
+      branch_point: method-declaration-prefix
+      branch:
+        - - match: (?:get|set){{identifier_break}}
+            scope: storage.type.accessor.js
+            set: method-declaration-prefix-check
+          - match: (?:async){{identifier_break}}
+            scope: keyword.declaration.async.js
+            set: method-declaration-prefix-check
+        - immediately-pop
+    - include: else-pop
+
+  method-declaration-prefix-check:
+    - match: (?=\*|{{class_element_name}})
+      pop: 1
+    - match: (?=\S)
+      fail: method-declaration-prefix
 
   parenthesized-expression:
     - match: \(
