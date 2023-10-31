@@ -878,7 +878,6 @@ contexts:
         - single-identifier
 
   maybe-table-sample:
-    - include: groups # alias-list
     - include: table-hints-without-with
     - include: with-table-options
     - match: \b(?i:tablesample(?:\s+system)?)\b
