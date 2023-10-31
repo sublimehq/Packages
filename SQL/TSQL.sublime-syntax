@@ -862,14 +862,11 @@ contexts:
     - include: table-hints-without-with
 
   maybe-table-alias:
+    - meta_prepend: true
     - include: table-timespecs
     - include: with-table-options
     - match: (?=\b(?i:unpivot|pivot)\b)
       pop: 1
-    - match: \b(?i:as)\b
-      scope: keyword.operator.assignment.alias.sql
-      set: expect-table-alias-name
-    - include: expect-table-alias-name
 
   expect-table-alias-name:
     - meta_include_prototype: false
@@ -877,7 +874,7 @@ contexts:
     - match: (?=\S)
       set:
         - maybe-table-sample
-        - alias-name
+        - table-alias-name
         - single-identifier
 
   maybe-table-sample:

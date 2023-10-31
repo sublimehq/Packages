@@ -572,7 +572,7 @@ contexts:
     - include: groups
     - include: comma-separators
     - include: operators
-    - include: alias-expressions
+    - include: column-alias-expressions
     - include: case-expressions
     - include: collate-expressions
     - include: constraint-expressions
@@ -583,15 +583,15 @@ contexts:
     - match: (?=;)
       pop: 1
 
-  alias-expressions:
+  column-alias-expressions:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-      push: expect-alias-name
+      push: expect-column-alias-name
 
-  alias-expression:
+  table-alias-expression:
     - match: \b(?i:as)\b
       scope: keyword.operator.assignment.alias.sql
-      set: expect-alias-name
+      set: expect-table-alias-name
 
   case-expressions:
     - match: \b(?i:case)\b
@@ -930,8 +930,8 @@ contexts:
   maybe-table-alias:
     - include: pop-on-top-level-reserved-word
     - include: table-timespecs
-    - include: alias-expression
-    - include: expect-alias-name
+    - include: table-alias-expression
+    - include: expect-table-alias-name
 
   table-timespecs:
     - match: \b(?i:for\s+system_time)\b
@@ -1028,16 +1028,28 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
-  expect-alias-name:
+  expect-table-alias-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
     - include: comments
     - match: (?=\S)
-      set: [alias-name, single-identifier]
+      set: [table-alias-name, single-identifier]
 
-  alias-name:
+  expect-column-alias-name:
+    # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
-    - meta_content_scope: meta.alias.sql
+    - include: comments
+    - match: (?=\S)
+      set: [column-alias-name, single-identifier]
+
+  table-alias-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.alias.table.sql
+    - include: immediately-pop
+
+  column-alias-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.alias.column.sql
     - include: immediately-pop
 
   expect-column-names:

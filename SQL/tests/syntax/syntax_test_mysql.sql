@@ -3993,11 +3993,11 @@ JOIN (table1 alias, table2 AS alias ON (col1=col2), table3 PARTITION(part1) USE 
 --   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
 --   ^ punctuation.section.group.begin.sql
 --    ^^^^^^ meta.table-name.sql
---           ^^^^^ meta.alias.sql
+--           ^^^^^ meta.alias.table.sql
 --                ^ punctuation.separator.sequence.sql
 --                  ^^^^^^ meta.table-name.sql
 --                         ^^ keyword.operator.assignment.alias.sql
---                            ^^^^^ meta.alias.sql
+--                            ^^^^^ meta.alias.table.sql
 --                                  ^^ keyword.control.conditional.sql
 --                                     ^^^^^^^^^^^ meta.group.sql
 --                                     ^ punctuation.section.group.begin.sql
@@ -4050,7 +4050,7 @@ JOIN ( ( SELECT * FROM foo JOIN bar IGNORE KEY id ) alias, ( table1, ( SELECT * 
 --                                  ^^^^^^^^^^ keyword.other.dml.sql
 --                                             ^^ meta.column-name.sql
 --                                                ^ punctuation.section.group.end.sql
---                                                  ^^^^^ meta.alias.sql
+--                                                  ^^^^^ meta.alias.table.sql
 --                                                       ^ punctuation.separator.sequence.sql
 --                                                         ^ punctuation.section.group.begin.sql
 --                                                           ^^^^^^ meta.table-name.sql
@@ -4076,20 +4076,20 @@ INNER JOIN tbl_name PARTITION (part1, part2, part3)
 INNER JOIN tbl_name alias
 --    ^^^^ keyword.other.dml.sql
 --         ^^^^^^^^ meta.table-name.sql
---                  ^^^^^ meta.alias.sql
+--                  ^^^^^ meta.alias.table.sql
 
 INNER JOIN tbl_name AS alias
 --    ^^^^ keyword.other.dml.sql
 --         ^^^^^^^^ meta.table-name.sql
 --                  ^^ keyword.operator.assignment.alias.sql
---                     ^^^^^ meta.alias.sql
+--                     ^^^^^ meta.alias.table.sql
 
 INNER JOIN tbl_name PARTITION () alias
 --    ^^^^ keyword.other.dml.sql
 --         ^^^^^^^^ meta.table-name.sql
 --                  ^^^^^^^^^ keyword.other.dml.sql
 --                            ^^ meta.group.partitions.sql
---                               ^^^^^ meta.alias.sql
+--                               ^^^^^ meta.alias.table.sql
 
 INNER JOIN tbl_name PARTITION () AS alias
 --    ^^^^ keyword.other.dml.sql
@@ -4097,14 +4097,14 @@ INNER JOIN tbl_name PARTITION () AS alias
 --                  ^^^^^^^^^ keyword.other.dml.sql
 --                            ^^ meta.group.partitions.sql
 --                               ^^ keyword.operator.assignment.alias.sql
---                                  ^^^^^ meta.alias.sql
+--                                  ^^^^^ meta.alias.table.sql
 
 INNER JOIN tbl_name FOR SYSTEM_TIME ALL alias
 --    ^^^^ keyword.other.dml.sql
 --         ^^^^^^^^ meta.table-name.sql
 --                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
 --                                  ^^^ constant.other.sql
---                                      ^^^^^ meta.alias.sql
+--                                      ^^^^^ meta.alias.table.sql
 
 INNER JOIN tbl_name FOR SYSTEM_TIME AS OF 20341 alias
 --    ^^^^ keyword.other.dml.sql
@@ -4112,7 +4112,7 @@ INNER JOIN tbl_name FOR SYSTEM_TIME AS OF 20341 alias
 --                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
 --                                  ^^^^^ keyword.operator.logical.sql
 --                                        ^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
---                                              ^^^^^ meta.alias.sql
+--                                              ^^^^^ meta.alias.table.sql
 
 INNER JOIN tbl_name FOR SYSTEM_TIME FROM 20341 TO 423204 alias
 --    ^^^^ keyword.other.dml.sql
@@ -4122,7 +4122,7 @@ INNER JOIN tbl_name FOR SYSTEM_TIME FROM 20341 TO 423204 alias
 --                                       ^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                                             ^^ keyword.operator.logical.sql
 --                                                ^^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
---                                                       ^^^^^ meta.alias.sql
+--                                                       ^^^^^ meta.alias.table.sql
 
 INNER JOIN (SELECT * FROM tbl_name) alias USE KEY bar
 --    ^^^^ keyword.other.dml.sql
@@ -4133,7 +4133,7 @@ INNER JOIN (SELECT * FROM tbl_name) alias USE KEY bar
 --                   ^^^^ keyword.other.dml.sql
 --                        ^^^^^^^^ meta.table-name.sql
 --                                ^ punctuation.section.group.end.sql
---                                  ^^^^^ meta.alias.sql
+--                                  ^^^^^ meta.alias.table.sql
 --                                        ^^^^^^^ keyword.other.dml.sql
 --                                                ^^^ meta.column-name.sql
 
@@ -4155,7 +4155,7 @@ INNER JOIN (SELECT * FROM tbl_name) PARTITION (part1, part2, part3) alias
 --                                                         ^ punctuation.separator.sequence.sql
 --                                                           ^^^^^ meta.partition-name.sql
 --                                                                ^ punctuation.section.group.end.sql
---                                                                  ^^^^^ meta.alias.sql
+--                                                                  ^^^^^ meta.alias.table.sql
 
 INNER JOIN {ON tbl_name LEFT OUTER JOIN other1 other2 ON TRUE}
 --         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.mysql
@@ -4165,7 +4165,7 @@ INNER JOIN {ON tbl_name LEFT OUTER JOIN other1 other2 ON TRUE}
 --             ^^^^^^^^ meta.table-name.sql
 --                      ^^^^^^^^^^^^^^^ keyword.other.dml.sql
 --                                      ^^^^^^ meta.table-name.sql
---                                             ^^^^^^ meta.alias.sql
+--                                             ^^^^^^ meta.alias.table.sql
 --                                                    ^^ keyword.control.conditional.sql
 --                                                       ^^^^ constant.language.boolean.sql
 --                                                           ^ punctuation.section.braces.end.mysql
@@ -4207,7 +4207,7 @@ INNER JOIN tbl_name USING (col1, col2)
 INNER JOIN tbl_name alias USING (col1, col2)
 --    ^^^^ keyword.other.dml.sql
 --         ^^^^^^^^ meta.table-name.sql
---                  ^^^^^ meta.alias.sql
+--                  ^^^^^ meta.alias.table.sql
 --                        ^^^^^ keyword.other.dml.sql
 --                              ^^^^^^^^^^^^ meta.group.table-columns.sql
 --                              ^ punctuation.section.group.begin.sql
@@ -4220,7 +4220,7 @@ INNER JOIN tbl_name AS alias USING (col1, col2)
 --    ^^^^ keyword.other.dml.sql
 --         ^^^^^^^^ meta.table-name.sql
 --                  ^^ keyword.operator.assignment.alias.sql
---                     ^^^^^ meta.alias.sql
+--                     ^^^^^ meta.alias.table.sql
 --                           ^^^^^ keyword.other.dml.sql
 --                                 ^^^^^^^^^^^^ meta.group.table-columns.sql
 --                                 ^ punctuation.section.group.begin.sql
@@ -4407,7 +4407,7 @@ SELECT  *,
 --      ^ constant.other.wildcard.asterisk.sql
         f.id AS database_id
 --           ^^ keyword.operator.assignment.alias.sql
---              ^^^^^^^^^^^ meta.alias
+--              ^^^^^^^^^^^ meta.alias.column
 FROM    foo
 WHERE   f.a IS NULL
 -- ^^ keyword.other.dml.sql
