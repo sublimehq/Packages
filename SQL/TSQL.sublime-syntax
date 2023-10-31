@@ -868,14 +868,10 @@ contexts:
     - match: (?=\b(?i:unpivot|pivot)\b)
       pop: 1
 
-  expect-table-alias-name:
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set:
-        - maybe-table-sample
-        - table-alias-name
-        - single-identifier
+  table-alias-name:
+    - meta_prepend: true
+    - match: ''
+      set: maybe-table-sample
 
   maybe-table-sample:
     - include: table-hints-without-with
