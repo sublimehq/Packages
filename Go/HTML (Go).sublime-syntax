@@ -10,6 +10,7 @@ extends: Packages/HTML/HTML.sublime-syntax
 file_extensions:
   - gohtml
   - go.html
+  - tmpl
 
 contexts:
 
