@@ -1,0 +1,178 @@
+% SYNTAX TEST "Packages/LaTeX/TeX.sublime-syntax"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                Inline Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ $f(x) = x^2$
+%^ string.other.math.tex punctuation.definition.string.begin.tex
+%^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
+% ^^^^^^^^^^ markup.math.inline - string
+%           ^ string.other.math.tex punctuation.definition.string.end.tex - markup.math.inline
+% ^ variable.other.math.tex markup.italic.math.tex
+%  ^ punctuation.section.parens.begin.tex - markup.italic
+%   ^ variable.other.math.tex markup.italic.math.tex
+%    ^ punctuation.section.parens.end.tex - markup.italic
+%     ^^^ - markup.italic
+%        ^ variable.other.math.tex markup.italic.math.tex
+%         ^ - markup.italic
+
+$\iota$
+%^^^^^ keyword.other.math.greek.tex
+%^ punctuation.definition.backslash.tex
+
+$\Iota$
+%^^^^^ support.function.math.tex - keyword.other
+%^ punctuation.definition.backslash.tex
+
+$\alpha _$
+%^^^^^^ keyword.other.math.greek.tex
+%^ punctuation.definition.backslash.tex
+%       ^ punctuation.separator.subscript.tex
+
+$\alpha_$
+%^^^^^^ keyword.other.math.greek.tex
+%^ punctuation.definition.backslash.tex
+%      ^ punctuation.separator.subscript.tex
+
+ $\sum_{i=1}^{1} i^2$
+%^^^^^^^^^^^^^^^^^^^^ meta.environment.math.inline.dollar
+% ^^^^^^^^^^^^^^^^^^ markup.math.inline - string
+% ^ punctuation.definition.backslash.tex
+% ^^^^ keyword.other.math.large-operator.tex
+%       ^ variable.other.math.tex markup.italic.math.tex
+%                ^ variable.other.math.tex markup.italic.math.tex
+%        ^ keyword.operator.comparison.tex
+%         ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%       ^^^^ meta.group.brace.tex
+
+$\lim_{x \rightarrow 0} \sin x$ 
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.math.inline
+%^^^^ keyword.other.math.function.tex
+%^ punctuation.definition.backslash.tex
+%    ^ punctuation.separator.subscript.tex
+%     ^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^ variable.other.math.tex markup.italic.math.tex
+%        ^^^^^^^^^^^ keyword.other.math.arrow.tex
+%        ^ punctuation.definition.backslash.tex
+%                    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                     ^ punctuation.definition.group.brace.end.tex
+%                       ^^^^ keyword.other.math.function.tex
+%                       ^ punctuation.definition.backslash.tex
+%                            ^ variable.other.math.tex markup.italic.math.tex
+%                             ^ string.other.math.tex punctuation.definition.string.end.tex
+
+
+% make sure that we see $$ here as close-open, not as starting a $$ display math
+ $x$$y$
+%^^^^^^ meta.environment.math.inline.dollar.tex
+%^ string.other.math.tex punctuation.definition.string.begin.tex
+% ^ markup.math.inline variable.other.math.tex markup.italic.math.tex
+%  ^^ string.other.math.tex - markup.math.inline
+%  ^ punctuation.definition.string.end.tex
+%   ^ punctuation.definition.string.begin.tex
+%    ^ markup.math.inline variable.other.math.tex markup.italic.math.tex
+%     ^ string.other.math.tex punctuation.definition.string.end.tex
+%      ^ - meta.environment.math
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                Display Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ $$f(x) = x^2$$
+%^^ string.other.math.tex punctuation.definition.string.begin.tex
+%^^^^^^^^^^^^^^ meta.environment.math.block.dollar.tex
+%  ^^^^^^^^^^ markup.math.block - string
+%            ^^ string.other.math.tex punctuation.definition.string.end.tex - markup.math.block
+
+$$
+% <- meta.environment.math.block.dollar.tex punctuation.definition.string.begin.tex
+%^^ meta.environment.math.block.dollar.tex
+%^ punctuation.definition.string.begin.tex
+
+  0 1 2 3 4 5 6 7 8 9 10 11
+% ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%   ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%       ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%         ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%               ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                 ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                   ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                     ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                        ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+  1.0
+%^ - meta.number - constant
+% ^^^ meta.number.float.decimal.tex constant.numeric.value.tex
+%  ^ punctuation.separator.decimal.tex
+%    ^ - meta.number - constant
+
+  0.2
+%^ - meta.number - constant
+% ^^^ meta.number.float.decimal.tex constant.numeric.value.tex
+%  ^ punctuation.separator.decimal.tex
+%    ^ - meta.number - constant
+
+  .4
+%^ - meta.number - constant
+% ^^ meta.number.float.decimal.tex constant.numeric.value.tex
+% ^ punctuation.separator.decimal.tex
+%   ^ - meta.number - constant
+
+  ()
+% ^ punctuation.section.parens.begin.tex
+%  ^ punctuation.section.parens.end.tex
+
+  []
+% ^ punctuation.section.brackets.begin.tex
+%  ^ punctuation.section.brackets.end.tex
+
+  \{ \}
+%^ - constant
+% ^^ constant.character.escape.tex
+%   ^ - constant
+%    ^^ constant.character.escape.tex
+%      ^ - constant
+
+  c = a + b - d * f / g!
+% ^ variable.other.math.tex
+%   ^ keyword.operator.comparison.tex
+%     ^ variable.other.math.tex
+%       ^ keyword.operator.arithmetic.tex
+%         ^ variable.other.math.tex
+%           ^ keyword.operator.arithmetic.tex
+%             ^ variable.other.math.tex
+%               ^ keyword.operator.arithmetic.tex
+%                 ^ variable.other.math.tex
+%                   ^ keyword.operator.arithmetic.tex
+%                     ^ variable.other.math.tex
+%                      ^ keyword.operator.arithmetic.tex
+
+  a < b <= c
+% ^ variable.other.math.tex
+%   ^ keyword.operator.comparison.tex
+%     ^ variable.other.math.tex
+%       ^^ keyword.operator.comparison.tex
+%          ^ variable.other.math.tex
+
+  a > b >= c
+% ^ variable.other.math.tex
+%   ^ keyword.operator.comparison.tex
+%     ^ variable.other.math.tex
+%       ^^ keyword.operator.comparison.tex
+%          ^ variable.other.math.tex
+
+  a_n^2
+% ^ variable.other.math.tex markup.italic.math.tex
+%  ^ punctuation.separator.subscript.tex
+%   ^ variable.other.math.tex
+%    ^ punctuation.separator.superscript.tex
+%     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+$$
