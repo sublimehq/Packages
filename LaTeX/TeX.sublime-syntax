@@ -3,6 +3,7 @@
 # http://www.sublimetext.com/docs/syntax.html
 name: TeX
 scope: text.tex
+version: 2
 
 file_extensions:
   - sty
@@ -156,7 +157,7 @@ contexts:
     - meta_include_prototype: false
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      pop: true
+      pop: 1
 
   brace-group-body:
     - meta_scope: meta.group.brace.tex
@@ -166,7 +167,7 @@ contexts:
   brace-group-end:
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
-      pop: true
+      pop: 1
 
   boxes:
     - match: ((\\)[hv]box)\s*(\{)
@@ -550,7 +551,7 @@ contexts:
   inline-math-dollar-end:
     - match: \$
       scope: string.other.math.tex punctuation.definition.string.end.tex
-      pop: true
+      pop: 1
 
   block-math:
     - match: \$\$
@@ -566,7 +567,7 @@ contexts:
   block-math-dollar-end:
     - match: \$\$
       scope: string.other.math.tex punctuation.definition.string.end.tex
-      pop: true
+      pop: 1
 
   math-content:
     - include: math-builtin
@@ -707,17 +708,17 @@ contexts:
   # matches any nospace and pops the context
   else-pop:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   immediately-pop:
     - match: ''
-      pop: true
+      pop: 1
 
   # pops out of the current context if there is a new paragraph
   paragraph-pop:
     - match: ^(?=\s*$)
-      pop: true
+      pop: 1
 
   unmatched-brace-pop:
     - match: (?=})
-      pop: true
+      pop: 1

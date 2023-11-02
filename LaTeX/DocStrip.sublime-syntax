@@ -4,7 +4,8 @@
 # https://www.texlive.info/CTAN/macros/latex/base/docstrip.pdf
 name: TeX (DocStrip)
 scope: source.tex.docstrip
-version: 1
+version: 2
+
 extends: Packages/LaTeX/TeX.sublime-syntax
 
 file_extensions:

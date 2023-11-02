@@ -3,6 +3,7 @@
 # https://www.sublimetext.com/docs/syntax.html
 name: Literate Haskell
 scope: text.tex.latex.haskell
+version: 2
 
 extends: Packages/LaTeX/LaTeX.sublime-syntax
 

@@ -3,14 +3,30 @@
 % <- text.tex.latex
 
 \documentclass[12pt]{article}
-% ^ keyword.control.preamble.latex
-%                    ^ support.class.latex
+% <- meta.preamble.documentclass.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.documentclass.latex - meta.preamble.documentclass meta.preamble.documentclass
+%             ^^^^^^ meta.group.bracket.latex
+%                   ^^^^^^^^^ meta.group.brace.tex
+%^^^^^^^^^^^^^ keyword.control.preamble.latex
+%             ^ punctuation.definition.group.bracket.begin.latex
+%                  ^ punctuation.definition.group.bracket.end.latex
+%                   ^ punctuation.definition.group.brace.begin.tex
+%                    ^^^^^^^ support.class.latex
+%                           ^ punctuation.definition.group.brace.end.tex
 
 \usepackage[args]{mypackage, anotherpackage}
-% ^ keyword.control.preamble.latex
-%                 ^ support.class.latex
-%                          ^ -support.class.latex
-%                              ^ support.class.latex
+% <- meta.preamble.usepackage.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.usepackage.latex - meta.preamble.usepackage meta.preamble.usepackage
+%          ^^^^^^ meta.group.bracket.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%^^^^^^^^^^ keyword.control.preamble.latex
+%          ^ punctuation.definition.group.bracket.begin.latex
+%           ^^^^
+%               ^ punctuation.definition.group.bracket.end.latex
+%                ^ punctuation.definition.group.brace.begin.tex
+%                 ^^^^^^^^^ support.class.latex
+%                            ^^^^^^^^^^^^^^ support.class.latex
+%                                          ^ punctuation.definition.group.brace.end.tex
 
 \usepackage[pdftex,
             %plainpages={false},
@@ -792,7 +808,8 @@ The \emph{verbatim} environment sets everything in verbatim.
 
 \ensuremath{f(x) = x^2}
 % <- meta.function.ensuremath.latex support.function.ensuremath.latex punctuation.definition.backslash.latex
-%^^^^^^^^^^^^^^^^^^^^^^ meta.function.ensuremath.latex
+%^^^^^^^^^^ meta.function.ensuremath.latex - meta.function meta.function - meta.group
+%          ^^^^^^^^^^^^ meta.function.ensuremath.latex meta.group.brace.tex - meta.function meta.function
 %          ^ - meta.environment.math - markup.math
 %           ^^^^^^^^^^ meta.environment.math.inline.ensuremath.latex markup.math.inline
 %                     ^ - meta.environment.math - markup.math
@@ -801,7 +818,7 @@ The \emph{verbatim} environment sets everything in verbatim.
 %                     ^ punctuation.definition.group.brace.end.tex
 
 \ensuremath % 
-%^^^^^^^^^^^^^ meta.function.ensuremath.latex
+%^^^^^^^^^^^^^ meta.function.ensuremath.latex - meta.function meta.function
 %^^^^^^^^^^ support.function.ensuremath.latex
 %           ^^ comment.line.percentage.tex
      {x^2}{normal text}
@@ -914,7 +931,7 @@ class MyClass() {
 \end{lstlisting}
 
 \lstinline{var x = 15;}
-% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex - meta.environment meta.environment
 %         ^^^^^^^^^^^^^ meta.group.brace.tex
 %         ^ punctuation.definition.group.brace.begin
 %          ^^^^^^^^^^^ markup.raw.verb.latex
@@ -922,7 +939,7 @@ class MyClass() {
 %                      ^ - meta.environment.verbatim.lstinline.latex
 
 \lstinline|var x = 15;|
-% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex - meta.environment meta.environment
 %          ^^^^^^^^^^^ markup.raw.verb.latex
 %                      ^ - meta.environment.verbatim.lstinline.latex
 

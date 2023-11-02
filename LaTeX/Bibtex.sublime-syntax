@@ -6,6 +6,7 @@
 # TODO: Does not support @preamble
 name: BibTeX
 scope: text.bibtex
+version: 2
 
 file_extensions:
   - bib
@@ -25,7 +26,7 @@ contexts:
       push:
         - meta_scope: comment.line.at-sign.bibtex
         - match: $\n?
-          pop: true
+          pop: 1
     - match: '((@)[Ss]tring)\s*(\{)\s*({{var}})'
       captures:
         1: keyword.other.string-constant.bibtex
@@ -36,7 +37,7 @@ contexts:
         - meta_scope: meta.string-constant.braces.bibtex
         - match: '\}'
           scope: punctuation.section.string-constant.end.bibtex
-          pop: true
+          pop: 1
         - include: string_content
         - include: variables
         - include: operators
@@ -50,7 +51,7 @@ contexts:
         - meta_scope: meta.string-constant.parenthesis.bibtex
         - match: \)
           scope: punctuation.section.string-constant.end.bibtex
-          pop: true
+          pop: 1
         - include: string_content
         - include: variables
         - include: operators
@@ -65,7 +66,7 @@ contexts:
         - meta_content_scope: meta.mapping.bibtex
         - match: '\}'
           scope: punctuation.section.entry.end.bibtex
-          pop: true
+          pop: 1
         - match: '([a-zA-Z]+)(\s*(=)\s*)'
           captures:
             1: meta.mapping.key.bibtex string.unquoted.key.bibtex
@@ -74,8 +75,8 @@ contexts:
           push:
             - clear_scopes: 1
             - meta_content_scope: meta.mapping.value.bibtex
-            - match: "(?=[,}])"
-              pop: true
+            - match: (?=[,}])
+              pop: 1
             - include: string_content
             - include: integer
             - include: variables
@@ -93,7 +94,7 @@ contexts:
         - meta_content_scope: meta.mapping.bibtex
         - match: \)
           scope: punctuation.section.entry.end.bibtex
-          pop: true
+          pop: 1
         - match: '([a-zA-Z]+)(\s*(=)\s*)'
           captures:
             1: meta.mapping.key.bibtex string.unquoted.key.bibtex
@@ -102,8 +103,8 @@ contexts:
           push:
             - clear_scopes: 1
             - meta_content_scope: meta.mapping.value.bibtex
-            - match: "(?=[,)])"
-              pop: true
+            - match: (?=[,)])
+              pop: 1
             - include: string_content
             - include: integer
             - include: variables
@@ -114,7 +115,7 @@ contexts:
       push:
         - meta_scope: comment.block.bibtex
         - match: (?=@)
-          pop: true
+          pop: 1
   integer:
     - match: \d+
       scope: meta.number.integer.decimal.bibtex constant.numeric.value.bibtex
@@ -130,7 +131,7 @@ contexts:
       push:
         - match: '\}'
           scope: punctuation.definition.group.end.bibtex
-          pop: true
+          pop: 1
         - include: nested_braces
   string_content:
     - match: '"'
@@ -139,7 +140,7 @@ contexts:
         - meta_scope: string.quoted.double.bibtex
         - match: '"'
           scope: punctuation.definition.string.end.bibtex
-          pop: true
+          pop: 1
         - include: nested_braces
     - match: '\{'
       scope: punctuation.definition.string.begin.bibtex
@@ -147,7 +148,7 @@ contexts:
         - meta_scope: string.quoted.other.braces.bibtex
         - match: '\}'
           scope: punctuation.definition.string.end.bibtex
-          pop: true
+          pop: 1
         - match: "@"
           scope: invalid.illegal.at-sign.bibtex
         - include: nested_braces

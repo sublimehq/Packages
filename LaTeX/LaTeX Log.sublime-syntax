@@ -2,6 +2,7 @@
 ---
 name: LaTeX Log
 scope: text.log.latex
+version: 2
 
 first_line_match: 'This is (pdf|pdfe)?TeXk?, Version '
 
