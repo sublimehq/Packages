@@ -363,16 +363,14 @@ contexts:
         3: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.box.latex
-        - match: \}
-          scope: punctuation.definition.group.brace.end.tex
-          pop: 1
+        - include: brace-group-end
         - include: main
     - match: ((\\)(?:framebox|makebox))\b
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
       push:
-        - [{meta_scope: meta.function.box.latex}, {match: '', pop: 1}]
+        - box-meta
         - argument
         - optional-arguments
     - match: ((\\)parbox)\b
@@ -380,7 +378,7 @@ contexts:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
       push:
-        - [{meta_scope: meta.function.box.latex}, {match: '', pop: 1}]
+        - box-meta
         - argument
         - argument
         - optional-arguments
@@ -389,9 +387,14 @@ contexts:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
       push:
-        - [{meta_scope: meta.function.box.latex}, {match: '', pop: 1}]
+        - box-meta
         - argument
         - optional-arguments
+
+  box-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.box.latex
+    - include: immediately-pop
 
   preamble:
     - match: (\\)documentclass\b
@@ -680,9 +683,14 @@ contexts:
         1: support.function.includegraphics.latex
         2: punctuation.definition.backslash.latex
       push:
-        - [{meta_scope: meta.function.includegraphics.latex}, {match: '', pop: 1}]
+        - includegraphics-meta
         - argument
         - optional-arguments
+
+  includegraphics-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.includegraphics.latex
+    - include: immediately-pop
 
   url:
     - match: ((\\)(?:url|href|path))(\{)([^}]*)(\})
@@ -1024,9 +1032,7 @@ contexts:
   # utility that waits for the brace, and pops the three contexts
   # we push for each \text... command otherwise
   expect-text-markup-open-brace:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      pop: 1
+    - include: brace-group-begin
     - match: (?=\S)
       pop: 3
 
