@@ -81,7 +81,7 @@ contexts:
       scope: storage.type.struct.rust
       push: struct-identifier
 
-    - match: '\bunion\b'
+    - match: '\bunion\b(?!\s*\()'
       scope: storage.type.union.rust
       push: union-identifier
 

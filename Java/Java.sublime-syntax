@@ -162,7 +162,7 @@ contexts:
     - include: punctuations
     - include: operators
     - include: type-comparisons
-    - include: primitive-types
+    - include: primitive-maybe-class-literals
     - include: var-types
     - include: array-modifiers
     - include: storage-modifiers
@@ -985,11 +985,9 @@ contexts:
   field-type-modifier:
     - clear_scopes: 1
     - meta_scope: meta.field.type.java
-    - include: array-modifiers
-    - include: annotations
     - match: (?=[{(]|{{declaration_keywords}}{{break}})
       fail: class-members
-    - include: else-pop
+    - include: maybe-only-array-modifiers
 
   field-identifier-list:
     - match: ','
@@ -1208,6 +1206,9 @@ contexts:
     - include: else-pop
 
   variable-declaration-identifier:
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+      pop: 1
     - match: '{{uppercase_id}}'
       scope: constant.other.java
       pop: 1
@@ -1609,6 +1610,9 @@ contexts:
       push:
         - maybe-illegal-array-modifiers
         - catch-parameter-type
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+      pop: 1
     - match: '{{identifier}}'
       scope: variable.other.java
       pop: 1
@@ -2088,6 +2092,9 @@ contexts:
     - include: else-pop
 
   parameter-identifier:
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+      pop: 1
     - match: '{{identifier}}'
       scope: variable.parameter.java
       set: maybe-only-array-modifiers
@@ -2130,7 +2137,7 @@ contexts:
     - include: else-pop
 
   type-pattern-type:
-    - include: primitive-maybe-array-type
+    - include: primitive-maybe-class-literal
     - include: var-type
     - match: (?={{identifier}})
       set:
@@ -2179,6 +2186,11 @@ contexts:
 
   method-call-identifier:
     - meta_include_prototype: false
+    - match: _{{break}}
+      scope:
+        meta.function-call.identifier.java
+        variable.language.anonymous.java
+      set: method-call-arguments
     - match: '{{id}}'
       scope:
         meta.function-call.identifier.java
@@ -2200,6 +2212,11 @@ contexts:
 
   lambda-parameter:
     - meta_include_prototype: false
+    - match: _{{break}}
+      scope:
+        meta.function.anonymous.parameters.java
+        variable.language.anonymous.java
+      set: lambda-parameter-end
     - match: '{{id}}'
       scope:
         meta.function.anonymous.parameters.java
@@ -2212,6 +2229,8 @@ contexts:
     - include: else-pop
 
   variable-namespace:
+    - match: _{{break}}
+      fail: variables
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
       push: variable-namespace-accessor
@@ -2241,6 +2260,11 @@ contexts:
 
   variable-other:
     - meta_include_prototype: false
+    - match: _{{break}}
+      scope:
+        meta.variable.identifier.java
+        variable.language.anonymous.java
+      set: variable-other-end
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
@@ -2256,6 +2280,8 @@ contexts:
 
   variable-qualifier:
     - meta_include_prototype: false
+    - match: _{{break}}
+      fail: variables
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
@@ -2313,8 +2339,6 @@ contexts:
 
   literal-variables:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
-    - match: _{{break}}
-      scope: variable.language.anonymous.java
     - match: super{{break}}
       scope: variable.language.super.java
     - match: this{{break}}
@@ -3215,20 +3239,37 @@ contexts:
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
-  primitive-types:
+  primitive-maybe-class-literals:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
-      push: maybe-only-array-modifiers
+      push: maybe-only-class-literal
+
+  primitive-maybe-class-literal:
+    - match: '{{storage_types}}{{break}}'
+      scope: storage.type.primitive.java
+      set: maybe-only-class-literal
+
+  maybe-only-class-literal:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.8.2
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      set: maybe-class-literal
+    - include: array-modifiers
+    - include: annotation-else-pop
+
+  maybe-class-literal:
+    - match: class{{break}}
+      scope: variable.language.class.java
+      pop: 1
+    - match: '{{id}}'
+      scope: invalid.illegal.unexpected-member.java
+      set: maybe-only-class-literal
+    - include: else-pop
 
   primitive-type:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
       pop: 1
-
-  primitive-maybe-array-type:
-    - match: '{{storage_types}}{{break}}'
-      scope: storage.type.primitive.java
-      set: maybe-only-array-modifiers
 
   var-types:
     - match: var{{break}}
@@ -3246,9 +3287,8 @@ contexts:
 
   maybe-only-array-modifiers:
     - include: array-modifiers
-    - include: annotations
     - include: illegal-members
-    - include: else-pop
+    - include: annotation-else-pop
 
   array-modifiers:
     - match: \[\s*\]

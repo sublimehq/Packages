@@ -541,6 +541,18 @@
 			"details": "Checks if the given key or index exists in the array"
 		},
 		{
+			"trigger": "array_key_first()",
+			"contents": "array_key_first(${1:array})",
+			"kind": "function",
+			"details": "Gets the first key of an array"
+		},
+		{
+			"trigger": "array_key_last()",
+			"contents": "array_key_last(${1:array})",
+			"kind": "function",
+			"details": "Gets the last key of an array"
+		},
+		{
 			"trigger": "array_keys()",
 			"contents": "array_keys(${1:input})",
 			"kind": "function",
@@ -1759,6 +1771,18 @@
 			"contents": "clearstatcache()",
 			"kind": "function",
 			"details": "Clears file status cache"
+		},
+		{
+			"trigger": "cli_get_process_title()",
+			"contents": "cli_get_process_title()",
+			"kind": "function",
+			"details": "Returns the current process title"
+		},
+		{
+			"trigger": "cli_set_process_title()",
+			"contents": "cli_set_process_title()",
+			"kind": "function",
+			"details": "Sets the process title"
 		},
 		{
 			"trigger": "closedir()",
@@ -5641,6 +5665,18 @@
 			"contents": "gc_enabled()",
 			"kind": "function",
 			"details": "Returns status of the circular reference collector"
+		},
+		{
+			"trigger": "gc_mem_caches()",
+			"contents": "gc_mem_caches()",
+			"kind": "function",
+			"details": "Reclaims memory used by the Zend Engine memory manager"
+		},
+		{
+			"trigger": "gc_status()",
+			"contents": "gc_status()",
+			"kind": "function",
+			"details": "Gets information about the garbage collector"
 		},
 		{
 			"trigger": "gd_info()",
@@ -9983,6 +10019,12 @@
 			"details": "Returns the last error occurred"
 		},
 		{
+			"trigger": "json_validate()",
+			"contents": "json_validate(${1:json})",
+			"kind": "function",
+			"details": "Validates if the string contains a valid json."
+		},
+		{
 			"trigger": "judy_type()",
 			"contents": "judy_type(${1:array})",
 			"kind": "function",
@@ -11222,6 +11264,12 @@
 			"contents": "mb_split(${1:pattern}, ${2:string})",
 			"kind": "function",
 			"details": "Split multibyte string using regular expression"
+		},
+		{
+			"trigger": "mb_str_pad()",
+			"contents": "mb_str_pad(${1:string}, ${2:length}, string ${3:pad_string})",
+			"kind": "function",
+			"details": "Pad a string to a certain length with another string"
 		},
 		{
 			"trigger": "mb_strcut()",

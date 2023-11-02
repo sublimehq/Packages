@@ -259,8 +259,270 @@ sql = 'SELECT * FROM foo -- bar baz'
 #                            ^ source.sql comment.line.double-dash
 #                                  ^ punctuation.definition.string.end.python - source.sql
 
+###################################################
+# escaped quotes in raw strings prevent termination
+###################################################
 
+r'''\''''
+#^^^^^^^^ comment.block.documentation
+#   ^^ constant.character.escape.python
+
+r"""\""""
+#^^^^^^^^ comment.block.documentation
+#   ^^ constant.character.escape.python
+
+R'''\''''
+#^^^^^^^^ comment.block.documentation
+#   ^^ constant.character.escape.python
+
+R"""\""""
+#^^^^^^^^ comment.block.documentation
+#   ^^ constant.character.escape.python
+
+raw = r'foo\'' + r'foo\"'
+#      ^^^^^^^ meta.string.python string.quoted.single.python
+#      ^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape
+#            ^ punctuation.definition.string.end.python
+#                 ^^^^^^^ meta.string.python string.quoted.single.python
+#                 ^ punctuation.definition.string.begin.python
+#                     ^^ constant.character.escape
+#                       ^ punctuation.definition.string.end.python
+
+raw = r"foo\"" + r"foo\'"
+#      ^^^^^^^ meta.string.python string.quoted.double.python
+#      ^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape
+#            ^ punctuation.definition.string.end.python
+#                 ^^^^^^^ meta.string.python string.quoted.double.python
+#                 ^ punctuation.definition.string.begin.python
+#                     ^^ constant.character.escape
+#                       ^ punctuation.definition.string.end.python
+
+raw = rb'foo\'' + rb'foo\"'
+#       ^^^^^^^ meta.string.python string.quoted.single.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.single.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape
+#                         ^ punctuation.definition.string.end.python
+
+raw = rb"foo\"" + rb"foo\'"
+#       ^^^^^^^ meta.string.python string.quoted.double.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.double.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape
+#                         ^ punctuation.definition.string.end.python
+
+raw = rf'foo\'' + rf'foo\"'
+#       ^^^^^^^ meta.string.python string.quoted.single.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.single.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape
+#                         ^ punctuation.definition.string.end.python
+
+raw = rf"foo\"" + rf"foo\'"
+#       ^^^^^^^ meta.string.python string.quoted.double.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.double.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape
+#                         ^ punctuation.definition.string.end.python
+
+raw = R'foo\'' + R'foo\"'
+#      ^^^^^^^ meta.string.python string.quoted.single.python
+#      ^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape.python
+#            ^ punctuation.definition.string.end.python
+#                 ^^^^^^^ meta.string.python string.quoted.single.python
+#                 ^ punctuation.definition.string.begin.python
+#                     ^^ constant.character.escape.python
+#                       ^ punctuation.definition.string.end.python
+
+raw = R"foo\"" + R"foo\'"
+#      ^^^^^^^ meta.string.python string.quoted.double.python
+#      ^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape.python
+#            ^ punctuation.definition.string.end.python
+#                 ^^^^^^^ meta.string.python string.quoted.double.python
+#                 ^ punctuation.definition.string.begin.python
+#                     ^^ constant.character.escape.python
+#                       ^ punctuation.definition.string.end.python
+
+raw = RB'foo\'' + RB'foo\"'
+#       ^^^^^^^ meta.string.python string.quoted.single.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape.python
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.single.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape.python
+#                         ^ punctuation.definition.string.end.python
+
+raw = RB"foo\"" + RB"foo\'"
+#       ^^^^^^^ meta.string.python string.quoted.double.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape.python
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.double.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape.python
+#                         ^ punctuation.definition.string.end.python
+
+raw = RF'foo\'' + RF'foo\"'
+#       ^^^^^^^ meta.string.python string.quoted.single.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape.python
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.single.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape.python
+#                         ^ punctuation.definition.string.end.python
+
+raw = RF"foo\"" + RF"foo\'"
+#       ^^^^^^^ meta.string.python string.quoted.double.python
+#       ^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape.python
+#             ^ punctuation.definition.string.end.python
+#                   ^^^^^^^ meta.string.python string.quoted.double.python
+#                   ^ punctuation.definition.string.begin.python
+#                       ^^ constant.character.escape.python
+#                         ^ punctuation.definition.string.end.python
+
+raw = r'''foo\'''' + r'''foo\"'''
+#      ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#      ^ punctuation.definition.string.begin.python
+#            ^^ constant.character.escape
+#              ^^^ punctuation.definition.string.end.python
+#                     ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                     ^^^ punctuation.definition.string.begin.python
+#                           ^^ constant.character.escape
+#                             ^^^ punctuation.definition.string.end.python
+
+raw = r"""foo\"""" + r"""foo\'"""
+#      ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#      ^ punctuation.definition.string.begin.python
+#            ^^ constant.character.escape
+#              ^^^ punctuation.definition.string.end.python
+#                     ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                     ^^^ punctuation.definition.string.begin.python
+#                           ^^ constant.character.escape
+#                             ^^^ punctuation.definition.string.end.python
+
+raw = rb'''foo\'''' + rb'''foo\"'''
+#       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = rb"""foo\"""" + rb"""foo\'"""
+#       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = rf'''foo\'''' + rf'''foo\"'''
+#       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = rf"""foo\"""" + rf"""foo\'"""
+#       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = R'''foo\'''' + R'''foo\"'''
+#      ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#      ^ punctuation.definition.string.begin.python
+#            ^^ constant.character.escape.python
+#              ^^^ punctuation.definition.string.end.python
+#                     ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                     ^^^ punctuation.definition.string.begin.python
+#                           ^^ constant.character.escape.python
+#                             ^^^ punctuation.definition.string.end.python
+
+raw = R"""foo\"""" + R"""foo\'"""
+#      ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#      ^ punctuation.definition.string.begin.python
+#            ^^ constant.character.escape.python
+#              ^^^ punctuation.definition.string.end.python
+#                     ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                     ^^^ punctuation.definition.string.begin.python
+#                           ^^ constant.character.escape.python
+#                             ^^^ punctuation.definition.string.end.python
+
+raw = RB'''foo\'''' + RB'''foo\"'''
+#       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape.python
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape.python
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = RB"""foo\"""" + RB"""foo\'"""
+#       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape.python
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape.python
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = RF'''foo\'''' + RF'''foo\"'''
+#       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape.python
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape.python
+#                               ^^^ punctuation.definition.string.end.python
+
+raw = RF"""foo\"""" + RF"""foo\'"""
+#       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#       ^ punctuation.definition.string.begin.python
+#             ^^ constant.character.escape.python
+#               ^^^ punctuation.definition.string.end.python
+#                       ^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                       ^^^ punctuation.definition.string.begin.python
+#                             ^^ constant.character.escape.python
+#                               ^^^ punctuation.definition.string.end.python
+
+###################################################
 # There are many variations of making a byte string
+###################################################
+
 (b'', B'', br'', bR'', BR'', Br'', rb'', Rb'', RB'', rB'')
 #^ storage.type.string
 #     ^ storage.type.string
@@ -946,6 +1208,40 @@ rf"{value:{width!s:d}}"
 #                 ^ punctuation.separator.format-spec
 #                  ^ constant.other.format-spec
 
+fr"{var}? {var}* {var}{2,3} [{foo}-{bar}]+"
+# ^ meta.string.python string.quoted
+#  ^^^^^ meta.string.python meta.interpolation.python - string
+#       ^^ meta.string.python string.quoted
+#         ^^^^^ meta.string.python meta.interpolation.python - string
+#              ^^ meta.string.python string.quoted
+#                ^^^^^ meta.string.python meta.interpolation.python - string
+#                     ^^^^^^^ meta.string.python string.quoted
+#                            ^^^^^ meta.string.python meta.interpolation.python - string
+#                                 ^ meta.string.python string.quoted
+#                                  ^^^^^ meta.string.python meta.interpolation.python - string
+#                                       ^^ meta.string.python string.quoted
+#       ^ keyword.operator.quantifier.regexp
+#              ^ keyword.operator.quantifier.regexp
+#                     ^^^^^ keyword.operator.quantifier.regexp
+#                                        ^ keyword.operator.quantifier.regexp
+
+fr'{var}? {var}* {var}{2,3} [{foo}-{bar}]+'
+# ^ meta.string.python string.quoted
+#  ^^^^^ meta.string.python meta.interpolation.python - string
+#       ^^ meta.string.python string.quoted
+#         ^^^^^ meta.string.python meta.interpolation.python - string
+#              ^^ meta.string.python string.quoted
+#                ^^^^^ meta.string.python meta.interpolation.python - string
+#                     ^^^^^^^ meta.string.python string.quoted
+#                            ^^^^^ meta.string.python meta.interpolation.python - string
+#                                 ^ meta.string.python string.quoted
+#                                  ^^^^^ meta.string.python meta.interpolation.python - string
+#                                       ^^ meta.string.python string.quoted
+#       ^ keyword.operator.quantifier.regexp
+#              ^ keyword.operator.quantifier.regexp
+#                     ^^^^^ keyword.operator.quantifier.regexp
+#                                        ^ keyword.operator.quantifier.regexp
+
 # Most of these were inspired by
 # https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
 f'{x=:}'
@@ -1248,6 +1544,23 @@ fr"""
 # ^^^^ meta.string.python string.quoted.double.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+
+    {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# ^^ meta.string.python string.quoted
+#   ^^^^^ meta.string.python meta.interpolation.python - string
+#        ^^ meta.string.python string.quoted
+#          ^^^^^ meta.string.python meta.interpolation.python - string
+#               ^^ meta.string.python string.quoted
+#                 ^^^^^ meta.string.python meta.interpolation.python - string
+#                      ^^^^^^^ meta.string.python string.quoted
+#                             ^^^^^ meta.string.python meta.interpolation.python - string
+#                                  ^ meta.string.python string.quoted
+#                                   ^^^^^ meta.string.python meta.interpolation.python - string
+#                                        ^^ meta.string.python string.quoted
+#        ^ keyword.operator.quantifier.regexp
+#               ^ keyword.operator.quantifier.regexp
+#                      ^^^^^ keyword.operator.quantifier.regexp
+#                                         ^ keyword.operator.quantifier.regexp
 """
 # <- meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
 #^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
@@ -1259,6 +1572,23 @@ fr'''
 # ^^^^ meta.string.python string.quoted.single.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+
+    {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# ^^ meta.string.python string.quoted
+#   ^^^^^ meta.string.python meta.interpolation.python - string
+#        ^^ meta.string.python string.quoted
+#          ^^^^^ meta.string.python meta.interpolation.python - string
+#               ^^ meta.string.python string.quoted
+#                 ^^^^^ meta.string.python meta.interpolation.python - string
+#                      ^^^^^^^ meta.string.python string.quoted
+#                             ^^^^^ meta.string.python meta.interpolation.python - string
+#                                  ^ meta.string.python string.quoted
+#                                   ^^^^^ meta.string.python meta.interpolation.python - string
+#                                        ^^ meta.string.python string.quoted
+#        ^ keyword.operator.quantifier.regexp
+#               ^ keyword.operator.quantifier.regexp
+#                      ^^^^^ keyword.operator.quantifier.regexp
+#                                         ^ keyword.operator.quantifier.regexp
 '''
 # <- meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
 #^^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python

@@ -3176,9 +3176,19 @@ by accident, but if necessary, such support could be sacrificed.
 
     []func(
 //    ^^^^ keyword.declaration.function.go
-        param typ
+        param typ,
 //      ^^^^^ variable.parameter.go
 //            ^^^ storage.type.go
+//               ^ punctuation.separator.go
+        param [][][]typ
+//      ^^^^^ variable.parameter.go
+//            ^ punctuation.section.brackets.begin.go
+//             ^ punctuation.section.brackets.end.go
+//              ^ punctuation.section.brackets.begin.go
+//               ^ punctuation.section.brackets.end.go
+//                ^ punctuation.section.brackets.begin.go
+//                 ^ punctuation.section.brackets.end.go
+//                  ^^^ storage.type.go
     ) typ ident
 //    ^^^ storage.type.go
 //        ^^^^^ variable.other.go

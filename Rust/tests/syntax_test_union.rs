@@ -36,5 +36,17 @@ pub union Foo<'a, Y: Baz>
 fn union() {}
 // ^^^^^ meta.function entity.name.function
 
+(Scopes::Character.union(Scopes::Unit).union(Scopes::Legion), "add_legion_history", Unchecked)
+//                ^ meta.group punctuation.accessor.dot
+//                 ^^^^^ variable.function - storage.type.union
+//                      ^ punctuation.section.group.begin
+//                       ^^^^^^ storage.type.source
+//                             ^^ punctuation.accessor
+//                               ^^^^ storage.type.source
+//                                   ^ punctuation.section.group.end
+//                                    ^ punctuation.accessor.dot
+//                                     ^^^^^ variable.function - storage.type.union
+
+
 union /*comment*/ U {}
 //    ^^^^^^^^^^^ meta.union comment.block

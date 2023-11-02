@@ -55,6 +55,9 @@ variables:
 
   colon: ':(?!=)'
 
+  # Prefer ranged quantifiers over python interpolation in raw f-strings
+  fstring_regexp_interpolation_begin: '\{(?!\d+(?:,\d*)?\})'
+
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
@@ -164,6 +167,14 @@ variables:
     # | buffer | file
     )\b
 
+  typing_functions: |-
+    (?x:
+      assert_type | assert_never | clear_overloads | dataclass_transform | final
+    | get_args | get_origin | get_overloads | get_type_hints | is_typeddict
+    | no_type_check | no_type_check_decorator | overload | override | reveal_type
+    | runtime_checkable
+    )\b
+
   typing_types: |-
     (?x:
     # Super-special typing primitives.
@@ -255,6 +266,8 @@ variables:
     | bases | prepare | slots | metaclass | mro
     # Python 2
     | members | methods
+    # Python 3.12 (PEP 698)
+    | override
     )__\b )
 
 ##############################################################################
@@ -271,6 +284,7 @@ contexts:
     - include: block-statements
     - include: class-definitions
     - include: function-definitions
+    - include: type-definitions
     - include: statement-terminators
     - include: expression-as-a-statement
 
@@ -350,6 +364,11 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
+    # Special Sphinx comment syntax to denote documentation
+    # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoattribute
+    - match: '#:'
+      scope: punctuation.definition.comment.python
+      push: comment-sphinxdoc-body
     - match: \#
       scope: punctuation.definition.comment.python
       push:
@@ -358,6 +377,11 @@ contexts:
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
+    - match: \n
+      pop: 1
+
+  comment-sphinxdoc-body:
+    - meta_scope: comment.line.documentation.python
     - match: \n
       pop: 1
 
@@ -738,24 +762,28 @@ contexts:
 
   class-definitions:
     - match: ^\s*(class)\b
+      scope: meta.class.python
       captures:
         1: keyword.declaration.class.python
-      push: class-definition-name
+      push:
+        - class-definition-base-list
+        - type-parameter-list
+        - class-definition-name
 
   class-definition-name:
-    - meta_scope: meta.class.python
-    - match: (?=\()
-      set: class-definition-base-list
-    - include: illegal-names
+    - include: illegal-name
     - match: '{{identifier}}'
       scope: entity.name.class.python
+      pop: 1
     - include: class-definition-end
 
   class-definition-base-list:
     - meta_include_prototype: false
+    - meta_content_scope: meta.class.python
     - match: \(
       scope: punctuation.section.inheritance.begin.python
       set: class-definition-base-list-body
+    - include: class-definition-end
 
   class-definition-base-list-body:
     - meta_scope: meta.class.inheritance.python
@@ -805,25 +833,30 @@ contexts:
       captures:
         1: keyword.declaration.async.python
         2: keyword.declaration.function.python
-      push: function-definition-name
+      push:
+        - function-parameter-list
+        - type-parameter-list
+        - function-definition-name
 
   function-definition-name:
-    - meta_content_scope: meta.function.python
-    - include: function-parameter-list
-    - include: illegal-names
+    - include: illegal-name
     - match: '{{magic_functions}}'
       scope: entity.name.function.python support.function.magic.python
+      pop: 1
     - match: '{{identifier}}'
       scope: entity.name.function.python
+      pop: 1
     - include: function-definition-end
 
   function-parameter-list:
     - meta_include_prototype: false
+    - meta_content_scope: meta.function.python
     - match: \(
       scope: meta.function.parameters.python punctuation.section.parameters.begin.python
       set:
         - function-parameter-list-body
         - function-parameter-allow-unpack-operators
+    - include: function-definition-end
 
   function-parameter-list-body:
     - meta_content_scope: meta.function.parameters.python
@@ -1005,6 +1038,110 @@ contexts:
       pop: 1
     - include: line-continuation-or-pop
     - include: illegal-assignment-expressions
+
+###[ TYPE DEFINITIONS ]#######################################################
+
+  type-definitions:
+    - match: ^\s*(type)\b
+      captures:
+        1: keyword.declaration.class.python
+      push:
+        - type-definition-meta
+        - type-definition-value-assignment
+        - type-parameter-list
+        - type-definition-name
+
+  type-definition-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.type-alias.python
+    - include: immediately-pop
+
+  type-definition-name:
+    - include: illegal-name
+    - match: '{{identifier}}'
+      scope: entity.name.type.alias.python
+      pop: 1
+    - include: line-continuation-or-pop
+
+  type-definition-value-assignment:
+    - match: =
+      scope: keyword.operator.assignment.python
+      set: variable-annotation
+    - include: line-continuation-or-pop
+
+###[ TYPE PARAMETERS ]########################################################
+
+  type-parameter-lists:
+    - match: \[
+      scope: meta.generic.python punctuation.definition.generic.begin.python
+      push:
+        - type-parameter-list-body
+        - allow-unpack-operators
+
+  type-parameter-list:
+    - match: \[
+      scope: meta.generic.python punctuation.definition.generic.begin.python
+      set:
+        - type-parameter-list-body
+        - allow-unpack-operators
+    - include: line-continuation-or-pop
+    - include: else-pop
+
+  type-parameter-list-body:
+    - meta_content_scope: meta.generic.python
+    - match: \]
+      scope: meta.generic.python punctuation.section.parameters.end.python
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.parameters.python
+      push: allow-unpack-operators
+    - match: '{{colon}}'
+      scope: meta.generic.python punctuation.separator.bound.python
+      set: type-parameter-bound
+    - include: comments
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.type.python
+    - include: line-continuations
+
+  type-parameter-bound:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.generic.bound.python
+    - include: line-continuations
+    - match: (?=\S)
+      set: type-parameter-bound-body
+
+  type-parameter-bound-body:
+    - meta_scope: meta.generic.bound.python
+    - meta_content_scope: meta.type.python
+    - match: \s*(?=[],=])
+      set: type-parameter-list-body
+    # Scope newline `meta.type` only, if type continues on next line.
+    # Note: This is required to workaround ST's line blindness.
+    - match: (?=\s*\n)
+      branch_point: type-parameter-bound-end
+      branch:
+        - type-parameter-bound-continue
+        - type-parameter-bound-end
+    - include: type-parameter-bound-content
+
+  type-parameter-bound-content:
+    # Note: maybe type-hint expressions
+    - include: type-constants
+    - include: expression-in-a-group
+
+  type-parameter-bound-continue:
+    - meta_include_prototype: false
+    - match: \s*(?=[],=])
+      fail: type-parameter-bound-end
+    - include: comments
+    - include: else-pop
+
+  type-parameter-bound-end:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+      push: type-parameter-list-body
 
 ###[ ASSIGNMENT STATEMENTS ]##################################################
 
@@ -2190,6 +2327,8 @@ contexts:
   builtin-functions:
     - match: '{{builtin_functions}}'
       scope: support.function.builtin.python
+    - match: '{{typing_functions}}'
+      scope: support.function.typing.python
 
   builtin-types:
     - match: '{{builtin_types}}'
@@ -2422,6 +2561,7 @@ contexts:
   double-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
     - include: double-quoted-docstring-end
+    - include: escaped-raw-quotes
 
   single-quoted-docstrings:
     - match: ^\s*(?i)(u)?(''')
@@ -2473,6 +2613,7 @@ contexts:
   single-quoted-raw-docstring-body:
     - meta_content_scope: comment.block.documentation.python
     - include: single-quoted-docstring-end
+    - include: escaped-raw-quotes
 
 ###[ STRINGS ]################################################################
 
@@ -2521,6 +2662,7 @@ contexts:
 
   triple-double-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   triple-double-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
@@ -2532,10 +2674,10 @@ contexts:
 
   triple-double-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-b-string-content
@@ -2559,6 +2701,7 @@ contexts:
 
   triple-double-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: triple-double-quoted-f-string-replacements
 
   triple-double-quoted-raw-f-strings:
@@ -2571,10 +2714,10 @@ contexts:
 
   triple-double-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-f-string-content
@@ -2599,6 +2742,7 @@ contexts:
 
   triple-double-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: escaped-unicode-chars
 
   triple-double-quoted-raw-u-strings:
@@ -2623,10 +2767,10 @@ contexts:
 
   triple-double-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-regexp-raw-u-string-content
@@ -2647,6 +2791,7 @@ contexts:
 
   triple-double-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: escaped-unicode-chars
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
@@ -2791,7 +2936,7 @@ contexts:
   triple-double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -2862,6 +3007,7 @@ contexts:
 
   double-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   double-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
@@ -2873,10 +3019,10 @@ contexts:
 
   double-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-raw-b-string-content
@@ -2900,6 +3046,7 @@ contexts:
 
   double-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: double-quoted-f-string-replacements
 
   double-quoted-raw-f-strings:
@@ -2912,10 +3059,10 @@ contexts:
 
   double-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-raw-f-string-content
@@ -2940,6 +3087,7 @@ contexts:
 
   double-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   double-quoted-raw-u-strings:
     - match: ([uU]?r)(")
@@ -2964,10 +3112,10 @@ contexts:
 
   double-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.python
+    - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-regexp-raw-u-string-content
@@ -2987,6 +3135,7 @@ contexts:
 
   double-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: string-placeholders
     - include: double-quoted-string-replacements
 
@@ -3127,7 +3276,7 @@ contexts:
   double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3194,6 +3343,7 @@ contexts:
 
   triple-single-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   triple-single-quoted-raw-b-strings:
     # Triple-quoted raw string, bytes, will use regex
@@ -3205,10 +3355,10 @@ contexts:
 
   triple-single-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-b-string-content
@@ -3232,6 +3382,7 @@ contexts:
 
   triple-single-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: triple-single-quoted-f-string-replacements
 
   triple-single-quoted-raw-f-strings:
@@ -3244,10 +3395,10 @@ contexts:
 
   triple-single-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-f-string-content
@@ -3272,6 +3423,7 @@ contexts:
 
   triple-single-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   triple-single-quoted-raw-u-strings:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -3295,10 +3447,10 @@ contexts:
 
   triple-single-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-regexp-raw-u-string-content
@@ -3319,6 +3471,7 @@ contexts:
 
   triple-single-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: escaped-unicode-chars
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
@@ -3463,7 +3616,7 @@ contexts:
   triple-single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3534,6 +3687,7 @@ contexts:
 
   single-quoted-plain-raw-b-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   single-quoted-raw-b-strings:
     # Single-line raw string, bytes, treated as regex
@@ -3545,10 +3699,10 @@ contexts:
 
   single-quoted-raw-b-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-raw-b-string-content
@@ -3572,6 +3726,7 @@ contexts:
 
   single-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
 
   single-quoted-raw-u-strings:
     - match: ([uU]?r)(')
@@ -3596,10 +3751,10 @@ contexts:
 
   single-quoted-regexp-raw-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-regexp-raw-u-string-content
@@ -3619,6 +3774,7 @@ contexts:
 
   single-quoted-sql-raw-u-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: string-placeholders
     - include: single-quoted-string-replacements
 
@@ -3638,6 +3794,7 @@ contexts:
 
   single-quoted-plain-raw-f-string-content:
     - include: string-prototype
+    - include: escaped-raw-quotes
     - include: single-quoted-f-string-replacements
 
   single-quoted-raw-f-strings:
@@ -3650,10 +3807,10 @@ contexts:
 
   single-quoted-raw-f-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.single.python
+    - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python
+      push: scope:source.regexp.python#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-raw-f-string-content
@@ -3799,7 +3956,7 @@ contexts:
   single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: \{
+    - match: '{{fstring_regexp_interpolation_begin}}'
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3855,6 +4012,11 @@ contexts:
       scope: constant.character.escape.unicode.32bit.python
     - match: \\N\{[-a-zA-Z ]+\}
       scope: constant.character.escape.unicode.name.python
+
+  escaped-raw-quotes:
+    # consume escaped quotes in raw-strings to preven them terminating strings
+    - match: \\['"]
+      scope: constant.character.escape.python
 
   escaped-string-braces:
     - match: \{\{|\}\}

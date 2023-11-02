@@ -1,5 +1,86 @@
 /* SYNTAX TEST "Packages/C++/C.sublime-syntax" */
 
+// =Banner=
+/*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
+
+// = Banner =
+/* ^^^^^^^^^^^ comment.line.banner.c */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.line.c */
+/*         ^^^ - meta.toc-list  */
+
+// Comment //
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*        ^^ comment.line.double-slash.c punctuation.definition.comment.c */
+
+//! Comment
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+
+/// Comment ///
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+ /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
+
+//// Comment ////  
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*  ^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*          ^^^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*               ^^ comment.line.double-slash.c - punctuation */
+
+/* =Banner= */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*  ^^^^^^ meta.toc-list.banner.block.c  */
+/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+/* = Banner = */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.block.c  */
+/*         ^^^^^ - meta.toc-list  */
+/*            ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+   /*****/
+/* ^^^^^^^ comment.block.empty.c punctuation.definition.comment.c */
+
+   /**
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /***
+/* ^^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!****
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c - punctuation */
+
+   /*!****/
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c punctuation.definition.comment.end.c */
+
+   /*!
+    * docstring
+    **/
+/*  ^^^ comment.block.documentation.c */
+
+    */
+/*  ^^ invalid.illegal.stray-comment-end.c */
+
+    **/
+/*  ^^^ invalid.illegal.stray-comment-end.c */
+
 int main(){
     int a=5,b=0;
     while(a-->0)++b;
@@ -40,11 +121,11 @@ enum { kFoo = FOO, kBar = BAR };
 /*                      ^ keyword.operator.assignment.c */
 /*                        ^^^ - entity.name.constant */
 
-enum { 
-    FOO, 
+enum {
+    FOO,
 /*  ^^^ entity.name.constant.c */
 /*     ^ punctuation.separator.c */
-    BAR 
+    BAR
 /*  ^^^ entity.name.constant.c */
 };
 
@@ -119,6 +200,42 @@ struct foo {
 
 int i;
 /* <- storage.type */
+
+typeof(i) dt;
+/* <- keyword.declaration.type */
+/*    ^ punctuation.section.group.begin */
+/*      ^ punctuation.section.group.end */
+__typeof(i) dt;
+/* <- keyword.declaration.type */
+/*      ^ punctuation.section.group.begin */
+/*        ^ punctuation.section.group.end */
+__typeof__(i) dt;
+/* <- keyword.declaration.type */
+/*        ^ punctuation.section.group.begin */
+/*          ^ punctuation.section.group.end */
+typeof_unqual(i) dt;
+/* <- keyword.declaration.type */
+/*           ^ punctuation.section.group.begin */
+/*             ^ punctuation.section.group.end */
+
+void build_default_prototype(Function *ret) {
+    static typeof(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*    ^ punctuation.section.group.begin */
+           /*                 ^ punctuation.section.group.end */
+    static __typeof(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*      ^ punctuation.section.group.begin */
+           /*                   ^ punctuation.section.group.end */
+    static __typeof__(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*        ^ punctuation.section.group.begin */
+           /*                     ^ punctuation.section.group.end */
+    static typeof_unqual(*ret->params) params[4];
+           /* <- keyword.declaration.type */
+           /*           ^ punctuation.section.group.begin */
+           /*                        ^ punctuation.section.group.end */
+}
 
 // The following example ensures that comments at the end of preprocessor
 // directives don't mess with context transitions
@@ -305,6 +422,10 @@ struct X
 };
 
 /**
+    *
+/*  ^ comment.block.documentation.c punctuation.definition.comment.c */
+
+/*
     *
 /*  ^ comment.block.c punctuation.definition.comment.c */
 

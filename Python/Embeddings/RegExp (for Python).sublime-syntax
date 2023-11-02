@@ -43,4 +43,3 @@ contexts:
         2: punctuation.definition.group.begin.assertion.conditional.regexp
         3: variable.other.back-reference.regexp
         4: punctuation.definition.group.end.assertion.conditional.regexp
-

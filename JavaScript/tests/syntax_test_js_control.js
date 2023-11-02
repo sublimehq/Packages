@@ -163,9 +163,118 @@
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
+    for (x.y.z of list) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//       ^ variable.other.readwrite
+//        ^ punctuation.accessor
+//         ^ meta.property.object
+//          ^ punctuation.accessor
+//           ^ meta.property.object
+//             ^^ keyword.operator.word
+//                ^^^^ variable.other.readwrite
+//                    ^ punctuation.section.group.end
+//                      ^^ meta.block
+
     for await (const x of list) {}
 //  ^^^ keyword.control.loop.for
 //      ^^^^^ keyword.control.flow.await
+
+    for ( using x of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.declaration
+//              ^ meta.binding.name variable.other.readwrite
+//                ^^ keyword.operator.word
+//                   ^^^^ variable.other.readwrite
+//                        ^ punctuation.section.group.end
+//                          ^^ meta.block
+
+    for ( await using x of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.declaration
+//              ^^^^^ keyword.declaration
+//        ^^^^^ keyword.declaration
+//              ^^^^^ keyword.declaration
+//                    ^ meta.binding.name variable.other.readwrite
+//                      ^^ keyword.operator.word
+//                         ^^^^ variable.other.readwrite
+//                              ^ punctuation.section.group.end
+//                                ^^ meta.block
+
+    for ( await using of of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.declaration
+//              ^^^^^ keyword.declaration
+//                    ^^ meta.binding.name variable.other.readwrite
+//                       ^^ keyword.operator.word
+//                          ^^^^ variable.other.readwrite
+//                               ^ punctuation.section.group.end
+//                                 ^^ meta.block
+//                                 ^ punctuation.section.block.begin
+//                                  ^ punctuation.section.block.end
+
+    for ( using of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ variable.other.readwrite
+//              ^^ keyword.operator.word
+//                 ^^^^ variable.other.readwrite
+//                      ^ punctuation.section.group.end
+//                        ^^ meta.block
+
+    for ( using [x] of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ variable.other.readwrite
+//              ^^^ meta.brackets
+//              ^ punctuation.section.brackets.begin
+//               ^ variable.other.readwrite
+//                ^ punctuation.section.brackets.end
+//                  ^^ keyword.operator.word
+//                     ^^^^ variable.other.readwrite
+//                          ^ punctuation.section.group.end
+//                            ^^ meta.block
+
+    for ( await using ;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.control.flow.await
+//              ^^^^^ variable.other.readwrite
+//                    ^^ punctuation.separator.expression
+//                      ^ punctuation.section.group.end
+//                        ^^ meta.block
+//                        ^ punctuation.section.block.begin
+//                         ^ punctuation.section.block.end
+
+    for ( await using instanceof x ;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.control.flow.await
+//              ^^^^^ variable.other.readwrite
+//                    ^^^^^^^^^^ keyword.operator
+//                               ^ variable.other.readwrite
+//                                 ^^ punctuation.separator.expression
+//                                   ^ punctuation.section.group.end
+//                                     ^^ meta.block
 
 for
     42;
@@ -279,7 +388,7 @@ with (undefined) {
 //^^^^^^^^^^ meta.with
 //    ^^^^^^^^^ constant.language.undefined
     return;
-//  ^^^^^^ meta.with.js meta.block.js keyword.control.flow.return
+//  ^^^^^^ meta.with meta.block keyword.control.flow.return
 }
 
 with // Incomplete statement
@@ -290,7 +399,7 @@ with(false){}/**/
 //           ^ - meta.with
 
 switch ($foo) {
-// <- meta.switch.js keyword.control.conditional.switch
+// <- meta.switch keyword.control.conditional.switch
 // ^^^^^^^^^^^^ meta.switch
 //^^^^ keyword.control.conditional.switch
 //      ^^^^ meta.group
