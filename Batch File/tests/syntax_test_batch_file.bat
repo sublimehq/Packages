@@ -59,6 +59,10 @@ continuation
 :: <- - comment
 :: ^^^^^^^^^ - comment
 
+   ::: Me too!
+:: ^^^ punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch

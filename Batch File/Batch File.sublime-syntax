@@ -48,7 +48,7 @@ variables:
   eoc: (?=\s*{{eoc_char}})
   eoc_char: '[\n|&]'
 
-  label_comment: ':[^{{label_start}}]'
+  label_comment: ':+[^{{label_start}}]'
   label_start: '[^{{metachar}}:+]'
 
   path_terminator_chars: '[\s,;"{{redir_or_eoc_char}}]'
