@@ -2564,7 +2564,11 @@ ALTER TABLE a.b WITH CHECK
 --      ^^^^^^^^^^ keyword.other.ddl.sql
 --                 ^^^^^^ meta.constraint-name.sql
     FOREIGN KEY (some_id) REFERENCES a.c (some_id);
---  ^^^^^^^^^^^ meta.statement.alter.sql storage.modifier.sql
+--  ^^^^^^^^^^^ storage.modifier.sql
+--              ^^^^^^^^^ meta.group.table-columns.sql
+--                        ^^^^^^^^^^ storage.modifier.sql
+--                                       ^^^^^^^^^ meta.group.table-columns.sql
+
 
 SELECT * FROM table FOR SYSTEM_TIME AS OF 131512 alias
 --                  ^^^^^^^^^^^^^^^ keyword.other.dml.sql
@@ -2583,3 +2587,17 @@ SELECT * FROM table FOR SYSTEM_TIME CONTAINED IN (131512, 231) alias
 --                                                           ^ punctuation.section.group.end.sql
 --                                                             ^^^^^ meta.alias.table.sql
 --
+
+CREATE TABLE a.b (
+    id          int
+        CONSTRAINT pk_b PRIMARY KEY,
+    external_id varchar(256) NOT NULL
+        CONSTRAINT uq_b_external_id UNIQUE,
+--      ^^^^^^^^^^ storage.modifier.sql
+--                 ^^^^^^^^^^^^^^^^ meta.constraint-name.sql
+--                                  ^^^^^^ storage.modifier.sql
+--                                        ^ punctuation.separator.sequence.sql
+    name        varchar(512) NOT NULL
+--  ^^^^ meta.column-name.sql variable.other.member.declaration.sql
+);
+-- <- meta.statement.create.sql meta.table.sql meta.group.table-columns.sql punctuation.section.group.end.sql

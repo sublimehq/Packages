@@ -773,10 +773,18 @@ contexts:
       scope: keyword.other.sql
     - match: |-
         \b(?xi:
-          (?: (?: foreign | fulltext | primary | unique ) \s+ )? key
+          (?: (?: fulltext | primary | unique ) \s+ )? key
         | on \s+ (?: delete | update ) (?: \s+ cascade )?
         | default
         )\b
+      scope: storage.modifier.sql
+    - match: |-
+        \b(?xi:
+          foreign\s+key
+        )\b
+      scope: storage.modifier.sql
+      push: column-name-list
+    - match: \b(?i:unique)\b
       scope: storage.modifier.sql
       push: maybe-column-name-list
     - match: \b(?i:references)\b
