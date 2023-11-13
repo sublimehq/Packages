@@ -641,6 +641,10 @@ contexts:
         - single-identifier
     - match: \w+
       scope: string.unquoted.tsql
+    - match: (?=\[)
+      set:
+        - generic-identifier-name
+        - single-identifier
 
   generic-identifier-name:
     - meta_include_prototype: false

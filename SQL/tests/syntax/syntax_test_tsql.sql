@@ -2290,19 +2290,23 @@ create user user_name_in_sql
 DROP USER iffy ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^ meta.statement.drop.sql
---        ^^^^ meta.other-name.sql
+--   ^^^^ storage.type.sql - meta.username
+--        ^^^^ meta.username.sql
 
 DROP USER IF EXISTS iffy ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
---                  ^^^^ meta.other-name.sql
+--   ^^^^ storage.type.sql - meta.username
+--        ^^ keyword.control.conditional.if.sql - meta.username
+--           ^^^^^^ keyword.operator.logical.sql - meta.username
+--                  ^^^^ meta.username.sql
 
 DROP USER IF EXISTS "some-name-here";
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
 -- ^ keyword.other.ddl.sql
---   ^^^^ keyword.other.ddl.sql
+--   ^^^^ storage.type.sql
 --        ^^ keyword.control.conditional.if.sql
---           ^^^^^^ keyword.operator.logical.sql
+--           ^^^^^^ keyword.operator.logical.sql - meta.username
 --                  ^ punctuation.definition.identifier.begin.sql
 --                                 ^ punctuation.definition.identifier.end.sql
 --                                  ^ punctuation.terminator.statement.sql
@@ -2403,6 +2407,11 @@ CREATE USER [foo] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[bar]
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
 --                ^^^^^^^^^^^^^ storage.modifier.tsql
 --                              ^^^^ keyword.other.dml.sql
+--                                   ^^^^^^^^^^^^^^ constant.language.with.tsql
+--                                                 ^ keyword.operator.assignment.tsql
+--                                                  ^^^^^ string
+--                                                  ^ punctuation.definition.identifier.begin.sql
+--                                                      ^ punctuation.definition.identifier.end.sql
 GO
 -- <- keyword.control.flow.go.tsql - meta.statement.create
 

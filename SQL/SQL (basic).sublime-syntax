@@ -297,12 +297,11 @@ contexts:
     - include: immediately-pop
 
   drop-other:
-    - match: \b(?i:user(?!\s+if))\b
+    - match: \b(?i:user)\b
       scope: storage.type.sql
       set:
-        - grant
-        - user-name
-        - single-identifier
+        - expect-user-name
+        - maybe-condition
     - match: \b{{ddl_target_other}}\b
       scope: keyword.other.ddl.sql
       set:

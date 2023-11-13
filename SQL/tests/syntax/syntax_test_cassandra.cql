@@ -574,9 +574,9 @@ set x = 4
 DROP USER iffy ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^ meta.statement.drop.sql
---        ^^^^ meta.other-name.sql
+--        ^^^^ meta.username.sql
 
 DROP USER IF EXISTS iffy ;
 -- <- meta.statement.drop.sql keyword.other.ddl.sql
 -- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
---                  ^^^^ meta.other-name.sql
+--                  ^^^^ meta.username.sql
