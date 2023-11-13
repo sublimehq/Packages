@@ -793,6 +793,9 @@ sql = "BEGIN TRANSACTION; \
     COMMIT;"
 #   ^^^^^^ meta.string.python source.sql - string
 
+sql = "DELETE FROM HumanResources.JobCandidate WHERE JobCandidateID = 13;"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql - string.quoted
+
 sql = Ur"SELECT `name` FROM `users` \
     WHERE `password` LIKE 'abc'"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql - string.quoted.double

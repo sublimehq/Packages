@@ -462,7 +462,7 @@ contexts:
       scope: keyword.other.dml.sql
     - match: \b(?i:(?:delete(?:\s+from)?))\b
       scope: keyword.other.dml.sql
-      set: dml-delete
+      push: dml-delete
     - match: \b(?i:update)\b
       scope: keyword.other.dml.sql
       push: dml-update
