@@ -483,19 +483,13 @@ contexts:
       scope: keyword.other.tsql
     - match: \b(?i:then)\b
       scope: keyword.other.tsql
-      set: maybe-merge-insert
+      pop: 1
     - include: values-or-expressions
     - include: pop-on-top-level-reserved-word
 
   values-or-expressions:
     - include: dml-statements
     - include: expressions
-
-  maybe-merge-insert:
-    - match: \b(?i:insert)\b(?=\s*\()
-      scope: keyword.other.dml.sql
-      set: values-or-expressions
-    - include: else-pop
 
 ###[ COLUMN EXPRESSIONS ]######################################################
 
