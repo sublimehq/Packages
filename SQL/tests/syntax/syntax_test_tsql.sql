@@ -2624,3 +2624,38 @@ ALTER TABLE schema.table
 --  ^^^ keyword.other.ddl.sql
 --      ^^^^^^^^^^^^^^ meta.column-name.sql
 --                     ^^^ storage.type.sql
+
+MERGE a.b WITH (HOLDLOCK, UPDLOCK) lock
+USING (SELECT @name AS name) job
+    ON lock.name = job.name
+WHEN MATCHED AND (acquired IS NULL OR @now > timeout) THEN
+-- ^^^^^^^^^ keyword.control.conditional.case.sql
+--           ^^^ keyword.operator.logical.sql
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--               ^ punctuation.section.group.begin.sql
+--                ^^^^^^^^ meta.column-name.sql
+--                                                  ^ punctuation.section.group.end.sql
+--                                                    ^^^^ keyword.other.tsql
+    UPDATE
+    SET acquired = @now, timeout = @timeout
+WHEN NOT MATCHED AND @insert_if_missing = 1 THEN
+-- ^^^^^^^^^^^^^ keyword.control.conditional.case.sql
+--               ^^^ keyword.operator.logical.sql
+--                   ^ variable.other.readwrite.sql punctuation.definition.variable.sql
+--                    ^^^^^^^^^^^^^^^^^ variable.other.readwrite.sql
+--                                      ^ keyword.operator.comparison.sql
+--                                        ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                          ^^^^ keyword.other.tsql
+    INSERT (name, acquired, timeout)
+--  ^^^^^^ keyword.other.dml.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--         ^ punctuation.section.group.begin.sql
+--          ^^^^ meta.column-name.sql
+--              ^ punctuation.separator.sequence.sql
+--                ^^^^^^^^ meta.column-name.sql
+--                        ^ punctuation.separator.sequence.sql
+--                          ^^^^^^^ meta.column-name.sql
+--                                 ^ punctuation.section.group.end.sql
+    VALUES (@name, @now, @timeout);
+--  ^^^^^^ keyword.other.dml
+--         ^ meta.group.sql punctuation.section.group.begin.sql
