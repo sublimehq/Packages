@@ -387,6 +387,7 @@ contexts:
     - include: at-page
     - include: at-page-margin
     - include: at-property
+    - include: at-scope
     - include: at-scroll-timeline
     - include: at-other
 
@@ -406,6 +407,7 @@ contexts:
     - include: at-page
     - include: at-page-margin
     - include: at-property
+    - include: at-scope
     - include: at-scroll-timeline
     - include: at-other
 
@@ -891,6 +893,32 @@ contexts:
       set: custom-property-content
     - include: comments
     - include: else-pop
+
+###[ SCROPE AT-RULE ]##########################################################
+
+  at-scope:
+    - match: (@)(?i:scope){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push: at-scope-selector
+
+  at-scope-selector:
+    - meta_scope: meta.at-rule.scope.css
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: at-scope-selector-group-body
+    - match: to{{break}}
+      scope: keyword.other.css
+    - include: else-pop
+
+  at-scope-selector-group-body:
+    - meta_scope: meta.group.css
+    - meta_content_scope: meta.selector.css
+    - match: \)
+      scope: punctuation.section.group.end.css
+      pop: 1
+    - include: selector-body
 
 ###[ SCROLL-TIMELINE AT-RULE ]#################################################
 

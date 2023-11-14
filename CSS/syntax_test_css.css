@@ -1554,6 +1554,53 @@
 /*               ^ punctuation.terminator.rule.css */
 }
 
+    @scope
+/*  ^^^^^^ meta.at-rule.scope.css keyword.control.directive.css */
+
+    @scope to ;
+/*  ^^^^^^^^^^ meta.at-rule.scope.css  */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^^ keyword.other.css */
+/*            ^ punctuation.terminator.rule.css */
+
+    @scope () to () {}
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.scope.css */
+/*         ^^ meta.group.css */
+/*               ^^ meta.group.css */
+/*                  ^^ meta.property-list.css meta.block.css */
+/*  ^ punctuation.definition.keyword.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^ punctuation.section.group.end.css */
+/*            ^^ keyword.other.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^ punctuation.section.group.end.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                   ^ punctuation.section.block.end.css */
+
+    @scope (.class) to (.limit > *) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.scope.css */
+/*         ^ meta.group.css - meta.selector */
+/*          ^^^^^^ meta.at-rule.scope.css meta.group.css meta.selector.css */
+/*                ^ meta.group.css - meta.selector */
+/*                     ^ meta.group.css - meta.selector */
+/*                      ^^^^^^^^^^ meta.at-rule.scope.css meta.group.css meta.selector.css */
+/*                                ^ meta.group.css - meta.selector */
+/*                                  ^^ meta.property-list.css meta.block.css */
+/*  ^ punctuation.definition.keyword.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^^^^^^ entity.other.attribute-name.class.css */
+/*                ^ punctuation.section.group.end.css */
+/*                  ^^ keyword.other.css */
+/*                     ^ punctuation.section.group.begin.css */
+/*                      ^^^^^^ entity.other.attribute-name.class.css */
+/*                             ^ keyword.operator.combinator.css */
+/*                               ^ constant.other.wildcard.asterisk.css */
+/*                                ^ punctuation.section.group.end.css */
+/*                                  ^ punctuation.section.block.begin.css */
+/*                                   ^ punctuation.section.block.end.css */
+
     @scroll-timeline
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.scroll-timeline.css */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
