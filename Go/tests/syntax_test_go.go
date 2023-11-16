@@ -4961,7 +4961,7 @@ by accident, but if necessary, such support could be sacrificed.
 
     break
 //  ^^^^^ keyword.control.flow.break.go
-    case
+    case ;
 //  ^^^^ keyword.control.conditional.case.go
     continue
 //  ^^^^^^^^ keyword.control.flow.continue.go
