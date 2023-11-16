@@ -5847,3 +5847,13 @@ func lang_embedding() {
     //                                               ^^^^^^^^^^^ meta.interpolation.go
     //                                                             ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
 }
+
+// language=sql
+some_func_call(
+    args_on_next_line, `
+        SELECT min(a) 
+        FROM b
+        WHERE c = @p1`, "some value",
+    // ^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go
+)
+// <- punctuation.section.parens.end.go - invalid
