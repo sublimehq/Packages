@@ -894,7 +894,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-###[ SCROPE AT-RULE ]##########################################################
+###[ SCOPE AT-RULE ]###########################################################
 
   at-scope:
     - match: (@)(?i:scope){{break}}
