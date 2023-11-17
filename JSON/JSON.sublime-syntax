@@ -63,27 +63,52 @@ contexts:
           scope: invalid.illegal.expected-sequence-separator.json
 
   comments:
-    - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.json
-      push:
-        - meta_scope: comment.block.documentation.json
-        - meta_include_prototype: false
-        - match: \*/
-          pop: 1
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.json
+    - include: block-comments
+    - include: line-comments
+
+  block-comments:
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.json punctuation.definition.comment.json
+    # documentation block comments
+    - match: /\*\*+
+      scope: punctuation.definition.comment.begin.json
+      push: block-comment-documentation-body
+    # normal block comments
     - match: /\*
-      scope: punctuation.definition.comment.json
-      push:
-        - meta_scope: comment.block.json
-        - meta_include_prototype: false
-        - match: \*/
-          pop: 1
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.js
+      scope: punctuation.definition.comment.begin.json
+      push: block-comment-body
+
+  block-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.json
+    - match: \*+/
+      scope: punctuation.definition.comment.end.json
+      pop: 1
+    - match: ^\s*(\*)(?![*/])
       captures:
         1: punctuation.definition.comment.json
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.json
+    - match: \*/
+      scope: punctuation.definition.comment.end.json
+      pop: 1
+    - match: ^\s*(\*)(?![*/])
+      captures:
+        1: punctuation.definition.comment.json
+
+  line-comments:
+    - match: //
+      scope: punctuation.definition.comment.json
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.json
+    - match: $\n?
+      pop: 1
 
   constant:
     - match: \b(?:false|true)\b
