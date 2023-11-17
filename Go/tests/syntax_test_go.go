@@ -4961,8 +4961,12 @@ by accident, but if necessary, such support could be sacrificed.
 
     break
 //  ^^^^^ keyword.control.flow.break.go
-    case ;
+    case no_colon_here_while_user_is_typing
 //  ^^^^ keyword.control.conditional.case.go
+        ; a := b
+//      ^ punctuation.terminator
+//          ^ - punctuation.separator.case-statement
+//          ^^ keyword.operator.assignment
     continue
 //  ^^^^^^^^ keyword.control.flow.continue.go
     default
