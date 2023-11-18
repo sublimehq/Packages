@@ -896,6 +896,8 @@ contexts:
 
 ###[ SCOPE AT-RULE ]###########################################################
 
+  # @scope
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scope
   at-scope:
     - match: (@)(?i:scope){{break}}
       scope: keyword.control.directive.css
