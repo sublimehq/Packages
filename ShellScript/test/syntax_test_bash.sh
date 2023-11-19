@@ -1463,6 +1463,12 @@ declare -A foo bar  # 'foo' and 'bar' are variable names
 #                 ^ - meta.declaration.variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
+declare -I foo
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^ meta.declaration.variable.arguments.shell
+#       ^^ variable.parameter.option.shell
+#          ^^^ variable.other.readwrite.shell
+
 declare ret; bar=foo # comment
 #^^^^^^ meta.declaration.variable.shell
 #      ^^^^ meta.declaration.variable.arguments.shell
