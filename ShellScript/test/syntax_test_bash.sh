@@ -4205,6 +4205,42 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #          ^ punctuation.definition.group.end.regexp.shell
 #            ^^ support.function.test.end.shell
 
+[[ $foo == 'bar' || $foo == "baz" && $bar == baz ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^ variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^^ meta.string.regexp.shell
+#                ^^ keyword.operator.logical.shell
+#                   ^^^^ variable.other.readwrite.shell
+#                        ^^ keyword.operator.comparison.shell
+#                           ^^^^^ meta.string.regexp.shell
+#                                 ^^ keyword.operator.logical.shell
+#                                    ^^^^ variable.other.readwrite.shell
+#                                         ^^ keyword.operator.comparison.shell
+#                                            ^^^ meta.string.regexp.shell
+#                                                ^^ support.function.test.end.shell
+
+[[ ( $foo == 'bar' || $foo == "baz" ) && $bar == baz ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
+#                                    ^^^^^^^^^^^^^^^^^^ meta.conditional.shell - meta.group
+#  ^ punctuation.section.group.begin.shell
+#    ^^^^ variable.other.readwrite.shell
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.regexp.shell
+#                  ^^ keyword.operator.logical.shell
+#                     ^^^^ variable.other.readwrite.shell
+#                          ^^ keyword.operator.comparison.shell
+#                             ^^^^^ meta.string.regexp.shell
+#                                   ^ punctuation.section.group.end.shell
+#                                     ^^ keyword.operator.logical.shell
+#                                        ^^^^ variable.other.readwrite.shell
+#                                             ^^ keyword.operator.comparison.shell
+#                                                ^^^ meta.string.regexp.shell
+#                                                    ^^ support.function.test.end.shell
+
 ####################################################################
 # POSIX extended regular expression pattern matching               #
 ####################################################################
@@ -4827,6 +4863,42 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - punctuation.separator.sequence
+
+[[ $foo =~ 'bar' || $foo =~ "baz" && $bar =~ baz ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^ variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^^ meta.string.regexp.shell
+#                ^^ keyword.operator.logical.shell
+#                   ^^^^ variable.other.readwrite.shell
+#                        ^^ keyword.operator.comparison.shell
+#                           ^^^^^ meta.string.regexp.shell
+#                                 ^^ keyword.operator.logical.shell
+#                                    ^^^^ variable.other.readwrite.shell
+#                                         ^^ keyword.operator.comparison.shell
+#                                            ^^^ meta.string.regexp.shell
+#                                                ^^ support.function.test.end.shell
+
+[[ ( $foo =~ 'bar' || $foo =~ "baz" ) && $bar =~ baz ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
+#                                    ^^^^^^^^^^^^^^^^^^ meta.conditional.shell - meta.group
+#  ^ punctuation.section.group.begin.shell
+#    ^^^^ variable.other.readwrite.shell
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.regexp.shell
+#                  ^^ keyword.operator.logical.shell
+#                     ^^^^ variable.other.readwrite.shell
+#                          ^^ keyword.operator.comparison.shell
+#                             ^^^^^ meta.string.regexp.shell
+#                                   ^ punctuation.section.group.end.shell
+#                                     ^^ keyword.operator.logical.shell
+#                                        ^^^^ variable.other.readwrite.shell
+#                                             ^^ keyword.operator.comparison.shell
+#                                                ^^^ meta.string.regexp.shell
+#                                                    ^^ support.function.test.end.shell
 
 ####################################################################
 # 6.4 Bash Conditional Expressions                                 #
