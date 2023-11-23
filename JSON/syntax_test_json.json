@@ -62,6 +62,9 @@
 //           ^^^^ comment.block.empty.json punctuation.definition.comment.json
 //                ^ punctuation.section.sequence.end.json
 
+  "dict": {"foo":,},
+//               ^ invalid.illegal.expected-mapping-value.json
+//                ^ punctuation.section.mapping.end.json
   "dict": {"foo": },
 //               ^ invalid.illegal.expected-mapping-value.json
 //                ^ punctuation.section.mapping.end.json
