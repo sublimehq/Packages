@@ -4961,12 +4961,8 @@ by accident, but if necessary, such support could be sacrificed.
 
     break
 //  ^^^^^ keyword.control.flow.break.go
-    case no_colon_here_while_user_is_typing
+    case
 //  ^^^^ keyword.control.conditional.case.go
-        ; a := b
-//      ^ punctuation.terminator
-//          ^ - punctuation.separator.case-statement
-//          ^^ keyword.operator.assignment
     continue
 //  ^^^^^^^^ keyword.control.flow.continue.go
     default
@@ -5647,6 +5643,13 @@ func main() {
         // freebsd, openbsd,
         // plan9, windows...
         fmt.Printf("%s.\n", os)
+    }
+    switch os {
+    case no_colon_here_while_user_is_typing
+        ; a := b
+//      ^ punctuation.terminator
+//          ^ - punctuation.separator.case-statement
+//          ^^ keyword.operator.assignment
     }
 }
 
