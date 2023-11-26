@@ -29,6 +29,9 @@ variables:
     | language | member | operator\s+class | operator | role | rule | schema | sequence
     | tablespace | trigger | type | user | view )
 
+  ddl_target_inside_alter_table: |-
+    (?xi: constraint )
+
   ddl_target_function_modifier: |-
     (?xi: aggregate )
   ddl_target_index_modifier: |-
@@ -412,14 +415,14 @@ contexts:
     - include: else-pop
 
   alter-columns:
-    - match: \b(?i:(add|alter)(?:\s+(column)|(?!\s+{{ddl_target}})))\b
+    - match: \b(?i:(?:(add|alter)\b(?:\s+(column)\b|(?!\s+(?:table|{{ddl_target_inside_alter_table}})\b))))
       captures:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
         - expect-type
         - expect-column-name-declaration
-    - match: \b(?i:(drop)(?:\s+(column)|(?!\s+{{ddl_target}})))\b
+    - match: \b(?i:(drop)(?:\s+(column)\b|(?!\s+{{ddl_target}}\b)))
       scope: keyword.other.ddl.sql
       push: expect-column-name
 

@@ -2601,3 +2601,17 @@ CREATE TABLE a.b (
 --  ^^^^ meta.column-name.sql variable.other.member.declaration.sql
 );
 -- <- meta.statement.create.sql meta.table.sql meta.group.table-columns.sql punctuation.section.group.end.sql
+
+ALTER TABLE schema.table
+    ADD sequence smallint NOT NULL;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^ meta.column-name.sql
+--               ^^^^^^^^ storage.type.sql
+
+ALTER TABLE schema.table
+    ADD constraint_not bit;
+-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^^^^^^^^^ meta.column-name.sql
+--                     ^^^ storage.type.sql
