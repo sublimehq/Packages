@@ -916,6 +916,8 @@ contexts:
       pop: true
     - match: '{{predeclared_type}}'
       scope: support.type.go
+    - match: (?=;)
+      pop: 1
     - include: match-any
 
   match-keyword-chan:
