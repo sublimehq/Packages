@@ -54,9 +54,6 @@
 			)
 		]]></string>
 
-		<key>indentNextLinePattern</key>
-		<string><![CDATA[^(?!.*(#|//|\*/|<\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|<\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)]]></string>
-
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)
 		^ \s* \b(if|while|else|elseif|foreach)\b [^;]* $
