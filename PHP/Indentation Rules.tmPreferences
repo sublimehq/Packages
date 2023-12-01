@@ -46,7 +46,7 @@
 			| # OR
 			^\s* (<\?(php)?\s+)?                                                                # the beginning of the line followed by any amount of whitespace and an optional PHP open tag
 			(   (?:
-			        (?:else)?if\s*\g<balanced_paren>|else                                       # PHP "if" related statements
+			        (?:else\s*)?if\s*\g<balanced_paren>|else                                       # PHP "if" related statements
 			    )\s*:(?!.*\bendif\b)                                                            # followed by a colon, not followed by an "endif" anywhere on the line
 			    |
 			    (?<php_control_word>foreach|for|switch|while)\s*\g<balanced_paren>              # PHP control keywords, followed by balanced parens
