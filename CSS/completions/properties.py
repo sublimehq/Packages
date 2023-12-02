@@ -500,6 +500,7 @@ def get_properties():
             "simplified",
             "traditional",
         ],
+        "font-variant-emoji": ["normal", "text", "emoji", "unicode"],
         "font-variant-ligatures": [
             "normal",
             "none",
