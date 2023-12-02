@@ -626,6 +626,7 @@ def get_properties():
         "height": ["<calc>", "auto", "fit-content"],
         "hyphens": ["none", "manual", "auto"],
         "hyphenate-character": ["auto"],
+        "hyphenate-limit-chars": ["auto"],
         "image-orientation": ["flip", "from-image"],
         "image-rendering": ["auto", "optimizeSpeed", "optimizeQuality", "pixelated"],
         "image-resolution": ["from-image"],
