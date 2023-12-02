@@ -274,7 +274,7 @@ def get_properties():
         ],
         "columns": ["<calc>", "auto"],
         "container": ["<container-type>"],
-        "container-name": [],
+        "container-name": ["none"],
         "container-type": ["<container-type>"],
         "contain": ["content", "layout", "none", "paint", "inline-size", "size", "strict", "style"],
         "contain-intrinsic-size": ["none", "auto"],
