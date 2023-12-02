@@ -817,7 +817,7 @@ def get_properties():
         "offset-inline-end": ["<calc>", "auto"],
         "offset-inline-start": ["<calc>", "auto"],
         "offset-path": ["<calc>", "none"],
-        "offset-position": ["<calc>", "auto"],
+        "offset-position": ["<calc>", "auto", "normal"],
         "offset-rotate": ["<calc>", "auto", "reverse"],
         "opacity": [
             "<calc>",
