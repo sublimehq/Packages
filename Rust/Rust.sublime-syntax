@@ -1269,6 +1269,8 @@ contexts:
     - include: raw-byte-string
     - include: string
     - include: raw-string
+    - include: c-string
+    - include: raw-c-string
 
   chars:
     - include: char
@@ -1383,6 +1385,35 @@ contexts:
 
   raw-string:
     - match: (r)((#*)")
+      captures:
+        1: storage.type.string.rust
+        2: punctuation.definition.string.begin.rust
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.raw.rust
+        - match: '"\3'
+          scope: punctuation.definition.string.end.rust
+          pop: true
+
+  c-string:
+    - match: '(c)(")'
+      captures:
+        1: storage.type.string.rust
+        2: punctuation.definition.string.begin.rust
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.rust
+        - match: '"'
+          scope: punctuation.definition.string.end.rust
+          pop: true
+        - match: '{{escaped_byte}}'
+          scope: constant.character.escape.rust
+        - match: '(\\)$'
+          scope: punctuation.separator.continuation.line.rust
+        - include: escaped-char
+
+  raw-c-string:
+    - match: (cr)((#*)")
       captures:
         1: storage.type.string.rust
         2: punctuation.definition.string.begin.rust

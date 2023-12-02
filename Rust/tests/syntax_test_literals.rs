@@ -166,6 +166,46 @@ let s_uni_esc_under3 = "\u{10__FFFF}";
 let s_uni_esc_extra = "\u{1234567}";
 //                     ^^^^^^^^^^^ string.quoted.double invalid.illegal.character.escape
 
+let cstr_empty = c"";
+//               ^ string.quoted.double storage.type.string
+//               ^^^ string.quoted.double
+//                ^ punctuation.definition.string.begin
+//                 ^ punctuation.definition.string.end
+//                  ^ punctuation.terminator
+let cstr_unicode = c"æ";
+//                 ^ string.quoted.double storage.type.string
+//                 ^^^^ string.quoted.double
+let cstr_byte_escape = c"\xFF\xC3\xA6";
+//                     ^ storage.type.string
+//                     ^^^^^^^^^^^^^^^ string.quoted.double
+//                       ^^^^^^^^^^^^ constant.character.escape
+let cstr_unicode_escape = c"\u{00E6}";
+//                        ^^^^^^^^^^^ string.quoted.double
+//                          ^^^^^^^^ constant.character.escape
+let cstr_continue = c"\
+    \xFF";
+//  ^^^^ string.quoted.double constant.character.escape
+
+let raw_cstr_empty = cr"";
+//                   ^^^^ string.quoted.double.raw
+//                   ^^ storage.type.string
+//                     ^ punctuation.definition.string.begin
+//                      ^ punctuation.definition.string.end
+let raw_cstr_unicode = cr"東京";
+//                     ^^^^^^ string.quoted.double.raw
+//                     ^^ storage.type.string
+let raw_cstr_hash = cr#"text with "quote" in it."#;
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw
+//                  ^^ storage.type.string
+//                    ^^ punctuation.definition.string.begin
+//                                              ^^ punctuation.definition.string.end
+let raw_cstr_multiline = cr##"
+//                       ^^ string.quoted.double.raw storage.type.string
+//                       ^^^^^^ string.quoted.double.raw
+    This text has "multiple lines"
+    "##;
+//   ^^ string.quoted.double.raw punctuation.definition.string.end
+
 0;
 // <- constant.numeric.integer.decimal
 1_000u32;
