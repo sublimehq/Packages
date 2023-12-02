@@ -3256,6 +3256,12 @@
 /*                          ^ punctuation.separator.alpha.css */
 /*                            ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 
+    color: light-dark(red, rgb(0, 0, 0));
+/*         ^^^^^^^^^^ support.function.color.css */
+/*                    ^^^ support.constant.color.w3c.standard.css */
+/*                       ^ punctuation.separator.sequence.css */
+/*                         ^^^ support.function.color.css */
+
     top: color(w(var()) s(var()) () ));
 /*       ^^^^^ support.function.color.css */
 /*            ^ punctuation.section.group.begin.css */

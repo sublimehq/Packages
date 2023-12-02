@@ -2014,7 +2014,9 @@ contexts:
   color-color-functions:
     # color()
     # https://drafts.csswg.org/css-color/#color-function
-    - match: \b(?i:color)(?=\()
+    # light-dark()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
+    - match: \b(?i:color|light-dark)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - color-color-function-arguments-list-body

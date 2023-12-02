@@ -41,6 +41,7 @@ def get_func_args():
         "lab": ["<calc>", "none"],
         "lch": ["<calc>", "none"],
         "leader": ["<leader-type>"],
+        "light-dark": ["<color>"],
         "linear-gradient": ["<side-or-corner>", "<color>", "to"],
         "log": ["<calc>"],
         "matrix": ["<calc>"],
