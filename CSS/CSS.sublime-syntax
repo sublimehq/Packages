@@ -2036,8 +2036,9 @@ contexts:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb
     # lch()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch
-    # https://drafts.csswg.org/css-color/#funcdef-lch
-    - match: \b(?i:hsla?|hwb|lch)(?=\()
+    # oklch()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch
+    - match: \b(?i:hsla?|hwb|(?:ok)?lch)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - hsl-color-function-arguments-list-body
@@ -2055,11 +2056,11 @@ contexts:
   rgb-color-functions:
     # rgb(), rgba()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
-    # https://drafts.csswg.org/css-color/#funcdef-rgb
     # lab()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lab
-    # https://drafts.csswg.org/css-color/#funcdef-lab
-    - match: \b(?i:rgba?|lab)(?=\()
+    # oklab()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab
+    - match: \b(?i:rgba?|(?:ok)?lab)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - rgb-color-function-arguments-list-body

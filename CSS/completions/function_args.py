@@ -49,6 +49,8 @@ def get_func_args():
         "min": [["attr()", "attr($1)"], "<calc>"],
         "minmax": ["min-content", "max-content", "auto"],
         "mod": ["<calc>"],
+        "oklab": ["<calc>", "none"],
+        "oklch": ["<calc>", "none"],
         "opacity": ["<calc>"],
         "path": ["<fill-rule>"],
         "paint": [],
