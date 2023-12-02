@@ -1098,6 +1098,7 @@ def get_properties():
         ],
         "text-underline-offset": ["<calc>", "auto"],
         "text-underline-position": ["auto", "under", "left", "right"],
+        "text-wrap": ["<text-wrap>"],
         "top": ["<calc>", "auto"],
         "touch-action": [
             "auto",
@@ -1199,7 +1200,12 @@ def get_properties():
             "nowrap",
             "pre-wrap",
             "pre-line",
+            "<text-wrap>",
+            "<white-space-collapse>",
+            "<white-space-trim>",
         ],
+        "white-space-collapse": ["<white-space-collapse>"],
+        "white-space-trim": ["<white-space-trim>"],
         "widows": [
             "<calc>",
         ],

@@ -443,6 +443,7 @@ def get_common_values():
         ],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
+        "text-wrap": ["wrap", "nowrap", "balance", "stable", "pretty"],
         "timing-function": [
             "linear",
             "ease",
@@ -496,6 +497,20 @@ def get_common_values():
             "%",
         ],
         "url": [["url()", "url($1)"]],
+        "white-space-collapse": [
+            "collapse",
+            "discard",
+            "preserve",
+            "preserve-breaks",
+            "preserve-spaces",
+            "break-spaces"
+        ],
+        "white-space-trim": [
+            "none",
+            "discard-before",
+            "discard-after",
+            "discard-inner"
+        ],
     }
 
     resolved_values = {}
