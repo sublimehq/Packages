@@ -479,6 +479,9 @@ def get_properties():
         ],
         "font-style": ["normal", "italic", "oblique"],
         "font-synthesis": ["none", "weight", "style", "small-caps"],
+        "font-synthesis-small-caps": ["auto", "none"],
+        "font-synthesis-style": ["auto", "none"],
+        "font-synthesis-weight": ["auto", "none"],
         "font-variant": ["normal", "small-caps"],
         "font-variant-alternates": ["<font-variant-alternates>"],
         "font-variant-caps": [
