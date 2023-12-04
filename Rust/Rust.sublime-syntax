@@ -19,7 +19,6 @@ variables:
   identifier: '(?:(?:(?:r\#)?{{non_raw_ident}})\b)'
   camel_ident: '\b_*[A-Z][a-zA-Z0-9_]*[a-z][a-zA-Z0-9_]*\b'
   lifetime: '''(?:_|{{non_raw_ident}})(?!\'')\b'
-  escaped_byte: '\\([nrt0\"''\\]|x\h{2})'
   escaped_char: '\\([nrt0\"''\\]|x[0-7]\h|u\{(?:\h_*){1,6}\})'
   int_suffixes: '[iu](?:8|16|32|64|128|size)'
   float_suffixes: 'f(32|64)'
@@ -1291,8 +1290,7 @@ contexts:
         # not valid syntax.
         - match: '\n'
           pop: true
-        - match: '{{escaped_byte}}'
-          scope: constant.character.escape.rust
+        - include: escaped-byte
           set: byte-tail
         - match: ''
           set: byte-tail
@@ -1317,8 +1315,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.rust
           pop: true
-        - match: '{{escaped_byte}}'
-          scope: constant.character.escape.rust
+        - include: escaped-byte
         - include: line-continuation
         - match: '\\.'
           scope: invalid.illegal.character.escape.rust
@@ -1338,6 +1335,10 @@ contexts:
   line-continuation:
     - match: '\\$'
       scope: punctuation.separator.continuation.line.rust
+
+  escaped-byte:
+    - match: '\\([nrt0\"''\\]|x\h{2})'
+      scope: constant.character.escape.rust
 
   escaped-char:
     - match: '{{escaped_char}}'
@@ -1408,8 +1409,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.rust
           pop: true
-        - match: '{{escaped_byte}}'
-          scope: constant.character.escape.rust
+        - include: escaped-byte
         - include: line-continuation
         - include: escaped-char
 
