@@ -175,10 +175,16 @@ let cstr_empty = c"";
 let cstr_unicode = c"æ";
 //                 ^ string.quoted.double storage.type.string
 //                 ^^^^ string.quoted.double
-let cstr_byte_escape = c"\xFF\xC3\xA6";
+let cstr_byte_escape = c"\xFF\xC3\xA6\n\r\t\0\"\'\\";
 //                     ^ storage.type.string
-//                     ^^^^^^^^^^^^^^^ string.quoted.double
-//                       ^^^^^^^^^^^^ constant.character.escape
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+let cstr_byte_escape_invalid = c"\a";
+//                             ^^^^^ string.quoted.double
+//                             ^ storage.type.string
+//                              ^ punctuation.definition.string.begin
+//                               ^^ invalid.illegal.character.escape
+//                                 ^ punctuation.definition.string.end
 let cstr_unicode_escape = c"\u{00E6}";
 //                        ^^^^^^^^^^^ string.quoted.double
 //                          ^^^^^^^^ constant.character.escape
@@ -205,6 +211,9 @@ let raw_cstr_multiline = cr##"
     This text has "multiple lines"
     "##;
 //   ^^ string.quoted.double.raw punctuation.definition.string.end
+let raw_cstr_escape_ignore = cr"\n\x01\u{0123}\";
+//                           ^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw
+//                              ^^^^^^^^^^^^^^^ -constant.character.escape
 
 0;
 // <- constant.numeric.integer.decimal
