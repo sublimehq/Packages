@@ -19,7 +19,6 @@ variables:
   identifier: '(?:(?:(?:r\#)?{{non_raw_ident}})\b)'
   camel_ident: '\b_*[A-Z][a-zA-Z0-9_]*[a-z][a-zA-Z0-9_]*\b'
   lifetime: '''(?:_|{{non_raw_ident}})(?!\'')\b'
-  escaped_byte: '\\([nrt0\"''\\]|x\h{2})'
   escaped_char: '\\([nrt0\"''\\]|x[0-7]\h|u\{(?:\h_*){1,6}\})'
   int_suffixes: '[iu](?:8|16|32|64|128|size)'
   float_suffixes: 'f(32|64)'
@@ -1269,6 +1268,8 @@ contexts:
     - include: raw-byte-string
     - include: string
     - include: raw-string
+    - include: c-string
+    - include: raw-c-string
 
   chars:
     - include: char
@@ -1289,8 +1290,7 @@ contexts:
         # not valid syntax.
         - match: '\n'
           pop: true
-        - match: '{{escaped_byte}}'
-          scope: constant.character.escape.rust
+        - include: escaped-byte
           set: byte-tail
         - match: ''
           set: byte-tail
@@ -1315,10 +1315,8 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.rust
           pop: true
-        - match: '{{escaped_byte}}'
-          scope: constant.character.escape.rust
-        - match: '(\\)$'
-          scope: punctuation.separator.continuation.line.rust
+        - include: escaped-byte
+        - include: line-continuation
         - match: '\\.'
           scope: invalid.illegal.character.escape.rust
 
@@ -1333,6 +1331,14 @@ contexts:
         - match: '"\2'
           scope: punctuation.definition.string.end.rust
           pop: true
+
+  line-continuation:
+    - match: '\\$'
+      scope: punctuation.separator.continuation.line.rust
+
+  escaped-byte:
+    - match: '\\([nrt0\"''\\]|x\h{2})'
+      scope: constant.character.escape.rust
 
   escaped-char:
     - match: '{{escaped_char}}'
@@ -1378,11 +1384,37 @@ contexts:
           scope: punctuation.definition.string.end.rust
           pop: true
         - include: escaped-char
-        - match: '(\\)$'
-          scope: punctuation.separator.continuation.line.rust
+        - include: line-continuation
 
   raw-string:
     - match: (r)((#*)")
+      captures:
+        1: storage.type.string.rust
+        2: punctuation.definition.string.begin.rust
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.raw.rust
+        - match: '"\3'
+          scope: punctuation.definition.string.end.rust
+          pop: true
+
+  c-string:
+    - match: '(c)(")'
+      captures:
+        1: storage.type.string.rust
+        2: punctuation.definition.string.begin.rust
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.rust
+        - match: '"'
+          scope: punctuation.definition.string.end.rust
+          pop: true
+        - include: escaped-byte
+        - include: line-continuation
+        - include: escaped-char
+
+  raw-c-string:
+    - match: (cr)((#*)")
       captures:
         1: storage.type.string.rust
         2: punctuation.definition.string.begin.rust
@@ -1404,8 +1436,7 @@ contexts:
           pop: true
         - include: escaped-char
         - include: format-escapes
-        - match: '(\\)$'
-          scope: punctuation.separator.continuation.line.rust
+        - include: line-continuation
 
   format-raw-string:
     - match: (r)(#*)"
