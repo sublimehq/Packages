@@ -916,6 +916,8 @@ contexts:
   function-definition-after-arguments:
     - meta_scope: meta.function.d
     - include: function-attribute-in
+    - match: '=>'
+      set: [expect-end-of-line, value]
     - match: '='
       scope: keyword.operator.assignment.d
       set: [meta-function, expect-end-of-line, value]
@@ -925,6 +927,8 @@ contexts:
     - match: '(?=\S)'
       set: [meta-function, function-definition-after-condition]
   function-definition-after-condition:
+    - match: '=>'
+      set: [expect-end-of-line, value]
     - match: '\bin\b'
       scope: keyword.control.conditional.d
       set:
