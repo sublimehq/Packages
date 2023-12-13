@@ -2,6 +2,7 @@
 ---
 name: SQL (Rails)
 scope: source.sql.rails
+version: 2
 
 extends: Packages/SQL/SQL.sublime-syntax
 
