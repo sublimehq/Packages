@@ -1090,7 +1090,7 @@ contexts:
   type-parameter-list-body:
     - meta_content_scope: meta.generic.python
     - match: \]
-      scope: meta.generic.python punctuation.section.parameters.end.python
+      scope: meta.generic.python punctuation.definition.generic.end.python
       pop: 1
     - match: ','
       scope: punctuation.separator.parameters.python
