@@ -3188,7 +3188,7 @@ contexts:
 
   double-quoted-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
     - include: double-quoted-u-string-syntax
 

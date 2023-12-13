@@ -36,17 +36,30 @@ conn.execute('SELECT * FROM foobar')
 #              ^ keyword.other.DML.sql
 
 conn.execute(U"SELECT * FROM foobar")
+#             ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#              ^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+#                                  ^ meta.string.python string.quoted.double.python punctuation.definition.string.end.python
 #              ^ keyword.other.DML.sql
 
 conn.execute(U'SELECT * FROM foobar')
+#             ^ meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+#              ^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+#                                  ^ meta.string.python string.quoted.single.python punctuation.definition.string.end.python
 #              ^ keyword.other.DML.sql
 
 # In this example, the Python string is not raw, so \t is a python escape
 conn.execute(u"SELECT * FROM foobar WHERE foo = '\t'")
+#            ^ storage.type.string.python
+#             ^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
 #              ^ keyword.other.DML.sql
 #                                                 ^ constant.character.escape.python
+#                                                   ^ meta.string.python string.quoted.double.python punctuation.definition.string.end.python
 
 conn.execute(u'SELECT * FROM foobar')
+#             ^ meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+#              ^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+#                                  ^ meta.string.python string.quoted.single.python punctuation.definition.string.end.python
 #              ^ keyword.other.DML.sql
 
 # In this example, the Python string is raw, so the \b should be a SQL escape
