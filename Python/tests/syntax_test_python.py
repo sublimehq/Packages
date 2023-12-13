@@ -2047,7 +2047,7 @@ def f[T: Hashable, U: (int, str), *V, **P](x: T = SOME_CONSTANT, y: U, *args: *T
 #                                   ^ punctuation.separator.parameters.python
 #                                     ^^ keyword.operator.unpacking.mapping.python
 #                                       ^ variable.parameter.type.python
-#                                        ^ punctuation.section.parameters.end.python
+#                                        ^ punctuation.definition.generic.end.python
 #                                         ^ punctuation.section.parameters.begin.python
 #                                          ^ variable.parameter.python
 #                                           ^ punctuation.separator.annotation.python
@@ -2107,7 +2107,7 @@ def f[
 #^^^^ meta.function.python meta.generic.python
 #    ^^ meta.function.parameters.python
 #       ^^^^ meta.function.return-type.python
-#   ^ punctuation.section.parameters.end.python
+#   ^ punctuation.definition.generic.end.python
 #    ^ punctuation.section.parameters.begin.python
 #     ^ punctuation.section.parameters.end.python
 #       ^^ punctuation.separator.return-type.python
@@ -2224,7 +2224,7 @@ class GenericClass[T: X, **U]:
 #                      ^ punctuation.separator.parameters.python
 #                        ^^ keyword.operator.unpacking.mapping.python
 #                          ^ variable.parameter.type.python
-#                           ^ punctuation.section.parameters.end.python
+#                           ^ punctuation.definition.generic.end.python
 #                            ^ punctuation.section.class.begin.python
 
     from typing import override
@@ -2266,7 +2266,7 @@ type Alias[T: int] = list[T]
 #          ^ variable.parameter.type.python
 #           ^ punctuation.separator.bound.python
 #             ^^^ meta.type.python support.type.python
-#                ^ punctuation.section.parameters.end.python
+#                ^ punctuation.definition.generic.end.python
 #                  ^ keyword.operator.assignment.python
 #                    ^^^^ support.type.python
 #                        ^^^ meta.brackets.python
@@ -2283,7 +2283,7 @@ type \
 #      ^ variable.parameter.type.python
 #       ^ punctuation.separator.bound.python
 #         ^^^ meta.type.python support.type.python
-#            ^ punctuation.section.parameters.end.python
+#            ^ punctuation.definition.generic.end.python
 #              ^ keyword.operator.assignment.python
 #                ^^^^ support.type.python
 #                    ^^^ meta.brackets.python
@@ -2300,7 +2300,7 @@ type \
 # ^ variable.parameter.type.python
 #  ^ punctuation.separator.bound.python
 #    ^^^ meta.type.python support.type.python
-#       ^ punctuation.section.parameters.end.python
+#       ^ punctuation.definition.generic.end.python
 #         ^ keyword.operator.assignment.python
 #           ^^^^ support.type.python
 #               ^^^ meta.brackets.python
