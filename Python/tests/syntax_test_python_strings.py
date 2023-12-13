@@ -1192,6 +1192,34 @@ f"result: {value:{width}.{precision}}\n"
 #                        ^^^^^^^^^^^ meta.interpolation.python meta.interpolation.python
 #                                   ^^^ - meta.interpolation.python meta.interpolation.python
 
+f"""SELECT * FROM {table!s:r}"""
+# <- storage.type.string.python
+#^^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
+#   ^^^^^^^^^^^^^^ meta.string.python source.sql
+#                 ^^^^^^^^^^^ meta.string.python meta.interpolation.python
+#                            ^^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
+
+f'''SELECT * FROM {table!s:r}'''
+# <- storage.type.string.python
+#^^^ meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
+#   ^^^^^^^^^^^^^^ meta.string.python source.sql
+#                 ^^^^^^^^^^^ meta.string.python meta.interpolation.python
+#                            ^^^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
+
+f"SELECT * FROM {table!s:r}"
+# <- storage.type.string.python
+#^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
+# ^^^^^^^^^^^^^^ meta.string.python source.sql
+#               ^^^^^^^^^^^ meta.string.python meta.interpolation.python
+#                          ^ meta.string.python string.quoted.double.python punctuation.definition.string.end.python
+
+f'SELECT * FROM {table!s:r}'
+# <- storage.type.string.python
+#^ meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
+# ^^^^^^^^^^^^^^ meta.string.python source.sql
+#               ^^^^^^^^^^^ meta.string.python meta.interpolation.python
+#                          ^ meta.string.python string.quoted.single.python punctuation.definition.string.end.python
+
 rf"{value:{width!s:d}}"
 # <- storage.type.string - meta.string - string
 #^ storage.type.string - meta.string - string

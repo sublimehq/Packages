@@ -2829,7 +2829,31 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.block.python
     - include: triple-double-quoted-string-end
+    - include: triple-double-quoted-f-string-syntax
+
+  triple-double-quoted-f-string-syntax:
+    # Single-line string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: triple-double-quoted-sql-f-string-body
+    # Single-line string, unicode or not
+    - match: (?=\S)
+      set: triple-double-quoted-plain-f-string-body
+
+  triple-double-quoted-plain-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - include: triple-double-quoted-string-end
     - include: triple-double-quoted-f-string-content
+
+  triple-double-quoted-sql-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - include: triple-double-quoted-string-end
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: triple-double-quoted-string-pop
+        - include: triple-double-quoted-f-string-content
 
   triple-double-quoted-f-string-content:
     - include: string-prototype
@@ -3171,7 +3195,31 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
+    - include: double-quoted-f-string-syntax
+
+  double-quoted-f-string-syntax:
+    # Single-line string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: double-quoted-sql-f-string-body
+    # Single-line string, unicode or not
+    - match: (?=\S)
+      set: double-quoted-plain-f-string-body
+
+  double-quoted-plain-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.double.python
+    - include: double-quoted-string-end
     - include: double-quoted-f-string-content
+
+  double-quoted-sql-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - include: double-quoted-string-end
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: double-quoted-string-pop
+        - include: double-quoted-f-string-content
 
   double-quoted-f-string-content:
     - include: string-prototype
@@ -3188,7 +3236,7 @@ contexts:
 
   double-quoted-u-string-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.python string.quoted.double.block.python
+    - meta_content_scope: meta.string.python string.quoted.double.python
     - include: double-quoted-string-end
     - include: double-quoted-u-string-syntax
 
@@ -3509,7 +3557,31 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.block.python
     - include: triple-single-quoted-string-end
+    - include: triple-single-quoted-f-string-syntax
+
+  triple-single-quoted-f-string-syntax:
+    # Single-line string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: triple-single-quoted-sql-f-string-body
+    # Single-line string, unicode or not
+    - match: (?=\S)
+      set: triple-single-quoted-plain-f-string-body
+
+  triple-single-quoted-plain-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.block.python
+    - include: triple-single-quoted-string-end
     - include: triple-single-quoted-f-string-content
+
+  triple-single-quoted-sql-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - include: triple-single-quoted-string-end
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: triple-single-quoted-string-pop
+        - include: triple-single-quoted-f-string-content
 
   triple-single-quoted-f-string-content:
     - include: string-prototype
@@ -3851,7 +3923,31 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.python string.quoted.single.python
     - include: single-quoted-string-end
+    - include: single-quoted-f-string-syntax
+
+  single-quoted-f-string-syntax:
+    # Single-line string, unicode or not, starting with a SQL keyword
+    - match: (?={{sql_indicator}})
+      set: single-quoted-sql-f-string-body
+    # Single-line string, unicode or not
+    - match: (?=\S)
+      set: single-quoted-plain-f-string-body
+
+  single-quoted-plain-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python string.quoted.single.python
+    - include: single-quoted-string-end
     - include: single-quoted-f-string-content
+
+  single-quoted-sql-f-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.python
+    - include: single-quoted-string-end
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: single-quoted-string-pop
+        - include: single-quoted-f-string-content
 
   single-quoted-f-string-content:
     - include: string-prototype
