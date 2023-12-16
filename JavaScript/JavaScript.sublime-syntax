@@ -96,7 +96,7 @@ variables:
       =>
     )
 
-  function_call_after_lookahead: (?=\s*(?:{{dot_accessor}}\s*)?\()
+  function_call_after_lookahead: (?=\s*(?:\?\.\s*)?\()
 
   function_assignment_lookahead: |-
     (?x:(?=
@@ -1970,7 +1970,7 @@ contexts:
 
   function-call-arguments:
     - meta_content_scope: meta.function-call.js
-    - match: '{{dot_accessor}}'
+    - match: '\?\.'
       scope: punctuation.accessor.js
     - match: \(
       scope: punctuation.section.group.begin.js
@@ -1992,7 +1992,7 @@ contexts:
         - include: expression-list
 
   property-access:
-    - match: ({{dot_accessor}})?(\[)
+    - match: (\?\.)?(\[)
       captures:
         1: punctuation.accessor.js
         2: punctuation.section.brackets.begin.js
