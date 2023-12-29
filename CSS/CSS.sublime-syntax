@@ -1547,6 +1547,7 @@ contexts:
         - selector-body
 
   maybe-property:
+    - meta_include_prototype: false
     - include: comments
     - include: property-end
     - include: property-identifiers
