@@ -335,6 +335,7 @@ contexts:
     - include: stylesheet
 
   stylesheet:
+    # https://www.w3.org/TR/css-syntax-3/#typedef-stylesheet
     - include: comments
     - include: property-lists
     - include: selectors
@@ -442,7 +443,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-container-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - container-query
         - at-container-identifier
 
@@ -572,7 +573,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-document-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - at-document-query
 
   at-document-meta:
@@ -710,7 +711,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-layer-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - at-layer-name-list
 
   nested-at-layer:
@@ -768,7 +769,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-media-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - media-query-list
 
   nested-at-media:
@@ -933,7 +934,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-supports-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - at-supports-query
 
   nested-at-supports:
@@ -1477,19 +1478,17 @@ contexts:
       fail: pseudo-element
     - include: identifier-content
 
-###[ STYLE BLOCKS ]############################################################
+###[ STYLESHEET BLOCKS ]#######################################################
 
-  maybe-style-block:
-    # https://www.w3.org/TR/css-syntax-3/#declaration-rule-list
-    # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
+  maybe-stylesheet-block:
     - meta_include_prototype: false
     - match: \{
       scope: punctuation.section.block.begin.css
-      set: style-block-body
+      set: stylesheet-block-body
     - include: comments
     - include: else-pop
 
-  style-block-body:
+  stylesheet-block-body:
     - meta_include_prototype: false
     - meta_scope: meta.block.css
     - include: block-end
@@ -1511,6 +1510,9 @@ contexts:
       push: property-list-body
 
   property-list-body:
+    # According to official specs, this is a style-block.
+    # It supports declarations, nested style-rules and at-rules.
+    # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
     - meta_include_prototype: false
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
@@ -1524,7 +1526,9 @@ contexts:
 
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
-    #       No selectors or at-rules supported in style attributes.
+    # According to official specs, this is a declaration-list without support
+    # for at-rules as inline html attributes don't support them.
+    # https://www.w3.org/TR/css-syntax-3/#typedef-declaration-list
     - include: comments
     - include: property-identifiers
     - include: property-values
