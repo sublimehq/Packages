@@ -1548,10 +1548,9 @@ contexts:
 
   maybe-property:
     - meta_include_prototype: false
-    - include: comments
     - include: property-end
     - include: property-identifiers
-    - match: (?=\S)
+    - match: ''
       fail: property-or-selector
 
   property-end:
