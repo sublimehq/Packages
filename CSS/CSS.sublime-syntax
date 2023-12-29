@@ -81,12 +81,12 @@ variables:
 
   logical_operators: (?i:and|or|not|only)
 
-  # Selectors
-  selector_begin: (?={{selector_start}})
+  # Properties and Selectors
+  property_or_selector_begin: (?={{ident_begin}}|{{selector_start}})
+  property_end: (?=[;@)}])
+
+  selector_start: '[[:alpha:].:#&*\[{{combinator_char}}]'
   selector_end: (?=[;@(){}])
-  selector_start: '[[:alpha:]{{nested_selector_start}}]'
-  nested_selector_begin: (?={{nested_selector_start}})
-  nested_selector_start: '[.:#&*\[{{combinator_char}}]'
 
   keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
 
@@ -1154,12 +1154,7 @@ contexts:
 ###[ SELECTORS ]###############################################################
 
   selectors:
-    - match: '{{selector_begin}}'
-      push: selector-body
-
-  nested-selectors:
-    # https://drafts.csswg.org/css-nesting-1
-    - match: '{{nested_selector_begin}}'
+    - match: '{{property_or_selector_begin}}'
       push: selector-body
 
   selector-body:
@@ -1521,8 +1516,7 @@ contexts:
     - include: block-end
     - include: comments
     - include: property-lists
-    - include: property-identifiers
-    - include: nested-selectors
+    - include: properties-or-selectors
     - include: nested-at-rules
     - include: rule-terminators
     - include: illegal-commas
@@ -1530,7 +1524,7 @@ contexts:
 
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
-    #       No selectors supported in style attributes.
+    #       No selectors or at-rules supported in style attributes.
     - include: comments
     - include: property-identifiers
     - include: property-values
@@ -1540,6 +1534,24 @@ contexts:
     - include: illegal-groups
 
 ###[ PROPERTY IDENTIFIERS ]####################################################
+
+  properties-or-selectors:
+    - match: '{{property_or_selector_begin}}'
+      branch_point: property-or-selector
+      branch:
+        - maybe-property
+        - selector-body
+
+  maybe-property:
+    - include: comments
+    - include: property-end
+    - include: property-identifiers
+    - match: (?=\S)
+      fail: property-or-selector
+
+  property-end:
+    - match: '{{property_end}}'
+      pop: 1
 
   property-identifiers:
     # specific properties with special treatment
@@ -2917,7 +2929,7 @@ contexts:
   # Qualified Names
   # https://drafts.csswg.org/css-namespaces-3/#css-qnames
   attr-name:
-    - match: (?=[*|]|--|-?{{ident_start}})
+    - match: (?=[*|]|{{ident_begin}})
       set: attr-name-content
 
   attr-name-content:
