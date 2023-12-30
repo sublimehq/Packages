@@ -1,0 +1,47 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: JSON (PHP)
+scope: source.json.php
+version: 2
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+file_extensions:
+  - json.php
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: php-embedded
+
+  string-prototype:
+    - meta_prepend: true
+    - include: php-interpolations
+
+  php-interpolations:
+    - meta_include_prototype: false
+    - match: (?=<\?)
+      push: php-interpolation-body
+
+  php-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: php-embedded
+    - match: ''
+      pop: 1
+
+  php-embedded:
+    - meta_include_prototype: false
+    - match: <\?(?i:(?!php)ph?)
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+    - match: <\?(?i:php\b|=)?
+      scope: meta.embedded.php punctuation.section.embedded.begin.php
+      embed: Packages/PHP/PHP Source.sublime-syntax
+      embed_scope: meta.embedded.php source.php.embedded.css
+      escape: (\?>)(\s*\n)?
+      escape_captures:
+        0: meta.embedded.php
+        1: punctuation.section.embedded.end.php
+        2: meta.html-newline-after-php.php
