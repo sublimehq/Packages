@@ -363,7 +363,6 @@ contexts:
       push:
         - block-quote-caution-meta
         - block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!WARNING(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -373,7 +372,6 @@ contexts:
       push:
         - block-quote-warning-meta
         - block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!IMPORTANT(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -383,7 +381,6 @@ contexts:
       push:
         - block-quote-important-meta
         - block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!NOTE(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -393,7 +390,6 @@ contexts:
       push:
         - block-quote-note-meta
         - block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!TIP(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -403,7 +399,6 @@ contexts:
       push:
         - block-quote-tip-meta
         - block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -793,7 +788,6 @@ contexts:
       push:
         - block-quote-caution-meta
         - list-block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!WARNING(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -803,7 +797,6 @@ contexts:
       push:
         - block-quote-warning-meta
         - list-block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!IMPORTANT(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -813,7 +806,6 @@ contexts:
       push:
         - block-quote-important-meta
         - list-block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!NOTE(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -823,7 +815,6 @@ contexts:
       push:
         - block-quote-note-meta
         - list-block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]{,3}(>)[ ]?((\[)!TIP(\]))'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -833,7 +824,6 @@ contexts:
       push:
         - block-quote-tip-meta
         - list-block-quote-body
-        - block-quote-punctuation-body
     - match: '[ \t]*(>)[ ]?'
       captures:
         1: punctuation.definition.blockquote.markdown
