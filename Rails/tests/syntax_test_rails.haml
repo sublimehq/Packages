@@ -426,6 +426,27 @@
     / <- meta.function.js keyword.declaration.function.js
     /^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.js.embedded.haml
 
+:json
+    {
+        #{ @key }: #{ @SiteColor },
+    /  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.json.embedded.haml
+    /   ^^^^^^^^^ meta.mapping.json meta.interpolation.haml
+    /            ^^ meta.mapping.json - meta.interpolation
+    /              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.haml
+    /                             ^ meta.mapping.json - meta.interpolation
+
+        "#{ @key }": "#{ @SiteColor }",
+    /  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.json.embedded.haml
+    /   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+    /    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.haml - string
+    /             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+    /              ^^ meta.mapping.json - meta.interpolation
+    /                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+    /                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.haml - string
+    /                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+    /                                 ^ meta.mapping.json - meta.interpolation
+    }
+
 :markdown
 / <- meta.filter.definition.haml punctuation.definition.filter.haml
 /^^^^^^^^ meta.filter.definition.haml constant.other.language-name.markdown.haml
