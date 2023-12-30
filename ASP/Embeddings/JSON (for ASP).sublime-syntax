@@ -5,25 +5,21 @@
 #
 # It powers VBScript highlighting within ASP tags in embedded CSS.
 #
-#   <style>
+#   <script type="application/json">
 #     <%! ... %>
 #     <%= ... %>
 #     <%  ... %>
-#   </style>
+#   </script>
 #
 # The primary task is to add `asp-tags` context to CSS's
 # prototype to match all the <% %> tags.
 ###############################################################################
 
-scope: source.css.embedded.asp
+scope: source.json.embedded.asp
 version: 2
 hidden: true
 
-extends: Packages/CSS/CSS.sublime-syntax
-
-variables:
-
-    ident_start: (?:{{nmstart}}|<%)
+extends: Packages/JSON/JSON.sublime-syntax
 
 contexts:
 
@@ -31,6 +27,6 @@ contexts:
     - meta_prepend: true
     - include: HTML (ASP).sublime-syntax#asp-tags
 
-  string-content:
+  string-prototype:
     - meta_prepend: true
     - include: HTML (ASP).sublime-syntax#asp-interpolations
