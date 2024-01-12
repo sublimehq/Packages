@@ -486,7 +486,60 @@ contexts:
     # https://www.lispworks.com/documentation/HyperSpec/Body/s_let_l.htm
     - match: (?i:let\*?){{break}}
       scope: keyword.declaration.variable.lisp
-      set: expect-lists-list
+      set: variable-declaration-list
+    # https://www.lispworks.com/documentation/lw445/CLHS/Body/m_defcon.htm
+    - match: (?i:defconstant){{break}}
+      scope: meta.declaration.lisp keyword.declaration.constant.lisp
+      set: constant-declaration-name
+    # https://www.lispworks.com/documentation/HyperSpec/Body/m_defpar.htm
+    - match: (?i:defparameter|defvar){{break}}
+      scope: meta.declaration.lisp keyword.declaration.variable.lisp
+      set: variable-declaration-name
+
+  variable-declaration-list:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.parens.begin.lisp
+      set: variable-declaration-list-body
+    - include: comments
+    - include: else-pop
+
+  variable-declaration-list-body:
+    - meta_scope: meta.parens.lisp
+    - match: \(
+      scope: punctuation.section.parens.begin.lisp
+      push:
+        - paren-body
+        - variable-declaration-name
+    - match: '{{identifier}}'
+      scope: meta.declaration.lisp variable.other.lisp
+      captures:
+        1: punctuation.definition.symbol.begin.lisp
+        2: punctuation.definition.symbol.end.lisp
+    - include: comments
+    - include: paren-end
+
+  constant-declaration-name:
+    - meta_content_scope: meta.declaration.lisp
+    - match: '{{identifier}}'
+      scope: meta.declaration.lisp constant.other.lisp
+      captures:
+        1: punctuation.definition.symbol.begin.lisp
+        2: punctuation.definition.symbol.end.lisp
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  variable-declaration-name:
+    - meta_content_scope: meta.declaration.lisp
+    - match: '{{identifier}}'
+      scope: meta.declaration.lisp variable.other.lisp
+      captures:
+        1: punctuation.definition.symbol.begin.lisp
+        2: punctuation.definition.symbol.end.lisp
+      pop: 1
+    - include: comments
+    - include: else-pop
 
 ###[ OTHER DECLARATIONS ]######################################################
 

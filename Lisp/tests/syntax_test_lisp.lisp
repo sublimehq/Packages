@@ -2120,6 +2120,40 @@
 ;         ^^^^^^^^^ keyword.operator.logical.lisp
 ;                   ^^^^^^^^^^^^^^^ variable.other.lisp
 
+;########################
+; VARIABLE DECLARATIONS #
+;########################
+
+(defconstant +name+ value "documentation")
+; <- meta.parens.lisp punctuation.section.parens.begin.lisp
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.lisp
+;^^^^^^^^^^^^^^^^^^ meta.declaration.lisp
+;^^^^^^^^^^^ keyword.declaration.constant.lisp
+;            ^^^^^^ constant.other.lisp
+;                   ^^^^^ variable.other.lisp
+;                         ^^^^^^^^^^^^^^^ meta.string.lisp string.quoted.double.lisp
+;                                        ^ punctuation.section.parens.end.lisp
+
+(defparameter *name* value "documentation")
+; <- meta.parens.lisp punctuation.section.parens.begin.lisp
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.lisp
+;^^^^^^^^^^^^^^^^^^^ meta.declaration.lisp
+;^^^^^^^^^^^^ keyword.declaration.variable.lisp
+;             ^^^^^^ variable.other.lisp
+;                    ^^^^^ variable.other.lisp
+;                          ^^^^^^^^^^^^^^^ meta.string.lisp string.quoted.double.lisp
+;                                         ^ punctuation.section.parens.end.lisp
+
+(defvar *name* value "documentation")
+; <- meta.parens.lisp punctuation.section.parens.begin.lisp
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.lisp
+;^^^^^^^^^^^^^ meta.declaration.lisp
+;^^^^^^ keyword.declaration.variable.lisp
+;       ^^^^^^ variable.other.lisp
+;              ^^^^^ variable.other.lisp
+;                    ^^^^^^^^^^^^^^^ meta.string.lisp string.quoted.double.lisp
+;                                   ^ punctuation.section.parens.end.lisp
+
 ;##############################
 ; LOCAL FUNCTION DECLARATIONS #
 ;##############################
@@ -2350,7 +2384,7 @@
 ;                                                       ^ meta.parens.lisp - meta.parens meta.parens
 ;^^^ keyword.declaration.variable.lisp
 ;    ^ punctuation.section.parens.begin.lisp
-;      ^^^^^ variable.other.lisp
+;      ^^^^^ meta.declaration.lisp variable.other.lisp
 ;            ^ punctuation.section.parens.begin.lisp
 ;             ^^^^^ variable.other.lisp
 ;                   ^ punctuation.section.parens.begin.lisp
