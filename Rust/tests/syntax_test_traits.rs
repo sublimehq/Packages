@@ -85,7 +85,7 @@ impl<T: ?Sized> !marker::Sync for Rc<T> {}
 //       ^^^^^ support.type.rust
 //            ^ punctuation.definition.generic.end.rust
 //              ^ meta.impl.rust keyword.operator.rust meta.impl.opt-out.rust
-//               ^^^^^^^^ meta.impl.rust meta.path.rust
+//               ^^^^^^^^^^^^ meta.impl.rust meta.path.rust
 //                       ^^^^ meta.impl.rust support.type.rust
 //                            ^^^ meta.impl.rust keyword.other.rust
 //                                ^^ meta.impl.rust meta.generic.rust entity.name.impl.rust
@@ -139,3 +139,8 @@ trait Bar: for<'a> Foo<&'a ()> {}
 //             ^^ meta.where meta.generic storage.modifier.lifetime
 //                     ^ meta.where meta.generic keyword.operator
 //                      ^^ meta.where meta.generic storage.modifier.lifetime
+
+trait t {}
+//    ^ meta.trait entity.name.trait
+
+// <- - meta

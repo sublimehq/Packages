@@ -40,9 +40,9 @@ fn union() {}
 //                ^ meta.group punctuation.accessor.dot
 //                 ^^^^^ variable.function - storage.type.union
 //                      ^ punctuation.section.group.begin
-//                       ^^^^^^ storage.type.source
+//                       ^^^^^^ storage.type.rust
 //                             ^^ punctuation.accessor
-//                               ^^^^ storage.type.source
+//                               ^^^^ storage.type.rust
 //                                   ^ punctuation.section.group.end
 //                                    ^ punctuation.accessor.dot
 //                                     ^^^^^ variable.function - storage.type.union
