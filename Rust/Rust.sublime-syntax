@@ -44,8 +44,7 @@ contexts:
 
     - include: visibility
 
-    - match: ';'
-      scope: punctuation.terminator.rust
+    - include: terminators
 
     - match: '(''(?:{{non_raw_ident}}))\s*(:)'
       captures:
@@ -112,13 +111,11 @@ contexts:
   modules:
     - match: '\b(mod)\s+({{identifier}})\b'
       captures:
-        1: storage.type.module.rust
+        1: keyword.declaration.module.rust
         2: entity.name.module.rust
       push:
         - meta_scope: meta.module.rust
-        - match: ';'
-          scope: punctuation.terminator.rust
-          pop: true
+        - include: terminator
         - include: module-block
 
   module-block:
@@ -133,32 +130,24 @@ contexts:
 
     - match: '\b(fn)\s+(?={{identifier}})'
       captures:
-        1: storage.type.function.rust
+        1: keyword.declaration.function.rust
       push: fn-definition
 
     - match: '\bstruct\b'
-      scope: storage.type.struct.rust
+      scope: keyword.declaration.struct.rust
       push: struct-identifier
 
     - match: '\bunion\b(?!\s*\()'
-      scope: storage.type.union.rust
+      scope: keyword.declaration.union.rust
       push: union-identifier
 
-    - match: '\b(type)\s+({{identifier}})\b'
-      captures:
-        1: storage.type.type.rust
-        2: entity.name.type.rust
-      push:
-        - match: (?=<)
-          push: generic-angles
-        - match: '=(?!=)'
-          scope: keyword.operator.assignment.rust
-          set: type-declaration-body
-        - include: else-pop
+    - match: '\btype\b'
+      scope: keyword.declaration.type.rust
+      push: type-declaration-identifier
 
     - match: '\b(trait)\s+({{identifier}})\b'
       captures:
-        1: storage.type.trait.rust
+        1: keyword.declaration.trait.rust
         2: entity.name.trait.rust
       push:
         - meta_scope: meta.trait.rust
@@ -171,11 +160,11 @@ contexts:
         - include: trait-block
 
     - match: '\bimpl\b'
-      scope: storage.type.impl.rust
+      scope: keyword.declaration.impl.rust
       push: impl-definition
 
     - match: '\benum\b'
-      scope: storage.type.enum.rust
+      scope: keyword.declaration.enum.rust
       push: enum-identifier
 
     - include: raw-pointer
@@ -187,20 +176,20 @@ contexts:
 
     - match: '\b(const)\s+({{identifier}})'
       captures:
-        1: storage.type.rust
+        1: keyword.declaration.rust
         2: entity.name.constant.rust
       push: declaration-after-identifier
 
     - match: '\b(static)\s+(?:(mut)\s+)?({{identifier}})'
       captures:
-        1: storage.type.rust
+        1: keyword.declaration.rust
         2: storage.modifier.rust
         3: entity.name.constant.rust
       push: declaration-after-identifier
 
     - match: \b(let)\s+(?:(mut)\s+)?
       captures:
-        1: storage.type.rust
+        1: keyword.declaration.rust
         2: storage.modifier.rust
       push: declaration-identifier
 
@@ -495,10 +484,6 @@ contexts:
     - include: block-body
 
   ##[ TYPES ]#################################################################
-
-  type-declaration-body:
-    - include: types
-    - include: else-pop
 
   types-relaxed:
     # only the most obvious type constructs (for fallback matching)
@@ -866,6 +851,31 @@ contexts:
     - meta_scope: meta.union.rust meta.block.rust
     - include: struct-classic-body
 
+  ##[ TYPE DECLARATIONS ]#####################################################
+
+  type-declaration-identifier:
+    - meta_scope: meta.type-declaration.rust
+    - include: comments
+    - include: type-declaration-wheres  # deprecated
+    - match: '{{identifier}}'
+      scope: entity.name.type.rust
+    - match: '(?=<)'
+      push: generic-angles
+    - match: '=(?!=)'
+      scope: keyword.operator.assignment.rust
+      set: type-declaration-body
+    - include: else-pop
+
+  type-declaration-body:
+    - meta_content_scope: meta.type-declaration.rust
+    - include: type-declaration-wheres
+    - include: types
+    - include: else-pop
+
+  type-declaration-wheres:
+    - match: '(?=\bwhere\b)'
+      push: impl-where
+
   ##[ ENUMS ]#################################################################
 
   enum-identifier:
@@ -1109,9 +1119,7 @@ contexts:
 
   macro-semi-sep:
     - include: comments
-    - match: ';'
-      scope: punctuation.terminator.rust
-      pop: true
+    - include: terminator
     - match: '(?=[})\]])'
       pop: true
     - match: '\S'
@@ -1171,7 +1179,7 @@ contexts:
   impl-where:
     - meta_scope: meta.where.rust
     - include: comments
-    - match: '(?=(\{|;))'
+    - match: '(?=(\{|;|=))'
       pop: true
     - match: \bwhere\b
       scope: keyword.other.rust
@@ -1735,35 +1743,41 @@ contexts:
     # specific rules.
     - include: bool
 
-    - match: \b(let|const|static)\b
+    - match: \b(let|static)\b
+      scope: keyword.declaration.rust
+
+    - match: \bconst\b
       scope: storage.type.rust
 
     - match: \bfn\b
-      scope: storage.type.function.rust
+      scope: keyword.declaration.function.rust
 
     - match: \bmod\b
-      scope: storage.type.module.rust
+      scope: keyword.declaration.module.rust
 
     - match: \bstruct\b
-      scope: storage.type.struct.rust
+      scope: keyword.declaration.struct.rust
 
     - match: \bimpl\b
-      scope: storage.type.impl.rust
+      scope: keyword.declaration.impl.rust
 
     - match: \benum\b
-      scope: storage.type.enum.rust
+      scope: keyword.declaration.enum.rust
 
     - match: \btype\b
-      scope: storage.type.type.rust
+      scope: keyword.declaration.type.rust
 
     - match: \btrait\b
-      scope: storage.type.trait.rust
+      scope: keyword.declaration.trait.rust
 
     - match: \b(mut|pub|unsafe|move|ref)\b
       scope: storage.modifier.rust
 
-    - match: \b(crate|extern|use|where)\b
+    - match: \b(crate|extern|where)\b
       scope: keyword.other.rust
+
+    - match: \buse\b
+      scope: keyword.declaration.import.rust
 
     - match: \b(async|await|else|for|if|loop|match|try|while|yield)\b
       scope: keyword.control.rust
@@ -1788,6 +1802,15 @@ contexts:
   reserved-keywords:
     - match: \b(virtual|become|priv|typeof|unsized|do|abstract|final|override|macro|for)\b
       scope: invalid.illegal.rust
+
+  terminators:
+    - match: ';'
+      scope: punctuation.terminator.rust
+
+  terminator:
+    - match: ';'
+      scope: punctuation.terminator.rust
+      pop: true
 
   else-pop:
     - match: (?=\S)

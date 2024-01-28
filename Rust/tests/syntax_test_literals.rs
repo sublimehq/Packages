@@ -1,11 +1,11 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 let c = 'c';
-// <- storage.type
+// <- keyword.declaration
 //    ^ keyword.operator.assignment
 //      ^^^ string.quoted.single
 let b = b'c';
-// <- storage.type
+// <- keyword.declaration
 //    ^ keyword.operator.assignment
 //      ^ storage.type
 //       ^^^ string.quoted.single
@@ -13,7 +13,7 @@ let ch = '∞';
 //       ^^^ string.quoted.single
 
 let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
-// <- storage.type
+// <- keyword.declaration
 //    ^ keyword.operator.assignment
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                        ^^^^ constant.character.escape
@@ -26,7 +26,7 @@ let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
 //                                                     ^^ constant.character.escape
 //                                                        ^^ constant.character.escape
 let r = r##"This is a raw string, no escapes! \x00 \0 \n"##;
-// <- storage.type
+// <- keyword.declaration
 //    ^ keyword.operator.assignment
 //      ^ storage.type
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw - constant.character.escape
@@ -46,7 +46,7 @@ println!("Continuation in format \
 ");
 
 let bytes = b"This won't escape unicode \u{0123}, but will do \x01_\"_\'_\\_\r_\n_\t_\0";
-// <- storage.type
+// <- keyword.declaration
 //        ^ keyword.operator.assignment
 //          ^ storage.type
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
@@ -60,7 +60,7 @@ let bytes = b"This won't escape unicode \u{0123}, but will do \x01_\"_\'_\\_\r_\
 //                                                                                   ^^ constant.character.escape
 
 let raw_bytes = br#"This won't escape anything either \x01 \""#;
-// <- storage.type
+// <- keyword.declaration
 //            ^ keyword.operator.assignment
 //              ^^ storage.type
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double - constant.character.escape

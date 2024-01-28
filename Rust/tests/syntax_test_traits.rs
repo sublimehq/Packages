@@ -41,8 +41,8 @@ impl<'a, T: MyTrait + OtherTrait> PrintInOption for T where
 impl fmt::Display for PrintableStruct {
 // <- meta.impl
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.impl
-// <- storage.type.impl
-//^^ storage.type.impl
+// <- keyword.declaration.impl
+//^^ keyword.declaration.impl
 //   ^^^^^ meta.path
 //      ^^ punctuation.accessor
 //                ^^^ keyword.other
@@ -51,7 +51,7 @@ impl fmt::Display for PrintableStruct {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.impl
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//  ^^ storage.type.function
+//  ^^ keyword.declaration.function
 //     ^^^ entity.name.function
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //        ^ punctuation.section.parameters.begin

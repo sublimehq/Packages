@@ -2,8 +2,8 @@
 
 struct BasicStruct(i32);
 // ^^^^^^^^^^^^^^^^^^^^ meta.struct
-// <- storage.type.struct
-//^^^^ storage.type.struct
+// <- keyword.declaration.struct
+//^^^^ keyword.declaration.struct
 //     ^^^^^^^^^^^ entity.name.struct
 //                ^ punctuation.section.group.begin
 //                 ^^^ storage.type
@@ -11,8 +11,8 @@ struct BasicStruct(i32);
 
 struct PrintableStruct(Box<i32>);
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
-// <- storage.type.struct
-//^^^^ storage.type.struct
+// <- keyword.declaration.struct
+//^^^^ keyword.declaration.struct
 //     ^^^^^^^^^^^^^^^ entity.name.struct
 //                    ^ punctuation.section.group.begin
 //                     ^^^ support.type
@@ -55,7 +55,7 @@ impl Point
 {
 // <- meta.impl meta.block punctuation.section.block.begin
     fn new(x: i32, y: i32) -> Point
-    // <- storage.type.function
+    // <- keyword.declaration.function
     // ^^^ entity.name.function
     {
     // <- meta.function meta.block
