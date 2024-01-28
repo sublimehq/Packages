@@ -422,3 +422,21 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///                                                                             ^^^^ variable.other.member
 ///                                                                                       ^ punctuation.section.block.end
 ///                                                                                         ^ punctuation.section.block.end
+
+using ServiceProvider sp = services.BuildServiceProvider();
+/// ^ keyword.control.using
+///   ^^^^^^^^^^^^^^^ support.type
+///                   ^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^^^^^^ variable.other
+///                                ^ punctuation.accessor.dot
+///                                 ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+///                                 ^^^^^^^^^^^^^^^^^^^^ variable.function
+///                                                     ^ punctuation.section.group.begin - invalid
+///                                                      ^ punctuation.section.group.end - invalid
+using IDisposable sub = pageContentObservable.Subscribe(Console.WriteLine);
+/// ^ keyword.control.using
+///   ^^^^^^^^^^^ support.type
+///               ^^^ variable.other
+///                   ^ keyword.operator.assignment
+///                     ^^^^^^^^^^^^^^^^^^^^^ variable.other
