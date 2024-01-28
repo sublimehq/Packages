@@ -5858,9 +5858,36 @@ func lang_embedding() {
 // language=sql
 some_func_call(
     args_on_next_line, `
-        SELECT min(a) 
+        SELECT min(a)
         FROM b
         WHERE c = @p1`, "some value",
     // ^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go
 )
 // <- punctuation.section.parens.end.go - invalid
+
+_ = ident[0] * ident
+//  ^^^^^ variable.other
+//       ^ punctuation.section.brackets.begin
+//        ^ meta.number.integer.decimal constant.numeric.value
+//         ^ punctuation.section.brackets.end
+//           ^ keyword.operator
+//             ^^^^^ variable.other
+func sth() {
+
+    a := 123
+    data := []int
+
+    b := 0
+    b = data[b]|a
+//             ^ keyword.operator.bitwise
+//              ^ variable.other
+    b = data[b]^a
+//             ^ keyword.operator.bitwise
+//              ^ variable.other
+    b = data[b]&a
+//             ^ keyword.operator
+//              ^ variable.other
+    b = b|a
+//       ^ keyword.operator.bitwise
+//        ^ variable.other
+}
