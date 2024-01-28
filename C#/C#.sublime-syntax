@@ -240,7 +240,11 @@ contexts:
       captures:
         1: keyword.control.using.cs
       push: var_declaration
-    - match: \b(using)\s+(?={{name}}\s*=\s*)
+    - match: \b(using)\s+(?={{name}}\s+{{name}}\s*=)
+      captures:
+        1: keyword.control.using.cs
+      push: var_declaration
+    - match: \b(using)\s+(?={{name}}\s*=)
       captures:
         1: keyword.control.import.cs
       push: using_namespace
