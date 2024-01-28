@@ -384,3 +384,50 @@ macro_rules! designators {
 //                                                                    ^^ meta.macro meta.macro.transcribers
 }
 //<- meta.macro punctuation.section.block.end
+
+/*******************************************************************/
+// Nested multi-line statements
+macro_rules! test {
+    ($($name:ident),+$(,)?) => {
+        pub struct Foo {
+            $(
+//          ^^ meta.macro meta.macro.transcribers meta.struct meta.block punctuation.section.interpolation.begin.rust
+                pub $name : Option<String>
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.macro meta.macro.transcribers meta.struct meta.block
+//              ^^^ storage.modifier.rust
+//                  ^^^^^ variable.other.rust
+//                        ^ punctuation.separator.rust
+//                          ^^^^^^ support.type.rust
+            ),+
+//          ^^^^ meta.macro meta.macro.transcribers meta.struct meta.block
+//          ^ punctuation.section.interpolation.end.rust
+//           ^ punctuation.separator.rust
+//            ^ keyword.operator.other.repetition.rust
+        }
+//      ^ meta.macro meta.macro.transcribers meta.struct meta.block punctuation.section.block.end.rust
+
+        pub async fn thing() -> () {}
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.macro meta.macro.transcribers
+//      ^^^ storage.modifier.rust
+//          ^^^^^ keyword.control.rust
+//                ^^ storage.type.function.rust
+//                   ^^^^^ entity.name.function.rust
+//                        ^^ meta.function meta.function.parameters
+//                           ^^^^^ meta.function meta.function.return-type
+//                           ^^ punctuation.separator.rust
+//                              ^^ meta.group
+//                                 ^^ meta.function meta.block
+    }
+//  ^ meta.macro meta.macro.transcribers punctuation.section.block.end.rust
+}
+// <- meta.macro punctuation.section.block.end.rust
+
+/*******************************************************************/
+// Not part of a macro
+some()?;
+//   ^ punctuation.section.group.end.rust
+//    ^ keyword.operator.rust
+
+(a)+(b);
+//^ punctuation.section.group.end.rust
+// ^ keyword.operator.arithmetic.rust
