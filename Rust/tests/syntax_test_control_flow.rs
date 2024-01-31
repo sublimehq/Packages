@@ -71,7 +71,7 @@ if n < 0 {
 // <- meta.block punctuation.section.block.end
 
 if let BasicStruct(i) = j {
-// ^^^ keyword.declaration
+// ^^^ keyword.declaration.variable.rust
 //                    ^ keyword.operator.assignment
 //                        ^ meta.block punctuation.section.block.begin
     println!("Basic value: {}", i);
@@ -80,7 +80,7 @@ if let BasicStruct(i) = j {
 
 while let BasicStruct(k) = j {
 //^^^ keyword.control
-//    ^^^ keyword.declaration
+//    ^^^ keyword.declaration.variable.rust
 //                       ^ keyword.operator.assignment
 //                           ^ meta.block punctuation.section.block.begin
     println!("Constructed example: {}", j)

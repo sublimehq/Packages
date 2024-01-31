@@ -34,14 +34,14 @@ type GenFnPointer2 = Bar<extern "C" fn()>;
 //                                       ^ - meta.generic
 
 const ZERO: u64 = 0;
-// <- keyword.declaration
+// <- keyword.declaration.variable.constant.rust
 //    ^^^^ entity.name.constant
 //        ^ punctuation.separator
 //          ^^^ storage.type
 //              ^ keyword.operator.assignment
 //                ^ constant.numeric.integer.decimal
 static NAME: &'static str = "John";
-// <- keyword.declaration
+// <- keyword.declaration.variable.static.rust
 //     ^^^^ entity.name.constant
 //           ^ keyword.operator
 //            ^^^^^^^ storage.modifier.lifetime
@@ -49,7 +49,7 @@ static NAME: &'static str = "John";
 //                        ^ keyword.operator.assignment
 //                          ^^^^^^ string.quoted.double
 static mut BRAVO: u32 = 0;
-// <- keyword.declaration
+// <- keyword.declaration.variable.static.rust
 //     ^^^ storage.modifier
 //         ^^^^^ entity.name.constant
 
@@ -65,7 +65,7 @@ fn factory() -> Box<Fn(i32) -> i32> {
 }
 
 let x: __m128i = __m128i::from_bits(f32x4::from_bits(m32x4::new(true, true, true, true)));
-// <- keyword.declaration
+// <- keyword.declaration.variable.rust
 //     ^^^^^^^ storage.type
 //               ^^^^^^^ storage.type
 //                                  ^^^^^ meta.group storage.type
@@ -94,7 +94,7 @@ type Pair<'a> = (i32, &'a str);
 //                            ^ punctuation.terminator
 
 let p: Pair<'static> = (10, "ten");
-// <- keyword.declaration
+// <- keyword.declaration.variable.rust
 //   ^ punctuation.separator
 //         ^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin

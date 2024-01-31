@@ -36,13 +36,13 @@ pub ( in self ) enum E {A,B}
 pub ( in super ) const CONST: i32 = 1;
 //    ^^ keyword.other
 //       ^^^^^ keyword.other
-//               ^^^^^ keyword.declaration
+//               ^^^^^ keyword.declaration.variable.constant.rust
 pub ( in super::super ) static STATIC: i32 = 1;
 //    ^^ keyword.other
 //       ^^^^^ keyword.other
 //            ^^ meta.path
 //              ^^^^^ keyword.other
-//                      ^^^^^^ keyword.declaration
+//                      ^^^^^^ keyword.declaration.variable.static.rust
 
 struct S {
     pub f1: i32,

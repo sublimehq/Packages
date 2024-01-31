@@ -176,20 +176,20 @@ contexts:
 
     - match: '\b(const)\s+({{identifier}})'
       captures:
-        1: keyword.declaration.rust
+        1: keyword.declaration.variable.constant.rust
         2: entity.name.constant.rust
       push: declaration-after-identifier
 
     - match: '\b(static)\s+(?:(mut)\s+)?({{identifier}})'
       captures:
-        1: keyword.declaration.rust
+        1: keyword.declaration.variable.static.rust
         2: storage.modifier.rust
         3: entity.name.constant.rust
       push: declaration-after-identifier
 
     - match: \b(let)\s+(?:(mut)\s+)?
       captures:
-        1: keyword.declaration.rust
+        1: keyword.declaration.variable.rust
         2: storage.modifier.rust
       push: declaration-identifier
 
@@ -1739,15 +1739,20 @@ contexts:
       scope: storage.modifier.rust
 
   keywords:
-    # All keywords.  Note in `statements` some of these are superseded by more
+    # All keywords.  Note in `statements` most of these are superseded by more
     # specific rules.
     - include: bool
 
-    - match: \b(let|static)\b
-      scope: keyword.declaration.rust
+    - match: \blet\b
+      scope: keyword.declaration.variable.rust
+
+    - match: \bstatic\b
+      scope: keyword.declaration.variable.static.rust
 
     - match: \bconst\b
-      scope: storage.type.rust
+      # The storage keyword seems more likely to not have been matched earlier.
+      scope: storage.modifier.rust
+      # scope: keyword.declaration.variable.constant.rust
 
     - match: \bfn\b
       scope: keyword.declaration.function.rust
