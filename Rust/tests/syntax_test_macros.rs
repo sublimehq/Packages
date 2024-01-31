@@ -135,7 +135,7 @@ macro_rules! brackets_square [
 /*******************************************************************/
 // Matchers and transcribers can use any bracket type.
 macro_rules! brackets {
-//^^^^^^^^^^ meta.macro support.function
+//^^^^^^^^^^ meta.macro keyword.declaration.macro
 //           ^^^^^^^^ meta.macro entity.name.macro
 //                    ^ meta.macro punctuation.section.block.begin
     ($i:ident) => ($i);

@@ -200,7 +200,7 @@ contexts:
 
     - match: '\b(macro_rules!)\s+({{identifier}})\b'
       captures:
-        1: support.function.rust
+        1: keyword.declaration.macro.rust
         2: entity.name.macro.rust
       push: macro-block
 
