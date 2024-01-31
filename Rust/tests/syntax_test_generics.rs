@@ -97,7 +97,7 @@ struct A<T>(T) where T: AsRef<str>;
 //             ^^^^^ meta.struct meta.where keyword.other
 pub struct A<T>(T)
 //  ^^^^^^^^^^ meta.struct
-//  ^^^^^^ meta.struct storage.type
+//  ^^^^^^ meta.struct keyword.declaration
 where
 //^^^ meta.struct meta.where keyword.other
     T: AsRef<str>;
@@ -342,7 +342,7 @@ fn f(a: for<'a, 'b> fn() -> String) {}
 
 // Function in type path with return type.
 fn factory() -> Box<Fn(i32) -> i32> {
-// <- storage.type.function
+// <- keyword.declaration.function
 // ^^^^^^^ entity.name.function
 //                 ^^^^^^^^^^^^^^^^ meta.generic
 //                  ^^ support.type

@@ -1,7 +1,7 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 enum OperatingSystem
-// <- storage.type.enum
+// <- keyword.declaration.enum
 // ^^^^^^^^^^^^^^^^^ meta.enum
 //   ^^^^^^^^^^^^^^^ entity.name.enum
 {

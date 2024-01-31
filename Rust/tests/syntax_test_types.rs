@@ -1,9 +1,11 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 // This file is for misc type definitions that don't fit in other more
 // specific categories.
+//
+// https://doc.rust-lang.org/reference/items/type-aliases.html
 
 type FnPointer = fn(i32) -> i32;
-// <- storage.type.type
+// <- keyword.declaration.type
 //   ^^^^^^^^^ entity.name.type
 //               ^^ storage.type.function
 //                 ^^^^^ meta.group
@@ -12,7 +14,7 @@ type FnPointer = fn(i32) -> i32;
 //                          ^^^ storage.type
 
 type GenFnPointer = Bar<fn(i32) -> i32>;
-// <- storage.type.type
+// <- keyword.declaration.type
 //   ^^^^^^^^^^^^ entity.name.type
 //                     ^^^^^^^^^^^^^^^^ meta.generic
 //                      ^^ storage.type.function
@@ -23,7 +25,7 @@ type GenFnPointer = Bar<fn(i32) -> i32>;
 //                                     ^ - meta.generic
 
 type GenFnPointer2 = Bar<extern "C" fn()>;
-// <- storage.type.type
+// <- keyword.declaration.type
 //   ^^^^^^^^^^^^^ entity.name.type
 //                      ^^^^^^^^^^^^^^^^^ meta.generic
 //                       ^^^^^^ keyword.other
@@ -32,14 +34,14 @@ type GenFnPointer2 = Bar<extern "C" fn()>;
 //                                       ^ - meta.generic
 
 const ZERO: u64 = 0;
-// <- storage.type
+// <- keyword.declaration.variable.constant.rust
 //    ^^^^ entity.name.constant
 //        ^ punctuation.separator
 //          ^^^ storage.type
 //              ^ keyword.operator.assignment
 //                ^ constant.numeric.integer.decimal
 static NAME: &'static str = "John";
-// <- storage.type
+// <- keyword.declaration.variable.static.rust
 //     ^^^^ entity.name.constant
 //           ^ keyword.operator
 //            ^^^^^^^ storage.modifier.lifetime
@@ -47,14 +49,14 @@ static NAME: &'static str = "John";
 //                        ^ keyword.operator.assignment
 //                          ^^^^^^ string.quoted.double
 static mut BRAVO: u32 = 0;
-// <- storage.type
+// <- keyword.declaration.variable.static.rust
 //     ^^^ storage.modifier
 //         ^^^^^ entity.name.constant
 
 // Function type in a box return type.
 // fixes https://github.com/rust-lang/sublime-rust/issues/144
 fn factory() -> Box<Fn(i32) -> i32> {
-// <- storage.type.function
+// <- keyword.declaration.function
 // ^^^^^^^ entity.name.function
 //                  ^^^^^^^^^^^^^^ meta.generic
 //                      ^^ storage.type
@@ -63,6 +65,7 @@ fn factory() -> Box<Fn(i32) -> i32> {
 }
 
 let x: __m128i = __m128i::from_bits(f32x4::from_bits(m32x4::new(true, true, true, true)));
+// <- keyword.declaration.variable.rust
 //     ^^^^^^^ storage.type
 //               ^^^^^^^ storage.type
 //                                  ^^^^^ meta.group storage.type
@@ -74,7 +77,7 @@ let mut mutable = 12;
 
 // Tuple types.
 type Pair<'a> = (i32, &'a str);
-// <- storage.type.type
+// <- keyword.declaration.type
 //   ^^^^ entity.name.type
 //       ^^^^ meta.generic
 //       ^ punctuation.definition.generic.begin
@@ -91,7 +94,7 @@ type Pair<'a> = (i32, &'a str);
 //                            ^ punctuation.terminator
 
 let p: Pair<'static> = (10, "ten");
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //   ^ punctuation.separator
 //         ^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
@@ -233,3 +236,39 @@ impl Iterator for Struct {
 //                                     ^^^^
 //                                         ^ punctuation.definition.generic.end.rust
 }
+
+// Generics
+type TypeAlias<T> where T: Foo = Bar<T>; // deprecated
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-declaration.rust
+//   ^^^^^^^^^ entity.name.type.rust
+//            ^^^ meta.generic.rust
+//            ^ punctuation.definition.generic.begin.rust
+//             ^ storage.type.rust
+//              ^ punctuation.definition.generic.end.rust
+//                ^^^^^^^^^^^^ meta.type-declaration meta.where
+//                ^^^^^ keyword.other
+//                      ^ storage.type
+//                       ^ punctuation.separator
+//                         ^^^ storage.type
+//                             ^ keyword.operator.assignment - meta.type-declaration meta.type-declaration
+//                                  ^^^ meta.generic
+//                                     ^ punctuation.terminator
+
+type TypeAlias<T> = /**/ Bar<T> /**/ where /**/ T: Foo; // preferred
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-declaration.rust
+//   ^^^^^^^^^ entity.name.type.rust
+//            ^^^ meta.generic.rust
+//            ^ punctuation.definition.generic.begin.rust
+//             ^ storage.type.rust
+//              ^ punctuation.definition.generic.end.rust
+//                ^ keyword.operator.assignment.rust - meta.type-declaration meta.type-declaration
+//                  ^^^^ comment.block.rust
+//                          ^^^ meta.generic.rust
+//                              ^^^^ comment.block.rust
+//                                   ^^^^^^^^^^^^ meta.where.rust
+//                                   ^^^^^ keyword.other.rust
+//                                         ^^^^ comment.block.rust
+//                                              ^ storage.type.rust
+//                                               ^ punctuation.separator.rust
+//                                                 ^^^ storage.type.rust
+//                                                    ^ punctuation.terminator.rust

@@ -1,7 +1,7 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 union Union {
-//^^^ meta.union storage.type.union
+//^^^ meta.union keyword.declaration.union
 //^^^^^^^^^^^ meta.union
 //    ^^^^^ entity.name.union
 //          ^ meta.block punctuation.section.block.begin
@@ -15,7 +15,7 @@ union Union {
 pub union Foo<'a, Y: Baz>
 // <- storage.modifier
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.union
-//  ^^^^^ meta.union storage.type.union
+//  ^^^^^ meta.union keyword.declaration.union
 //        ^^^ meta.union meta.generic entity.name.union
 //           ^ meta.union meta.generic meta.generic punctuation.definition.generic.begin
 //            ^^ meta.union meta.generic meta.generic storage.modifier.lifetime

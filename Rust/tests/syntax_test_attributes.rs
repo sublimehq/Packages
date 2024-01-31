@@ -38,7 +38,8 @@
 // Test highlighting/scope with struct field attributes
 // https://github.com/rust-lang/sublime-rust/issues/120
 pub struct Claim {
-//  ^^^^^^^^ meta.struct
+//  ^^^^^^^^^^^^^^^ meta.struct.rust
+//  ^^^^^^ keyword.declaration.struct.rust
     pub claim_id: String,
 //  ^^^ storage.modifier
     pub patient_id: String,
@@ -74,6 +75,7 @@ enum E {
 
 // Generic parameters.
 unsafe impl<#[may_dangle] T: ?Sized> Drop for Box<T> { }
+//     ^^^^ keyword.declaration.impl
 //          ^^^^^^^^^^^^^ meta.annotation
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.impl meta.generic
 
@@ -120,7 +122,7 @@ unsafe impl<#[may_dangle] T: ?Sized> Drop for Box<T> { }
         true,
 //      ^^^^ constant.language
         struct,
-//      ^^^^^^ storage.type.struct
+//      ^^^^^^ keyword.declaration.struct
         1 + 1,
 //      ^ constant.numeric.integer.decimal
 //        ^ keyword.operator.arithmetic

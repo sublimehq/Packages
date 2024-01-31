@@ -1,7 +1,7 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 fn my_func(x: i32)
-// <- storage.type.function
+// <- keyword.declaration.function
 // ^^^^^^^ entity.name.function
 //        ^^^^^^^^ meta.function.parameters
 //        ^ punctuation.section.parameters.begin
@@ -15,7 +15,7 @@ fn my_func(x: i32)
 // <-  meta.function meta.block punctuation.section.block.end
 
 fn foo<A>(i: u32, b: i64) -> u32 {
-// <- storage.type.function
+// <- keyword.declaration.function
 // ^^^ entity.name.function
 //    ^ punctuation.definition.generic.begin
 //      ^ punctuation.definition.generic.end
@@ -47,7 +47,7 @@ fn my_other_func(e: OperatingSystem) -> &'a Type {
 
 pub fn pub_function() -> bool
 // <- storage.modifier
-//  ^^ storage.type.function
+//  ^^ keyword.declaration.function
 //     ^^^^^^^^^^^^ entity.name.function
 {
 // <- meta.function
@@ -61,7 +61,7 @@ pub unsafe extern "C" fn __sync_synchronize() { }
 //         ^^^^^^ keyword.other
 //                ^^^ string.quoted.double
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//                    ^^ storage.type.function
+//                    ^^ keyword.declaration.function
 //                       ^^^^^^^^^^^^^^^^^^ entity.name.function
 //                                         ^ meta.function.parameters punctuation.section.parameters.begin
 //                                          ^ meta.function.parameters punctuation.section.parameters.end
@@ -117,20 +117,20 @@ fn f(self,
 
 const fn f() {}
 // <- storage.modifier
-//    ^^ meta.function storage.type.function
+//    ^^ meta.function keyword.declaration.function
 //       ^ meta.function entity.name.function
 
 const unsafe fn f() {}
 // <- storage.modifier
 //    ^^^^^^ storage.modifier
-//           ^^ meta.function storage.type.function
+//           ^^ meta.function keyword.declaration.function
 //              ^ meta.function entity.name.function
 
 const extern "C" fn f() {}
 // <- storage.modifier
 //    ^^^^^^ keyword.other
 //           ^^^ string.quoted.double
-//               ^^ meta.function storage.type.function
+//               ^^ meta.function keyword.declaration.function
 //                  ^ meta.function entity.name.function
 
 fn foo(&'a self) {}

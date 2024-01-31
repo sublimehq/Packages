@@ -16,7 +16,7 @@ extern crate std as ruststd;
 //                         ^ punctuation.terminator
 
 mod bar;
-// <- meta.module storage.type.module
+// <- meta.module keyword.declaration.module
 //^^^^^^ meta.module
 //  ^^^ entity.name.module
 //     ^ punctuation.terminator
@@ -24,7 +24,7 @@ mod bar;
 pub mod my_mod {
 //  ^^^^^^^^^^^^ meta.module
 // <- storage.modifier
-//  ^^^ storage.type.module
+//  ^^^ keyword.declaration.module
 //      ^^^^^^ entity.name.module
 //             ^ meta.block punctuation.section.block.begin
 }
@@ -32,7 +32,7 @@ pub mod my_mod {
 
 pub use self::trafile::*;
 // <- storage.modifier
-//  ^^^ keyword.other
+//  ^^^ keyword.declaration
 //      ^^^^ variable.language
 //      ^^^^^^^^^^^^^^^ meta.path
 //                   ^^ punctuation.accessor
@@ -40,7 +40,7 @@ pub use self::trafile::*;
 //                      ^ punctuation.terminator
 
 use std::fmt;
-// <- keyword.other
+// <- keyword.declaration
 //  ^^^^^^^^ meta.path
 //     ^^ punctuation.accessor
 //          ^ punctuation.terminator
@@ -65,7 +65,7 @@ use foo::{Baz, QUX, quux};
 //                       ^ punctuation.terminator
 
 use std::{
-// <- keyword.other
+// <- keyword.declaration
 //  ^^^^^ meta.path
 //       ^ meta.block punctuation.section.block.begin
     fs::{self, read_dir},
