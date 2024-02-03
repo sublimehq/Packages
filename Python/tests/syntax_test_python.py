@@ -2248,8 +2248,8 @@ class GenericClass[T: X, **U]:
 ##################
 
 type
-# <- meta.type-alias.python keyword.declaration.class.python
-#^^^ meta.type-alias.python keyword.declaration.class.python
+# <- meta.generic-name - keyword
+#^^^ meta.generic-name - keyword
 
 type Alias # [T: int] = list[T]
 # <- meta.type-alias.python keyword.declaration.class.python
@@ -2320,6 +2320,55 @@ type \
 #       ^ meta.generic-name.python
 #        ^ punctuation.section.brackets.end.python
 
+  type Alias
+# <- meta.type-alias.python
+#^^^^^^^^^^^ meta.type-alias.python
+# ^^^^ keyword.declaration.class.python
+#      ^^^^^ entity.name.type.alias.python
+
+type(data)
+# <- meta.function-call.identifier.python support.function.builtin.python
+#^^^ meta.function-call.identifier.python support.function.builtin.python
+#   ^^^^^^ meta.function-call.arguments.python
+#   ^ punctuation.section.arguments.begin.python
+#    ^^^^ meta.path.python meta.generic-name.python
+#        ^ punctuation.section.arguments.end.python
+
+type: Alias
+# <- meta.generic-name.python
+#^^^ meta.generic-name.python
+#   ^ punctuation.separator.annotation.python
+#     ^^^^^ meta.type.python meta.path.python meta.generic-name.python
+
+type = 10
+# <- meta.generic-name.python
+#^^^ meta.generic-name.python
+#    ^ keyword.operator.assignment.python
+#      ^^ meta.number.integer.decimal.python constant.numeric.value.python
+
+class Foo:
+    type: Alias
+#   ^^^^ meta.generic-name.python
+#       ^ punctuation.separator.annotation.python
+#         ^^^^^ meta.type.python meta.path.python meta.generic-name.python
+
+    type = 10
+#   ^^^^ meta.generic-name.python
+#        ^ keyword.operator.assignment.python
+#          ^^ meta.number.integer.decimal.python constant.numeric.value.python
+
+    def __init__(self, type: int):
+#                      ^^^^ variable.parameter.python
+        self.type = type
+#            ^^^^ meta.path.python meta.generic-name.python
+#                   ^^^^ meta.path.python meta.generic-name.python
+
+        self.me = type(type)
+#                 ^^^^ meta.function-call.identifier.python support.function.builtin.python
+#                     ^^^^^^ meta.function-call.arguments.python
+#                     ^ punctuation.section.arguments.begin.python
+#                      ^^^^ meta.path.python meta.generic-name.python
+#                          ^ punctuation.section.arguments.end.python
 
 ##################
 # Decorators

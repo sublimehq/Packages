@@ -149,7 +149,7 @@ variables:
     | getattr | globals | hasattr | hash | help | hex | id | input | isinstance
     | issubclass | iter | len | locals | map | max | min | next | oct | open
     | ord | pow | property | range | repr | reversed | round | setattr | sorted
-    | staticmethod | sum | super | type | vars | zip
+    | staticmethod | sum | super | type(?=\s*\() | vars | zip
     # Python 2 functions
     | apply | cmp | coerce | execfile | intern | raw_input | reduce | reload
     | unichr | xrange
@@ -1042,10 +1042,18 @@ contexts:
 ###[ TYPE DEFINITIONS ]#######################################################
 
   type-definitions:
-    - match: ^\s*(type)\b
+    - match: ^(?=\s*type\b)
+      branch_point: type-definitions
+      branch:
+        - type-definition
+        - type-definition-fallback
+
+  type-definition:
+    - meta_include_prototype: false
+    - match: \s*(type)\b
       captures:
         1: keyword.declaration.class.python
-      push:
+      set:
         - type-definition-meta
         - type-definition-value-assignment
         - type-parameter-list
@@ -1061,13 +1069,24 @@ contexts:
     - match: '{{identifier}}'
       scope: entity.name.type.alias.python
       pop: 1
-    - include: line-continuation-or-pop
+    - include: line-continuations
+    - match: (?=\S)
+      fail: type-definitions
 
   type-definition-value-assignment:
     - match: =
       scope: keyword.operator.assignment.python
       set: variable-annotation
     - include: line-continuation-or-pop
+
+  type-definition-fallback:
+    # Fallback context, used, if `type` doesn't seem to start a type alias
+    - match: (?={{path}}\s*\()
+      set:
+        - function-call-argument-list
+        - function-call-wrapper
+        - qualified-name-until-leaf
+    - include: generic-name
 
 ###[ TYPE PARAMETERS ]########################################################
 
