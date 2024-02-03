@@ -903,15 +903,31 @@ contexts:
       scope: keyword.control.directive.css
       captures:
         1: punctuation.definition.keyword.css
-      push: at-scope-selector
+      push:
+        - at-scope-selector-meta
+        - maybe-property-list
+        - at-scope-selector-to
+        - at-scope-selector-group
 
-  at-scope-selector:
+  at-scope-selector-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.at-rule.scope.css
-    - match: \(
-      scope: punctuation.section.group.begin.css
-      push: at-scope-selector-group-body
+    - include: immediately-pop
+
+  at-scope-selector-to:
+    - meta_include_prototype: false
     - match: to{{break}}
       scope: keyword.other.css
+      set: at-scope-selector-group
+    - include: comments
+    - include: else-pop
+
+  at-scope-selector-group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      set: at-scope-selector-group-body
+    - include: comments
     - include: else-pop
 
   at-scope-selector-group-body:
