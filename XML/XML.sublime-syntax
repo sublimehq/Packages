@@ -77,6 +77,7 @@ hidden_file_extensions:
   - vcxproj
   - dae
   - props
+  - drawio
   - targets
 
 first_line_match: |-
