@@ -243,7 +243,7 @@ contexts:
         - function-body
         - function-parameter-list
     # https://www.lispworks.com/documentation/HyperSpec/Body/m_defun.htm
-    - match: (?i:defun|defgeneric|define-(?:command(?:-global)?|parenscript)){{break}}
+    - match: (?i:def(?:[a-z]+f)?un|defgeneric|define-(?:command(?:-global)?|parenscript)){{break}}
       scope: meta.function.lisp keyword.declaration.function.lisp
       set:
         - function-body

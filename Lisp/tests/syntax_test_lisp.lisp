@@ -1691,6 +1691,13 @@
 ;^^^^^ keyword.declaration.function.lisp
 ;      ^^^^ entity.name.function.lisp
 
+(defslyfun name)   ; custom function declaration keywords
+; <- meta.parens.lisp punctuation.section.parens.begin.lisp - meta.function
+;^^^^^^^^^^^^^^ meta.parens.lisp meta.function.lisp - meta.function meta.function
+;              ^ meta.parens.lisp punctuation.section.parens.end.lisp - meta.function
+;^^^^^^^^^ keyword.declaration.function.lisp
+;          ^^^^ entity.name.function.lisp
+
 (defun averagenum (n1 n2 n3 n4)
 ; <- meta.parens.lisp punctuation.section.parens.begin.lisp - meta.function
 ;^^^^^^^^^^^^^^^^^ meta.parens.lisp meta.function.lisp - meta.function meta.function
