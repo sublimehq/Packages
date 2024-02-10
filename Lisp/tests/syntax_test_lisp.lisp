@@ -1486,6 +1486,34 @@
 ;                ^ variable.other.lisp
 ;                  ^ variable.other.lisp
 
+(predicate? a b c)
+;^^^^^^^^^^ meta.function-call.lisp variable.function.predicate.lisp
+;           ^ variable.other.lisp
+;             ^ variable.other.lisp
+;               ^ variable.other.lisp
+
+(pkg:predicate? a b c)
+;^^^ variable.namespace.lisp
+;   ^ punctuation.accessor.lisp
+;    ^^^^^^^^^^ meta.function-call.lisp variable.function.predicate.lisp
+;               ^ variable.other.lisp
+;                 ^ variable.other.lisp
+;                   ^ variable.other.lisp
+
+(fun-p a b c)
+;^^^^^ meta.function-call.lisp variable.function.predicate.lisp
+;      ^ variable.other.lisp
+;        ^ variable.other.lisp
+;          ^ variable.other.lisp
+
+(pkg:fun-p a b c)
+;^^^ variable.namespace.lisp
+;   ^ punctuation.accessor.lisp
+;    ^^^^^ meta.function-call.lisp variable.function.predicate.lisp
+;          ^ variable.other.lisp
+;            ^ variable.other.lisp
+;              ^ variable.other.lisp
+
 ;########
 ; LISTS #
 ;########

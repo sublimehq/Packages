@@ -643,9 +643,16 @@ contexts:
         1: punctuation.definition.symbol.begin.lisp
         2: punctuation.definition.symbol.end.lisp
       pop: 1
-    # special functions mutating data in-place end with !
+    # mutating functions changing data in-place end with !
     - match: (?![+*#`'&]\S){{identifier}}\!{{break}}
       scope: meta.function-call.lisp variable.function.mutating.lisp
+      captures:
+        1: punctuation.definition.symbol.begin.lisp
+        2: punctuation.definition.symbol.end.lisp
+      pop: 1
+    # predicate functions returning boolean values end with ? or -p
+    - match: (?![+*#`'&]\S){{identifier}}(?:\?|-p){{break}}
+      scope: meta.function-call.lisp variable.function.predicate.lisp
       captures:
         1: punctuation.definition.symbol.begin.lisp
         2: punctuation.definition.symbol.end.lisp
