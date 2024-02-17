@@ -125,7 +125,7 @@ contexts:
 
   expect-list:
     # a list expression
-    # skips function-like parens on next level
+    # skips function-like parentheses on next level
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.parens.begin.lisp
@@ -135,7 +135,7 @@ contexts:
 
   expect-lists-list:
     # a list of list expressions
-    # skips function-like parens on next 2 levels
+    # skips function-like parentheses on next 2 levels
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.parens.begin.lisp
@@ -157,7 +157,7 @@ contexts:
 ###[ QUOTED EXPRESSIONS ]######################################################
 
   quotes:
-    # appreviation of (quote ...) function
+    # abbreviation of (quote ...) function
     - match: \'
       scope: punctuation.definition.quoted.lisp
       push: quoted-content
@@ -1305,7 +1305,7 @@ contexts:
     - include: else-pop
 
   namespaces:
-    # builtin namespace indicating keyword symbols
+    # built-in namespace indicating keyword symbols
     # note: accessor is consumed by `keywords` context
     - match: (\|?)keyword(\|?)(?=:)
       scope: variable.namespace.lisp
@@ -2133,7 +2133,7 @@ variables:
     | zerop
     ){{break}}
 
-  # Builtin atomic type specifiers
+  # Built-in atomic type specifiers
   # https://www.lispworks.com/documentation/lw70/CLHS/Body/04_bc.htm
   # Note: Some of them are scoped function when appearing as first list item.
   builtin_types: |-
