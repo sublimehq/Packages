@@ -94,20 +94,16 @@ variables:
   _flow_scalar_end_plain_in: |- # kind of the negation of nb-ns-plain-in-line(c) c=plain-in
     (?x:
       (?=
-          \s* $
-        | \s+ \#
-        | \s* : (\s|$)
-        | \s* : {{c_flow_indicator}}
-        | \s* {{c_flow_indicator}}
+          \s+ \#
+        | \s* (?: $ | {{c_flow_indicator}} | : (?:\s|$|{{c_flow_indicator}}) )
       )
     )
 
   _flow_scalar_end_plain_out: |- # kind of the negation of nb-ns-plain-in-line(c) c=plain-out
     (?x:
       (?=
-          \s* $
-        | \s+ \#
-        | \s* : (\s|$)
+          \s+ \#
+        | \s* (?: $ | : (?:\s|$))
       )
     )
 
@@ -125,7 +121,7 @@ variables:
         )
         \s*
         :
-        (\s|$)
+        (?:\s|$)
       )
     )
 
@@ -143,7 +139,7 @@ variables:
         )
         \s*
         :
-        (\s|$)
+        (?:\s|$)
       )
     )
 
