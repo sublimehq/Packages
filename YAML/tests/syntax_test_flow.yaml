@@ -23,13 +23,13 @@
 # http://yaml.org/spec/1.2/spec.html#style/flow/double-quoted
 
 "flow string"
-#^^^^^^^^^^^^ string.quoted.double
+#^^^^^^^^^^^^ string.quoted.double - invalid
 #           ^ punctuation.definition.string.end
 # <- string.quoted.double punctuation.definition.string.begin
 
 "flow string
  more string"
-#^^^^^^^^^^^^ string.quoted.double
+#^^^^^^^^^^^^ string.quoted.double - invalid
 #           ^ punctuation.definition.string.end
 
 "\" \0 \\ \x1b \u12c4 \U1234F678"
@@ -60,8 +60,8 @@
 continuation"
 
 "string"illegal
-# <- meta.string.yaml string.quoted.double.yaml
-#^^^^^^^ meta.string.yaml string.quoted.double.yaml
+# <- meta.string.yaml string.quoted.double.yaml - invalid
+#^^^^^^^ meta.string.yaml string.quoted.double.yaml - invalid
 #       ^^^^^^^ invalid.illegal.unexpected.yaml
 
 unquoted"string"
@@ -73,13 +73,13 @@ unquoted"string"
 # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
 
 'flow string'
-#^^^^^^^^^^^^ string.quoted.single
+#^^^^^^^^^^^^ string.quoted.single - invalid
 #           ^ punctuation.definition.string.end
 # <- string.quoted.single punctuation.definition.string.begin
 
 'flow string
  more string'
-#^^^^^^^^^^^^ string.quoted.single
+#^^^^^^^^^^^^ string.quoted.single - invalid
 #           ^ punctuation.definition.string.end
 # <- string.quoted.single
 
@@ -89,8 +89,8 @@ unquoted"string"
 #   ^ -constant
 
 'string'illegal
-# <- meta.string.yaml string.quoted.single.yaml
-#^^^^^^^ meta.string.yaml string.quoted.single.yaml
+# <- meta.string.yaml string.quoted.single.yaml - invalid
+#^^^^^^^ meta.string.yaml string.quoted.single.yaml - invalid
 #       ^^^^^^^ invalid.illegal.unexpected.yaml
 
 unquoted'string'

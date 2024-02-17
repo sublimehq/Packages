@@ -526,14 +526,14 @@ contexts:
 
   flow-scalar-in-expect-end:
     - meta_include_prototype: false
-    - meta_content_scope: invalid.illegal.unexpected.yaml
-    - match: '{{_flow_scalar_end_plain_in}}'
+    - match: (?:(?!{{_flow_scalar_end_plain_in}}).)*
+      scope: invalid.illegal.unexpected.yaml
       pop: 1
 
   flow-scalar-out-expect-end:
     - meta_include_prototype: false
-    - meta_content_scope: invalid.illegal.unexpected.yaml
-    - match: '{{_flow_scalar_end_plain_out}}'
+    - match: (?:(?!{{_flow_scalar_end_plain_out}}).)*
+      scope: invalid.illegal.unexpected.yaml
       pop: 1
 
   flow-scalar-plain-in-implicit-type-11:
