@@ -225,15 +225,17 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#style/block/
     - include: block-scalar
     - include: block-collection
-    - include: flow-scalar-plain-out-11  # needs higher priority than flow-node-11, which includes flow-scalar-plain-in
-    - include: flow-node-11
+    - include: flow-alias
+    - include: flow-collection
+    - include: flow-scalar-out-11
 
   block-node-12:
     # http://yaml.org/spec/1.2/spec.html#style/block/
     - include: block-scalar
     - include: block-collection
-    - include: flow-scalar-plain-out-12
-    - include: flow-node-12  # the -12 variant should not make a difference
+    - include: flow-alias
+    - include: flow-collection
+    - include: flow-scalar-out-12
 
   block-collection:
     # http://yaml.org/spec/1.2/spec.html#style/block/collection
@@ -245,31 +247,37 @@ contexts:
     # ns-flow-yaml-node(n,c)
     - include: flow-alias
     - include: flow-collection
-    - include: flow-scalar-11
+    - include: flow-scalar-in-11
 
   flow-node-12:
     # http://yaml.org/spec/1.2/spec.html#style/flow/
     # ns-flow-yaml-node(n,c)
     - include: flow-alias
     - include: flow-collection
-    - include: flow-scalar-12
+    - include: flow-scalar-in-12
 
   flow-collection:
     # http://yaml.org/spec/1.2/spec.html#style/flow/collection
     - include: flow-sequence
     - include: flow-mapping
 
-  flow-scalar-11:
+  flow-scalar-in-11:
     # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
     - include: flow-scalar-double-quoted-in
     - include: flow-scalar-single-quoted-in
     - include: flow-scalar-plain-in-11
 
-  flow-scalar-12:
+  flow-scalar-in-12:
     # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
     - include: flow-scalar-double-quoted-in
     - include: flow-scalar-single-quoted-in
     - include: flow-scalar-plain-in-12
+
+  flow-scalar-out-11:
+    # for block keys
+    - include: flow-scalar-double-quoted-out
+    - include: flow-scalar-single-quoted-out
+    - include: flow-scalar-plain-out-11
 
   flow-scalar-out-12:
     # for block keys
