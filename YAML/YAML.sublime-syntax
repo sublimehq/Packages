@@ -331,7 +331,7 @@ contexts:
 
   directive-finish:
     - match: (?=$|[ \t]+($|#))
-      pop: true
+      pop: 1
     - match: \S+
       scope: invalid.illegal.unrecognized.yaml
 
@@ -349,15 +349,15 @@ contexts:
         1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
         2: entity.name.other.anchor.yaml
         3: invalid.illegal.character.anchor.yaml
-      pop: true
+      pop: 1
     # !Tag Handle
     # http://yaml.org/spec/1.2/spec.html#tag/property/
     - match: '{{c_ns_tag_property}}(?=\ |\t|$)'
       scope: storage.type.tag-handle.yaml
-      pop: true
+      pop: 1
     - match: \S+
       scope: invalid.illegal.tag-handle.yaml
-      pop: true
+      pop: 1
 
   flow-alias:
     # http://yaml.org/spec/1.2/spec.html#alias//
@@ -385,7 +385,7 @@ contexts:
       scope: constant.character.escape.double-quoted.newline.yaml
     - match: \"
       scope: punctuation.definition.string.end.yaml
-      pop: true
+      pop: 1
 
   flow-scalar-single-quoted:
     # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
@@ -401,7 +401,7 @@ contexts:
       scope: constant.character.escape.single-quoted.yaml
     - match: \'
       scope: punctuation.definition.string.end.yaml
-      pop: true
+      pop: 1
 
   flow-scalar-plain-in-implicit-type-11:
     - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_in}}'
@@ -504,7 +504,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.yaml string.unquoted.plain.in.yaml
     - match: '{{_flow_scalar_end_plain_in}}'
-      pop: true
+      pop: 1
 
   flow-scalar-plain-out-implicit-type-11:
     - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_out}}'
@@ -607,7 +607,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.yaml string.unquoted.plain.out.yaml
     - match: '{{_flow_scalar_end_plain_out}}'
-      pop: true
+      pop: 1
 
   flow-sequence:
     # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
@@ -620,7 +620,7 @@ contexts:
     - meta_scope: meta.sequence.flow.yaml
     - match: \]
       scope: punctuation.definition.sequence.end.yaml
-      pop: true
+      pop: 1
     - match: ','
       scope: punctuation.separator.sequence.yaml
     - include: flow-pair-no-clear
@@ -635,7 +635,7 @@ contexts:
     - meta_scope: meta.mapping.yaml
     - match: \}
       scope: punctuation.definition.mapping.end.yaml
-      pop: true
+      pop: 1
     - match: ','
       scope: punctuation.separator.sequence.yaml
     - include: flow-pair
@@ -686,11 +686,11 @@ contexts:
     - meta_include_prototype: false
     - clear_scopes: 1
     - match: ''
-      pop: true
+      pop: 1
 
   flow-pair-end:
     - match: (?=[},\]])
-      pop: true
+      pop: 1
 
   block-scalar:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/scalar
@@ -711,7 +711,7 @@ contexts:
       # note that we do not check if indentation is enough
       set: block-scalar-body
     - match: ^(?=\S)  # the block is empty
-      pop: true
+      pop: 1
     - include: comment  # include comments but not properties
     - match: .+
       scope: invalid.illegal.expected-comment-or-newline.yaml
@@ -720,7 +720,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.yaml string.unquoted.block.yaml
     - match: ^(?!\1|\s*$)
-      pop: true
+      pop: 1
 
   block-sequence:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/sequence
@@ -752,17 +752,17 @@ contexts:
       scope: meta.mapping.yaml
       captures:
         1: punctuation.separator.key-value.mapping.yaml
-      pop: true
+      pop: 1
     # multi-line keys are indented by at least one more space than `?`
     - match: ^(?!\1 +\S|\s*$)
-      pop: true
+      pop: 1
     - include: block-node-12
 
   block-key-implicit:
     - meta_content_scope: meta.mapping.key.yaml
     - match: :(?=\s)
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
+      pop: 1
     - include: flow-scalar-out-12
 
   comment:
@@ -783,4 +783,4 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.yaml
     - match: \n
-      pop: true
+      pop: 1
