@@ -285,7 +285,29 @@ contexts:
     - include: block-mapping
 
 
-######################################
+###[ COMMENTS ]###############################################################
+
+  comment:
+    # http://www.yaml.org/spec/1.2/spec.html#comment//
+    - match: |- # l-comment
+        (?x)
+        (?: ^ [ \t]* | [ \t]+ )
+        (?=\#)
+      push: comment-begin
+
+  comment-begin:
+    - meta_include_prototype: false
+    - match: \#
+      scope: punctuation.definition.comment.line.number-sign.yaml
+      set: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.yaml
+    - match: \n
+      pop: 1
+
+###[ DIRECTIVES ]#############################################################
 
   directive:
     # http://yaml.org/spec/1.2/spec.html#directive//
@@ -335,6 +357,8 @@ contexts:
     - match: \S+
       scope: invalid.illegal.unrecognized.yaml
 
+###[ PROPERTIES ]#############################################################
+
   property:
     # http://yaml.org/spec/1.2/spec.html#node/property/
     - match: (?=!|&)
@@ -358,6 +382,8 @@ contexts:
     - match: \S+
       scope: invalid.illegal.tag-handle.yaml
       pop: 1
+
+###[ FLOW SCALARS ]###########################################################
 
   flow-alias:
     # http://yaml.org/spec/1.2/spec.html#alias//
@@ -609,6 +635,8 @@ contexts:
     - match: '{{_flow_scalar_end_plain_out}}'
       pop: 1
 
+###[ FLOW COLLECTIONS ]#######################################################
+
   flow-sequence:
     # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
     # c-flow-sequence(n,c)
@@ -692,6 +720,8 @@ contexts:
     - match: (?=[},\]])
       pop: 1
 
+###[ BLOCKS ]#################################################################
+
   block-scalar:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/scalar
     # c-l+literal(n) | c-l+folded(n)
@@ -764,23 +794,3 @@ contexts:
       scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
       pop: 1
     - include: flow-scalar-out-12
-
-  comment:
-    # http://www.yaml.org/spec/1.2/spec.html#comment//
-    - match: |- # l-comment
-        (?x)
-        (?: ^ [ \t]* | [ \t]+ )
-        (?=\#)
-      push: comment-begin
-
-  comment-begin:
-    - meta_include_prototype: false
-    - match: \#
-      scope: punctuation.definition.comment.line.number-sign.yaml
-      set: comment-body
-
-  comment-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.number-sign.yaml
-    - match: \n
-      pop: 1
