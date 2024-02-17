@@ -215,55 +215,15 @@ contexts:
     - include: property
 
   main:
-    - include: directive
     - match: ^---
       scope: entity.other.document.begin.yaml
     - match: ^\.{3}
       scope: entity.other.document.end.yaml
+    - include: directive
     - include: node
-    # Use this for debugging. It should not match anything.
-    # - match: \S
-    #   scope: invalid.illegal.unmatched.yaml
 
   node:
     - include: block-node-11
-
-  flow-node-11:
-    # http://yaml.org/spec/1.2/spec.html#style/flow/
-    # ns-flow-yaml-node(n,c)
-    - include: flow-alias
-    - include: flow-collection
-    - include: flow-scalar-11
-
-  flow-node-12:
-    # http://yaml.org/spec/1.2/spec.html#style/flow/
-    # ns-flow-yaml-node(n,c)
-    - include: flow-alias
-    - include: flow-collection
-    - include: flow-scalar-12
-
-  flow-scalar-11:
-    # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
-    - include: flow-scalar-double-quoted
-    - include: flow-scalar-single-quoted
-    - include: flow-scalar-plain-in-11
-
-  flow-scalar-12:
-    # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
-    - include: flow-scalar-double-quoted
-    - include: flow-scalar-single-quoted
-    - include: flow-scalar-plain-in-12
-
-  flow-scalar-out-12:
-    # for block keys
-    - include: flow-scalar-double-quoted
-    - include: flow-scalar-single-quoted
-    - include: flow-scalar-plain-out-12
-
-  flow-collection:
-    # http://yaml.org/spec/1.2/spec.html#style/flow/collection
-    - include: flow-sequence
-    - include: flow-mapping
 
   block-node-11:
     # http://yaml.org/spec/1.2/spec.html#style/block/
@@ -284,8 +244,66 @@ contexts:
     - include: block-sequence
     - include: block-mapping
 
+  flow-node-11:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/
+    # ns-flow-yaml-node(n,c)
+    - include: flow-alias
+    - include: flow-collection
+    - include: flow-scalar-11
 
-######################################
+  flow-node-12:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/
+    # ns-flow-yaml-node(n,c)
+    - include: flow-alias
+    - include: flow-collection
+    - include: flow-scalar-12
+
+  flow-collection:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/collection
+    - include: flow-sequence
+    - include: flow-mapping
+
+  flow-scalar-11:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
+    - include: flow-scalar-double-quoted
+    - include: flow-scalar-single-quoted
+    - include: flow-scalar-plain-in-11
+
+  flow-scalar-12:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
+    - include: flow-scalar-double-quoted
+    - include: flow-scalar-single-quoted
+    - include: flow-scalar-plain-in-12
+
+  flow-scalar-out-12:
+    # for block keys
+    - include: flow-scalar-double-quoted
+    - include: flow-scalar-single-quoted
+    - include: flow-scalar-plain-out-12
+
+###[ COMMENTS ]###############################################################
+
+  comment:
+    # http://www.yaml.org/spec/1.2/spec.html#comment//
+    - match: |- # l-comment
+        (?x)
+        (?: ^ [ \t]* | [ \t]+ )
+        (?=\#)
+      push: comment-begin
+
+  comment-begin:
+    - meta_include_prototype: false
+    - match: \#
+      scope: punctuation.definition.comment.line.number-sign.yaml
+      set: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.yaml
+    - match: \n
+      pop: 1
+
+###[ DIRECTIVES ]#############################################################
 
   directive:
     # http://yaml.org/spec/1.2/spec.html#directive//
@@ -331,9 +349,11 @@ contexts:
 
   directive-finish:
     - match: (?=$|[ \t]+($|#))
-      pop: true
+      pop: 1
     - match: \S+
       scope: invalid.illegal.unrecognized.yaml
+
+###[ PROPERTIES ]#############################################################
 
   property:
     # http://yaml.org/spec/1.2/spec.html#node/property/
@@ -349,15 +369,94 @@ contexts:
         1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
         2: entity.name.other.anchor.yaml
         3: invalid.illegal.character.anchor.yaml
-      pop: true
+      pop: 1
     # !Tag Handle
     # http://yaml.org/spec/1.2/spec.html#tag/property/
     - match: '{{c_ns_tag_property}}(?=\ |\t|$)'
       scope: storage.type.tag-handle.yaml
-      pop: true
+      pop: 1
     - match: \S+
       scope: invalid.illegal.tag-handle.yaml
-      pop: true
+      pop: 1
+
+###[ BLOCK SCALARS ]##########################################################
+
+  block-scalar:
+    # http://www.yaml.org/spec/1.2/spec.html#style/block/scalar
+    # c-l+literal(n) | c-l+folded(n)
+    - match: (?:(\|)|(>))(?:([1-9])([-+])|([-+])?([1-9])?)  # c-b-block-header(m,t)
+      captures:
+        1: keyword.control.flow.block-scalar.literal.yaml
+        2: keyword.control.flow.block-scalar.folded.yaml
+        3: constant.numeric.indentation-indicator.yaml
+        4: storage.modifier.chomping-indicator.yaml
+        5: storage.modifier.chomping-indicator.yaml
+        6: constant.numeric.indentation-indicator.yaml
+      push: block-scalar-begin
+
+  block-scalar-begin:
+    - meta_include_prototype: false
+    - match: ^([ ]+)(?! )  # match first non-empty line to determine indentation level
+      # note that we do not check if indentation is enough
+      set: block-scalar-body
+    - match: ^(?=\S)  # the block is empty
+      pop: 1
+    - include: comment  # include comments but not properties
+    - match: .+
+      scope: invalid.illegal.expected-comment-or-newline.yaml
+
+  block-scalar-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.yaml string.unquoted.block.yaml
+    - match: ^(?!\1|\s*$)
+      pop: 1
+
+###[ BLOCK COLLECTIONS ]######################################################
+
+  block-sequence:
+    # http://www.yaml.org/spec/1.2/spec.html#style/block/sequence
+    # l+block-sequence(n)
+    - match: (-)(?!\S)
+      scope: punctuation.definition.block.sequence.item.yaml
+
+  block-mapping:
+    # http://www.yaml.org/spec/1.2/spec.html#style/block/mapping
+    # l+block-mapping(n)
+    - include: block-pair
+
+  block-pair:
+    - match: ( *)(\?)(?=\s)
+      captures:
+        2: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+      push: block-key-explicit
+    # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
+    # if followed by a colon
+    - match: '{{_flow_key_out_lookahead}}'
+      push: block-key-implicit
+    - match: :(?=\s)
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+
+  block-key-explicit:
+    - meta_content_scope: meta.mapping.key.yaml
+    # the colon *must* be on a new line
+    - match: ^ *(:)
+      scope: meta.mapping.yaml
+      captures:
+        1: punctuation.separator.key-value.mapping.yaml
+      pop: 1
+    # multi-line keys are indented by at least one more space than `?`
+    - match: ^(?!\1 +\S|\s*$)
+      pop: 1
+    - include: block-node-12
+
+  block-key-implicit:
+    - meta_content_scope: meta.mapping.key.yaml
+    - match: :(?=\s)
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+      pop: 1
+    - include: flow-scalar-out-12
+
+###[ FLOW SCALARS ]###########################################################
 
   flow-alias:
     # http://yaml.org/spec/1.2/spec.html#alias//
@@ -385,7 +484,7 @@ contexts:
       scope: constant.character.escape.double-quoted.newline.yaml
     - match: \"
       scope: punctuation.definition.string.end.yaml
-      pop: true
+      pop: 1
 
   flow-scalar-single-quoted:
     # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
@@ -401,7 +500,7 @@ contexts:
       scope: constant.character.escape.single-quoted.yaml
     - match: \'
       scope: punctuation.definition.string.end.yaml
-      pop: true
+      pop: 1
 
   flow-scalar-plain-in-implicit-type-11:
     - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_in}}'
@@ -504,7 +603,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.yaml string.unquoted.plain.in.yaml
     - match: '{{_flow_scalar_end_plain_in}}'
-      pop: true
+      pop: 1
 
   flow-scalar-plain-out-implicit-type-11:
     - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_out}}'
@@ -607,7 +706,9 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.yaml string.unquoted.plain.out.yaml
     - match: '{{_flow_scalar_end_plain_out}}'
-      pop: true
+      pop: 1
+
+###[ FLOW COLLECTIONS ]#######################################################
 
   flow-sequence:
     # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
@@ -620,7 +721,7 @@ contexts:
     - meta_scope: meta.sequence.flow.yaml
     - match: \]
       scope: punctuation.definition.sequence.end.yaml
-      pop: true
+      pop: 1
     - match: ','
       scope: punctuation.separator.sequence.yaml
     - include: flow-pair-no-clear
@@ -635,7 +736,7 @@ contexts:
     - meta_scope: meta.mapping.yaml
     - match: \}
       scope: punctuation.definition.mapping.end.yaml
-      pop: true
+      pop: 1
     - match: ','
       scope: punctuation.separator.sequence.yaml
     - include: flow-pair
@@ -686,101 +787,8 @@ contexts:
     - meta_include_prototype: false
     - clear_scopes: 1
     - match: ''
-      pop: true
+      pop: 1
 
   flow-pair-end:
     - match: (?=[},\]])
-      pop: true
-
-  block-scalar:
-    # http://www.yaml.org/spec/1.2/spec.html#style/block/scalar
-    # c-l+literal(n) | c-l+folded(n)
-    - match: (?:(\|)|(>))(?:([1-9])([-+])|([-+])?([1-9])?)  # c-b-block-header(m,t)
-      captures:
-        1: keyword.control.flow.block-scalar.literal.yaml
-        2: keyword.control.flow.block-scalar.folded.yaml
-        3: constant.numeric.indentation-indicator.yaml
-        4: storage.modifier.chomping-indicator.yaml
-        5: storage.modifier.chomping-indicator.yaml
-        6: constant.numeric.indentation-indicator.yaml
-      push: block-scalar-begin
-
-  block-scalar-begin:
-    - meta_include_prototype: false
-    - match: ^([ ]+)(?! )  # match first non-empty line to determine indentation level
-      # note that we do not check if indentation is enough
-      set: block-scalar-body
-    - match: ^(?=\S)  # the block is empty
-      pop: true
-    - include: comment  # include comments but not properties
-    - match: .+
-      scope: invalid.illegal.expected-comment-or-newline.yaml
-
-  block-scalar-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.yaml string.unquoted.block.yaml
-    - match: ^(?!\1|\s*$)
-      pop: true
-
-  block-sequence:
-    # http://www.yaml.org/spec/1.2/spec.html#style/block/sequence
-    # l+block-sequence(n)
-    - match: (-)(?!\S)
-      scope: punctuation.definition.block.sequence.item.yaml
-
-  block-mapping:
-    # http://www.yaml.org/spec/1.2/spec.html#style/block/mapping
-    # l+block-mapping(n)
-    - include: block-pair
-
-  block-pair:
-    - match: ( *)(\?)(?=\s)
-      captures:
-        2: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
-      push: block-key-explicit
-    # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
-    # if followed by a colon
-    - match: '{{_flow_key_out_lookahead}}'
-      push: block-key-implicit
-    - match: :(?=\s)
-      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-
-  block-key-explicit:
-    - meta_content_scope: meta.mapping.key.yaml
-    # the colon *must* be on a new line
-    - match: ^ *(:)
-      scope: meta.mapping.yaml
-      captures:
-        1: punctuation.separator.key-value.mapping.yaml
-      pop: true
-    # multi-line keys are indented by at least one more space than `?`
-    - match: ^(?!\1 +\S|\s*$)
-      pop: true
-    - include: block-node-12
-
-  block-key-implicit:
-    - meta_content_scope: meta.mapping.key.yaml
-    - match: :(?=\s)
-      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
-      pop: true
-    - include: flow-scalar-out-12
-
-  comment:
-    # http://www.yaml.org/spec/1.2/spec.html#comment//
-    - match: |- # l-comment
-        (?x)
-        (?: ^ [ \t]* | [ \t]+ )
-        (?=\#)
-      push: comment-begin
-
-  comment-begin:
-    - meta_include_prototype: false
-    - match: \#
-      scope: punctuation.definition.comment.line.number-sign.yaml
-      set: comment-body
-
-  comment-body:
-    - meta_include_prototype: false
-    - meta_scope: comment.line.number-sign.yaml
-    - match: \n
-      pop: true
+      pop: 1
