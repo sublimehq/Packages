@@ -59,6 +59,14 @@
 "string\
 continuation"
 
+"string"illegal
+# <- meta.string.yaml string.quoted.double.yaml
+#^^^^^^^ meta.string.yaml string.quoted.double.yaml
+#       ^^^^^^^ invalid.illegal.unexpected.yaml
+
+unquoted"string"
+# <- meta.string.yaml string.unquoted.plain.out.yaml
+#^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - invalid
 
 ##############################################################################
 ## Single-quoted
@@ -80,6 +88,14 @@ continuation"
 # ^^ constant.character.escape
 #   ^ -constant
 
+'string'illegal
+# <- meta.string.yaml string.quoted.single.yaml
+#^^^^^^^ meta.string.yaml string.quoted.single.yaml
+#       ^^^^^^^ invalid.illegal.unexpected.yaml
+
+unquoted'string'
+# <- meta.string.yaml string.unquoted.plain.out.yaml
+#^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - invalid
 
 ##############################################################################
 ## Flow-sequence
@@ -107,6 +123,36 @@ continuation"
 #                 ^     punctuation.separator.sequence
 #                   ^^^ string.unquoted.plain.in - entity.name.tag
 
+[ "str"err, 'str'err, "str"err ]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.flow.yaml
+# ^^^^^ meta.string.yaml string.quoted.double.yaml
+#      ^^^ invalid.illegal.unexpected.yaml
+#         ^ punctuation.separator.sequence.yaml
+#           ^^^^^ meta.string.yaml string.quoted.single.yaml
+#                ^^^ invalid.illegal.unexpected.yaml
+#                   ^ punctuation.separator.sequence.yaml
+#                     ^^^^^ meta.string.yaml string.quoted.double.yaml
+#                          ^^^ invalid.illegal.unexpected.yaml
+#                              ^ punctuation.definition.sequence.end.yaml
+
+# mapping keys are not matched
+[ "k"err: "v"err, "k"err : "v"err ]
+# <- meta.sequence.flow.yaml punctuation.definition.sequence.begin.yaml
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.flow.yaml
+# ^^^ meta.string.yaml string.quoted.double.yaml
+#    ^^^ invalid.illegal.unexpected.yaml
+#       ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#         ^^^ meta.mapping.value.yaml meta.string.yaml string.quoted.double.yaml
+#            ^^^ meta.mapping.value.yaml invalid.illegal.unexpected.yaml
+#               ^ punctuation.separator.sequence.yaml
+#                 ^^^ meta.string.yaml string.quoted.double.yaml
+#                    ^^^ invalid.illegal.unexpected.yaml
+#                       ^ - invalid
+#                        ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#                          ^^^ meta.mapping.value.yaml meta.string.yaml string.quoted.double.yaml
+#                             ^^^ meta.mapping.value.yaml invalid.illegal.unexpected.yaml
+#                                ^ meta.mapping.value.yaml - invalid
+#                                 ^ punctuation.definition.sequence.end.yaml
 
 ##############################################################################
 ## Flow-mapping
@@ -154,6 +200,26 @@ continuation"
 #                       ^^^ meta.mapping.value.yaml
 #                        ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 #                          ^ meta.mapping.yaml punctuation.definition.mapping.end.yaml
+
+{ "k"err: "v"err, 'k'err: 'v'err }
+# <- meta.mapping.yaml punctuation.definition.mapping.begin.yaml
+#^^^^^^^^ meta.mapping.yaml
+#        ^^^^^^^ meta.mapping.value.yaml
+#               ^^^^^^^^^ meta.mapping.yaml
+#                        ^^^^^^^^ meta.mapping.value.yaml
+#                                ^ meta.mapping.yaml
+# ^^^ meta.string.yaml string.quoted.double.yaml
+#    ^^^ invalid.illegal.unexpected.yaml - string
+#       ^ punctuation.separator.key-value.mapping.yaml
+#         ^^^ meta.string.yaml string.quoted.double.yaml
+#            ^^^ invalid.illegal.unexpected.yaml - string
+#               ^ punctuation.separator.sequence.yaml
+#                 ^^^ meta.string.yaml string.quoted.single.yaml
+#                    ^^^ invalid.illegal.unexpected.yaml - string
+#                       ^ punctuation.separator.key-value.mapping.yaml
+#                         ^^^ meta.string.yaml string.quoted.single.yaml
+#                            ^^^ invalid.illegal.unexpected.yaml - string
+#                                ^ punctuation.definition.mapping.end.yaml
 
 {? !!str 'key' : !!str value,
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
