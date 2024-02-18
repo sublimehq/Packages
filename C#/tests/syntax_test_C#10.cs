@@ -34,7 +34,7 @@ public record struct Person(string Name);
 
 public readonly record struct Person(string Name);
 ///^^^ storage.modifier.access
-///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.record meta.class.record
+///             ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.record meta.class.record
 ///                                 ^^^^^^^^^^^^^ meta.class.record.parameters - meta.class.record meta.class.record
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^^^^ keyword.declaration.class.record
