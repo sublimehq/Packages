@@ -265,20 +265,20 @@ contexts:
 
   flow-scalar-11:
     # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
-    - include: flow-scalar-double-quoted
-    - include: flow-scalar-single-quoted
+    - include: flow-scalar-double-quoted-in
+    - include: flow-scalar-single-quoted-in
     - include: flow-scalar-plain-in-11
 
   flow-scalar-12:
     # http://yaml.org/spec/1.2/spec.html#style/flow/scalar
-    - include: flow-scalar-double-quoted
-    - include: flow-scalar-single-quoted
+    - include: flow-scalar-double-quoted-in
+    - include: flow-scalar-single-quoted-in
     - include: flow-scalar-plain-in-12
 
   flow-scalar-out-12:
     # for block keys
-    - include: flow-scalar-double-quoted
-    - include: flow-scalar-single-quoted
+    - include: flow-scalar-double-quoted-out
+    - include: flow-scalar-single-quoted-out
     - include: flow-scalar-plain-out-12
 
 ###[ COMMENTS ]###############################################################
@@ -466,12 +466,23 @@ contexts:
         2: variable.other.alias.yaml
         3: invalid.illegal.character.anchor.yaml
 
-  flow-scalar-double-quoted:
+  flow-scalar-double-quoted-in:
     # http://yaml.org/spec/1.2/spec.html#style/flow/double-quoted
     # c-double-quoted(n,c)
     - match: \"
       scope: punctuation.definition.string.begin.yaml
-      push: flow-scalar-double-quoted-body
+      push:
+        - flow-scalar-in-expect-end
+        - flow-scalar-double-quoted-body
+
+  flow-scalar-double-quoted-out:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/double-quoted
+    # c-double-quoted(n,c)
+    - match: \"
+      scope: punctuation.definition.string.begin.yaml
+      push:
+        - flow-scalar-out-expect-end
+        - flow-scalar-double-quoted-body
 
   flow-scalar-double-quoted-body:
     # TODO consider scoping meaningful trailing whitespace for color
@@ -486,12 +497,23 @@ contexts:
       scope: punctuation.definition.string.end.yaml
       pop: 1
 
-  flow-scalar-single-quoted:
+  flow-scalar-single-quoted-in:
     # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
     # c-single-quoted(n,c)
     - match: \'
       scope: punctuation.definition.string.begin.yaml
-      push: flow-scalar-single-quoted-body
+      push:
+        - flow-scalar-in-expect-end
+        - flow-scalar-single-quoted-body
+
+  flow-scalar-single-quoted-out:
+    # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
+    # c-single-quoted(n,c)
+    - match: \'
+      scope: punctuation.definition.string.begin.yaml
+      push:
+        - flow-scalar-out-expect-end
+        - flow-scalar-single-quoted-body
 
   flow-scalar-single-quoted-body:
     - meta_include_prototype: false
@@ -500,6 +522,18 @@ contexts:
       scope: constant.character.escape.single-quoted.yaml
     - match: \'
       scope: punctuation.definition.string.end.yaml
+      pop: 1
+
+  flow-scalar-in-expect-end:
+    - meta_include_prototype: false
+    - match: (?:(?!{{_flow_scalar_end_plain_in}}).)*
+      scope: invalid.illegal.unexpected.yaml
+      pop: 1
+
+  flow-scalar-out-expect-end:
+    - meta_include_prototype: false
+    - match: (?:(?!{{_flow_scalar_end_plain_out}}).)*
+      scope: invalid.illegal.unexpected.yaml
       pop: 1
 
   flow-scalar-plain-in-implicit-type-11:
