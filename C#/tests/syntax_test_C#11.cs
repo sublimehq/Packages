@@ -146,10 +146,12 @@ public class C2 {
 ///                 ^^^^^^ storage.type
 }
 
-public struct S2 {
+public readonly required struct S2 {
 /// <- storage.modifier.access
-///    ^^^^^^ keyword.declaration.struct
-///           ^^ entity.name.struct
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^^^ storage.modifier
+///                      ^^^^^^ keyword.declaration.struct
+///                             ^^ entity.name.struct
 
     public required string FirstName { get; init; }
 /// ^^^^^^ storage.modifier.access
