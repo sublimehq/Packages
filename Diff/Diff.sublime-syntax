@@ -51,20 +51,23 @@ contexts:
         2: punctuation.definition.to-file.diff
         3: punctuation.definition.to-file.diff
         4: punctuation.definition.to-file.diff
-    - match: ^(((>)( .*)?)|((\+).*))$\n?
+    - match: ^(?:(>)(?:\ .*?)?|(\+).*?)(\s*?)$\n?
       scope: markup.inserted.diff
       captures:
-        3: punctuation.definition.inserted.diff
-        6: punctuation.definition.inserted.diff
-    - match: ^(!).*$\n?
+        1: punctuation.definition.inserted.diff
+        2: punctuation.definition.inserted.diff
+        3: meta.whitespace.trailing.diff
+    - match: ^(!).*?(\s*?)$\n?
       scope: markup.changed.diff
       captures:
         1: punctuation.definition.changed.diff
-    - match: ^(((<)( .*)?)|((-).*))$\n?
+        2: meta.whitespace.trailing.diff
+    - match: ^(?:(<)(?:\ .*?)?|(-).*?)(\s*?)$\n?
       scope: markup.deleted.diff
       captures:
-        3: punctuation.definition.deleted.diff
-        6: punctuation.definition.deleted.diff
+        1: punctuation.definition.deleted.diff
+        2: punctuation.definition.deleted.diff
+        3: meta.whitespace.trailing.diff
     - match: ^Index(:) (.+)$\n?
       scope: meta.diff.index meta.index.diff
       captures:
