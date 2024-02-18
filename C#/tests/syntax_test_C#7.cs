@@ -7,6 +7,12 @@ class Foo {
 ///^^^^^^^^ meta.class
 ///       ^ meta.class.body
 
+    public readonly double value;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^^^^ storage.type
+///                        ^^^^^ variable.other.member
+
     void Main(string[] args) {
 /// ^^^^ storage.type
 ///      ^^^^^^^^^^^^^^^^^^^^^ meta.method
