@@ -1,5 +1,4 @@
 {
-    "draw_white_space": ["trailing_all"],
     "trim_trailing_white_space_on_save": "none",
     "translate_tabs_to_spaces": false,
 }
