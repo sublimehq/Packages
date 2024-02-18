@@ -342,19 +342,19 @@ contexts:
       captures:
         1: keyword.declaration.class.cs
         2: entity.name.class.cs
-      push: [class_signature, data_type_signature]
+      push: [class_signature, data_type_constraint, maybe_constructor_parameters, data_type_signature]
     - match: \b(record)\s+(?:(struct)\s+)?({{name}})
       captures:
         1: keyword.declaration.class.record.cs
         2: keyword.declaration.struct.record.cs
         3: entity.name.class.cs
-      push: [record_signature, data_type_constraint, record_parameters, data_type_signature]
+      push: [record_signature, data_type_constraint, maybe_constructor_parameters, data_type_signature]
     - match: (?:\b(ref)\s+)?\b(struct)\s+({{name}})
       captures:
         1: storage.modifier.cs
         2: keyword.declaration.struct.cs
         3: entity.name.struct.cs
-      push: [struct_signature, data_type_signature]
+      push: [struct_signature, maybe_constructor_parameters, data_type_signature]
     - match: \b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?
       scope: meta.enum.cs
       captures:
@@ -451,16 +451,16 @@ contexts:
       scope: invalid.illegal.expected.colon
       pop: true
 
-  record_parameters:
+  maybe_constructor_parameters:
     - match: \(
       scope: punctuation.section.parameters.begin.cs
-      push: record_params
+      push: constructor_params
     - match: (?=\S)
       pop: true
 
-  record_params:
+  constructor_params:
     - clear_scopes: 1
-    - meta_scope: meta.class.record.parameters.cs
+    - meta_scope: meta.class.constructor.parameters.cs
     - match: \)
       scope: punctuation.section.parameters.end.cs
       pop: 2
