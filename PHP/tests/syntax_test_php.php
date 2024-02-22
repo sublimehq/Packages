@@ -5907,6 +5907,28 @@ function embedHtml() {
 //  ^^ punctuation.section.embedded.end.php - source.php
 </script>
 
+ <script type="application/ld+json">
+     {
+         <? $key ?>: <? $SiteColor ?>,
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+     |   ^^^^^^^^^^ meta.mapping.json meta.interpolation.php
+     |             ^^ meta.mapping.json - meta.interpolation
+     |               ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.php
+     |                               ^ meta.mapping.json - meta.interpolation
+
+         "<? $key ?>": "<? $SiteColor ?>",
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+     |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+     |    ^^^^^^^^^^ meta.mapping.key.json meta.interpolation.php - string
+     |              ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+     |               ^^ meta.mapping.json - meta.interpolation
+     |                 ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+     |                  ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.php - string
+     |                                  ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+     |                                   ^ meta.mapping.json - meta.interpolation
+     }
+ </script>
+
 <style>
 h1 {
     font-family: Arial;

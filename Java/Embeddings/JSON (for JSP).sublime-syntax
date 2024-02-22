@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+###############################################################################
+# This intermediate syntax is used by `HTML (JSP).sublime-syntax`
+#
+# It powers Java highlighting within JSP tags in embedded CSS.
+#
+#   <script type="application/json">
+#     <%! ... %>
+#     <%= ... %>
+#     <%  ... %>
+#   </script>
+#
+# The primary task is to add `jsp-embedded` context to CSS's prototype
+# to highlight all the <% %> tags.
+###############################################################################
+
+scope: source.json.embedded.jsp
+version: 2
+hidden: true
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: Packages/Java/HTML (JSP).sublime-syntax#jsp-embedded
+
+  string-prototype:
+    - meta_prepend: true
+    - include: Packages/Java/HTML (JSP).sublime-syntax#jsp-interpolations

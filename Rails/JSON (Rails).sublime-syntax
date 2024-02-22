@@ -1,19 +1,21 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/syntax.html
-name: JSON inside Go backtick string
-scope: source.json.go-embedded-backtick-string
+name: JSON (Rails)
+scope: source.json.rails
 version: 2
-hidden: true
 
 extends: Packages/JSON/JSON.sublime-syntax
+
+file_extensions:
+  - json.erb
 
 contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.go#match-raw-text-content
+    - include: HTML (Rails).sublime-syntax#rails-embedded
 
   string-prototype:
     - meta_prepend: true
-    - include: scope:source.go#match-raw-string-content
+    - include: HTML (Rails).sublime-syntax#rails-interpolations

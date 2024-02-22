@@ -169,6 +169,7 @@ contexts:
     - include: filters-css
     - include: filters-erb
     - include: filters-javascript
+    - include: filters-json
     - include: filters-markdown
     - include: filters-ruby
     - include: filters-plain
@@ -207,6 +208,18 @@ contexts:
       embed_scope:
         meta.filter.haml meta.embedded.haml
         source.js.embedded.haml
+      escape: '{{filter_escapes}}'
+
+  filters-json:
+    - match: ^(\s*)((:)(json)$\n?)
+      captures:
+        2: meta.filter.definition.haml
+        3: punctuation.definition.filter.haml
+        4: constant.other.language-name.javascript.haml
+      embed: scope:source.json.embedded.haml
+      embed_scope:
+        meta.filter.haml meta.embedded.haml
+        source.json.embedded.haml
       escape: '{{filter_escapes}}'
 
   filters-markdown:

@@ -1,8 +1,7 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/syntax.html
-name: JSON inside Go backtick string
-scope: source.json.go-embedded-backtick-string
+scope: source.json.embedded.haml
 version: 2
 hidden: true
 
@@ -12,8 +11,8 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.go#match-raw-text-content
+    - include: HAML.sublime-syntax#interpolations
 
   string-prototype:
     - meta_prepend: true
-    - include: scope:source.go#match-raw-string-content
+    - include: HAML.sublime-syntax#string-interpolations
