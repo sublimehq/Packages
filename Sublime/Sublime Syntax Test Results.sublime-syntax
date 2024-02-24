@@ -1,0 +1,86 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/syntax.html
+name: Sublime Syntax Test Results
+scope: text.sublime.syntax-test-results
+version: 2
+hidden: true
+
+variables:
+  scope_segment: \w+(?:[\w-]*\+*) # \+* is for the non standard scope.c++ scopes
+
+contexts:
+  main:
+    # summaries
+    - match: ^(\[)Finished(\])
+      scope: meta.summary.finished.sublime.syntax-test-results markup.info.finished.sublime.syntax-test-results
+      captures:
+        1: punctuation.definition.markup.begin.sublime.syntax-test-results
+        2: punctuation.definition.markup.end.sublime.syntax-test-results
+    - match: ^(FAILED)(:) (\d+) of (\d+) assertions in (\d+) files failed
+      scope: meta.summary.failure.sublime.syntax-test-results
+      captures:
+        1: markup.error.failed.sublime.syntax-test-results
+        2: punctuation.separator.other.sublime.syntax-test-results
+        3: meta.assertions.failed.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+        4: meta.assertions.count.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+        5: meta.test-files.count.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+    - match: ^(Success)(:) (\d+) assertions in (\d+) files passed
+      scope: meta.summary.success.sublime.syntax-test-results
+      captures:
+        1: markup.info.success.sublime.syntax-test-results
+        2: punctuation.separator.other.sublime.syntax-test-results
+        3: meta.assertions.count.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+        4: meta.test-files.count.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+    # failures
+    - match: ^
+      push:
+        - found-scope
+        - expected-scope
+        - location
+
+  location:
+    - meta_content_scope: meta.path.filename.sublime.syntax-test-results entity.name.filename.sublime.syntax-test-results
+    - match: (:)(\d+)(:)(\d+)(:)
+      captures:
+        1: meta.path.row.sublime.syntax-test-results punctuation.separator.row.sublime.syntax-test-results
+        2: meta.path.row.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+        3: meta.path.column.sublime.syntax-test-results punctuation.separator.column.sublime.syntax-test-results
+        4: meta.path.column.sublime.syntax-test-results meta.number.integer.decimal.sublime.syntax-test-results constant.numeric.value.sublime.syntax-test-results
+        5: punctuation.separator.other.sublime.syntax-test-results
+      pop: 1
+    - match: /
+      scope: punctuation.separator.path.sublime.syntax-test-results
+    - match: $
+      pop: 1
+
+  expected-scope:
+    - match: \[
+      scope: punctuation.section.scope.begin.sublime.syntax-test-results
+      set: expected-scope-body
+    - match: (?=\S)
+      pop: 1
+
+  expected-scope-body:
+    - meta_scope: meta.scope.expected.sublime.syntax-test-results
+    - include: selector-body
+
+  found-scope:
+    - match: \[
+      scope: punctuation.section.scope.begin.sublime.syntax-test-results
+      set: found-scope-body
+    - match: $
+      pop: 1
+
+  found-scope-body:
+    - meta_scope: meta.scope.found.sublime.syntax-test-results
+    - include: selector-body
+
+  selector-body:
+    - match: \]
+      scope: punctuation.section.scope.end.sublime.syntax-test-results
+      pop: 1
+    - match: '{{scope_segment}}'
+      scope: string.unquoted.scope-segment.scope-selector
+    - match: \.
+      scope: punctuation.separator.scope-segments.scope-selector
