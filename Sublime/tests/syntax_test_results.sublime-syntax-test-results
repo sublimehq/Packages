@@ -1,0 +1,53 @@
+# SYNTAX TEST "Sublime Syntax Test Results.sublime-syntax"
+
+Packages/Sublime/tests/syntax_test_results.sublime-syntax-test-results:14:2: [markup.info.failed] does not match scope [text meta.summary.success markup.info.success]
+# <- meta.path.filename entity.name.filename
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.filename entity.name.filename
+#                                                                     ^^^ meta.path.row
+#                                                                        ^^ meta.path.column
+#                                                                          ^ punctuation.separator.other
+#                                                                            ^^^^^^^^^^^^^^^^^^^^ meta.scope.expected
+#                                                                            ^ punctuation.section.scope.begin
+#                                                                             ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                   ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                    ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                        ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                         ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                               ^ punctuation.section.scope.end
+#                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.found
+#                                                                                                                      ^ punctuation.section.scope.begin
+#                                                                                                                       ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                            ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                                ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                                                                 ^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                                        ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                                                                         ^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                                                 ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                                                       ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                                                                                        ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                                                            ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                                                                                             ^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                                                                                    ^ punctuation.section.scope.end
+
+FAILED: 6 of 62 assertions in 1 files failed
+# <- meta.summary.failure markup.error.failed
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.summary.failure
+#^^^^^ markup.error.failed
+#     ^ punctuation.separator.other
+#       ^ meta.assertions.failed meta.number.integer.decimal constant.numeric.value
+#            ^^ meta.assertions.count meta.number.integer.decimal constant.numeric.value
+#                             ^ meta.test-files.count meta.number.integer.decimal constant.numeric.value
+
+Success: 12 assertions in 1 files passed
+# <- meta.summary.success markup.info.success
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.summary.success
+#^^^^^^ markup.info.success
+#      ^ punctuation.separator.other
+#        ^^ meta.assertions.count meta.number.integer.decimal constant.numeric.value
+#                         ^ meta.test-files.count meta.number.integer.decimal constant.numeric.value
+
+[Finished]
+# <- meta.summary.finished markup.info.finished punctuation.definition.markup.begin
+#^^^^^^^^^ meta.summary.finished markup.info.finished
+#        ^ punctuation.definition.markup.end
+#         ^ - meta - markup
