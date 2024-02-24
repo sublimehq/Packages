@@ -66,7 +66,10 @@ contexts:
 
   expected-scope-body:
     - meta_scope: meta.scope.expected.sublime.syntax-test-results
-    - include: selector-body
+    - match: \]
+      scope: punctuation.section.scope.end.sublime.syntax-test-results
+      pop: 1
+    - include: scope-selectors
 
   found-scope:
     - match: \[
@@ -77,13 +80,26 @@ contexts:
 
   found-scope-body:
     - meta_scope: meta.scope.found.sublime.syntax-test-results
-    - include: selector-body
-
-  selector-body:
     - match: \]
       scope: punctuation.section.scope.end.sublime.syntax-test-results
+      pop: 1
+    - include: scope-selectors
+
+  scope-selectors:
+    - meta_scope: meta.group.scope-selector
+    - match: \(
+      scope: punctuation.section.group.begin.scope-selector
+      push: scope-selectors
+    - match: \)
+      scope: punctuation.section.group.end.scope-selector
       pop: 1
     - match: '{{scope_segment}}'
       scope: string.unquoted.scope-segment.scope-selector
     - match: \.
       scope: punctuation.separator.scope-segments.scope-selector
+    - match: '-'
+      scope: keyword.operator.without.scope-selector
+    - match: '&'
+      scope: keyword.operator.with.scope-selector
+    - match: '[,|]'
+      scope: keyword.operator.or.scope-selector

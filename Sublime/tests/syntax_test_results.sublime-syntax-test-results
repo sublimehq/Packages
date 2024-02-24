@@ -1,4 +1,4 @@
-# SYNTAX TEST "Sublime Syntax Test Results.sublime-syntax"
+# SYNTAX TEST "Packages/Sublime/Sublime Syntax Test Results.sublime-syntax"
 
 Packages/Sublime/tests/syntax_test_results.sublime-syntax-test-results:14:2: [markup.info.failed] does not match scope [text meta.summary.success markup.info.success]
 # <- meta.path.filename entity.name.filename
@@ -28,6 +28,30 @@ Packages/Sublime/tests/syntax_test_results.sublime-syntax-test-results:14:2: [ma
 #                                                                                                                                                            ^ punctuation.separator.scope-segments.scope-selector
 #                                                                                                                                                             ^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                                                                                                                                                    ^ punctuation.section.scope.end
+
+Packages/syntax_test_results:14:2: [(meta.assertion & markup.info.failed) - punctuation, meta.assertion | meta.info] does not match scope [text meta.summary.success markup.info.success]
+#                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.scope-selector
+#                                   ^ punctuation.section.group.begin.scope-selector
+#                                    ^^^^ string.unquoted.scope-segment.scope-selector
+#                                        ^ punctuation.separator.scope-segments.scope-selector
+#                                         ^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                   ^ keyword.operator.with.scope-selector
+#                                                     ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                           ^ punctuation.separator.scope-segments.scope-selector
+#                                                            ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                ^ punctuation.separator.scope-segments.scope-selector
+#                                                                 ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                       ^ punctuation.section.group.end.scope-selector
+#                                                                         ^ keyword.operator.without.scope-selector
+#                                                                           ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                      ^ keyword.operator.or.scope-selector
+#                                                                                        ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                            ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                             ^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                       ^ keyword.operator.or.scope-selector
+#                                                                                                         ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                                             ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                                              ^^^^ string.unquoted.scope-segment.scope-selector
 
 FAILED: 6 of 62 assertions in 1 files failed
 # <- meta.summary.failure markup.error.failed
