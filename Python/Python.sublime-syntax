@@ -364,6 +364,12 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
+    - match: '(# ?)(TODO|ToDo|Todo|todo)\b(.*)'
+      captures:
+        1: comment
+        2: string.todo
+        3: string.todo
+
     # Special Sphinx comment syntax to denote documentation
     # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoattribute
     - match: '#:'
