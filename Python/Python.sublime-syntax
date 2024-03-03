@@ -55,6 +55,8 @@ variables:
 
   colon: ':(?!=)'
 
+  string_prefix: '[bBrRfFuU]{,2}'
+
   # Prefer ranged quantifiers over python interpolation in raw f-strings
   fstring_regexp_interpolation_begin: '\{(?!\d+(?:,\d*)?\})'
 
@@ -2637,24 +2639,29 @@ contexts:
 ###[ STRINGS ]################################################################
 
   strings:
+    - match: (?={{string_prefix}}['"])
+      push: string
+
+  string:
+    - meta_include_prototype: false
     # triple-quoted versions must be matched first
-    - include: triple-double-quoted-strings
-    - include: double-quoted-strings
-    - include: triple-single-quoted-strings
-    - include: single-quoted-strings
+    - include: triple-double-quoted-string
+    - include: double-quoted-string
+    - include: triple-single-quoted-string
+    - include: single-quoted-string
 
 ###[ TRIPLE DOUBLE QUOTED STRINGS ]###########################################
 
-  triple-double-quoted-strings:
-    - include: triple-double-quoted-plain-raw-b-strings
-    - include: triple-double-quoted-raw-b-strings
-    - include: triple-double-quoted-plain-raw-f-strings
-    - include: triple-double-quoted-raw-f-strings
-    - include: triple-double-quoted-plain-raw-u-strings
-    - include: triple-double-quoted-raw-u-strings
-    - include: triple-double-quoted-b-strings
-    - include: triple-double-quoted-f-strings
-    - include: triple-double-quoted-u-strings
+  triple-double-quoted-string:
+    - include: triple-double-quoted-plain-raw-b-string
+    - include: triple-double-quoted-raw-b-string
+    - include: triple-double-quoted-plain-raw-f-string
+    - include: triple-double-quoted-raw-f-string
+    - include: triple-double-quoted-plain-raw-u-string
+    - include: triple-double-quoted-raw-u-string
+    - include: triple-double-quoted-b-string
+    - include: triple-double-quoted-f-string
+    - include: triple-double-quoted-u-string
 
   triple-double-quoted-string-end:
     - match: '"""'
@@ -2665,13 +2672,13 @@ contexts:
     - match: (?=""")
       pop: 1
 
-  triple-double-quoted-plain-raw-b-strings:
+  triple-double-quoted-plain-raw-b-string:
     # Triple-quoted capital R raw string, bytes, no syntax embedding
     - match: ([bB]R|R[bB])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-plain-raw-b-string-body
+      set: triple-double-quoted-plain-raw-b-string-body
 
   triple-double-quoted-plain-raw-b-string-body:
     - meta_include_prototype: false
@@ -2683,13 +2690,13 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  triple-double-quoted-raw-b-strings:
+  triple-double-quoted-raw-b-string:
     # Triple-quoted raw string, bytes, will use regex
     - match: ([bB]r|r[bB])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-raw-b-string-body
+      set: triple-double-quoted-raw-b-string-body
 
   triple-double-quoted-raw-b-string-body:
     - meta_include_prototype: false
@@ -2704,13 +2711,13 @@ contexts:
   triple-double-quoted-raw-b-string-content:
     - include: string-prototype
 
-  triple-double-quoted-plain-raw-f-strings:
+  triple-double-quoted-plain-raw-f-string:
     # Triple-quoted raw f-string
     - match: ([fF]R|R[fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-plain-raw-f-string-body
+      set: triple-double-quoted-plain-raw-f-string-body
 
   triple-double-quoted-plain-raw-f-string-body:
     - meta_include_prototype: false
@@ -2723,13 +2730,13 @@ contexts:
     - include: escaped-raw-quotes
     - include: triple-double-quoted-f-string-replacements
 
-  triple-double-quoted-raw-f-strings:
+  triple-double-quoted-raw-f-string:
     # Triple-quoted raw f-string, treated as regex
     - match: ([fF]r|r[fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-raw-f-string-body
+      set: triple-double-quoted-raw-f-string-body
 
   triple-double-quoted-raw-f-string-body:
     - meta_include_prototype: false
@@ -2745,13 +2752,13 @@ contexts:
     - include: string-prototype
     - include: triple-double-quoted-f-string-replacements-regexp
 
-  triple-double-quoted-plain-raw-u-strings:
+  triple-double-quoted-plain-raw-u-string:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
     - match: ([uU]?R)(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-plain-raw-u-string-body
+      set: triple-double-quoted-plain-raw-u-string-body
 
   triple-double-quoted-plain-raw-u-string-body:
     - meta_include_prototype: false
@@ -2764,13 +2771,13 @@ contexts:
     - include: escaped-raw-quotes
     - include: escaped-unicode-chars
 
-  triple-double-quoted-raw-u-strings:
+  triple-double-quoted-raw-u-string:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
     - match: ([uU]?r)(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-raw-u-string-body
+      set: triple-double-quoted-raw-u-string-body
 
   triple-double-quoted-raw-u-string-body:
     - meta_include_prototype: false
@@ -2815,13 +2822,13 @@ contexts:
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
 
-  triple-double-quoted-b-strings:
+  triple-double-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
     - match: ([bB])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-b-string-body
+      set: triple-double-quoted-b-string-body
 
   triple-double-quoted-b-string-body:
     - meta_include_prototype: false
@@ -2836,13 +2843,13 @@ contexts:
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
 
-  triple-double-quoted-f-strings:
+  triple-double-quoted-f-string:
     # Triple-quoted f-string
     - match: ([fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-f-string-body
+      set: triple-double-quoted-f-string-body
 
   triple-double-quoted-f-string-body:
     - meta_include_prototype: false
@@ -2857,13 +2864,13 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
 
-  triple-double-quoted-u-strings:
+  triple-double-quoted-u-string:
     # Triple-quoted string, unicode or not, will detect SQL
     - match: ([uU]?)(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
-      push: triple-double-quoted-u-string-body
+      set: triple-double-quoted-u-string-body
 
   triple-double-quoted-u-string-body:
     - meta_include_prototype: false
@@ -2986,15 +2993,20 @@ contexts:
 ###[ DOUBLE QUOTED STRINGS ]##################################################
 
   double-quoted-strings:
-    - include: double-quoted-plain-raw-b-strings
-    - include: double-quoted-raw-b-strings
-    - include: double-quoted-plain-raw-f-strings
-    - include: double-quoted-raw-f-strings
-    - include: double-quoted-plain-raw-u-strings
-    - include: double-quoted-raw-u-strings
-    - include: double-quoted-b-strings
-    - include: double-quoted-f-strings
-    - include: double-quoted-u-strings
+    - match: (?={{string_prefix}}"(?!"))
+      push: double-quoted-string
+
+  double-quoted-string:
+    - meta_include_prototype: false
+    - include: double-quoted-plain-raw-b-string
+    - include: double-quoted-raw-b-string
+    - include: double-quoted-plain-raw-f-string
+    - include: double-quoted-raw-f-string
+    - include: double-quoted-plain-raw-u-string
+    - include: double-quoted-raw-u-string
+    - include: double-quoted-b-string
+    - include: double-quoted-f-string
+    - include: double-quoted-u-string
 
   double-quoted-string-end:
     - match: '"'
@@ -3010,13 +3022,13 @@ contexts:
       pop: 1
     - include: string-continuations
 
-  double-quoted-plain-raw-b-strings:
+  double-quoted-plain-raw-b-string:
     # Single-line capital R raw string, bytes, no syntax embedding
     - match: ([bB]R|R[bB])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-plain-raw-b-string-body
+      set: double-quoted-plain-raw-b-string-body
 
   double-quoted-plain-raw-b-string-body:
     - meta_include_prototype: false
@@ -3028,13 +3040,13 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  double-quoted-raw-b-strings:
+  double-quoted-raw-b-string:
     # Single-line raw string, bytes, treated as regex
     - match: ([bB]r|r[bB])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-raw-b-string-body
+      set: double-quoted-raw-b-string-body
 
   double-quoted-raw-b-string-body:
     - meta_include_prototype: false
@@ -3049,13 +3061,13 @@ contexts:
   double-quoted-raw-b-string-content:
     - include: string-prototype
 
-  double-quoted-plain-raw-f-strings:
+  double-quoted-plain-raw-f-string:
     # Single-line raw f-string
     - match: (R[fF]|[fF]R)(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-plain-raw-f-string-body
+      set: double-quoted-plain-raw-f-string-body
 
   double-quoted-plain-raw-f-string-body:
     - meta_content_scope: meta.string.python string.quoted.double.python
@@ -3068,13 +3080,13 @@ contexts:
     - include: escaped-raw-quotes
     - include: double-quoted-f-string-replacements
 
-  double-quoted-raw-f-strings:
+  double-quoted-raw-f-string:
     # Single-line raw f-string, treated as regex
     - match: (r[fF]|[fF]r)(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-raw-f-string-body
+      set: double-quoted-raw-f-string-body
 
   double-quoted-raw-f-string-body:
     - meta_include_prototype: false
@@ -3090,13 +3102,13 @@ contexts:
     - include: string-prototype
     - include: double-quoted-f-string-replacements-regexp
 
-  double-quoted-plain-raw-u-strings:
+  double-quoted-plain-raw-u-string:
     # Single-line capital R raw string, unicode or not, no syntax embedding
     - match: ([uU]?R)(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-plain-raw-u-string-body
+      set: double-quoted-plain-raw-u-string-body
 
   double-quoted-plain-raw-u-string-body:
     - meta_include_prototype: false
@@ -3108,12 +3120,12 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  double-quoted-raw-u-strings:
+  double-quoted-raw-u-string:
     - match: ([uU]?r)(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-raw-u-string-body
+      set: double-quoted-raw-u-string-body
 
   double-quoted-raw-u-string-body:
     - meta_include_prototype: false
@@ -3158,13 +3170,13 @@ contexts:
     - include: string-placeholders
     - include: double-quoted-string-replacements
 
-  double-quoted-b-strings:
+  double-quoted-b-string:
     # Single-line string, bytes
     - match: ([bB])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-b-string-body
+      set: double-quoted-b-string-body
 
   double-quoted-b-string-body:
     - meta_include_prototype: false
@@ -3178,13 +3190,13 @@ contexts:
     - include: string-placeholders
     - include: double-quoted-string-replacements
 
-  double-quoted-f-strings:
+  double-quoted-f-string:
     # Single-line f-string
     - match: ([fF])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-f-string-body
+      set: double-quoted-f-string-body
 
   double-quoted-f-string-body:
     - meta_include_prototype: false
@@ -3198,12 +3210,12 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
 
-  double-quoted-u-strings:
+  double-quoted-u-string:
     - match: ([uU]?)(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-      push: double-quoted-u-string-body
+      set: double-quoted-u-string-body
 
   double-quoted-u-string-body:
     - meta_include_prototype: false
@@ -3326,16 +3338,16 @@ contexts:
 
 ###[ TRIPLE SINGLE QUOTED STRINGS ]###########################################
 
-  triple-single-quoted-strings:
-    - include: triple-single-quoted-plain-raw-b-strings
-    - include: triple-single-quoted-raw-b-strings
-    - include: triple-single-quoted-plain-raw-f-strings
-    - include: triple-single-quoted-raw-f-strings
-    - include: triple-single-quoted-plain-raw-u-strings
-    - include: triple-single-quoted-raw-u-strings
-    - include: triple-single-quoted-b-strings
-    - include: triple-single-quoted-f-strings
-    - include: triple-single-quoted-u-strings
+  triple-single-quoted-string:
+    - include: triple-single-quoted-plain-raw-b-string
+    - include: triple-single-quoted-raw-b-string
+    - include: triple-single-quoted-plain-raw-f-string
+    - include: triple-single-quoted-raw-f-string
+    - include: triple-single-quoted-plain-raw-u-string
+    - include: triple-single-quoted-raw-u-string
+    - include: triple-single-quoted-b-string
+    - include: triple-single-quoted-f-string
+    - include: triple-single-quoted-u-string
 
   triple-single-quoted-string-end:
     - match: "'''"
@@ -3346,13 +3358,13 @@ contexts:
     - match: (?=''')
       pop: 1
 
-  triple-single-quoted-plain-raw-b-strings:
+  triple-single-quoted-plain-raw-b-string:
     # Triple-quoted capital R raw string, bytes, no syntax embedding
     - match: ([bB]R|R[bB])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-plain-raw-b-string-body
+      set: triple-single-quoted-plain-raw-b-string-body
 
   triple-single-quoted-plain-raw-b-string-body:
     - meta_include_prototype: false
@@ -3364,13 +3376,13 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  triple-single-quoted-raw-b-strings:
+  triple-single-quoted-raw-b-string:
     # Triple-quoted raw string, bytes, will use regex
     - match: ([bB]r|r[bB])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-raw-b-string-body
+      set: triple-single-quoted-raw-b-string-body
 
   triple-single-quoted-raw-b-string-body:
     - meta_include_prototype: false
@@ -3385,13 +3397,13 @@ contexts:
   triple-single-quoted-raw-b-string-content:
     - include: string-prototype
 
-  triple-single-quoted-plain-raw-f-strings:
+  triple-single-quoted-plain-raw-f-string:
     # Triple-quoted raw f-string
     - match: ([fF]R|R[fF])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-plain-raw-f-string-body
+      set: triple-single-quoted-plain-raw-f-string-body
 
   triple-single-quoted-plain-raw-f-string-body:
     - meta_include_prototype: false
@@ -3404,13 +3416,13 @@ contexts:
     - include: escaped-raw-quotes
     - include: triple-single-quoted-f-string-replacements
 
-  triple-single-quoted-raw-f-strings:
+  triple-single-quoted-raw-f-string:
     # Triple-quoted raw f-string, treated as regex
     - match: ([fF]r|r[fF])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-raw-f-string-body
+      set: triple-single-quoted-raw-f-string-body
 
   triple-single-quoted-raw-f-string-body:
     - meta_include_prototype: false
@@ -3426,13 +3438,13 @@ contexts:
     - include: string-prototype
     - include: triple-single-quoted-f-string-replacements-regexp
 
-  triple-single-quoted-plain-raw-u-strings:
+  triple-single-quoted-plain-raw-u-string:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
     - match: ([uU]?R)(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-plain-raw-u-string-body
+      set: triple-single-quoted-plain-raw-u-string-body
 
   triple-single-quoted-plain-raw-u-string-body:
     - meta_include_prototype: false
@@ -3444,13 +3456,13 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  triple-single-quoted-raw-u-strings:
+  triple-single-quoted-raw-u-string:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
     - match: ([uU]?r)(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-raw-u-string-body
+      set: triple-single-quoted-raw-u-string-body
 
   triple-single-quoted-raw-u-string-body:
     - meta_include_prototype: false
@@ -3495,13 +3507,13 @@ contexts:
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
 
-  triple-single-quoted-b-strings:
+  triple-single-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
     - match: ([bB])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-b-string-body
+      set: triple-single-quoted-b-string-body
 
   triple-single-quoted-b-string-body:
     - meta_include_prototype: false
@@ -3516,13 +3528,13 @@ contexts:
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
 
-  triple-single-quoted-f-strings:
+  triple-single-quoted-f-string:
     # Triple-quoted f-string
     - match: ([fF])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-f-string-body
+      set: triple-single-quoted-f-string-body
 
   triple-single-quoted-f-string-body:
     - meta_include_prototype: false
@@ -3537,13 +3549,13 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
 
-  triple-single-quoted-u-strings:
+  triple-single-quoted-u-string:
     # Triple-quoted string, unicode or not, will detect SQL
     - match: ([uU]?)(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-      push: triple-single-quoted-u-string-body
+      set: triple-single-quoted-u-string-body
 
   triple-single-quoted-u-string-body:
     - meta_include_prototype: false
@@ -3666,15 +3678,20 @@ contexts:
 ###[ SINGLE QUOTED STRINGS ]##################################################
 
   single-quoted-strings:
-    - include: single-quoted-plain-raw-b-strings
-    - include: single-quoted-raw-b-strings
-    - include: single-quoted-plain-raw-f-strings
-    - include: single-quoted-raw-f-strings
-    - include: single-quoted-plain-raw-u-strings
-    - include: single-quoted-raw-u-strings
-    - include: single-quoted-b-strings
-    - include: single-quoted-f-strings
-    - include: single-quoted-u-strings
+    - match: (?={{string_prefix}}'(?!'))
+      push: single-quoted-string
+
+  single-quoted-string:
+    - meta_include_prototype: false
+    - include: single-quoted-plain-raw-b-string
+    - include: single-quoted-raw-b-string
+    - include: single-quoted-plain-raw-f-string
+    - include: single-quoted-raw-f-string
+    - include: single-quoted-plain-raw-u-string
+    - include: single-quoted-raw-u-string
+    - include: single-quoted-b-string
+    - include: single-quoted-f-string
+    - include: single-quoted-u-string
 
   single-quoted-string-end:
     - match: "'"
@@ -3690,13 +3707,13 @@ contexts:
       pop: 1
     - include: string-continuations
 
-  single-quoted-plain-raw-b-strings:
+  single-quoted-plain-raw-b-string:
     # Single-line capital R raw string, bytes, no syntax embedding
     - match: ([bB]R|R[bB])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-plain-raw-b-string-body
+      set: single-quoted-plain-raw-b-string-body
 
   single-quoted-plain-raw-b-string-body:
     - meta_include_prototype: false
@@ -3708,13 +3725,13 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  single-quoted-raw-b-strings:
+  single-quoted-raw-b-string:
     # Single-line raw string, bytes, treated as regex
     - match: ([bB]r|r[bB])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-raw-b-string-body
+      set: single-quoted-raw-b-string-body
 
   single-quoted-raw-b-string-body:
     - meta_include_prototype: false
@@ -3729,13 +3746,13 @@ contexts:
   single-quoted-raw-b-string-content:
     - include: string-prototype
 
-  single-quoted-plain-raw-u-strings:
+  single-quoted-plain-raw-u-string:
     # Single-line capital R raw string, unicode or not, no syntax embedding
     - match: ([uU]?R)(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-plain-raw-u-string-body
+      set: single-quoted-plain-raw-u-string-body
 
   single-quoted-plain-raw-u-string-body:
     - meta_include_prototype: false
@@ -3747,12 +3764,12 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
 
-  single-quoted-raw-u-strings:
+  single-quoted-raw-u-string:
     - match: ([uU]?r)(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-raw-u-string-body
+      set: single-quoted-raw-u-string-body
 
   single-quoted-raw-u-string-body:
     - meta_include_prototype: false
@@ -3797,13 +3814,13 @@ contexts:
     - include: string-placeholders
     - include: single-quoted-string-replacements
 
-  single-quoted-plain-raw-f-strings:
+  single-quoted-plain-raw-f-string:
     # Single-line raw f-string
     - match: ([fF]R|R[fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-plain-raw-f-string-body
+      set: single-quoted-plain-raw-f-string-body
 
   single-quoted-plain-raw-f-string-body:
     - meta_include_prototype: false
@@ -3816,13 +3833,13 @@ contexts:
     - include: escaped-raw-quotes
     - include: single-quoted-f-string-replacements
 
-  single-quoted-raw-f-strings:
+  single-quoted-raw-f-string:
     # Single-line raw f-string, treated as regex
     - match: ([fF]r|r[fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-raw-f-string-body
+      set: single-quoted-raw-f-string-body
 
   single-quoted-raw-f-string-body:
     - meta_include_prototype: false
@@ -3838,13 +3855,13 @@ contexts:
     - include: string-prototype
     - include: single-quoted-f-string-replacements-regexp
 
-  single-quoted-b-strings:
+  single-quoted-b-string:
     # Single-line string, bytes
     - match: ([bB])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-b-string-body
+      set: single-quoted-b-string-body
 
   single-quoted-b-string-body:
     - meta_include_prototype: false
@@ -3858,13 +3875,13 @@ contexts:
     - include: string-placeholders
     - include: single-quoted-string-replacements
 
-  single-quoted-f-strings:
+  single-quoted-f-string:
     # Single-line f-string
     - match: ([fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-f-string-body
+      set: single-quoted-f-string-body
 
   single-quoted-f-string-body:
     - meta_include_prototype: false
@@ -3878,12 +3895,12 @@ contexts:
     - include: escaped-unicode-chars
     - include: escaped-chars
 
-  single-quoted-u-strings:
+  single-quoted-u-string:
     - match: ([uU]?)(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
-      push: single-quoted-u-string-body
+      set: single-quoted-u-string-body
 
   single-quoted-u-string-body:
     - meta_include_prototype: false
@@ -4184,7 +4201,7 @@ contexts:
   line-continuation-body:
     - meta_include_prototype: false
     # This prevents strings after a continuation from being a docstring
-    - include: strings
-    - include: else-pop
-    - match: ^(?!\s*[[:alpha:]]*['"])
+    - include: triple-double-quoted-string
+    - include: triple-single-quoted-string
+    - match: ^(?!\s*{{string_prefix}}['"]{3})
       pop: 1
