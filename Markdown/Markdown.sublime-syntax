@@ -311,25 +311,25 @@ contexts:
     - match: (---)\s*(?i:(json)\s*)\n
       captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.begin.frontmatter.markdown
+        1: punctuation.section.frontmatter.begin.markdown
         2: constant.other.language-name.markdown
       embed: scope:source.json
       embed_scope: meta.frontmatter.markdown source.json.embedded.markdown
       escape: ^(---|\.{3})\s*\n # pandoc requires the remainder of the line to be blank
       escape_captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.end.frontmatter.markdown
+        1: punctuation.section.frontmatter.end.markdown
     - match: (---)\s*(?i:(yaml|yml)\s*)?\n
       captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.begin.frontmatter.markdown
+        1: punctuation.section.frontmatter.begin.markdown
         2: constant.other.language-name.markdown
       embed: scope:source.yaml
       embed_scope: meta.frontmatter.markdown source.yaml.embedded.markdown
       escape: ^(---|\.{3})\s*\n  # pandoc requires the remainder of the line to be blank
       escape_captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.end.frontmatter.markdown
+        1: punctuation.section.frontmatter.end.markdown
 
   markdown:
     - include: indented-code-blocks
