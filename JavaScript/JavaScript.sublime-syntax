@@ -13,12 +13,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(?:node|js|osascript\s+-l\s+JavaScript)\b  # shebang
+    ^ \#! .* \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b  # shebang
   | ^ \s* // .*? -\*- .*? \b(?:js|javascript)\b .*? -\*-  # editorconfig
   )
 
 variables:
-  shebang_lang: \b(?:node|js|osascript\s+-l\s+JavaScript)\b
+  shebang_lang: \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b
 
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'
