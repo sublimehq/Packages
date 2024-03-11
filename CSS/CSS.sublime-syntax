@@ -1400,7 +1400,8 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|is|where|not|has|host(?:-context)?)(?=\()
+    # global(), local() - CSS Modules, Less, Astro
+    - match: (?i:global|local|matches|is|where|not|has|host(?:-context)?)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - pseudo-class-selector-arguments-list-body
