@@ -8569,24 +8569,24 @@ $$
 |^ punctuation.definition.math.begin.latex
 | ^ - punctuation
 foo = 1 + 2 * \sqrt{a^2+b^2}
-| <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex variable.other.math.tex
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
-|   ^ keyword.operator.math.tex
-|     ^ constant.numeric.math.tex
-|       ^ keyword.operator.math.tex
-|         ^ constant.numeric.math.tex
-|           ^ keyword.operator.math.tex
-|             ^^^^^ support.function.math.tex
-|                  ^^^^^^^^^ meta.group.brace.latex
-|                  ^ punctuation.definition.group.brace.begin.latex
-|                   ^ variable.other.math.tex
-|                    ^ keyword.operator.math.tex
-|                     ^ constant.numeric.math.tex
-|                      ^ keyword.operator.math.tex
-|                       ^ variable.other.math.tex
-|                        ^ keyword.operator.math.tex
-|                         ^ constant.numeric.math.tex
-|                          ^ punctuation.definition.group.brace.end.latex
+| <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar variable.other.math
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
+|   ^ keyword.operator.comparison
+|     ^ constant.numeric.value
+|       ^ keyword.operator.arithmetic
+|         ^ constant.numeric.value
+|           ^ keyword.operator.arithmetic
+|             ^^^^^ support.function.math
+|                  ^^^^^^^^^ meta.group.brace
+|                  ^ punctuation.definition.group.brace.begin
+|                   ^ variable.other.math
+|                    ^ punctuation.separator.superscript.tex
+|                     ^ constant.numeric.value
+|                      ^ keyword.operator.arithmetic
+|                       ^ variable.other.math
+|                        ^ punctuation.separator.superscript.tex
+|                         ^ constant.numeric.value
+|                          ^ punctuation.definition.group.brace.end
 $$
 | <- markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex punctuation.definition.math.end.latex
 |^ markup.math.block.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex punctuation.definition.math.end.latex
@@ -8703,9 +8703,9 @@ Math $1+1$ setext heading
 This is math $1+1$ expression, but $ 1+1 $ ,$ 1+1$, $1+1 $ and 1+1$ or $1+1 are not.
 |            ^^^^^ meta.paragraph.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
 |            ^ punctuation.definition.math.begin.latex
-|             ^ constant.numeric.math.tex
-|              ^ keyword.operator.math.tex
-|               ^ constant.numeric.math.tex
+|             ^ constant.numeric.value.tex
+|              ^ keyword.operator.arithmetic.tex
+|               ^ constant.numeric.value.tex
 |                ^ punctuation.definition.math.end.latex
 |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown - markup.math
 
@@ -8744,11 +8744,11 @@ b$ math.
 |^^^^^^^^ meta.paragraph.markdown - markup.math
 
 Handle incomplete $\sqrt{b$ expressions well.
-|                 ^^^^^^^^^ meta.paragraph.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
-|                 ^ punctuation.definition.math.begin.latex
-|                  ^^^^^ support.function.math.tex
-|                       ^^ meta.group.brace.latex
-|                         ^ punctuation.definition.math.end.latex - meta.group
+|                 ^^^^^^^^^ meta.paragraph.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
+|                 ^ punctuation.definition.math.begin
+|                  ^^^^^ support.function.math
+|                       ^^ meta.group.brace
+|                         ^ punctuation.definition.math.end - meta.group
 |                          ^ meta.paragraph.markdown - markup.math
 
 1. ordered list $\sqrt{b}$ equation $1+
@@ -8771,12 +8771,12 @@ Handle incomplete $\sqrt{b$ expressions well.
    |                               ^^^^^^ - markup.math - meta.tag
 
    +  unordered $\sqrt{b}$ equation
-      |         ^^^^^^^^^^ markup.list.numbered.markdown meta.paragraph.list.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
+      |         ^^^^^^^^^^ markup.list.numbered.markdown meta.paragraph.list.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
 
    Handle incomplete $\sqrt{b$ expressions well.
-   |                 ^^^^^^^^^ meta.paragraph.list.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar.latex
-   |                 ^ punctuation.definition.math.begin.latex
-   |                  ^^^^^ support.function.math.tex
-   |                       ^^ meta.group.brace.latex
-   |                         ^ punctuation.definition.math.end.latex - meta.group
+   |                 ^^^^^^^^^ meta.paragraph.list.markdown markup.math.inline.markdown text.tex.latex.embedded.markdown meta.environment.math.block.dollar
+   |                 ^ punctuation.definition.math.begin
+   |                  ^^^^^ support.function.math
+   |                       ^^ meta.group.brace
+   |                         ^ punctuation.definition.math.end - meta.group
    |                          ^ meta.paragraph.list.markdown - markup.math

@@ -1,0 +1,867 @@
+% SYNTAX TEST "Packages/LaTeX/TeX.sublime-syntax"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Macro definitions - \def, \gdef, \edef, \xdef
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Check the main scopes
+  \def\macro{replacement}
+% ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+% Check puncutation scopes
+  \def\macro{replacement}
+% ^ punctuation.definition.backslash.tex
+%     ^ punctuation.definition.backslash.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%                       ^ punctuation.definition.group.brace.end.tex
+
+
+% examples taken from https://en.wikibooks.org/wiki/TeX/def
+
+% With spaces and parameter specification
+ \def \foo [#1]#2{The first argument is ``#1'', the second one is ``#2''}
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex
+%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
+%         ^^^^^^^ meta.function.parameters.tex -meta.function.tex
+%           ^^ variable.parameter.tex
+%              ^^ variable.parameter.tex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+% With line continuation
+ \def \foo [#1]#2%
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^meta.function.tex
+%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
+%         ^^^^^^^ meta.function.parameters.tex
+%                ^^ comment.line.percentage.tex
+  {The first argument is ``#1''.
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+  The second one is ``#2''}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+% With nested braces
+ \def \author {William {\sc Smith}}
+%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex
+%     ^^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^ meta.function.parameters.tex
+%             ^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+
+
+% gdef as a global variation of def
+ \gdef\macro{replacement}
+%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+% edef as an immediately expanded version of def. Note that here,
+% argument specifications would not be allowed by TeX.
+ \edef\macro{replacement}
+%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%            ^^^^^^^^^^^^ meta.function.body.tex
+
+
+
+% And now, the really weird cases
+%  escaped characters in the argument specification
+%   hash
+ \def\macro\#1#1{replacement}
+%          ^^^^^ meta.function.parameters.tex
+%          ^^ constant.character.escape.tex
+%            ^ - variable.parameter.tex
+%             ^^ variable.parameter.tex
+
+%   open-brace
+ \def\macro\{#1{replacement}
+%          ^^^^ meta.function.parameters.tex
+%          ^^ constant.character.escape.tex
+%            ^^ variable.parameter.tex
+%              ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+
+%    double escape
+ \def\macro\\#1{replacement}
+%          ^^^^ meta.function.parameters.tex
+%          ^^constant.character.escape.tex
+%            ^^ variable.parameter.tex
+
+
+%  defining special character macros
+ \def\_{underscore}
+%^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%    ^^ meta.function.identifier.tex entity.name.definition.tex
+%      ^^^^^^^^^^^^ meta.function.body.tex
+
+%  stop scope for incomplete defs
+\def\text
+
+some other text
+% ^^^^^^^^^^^^^^ - meta.function%
+
+%  incomplete but with parameters; the { comes too late to open the function definition
+\def\text A#1A
+
+  { some other text}
+% ^^^^^^^^^^^^^^ - meta.function
+
+%  command just prefixed with def. Needs to be picked up as a custom command
+\deftext
+%^^^^^^^ support.function.general.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Modifiers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ \long\def\test#1{#1}
+%^^^^^ storage.modifier.definition.tex
+%^ punctuation.definition.backslash.tex
+%     ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+
+ \outer\def\test#1{#1}
+%^^^^^^ storage.modifier.definition.tex
+%^ punctuation.definition.backslash.tex
+%      ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+
+ \global\def\test#1{#1}
+%^^^^^^^ storage.modifier.definition.tex
+%^ punctuation.definition.backslash.tex
+%       ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Macro definition contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% testing control keywords, parameter placeholders, and escaping of placeholders
+\def\test{\ifmmode #2 \#2}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^ meta.function.tex
+%   ^^^^^ meta.function.identifier.tex
+%        ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%   ^^^^^ entity.name.definition.tex
+%        ^ punctuation.definition.group.brace.begin.tex
+%         ^^^^^^^^ keyword.control.conditional.if.tex
+%         ^ punctuation.definition.backslash.tex
+%                  ^^ variable.parameter.tex
+%                  ^ punctuation.definition.placeholder.tex
+%                   ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                     ^^ constant.character.escape.tex
+%                     ^ punctuation.definition.backslash.tex
+%                        ^ punctuation.definition.group.brace.end.tex
+
+
+% testing registers and nested braces
+\def\test{\dimen5 {#2} \alpha}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^ meta.function.tex
+%   ^^^^^ meta.function.identifier.tex
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%         ^^^^^^^ meta.register.tex
+%                 ^^^^ meta.group.brace.tex meta.group.brace.tex
+%^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%   ^^^^^ entity.name.definition.tex
+%        ^ punctuation.definition.group.brace.begin.tex
+%               ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                  ^^ variable.parameter.tex
+%                      ^^^^^^ keyword.other.math.greek.tex
+
+
+% testing incomplete register specification
+\def\test{\dimen} other text
+%^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^ meta.function.tex
+%   ^^^^^ meta.function.identifier.tex
+%        ^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%         ^^^^^^ meta.register.tex
+%                ^^^^^^^^^^^ - meta.function.body
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Control flow / Conditionals
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if something \fi
+%^^ keyword.control.conditional.if.tex
+%             ^^^ keyword.control.conditional.end.tex
+
+
+\ifcase 2 a\or b\or c\or d\else e\fi
+%^^^^^^ keyword.control.conditional.switch.tex
+%          ^^^ keyword.control.conditional.case.tex
+%                         ^^^^^ keyword.control.conditional.else.tex
+%                                ^^^ keyword.control.conditional.end.tex
+
+
+% a loop example from https://en.wikibooks.org/wiki/LaTeX/Plain_TeX#Loops
+\count255 = 1
+\loop
+%^^^^ keyword.control.loop.do-while.tex
+  \TeX
+\ifnum\count255 < 10
+%^^^^^ keyword.control.conditional.if.tex
+\advance\count255 by 1
+\repeat
+%^^^^^^ keyword.control.loop.end.tex
+
+
+\if@director
+%^^ - keyword.control.conditional.if
+ custom if
+\else
+%^^^^ keyword.control.conditional.else.tex
+\fi
+%^^ keyword.control.conditional.end.tex
+
+\relax
+%^^^^^ keyword.control.flow.relax.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               Registers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\muskip5
+%^^^^^^ storage.type.tex
+%^^^^^^^ meta.register.tex
+%      ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\box 60
+%^^^ storage.type.tex
+%^^^^^^ meta.register.tex
+%    ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\skip5 10
+%^^^^^ meta.register.tex
+%      ^^ - meta.register.tex
+%    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\count"AB 10
+%^^^^^^^^ meta.register.tex
+%         ^^ - meta.register.tex
+%     ^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+
+% tricky case: 9 is not an octal digit
+\dimen'569
+%^^^^^^^^ meta.register.tex
+%        ^ - meta.register.tex
+%     ^^^ meta.number.integer.octal.tex constant.numeric.value.tex
+%        ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+% tricky case: 9 is not an octal digit
+\dimen`\a  
+%^^^^^^^^ meta.register.tex
+%        ^ - meta.register.tex
+%     ^^^ meta.number.integer.tex constant.numeric.value.tex
+
+% tricky case: 9 is not an octal digit
+\dimen`16 
+%^^^^^^^ meta.register.tex
+%       ^ - meta.register.tex
+%     ^^ meta.number.integer.tex constant.numeric.value.tex
+
+\counting
+%^^^^^^^^ - meta.register.tex
+
+\newdimen\mydimen
+%^^^^^^^^^^^^^^^^ meta.register.tex - meta.register meta.register
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%        ^^^^^^^^ entity.name.constant.tex
+%        ^ punctuation.definition.backslash.tex
+
+\newcount { \mycounter }
+%^^^^^^^^^^^^^^^^^^^^^^^ meta.register.tex - meta.register meta.register
+%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%         ^^^^^^^^^^^^^^ meta.group.brace.tex
+%           ^^^^^^^^^^ entity.name.constant.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.backslash.tex
+%                      ^ punctuation.definition.group.brace.end.tex
+
+% A very weird case where we use a macro for the register id. In this case
+% we just scope the macro like we would any other.
+\def\five{5}
+\toks \five = 8
+%^^^^^^^^^^ meta.register.tex
+%^^^^ storage.type.tex
+%     ^^^^^ support.function.general.tex
+%     ^ punctuation.definition.backslash.tex
+%           ^ keyword.operator.assignment.tex
+%             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+
+\count255 = 1
+%^^^^^^^^ meta.register.tex
+%^^^^^ storage.type.tex
+%     ^^^ meta.number.integer.decimal constant.numeric.value.tex
+%         ^ keyword.operator.assignment.tex
+%           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\dimen\dim50em plus 1ex
+%^^^^^^^^^ meta.register.tex
+%^^^^^ storage.type.tex
+%     ^^^^ support.function.general.tex
+%     ^ punctuation.definition.backslash.tex
+%         ^^^^ meta.number.integer.decimal.tex
+%         ^^ constant.numeric.value.tex
+%           ^^ constant.numeric.suffix.tex
+%              ^^^^ keyword.operator.arithmetic.tex
+%                   ^^^ meta.number.integer.decimal.tex
+%                   ^ constant.numeric.value.tex
+%                    ^^ constant.numeric.suffix.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Character Codes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\catcode65=12
+%^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%         ^ keyword.operator.assignment.tex
+%          ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+
+% here are some assignments that happen in `plain.tex`
+
+\catcode`@=11
+%^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ constant.character.tex
+%         ^ keyword.operator.assignment.tex
+%          ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\catcode`\^^K=7
+%^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^^^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ punctuation.definition.backslash.tex
+%         ^^^ constant.character.tex
+%            ^ keyword.operator.assignment.tex
+%             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+\mathcode`\^^D="225E
+%^^^^^^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^^ keyword.control.character-code.tex
+%        ^^^^^ meta.number.integer.tex
+%        ^ keyword.operator.tex
+%         ^ punctuation.definition.backslash.tex
+%          ^^^ constant.character.tex
+%             ^ keyword.operator.assignment.tex
+%              ^^^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+\delcode`\\="26E30F
+%^^^^^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ punctuation.definition.backslash.tex
+%         ^ constant.character.tex
+%          ^ keyword.operator.assignment.tex
+%           ^^^^^^^ meta.number.integer.hexadecimal.tex constant.numeric.value.tex
+
+\lccode65='123
+%^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^ keyword.control.character-code.tex
+%      ^^ meta.number.integer.decimal.tex
+%        ^ keyword.operator.assignment.tex
+%          ^^^ meta.number.integer.octal.tex constant.numeric.value.tex
+
+\lccode"AB=`\a
+%^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^ keyword.control.character-code.tex
+%      ^^^ meta.number.integer.hexadecimal.tex
+%         ^ keyword.operator.assignment.tex
+%          ^^^ meta.number.integer.tex constant.numeric.value.tex
+
+% some other assignments
+
+% skip the = sign
+\catcode`@11
+%^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ constant.character.tex
+%         ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+% hex-specifier
+\catcode`\^^ab=11
+%^^^^^^^^^^^^^^^^ meta.function.character-code.tex
+%^^^^^^^ keyword.control.character-code.tex
+%       ^^^^^^ meta.number.integer.tex
+%       ^ keyword.operator.tex
+%        ^ punctuation.definition.backslash.tex
+%         ^^^^ constant.character.tex
+%             ^ keyword.operator.assignment.tex
+%              ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Constants
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pretolerance=100
+%^^^^^^^^^^^^ support.function.tex
+%            ^ keyword.operator.assignment.tex
+%             ^^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+\tolerance=200
+%^^^^^^^^^ support.function.tex
+\hbadness=1000
+%^^^^^^^^ support.function.tex
+\vbadness=1000
+%^^^^^^^^ support.function.tex
+\linepenalty=10
+%^^^^^^^^^^^ support.function.tex
+\hyphenpenalty=50
+%^^^^^^^^^^^^^ support.function.tex
+\exhyphenpenalty=50
+%^^^^^^^^^^^^^^^ support.function.tex
+\binoppenalty=700
+%^^^^^^^^^^^^ support.function.tex
+\relpenalty=500
+%^^^^^^^^^^ support.function.tex
+\clubpenalty=150
+%^^^^^^^^^^^ support.function.tex
+\widowpenalty=150
+%^^^^^^^^^^^^ support.function.tex
+\displaywidowpenalty=50
+%^^^^^^^^^^^^^^^^^^^ support.function.tex
+\brokenpenalty=100
+%^^^^^^^^^^^^^ support.function.tex
+\predisplaypenalty=10000
+%^^^^^^^^^^^^^^^^^ support.function.tex
+\postdisplaypenalty=0
+%^^^^^^^^^^^^^^^^^^ support.function.tex
+\interlinepenalty=0
+%^^^^^^^^^^^^^^^^ support.function.tex
+\floatingpenalty=0
+%^^^^^^^^^^^^^^^ support.function.tex
+\outputpenalty=0
+%^^^^^^^^^^^^^ support.function.tex
+\doublehyphendemerits=10000
+%^^^^^^^^^^^^^^^^^^^^ support.function.tex
+\finalhyphendemerits=5000
+%^^^^^^^^^^^^^^^^^^^ support.function.tex
+\adjdemerits=10000
+%^^^^^^^^^^^ support.function.tex
+\looseness=0
+%^^^^^^^^^ support.function.tex
+\pausing=0
+%^^^^^^^ support.function.tex
+\holdinginserts=0
+%^^^^^^^^^^^^^^ support.function.tex
+\tracingonline=0
+%^^^^^^^^^^^^^ support.function.tex
+\tracingmacros=0
+%^^^^^^^^^^^^^ support.function.tex
+\tracingstats=0
+%^^^^^^^^^^^^ support.function.tex
+\tracingparagraphs=0
+%^^^^^^^^^^^^^^^^^support.function.tex
+\tracingpages=0
+%^^^^^^^^^^^^ support.function.tex
+\tracingoutput=0
+%^^^^^^^^^^^^^ support.function.tex
+\tracinglostchars=1
+%^^^^^^^^^^^^^^^^ support.function.tex
+\tracingcommands=0
+%^^^^^^^^^^^^^^^ support.function.tex
+\tracingrestores=0
+%^^^^^^^^^^^^^^^ support.function.tex
+\language=0
+%^^^^^^^^ support.function.tex
+\uchyph=1
+%^^^^^^ support.function.tex
+\lefthyphenmin=2
+%^^^^^^^^^^^^^ support.function.tex
+\righthyphenmin=3
+%^^^^^^^^^^^^^^ support.function.tex
+\globaldefs=0
+%^^^^^^^^^^ support.function.tex
+\maxdeadcycles=25
+%^^^^^^^^^^^^^ support.function.tex
+\hangafter=1
+%^^^^^^^^^ support.function.tex
+\fam=0
+%^^^ support.function.tex
+\mag=1000
+%^^^ support.function.tex
+
+\escapechar=`\\
+%^^^^^^^^^^ support.function.tex
+%          ^ keyword.operator.assignment.tex
+%           ^^^ meta.number.integer
+%           ^ keyword.operator.tex
+%            ^ punctuation.definition.backslash.tex
+%             ^ constant.character.tex
+\defaulthyphenchar=`\-
+%^^^^^^^^^^^^^^^^^ support.function.tex
+\defaultskewchar=-1
+%^^^^^^^^^^^^^^^ support.function.tex
+%               ^ keyword.operator.assignment.tex
+%                ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+\endlinechar=`\^^M
+%^^^^^^^^^^^ support.function.tex
+\newlinechar=-1
+%^^^^^^^^^^^ support.function.tex
+\delimiterfactor=901
+%^^^^^^^^^^^^^^^ support.function.tex
+\time
+%^^^^ support.function.tex
+\day
+%^^^ support.function.tex
+\month
+%^^^^^ support.function.tex
+\year
+%^^^^ support.function.tex
+\showboxbreadth=5
+%^^^^^^^^^^^^^^ support.function.tex
+\showboxdepth=3
+%^^^^^^^^^^^^ support.function.tex
+\errorcontextlines=5
+%^^^^^^^^^^^^^^^^^ support.function.tex
+
+\hfuzz=0.1pt
+%^^^^^ support.function.tex
+%     ^ keyword.operator.assignment.tex
+%      ^^^^^ meta.number.float.decimal.tex
+%      ^^^ constant.numeric.value.tex
+%       ^ punctuation.separator.decimal.tex
+%         ^^ constant.numeric.suffix.tex
+\vfuzz=0.1 pt
+%^^^^^ support.function.tex
+%     ^ keyword.operator.assignment.tex
+%      ^^^^^^ meta.number.float.decimal.tex
+%      ^^^ constant.numeric.value.tex
+%       ^ punctuation.separator.decimal.tex
+%          ^^ constant.numeric.suffix.tex
+
+% check that we can put comment-based line breaks here
+\overfullrule=%
+%^^^^^^^^^^^^ support.function.tex
+%            ^ keyword.operator.assignment.tex
+   5pt
+%  ^^^ meta.number.integer.decimal.tex
+%  ^ constant.numeric.value.tex
+%   ^^ constant.numeric.suffix.tex
+
+\hsize=6.5in
+%^^^^^ support.function.tex
+%     ^ keyword.operator.assignment.tex
+%      ^^^^^ meta.number.float.decimal.tex
+%      ^^^ constant.numeric.value.tex
+%       ^ punctuation.separator.decimal.tex
+%         ^^ constant.numeric.suffix.tex
+\vsize=8.9in
+%^^^^^ support.function.tex
+%     ^ keyword.operator.assignment.tex
+%      ^^^^^ meta.number.float.decimal.tex
+%      ^^^ constant.numeric.value.tex
+%       ^ punctuation.separator.decimal.tex
+%         ^^ constant.numeric.suffix.tex
+\maxdepth=.4pt
+%^^^^^^^^ support.function.tex
+%        ^ keyword.operator.assignment.tex
+%         ^^^^ meta.number.float.decimal.tex
+%         ^^ constant.numeric.value.tex
+%         ^ punctuation.separator.decimal.tex
+%           ^^ constant.numeric.suffix.tex
+
+
+\splitmaxdepth=\maxdimen
+%^^^^^^^^^^^^^ support.function.tex
+%             ^ keyword.operator.assignment.tex
+%              ^^^^^^^^^ support.function.tex
+%              ^ punctuation.definition.backslash.tex
+\boxmaxdepth=\maxdimen
+%^^^^^^^^^^^ support.function.tex
+\lineskiplimit=0pt
+%^^^^^^^^^^^^^ support.function.tex
+\delimitershortfall=5pt
+%^^^^^^^^^^^^^^^^^^ support.function.tex
+\nulldelimiterspace=1.2pt
+%^^^^^^^^^^^^^^^^^^ support.function.tex
+\scriptspace=0.5pt
+%^^^^^^^^^^^ support.function.tex
+\mathsurround=0pt
+%^^^^^^^^^^^^ support.function.tex
+\predisplaysize=0pt
+%^^^^^^^^^^^^^^ support.function.tex
+\displaywidth=0pt
+%^^^^^^^^^^^^ support.function.tex
+\displayindent=0pt
+%^^^^^^^^^^^^^ support.function.tex
+\parindent=20pt
+%^^^^^^^^^ support.function.tex
+\hangindent=0pt
+%^^^^^^^^^^ support.function.tex
+\hoffset=0pt
+%^^^^^^^ support.function.tex
+\voffset=0pt
+%^^^^^^^ support.function.tex
+
+\baselineskip=0pt
+%^^^^^^^^^^^^ support.function.tex
+\lineskip=0pt
+%^^^^^^^^ support.function.tex
+\parskip=0pt plus 1pt
+%^^^^^^^ support.function.tex
+%       ^ keyword.operator.assignment.tex
+%        ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%         ^^ constant.numeric.suffix.tex
+%            ^^^^ keyword.operator.arithmetic.tex
+%                 ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                  ^^ constant.numeric.suffix.tex
+
+\abovedisplayskip=12pt plus 3pt minus 9pt
+%^^^^^^^^^^^^^^^^ support.function.tex
+%                ^ keyword.operator.assignment.tex
+%                 ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                   ^^ constant.numeric.suffix.tex
+%                      ^^^^ keyword.operator.arithmetic.tex
+%                           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                            ^^ constant.numeric.suffix.tex
+%                               ^^^^^ keyword.operator.arithmetic.tex
+%                                     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                      ^^ constant.numeric.suffix.tex
+\abovedisplayshortskip=0pt plus 3pt
+%^^^^^^^^^^^^^^^^^^^^^ support.function.tex
+\belowdisplayskip=12pt plus 3pt minus 9pt
+%^^^^^^^^^^^^^^^^ support.function.tex
+\belowdisplayshortskip=7pt plus 3pt minus 4pt
+%^^^^^^^^^^^^^^^^^^^^^ support.function.tex
+\leftskip=0pt
+%^^^^^^^^ support.function.tex
+\rightskip=0pt
+%^^^^^^^^^ support.function.tex
+\topskip=10pt
+%^^^^^^^ support.function.tex
+\splittopskip=10pt
+%^^^^^^^^^^^^ support.function.tex
+\tabskip=0pt
+%^^^^^^^ support.function.tex
+\spaceskip=0pt
+%^^^^^^^^^ support.function.tex
+\xspaceskip=0pt
+%^^^^^^^^^^ support.function.tex
+\parfillskip=0pt plus 1fil
+%^^^^^^^^^^^ support.function.tex
+%           ^ keyword.operator.assignment.tex
+%            ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%             ^^ constant.numeric.suffix.tex
+%                ^^^^ keyword.operator.arithmetic.tex
+%                     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                      ^^^ constant.numeric.suffix.tex
+
+
+\thinmuskip=3mu
+%^^^^^^^^^^ support.function.tex
+%          ^ keyword.operator.assignment.tex
+%           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%            ^^ constant.numeric.suffix.tex
+
+\medmuskip=4mu plus 2mu minus 4mu
+%^^^^^^^^^ support.function.tex
+%         ^ keyword.operator.assignment.tex
+%          ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%           ^^ constant.numeric.suffix.tex
+%              ^^^^ keyword.operator.arithmetic.tex
+%                   ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                    ^^ constant.numeric.suffix.tex
+%                       ^^^^^ keyword.operator.arithmetic.tex
+%                             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                              ^^ constant.numeric.suffix.tex
+\thickmuskip=5mu plus 5mu
+%^^^^^^^^^^^ support.function.tex
+
+\smallskipamount=3pt plus 1pt minus 1pt
+%^^^^^^^^^^^^^^^ support.function.tex
+\medskipamount=6pt plus 2pt minus 2pt
+%^^^^^^^^^^^^^ support.function.tex
+\bigskipamount=12pt plus 4pt minus 4pt
+%^^^^^^^^^^^^^ support.function.tex
+\normalbaselineskip=12pt
+%^^^^^^^^^^^^^^^^^^ support.function.tex
+\normallineskip=1pt
+%^^^^^^^^^^^^^^ support.function.tex
+\normallineskiplimit=0pt
+%^^^^^^^^^^^^^^^^^^^ support.function.tex
+\jot=3pt
+%^^^ support.function.tex
+\interdisplaylinepenalty=100
+%^^^^^^^^^^^^^^^^^^^^^^^ support.function.tex
+\interfootnotelinepenalty=100
+%^^^^^^^^^^^^^^^^^^^^^^^^ support.function.tex
+
+\maxdimen
+%^^^^^^^^ support.function.tex
+\centering
+%^^^^^^^^^ support.function.tex
+\p@
+%^^ support.function.tex
+\z@
+%^^ support.function.tex
+\z@skip
+%^^^^^^ support.function.tex
+\voidb@x
+%^^^^^^^ support.function.tex
+\magstephalf
+%^^^^^^^^^^^ support.function.tex
+\magstep4
+%^^^^^^^^ support.function.tex
+\@ne
+%^^^ support.function.tex
+\tw@
+%^^^ support.function.tex
+\thr@@
+%^^^^^ support.function.tex
+\sixt@@n
+%^^^^^^^ support.function.tex
+\@cclv
+%^^^^^ support.function.tex
+\@cclvi
+%^^^^^^ support.function.tex
+\@m
+%^^ support.function.tex
+\@M
+%^^ support.function.tex
+\@MM
+%^^^ support.function.tex
+\m@ne
+%^^^^ support.function.tex
+
+\count@=255
+%^^^^^^ support.function.tex
+%      ^ keyword.operator.assignment.tex
+%       ^^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+\dimen@=0
+%^^^^^^ support.function.tex
+\dimen@i=1
+%^^^^^^^ support.function.tex
+\dimen@ii=2
+%^^^^^^^^ support.function.tex
+\skip@=0
+%^^^^^ support.function.tex
+\toks@=0
+%^^^^^ support.function.tex
+
+% Assignments without equals sign
+\baselineskip-1000\p@
+%^^^^^^^^^^^^ support.function.tex
+%            ^^^^^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%            ^ keyword.operator.arithmetic.tex
+%                 ^^^ support.function.tex
+%                 ^ punctuation.definition.backslash.tex
+
+% Using weird ways to specify a number
+\abovedisplayskip=`\^^Z ex
+%^^^^^^^^^^^^^^^^ support.function.tex
+%                ^ keyword.operator.assignment.tex
+%                 ^^^^^^^ meta.number.integer.decimal.tex
+%                 ^ keyword.operator.tex
+%                  ^ punctuation.definition.backslash.tex
+%                   ^^^ constant.character.tex
+%                       ^^ constant.numeric.suffix.tex
+
+\abovedisplayskip=`\a ex
+%^^^^^^^^^^^^^^^^ support.function.tex
+%                ^ keyword.operator.assignment.tex
+%                 ^^^^^^ meta.number.integer.decimal.tex
+%                 ^ keyword.operator.tex
+%                  ^ punctuation.definition.backslash.tex
+%                   ^ constant.character.tex
+%                     ^^ constant.numeric.suffix.tex
+
+
+% The macro-type constants. They cannot be assigned using =
+\thinspace=5pt
+%^^^^^^^^^ support.function.tex
+%         ^ - keyword.operator.assignment.tex
+
+\negthinspace
+%^^^^^^^^^^^^ support.function.tex
+\enspace
+%^^^^^^^ support.function.tex
+\enskip
+%^^^^^^ support.function.tex
+\quad
+%^^^^ support.function.tex
+\qquad
+%^^^^^ support.function.tex
+\smallskip
+%^^^^^^^^^ support.function.tex
+\medskip
+%^^^^^^^ support.function.tex
+\bigskip
+%^^^^^^^ support.function.tex
+\space
+%^^^^^ support.function.tex
+\empty
+%^^^^^ support.function.tex
+\null
+%^^^^ support.function.tex
+\lq
+%^^ support.function.tex
+\rq
+%^^ support.function.tex
+\lbrack
+%^^^^^^ support.function.tex
+\rbrack
+%^^^^^^ support.function.tex
+
+% check that we don't pick it up if it is just the beginning of a word
+\jota
+%^^^^ - support.function.tex
+
+% Check that a number is required
+\jot=pt
+%    ^^ - constant.numeric.suffix.tex
+\jot=5pt pt
+%        ^^ - constant.numeric.suffix.tex
+
+\jot=5pt plus plus
+%             ^^^^ - keyword
+
+\jot=5pt plusword
+%        ^^^^ - keyword
+
+\jot=plus
+%    ^^^^ - keyword
+
+% \relax is a no-op that can be used to ensure that the following characters
+% will not be parsed as part of the quantity
+\jot=5pt \relax plus 10pt
+%               ^^^^ - keyword.operator
+%^^^ support.function.tex
+%   ^ keyword.operator.assignment.tex
+%    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%     ^^ constant.numeric.suffix.tex
+%        ^^^^^^ keyword.control.flow.relax.tex
+%        ^ punctuation.definition.backslash.tex
+
+% Finally, test that we can safely use constants inside macro definitions
+
+% No assignment, the = is outside of the macro
+\def\macro{\abovedisplayskip}=5pt
+%                            ^ - keyword.operator.assignment.tex
+%^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%   ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
+%   ^ punctuation.definition.backslash.tex
+%         ^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%          ^^^^^^^^^^^^^^^^^ support.function.tex
+%          ^ punctuation.definition.backslash.tex
+%                           ^ punctuation.definition.group.brace.end.tex
+
+% No value, the 5 is outside of the macro
+\def\macro{\abovedisplayskip=}5
+%                             ^ - meta.number
