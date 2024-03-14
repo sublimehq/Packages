@@ -43,6 +43,8 @@ file_extensions:
   - yaml
   - yml
   - sublime-syntax
+
+hidden_file_extensions:
   - CITATION.cff
 
 first_line_match: ^%YAML( ?1.\d+)? # Technically the number is required, but we'll be a bit loose here
