@@ -49,6 +49,10 @@ variables:
   illegal_custom_ident_tokens: |-
     (?xi: auto | default | inherit | initial | none | unset )
 
+  # Constants
+  lang_range_begin: (?={{ident_start}}|\*)
+  unquoted_url_begin: (?={{ident_start}}|/)
+
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
   # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
@@ -3215,13 +3219,24 @@ contexts:
   # Font Family Names
   # https://drafts.csswg.org/css-fonts-3/#family-name-value
   font-family-names:
-    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
-      scope: meta.string.css string.unquoted.css
+    - match: '{{ident_begin}}'
+      push: font-family-name-body
+
+  font-family-name-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.css string.unquoted.css
+    # allow unquoted space separated font names
+    - match: (?!\s+{{ident_start}}){{break}}
+      pop: 1
+    # function call ahead, skip font name
+    - match: (?=\s+{{ident}}\()
+      pop: 1
+    - match: '{{unicode}}'
 
   # Language Ranges
   # https://drafts.csswg.org/selectors-4/#language-range
   language-ranges:
-    - match: (?={{nmstart}}|\*)
+    - match: '{{lang_range_begin}}'
       push: language-range-content
 
   language-range-content:
@@ -3350,7 +3365,7 @@ contexts:
   # Unquoted URL token
   # https://drafts.csswg.org/css-syntax-3/#consume-a-url-token
   unquoted-urls:
-    - match: (?=[[:alnum:]/])
+    - match: '{{unquoted_url_begin}}'
       push: unquoted-url-body
 
   unquoted-url-body:

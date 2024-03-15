@@ -2967,6 +2967,13 @@
     font: sans serif;
 /*        ^^^^^^^^^^ meta.string.css string.unquoted.css */
 
+    font: san\73 -\73 erif;
+/*        ^^^^^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font: sans serif var(--name);
+/*        ^^^^^^^^^^ meta.string.css string.unquoted.css */
+/*                   ^^^^^^^^^^^ meta.function-call */
+
     font: inherit;
 /*        ^^^^^^^ support - string */
 
