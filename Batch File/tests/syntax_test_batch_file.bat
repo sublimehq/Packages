@@ -2314,6 +2314,24 @@ put arg1 arg2
 ::        ^^ keyword.operator.assignment.redirection.dosbatch
 ::          ^ constant.numeric.value.dosbatch
 
+   PAUSE > NUL
+:: ^^^^^^^^^^^ meta.command.pause.dosbatch
+::       ^^^^^ meta.redirection.dosbatch
+:: ^^^^^ keyword.control.flow.pause.dosbatch
+::       ^ keyword.operator.assignment.redirection.dosbatch
+::         ^^^ constant.language.null.dosbatch
+
+   SETLOCAL EnableDelayedExpansion > NUL
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
+::                                 ^^^^^ meta.redirection.dosbatch
+::                                 ^ keyword.operator.assignment.redirection.dosbatch
+::                                   ^^^ constant.language.null.dosbatch
+
+   ENDLOCAL > NUL
+:: ^^^^^^^^^^^^^^ meta.command.endlocal.dosbatch
+::          ^^^^^ meta.redirection.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::            ^^^ constant.language.null.dosbatch
 
 :::: [ ECHO Command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
