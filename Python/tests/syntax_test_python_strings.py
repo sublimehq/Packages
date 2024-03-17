@@ -1656,3 +1656,11 @@ f'''{
 }'''
 # <- meta.string.python meta.interpolation.python punctuation.section.interpolation.end.python
 #^^^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
+
+## Todo: some task
+#^ comment
+#  ^^^^^^^^^^^^^^^ string.todo
+
+##ToDo: some task
+#^ comment
+# ^^^^^^^^^^^^^^^ string.todo
