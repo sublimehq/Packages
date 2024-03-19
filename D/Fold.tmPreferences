@@ -6,7 +6,7 @@
     <key>settings</key>
     <dict>
         <key>indentationFoldingEnabled</key>
-        <false/>
+        <true/>
         <key>foldScopes</key>
         <array>
             <dict>
@@ -14,6 +14,14 @@
                 <string>punctuation.section.block.begin</string>
                 <key>end</key>
                 <string>punctuation.section.block.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.brackets.begin</string>
+                <key>end</key>
+                <string>punctuation.section.brackets.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
             </dict>
         </array>
     </dict>
