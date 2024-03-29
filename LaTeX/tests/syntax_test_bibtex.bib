@@ -1,30 +1,107 @@
 % SYNTAX TEST "Packages/LaTeX/Bibtex.sublime-syntax"
 
-@string(mar = "march")
-@string(aw = "Addison-Wesley")
-%<- keyword.other.string-constant.bibtex punctuation.definition.keyword.bibtex
-%^^^^^^ keyword.other.string-constant.bibtex
+@string{mar = "march"}
+% <- meta.declaration.bibtex keyword.declaration.constant.bibtex punctuation.definition.keyword.bibtex
+%^^^^^^ meta.declaration.bibtex keyword.declaration.constant.bibtex
+%      ^^^^^^^^^^^^^^^ meta.declaration.arguments.bibtex meta.braces.bibtex
+%      ^ punctuation.section.braces.begin.bibtex
+%       ^^^ entity.name.constant.bibtex
+%           ^ keyword.operator.assignment.bibtex
+%             ^^^^^^^ meta.string.bibtex string.quoted.double.bibtex
+%                    ^ punctuation.section.braces.end.bibtex
+
+@string(aw = {Addison-{Wesley}})
+% <- meta.declaration.bibtex keyword.declaration.constant.bibtex punctuation.definition.keyword.bibtex
+%^^^^^^ meta.declaration.bibtex keyword.declaration.constant.bibtex
+%      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.arguments.bibtex meta.parens.bibtex
+%      ^ punctuation.section.parens.begin.bibtex
 %       ^^ entity.name.constant.bibtex
+%          ^ keyword.operator.assignment.bibtex
+%            ^ punctuation.definition.string.begin.bibtex
+%            ^^^^^^^^^^^^^^^^^^ meta.string.bibtex string.quoted.other.bibtex
+%                             ^ punctuation.definition.string.end.bibtex
+%                              ^ punctuation.section.parens.end.bibtex
+
+@PREAMBLE{"
+% <- meta.preamble.bibtex keyword.declaration.preamble.bibtex punctuation.definition.keyword.bibtex
+%^^^^^^^^ meta.preamble.bibtex keyword.declaration.preamble.bibtex
+%        ^ meta.preamble.arguments.bibtex meta.braces.bibtex punctuation.section.braces.begin.bibtex
+%         ^ meta.preamble.arguments.bibtex meta.braces.bibtex meta.string.bibtex string.quoted.double.bibtex punctuation.definition.string.begin.bibtex
+%          ^ meta.preamble.arguments.bibtex meta.braces.bibtex meta.string.bibtex string.quoted.double.bibtex - punctuation
+\makeatletter
+\providecommand\dosomething[0]{}
+\makeatother
+% <- meta.preamble.arguments.bibtex meta.braces.bibtex meta.string.bibtex string.quoted.double.bibtex
+%^^^^^^^^^^^^ meta.preamble.arguments.bibtex meta.braces.bibtex meta.string.bibtex string.quoted.double.bibtex
+"}
+% <- meta.preamble.arguments.bibtex meta.braces.bibtex meta.string.bibtex string.quoted.double.bibtex punctuation.definition.string.end.bibtex
+%^ meta.preamble.arguments.bibtex meta.braces.bibtex punctuation.section.braces.end.bibtex
+% ^ - meta.preamble
+
+@book
+% <- meta.entry.bibtex keyword.declaration.entry.bibtex punctuation.definition.keyword.bibtex
+%^^^^ meta.entry.bibtex keyword.declaration.entry.bibtex
+%    ^ meta.entry.bibtex - keyword
+
+@book(paren)
+% <- meta.entry.bibtex keyword.declaration.entry.bibtex punctuation.definition.keyword.bibtex
+%^^^^ meta.entry.bibtex keyword.declaration.entry.bibtex
+%    ^^^^^^^ meta.entry.arguments.bibtex meta.parens.bibtex
+%    ^ punctuation.section.parens.begin.bibtex
+%     ^^^^^ entity.name.type.entry-key.bibtex
+%          ^ punctuation.section.parens.end.bibtex
+%           ^ - meta.entry
+
+@book(paren, author="Nobody")
+% <- meta.entry.bibtex keyword.declaration.entry.bibtex punctuation.definition.keyword.bibtex
+%^^^^ meta.entry.bibtex keyword.declaration.entry.bibtex
+%    ^^^^^^ meta.entry.arguments.bibtex meta.parens.bibtex - meta.mapping
+%          ^^^^^^^^^^^^^^^^^ meta.entry.arguments.bibtex meta.parens.bibtex meta.mapping - meta.mapping meta.mapping
+%            ^^^^^^ meta.mapping.key.bibtex string.unquoted.key.bibtex
+%                  ^ meta.mapping.bibtex punctuation.separator.key-value.bibtex
+%                   ^^^^^^^^ meta.mapping.value.bibtex meta.string.bibtex string.quoted.double.bibtex
+%                           ^ meta.entry.arguments.bibtex meta.parens.bibtex punctuation.section.parens.end.bibtex - meta.mapping
+
+@book{knuth97}
+% <- meta.entry.bibtex keyword.declaration.entry.bibtex punctuation.definition.keyword.bibtex
+%^^^^ meta.entry.bibtex keyword.declaration.entry.bibtex
+%    ^^^^^^^^^ meta.entry.arguments.bibtex
+%    ^ punctuation.section.braces.begin.bibtex
+%     ^^^^^^^ entity.name.type.entry-key.bibtex
+%            ^ punctuation.section.braces.end.bibtex
+%             ^ - meta.entry
 
 @book{knuth97,
-%<- keyword.other.entry-type.bibtex punctuation.definition.keyword.bibtex
-%^^^^ keyword.other.entry-type.bibtex
+% <- meta.entry.bibtex keyword.declaration.entry.bibtex punctuation.definition.keyword.bibtex
+%^^^^ meta.entry.bibtex - meta.mapping
+%    ^^^^^^^^ meta.entry.arguments.bibtex meta.braces.bibtex - meta.mapping
+%            ^^ meta.entry.arguments.bibtex meta.braces.bibtex meta.mapping.bibtex
+%^^^^ keyword.declaration.entry.bibtex
+%    ^ punctuation.section.braces.begin.bibtex
 %     ^^^^^^^ entity.name.type.entry-key.bibtex
+%            ^ punctuation.separator.sequence.bibtex
     author    = {Donald E. Knuth},
+%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.entry.arguments.bibtex meta.braces.bibtex - meta.mapping meta.mapping
 %   ^^^^^^ meta.mapping.key.bibtex string.unquoted.key.bibtex
 %         ^^^^^^ meta.mapping.bibtex
 %             ^ punctuation.separator.key-value.bibtex
-%               ^^^^^^^^^^^^^^^^^ meta.mapping.value.bibtex string.quoted.other.braces.bibtex
+%               ^^^^^^^^^^^^^^^^^ meta.mapping.value.bibtex meta.string.bibtex string.quoted.other.bibtex
 %               ^ punctuation.definition.string.begin.bibtex
 %                               ^ punctuation.definition.string.end.bibtex
 %                                ^ punctuation.separator.sequence.bibtex
     title     = {The Art of Computer Programming, Vol. 1: Fundamental Algorithms},
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.bibtex string.quoted.other.bibtex
     edition   = {3},
+%               ^^^ meta.string.bibtex string.quoted.other.bibtex
     publisher = aw,
 %               ^^ variable.other.constant.bibtex
     date      = 1997,
 %               ^^^^ meta.number.integer.decimal.bibtex constant.numeric.value.bibtex
     month     = "1~" # mar,
+%               ^^^^^^^^^^ meta.mapping.value.bibtex
 %                    ^ keyword.operator.concatenation.bibtex
+%                      ^^^ variable.other.constant.bibtex
+%                         ^ punctuation.separator.sequence.bibtex
     isbn      = {978-0-201-89683-1}
 }
+% <- meta.entry.arguments.bibtex punctuation.section.braces.end.bibtex
