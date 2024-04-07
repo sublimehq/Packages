@@ -16,7 +16,7 @@ ur"""Raw docstring \""""
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
 #    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                  ^^ constant.character.escape.python
+#                  ^^ - constant.character.escape
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R"""
@@ -92,7 +92,7 @@ ur'''Raw docstring \''''
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
 #    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                  ^^ constant.character.escape.python
+#                  ^^ - constant.character.escape
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R'''
