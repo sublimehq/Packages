@@ -4051,8 +4051,8 @@ contexts:
 
   escaped-raw-quotes:
     # consume escaped quotes in raw-strings to preven them terminating strings
-    - match: \\['"]
-      scope: constant.character.escape.python
+    # but don't scope them as escapes as they are treated literal
+    - match: \\[\\'"]
 
   escaped-string-braces:
     - match: \{\{|\}\}
