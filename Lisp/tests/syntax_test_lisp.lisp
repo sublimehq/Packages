@@ -513,6 +513,7 @@
   #,foo:bar
 ; ^^ punctuation.definition.variable.lisp
 ;   ^^^ variable.namespace.lisp
+;      ^ punctuation.accessor.lisp
 ;       ^^^ variable.other.lisp
 ;          ^ - variable
 
