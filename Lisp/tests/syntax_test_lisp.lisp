@@ -50,7 +50,7 @@
 ;#########
 
   #A( a b c )
-; ^^ meta.array.lisp - meat.parens
+; ^^ meta.array.lisp - meta.parens
 ;   ^^^^^^^^^ meta.array.lisp meta.parens.lisp
 ; ^^ punctuation.definition.array.lisp
 ;   ^ punctuation.section.parens.begin.lisp
@@ -60,7 +60,7 @@
 ;           ^ punctuation.section.parens.end.lisp
 
   #a( a b c )
-; ^^ meta.array.lisp - meat.parens
+; ^^ meta.array.lisp - meta.parens
 ;   ^^^^^^^^^ meta.array.lisp meta.parens.lisp
 ; ^^ punctuation.definition.array.lisp
 ;   ^ punctuation.section.parens.begin.lisp
