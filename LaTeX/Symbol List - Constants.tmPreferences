@@ -2,7 +2,10 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>entity.name.label.latex</string>
+	<string>
+		entity.name.constant.bibtex,
+		entity.name.constant.tex
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
