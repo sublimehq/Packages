@@ -3282,3 +3282,15 @@ extern(1)
 //           ^ keyword.operator.assignment.d
 //             ^^^^ constant.language.d
 //                 ^ punctuation.terminator.d
+
+    myFn(x: 10, y: 20);
+//  ^^^^^^^^^^^^^^^^^^ meta.function-call.d
+//      ^ punctuation.section.parens.begin.d
+//       ^ variable.parameter.d
+//        ^ keyword.operator.assignment.d
+//          ^^ constant.numeric.value.d
+//            ^ punctuation.separator.sequence.d
+//              ^ variable.parameter.d
+//               ^ keyword.operator.assignment.d
+//                 ^^ constant.numeric.value.d
+//                   ^ punctuation.section.parens.end.d

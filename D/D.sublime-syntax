@@ -665,7 +665,7 @@ contexts:
       captures:
         1: meta.path.d storage.type.d
         2: punctuation.section.parens.begin.d
-      set: [meta-function-call, uda-after, value-list]
+      set: [meta-function-call, uda-after, argument-list]
     - match: '({{name}})\b'
       scope: meta.path.d storage.type.d
       set: value-after
@@ -1284,7 +1284,7 @@ contexts:
     - meta_scope: meta.function-call.d
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [meta-function-call, value-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, argument-list]
     - match: (?=\S)
       set: value-after
   new-anonymous-after-args:
@@ -1401,7 +1401,7 @@ contexts:
       set: [value-after, value-identifier]
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [meta-function-call, value-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, argument-list]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [value-bracket-after, value-list]
@@ -1495,6 +1495,24 @@ contexts:
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       set: value-after
+    - include: not-whitespace-illegal-pop
+
+  argument-list:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: '({{name}})\s*(:)'
+      captures:
+        1: variable.parameter.d
+        2: keyword.operator.assignment.d
+      set: [argument-list-after, value]
+    - match: '(?=\S)'
+      set: [argument-list-after, value]
+  argument-list-after:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: argument-list
     - include: not-whitespace-illegal-pop
 
   value-list:
