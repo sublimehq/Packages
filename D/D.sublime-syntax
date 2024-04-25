@@ -916,7 +916,7 @@ contexts:
   function-definition-after-arguments:
     - meta_scope: meta.function.d
     - include: function-attribute-in
-    - match: '='
+    - match: '=(?!>)'
       scope: keyword.operator.assignment.d
       set: [meta-function, expect-end-of-line, value]
     - match: '\bif\b'
@@ -939,6 +939,9 @@ contexts:
     - match: '\b(do|body)\b'
       scope: keyword.other.d
       set: block-statement
+    - match: '=>'
+      scope: keyword.declaration.function.d
+      set: [meta-function, expect-end-of-line, value]
     - match: '{{block_statement_loohahead}}'
       set: block-statement
     - include: expect-end-of-line

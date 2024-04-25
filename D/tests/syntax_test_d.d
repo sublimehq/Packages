@@ -1250,6 +1250,32 @@ extern(1)
 //                  ^^ meta.function.d meta.block.d
 //                  ^ punctuation.section.block.begin.d
 //                   ^ punctuation.section.block.end.d
+  int boo() => 5;
+//^^^ storage.type.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^ meta.function.parameters.d
+//       ^ punctuation.section.group.begin.d
+//        ^ punctuation.section.group.end.d
+//          ^^ meta.function.d keyword.declaration.function.d
+//             ^ meta.number.integer.decimal.d
+//              ^ meta.function.d punctuation.terminator.d
+  int par(T)() if(true) => 7;
+//^^^ storage.type.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^^^^ meta.function.parameters.d
+//       ^ punctuation.section.group.begin.d
+//        ^ variable.parameter.d
+//         ^ punctuation.section.group.end.d
+//          ^ punctuation.section.group.begin.d
+//           ^ punctuation.section.group.end.d
+//             ^^^^^^^^^^^^^ meta.function.d
+//             ^^ keyword.control.conditional.d
+//               ^ punctuation.section.parens.begin.d
+//                ^^^^ constant.language.d
+//                    ^ punctuation.section.parens.end.d
+//                      ^^ meta.function.d keyword.declaration.function.d
+//                         ^ meta.number.integer.decimal.d
+//                          ^ meta.function.d punctuation.terminator.d
     void bar();
   //^^^^ storage.type.d
   //     ^^^ meta.function.d entity.name.function.d
