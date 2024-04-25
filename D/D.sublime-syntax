@@ -1423,7 +1423,10 @@ contexts:
     - match: '(<<|>>>|>>|\||\^|&)'
       scope: keyword.operator.bitwise.d
       set: value
-    - match: '(==|!=|\bis\b|!is\b|<=|<|>=|>|\bin\b|!in\b)'
+    - match: '(\bis\b|!is\b|\bin\b|!in\b)'
+      scope: keyword.operator.word.d keyword.operator.comparison.d
+      set: value
+    - match: '(==|!=|<=|<|>=|>)'
       scope: keyword.operator.comparison.d
       set: value
     - match: '='

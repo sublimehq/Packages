@@ -3181,11 +3181,19 @@ extern(1)
 //                     ^ variable.other.d
 //                      ^ punctuation.terminator.d
 
+  assert(foo is bar);
+//^^^^^^ keyword.other.assert.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^ meta.path.d variable.other.d
+//           ^^ keyword.operator.word.d keyword.operator.comparison.d
+//              ^^^ meta.path.d variable.other.d
+//                 ^ punctuation.section.parens.end.d
+//                  ^ punctuation.terminator.d
   assert(foo !is bar);
 //^^^^^^ keyword.other.assert.d
 //      ^ punctuation.section.parens.begin.d
 //       ^^^ meta.path.d variable.other.d
-//           ^^^ keyword.operator.comparison.d
+//           ^^^ keyword.operator.word.d keyword.operator.comparison.d
 //               ^^^ meta.path.d variable.other.d
 //                  ^ punctuation.section.parens.end.d
 //                   ^ punctuation.terminator.d
