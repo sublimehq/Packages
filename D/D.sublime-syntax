@@ -1718,6 +1718,7 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
+        - include: attribute-in
         - match: '(?=\b({{name}})\b)'
           push: enum-member
         - include: not-whitespace-illegal
