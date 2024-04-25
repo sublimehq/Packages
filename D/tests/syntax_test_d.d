@@ -505,6 +505,16 @@ extern(1)
 //                 ^^^^ variable.function.d
 //                       ^^^^ storage.type.d
 //                           ^ punctuation.section.parens.end.d
+  pragma(inline) pragma(mangle, "main"):
+//^^^^^^ keyword.other.pragma.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^^^^ variable.function.d
+//             ^ punctuation.section.parens.end.d
+//               ^^^^^^ keyword.other.pragma.d
+//                     ^ punctuation.section.parens.begin.d
+//                      ^^^^^^ variable.function.d constant.other.d
+//                              ^^^^^^ string.quoted.double.d
+//                                    ^ punctuation.section.parens.end.d
   private:
 //^^^^^^^ storage.modifier.access-control.d
 //       ^ punctuation.separator.d
@@ -2897,10 +2907,10 @@ extern(1)
   __traits(foo, a);
 //^^^^^^^^ keyword.other.d
 //        ^ punctuation.section.parens.begin.d
-//         ^^^ variable.function.d
+//         ^^^ invalid.illegal.d
 //            ^ punctuation.separator.sequence.d
 //              ^ meta.path.d variable.other.d
-//               ^ punctuation.section.parens.end.d
+//               ^ invalid.illegal.d
 //                ^ punctuation.terminator.d
   values ~= toValue(__traits(getMember, this, primaryKey));
 //^^^^^^ meta.path.d variable.other.d
@@ -2910,7 +2920,7 @@ extern(1)
 //                 ^ punctuation.section.parens.begin.d
 //                  ^^^^^^^^ keyword.other.d
 //                          ^ punctuation.section.parens.begin.d
-//                           ^^^^^^^^^ variable.function.d
+//                           ^^^^^^^^^ variable.function.d constant.other.d
 //                                    ^ punctuation.separator.sequence.d
 //                                      ^^^^ variable.language.d
 //                                          ^ punctuation.separator.sequence.d
