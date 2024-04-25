@@ -1948,7 +1948,7 @@ extern(1)
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.parens.begin.d
 //    ^ variable.other.d
-//      ^^ keyword.operator.comparison.d
+//      ^^ keyword.operator.word.d
 //         ^ variable.other.d
 //          ^ punctuation.section.parens.end.d
 //            ^^ meta.block.d
@@ -1959,7 +1959,7 @@ extern(1)
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.parens.begin.d
 //    ^ variable.other.d
-//       ^^ keyword.operator.comparison.d
+//      ^^^ keyword.operator.word.d
 //          ^ variable.other.d
 //           ^ punctuation.section.parens.end.d
 //             ^^ meta.block.d
@@ -2924,7 +2924,7 @@ extern(1)
 //     ^ meta.number.integer.decimal.d
 //       ^^ keyword.operator.logical.d
 //          ^^^ string.quoted.double.d
-//              ^^^ keyword.operator.comparison.d
+//              ^^^ keyword.operator.word.d
 //                  ^ punctuation.section.brackets.begin.d
 //                   ^ meta.number.integer.decimal.d
 //                    ^ punctuation.section.brackets.end.d
@@ -3185,7 +3185,7 @@ extern(1)
 //^^^^^^ keyword.other.assert.d
 //      ^ punctuation.section.parens.begin.d
 //       ^^^ meta.path.d variable.other.d
-//           ^^ keyword.operator.word.d keyword.operator.comparison.d
+//           ^^ keyword.operator.word.d
 //              ^^^ meta.path.d variable.other.d
 //                 ^ punctuation.section.parens.end.d
 //                  ^ punctuation.terminator.d
@@ -3193,7 +3193,7 @@ extern(1)
 //^^^^^^ keyword.other.assert.d
 //      ^ punctuation.section.parens.begin.d
 //       ^^^ meta.path.d variable.other.d
-//           ^^^ keyword.operator.word.d keyword.operator.comparison.d
+//           ^^^ keyword.operator.word.d
 //               ^^^ meta.path.d variable.other.d
 //                  ^ punctuation.section.parens.end.d
 //                   ^ punctuation.terminator.d

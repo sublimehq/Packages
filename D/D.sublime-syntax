@@ -1424,7 +1424,7 @@ contexts:
       scope: keyword.operator.bitwise.d
       set: value
     - match: '(\bis\b|!is\b|\bin\b|!in\b)'
-      scope: keyword.operator.word.d keyword.operator.comparison.d
+      scope: keyword.operator.word.d
       set: value
     - match: '(==|!=|<=|<|>=|>)'
       scope: keyword.operator.comparison.d
