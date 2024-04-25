@@ -547,7 +547,7 @@ extern(1)
 //                                         ^ meta.path.d variable.other.d
 //                                          ^ punctuation.terminator.d
   string foo = import("foo.txt");
-//^^^^^^ storage.type.d
+//^^^^^^ storage.type.d support.type.builtin-alias.d
 //       ^^^ variable.other.d
 //           ^ keyword.operator.assignment.d
 //             ^^^^^^ keyword.control.import.d
@@ -915,7 +915,7 @@ extern(1)
 //^^^^^ keyword.declaration.union.d
 //      ^^^^ entity.name.union.d
 //          ^ punctuation.section.group.begin.d
-//           ^^^^^^ storage.type.d
+//           ^^^^^^ storage.type.d support.type.builtin-alias.d
 //                  ^ variable.parameter.d
 //                   ^ punctuation.separator.sequence.d
 //                     ^ variable.parameter.d
@@ -1494,7 +1494,7 @@ extern(1)
 //           ^ keyword.operator.comparison.d
 //             ^^^ storage.type.d
 //                ^ punctuation.separator.sequence.d
-//                  ^^^^^^ storage.type.d
+//                  ^^^^^^ storage.type.d support.type.builtin-alias.d
 //                         ^ variable.parameter.d
 //                           ^ keyword.operator.comparison.d
 //                             ^^^ string.quoted.double.d
@@ -1769,7 +1769,7 @@ extern(1)
   //^^^^^^^^ keyword.declaration.template.d
   //         ^ entity.name.template.d
   //          ^ punctuation.section.group.begin.d
-  //           ^^^^^^ storage.type.d
+  //           ^^^^^^ storage.type.d support.type.builtin-alias.d
   //                  ^ variable.parameter.d
   //                   ^ punctuation.section.group.end.d
   //                     ^ punctuation.section.block.begin.d
@@ -2034,7 +2034,7 @@ extern(1)
   for (size_t i; !val.empty; val.popFront(), ++i) {}
 //^^^ keyword.control.loop.d
 //    ^ punctuation.section.parens.begin.d
-//     ^^^^^^ storage.type.d
+//     ^^^^^^ storage.type.d support.type.builtin-alias.d
 //            ^ variable.other.d
 //             ^ punctuation.terminator.d
 //               ^ keyword.operator.logical.d
@@ -2864,7 +2864,7 @@ extern(1)
 //         ^^^ storage.type.d
 //             ^ variable.parameter.d
 //              ^ punctuation.separator.sequence.d
-//                ^^^^^^ storage.type.d
+//                ^^^^^^ storage.type.d support.type.builtin-alias.d
 //                       ^ variable.parameter.d
 //                        ^ punctuation.section.group.end.d
 //                          ^^^^^^^^^^^ meta.function.d
@@ -2875,7 +2875,7 @@ extern(1)
   function size_t(foo a) {};
 //^^^^^^^^^^^^^^^ meta.function.d
 //^^^^^^^^ keyword.other.d
-//         ^^^^^^ storage.type.d
+//         ^^^^^^ storage.type.d support.type.builtin-alias.d
 //               ^^^^^^^ meta.function.parameters.d
 //               ^ punctuation.section.group.begin.d
 //                ^^^ storage.type.d
@@ -3041,7 +3041,7 @@ extern(1)
 //     ^^^^^^^^^^^ meta.function.d entity.name.function.d
 //                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.d
 //                ^ punctuation.section.group.begin.d
-//                 ^^^^^^ storage.type.d
+//                 ^^^^^^ storage.type.d support.type.builtin-alias.d
 //                        ^ variable.parameter.d
 //                         ^ punctuation.separator.sequence.d
 //                           ^ variable.parameter.d
