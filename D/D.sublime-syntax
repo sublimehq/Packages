@@ -1242,7 +1242,7 @@ contexts:
       scope: variable.language.d
       set: value-after
     - match: '\b({{builtin_type_alias}})\b'
-      scope: support.type.d
+      scope: storage.type.d support.type.builtin-alias.d
       set: value-after
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d

@@ -580,7 +580,7 @@ extern(1)
 //            ^^^^^ storage.modifier.d
 //                  ^^^ storage.type.d
 //                     ^ punctuation.section.brackets.begin.d
-//                      ^^^^^^ storage.type.d
+//                      ^^^^^^ storage.type.d support.type.builtin-alias.d
 //                            ^ punctuation.section.brackets.end.d
 //                             ^ punctuation.separator.sequence.d
 //                               ^^^ entity.name.type.d
