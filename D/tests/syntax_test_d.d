@@ -508,11 +508,11 @@ extern(1)
   pragma(inline) pragma(mangle, "main"):
 //^^^^^^ keyword.other.pragma.d
 //      ^ punctuation.section.parens.begin.d
-//       ^^^^^^ variable.function.d
+//       ^^^^^^ constant.other.d
 //             ^ punctuation.section.parens.end.d
 //               ^^^^^^ keyword.other.pragma.d
 //                     ^ punctuation.section.parens.begin.d
-//                      ^^^^^^ variable.function.d constant.other.d
+//                      ^^^^^^ constant.other.d
 //                              ^^^^^^ string.quoted.double.d
 //                                    ^ punctuation.section.parens.end.d
   private:
@@ -2920,7 +2920,7 @@ extern(1)
 //                 ^ punctuation.section.parens.begin.d
 //                  ^^^^^^^^ keyword.other.d
 //                          ^ punctuation.section.parens.begin.d
-//                           ^^^^^^^^^ variable.function.d constant.other.d
+//                           ^^^^^^^^^ constant.other.d
 //                                    ^ punctuation.separator.sequence.d
 //                                      ^^^^ variable.language.d
 //                                          ^ punctuation.separator.sequence.d
