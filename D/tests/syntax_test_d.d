@@ -951,6 +951,43 @@ extern(1)
     1
   //^ meta.enum.d invalid.illegal.d
   }
+  enum Boo {
+//^^^^^^^^^^^ meta.enum.d
+//^^^^ keyword.declaration.enum.d
+//     ^^^ entity.name.enum.d
+//         ^ punctuation.section.block.begin.d
+    deprecated foo,
+  //^^^^^^^^^^^^^^^^ meta.enum.d
+  //^^^^^^^^^^ keyword.other.deprecated.d
+  //           ^^^ entity.name.constant.d
+  //              ^ punctuation.separator.sequence.d
+    @Test bar = 2,
+  //^^^^^^^^^^^^^^^ meta.enum.d
+  //^ punctuation.definition.annotation.begin.d
+  // ^^^^ meta.path.d storage.type.d
+  //      ^^^ entity.name.constant.d
+  //          ^ keyword.operator.assignment.d
+  //            ^ meta.number.integer.decimal.d
+  //             ^ punctuation.separator.sequence.d
+    deprecated( "Oops!" ) boo,
+  //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
+  //^^^^^^^^^^ keyword.other.deprecated.d
+  //          ^ punctuation.section.parens.begin.d
+  //            ^^^^^^^ string.quoted.double.d
+  //                    ^ punctuation.section.parens.end.d
+  //                      ^^^ entity.name.constant.d
+  //                         ^ punctuation.separator.sequence.d
+    @("Test") par = 2,
+  //^^^^^^^^^^^^^^^^^^^ meta.enum.d
+  //^ punctuation.definition.annotation.begin.d
+  // ^ punctuation.section.parens.begin.d
+  //  ^^^^^^ string.quoted.double.d
+  //        ^ punctuation.section.parens.end.d
+  //          ^^^ entity.name.constant.d
+  //              ^ keyword.operator.assignment.d
+  //                ^ meta.number.integer.decimal.d
+  //                 ^ punctuation.separator.sequence.d
+  }
 //^ meta.enum.d punctuation.section.block.end.d
   enum Foo : int { a = 12 }
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
