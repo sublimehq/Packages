@@ -2239,18 +2239,18 @@ contexts:
       scope: meta.function-call.template.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{builtin_type_alias}}\b'
-      scope: meta.path.d storage.type.d support.type.builtin-alias.d
+      scope: meta.path.d support.type.builtin-alias.d
       set: type-identifier-after
     - match: '\b{{name}}\b'
       scope: meta.path.d storage.type.d
       set: type-identifier-after
     - include: not-whitespace-illegal-pop
   type-identifier-after:
-      - match: \.
-        scope: meta.path.d punctuation.accessor.dot.d
-        set: type-identifier
-      - match: '(?=\S)'
-        pop: true
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: type-identifier
+    - match: '(?=\S)'
+      pop: true
   type-identifier-ref:
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d
