@@ -100,9 +100,9 @@ void main(char[][] args)
         //                       ^ meta.block - keyword.type
         assert(result.allocated > 0);
     }
-    do {
-  //^^ meta.block keyword.other
-  //   ^ meta.block meta.block
+    body {
+    // ^ meta.block keyword.other
+    //   ^ meta.block meta.block
         specs* s = new specs;
          s.count = args.length;
          s.allocated = typeof(args).sizeof;

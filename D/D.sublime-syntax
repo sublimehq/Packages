@@ -936,7 +936,7 @@ contexts:
     - match: '\bout\b'
       scope: keyword.control.conditional.d
       push: function-out-contract
-    - match: '\b(do)\b'
+    - match: '\b(do|body)\b'
       scope: keyword.other.d
       set: block-statement
     - match: '{{block_statement_loohahead}}'
