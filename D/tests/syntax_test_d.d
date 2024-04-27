@@ -1632,9 +1632,9 @@ extern(1)
   //      ^ punctuation.terminator.d
   }
 //^ meta.function.d meta.block.d punctuation.section.block.end.d
-  body {
-//^^^^ keyword.other.d
-//     ^ punctuation.section.block.begin.d
+  do {
+//^^ keyword.other.d
+//   ^ punctuation.section.block.begin.d
   }
   void f()
 //^^^^ storage.type.d
