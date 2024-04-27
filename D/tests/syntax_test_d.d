@@ -1133,28 +1133,35 @@ extern(1)
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.parens.begin.d
-//        ^^^^^^^^ keyword.control.conditional.d
+//        ^^^^^^^^ constant.other.d
 //                ^ punctuation.section.parens.end.d
 //                  ^ punctuation.section.block.begin.d
 //                   ^ punctuation.section.block.end.d
   version(assert) {}
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.parens.begin.d
-//        ^^^^^^ keyword.other.assert.d
+//        ^^^^^^ constant.other.d
 //              ^ punctuation.section.parens.end.d
 //                ^ punctuation.section.block.begin.d
 //                 ^ punctuation.section.block.end.d
+  version(D_AVX) {}
+//^^^^^^^ keyword.control.conditional.d
+//       ^ punctuation.section.parens.begin.d
+//        ^^^^^ constant.other.d
+//             ^ punctuation.section.parens.end.d
+//               ^ punctuation.section.block.begin.d
+//                ^ punctuation.section.block.end.d
   version(foo) {}
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.parens.begin.d
-//        ^^^ constant.other.d
+//        ^^^ variable.function.d
 //           ^ punctuation.section.parens.end.d
 //             ^ punctuation.section.block.begin.d
 //              ^ punctuation.section.block.end.d
   version(1):
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.parens.begin.d
-//        ^ meta.number.integer.decimal.d
+//        ^ invalid.deprecated.d
 //         ^ punctuation.section.parens.end.d
 //          ^ punctuation.separator.d
 

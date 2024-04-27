@@ -65,6 +65,7 @@ variables:
   language_variable: 'this|super'
   reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{language_variable}}'
 
+  predefined_versions: 'DigitalMars|GNU|LDC|SDC|Windows|Win32|Win64|linux|OSX|iOS|TVOS|WatchOS|VisionOS|FreeBSD|OpenBSD|NetBSD|DragonFlyBSD|BSD|Solaris|Posix|AIX|Haiku|SkyOS|SysV3|SysV4|Hurd|Android|Emscripten|PlayStation|PlayStation4|Cygwin|MinGW|FreeStanding|CRuntime_Bionic|CRuntime_DigitalMars|CRuntime_Glibc|CRuntime_Microsoft|CRuntime_Musl|CRuntime_Newlib|CRuntime_UClibc|CRuntime_WASI|CppRuntime_Clang|CppRuntime_DigitalMars|CppRuntime_Gcc|CppRuntime_Microsoft|CppRuntime_Sun|X86|X86_64|ARM|ARM_Thumb|ARM_SoftFloat|ARM_SoftFP|ARM_HardFloat|AArch64|AsmJS|AVR|Epiphany|PPC|PPC_SoftFloat|PPC_HardFloat|PPC64|IA64|MIPS32|MIPS64|MIPS_O32|MIPS_N32|MIPS_O64|MIPS_N64|MIPS_EABI|MIPS_SoftFloat|MIPS_HardFloat|MSP430|NVPTX|NVPTX64|RISCV32|RISCV64|SPARC|SPARC_V8Plus|SPARC_SoftFloat|SPARC_HardFloat|SPARC64|S390|SystemZ|HPPA|HPPA64|SH|WebAssembly|WASI|Alpha|Alpha_SoftFloat|Alpha_HardFloat|LittleEndian|BigEndian|ELFv1|ELFv2|D_BetterC|D_Exceptions|D_ModuleInfo|D_TypeInfo|D_Coverage|D_Ddoc|D_InlineAsm_X86|D_InlineAsm_X86_64|D_LP64|D_X32|D_HardFloat|D_SoftFloat|D_PIC|D_PIE|D_SIMD|D_AVX|D_AVX2|D_Version2|D_NoBoundsChecks|D_ObjectiveC|D_ProfileGC|D_Optimized|Core|Std|unittest|assert|D_PreConditions|D_PostConditions|D_Invariants|none|all'
   operator_overloads: 'opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r'
 
   block_statement_loohahead: '(?={)'
@@ -1800,17 +1801,14 @@ contexts:
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set:
-        - match: \bunittest\b
-          scope: keyword.control.conditional.d
-          set: conditional-declaration-after-parens
-        - match: \bassert\b
-          scope: keyword.other.assert.d
-          set: conditional-declaration-after-parens
-        - match: '\b({{name}})\b'
+        - match: '\b({{predefined_versions}})\b'
           scope: constant.other.d
           set: conditional-declaration-after-parens
+        - match: '\b({{name}})\b'
+          scope: variable.function.d
+          set: conditional-declaration-after-parens
         - match: '{{integer_lookahead}}'
-          set: [conditional-declaration-after-parens, integer]
+          set: [conditional-declaration-after-parens, conditional-integer]
         - include: not-whitespace-illegal
     - match: '='
       scope: keyword.operator.assignment.d
@@ -1824,13 +1822,39 @@ contexts:
           scope: constant.other.d
           set: conditional-declaration-after-parens
         - match: '{{integer_lookahead}}'
-          set: [conditional-declaration-after-parens, integer]
+          set: [conditional-declaration-after-parens, conditional-integer]
         - include: not-whitespace-illegal
     - match: '='
       scope: keyword.operator.assignment.d
       set: conditional-declaration-assignment
     - match: '(?=\S)'
       set: optional-block-statement-or-label
+  conditional-integer:
+    - include: conditional-integer-opt
+    - include: not-whitespace-illegal-pop
+  conditional-integer-opt:
+    - match: (0[bB])(_?)({{bin_digits}})({{integer_suffix}})?
+      scope: meta.number.integer.binary.d
+      captures:
+        1: invalid.deprecated.d
+        2: invalid.deprecated.d
+        3: invalid.deprecated.d
+        4: invalid.deprecated.d
+      pop: true
+    - match: (0[xX])(_?)({{hex_digits}})({{integer_suffix}})?
+      scope: meta.number.integer.hexadecimal.d
+      captures:
+        1: invalid.deprecated.d
+        2: invalid.deprecated.d
+        3: invalid.deprecated.d
+        4: invalid.deprecated.d
+      pop: true
+    - match: ({{dec_integer}})({{integer_suffix}})?
+      scope: meta.number.integer.decimal.d
+      captures:
+        1: invalid.deprecated.d
+        2: invalid.deprecated.d
+      pop: true
 
   static-foreach-in:
     - match: '\b(static)\s+(foreach|foreach_reverse)\b'
