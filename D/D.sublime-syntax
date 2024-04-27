@@ -52,7 +52,7 @@ variables:
   type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
   attribute_lookahead: '(?=@|\b({{attributes}}|extern|align|deprecated|pragma|private|protected|public|export|package)\b)'
   attributes: 'static|abstract|final|override|synchronized|scope|__gshared|nothrow|pure|ref|return|auto'
-  at_attributes: 'disable|nogc|property|safe|system|trusted'
+  at_attributes: 'disable|live|mustuse|nogc|property|safe|system|trusted'
   function_attribute_lookahead: '{{attribute_lookahead}}|{{type_qualifier_lookahead}}'
   parameter_attribute_lookahead: '(?=\b({{parameter_attribute}})\b)'
   parameter_attribute: 'in|lazy|out|alias'
