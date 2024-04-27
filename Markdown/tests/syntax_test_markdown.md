@@ -3195,6 +3195,46 @@ test
 > bar
 | <- markup.quote punctuation.definition.blockquote - meta.table
 
+| c1  |  c2    | c3      | c4     | c5          | c6       | c7
+| --- | ---    | ---     | ---    | ---         | ---      | ---
+| ` ` | ` me ` | `` ` `` | ` `` ` | ``foo`bar`` | ```foo`` | ``foo```
+| <- meta.table.markdown-gfm punctuation.separator.table-cell.markdown
+| ^^^ meta.table.markdown-gfm markup.raw.inline.markdown
+| ^ punctuation.definition.raw.begin.markdown
+|   ^ punctuation.definition.raw.end.markdown
+|     ^ punctuation.separator.table-cell
+|       ^^^^^^ markup.raw.inline.markdown
+|       ^ punctuation.definition.raw.begin.markdown
+|            ^ punctuation.definition.raw.end.markdown
+|                ^^^^^^^ markup.raw.inline.markdown
+|                ^^ punctuation.definition.raw.begin.markdown
+|                  ^^^ - punctuation
+|                     ^^ punctuation.definition.raw.end.markdown
+|                        ^ punctuation.separator.table-cell
+|                          ^^^^^^ markup.raw.inline.markdown
+|                          ^ punctuation.definition.raw.begin.markdown
+|                           ^^^^ - punctuation
+|                               ^ punctuation.definition.raw.end.markdown
+|                                 ^ punctuation.separator.table-cell
+|                                   ^^^^^^^^^^^ markup.raw.inline.markdown
+|                                   ^^ punctuation.definition.raw.begin.markdown
+|                                     ^^^^^^^ - punctuation
+|                                            ^^ punctuation.definition.raw.end.markdown
+|                                               ^ punctuation.separator.table-cell
+|                                                 ^^^^^^^^ - markup.raw
+
+| c1             |  c2                 |
+| ---            | ---                 |
+| ```` ``` ````  | `````` ````` `````` |
+| ^^^^^^^^^^^^^ markup.raw.inline.markdown
+| ^^^^ punctuation.definition.raw.begin.markdown
+|     ^^^^^ - punctuation
+|          ^^^^ punctuation.definition.raw.end.markdown
+|                  ^^^^^^^^^^^^^^^^^^^ markup.raw.inline.markdown
+|                  ^^^^^^ punctuation.definition.raw.begin.markdown
+|                        ^^^^^^^ - punctuation
+|                               ^^^^^^ punctuation.definition.raw.end.markdown
+
 `|` this `|` example `|` is not a table `|`
 | ^ punctuation.definition.raw.end - meta.table
 | nor is this | because it is not at block level, it immediately follows a paragraph |
@@ -3251,15 +3291,6 @@ not a table |
 |`test | me |
 |^^^^^^^^^^^^^ meta.table.markdown-gfm - markup.raw
 |      ^ punctuation.separator.table-cell
-| ` ` | ` me ` |
-| <- meta.table.markdown-gfm punctuation.separator.table-cell.markdown
-| ^^^ meta.table.markdown-gfm markup.raw.inline.markdown
-| ^ punctuation.definition.raw.begin.markdown
-|   ^ punctuation.definition.raw.end.markdown
-|     ^ punctuation.separator.table-cell
-|       ^^^^^^ markup.raw.inline.markdown
-|       ^ punctuation.definition.raw.begin.markdown
-|            ^ punctuation.definition.raw.end.markdown
 
 | table | followed by
 paragraph
