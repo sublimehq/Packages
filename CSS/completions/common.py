@@ -422,6 +422,13 @@ def get_common_values():
         ],
         "overflow-position": ["unsafe", "safe"],
         "position": ["<side-or-corner>", "center"],
+        "ray-size": [
+            "closest-side",
+            "closest-corner",
+            "farthest-side",
+            "farthest-corner",
+            "sides",
+        ],
         "relative-size": ["larger", "smaller"],
         "relative-weight": ["bolder", "lighter"],
         "repeat-style": [

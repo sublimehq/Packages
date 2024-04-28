@@ -59,6 +59,7 @@ def get_func_args():
         "polygon": ["<calc>", "<fill-rule>"],
         "pow": ["<calc>"],
         "radial-gradient": ["<ending-shape>", "<size>", "at", "<position>", "<color>"],
+        "ray": ["<position>", "<ray-size>", "at", "contain"],
         "rect": ["<calc>", "auto"],
         "rem": ["<calc>"],
         "repeat": ["<calc>", "auto-fill", "auto-fit"],
