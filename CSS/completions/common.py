@@ -451,7 +451,8 @@ def get_common_values():
         ],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
-        "text-wrap": ["wrap", "nowrap", "balance", "stable", "pretty"],
+        "text-wrap-mode": ["wrap", "nowrap"],
+        "text-wrap-style": ["balance", "stable", "pretty"],
         "timing-function": [
             "linear",
             "ease",

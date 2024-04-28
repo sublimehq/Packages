@@ -1098,7 +1098,9 @@ def get_properties():
         ],
         "text-underline-offset": ["<calc>", "auto"],
         "text-underline-position": ["auto", "under", "left", "right"],
-        "text-wrap": ["<text-wrap>"],
+        "text-wrap": ["<text-wrap-mode>", "<text-wrap-style>"],
+        "text-wrap-mode": ["<text-wrap-mode>"],
+        "text-wrap-style": ["<text-wrap-style>"],
         "top": ["<calc>", "auto"],
         "touch-action": [
             "auto",
