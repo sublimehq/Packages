@@ -506,12 +506,6 @@ def get_common_values():
             "preserve-spaces",
             "break-spaces"
         ],
-        "white-space-trim": [
-            "none",
-            "discard-before",
-            "discard-after",
-            "discard-inner"
-        ],
     }
 
     resolved_values = {}

@@ -1202,10 +1202,8 @@ def get_properties():
             "pre-line",
             "<text-wrap>",
             "<white-space-collapse>",
-            "<white-space-trim>",
         ],
         "white-space-collapse": ["<white-space-collapse>"],
-        "white-space-trim": ["<white-space-trim>"],
         "widows": [
             "<calc>",
         ],
