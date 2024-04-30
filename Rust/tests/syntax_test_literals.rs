@@ -1,11 +1,11 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 let c = 'c';
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //    ^ keyword.operator.assignment
 //      ^^^ string.quoted.single
 let b = b'c';
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //    ^ keyword.operator.assignment
 //      ^ storage.type
 //       ^^^ string.quoted.single
@@ -13,7 +13,7 @@ let ch = '∞';
 //       ^^^ string.quoted.single
 
 let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //    ^ keyword.operator.assignment
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                        ^^^^ constant.character.escape
@@ -26,7 +26,7 @@ let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
 //                                                     ^^ constant.character.escape
 //                                                        ^^ constant.character.escape
 let r = r##"This is a raw string, no escapes! \x00 \0 \n"##;
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //    ^ keyword.operator.assignment
 //      ^ storage.type
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw - constant.character.escape
@@ -46,7 +46,7 @@ println!("Continuation in format \
 ");
 
 let bytes = b"This won't escape unicode \u{0123}, but will do \x01_\"_\'_\\_\r_\n_\t_\0";
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //        ^ keyword.operator.assignment
 //          ^ storage.type
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
@@ -60,7 +60,7 @@ let bytes = b"This won't escape unicode \u{0123}, but will do \x01_\"_\'_\\_\r_\
 //                                                                                   ^^ constant.character.escape
 
 let raw_bytes = br#"This won't escape anything either \x01 \""#;
-// <- storage.type
+// <- keyword.declaration.variable.rust
 //            ^ keyword.operator.assignment
 //              ^^ storage.type
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double - constant.character.escape
@@ -165,6 +165,55 @@ let s_uni_esc_under3 = "\u{10__FFFF}";
 //                      ^^^^^^^^^^^^ string.quoted.double constant.character.escape
 let s_uni_esc_extra = "\u{1234567}";
 //                     ^^^^^^^^^^^ string.quoted.double invalid.illegal.character.escape
+
+let cstr_empty = c"";
+//               ^ string.quoted.double storage.type.string
+//               ^^^ string.quoted.double
+//                ^ punctuation.definition.string.begin
+//                 ^ punctuation.definition.string.end
+//                  ^ punctuation.terminator
+let cstr_unicode = c"æ";
+//                 ^ string.quoted.double storage.type.string
+//                 ^^^^ string.quoted.double
+let cstr_byte_escape = c"\xFF\xC3\xA6\n\r\t\0\"\'\\";
+//                     ^ storage.type.string
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+let cstr_byte_escape_invalid = c"\a";
+//                             ^^^^^ string.quoted.double
+//                             ^ storage.type.string
+//                              ^ punctuation.definition.string.begin
+//                               ^^ invalid.illegal.character.escape
+//                                 ^ punctuation.definition.string.end
+let cstr_unicode_escape = c"\u{00E6}";
+//                        ^^^^^^^^^^^ string.quoted.double
+//                          ^^^^^^^^ constant.character.escape
+let cstr_continue = c"\
+    \xFF";
+//  ^^^^ string.quoted.double constant.character.escape
+
+let raw_cstr_empty = cr"";
+//                   ^^^^ string.quoted.double.raw
+//                   ^^ storage.type.string
+//                     ^ punctuation.definition.string.begin
+//                      ^ punctuation.definition.string.end
+let raw_cstr_unicode = cr"東京";
+//                     ^^^^^^ string.quoted.double.raw
+//                     ^^ storage.type.string
+let raw_cstr_hash = cr#"text with "quote" in it."#;
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw
+//                  ^^ storage.type.string
+//                    ^^ punctuation.definition.string.begin
+//                                              ^^ punctuation.definition.string.end
+let raw_cstr_multiline = cr##"
+//                       ^^ string.quoted.double.raw storage.type.string
+//                       ^^^^^^ string.quoted.double.raw
+    This text has "multiple lines"
+    "##;
+//   ^^ string.quoted.double.raw punctuation.definition.string.end
+let raw_cstr_escape_ignore = cr"\n\x01\u{0123}\";
+//                           ^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw
+//                              ^^^^^^^^^^^^^^^ -constant.character.escape
 
 0;
 // <- constant.numeric.integer.decimal

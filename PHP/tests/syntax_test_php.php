@@ -2033,6 +2033,26 @@ $array = array_reduce(
 );
 // <- punctuation.section.group.end
 
+$array['callback'](first: 'first', second: 'second');
+// <- meta.function-call.identifier.php variable.other.php punctuation.definition.variable.php
+//^^^^ meta.function-call.identifier.php - meta.item-access
+//    ^^^^^^^^^^^^ meta.function-call.identifier.php meta.item-access.php
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//^^^^ variable.other.php
+//    ^ punctuation.section.brackets.begin.php
+//     ^^^^^^^^^^ meta.string.php string.quoted.single.php
+//               ^ punctuation.section.brackets.end.php
+//                ^ punctuation.section.group.begin.php
+//                 ^^^^^ variable.parameter.named.php
+//                      ^ keyword.operator.assignment.php
+//                        ^^^^^^^ meta.string.php string.quoted.single.php
+//                               ^ punctuation.separator.sequence.php
+//                                 ^^^^^^ variable.parameter.named.php
+//                                       ^ keyword.operator.assignment.php
+//                                         ^^^^^^^^ meta.string.php string.quoted.single.php
+//                                                 ^ punctuation.section.group.end.php
+//                                                  ^ punctuation.terminator.statement.php
+
 nested( static function ( {  } );
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //             ^^^^^^^^^ meta.function.php
@@ -5906,6 +5926,28 @@ function embedHtml() {
 // ^ source.php.embedded.js - meta.block
 //  ^^ punctuation.section.embedded.end.php - source.php
 </script>
+
+ <script type="application/ld+json">
+     {
+         <? $key ?>: <? $SiteColor ?>,
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+     |   ^^^^^^^^^^ meta.mapping.json meta.interpolation.php
+     |             ^^ meta.mapping.json - meta.interpolation
+     |               ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.php
+     |                               ^ meta.mapping.json - meta.interpolation
+
+         "<? $key ?>": "<? $SiteColor ?>",
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+     |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+     |    ^^^^^^^^^^ meta.mapping.key.json meta.interpolation.php - string
+     |              ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+     |               ^^ meta.mapping.json - meta.interpolation
+     |                 ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+     |                  ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.php - string
+     |                                  ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+     |                                   ^ meta.mapping.json - meta.interpolation
+     }
+ </script>
 
 <style>
 h1 {

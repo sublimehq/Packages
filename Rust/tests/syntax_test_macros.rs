@@ -135,7 +135,7 @@ macro_rules! brackets_square [
 /*******************************************************************/
 // Matchers and transcribers can use any bracket type.
 macro_rules! brackets {
-//^^^^^^^^^^ meta.macro support.function
+//^^^^^^^^^^ meta.macro keyword.declaration.macro
 //           ^^^^^^^^ meta.macro entity.name.macro
 //                    ^ meta.macro punctuation.section.block.begin
     ($i:ident) => ($i);
@@ -189,6 +189,8 @@ macro_rules! brackets {
 macro_rules! forward_ref_binop [
 //                             ^ meta.macro punctuation.section.block.begin
     (impl $imp:ident, $method:ident for $t:ty, $u:ty) => {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.macro meta.macro.matchers
+//   ^^^^ keyword.declaration.impl
 //        ^^^^ variable.parameter
 //             ^^^^^ storage.type
 //                    ^^^^^^^ variable.parameter
@@ -200,7 +202,7 @@ macro_rules! forward_ref_binop [
 //                                                    ^^ keyword.operator
 //                                                       ^ meta.macro meta.macro.transcribers punctuation.section.block.begin
         impl<'a, 'b> $imp<&'a $u> for &'b $t {
-//      ^^^^ storage.type.impl
+//      ^^^^ keyword.declaration.impl
 //          ^^^^^^^^ meta.generic
 //           ^^ storage.modifier.lifetime
 //               ^^ storage.modifier.lifetime
@@ -209,7 +211,7 @@ macro_rules! forward_ref_binop [
 //                        ^ keyword.operator
 //                         ^^ storage.modifier.lifetime
 //                            ^^ variable.other
-//                                ^^^ keyword.other
+//                                ^^^ entity.name.impl
 //                                    ^ keyword.operator
 //                                     ^^ storage.modifier.lifetime
 //                                        ^^ variable.other
@@ -222,7 +224,7 @@ macro_rules! forward_ref_binop [
             #[inline]
 //          ^^^^^^^^^ meta.annotation
             fn $method(self, other: &'a $u) -> <$t as $imp<$u>>::Output {
-//          ^^ storage.type.function
+//          ^^ keyword.declaration.function
 //             ^^^^^^^ variable.other
 //                     ^^^^ variable.language
 //                                  ^ keyword.operator
@@ -378,8 +380,7 @@ macro_rules! designators {
 //                                        ^^^^^ storage.modifier.lifetime
 //                                              ^^^ string.quoted.single
 //                                                  ^ keyword.operator
-//                                                    ^^^^^^ storage.type.struct
-//                                                           ^^^^ keyword.other
+//                                                    ^^^^^^ keyword.declaration.struct
 //                                                               ^ punctuation.section.block.end
 //                                                                 ^^ meta.macro keyword.operator
 //                                                                    ^^ meta.macro meta.macro.transcribers

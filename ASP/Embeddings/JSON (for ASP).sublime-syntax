@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+###############################################################################
+# This intermediate syntax is used by `HTML (ASP).sublime-syntax`
+#
+# It powers VBScript highlighting within ASP tags in embedded CSS.
+#
+#   <script type="application/json">
+#     <%! ... %>
+#     <%= ... %>
+#     <%  ... %>
+#   </script>
+#
+# The primary task is to add `asp-tags` context to CSS's
+# prototype to match all the <% %> tags.
+###############################################################################
+
+scope: source.json.embedded.asp
+version: 2
+hidden: true
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HTML (ASP).sublime-syntax#asp-tags
+
+  string-prototype:
+    - meta_prepend: true
+    - include: HTML (ASP).sublime-syntax#asp-interpolations

@@ -13,12 +13,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(?:node|js|osascript\s+-l\s+JavaScript)\b  # shebang
+    ^ \#! .* \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b  # shebang
   | ^ \s* // .*? -\*- .*? \b(?:js|javascript)\b .*? -\*-  # editorconfig
   )
 
 variables:
-  shebang_lang: \b(?:node|js|osascript\s+-l\s+JavaScript)\b
+  shebang_lang: \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b
 
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'
@@ -96,7 +96,7 @@ variables:
       =>
     )
 
-  function_call_after_lookahead: (?=\s*(?:{{dot_accessor}}\s*)?\()
+  function_call_after_lookahead: (?=\s*(?:\?\.\s*)?\()
 
   function_assignment_lookahead: |-
     (?x:(?=
@@ -1970,7 +1970,7 @@ contexts:
 
   function-call-arguments:
     - meta_content_scope: meta.function-call.js
-    - match: '{{dot_accessor}}'
+    - match: '\?\.'
       scope: punctuation.accessor.js
     - match: \(
       scope: punctuation.section.group.begin.js
@@ -1992,7 +1992,7 @@ contexts:
         - include: expression-list
 
   property-access:
-    - match: ({{dot_accessor}})?(\[)
+    - match: (\?\.)?(\[)
       captures:
         1: punctuation.accessor.js
         2: punctuation.section.brackets.begin.js

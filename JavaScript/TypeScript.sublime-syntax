@@ -18,7 +18,6 @@ first_line_match: |-
 variables:
   shebang_lang: \bts-node(?:-script)?\b
 
-  dot_accessor: (?:[?!]?\.)
   possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 
   function_call_after_lookahead: >-
@@ -30,7 +29,8 @@ variables:
         >
         \s*
       )?
-      (?:{{dot_accessor}}\s*)?
+      (?: \! \s* )*
+      (?: \?\. \s*)?
       \(
     ))
 
@@ -692,6 +692,12 @@ contexts:
         - method-declaration-prefix
         - class-element-modifiers
 
+  left-expression-end:
+    - meta_prepend: true
+    - match: '{{function_call_after_lookahead}}'
+      push: function-call-arguments
+    - include: ts-non-null-assertion
+
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
@@ -700,6 +706,7 @@ contexts:
   decorator-expression-end:
     - meta_prepend: true
     - include: ts-function-type-arguments-or-less-than
+    - include: ts-non-null-assertion
 
   ts-function-type-arguments-or-less-than:
     - match: (?=<(?![<=]))
@@ -756,10 +763,11 @@ contexts:
         - parenthesized-expression
     - include: else-pop
 
-  ts-type-assertion:
-    - match: '!(?![.=])'
+  ts-non-null-assertion:
+    - match: '!(?!=)'
       scope: keyword.operator.type.js
 
+  ts-type-assertion:
     - match: as{{identifier_break}}
       scope: keyword.operator.type.js
       push:
@@ -1192,3 +1200,7 @@ contexts:
           pop: 1
         - match: (?=\S)
           fail: ts-object-literal-element-modifier
+
+  function-call-arguments:
+    - meta_prepend: true
+    - include: ts-non-null-assertion

@@ -143,6 +143,28 @@
     //     ^ - meta.tag - punctuation - source
     </script>
 
+    <script type="application/ld+json">
+        {
+            <%=key%>: <%=siteColor%>,
+        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        |   ^^^^^^^^ meta.mapping.json meta.interpolation.jsp
+        |           ^^ meta.mapping.json - meta.interpolation
+        |             ^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.jsp
+        |                           ^ meta.mapping.json - meta.interpolation
+
+            "<%=key%>": "<%=siteColor%>",
+        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+        |    ^^^^^^^^ meta.mapping.key.json meta.interpolation.jsp - string
+        |            ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+        |             ^^ meta.mapping.json - meta.interpolation
+        |               ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+        |                ^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.jsp - string
+        |                              ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+        |                               ^ meta.mapping.json - meta.interpolation
+        }
+    </script>
+
     <script type="text/html">
         <![CDATA[
     // ^ - meta.tag - punctuation - source

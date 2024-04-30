@@ -33,6 +33,21 @@ contexts:
         3: source.js.embedded.html
         4: comment.block.html punctuation.definition.comment.end.html
 
+  script-json-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.go-embedded-backtick-string
+      embed_scope: source.json.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.json.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.json.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
   style-css-content:
     - meta_include_prototype: false
     - match: '{{style_content_begin}}'

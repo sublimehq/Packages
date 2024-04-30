@@ -1,13 +1,13 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 enum OperatingSystem
-// <- storage.type.enum
+// <- keyword.declaration.enum
 // ^^^^^^^^^^^^^^^^^ meta.enum
 //   ^^^^^^^^^^^^^^^ entity.name.enum
 {
 // <- meta.block meta.enum punctuation.section.block.begin
     Osx,
-//  ^^^ meta.enum storage.type.source
+//  ^^^ meta.enum storage.type.rust
     Windows,
     Linux,
     Bsd(String),
@@ -21,16 +21,21 @@ enum OperatingSystem
 // <- meta.block meta.enum punctuation.section.block.end
 
 let q = Message::Quit;
-//      ^^^^^^^^^ meta.path
-//      ^^^^^^^ storage.type.source
-//               ^^^^ storage.type.source
+//      ^^^^^^^^^^^^^ meta.path
+//      ^^^^^^^ storage.type.rust
+//             ^^ punctuation.accessor
+//               ^^^^ storage.type.rust
 //                   ^ punctuation.terminator
 let w = Message::WriteString("Some string".to_string());
-//               ^^^^^^^^^^^ storage.type.source
+//      ^^^^^^^^^^^^^^^^^^^^ meta.path
+//             ^^ punctuation.accessor
+//               ^^^^^^^^^^^ storage.type.rust
 //                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 //                           ^^^^^^^^^^^^^ string.quoted.double
 //                                         ^^^^^^^^^ variable.function
 let m = Message::Move { x: 50, y: 200 };
+//      ^^^^^^^^^^^^^ meta.path
+//             ^^ punctuation.accessor
 //                    ^^^^^^^^^^^^^^^^^ meta.block
 //                         ^^ constant.numeric.integer.decimal
 //                                ^^^ constant.numeric.integer.decimal
@@ -45,7 +50,7 @@ enum Discriminant {
     V2,
 //  ^^ meta.enum entity.name.constant
     SomeValue = 123,
-//  ^^^^^^^^^ meta.enum storage.type.source
+//  ^^^^^^^^^ meta.enum storage.type.rust
 //              ^^^ meta.enum constant.numeric.integer.decimal
     V3 = (1<<4),
 //  ^^ meta.enum entity.name.constant

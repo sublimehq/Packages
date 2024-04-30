@@ -149,30 +149,6 @@ contexts:
         1: keyword.other.class-type-definition.ocaml
         2: entity.name.type.class-type.ocaml
         4: storage.type.ocaml
-    - match: '(\{)'
-      captures:
-        1: punctuation.definition.record.ocaml
-      push:
-        - meta_scope: meta.record.ocaml
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.record.ocaml
-          pop: true
-        - match: \bwith\b
-          scope: keyword.other.language.ocaml
-        - match: '(\bmutable\s+)?\b([a-z_][a-zA-Z0-9_'']*)\s*(:)'
-          captures:
-            1: keyword.other.storage.modifier.ocaml
-            2: source.ocaml
-            3: punctuation.definition.record.ocaml
-          push:
-            - meta_scope: meta.record.definition.ocaml
-            - match: "(;|(?=}))"
-              captures:
-                1: keyword.operator.ocaml
-              pop: true
-            - include: typedefs
-        - include: main
     - match: '\b(object)\s*(?:(\()(_?[a-z]+)(\)))?\s*$'
       captures:
         1: keyword.other.object-definition.ocaml
@@ -281,8 +257,9 @@ contexts:
     - include: strings
     - include: constants
     - include: comments
-    - include: lists
     - include: arrays
+    - include: lists
+    - include: records
     - match: '(\()(?=(~[a-z][a-zA-Z0-9_]*:|("(\\"|[^"])*")|[^\(\)~"])+(?<!:)(:>|:(?![:=])))'
       captures:
         1: punctuation.section.type-constraint.ocaml
@@ -301,7 +278,7 @@ contexts:
       scope: keyword.other.directive.line-number.ocaml
     - include: storagetypes
     - match: \b(mutable|ref)\b
-      scope: keyword.other.storage.modifier.ocaml
+      scope: storage.modifier.ocaml
     - match: '`[A-Za-z][a-zA-Z0-9''_]*\b'
       scope: entity.name.type.variant.polymorphic.ocaml
     - match: '\b[A-Z][a-zA-Z0-9''_]*\b'
@@ -575,26 +552,71 @@ contexts:
   storagetypes:
     - match: \b(int|char|float|string|list|array|bool|unit|exn|option|int32|int64|nativeint|format4|lazy_t)\b
       scope: storage.type.ocaml
-    - match: "#[a-z_][a-zA-Z0-9_]*"
+    - match: '#[a-z_][a-zA-Z0-9_]*'
       scope: storage.type.variant.polymorphic.ocaml
-  strings:
-    - match: '(?=[^\\])(")'
+
+  records:
+    - match: \{
+      scope: punctuation.definition.record.begin.ocaml
+      push: record-body
+
+  record-body:
+    - meta_scope: meta.record.ocaml
+    - match: \}
+      scope: punctuation.definition.record.end.ocaml
+      pop: true
+    - match: \bwith\b
+      scope: keyword.other.language.ocaml
+    - match: \b(?:(mutable)\s+)?([a-z_][a-zA-Z0-9_'']*)\s*(:)
       captures:
-        1: punctuation.definition.string.begin.ocaml
-      push:
-        - meta_scope: string.quoted.double.ocaml
-        - match: (")
-          captures:
-            1: punctuation.definition.string.end.ocaml
-          pop: true
-        - match: '\\$[ \t]*'
-          scope: punctuation.separator.string.ignore-eol.ocaml
-        - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
-          scope: constant.character.string.escape.ocaml
-        - match: '\\[\|\(\)1-9$^.*+?\[\]]'
-          scope: constant.character.regexp.escape.ocaml
-        - match: '\\(?!(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]|[\|\(\)1-9$^.*+?\[\]]|$[ \t]*))(?:.)'
-          scope: invalid.illegal.character.string.escape
+        1: storage.modifier.ocaml
+        2: variable.other.member.ocaml
+        3: punctuation.definition.record.ocaml
+      push: record-member-type
+    - include: main
+
+  record-member-type:
+    - meta_scope: meta.record.definition.ocaml
+    - match: ;
+      scope: keyword.operator.ocaml
+      pop: true
+    - match: (?=})
+      pop: true
+    - include: typedefs
+
+  strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.ocaml
+      push: string-double-quoted-body
+    - match: \{([^\s|}]*)\|
+      scope: punctuation.definition.string.begin.ocaml
+      push: string-other-quoted-body
+
+  string-double-quoted-body:
+    - meta_scope: meta.string.ocaml string.quoted.double.ocaml
+    - match: \"
+      scope: punctuation.definition.string.end.ocaml
+      pop: true
+    - match: (\\)\s*$
+      captures:
+        1: punctuation.separator.continuation.line.ocaml
+    - match: \\[bnrt''"\\]
+      scope: constant.character.escape.ocaml
+    - match: \\x\h{2}
+      scope: constant.character.escape.hexadecimal.ocaml
+    - match: \\[0-2]\d{2}
+      scope: constant.character.escape.decimal.ocaml
+    - match: \\[1-9|$^.*+?()\[\]]
+      scope: constant.character.escape.regexp.ocaml
+    - match: \\.
+      scope: invalid.illegal.character.escape.ocaml
+
+  string-other-quoted-body:
+    - meta_scope: meta.string.ocaml string.quoted.other.ocaml
+    - match: \|\1\}
+      scope: punctuation.definition.string.end.ocaml
+      pop: true
+
   typedefs:
     - match: \|
       scope: punctuation.separator.variant-definition.ocaml

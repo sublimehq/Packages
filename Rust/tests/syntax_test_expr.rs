@@ -3,6 +3,9 @@
 // specific categories.
 
 let big_n =
+// <- keyword.declaration.variable.rust
+ // <- keyword.declaration.variable.rust
+//^ keyword.declaration.variable.rust
 //        ^ keyword.operator.assignment
     if n < 10 && n > -10 {
 //       ^ keyword.operator.comparison

@@ -14,7 +14,7 @@ fn main() {
 
     let r#local = r#Struct { r#struct: () };
 //      ^^^^^^^^ -keyword
-//                ^^^^^^^^ storage.type.source -keyword
+//                ^^^^^^^^ storage.type.rust -keyword
 //                           ^^^^^^^^ -keyword
     let r#async = r#foo(r#local);
 //      ^^^^^^^^ -keyword
@@ -27,13 +27,13 @@ fn main() {
 
     if let r#sub_pat @ Foo(_) = r#Foo(3) {}
 //         ^^^^^^^^^^ -keyword
-//                              ^^^^^ storage.type.source
+//                              ^^^^^ storage.type.rust
 
     match r#async {
 //        ^^^^^^^^ -keyword
         r#Foo | r#Bar => r#foo(),
-//      ^^^^^ storage.type.source -keyword
-//              ^^^^^ storage.type.source -keyword
+//      ^^^^^ storage.type.rust -keyword
+//              ^^^^^ storage.type.rust -keyword
 //                       ^^^^^ -keyword
     }
 }
@@ -77,11 +77,11 @@ impl r#Trait for r#Impl {
 //               ^^^^^^ meta.impl entity.name.impl -keyword
     type r#Type = r#u32;
 //       ^^^^^^ meta.impl meta.block entity.name.type
-//                ^^^^^ meta.impl meta.block -keyword -storage
+//                ^^^^^ meta.impl meta.block storage.type
     fn r#xxx(r#fjio: r#u32) {}
 //     ^^^^^ meta.impl meta.block meta.function entity.name.function -keyword
 //           ^^^^^^ meta.impl meta.block meta.function meta.function.parameters variable.parameter -keyword
-//                   ^^^^^ meta.impl meta.block meta.function meta.function.parameters -keyword -storage
+//                   ^^^^^ meta.impl meta.block meta.function meta.function.parameters storage.type
 }
 
 extern "C" {

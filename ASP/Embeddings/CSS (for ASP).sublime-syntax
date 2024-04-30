@@ -5,11 +5,11 @@
 #
 # It powers VBScript highlighting within ASP tags in embedded CSS.
 #
-#   <script>
+#   <style>
 #     <%! ... %>
 #     <%= ... %>
 #     <%  ... %>
-#   </script>
+#   </style>
 #
 # The primary task is to add `asp-tags` context to CSS's
 # prototype to match all the <% %> tags.

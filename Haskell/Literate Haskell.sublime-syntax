@@ -3,6 +3,7 @@
 # https://www.sublimetext.com/docs/syntax.html
 name: Literate Haskell
 scope: text.tex.latex.haskell
+version: 2
 
 extends: Packages/LaTeX/LaTeX.sublime-syntax
 
@@ -10,24 +11,26 @@ file_extensions:
   - lhs
 
 contexts:
-  plain-tex:
+  begin-end-commands:
     - meta_prepend: true
     - include: haskell-code
 
   haskell-code:
-    - match: ((\\)begin)(\{)(code)(\})
+    - match: ((\\)begin)((\{)\s*(code)\s*(\}))
       captures:
         1: support.function.begin.latex keyword.control.block.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.latex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       embed: scope:source.haskell
       embed_scope: source.haskell.embedded.latex
-      escape: ((\\)end)(\{)(code)(\})
+      escape: ((\\)end)((\{)\s*(code)\s*(\}))
       escape_captures:
         1: support.function.end.latex keyword.control.block.end.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.latex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex

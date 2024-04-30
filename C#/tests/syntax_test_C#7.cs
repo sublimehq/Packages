@@ -7,6 +7,12 @@ class Foo {
 ///^^^^^^^^ meta.class
 ///       ^ meta.class.body
 
+    public readonly double value;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^^^^ storage.type
+///                        ^^^^^ variable.other.member
+
     void Main(string[] args) {
 /// ^^^^ storage.type
 ///      ^^^^^^^^^^^^^^^^^^^^^ meta.method
@@ -721,7 +727,7 @@ Assert.Equal(43, bytes[1]);
 bytes[2] = 44; // throws IndexOutOfRangeException
 
 public readonly ref struct Span<T>
-///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
+///             ^^^^^^^^^^^^^^^^^^^ meta.struct
 ///  ^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^ storage.modifier

@@ -19,7 +19,7 @@ pub ( in foo :: bar ) type T = i32;
 //           ^^ meta.path
 //              ^^^ meta.path
 //                  ^ punctuation.section.group.end
-//                    ^^^^ storage.type.type
+//                    ^^^^ keyword.declaration.type
 pub ( in ::foo ) fn f() {}
 //       ^^^^^ meta.path
 //               ^^^^^^^^^ meta.function
@@ -28,7 +28,7 @@ pub ( self ) mod m {}
 //           ^^^^^^^^ meta.module
 pub ( super ) use a::b;
 //    ^^^^^ keyword.other
-//            ^^^ keyword.other
+//            ^^^ keyword.declaration.import
 pub ( in self ) enum E {A,B}
 //    ^^ keyword.other
 //       ^^^^ keyword.other
@@ -36,13 +36,13 @@ pub ( in self ) enum E {A,B}
 pub ( in super ) const CONST: i32 = 1;
 //    ^^ keyword.other
 //       ^^^^^ keyword.other
-//               ^^^^^ storage.type
+//               ^^^^^ keyword.declaration.variable.constant.rust
 pub ( in super::super ) static STATIC: i32 = 1;
 //    ^^ keyword.other
 //       ^^^^^ keyword.other
 //            ^^ meta.path
 //              ^^^^^ keyword.other
-//                      ^^^^^^ storage.type
+//                      ^^^^^^ keyword.declaration.variable.static.rust
 
 struct S {
     pub f1: i32,

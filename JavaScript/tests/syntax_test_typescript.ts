@@ -783,7 +783,8 @@ x as const;
 //   ^^^^^ storage.modifier.const
 
     foo!.bar;
-//     ^^ punctuation.accessor
+//     ^ keyword.operator.type - punctuation.accessor
+//      ^ punctuation.accessor
 
     x ! ;
 //  ^ variable.other.readwrite
@@ -1553,3 +1554,8 @@ type T = Foo | ... 100 more ... | Bar;
 //              ^ keyword.operator.comparison
 //                ^ meta.number.integer.decimal constant.numeric.value
 //                 ^ punctuation.terminator.statement
+
+    foo!!()
+//  ^^^^^^^ meta.function-call
+//     ^^ keyword.operator.type
+//       ^^ meta.function-call.arguments

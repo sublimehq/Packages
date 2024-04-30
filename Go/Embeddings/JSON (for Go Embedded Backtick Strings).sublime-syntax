@@ -14,6 +14,6 @@ contexts:
     - meta_prepend: true
     - include: scope:source.go#match-raw-text-content
 
-  inside-string:
+  string-prototype:
     - meta_prepend: true
     - include: scope:source.go#match-raw-string-content

@@ -46,7 +46,7 @@ template testTemplate(X)
     {
         enum test = true;
         string g = "test";
-        // ^ storage.type
+        // ^ support.type.builtin-alias.d
     }
     else
         enum test = false;

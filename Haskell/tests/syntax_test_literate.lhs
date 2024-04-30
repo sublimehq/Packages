@@ -5,9 +5,9 @@
 %               ^ source.haskell.embedded.latex
 %   ^ punctuation.definition.backslash.latex
 %   ^^^^^^ support.function.begin.latex keyword.control.block.begin.latex
-%         ^ punctuation.definition.group.brace.begin.latex
+%         ^ punctuation.definition.group.brace.begin.tex
 %          ^^^^ variable.parameter.function.latex
-%              ^ punctuation.definition.group.brace.end.latex
+%              ^ punctuation.definition.group.brace.end.tex
 
     {- comment -}
 %   ^^^^^^^^^^^^^ source.haskell.embedded.latex comment.block.haskell
@@ -23,6 +23,6 @@
 %   ^^^^^^^^^^^ - source.haskell
 %   ^ punctuation.definition.backslash.latex
 %   ^^^^ support.function.end.latex keyword.control.block.end.latex
-%       ^ punctuation.definition.group.brace.begin.latex
+%       ^ punctuation.definition.group.brace.begin.tex
 %        ^^^^ variable.parameter.function.latex
-%            ^ punctuation.definition.group.brace.end.latex
+%            ^ punctuation.definition.group.brace.end.tex
