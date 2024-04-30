@@ -579,6 +579,7 @@ extern(1)
 //          ^ keyword.operator.assignment.d
 //            ^^^^^ storage.modifier.d
 //                  ^^^ storage.type.d
+//                     ^^^^^^^^ meta.brackets.d
 //                     ^ punctuation.section.brackets.begin.d
 //                      ^^^^^^ support.type.builtin-alias.d
 //                            ^ punctuation.section.brackets.end.d
@@ -598,6 +599,7 @@ extern(1)
 //^^^^^ keyword.control.alias.d
 //      ^^^^^ storage.modifier.d
 //            ^^^ storage.type.d
+//               ^^^^^^^^ meta.brackets.d
 //               ^ punctuation.section.brackets.begin.d
 //                ^^^^^^ support.type.builtin-alias.d
 //                      ^ punctuation.section.brackets.end.d
@@ -648,6 +650,7 @@ extern(1)
 //     ^ punctuation.terminator.d
   foo[string] b = 123;
 //^^^ storage.type.d
+//   ^^^^^^^^ meta.brackets.d
 //   ^ punctuation.section.brackets.begin.d
 //    ^^^^^^ support.type.builtin-alias.d
 //          ^ punctuation.section.brackets.end.d
@@ -667,6 +670,7 @@ extern(1)
 //                   ^ punctuation.terminator.d
   foo[BAR] baz;
 //^^^ storage.type.d
+//   ^^^^^ meta.brackets.d
 //   ^ punctuation.section.brackets.begin.d
 //    ^^^ variable.other.d
 //       ^ punctuation.section.brackets.end.d
@@ -995,6 +999,7 @@ extern(1)
 //^^^^ keyword.declaration.enum.d
 //     ^ punctuation.separator.mapping.d
 //       ^^^ storage.type.d
+//          ^^^^^^^^ meta.brackets.d
 //          ^ punctuation.section.brackets.begin.d
 //           ^^^^^^ support.type.builtin-alias.d
 //                 ^ punctuation.section.brackets.end.d
@@ -1277,6 +1282,7 @@ extern(1)
 
   int[string] foo() {}
 //^^^ storage.type.d
+//   ^^^^^^^^ meta.brackets.d
 //   ^ punctuation.section.brackets.begin.d
 //    ^^^^^^ support.type.builtin-alias.d
 //          ^ punctuation.section.brackets.end.d
@@ -2289,6 +2295,7 @@ extern(1)
 //               ^^^^^ string.quoted.double.d
 //                    ^ punctuation.section.parens.end.d
 //                      ^^^^^^ support.type.builtin-alias.d
+//                            ^^^^ meta.brackets.d
 //                            ^ punctuation.section.brackets.begin.d
 //                             ^^ meta.number.integer.decimal.d
 //                               ^ punctuation.section.brackets.end.d
@@ -2320,6 +2327,7 @@ extern(1)
 //          ^ meta.number.integer.decimal.d
 //           ^ punctuation.section.parens.end.d
 //             ^^^^^^ support.type.builtin-alias.d
+//                   ^^^^ meta.brackets.d
 //                   ^ punctuation.section.brackets.begin.d
 //                    ^^ meta.number.integer.decimal.d
 //                      ^ punctuation.section.brackets.end.d
@@ -2430,6 +2438,7 @@ extern(1)
 //           ^^^ variable.other.d
 //               ^ keyword.operator.arithmetic.d
 //                ^^^ variable.other.d
+//                   ^^^^^^^^^^ meta.brackets.d
 //                   ^ punctuation.section.brackets.begin.d
 //                    ^^^ variable.other.d
 //                       ^ keyword.operator.arithmetic.d
@@ -3156,6 +3165,7 @@ extern(1)
 
   void[int**]* foo;
 //^^^^ storage.type.d
+//    ^^^^^^^ meta.brackets.d
 //    ^ punctuation.section.brackets.begin.d
 //     ^^^ storage.type.d
 //        ^^ keyword.operator.pointer.d
@@ -3180,6 +3190,7 @@ extern(1)
 //             ^ punctuation.section.block.end.d
   a[b] * c;
 //^ meta.path.d variable.other.d
+// ^^^ meta.brackets.d
 // ^ punctuation.section.brackets.begin.d
 //  ^ meta.path.d variable.other.d
 //   ^ punctuation.section.brackets.end.d

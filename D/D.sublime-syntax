@@ -815,11 +815,13 @@ contexts:
     - match: '(?=\S)'
       pop: true
   basic-type2-after-brackets:
+    - meta_scope: meta.brackets.d
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       pop: true
     - include: not-whitespace-illegal-pop
   basic-type2-after-parens:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       pop: true
@@ -1111,11 +1113,13 @@ contexts:
     - match: '(?=\S)'
       set: [value-list-after, value-after]
   first-value-bracket-after:
+    - meta_scope: meta.brackets.d
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       set: first-value-after
     - include: not-whitespace-illegal-pop
   first-value-parens-after:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       set: first-value-after
@@ -1496,6 +1500,7 @@ contexts:
       set: value-after
     - include: not-whitespace-illegal-pop
   value-bracket-after:
+    - meta_scope: meta.brackets.d
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       set: value-after
