@@ -21,7 +21,7 @@ contexts:
     - include: escapes
     - include: filters
     - include: rubylines
-    - include: continuations
+    - include: pipe-continuations
     - include: interpolations
 
 ###[ COMMENTS ]###############################################################
@@ -54,34 +54,39 @@ contexts:
         4: punctuation.section.brackets.end.haml
 
   comment-body:
+    - meta_include_prototype: false
     - meta_scope: comment.block.haml
     - match: ^(?!\1  )
+      pop: 1
+    - match: (?=\|\s*$)
       pop: 1
     - include: main
 
 ###[ CONTINUATIONS ]##########################################################
 
-  continuations:
+  comma-continuations:
     # Attribute sections and embedded ruby code may continue on next line
     # if the current line is terminated with comma.
     # https://haml.info/docs/yardoc/file.REFERENCE.html#attributes
     # https://haml.info/docs/yardoc/file.REFERENCE.html#running-ruby--
-    - match: (,)\n
+    - match: (,)\s*$
       captures:
         1: punctuation.separator.sequence.haml
-      push: comma-continuations-body
-    # https://haml.info/docs/yardoc/file.REFERENCE.html#multiline
-    - match: (\|)\s*\n
-      captures:
-        1: punctuation.separator.continuation.haml
-      push: pipe-continuations-body
+      push: comma-continuation-body
 
-  comma-continuations-body:
+  comma-continuation-body:
     # Skip "line ends with pipe" check if previous line was continued by comma.
     - match: (?=\S)
       pop: 1
 
-  pipe-continuations-body:
+  pipe-continuations:
+    # https://haml.info/docs/yardoc/file.REFERENCE.html#multiline
+    - match: (\|)\s*$
+      captures:
+        1: punctuation.separator.continuation.haml
+      push: pipe-continuation-body
+
+  pipe-continuation-body:
     - match: ^
       pop: 1
 
@@ -287,6 +292,7 @@ contexts:
     # A line after a pipe-continuation must be terminated by pipe, too.
     - match: ^(?!.*(\|\s*$))
       pop: 1
+    - include: comma-continuations
     - include: scope:source.ruby.rails.embedded.haml
       apply_prototype: true
 
