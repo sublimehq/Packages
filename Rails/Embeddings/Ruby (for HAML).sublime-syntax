@@ -22,7 +22,7 @@ contexts:
     - meta_scope: comment.line.number-sign.ruby
     # support continuations, but escape afterwards
     - match: ^
-      pop: true
+      pop: 1
     # pipe continuation no longer belongs to comment
     - match: (?=\|\s*$)
       pop: 1
