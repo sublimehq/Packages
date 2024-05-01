@@ -60,7 +60,8 @@ variables:
   construction_lookahead: '(?=~?\s*this\s*\()'
 
   keyword: 'else|enum|export|extern|debug|default|delegate|delete|deprecated|do|body|break|case|cast|catch|class|const|continue|abstract|alias|align|asm|assert|auto|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|macro|mixin|module|new|nothrow|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|switch|synchronized|template|throw|try|typeid|typeof|union|unittest|version|while|with|__gshared|__traits|__vector|__parameters'
-  basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar|string|dstring|wstring|size_t|ptrdiff_t'
+  basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar'
+  builtin_type_alias: 'string|dstring|wstring|size_t|ptrdiff_t|noreturn'
   language_constant: 'null|true|false|__FILE__|__FILE_FULL_PATH__|__MODULE__|__LINE__|__FUNCTION__|__PRETTY_FUNCTION__|__DATE__|__EOF__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__|__ctfe'
   language_variable: 'this|super'
   reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{language_variable}}'
@@ -665,7 +666,7 @@ contexts:
       captures:
         1: meta.path.d storage.type.d
         2: punctuation.section.parens.begin.d
-      set: [meta-function-call, uda-after, value-list]
+      set: [meta-function-call, uda-after, argument-list]
     - match: '({{name}})\b'
       scope: meta.path.d storage.type.d
       set: value-after
@@ -814,11 +815,13 @@ contexts:
     - match: '(?=\S)'
       pop: true
   basic-type2-after-brackets:
+    - meta_scope: meta.brackets.d
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       pop: true
     - include: not-whitespace-illegal-pop
   basic-type2-after-parens:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       pop: true
@@ -1110,11 +1113,13 @@ contexts:
     - match: '(?=\S)'
       set: [value-list-after, value-after]
   first-value-bracket-after:
+    - meta_scope: meta.brackets.d
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       set: first-value-after
     - include: not-whitespace-illegal-pop
   first-value-parens-after:
+    - meta_scope: meta.parens.d
     - match: '\)'
       scope: punctuation.section.parens.end.d
       set: first-value-after
@@ -1243,6 +1248,9 @@ contexts:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: value-after
+    - match: '\b({{builtin_type_alias}})\b'
+      scope: support.type.builtin-alias.d
+      set: value-after
     - match: '\b({{name}})\s*(=>)'
       captures:
         1: variable.parameter.d
@@ -1284,7 +1292,7 @@ contexts:
     - meta_scope: meta.function-call.d
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [meta-function-call, value-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, argument-list]
     - match: (?=\S)
       set: value-after
   new-anonymous-after-args:
@@ -1401,7 +1409,7 @@ contexts:
       set: [value-after, value-identifier]
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [meta-function-call, value-parens-after, value-list]
+      set: [meta-function-call, value-parens-after, argument-list]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [value-bracket-after, value-list]
@@ -1492,9 +1500,28 @@ contexts:
       set: value-after
     - include: not-whitespace-illegal-pop
   value-bracket-after:
+    - meta_scope: meta.brackets.d
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       set: value-after
+    - include: not-whitespace-illegal-pop
+
+  argument-list:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: '({{name}})\s*(:)'
+      captures:
+        1: variable.parameter.d
+        2: keyword.operator.assignment.d
+      set: [argument-list-after, value]
+    - match: '(?=\S)'
+      set: [argument-list-after, value]
+  argument-list-after:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: argument-list
     - include: not-whitespace-illegal-pop
 
   value-list:
@@ -1700,6 +1727,7 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
+        - include: attribute-in
         - match: '(?=\b({{name}})\b)'
           push: enum-member
         - include: not-whitespace-illegal
@@ -2216,15 +2244,19 @@ contexts:
     - match: '\b{{name}}\b(?=\s*!)'
       scope: meta.function-call.template.d meta.path.d variable.function.d
       pop: true
+    - match: '\b{{builtin_type_alias}}\b'
+      scope: meta.path.d support.type.builtin-alias.d
+      set: type-identifier-after
     - match: '\b{{name}}\b'
       scope: meta.path.d storage.type.d
-      set:
-        - match: \.
-          scope: meta.path.d punctuation.accessor.dot.d
-          set: type-identifier
-        - match: '(?=\S)'
-          pop: true
+      set: type-identifier-after
     - include: not-whitespace-illegal-pop
+  type-identifier-after:
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: type-identifier
+    - match: '(?=\S)'
+      pop: true
   type-identifier-ref:
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d

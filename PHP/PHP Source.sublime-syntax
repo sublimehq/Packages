@@ -1626,7 +1626,7 @@ contexts:
         - function-call-identifier
         - unqualified-function-name
     # Function invocation with function name as variable
-    - match: ((\$+){{identifier}})\s*(?=\()
+    - match: ((\$+){{identifier}})\s*(?=(?:\[.*?\]\s*)?\()
       scope: meta.function-call.identifier.php
       captures:
         1: variable.other.php
@@ -1634,6 +1634,7 @@ contexts:
       push:
         - maybe-item-access
         - function-call-arguments
+        - maybe-item-access
 
   qualified-path-meta:
     - meta_include_prototype: false
@@ -1665,6 +1666,7 @@ contexts:
 
   function-call-arguments:
     - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.identifier.php
     - match: (\()\s*(\.\.\.)\s*(\))
       scope: meta.function-call.arguments.php meta.group.php
       captures:

@@ -16,7 +16,7 @@ ur"""Raw docstring \""""
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
 #    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                  ^^ constant.character.escape.python
+#                  ^^ - constant.character.escape
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R"""
@@ -92,7 +92,7 @@ ur'''Raw docstring \''''
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
 #    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                  ^^ constant.character.escape.python
+#                  ^^ - constant.character.escape
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R'''
@@ -3216,6 +3216,22 @@ foo = bar = baz = 0
 #   ^ keyword.operator.assignment.python
 #         ^ keyword.operator.assignment.python
 #               ^ keyword.operator.assignment.python
+
+# https://github.com/sublimehq/Packages/issues/3939
+x = "foo" if True else \
+    "bar"
+y = "baz"
+# <- meta.path.python meta.generic-name.python
+# ^ keyword.operator.assignment.python
+#   ^^^^^ meta.string.python string.quoted.double.python
+
+x = "foo" \
+    "bar" \
+    "baz"
+y = "baz"
+# <- meta.path.python meta.generic-name.python
+# ^ keyword.operator.assignment.python
+#   ^^^^^ meta.string.python string.quoted.double.python
 
 foo <<= bar <<= baz
 #   ^^^ keyword.operator.assignment.augmented.python

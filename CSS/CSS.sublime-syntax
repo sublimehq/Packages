@@ -49,6 +49,10 @@ variables:
   illegal_custom_ident_tokens: |-
     (?xi: auto | default | inherit | initial | none | unset )
 
+  # Constants
+  lang_range_begin: (?={{ident_start}}|\*)
+  unquoted_url_begin: (?={{ident_start}}|/)
+
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
   # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
@@ -81,12 +85,12 @@ variables:
 
   logical_operators: (?i:and|or|not|only)
 
-  # Selectors
-  selector_begin: (?={{selector_start}})
+  # Properties and Selectors
+  property_or_selector_begin: (?={{ident_begin}}|{{selector_start}})
+  property_end: (?=[;@)}])
+
+  selector_start: '[[:alpha:].:#&*\[{{combinator_char}}]'
   selector_end: (?=[;@(){}])
-  selector_start: '[[:alpha:]{{nested_selector_start}}]'
-  nested_selector_begin: (?={{nested_selector_start}})
-  nested_selector_start: '[.:#&*\[{{combinator_char}}]'
 
   keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
 
@@ -335,6 +339,7 @@ contexts:
     - include: stylesheet
 
   stylesheet:
+    # https://www.w3.org/TR/css-syntax-3/#typedef-stylesheet
     - include: comments
     - include: property-lists
     - include: selectors
@@ -442,7 +447,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-container-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - container-query
         - at-container-identifier
 
@@ -572,7 +577,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-document-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - at-document-query
 
   at-document-meta:
@@ -710,7 +715,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-layer-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - at-layer-name-list
 
   nested-at-layer:
@@ -768,7 +773,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-media-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - media-query-list
 
   nested-at-media:
@@ -933,7 +938,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - at-supports-meta
-        - maybe-style-block
+        - maybe-stylesheet-block
         - at-supports-query
 
   nested-at-supports:
@@ -1154,12 +1159,7 @@ contexts:
 ###[ SELECTORS ]###############################################################
 
   selectors:
-    - match: '{{selector_begin}}'
-      push: selector-body
-
-  nested-selectors:
-    # https://drafts.csswg.org/css-nesting-1
-    - match: '{{nested_selector_begin}}'
+    - match: '{{property_or_selector_begin}}'
       push: selector-body
 
   selector-body:
@@ -1482,19 +1482,17 @@ contexts:
       fail: pseudo-element
     - include: identifier-content
 
-###[ STYLE BLOCKS ]############################################################
+###[ STYLESHEET BLOCKS ]#######################################################
 
-  maybe-style-block:
-    # https://www.w3.org/TR/css-syntax-3/#declaration-rule-list
-    # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
+  maybe-stylesheet-block:
     - meta_include_prototype: false
     - match: \{
       scope: punctuation.section.block.begin.css
-      set: style-block-body
+      set: stylesheet-block-body
     - include: comments
     - include: else-pop
 
-  style-block-body:
+  stylesheet-block-body:
     - meta_include_prototype: false
     - meta_scope: meta.block.css
     - include: block-end
@@ -1516,13 +1514,15 @@ contexts:
       push: property-list-body
 
   property-list-body:
+    # According to official specs, this is a style-block.
+    # It supports declarations, nested style-rules and at-rules.
+    # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
     - meta_include_prototype: false
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
     - include: comments
     - include: property-lists
-    - include: property-identifiers
-    - include: nested-selectors
+    - include: properties-or-selectors
     - include: nested-at-rules
     - include: rule-terminators
     - include: illegal-commas
@@ -1530,7 +1530,9 @@ contexts:
 
   rule-list-body:
     # Note: This context is used by HTML.sublime-syntax
-    #       No selectors supported in style attributes.
+    # According to official specs, this is a declaration-list without support
+    # for at-rules as inline html attributes don't support them.
+    # https://www.w3.org/TR/css-syntax-3/#typedef-declaration-list
     - include: comments
     - include: property-identifiers
     - include: property-values
@@ -1540,6 +1542,24 @@ contexts:
     - include: illegal-groups
 
 ###[ PROPERTY IDENTIFIERS ]####################################################
+
+  properties-or-selectors:
+    - match: '{{property_or_selector_begin}}'
+      branch_point: property-or-selector
+      branch:
+        - maybe-property
+        - selector-body
+
+  maybe-property:
+    - meta_include_prototype: false
+    - include: property-end
+    - include: property-identifiers
+    - match: ''
+      fail: property-or-selector
+
+  property-end:
+    - match: '{{property_end}}'
+      pop: 1
 
   property-identifiers:
     # specific properties with special treatment
@@ -2014,7 +2034,9 @@ contexts:
   color-color-functions:
     # color()
     # https://drafts.csswg.org/css-color/#color-function
-    - match: \b(?i:color)(?=\()
+    # light-dark()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
+    - match: \b(?i:color|light-dark)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - color-color-function-arguments-list-body
@@ -2036,8 +2058,9 @@ contexts:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb
     # lch()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch
-    # https://drafts.csswg.org/css-color/#funcdef-lch
-    - match: \b(?i:hsla?|hwb|lch)(?=\()
+    # oklch()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch
+    - match: \b(?i:hsla?|hwb|(?:ok)?lch)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - hsl-color-function-arguments-list-body
@@ -2055,11 +2078,11 @@ contexts:
   rgb-color-functions:
     # rgb(), rgba()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
-    # https://drafts.csswg.org/css-color/#funcdef-rgb
     # lab()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lab
-    # https://drafts.csswg.org/css-color/#funcdef-lab
-    - match: \b(?i:rgba?|lab)(?=\()
+    # oklab()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab
+    - match: \b(?i:rgba?|(?:ok)?lab)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - rgb-color-function-arguments-list-body
@@ -2917,7 +2940,7 @@ contexts:
   # Qualified Names
   # https://drafts.csswg.org/css-namespaces-3/#css-qnames
   attr-name:
-    - match: (?=[*|]|--|-?{{ident_start}})
+    - match: (?=[*|]|{{ident_begin}})
       set: attr-name-content
 
   attr-name-content:
@@ -3199,13 +3222,24 @@ contexts:
   # Font Family Names
   # https://drafts.csswg.org/css-fonts-3/#family-name-value
   font-family-names:
-    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
-      scope: meta.string.css string.unquoted.css
+    - match: '{{ident_begin}}'
+      push: font-family-name-body
+
+  font-family-name-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.css string.unquoted.css
+    # allow unquoted space separated font names
+    - match: (?!\s+{{ident_start}}){{break}}
+      pop: 1
+    # function call ahead, skip font name
+    - match: (?=\s+{{ident}}\()
+      pop: 1
+    - match: '{{unicode}}'
 
   # Language Ranges
   # https://drafts.csswg.org/selectors-4/#language-range
   language-ranges:
-    - match: (?={{nmstart}}|\*)
+    - match: '{{lang_range_begin}}'
       push: language-range-content
 
   language-range-content:
@@ -3334,7 +3368,7 @@ contexts:
   # Unquoted URL token
   # https://drafts.csswg.org/css-syntax-3/#consume-a-url-token
   unquoted-urls:
-    - match: (?=[[:alnum:]/])
+    - match: '{{unquoted_url_begin}}'
       push: unquoted-url-body
 
   unquoted-url-body:

@@ -134,3 +134,67 @@ string s2 = @$$"""He said, ""This is the last \u0063hance\x0021""";
 ///         ^^^^^^ punctuation.definition.string.begin
 ///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
 ///                                                            ^^^ punctuation.definition.string.end
+
+public class C2 {
+/// <- storage.modifier.access
+///    ^^^^^ keyword.declaration.class
+///          ^^ entity.name.class
+
+    public required string FirstName { get; init; }
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^^^^ storage.type
+}
+
+public readonly required struct S2 {
+/// <- storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^^^ storage.modifier
+///                      ^^^^^^ keyword.declaration.struct
+///                             ^^ entity.name.struct
+
+    public required string FirstName { get; init; }
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^^^^ storage.type
+}
+
+public class CompanyFeaturesService(
+/// ^^ storage.modifier.access
+///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+///    ^^^^^ keyword.declaration.class
+///          ^^^^^^^^^^^^^^^^^^^^^^ entity.name.class
+///                                ^ meta.class.constructor.parameters punctuation.section.parameters.begin
+  ILogger<CompanyFeaturesService> logger) : ICompanyFeaturesService
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters
+/// ^^^^^ support.type
+///      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+///      ^ punctuation.definition.generic.begin
+///       ^^^^^^^^^^^^^^^^^^^^^^ support.type
+///                             ^ punctuation.definition.generic.end
+///                               ^^^^^^ variable.parameter - meta.generic
+///                                     ^ punctuation.section.parameters.end
+///                                       ^ meta.class punctuation.separator.type - meta.class.constructor
+{
+/// <- meta.class.body meta.block punctuation.section.block.begin
+}
+/// <- meta.class.body meta.block punctuation.section.block.end
+
+public readonly struct Distance(double dx, double dy)
+/// ^^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^^^^^^^^^^ meta.struct
+///                            ^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters
+///                            ^ punctuation.section.parameters.begin
+///                             ^^^^^^ storage.type
+///                                    ^^ variable.parameter
+///                                      ^ punctuation.separator.parameter.function
+///                                        ^^^^^^ storage.type
+///                                               ^^ variable.parameter
+///                                                 ^ punctuation.section.parameters.end
+///                                                  ^ meta.struct - meta.class.constructor
+{
+/// <- meta.struct.body meta.block punctuation.section.block.begin
+    public readonly double Magnitude { get; } = Math.Sqrt(dx * dx + dy * dy);
+    public readonly double Direction { get; } = Math.Atan2(dy, dx);
+}

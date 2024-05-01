@@ -40,7 +40,7 @@ variables:
   brackets_capture: '((\[)(,*)(\]))'
   type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
 
-  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
+  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|not|null|operator|out|override|params|private|protected|public|readonly|ref|required|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
   namespaced_name: (?:(?:{{name}}{{generic_declaration}}\s*\.\s*)*{{name}}{{generic_declaration}})
 
@@ -225,7 +225,7 @@ contexts:
     # allows coloration of code outside a class
     - match: (?=\S)
       push:
-        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace|readonly|record|static)\b)
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace|readonly|record|required|static)\b)
           pop: true
         - include: line_of_code
 
@@ -334,7 +334,7 @@ contexts:
     - include: main
 
   class_declaration:
-    - match: '\b(static|unsafe|abstract|partial|sealed)\b'
+    - match: \b(static|unsafe|abstract|partial|readonly|required|sealed)\b
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
@@ -342,23 +342,20 @@ contexts:
       captures:
         1: keyword.declaration.class.cs
         2: entity.name.class.cs
-      push: [class_signature, data_type_signature]
-    - match: (?:\b(readonly)\s+)?\b(record)\s+(?:(struct)\s+)?({{name}})
+      push: [class_signature, data_type_constraint, maybe_constructor_parameters, data_type_parameter]
+    - match: \b(record)\s+(?:(struct)\s+)?({{name}})
+      captures:
+        1: keyword.declaration.class.record.cs
+        2: keyword.declaration.struct.record.cs
+        3: entity.name.class.cs
+      push: [record_signature, data_type_constraint, maybe_constructor_parameters, data_type_parameter]
+    - match: (?:\b(ref)\s+)?\b(struct)\s+({{name}})
       captures:
         1: storage.modifier.cs
-        2: keyword.declaration.class.record.cs
-        3: keyword.declaration.struct.record.cs
-        4: entity.name.class.cs
-      push: [record_signature, data_type_constraint, record_parameters, data_type_signature]
-    - match: (?:\b(readonly)\s+)?(?:\b(partial)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})
-      captures:
-        1: storage.modifier.cs
-        2: storage.modifier.cs
-        3: storage.modifier.cs
-        4: keyword.declaration.struct.cs
-        5: entity.name.struct.cs
-      push: [struct_signature, data_type_signature]
-    - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
+        2: keyword.declaration.struct.cs
+        3: entity.name.struct.cs
+      push: [struct_signature, data_type_constraint, maybe_constructor_parameters, data_type_parameter]
+    - match: \b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?
       scope: meta.enum.cs
       captures:
         1: keyword.declaration.enum.cs
@@ -395,7 +392,7 @@ contexts:
       captures:
         1: keyword.declaration.interface.cs
         2: entity.name.interface.cs
-      push: [interface_signature, data_type_signature]
+      push: [interface_signature, data_type_constraint, data_type_parameter]
 
   delegate_declaration:
     - match: \b(delegate)\b\s+
@@ -454,16 +451,16 @@ contexts:
       scope: invalid.illegal.expected.colon
       pop: true
 
-  record_parameters:
+  maybe_constructor_parameters:
     - match: \(
       scope: punctuation.section.parameters.begin.cs
-      push: record_params
+      push: constructor_params
     - match: (?=\S)
       pop: true
 
-  record_params:
+  constructor_params:
     - clear_scopes: 1
-    - meta_scope: meta.class.record.parameters.cs
+    - meta_scope: meta.class.constructor.parameters.cs
     - match: \)
       scope: punctuation.section.parameters.end.cs
       pop: 2
@@ -527,13 +524,14 @@ contexts:
       scope: invalid.illegal.cs
       pop: true
 
-  data_type_signature:
+  data_type_parameter:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push:
         - meta_content_scope: meta.generic.cs
         - include: type_parameter
-    - include: data_type_constraint
+    - match: (?=\S)
+      pop: true
 
   data_type_constraint:
     - match: ':'

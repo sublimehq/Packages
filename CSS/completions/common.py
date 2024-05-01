@@ -100,13 +100,16 @@ def get_common_values():
         "color": [
             "currentColor",
             "transparent",
-            ["rgb()", "rgb(${1:0}, ${2:0}, ${3:0}${4:, ${5:1.0}})"],
+            ["rgb()", "rgb(${1:0}, ${2:0}, ${3:0}${4: / ${5:1.0}})"],
             ["rgba()", "rgba(${1:0}, ${2:0}, ${3:0}, ${4:1.0})"],
-            ["hsl()", "hsl(${1:0}, ${2:100%}, ${3:50%}${4:, ${5:1.0}})"],
+            ["hsl()", "hsl(${1:0}, ${2:100%}, ${3:50%}${4: / ${5:1.0}})"],
             ["hsla()", "hsla(${1:0}, ${2:100%}, ${3:50%}, ${4:1.0})"],
-            ["hwb()", "hwb(${1:0}, ${2:100%}, ${3:50%}${4:, ${5:1.0}})"],
-            ["lab()", "lab(${1:0%}, ${2:0}, ${3:0}${4:, ${5:1.0}})"],
-            ["lch()", "lch(${1:0%}, ${2:0.0}, ${3:0.0}${4:, ${5:1.0}})"],
+            ["hwb()", "hwb(${1:0}, ${2:100%}, ${3:50%}${4: / ${5:1.0}})"],
+            ["lab()", "lab(${1:0%}, ${2:0}, ${3:0}${4: / ${5:1.0}})"],
+            ["lch()", "lch(${1:0%}, ${2:0.0}, ${3:0.0}${4: / ${5:1.0}})"],
+            ["light-dark()", "light-dark(${1}, ${2})"],
+            ["oklab()", "oklab(${1:0%}, ${2:0}, ${3:0}${4: / ${5:1.0}})"],
+            ["oklch()", "oklch(${1:0%}, ${2:0.0}, ${3:0.0}${4: / ${5:1.0}})"],
             # Named colors
             "aliceblue",
             "antiquewhite",
@@ -441,6 +444,7 @@ def get_common_values():
         ],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
+        "text-wrap": ["wrap", "nowrap", "balance", "stable", "pretty"],
         "timing-function": [
             "linear",
             "ease",
@@ -494,6 +498,20 @@ def get_common_values():
             "%",
         ],
         "url": [["url()", "url($1)"]],
+        "white-space-collapse": [
+            "collapse",
+            "discard",
+            "preserve",
+            "preserve-breaks",
+            "preserve-spaces",
+            "break-spaces"
+        ],
+        "white-space-trim": [
+            "none",
+            "discard-before",
+            "discard-after",
+            "discard-inner"
+        ],
     }
 
     resolved_values = {}
