@@ -2576,12 +2576,14 @@ contexts:
         2: meta.regex.modifier.php
         3: punctuation.definition.string.end.php
       pop: 1
-    - match: \"
+    - match: /|"
       fail: branch-point-double-quoted
     - match: ''
       push: scope:source.regexp.php
       with_prototype:
-        - match: (?=/{{regex_modifier}}"|")
+        # for syntax test in regex
+        - match: ^// *\^.*$
+        - match: (?=/|")
           pop: 1
         - match: \s((#)[^"]*$\n?)
           captures:
@@ -2657,12 +2659,15 @@ contexts:
         2: meta.regex.modifier.php
         3: punctuation.definition.string.end.php
       pop: 1
-    - match: \'
+    - match: /|'
       fail: branch-point-single-quoted
     - match: ''
       push: scope:source.regexp.php
       with_prototype:
-        - match: (?=/{{regex_modifier}}'|')
+        # for syntax test in regex
+        - match: ^// *\^.*$
+          scope: comment.regexp.php
+        - match: (?=/|')
           pop: 1
         - match: \s((#)[^']*$\n?)
           captures:

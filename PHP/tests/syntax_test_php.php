@@ -5123,6 +5123,9 @@ $not_regex = 'foo?';
 $not_regex = '/foo?';
 //                ^ string - source.regexp
 
+$not_regex = '/foo/bar/'; // unescaped "/"
+//           ^^^^^^^^^^^ string - source.regexp
+
 // there is no "T" regex modifier
 $not_regex = '/foo?/uTx';
 //                ^ string - source.regexp
