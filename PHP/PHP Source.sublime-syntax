@@ -2585,7 +2585,7 @@ contexts:
       with_prototype:
         - match: (?=/|")
           pop: 1
-        - match: \s((#)[^"]*$\n?)
+        - match: ((#)[^"]*(?:$\n?|(?=/)))
           captures:
             1: comment.regexp.php
             2: punctuation.definition.comment.regexp.php
@@ -2664,10 +2664,9 @@ contexts:
     - match: ''
       push: scope:source.regexp.php
       with_prototype:
-          scope: comment.regexp.php
         - match: (?=/|')
           pop: 1
-        - match: \s((#)[^']*$\n?)
+        - match: ((#)[^']*(?:$\n?|(?=/)))
           captures:
             1: comment.regexp.php
             2: punctuation.definition.comment.regexp.php

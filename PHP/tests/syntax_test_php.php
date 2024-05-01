@@ -5125,10 +5125,11 @@ preg_replace("/test$,bar$/");
 //                      ^ keyword.control.anchor.regexp
 
 $regex = '/
-    c{3,6} # this is comment/ux';
+    c{3,6}#this is comment/ux';
 //   ^^^^^ keyword.operator.quantifier.regexp
-//         ^^^^^^^^^^^^^^^^^ comment (at this moment this failed)
-//                           ^^ meta.regex.modifier
+//        ^^^^^^^^^^^^^^^^ comment.regexp
+//                        ^^^ - comment.regexp
+//                         ^^ meta.regex.modifier
 
 $regex = '/
     a{,6}
