@@ -2581,8 +2581,6 @@ contexts:
     - match: ''
       push: scope:source.regexp.php
       with_prototype:
-        # for syntax test in regex
-        - match: ^// *\^.*$
         - match: (?=/|")
           pop: 1
         - match: \s((#)[^"]*$\n?)
@@ -2664,8 +2662,6 @@ contexts:
     - match: ''
       push: scope:source.regexp.php
       with_prototype:
-        # for syntax test in regex
-        - match: ^// *\^.*$
           scope: comment.regexp.php
         - match: (?=/|')
           pop: 1

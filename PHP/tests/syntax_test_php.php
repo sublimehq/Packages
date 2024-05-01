@@ -5105,14 +5105,18 @@ preg_replace("/test$,bar$/");
 //                      ^ keyword.control.anchor.regexp
 
 $regex = '/
-    a{,6}
-//   ^^^^ keyword.operator.quantifier.regexp
-    b{3,} # this is comment
-//   ^^^^ keyword.operator.quantifier.regexp
-//        ^^^^^^^^^^^^^^^^^ comment.regexp
-    c{3,6}
+    c{3,6} # this is comment/ux';
 //   ^^^^^ keyword.operator.quantifier.regexp
+//         ^^^^^^^^^^^^^^^^^ comment (at this moment this failed)
+//                           ^^ meta.regex.modifier
+
+$regex = '/
+    a{,6}
 /ux';
+// <- meta.string.php string.quoted.single punctuation.definition.string.regex-delimiter.end
+ // <- meta.string string.quoted.single meta.regex.modifier
+//^ meta.string string.quoted.single meta.regex.modifier
+// ^ meta.string string.quoted.single punctuation.definition.string.end
 
 $regex = '/foo?/ux';
 //            ^ keyword.operator.quantifier.regexp
