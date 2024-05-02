@@ -5132,6 +5132,10 @@ $regex = '/
 //                         ^^ meta.regex.modifier
 
 $regex = '/
+    c{3,6}#this is com/ment/ux';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.regexp
+
+$regex = '/
     a{,6}
 /ux';
 // <- meta.string.php string.quoted.single punctuation.definition.string.regex-delimiter.end
