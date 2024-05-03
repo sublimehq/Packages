@@ -1252,6 +1252,7 @@ extern(1)
 //                   ^ punctuation.section.block.end.d
 
   int boo() => 5;
+//^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
 //       ^^ meta.function.parameters.d
@@ -1262,6 +1263,7 @@ extern(1)
 //              ^ meta.function.d punctuation.terminator.d
 
   int par(T)() if(true) => 7;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
 //       ^^^^^ meta.function.parameters.d
@@ -1281,6 +1283,7 @@ extern(1)
 
   // shortened function with InContractExpression
   int par(int T) in(T) => 7;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
 //       ^^^^^^^ meta.function.parameters.d
@@ -1295,6 +1298,7 @@ extern(1)
 
   // shortened function with OutContractExpression
   int par(int T) out(;) => 7;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
 //       ^^^^^^^ meta.function.parameters.d
@@ -1309,6 +1313,7 @@ extern(1)
 
   // shortened function with OutContractExpression
   int par(int T) out(; arg) => 7;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
 //       ^^^^^^^ meta.function.parameters.d
@@ -1324,6 +1329,7 @@ extern(1)
 
   // No shortened function due to OutStatement `out(...)`
   int par(int T) out(T) => 7;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
 //       ^^^^^^^ meta.function.parameters.d
@@ -1344,6 +1350,7 @@ extern(1)
 //         ^ punctuation.section.group.end.d
 //          ^ meta.function.d punctuation.terminator.d
   int[] map(int[] array, ) {
+//^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^ storage.type.d
 //   ^ punctuation.section.brackets.begin.d
 //    ^ punctuation.section.brackets.end.d
@@ -1363,6 +1370,7 @@ extern(1)
 }
 // <- meta.function.d meta.block.d punctuation.section.block.end.d
   T[] map(T, void fn)(T[] array) {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^ storage.type.d
 // ^ punctuation.section.brackets.begin.d
 //  ^ punctuation.section.brackets.end.d
@@ -1713,6 +1721,7 @@ extern(1)
 //           ^ punctuation.terminator.d
 
   this(int foo) {
+//^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^^ meta.function.d entity.name.function.constructor.d
 //    ^^^^^^^^^ meta.function.parameters.d
 //    ^ punctuation.section.group.begin.d
@@ -1723,6 +1732,7 @@ extern(1)
   }
 //^ meta.function.d meta.block.d punctuation.section.block.end.d
   ~this() @disable;
+//^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^^^ meta.function.d entity.name.function.destructor.d
 //     ^^ meta.function.parameters.d
 //     ^ punctuation.section.group.begin.d
@@ -1731,15 +1741,17 @@ extern(1)
 //        ^^^^^^^^ storage.modifier.d
 //                ^ punctuation.terminator.d
   this(this) {}
-//^^^^ meta.function.d entity.name.function.post-blit.d
-//    ^^^^^^ meta.function.d meta.function.parameters.d
+//^^^^^^^^^^^^^ meta.function - meta.function meta.function
+//^^^^ entity.name.function.post-blit.d
+//    ^^^^^^ meta.function.parameters.d
 //    ^ punctuation.section.group.begin.d
 //     ^^^^ variable.language.d
 //         ^ punctuation.section.group.end.d
-//           ^^ meta.function.d meta.block.d
+//           ^^ meta.block.d
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
   this(1, 2, 3);
+//^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^^ meta.function.d entity.name.function.constructor.d
 //    ^^^^^^^^^ meta.function.parameters.d
 //    ^ punctuation.section.group.begin.d
@@ -1751,6 +1763,7 @@ extern(1)
 //            ^ punctuation.section.group.end.d
 //             ^ meta.function.d punctuation.terminator.d
   this(T)(T foo);
+//^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^^ meta.function.d entity.name.function.constructor.d
 //    ^^^^^^^^^^ meta.function.parameters.d
 //    ^ punctuation.section.group.begin.d
@@ -1762,8 +1775,9 @@ extern(1)
 //             ^ punctuation.section.group.end.d
 //              ^ meta.function.d punctuation.terminator.d
   this(in ref foo t) {}
+//^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 //^^^^ meta.function.d entity.name.function.constructor.d
-//    ^^^^^^^^^^^^^^ meta.function.parameters.d meta.function.parameters.d
+//    ^^^^^^^^^^^^^^ meta.function.parameters.d
 //    ^ punctuation.section.group.begin.d
 //     ^^ storage.modifier.d
 //        ^^^ storage.modifier.d
