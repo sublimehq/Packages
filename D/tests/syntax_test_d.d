@@ -1250,6 +1250,7 @@ extern(1)
 //                  ^^ meta.function.d meta.block.d
 //                  ^ punctuation.section.block.begin.d
 //                   ^ punctuation.section.block.end.d
+
   int boo() => 5;
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
@@ -1259,6 +1260,7 @@ extern(1)
 //          ^^ meta.function.d keyword.declaration.function.d
 //             ^ meta.number.integer.decimal.d
 //              ^ meta.function.d punctuation.terminator.d
+
   int par(T)() if(true) => 7;
 //^^^ storage.type.d
 //    ^^^ meta.function.d entity.name.function.d
@@ -1276,53 +1278,111 @@ extern(1)
 //                      ^^ meta.function.d keyword.declaration.function.d
 //                         ^ meta.number.integer.decimal.d
 //                          ^ meta.function.d punctuation.terminator.d
-    void bar();
-  //^^^^ storage.type.d
-  //     ^^^ meta.function.d entity.name.function.d
-  //        ^^ meta.function.parameters.d
-  //        ^ punctuation.section.group.begin.d
-  //         ^ punctuation.section.group.end.d
-  //          ^ meta.function.d punctuation.terminator.d
-    int[] map(int[] array, ) {
-  //^^^ storage.type.d
-  //   ^ punctuation.section.brackets.begin.d
-  //    ^ punctuation.section.brackets.end.d
-  //      ^^^ meta.function.d entity.name.function.d
-  //         ^^^^^^^^^^^^^^^ meta.function.parameters.d
-  //         ^ punctuation.section.group.begin.d
-  //          ^^^ storage.type.d
-  //             ^ punctuation.section.brackets.begin.d
-  //              ^ punctuation.section.brackets.end.d
-  //                ^^^^^ variable.parameter.d
-  //                     ^ punctuation.separator.sequence.d
-  //                       ^
-  //                         ^ meta.function.d meta.block.d punctuation.section.block.begin.d
-      foo();
-    //^^^^^^^ meta.function.d meta.block.d
-    //^^^ variable.function.d
-    }
-  //^ meta.function.d meta.block.d punctuation.section.block.end.d
-    T[] map(T, void fn)(T[] array) {
-  //^ storage.type.d
-  // ^ punctuation.section.brackets.begin.d
-  //  ^ punctuation.section.brackets.end.d
-  //    ^^^ meta.function.d entity.name.function.d
-  //       ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.d
-  //       ^ punctuation.section.group.begin.d
-  //        ^ variable.parameter.d
-  //         ^ punctuation.separator.sequence.d
-  //           ^^^^ storage.type.d
-  //                ^^ variable.parameter.d
-  //                  ^ punctuation.section.group.end.d
-  //                   ^ punctuation.section.group.begin.d
-  //                    ^ storage.type.d
-  //                     ^ punctuation.section.brackets.begin.d
-  //                      ^ punctuation.section.brackets.end.d
-  //                        ^^^^^ variable.parameter.d
-  //                             ^ punctuation.section.group.end.d
-  //                               ^ meta.function.d meta.block.d punctuation.section.block.begin.d
-    }
-  //^ meta.function.d meta.block.d punctuation.section.block.end.d
+
+  // shortened function with InContractExpression
+  int par(int T) in(T) => 7;
+//^^^ storage.type.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^^^^^^ meta.function.parameters.d
+//               ^^^^^^^^^^^ meta.function.d
+//               ^^ keyword.control.conditional.d
+//                 ^ punctuation.section.parens.begin.d
+//                  ^ variable.other.d
+//                   ^ punctuation.section.parens.end.d
+//                     ^^ keyword.declaration.function.d
+//                        ^ constant.numeric.value.d
+//                         ^ punctuation.terminator.d
+
+  // shortened function with OutContractExpression
+  int par(int T) out(;) => 7;
+//^^^ storage.type.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^^^^^^ meta.function.parameters.d
+//               ^^^^^^^^^^^^ meta.function.d
+//               ^^^ keyword.control.conditional.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^ punctuation.separator.sequence.d
+//                    ^ punctuation.section.parens.end.d
+//                      ^^ keyword.declaration.function.d
+//                         ^ constant.numeric.value.d
+//                          ^ punctuation.terminator.d
+
+  // shortened function with OutContractExpression
+  int par(int T) out(; arg) => 7;
+//^^^ storage.type.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^^^^^^ meta.function.parameters.d
+//               ^^^^^^^^^^^^^^^^ meta.function.d
+//               ^^^ keyword.control.conditional.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^ punctuation.separator.sequence.d
+//                     ^^^ variable.other.d
+//                        ^ punctuation.section.parens.end.d
+//                          ^^ keyword.declaration.function.d
+//                             ^ constant.numeric.value.d
+//                              ^ punctuation.terminator.d
+
+  // No shortened function due to OutStatement `out(...)`
+  int par(int T) out(T) => 7;
+//^^^ storage.type.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^^^^^^ meta.function.parameters.d
+//               ^^^^^^^^^ meta.function.d
+//               ^^^ keyword.control.conditional.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^ variable.parameter.d
+//                    ^ punctuation.section.parens.end.d
+//                      ^^ invalid.illegal.d
+//                         ^ constant.numeric.value.d
+//                          ^ punctuation.terminator.d
+
+  void bar();
+//^^^^ storage.type.d
+//     ^^^ meta.function.d entity.name.function.d
+//        ^^ meta.function.parameters.d
+//        ^ punctuation.section.group.begin.d
+//         ^ punctuation.section.group.end.d
+//          ^ meta.function.d punctuation.terminator.d
+  int[] map(int[] array, ) {
+//^^^ storage.type.d
+//   ^ punctuation.section.brackets.begin.d
+//    ^ punctuation.section.brackets.end.d
+//      ^^^ meta.function.d entity.name.function.d
+//         ^^^^^^^^^^^^^^^ meta.function.parameters.d
+//         ^ punctuation.section.group.begin.d
+//          ^^^ storage.type.d
+//             ^ punctuation.section.brackets.begin.d
+//              ^ punctuation.section.brackets.end.d
+//                ^^^^^ variable.parameter.d
+//                     ^ punctuation.separator.sequence.d
+//                       ^
+//                         ^ meta.function.d meta.block.d punctuation.section.block.begin.d
+  foo();
+//^^^^^^^ meta.function.d meta.block.d
+//^^^ variable.function.d
+}
+// <- meta.function.d meta.block.d punctuation.section.block.end.d
+  T[] map(T, void fn)(T[] array) {
+//^ storage.type.d
+// ^ punctuation.section.brackets.begin.d
+//  ^ punctuation.section.brackets.end.d
+//    ^^^ meta.function.d entity.name.function.d
+//       ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.d
+//       ^ punctuation.section.group.begin.d
+//        ^ variable.parameter.d
+//         ^ punctuation.separator.sequence.d
+//           ^^^^ storage.type.d
+//                ^^ variable.parameter.d
+//                  ^ punctuation.section.group.end.d
+//                   ^ punctuation.section.group.begin.d
+//                    ^ storage.type.d
+//                     ^ punctuation.section.brackets.begin.d
+//                      ^ punctuation.section.brackets.end.d
+//                        ^^^^^ variable.parameter.d
+//                             ^ punctuation.section.group.end.d
+//                               ^ meta.function.d meta.block.d punctuation.section.block.begin.d
+}
+// <- meta.function.d meta.block.d punctuation.section.block.end.d
   VeryLongTypeNameThatWillForceALineWrapWith80WidthLines
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.d
   veryLongFunctionNameToHelpWithTheLineWrappingThing
