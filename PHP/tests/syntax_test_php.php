@@ -5125,14 +5125,23 @@ preg_replace("/test$,bar$/");
 //                      ^ keyword.control.anchor.regexp
 
 $regex = '/
-    a{,6}
-//   ^^^^ keyword.operator.quantifier.regexp
-    b{3,} # this is comment
-//   ^^^^ keyword.operator.quantifier.regexp
-//        ^^^^^^^^^^^^^^^^^ comment.regexp
-    c{3,6}
+    c{3,6}#this is comment/ux';
 //   ^^^^^ keyword.operator.quantifier.regexp
+//        ^^^^^^^^^^^^^^^^ comment.regexp
+//                        ^^^ - comment.regexp
+//                         ^^ meta.regex.modifier
+
+$regex = '/
+    c{3,6}#this is com/ment/ux';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.regexp
+
+$regex = '/
+    a{,6}
 /ux';
+// <- meta.string.php string.quoted.single punctuation.definition.string.regex-delimiter.end
+ // <- meta.string string.quoted.single meta.regex.modifier
+//^ meta.string string.quoted.single meta.regex.modifier
+// ^ meta.string string.quoted.single punctuation.definition.string.end
 
 $regex = '/foo?/ux';
 //            ^ keyword.operator.quantifier.regexp
@@ -5142,6 +5151,9 @@ $not_regex = 'foo?';
 
 $not_regex = '/foo?';
 //                ^ string - source.regexp
+
+$not_regex = '/foo/bar/'; // unescaped "/"
+//           ^^^^^^^^^^^ string - source.regexp
 
 // there is no "T" regex modifier
 $not_regex = '/foo?/uTx';
