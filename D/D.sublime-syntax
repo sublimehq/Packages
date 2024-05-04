@@ -66,6 +66,9 @@ variables:
   language_variable: 'this|super'
   reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{language_variable}}'
 
+  traits: 'isAbstractClass|isArithmetic|isAssociativeArray|isFinalClass|isPOD|isNested|isFuture|isDeprecated|isFloating|isIntegral|isScalar|isStaticArray|isUnsigned|isDisabled|isVirtualFunction|isVirtualMethod|isAbstractFunction|isFinalFunction|isStaticFunction|isOverrideFunction|isTemplate|isRef|isOut|isLazy|isReturnOnStack|isCopyable|isZeroInit|isModule|isPackage|hasMember|hasCopyConstructor|hasPostblit|identifier|getAliasThis|getAttributes|getFunctionAttributes|getFunctionVariadicStyle|getLinkage|getLocation|getMember|getOverloads|getParameterStorageClasses|getPointerBitmap|getCppNamespaces|getVisibility|getProtection|getTargetInfo|getVirtualFunctions|getVirtualMethods|getUnitTests|parent|child|classInstanceSize|classInstanceAlignment|getVirtualIndex|allMembers|derivedMembers|isSame|compiles|toType|initSymbol|parameters'
+  pragmas: 'crt_constructor|crt_destructor|inline|lib|linkerDirective|mangle|msg|printf|scanf|startaddress|LDC_alloca|LDC_allow_inline|LDC_extern_weak|LDC_global_crt_ctor|LDC_global_crt_dtor|LDC_inline_ir|LDC_intrinsic|LDC_never_inline|LDC_no_moduleinfo|LDC_no_typeinfo|LDC_va_start|LDC_va_arg|LDC_va_end|LDC_va_copy'
+
   operator_overloads: 'opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r'
 
   block_statement_loohahead: '(?={)'
@@ -698,16 +701,20 @@ contexts:
       scope: punctuation.section.parens.end.d
       pop: true
   pragma-attribute:
+    - match: '\b({{pragmas}})\b'
+      scope: constant.other.d
+      set: pragma-in
     - match: '\b({{name}})\b'
       scope: variable.function.d
-      set:
-        - match: '\)'
-          scope: punctuation.section.parens.end.d
-          pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.d
-          set: [pragma-attribute-after, value-list]
-        - include: not-whitespace-illegal-pop
+      set: pragma-in
+    - include: not-whitespace-illegal-pop
+  pragma-in:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [pragma-attribute-after, value-list]
     - include: not-whitespace-illegal-pop
   pragma-attribute-after:
     - match: '\)'
@@ -1196,12 +1203,16 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set:
-            - match: '\b{{name}}\b'
-              scope: variable.function.d
+            - match: '\b({{traits}})\b'
+              scope: constant.other.d
               set:
                 - match: ','
                   scope: punctuation.separator.sequence.d
                   set: [value-parens-after, value-list]
+                - match: '\)'
+                  scope: punctuation.section.parens.end.d
+                  pop: true
+            - include: not-whitespace-illegal-pop
     - match: '\b(function|delegate)\b'
       scope: meta.function.d keyword.other.d
       set:
