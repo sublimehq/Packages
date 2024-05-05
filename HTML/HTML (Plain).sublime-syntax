@@ -88,7 +88,8 @@ variables:
   tag_name_break_char: '[{{ascii_space}}/<>]'
   tag_name_break: (?={{tag_name_break_char}})
   tag_name_char: '[^{{tag_name_break_char}}]'
-  tag_name: '[A-Za-z]{{tag_name_char}}*'
+  tag_name_start: '[A-Za-z]'
+  tag_name: '{{tag_name_start}}{{tag_name_char}}*'
 
 ###############################################################################
 

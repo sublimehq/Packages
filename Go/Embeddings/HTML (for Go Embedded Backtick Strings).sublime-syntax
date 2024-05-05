@@ -8,6 +8,10 @@ hidden: true
 
 extends: Packages/HTML/HTML.sublime-syntax
 
+variables:
+
+  tag_name_start: (?:[A-Za-z]|{{)
+
 contexts:
 
   prototype:

@@ -1382,6 +1382,43 @@ test = "hello%>
 '                  ^^^ punctuation.section.embedded.begin.asp
 '                               ^^ punctuation.section.embedded.end.asp
 
+  <my-<%=tag%> <%=attr%>=<%=value%>/>
+' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+' ^ meta.tag.other.html punctuation.definition.tag.begin.html
+'  ^^^ entity.name.tag.other.html - meta.interpolation
+'     ^^^^^^^^ entity.name.tag.other.html meta.embedded.asp
+'     ^^^ punctuation.section.embedded.begin.asp 
+'        ^^^ variable.other.asp
+'           ^^ punctuation.section.embedded.end.asp
+'              ^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.asp
+'              ^^^ punctuation.section.embedded.begin.asp 
+'                 ^^^^ variable.other.asp
+'                     ^^ punctuation.section.embedded.end.asp
+'                       ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+'                        ^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.asp
+'                        ^^^ punctuation.section.embedded.begin.asp 
+'                           ^^^^^ variable.other.asp
+'                                ^^ punctuation.section.embedded.end.asp
+'                                  ^^ punctuation.definition.tag.end.html
+
+  <<%=tag%> <%=attr%>=<%=value%>/>
+' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+' ^ meta.tag.other.html punctuation.definition.tag.begin.html
+'  ^^^^^^^^ entity.name.tag.other.html meta.embedded.asp
+'  ^^^ punctuation.section.embedded.begin.asp 
+'     ^^^ variable.other.asp
+'        ^^ punctuation.section.embedded.end.asp
+'           ^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.asp
+'           ^^^ punctuation.section.embedded.begin.asp 
+'              ^^^^ variable.other.asp
+'                  ^^ punctuation.section.embedded.end.asp
+'                    ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+'                     ^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.asp
+'                     ^^^ punctuation.section.embedded.begin.asp 
+'                        ^^^^^ variable.other.asp
+'                             ^^ punctuation.section.embedded.end.asp
+'                               ^^ punctuation.definition.tag.end.html
+
  </body>
 '^^^^^^^ meta.tag.structure.any.html
 <script type="text/javascript">
