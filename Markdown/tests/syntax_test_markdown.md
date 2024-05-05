@@ -3234,6 +3234,14 @@ test
 |                  ^^^^^^ punctuation.definition.raw.begin.markdown
 |                        ^^^^^^^ - punctuation
 |                               ^^^^^^ punctuation.definition.raw.end.markdown
+| table with | `multiple` code `spans`) |
+| <- punctuation.separator.table-cell
+|            ^ punctuation.separator.table-cell
+|              ^^^^^^^^^^ markup.raw.inline
+|                        ^^^^^^ - markup.raw.inline
+|                              ^^^^^^^ markup.raw.inline
+
+
 
 `|` this `|` example `|` is not a table `|`
 | ^ punctuation.definition.raw.end - meta.table
