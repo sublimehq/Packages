@@ -77,3 +77,18 @@ input.parse::<SnailNum>()
 //                     ^^ meta.group.rust
 //                     ^ punctuation.section.group.begin.rust
 //                      ^ punctuation.section.group.end.rust
+
+let (x, y, z) = w;
+//   ^ variable.other.rust
+//      ^ variable.other.rust
+//         ^ variable.other.rust
+//              ^ variable.other.rust
+
+let Some(x) = test();
+//  ^^^^ support.type
+
+let BasicStruct(x) = test();
+//  ^^^^^^^^^^^ storage.type
+
+let ComplexStruct { x, y: z } = test();
+//  ^^^^^^^^^^^^^ storage.type

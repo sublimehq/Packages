@@ -210,9 +210,10 @@ contexts:
         1: entity.name.function.rust
         2: keyword.operator.assignment.rust
       set: closure
-    # highligght (potentially invalid) keywords
+    # highlight (potentially invalid) keywords
     - include: keywords
-    - match: '{{identifier}}'
+    - include: identifiers
+    - match: (?=:)
       set: declaration-after-identifier
     - include: else-pop
 
@@ -1690,7 +1691,7 @@ contexts:
 
   generic-identifier-names:
     - match: '{{identifier}}'
-      scope: debug.variable.rust
+      scope: variable.other.rust
 
   ##[ KEYWORDS AND SYMBOLS ]##################################################
 
