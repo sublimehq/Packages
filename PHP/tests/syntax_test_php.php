@@ -6096,6 +6096,42 @@ h1 {
 //                 ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.embedded.php - string
 //                           ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
 
+  <<?php $tag ?> <?php $attr ?>=<?php $value ?> />
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php meta.tag.other.html
+//^ punctuation.definition.tag.begin.html
+// ^^^^^^^^^^^^^ entity.name.tag.other.html meta.embedded.php
+// ^^^^^ punctuation.section.embedded.begin.php
+//       ^^^^ variable.other.php
+//            ^^ punctuation.section.embedded.end.php
+//               ^^^^^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.php
+//               ^^^^^ punctuation.section.embedded.begin.php
+//                     ^^^^^ variable.other.php
+//                           ^^ punctuation.section.embedded.end.php
+//                             ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+//                              ^^^^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.php
+//                              ^^^^^ punctuation.section.embedded.begin.php
+//                                    ^^^^^^ variable.other.php
+//                                           ^^ punctuation.section.embedded.end.php
+//                                              ^^ punctuation.definition.tag.end.html
+
+  <<? $tag ?> <? $attr ?>=<? $value ?> />
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php meta.tag.other.html
+//^ punctuation.definition.tag.begin.html
+// ^^^^^^^^^^ entity.name.tag.other.html meta.embedded.php
+// ^^ punctuation.section.embedded.begin.php
+//    ^^^^ variable.other.php
+//         ^^ punctuation.section.embedded.end.php
+//            ^^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.php
+//            ^^ punctuation.section.embedded.begin.php
+//               ^^^^^ variable.other.php
+//                     ^^ punctuation.section.embedded.end.php
+//                       ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+//                        ^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.php
+//                        ^^ punctuation.section.embedded.begin.php
+//                           ^^^^^^ variable.other.php
+//                                  ^^ punctuation.section.embedded.end.php
+//                                     ^^ punctuation.definition.tag.end.html
+
   <?phpzzzz
 //^^ punctuation.section.embedded.begin.php
 //  ^^^^^^^ constant.other.php

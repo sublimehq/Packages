@@ -3172,6 +3172,44 @@ main = do
 --                   ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.haskell source.haskell.embedded.html
 --                                       ^ meta.interpolation.haskell punctuation.section.interpolation.end.haskell
 --                                        ^ string.quoted.double.html punctuation.definition.string.end.html
+
+        <my-{tag} {attr}={value}/>
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+--      ^ meta.tag.other.html punctuation.definition.tag.begin.html
+--       ^^^ entity.name.tag.other.html - meta.interpolation
+--          ^^^^^ entity.name.tag.other.html meta.interpolation.haskell
+--          ^ punctuation.section.interpolation.begin.haskell
+--           ^^^ variable.other.haskell
+--              ^ punctuation.section.interpolation.end.haskell
+--                ^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.haskell
+--                ^ punctuation.section.interpolation.begin.haskell
+--                 ^^^^ variable.other.haskell
+--                     ^ punctuation.section.interpolation.end.haskell
+--                      ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+--                       ^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--                       ^ punctuation.section.interpolation.begin.haskell
+--                        ^^^^^ variable.other.haskell
+--                             ^ punctuation.section.interpolation.end.haskell
+--                              ^^ punctuation.definition.tag.end.html
+
+        <{tag} {attr}={value}/>
+--      ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+--      ^ meta.tag.other.html punctuation.definition.tag.begin.html
+--       ^^^^^ entity.name.tag.other.html meta.interpolation.haskell
+--       ^ punctuation.section.interpolation.begin.haskell
+--        ^^^ variable.other.haskell
+--           ^ punctuation.section.interpolation.end.haskell
+--             ^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.haskell
+--             ^ punctuation.section.interpolation.begin.haskell
+--              ^^^^ variable.other.haskell
+--                  ^ punctuation.section.interpolation.end.haskell
+--                   ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+--                    ^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--                    ^ punctuation.section.interpolation.begin.haskell
+--                     ^^^^^ variable.other.haskell
+--                          ^ punctuation.section.interpolation.end.haskell
+--                           ^^ punctuation.definition.tag.end.html
+
     |]
 -- ^ meta.quoted.quasi.haskell text.html.embedded.haskell
 --  ^^ meta.quoted.quasi.haskell punctuation.section.quoted.end.haskell - text.html

@@ -11,6 +11,10 @@ file_extensions:
   - gocss
   - go.css
 
+variables:
+
+    ident_start: (?:{{nmstart}}|{{)
+
 contexts:
 
   prototype:

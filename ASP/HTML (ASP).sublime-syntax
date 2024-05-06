@@ -22,6 +22,8 @@ variables:
   vbscript_mime_type: |-
     (?xi: (?: (?:application|text) / )? vbscript )
 
+  tag_name_start: (?:[A-Za-z]|<%)
+
 contexts:
 
 ###[ HTML TAGS ]##############################################################

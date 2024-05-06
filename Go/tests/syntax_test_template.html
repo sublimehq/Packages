@@ -91,6 +91,49 @@
 |                     ^^ punctuation.section.interpolation.begin.go - source.go.template
 |                       ^^^^^^^^^^^ source.go.template
 |                                  ^^ punctuation.section.interpolation.end.go - source.go.template
+
+    <my-{{.tag}} {{.attr}}={{.value}}/>
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+|   ^ meta.tag.other.html punctuation.definition.tag.begin.html
+|    ^^^ entity.name.tag.other.html - meta.interpolation
+|       ^^^^^^^ entity.name.tag.other.html meta.interpolation.go
+|       ^^ punctuation.section.interpolation.begin.go
+|         ^ punctuation.accessor.dot.go
+|          ^^^ variable.other.member.go
+|             ^^ punctuation.section.interpolation.end.go
+|                ^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.go
+|                ^^ punctuation.section.interpolation.begin.go
+|                  ^ punctuation.accessor.dot.go
+|                   ^^^^ variable.other.member.go
+|                       ^^ punctuation.section.interpolation.end.go
+|                         ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+|                          ^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.go
+|                          ^^ punctuation.section.interpolation.begin.go
+|                            ^ punctuation.accessor.dot.go
+|                             ^^^^^ variable.other.member.go
+|                                  ^^ punctuation.section.interpolation.end.go
+|                                    ^^ punctuation.definition.tag.end.html
+
+    <{{.tag}} {{.attr}}={{.value}}/>
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+|   ^ meta.tag.other.html punctuation.definition.tag.begin.html
+|    ^^^^^^^ entity.name.tag.other.html meta.interpolation.go
+|    ^^ punctuation.section.interpolation.begin.go
+|      ^ punctuation.accessor.dot.go
+|       ^^^ variable.other.member.go
+|          ^^ punctuation.section.interpolation.end.go
+|             ^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.go
+|             ^^ punctuation.section.interpolation.begin.go
+|               ^ punctuation.accessor.dot.go
+|                ^^^^ variable.other.member.go
+|                    ^^ punctuation.section.interpolation.end.go
+|                      ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+|                       ^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.go
+|                       ^^ punctuation.section.interpolation.begin.go
+|                         ^ punctuation.accessor.dot.go
+|                          ^^^^^ variable.other.member.go
+|                               ^^ punctuation.section.interpolation.end.go
+|                                 ^^ punctuation.definition.tag.end.html
 </html>
 
 <!-- Page Templates -->

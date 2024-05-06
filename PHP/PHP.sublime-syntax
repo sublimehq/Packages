@@ -24,6 +24,10 @@ first_line_match: |-
   | ^ \s* <\?php\b                          # php tag
   )
 
+variables:
+
+  tag_name_start: (?:[A-Za-z]|<\?)
+
 ##############################################################################
 
 contexts:
