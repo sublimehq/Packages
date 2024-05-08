@@ -220,6 +220,7 @@ contexts:
         - def-functions-params
 
   def-anonymous-body:
+    - meta_include_prototype: false
     - include: def-function-body-braces
     - include: line-continuations
     - include: comments
@@ -244,6 +245,7 @@ contexts:
         - def-functions-name
 
   def-functions-name:
+    - meta_include_prototype: false
     - match: '{{cmd_begin}}'
       set: def-functions-name-chars
     - include: else-pop
@@ -258,6 +260,7 @@ contexts:
 
   def-functions-params:
     - clear_scopes: 1
+    - meta_include_prototype: false
     - meta_content_scope: meta.function.identifier.shell
     - match: (\()\s*(\))
       scope: meta.function.parameters.shell
@@ -270,6 +273,7 @@ contexts:
     - include: else-pop
 
   def-functions-body:
+    - meta_include_prototype: false
     - include: def-function-body-braces
     - include: def-function-body-parens
     - include: line-continuations
@@ -279,22 +283,26 @@ contexts:
   def-function-body-braces:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
       scope: punctuation.section.compound.begin.shell
-      set:
-        - meta_scope: meta.compound.shell
-        - match: \}
-          scope: punctuation.section.compound.end.shell
-          pop: 1
-        - include: statements
+      set: def-function-body-braces-body
+
+  def-function-body-braces-body:
+    - meta_scope: meta.compound.shell
+    - match: \}
+      scope: punctuation.section.compound.end.shell
+      pop: 1
+    - include: statements
 
   def-function-body-parens:
     - match: \(
       scope: punctuation.section.compound.begin.shell
-      set:
-        - meta_scope: meta.compound.shell
-        - match: \)
-          scope: punctuation.section.compound.end.shell
-          pop: 1
-        - include: statements
+      set: def-function-body-parens-body
+
+  def-function-body-parens-body:
+    - meta_scope: meta.compound.shell
+    - match: \)
+      scope: punctuation.section.compound.end.shell
+      pop: 1
+    - include: statements
 
   def-functions-redirection:
     - meta_scope: meta.function.shell
@@ -944,22 +952,26 @@ contexts:
 ###[ COMMANDS ]################################################################
 
   cmd-compound:
-    - match: \(
-      scope: punctuation.section.compound.begin.shell
-      push:
-        - meta_scope: meta.compound.shell
-        - match: \)
-          scope: punctuation.section.compound.end.shell
-          set: cmd-compound-args
-        - include: statements
     - match: \{{{cmd_break}}
       scope: punctuation.section.compound.begin.shell
-      push:
-        - meta_scope: meta.compound.shell
-        - match: \}
-          scope: punctuation.section.compound.end.shell
-          set: cmd-compound-args
-        - include: statements
+      push: cmd-compound-braces-body
+    - match: \(
+      scope: punctuation.section.compound.begin.shell
+      push: cmd-compound-parens-body
+
+  cmd-compound-braces-body:
+    - meta_scope: meta.compound.shell
+    - match: \}
+      scope: punctuation.section.compound.end.shell
+      set: cmd-compound-args
+    - include: statements
+
+  cmd-compound-parens-body:
+    - meta_scope: meta.compound.shell
+    - match: \)
+      scope: punctuation.section.compound.end.shell
+      set: cmd-compound-args
+    - include: statements
 
   cmd-compound-args:
     - meta_content_scope: meta.compound.arguments.shell
@@ -1473,12 +1485,7 @@ contexts:
   expressions:
     - match: \(
       scope: punctuation.section.group.begin.shell
-      push:
-        - meta_scope: meta.group.shell
-        - match: \)
-          scope: punctuation.section.group.end.shell
-          pop: 1
-        - include: expressions
+      push: expression-group-body
     # multi char operators
     - match: '[-+*/%&|^]=|<<=|>>='
       scope: keyword.operator.assignment.augmented.shell
@@ -1511,6 +1518,13 @@ contexts:
     - include: expansions-variables
     - include: variables
     - include: line-continuations
+
+  expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: expressions
 
 ###[ CONSTANTS ]###############################################################
 
@@ -1692,12 +1706,14 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
-      push:
-        - meta_scope: meta.interpolation.arithmetic.shell
-        - match: \)\)
-          scope: punctuation.section.interpolation.end.shell
-          pop: 1
-        - include: expressions
+      push: arithmetic-expansion-parens-body
+
+  arithmetic-expansion-parens-body:
+    - meta_scope: meta.interpolation.arithmetic.shell
+    - match: \)\)
+      scope: punctuation.section.interpolation.end.shell
+      pop: 1
+    - include: expressions
 
 ###[ BRACE EXPANSIONS ]########################################################
 
