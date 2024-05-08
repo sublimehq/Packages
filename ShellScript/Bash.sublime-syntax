@@ -215,12 +215,12 @@ contexts:
   def-anonymous:
     - match: (?=\(\s*\))
       push:
-        - def-functions-redirection
         - def-anonymous-body
         - def-functions-params
 
   def-anonymous-body:
     - meta_include_prototype: false
+    - meta_scope: meta.function.shell
     - include: def-function-body-braces
     - include: line-continuations
     - include: comments
@@ -230,7 +230,6 @@ contexts:
     # [Bash] 3.3 Shell Functions
     - match: (?={{cmd_literal}}\s*\(\s*\))
       push:
-        - def-functions-redirection
         - def-functions-body
         - def-functions-params
         - def-functions-name
@@ -239,7 +238,6 @@ contexts:
         meta.function.shell
         keyword.declaration.function.shell
       push:
-        - def-functions-redirection
         - def-functions-body
         - def-functions-params
         - def-functions-name
@@ -274,6 +272,7 @@ contexts:
 
   def-functions-body:
     - meta_include_prototype: false
+    - meta_scope: meta.function.shell
     - include: def-function-body-braces
     - include: def-function-body-parens
     - include: line-continuations
@@ -282,33 +281,31 @@ contexts:
 
   def-function-body-braces:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
-      scope: punctuation.section.compound.begin.shell
+      scope: meta.block.shell punctuation.section.block.begin.shell
       set: def-function-body-braces-body
 
   def-function-body-braces-body:
-    - meta_scope: meta.compound.shell
+    - meta_content_scope: meta.function.shell meta.block.shell
     - match: \}
-      scope: punctuation.section.compound.end.shell
+      scope:
+        meta.function.shell meta.block.shell
+        punctuation.section.block.end.shell
       pop: 1
     - include: statements
 
   def-function-body-parens:
     - match: \(
-      scope: punctuation.section.compound.begin.shell
+      scope: meta.block.shell punctuation.section.block.begin.shell
       set: def-function-body-parens-body
 
   def-function-body-parens-body:
-    - meta_scope: meta.compound.shell
+    - meta_content_scope: meta.function.shell meta.block.shell
     - match: \)
-      scope: punctuation.section.compound.end.shell
+      scope:
+        meta.function.shell meta.block.shell
+        punctuation.section.block.end.shell
       pop: 1
     - include: statements
-
-  def-functions-redirection:
-    - meta_scope: meta.function.shell
-    - include: redirections
-    - include: else-pop
-    - include: eol-pop
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
