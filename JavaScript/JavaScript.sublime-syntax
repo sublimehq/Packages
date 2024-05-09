@@ -1437,7 +1437,7 @@ contexts:
   ternary-operator-expect-colon:
     - match: ':'
       scope: keyword.operator.ternary.js
-      set: expression-no-comma
+      set: expression
     - include: else-pop
 
   postfix-operators:
