@@ -104,8 +104,7 @@ umask:
 
 # "unset" is handled in the syntax def, don't put it here!
 
-echo:
-  short-options-compact: neE
+# "echo" is handled in the syntax def, don't put it here!
 
 set:
   short-options-compact: abefhkmnptuvxBCEHPT

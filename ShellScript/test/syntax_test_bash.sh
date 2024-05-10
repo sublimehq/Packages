@@ -179,8 +179,8 @@ echo 'singe\' \\''
 #    ^^^^^^^^ meta.string.shell string.quoted.single.shell - string.unquoted
 #    ^ punctuation.definition.string.begin.shell
 #          ^^ - constant
-#            ^ - string
-#             ^^ constant.character.escape.shell - string.quoted
+#             ^^ meta.string.shell string.unquoted.shell - string.quoted
+#             ^^ constant.character.escape.shell
 #               ^^ meta.string.shell string.quoted.single.shell - string.unquoted
 #                 ^ - meta.string - string
 
@@ -205,6 +205,19 @@ echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z\''
 echo -e "\e[33mcolored text\e[0m uncolored"
 #        ^^^^^^ constant.character.escape.color.shell
 #                          ^^^^^ constant.character.escape.color.shell
+
+echo -e -a -n <1 ! # unknown options start printed text
+#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^ variable.parameter.option.shell
+#       ^^ meta.string.shell string.unquoted.shell
+#          ^^ meta.string.shell string.unquoted.shell
+#             ^^ meta.redirection.shell
+#             ^ keyword.operator.assignment.redirection.shell
+#              ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#                ^ meta.string.shell string.unquoted.shell
+#                 ^ - meta.function-call - comment
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 echo $'Hello\' World\\'
 #    ^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell

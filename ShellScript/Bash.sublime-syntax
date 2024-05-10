@@ -115,6 +115,7 @@ contexts:
     - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-compound
+    - include: cmd-echo
     - include: cmd-historic
     - include: cmd-sudo
     - include: cmd-test
@@ -570,6 +571,30 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+
+###[ ECHO BUILTINS ]###########################################################
+
+  cmd-echo:
+    - match: echo{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.echo.shell
+      push: cmd-echo-args
+
+  cmd-echo-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: eoc-pop
+    - match: ([-+])[neE]+{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (?=\S)
+      set: cmd-echo-string
+
+  cmd-echo-string:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-end
+    - include: string-path-patterns
 
 ###[ EXEC BUILTINS ]###########################################################
 
