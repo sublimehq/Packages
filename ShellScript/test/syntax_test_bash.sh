@@ -1777,8 +1777,8 @@ esac
 case var in
   ( patt ( esac
 #^ meta.conditional.case.shell
-# ^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
-#        ^^ meta.conditional.case.clause.patterns.shell meta.group.regexp.shell
+# ^^^^^^^ meta.patterns.shell - meta.group
+#        ^^ meta.patterns.shell meta.group.regexp.shell
 #          ^^^^ meta.conditional.case.shell
 # ^ keyword.control.conditional.patterns.begin.shell
 #        ^ punctuation.definition.group.begin.regexp.shell
@@ -1799,8 +1799,8 @@ case   # comment
 #      ^^^^^^^^^^ comment.line.number-sign.shell
   pattern) # comment
 #^ meta.conditional.case.shell
-# ^^^^^^^^ meta.conditional.case.clause.patterns.shell
-#         ^^^^^^^^^^^ meta.conditional.case.clause.commands.shell
+# ^^^^^^^^ meta.conditional.case.shell meta.patterns.shell
+#         ^^^^^^^^^^^ meta.conditional.case.shell - meta.patterns
 #          ^^^^^^^^^^ comment.line.number-sign.shell
 esac
 # <- meta.conditional.case.shell keyword.control.conditional.end.shell
@@ -1868,35 +1868,34 @@ case "${foo}" in- in_ in=10 in
 #                     ^^ - keyword.control.in
 #                           ^^ keyword.control.in
     ( help | h ) bar ;;
-#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^^^^^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#               ^^^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
-#                      ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#^^^ meta.conditional.case.shell - meta.patterns
+#   ^^^^^^^^^^^^ meta.conditional.case.shell meta.patterns.shell
+#               ^^^^^^^^ meta.conditional.case.shell - meta.patterns
     # <- keyword.control.conditional.patterns.begin.shell
     #          ^ keyword.control.conditional.patterns.end.shell
     #                ^^ punctuation.terminator.case.clause.shell
     do1 ) foo1 ;&
-#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^^^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#        ^^^^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
-#                ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#^^^ meta.conditional.case.shell - meta.patterns
+#   ^^^^^ meta.conditional.case.shell meta.patterns.shell
+#        ^^^^^^^^^ meta.conditional.case.shell - meta.patterns
     #   ^ keyword.control.conditional.patterns.end.shell
     #          ^^ punctuation.terminator.case.clause.shell
     (do2 ) foo2 ;;&
-#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^^^^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#         ^^^^^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
-#                  ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#^^^ meta.conditional.case.shell - meta.patterns
+#   ^^^^^^ meta.conditional.case.shell meta.patterns.shell
+#         ^^^^^^^^^^ meta.conditional.case.shell - meta.patterns
     # <- keyword.control.conditional.patterns.begin.shell
     #    ^ keyword.control.conditional.patterns.end.shell
     #           ^^^ punctuation.terminator.case.clause.shell
     *) bar
-#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#     ^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#^^^ meta.conditional.case.shell - meta.patterns
+#   ^^ meta.conditional.case.shell meta.patterns.shell
+#     ^^^^^ meta.conditional.case.shell - meta.patterns
     #^ keyword.control.conditional.patterns.end.shell
 esac
-# <- keyword.control.conditional.end.shell
+# <- meta.conditional.case.shell keyword.control.conditional.end.shell
+#^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
+#   ^ - meta.conditional - keyword
 
 case $TERM in
     sun-cmd)
@@ -1928,9 +1927,9 @@ esac
 case $SERVER in
 # <- keyword.control.conditional.case.shell
 ws-+([0-9]).host.com) echo "Web Server"
-#^^^ meta.conditional.case.clause.patterns.shell meta.string.regexp.shell - meta.group
-#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.string.regexp.shell meta.group.regexp.shell
-#          ^^^^^^^^^^ meta.conditional.case.clause.patterns.shell meta.string.regexp.shell - meta.group
+#^^^ meta.patterns.shell meta.string.regexp.shell - meta.group
+#   ^^^^^^^ meta.patterns.shell meta.string.regexp.shell meta.group.regexp.shell
+#          ^^^^^^^^^^ meta.patterns.shell meta.string.regexp.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.definition.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
@@ -1943,9 +1942,9 @@ ws-+([0-9]).host.com) echo "Web Server"
 # <- punctuation.terminator.case.clause.shell
 #^ punctuation.terminator.case.clause.shell
 db-+([0-9])\.host\.com) echo "DB server"
-#^^^ meta.conditional.case.clause.patterns.shell meta.string.regexp.shell - meta.group
-#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.string.regexp.shell meta.group.regexp.shell
-#          ^^^^^^^^^^^ meta.conditional.case.clause.patterns.shell meta.string.regexp.shell - meta.group
+#^^^ meta.patterns.shell meta.string.regexp.shell - meta.group
+#   ^^^^^^^ meta.patterns.shell meta.string.regexp.shell meta.group.regexp.shell
+#          ^^^^^^^^^^^ meta.patterns.shell meta.string.regexp.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.definition.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
