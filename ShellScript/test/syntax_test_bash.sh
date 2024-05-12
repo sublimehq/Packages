@@ -704,6 +704,43 @@ cd foo/bar2345
 #^ meta.function-call.identifier.shell support.function.cd.shell
 # ^^^^^^^^^^^^ meta.function-call.arguments.shell - constant.numeric
 
+
+###############################################################################
+# 3.2.3 Pipelines                                                             #
+# https://www.gnu.org/software/bash/manual/bash.html#Pipelines                #
+###############################################################################
+
+cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
+#  ^ meta.function-call.identifier.shell variable.function.shell
+#         ^ variable.parameter - variable.function
+#              ^ - variable
+#                ^ keyword
+#                     ^ meta.function-call.identifier.shell variable.function.shell
+#                            ^ variable.parameter - variable.function
+#                                 ^ - variable
+#                                   ^ keyword
+#                                        ^ meta.function-call.identifier.shell variable.function.shell
+#                                               ^ variable.parameter - variable.function
+#                                                    ^ - variable
+
+C2=c2 C3=c3 C4=c4
+c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
+#^ meta.function-call.identifier.shell variable.function.shell
+#    ^ variable.parameter - variable.function
+#      ^ - variable
+#         ^ keyword
+#            ^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#                   ^ variable.parameter - variable.function
+#                       ^ - variable
+#                          ^ keyword
+#                            ^ meta.function-call.identifier.shell variable.function.shell
+#                                ^ variable.parameter - variable.function
+#                                   ^ - variable.parameter
+#                                         ^ punctuation.terminator.statement.shell
+#                                           ^^ variable.function
+#                                              ^ variable.parameter
+
+
 ###############################################################################
 # 3.2.5.3 Grouping Commands                                                   #
 # https://www.gnu.org/software/bash/manual/bash.html#Command-Grouping         #
@@ -5275,8 +5312,8 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 
 
 ###############################################################################
-# 3.2.3 Pipelines                                                             #
-# https://www.gnu.org/software/bash/manual/bash.html#Pipelines                #
+# 3.6 Redirections                                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#Redirections             #
 ###############################################################################
 
 function show_help() {
@@ -5285,40 +5322,6 @@ function show_help() {
     echo "   or: cat filename | imgcat" 1>& 2
     #                                       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 }
-cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
-#  ^ meta.function-call.identifier.shell variable.function.shell
-#         ^ variable.parameter - variable.function
-#              ^ - variable
-#                ^ keyword
-                   #  ^ meta.function-call.identifier.shell variable.function.shell
-                   #         ^ variable.parameter - variable.function
-                   #              ^ - variable
-                   #                ^ keyword
-                                      #  ^ meta.function-call.identifier.shell variable.function.shell
-                                      #         ^ variable.parameter - variable.function
-                                      #              ^ - variable
-C2=c2 C3=c3 C4=c4
-c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
-#^ meta.function-call.identifier.shell variable.function.shell
-#    ^ variable.parameter - variable.function
-#      ^ - variable
-#         ^ keyword
-          #  ^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-          #         ^ variable.parameter - variable.function
-          #             ^ - variable
-          #                ^ keyword
-                          #  ^ meta.function-call.identifier.shell variable.function.shell
-                          #      ^ variable.parameter - variable.function
-                          #         ^ - variable.parameter
-                          #               ^ punctuation.terminator.statement.shell
-                                          # ^^ variable.function
-                                          #    ^ variable.parameter
-
-
-###############################################################################
-# 3.6 Redirections                                                            #
-# https://www.gnu.org/software/bash/manual/bash.html#Redirections             #
-###############################################################################
 
 foo 2>&1
 #   ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
