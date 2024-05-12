@@ -4319,6 +4319,658 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 
 
 ###############################################################################
+# POSIX extended regular expression pattern matching                          #
+# https://en.wikibooks.org/wiki/Regular_Expressions/POSIX-Extended_Regular_Expressions
+#    in test expressions                                                      #
+###############################################################################
+
+[[ a =~ [ ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^ meta.string.regexp.shell - meta.set
+#        ^^^ - meta.string.regexp.shell
+#         ^^ support.function.test.end.shell
+
+[[ a =~ ] ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^ meta.string.regexp.shell - meta.set
+#        ^^^ - meta.string.regexp.shell
+#         ^^ support.function.test.end.shell
+
+[[ a =~ [[] ]]
+#^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^ meta.string.regexp.shell meta.set.regexp.shell
+#          ^^^ - meta.string.regexp.shell
+#           ^^ support.function.test.end.shell
+
+[[ a =~ [^[] ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.string.regexp.shell
+#       ^ punctuation.definition.set.begin.regexp.shell
+#        ^ keyword.operator.logical.regexp.shell
+#         ^ - punctuation
+#          ^ punctuation.definition.set.end.regexp.shell
+#            ^^ support.function.test.end.shell
+
+[[ a =~ [![] ]]  # ! is not an operator in ERE
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.string.regexp.shell
+#       ^ punctuation.definition.set.begin.regexp.shell
+#        ^^ - keyword - punctuation
+#          ^ punctuation.definition.set.end.regexp.shell
+#            ^^ support.function.test.end.shell
+
+[[ a =~ [\[] ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.string.regexp.shell
+#            ^^ support.function.test.end.shell
+
+[[ a =~ [^\[] ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#            ^^^ - meta.string.regexp.shell
+#             ^^ support.function.test.end.shell
+
+[[ a =~ []] ]]
+#^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^ meta.string.regexp.shell meta.set.regexp.shell
+#          ^^^ - meta.string.regexp.shell
+#           ^^ support.function.test.end.shell
+
+[[ a =~ []-[] ]]
+#^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#            ^^^ - meta.string.regexp.shell
+#       ^ punctuation.definition.set.begin.regexp.shell
+#        ^^^ constant.other.range.regexp.shell
+#           ^ punctuation.definition.set.end.regexp.shell
+#             ^^ support.function.test.end.shell
+
+[[ a =~ [^]] ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.string.regexp.shell
+#            ^^ support.function.test.end.shell
+
+[[ a =~ [!]] ]]  # ! is not an operator in ERE
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^ meta.string.regexp.shell meta.set.regexp.shell
+#          ^ meta.string.regexp.shell - meta.set
+#           ^^^ - meta.string.regexp.shell
+#       ^ punctuation.definition.set.begin.regexp.shell
+#        ^ - keyword - punctuation
+#         ^ punctuation.definition.set.end.regexp.shell
+#          ^ - punctuation
+#            ^^ support.function.test.end.shell
+
+[[ a =~ [\]] ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#           ^^^ - meta.string.regexp.shell
+#            ^^ support.function.test.end.shell
+
+[[ a =~ [^\]] ]]
+#^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#            ^^^ - meta.string.regexp.shell
+#             ^^ support.function.test.end.shell
+
+[[ a =~ [\\\]] ]]
+#^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#             ^^^ - meta.string.regexp.shell
+#              ^^ support.function.test.end.shell
+
+[[ a =~ [\\\] ]]
+#^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^ meta.string.regexp.shell - meta.set
+#            ^^^ - meta.string.regexp.shell
+#             ^^ support.function.test.end.shell
+
+[[ a =~ [[:alpha: ]]
+#^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^ meta.string.regexp.shell - meta.set
+#                ^^^ - meta.string.regexp.shell
+#                 ^^ support.function.test.end.shell
+
+[[ a =~ [[:alpha:] ]]
+#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^ meta.string.regexp.shell - meta.set
+#        ^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#                 ^^^ - meta.string.regexp.shell
+#                  ^^ support.function.test.end.shell
+
+[[ a =~ [[:alpha:]][^[:alpha:]][[^:alpha:]] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#                                         ^ meta.string.regexp.shell - meta.set
+#                                          ^^^ - meta.string.regexp.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^ punctuation.definition.class.begin.regexp.shell
+#         ^^^^^^^ constant.other.posix-class.regexp.shell
+#               ^ punctuation.definition.class.end.regexp.shell
+#                ^^ punctuation.definition.set.end.regexp.shell
+#                  ^ punctuation.definition.set.begin.regexp.shell
+#                   ^ keyword.operator.logical.regexp.shell
+#                    ^ punctuation.definition.set.begin.regexp.shell
+#                     ^^^^^^^ constant.other.posix-class.regexp.shell
+#                            ^^ punctuation.definition.set.end.regexp.shell
+#                              ^ punctuation.definition.set.begin.regexp.shell
+#                               ^^^^^^^^^ - constant.other.posix-class
+#                                        ^ punctuation.definition.set.end.regexp.shell
+#                                         ^ - punctuation
+#                                           ^^ support.function.test.end.shell
+
+[[ a =~ [[:${posix}:]][[:$foo:]] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^ meta.string.regexp.shell meta.set.regexp.shell - meta.interpolation
+#          ^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell meta.set.regexp.shell meta.interpolation.parameter.shell
+#                  ^^^^^^ meta.string.regexp.shell meta.set.regexp.shell  - meta.interpolation
+#                        ^^^^ meta.string.regexp.shell meta.set.regexp.shell meta.set.regexp.shell meta.interpolation.parameter.shell
+#                            ^^^ meta.string.regexp.shell meta.set.regexp.shell  - meta.interpolation
+#                               ^^^ - meta.string.regexp.shell
+#                                ^^ support.function.test.end.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell meta.set.regexp.shell constant.other.posix-class.regexp.shell
+#         ^ punctuation.definition.class.begin.regexp.shell
+#          ^ punctuation.definition.variable.shell
+#           ^ punctuation.section.interpolation.begin.shell
+#            ^^^^^ variable.other.readwrite.shell
+#                 ^ punctuation.section.interpolation.end.shell
+#                  ^ meta.set.regexp.shell constant.other.posix-class.regexp.shell punctuation.definition.class.end.regexp.shell
+#                   ^^ punctuation.definition.set.end.regexp.shell
+#                     ^^ punctuation.definition.set.begin.regexp.shell
+#                       ^ punctuation.definition.class.begin.regexp.shell
+#                        ^^^^ variable.other.readwrite.shell
+#                            ^ punctuation.definition.class.end.regexp.shell
+#                             ^^ punctuation.definition.set.end.regexp.shell
+#                                ^^ support.function.test.end.shell
+
+[[ a =~ [[=a=]] ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#              ^^^ - meta.string.regexp.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^ punctuation.definition.class.begin.regexp.shell
+#         ^^^ constant.character.equivalence-class.regexp.shell
+#           ^ punctuation.definition.class.end.regexp.shell
+#            ^^ punctuation.definition.set.end.regexp.shell
+#               ^^ support.function.test.end.shell
+
+[[ a =~ [[=$a=]] ]]
+#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#               ^^^ - meta.string.regexp.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^ punctuation.definition.class.begin.regexp.shell
+#         ^^^^ constant.character.equivalence-class.regexp.shell
+#          ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#            ^ punctuation.definition.class.end.regexp.shell
+#             ^^ punctuation.definition.set.end.regexp.shell
+#                ^^ support.function.test.end.shell
+
+[[ a =~ [[.ch.]] ]]
+#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#               ^^^ - meta.string.regexp.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^ punctuation.definition.collate.begin.regexp.shell
+#         ^^^^ constant.character.collate.regexp.shell
+#            ^ punctuation.definition.collate.end.regexp.shell
+#             ^^ punctuation.definition.set.end.regexp.shell
+#                ^^ support.function.test.end.shell
+
+[[ a =~ [[.dollar-sign.]] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#                        ^^^ - meta.string.regexp.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^ punctuation.definition.collate.begin.regexp.shell
+#         ^^^^^^^^^^^^^ constant.character.collate.regexp.shell
+#                     ^ punctuation.definition.collate.end.regexp.shell
+#                      ^^ punctuation.definition.set.end.regexp.shell
+#                         ^^ support.function.test.end.shell
+
+[[ a =~ [[.${equiv}.]] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#                     ^^^ - meta.string.regexp.shell
+#       ^^ punctuation.definition.set.begin.regexp.shell
+#         ^ punctuation.definition.collate.begin.regexp.shell
+#         ^^^^^^^^^^ constant.character.collate.regexp.shell
+#          ^^^^^^^^ meta.interpolation.parameter.shell
+#                  ^ punctuation.definition.collate.end.regexp.shell
+#                   ^^ punctuation.definition.set.end.regexp.shell
+#                      ^^ support.function.test.end.shell
+
+[[ a =~ [[.alpha=]] ]]
+#^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell - constant
+#                 ^ meta.string.regexp.shell - meta.set
+#                  ^^^ - meta.string.regexp.shell
+#                   ^^ support.function.test.end.shell
+
+[[ a =~ [-9][0-][$0-9][0-$9] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#        ^^ - constant - operator
+#                ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^^ constant.other.range.regexp.shell
+#                      ^^ constant.other.range.regexp.shell
+#                        ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                           ^^^ - meta.string.regexp.shell
+#                            ^^ support.function.test.end.shell
+
+[[ a =~ [${ bar }] ]]
+#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
+#        ^^^^^^^^ meta.interpolation.parameter.shell
+#                 ^^^ - meta.string.regexp.shell
+#                  ^^ support.function.test.end.shell
+
+[[ a =~ { ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^ meta.string.regexp.shell - meta.interpolation
+#        ^^^ - meta.string.regexp.shell
+#         ^^ support.function.test.end.shell
+
+
+[[ a =~ } ]]
+#^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^ meta.string.regexp.shell - meta.interpolation
+#        ^^^ - meta.string.regexp.shell
+#         ^^ support.function.test.end.shell
+
+[[ a =~ \${* ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^ meta.string.regexp.shell - meta.interpolation
+#           ^^^ - meta.string.regexp.shell
+#       ^^ constant.character.escape
+#          ^ keyword.operator.quantifier.regexp.shell
+
+[[ a =~ ${* ]]} ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^ meta.string.regexp.shell meta.interpolation.parameter.shell
+#              ^^^ - meta.string.regexp.shell
+#       ^ punctuation.definition.variable.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#           ^^ - support.function
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^ support.function.test.end.shell
+
+[[ a =~ %1* ]]
+#^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^ meta.string.regexp.shell - meta.interpolation
+#         ^ keyword.operator.quantifier.regexp.shell
+#          ^^^ - meta.string.regexp.shell
+
+[[ a =~ [abc[]* ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.string.regexp.shell
+#       ^^^^^^^ meta.string.regexp.shell - meta.interpolation
+#              ^^^ - meta.string.regexp.shell
+#       ^ punctuation.definition.set.begin.regexp.shell
+#           ^ - keyword.control
+#            ^ punctuation.definition.set.end.regexp.shell
+#             ^ keyword.operator.quantifier.regexp.shell
+
+[[ "${foo}" =~ bar*baz ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^^^^^ - meta.string.regexp.shell
+#              ^^^^^^^ meta.string.regexp.shell - meta.interpolation
+#                     ^^^ - meta.string.regexp.shell
+#           ^^ keyword.operator.comparison.shell
+#                 ^ keyword.operator.quantifier.regexp.shell
+
+[[ "${foo}" =~ bar|baz ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^^^^^ - meta.string.regexp.shell
+#              ^^^^^^^ meta.string.regexp.shell - meta.interpolation
+#                     ^^^ - meta.string.regexp.shell
+#           ^^ keyword.operator.comparison.shell
+#                 ^ keyword.operator.alternation.regexp.shell
+
+[[ $foo =~ ^$'\t' ]]
+#^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                   ^ - meta.conditional
+#^^^^^^^^^^ - meta.string.regexp.shell
+#          ^^^^^^ meta.string.regexp.shell - meta.interpolation
+#                ^^^ - meta.string.regexp.shell
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+
+[[ $foo =~ ^abc$var$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                      ^ - meta.conditional
+#^^^^^^^^^^ - meta.string.regexp.shell
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^ meta.string.regexp.shell - meta.interpolation
+#              ^^^^ meta.string.regexp.shell meta.interpolation.parameter.shell
+#                  ^ meta.string.regexp.shell - meta.interpolation
+#                   ^^^ - meta.string.regexp.shell
+
+[[ $foo =~ [[:space:]]*?(a)b ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                              ^ - meta.conditional
+#^^^^^^^^^^ - meta.string.regexp.shell
+#          ^^^^^^^^^^^^^^^^^ meta.string.regexp.shell
+#          ^^^^^^^^^^^ meta.set.regexp.shell
+#                       ^^^ meta.group.regexp.shell
+#                           ^^^ - meta.string.regexp.shell
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^ punctuation.definition.set.begin.regexp.shell
+#            ^^^^^^^ constant.other.posix-class.regexp.shell
+#                   ^^ punctuation.definition.set.end.regexp.shell
+#                     ^^ keyword.operator.quantifier.regexp.shell
+#                       ^ punctuation.section.group.begin.regexp.shell
+#                         ^ punctuation.section.group.end.regexp.shell
+
+[[ $foo =~ ^0[1-9]$ ]]
+#^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                     ^ - meta.conditional
+#^^^^^^^^^^ - meta.string.regexp.shell
+#          ^^^^^^^^ meta.string.regexp.shell
+#          ^ keyword.control.anchor.regexp.shell
+#                 ^ keyword.control.anchor.regexp.shell
+#                  ^^^ - meta.string.regexp.shell
+
+[[ $foo =~ ^0[1-9]{2,3}$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                          ^ - meta.conditional
+#^^^^^^^^^^ - meta.string.regexp.shell
+#          ^^^^^^^^^^^^^ meta.string.regexp.shell
+#          ^ keyword.control.anchor.regexp.shell
+#                 ^^^^^ keyword.operator.quantifier.regexp.shell
+#                      ^ keyword.control.anchor.regexp.shell
+#                       ^^^ - meta.string.regexp.shell
+
+[[ ! ($foo =~ ^0[1-9]$) ]]
+# <- meta.conditional.shell - meta.group
+#^^^^ meta.conditional.shell - meta.group
+#    ^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#             ^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#                     ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#                      ^^^ meta.conditional.shell - meta.group
+#                         ^ - meta.conditional - meta.group
+
+[[ ! ($foo =~ ^(\([0-9]+)$) ]]
+# <- meta.conditional.shell - meta.group
+#^^^^ meta.conditional.shell - meta.group
+#    ^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#             ^^^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#                         ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#                          ^^^ meta.conditional.shell - meta.group
+#                             ^ - meta.conditional - meta.group
+# <- support.function.test.begin.shell
+#^ support.function.test.begin.shell
+#  ^ keyword.operator.logical.shell
+#    ^ punctuation.section.group.begin.shell
+#     ^^^^ variable.other.readwrite.shell
+#          ^^ keyword.operator.comparison.shell
+#              ^^^^^^^^ meta.group.regexp.shell
+#              ^ punctuation.section.group.begin.regexp.shell
+#               ^^ constant.character.escape
+#                 ^^^^^ meta.set.regexp.shell
+#                 ^ punctuation.definition.set.begin.regexp.
+#                     ^ punctuation.definition.set.end.regexp.shell
+#                      ^ keyword.operator.quantifier.regexp.shell
+#                       ^ punctuation.section.group.end.regexp.shell
+#                         ^ punctuation.section.group.end.shell
+#                           ^^ support.function.test.end.shell
+
+[[ ( $foo =~ ^
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#            ^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#             ^ meta.conditional.shell meta.group.shell - meta.string.regexp invalid.illegal.unexpected-token.shell
+
+[[ ( $foo =~ ^\
+   [^0-9]+ ) ]]
+# <- meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#          ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#           ^^^ meta.conditional.shell - meta.group
+#            ^^ support.function.test.end.shell
+
+[[ ( $foo =~ ^ ]]
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#            ^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#             ^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#              ^^ invalid.illegal.unexpected-token.shell
+
+[[ ( $foo =~ ^ ]]
+   [^0-9]+ ) ]]
+# <- - meta.conditional
+#^^^^^^^^^^^^^^ - meta.conditional
+
+[[ $foo =~ ( ]]
+#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#          ^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#            ^^ - punctuation
+   [^0-9]+ ) ]]
+# <- meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#^^^^^^^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#           ^^^ - meta.string.regexp
+#            ^^ support.function.test.end.shell
+
+[[ $foo =~ ) ]]
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#          ^ meta.string.regexp.shell invalid.illegal.stray.regexp.shell
+
+[[ $foo =~ ( ) ]]
+#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#          ^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#             ^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#                ^ - meta.conditional
+
+[[ $foo =~ ( [ ) ]]
+#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#          ^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#               ^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#                  ^ - meta.conditional
+
+[[ $foo =~ ( ] ) ]]
+#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#          ^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#               ^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#                  ^ - meta.conditional
+
+[[ $foo =~ ( [\\\] ) ]]
+#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#          ^^^^^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
+#                   ^^^ meta.conditional.shell - meta.string.regexp - meta.group
+#                      ^ - meta.conditional
+
+[[ ( $foo =~ [\\\] ) ]]
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#                  ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#                   ^^^ meta.conditional.shell - meta.group - meta.string.regexp
+#                      ^ - meta.conditional
+
+[[ ( $foo =~ ([\\\])) ]]
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell meta.group.regexp.shell
+#                   ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#                    ^^^ meta.conditional.shell - meta.group - meta.string.regexp
+#                       ^ - meta.conditional
+
+[[ $foo =~ (?x) ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#          ^^^^ meta.string.regexp.shell meta.group.regexp.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#           ^ invalid.illegal.unexpected-quantifier.regexp.shell
+#             ^ punctuation.section.group.end.regexp.shell
+
+[[ $foo =~ (?:bar) ]]
+#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#          ^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#           ^ invalid.illegal.unexpected-quantifier.regexp.shell
+#                ^ punctuation.section.group.end.regexp.shell
+
+[[ $foo =~ (?i:bar) ]]
+#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#          ^^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#           ^ invalid.illegal.unexpected-quantifier.regexp.shell
+#                 ^ punctuation.section.group.end.regexp.shell
+
+[[ ' foo ' =~ ( foo ) ]]  # evaluates to true
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^^^^ meta.string.shell string.quoted.single.shell
+#          ^^ keyword.operator.comparison.shell
+#             ^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
+#             ^ punctuation.section.group.begin.regexp.shell
+#                   ^ punctuation.section.group.end.regexp.shell
+#                     ^^ support.function.test.end.shell
+
+[[ ' foo ' =~ ([ ]foo[ ]) ]]  # evaluates to true
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^^^^ meta.string.shell string.quoted.single.shell
+#             ^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
+#              ^^^ meta.string.regexp.shell meta.group.regexp.shell meta.set.regexp.shell
+#                 ^^^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
+#                    ^^^ meta.string.regexp.shell meta.group.regexp.shell meta.set.regexp.shell
+#                       ^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
+#          ^^ keyword.operator.comparison.shell
+#             ^ punctuation.section.group.begin.regexp.shell
+#              ^ punctuation.definition.set.begin.regexp.shell
+#                ^ punctuation.definition.set.end.regexp.shell
+#                    ^ punctuation.definition.set.begin.regexp.shell
+#                      ^ punctuation.definition.set.end.regexp.shell
+#                       ^ punctuation.section.group.end.regexp.shell
+#                         ^^ support.function.test.end.shell
+
+[[ foo =~ ^foo//:/[}] ]]
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^ - meta.string.regexp.shell
+#         ^^^^^^^^ meta.string.regexp.shell - meta.set
+#                 ^^^ meta.string.regexp.shell meta.set.regexp.shell
+#                    ^^^ - meta.string.regexp.shell
+#      ^^ keyword.operator.comparison.shell
+#                 ^ punctuation.definition.set.begin.regexp.shell
+#                   ^ punctuation.definition.set.end.regexp.shell
+#                     ^^ support.function.test.end.shell
+
+[[ foo =~ ^[0-9]+\.[0-9]+(([ab]|rc)[0-9]+)?$ ]]
+#                        ^ meta.group.regexp.shell - meta.group meta.group
+#                         ^^^^^^^^^ meta.group.regexp.shell meta.group.regexp.shell
+#                                  ^^^^^^^ meta.group.regexp.shell - meta.group meta.group
+#                        ^^ punctuation.section.group.begin.regexp.shell
+#                                 ^ punctuation.section.group.end.regexp.shell
+#                                        ^ punctuation.section.group.end.regexp.shell
+
+[[ ' foobar' =~ [\ ]foo* ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                          ^ - meta.conditional
+#^^^^^^^^^^^^^^^ - meta.string.regexp.shell
+#               ^^^^ meta.set.regexp.shell
+#               ^^^^^^^^ meta.string.regexp.shell
+#                       ^^^ - meta.string.regexp.shell
+#               ^ punctuation.definition.set.begin.regexp.shell
+#                ^^ constant.character.escape
+#                  ^ punctuation.definition.set.end.regexp.shell
+#                      ^ keyword.operator.quantifier.regexp.shell
+
+[[ a\$bc =~ ^a'$b'c$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#           ^^^^^^^^ meta.string.regexp.shell - variable
+#           ^ keyword.control.anchor.regexp.shell
+#             ^ punctuation.definition.literal.begin.shell
+#                ^ punctuation.definition.literal.end.shell
+#                  ^ keyword.control.anchor.regexp.shell
+
+[[ a"$bc"c =~ ^a"$bc"c$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#             ^^^^^^^^^ meta.string.regexp.shell
+#             ^ keyword.control.anchor.regexp.shell
+#               ^ punctuation.definition.literal.begin.shell
+#                ^^^ variable.other.readwrite.shell
+#                   ^ punctuation.definition.literal.end.shell
+#                     ^ keyword.control.anchor.regexp.shell
+
+echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
+#          ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - punctuation.separator.sequence
+
+[[ $foo =~ 'bar' || $foo =~ "baz" && $bar =~ baz ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^ variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^^ meta.string.regexp.shell
+#                ^^ keyword.operator.logical.shell
+#                   ^^^^ variable.other.readwrite.shell
+#                        ^^ keyword.operator.comparison.shell
+#                           ^^^^^ meta.string.regexp.shell
+#                                 ^^ keyword.operator.logical.shell
+#                                    ^^^^ variable.other.readwrite.shell
+#                                         ^^ keyword.operator.comparison.shell
+#                                            ^^^ meta.string.regexp.shell
+#                                                ^^ support.function.test.end.shell
+
+[[ ( $foo =~ 'bar' || $foo =~ "baz" ) && $bar =~ baz ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
+#                                    ^^^^^^^^^^^^^^^^^^ meta.conditional.shell - meta.group
+#  ^ punctuation.section.group.begin.shell
+#    ^^^^ variable.other.readwrite.shell
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.regexp.shell
+#                  ^^ keyword.operator.logical.shell
+#                     ^^^^ variable.other.readwrite.shell
+#                          ^^ keyword.operator.comparison.shell
+#                             ^^^^^ meta.string.regexp.shell
+#                                   ^ punctuation.section.group.end.shell
+#                                     ^^ keyword.operator.logical.shell
+#                                        ^^^^ variable.other.readwrite.shell
+#                                             ^^ keyword.operator.comparison.shell
+#                                                ^^^ meta.string.regexp.shell
+#                                                    ^^ support.function.test.end.shell
+
+
+###############################################################################
 # 3.6 Redirections                                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#Redirections             #
 ###############################################################################
@@ -5819,655 +6471,6 @@ sudo --reset-timestamp -n -f -- rm -rf
 #                                  ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                  ^ punctuation.definition.parameter.shell
 
-
-###############################################################################
-# POSIX extended regular expression pattern matching                          #
-###############################################################################
-
-[[ a =~ [ ]]
-#^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^ meta.string.regexp.shell - meta.set
-#        ^^^ - meta.string.regexp.shell
-#         ^^ support.function.test.end.shell
-
-[[ a =~ ] ]]
-#^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^ meta.string.regexp.shell - meta.set
-#        ^^^ - meta.string.regexp.shell
-#         ^^ support.function.test.end.shell
-
-[[ a =~ [[] ]]
-#^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^ meta.string.regexp.shell meta.set.regexp.shell
-#          ^^^ - meta.string.regexp.shell
-#           ^^ support.function.test.end.shell
-
-[[ a =~ [^[] ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#           ^^^ - meta.string.regexp.shell
-#       ^ punctuation.definition.set.begin.regexp.shell
-#        ^ keyword.operator.logical.regexp.shell
-#         ^ - punctuation
-#          ^ punctuation.definition.set.end.regexp.shell
-#            ^^ support.function.test.end.shell
-
-[[ a =~ [![] ]]  # ! is not an operator in ERE
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#           ^^^ - meta.string.regexp.shell
-#       ^ punctuation.definition.set.begin.regexp.shell
-#        ^^ - keyword - punctuation
-#          ^ punctuation.definition.set.end.regexp.shell
-#            ^^ support.function.test.end.shell
-
-[[ a =~ [\[] ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#           ^^^ - meta.string.regexp.shell
-#            ^^ support.function.test.end.shell
-
-[[ a =~ [^\[] ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#            ^^^ - meta.string.regexp.shell
-#             ^^ support.function.test.end.shell
-
-[[ a =~ []] ]]
-#^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^ meta.string.regexp.shell meta.set.regexp.shell
-#          ^^^ - meta.string.regexp.shell
-#           ^^ support.function.test.end.shell
-
-[[ a =~ []-[] ]]
-#^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#            ^^^ - meta.string.regexp.shell
-#       ^ punctuation.definition.set.begin.regexp.shell
-#        ^^^ constant.other.range.regexp.shell
-#           ^ punctuation.definition.set.end.regexp.shell
-#             ^^ support.function.test.end.shell
-
-[[ a =~ [^]] ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#           ^^^ - meta.string.regexp.shell
-#            ^^ support.function.test.end.shell
-
-[[ a =~ [!]] ]]  # ! is not an operator in ERE
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^ meta.string.regexp.shell meta.set.regexp.shell
-#          ^ meta.string.regexp.shell - meta.set
-#           ^^^ - meta.string.regexp.shell
-#       ^ punctuation.definition.set.begin.regexp.shell
-#        ^ - keyword - punctuation
-#         ^ punctuation.definition.set.end.regexp.shell
-#          ^ - punctuation
-#            ^^ support.function.test.end.shell
-
-[[ a =~ [\]] ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#           ^^^ - meta.string.regexp.shell
-#            ^^ support.function.test.end.shell
-
-[[ a =~ [^\]] ]]
-#^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#            ^^^ - meta.string.regexp.shell
-#             ^^ support.function.test.end.shell
-
-[[ a =~ [\\\]] ]]
-#^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#             ^^^ - meta.string.regexp.shell
-#              ^^ support.function.test.end.shell
-
-[[ a =~ [\\\] ]]
-#^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^ meta.string.regexp.shell - meta.set
-#            ^^^ - meta.string.regexp.shell
-#             ^^ support.function.test.end.shell
-
-[[ a =~ [[:alpha: ]]
-#^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^ meta.string.regexp.shell - meta.set
-#                ^^^ - meta.string.regexp.shell
-#                 ^^ support.function.test.end.shell
-
-[[ a =~ [[:alpha:] ]]
-#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^ meta.string.regexp.shell - meta.set
-#        ^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#                 ^^^ - meta.string.regexp.shell
-#                  ^^ support.function.test.end.shell
-
-[[ a =~ [[:alpha:]][^[:alpha:]][[^:alpha:]] ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#                                         ^ meta.string.regexp.shell - meta.set
-#                                          ^^^ - meta.string.regexp.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^ punctuation.definition.class.begin.regexp.shell
-#         ^^^^^^^ constant.other.posix-class.regexp.shell
-#               ^ punctuation.definition.class.end.regexp.shell
-#                ^^ punctuation.definition.set.end.regexp.shell
-#                  ^ punctuation.definition.set.begin.regexp.shell
-#                   ^ keyword.operator.logical.regexp.shell
-#                    ^ punctuation.definition.set.begin.regexp.shell
-#                     ^^^^^^^ constant.other.posix-class.regexp.shell
-#                            ^^ punctuation.definition.set.end.regexp.shell
-#                              ^ punctuation.definition.set.begin.regexp.shell
-#                               ^^^^^^^^^ - constant.other.posix-class
-#                                        ^ punctuation.definition.set.end.regexp.shell
-#                                         ^ - punctuation
-#                                           ^^ support.function.test.end.shell
-
-[[ a =~ [[:${posix}:]][[:$foo:]] ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^ meta.string.regexp.shell meta.set.regexp.shell - meta.interpolation
-#          ^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell meta.set.regexp.shell meta.interpolation.parameter.shell
-#                  ^^^^^^ meta.string.regexp.shell meta.set.regexp.shell  - meta.interpolation
-#                        ^^^^ meta.string.regexp.shell meta.set.regexp.shell meta.set.regexp.shell meta.interpolation.parameter.shell
-#                            ^^^ meta.string.regexp.shell meta.set.regexp.shell  - meta.interpolation
-#                               ^^^ - meta.string.regexp.shell
-#                                ^^ support.function.test.end.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell meta.set.regexp.shell constant.other.posix-class.regexp.shell
-#         ^ punctuation.definition.class.begin.regexp.shell
-#          ^ punctuation.definition.variable.shell
-#           ^ punctuation.section.interpolation.begin.shell
-#            ^^^^^ variable.other.readwrite.shell
-#                 ^ punctuation.section.interpolation.end.shell
-#                  ^ meta.set.regexp.shell constant.other.posix-class.regexp.shell punctuation.definition.class.end.regexp.shell
-#                   ^^ punctuation.definition.set.end.regexp.shell
-#                     ^^ punctuation.definition.set.begin.regexp.shell
-#                       ^ punctuation.definition.class.begin.regexp.shell
-#                        ^^^^ variable.other.readwrite.shell
-#                            ^ punctuation.definition.class.end.regexp.shell
-#                             ^^ punctuation.definition.set.end.regexp.shell
-#                                ^^ support.function.test.end.shell
-
-[[ a =~ [[=a=]] ]]
-#^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#              ^^^ - meta.string.regexp.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^ punctuation.definition.class.begin.regexp.shell
-#         ^^^ constant.character.equivalence-class.regexp.shell
-#           ^ punctuation.definition.class.end.regexp.shell
-#            ^^ punctuation.definition.set.end.regexp.shell
-#               ^^ support.function.test.end.shell
-
-[[ a =~ [[=$a=]] ]]
-#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#               ^^^ - meta.string.regexp.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^ punctuation.definition.class.begin.regexp.shell
-#         ^^^^ constant.character.equivalence-class.regexp.shell
-#          ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#            ^ punctuation.definition.class.end.regexp.shell
-#             ^^ punctuation.definition.set.end.regexp.shell
-#                ^^ support.function.test.end.shell
-
-[[ a =~ [[.ch.]] ]]
-#^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#               ^^^ - meta.string.regexp.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^ punctuation.definition.collate.begin.regexp.shell
-#         ^^^^ constant.character.collate.regexp.shell
-#            ^ punctuation.definition.collate.end.regexp.shell
-#             ^^ punctuation.definition.set.end.regexp.shell
-#                ^^ support.function.test.end.shell
-
-[[ a =~ [[.dollar-sign.]] ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#                        ^^^ - meta.string.regexp.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^ punctuation.definition.collate.begin.regexp.shell
-#         ^^^^^^^^^^^^^ constant.character.collate.regexp.shell
-#                     ^ punctuation.definition.collate.end.regexp.shell
-#                      ^^ punctuation.definition.set.end.regexp.shell
-#                         ^^ support.function.test.end.shell
-
-[[ a =~ [[.${equiv}.]] ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#                     ^^^ - meta.string.regexp.shell
-#       ^^ punctuation.definition.set.begin.regexp.shell
-#         ^ punctuation.definition.collate.begin.regexp.shell
-#         ^^^^^^^^^^ constant.character.collate.regexp.shell
-#          ^^^^^^^^ meta.interpolation.parameter.shell
-#                  ^ punctuation.definition.collate.end.regexp.shell
-#                   ^^ punctuation.definition.set.end.regexp.shell
-#                      ^^ support.function.test.end.shell
-
-[[ a =~ [[.alpha=]] ]]
-#^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell - constant
-#                 ^ meta.string.regexp.shell - meta.set
-#                  ^^^ - meta.string.regexp.shell
-#                   ^^ support.function.test.end.shell
-
-[[ a =~ [-9][0-][$0-9][0-$9] ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#        ^^ - constant - operator
-#                ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                  ^^ constant.other.range.regexp.shell
-#                      ^^ constant.other.range.regexp.shell
-#                        ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                           ^^^ - meta.string.regexp.shell
-#                            ^^ support.function.test.end.shell
-
-[[ a =~ [${ bar }] ]]
-#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^^^^ meta.string.regexp.shell meta.set.regexp.shell
-#        ^^^^^^^^ meta.interpolation.parameter.shell
-#                 ^^^ - meta.string.regexp.shell
-#                  ^^ support.function.test.end.shell
-
-[[ a =~ { ]]
-#^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^ meta.string.regexp.shell - meta.interpolation
-#        ^^^ - meta.string.regexp.shell
-#         ^^ support.function.test.end.shell
-
-
-[[ a =~ } ]]
-#^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^ meta.string.regexp.shell - meta.interpolation
-#        ^^^ - meta.string.regexp.shell
-#         ^^ support.function.test.end.shell
-
-[[ a =~ \${* ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^ meta.string.regexp.shell - meta.interpolation
-#           ^^^ - meta.string.regexp.shell
-#       ^^ constant.character.escape
-#          ^ keyword.operator.quantifier.regexp.shell
-
-[[ a =~ ${* ]]} ]]
-#^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^ meta.string.regexp.shell meta.interpolation.parameter.shell
-#              ^^^ - meta.string.regexp.shell
-#       ^ punctuation.definition.variable.shell
-#        ^ punctuation.section.interpolation.begin.shell
-#           ^^ - support.function
-#             ^ punctuation.section.interpolation.end.shell
-#               ^^ support.function.test.end.shell
-
-[[ a =~ %1* ]]
-#^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^ meta.string.regexp.shell - meta.interpolation
-#         ^ keyword.operator.quantifier.regexp.shell
-#          ^^^ - meta.string.regexp.shell
-
-[[ a =~ [abc[]* ]]
-#^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^ - meta.string.regexp.shell
-#       ^^^^^^^ meta.string.regexp.shell - meta.interpolation
-#              ^^^ - meta.string.regexp.shell
-#       ^ punctuation.definition.set.begin.regexp.shell
-#           ^ - keyword.control
-#            ^ punctuation.definition.set.end.regexp.shell
-#             ^ keyword.operator.quantifier.regexp.shell
-
-[[ "${foo}" =~ bar*baz ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^^^^^^^^ - meta.string.regexp.shell
-#              ^^^^^^^ meta.string.regexp.shell - meta.interpolation
-#                     ^^^ - meta.string.regexp.shell
-#           ^^ keyword.operator.comparison.shell
-#                 ^ keyword.operator.quantifier.regexp.shell
-
-[[ "${foo}" =~ bar|baz ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^^^^^^^^ - meta.string.regexp.shell
-#              ^^^^^^^ meta.string.regexp.shell - meta.interpolation
-#                     ^^^ - meta.string.regexp.shell
-#           ^^ keyword.operator.comparison.shell
-#                 ^ keyword.operator.alternation.regexp.shell
-
-[[ $foo =~ ^$'\t' ]]
-#^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                   ^ - meta.conditional
-#^^^^^^^^^^ - meta.string.regexp.shell
-#          ^^^^^^ meta.string.regexp.shell - meta.interpolation
-#                ^^^ - meta.string.regexp.shell
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.comparison.shell
-
-[[ $foo =~ ^abc$var$ ]]
-#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                      ^ - meta.conditional
-#^^^^^^^^^^ - meta.string.regexp.shell
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.comparison.shell
-#          ^^^^ meta.string.regexp.shell - meta.interpolation
-#              ^^^^ meta.string.regexp.shell meta.interpolation.parameter.shell
-#                  ^ meta.string.regexp.shell - meta.interpolation
-#                   ^^^ - meta.string.regexp.shell
-
-[[ $foo =~ [[:space:]]*?(a)b ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                              ^ - meta.conditional
-#^^^^^^^^^^ - meta.string.regexp.shell
-#          ^^^^^^^^^^^^^^^^^ meta.string.regexp.shell
-#          ^^^^^^^^^^^ meta.set.regexp.shell
-#                       ^^^ meta.group.regexp.shell
-#                           ^^^ - meta.string.regexp.shell
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.comparison.shell
-#          ^^ punctuation.definition.set.begin.regexp.shell
-#            ^^^^^^^ constant.other.posix-class.regexp.shell
-#                   ^^ punctuation.definition.set.end.regexp.shell
-#                     ^^ keyword.operator.quantifier.regexp.shell
-#                       ^ punctuation.section.group.begin.regexp.shell
-#                         ^ punctuation.section.group.end.regexp.shell
-
-[[ $foo =~ ^0[1-9]$ ]]
-#^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                     ^ - meta.conditional
-#^^^^^^^^^^ - meta.string.regexp.shell
-#          ^^^^^^^^ meta.string.regexp.shell
-#          ^ keyword.control.anchor.regexp.shell
-#                 ^ keyword.control.anchor.regexp.shell
-#                  ^^^ - meta.string.regexp.shell
-
-[[ $foo =~ ^0[1-9]{2,3}$ ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                          ^ - meta.conditional
-#^^^^^^^^^^ - meta.string.regexp.shell
-#          ^^^^^^^^^^^^^ meta.string.regexp.shell
-#          ^ keyword.control.anchor.regexp.shell
-#                 ^^^^^ keyword.operator.quantifier.regexp.shell
-#                      ^ keyword.control.anchor.regexp.shell
-#                       ^^^ - meta.string.regexp.shell
-
-[[ ! ($foo =~ ^0[1-9]$) ]]
-# <- meta.conditional.shell - meta.group
-#^^^^ meta.conditional.shell - meta.group
-#    ^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#             ^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#                     ^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#                      ^^^ meta.conditional.shell - meta.group
-#                         ^ - meta.conditional - meta.group
-
-[[ ! ($foo =~ ^(\([0-9]+)$) ]]
-# <- meta.conditional.shell - meta.group
-#^^^^ meta.conditional.shell - meta.group
-#    ^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#             ^^^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#                         ^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#                          ^^^ meta.conditional.shell - meta.group
-#                             ^ - meta.conditional - meta.group
-# <- support.function.test.begin.shell
-#^ support.function.test.begin.shell
-#  ^ keyword.operator.logical.shell
-#    ^ punctuation.section.group.begin.shell
-#     ^^^^ variable.other.readwrite.shell
-#          ^^ keyword.operator.comparison.shell
-#              ^^^^^^^^ meta.group.regexp.shell
-#              ^ punctuation.section.group.begin.regexp.shell
-#               ^^ constant.character.escape
-#                 ^^^^^ meta.set.regexp.shell
-#                 ^ punctuation.definition.set.begin.regexp.
-#                     ^ punctuation.definition.set.end.regexp.shell
-#                      ^ keyword.operator.quantifier.regexp.shell
-#                       ^ punctuation.section.group.end.regexp.shell
-#                         ^ punctuation.section.group.end.shell
-#                           ^^ support.function.test.end.shell
-
-[[ ( $foo =~ ^
-#^^ meta.conditional.shell - meta.group
-#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#            ^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#             ^ meta.conditional.shell meta.group.shell - meta.string.regexp invalid.illegal.unexpected-token.shell
-
-[[ ( $foo =~ ^\
-   [^0-9]+ ) ]]
-# <- meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#          ^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#           ^^^ meta.conditional.shell - meta.group
-#            ^^ support.function.test.end.shell
-
-[[ ( $foo =~ ^ ]]
-#^^ meta.conditional.shell - meta.group
-#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#            ^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#             ^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#              ^^ invalid.illegal.unexpected-token.shell
-
-[[ ( $foo =~ ^ ]]
-   [^0-9]+ ) ]]
-# <- - meta.conditional
-#^^^^^^^^^^^^^^ - meta.conditional
-
-[[ $foo =~ ( ]]
-#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#          ^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#          ^ punctuation.section.group.begin.regexp.shell
-#            ^^ - punctuation
-   [^0-9]+ ) ]]
-# <- meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#^^^^^^^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#           ^^^ - meta.string.regexp
-#            ^^ support.function.test.end.shell
-
-[[ $foo =~ ) ]]
-#^^^^^^^^^^^^^^ meta.conditional.shell
-#          ^ meta.string.regexp.shell invalid.illegal.stray.regexp.shell
-
-[[ $foo =~ ( ) ]]
-#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#          ^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#             ^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#                ^ - meta.conditional
-
-[[ $foo =~ ( [ ) ]]
-#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#          ^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#               ^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#                  ^ - meta.conditional
-
-[[ $foo =~ ( ] ) ]]
-#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#          ^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#               ^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#                  ^ - meta.conditional
-
-[[ $foo =~ ( [\\\] ) ]]
-#^^^^^^^^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#          ^^^^^^^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
-#                   ^^^ meta.conditional.shell - meta.string.regexp - meta.group
-#                      ^ - meta.conditional
-
-[[ ( $foo =~ [\\\] ) ]]
-#^^ meta.conditional.shell - meta.group
-#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#            ^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#                  ^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#                   ^^^ meta.conditional.shell - meta.group - meta.string.regexp
-#                      ^ - meta.conditional
-
-[[ ( $foo =~ ([\\\])) ]]
-#^^ meta.conditional.shell - meta.group
-#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#            ^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell meta.group.regexp.shell
-#                   ^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#                    ^^^ meta.conditional.shell - meta.group - meta.string.regexp
-#                       ^ - meta.conditional
-
-[[ $foo =~ (?x) ]]
-#^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#          ^^^^ meta.string.regexp.shell meta.group.regexp.shell
-#          ^ punctuation.section.group.begin.regexp.shell
-#           ^ invalid.illegal.unexpected-quantifier.regexp.shell
-#             ^ punctuation.section.group.end.regexp.shell
-
-[[ $foo =~ (?:bar) ]]
-#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#          ^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
-#          ^ punctuation.section.group.begin.regexp.shell
-#           ^ invalid.illegal.unexpected-quantifier.regexp.shell
-#                ^ punctuation.section.group.end.regexp.shell
-
-[[ $foo =~ (?i:bar) ]]
-#^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#          ^^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
-#          ^ punctuation.section.group.begin.regexp.shell
-#           ^ invalid.illegal.unexpected-quantifier.regexp.shell
-#                 ^ punctuation.section.group.end.regexp.shell
-
-[[ ' foo ' =~ ( foo ) ]]  # evaluates to true
-#^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#  ^^^^^^^ meta.string.shell string.quoted.single.shell
-#          ^^ keyword.operator.comparison.shell
-#             ^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
-#             ^ punctuation.section.group.begin.regexp.shell
-#                   ^ punctuation.section.group.end.regexp.shell
-#                     ^^ support.function.test.end.shell
-
-[[ ' foo ' =~ ([ ]foo[ ]) ]]  # evaluates to true
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#  ^^^^^^^ meta.string.shell string.quoted.single.shell
-#             ^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
-#              ^^^ meta.string.regexp.shell meta.group.regexp.shell meta.set.regexp.shell
-#                 ^^^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
-#                    ^^^ meta.string.regexp.shell meta.group.regexp.shell meta.set.regexp.shell
-#                       ^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
-#          ^^ keyword.operator.comparison.shell
-#             ^ punctuation.section.group.begin.regexp.shell
-#              ^ punctuation.definition.set.begin.regexp.shell
-#                ^ punctuation.definition.set.end.regexp.shell
-#                    ^ punctuation.definition.set.begin.regexp.shell
-#                      ^ punctuation.definition.set.end.regexp.shell
-#                       ^ punctuation.section.group.end.regexp.shell
-#                         ^^ support.function.test.end.shell
-
-[[ foo =~ ^foo//:/[}] ]]
-#^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#^^^^^^^^^ - meta.string.regexp.shell
-#         ^^^^^^^^ meta.string.regexp.shell - meta.set
-#                 ^^^ meta.string.regexp.shell meta.set.regexp.shell
-#                    ^^^ - meta.string.regexp.shell
-#      ^^ keyword.operator.comparison.shell
-#                 ^ punctuation.definition.set.begin.regexp.shell
-#                   ^ punctuation.definition.set.end.regexp.shell
-#                     ^^ support.function.test.end.shell
-
-[[ foo =~ ^[0-9]+\.[0-9]+(([ab]|rc)[0-9]+)?$ ]]
-#                        ^ meta.group.regexp.shell - meta.group meta.group
-#                         ^^^^^^^^^ meta.group.regexp.shell meta.group.regexp.shell
-#                                  ^^^^^^^ meta.group.regexp.shell - meta.group meta.group
-#                        ^^ punctuation.section.group.begin.regexp.shell
-#                                 ^ punctuation.section.group.end.regexp.shell
-#                                        ^ punctuation.section.group.end.regexp.shell
-
-[[ ' foobar' =~ [\ ]foo* ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                          ^ - meta.conditional
-#^^^^^^^^^^^^^^^ - meta.string.regexp.shell
-#               ^^^^ meta.set.regexp.shell
-#               ^^^^^^^^ meta.string.regexp.shell
-#                       ^^^ - meta.string.regexp.shell
-#               ^ punctuation.definition.set.begin.regexp.shell
-#                ^^ constant.character.escape
-#                  ^ punctuation.definition.set.end.regexp.shell
-#                      ^ keyword.operator.quantifier.regexp.shell
-
-[[ a\$bc =~ ^a'$b'c$ ]]
-#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#           ^^^^^^^^ meta.string.regexp.shell - variable
-#           ^ keyword.control.anchor.regexp.shell
-#             ^ punctuation.definition.literal.begin.shell
-#                ^ punctuation.definition.literal.end.shell
-#                  ^ keyword.control.anchor.regexp.shell
-
-[[ a"$bc"c =~ ^a"$bc"c$ ]]
-#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#             ^^^^^^^^^ meta.string.regexp.shell
-#             ^ keyword.control.anchor.regexp.shell
-#               ^ punctuation.definition.literal.begin.shell
-#                ^^^ variable.other.readwrite.shell
-#                   ^ punctuation.definition.literal.end.shell
-#                     ^ keyword.control.anchor.regexp.shell
-
-echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
-#          ^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - punctuation.separator.sequence
-
-[[ $foo =~ 'bar' || $foo =~ "baz" && $bar =~ baz ]]
-# <- meta.conditional.shell support.function.test.begin.shell
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#  ^^^^ variable.other.readwrite.shell
-#       ^^ keyword.operator.comparison.shell
-#          ^^^^^ meta.string.regexp.shell
-#                ^^ keyword.operator.logical.shell
-#                   ^^^^ variable.other.readwrite.shell
-#                        ^^ keyword.operator.comparison.shell
-#                           ^^^^^ meta.string.regexp.shell
-#                                 ^^ keyword.operator.logical.shell
-#                                    ^^^^ variable.other.readwrite.shell
-#                                         ^^ keyword.operator.comparison.shell
-#                                            ^^^ meta.string.regexp.shell
-#                                                ^^ support.function.test.end.shell
-
-[[ ( $foo =~ 'bar' || $foo =~ "baz" ) && $bar =~ baz ]]
-# <- meta.conditional.shell support.function.test.begin.shell
-#^^ meta.conditional.shell - meta.group
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
-#                                    ^^^^^^^^^^^^^^^^^^ meta.conditional.shell - meta.group
-#  ^ punctuation.section.group.begin.shell
-#    ^^^^ variable.other.readwrite.shell
-#         ^^ keyword.operator.comparison.shell
-#            ^^^^^ meta.string.regexp.shell
-#                  ^^ keyword.operator.logical.shell
-#                     ^^^^ variable.other.readwrite.shell
-#                          ^^ keyword.operator.comparison.shell
-#                             ^^^^^ meta.string.regexp.shell
-#                                   ^ punctuation.section.group.end.shell
-#                                     ^^ keyword.operator.logical.shell
-#                                        ^^^^ variable.other.readwrite.shell
-#                                             ^^ keyword.operator.comparison.shell
-#                                                ^^^ meta.string.regexp.shell
-#                                                    ^^ support.function.test.end.shell
 
 ###############################################################################
 # 6.4 Bash Conditional Expressions                                            #
