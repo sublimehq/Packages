@@ -1,8 +1,9 @@
 # SYNTAX TEST "Packages/ShellScript/Bash.sublime-syntax"
 
-####################################################################
-# Comments                                                         #
-####################################################################
+###############################################################################
+# 3.1.3 Comments                                                              #
+# https://www.gnu.org/software/bash/manual/bash.html#Comments                 #
+###############################################################################
 
 # This is a comment.
 # <- comment.line.number-sign.shell punctuation.definition.comment.shell
@@ -95,9 +96,10 @@ $((
 ))
 
 
-####################################################################
-# The basics                                                       #
-####################################################################
+###############################################################################
+# 3.1.2 Quoting                                                               #
+# https://www.gnu.org/software/bash/manual/bash.html#Quoting                  #
+###############################################################################
 
 echo hello, world!
 #^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
@@ -395,9 +397,10 @@ $e'ch'o Hello, world!
 #    ^ punctuation.definition.string.end.shell
 
 
-####################################################################
-# Basic Command Arguments                                          #
-####################################################################
+###############################################################################
+# 3.2 Shell Commands (Basic Command Arguments)                                #
+# https://www.gnu.org/software/bash/manual/bash.html#Simple-Commands          #
+###############################################################################
 
 set -e -
 #   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
@@ -701,9 +704,10 @@ cd foo/bar2345
 #^ meta.function-call.identifier.shell support.function.cd.shell
 # ^^^^^^^^^^^^ meta.function-call.arguments.shell - constant.numeric
 
-####################################################################
-# Compound Command Arguments                                       #
-####################################################################
+###############################################################################
+# 3.2.5.3 Grouping Commands                                                   #
+# https://www.gnu.org/software/bash/manual/bash.html#Command-Grouping         #
+###############################################################################
 
 (foo) -o
 # <- meta.compound.shell punctuation.section.compound.begin.shell
@@ -752,9 +756,10 @@ cd foo/bar2345
 # ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell - variable.function
 
 
-####################################################################
-# 3.2.5 Coprocesses                                                #
-####################################################################
+###############################################################################
+# 3.2.6 Coprocesses                                                           #
+# https://www.gnu.org/software/bash/manual/bash.html#Coprocesses              #
+###############################################################################
 
 coproc
 # <- meta.coproc.shell keyword.declaration.coproc.shell
@@ -895,9 +900,10 @@ coproc foobar {
 #^ - meta
 
 
-####################################################################
-# 3.3 Shell Functions                                              #
-####################################################################
+###############################################################################
+# 3.3 Shell Functions                                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#Shell-Functions          #
+###############################################################################
 
    ()
 #^^ - meta.function
@@ -1340,9 +1346,11 @@ __git_aliased_command ()
 # <- - meta.function
 
 
-####################################################################
-# alias builtin                                                    #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (alias)                                           #
+# https://www.gnu.org/software/bash/manual/bash.html#index-alias              #
+# https://www.gnu.org/software/bash/manual/bash.html#Aliases                  #
+###############################################################################
 
 alias
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -1433,9 +1441,10 @@ alias -- -='cd -'
 #          ^^^^^^ meta.string.shell string.quoted.single.shell
 
 
-####################################################################
-# declare builtin                                                  #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (declare)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-declare            #
+###############################################################################
 
 declare             # comment
 #<- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -1577,9 +1586,10 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #                                                          ^ punctuation.section.interpolation.end.shell
 
 
-####################################################################
-# Exec builtins                                                   #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (exec)                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-exec               #
+###############################################################################
 
 exec
 # <- meta.function-call.identifier.shell support.function.exec.shell
@@ -1713,9 +1723,10 @@ exec \
 # ^^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 
 
-####################################################################
-# export builtin                                                   #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (export)                                          #
+# https://www.gnu.org/software/bash/manual/bash.html#index-export             #
+###############################################################################
 
 export
 # <- meta.function-call.identifier.shell support.function.export.shell
@@ -1822,9 +1833,10 @@ msg="Count: ${count}"
 url="https://sublimetext.com/"
 #         ^ meta.string string.quoted.double - punctuation.separator
 
-####################################################################
-# local builtin                                                    #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (locsl)                                           #
+# https://www.gnu.org/software/bash/manual/bash.html#index-local              #
+###############################################################################
 
 local
 #<- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -1958,9 +1970,10 @@ f() {
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 
 
-####################################################################
-# readonly builtin                                                 #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (readonly)                                        #
+# https://www.gnu.org/software/bash/manual/bash.html#index-readonly           #
+###############################################################################
 
 readonly foo        # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -1994,9 +2007,10 @@ foo=`readonly x=5`
 #                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 
-####################################################################
-# typeset builtin                                                  #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (typeset)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-typeset            #
+###############################################################################
 
 typeset foo         # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -2026,9 +2040,10 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #                                                   ^^ variable.parameter.option.shell
 
 
-####################################################################
-# test builtin                                                     #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (test)                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-test               #
+###############################################################################
 
 test
 # <- meta.function-call.identifier.shell support.function.test.shell
@@ -2249,9 +2264,10 @@ let "$var != test -z '$5' && cmd"
 #                               ^ string.quoted.double.shell punctuation.definition.string.end.shell
 
 
-####################################################################
-# unalias builtin                                                  #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (unalias)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-unalias            #
+###############################################################################
 
 unalias
 unalias -a -b
@@ -2297,9 +2313,10 @@ unalias foo b"a"r b'a'z 7za
 #                          ^ - meta.variable - variable
 
 
-####################################################################
-# unset builtin                                                    #
-####################################################################
+###############################################################################
+# 4.2 Bash Builtin Commands (unset)                                           #
+# https://www.gnu.org/software/bash/manual/bash.html#index-unset              #
+###############################################################################
 
 unset
 unset foo b'a'r ba${z}  # 'foo' and 'bar' are variable names
@@ -2406,9 +2423,9 @@ unset-=
 # <- - support.function
 
 
-####################################################################
-# Linux builtins                                                   #
-####################################################################
+###############################################################################
+# Linux builtins                                                              #
+###############################################################################
 
 sudo rm -rf
 # <- meta.function-call.identifier.shell support.function.sudo.shell
@@ -2455,9 +2472,10 @@ sudo --reset-timestamp -n -f -- rm -rf
 #                                  ^ punctuation.definition.parameter.shell
 
 
-####################################################################
-# Variable assignments                                             #
-####################################################################
+###############################################################################
+# 3.4 Shell Parameters                                                        #
+# https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameters         #
+###############################################################################
 
 x= # some comment
 #^ keyword.operator.assignment.shell
@@ -2928,9 +2946,9 @@ commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
 # <- - variable.other.readwrite
 
 
-####################################################################
-# Variables                                                        #
-####################################################################
+###############################################################################
+# Variables                                                                   #
+###############################################################################
 
 : $__
 # ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
@@ -3055,9 +3073,10 @@ fg %?ce
 #^ meta.interpolation.job.shell variable.language.job.shell
 
 
-####################################################################
-# Strings and interpolation in parameter expansion                 #
-####################################################################
+###############################################################################
+# 3.5.3 Shell Parameter Expansion                                             #
+# https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion#
+###############################################################################
 
 ${foo:=bar}
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
@@ -3436,9 +3455,9 @@ ${foo:=bar}
 #      ^ - keyword
 
 
-####################################################################
+###############################################################################
 # Braces in parameter expansion                                    #
-####################################################################
+###############################################################################
 
 : ${foo//foo\}foo\/foo/foo}
 # ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
@@ -3560,10 +3579,10 @@ ${var%%%Pattern}
 #             ^ comment.line punctuation
 
 
-####################################################################
-# Parameter-expansion operators                                    #
-# cf. http://www.tldp.org/LDP/abs/html/parameter-substitution.html #
-####################################################################
+###############################################################################
+# Parameter-expansion operators                                               #
+# cf. http://www.tldp.org/LDP/abs/html/parameter-substitution.html            #
+###############################################################################
 
 ${foo//%/}
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
@@ -3852,9 +3871,10 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                                                                        ^^ punctuation.section.interpolation.end.shell
 
 
-####################################################################
-# [3.5.8.1] Pattern Matching                                       #
-####################################################################
+###############################################################################
+# 3.5.8.1 Pattern Matching                                                    #
+# https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching         #
+###############################################################################
 
 : @([^:]*)
 #^^^^^^^^^ meta.function-call.arguments.shell
@@ -4058,9 +4078,9 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #            ^ - keyword.control
 #                ^ punctuation.section.interpolation.end.shell
 
-####################################################################
-# Bash pattern matching in test expressions                        #
-####################################################################
+###############################################################################
+# Bash pattern matching in test expressions                                   #
+###############################################################################
 
 [[ abc == ?[a-z]? ]]  # evaluates to true
 #         ^ meta.string.regexp.shell - meta.set
@@ -4241,9 +4261,9 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                                                ^^^ meta.string.regexp.shell
 #                                                    ^^ support.function.test.end.shell
 
-####################################################################
-# POSIX extended regular expression pattern matching               #
-####################################################################
+###############################################################################
+# POSIX extended regular expression pattern matching                          #
+###############################################################################
 
 [[ a =~ [ ]]
 #^^^^^^^^^^^ meta.conditional.shell
@@ -4900,9 +4920,9 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #                                                ^^^ meta.string.regexp.shell
 #                                                    ^^ support.function.test.end.shell
 
-####################################################################
-# 6.4 Bash Conditional Expressions                                 #
-####################################################################
+###############################################################################
+# 6.4 Bash Conditional Expressions                                            #
+###############################################################################
 
 [  ]
 # <- meta.conditional.shell support.function.test.begin.shell
@@ -5007,9 +5027,9 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^ support.function.test.end.shell
 
-####################################################################
-# Bash Numeric Constants                                           #
-####################################################################
+###############################################################################
+# Bash Numeric Constants                                                      #
+###############################################################################
 
 true false
 # <- constant.language.boolean.shell
@@ -5099,9 +5119,9 @@ true false
 #     ^^^^^ meta.number.integer.other.shell constant.numeric.value.shell
 
 
-####################################################################
-# Arithmetic tests                                                 #
-####################################################################
+###############################################################################
+# Arithmetic tests                                                            #
+###############################################################################
 
 (( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
 #  ^ variable.other.readwrite.shell
@@ -5286,9 +5306,10 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #                                                  ^^ keyword.control.conditional.end.shell
 
 
-####################################################################
-# Command chaining operators | and, or, pipe, redirection          #
-####################################################################
+###############################################################################
+# 3.2.3 Pipelines                                                             #
+# https://www.gnu.org/software/bash/manual/bash.html#Pipelines                #
+###############################################################################
 
 function show_help() {
     echo "Usage: imgcat [-p] filename ..." 1>& 2
@@ -5324,6 +5345,12 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
                           #               ^ punctuation.terminator.statement.shell
                                           # ^^ variable.function
                                           #    ^ variable.parameter
+
+
+###############################################################################
+# 3.6 Redirections                                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#Redirections             #
+###############################################################################
 
 foo 2>&1
 #   ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -5402,9 +5429,11 @@ exec >&${tee[1]} 2>&1
 #       ^ punctuation.section.interpolation.begin.shell
 
 
-####################################################################
-# 3.2.4.2 Conditional Constructs                                   #
-####################################################################
+###############################################################################
+# 3.2.5.2 Conditional Constructs (If Statements)                              #
+# https://www.gnu.org/software/bash/manual/bash.html#Conditional-Constructs   #
+# https://www.gnu.org/software/bash/manual/bash.html#index-case               #
+###############################################################################
 
  if;
 #^^ keyword.control.conditional.if.shell
@@ -5823,9 +5852,11 @@ asdf foo && FOO=some-value pwd
 #                                                                      ^^^ meta.function-call.arguments.shell
 #                                                                       ^^ variable.language.shell
 
-####################################################################
-# Case Statements                                                  #
-####################################################################
+
+###############################################################################
+# 3.2.5.2 Conditional Constructs (Case Statements)                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-case               #
+###############################################################################
 
 case-
 # <- - keyword
@@ -6073,9 +6104,10 @@ case $1 in
 esac
 
 
-####################################################################
-# select loops                                                     #
-####################################################################
+###############################################################################
+# 3.2.5.1 Looping Constructs (select loops)                                   #
+# https://www.gnu.org/software/bash/manual/bash.html#index-select             #
+###############################################################################
 
 select var in 1 2 3 4 5; do echo $i; done;
 # <- keyword.control.loop.select.shell
@@ -6118,9 +6150,10 @@ done
 # <- keyword.control.loop.end.shell
 
 
-####################################################################
-# while loops                                                      #
-####################################################################
+###############################################################################
+# 3.2.5.1 Looping Constructs (while loops)                                    #
+# https://www.gnu.org/software/bash/manual/bash.html#index-while              #
+###############################################################################
 
 while true; do
 # <- keyword.control.loop.while
@@ -6215,9 +6248,10 @@ done
 # <- keyword.control.loop.end.shell
 
 
-####################################################################
-# do...until loops                                                 #
-####################################################################
+###############################################################################
+# 3.2.5.1 Looping Constructs (do...until loops)                               #
+# https://www.gnu.org/software/bash/manual/bash.html#index-until              #
+###############################################################################
 
 do echo bar; until ! { [[ true ]]; }
 # <- keyword.control.loop.do.shell
@@ -6231,9 +6265,10 @@ do echo bar; until ! { [[ true ]]; }
 #                                  ^ punctuation.section.compound.end.shell
 
 
-####################################################################
-# for loops                                                        #
-####################################################################
+###############################################################################
+# 3.2.5.1 Looping Constructs (for loops)                                      #
+# https://www.gnu.org/software/bash/manual/bash.html#index-for                #
+###############################################################################
 
 for;
 #^^ keyword.control.loop.for.shell
@@ -6514,9 +6549,11 @@ for domain in $domains; do echo $domain; done
 #                                      ^ punctuation.terminator.statement.shell
 #                                        ^^^^ keyword.control.loop.end.shell
 
-####################################################################
-# Here documents                                                   #
-####################################################################
+
+###############################################################################
+# 3.6.6 Here Documents                                                        #
+# https://www.gnu.org/software/bash/manual/bash.html#Here-Documents           #
+###############################################################################
 
 var=world!
 cat <<FOOSTRING ; echo more stuff here
@@ -6791,9 +6828,9 @@ EOF
 #  ^ - meta.function-call - meta.string - meta.tag - entity
 
 
-####################################################################
-# Misc statement tests                                             #
-####################################################################
+###############################################################################
+# Misc statement tests                                                        #
+###############################################################################
 
 function clk {
     typeset base=/sys/class/drm/card0/device
