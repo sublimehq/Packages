@@ -3143,36 +3143,6 @@ commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
 # ^^ meta.interpolation.parameter.shell variable.language.shell
 # ^ punctuation.definition.variable.shell
 
-fg %
-#  ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.shell
-fg %%
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-fg %+
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-fg %-
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-fg %1 %2 %3
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-#     ^^ meta.interpolation.job.shell variable.language.job.shell
-#     ^ punctuation.definition.variable.shell
-#        ^^ meta.interpolation.job.shell variable.language.job.shell
-#        ^ punctuation.definition.variable.shell
-fg %ce
-#  ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-#  ^ punctuation.definition.variable.shell
-fg %?ce
-#  ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-#  ^ punctuation.definition.variable.shell
-#   ^ keyword.operator.match.shell
-
-%1
-# <- meta.interpolation.job.shell variable.language.job.shell punctuation.definition.variable.shell
-#^ meta.interpolation.job.shell variable.language.job.shell
-
 
 ###############################################################################
 # 3.5.3 Shell Parameter Expansion                                             #
@@ -6888,6 +6858,42 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #                                           ^^^^^ string.quoted.double.shell
 #                                                ^ punctuation.terminator.statement.shell
 #                                                  ^^ keyword.control.conditional.end.shell
+
+
+###############################################################################
+# 7.1 Job Control Basics                                                      #
+# https://www.gnu.org/software/bash/manual/bash.html#Job-Control-Basics       #
+###############################################################################
+
+fg %
+#  ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+fg %%
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.shell
+fg %+
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.shell
+fg %-
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.shell
+fg %1 %2 %3
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.shell
+#     ^^ meta.interpolation.job.shell variable.language.job.shell
+#     ^ punctuation.definition.variable.shell
+#        ^^ meta.interpolation.job.shell variable.language.job.shell
+#        ^ punctuation.definition.variable.shell
+fg %ce
+#  ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+fg %?ce
+#  ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#   ^ keyword.operator.match.shell
+
+%1
+# <- meta.interpolation.job.shell variable.language.job.shell punctuation.definition.variable.shell
+#^ meta.interpolation.job.shell variable.language.job.shell
 
 
 ###############################################################################
