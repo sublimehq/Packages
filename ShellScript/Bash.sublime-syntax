@@ -73,7 +73,7 @@ variables:
 
   # Command options are identifiers, which may start with interpolation.
   opt_punctuation: '{{wspace}}(--|[-+]){{nonposix_begin}}'
-  opt_literal_char: '[^{{metachar}}=%$\\""''`]'
+  opt_literal_char: '[^{{metachar}}=%$\\""''`{}]'
   opt_break: '{{nonposix_break}}'
 
   # Variables are posix identifiers, which may start with interpolation.
@@ -1153,7 +1153,8 @@ contexts:
     - include: cmd-args-boilerplate
 
   for-args:
-    - include: loop-end
+    - meta_include_prototype: false
+    - include: line-continuations
     - match: \(\(
       scope: punctuation.section.arithmetic.begin.shell
       set: cmd-arithmetic-body
@@ -1163,26 +1164,16 @@ contexts:
   loop-iterator-var:
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
-      set: loop-iterator-range
-    - include: loop-end
-    - include: variables
-
-  loop-iterator-range:
-    - include: loop-end
-    - include: number-range
-    - match: (?=\S)
       set: loop-iterator-wordlist
-
-  loop-iterator-wordlist:
-    - include: loop-end
-    - include: booleans
-    - include: strings-unquoted
-
-  loop-end:
-    - match: (?=(?:do|done){{cmd_break}})
-      pop: 1
     - include: redirections
     - include: eoc-pop
+    - include: variables
+
+  loop-iterator-wordlist:
+    - meta_include_prototype: false
+    - include: redirections
+    - include: eoc-pop
+    - include: strings-unquoted
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
@@ -1379,6 +1370,7 @@ contexts:
     # sequence \newline is ignored, and ‘\’ must be used to quote the
     # characters ‘\’, ‘$’, and ‘`’.
     - include: string-escapes
+    - include: brace-interpolations
     - include: string-interpolations
 
   heredocs-body-no-expansion:
@@ -1559,22 +1551,6 @@ contexts:
         2: meta.number.integer.decimal.shell constant.numeric.value.shell
       pop: 1
 
-  number-range:
-    - match: ({)(([-+]?)\d+)(..)(([-+]?)\d+)(?:(..)(([-+]?)\d+))?(})
-      scope: meta.sequence.range.shell
-      captures:
-        1: punctuation.section.sequence.begin.shell
-        2: meta.number.integer.decimal.shell constant.numeric.value.shell
-        3: keyword.operator.arithmetic.shell
-        4: keyword.operator.range.shell
-        5: meta.number.integer.decimal.shell constant.numeric.value.shell
-        6: keyword.operator.arithmetic.shell
-        7: keyword.operator.range.shell
-        8: meta.number.integer.decimal.shell constant.numeric.value.shell
-        9: keyword.operator.arithmetic.shell
-        10: punctuation.section.sequence.end.shell
-      pop: 1
-
 ###[ OPERATORS ]###############################################################
 
   line-continuations:
@@ -1711,16 +1687,183 @@ contexts:
         - include: expressions
 
   expansions-brace:
+    # use branching as valid brace expansions must not exceed word boundaries
+    - match: (?={)
+      branch_point: brace-expansion
+      branch:
+        - expansion-brace-sequence
+        - expansion-brace-series
+        - expansion-brace-fallback
+
+  expansion-brace-sequence:
+    # sequence expression
+    - meta_include_prototype: false
     - match: \{
-      scope: punctuation.section.interpolation.begin.shell
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.begin.shell
       push:
-        - meta_scope: meta.interpolation.brace.shell
-        - match: \}
-          scope: punctuation.section.interpolation.end.shell
-          pop: 1
-        - match: \,
-          scope: punctuation.separator.sequence.shell
-        - include: expansions-and-strings
+        - expansion-brace-sequence-body
+        - expansion-brace-sequence-begin
+
+  expansion-brace-sequence-begin:
+    - match: \.\.
+      scope: keyword.operator.range.shell
+      pop: 1
+    - include: line-continuations
+    - include: expansion-brace-sequence-content
+    - match: ''
+      fail: brace-expansion
+
+  expansion-brace-sequence-body:
+    - meta_content_scope: meta.interpolation.brace.shell
+    - match: \.\.
+      scope: keyword.operator.range.shell
+    - include: expansion-brace-end
+    - include: expansion-brace-sequence-content
+    - match: ''
+      fail: brace-expansion
+
+  expansion-brace-sequence-content:
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-parameter
+    - match: ([-+]?)(\d+)
+      scope: meta.number.integer.decimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.value.shell
+    - match: '[[:alpha:]]'
+      scope: constant.character.shell
+
+  expansion-brace-series:
+    # series of comma-separated strings
+    - meta_include_prototype: false
+    - match: \{
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.begin.shell
+      push: expansion-brace-series-begin
+
+  expansion-brace-series-begin:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.interpolation.brace.shell
+        meta.string.shell string.unquoted.shell
+    - match: (?=\})
+      fail: brace-expansion
+    - include: line-continuations
+    - include: expansion-brace-series-content
+
+  expansion-brace-series-body:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.interpolation.brace.shell
+        meta.string.shell string.unquoted.shell
+    - include: expansion-brace-end
+    - include: expansion-brace-series-content
+
+  expansion-brace-series-content:
+    - match: \,
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.separator.sequence.shell
+      set: expansion-brace-series-body
+    - include: string-unquoted-content
+    - include: expansions-patterns
+    - match: (?={{metachar}})
+      fail: brace-expansion
+
+  expansion-brace-end:
+    - match: \}
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.end.shell
+      pop: 2
+    - include: line-continuations
+
+  expansion-brace-fallback:
+    - meta_include_prototype: false
+    - match: \{
+      pop: 1
+
+  brace-interpolations:
+    # use branching as valid brace expansions must not exceed word boundaries
+    - match: (?={)
+      branch_point: brace-interpolation
+      branch:
+        - brace-interpolation-sequence
+        - brace-interpolation-series
+        - expansion-brace-fallback
+
+  brace-interpolation-sequence:
+    # sequence expression
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - match: \{
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.begin.shell
+      push:
+        - brace-interpolation-sequence-body
+        - brace-interpolation-sequence-begin
+
+  brace-interpolation-sequence-begin:
+    - match: \.\.
+      scope: keyword.operator.range.shell
+      pop: 1
+    - include: line-continuations
+    - include: expansion-brace-sequence-content
+    - match: ''
+      fail: brace-interpolation
+
+  brace-interpolation-sequence-body:
+    - meta_content_scope: meta.interpolation.brace.shell
+    - match: \.\.
+      scope: keyword.operator.range.shell
+    - include: expansion-brace-end
+    - include: expansion-brace-sequence-content
+    - match: ''
+      fail: brace-interpolation
+
+  brace-interpolation-series:
+    # series of comma-separated strings
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - match: \{
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.begin.shell
+      push: brace-interpolation-series-begin
+
+  brace-interpolation-series-begin:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.interpolation.brace.shell
+        meta.string.shell string.unquoted.shell
+    - match: (?=\})
+      fail: brace-interpolation
+    - include: line-continuations
+    - include: brace-interpolation-series-content
+
+  brace-interpolation-series-body:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.interpolation.brace.shell
+        meta.string.shell string.unquoted.shell
+    - include: expansion-brace-end
+    - include: brace-interpolation-series-content
+
+  brace-interpolation-series-content:
+    - match: \,
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.separator.sequence.shell
+      set: brace-interpolation-series-body
+    - include: string-unquoted-content
+    - include: expansions-patterns
+    - match: (?={{metachar}})
+      fail: brace-interpolation
 
   expansions-command:
     - match: (\$)(\()
@@ -2302,9 +2445,16 @@ contexts:
   string-unquoted-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.shell
+    - include: string-unquoted-content
+    - include: string-path-separators
+    - match: (?!{{cmd_literal_char}})
+      pop: 1
+
+  string-unquoted-content:
     - include: string-prototype
     - include: line-continuations
     - include: any-escapes
+    - include: brace-interpolations
     - include: string-interpolations
     - match: \'
       scope: punctuation.definition.string.begin.shell
@@ -2334,9 +2484,6 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.locale.shell
         - include: string-quoted-double-body
-    - include: string-path-separators
-    - match: (?!{{cmd_literal_char}})
-      pop: 1
 
   strings:
     - include: any-escapes
@@ -2373,8 +2520,8 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: string-prototype
     - include: line-continuations
+    - include: string-prototype
     - include: string-escapes
     - include: string-interpolations
     - include: string-path-separators
@@ -2383,8 +2530,8 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: string-prototype
     - include: line-continuations
+    - include: string-prototype
     - include: string-escapes-ansi-c
 
   string-quoted-single-body:
@@ -2414,10 +2561,15 @@ contexts:
 
   string-interpolations:
     - match: '{{is_interpolation}}'
-      push:
-        - clear_scopes: 1
-        - include: expansions-variables
-        - include: immediately-pop
+      push: string-interpolation-body
+
+  string-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-parameter
+    - include: immediately-pop
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string

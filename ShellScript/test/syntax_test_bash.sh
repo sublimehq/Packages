@@ -431,13 +431,13 @@ set +Eou pipefail
 #   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
 #    ^^ variable.parameter.option.shell - punctuation
 #      ^ - variable.parameter.option - punctuation
-set -e -- -o {string}
+set -e -- -o {str,ing}
 #   ^^ variable.parameter.option.shell
 #     ^ - variable - keyword
 #      ^^ keyword.operator.end-of-options.shell
 #        ^ - variable - keyword
 #         ^^ - variable.parameter.option
-#            ^^^^^^^^ meta.interpolation.brace.shell
+#            ^^^^^^^^^ meta.interpolation.brace.shell
 
 read -d '' -sn 1 -t1 -- -t1 10
 #^^^ meta.function-call.identifier.shell
@@ -819,13 +819,13 @@ do$var
 for done
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
-#   ^^^^ keyword.control.loop.end.shell
+#   ^^^^ variable.other.readwrite.shell - keyword
 
 for do done
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
-#   ^^ keyword.control.loop.do.shell
-#      ^^^^ keyword.control.loop.end.shell
+#   ^^ variable.other.readwrite.shell - keyword
+#      ^^^^ variable.other.readwrite.shell - keyword
 
 for x; do
 #<- keyword.control.loop.for.shell
@@ -881,6 +881,17 @@ do
 done
 # <- keyword.control.loop.end.shell
 
+for \
+  (( i = 0; i < 10; i++ )) do echo $i; done;
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+#                          ^^ keyword.control.loop.do.shell
+#                             ^^^^^^^ meta.function-call
+#                             ^^^^ support.function.echo.shell
+#                                  ^^ variable.other.readwrite.shell
+#                                    ^ punctuation.terminator.statement.shell
+#                                      ^^^^ keyword.control.loop.end.shell
+#                                          ^ punctuation.terminator.statement.shell
+
 for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
@@ -899,6 +910,46 @@ for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 #                                                    ^^^^ keyword.control.loop.end.shell
 #                                                        ^ punctuation.terminator.statement.shell
 
+for i in for in do echo done; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#     ^^ keyword.control.in.shell
+#       ^ - meta.string
+#        ^^^ meta.string.shell string.unquoted.shell
+#           ^ - meta.string
+#            ^^ meta.string.shell string.unquoted.shell
+#              ^ - meta.string
+#               ^^ meta.string.shell string.unquoted.shell
+#                 ^ - meta.string
+#                  ^^^^ meta.string.shell string.unquoted.shell
+#                      ^ - meta.string
+#                       ^^^^ meta.string.shell string.unquoted.shell
+#                           ^ punctuation.terminator.statement.shell
+#                             ^^ keyword.control.loop.do.shell
+#                                ^^^^ support.function.echo.shell
+#                                     ^^ variable.other.readwrite.shell
+#                                       ^ punctuation.terminator.statement.shell
+#                                         ^^^^ keyword.control.loop.end.shell
+#                                             ^ punctuation.terminator.statement.shell
+
+for i in { [ \( ; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#       ^ - meta.string
+#        ^ meta.string.shell string.unquoted.shell
+#         ^ - meta.string
+#          ^ meta.string.shell string.unquoted.shell
+#           ^ - meta.string
+#            ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#              ^ - meta.string
+#               ^ punctuation.terminator.statement.shell
+#                 ^^ keyword.control.loop.do.shell
+#                    ^^^^ support.function.echo.shell
+#                         ^^ variable.other.readwrite.shell
+#                           ^ punctuation.terminator.statement.shell
+#                             ^^^^ keyword.control.loop.end.shell
+#                                 ^ punctuation.terminator.statement.shell
+
 for i in <files.txt; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
@@ -914,16 +965,46 @@ for i in <files.txt; do echo $i; done;
 #                                    ^ punctuation.terminator.statement.shell
 #
 
+for i in {foo,bar,baz}; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ meta.variable.shell variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
+#         ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#            ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#             ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#                 ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                    ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell - string
+#                     ^ punctuation.terminator.statement.shell
+
+for i in for pre{foo,bar,baz}suf; do echo $i; done;
+# <- keyword.control.loop.for.shell
+#   ^ meta.variable.shell variable.other.readwrite.shell
+#     ^^ keyword.control.in.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#           ^ - meta.string
+#            ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+#               ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
+#                ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                   ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#                    ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                       ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#                        ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                           ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell - string
+#                            ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+#                               ^ punctuation.terminator.statement.shell
+
 for i in {1..10}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
 #     ^^ keyword.control.in.shell
-#        ^^^^^^^ meta.sequence.range.shell
-#        ^ punctuation.section.sequence.begin.shell
+#        ^^^^^^^ meta.interpolation.brace.shell
+#        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^^ keyword.operator.range.shell
 #            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#              ^ punctuation.section.sequence.end.shell
+#              ^ punctuation.section.interpolation.end.shell
 #               ^ punctuation.terminator.statement.shell
 #                 ^^ keyword.control.loop.do.shell
 #                    ^^^^ meta.function-call.identifier.shell support.function.echo.shell
@@ -937,14 +1018,14 @@ for i in {-10..+20}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
 #     ^^ keyword.control.in.shell
-#        ^^^^^^^^^^ meta.sequence.range.shell
-#        ^ punctuation.section.sequence.begin.shell
-#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#        ^^^^^^^^^^ meta.interpolation.brace.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#         ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
 #          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^^ keyword.operator.range.shell
-#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#              ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
 #               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                 ^ punctuation.section.sequence.end.shell
+#                 ^ punctuation.section.interpolation.end.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
 #                       ^^^^ meta.function-call.identifier.shell support.function.echo.shell
@@ -958,17 +1039,17 @@ for i in {-10..+20..-4}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
 #     ^^ keyword.control.in.shell
-#        ^^^^^^^^^^ meta.sequence.range.shell
-#        ^ punctuation.section.sequence.begin.shell
-#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#        ^^^^^^^^^^^^^^ meta.interpolation.brace.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#         ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
 #          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^^ keyword.operator.range.shell
-#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#              ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
 #               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                 ^^ keyword.operator.range.shell
-#                   ^ meta.number.integer.decimal.shell constant.numeric.value.shell keyword.operator.arithmetic.shell
+#                   ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
 #                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                     ^ punctuation.section.sequence.end.shell
+#                     ^ punctuation.section.interpolation.end.shell
 #                      ^ punctuation.terminator.statement.shell
 #                        ^^ keyword.control.loop.do.shell
 #                           ^^^^ meta.function-call.identifier.shell support.function.echo.shell
@@ -3142,6 +3223,306 @@ commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
 : $_
 # ^^ meta.interpolation.parameter.shell variable.language.shell
 # ^ punctuation.definition.variable.shell
+
+
+###############################################################################
+# 3.5.1 Brace Expansion                                                       #
+# https://www.gnu.org/software/bash/manual/bash.html#Brace-Expansion          #
+###############################################################################
+
+# Patterns to be brace expanded take the form of an optional preamble,
+# followed by a series of comma-separated strings ... between a pair of braces,
+# followed by an optional postscript.
+
+: prefix{a,b,c}suffix
+# ^^^^^^ - meta.interpolation
+#       ^^^^^^^ meta.interpolation.brace.shell
+#              ^^^^^^ - meta.interpolation
+
+: {a,b,~,%,!,.,\,,\{,\},*,?,-1,+2,0," ",' '}
+#^ - meta.interpolation
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.brace.shell - meta.interpolation.brace meta.interpolation.brace
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.string.shell string.unquoted.shell
+#   ^ punctuation.separator.sequence.shell
+#    ^ meta.string.shell string.unquoted.shell
+#     ^ punctuation.separator.sequence.shell
+#      ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#       ^ punctuation.separator.sequence.shell
+#        ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#         ^ punctuation.separator.sequence.shell
+#          ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#           ^ punctuation.separator.sequence.shell
+#            ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#             ^ punctuation.separator.sequence.shell
+#              ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                ^ punctuation.separator.sequence.shell
+#                 ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                   ^ punctuation.separator.sequence.shell
+#                    ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                      ^ punctuation.separator.sequence.shell
+#                       ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#                        ^ punctuation.separator.sequence.shell
+#                         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.questionmark.shell
+#                          ^ punctuation.separator.sequence.shell
+#                           ^^ meta.string.shell string.unquoted.shell
+#                             ^ punctuation.separator.sequence.shell
+#                              ^^ meta.string.shell string.unquoted.shell
+#                                ^ punctuation.separator.sequence.shell
+#                                 ^ meta.string.shell string.unquoted.shell
+#                                  ^ punctuation.separator.sequence.shell
+#                                   ^^^ meta.string.shell string.quoted.double.shell
+#                                      ^ punctuation.separator.sequence.shell
+#                                       ^^^ meta.string.shell string.quoted.single.shell
+#                                          ^ punctuation.section.interpolation.end.shell
+#                                           ^ - meta.interpolation
+
+: {${foo},${bar},$(ls ~),foo${bar}buz,a{a,b,c}d}
+# ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^^ meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#        ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#         ^^^^^^ meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#               ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                ^^^^^^^ meta.interpolation.brace.shell meta.interpolation.command.shell
+#                       ^ meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#                        ^^^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                           ^^^^^^ meta.interpolation.brace.shell meta.string.shell meta.interpolation.parameter.shell
+#                                 ^^^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                    ^ meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#                                     ^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                      ^^^^^^^ meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                                      ^ punctuation.section.interpolation.begin.shell
+#                                       ^ meta.string.shell string.unquoted.shell
+#                                        ^ punctuation.separator.sequence.shell
+#                                         ^ meta.string.shell string.unquoted.shell
+#                                          ^ punctuation.separator.sequence.shell
+#                                           ^ meta.string.shell string.unquoted.shell
+#                                            ^ punctuation.section.interpolation.end.shell
+#                                             ^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                              ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+
+: {foo\
+bar,baz}
+# <- meta.interpolation.brace.shell
+#^^^^^^^ meta.interpolation.brace.shell
+#       ^ - meta.interpolation
+
+: {..,..2}
+# ^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell - keyword
+#    ^ punctuation.separator.sequence.shell
+#     ^^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell - keyword
+#       ^ - constant.numeric
+#        ^ punctuation.section.interpolation.end.shell
+
+: {{foo,{bar,baz},foo},bar,{1..10}}
+# ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^ meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
+#       ^^^^^^^^^ meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                ^^^^^ meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
+#                     ^^^^^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                          ^^^^^^^ meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                                 ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                                  ^ - meta.string - meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#   ^^^ string.unquoted.shell
+#      ^ punctuation.separator.sequence.shell
+#       ^ punctuation.section.interpolation.begin.shell
+#        ^^^ string.unquoted.shell
+#           ^ punctuation.separator.sequence.shell
+#            ^^^ string.unquoted.shell
+#               ^ punctuation.section.interpolation.end.shell
+#                ^ punctuation.separator.sequence.shell
+#                 ^^^ string.unquoted.shell
+#                    ^ punctuation.section.interpolation.end.shell
+#                     ^ punctuation.separator.sequence.shell
+#                      ^^^ string.unquoted.shell
+#                         ^ punctuation.separator.sequence.shell
+#                          ^ punctuation.section.interpolation.begin.shell
+#                           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                            ^^ keyword.operator.range.shell
+#                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                ^^ punctuation.section.interpolation.end.shell
+
+: {*,?}
+# ^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ constant.other.wildcard.asterisk.shell
+#   ^ punctuation.separator.sequence.shell
+#    ^ constant.other.wildcard.questionmark.shell
+#     ^ punctuation.section.interpolation.end.shell
+
+# Patterns to be brace expanded take the form of ...
+# a sequence expression between a pair of braces
+
+: {1..10}
+#^ - meta.interpolation
+# ^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#   ^^ keyword.operator.range.shell
+#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ - meta.interpolation
+
+: {1..10..2}
+#^ - meta.interpolation
+# ^^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#   ^^ keyword.operator.range.shell
+#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^^ keyword.operator.range.shell
+#         ^ constant.numeric.value.shell
+#          ^ punctuation.section.interpolation.end.shell
+#           ^ - meta.interpolation
+
+: {-10..+10}
+#^ - meta.interpolation
+# ^^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.interpolation.brace.shell meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#   ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^^ keyword.operator.range.shell
+#       ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.interpolation.end.shell
+#           ^ - meta.interpolation
+
+: {-10..+10..-5}
+#^ - meta.interpolation
+# ^^^^^^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#   ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^^ keyword.operator.range.shell
+#       ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^^ keyword.operator.range.shell
+#            ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ punctuation.section.interpolation.end.shell
+#               ^ - meta.interpolation
+
+: {a..z}
+#^ - meta.interpolation
+# ^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ constant.character.shell
+#   ^^ keyword.operator.range.shell
+#     ^ constant.character.shell
+#      ^ punctuation.section.interpolation.end.shell
+#       ^ - meta.interpolation
+
+: {a..z..2}
+#^ - meta.interpolation
+# ^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.interpolation.brace.shell constant.character.shell
+#   ^^ keyword.operator.range.shell
+#     ^ constant.character.shell
+#      ^^ keyword.operator.range.shell
+#        ^ constant.numeric.value.shell
+#         ^ punctuation.section.interpolation.end.shell
+#          ^ - meta.interpolation
+
+: {\
+a..z..2}
+# <- meta.interpolation.brace.shell constant.character.shell
+#^^^^^^^ meta.interpolation.brace.shell
+#^^ keyword.operator.range.shell
+#  ^ constant.character.shell
+#   ^^ keyword.operator.range.shell
+#     ^ constant.numeric.value.shell
+#      ^ punctuation.section.interpolation.end.shell
+
+: {\
+a..\
+z..2}
+# <- meta.interpolation.brace.shell constant.character.shell
+#^^^^ meta.interpolation.brace.shell
+#^^ keyword.operator.range.shell
+#  ^ constant.numeric.value.shell
+#   ^ punctuation.section.interpolation.end.shell
+
+: {a..z..2\
+}
+# <- meta.interpolation.brace.shell punctuation.section.interpolation.end.shell
+
+: {${start}..$(( start + len ))..${incr}}
+# ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^^^^ meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#          ^^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#            ^^^^^^^^^^^^^^^^^^ meta.interpolation.brace.shell meta.interpolation.arithmetic.shell
+#                              ^^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                                ^^^^^^^ meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#                                       ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+# ^ meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell
+#  ^ meta.interpolation.parameter.shell punctuation.definition.variable.shell
+#   ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#    ^^^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+#          ^^ keyword.operator.range.shell
+#            ^ meta.interpolation.arithmetic.shell punctuation.definition.variable.shell
+#             ^^ punctuation.section.interpolation.begin.shell
+#                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                      ^ keyword.operator.arithmetic.shell
+#                        ^^^ meta.variable.shell variable.other.readwrite.shell
+#                            ^^ meta.interpolation.arithmetic.shell punctuation.section.interpolation.end.shell
+#                              ^^ keyword.operator.range.shell
+#                                ^ punctuation.definition.variable.shell
+#                                 ^ punctuation.section.interpolation.begin.shell
+#                                  ^^^^ variable.other.readwrite.shell
+#                                      ^^ punctuation.section.interpolation.end.shell
+
+  { : {1..21} }
+# ^^^^ meta.compound.shell - meta.interpolation
+#     ^^^^^^^ meta.compound.shell meta.interpolation.brace.shell
+#            ^^ meta.compound.shell - meta.interpolation
+
+  ( : {1..21} )
+# ^^^^ meta.compound.shell - meta.interpolation
+#     ^^^^^^^ meta.compound.shell meta.interpolation.brace.shell
+#            ^^ meta.compound.shell - meta.interpolation
+
+any --arg{1..4}={1..4}
+#   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
+#        ^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
+#              ^ keyword.operator.assignment.shell
+#               ^^^^^^ meta.string.shell meta.interpolation.brace.shell
+
+any --arg{1,2,3}={1,2,3}
+#   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
+#        ^^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
+#               ^ keyword.operator.assignment.shell
+#                ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
+
+# invalid brace expansions due to whitespace
+
+: {} {*} {1} {a} {foo} {'bar'} {"baz"}
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: { 1..9} {1..9 } {1.. 9} {1 ..9} {a, b, c}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: {1..&} {1..|} {1..<} {1..>} {(..)} {a..)}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: {a..z\
+  ..2}
+#^^^^^ - meta.interpolation
+
+: {foo\
+  bar,baz}
+#^^^^^^^^^^ - meta.interpolation
+
+: '{foo,bar,baz}' '{1..10}'
+# ^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
+#                 ^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
+
+: "{foo,bar,baz}" "{1..10}"
+# ^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
+#                 ^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
 
 
 ###############################################################################
