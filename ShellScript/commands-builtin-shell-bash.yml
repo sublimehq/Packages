@@ -134,11 +134,11 @@ jobs:
   short-options: x
 
 kill:
-  short-options: snlL
+  short-options-compact: snlL
   # TODO: -sigspec
 
 wait:
-  short-options: "n"
+  short-options-compact: "fnp"
 
 disown:
   short-options-compact: ar

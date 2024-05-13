@@ -6865,35 +6865,91 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 # https://www.gnu.org/software/bash/manual/bash.html#Job-Control-Basics       #
 ###############################################################################
 
-fg %
-#  ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.shell
-fg %%
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-fg %+
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-fg %-
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-fg %1 %2 %3
-#  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.shell
-#     ^^ meta.interpolation.job.shell variable.language.job.shell
-#     ^ punctuation.definition.variable.shell
-#        ^^ meta.interpolation.job.shell variable.language.job.shell
-#        ^ punctuation.definition.variable.shell
-fg %ce
-#  ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-#  ^ punctuation.definition.variable.shell
-fg %?ce
-#  ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-#  ^ punctuation.definition.variable.shell
-#   ^ keyword.operator.match.shell
+: %
+# ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+: %%
+# ^^ meta.interpolation.job.shell variable.language.job.shell
+# ^ punctuation.definition.variable.shell
+#   ^ - meta.interpolation - variable
+: %+
+# ^^ meta.interpolation.job.shell variable.language.job.shell
+# ^ punctuation.definition.variable.shell
+#   ^ - meta.interpolation - variable
+: %-
+# ^^ meta.interpolation.job.shell variable.language.job.shell
+# ^ punctuation.definition.variable.shell
+#   ^ - meta.interpolation - variable
+: %1 %2 %3
+# ^^ meta.interpolation.job.shell variable.language.job.shell
+# ^ punctuation.definition.variable.shell
+#   ^ - meta.interpolation - variable
+#    ^^ meta.interpolation.job.shell variable.language.job.shell
+#    ^ punctuation.definition.variable.shell
+#      ^ - meta.interpolation - variable
+#       ^^ meta.interpolation.job.shell variable.language.job.shell
+#       ^ punctuation.definition.variable.shell
+#         ^ - meta.interpolation - variable
+: %ce
+# ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#    ^ - meta.interpolation - variable
+: %?ce
+# ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#  ^ keyword.operator.match.shell
+#     ^ - meta.interpolation - variable
 
 %1
 # <- meta.interpolation.job.shell variable.language.job.shell punctuation.definition.variable.shell
 #^ meta.interpolation.job.shell variable.language.job.shell
+# ^ - meta.interpolation - variable
+
+
+###############################################################################
+# 7.2 Job Control Builtins                                                    #
+# https://www.gnu.org/software/bash/manual/bash.html#Job-Control-Builtins     #
+###############################################################################
+
+fg fg
+# <- meta.function-call.identifier.shell support.function.fg.shell
+#^ meta.function-call.identifier.shell support.function.fg.shell
+# ^^^ meta.function-call.arguments.shell - support
+
+bg bg
+# <- meta.function-call.identifier.shell support.function.bg.shell
+#^ meta.function-call.identifier.shell support.function.bg.shell
+# ^^^ meta.function-call.arguments.shell - support
+
+jobs jobs
+# <- meta.function-call.identifier.shell support.function.jobs.shell
+#^^^ meta.function-call.identifier.shell support.function.jobs.shell
+#   ^^^^^ meta.function-call.arguments.shell - support
+
+kill -s
+# <- meta.function-call.identifier.shell support.function.kill.shell
+#^^^ meta.function-call.identifier.shell support.function.kill.shell
+#   ^^^ meta.function-call.arguments.shell
+#    ^^ meta.parameter.option.shell variable.parameter.option.shell
+
+wait -fn -p varname
+# <- meta.function-call.identifier.shell support.function.wait.shell
+#^^^ meta.function-call.identifier.shell support.function.wait.shell
+#   ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^^^^^^ meta.string.shell string.unquoted.shell
+
+disown -ar
+# <- meta.function-call.identifier.shell support.function.disown.shell
+#^^^^^ meta.function-call.identifier.shell support.function.disown.shell
+#     ^^^^ meta.function-call.arguments.shell
+#      ^^^ meta.parameter.option.shell variable.parameter.option.shell
+
+suspend -f
+# <- meta.function-call.identifier.shell support.function.suspend.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.suspend.shell
+#      ^^^ meta.function-call.arguments.shell
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell
 
 
 ###############################################################################
