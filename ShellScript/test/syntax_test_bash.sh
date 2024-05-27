@@ -3035,6 +3035,38 @@ commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
 
 
 ###############################################################################
+# 3.4.1 Positional Parameters                                                 #
+# https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters    #
+###############################################################################
+
+: $1 $2 $3 $45 $678
+# ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#   ^ - meta.interpolation - variable
+#    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^ - meta.interpolation - variable
+#       ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^ - meta.interpolation - variable
+#          ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#            ^^ - meta.interpolation - variable
+#              ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                ^^^ - meta.interpolation - variable
+
+# When a positional parameter consisting of more than a single digit is expanded,
+# it must be enclosed in braces.
+: ${45} ${678}
+# ^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^ variable.other.readwrite.shell
+#     ^ punctuation.section.interpolation.end.shell
+#       ^^^^^^ meta.interpolation.parameter.shell
+#       ^ punctuation.definition.variable.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#         ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
+
+
+###############################################################################
 # 3.4.2 Special Parameters                                                    #
 # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters       #
 ###############################################################################
