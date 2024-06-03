@@ -16,7 +16,7 @@ extern crate std as ruststd;
 //                         ^ punctuation.terminator
 
 mod bar;
-// <- meta.module storage.type.module
+// <- meta.module keyword.declaration.module
 //^^^^^^ meta.module
 //  ^^^ entity.name.module
 //     ^ punctuation.terminator
@@ -24,7 +24,7 @@ mod bar;
 pub mod my_mod {
 //  ^^^^^^^^^^^^ meta.module
 // <- storage.modifier
-//  ^^^ storage.type.module
+//  ^^^ keyword.declaration.module
 //      ^^^^^^ entity.name.module
 //             ^ meta.block punctuation.section.block.begin
 }
@@ -32,7 +32,7 @@ pub mod my_mod {
 
 pub use self::trafile::*;
 // <- storage.modifier
-//  ^^^ keyword.other
+//  ^^^ keyword.declaration
 //      ^^^^ variable.language
 //      ^^^^^^^^^^^^^^^ meta.path
 //                   ^^ punctuation.accessor
@@ -40,33 +40,32 @@ pub use self::trafile::*;
 //                      ^ punctuation.terminator
 
 use std::fmt;
-// <- keyword.other
-//  ^^^^^ meta.path
+// <- keyword.declaration
+//  ^^^^^^^^ meta.path
 //     ^^ punctuation.accessor
-//       ^^^ - meta.path
 //          ^ punctuation.terminator
 use foo::i32;
 //  ^^^^^ meta.path
 //     ^^ punctuation.accessor
-//       ^^^ - meta.path storage.type
+//       ^^^ - storage.type
 use foo::Bar;
 //  ^^^^^ meta.path
 //     ^^ punctuation.accessor
-//       ^^^ storage.type.source
+//       ^^^ storage.type.rust
 
 use foo::{Baz, QUX, quux};
 //  ^^^^^ meta.path
 //     ^^ punctuation.accessor.rust
 //       ^^^^^^^^^^^^^^^^ meta.block
 //       ^ punctuation.section.block.begin
-//        ^^^ storage.type.source
+//        ^^^ storage.type.rust
 //             ^^^ constant.other
 //                  ^^^^ meta.block
 //                      ^ punctuation.section.block.end
 //                       ^ punctuation.terminator
 
 use std::{
-// <- keyword.other
+// <- keyword.declaration
 //  ^^^^^ meta.path
 //       ^ meta.block punctuation.section.block.begin
     fs::{self, read_dir},
@@ -78,8 +77,8 @@ use std::{
     path::{Path, PathBuf},
 //  ^^^^^^ meta.block meta.path
 //        ^ meta.block meta.block punctuation.section.block.begin
-//         ^^^^ meta.block meta.block storage.type.source
-//               ^^^^^^^ meta.block meta.block storage.type.source
+//         ^^^^ meta.block meta.block storage.type.rust
+//               ^^^^^^^ meta.block meta.block storage.type.rust
 //                      ^ meta.block meta.block punctuation.section.block.end
    };
 // ^ meta.block punctuation.section.block.end

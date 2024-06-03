@@ -16,7 +16,7 @@ ur"""Raw docstring \""""
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
 #    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                  ^^ constant.character.escape.python
+#                  ^^ - constant.character.escape
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R"""
@@ -92,7 +92,7 @@ ur'''Raw docstring \''''
 # <- storage.type.string.python - comment
 # ^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
 #    ^^^^^^^^^^^^^^^^ comment.block.documentation.summary.python
-#                  ^^ constant.character.escape.python
+#                  ^^ - constant.character.escape
 #                    ^^^ comment.block.documentation.python punctuation.definition.comment.end.python
 
 R'''
@@ -2047,7 +2047,7 @@ def f[T: Hashable, U: (int, str), *V, **P](x: T = SOME_CONSTANT, y: U, *args: *T
 #                                   ^ punctuation.separator.parameters.python
 #                                     ^^ keyword.operator.unpacking.mapping.python
 #                                       ^ variable.parameter.type.python
-#                                        ^ punctuation.section.parameters.end.python
+#                                        ^ punctuation.definition.generic.end.python
 #                                         ^ punctuation.section.parameters.begin.python
 #                                          ^ variable.parameter.python
 #                                           ^ punctuation.separator.annotation.python
@@ -2107,7 +2107,7 @@ def f[
 #^^^^ meta.function.python meta.generic.python
 #    ^^ meta.function.parameters.python
 #       ^^^^ meta.function.return-type.python
-#   ^ punctuation.section.parameters.end.python
+#   ^ punctuation.definition.generic.end.python
 #    ^ punctuation.section.parameters.begin.python
 #     ^ punctuation.section.parameters.end.python
 #       ^^ punctuation.separator.return-type.python
@@ -2224,7 +2224,7 @@ class GenericClass[T: X, **U]:
 #                      ^ punctuation.separator.parameters.python
 #                        ^^ keyword.operator.unpacking.mapping.python
 #                          ^ variable.parameter.type.python
-#                           ^ punctuation.section.parameters.end.python
+#                           ^ punctuation.definition.generic.end.python
 #                            ^ punctuation.section.class.begin.python
 
     from typing import override
@@ -2248,8 +2248,8 @@ class GenericClass[T: X, **U]:
 ##################
 
 type
-# <- meta.type-alias.python keyword.declaration.class.python
-#^^^ meta.type-alias.python keyword.declaration.class.python
+# <- meta.generic-name - keyword
+#^^^ meta.generic-name - keyword
 
 type Alias # [T: int] = list[T]
 # <- meta.type-alias.python keyword.declaration.class.python
@@ -2266,7 +2266,7 @@ type Alias[T: int] = list[T]
 #          ^ variable.parameter.type.python
 #           ^ punctuation.separator.bound.python
 #             ^^^ meta.type.python support.type.python
-#                ^ punctuation.section.parameters.end.python
+#                ^ punctuation.definition.generic.end.python
 #                  ^ keyword.operator.assignment.python
 #                    ^^^^ support.type.python
 #                        ^^^ meta.brackets.python
@@ -2283,7 +2283,7 @@ type \
 #      ^ variable.parameter.type.python
 #       ^ punctuation.separator.bound.python
 #         ^^^ meta.type.python support.type.python
-#            ^ punctuation.section.parameters.end.python
+#            ^ punctuation.definition.generic.end.python
 #              ^ keyword.operator.assignment.python
 #                ^^^^ support.type.python
 #                    ^^^ meta.brackets.python
@@ -2300,7 +2300,7 @@ type \
 # ^ variable.parameter.type.python
 #  ^ punctuation.separator.bound.python
 #    ^^^ meta.type.python support.type.python
-#       ^ punctuation.section.parameters.end.python
+#       ^ punctuation.definition.generic.end.python
 #         ^ keyword.operator.assignment.python
 #           ^^^^ support.type.python
 #               ^^^ meta.brackets.python
@@ -2320,6 +2320,55 @@ type \
 #       ^ meta.generic-name.python
 #        ^ punctuation.section.brackets.end.python
 
+  type Alias
+# <- meta.type-alias.python
+#^^^^^^^^^^^ meta.type-alias.python
+# ^^^^ keyword.declaration.class.python
+#      ^^^^^ entity.name.type.alias.python
+
+type(data)
+# <- meta.function-call.identifier.python support.function.builtin.python
+#^^^ meta.function-call.identifier.python support.function.builtin.python
+#   ^^^^^^ meta.function-call.arguments.python
+#   ^ punctuation.section.arguments.begin.python
+#    ^^^^ meta.path.python meta.generic-name.python
+#        ^ punctuation.section.arguments.end.python
+
+type: Alias
+# <- meta.generic-name.python
+#^^^ meta.generic-name.python
+#   ^ punctuation.separator.annotation.python
+#     ^^^^^ meta.type.python meta.path.python meta.generic-name.python
+
+type = 10
+# <- meta.generic-name.python
+#^^^ meta.generic-name.python
+#    ^ keyword.operator.assignment.python
+#      ^^ meta.number.integer.decimal.python constant.numeric.value.python
+
+class Foo:
+    type: Alias
+#   ^^^^ meta.generic-name.python
+#       ^ punctuation.separator.annotation.python
+#         ^^^^^ meta.type.python meta.path.python meta.generic-name.python
+
+    type = 10
+#   ^^^^ meta.generic-name.python
+#        ^ keyword.operator.assignment.python
+#          ^^ meta.number.integer.decimal.python constant.numeric.value.python
+
+    def __init__(self, type: int):
+#                      ^^^^ variable.parameter.python
+        self.type = type
+#            ^^^^ meta.path.python meta.generic-name.python
+#                   ^^^^ meta.path.python meta.generic-name.python
+
+        self.me = type(type)
+#                 ^^^^ meta.function-call.identifier.python support.function.builtin.python
+#                     ^^^^^^ meta.function-call.arguments.python
+#                     ^ punctuation.section.arguments.begin.python
+#                      ^^^^ meta.path.python meta.generic-name.python
+#                          ^ punctuation.section.arguments.end.python
 
 ##################
 # Decorators
@@ -3167,6 +3216,22 @@ foo = bar = baz = 0
 #   ^ keyword.operator.assignment.python
 #         ^ keyword.operator.assignment.python
 #               ^ keyword.operator.assignment.python
+
+# https://github.com/sublimehq/Packages/issues/3939
+x = "foo" if True else \
+    "bar"
+y = "baz"
+# <- meta.path.python meta.generic-name.python
+# ^ keyword.operator.assignment.python
+#   ^^^^^ meta.string.python string.quoted.double.python
+
+x = "foo" \
+    "bar" \
+    "baz"
+y = "baz"
+# <- meta.path.python meta.generic-name.python
+# ^ keyword.operator.assignment.python
+#   ^^^^^ meta.string.python string.quoted.double.python
 
 foo <<= bar <<= baz
 #   ^^^ keyword.operator.assignment.augmented.python

@@ -534,15 +534,8 @@ contexts:
     - include: pop-on-bracket-end
     - include: match-any
 
-  # Known bug:
-  #
-  #   _ = ident[0] * ident
-  #
-  # This currently parses as an array type of `[0]*ident`.
-  # Can we ever fix this false positive?
   pop-after-brackets:
     - include: pop-before-terminator
-    - include: match-type-operators
     - include: pop-type-identifier
 
   # TODO: consider detecting composite literals. In principle, it should allow
@@ -919,6 +912,8 @@ contexts:
       pop: true
     - match: '{{predeclared_type}}'
       scope: support.type.go
+    - match: (?=;)
+      pop: 1
     - include: match-any
 
   match-keyword-chan:

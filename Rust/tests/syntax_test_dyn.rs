@@ -33,13 +33,15 @@ type A1 = dyn::dyn;
 //        ^^^^^ meta.path -storage.type.trait
 //             ^^^ -storage.type.trait
 type A2 = dyn<dyn, dyn>;
-//        ^^^ meta.generic -storage.type.trait
+//        ^^^ -storage.type.trait
 //            ^^^ meta.generic -storage.type.trait
 //                 ^^^ meta.generic -storage.type.trait
 // This is incorrect.  `identifier` should not match on the keyword `as`.
 // However, avoiding keywords is a little complicated and slow.
 type A3 = dyn<<dyn as dyn>::dyn>;
-//        ^^^ meta.generic -storage.type.trait
-//             ^^^ meta.generic storage.type.trait
-//                    ^^^ meta.generic -storage.type.trait
-//                          ^^^ meta.generic -storage.type.trait
+//        ^^^ -storage.type.trait
+//           ^^^^^^^^^^^^^^^^^^^ meta.generic
+//            ^^^^^^^^^^^^ meta.generic meta.generic
+//             ^^^ storage.type.trait
+//                    ^^^ -storage.type.trait
+//                          ^^^ -storage.type.trait

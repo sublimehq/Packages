@@ -41,8 +41,8 @@ impl<'a, T: MyTrait + OtherTrait> PrintInOption for T where
 impl fmt::Display for PrintableStruct {
 // <- meta.impl
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.impl
-// <- storage.type.impl
-//^^ storage.type.impl
+// <- keyword.declaration.impl
+//^^ keyword.declaration.impl
 //   ^^^^^ meta.path
 //      ^^ punctuation.accessor
 //                ^^^ keyword.other
@@ -51,7 +51,7 @@ impl fmt::Display for PrintableStruct {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.impl
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//  ^^ storage.type.function
+//  ^^ keyword.declaration.function
 //     ^^^ entity.name.function
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //        ^ punctuation.section.parameters.begin
@@ -85,7 +85,7 @@ impl<T: ?Sized> !marker::Sync for Rc<T> {}
 //       ^^^^^ support.type.rust
 //            ^ punctuation.definition.generic.end.rust
 //              ^ meta.impl.rust keyword.operator.rust meta.impl.opt-out.rust
-//               ^^^^^^^^ meta.impl.rust meta.path.rust
+//               ^^^^^^^^^^^^ meta.impl.rust meta.path.rust
 //                       ^^^^ meta.impl.rust support.type.rust
 //                            ^^^ meta.impl.rust keyword.other.rust
 //                                ^^ meta.impl.rust meta.generic.rust entity.name.impl.rust
@@ -139,3 +139,8 @@ trait Bar: for<'a> Foo<&'a ()> {}
 //             ^^ meta.where meta.generic storage.modifier.lifetime
 //                     ^ meta.where meta.generic keyword.operator
 //                      ^^ meta.where meta.generic storage.modifier.lifetime
+
+trait t {}
+//    ^ meta.trait entity.name.trait
+
+// <- - meta

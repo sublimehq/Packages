@@ -5644,6 +5644,13 @@ func main() {
         // plan9, windows...
         fmt.Printf("%s.\n", os)
     }
+    switch os {
+    case no_colon_here_while_user_is_typing
+        ; a := b
+//      ^ punctuation.terminator
+//          ^ - punctuation.separator.case-statement
+//          ^^ keyword.operator.assignment
+    }
 }
 
 func do(i interface{}) {
@@ -5857,4 +5864,41 @@ func lang_embedding() {
     //                                             ^ meta.string.xml string.quoted.double.xml
     //                                               ^^^^^^^^^^^ meta.interpolation.go
     //                                                             ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
+}
+
+// language=sql
+some_func_call(
+    args_on_next_line, `
+        SELECT min(a)
+        FROM b
+        WHERE c = @p1`, "some value",
+    // ^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go
+)
+// <- punctuation.section.parens.end.go - invalid
+
+_ = ident[0] * ident
+//  ^^^^^ variable.other
+//       ^ punctuation.section.brackets.begin
+//        ^ meta.number.integer.decimal constant.numeric.value
+//         ^ punctuation.section.brackets.end
+//           ^ keyword.operator
+//             ^^^^^ variable.other
+func sth() {
+
+    a := 123
+    data := []int
+
+    b := 0
+    b = data[b]|a
+//             ^ keyword.operator.bitwise
+//              ^ variable.other
+    b = data[b]^a
+//             ^ keyword.operator.bitwise
+//              ^ variable.other
+    b = data[b]&a
+//             ^ keyword.operator
+//              ^ variable.other
+    b = b|a
+//       ^ keyword.operator.bitwise
+//        ^ variable.other
 }

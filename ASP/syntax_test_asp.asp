@@ -168,6 +168,28 @@
     </script>
     ' ^^^^^^^ meta.tag - source
 
+    <script type="application/ld+json">
+        {
+            <% key %>: <%.Site.Color%>,
+        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        |   ^^^^^^^^^ meta.mapping.json meta.interpolation.asp
+        |            ^^ meta.mapping.json - meta.interpolation
+        |              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.asp
+        |                             ^ meta.mapping.json - meta.interpolation
+
+            "<% key %>": "<%.Site.Color%>",
+        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+        |    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.asp - string
+        |             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+        |              ^^ meta.mapping.json - meta.interpolation
+        |                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+        |                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.asp - string
+        |                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+        |                                 ^ meta.mapping.json - meta.interpolation
+        }
+    </script>
+
     <style>
 
 ' <- source.css.embedded.html
@@ -1359,6 +1381,43 @@ test = "hello%>
 '                                 ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
 '                  ^^^ punctuation.section.embedded.begin.asp
 '                               ^^ punctuation.section.embedded.end.asp
+
+  <my-<%=tag%> <%=attr%>=<%=value%>/>
+' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+' ^ meta.tag.other.html punctuation.definition.tag.begin.html
+'  ^^^ entity.name.tag.other.html - meta.interpolation
+'     ^^^^^^^^ entity.name.tag.other.html meta.embedded.asp
+'     ^^^ punctuation.section.embedded.begin.asp 
+'        ^^^ variable.other.asp
+'           ^^ punctuation.section.embedded.end.asp
+'              ^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.asp
+'              ^^^ punctuation.section.embedded.begin.asp 
+'                 ^^^^ variable.other.asp
+'                     ^^ punctuation.section.embedded.end.asp
+'                       ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+'                        ^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.asp
+'                        ^^^ punctuation.section.embedded.begin.asp 
+'                           ^^^^^ variable.other.asp
+'                                ^^ punctuation.section.embedded.end.asp
+'                                  ^^ punctuation.definition.tag.end.html
+
+  <<%=tag%> <%=attr%>=<%=value%>/>
+' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+' ^ meta.tag.other.html punctuation.definition.tag.begin.html
+'  ^^^^^^^^ entity.name.tag.other.html meta.embedded.asp
+'  ^^^ punctuation.section.embedded.begin.asp 
+'     ^^^ variable.other.asp
+'        ^^ punctuation.section.embedded.end.asp
+'           ^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.asp
+'           ^^^ punctuation.section.embedded.begin.asp 
+'              ^^^^ variable.other.asp
+'                  ^^ punctuation.section.embedded.end.asp
+'                    ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+'                     ^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.asp
+'                     ^^^ punctuation.section.embedded.begin.asp 
+'                        ^^^^^ variable.other.asp
+'                             ^^ punctuation.section.embedded.end.asp
+'                               ^^ punctuation.definition.tag.end.html
 
  </body>
 '^^^^^^^ meta.tag.structure.any.html

@@ -48,7 +48,7 @@ variables:
   eoc: (?=\s*{{eoc_char}})
   eoc_char: '[\n|&]'
 
-  label_comment: ':[^{{label_start}}]'
+  label_comment: ':+[^{{label_start}}]'
   label_start: '[^{{metachar}}:+]'
 
   path_terminator_chars: '[\s,;"{{redir_or_eoc_char}}]'
@@ -574,6 +574,7 @@ contexts:
     - include: immediately-pop
 
   ctl-pause-args:
+    - include: redirections
     - include: cmd-arg-help
     - include: expect-eoc
 
@@ -599,6 +600,7 @@ contexts:
           EnableExtensions | DisableExtensions
         ){{arg_break}}
       scope: constant.language.dosbatch
+    - include: redirections
     - include: cmd-arg-help
     - include: expect-eoc
 
@@ -618,6 +620,7 @@ contexts:
     - include: immediately-pop
 
   ctl-endlocal-args:
+    - include: redirections
     - include: cmd-arg-help
     - include: expect-eoc
 

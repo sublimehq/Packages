@@ -2033,6 +2033,26 @@ $array = array_reduce(
 );
 // <- punctuation.section.group.end
 
+$array['callback'](first: 'first', second: 'second');
+// <- meta.function-call.identifier.php variable.other.php punctuation.definition.variable.php
+//^^^^ meta.function-call.identifier.php - meta.item-access
+//    ^^^^^^^^^^^^ meta.function-call.identifier.php meta.item-access.php
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//^^^^ variable.other.php
+//    ^ punctuation.section.brackets.begin.php
+//     ^^^^^^^^^^ meta.string.php string.quoted.single.php
+//               ^ punctuation.section.brackets.end.php
+//                ^ punctuation.section.group.begin.php
+//                 ^^^^^ variable.parameter.named.php
+//                      ^ keyword.operator.assignment.php
+//                        ^^^^^^^ meta.string.php string.quoted.single.php
+//                               ^ punctuation.separator.sequence.php
+//                                 ^^^^^^ variable.parameter.named.php
+//                                       ^ keyword.operator.assignment.php
+//                                         ^^^^^^^^ meta.string.php string.quoted.single.php
+//                                                 ^ punctuation.section.group.end.php
+//                                                  ^ punctuation.terminator.statement.php
+
 nested( static function ( {  } );
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
 //             ^^^^^^^^^ meta.function.php
@@ -5105,14 +5125,23 @@ preg_replace("/test$,bar$/");
 //                      ^ keyword.control.anchor.regexp
 
 $regex = '/
-    a{,6}
-//   ^^^^ keyword.operator.quantifier.regexp
-    b{3,} # this is comment
-//   ^^^^ keyword.operator.quantifier.regexp
-//        ^^^^^^^^^^^^^^^^^ comment.regexp
-    c{3,6}
+    c{3,6}#this is comment/ux';
 //   ^^^^^ keyword.operator.quantifier.regexp
+//        ^^^^^^^^^^^^^^^^ comment.regexp
+//                        ^^^ - comment.regexp
+//                         ^^ meta.regex.modifier
+
+$regex = '/
+    c{3,6}#this is com/ment/ux';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.regexp
+
+$regex = '/
+    a{,6}
 /ux';
+// <- meta.string.php string.quoted.single punctuation.definition.string.regex-delimiter.end
+ // <- meta.string string.quoted.single meta.regex.modifier
+//^ meta.string string.quoted.single meta.regex.modifier
+// ^ meta.string string.quoted.single punctuation.definition.string.end
 
 $regex = '/foo?/ux';
 //            ^ keyword.operator.quantifier.regexp
@@ -5122,6 +5151,9 @@ $not_regex = 'foo?';
 
 $not_regex = '/foo?';
 //                ^ string - source.regexp
+
+$not_regex = '/foo/bar/'; // unescaped "/"
+//           ^^^^^^^^^^^ string - source.regexp
 
 // there is no "T" regex modifier
 $not_regex = '/foo?/uTx';
@@ -5909,6 +5941,28 @@ function embedHtml() {
 //  ^^ punctuation.section.embedded.end.php - source.php
 </script>
 
+ <script type="application/ld+json">
+     {
+         <? $key ?>: <? $SiteColor ?>,
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+     |   ^^^^^^^^^^ meta.mapping.json meta.interpolation.php
+     |             ^^ meta.mapping.json - meta.interpolation
+     |               ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.php
+     |                               ^ meta.mapping.json - meta.interpolation
+
+         "<? $key ?>": "<? $SiteColor ?>",
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+     |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+     |    ^^^^^^^^^^ meta.mapping.key.json meta.interpolation.php - string
+     |              ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+     |               ^^ meta.mapping.json - meta.interpolation
+     |                 ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+     |                  ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.php - string
+     |                                  ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+     |                                   ^ meta.mapping.json - meta.interpolation
+     }
+ </script>
+
 <style>
 h1 {
     font-family: Arial;
@@ -6043,6 +6097,42 @@ h1 {
 //       ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
 //                 ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.embedded.php - string
 //                           ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+
+  <<?php $tag ?> <?php $attr ?>=<?php $value ?> />
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php meta.tag.other.html
+//^ punctuation.definition.tag.begin.html
+// ^^^^^^^^^^^^^ entity.name.tag.other.html meta.embedded.php
+// ^^^^^ punctuation.section.embedded.begin.php
+//       ^^^^ variable.other.php
+//            ^^ punctuation.section.embedded.end.php
+//               ^^^^^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.php
+//               ^^^^^ punctuation.section.embedded.begin.php
+//                     ^^^^^ variable.other.php
+//                           ^^ punctuation.section.embedded.end.php
+//                             ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+//                              ^^^^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.php
+//                              ^^^^^ punctuation.section.embedded.begin.php
+//                                    ^^^^^^ variable.other.php
+//                                           ^^ punctuation.section.embedded.end.php
+//                                              ^^ punctuation.definition.tag.end.html
+
+  <<? $tag ?> <? $attr ?>=<? $value ?> />
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php meta.tag.other.html
+//^ punctuation.definition.tag.begin.html
+// ^^^^^^^^^^ entity.name.tag.other.html meta.embedded.php
+// ^^ punctuation.section.embedded.begin.php
+//    ^^^^ variable.other.php
+//         ^^ punctuation.section.embedded.end.php
+//            ^^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.php
+//            ^^ punctuation.section.embedded.begin.php
+//               ^^^^^ variable.other.php
+//                     ^^ punctuation.section.embedded.end.php
+//                       ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+//                        ^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.php
+//                        ^^ punctuation.section.embedded.begin.php
+//                           ^^^^^^ variable.other.php
+//                                  ^^ punctuation.section.embedded.end.php
+//                                     ^^ punctuation.definition.tag.end.html
 
   <?phpzzzz
 //^^ punctuation.section.embedded.begin.php

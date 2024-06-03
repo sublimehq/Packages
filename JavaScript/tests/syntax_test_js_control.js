@@ -157,6 +157,33 @@
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
+    for (a in b, c ? d: e, f(g())) {};
+//  ^^^^ meta.for - meta.group
+//      ^^^^^^^^^^^^^^^^^^^ meta.for meta.group - meta.function-call
+//                         ^^^^^^ meta.for meta.group meta.function-call
+//                               ^ meta.for meta.group - meta.function-call
+//                                ^ meta.for - meta.block - meta.group
+//                                 ^^ meta.for meta.block
+//  ^^^ keyword.control.loop.for
+//      ^ punctuation.section.group.begin
+//       ^ variable.other.readwrite
+//         ^^ keyword.operator.word
+//            ^ variable.other.readwrite
+//             ^ keyword.operator.comma
+//               ^ variable.other.readwrite
+//                 ^ keyword.operator.ternary
+//                   ^ variable.other.readwrite
+//                    ^ keyword.operator.ternary
+//                      ^ variable.other.readwrite
+//                       ^ keyword.operator.comma
+//                         ^ variable.function
+//                          ^ punctuation.section.group.begin
+//                           ^ variable.function
+//                            ^ punctuation.section.group.begin
+//                             ^^^ punctuation.section.group.end
+//                                 ^ punctuation.section.block.begin
+//                                  ^ punctuation.section.block.end
+
     for (x of list) {}
 //  ^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for

@@ -510,7 +510,7 @@ contexts:
     - include: immediately-pop
 
   cmd-declare-args:
-    - match: ([-+])(?:[aAgilnrtux]*[Ff][aAgilnrtux]*)
+    - match: ([-+])(?:[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*)
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -528,7 +528,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables
 
   cmd-declare-options:
-    - match: ([-+])(?:[aAgilnrtux]+|p)
+    - match: ([-+])(?:[aAgiIlnrtux]+|p)
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -803,6 +803,8 @@ contexts:
     - match: $\n?
       scope: invalid.illegal.unexpected-token.shell
       pop: 3
+    - match: (?=&&|\|\|)
+      pop: 1
 
   test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))

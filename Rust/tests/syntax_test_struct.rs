@@ -2,8 +2,8 @@
 
 struct BasicStruct(i32);
 // ^^^^^^^^^^^^^^^^^^^^ meta.struct
-// <- storage.type.struct
-//^^^^ storage.type.struct
+// <- keyword.declaration.struct
+//^^^^ keyword.declaration.struct
 //     ^^^^^^^^^^^ entity.name.struct
 //                ^ punctuation.section.group.begin
 //                 ^^^ storage.type
@@ -11,12 +11,12 @@ struct BasicStruct(i32);
 
 struct PrintableStruct(Box<i32>);
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
-// <- storage.type.struct
-//^^^^ storage.type.struct
+// <- keyword.declaration.struct
+//^^^^ keyword.declaration.struct
 //     ^^^^^^^^^^^^^^^ entity.name.struct
 //                    ^ punctuation.section.group.begin
-//                     ^^^^^^^^ meta.generic
 //                     ^^^ support.type
+//                        ^^^^^ meta.generic
 //                        ^ punctuation.definition.generic.begin
 //                         ^^^ storage.type
 //                            ^ punctuation.definition.generic.end
@@ -55,7 +55,7 @@ impl Point
 {
 // <- meta.impl meta.block punctuation.section.block.begin
     fn new(x: i32, y: i32) -> Point
-    // <- storage.type.function
+    // <- keyword.declaration.function
     // ^^^ entity.name.function
     {
     // <- meta.function meta.block
@@ -107,18 +107,18 @@ let mut j = BasicStruct(10);
 //                      ^^ constant.numeric.integer.decimal
 
 let p = Point {x: 10.0, y: 20.0};
-//      ^^^^^ storage.type.source
+//      ^^^^^ storage.type.rust
 //            ^^^^^^^^^^^^^^^^^^ meta.block
 //            ^ punctuation.section.block.begin
 //              ^ punctuation.separator
 //                ^^^^ constant.numeric.float
 //                             ^ punctuation.section.block.end
 let n = NothingInMe {};
-//      ^^^^^^^^^^^ storage.type.source
+//      ^^^^^^^^^^^ storage.type.rust
 //                  ^^ meta.block
 let tp = TuplePoint { 0: 10.0, 1: 20.0 };
 //                    ^constant.numeric.integer.decimal
 //                             ^ constant.numeric.integer.decimal
 let p = Point { x, y };
-//      ^^^^^ storage.type.source
+//      ^^^^^ storage.type.rust
 //            ^^^^^^^^ meta.block

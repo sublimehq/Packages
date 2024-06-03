@@ -280,6 +280,20 @@
 			"details": "Specifies <code>JSON with Comments</code> code highlighting"
 		},
 
+		// LaTeX
+		{
+			"trigger": "tex",
+			"annotation": "TeX",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TeX</code> code highlighting"
+		},
+		{
+			"trigger": "latex",
+			"annotation": "LaTeX",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>LaTeX</code> code highlighting"
+		},
+
 		// Lisp
 		{
 			"trigger": "lisp",
