@@ -2659,3 +2659,39 @@ WHEN NOT MATCHED AND @insert_if_missing = 1 THEN
     VALUES (@name, @now, @timeout);
 --  ^^^^^^ keyword.other.dml
 --         ^ meta.group.sql punctuation.section.group.begin.sql
+
+WITH XMLNAMESPACES ('uri' as ns1)
+SELECT ProductID as 'ns1:ProductID',
+       Name      as 'ns1:Name',
+       Color     as 'ns1:Color'
+FROM  Production.Product
+WHERE ProductID IN (316, 317)
+FOR XML RAW ('ns1:Prod'), ELEMENTS;
+
+WITH XMLNAMESPACES ('uri1' as ns1,
+-- ^ keyword.other.dml
+                    'uri2' as ns2,
+                    DEFAULT 'uri2')
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns
+--                  ^^^^^^^ variable.language
+--                          ^^^^^^ meta.string string.quoted.single
+--                                ^ punctuation.section.group.end
+--                                 ^ - meta.group.table-columns
+SELECT ProductID,
+      Name,
+      Color
+FROM Production.Product
+WHERE ProductID IN (316, 317)
+FOR XML RAW ('ns1:Product'), ROOT('ns2:root'), ELEMENTS;
+
+SELECT e.BusinessEntityID, e.NationalIDNumber, e.OrganizationNode, e.JobTitle,
+    X.Y.value('(BankName)[1]', 'VARCHAR(20)') as BankName,
+--  ^^^^^^^^^ meta.function-call variable.function
+--   ^ punctuation.accessor.dot
+--     ^ punctuation.accessor.dot
+    X.Y.value('(AnnualRevenue)[1]', 'VARCHAR(20)') as AnnualRevenue,
+    X.Y.value('(BusinessType)[1]', 'VARCHAR(256)') as BusinessType,
+    X.Y.value('(Specialty)[1]', 'VARCHAR(128)') as Specialty
+FROM HumanResources.Employee e
+CROSS APPLY e.emp_xml.nodes('EmployeeDetails/StoreDetail/Store') as X(Y)
+
