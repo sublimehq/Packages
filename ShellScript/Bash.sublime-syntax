@@ -928,7 +928,7 @@ contexts:
   cmd-basic:
     # basic user defined or external commands
     - match: '{{cmd_begin}}'
-      push: [cmd-args, cmd-basic-name]
+      push: [cmd-args, cmd-basic-name, maybe-tilde-expansion]
 
   cmd-basic-name:
     - clear_scopes: 1
@@ -1665,6 +1665,7 @@ contexts:
   expansions:
     - include: expansions-patterns
     - include: expansions-brace
+    - include: expansions-tilde
     - include: expansions-variables
     - include: expansions-job
 
@@ -1672,7 +1673,6 @@ contexts:
     - include: expansions-parameter
     - include: expansions-arithmetic
     - include: expansions-command
-    - include: expansions-tilde
 
   expansions-arithmetic:
     - match: (\$)(\(\()
@@ -2106,9 +2106,56 @@ contexts:
     - include: pattern-charsets
     - include: pattern-wildcards
 
+  maybe-tilde-interpolation:
+    - meta_include_prototype: false
+    # https://www.gnu.org/software/bash/manual/bash.html#Tilde-Expansion
+    - include: tilde-interpolation
+    - include: line-continuations
+    - include: immediately-pop
+
+  tilde-interpolation:
+    - match: \~
+      scope: variable.language.tilde.shell
+      set: tilde-interpolation-modifier
+
+  tilde-interpolation-modifier:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.tilde.shell
+    - include: tilde-expansion-modifier
+
+  maybe-tilde-expansion:
+    - include: tilde-expansion
+    - include: line-continuations
+    - include: immediately-pop
+
+  tilde-expansion:
+    - match: \~
+      scope: variable.language.tilde.shell
+      set: tilde-expansion-modifier
+
   expansions-tilde:
-    - match: '~'
-      scope: meta.interpolation.tilde.shell variable.language.tilde.shell
+    # https://www.gnu.org/software/bash/manual/bash.html#Tilde-Expansion
+    - match: \~
+      scope: variable.language.tilde.shell
+      push: tilde-expansion-modifier
+
+  tilde-expansion-modifier:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.tilde.shell
+    - match: (?:[-+]?\d+|[-+](?![^/{{metachar}}]))
+      scope: variable.language.tilde.shell
+      pop: 1
+    - match: ''
+      push: tilde-expansion-username
+
+  tilde-expansion-username:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.shell string.unquoted.username.shell
+    - include: line-continuations
+    - include: string-interpolations
+    - match: (?=[/{{metachar}}])
+      pop: 2
 
 ###[ SHELL PATTERN MATCHING ]##################################################
 
@@ -2435,19 +2482,23 @@ contexts:
 ###[ STRINGS ]#################################################################
 
   strings-unquoted:
-    - match: (?=[^{{metachar}}])
-      push: string-unquoted-body
+    - match: '{{nonposix_begin}}'
+      push:
+        - string-unquoted-body
+        - maybe-tilde-interpolation
 
   string-unquoted:
-    - match: (?=[^{{metachar}}])
-      set: string-unquoted-body
+    - match: '{{nonposix_begin}}'
+      set:
+        - string-unquoted-body
+        - maybe-tilde-interpolation
 
   string-unquoted-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.shell
     - include: string-unquoted-content
     - include: string-path-separators
-    - match: (?!{{cmd_literal_char}})
+    - match: '{{cmd_break}}'
       pop: 1
 
   string-unquoted-content:

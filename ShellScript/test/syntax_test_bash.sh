@@ -3526,6 +3526,137 @@ any --arg{1,2,3}={1,2,3}
 
 
 ###############################################################################
+# 3.5.2 Tilde Expansion                                                       #
+# https://www.gnu.org/software/bash/manual/bash.html#Tilde-Expansion          #
+###############################################################################
+
+: ~     # expand to $HOME
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^ - meta.interpolation
+
+: ~/    # expand to $HOME
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^ - meta.interpolation
+
+: ~+    # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~+/   # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~-    # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~-/   # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~0    # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~0/   # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~1    # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~1/   # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~+0   # equivalent to ~+
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~+0/  # equivalent to ~+
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~+1   # top of directory stack
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~+1/  # top of directory stack
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~fred/foo*  # The subdirectory foo of the home directory of the user fred
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^^^^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - variable
+#      ^^^^^ - meta.interpolation
+#          ^ constant.other.wildcard.asterisk.shell
+
+: ~fr\
+ed/foo*  # The subdirectory foo of the home directory of the user fred
+# <- meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - variable
+#^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - variable
+# ^^^^^ - meta.interpolation
+#     ^ constant.other.wildcard.asterisk.shell
+
+: ~${fred}/foo?bar
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell - variable meta.interpolation
+#  ^^^^^^^ meta.interpolation.tilde.shell meta.string.shell meta.interpolation.parameter.shell
+#         ^^^^^^^^ - meta.interpolation
+#  ^ punctuation.definition.variable.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#    ^^^^ variable.other.readwrite.shell
+#        ^ punctuation.section.interpolation.end.shell
+#             ^ constant.other.wildcard.questionmark.shell
+
+: ~f${re}d/foo?bar
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell - meta.interpolation meta.interpolation - string
+#  ^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - meta.interpolation meta.interpolation
+#   ^^^^^ meta.interpolation.tilde.shell meta.string.shell meta.interpolation.parameter.shell - string
+#        ^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - meta.interpolation meta.interpolation
+#         ^^^^^^^^ - meta.interpolation
+#   ^ punctuation.definition.variable.shell
+#    ^ punctuation.section.interpolation.begin.shell
+#     ^^ variable.other.readwrite.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+foo=~/~
+#   ^ variable.language.tilde.shell
+#     ^ - variable
+
+foo=~/~${bar}
+#   ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^^ meta.string.shell string.unquoted.shell - meta.interpolation
+#      ^^^^^^ meta.string.shell meta.interpolation.parameter.shell
+#            ^ - meta.string - meta.interpolation
+#   ^ variable.language.tilde.shell
+#    ^^ string.unquoted.shell
+#     ^ - variable
+#      ^ punctuation.definition.variable.shell
+#       ^ punctuation.section.interpolation.begin.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+foo=(~/~foo ~/~bar)
+#   ^^^^^^^^^^^^^^^ meta.sequence.shell
+#    ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#     ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+#           ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#            ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+
+cmd --foo=~/~bar
+#         ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#          ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+
+test $me -eq ~/~foo
+#            ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#             ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+
+~/.config/app
+# <- meta.function-call.identifier.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
+
+###############################################################################
 # 3.5.3 Shell Parameter Expansion                                             #
 # https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion#
 ###############################################################################
