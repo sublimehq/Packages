@@ -22,6 +22,10 @@
         {
             "cmd": ["cargo", "clean"],
             "name": "Clean"
-        }
+        },
+        {
+            "cmd": ["cargo", "clippy"],
+            "name": "Clippy"
+        },
     ]
 }
