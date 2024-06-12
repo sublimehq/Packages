@@ -114,8 +114,8 @@ contexts:
   statements:
     - include: comments
     - include: line-continuations
-    - include: operators
     - include: redirections
+    - include: operators
     - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
@@ -1195,26 +1195,29 @@ contexts:
         1: meta.file-descriptor.shell
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.process.shell
+        2: keyword.operator.assignment.redirection.shell
         3: meta.compound.shell
            punctuation.section.compound.begin.shell
-      push:
-        - meta_content_scope: meta.compound.shell
-        - match: \)
-          scope:
-            meta.compound.shell
-            punctuation.section.compound.end.shell
-          pop: 1
-        - include: statements
+      push: redirections-process-body
+
+  redirections-process-body:
+    - meta_scope: meta.redirection.shell
+    - meta_content_scope: meta.compound.shell
+    - match: \)
+      scope:
+        meta.compound.shell
+        punctuation.section.compound.end.shell
+      pop: 1
+    - include: statements
 
   redirections-output:
-    - match: (\d*)(>>!?|>&?|&>|&?>[|>])
+    - match: (\d*)(&>>?[|!]?|>>?&?[|!]?)
       captures:
         1: meta.file-descriptor.shell
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
-      push: redirections-post
+      push: redirection-descriptor
 
   redirections-input:
     - match: (\d*)(<&?)
@@ -1223,23 +1226,7 @@ contexts:
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
-      push: redirections-post
-
-  redirections-post:
-    - match: \s*(?:(\d+)|(-))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: punctuation.terminator.file-descriptor.shell
-      pop: 1
-    - match: \s*(?=\S)
-      set:
-        - match: '{{cmd_break}}'
-          pop: 1
-        - include: expansions-and-strings
-    - match: \s*
-      pop: 1
+      push: redirection-descriptor
 
   redirections-inout:
     - match: (\d*)(<>)
@@ -1248,6 +1235,28 @@ contexts:
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
+      push: redirection-descriptor
+
+  redirection-descriptor:
+    - meta_include_prototype: false
+    - meta_scope: meta.redirection.shell
+    - include: eoc-pop
+    - match: (?:(\d+)(-?)|(-)){{cmd_break}}
+      captures:
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
+        2: punctuation.terminator.file-descriptor.shell
+        3: punctuation.terminator.file-descriptor.shell
+      pop: 1
+    - match: (?=\S)
+      set:
+        - redirection-path
+        - maybe-tilde-interpolation
+
+  redirection-path:
+    - meta_scope: meta.redirection.shell meta.path.shell meta.string.shell string.unquoted.shell
+    - include: string-unquoted-body
 
   redirections-here-string:
     - match: (\d*)(<<<)\s*{{nonposix_begin}}

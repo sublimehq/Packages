@@ -8032,76 +8032,197 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 # https://www.gnu.org/software/bash/manual/bash.html#Redirections             #
 ###############################################################################
 
-function show_help() {
-    echo "Usage: imgcat [-p] filename ..." 1>& 2
-    #                                          ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-    echo "   or: cat filename | imgcat" 1>& 2
-    #                                       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-}
+  >
+# ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#  ^ - meta.redirection
+
+  >-
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ punctuation.terminator.file-descriptor.shell
+#   ^ - meta.redirection
+
+  >2
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ constant.numeric.value.shell
+#   ^ - meta.redirection
+
+  > out~put-
+# ^^ meta.redirection.shell - meta.path
+#   ^^^^^^^^ meta.redirection.shell meta.path.shell
+# ^ keyword.operator.assignment.redirection.shell
+#    ^ - variable
+#          ^ - punctuation
+
+  > ~/.local/file
+# ^^ meta.redirection.shell - meta.path
+#   ^ meta.redirection.shell meta.path.shell meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^^^^^^^^^^^^ meta.redirection.shell meta.path.shell meta.string.shell string.unquoted.shell - meta.interpolation
+# ^ keyword.operator.assignment.redirection.shell
+#   ^ variable.language.tilde.shell
+
+  > "~/.local/file"
+# ^^ meta.redirection.shell - meta.path
+#   ^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.shell string.quoted.double.shell
+# ^ keyword.operator.assignment.redirection.shell
+#   ^ punctuation.definition.string.begin.shell
+#    ^ - variable.language
+#                 ^ punctuation.definition.string.end.shell
+
+# Open file word for writing as standard output. If the file does not exist
+# then it is created.
+: > word >| word >! word
+# ^^^^^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#        ^^^^^^^ meta.redirection.shell
+#        ^^ keyword.operator.assignment.redirection.shell
+#                ^^^^^^^ meta.redirection.shell
+#                ^^ keyword.operator.assignment.redirection.shell
+
+# Open file word for writing in append mode as standard output. If the file
+# does not exist, and the CLOBBER and APPEND_CREATE options are both unset,
+# this causes an error; otherwise, the file is created.
+: >> word  >>| word >>! word
+# ^^^^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^ meta.redirection.shell
+#          ^^^ keyword.operator.assignment.redirection.shell
+#                   ^^^^^^^^ meta.redirection.shell
+#                   ^^^ keyword.operator.assignment.redirection.shell
+
+# Redirects both standard output and standard error (file descriptor 2) in the
+# manner of ‘>| word’.
+: >&| word >&! word &>| word &>! word
+# ^^^^^^^^ meta.redirection.shell
+# ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^ meta.redirection.shell
+#          ^^^ keyword.operator.assignment.redirection.shell
+#                   ^^^^^^^^ meta.redirection.shell
+#                   ^^^ keyword.operator.assignment.redirection.shell
+#                            ^^^^^^^^ meta.redirection.shell
+#                            ^^^ keyword.operator.assignment.redirection.shell
+
+# Redirects both standard output and standard error (file descriptor 2) in the
+# manner of ‘>> word’.
+: >>& word &>> word
+# ^^^^^^^^ meta.redirection.shell
+# ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^ meta.redirection.shell
+#          ^^^ keyword.operator.assignment.redirection.shell
+
+# Redirects both standard output and standard error (file descriptor 2) in the
+# manner of ‘>>| word’.
+: >>&| word >>&! word &>>| word &>>! word
+# ^^^^^^^^^ meta.redirection.shell
+# ^^^^ keyword.operator.assignment.redirection.shell
+#           ^^^^^^^^^ meta.redirection.shell
+#           ^^^^ keyword.operator.assignment.redirection.shell
+#                     ^^^^^^^^^ meta.redirection.shell
+#                     ^^^^ keyword.operator.assignment.redirection.shell
+#                               ^^^^^^^^^ meta.redirection.shell
+#                               ^^^^ keyword.operator.assignment.redirection.shell
 
 foo 2>&1
+#   ^^^^ meta.redirection.shell
 #   ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^^ meta.function-call.arguments keyword.operator.assignment.redirection
 #      ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
 foo 2>&-
-#      ^ punctuation.terminator
+#   ^^^^ meta.redirection.shell
+#      ^ punctuation.terminator.file-descriptor.shell
+
 foo | bar 2>&1
+#         ^^^^ meta.redirection.shell
 #         ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^^ meta.function-call.arguments keyword.operator.assignment.redirection
 #            ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
 foo | bar --opt1 arg1 < file.txt
-#                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
+#        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                     ^^ meta.redirection.shell - meta.path
+#                     ^ keyword.operator.assignment.redirection.shell
+#                       ^^^^^^^^ meta.redirection.shell meta.path.shell
+
 foo | bar --opt1 arg1 > file.txt
-#                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
+#        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                     ^^ meta.redirection.shell - meta.path
+#                     ^ keyword.operator.assignment.redirection.shell
+#                       ^^^^^^^^ meta.redirection.shell meta.path.shell
+
 foo -x arg1 &>/dev/null
-#           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+#  ^^^^^^^^^ meta.function-call.arguments.shell - meta.redirection
+#           ^^ meta.function-call.arguments.shell meta.redirection.shell - meta.path
+#           ^^ keyword.operator.assignment.redirection.shell
+#             ^^^^^^^^^ meta.function-call.arguments.shell meta.redirection.shell meta.path.shell
+
 foo -x arg1 &> /dev/null
-#           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+#  ^^^^^^^^^ meta.function-call.arguments.shell - meta.redirection
+#           ^^^ meta.function-call.arguments.shell meta.redirection.shell - meta.path
+#           ^^ keyword.operator.assignment.redirection.shell
+#              ^^^^^^^^^ meta.function-call.arguments.shell meta.redirection.shell meta.path.shell
+#                       ^ - meta.function
+
 tr "o" "a" < <(echo "Foo")
-#          ^ keyword.operator.assignment.redirection - keyword.operator.assignment.redirection.process
-#            ^ keyword.operator.assignment.redirection.process
-#             ^ punctuation
-#                 ^ support.function
-#                        ^ punctuation
+#  ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#          ^ keyword.operator.assignment.redirection.shell
+#            ^ keyword.operator.assignment.redirection.shell
+#             ^ punctuation.section.compound.begin.shell
+#                        ^ punctuation.section.compound.end.shell
+
 wc <(cat /usr/share/dict/linux.words)
-#  ^ keyword.operator.assignment.redirection.process
-#   ^ punctuation
-#      ^ variable.function
-#        ^ meta.function-call.arguments meta.function-call.arguments
-#                                  ^ meta.function-call.arguments meta.function-call.arguments
-#                                   ^ punctuation
+# ^ meta.function-call.arguments.shell - meta.redirection
+#  ^ meta.function-call.arguments.shell meta.redirection.shell - meta.compound
+#   ^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell - meta.function-call meta.function-call
+#    ^^^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell meta.function-call.identifier.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell meta.function-call.arguments.shell
+#                                   ^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell - meta.function-call meta.function-call
+#  ^ keyword.operator.assignment.redirection.shell
+#   ^ punctuation.section.compound.begin.shell
+#    ^^^ variable.function.shell
+#                                   ^ punctuation.section.compound.end.shell
+
 comm <(ls -l) <(ls -al)
-#     ^^^^^^^ meta.compound.shell
-#            ^^ - meta.compound
-#              ^^^^^^^^ meta.compound.shell
-#                      ^ - meta.compound
-#    ^ keyword.operator.assignment.redirection.process.shell
+#    ^ meta.redirection.shell - meta.compound
+#     ^^^^^^^ meta.redirection.shell meta.compound.shell
+#            ^ - meta.redirection - meta.compound
+#             ^ meta.redirection.shell - meta.compound
+#              ^^^^^^^^ meta.redirection.shell meta.compound.shell
+#                      ^ - meta.redirection - meta.compound
+#    ^ keyword.operator.assignment.redirection.shell
 #     ^ punctuation.section.compound.begin.shell
-#         ^^ variable.parameter
+#      ^^ variable.function.shell
+#         ^^ variable.parameter.option.shell
 #           ^ punctuation.section.compound.end.shell
-#             ^ keyword.operator.assignment.redirection.process.shell
+#             ^ keyword.operator.assignment.redirection.shell
 #              ^ punctuation.section.compound.begin.shell
-#                ^ variable.function
-#                  ^^^ variable.parameter
+#               ^^ variable.function.shell
+#                  ^^^ variable.parameter.option.shell
 #                     ^ punctuation.section.compound.end.shell
+
 gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
 #    ^ keyword.operator.assignment.pipe.shell
-#          ^ keyword.operator.assignment.redirection.process
-#           ^ punctuation
+#          ^ keyword.operator.assignment.redirection.shell
+#           ^ punctuation.section.compound.begin.shell
 #                     ^ keyword.operator.assignment.pipe.shell
-#                                             ^ keyword.operator.assignment.redirection
-#                                                           ^ punctuation
-#                                                             ^ keyword.operator.assignment.redirection
+#                                             ^ keyword.operator.assignment.redirection.shell
+#                                                           ^ punctuation.section.compound.end.shell
+#                                                             ^ keyword.operator.assignment.redirection.shell
+
 LC_ALL=C 2> /dev/null
+#        ^^^ meta.redirection.shell - meta.path
 #        ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ keyword.operator.assignment.redirection
-#           ^ - variable.function
+#           ^^^^^^^^^ meta.redirection.shell meta.path.shell - variable
+
 2>&1 echo foo
 # <- meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #^^ keyword.operator.assignment.redirection
 #  ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^^^^ meta.function-call support.function.echo
 #        ^^^^ meta.function-call.arguments
+
 touch file.txt
 foo=x <file.txt
 #     ^ keyword.operator.assignment.redirection
