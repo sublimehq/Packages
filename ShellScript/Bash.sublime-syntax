@@ -252,7 +252,8 @@ contexts:
   def-functions-name-chars:
     - match: '{{cmd_literal_char}}+'
       scope: entity.name.function.shell
-    - include: entity-function-expansions
+    - include: expansions-variables
+    - include: line-continuations
     - include: immediately-pop
 
   def-functions-params:
@@ -445,7 +446,8 @@ contexts:
     - meta_scope: meta.variable.shell
     - match: '{{opt_literal_char}}+'
       scope: entity.name.function.shell
-    - include: entity-function-expansions
+    - include: expansions-variables
+    - include: line-continuations
     - include: immediately-pop
 
 ###[ ARITHMETIC BUILTINS ]#####################################################
@@ -1601,35 +1603,6 @@ contexts:
       scope: punctuation.terminator.statement.shell
 
 ###[ IDENTIFIER EXPANSIONS AND QUOTES ]########################################
-
-  entity-function-expansions:
-    - include: line-continuations
-    - include: any-escapes
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-quoted-single-body
-    - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-quoted-double-body
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-ansi-c-body
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-quoted-double-body
-    - include: expansions-variables
 
   variable-function-expansions:
     - include: line-continuations

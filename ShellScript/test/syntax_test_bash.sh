@@ -2596,15 +2596,15 @@ function =foo () {
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
-function fo${bar}'baz' () {}
+function fo${bar}baz () {}
 #       ^^^ meta.function.identifier.shell - meta.interpolation - meta.string
 #          ^^^^^^ meta.function.identifier.shell meta.interpolation.parameter.shell - meta.string
-#                ^^^^^ meta.function.identifier.shell meta.string.shell - meta.interpolation
-#                      ^^ meta.function.parameters.shell
-#                        ^^^ meta.function.shell
+#                ^^^ meta.function.identifier.shell - meta.interpolation
+#                    ^^ meta.function.parameters.shell
+#                      ^^^ meta.function.shell
 #        ^^ entity.name.function.shell
 #          ^^^^^^ - entity.name
-#                ^^^^^ entity.name.function.shell
+#                ^^^ entity.name.function.shell
 
 # Functions may replace booleans. Won't respect that in function calls though.
 function true () {} ; function false () {}
@@ -8581,17 +8581,6 @@ alias foo=bar
 #        ^ keyword.operator.assignment.shell
 #         ^^^ meta.string.shell string.unquoted.shell
 
-alias f'o'o=bar
-# <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell
-#    ^^^^^^^^^^ meta.declaration.alias.arguments.shell
-#              ^ - meta.declaration.alias
-#     ^^^^^ meta.variable.shell entity.name.function.shell
-#      ^ punctuation.definition.string.begin.shell
-#        ^ punctuation.definition.string.end.shell
-#          ^ keyword.operator.assignment.shell
-#           ^^^ meta.string.shell string.unquoted.shell
-
 alias -p foo=bar 7za=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
 #^^^^ meta.declaration.alias.shell
@@ -9518,21 +9507,6 @@ unalias foo # comment
 #       ^^^ entity.name.function.shell
 #          ^ - meta.variable - variable
 #           ^^^^^^^^^^ comment.line.number-sign.shell
-
-unalias foo b"a"r b'a'z 7za
-# <- meta.function-call.identifier.shell support.function.unalias.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
-#      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                          ^ - meta.function
-#      ^ - meta.variable - variable
-#       ^^^ entity.name.function.shell
-#          ^ - meta.variable - variable
-#           ^^^^^ entity.name.function.shell
-#                ^ - meta.variable - variable
-#                 ^^^^^ entity.name.function.shell
-#                      ^ - meta.variable - variable
-#                       ^^^ entity.name.function.shell
-#                          ^ - meta.variable - variable
 
 
 ###############################################################################
