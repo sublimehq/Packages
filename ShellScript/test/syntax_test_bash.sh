@@ -2930,32 +2930,50 @@ array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
 #^^^^^ - meta.sequence
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
 #                                                         ^ - meta.sequence
+#      ^^^^^ meta.mapping.key.shell
+#           ^ meta.mapping.shell
+#            ^ meta.mapping.value.shell
+#              ^^^^^^^ meta.mapping.key.shell
+#                     ^ meta.mapping.shell
+#                      ^^^^^^ meta.mapping.value.shell
+#                             ^^^^^ meta.mapping.key.shell
+#                                  ^ meta.mapping.shell
+#                                   ^^^ meta.mapping.value.shell
+#                                       ^^^^^^ meta.mapping.key.shell
+#                                             ^ meta.mapping.shell
+#                                              ^ meta.mapping.value.shell
+#                                                ^^^^^ meta.mapping.key.shell
+#                                                     ^ meta.mapping.shell
+#                                                      ^^ meta.mapping.value.shell
 #    ^ keyword.operator.assignment.shell
 #     ^ punctuation.section.sequence.begin.shell
-#      ^ punctuation.section.brackets.begin.shell
-#          ^ punctuation.section.brackets.end.shell
+#      ^ punctuation.definition.key.begin.shell
+#       ^^^ entity.name.key.shell
+#          ^ punctuation.definition.key.end.shell
 #           ^ keyword.operator.assignment.shell
-#            ^ string.unquoted.shell - keyword
-#              ^ punctuation.section.brackets.begin.shell
-#               ^^^^^ string.quoted.double.shell
-#                    ^ punctuation.section.brackets.end.shell
+#            ^ meta.string.shell string.unquoted.shell - keyword
+#              ^ punctuation.definition.key.begin.shell
+#               ^^^^^ entity.name.key.shell
+#               ^ punctuation.definition.quoted.begin.shell
+#                   ^ punctuation.definition.quoted.end.shell
+#                    ^ punctuation.definition.key.end.shell
 #                     ^ keyword.operator.assignment.shell
 #                      ^^^^^^ string.quoted.single.shell
-#                             ^ punctuation.section.brackets.begin.shell
-#                              ^ - constant
-#                               ^ - keyword
-#                                ^ - constant
-#                                 ^ punctuation.section.brackets.end.shell
+#                             ^ punctuation.definition.key.begin.shell
+#                              ^^^ entity.name.key.shell - constant - keyword
+#                                 ^ punctuation.definition.key.end.shell
 #                                  ^ keyword.operator.assignment.shell
-#                                   ^^^ string.unquoted.shell
-#                                       ^ punctuation.section.brackets.begin.shell
-#                                            ^ punctuation.section.brackets.end.shell
+#                                   ^^^ meta.string.shell string.unquoted.shell
+#                                       ^ punctuation.definition.key.begin.shell
+#                                        ^^^^ entity.name.key.shell
+#                                            ^ punctuation.definition.key.end.shell
 #                                             ^ keyword.operator.assignment.shell
 #                                              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                                                ^ punctuation.section.brackets.begin.shell
-#                                                    ^ punctuation.section.brackets.end.shell
+#                                                ^ punctuation.definition.key.begin.shell
+#                                                 ^^^ entity.name.key.shell
+#                                                    ^ punctuation.definition.key.end.shell
 #                                                     ^ keyword.operator.assignment.shell
-#                                                      ^^ string.unquoted.shell
+#                                                      ^^ meta.string.shell string.unquoted.shell
 #                                                        ^ punctuation.section.sequence.end.shell
 
 declare -a array
@@ -2967,13 +2985,6 @@ array[500]=value
 #        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.assignment
 #          ^^^^^ meta.string.shell string.unquoted.shell
-echo ${array[@]}
-#    ^^^^^^^^^^^ meta.interpolation.parameter.shell
-#      ^^^^^ variable.other.readwrite.shell
-#           ^^^ meta.item-access.shell - variable.other
-#           ^ punctuation.section.item-access.begin.shell
-#            ^ variable.language.shell
-#             ^ punctuation.section.item-access.end.shell
 
 array["foo"]=bar
 #^^^^ meta.variable.shell variable.other.readwrite.shell
@@ -4011,19 +4022,59 @@ foo}
 # null otherwise. When ‘@’ is used and the expansion appears within double
 # quotes, each key expands to a separate word.
 
-: ${!prefix[*]}
+: ${!prefix[*]} ${!array[ *]} ${!array[* ]}
 # ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ keyword.operator.expansion.indirection.shell
 #           ^ variable.language.shell
 #             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.indirection.shell
+#                  ^^^^^ variable.other.readwrite.shell
+#                       ^^^^ meta.item-access.shell - variable.other
+#                       ^ punctuation.section.item-access.begin.shell
+#                         ^ - variable.language
+#                          ^ punctuation.section.item-access.end.shell
+#                           ^ punctuation.section.interpolation.end.shell
+#                             ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#                             ^ punctuation.definition.variable.shell
+#                              ^ punctuation.section.interpolation.begin.shell
+#                               ^ keyword.operator.expansion.indirection.shell
+#                                ^^^^^ variable.other.readwrite.shell
+#                                     ^^^^ meta.item-access.shell - variable.other
+#                                     ^ punctuation.section.item-access.begin.shell
+#                                       ^ - variable.language
+#                                        ^ punctuation.section.item-access.end.shell
+#                                         ^ punctuation.section.interpolation.end.shell
 
-: ${!prefix[@]}
+: ${!prefix[@]} ${!array[ @]} ${!array[@ ]}
 # ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ keyword.operator.expansion.indirection.shell
 #           ^ variable.language.shell
 #             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.indirection.shell
+#                  ^^^^^ variable.other.readwrite.shell
+#                       ^^^^ meta.item-access.shell - variable.other
+#                       ^ punctuation.section.item-access.begin.shell
+#                         ^ - variable.language
+#                          ^ punctuation.section.item-access.end.shell
+#                           ^ punctuation.section.interpolation.end.shell
+#                             ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#                             ^ punctuation.definition.variable.shell
+#                              ^ punctuation.section.interpolation.begin.shell
+#                               ^ keyword.operator.expansion.indirection.shell
+#                                ^^^^^ variable.other.readwrite.shell
+#                                     ^^^^ meta.item-access.shell - variable.other
+#                                     ^ punctuation.section.item-access.begin.shell
+#                                       ^ - variable.language
+#                                        ^ punctuation.section.item-access.end.shell
+#                                         ^ punctuation.section.interpolation.end.shell
 
 ################################
 
@@ -8693,17 +8744,15 @@ declare -a owners=(
     # dogs
 #   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell comment.line.number-sign.shell
     [susan]=labrador
-#   ^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell
-#   ^^^^^^^ meta.brackets.shell
-#          ^ keyword.operator.assignment.shell
-#           ^^^^^^^^ meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.mapping.key.shell
+#          ^ meta.declaration.variable.arguments.shell meta.sequence.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.string.shell string.unquoted.shell
     # cats
 #   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell comment.line.number-sign.shell
     [terry]=tabby
-#   ^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell
-#   ^^^^^^^ meta.brackets.shell
-#          ^ keyword.operator.assignment.shell
-#           ^^^^^ meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.mapping.key.shell
+#          ^ meta.declaration.variable.arguments.shell meta.sequence.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.string.shell string.unquoted.shell
 )
 
 declare -f _init_completion > /dev/null && complete -F _upto upto

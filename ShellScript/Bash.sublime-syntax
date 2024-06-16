@@ -307,12 +307,12 @@ contexts:
     - match: '{{is_variable}}'
       push:
         - variable-value-assignment
-        - variable-item-access
+        - variable-subscription
         - variable-other-chars
 
   variables:
     - match: (?={{identifier_first_char}})
-      push: [variable-item-access, variable-other-chars]
+      push: [variable-subscription, variable-other-chars]
 
   variable-other-chars:
     - match: '{{identifier_char}}+'
@@ -320,11 +320,32 @@ contexts:
     - include: variable-other-expansions
     - include: immediately-pop
 
-  variable-item-access:
+  variable-subscription:
     - meta_scope: meta.variable.shell
-    - include: arrays-item-access
+    - include: variable-subscriptions
     - include: line-continuations
     - include: immediately-pop
+
+  variable-subscriptions:
+    - match: (\[)([*@])(\])
+      scope: meta.item-access.shell
+      captures:
+        1: punctuation.section.item-access.begin.shell
+        2: variable.language.shell
+        3: punctuation.section.item-access.end.shell
+    - match: \[
+      scope: punctuation.section.item-access.begin.shell
+      push: variable-subscription-body
+
+  variable-subscription-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.item-access.shell
+    - meta_content_scope: meta.string.shell string.unquoted.shell
+    - match: \]
+      scope: punctuation.section.item-access.end.shell
+      pop: 1
+    - include: eoc-pop
+    - include: string-unquoted-content
 
   variable-value-assignment:
     - match: '{{varassign}}'
@@ -336,27 +357,48 @@ contexts:
   variable-value:
     - match: \(
       scope: punctuation.section.sequence.begin.shell
-      set:
-        - meta_scope: meta.sequence.shell
-        - match: \)
-          scope: punctuation.section.sequence.end.shell
-          pop: 1
-        - match: \[
-          scope: punctuation.section.brackets.begin.shell
-          push:
-            - meta_scope: meta.brackets.shell
-            - match: \]
-              scope: punctuation.section.brackets.end.shell
-              set: variable-value-assignment
-            - include: expansions-and-strings
-            - include: comments
-        - include: comments
-        - match: (?=\S)
-          push: variable-value
+      set: variable-value-list-body
     - include: line-continuations
     - include: boolean
     - include: number
     - include: string-unquoted
+    - include: immediately-pop
+
+  variable-value-list-body:
+    - meta_scope: meta.sequence.shell
+    - match: \)
+      scope: punctuation.section.sequence.end.shell
+      pop: 1
+    - match: \[
+      scope: punctuation.definition.key.begin.shell
+      push: variable-mapping-key-body
+    - include: comments
+    - match: (?=\S)
+      push: variable-value
+
+  variable-mapping-key-body:
+    - meta_scope: meta.mapping.key.shell
+    - meta_content_scope: entity.name.key.shell
+    - match: \]
+      scope: punctuation.definition.key.end.shell
+      set: variable-mapping-value-assignment
+    - include: eoc-pop
+    - include: expansions-variables
+    - include: pattern-literals
+
+  variable-mapping-value-assignment:
+    - meta_content_scope: meta.mapping.shell
+    - match: '{{varassign}}'
+      scope: meta.mapping.shell keyword.operator.assignment.shell
+      set:
+        - variable-mapping-meta
+        - variable-value
+    - include: line-continuations
+    - include: immediately-pop
+
+  variable-mapping-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.value.shell
     - include: immediately-pop
 
 ###[ ALIAS BUILTINS ]##########################################################
@@ -1426,33 +1468,6 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
-  arrays-item-access:
-    - match: \[
-      scope: punctuation.section.item-access.begin.shell
-      push:
-        - array-item-access-end
-        - array-item-access-begin
-
-  array-item-access-end:
-    - meta_scope: meta.item-access.shell
-    - match: \]
-      scope: punctuation.section.item-access.end.shell
-      pop: 1
-
-  array-item-access-begin:
-    - match: '[*@]'
-      scope: variable.language.shell
-      pop: 1
-    - match: ''
-      set: array-key-body
-
-  array-key-body:
-    - meta_content_scope: meta.string.shell string.unquoted.shell
-    - match: \]
-      scope: punctuation.section.item-access.end.shell
-      pop: 2
-    - include: string-unquoted-body
-
   expressions:
     - match: \(
       scope: punctuation.section.group.begin.shell
@@ -2053,7 +2068,7 @@ contexts:
       set:
         - expansion-parameter-pattern
         - maybe-tilde-expansion
-    - include: arrays-item-access
+    - include: variable-subscriptions
 
   expansion-parameter-substr-start:
     - match: ':'
