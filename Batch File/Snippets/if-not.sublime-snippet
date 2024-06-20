@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>ifn</tabTrigger>
+	<description>if not "…" == "…" (…)</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[if not "${1:string}" == "${2:string}" (${0:%= code =%})]]></content>
+</snippet>

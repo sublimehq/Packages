@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>ifnd</tabTrigger>
+	<description>if not defined … (…)</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[if not defined ${1:var} (${0:%= code =%})]]></content>
+</snippet>

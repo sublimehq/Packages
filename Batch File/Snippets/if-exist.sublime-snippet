@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>ife</tabTrigger>
+	<description>if exist … (…)</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[if exist "${1:file}" (${0:%= code =%})]]></content>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>go</tabTrigger>
+	<description>goto …</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[goto :${0:EOF}]]></content>
+</snippet>

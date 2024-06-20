@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>sld</tabTrigger>
+	<description>setlocal DisableDelayedExpansion</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[setlocal DisableDelayedExpansion EnableExtensions]]></content>
+</snippet>
