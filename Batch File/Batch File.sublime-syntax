@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # https://www.sublimetext.com/docs/syntax.html
+# https://stackoverflow.com/questions/4094699/how-does-the-windows-command-interpreter-cmd-exe-parse-scripts/4095133#4095133
 name: Batch File
 scope: source.dosbatch
 version: 2
@@ -836,7 +837,19 @@ contexts:
     - include: cmd-arg-help
     - include: unquoted-eol-pop
     - match: (?=\S)
-      set: cmd-rem-comment-body
+      set:
+        - cmd-rem-comment-body
+        - cmd-rem-comment-begin
+
+  cmd-rem-comment-begin:
+    # In REM comments only the first continuation directly following
+    # the first token is taken into account.
+    - meta_include_prototype: false
+    - match: \^\n
+      scope: punctuation.separator.continuation.line.dosbatch
+      set: line-continuation-body
+    - match: (?={{metachar}})
+      pop: 1
 
   cmd-rem-comment-body:
     - meta_include_prototype: false
@@ -1967,8 +1980,7 @@ contexts:
 ###[ PROTOTYPES ]#############################################################
 
   bol-pop:
-    # Note: empty lines are ignored
-    - match: ^(?!$)
+    - match: ^
       pop: 1
 
   else-pop:
@@ -1983,7 +1995,14 @@ contexts:
   line-continuations:
     - match: \^\n
       scope: punctuation.separator.continuation.line.dosbatch
-      push: bol-pop
+      push: line-continuation-body
+
+  line-continuation-body:
+    # The first linefeed diretly following a continuation is treated literal.
+    # Note: Must consume \n to work.
+    - match: ^\n
+      set: bol-pop
+    - include: bol-pop
 
   eoc-pop:
     # Note: An end of command appears in unquoted regions only!

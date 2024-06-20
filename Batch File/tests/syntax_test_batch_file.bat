@@ -47,6 +47,11 @@
    not a comment
 :: ^^^^^^^^^^^^^^ - comment
 
+   REM ^
+   Line^
+   continuation after first token
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
 REM
    not a comment
 :: ^^^^^^^^^^^^^^ - comment
@@ -58,6 +63,31 @@ REM This follows a REM command
 REM This & and | echo "is commented out" ^
 :: <- keyword.declaration.rem.dosbatch
 ::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
+REM Line^
+continuation
+:: <- meta.command.rem.dosbatch comment.line.rem.dosbatch
+:: ^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
+REM Line^
+
+continuation
+:: <- meta.command.rem.dosbatch comment.line.rem.dosbatch
+:: ^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
+REM Line^
+
+continuation^
+not a comment
+:: <- - comment
+:: ^^^^^^^^^^ - comment
+
+REM Line^
+
+
+not a comment
+:: <- - comment
+:: ^^^^^^^ - comment
 
 REM No line ^
 continuation
@@ -480,6 +510,22 @@ ECHO : Not a comment ^
 ::     ^ - meta.function-call
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
+
+   CALL ^
+
+   :EOF
+:: ^^^^ meta.function-call.identifier.dosbatch
+::     ^ - meta.function-call
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^^^ variable.label.dosbatch - keyword
+
+   CALL ^
+
+
+   :EOF
+:: ^^^^ - meta.function-call
+:: ^ punctuation.definition.label.dosbatch
+:: ^^^^ entity.name.label.dosbatch
 
    CALL :foo 10 %1
 ::^ - meta.function-call
