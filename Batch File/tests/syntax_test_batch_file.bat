@@ -81,40 +81,40 @@ continuation
 :: ^^^^^^^^^^^^^^^^ - comment
 
    :+ Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :+
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
 
    := Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :=
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
 
    :, Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :,
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
 
    :; Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :;
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
 
    : Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :
    Not me, though.
@@ -163,20 +163,20 @@ continuation
 :: ^^^^^^^^ comment.line.colon.dosbatch
 
    :> ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :< ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :& ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :| ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
+:: ^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
 ECHO &&:: A comment
 ::   ^^ keyword.operator.logical.dosbatch
