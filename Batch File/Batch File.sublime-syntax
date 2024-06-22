@@ -1550,7 +1550,7 @@ contexts:
       scope: punctuation.separator.semicolon.dosbatch
 
   invalid-operators:
-    - match: '{{redir_or_eoc_char}}'
+    - match: '[|&<>]+'
       scope: invalid.illegal.operator.dosbatch
 
 ###[ CONSTANTS ]##############################################################

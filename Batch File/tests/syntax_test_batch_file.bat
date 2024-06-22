@@ -1622,12 +1622,16 @@ is a #@$虎" strange label
    IN ^
    (
 :: ^ punctuation.section.set.begin.dosbatch
+::  ^ - invalid
       folder1,
 ::           ^ punctuation.separator.comma.dosbatch
+::            ^ - invalid
       ..\folder2,
 ::    ^^ constant.other.path.parent.dosbatch
 ::              ^ punctuation.separator.comma.dosbatch
+::               ^ - invalid
       C:\folder
+::             ^ - invalid
    ) ^
    DO command
 :: ^^ keyword.control.loop.do.dosbatch
