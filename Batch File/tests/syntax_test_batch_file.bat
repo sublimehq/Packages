@@ -38,13 +38,18 @@
 :: ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
    REM ^
+
+   I'm a (com|ment)
+:: ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+
+   REM ^
    I'm a (com|ment) ^
    not a comment
-:: ^^^^^^^^^^^^^ - comment
+:: ^^^^^^^^^^^^^^ - comment
 
 REM
    not a comment
-:: ^^^^^^^^^^^^^ - comment
+:: ^^^^^^^^^^^^^^ - comment
 
 REM This follows a REM command
 :: <- keyword.declaration.rem.dosbatch - comment
@@ -52,48 +57,110 @@ REM This follows a REM command
 
 REM This & and | echo "is commented out" ^
 :: <- keyword.declaration.rem.dosbatch
-::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
 
 REM No line ^
 continuation
 :: <- - comment
-:: ^^^^^^^^^ - comment
+:: ^^^^^^^^^^ - comment
 
    ::: Me too!
 :: ^^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :::
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   ::
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    :+ Me too!
 :: ^^ punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :+
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    := Me too!
 :: ^^ punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :=
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    :, Me too!
 :: ^^ punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :,
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    :; Me too!
 :: ^^ punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :;
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    : Me too!
 :: ^^ punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
+
+   :::^
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+   :::^
+
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+   ::: ^
+   A continued comment.^
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
 
    ::^
    Me too!
-:: ^^^^^^^ comment.line.colon.dosbatch
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+   ::^
+
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+   :: ^
+   A continued comment.^
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
 
    : ^
    Me too!
-:: ^^^^^^^ comment.line.colon.dosbatch
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+   : ^
+
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
 
    : ^
    A continued comment.^
    Me too!
-:: ^^^^^^^ comment.line.colon.dosbatch
+:: ^^^^^^^^ comment.line.colon.dosbatch
 
    :> ignored content ( & | )
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
@@ -114,30 +181,30 @@ continuation
 ECHO &&:: A comment
 ::   ^^ keyword.operator.logical.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch
-::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
+::     ^^^^^^^^^^^^^ comment.line.colon.dosbatch
 
 ECHO &:: A comment
 ::   ^ keyword.operator.logical.dosbatch
 ::    ^^ punctuation.definition.comment.dosbatch
-::    ^^^^^^^^^^^^ comment.line.colon.dosbatch
+::    ^^^^^^^^^^^^^ comment.line.colon.dosbatch
 
 ECHO ||:: A comment
 ::   ^^ keyword.operator.logical.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch
-::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
+::     ^^^^^^^^^^^^^ comment.line.colon.dosbatch
 
 ECHO |:: Not a comment
 ::   ^ keyword.operator.assignment.pipe.dosbatch
 ::    ^^^^^^^^^^^^^^^^ invalid.illegal.unexpected.dosbatch
 
 ECHO : Not a comment ^
-::   ^^^^^^^^^^^^^^^ - comment
+::   ^^^^^^^^^^^^^^^^^^ - comment
 ::                   ^^ punctuation.separator.continuation.line.dosbatch
 
 ECHO : Not a comment ^
 :: Me not, too
 :: <- - comment
-::^^^^^^^^^^^^  - comment
+::^^^^^^^^^^^^^ - comment
 
 :::: [ @ Operator ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 

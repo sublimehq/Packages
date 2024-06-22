@@ -161,7 +161,7 @@ contexts:
   comment-body:
     - meta_scope: comment.line.colon.dosbatch
     - include: line-continuations
-    - match: \n
+    - match: $\n?
       pop: 1
 
   ignored-tail-inner:
@@ -843,7 +843,7 @@ contexts:
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
     - meta_content_scope: comment.line.rem.dosbatch
-    - match: \n
+    - match: $\n?
       scope: comment.line.rem.dosbatch
       pop: 1
 
