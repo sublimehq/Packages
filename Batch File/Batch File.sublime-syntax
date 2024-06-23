@@ -2004,7 +2004,10 @@ contexts:
     # Note: Must consume \n to work.
     - match: ^\n
       set: bol-pop
-    - include: bol-pop
+    # The first caret at a continued line is escaped by the continuation caret
+    # and thus printed literal.
+    - match: ^\^?
+      pop: 1
 
   eoc-pop:
     # Note: An end of command appears in unquoted regions only!
