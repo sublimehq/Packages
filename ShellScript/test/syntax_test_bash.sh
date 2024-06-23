@@ -48,7 +48,8 @@ foo | `# get quarks ` \
 #     ^ punctuation.section.interpolation.begin.shell
 #      ^^^^^^^^^^^^^ comment.line.number-sign.shell
 #                   ^ punctuation.section.interpolation.end.shell - comment
-#                     ^^ punctuation.separator.continuation.line.shell - comment
+#                     ^ punctuation.separator.continuation.line.shell - comment
+#                      ^ - punctuation - comment
 
 foo | ` # get quarks ` \
 bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
@@ -68,7 +69,8 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 #                                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                                      ^ keyword.operator.assignment.pipe.shell
 #                                                        ^ punctuation.section.interpolation.begin.shell
-#                                                                        ^^ punctuation.separator.continuation.line.shell
+#                                                                        ^ punctuation.separator.continuation.line.shell
+#                                                                         ^ - punctuation - comment
 
 # https://github.com/sublimehq/Packages/issues/3661
 
@@ -112,7 +114,9 @@ echo hello, \
 # <- meta.function-call.identifier.shell support.function.echo.shell
 #^^^ meta.function-call.identifier.shell support.function.echo.shell
 #   ^^^^^^^^^^ meta.function-call.arguments.shell
-#           ^^ punctuation.separator.continuation.line.shell
+#           ^ punctuation.separator.continuation.line.shell
+#            ^ - punctuation
+
 world!
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^^^ meta.function-call.identifier.shell variable.function.shell
@@ -231,7 +235,8 @@ echo $"Hello
 echo $"Hello \
 #    ^^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
 #    ^^ punctuation.definition.string.begin.shell
-#            ^^ punctuation.separator.continuation.line.shell
+#            ^ punctuation.separator.continuation.line.shell
+#             ^ - punctuation
   World\\"
 #^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
 #      ^^ constant.character.escape.shell
@@ -8879,13 +8884,15 @@ exec "$cmd" \
 #   ^ meta.function-call.arguments.shell
 #    ^^^^^^ meta.function-call.identifier.shell meta.string.shell
 #          ^^^ meta.function-call.arguments.shell
-#           ^^ punctuation.separator.continuation.line.shell
+#           ^ punctuation.separator.continuation.line.shell
+#            ^ - punctuation
 
 exec "$cmd" \
   $opts \
 #^^^^^^^^^ meta.function-call.arguments.shell
 # ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ punctuation.separator.continuation.line.shell
+#       ^ punctuation.separator.continuation.line.shell
+#        ^ - punctuation
 
 exec "$cmd" \
   $opts \
@@ -8898,7 +8905,8 @@ exec \
 #^^^^^^^^^^^^ meta.function-call.arguments.shell
 # ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #     ^^^^ meta.string.shell string.unquoted.shell
-#          ^^ punctuation.separator.continuation.line.shell
+#          ^ punctuation.separator.continuation.line.shell
+#           ^ - punctuation
 
 exec \
   -la name \
@@ -8906,7 +8914,8 @@ exec \
 #^ meta.function-call.arguments.shell
 # ^^^^^^ meta.function-call.identifier.shell meta.string.shell
 #       ^^^ meta.function-call.arguments.shell
-#        ^^ punctuation.separator.continuation.line.shell
+#        ^ punctuation.separator.continuation.line.shell
+#         ^ - punctuation
 
 exec \
   -la name \
@@ -8914,7 +8923,8 @@ exec \
   $opts \
 #^^^^^^^^^ meta.function-call.arguments.shell
 # ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ punctuation.separator.continuation.line.shell
+#       ^ punctuation.separator.continuation.line.shell
+#        ^ - punctuation
 
 exec \
   -la name \

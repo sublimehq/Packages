@@ -1585,14 +1585,18 @@ contexts:
 ###[ OPERATORS ]###############################################################
 
   line-continuations:
-    - match: \\\n
-      scope: punctuation.separator.continuation.line.shell
-      push:
-        - match: ^
-          pop: 1
+    - match: (\\)\n
+      captures:
+        1: punctuation.separator.continuation.line.shell
+      push: line-continuation-body
     - match: \\(\s+)\n
       captures:
         1: invalid.illegal.unexpected-whitespace.shell
+
+  line-continuation-body:
+    - meta_include_prototype: false
+    - match: ^
+      pop: 1
 
   operators:
     - match: \|\||\&\&|\!(?!\S)
