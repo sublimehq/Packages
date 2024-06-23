@@ -1981,6 +1981,7 @@ contexts:
 ###[ PROTOTYPES ]#############################################################
 
   bol-pop:
+    - meta_include_prototype: false
     - match: ^
       pop: 1
 
@@ -2000,6 +2001,7 @@ contexts:
       push: line-continuation-body
 
   line-continuation-body:
+    - meta_include_prototype: false
     # The first linefeed diretly following a continuation is treated literal.
     # Note: Must consume \n to work.
     - match: ^\n
