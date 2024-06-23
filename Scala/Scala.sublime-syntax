@@ -520,6 +520,11 @@ contexts:
   # this is included when a single newline is found in a declaration
   # you should never push/set this context, only include
   decl-newline-double-check:
+    - include: block-comments
+    - match: ((//).*)\n
+      captures:
+        1: comment.line.double-slash.scala
+        2: punctuation.definition.comment.scala
     - match: '(?=[\{\}\)]|\b(?:case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit|type|import|override)\b)'
       pop: true
     - match: '\n'
@@ -542,6 +547,7 @@ contexts:
       set: function-type-parameter-list-newline
 
   function-type-parameter-list-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: function-type-parameter-list
@@ -567,6 +573,7 @@ contexts:
       pop: true
 
   function-return-type-definition-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: function-return-type-definition
@@ -607,6 +614,7 @@ contexts:
       pop: true
 
   function-parameter-list-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: function-parameter-list
@@ -634,6 +642,7 @@ contexts:
       pop: true
 
   class-type-parameter-list-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-type-parameter-list
@@ -692,6 +701,7 @@ contexts:
       pop: true
 
   class-parameter-list-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-parameter-list
@@ -713,6 +723,7 @@ contexts:
       set: class-pre-inheritance-early-initializer-newline
 
   class-pre-inheritance-early-initializer-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-pre-inheritance-early-initializer
@@ -732,6 +743,7 @@ contexts:
       pop: true
 
   class-inheritance-extends-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-inheritance-extends
@@ -761,6 +773,7 @@ contexts:
       pop: true
 
   class-inheritance-extends-token-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-inheritance-extends-token
@@ -791,6 +804,7 @@ contexts:
       pop: true
 
   class-inheritance-extends-token-after-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-inheritance-extends-token-after
@@ -812,6 +826,7 @@ contexts:
       set: class-inheritance-early-initializer-newline
 
   class-inheritance-early-initializer-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-inheritance-early-initializer
@@ -829,6 +844,7 @@ contexts:
       pop: true
 
   class-inheritance-with-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-inheritance-with
@@ -1876,11 +1892,13 @@ contexts:
       set: single-type-expression
 
   single-type-expression-tail-no-function-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: single-type-expression-no-function
 
   single-type-expression-tail-newline:
+    - meta_include_prototype: false
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: single-type-expression
