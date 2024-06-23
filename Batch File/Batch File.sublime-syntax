@@ -845,8 +845,9 @@ contexts:
     # In REM comments only the first continuation directly following
     # the first token is taken into account.
     - meta_include_prototype: false
-    - match: \^\n
-      scope: punctuation.separator.continuation.line.dosbatch
+    - match: (\^)\n
+      captures:
+        1: punctuation.separator.continuation.line.dosbatch
       set: line-continuation-body
     - match: (?={{metachar}})
       pop: 1
@@ -1993,8 +1994,9 @@ contexts:
       pop: 1
 
   line-continuations:
-    - match: \^\n
-      scope: punctuation.separator.continuation.line.dosbatch
+    - match: (\^)\n
+      captures:
+        1: punctuation.separator.continuation.line.dosbatch
       push: line-continuation-body
 
   line-continuation-body:

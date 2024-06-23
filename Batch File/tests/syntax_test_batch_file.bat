@@ -229,7 +229,8 @@ ECHO |:: Not a comment
 
 ECHO : Not a comment ^
 ::   ^^^^^^^^^^^^^^^^^^ - comment
-::                   ^^ punctuation.separator.continuation.line.dosbatch
+::                   ^ punctuation.separator.continuation.line.dosbatch
+::                    ^ - punctuation
 
 ECHO : Not a comment ^
 :: Me not, too
@@ -1380,7 +1381,8 @@ is a #@$虎" strange label
 
    IF^
 :: ^^ - keyword.control.conditional
-::   ^^ punctuation.separator.continuation.line.dosbatch
+::   ^ punctuation.separator.continuation.line.dosbatch
+::    ^ - punctuation
 
    IF ^
    NOT EXIST "C:\file.log"
@@ -1935,7 +1937,8 @@ is a #@$虎" strange label
 :: ^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::       ^^^^^^^^^^ meta.function-call.arguments.dosbatch
    out^
-::    ^^ punctuation.separator.continuation.line.dosbatch
+::    ^ punctuation.separator.continuation.line.dosbatch
+::     ^ - punctuation
 
    out^
 put arg1 arg2
@@ -2111,7 +2114,8 @@ put arg1 arg2
 
    command arg^
 ::         ^^^^^ meta.function-call.arguments.dosbatch
-::            ^^ punctuation.separator.continuation.line.dosbatch
+::            ^ punctuation.separator.continuation.line.dosbatch
+::             ^ - punctuation
 
    command arg^
    for
@@ -3463,7 +3467,8 @@ put arg1 arg2
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch
 ::          ^^^^^^ string.unquoted.dosbatch
-::              ^^ punctuation.separator.continuation.line.dosbatch
+::              ^ punctuation.separator.continuation.line.dosbatch
+::               ^ - punctuation
 
    set foo"="bar^
    baz
@@ -3492,7 +3497,8 @@ put arg1 arg2
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^^^^^ string.unquoted.dosbatch
-::              ^^ punctuation.separator.continuation.line.dosbatch
+::              ^ punctuation.separator.continuation.line.dosbatch
+::               ^ - punctuation
 
    set fo"o"=bar^
    baz
@@ -3520,7 +3526,8 @@ put arg1 arg2
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
-::                ^^ punctuation.separator.continuation.line.dosbatch
+::                ^ punctuation.separator.continuation.line.dosbatch
+::                 ^ - punctuation
 
    set fo"o"="bar"^
    baz
@@ -4602,7 +4609,8 @@ put arg1 arg2
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::              ^^^^^^^^^ string.unquoted.dosbatch
-::                     ^^ punctuation.separator.continuation.line.dosbatch
+::                     ^ punctuation.separator.continuation.line.dosbatch
+::                      ^ - punctuation
 
    :: even number of quotes in l-value
    :: unquoted value
