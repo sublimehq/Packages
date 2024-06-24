@@ -171,42 +171,18 @@ not a comment
 :: ^^^^^^^^^^^^^^^^ - comment
 
    :+ Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+:: ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::   ^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
    :+
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
 
-   := Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
+   :+: Me too!
+:: ^^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::    ^^^^^^^^^ comment.line.colon.dosbatch - punctuation
 
-   :=
-   Not me, though.
-:: ^^^^^^^^^^^^^^^^ - comment
-
-   :, Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
-
-   :,
-   Not me, though.
-:: ^^^^^^^^^^^^^^^^ - comment
-
-   :; Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^^ comment.line.colon.dosbatch
-
-   :;
-   Not me, though.
-:: ^^^^^^^^^^^^^^^^ - comment
-
-   : Me too!
-:: ^^ punctuation.definition.comment.dosbatch
-:: ^^^^^^^^^^ comment.line.colon.dosbatch
-
-   :
+   :+:
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
 
@@ -257,47 +233,6 @@ not a comment
 ^
    Not me, though.
 :: ^^^^^^^^^^^^^^^^ - comment
-
-   : ^
-   Me too!
-:: ^^^^^^^^ comment.line.colon.dosbatch
-
-   : ^
-
-   Me too!
-:: ^^^^^^^^ comment.line.colon.dosbatch
-
-   : ^
-   A continued comment.^
-   Me too!
-:: ^^^^^^^^ comment.line.colon.dosbatch
-
-   : ^
-   ^
-   Me too!
-:: ^^^^^^^^ comment.line.colon.dosbatch
-
-: ^
-^
-   Not me, though.
-:: ^^^^^^^^^^^^^^^^ - comment
-
-   :> ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
-
-   :< ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
-
-   :& ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
-
-   :| ignored content ( & | )
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
-:: ^^ punctuation.definition.comment.dosbatch
-
 ECHO &&:: A comment
 ::   ^^ keyword.operator.logical.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch
@@ -338,23 +273,23 @@ ECHO : Not a comment ^
 
    @:label
 :: ^ keyword.operator.at.dosbatch
-::  ^^^^^^ entity.name.label.dosbatch
 ::  ^ punctuation.definition.label.dosbatch
+::   ^^^^^ entity.name.label.dosbatch
 
    @ :label
 :: ^ keyword.operator.at.dosbatch
-::   ^^^^^^ entity.name.label.dosbatch
 ::   ^ punctuation.definition.label.dosbatch
+::    ^^^^^ entity.name.label.dosbatch
 
    @:@@@@@
 :: ^ keyword.operator.at.dosbatch
-::  ^^^^^^ entity.name.label.dosbatch
 ::  ^ punctuation.definition.label.dosbatch
+::   ^^^^^ entity.name.label.dosbatch
 
    @ :@@@@@
 :: ^ keyword.operator.at.dosbatch
-::   ^^^^^^ entity.name.label.dosbatch
 ::   ^ punctuation.definition.label.dosbatch
+::    ^^^^^ entity.name.label.dosbatch
 
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
@@ -407,161 +342,273 @@ ECHO : Not a comment ^
 :::: [ Labels ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    :l
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :(
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :)
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :[
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :]
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :{
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :}
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - punctuation
 ::   ^ - entity
 
    :^(
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^)
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^[
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^]
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^{
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^}
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^>
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^<
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^&
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :^|
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
    :%%
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch - constant.character.escape - punctuation
 ::    ^ - entity
 
    :%
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - constant.character.escape - punctuation
 ::   ^ - entity
 
    :%var% ignored content ( & echo foo
-::^ - entity
-:: ^^^^^^ entity.name.label.dosbatch
+::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
+::  ^^^^^ entity.name.label.dosbatch
 ::       ^ - entity - comment
-::        ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
-::                          ^ keyword.operator.logical.dosbatch
-::                            ^^^^^^^^ meta.command.echo.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :!
-::^ - entity
-:: ^ entity.name.label.dosbatch punctuation.definition.label.dosbatch
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
 ::  ^ entity.name.label.dosbatch - constant.character.escape - punctuation
 ::   ^ - entity
 
    :!var! ignored content ( | echo foo
-::^ - entity
-:: ^^^^^^ entity.name.label.dosbatch
+::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
+::  ^^^^^ entity.name.label.dosbatch
 ::       ^ - entity - comment
-::        ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
-::                          ^ keyword.operator.assignment.pipe.dosbatch
-::                            ^^^^^^^^ meta.command.echo.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   :foo bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::      ^^^ comment.line.ignored.dosbatch
+
+   :foo+bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::     ^^^^ comment.line.ignored.dosbatch
+
+   :foo:bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::     ^^^^ comment.line.ignored.dosbatch
+
+   :foo,bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^ entity.name.label.dosbatch
+
+   :foo;bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^ entity.name.label.dosbatch
+
+   :foo=bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^ entity.name.label.dosbatch
+
+   :foo>bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::     ^^^^^ comment.line.ignored.dosbatch
+
+   :foo<bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::     ^^^^^ comment.line.ignored.dosbatch
+
+   :foo&bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::     ^^^^^ comment.line.ignored.dosbatch
+
+   :foo|bar
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
+::     ^^^^^ comment.line.ignored.dosbatch
+
+   :==foo==
+:: ^ punctuation.definition.label.dosbatch
+::  ^^ comment.line.ignored.dosbatch
+::    ^^^^^ entity.name.label.dosbatch
+
+   :== foo ==
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^ comment.line.ignored.dosbatch
+::     ^^^ entity.name.label.dosbatch
+::         ^^^ comment.line.ignored.dosbatch
+
+   :== &foo ==
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   :== ^
+   foo ===
+:: ^^^^^^^ comment.line.ignored.dosbatch
 
    :This is a #@$虎 strange label
-::^ - entity
+::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
-:: ^^^^^ entity.name.label.dosbatch
+::  ^^^^ entity.name.label.dosbatch
 ::      ^ - entity - comment
 ::       ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :This" is a #@$虎" strange label
-::^ - entity
-:: ^^^^^^ entity.name.label.dosbatch
+::^^ - entity
+::  ^^^^^ entity.name.label.dosbatch
 ::       ^ - entity - comment
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :"This is a #@$虎" strange label
-::^ - entity
-:: ^^^^^^ entity.name.label.dosbatch
+::^^ - entity
+::  ^^^^^ entity.name.label.dosbatch
 ::       ^ - entity - comment
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+
+   :> ignored content ( & | )
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch - punctuation
+
+   :< ignored content ( & | )
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch - punctuation
+
+   :& ignored content ( & | )
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch - punctuation
+
+   :| ignored content ( & | )
+:: ^ punctuation.definition.label.dosbatch
+::  ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch - punctuation
+
+   : ^
+   Me too!
+:: ^^^^^^^ comment.line.ignored.dosbatch
+
+   : ^
+
+   Me too!
+:: ^^^^^^^ comment.line.ignored.dosbatch
+
+   : ^
+   A continued comment.^
+   Me too!
+:: ^^^^^^^ comment.line.ignored.dosbatch
+
+   : ^
+   ^
+   Me too!
+:: ^^^^^^^^ comment.line.ignored.dosbatch
+
+: ^
+^
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
 :::: [ Control Flow ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -580,7 +627,7 @@ ECHO : Not a comment ^
 ::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                                     ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::     ^ punctuation.definition.variable.dosbatch
+::     ^ punctuation.definition.label.dosbatch
 ::     ^^^^^ variable.label.dosbatch - keyword
 ::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - variable
 ::                     ^^ constant.character.escape.dosbatch
@@ -592,14 +639,14 @@ ECHO : Not a comment ^
 ::     ^^^^ meta.function-call.identifier.dosbatch
 ::         ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::     ^ punctuation.definition.variable.dosbatch
+::     ^ punctuation.definition.label.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
    CALL ^
    :EOF
 :: ^^^^ meta.function-call.identifier.dosbatch
 ::     ^ - meta.function-call
-:: ^ punctuation.definition.variable.dosbatch
+:: ^ punctuation.definition.label.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
 
    CALL ^
@@ -607,7 +654,7 @@ ECHO : Not a comment ^
    :EOF
 :: ^^^^ meta.function-call.identifier.dosbatch
 ::     ^ - meta.function-call
-:: ^ punctuation.definition.variable.dosbatch
+:: ^ punctuation.definition.label.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
 
    CALL ^
@@ -616,7 +663,7 @@ ECHO : Not a comment ^
    :EOF
 :: ^^^^ - meta.function-call
 :: ^ punctuation.definition.label.dosbatch
-:: ^^^^ entity.name.label.dosbatch
+::  ^^^ entity.name.label.dosbatch
 
    CALL :foo 10 %1
 ::^ - meta.function-call
@@ -625,7 +672,7 @@ ECHO : Not a comment ^
 ::          ^^^^^^ meta.function-call.arguments.dosbatch
 ::                ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 ::           ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::              ^^ variable.parameter.dosbatch
@@ -637,7 +684,7 @@ ECHO : Not a comment ^
 ::                ^^ meta.function-call.arguments.dosbatch
 ::                  ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 ::                ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
@@ -648,7 +695,7 @@ ECHO : Not a comment ^
 ::           ^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                   ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 ::           ^^^^^ meta.interpolation.dosbatch - variable.label - keyword
 ::                 ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -660,7 +707,7 @@ ECHO : Not a comment ^
 ::        ^^^ meta.function-call.arguments.dosbatch
 ::           ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^ variable.label.dosbatch - keyword
 ::         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
@@ -671,7 +718,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -683,7 +730,7 @@ ECHO : Not a comment ^
 ::        ^^^ meta.function-call.arguments.dosbatch
 ::           ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^ variable.label.dosbatch - keyword
 ::         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
@@ -694,7 +741,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -706,7 +753,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -718,7 +765,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -730,7 +777,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -742,7 +789,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -754,7 +801,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -766,7 +813,7 @@ ECHO : Not a comment ^
 ::              ^^^ meta.function-call.arguments.dosbatch
 ::                 ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ variable.label.dosbatch punctuation.definition.variable.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
 ::       ^^^^^^^ variable.label.dosbatch meta.interpolation.dosbatch
 ::       ^ punctuation.section.interpolation.begin.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
@@ -780,7 +827,7 @@ ECHO : Not a comment ^
 ::         ^^^ meta.function-call.arguments.dosbatch
 ::            ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.dosbatch
+::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -792,12 +839,70 @@ ECHO : Not a comment ^
 ::              ^^^ meta.function-call.arguments.dosbatch
 ::                 ^ - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ variable.label.dosbatch punctuation.definition.variable.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
 ::       ^^^^^^^ variable.label.dosbatch meta.interpolation.dosbatch
 ::       ^ punctuation.section.interpolation.begin.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ punctuation.section.interpolation.end.dosbatch
 ::               ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :foo bar & :: foo > %0 , bar > %1
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ - comment - string - variable
+::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
+   CALL :foo+bar & :: foo > %0, bar ignored for label lookup, no arguments
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+::              ^ - comment - variable
+
+   CALL :foo:bar & :: foo > %0, bar ignored for label lookup, no arguments
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+::              ^ - comment - variable
+
+   CALL :foo,bar & :: foo > %0 , bar > %1
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ - comment - string - variable
+::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
+   CALL :foo;bar & :: foo > %0 , bar > %1
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ - comment - string - variable
+::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
+   CALL :foo=bar & :: foo > %0 , bar > %1
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ - comment - string - variable
+::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
+   CALL :foo>bar
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ meta.redirection.dosbatch
+
+   CALL :foo<bar
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ meta.redirection.dosbatch
+
+   CALL :foo&bar
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ keyword.operator.logical.dosbatch
+::           ^^^ variable.function.dosbatch
+
+   CALL :foo|bar
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ keyword.operator.assignment.pipe.dosbatch
+::           ^^^ variable.function.dosbatch
 
    CALL :foo^
 bar baz
@@ -1223,6 +1328,74 @@ bar baz
 ::           ^^ constant.character.escape.dosbatch
 ::              ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                                ^ keyword.operator.assignment.pipe.dosbatch
+
+   GOTO :foo bar
+:: ^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::           ^^^ comment.line.ignored.dosbatch
+
+   GOTO :foo+bar
+:: ^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+
+   GOTO :foo:bar
+:: ^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+
+   GOTO :foo,bar
+:: ^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+
+   GOTO :foo;bar
+:: ^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+
+   GOTO :foo=bar
+:: ^^^^^^^^^^^^^ meta.command.goto.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^^^^ comment.line.ignored.dosbatch
+
+   GOTO :foo>bar
+:: ^^^^^^^^^ meta.command.goto.dosbatch - meta.redirection
+::          ^^^^ meta.command.goto.dosbatch meta.redirection.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
+   GOTO :foo<bar
+:: ^^^^^^^^^ meta.command.goto.dosbatch - meta.redirection
+::          ^^^^ meta.command.goto.dosbatch meta.redirection.dosbatch
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+
+   GOTO :foo&bar
+:: ^^^^^^^^^ meta.command.goto.dosbatch
+::          ^^^^^ - meta.command.goto
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ keyword.operator.logical.dosbatch
+::           ^^^ variable.function.dosbatch
+
+   GOTO :foo|bar
+:: ^^^^^^^^^ meta.command.goto.dosbatch
+::          ^^^^^ - meta.command.goto
+::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
+::       ^^^ variable.label.dosbatch
+::          ^ keyword.operator.assignment.pipe.dosbatch
+::           ^^^ variable.function.dosbatch
 
    GOTO:This is a #@$虎 strange label
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch

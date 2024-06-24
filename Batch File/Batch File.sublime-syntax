@@ -23,10 +23,19 @@ first_line_match: |-
 ###############################################################################
 
 variables:
+  # Tokens are separated by token delimiters.
+  # The standard token delimiters are <space> <tab> ; , = <0x0B> <0x0C> and <0xFF>
+  # Consecutive token delimiters are treated as one - there are no empty tokens
+  # between token delimiters
+  delim_char: ' \t;,=\x0B\x0C\xFF'
+
+  # The following characters may have special meaning in this phase, depending on context:
+  # <CR> ^ ( @ & | < > <LF> <space> <tab> ; , = <0x0B> <0x0C> <0xFF>
+
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters:
   # ‘|’, ‘&’, ‘,’, ‘;’, ‘<’, or ‘>’.
-  metachar: '[\s=,;{{redir_or_eoc_char}}]'
+  metachar: '{{delim_char}}{{redir_or_eoc_char}}'
 
   # Keywords
   keyword_break: (?![^{{metachar}}(.:\\/])
@@ -49,8 +58,16 @@ variables:
   eoc: (?=\s*{{eoc_char}})
   eoc_char: '[\n|&]'
 
-  label_comment: ':+[^{{label_start}}]'
-  label_start: '[^{{metachar}}:+]'
+  # Label definition statements
+  label_comment: :[:+]+
+  label_begin: (?=[^{{delim_char}}])
+  label_break: (?![^ \t:+{{redir_or_eoc_char}}])
+
+  # Label variable
+  # If labels appear in arguments, normal word parsing is performed first with
+  # everything up a label break character being used for label lookup.
+  # A label variable is therefore terminated by `+`, `:` or word break (`metachar`)
+  label_variable_break: (?![^:+{{metachar}}])
 
   path_terminator_chars: '[\s,;"{{redir_or_eoc_char}}]'
   path_terminators: (?={{path_terminator_chars}})
@@ -121,12 +138,12 @@ variables:
 
 contexts:
   main:
-    - include: comments
     - include: statements
 
   statements:
-    - include: blocks
+    - include: comments
     - include: labels
+    - include: blocks
     - include: operators
     - include: redirections
     - include: control
@@ -186,23 +203,38 @@ contexts:
 
 ###[ LABELS ]#################################################################
 
-  maybe-label:
-    - match: \:(?={{label_start}})
-      scope: entity.name.label.dosbatch punctuation.definition.label.dosbatch
-      set: label-name
-    - include: else-pop
-
   labels:
-    - match: ^\s*(:)(?={{label_start}})
-      captures:
-        1: entity.name.label.dosbatch punctuation.definition.label.dosbatch
-      push: label-name
+    - match: ':'
+      scope: punctuation.definition.label.dosbatch
+      push: label-begin
+
+  label-begin:
+    - meta_content_scope: comment.line.ignored.dosbatch
+    - match: (?=\^\n)
+      set: label-skip
+    - match: '{{label_begin}}'
+      set: label-name
+    - include: label-tail
 
   label-name:
     - meta_content_scope: entity.name.label.dosbatch
-    - match: '{{word_break}}'
-      set: ignored-tail-outer
+    - match: \s+|{{label_break}}
+      set: label-tail
     - include: escaped-characters
+
+  label-skip:
+    - meta_include_prototype: false
+    - meta_content_scope: comment.line.ignored.dosbatch
+    - include: line-continuations
+    - include: label-tail
+
+  label-tail:
+    # neither line continuation, pipelining or quotations are supported
+    - meta_include_prototype: false
+    - meta_content_scope: comment.line.ignored.dosbatch
+    - match: $\n?
+      scope: comment.line.ignored.dosbatch
+      pop: 1
 
 ###[ BLOCKS ]#################################################################
 
@@ -241,7 +273,7 @@ contexts:
     - match: \)
       scope: punctuation.section.block.end.dosbatch
       pop: 1
-    - include: main
+    - include: statements
 
   groups:
     - match: \(
@@ -484,14 +516,16 @@ contexts:
   ctl-call-identifier:
     - meta_content_scope: meta.function-call.dosbatch
     - match: ':'
-      scope: punctuation.definition.variable.dosbatch
+      scope: variable.label.dosbatch punctuation.definition.label.dosbatch
       set: ctl-call-label
     - include: cmd-arg-help
     - include: else-pop
 
   ctl-call-label:
-    - meta_scope: meta.function-call.identifier.dosbatch variable.label.dosbatch
-    - match: '{{word_break}}'
+    - meta_scope: meta.function-call.identifier.dosbatch
+    - meta_content_scope: variable.label.dosbatch
+    - match: (?:[+:][^{{metachar}}]*)?{{word_break}}
+      scope: comment.line.ignored.dosbatch
       set:
         - cmd-args-meta
         - cmd-args-body
@@ -549,14 +583,16 @@ contexts:
         1: punctuation.definition.variable.dosbatch
         2: keyword.control.flow.return.dosbatch
       pop: 1
-    - match: (:)?(?={{label_start}})
+    - match: (:)?{{label_begin}}
       scope: punctuation.definition.label.dosbatch
       set: ctl-goto-label
 
   ctl-goto-label:
     - meta_scope: variable.label.dosbatch
+    - match: '{{label_variable_break}}'
+      set: ignored-tail-outer
     - include: line-continuations
-    - include: label-name
+    - include: escaped-characters
     - include: variables
 
 ###[ CONTROL PAUSE ]##########################################################
@@ -849,16 +885,15 @@ contexts:
       captures:
         1: punctuation.separator.continuation.line.dosbatch
       set: line-continuation-body
-    - match: (?={{metachar}})
+    - match: '{{word_break}}'
       pop: 1
 
   cmd-rem-comment-body:
     - meta_include_prototype: false
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
-    - meta_content_scope: comment.line.rem.dosbatch
+    - meta_scope: comment.line.rem.dosbatch
     - match: $\n?
-      scope: comment.line.rem.dosbatch
       pop: 1
 
 ###[ COMMAND SET ]############################################################
@@ -1548,7 +1583,6 @@ contexts:
   operators:
     - match: \@
       scope: keyword.operator.at.dosbatch
-      push: maybe-label
     - match: \&\&?|\|\|
       scope: keyword.operator.logical.dosbatch
     - match: \|
