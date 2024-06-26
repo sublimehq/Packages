@@ -497,16 +497,19 @@ ECHO : Not a comment ^
 ::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
 ::  ^^^^^^^ entity.name.label.dosbatch
+::     ^ - punctuation
 
    :foo;bar
 ::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
 ::  ^^^^^^^ entity.name.label.dosbatch
+::     ^ - punctuation
 
    :foo=bar
 ::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
 ::  ^^^^^^^ entity.name.label.dosbatch
+::     ^ - punctuation
 
    :foo>bar
 ::^^ - entity
@@ -867,19 +870,19 @@ ECHO : Not a comment ^
    CALL :foo,bar & :: foo > %0 , bar > %1
 ::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
 ::       ^^^ variable.label.dosbatch
-::          ^ - comment - string - variable
+::          ^ punctuation.separator.comma.dosbatch - comment - string - variable
 ::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
 
    CALL :foo;bar & :: foo > %0 , bar > %1
 ::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
 ::       ^^^ variable.label.dosbatch
-::          ^ - comment - string - variable
+::          ^ punctuation.separator.semicolon.dosbatch - comment - string - variable
 ::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
 
    CALL :foo=bar & :: foo > %0 , bar > %1
 ::      ^ variable.label.dosbatch punctuation.definition.label.dosbatch
 ::       ^^^ variable.label.dosbatch
-::          ^ - comment - string - variable
+::          ^ punctuation.separator.dosbatch - comment - string - variable
 ::           ^^^ meta.string.dosbatch string.unquoted.dosbatch
 
    CALL :foo>bar
