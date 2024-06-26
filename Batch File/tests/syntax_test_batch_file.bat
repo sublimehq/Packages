@@ -2456,6 +2456,7 @@ put arg1 arg2
 ::          ^^^^^^^^ meta.parameter.option.dosbatch - meta.interpolation
 ::                  ^^^^ meta.parameter.option.dosbatch meta.interpolation.dosbatch
 ::                      ^ meta.parameter.option.dosbatch - meta.interpolation
+::                       ^ - meta.parameter
 ::         ^ punctuation.definition.variable.dosbatch
 ::          ^ - punctuation
 ::                  ^ punctuation.section.interpolation.begin.dosbatch
@@ -2472,7 +2473,8 @@ put arg1 arg2
 ::                           ^ meta.parameter.value.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 ::                            ^ - meta.parameter
 
-   command ..\folder2\ /type:*.txt
+   :: note: unescaped `=` breaks words and is ignored if not in assignment position
+   command ..\folder2\=/type:*.txt
 :: ^^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::                                ^ - meta.function-call
@@ -2485,6 +2487,7 @@ put arg1 arg2
 ::         ^^ constant.other.path.parent.dosbatch
 ::           ^ punctuation.separator.path.dosbatch
 ::                   ^ punctuation.separator.path.dosbatch
+::                    ^ punctuation.separator.dosbatch
 ::                     ^^^^^ variable.parameter.option.dosbatch
 ::                          ^ keyword.operator.assignment.dosbatch
 ::                           ^^^^^ string.unquoted.dosbatch

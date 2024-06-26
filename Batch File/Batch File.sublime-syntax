@@ -69,9 +69,6 @@ variables:
   # A label variable is therefore terminated by `+`, `:` or word break (`metachar`)
   label_variable_break: (?![^:+{{metachar}}])
 
-  path_terminator_chars: '[\s,;"{{redir_or_eoc_char}}]'
-  path_terminators: (?={{path_terminator_chars}})
-
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
   set_quoted_end: \"(?![^"{{redir_or_eoc_char}}]*\")
@@ -1709,17 +1706,12 @@ contexts:
 
   path-pattern-unquoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
-    - include: path-pattern-unquoted-end
+    - include: unquoted-word-end
     - include: path-pattern-unquoted-content
 
   path-pattern-unquoted-content:
     - include: unquoted-escapes-and-interpolations
     - include: path-pattern-common
-
-  path-pattern-unquoted-end:
-    - match: '{{path_terminators}}'
-      pop: 1
-    - include: line-continuations
 
   path-pattern-common:
     - match: '[:\\/]'
