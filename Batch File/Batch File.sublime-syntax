@@ -53,10 +53,10 @@ variables:
   arg_char: '[^{{metachar}}:]'
 
   # Command statement terminators and redirections
-  redir_or_eoc: (?=\s*{{redir_or_eoc_char}})
-  redir_or_eoc_char: '[<>{{eoc_char}}]'
-  eoc: (?=\s*{{eoc_char}})
-  eoc_char: '[\n|&]'
+  redir_or_eoc: (?=\s*[{{redir_or_eoc_char}}])
+  redir_or_eoc_char: '<>{{eoc_char}}'
+  eoc: (?=\s*[{{eoc_char}}])
+  eoc_char: \n\|&
 
   # Label definition statements
   label_comment: :[:+]+

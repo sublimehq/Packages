@@ -21,4 +21,4 @@ hidden: true
 extends: Packages/Batch File/Batch File.sublime-syntax
 
 variables:
-  eoc_char: '[\n|&)]'
+  eoc_char: \)\n\|&
