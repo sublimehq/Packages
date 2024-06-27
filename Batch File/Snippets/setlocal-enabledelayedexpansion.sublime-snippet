@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>sle</tabTrigger>
+	<description>setlocal EnableDelayedExpansion</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[setlocal EnableDelayedExpansion EnableExtensions]]></content>
+</snippet>

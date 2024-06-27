@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>s</tabTrigger>
+	<description>set … = …</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[set "${1:var}=$0"]]></content>
+</snippet>

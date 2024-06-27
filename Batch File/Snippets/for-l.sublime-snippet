@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>forl</tabTrigger>
+	<description>for /l %… in (…) do (…)</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[for /l %%${1:i} in (${2:start}, ${3:step}, ${4:end}) do (${0:%= code =%})]]></content>
+</snippet>

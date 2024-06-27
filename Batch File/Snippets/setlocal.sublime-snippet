@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>sl</tabTrigger>
+	<description>setlocal</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[setlocal EnableExtensions]]></content>
+</snippet>

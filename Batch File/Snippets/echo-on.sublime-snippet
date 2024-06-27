@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>eon</tabTrigger>
+	<description>echo on</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[echo on]]></content>
+</snippet>

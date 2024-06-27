@@ -1,0 +1,6 @@
+<snippet>
+	<tabTrigger>eo</tabTrigger>
+	<description>echo off</description>
+	<scope>source.dosbatch - comment - string</scope>
+	<content><![CDATA[echo off]]></content>
+</snippet>
