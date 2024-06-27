@@ -735,7 +735,7 @@ contexts:
       scope: meta.constant.identifier.java entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
-    - include: else-pop
+    - include: annotation-else-pop
 
   enum-constant-arguments:
     - meta_content_scope: meta.constant.identifier.java
