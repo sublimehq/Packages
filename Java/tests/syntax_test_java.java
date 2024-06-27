@@ -1751,9 +1751,16 @@ public enum FooBarEnum {
   FOO,
 //^^^ meta.constant.identifier.java entity.name.constant.java
 //   ^ punctuation.separator.comma.java
-  BAR;
+  @anno
+  BAR,
 //^^^ meta.constant.identifier.java entity.name.constant.java
-//   ^ punctuation.terminator.java - meta.constant
+//   ^ punctuation.separator.comma.java
+  @anno
+  BAZ();
+//^^^ meta.constant.identifier.java entity.name.constant.java
+//   ^ meta.constant.arguments.java meta.group.java punctuation.section.group.begin.java
+//    ^ meta.constant.arguments.java meta.group.java punctuation.section.group.end.java
+//     ^ punctuation.terminator.java - meta.constant
 }
 // <- meta.enum.java punctuation.section.block.end.java
 
