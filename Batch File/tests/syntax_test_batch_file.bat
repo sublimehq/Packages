@@ -1,7 +1,7 @@
 :: SYNTAX TEST "Packages/Batch File/Batch File.sublime-syntax"
 
 
-:::: [ Comments ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::: [ REM Comments ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    REM/? ignored
 :: ^^^^^^^^^^^^^ meta.command.rem.dosbatch
@@ -47,6 +47,11 @@
    not a comment
 :: ^^^^^^^^^^^^^^ - comment
 
+   REM ^
+   Line^
+   continuation after first token
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
 REM
    not a comment
 :: ^^^^^^^^^^^^^^ - comment
@@ -59,10 +64,95 @@ REM This & and | echo "is commented out" ^
 :: <- keyword.declaration.rem.dosbatch
 ::  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
 
+::: Test Case : single token continued at next line
+
+REM Line^
+continuation
+:: <- meta.command.rem.dosbatch comment.line.rem.dosbatch
+:: ^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
+::: Test Case : single token continued after empty line
+
+REM Line^
+
+continuation
+:: <- meta.command.rem.dosbatch comment.line.rem.dosbatch
+:: ^^^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+
+::: Test Case : no more continuation after 2nd token
+
+REM Line^
+
+continuation^
+not a comment
+:: <- - comment
+:: ^^^^^^^^^^ - comment
+
+::: Test Case : no continuation after 2nd empty line
+
+REM Line^
+
+
+not a comment
+:: <- - comment
+:: ^^^^^^^ - comment
+
+::: Test Case : continuation beginning with literal caret
+
+REM Line^
+^continuation
+not a comment
+:: <- - comment
+:: ^^^^^^^^^^ - comment
+
+::: Test Case : continuation beginning escaping caret after empty line
+
+REM Line^
+
+^continuation
+not a comment
+:: <- - comment
+:: ^^^^^^^^^^ - comment
+
+::: Test Case : continuation with only litaral caret, no recursive continuation
+
+REM Line^
+^
+not a comment
+:: <- - comment
+:: ^^^^^^^^^^ - comment
+
+::: Test Case : continuation with only escaping caret after empty line, no recursive continuation
+
+REM Line^
+
+^
+not a comment
+:: <- - comment
+:: ^^^^^^^^^^ - comment
+
+::: Test Case : no line continuation after 2nd token #1
+
 REM No line ^
 continuation
 :: <- - comment
 :: ^^^^^^^^^^ - comment
+
+::: Test Case : no line continuation after 2nd token #2
+
+REM No line ^
+^
+:: <- meta.function-call.identifier.dosbatch variable.function.dosbatch punctuation.separator.continuation.line.dosbatch
+
+::: Test Case : no line continuation after 2nd token #3
+
+REM No line ^
+^
+not a comment
+:: <- - comment
+::^^^^^^^^^^^^ - comment
+
+:::: [ Label Comments ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    ::: Me too!
 :: ^^^ punctuation.definition.comment.dosbatch
@@ -134,6 +224,16 @@ continuation
    Me too!
 :: ^^^^^^^^ comment.line.colon.dosbatch
 
+   ::: ^
+   ^
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+::: ^
+^
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
+
    ::^
    Me too!
 :: ^^^^^^^^ comment.line.colon.dosbatch
@@ -148,6 +248,16 @@ continuation
    Me too!
 :: ^^^^^^^^ comment.line.colon.dosbatch
 
+   :: ^
+   ^
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+:: ^
+^
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
+
    : ^
    Me too!
 :: ^^^^^^^^ comment.line.colon.dosbatch
@@ -161,6 +271,16 @@ continuation
    A continued comment.^
    Me too!
 :: ^^^^^^^^ comment.line.colon.dosbatch
+
+   : ^
+   ^
+   Me too!
+:: ^^^^^^^^ comment.line.colon.dosbatch
+
+: ^
+^
+   Not me, though.
+:: ^^^^^^^^^^^^^^^^ - comment
 
    :> ignored content ( & | )
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
@@ -199,7 +319,8 @@ ECHO |:: Not a comment
 
 ECHO : Not a comment ^
 ::   ^^^^^^^^^^^^^^^^^^ - comment
-::                   ^^ punctuation.separator.continuation.line.dosbatch
+::                   ^ punctuation.separator.continuation.line.dosbatch
+::                    ^ - punctuation
 
 ECHO : Not a comment ^
 :: Me not, too
@@ -480,6 +601,22 @@ ECHO : Not a comment ^
 ::     ^ - meta.function-call
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
+
+   CALL ^
+
+   :EOF
+:: ^^^^ meta.function-call.identifier.dosbatch
+::     ^ - meta.function-call
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^^^ variable.label.dosbatch - keyword
+
+   CALL ^
+
+
+   :EOF
+:: ^^^^ - meta.function-call
+:: ^ punctuation.definition.label.dosbatch
+:: ^^^^ entity.name.label.dosbatch
 
    CALL :foo 10 %1
 ::^ - meta.function-call
@@ -1334,7 +1471,8 @@ is a #@$虎" strange label
 
    IF^
 :: ^^ - keyword.control.conditional
-::   ^^ punctuation.separator.continuation.line.dosbatch
+::   ^ punctuation.separator.continuation.line.dosbatch
+::    ^ - punctuation
 
    IF ^
    NOT EXIST "C:\file.log"
@@ -1889,7 +2027,8 @@ is a #@$虎" strange label
 :: ^^^^^^ meta.function-call.identifier.dosbatch variable.function.dosbatch
 ::       ^^^^^^^^^^ meta.function-call.arguments.dosbatch
    out^
-::    ^^ punctuation.separator.continuation.line.dosbatch
+::    ^ punctuation.separator.continuation.line.dosbatch
+::     ^ - punctuation
 
    out^
 put arg1 arg2
@@ -2065,7 +2204,8 @@ put arg1 arg2
 
    command arg^
 ::         ^^^^^ meta.function-call.arguments.dosbatch
-::            ^^ punctuation.separator.continuation.line.dosbatch
+::            ^ punctuation.separator.continuation.line.dosbatch
+::             ^ - punctuation
 
    command arg^
    for
@@ -2510,6 +2650,7 @@ put arg1 arg2
 :: ^^^^ meta.function-call.identifier.dosbatch support.function.builtin.dosbatch
 ::     ^^^ meta.function-call.arguments.dosbatch
 ::      ^ punctuation.separator.continuation.line.dosbatch
+::       ^ - punctuation
 
    ECHO ^
    /? ignored
@@ -2652,6 +2793,44 @@ put arg1 arg2
 ::                           ^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::                              ^ - meta.command - meta.string - string
 
+   ECHO line ^
+::      ^^^^^^^ meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::           ^ punctuation.separator.continuation.line.dosbatch
+::            ^ - punctuation
+
+   ECHO line ^
+   continuation
+:: <- meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+
+   ECHO line ^
+
+   continuation
+:: <- meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+
+   ECHO line ^
+   ^
+:: <- meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::^^^ meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+:: ^ punctuation.separator.continuation.line.dosbatch
+::  ^ - punctuation
+
+   ECHO line ^
+   ^
+   continuation
+:: <- meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+
+ECHO line ^
+^
+:: <- meta.command.echo.dosbatch meta.function-call.arguments.dosbatch meta.string.dosbatch string.unquoted.dosbatch - punctuation
+
+ECHO line ^
+^
+no continuation
+:: <- - meta.command.echo - meta.string - string
+::^^^^^^^^^^^^^ - meta.command.echo
 
 :::: [ ECHO escaped characters ]:::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -3417,7 +3596,8 @@ put arg1 arg2
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::         ^ keyword.operator.assignment.dosbatch
 ::          ^^^^^^ string.unquoted.dosbatch
-::              ^^ punctuation.separator.continuation.line.dosbatch
+::              ^ punctuation.separator.continuation.line.dosbatch
+::               ^ - punctuation
 
    set foo"="bar^
    baz
@@ -3446,7 +3626,8 @@ put arg1 arg2
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^^^^^ string.unquoted.dosbatch
-::              ^^ punctuation.separator.continuation.line.dosbatch
+::              ^ punctuation.separator.continuation.line.dosbatch
+::               ^ - punctuation
 
    set fo"o"=bar^
    baz
@@ -3474,7 +3655,8 @@ put arg1 arg2
 ::     ^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
-::                ^^ punctuation.separator.continuation.line.dosbatch
+::                ^ punctuation.separator.continuation.line.dosbatch
+::                 ^ - punctuation
 
    set fo"o"="bar"^
    baz
@@ -4556,7 +4738,8 @@ put arg1 arg2
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::              ^^^^^^^^^ string.unquoted.dosbatch
-::                     ^^ punctuation.separator.continuation.line.dosbatch
+::                     ^ punctuation.separator.continuation.line.dosbatch
+::                      ^ - punctuation
 
    :: even number of quotes in l-value
    :: unquoted value
