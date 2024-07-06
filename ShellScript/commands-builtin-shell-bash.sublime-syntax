@@ -122,7 +122,8 @@ contexts:
     push: cmd-su-args
   cmd-bind-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[lpsvPSVX]*[mqurfx]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -132,36 +133,48 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-builtin-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-caller-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-colon-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate
+  - include: cmd-args-end
+  - include: cmd-args-values
   cmd-command-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[pVv]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-cd-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[LPe@]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: cmd-args-values
   cmd-dot-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate
+  - include: cmd-args-end
+  - include: cmd-args-values
   cmd-enable-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dnps]*[af]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -171,35 +184,45 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-help-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dms]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-logout-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-mapfile-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dnOstuCc]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: cmd-args-values
   cmd-printf-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[v]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: cmd-args-values
   cmd-read-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[ers]*[adeinNprstu]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -209,9 +232,11 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-readarray-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[ers]*[adeinNprstu]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -221,32 +246,43 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-source-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-type-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[afptP]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-ulimit-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[HSabcdefiklmnpqrstuvxPT]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-eval-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate
+  - include: cmd-args-end
+  - include: cmd-args-values
   cmd-getopts-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-hash-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dt]*[rpl]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -256,46 +292,56 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-pwd-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[LP]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-shift-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate
-  - include: numbers
+  - include: cmd-args-end
+  - include: cmd-args-values
   cmd-times-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-trap-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[lp]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-umask-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[pS]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
-  - include: numbers
+  - include: cmd-args-values
   cmd-echo-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
   - match: ([-+])[neE]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-set-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[abefhkmnptuvxBCEHPT]*[o]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -305,9 +351,11 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-shopt-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[pqsu]*[o]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -317,15 +365,21 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-bg-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-fg-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
+  - include: cmd-args-values
   cmd-jobs-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[lnprs]*[x]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -335,25 +389,31 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-kill-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[snlL]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: cmd-args-values
   cmd-wait-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[fnp]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: cmd-args-values
   cmd-disown-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[ar]*[h]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -363,17 +423,21 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values
   cmd-suspend-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[f]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: cmd-args-values
   cmd-su-args:
   - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
+  - include: cmd-args-end
+  - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[mp]*[-cls]
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
@@ -383,3 +447,4 @@ contexts:
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
+  - include: cmd-args-values

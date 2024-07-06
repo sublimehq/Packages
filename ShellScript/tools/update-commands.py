@@ -19,11 +19,11 @@ def main():
 
         cmd_args = [{"meta_content_scope": "meta.function-call.arguments.shell"}]
 
+        cmd_args.append({"include": "cmd-args-end"})
+
         allow_eoo = value.get("allow-end-of-options-token", True)
         if allow_eoo:
-            cmd_args.append({"include": "cmd-args-boilerplate-with-end-of-options"})
-        else:
-            cmd_args.append({"include": "cmd-args-boilerplate"})
+            cmd_args.append({"include": "cmd-args-end-of-options-then-ambigious"})
 
         long_options = value.get("long-options")
         if long_options:
@@ -63,9 +63,7 @@ def main():
                 }
             })
 
-        allow_numeric_args = value.get("allow-numeric-args")
-        if allow_numeric_args:
-            cmd_args.append({"include": "numbers"})
+        cmd_args.append({"include": "cmd-args-values"})
 
         contexts[f"cmd-{command}-args"] = cmd_args
 
