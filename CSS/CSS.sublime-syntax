@@ -90,6 +90,9 @@ variables:
 
   keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
 
+  pseudo_classes_with_selector_args: |-
+    (?xi: global | local | matches | is | where | not | has | host(?:-context)?)
+
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
   combinators: (?:>{1,3}|[~+]|\|{2})
@@ -1401,7 +1404,7 @@ contexts:
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
     # global(), local() - CSS Modules, Less, Astro
-    - match: (?i:global|local|matches|is|where|not|has|host(?:-context)?)(?=\()
+    - match: '{{pseudo_classes_with_selector_args}}(?=\()'
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - pseudo-class-selector-arguments-list-body
