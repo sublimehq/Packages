@@ -1,13 +1,16 @@
 # SYNTAX TEST "Git Code Owners.sublime-syntax"
+# <- text.git.codeowners comment.line.git.codeowners punctuation.definition.comment.git.codeowners
 
 # This is a comment.
 # Each line is a file pattern followed by one or more owners.
+# <- comment.line.git.codeowners punctuation.definition.comment.git.codeowners
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.codeowners
 
 # These owners will be the default owners for everything in
 # the repo, unless a later match takes precedence.
 *       @global-owner1 @global-owner2
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners constant.other.wildcard.asterisk.fnmatch.git
-#^^^^^^^ - meta.path - meta.owners
+#^^^^^^^ - meta
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.owners.git.codeowners
 #       ^^^^^^^^^^^^^^ meta.reference.username.git entity.name.reference.username.git
 #       ^ punctuation.definition.reference.username.git
@@ -18,13 +21,16 @@
 # precedence. When someone opens a pull request that only
 # modifies JS files, only @js-owner and not the global
 # owner(s) will be requested for a review.
-*.js    @js-owner
+*.js    @js-owner #This is an inline comment.
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners constant.other.wildcard.asterisk.fnmatch.git
 #^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #^ punctuation.separator.path.fnmatch.git
-#   ^^^^ - meta.path - meta.owners
+#   ^^^^ - meta
 #       ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
 #       ^ punctuation.definition.reference.username.git
+#                ^ - comment - invalid - meta - entity
+#                 ^ punctuation.definition.comment.git.codeowners
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.codeowners
 
 # You can also use email addresses if you prefer. They'll be
 # used to look up users just like we do for commit author
@@ -33,7 +39,7 @@
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners constant.other.wildcard.asterisk.fnmatch.git
 #^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #^ punctuation.separator.path.fnmatch.git
-#   ^ - meta.path - meta.owners
+#   ^ - meta
 #    ^^^^^^^^^^^^^^^^ meta.owners.git.codeowners meta.reference.email.git entity.name.reference.email.git
 
 # In this example, @doctocat owns any files in the build/logs
@@ -44,7 +50,7 @@
 #^^^^^^^^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #     ^ punctuation.separator.path.fnmatch.git
 #          ^ punctuation.separator.path.fnmatch.git
-#           ^ - meta.path - meta.owners
+#           ^ - meta
 #            ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
 #            ^ punctuation.definition.reference.username.git
 
@@ -56,7 +62,7 @@ docs/*  docs@example.com
 #^^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #   ^ punctuation.separator.path.fnmatch.git
 #    ^ constant.other.wildcard.asterisk.fnmatch.git
-#     ^^ - meta.path - meta.owners
+#     ^^ - meta
 #       ^^^^^^^^^^^^^^^^ meta.owners.git.codeowners meta.reference.email.git entity.name.reference.email.git
 
 # In this example, @octocat owns any file in an apps directory
@@ -65,7 +71,7 @@ apps/ @octocat
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #   ^ punctuation.separator.path.fnmatch.git
-#    ^ - meta.path - meta.owners
+#    ^ - meta
 #     ^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
 #     ^ punctuation.definition.reference.username.git
 
@@ -76,8 +82,67 @@ apps/ @octocat
 # <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
 #^^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
 #    ^ punctuation.separator.path.fnmatch.git
-#     ^ - meta.path - meta.owners
+#     ^ - meta
 #      ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+
+# In this example, any change inside the `/scripts` directory
+# will require approval from @doctocat or @octocat.
+/scripts/ @doctocat @octocat
+# <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#^^^^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#       ^ punctuation.separator.path.fnmatch.git
+#        ^ - meta
+#         ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+#                  ^ - meta.reference - entity
+#                   ^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+
+# In this example, @octocat owns any file in a `/logs` directory such as
+# `/build/logs`, `/scripts/logs`, and `/deeply/nested/logs`. Any changes
+# in a `/logs` directory will require approval from @octocat.
+**/logs @octocat
+# <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners constant.other.wildcard.asterisk.fnmatch.git
+#^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners constant.other.wildcard.asterisk.fnmatch.git
+# ^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#  ^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#      ^ - meta
+#       ^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+
+# In this example, @octocat owns any file in the `/apps`
+# directory in the root of your repository except for the `/apps/github`
+# subdirectory, as its owners are left empty.
+/apps/ @octocat
+# <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#    ^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#     ^ - meta
+#      ^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+/apps/github # Hi there.
+# <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#    ^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#     ^^^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#           ^ - comment - invalid - meta - entity
+#            ^ punctuation.definition.comment.git.codeowners
+#            ^^^^^^^^^^^^ comment.line.git.codeowners
+
+# In this example, @octocat owns any file in the `/apps`
+# directory in the root of your repository except for the `/apps/github`
+# subdirectory, as this subdirectory has its own owner @doctocat.
+/apps/ @octocat
+# <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#    ^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#     ^ - meta
+#      ^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+/apps/github @doctocat#Hello.
+# <- meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#    ^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners punctuation.separator.path.fnmatch.git
+#     ^^^^^^ meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
+#           ^ - meta
+#            ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
+#                     ^ punctuation.definition.comment.git.codeowners
+#                     ^^^^^^^^ comment.line.git.codeowners
 
 -docs
 # <- invalid.illegal.operator.git.codeowners
