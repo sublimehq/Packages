@@ -1168,7 +1168,13 @@ contexts:
 
   # Functions that return essential constants, usually used without parameters
   builtin-constants:
-    - match: \b(true|false|eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.matlab
+      push: maybe-transpose
+    - match: \btrue\b
+      scope: constant.language.boolean.true.matlab
+      push: maybe-transpose
+    - match: \b(eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
       scope: constant.language.matlab
       push: maybe-transpose
 
