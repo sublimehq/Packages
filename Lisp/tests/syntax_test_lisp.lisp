@@ -1290,10 +1290,10 @@
 ;       ^ constant.language
 
 (print true)
-;      ^^^^ constant.language.boolean.lisp
+;      ^^^^ constant.language.boolean.true.lisp
 
 (print false)
-;      ^^^^^ constant.language.boolean.lisp
+;      ^^^^^ constant.language.boolean.false.lisp
 
 (print nil)
 ;      ^^^ constant.language.null.lisp
@@ -2446,7 +2446,7 @@
 ;                         ^^^ keyword.operator.logical.lisp
 ;                             ^^^^ variable.other.lisp
 ;                                  ^ keyword.operator.lisp
-;                                    ^^^^ constant.language.boolean.lisp
+;                                    ^^^^ constant.language.boolean.true.lisp
 
 ;;; for-as-claus
 
@@ -2484,9 +2484,9 @@
   var = true then false
 ; ^^^ variable.other.lisp
 ;     ^ keyword.operator.lisp
-;       ^^^^ constant.language.boolean.lisp
+;       ^^^^ constant.language.boolean.true.lisp
 ;            ^^^^ keyword.control.conditional.lisp
-;                 ^^^^^ constant.language.boolean.lisp
+;                 ^^^^^ constant.language.boolean.false.lisp
 
 ;;; for-as-across
 
