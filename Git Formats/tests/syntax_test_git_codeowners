@@ -1,10 +1,10 @@
 # SYNTAX TEST "Git Code Owners.sublime-syntax"
-# <- text.git.codeowners comment.line.git.codeowners punctuation.definition.comment.git.codeowners
+# <- text.git.codeowners comment.line.git punctuation.definition.comment.git
 
 # This is a comment.
 # Each line is a file pattern followed by one or more owners.
-# <- comment.line.git.codeowners punctuation.definition.comment.git.codeowners
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.codeowners
+# <- comment.line.git punctuation.definition.comment.git
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
 
 # These owners will be the default owners for everything in
 # the repo, unless a later match takes precedence.
@@ -29,8 +29,8 @@
 #       ^^^^^^^^^ meta.owners.git.codeowners meta.reference.username.git entity.name.reference.username.git
 #       ^ punctuation.definition.reference.username.git
 #                ^ - comment - invalid - meta - entity
-#                 ^ punctuation.definition.comment.git.codeowners
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.codeowners
+#                 ^ punctuation.definition.comment.git
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
 
 # You can also use email addresses if you prefer. They'll be
 # used to look up users just like we do for commit author
