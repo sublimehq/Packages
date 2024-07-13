@@ -2346,16 +2346,21 @@ contexts:
 
   literal-constants:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.java
+    - match: false{{break}}
+      scope: constant.language.boolean.false.java
+    - match: true{{break}}
+      scope: constant.language.boolean.true.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
       scope: constant.language.null.java
 
   literal-constant:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.java
+    - match: false{{break}}
+      scope: constant.language.boolean.false.java
+      pop: 1
+    - match: true{{break}}
+      scope: constant.language.boolean.true.java
       pop: 1
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
