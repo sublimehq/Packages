@@ -1634,8 +1634,12 @@ contexts:
   # bools, numbers, chars, simple strings
   literals:
     # language constants
-    - match: \b(true|false|null)\b
-      scope: constant.language.cs
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.cs
+    - match: \btrue\b
+      scope: constant.language.boolean.true.cs
+    - match: \bnull\b
+      scope: constant.language.null.cs
     # characters
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
