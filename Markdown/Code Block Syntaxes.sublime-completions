@@ -18,13 +18,19 @@
 
 		// AppleScript
 		{
-			"trigger": "AppleScript",
+			"trigger": "applescript",
 			"annotation": "AppleScript",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>AppleScript</code> code highlighting"
 		},
 		{
 			"trigger": "osascript",
+			"annotation": "AppleScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>AppleScript</code> code highlighting"
+		},
+		{
+			"trigger": "scpt",
 			"annotation": "AppleScript",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>AppleScript</code> code highlighting"
@@ -39,19 +45,19 @@
 		},
 		{
 			"trigger": "cpp",
-			"annotation": "C++",
+			"annotation": "C++ source",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>C++</code> code highlighting"
 		},
 		{
 			"trigger": "cxx",
-			"annotation": "C++",
+			"annotation": "C++ source",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>C++</code> code highlighting"
 		},
 		{
 			"trigger": "c++",
-			"annotation": "C++",
+			"annotation": "C++ source",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>C++</code> code highlighting"
 		},
@@ -130,6 +136,12 @@
 			"details": "Specifies <code>Diff</code> code highlighting"
 		},
 		{
+			"trigger": "udiff",
+			"annotation": "Unified Diff",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Diff</code> code highlighting"
+		},
+		{
 			"trigger": "patch",
 			"annotation": "Patch",
 			"kind": ["markup", "s", "Syntax"],
@@ -144,19 +156,43 @@
 			"details": "Specifies <code>DOS batch</code> code highlighting"
 		},
 		{
+			"trigger": "batch",
+			"annotation": "DOS batch",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>DOS batch</code> code highlighting"
+		},
+		{
+			"trigger": "batchfile",
+			"annotation": "DOS batch",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>DOS batch</code> code highlighting"
+		},
+		{
 			"trigger": "cmd",
 			"annotation": "DOS batch",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>DOS batch</code> code highlighting"
 		},
 		{
-			"trigger": "dos",
+			"trigger": "dosbatch",
+			"annotation": "DOS batch",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>DOS batch</code> code highlighting"
+		},
+		{
+			"trigger": "winbatch",
 			"annotation": "DOS batch",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>DOS batch</code> code highlighting"
 		},
 
 		// Erlang
+		{
+			"trigger": "erl",
+			"annotation": "Erlang",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Erlang</code> code highlighting"
+		},
 		{
 			"trigger": "erlang",
 			"annotation": "Erlang",
@@ -186,7 +222,19 @@
 
 		// GraphViz
 		{
+			"trigger": "dot",
+			"annotation": "GraphViz",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>GraphViz</code> code highlighting"
+		},
+		{
 			"trigger": "graphviz",
+			"annotation": "GraphViz",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>GraphViz</code> code highlighting"
+		},
+		{
+			"trigger": "gv",
 			"annotation": "GraphViz",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>GraphViz</code> code highlighting"
@@ -199,10 +247,28 @@
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>Haskell</code> code highlighting"
 		},
+		{
+			"trigger": "hs",
+			"annotation": "Haskell",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Haskell</code> code highlighting"
+		},
+		{
+			"trigger": "hsc",
+			"annotation": "Haskell C binding",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Haskell</code> code highlighting"
+		},
 
 		// HTML
 		{
 			"trigger": "html",
+			"annotation": "HTML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>HTML</code> code highlighting"
+		},
+		{
+			"trigger": "xhtml",
 			"annotation": "HTML",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>HTML</code> code highlighting"
@@ -242,13 +308,25 @@
 			"details": "Specifies <code>JavaScript</code> code highlighting"
 		},
 		{
-			"trigger": "JSX",
+			"trigger": "node",
+			"annotation": "JavaScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JavaScript</code> code highlighting"
+		},
+		{
+			"trigger": "jsx",
 			"annotation": "JavaScript React",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>JavaScript React</code> code highlighting"
 		},
 		{
 			"trigger": "ts",
+			"annotation": "TypeScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TypeScript</code> code highlighting"
+		},
+		{
+			"trigger": "tsnode",
 			"annotation": "TypeScript",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>TypeScript</code> code highlighting"
@@ -308,6 +386,26 @@
 			"annotation": "Lua",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>Lua</code> code highlighting"
+		},
+
+		// Makefile
+		{
+			"trigger": "make",
+			"annotation": "Makefile",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Makefile</code> code highlighting"
+		},
+		{
+			"trigger": "makefile",
+			"annotation": "Makefile",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Makefile</code> code highlighting"
+		},
+		{
+			"trigger": "mf",
+			"annotation": "Makefile",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Makefile</code> code highlighting"
 		},
 
 		// Matlab
@@ -383,10 +481,22 @@
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>Perl 5</code> code highlighting"
 		},
+		{
+			"trigger": "perl5",
+			"annotation": "Perl 5",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Perl 5</code> code highlighting"
+		},
 
 		// PHP
 		{
 			"trigger": "html+php",
+			"annotation": "PHP",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>HTML+PHP</code> code highlighting"
+		},
+		{
+			"trigger": "phtml",
 			"annotation": "PHP",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>HTML+PHP</code> code highlighting"
@@ -404,9 +514,15 @@
 			"details": "Specifies <code>PHP</code> code highlighting"
 		},
 
-		// Phyton
+		// Python
 		{
 			"trigger": "python",
+			"annotation": "Python",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Python</code> code highlighting"
+		},
+		{
+			"trigger": "python3",
 			"annotation": "Python",
 			"kind": ["markup", "s", "Syntax"],
 			"details": "Specifies <code>Python</code> code highlighting"
