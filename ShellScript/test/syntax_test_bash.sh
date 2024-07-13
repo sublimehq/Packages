@@ -541,9 +541,9 @@ foo -nfv --opt1 arg1 -p=true -d false
 #              ^ - variable - punctuation
 #                    ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                      ^ keyword.operator.assignment.shell
-#                       ^^^^ constant.language.boolean.shell
+#                       ^^^^ constant.language.boolean.true.shell
 #                            ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                               ^^^^^ constant.language.boolean.shell
+#                               ^^^^^ constant.language.boolean.false.shell
 
 foo --\
 opt1=10
@@ -1089,7 +1089,7 @@ do echo bar; until ! { [[ true ]]; }
 #                  ^ keyword.operator.logical.shell
 #                    ^ punctuation.section.compound.begin.shell
 #                      ^^ support.function.test.begin.shell
-#                         ^^^^ constant.language.boolean.shell
+#                         ^^^^ constant.language.boolean.true.shell
 #                              ^^ support.function.test.end.shell
 #                                ^ punctuation.terminator.statement.shell
 #                                  ^ punctuation.section.compound.end.shell
@@ -1105,7 +1105,7 @@ while true; do
 # <- keyword.control.loop.while
 #^^^^ keyword.control.loop.while.shell
 #    ^ - constant - keyword
-#     ^^^^ constant.language.boolean.shell
+#     ^^^^ constant.language.boolean.true.shell
 #         ^ punctuation.terminator.statement.shell
 #           ^^ keyword.control.loop.do.shell
     break
@@ -1126,7 +1126,7 @@ done
 while ! true; do echo bar; done
 # <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
-#       ^^^^ constant.language.boolean.shell
+#       ^^^^ constant.language.boolean.true.shell
 #           ^ punctuation.terminator.statement.shell
 #             ^^ keyword.control.loop.do.shell
 #                ^^^^ support.function.echo.shell
@@ -1137,7 +1137,7 @@ while ! { true; }; do echo bar; done
 # <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
-#         ^^^^ constant.language.boolean.shell
+#         ^^^^ constant.language.boolean.true.shell
 #             ^ punctuation.terminator.statement.shell
 #               ^ punctuation.section.compound.end.shell
 #                ^ punctuation.terminator.statement.shell
@@ -1149,7 +1149,7 @@ while ! { [[ true ]]; }; do echo bar; done
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
 #         ^^ support.function.test.begin.shell
-#            ^^^^ constant.language.boolean.shell
+#            ^^^^ constant.language.boolean.true.shell
 #                 ^^ support.function.test.end.shell
 #                   ^ punctuation.terminator.statement.shell
 #                     ^ punctuation.section.compound.end.shell
@@ -1162,7 +1162,7 @@ while ! ( [[ true ]] ); do echo bar; done
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
 #         ^^ support.function.test.begin.shell
-#            ^^^^ constant.language.boolean.shell
+#            ^^^^ constant.language.boolean.true.shell
 #                 ^^ support.function.test.end.shell
 #                    ^ punctuation.section.compound.end.shell
 #                     ^ punctuation.terminator.statement.shell
@@ -1552,10 +1552,10 @@ fi
 
 if true ; then false ; fi
 #^ keyword.control.conditional.if.shell
-#  ^^^^ constant.language.boolean.shell
+#  ^^^^ constant.language.boolean.true.shell
 #       ^ punctuation.terminator.statement.shell
 #         ^^^^ keyword.control.conditional.then.shell
-#              ^^^^^ constant.language.boolean.shell
+#              ^^^^^ constant.language.boolean.false.shell
 #                    ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.control.conditional.end.shell
 
@@ -2731,12 +2731,12 @@ true=false
 # <- variable.other.readwrite.shell - constant
 #^^^ variable.other.readwrite.shell - constant
 #   ^ keyword.operator.assignment.shell
-#    ^^^^^ constant.language.boolean.shell
+#    ^^^^^ constant.language.boolean.false.shell
 false=true
 # <- variable.other.readwrite.shell - constant
 #^^^^ variable.other.readwrite.shell - constant
 #    ^ keyword.operator.assignment.shell
-#     ^^^^ constant.language.boolean.shell
+#     ^^^^ constant.language.boolean.true.shell
 charclass=\}ower
 # <- meta.variable.shell variable.other.readwrite.shell
 #^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
@@ -5902,7 +5902,7 @@ local foo+=10 bar-=true
 #          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #             ^^^ meta.variable.shell variable.other.readwrite.shell
 #                ^^ keyword.operator.assignment.shell
-#                  ^^^^ constant.language.boolean.shell
+#                  ^^^^ constant.language.boolean.true.shell
 
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -6088,7 +6088,7 @@ test $var == true
 #^^^ meta.function-call.identifier.shell support.function.test.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.string.regexp
 #         ^^ keyword.operator.comparison.shell
-#            ^^^^ constant.language.boolean.shell
+#            ^^^^ constant.language.boolean.true.shell
 
 test str == "str"
 #<- meta.function-call.identifier.shell support.function.test.shell
@@ -6586,10 +6586,10 @@ sudo --reset-timestamp -n -f -- rm -rf
 ###############################################################################
 
 true false
-# <- constant.language.boolean.shell
-#^^^ constant.language.boolean.shell
+# <- constant.language.boolean.true.shell
+#^^^ constant.language.boolean.true.shell
 #   ^ - constant
-#    ^^^^^ constant.language.boolean.shell
+#    ^^^^^ constant.language.boolean.false.shell
 #         ^ - constant
 
 (( 0 ))
