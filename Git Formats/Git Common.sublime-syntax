@@ -125,7 +125,7 @@ contexts:
     - match: '>'
       scope: punctuation.definition.reference.email.end.git
       pop: 1
-    - match: (?=\s)
+    - match: (?=[\s{{comment_char}}])
       pop: 1
 
   username:

@@ -12,11 +12,12 @@ file_extensions:
   - CODEOWNERS                # *.codeowners, ./CODEOWNERS
 
 variables:
-  comment_char: \#
+  comment_char: '[#;]'
 
 contexts:
 
   main:
+    - include: Git Common.sublime-syntax#comments
     # note:
     # - ignore whitespace at the beginning of a line
     # - patterns may not start with operators: - !
@@ -30,19 +31,17 @@ contexts:
   pattern-content:
     # note: character classes are not supported
     - meta_content_scope: meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
-    - include: comments
     - match: \s+(?=([^\@\s]+)?\@)
       set: owners
+    - include: eol-pop
     - include: Git Common.sublime-syntax#fnmatch-unquoted-file-extensions
     - include: Git Common.sublime-syntax#fnmatch-common
-    - include: eol-pop
 
   owners:
     - meta_content_scope: meta.owners.git.codeowners
-    - include: comments
+    - include: eol-pop
     - include: Git Common.sublime-syntax#username
     - include: emails
-    - include: eol-pop
 
   emails:
     - match: (?=\S)
@@ -50,21 +49,6 @@ contexts:
         - Git Common.sublime-syntax#email-meta
         - Git Common.sublime-syntax#email-name
 
-  comments:
-    - match: \s*(?={{comment_char}})
-      set: comment-start
-
-  comment-start:
-    - meta_include_prototype: false
-    - match: '{{comment_char}}'
-      scope: punctuation.definition.comment.git.codeowners
-      set: comment-body
-
-  comment-body:
-    - meta_scope: comment.line.git.codeowners
-    - match: $\n?
-      pop: 1
-
   eol-pop:
-    - match: $
+    - match: (?=\s*(?:$|{{comment_char}}))
       pop: 1
