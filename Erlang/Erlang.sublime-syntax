@@ -1386,8 +1386,10 @@ contexts:
 
   constant:
     # https://www.erlang.org/doc/reference_manual/data_types.html#boolean
-    - match: (false|true){{ident_break}}
-      scope: constant.language.boolean.erlang
+    - match: false{{ident_break}}
+      scope: constant.language.boolean.false.erlang
+    - match: true{{ident_break}}
+      scope: constant.language.boolean.true.erlang
     # https://www.erlang.org/doc/reference_manual/errors.html#exceptions
     - match: (error|exit|ok|throw){{ident_break}}
       scope: constant.language.exception.type.erlang

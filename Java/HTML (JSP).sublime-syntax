@@ -640,14 +640,19 @@ contexts:
     - include: jstl-expressions
 
   jstl-constants:
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.jstl
+    - match: false{{break}}
+      scope: constant.language.boolean.false.jstl
+    - match: true{{break}}
+      scope: constant.language.boolean.true.jstl
     - match: null{{break}}
       scope: constant.language.null.jstl
 
   jstl-constant:
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.jstl
+    - match: false{{break}}
+      scope: constant.language.boolean.false.jstl
+      pop: 1
+    - match: true{{break}}
+      scope: constant.language.boolean.true.jstl
       pop: 1
     - match: null{{break}}
       scope: constant.language.null.jstl

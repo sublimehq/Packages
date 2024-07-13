@@ -24,7 +24,13 @@ contexts:
       scope: keyword.control.actionscript.2
     - match: \b(Boolean|Number|String|Void)\b
       scope: storage.type.actionscript.2
-    - match: \b(null|undefined|true|false)\b
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.actionscript.2
+    - match: \btrue\b
+      scope: constant.language.boolean.true.actionscript.2
+    - match: \bnull\b
+      scope: constant.language.null.actionscript.2
+    - match: \bundefined\b
       scope: constant.language.actionscript.2
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\b'
       scope: constant.numeric.actionscript.2

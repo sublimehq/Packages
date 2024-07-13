@@ -5082,9 +5082,9 @@ by accident, but if necessary, such support could be sacrificed.
 /* # Predeclared Constants */
 
     true false nil
-//  ^^^^ constant.language.go
-//       ^^^^^ constant.language.go
-//             ^^^ constant.language.go
+//  ^^^^ constant.language.boolean.true.go
+//       ^^^^^ constant.language.boolean.false.go
+//             ^^^ constant.language.null.go
 
 
 /* # Built-in Types */

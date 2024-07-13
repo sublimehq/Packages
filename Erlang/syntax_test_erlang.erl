@@ -33,10 +33,10 @@ atom_tests() -> .
 % Special atom tests
 
     true
-%   ^^^^ constant.language.boolean.erlang
+%   ^^^^ constant.language.boolean.true.erlang
 
     false
-%   ^^^^^ constant.language.boolean.erlang
+%   ^^^^^ constant.language.boolean.false.erlang
 
     error
 %   ^^^^^ constant.language.exception.type.erlang
@@ -473,7 +473,7 @@ list_tests() -> .
 %   ^ punctuation.section.sequence.begin.erlang
 %    ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %      ^^ keyword.operator.comprehension.erlang
-%         ^^^^ constant.language.boolean.erlang
+%         ^^^^ constant.language.boolean.true.erlang
 %             ^ punctuation.section.sequence.end.erlang
 
     [2 || is_integer(2)]
@@ -4137,7 +4137,7 @@ func_name ( ) when true ->
 %         ^ punctuation.section.parameters.begin.erlang
 %           ^ punctuation.section.parameters.end.erlang
 %             ^^^^ keyword.control.conditional.when.erlang
-%                  ^^^^ constant.language.boolean.erlang
+%                  ^^^^ constant.language.boolean.true.erlang
 %                       ^^ punctuation.separator.clause-head-body.erlang
     .
 %   ^ meta.function.erlang punctuation.terminator.clause.erlang
@@ -4389,7 +4389,7 @@ case_tests() ->
 %                                 ^ punctuation.separator.clauses.erlang
 %                                   ^^^ variable.other.readwrite.erlang
 %                                       ^^ keyword.operator.comparison.erlang
-%                                          ^^^^^ constant.language.boolean.erlang
+%                                          ^^^^^ constant.language.boolean.false.erlang
 %                                                ^^ punctuation.separator.clause-head-body.erlang
             print("ok");
 %          ^^^^^^^^^^^^ meta.case.erlang
@@ -4446,7 +4446,7 @@ if_tests() ->
 %                                 ^ punctuation.separator.clauses.erlang
 %                                   ^^^ variable.other.readwrite.erlang
 %                                       ^^ keyword.operator.comparison.erlang
-%                                          ^^^^^ constant.language.boolean.erlang
+%                                          ^^^^^ constant.language.boolean.false.erlang
 %                                                ^^ punctuation.separator.clause-head-body.erlang
             print("ok");
 %          ^^^^^^^^^^^^ meta.if.erlang
@@ -4496,7 +4496,7 @@ maybe_tests() ->
 %                         ^ punctuation.separator.expressions.erlang
             true = A >= 0,
 %   ^^^^^^^^^^^^^^^^^^^^^^^ meta.maybe.erlang meta.maybe.erlang
-%           ^^^^ constant.language.boolean.erlang
+%           ^^^^ constant.language.boolean.true.erlang
 %                ^ keyword.operator.assignment.erlang
 %                  ^ variable.other.readwrite.erlang
 %                    ^^ keyword.operator.comparison.erlang
@@ -5243,7 +5243,7 @@ fun_expression_tests() ->
 %              ^^^^ keyword.control.conditional.when.erlang
 %                   ^ variable.other.readwrite.erlang
 %                     ^^ keyword.operator.comparison.erlang
-%                        ^^^^ constant.language.boolean.erlang
+%                        ^^^^ constant.language.boolean.true.erlang
 %                            ^ punctuation.separator.clauses.erlang
 %                              ^^^^^^^^ support.function.erlang
 %                                      ^ punctuation.section.arguments.begin.erlang

@@ -70,7 +70,7 @@ create table IF NOT EXISTS `testing123` (
     `col` bool DEFAULT FALSE,
 --        ^^^^ storage.type.sql
 --             ^^^^^^^ storage.modifier.sql
---                     ^^^^^ constant.language.boolean.sql
+--                     ^^^^^ constant.language.boolean.false.sql
 --                          ^ punctuation.separator.sequence
     `fkey` INT UNSIGNED NULL REFERENCES test2(id),
 --                           ^^^^^^^^^^ storage.modifier.sql

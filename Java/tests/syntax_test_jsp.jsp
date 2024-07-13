@@ -948,7 +948,7 @@
 //                      ^^^^^^^^^^^^^ meta.path.jstl
 //                      ^^^^^^^ variable.namespace.jstl
 //                             ^ punctuation.accessor.namespace.jstl
-//                              ^^^^^ constant.language.boolean.jstl
+//                              ^^^^^ constant.language.boolean.false.jstl
 //                                   ^ punctuation.section.embedded.end.jstl
 
     ${obj1 != null &&

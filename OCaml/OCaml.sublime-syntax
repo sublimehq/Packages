@@ -391,8 +391,10 @@ contexts:
         1: meta.empty-typing-pair.ocaml
         2: meta.empty-typing-pair.parens.ocaml
         3: meta.empty-typing-pair.ocaml
-    - match: \b(true|false)\b
-      scope: constant.language.boolean.ocaml
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.ocaml
+    - match: \btrue\b
+      scope: constant.language.boolean.true.ocaml
     - match: '''(.|\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]))'''
       scope: constant.character.ocaml
 

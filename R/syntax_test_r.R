@@ -84,11 +84,11 @@ month.name
 month.abb
 # <- support.constant.misc.r
 TRUE
-# <- constant.language.r
+# <- constant.language.boolean.true.r
 FALSE
-# <- constant.language.r
+# <- constant.language.boolean.false.r
 NULL
-# <- constant.language.r
+# <- constant.language.null.r
 NA
 # <- constant.language.r
 NA_integer_

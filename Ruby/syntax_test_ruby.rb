@@ -1257,9 +1257,9 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language.boolean
+#                             ^^^^ constant.language.boolean.true
 #                                 ^ punctuation.separator.ruby
-#                                      ^^^^^ constant.language.boolean.ruby
+#                                      ^^^^^ constant.language.boolean.false.ruby
   end
 
   def multiline_args(a, # a comment

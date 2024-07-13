@@ -539,8 +539,11 @@ contexts:
       pop: 1
 
   builtin:
-    - match: (?:true|false){{identifier_break}}
-      scope: constant.language.boolean.lua
+    - match: false{{identifier_break}}
+      scope: constant.language.boolean.false.lua
+      pop: 1
+    - match: true{{identifier_break}}
+      scope: constant.language.boolean.true.lua
       pop: 1
     - match: nil{{identifier_break}}
       scope: constant.language.null.lua
