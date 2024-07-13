@@ -2432,8 +2432,11 @@ contexts:
       scope: constant.language.python
 
   booleans:
-    - match: (?:True|False)\b
-      scope: constant.language.boolean.python
+    - match: False\b
+      scope: constant.language.boolean.false.python
+      push: illegal-assignment
+    - match: True\b
+      scope: constant.language.boolean.true.python
       push: illegal-assignment
 
   nones:

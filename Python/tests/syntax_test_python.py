@@ -675,7 +675,7 @@ def _():
 #        ^ keyword.operator.assignment
 #          ^ punctuation.section.function.begin
 #           ^^^^^ meta.function.inline.body
-#            ^^^^ constant.language.boolean.python
+#            ^^^^ constant.language.boolean.true.python
 
     lambda as, in=2: 0
 #          ^^ invalid.illegal.name
@@ -1163,7 +1163,7 @@ def _():
         pass
     elif False :
 #   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
-#        ^^^^^ constant.language.boolean.python
+#        ^^^^^ constant.language.boolean.false.python
 #              ^ punctuation.section.block.conditional.elseif.python
         pass
     else  :
@@ -1174,7 +1174,7 @@ def _():
     if \
         True:
 #       ^^^^^ meta.statement.conditional.if.python
-#       ^^^^ constant.language.boolean.python
+#       ^^^^ constant.language.boolean.true.python
 #           ^ punctuation.section.block.conditional.if.python
 #
 
@@ -1325,7 +1325,7 @@ def _():
 #           ^^ keyword.control.conditional.if.python
 #              ^^^ meta.generic-name.python
 #                  ^^ keyword.operator.logical.python
-#                     ^^^^ constant.language.boolean.python
+#                     ^^^^ constant.language.boolean.true.python
 #                         ^ punctuation.section.block.conditional.case.python
 
     case (,) if foo in ('bar', 'baz'):
@@ -1392,7 +1392,7 @@ def _():
 #           ^^ keyword.control.conditional.if.python
 #              ^^^ meta.generic-name.python
 #                  ^^ keyword.operator.logical.python
-#                     ^^^^ constant.language.boolean.python
+#                     ^^^^ constant.language.boolean.true.python
 #                         ^ punctuation.section.block.conditional.case.python
 
     case { s_key : 'value' , num.key: 100, **pattern} if foo in {'foo', 'bar'}:
@@ -2179,11 +2179,11 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                              ^ punctuation.separator.inheritance.python
 #                                ^^^^^ variable.parameter.class-inheritance.python
 #                                     ^ keyword.operator.assignment.python
-#                                      ^^^^^ constant.language.boolean.python
+#                                      ^^^^^ constant.language.boolean.false.python
 #                                           ^ punctuation.separator.inheritance.python
-#                                             ^^^^ constant.language.boolean.python
+#                                             ^^^^ constant.language.boolean.true.python
 #                                                 ^ invalid.illegal.assignment.python
-#                                                  ^^^^^ constant.language.boolean.python
+#                                                  ^^^^^ constant.language.boolean.false.python
 
 
 class MyClass:
