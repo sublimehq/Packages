@@ -772,26 +772,23 @@ contexts:
         support.function.test.shell
       push: cmd-test-args
 
-  cmd-test-args:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - match: =~
-      scope: invalid.illegal.operator.shell
-    - match: '!=|==?'
-      scope: keyword.operator.comparison.shell
-    - include: cmd-args-end
-    - include: test-expression-common
-
   builtin-test-body:
     - meta_scope: meta.conditional.shell
     - match: '{{wspace}}(\])'
       captures:
         1: support.function.test.end.shell
       pop: 1
-    - match: =~
+    - include: cmd-test-args
+
+  cmd-test-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - match: =~|[<>]=
       scope: invalid.illegal.operator.shell
     - match: '!=|==?'
       scope: keyword.operator.comparison.shell
-    - include: line-continuations
+    - match: '<(?!<)|>(?!>)'
+      scope: keyword.operator.comparison.shell
+    - include: cmd-args-end
     - include: test-expression-common
 
   compound-test-body:
@@ -813,19 +810,23 @@ contexts:
       captures:
         1: keyword.operator.comparison.shell
       push: compound-test-pattern
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.shell
+    - match: ;
+      scope: invalid.illegal.unexpected.shell
     - include: line-continuations
     - include: test-expression-common
 
   compound-test-eregexp:
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: (?=\s)
+    - match: (?=[\s;])
       pop: 1
     - include: line-continuations
     - include: eregexp-main-content
 
   compound-test-pattern:
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: (?=\s)
+    - match: (?=[\s;])
       pop: 1
     - include: line-continuations
     - include: pattern-main-content
@@ -845,6 +846,10 @@ contexts:
       captures:
         1: keyword.operator.comparison.shell
       push: compound-test-group-pattern
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.shell
+    - match: ;
+      scope: invalid.illegal.unexpected.shell
     - include: line-continuations
     - include: test-expression-common
 
@@ -859,9 +864,6 @@ contexts:
     - include: pattern-group-content
 
   compound-test-group-pattern-end:
-    - match: \)
-      scope: punctuation.section.group.end.shell
-      pop: 2
     - match: '{{wspace}}(\]\])'
       captures:
         1: invalid.illegal.unexpected-token.shell
@@ -869,7 +871,7 @@ contexts:
     - match: $\n?
       scope: invalid.illegal.unexpected-token.shell
       pop: 3
-    - match: (?=&&|\|\|)
+    - match: (?=\s*(?:&&|\|\||;|\)))
       pop: 1
     - include: line-continuations
 
@@ -881,8 +883,6 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*(=~|!=|==?))
-      scope: keyword.operator.comparison.shell
-    - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell

@@ -1511,24 +1511,6 @@ if !cmd
 # <- variable.language.history.shell punctuation.definition.history.shell
 #^^ variable.language.history.shell
 
-[ ]
-# <- support.function.test.begin.shell
-# ^ support.function.test.end.shell
-
-[
-]
-# <- meta.conditional.shell support.function.test.end.shell
-
-! [ ]
-# <- keyword.operator.logical.shell
-# ^ support.function.test.begin.shell
-#   ^ support.function.test.end.shell
-
-![ ]
-# <- punctuation.definition.history.shell
-#^ support.function.test.begin.shell
-#  ^ support.function.test.end.shell
-
 [[ ]]
 # <- support.function.test.begin.shell
 #^ support.function.test.begin.shell
@@ -1672,7 +1654,8 @@ if [[ "$ERL_TOP" != ";"; ]];then;fi
 #^ keyword.control.conditional.if.shell
 #  ^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #  ^^^^^^^^^^^^^^^^^ - meta.string.regexp
-#                   ^^^^ meta.string.regexp.shell
+#                   ^^^ meta.string.regexp.shell
+#                      ^ invalid.illegal.unexpected.shell - meta.string
 #                       ^^^ - meta.string.regexp
 #                          ^ punctuation.terminator.statement.shell
 #                           ^^^^ keyword.control.conditional.then.shell
@@ -7569,8 +7552,8 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 # <- meta.conditional.shell meta.group.shell meta.string.regexp.shell
 #^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell - meta.set
 #  ^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell meta.set.regexp.shell
-#        ^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell - meta.set
-#          ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#        ^ meta.conditional.shell meta.group.shell meta.string.regexp.shell - meta.set
+#         ^^ meta.conditional.shell meta.group.shell - meta.string.regexp
 #           ^^^ meta.conditional.shell - meta.group
 #            ^^ support.function.test.end.shell
 
@@ -8067,8 +8050,8 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 [[ ( $foo =~ ^\
    [^0-9]+ ) ]]
 # <- meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#^^^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#          ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#^^^^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#         ^^ meta.conditional.shell meta.group.shell - meta.string.regexp
 #           ^^^ meta.conditional.shell - meta.group
 #            ^^ support.function.test.end.shell
 
@@ -8126,8 +8109,8 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 [[ ( $foo =~ [\\\] ) ]]
 #^^ meta.conditional.shell - meta.group
 #  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
-#            ^^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
-#                  ^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#                 ^^ meta.conditional.shell meta.group.shell - meta.string.regexp
 #                   ^^^ meta.conditional.shell - meta.group - meta.string.regexp
 #                      ^ - meta.conditional
 
@@ -8240,17 +8223,23 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 [[ $foo =~ 'bar' || $foo =~ "baz" && $bar =~ baz ]]
 # <- meta.conditional.shell support.function.test.begin.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#  ^^^^ variable.other.readwrite.shell
+#  ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^^^ - meta.string
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^ meta.string.regexp.shell
+#               ^^^^ - meta.string
 #                ^^ keyword.operator.logical.shell
-#                   ^^^^ variable.other.readwrite.shell
+#                   ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                       ^^^^ - meta.string
 #                        ^^ keyword.operator.comparison.shell
 #                           ^^^^^ meta.string.regexp.shell
+#                                ^^^^ - meta.string
 #                                 ^^ keyword.operator.logical.shell
-#                                    ^^^^ variable.other.readwrite.shell
+#                                    ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                        ^^^^ - meta.string
 #                                         ^^ keyword.operator.comparison.shell
 #                                            ^^^ meta.string.regexp.shell
+#                                               ^^^^ - meta.string
 #                                                ^^ support.function.test.end.shell
 
 [[ ( $foo =~ 'bar' || $foo =~ "baz" ) && $bar =~ baz ]]
@@ -8258,20 +8247,110 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #^^ meta.conditional.shell - meta.group
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
 #                                    ^^^^^^^^^^^^^^^^^^ meta.conditional.shell - meta.group
+#^^^^ - meta.string
 #  ^ punctuation.section.group.begin.shell
-#    ^^^^ variable.other.readwrite.shell
+#    ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^^^^ - meta.string
 #         ^^ keyword.operator.comparison.shell
 #            ^^^^^ meta.string.regexp.shell
+#                 ^^^^ - meta.string
 #                  ^^ keyword.operator.logical.shell
-#                     ^^^^ variable.other.readwrite.shell
+#                     ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                         ^^^^ - meta.string
 #                          ^^ keyword.operator.comparison.shell
 #                             ^^^^^ meta.string.regexp.shell
+#                                  ^^^^^^ - meta.string
 #                                   ^ punctuation.section.group.end.shell
 #                                     ^^ keyword.operator.logical.shell
-#                                        ^^^^ variable.other.readwrite.shell
+#                                        ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                            ^^^^ - meta.string
 #                                             ^^ keyword.operator.comparison.shell
 #                                                ^^^ meta.string.regexp.shell
+#                                                   ^^^^ - meta.string
 #                                                    ^^ support.function.test.end.shell
+
+[[ $foo =~ ; ]]       # unquoted semicolons are illegal
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^ meta.conditional.shell
+#              ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ invalid.illegal.unexpected.shell
+#            ^^ support.function.test.end.shell
+
+[[ ( $foo =~ ; ) ]]   # unquoted semicolons are illegal
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
+#               ^^^ meta.conditional.shell - meta.group
+#                  ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ invalid.illegal.unexpected.shell
+#              ^ punctuation.section.group.end.shell
+#                ^^ support.function.test.end.shell
+
+[[ $foo =~ (;) ]]     # unquoted semicolons allowed in pattern groups
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^ meta.conditional.shell - meta.group
+#          ^^^ meta.conditional.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.conditional.shell - meta.group
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#            ^ punctuation.section.group.end.regexp.shell
+#              ^^ support.function.test.end.shell
+
+[[ ( $foo =~ (;) ) ]] # unquoted semicolons allowed in pattern groups
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.group meta.group
+#            ^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#               ^ meta.conditional.shell meta.group.shell - meta.group meta.group
+#                 ^^^ meta.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ punctuation.section.group.begin.regexp.shell
+#              ^ punctuation.section.group.end.regexp.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ support.function.test.end.shell
+
+[[ $foo =~ \; ]]      # escaped semicolons are allowed
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^ meta.conditional.shell
+#               ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^ constant.character.escape.shell
+#             ^^ support.function.test.end.shell
+
+[[ ( $foo =~ \; ) ]]  # escaped semicolons are allowed
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^ meta.conditional.shell meta.group.shell
+#                ^^^ meta.conditional.shell - meta.group
+#                   ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^^ constant.character.escape.shell
+#               ^ punctuation.section.group.end.shell
+#                 ^^ support.function.test.end.shell
+
+[[ $foo =~ ";" ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ string
+#              ^^ support.function.test.end.shell
+
+[[ ( $foo =~ ";" ) ]]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^ meta.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^ meta.conditional.shell meta.group.shell meta.string.regexp.shell
+#               ^^ meta.conditional.shell meta.group.shell - meta.string
+#                 ^^^ meta.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ support.function.test.end.shell
 
 
 ###############################################################################
@@ -9572,7 +9651,33 @@ test str == "str"
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^ meta.string.shell string.unquoted.shell
 #        ^^ keyword.operator.comparison.shell
-#           ^^^^^ string.quoted.double.shell
+#           ^^^^^ meta.string.shell string.quoted.double.shell
+
+test str != "str"
+#<- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.string.shell string.unquoted.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.shell string.quoted.double.shell
+
+test str < 'str'
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^ meta.function-call.arguments.shell
+#               ^ - meta.function-call
+#    ^^^ meta.string.shell string.unquoted.shell
+#        ^ keyword.operator.comparison.shell
+#          ^^^^^ meta.string.shell string.quoted.single.shell
+
+test str > str
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^ meta.function-call.arguments.shell
+#             ^ - meta.function-call
+#    ^^^ meta.string.shell string.unquoted.shell
+#        ^ keyword.operator.comparison.shell
+#          ^^^ meta.string.shell string.unquoted.shell
 
 test var[0] != var[^0-9]*$
 #<- meta.function-call.identifier.shell support.function.test.shell
@@ -9943,12 +10048,72 @@ sudo --reset-timestamp -n -f -- rm -rf
 
 ###############################################################################
 # 6.4 Bash Conditional Expressions                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#Bash-Conditional-Expressions
 ###############################################################################
+
+![ ]
+# <- punctuation.definition.history.shell
+#^ support.function.test.begin.shell
+#  ^ support.function.test.end.shell
+
+! [ ]
+# <- keyword.operator.logical.shell
+# ^ support.function.test.begin.shell
+#   ^ support.function.test.end.shell
 
 [  ]
 # <- meta.conditional.shell support.function.test.begin.shell
 #^^^ meta.conditional.shell
 #  ^ support.function.test.end.shell
+
+[
+]
+# <- - meta.conditional - support.function.test
+
+[ \
+]
+# <- meta.conditional.shell support.function.test.end.shell
+
+[ # comment ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^ - meta.conditional - comment
+# ^^^^^^^^^^^^ comment.line.number-sign.shell - meta.conditional
+
+[ ; cmd ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^ - meta.conditional
+# ^ punctuation.terminator.statement.shell
+#   ^^^ variable.function.shell
+#       ^ string.unquoted.shell
+
+[ && cmd ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^ - meta.conditional
+# ^^ keyword.operator.logical.shell
+#    ^^^ variable.function.shell
+#        ^ string.unquoted.shell
+
+[ || cmd ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^ - meta.conditional
+# ^^ keyword.operator.logical.shell
+#    ^^^ variable.function.shell
+#        ^ string.unquoted.shell
+
+[ >>cmd ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^ meta.conditional.shell
+# ^^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^^^ string.unquoted.shell
+#       ^ support.function.test.end.shell
+
+[ <<cmd ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^ meta.conditional.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^^^^^^ meta.string.heredoc.shell
+cmd
 
 [ -a file ]
 # <- meta.conditional.shell support.function.test.begin.shell
@@ -10008,6 +10173,22 @@ sudo --reset-timestamp -n -f -- rm -rf
 #            ^ support.function.test.end.shell
 
 [ str =~ str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^^ invalid.illegal.operator.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#            ^ support.function.test.end.shell
+
+[ str >= str ]
+# <- meta.conditional.shell support.function.test.begin.shell
+#^^^^^^^^^^^^^ meta.conditional.shell
+# ^^^ meta.string.shell string.unquoted.shell
+#     ^^ invalid.illegal.operator.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#            ^ support.function.test.end.shell
+
+[ str <= str ]
 # <- meta.conditional.shell support.function.test.begin.shell
 #^^^^^^^^^^^^^ meta.conditional.shell
 # ^^^ meta.string.shell string.unquoted.shell
