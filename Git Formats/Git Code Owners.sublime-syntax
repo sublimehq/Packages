@@ -11,6 +11,9 @@ version: 2
 file_extensions:
   - CODEOWNERS                # *.codeowners, ./CODEOWNERS
 
+variables:
+  comment_char: '[#;]'
+
 contexts:
 
   main:
@@ -30,15 +33,15 @@ contexts:
     - meta_content_scope: meta.path.pattern.git.codeowners entity.name.pattern.git.codeowners
     - match: \s+(?=([^\@\s]+)?\@)
       set: owners
+    - include: eol-pop
     - include: Git Common.sublime-syntax#fnmatch-unquoted-file-extensions
     - include: Git Common.sublime-syntax#fnmatch-common
-    - include: eol-pop
 
   owners:
     - meta_content_scope: meta.owners.git.codeowners
+    - include: eol-pop
     - include: Git Common.sublime-syntax#username
     - include: emails
-    - include: eol-pop
 
   emails:
     - match: (?=\S)
@@ -47,5 +50,5 @@ contexts:
         - Git Common.sublime-syntax#email-name
 
   eol-pop:
-    - match: $
+    - match: (?=\s*(?:$|{{comment_char}}))
       pop: 1
