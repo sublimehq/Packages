@@ -327,35 +327,35 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
 
 ' echo '
-# <- meta.function-call.identifier.shell meta.string.shell
-#^^^^^^^ meta.function-call.identifier.shell meta.string.shell
-# <- variable.function.shell punctuation.definition.string.begin.shell
+# <- meta.function-call.identifier.shell meta.path.shell
+#^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# <- variable.function.shell punctuation.definition.quoted.begin.shell
 #^^^^^^^ variable.function.shell
-#      ^ punctuation.definition.string.end.shell
+#      ^ punctuation.definition.quoted.end.shell
 #       ^ - meta - variable
 
 e'cho'o
-# <- meta.function-call.identifier.shell - meta.string
-#^^^^^ meta.function-call.identifier.shell meta.string.shell
-#     ^ meta.function-call.identifier.shell - meta.string
+# <- meta.function-call.identifier.shell
+#^^^^^ meta.function-call.identifier.shell
+#     ^ meta.function-call.identifier.shell
 # <- variable.function.shell
 #^^^^^^ variable.function.shell
 #      ^ - meta - variable
 
 e' cho'o
-# <- meta.function-call.identifier.shell - meta.string
-#^^^^^^ meta.function-call.identifier.shell meta.string.shell
-#      ^ meta.function-call.identifier.shell - meta.string
+# <- meta.function-call.identifier.shell
+#^^^^^^ meta.function-call.identifier.shell
+#      ^ meta.function-call.identifier.shell
 # <- variable.function.shell
 #^^^^^^^ variable.function.shell
 #       ^ - meta - variable
 
 e"\" \t ${ch} "o
-# <- meta.function-call.identifier.shell - meta.string - meta.interpolation
-#^^^^^^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
-#       ^^^^^ meta.function-call.identifier.shell meta.string.shell meta.interpolation.parameter.shell
-#            ^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
-#              ^ meta.function-call.identifier.shell - meta.string - meta.interpolation
+# <- meta.function-call.identifier.shell - meta.interpolation
+#^^^^^^^ meta.function-call.identifier.shell - meta.interpolation
+#       ^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#            ^^ meta.function-call.identifier.shell - meta.interpolation
+#              ^ meta.function-call.identifier.shell - meta.interpolation
 # <- variable.function.shell
 #^^^^^^^ variable.function.shell
 #       ^^^^^ - variable.function
@@ -368,7 +368,7 @@ ch=ch
 e${ch}"o" hello, world!
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-#     ^^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
+#     ^^^ meta.function-call.identifier.shell - meta.interpolation
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #^^^^^ - variable.function
 #     ^^^ variable.function.shell
@@ -376,8 +376,8 @@ e${ch}"o" hello, world!
 # ^ punctuation.section.interpolation.begin.shell
 #  ^^ variable.other.readwrite
 #    ^ punctuation.section.interpolation.end.shell
-#     ^ punctuation.definition.string.begin.shell
-#       ^ punctuation.definition.string.end.shell
+#     ^ punctuation.definition.quoted.begin.shell
+#       ^ punctuation.definition.quoted.end.shell
 e=e
 ${e}'ch'o hello, world!
 # <- meta.function-call.identifier.shell - variable.function
@@ -389,21 +389,82 @@ ${e}'ch'o hello, world!
 #^ punctuation.section.interpolation.begin.shell
 # ^ variable.other.readwrite.shell
 #  ^ punctuation.section.interpolation.end.shell
-#   ^ punctuation.definition.string.begin.shell
-#      ^ punctuation.definition.string.end.shell
+#   ^ punctuation.definition.quoted.begin.shell
+#      ^ punctuation.definition.quoted.end.shell
 e=e
 $e'ch'o Hello, world!
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-# ^^^^ meta.function-call.identifier.shell meta.string.shell
+# ^^^^ meta.function-call.identifier.shell
 #     ^ meta.function-call.identifier.shell
 #      ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 # <- variable.other.readwrite.shell punctuation.definition.variable.shell
 #^ variable.other.readwrite.shell
 # ^^^^^ variable.function.shell
-# ^ punctuation.definition.string.begin.shell
-#    ^ punctuation.definition.string.end.shell
+# ^ punctuation.definition.quoted.begin.shell
+#    ^ punctuation.definition.quoted.end.shell
 
+./~foo/../bar../baz.sh
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell constant.other.path.self.shell
+#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ punctuation.separator.path.shell
+# ^ - variable.language
+#     ^ punctuation.separator.path.shell
+#      ^^ constant.other.path.parent.shell
+#        ^ punctuation.separator.path.shell
+#            ^^ - constant.other.path - punctuation
+#              ^ punctuation.separator.path.shell
+
+"./~foo/../bar../baz.sh"
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.definition.quoted.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ constant.other.path.self.shell
+# ^ punctuation.separator.path.shell
+#  ^ - variable.language
+#      ^ punctuation.separator.path.shell
+#       ^^ constant.other.path.parent.shell
+#         ^ punctuation.separator.path.shell
+#             ^^ - constant.other.path - punctuation
+#               ^ punctuation.separator.path.shell
+#                      ^ punctuation.definition.quoted.end.shell
+
+"./"~foo"/../"bar"../"baz.sh
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.definition.quoted.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ constant.other.path.self.shell
+# ^ punctuation.separator.path.shell
+#  ^ punctuation.definition.quoted.end.shell
+#   ^ - variable.language
+#       ^ punctuation.definition.quoted.begin.shell
+#        ^ punctuation.separator.path.shell
+#         ^^ constant.other.path.parent.shell
+#           ^ punctuation.separator.path.shell
+#            ^ punctuation.definition.quoted.end.shell
+#                ^ punctuation.definition.quoted.begin.shell
+#                   ^ punctuation.separator.path.shell
+#                    ^ punctuation.definition.quoted.end.shell
+
+../my?script[1-9].*
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell constant.other.path.parent.shell
+#^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ constant.other.path.parent.shell
+# ^ punctuation.separator.path.shell
+#    ^ constant.other.wildcard.questionmark.shell
+#           ^^^^^ meta.set.regexp.shell
+#           ^ punctuation.definition.set.begin.regexp.shell
+#            ^^^ constant.other.range.regexp.shell
+#               ^ punctuation.definition.set.end.regexp.shell
+#                 ^ constant.other.wildcard.asterisk.shell
+
+"../my?script[1-9].*"   # no pattern matching within quotes
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.definition.quoted.begin.shell
+#^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^^ constant.other.path.parent.shell
+#  ^ punctuation.separator.path.shell
+#     ^ - constant
+#            ^^^^^ - meta.set.regexp - punctuation
+#                  ^ - constant
+#                   ^ punctuation.definition.quoted.end.shell
 
 ###############################################################################
 # 3.2 Shell Commands (Basic Command Arguments)                                #
@@ -649,20 +710,12 @@ sleep 2 & jobs
 #       ^ keyword.operator
 #         ^^^^ meta.function-call.identifier.shell support.function.jobs.shell
 
-subdir/./myscript.sh --option arg1 arg2 -x
-# <- meta.function-call.identifier.shell variable.function.shell
-#^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
-#                   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                    ^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
-#                            ^^^^^^^^^^^ - string
-#                                       ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                                         ^ - meta.function-call
-
 {foo} -o --option -- -o
-# <- meta.function-call.identifier.shell variable.function.shell
-#^^^^ meta.function-call.identifier.shell variable.function.shell
+# <- meta.function-call.identifier.shell variable.function.shell - meta.interpolation
+#^^^^ meta.function-call.identifier.shell - meta.interpolation
 #    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                      ^ - meta.function-call
+#^^^^ variable.function.shell
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ - variable
 #        ^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -672,8 +725,9 @@ subdir/./myscript.sh --option arg1 arg2 -x
 #                    ^^ - variable
 
 [foo] -o
-# <- meta.function-call.identifier.shell variable.function.shell
-#^^^^ meta.function-call.identifier.shell variable.function.shell
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell meta.set.regexp.shell punctuation.definition.set.begin.regexp.shell
+#^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell meta.set.regexp.shell - punctuation
+#   ^ meta.function-call.identifier.shell meta.path.shell variable.function.shell meta.set.regexp.shell punctuation.definition.set.end.regexp.shell
 #    ^^^ meta.function-call.arguments.shell
 
 $foo -o
@@ -2449,8 +2503,9 @@ foo:foo () {
     echo "this is ~"
 }
 "~"
-# <- meta.function-call.identifier.shell meta.string.shell variable.function.shell punctuation.definition.string.begin.shell
-#^^ meta.function-call.identifier.shell meta.string.shell variable.function.shell
+# <- meta.function-call.identifier.shell variable.function.shell punctuation.definition.quoted.begin.shell
+#^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+# ^  punctuation.definition.quoted.end.shell
 ^ () {
 # <- meta.function entity.name.function
     echo "this is ^"
@@ -3821,9 +3876,21 @@ test $me -eq ~/~foo
 #            ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
 #             ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
 
-~/.config/app
+~/.bin/~app
 # <- meta.function-call.identifier.shell meta.interpolation.tilde.shell variable.language.tilde.shell
-#^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
+#^ punctuation.separator.path.shell
+#     ^ punctuation.separator.path.shell
+#      ^ - variable.language.tilde
+
+"~/.bin/~app"
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.definition.quoted.begin.shell
+#^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ - variable.language.tilde
+# ^ punctuation.separator.path.shell
+#      ^ punctuation.separator.path.shell
+#       ^ - variable.language.tilde
+#           ^ punctuation.definition.quoted.end.shell
 
 ###############################################################################
 # 3.5.3 Shell Parameter Expansion                                             #
@@ -8112,10 +8179,22 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 
   > ~/.local/file
 # ^^ meta.redirection.shell - meta.path
-#   ^ meta.redirection.shell meta.path.shell meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ meta.redirection.shell meta.path.shell meta.string.shell meta.interpolation.tilde.shell
 #    ^^^^^^^^^^^^ meta.redirection.shell meta.path.shell meta.string.shell string.unquoted.shell - meta.interpolation
 # ^ keyword.operator.assignment.redirection.shell
 #   ^ variable.language.tilde.shell
+#    ^ punctuation.separator.path.shell
+#           ^ punctuation.separator.path.shell
+
+  > "~/.local/file"
+# ^^ meta.redirection.shell - meta.path
+#   ^^^^^^^^^^^^^^^ meta.redirection.shell meta.path.shell meta.string.shell string.quoted.double.shell
+# ^ keyword.operator.assignment.redirection.shell
+#   ^ punctuation.definition.string.begin.shell
+#    ^ - variable.language
+#     ^ punctuation.separator.path.shell
+#            ^ punctuation.separator.path.shell
+#                 ^ punctuation.definition.string.end.shell
 
   > "~/.local/file"
 # ^^ meta.redirection.shell - meta.path
@@ -8881,7 +8960,7 @@ exec git diff-index --check --cached $against --
 exec "$cmd" \
 #^^^ meta.function-call.identifier.shell
 #   ^ meta.function-call.arguments.shell
-#    ^^^^^^ meta.function-call.identifier.shell meta.string.shell
+#    ^^^^^^ meta.function-call.identifier.shell meta.path.shell
 #          ^^^ meta.function-call.arguments.shell
 #           ^ punctuation.separator.continuation.line.shell
 #            ^ - punctuation
@@ -8911,7 +8990,7 @@ exec \
   -la name \
   "$cmd" \
 #^ meta.function-call.arguments.shell
-# ^^^^^^ meta.function-call.identifier.shell meta.string.shell
+# ^^^^^^ meta.function-call.identifier.shell meta.path.shell
 #       ^^^ meta.function-call.arguments.shell
 #        ^ punctuation.separator.continuation.line.shell
 #         ^ - punctuation
