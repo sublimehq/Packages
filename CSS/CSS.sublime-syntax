@@ -94,6 +94,21 @@ variables:
 
   keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
 
+  pseudo_classes_with_selector_args: |-
+    (?xi: global | local | matches | is | where | not | has | host(?:-context)?)
+
+  pseudo_classes_with_anb_args: |-
+    (?xi:
+    # https://drafts.csswg.org/selectors-4/#table-pseudos
+      nth-last-col
+    | nth-col
+    # https://drafts.csswg.org/selectors-4/#typed-child-index
+    | nth-last-child
+    | nth-child
+    | nth-last-of-type
+    | nth-of-type
+    )
+
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
   combinators: (?:>{1,3}|[~+]|\|{2})
@@ -1365,17 +1380,7 @@ contexts:
   # Functional Pseudo Classes with `An+B` param
   # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
   pseudo-class-function-with-anb-args:
-    - match: |-
-        (?xi:
-        # https://drafts.csswg.org/selectors-4/#table-pseudos
-          nth-last-col
-        | nth-col
-        # https://drafts.csswg.org/selectors-4/#typed-child-index
-        | nth-last-child
-        | nth-child
-        | nth-last-of-type
-        | nth-of-type
-        )(?=\()
+    - match: '{{pseudo_classes_with_anb_args}}(?=\()'
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - pseudo-class-anb-arguments-list-body
@@ -1404,7 +1409,8 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|is|where|not|has|host(?:-context)?)(?=\()
+    # global(), local() - CSS Modules, Less, Astro
+    - match: '{{pseudo_classes_with_selector_args}}(?=\()'
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - pseudo-class-selector-arguments-list-body

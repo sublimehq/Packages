@@ -211,7 +211,13 @@ contexts:
       scope: variable.other.readwrite.static.mac-classic.c
 
   constants:
-    - match: \b(__func__|NULL|true|false|TRUE|FALSE)\b
+    - match: \b(false|FALSE)\b
+      scope: constant.language.boolean.false.c
+    - match: \b(true|TRUE)\b
+      scope: constant.language.boolean.true.c
+    - match: \bNULL\b
+      scope: constant.language.null.c
+    - match: \b__func__\b
       scope: constant.language.c
     - match: \b(__FILE__|__FUNCTION__|__LINE__)\b
       scope: support.constant.c

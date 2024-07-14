@@ -173,9 +173,9 @@ unquoted'string'
 #^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #^^^^^ variable.other.alias
 #     ^ punctuation.separator.sequence
-#       ^^^^ meta.mapping.key.yaml constant.language.boolean.yaml - string
+#       ^^^^ meta.mapping.key.yaml constant.language.boolean.true.yaml - string
 #            ^     punctuation.separator.key-value.mapping
-#              ^^^^^ meta.mapping.value.yaml constant.language.boolean.yaml
+#              ^^^^^ meta.mapping.value.yaml constant.language.boolean.false.yaml
 #                    ^ meta.mapping.yaml punctuation.definition.mapping.end
 
  { 1: 2 }

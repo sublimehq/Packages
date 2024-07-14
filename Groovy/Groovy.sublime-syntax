@@ -116,8 +116,12 @@ contexts:
   constants:
     - match: '\b([A-Z][A-Z0-9_]+)\b'
       scope: constant.other.groovy
-    - match: \b(true|false|null)\b
-      scope: constant.language.groovy
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.groovy
+    - match: \btrue\b
+      scope: constant.language.boolean.true.groovy
+    - match: \bnull\b
+      scope: constant.language.null.groovy
   groovy:
     - include: classes
     - include: methods

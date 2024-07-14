@@ -1732,8 +1732,10 @@ contexts:
       scope: punctuation.separator.rust
 
   bool:
-    - match: \b(true|false)\b
-      scope: constant.language.rust
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.rust
+    - match: \btrue\b
+      scope: constant.language.boolean.true.rust
 
   raw-pointer:
     - match: '\*\s*(?:const|mut)\b'

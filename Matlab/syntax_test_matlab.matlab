@@ -49,7 +49,7 @@ classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass
 %                                 ^ punctuation.separator.sequence.matlab
 %                                   ^^^^^^^^^ variable.parameter.attribute.matlab
 %                                             ^ keyword.operator.assignment.matlab
-%                                               ^^^^ constant.language.matlab
+%                                               ^^^^ constant.language.boolean.true.matlab
 %                                                   ^ punctuation.section.parens.end.matlab
 %                                                      ^^^^^^^^^^ comment.line.percentage.matlab
       PropName
@@ -482,8 +482,8 @@ end
 % Built-in constants
 
   true; false
-% ^^^^ constant.language.matlab
-%       ^^^^^ constant.language.matlab
+% ^^^^ constant.language.boolean.true.matlab
+%       ^^^^^ constant.language.boolean.false.matlab
   Inf; NaN
 % ^^^ constant.language.matlab
 %      ^^^ constant.language.matlab
@@ -793,10 +793,10 @@ l = {l.n}';
    "string with missing closing quote mark
 %                                         ^ invalid.illegal.unclosed-string.matlab
    true'
-%  ^^^^ constant.language.matlab
+%  ^^^^ constant.language.boolean.true.matlab
 %      ^ keyword.operator.transpose.matlab
    true.'
-%  ^^^^ constant.language.matlab
+%  ^^^^ constant.language.boolean.true.matlab
 %      ^^ keyword.operator.transpose.matlab
 
 % If a built-in function is followed by a transpose operator, we assume that the

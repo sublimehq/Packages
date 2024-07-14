@@ -334,13 +334,13 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^^^^^ constant.character.literal.scala
 
    true
-// ^^^^ constant.language.scala
+// ^^^^ constant.language.boolean.true.scala
 
    false
-// ^^^^^ constant.language.scala
+// ^^^^^ constant.language.boolean.false.scala
 
    null
-// ^^^^ constant.language.scala
+// ^^^^ constant.language.null.scala
 
    Nil
 // ^^^ support.constant.scala
@@ -629,7 +629,7 @@ type Foo = Bar[A] forSome { type A }
 //       ^^^ entity.name.tag
 
    case true =>
-//      ^^^ constant.language.scala
+//      ^^^ constant.language.boolean.true.scala
 
    case _ ⇒ _
 //          ^ - keyword
@@ -1047,7 +1047,7 @@ def foo(a: A =:= B)
 
 def foo(a: A =:= B = null)
 //                 ^ keyword.operator.assignment.scala
-//                   ^^^^ constant.language.scala
+//                   ^^^^ constant.language.null.scala
 
 def foo(a: A :: B)
 //           ^^ support.type.scala
@@ -1063,7 +1063,7 @@ class Foo(a: A =:= B)
 
 class Foo(a: A =:= B = null)
 //                   ^ keyword.operator.assignment.scala
-//                     ^^^^ constant.language.scala
+//                     ^^^^ constant.language.null.scala
 
 class Foo(a: A :: B)
 //             ^^ support.type.scala

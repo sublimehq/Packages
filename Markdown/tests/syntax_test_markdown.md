@@ -1842,9 +1842,9 @@ echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |^^ meta.code-fence.definition.end.diff.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |  ^ meta.code-fence.definition.end.diff.markdown-gfm meta.fold.code-fence.end - punctuation
 
-```Graphviz
-|^^^^^^^^^^ meta.code-fence.definition.begin - meta.fold
-|          ^ meta.code-fence.definition.begin meta.fold.code-fence.begin
+```dot
+|^^^^^ meta.code-fence.definition.begin - meta.fold
+|     ^ meta.code-fence.definition.begin meta.fold.code-fence.begin
 
 graph n {}
 | ^^^ storage.type.dot

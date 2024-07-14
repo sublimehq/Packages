@@ -347,8 +347,12 @@ contexts:
   # would be ideal, but is beyond the scope of this syntax engine; we simply
   # expect it to be very rare.
   match-predeclared-constants:
-    - match: \b(?:true|false|nil)\b
-      scope: constant.language.go
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.go
+    - match: \btrue\b
+      scope: constant.language.boolean.true.go
+    - match: \bnil\b
+      scope: constant.language.null.go
 
   # Reference: https://golang.org/ref/spec#Predeclared_identifiers
   #

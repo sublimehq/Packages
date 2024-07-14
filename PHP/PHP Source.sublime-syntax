@@ -2125,8 +2125,10 @@ contexts:
 ###[ CONSTANTS ]##############################################################
 
   constants:
-    - match: (?i:true|false)\b
-      scope: constant.language.boolean.php
+    - match: (?i:false)\b
+      scope: constant.language.boolean.false.php
+    - match: (?i:true)\b
+      scope: constant.language.boolean.true.php
     - match: (?i:null)\b
       scope: constant.language.null.php
     - match: (?i:__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__)\b

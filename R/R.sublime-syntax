@@ -59,7 +59,13 @@ contexts:
   constants:
     - match: \b(pi|letters|LETTERS|month\.abb|month\.name)\b
       scope: support.constant.misc.r
-    - match: \b(TRUE|FALSE|NULL|NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
+    - match: \bFALSE\b
+      scope: constant.language.boolean.false.r
+    - match: \bTRUE\b
+      scope: constant.language.boolean.true.r
+    - match: \bNULL\b
+      scope: constant.language.null.r
+    - match: \b(NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
       scope: constant.language.r
     # complex imaginary
     - match: \b(0[xX])(\h+)(?:(i)|(I))\b

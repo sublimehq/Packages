@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # https://www.sublimetext.com/docs/syntax.html
+# https://stackoverflow.com/questions/4094699/how-does-the-windows-command-interpreter-cmd-exe-parse-scripts/4095133#4095133
 name: Batch File
 scope: source.dosbatch
 version: 2
@@ -161,7 +162,7 @@ contexts:
   comment-body:
     - meta_scope: comment.line.colon.dosbatch
     - include: line-continuations
-    - match: \n
+    - match: $\n?
       pop: 1
 
   ignored-tail-inner:
@@ -836,14 +837,27 @@ contexts:
     - include: cmd-arg-help
     - include: unquoted-eol-pop
     - match: (?=\S)
-      set: cmd-rem-comment-body
+      set:
+        - cmd-rem-comment-body
+        - cmd-rem-comment-begin
+
+  cmd-rem-comment-begin:
+    # In REM comments only the first continuation directly following
+    # the first token is taken into account.
+    - meta_include_prototype: false
+    - match: (\^)\n
+      captures:
+        1: punctuation.separator.continuation.line.dosbatch
+      set: line-continuation-body
+    - match: (?={{metachar}})
+      pop: 1
 
   cmd-rem-comment-body:
     - meta_include_prototype: false
     # meta_content_scope is used since rem should not be
     # highlighted as a comment, but a command
     - meta_content_scope: comment.line.rem.dosbatch
-    - match: \n
+    - match: $\n?
       scope: comment.line.rem.dosbatch
       pop: 1
 
@@ -1550,7 +1564,7 @@ contexts:
       scope: punctuation.separator.semicolon.dosbatch
 
   invalid-operators:
-    - match: '{{redir_or_eoc_char}}'
+    - match: '[|&<>]+'
       scope: invalid.illegal.operator.dosbatch
 
 ###[ CONSTANTS ]##############################################################
@@ -1967,8 +1981,8 @@ contexts:
 ###[ PROTOTYPES ]#############################################################
 
   bol-pop:
-    # Note: empty lines are ignored
-    - match: ^(?!$)
+    - meta_include_prototype: false
+    - match: ^
       pop: 1
 
   else-pop:
@@ -1981,9 +1995,21 @@ contexts:
       pop: 1
 
   line-continuations:
-    - match: \^\n
-      scope: punctuation.separator.continuation.line.dosbatch
-      push: bol-pop
+    - match: (\^)\n
+      captures:
+        1: punctuation.separator.continuation.line.dosbatch
+      push: line-continuation-body
+
+  line-continuation-body:
+    - meta_include_prototype: false
+    # The first linefeed diretly following a continuation is treated literal.
+    # Note: Must consume \n to work.
+    - match: ^\n
+      set: bol-pop
+    # The first caret at a continued line is escaped by the continuation caret
+    # and thus printed literal.
+    - match: ^\^?
+      pop: 1
 
   eoc-pop:
     # Note: An end of command appears in unquoted regions only!

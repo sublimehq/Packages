@@ -1492,12 +1492,17 @@ contexts:
 ###[ CONSTANTS ]###############################################################
 
   booleans:
-    - match: (?:true|false)\b
-      scope: constant.language.boolean.shell
+    - match: false\b
+      scope: constant.language.boolean.false.shell
+    - match: true\b
+      scope: constant.language.boolean.true.shell
 
   boolean:
-    - match: (?:true|false)\b
-      scope: constant.language.boolean.shell
+    - match: false\b
+      scope: constant.language.boolean.false.shell
+      pop: 1
+    - match: true\b
+      scope: constant.language.boolean.true.shell
       pop: 1
 
   numbers:

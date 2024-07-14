@@ -274,8 +274,12 @@ contexts:
     - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double|Any|AnyRef|AnyVal|Nothing)\b
       scope: storage.type.primitive.scala
   literal-constants:
-    - match: \b(?:false|null|true)\b
-      scope: constant.language.scala
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.scala
+    - match: \btrue\b
+      scope: constant.language.boolean.true.scala
+    - match: \bnull\b
+      scope: constant.language.null.scala
     # TODO negation
     # source: http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#floating-point-literals
     - match: |-

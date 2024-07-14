@@ -32,7 +32,7 @@
   "bool": false,
 //^^^^^^ meta.mapping.key.json
 //^^^^^^^^^^^^^^ - meta.mapping meta.mapping
-//        ^^^^^ constant.language.boolean.json
+//        ^^^^^ constant.language.boolean.false.json
 
   "null": null,
 //^^^^^^ meta.mapping.key.json

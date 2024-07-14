@@ -842,31 +842,25 @@ contexts:
     - include: else-pop
 
   for-condition:
-    - match: '\('
-      scope: punctuation.section.group.begin.js
-      set:
-        - for-condition-end
-        - for-condition-contents
-    - include: else-pop
-
-  for-condition-end:
-    - meta_scope: meta.group.js
-
-    - match: '\)'
-      scope: punctuation.section.group.end.js
-      pop: 1
-
-  for-condition-contents:
-    - match: ''
+    - match: \(
+      scope: meta.group.js punctuation.section.group.begin.js
       branch_point: for-in-of
       branch:
         - for-in-of
         - for-oldstyle
+    - include: else-pop
+
+  for-condition-end:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
       pop: 1
 
   for-in-of:
+    - meta_include_prototype: false
     - match: ''
       set:
+        - for-condition-end
         - expression
         - for-in-of-word
         - for-in-of-declaration
@@ -916,6 +910,7 @@ contexts:
       fail: for-in-of
 
   for-oldstyle:
+    - meta_include_prototype: false
     - match: ''
       set:
         - for-oldstyle-rest
@@ -927,16 +922,14 @@ contexts:
       set:
         - variable-binding-list-top
         - variable-binding-top
-    - match: (?=\S)
-      set: expression
+    - include: else-pop
 
   for-oldstyle-rest:
-    - match: (?=\))
-      pop: 1
+    - meta_scope: meta.group.js
     - match: ;
       scope: punctuation.separator.expression.js
-    - match: (?=\S)
-      push: expression
+    - include: for-condition-end
+    - include: expressions
 
   block-scope:
     - include: block
@@ -1055,25 +1048,32 @@ contexts:
     - include: parenthesized-expression
     - include: expression-begin
 
-  expression-break:
-    - match: (?=[;})\]])
-      pop: 1
+  expressions:
+    - match: (?=\S)
+      push: [ expression-end, expression-begin ]
 
   expression:
     - meta_include_prototype: false
     - match: ''
       set: [ expression-end, expression-begin ]
 
+  expression-list:
+    - include: expression-break
+    - include: comma-separator
+    - include: expressions-no-comma
+
+  expressions-no-comma:
+    - match: (?=\S)
+      push: [ expression-end-no-comma, expression-begin ]
+
   expression-no-comma:
     - meta_include_prototype: false
     - match: ''
       set: [ expression-end-no-comma, expression-begin ]
 
-  expression-list:
-    - include: expression-break
-    - include: comma-separator
-    - match: (?=\S)
-      push: expression-no-comma
+  expression-break:
+    - match: (?=[;})\]])
+      pop: 1
 
   left-expression-end:
     - include: expression-break

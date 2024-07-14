@@ -1253,8 +1253,11 @@ contexts:
       scope: storage.type.lisp
       pop: 1
     # constants
-    - match: (?i:true|false){{break}}
-      scope: constant.language.boolean.lisp
+    - match: (?i:false){{break}}
+      scope: constant.language.boolean.false.lisp
+      pop: 1
+    - match: (?i:true){{break}}
+      scope: constant.language.boolean.true.lisp
       pop: 1
     - match: (?i:nil|null){{break}}
       scope: constant.language.null.lisp

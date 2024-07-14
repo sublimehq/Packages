@@ -153,14 +153,21 @@ variables:
   _type_null: (?:null|Null|NULL|~)
 
   # http://yaml.org/type/bool.html
-  _type_bool_11: |-
+  _type_bool_false_11: |-
     (?x:
-       y|Y|yes|Yes|YES|n|N|no|No|NO
-      |true|True|TRUE|false|False|FALSE
-      |on|On|ON|off|Off|OFF
+       n|N|no|No|NO
+      |false|False|FALSE
+      |off|Off|OFF
+    )
+  _type_bool_true_11: |-
+    (?x:
+       y|Y|yes|Yes|YES
+      |true|True|TRUE
+      |on|On|ON
     )
   # https://yaml.org/spec/1.2/spec.html#id2805071
-  _type_bool_12: (?x:true | True | TRUE | false | False | FALSE)
+  _type_bool_false_12: (?x:false | False | FALSE)
+  _type_bool_true_12: (?x:true | True | TRUE)
 
   # http://yaml.org/type/int.html
   _type_int_binary: ([-+]?)(0b)([0-1_]+) # (base 2)
@@ -544,14 +551,18 @@ contexts:
       pop: 1
 
   flow-scalar-plain-in-implicit-type-11:
-    - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_in}}'
-      scope: constant.language.boolean.yaml
+    - match: '{{_type_bool_false_11}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.false.yaml
+    - match: '{{_type_bool_true_11}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.true.yaml
     - include: flow-scalar-plain-in-implicit-type-common
 
   flow-scalar-plain-in-implicit-type-12:
     # Less aggressive variant based on the YAML 1.2 core schema
-    - match: '{{_type_bool_12}}{{_flow_scalar_end_plain_in}}'
-      scope: constant.language.boolean.yaml
+    - match: '{{_type_bool_false_12}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.false.yaml
+    - match: '{{_type_bool_true_12}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.true.yaml
     - include: flow-scalar-plain-in-implicit-type-common
 
   flow-scalar-plain-in-implicit-type-common:
@@ -647,14 +658,18 @@ contexts:
       pop: 1
 
   flow-scalar-plain-out-implicit-type-11:
-    - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_out}}'
-      scope: constant.language.boolean.yaml
+    - match: '{{_type_bool_false_11}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.false.yaml
+    - match: '{{_type_bool_true_11}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.true.yaml
     - include: flow-scalar-plain-out-implicit-type-common
 
   flow-scalar-plain-out-implicit-type-12:
     # Less aggressive variant based on the YAML 1.2 core schema
-    - match: '{{_type_bool_12}}{{_flow_scalar_end_plain_out}}'
-      scope: constant.language.boolean.yaml
+    - match: '{{_type_bool_false_12}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.false.yaml
+    - match: '{{_type_bool_true_12}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.true.yaml
     - include: flow-scalar-plain-out-implicit-type-common
 
   flow-scalar-plain-out-implicit-type-common:

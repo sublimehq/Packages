@@ -1746,7 +1746,7 @@ class TestTypedProperties {
 //          ^^^^ storage.type.primitive.php
 //               ^^^^^ variable.other.php
 //                     ^ keyword.operator.assignment.php
-//                       ^^^^ constant.language.boolean.php
+//                       ^^^^ constant.language.boolean.true.php
 //                           ^ punctuation.terminator.statement.php
     private readonly $prop;
 //          ^^^^^^^^ storage.modifier
@@ -1945,7 +1945,7 @@ $fn = fn ($value): bool => true;
 //               ^ punctuation.separator.colon.php
 //                 ^^^^ storage.type.primitive.php
 //                      ^^ keyword.declaration.function.arrow.php
-//                         ^^^^ constant.language.boolean.php
+//                         ^^^^ constant.language.boolean.true.php
 //                             ^ punctuation.terminator.statement.php
 
 $fn = fn ($x): stringSpace\Test1 => null;
@@ -3109,7 +3109,7 @@ if ((include 'vars.php') == TRUE) {
 //           ^^^^^^^^^^ meta.string.php string.quoted.single.php
 //                     ^ punctuation.section.group.end.php
 //                       ^^ keyword.operator.comparison.php
-//                          ^^^^ constant.language.boolean.php
+//                          ^^^^ constant.language.boolean.true.php
 //                              ^ punctuation.section.group.end.php
 //                                ^ punctuation.section.block.begin.php
 }
@@ -3130,7 +3130,7 @@ if (include('vars.php') == TRUE) {
 //          ^^^^^^^^^^ meta.string.php string.quoted.single.php
 //                    ^ punctuation.section.group.end.php
 //                      ^^ keyword.operator.comparison.php
-//                         ^^^^ constant.language.boolean.php
+//                         ^^^^ constant.language.boolean.true.php
 //                             ^ punctuation.section.group.end.php
 //                               ^ punctuation.section.block.begin.php
 }
@@ -3235,7 +3235,7 @@ func_call(true, 1, "string");
 //                          ^ - meta.function-call
 //^^^^^^^ variable.function.php
 //       ^ punctuation.section.group.begin.php
-//        ^^^^ constant.language.boolean.php
+//        ^^^^ constant.language.boolean.true.php
 //            ^ punctuation.separator.sequence.php
 //              ^ meta.number.integer.decimal.php constant.numeric.value.php
 //               ^ punctuation.separator.sequence.php
@@ -3313,11 +3313,11 @@ $statement = match ($this->lexer->lookahead['type']) {
 //               ^ punctuation.section.block.begin.php
 //                ^^^^^^ meta.string.php string.quoted.double.php
 //                       ^^ punctuation.separator.key-value.php
-//                          ^^^^ constant.language.boolean.php
+//                          ^^^^ constant.language.boolean.true.php
 //                              ^ punctuation.separator.sequence.php
 //                                ^^^^^^^ meta.string.php string.quoted.double.php
 //                                        ^^ punctuation.separator.key-value.php
-//                                           ^^^^^ constant.language.boolean.php
+//                                           ^^^^^ constant.language.boolean.false.php
 //                                                 ^ punctuation.section.block.end.php
 //                                                   ^ punctuation.section.group.end.php
 
@@ -3336,11 +3336,11 @@ $statement = match ($this->lexer->lookahead['type']) {
 //               ^ punctuation.section.block.begin.php
 //                ^^^^^^ meta.string.php string.quoted.double.php
 //                       ^^ punctuation.separator.key-value.php
-//                          ^^^^ constant.language.boolean.php
+//                          ^^^^ constant.language.boolean.true.php
 //                              ^ punctuation.separator.sequence.php
 //                                ^^^^^^^ meta.string.php string.quoted.double.php
 //                                        ^^ punctuation.separator.key-value.php
-//                                           ^^^^^ constant.language.boolean.php
+//                                           ^^^^^ constant.language.boolean.false.php
 //                                                 ^ punctuation.section.block.end.php
 //                                                   ^ punctuation.section.sequence.end.php
 
@@ -3359,11 +3359,11 @@ $statement = match ($this->lexer->lookahead['type']) {
 //               ^ punctuation.section.block.begin.php
 //                ^^^^^^ meta.string.php string.quoted.double.php
 //                       ^^ punctuation.separator.key-value.php
-//                          ^^^^ constant.language.boolean.php
+//                          ^^^^ constant.language.boolean.true.php
 //                              ^ punctuation.separator.sequence.php
 //                                ^^^^^^^ meta.string.php string.quoted.double.php
 //                                        ^^ punctuation.separator.key-value.php
-//                                           ^^^^^ constant.language.boolean.php
+//                                           ^^^^^ constant.language.boolean.false.php
 //                                                 ^ punctuation.section.block.end.php
 //                                                   ^ punctuation.section.block.end.php
 
