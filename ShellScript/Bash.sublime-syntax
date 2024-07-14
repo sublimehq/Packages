@@ -1626,105 +1626,6 @@ contexts:
 
 ###[ BRACE EXPANSIONS ]########################################################
 
-  expansions-brace:
-    # use branching as valid brace expansions must not exceed word boundaries
-    - match: (?={)
-      branch_point: brace-expansion
-      branch:
-        - expansion-brace-sequence
-        - expansion-brace-series
-        - expansion-brace-fallback
-
-  expansion-brace-sequence:
-    # sequence expression
-    - meta_include_prototype: false
-    - match: \{
-      scope:
-        meta.interpolation.brace.shell
-        punctuation.section.interpolation.begin.shell
-      push:
-        - expansion-brace-sequence-body
-        - expansion-brace-sequence-begin
-
-  expansion-brace-sequence-begin:
-    - match: \.\.
-      scope: keyword.operator.range.shell
-      pop: 1
-    - include: line-continuations
-    - include: expansion-brace-sequence-content
-    - match: ''
-      fail: brace-expansion
-
-  expansion-brace-sequence-body:
-    - meta_content_scope: meta.interpolation.brace.shell
-    - match: \.\.
-      scope: keyword.operator.range.shell
-    - include: expansion-brace-end
-    - include: expansion-brace-sequence-content
-    - match: ''
-      fail: brace-expansion
-
-  expansion-brace-sequence-content:
-    - include: expansions-variables
-    - match: ([-+]?)(\d+)
-      scope: meta.number.integer.decimal.shell
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.value.shell
-    - match: '[[:alpha:]]'
-      scope: constant.character.shell
-
-  expansion-brace-series:
-    # series of comma-separated strings
-    - meta_include_prototype: false
-    - match: \{
-      scope:
-        meta.interpolation.brace.shell
-        punctuation.section.interpolation.begin.shell
-      push: expansion-brace-series-begin
-
-  expansion-brace-series-begin:
-    - meta_include_prototype: false
-    - meta_content_scope:
-        meta.interpolation.brace.shell
-        meta.string.shell string.unquoted.shell
-    - match: (?=\})
-      fail: brace-expansion
-    - include: line-continuations
-    - include: expansion-brace-series-content
-
-  expansion-brace-series-body:
-    - meta_include_prototype: false
-    - meta_content_scope:
-        meta.interpolation.brace.shell
-        meta.string.shell string.unquoted.shell
-    - include: expansion-brace-end
-    - include: expansion-brace-series-content
-
-  expansion-brace-series-content:
-    - match: \,
-      scope:
-        meta.interpolation.brace.shell
-        punctuation.separator.sequence.shell
-      set: expansion-brace-series-body
-    - include: line-continuations
-    - include: pattern-main-content
-    - match: '{{word_break}}'
-      fail: brace-expansion
-
-  expansion-brace-end:
-    - match: \}
-      scope:
-        meta.interpolation.brace.shell
-        punctuation.section.interpolation.end.shell
-      pop: 2
-    - include: line-continuations
-
-  expansion-brace-fallback:
-    - meta_include_prototype: false
-    - match: \{
-      pop: 1
-
   brace-interpolations:
     # use branching as valid brace expansions must not exceed word boundaries
     - match: (?={)
@@ -1732,7 +1633,7 @@ contexts:
       branch:
         - brace-interpolation-sequence
         - brace-interpolation-series
-        - expansion-brace-fallback
+        - brace-interpolation-fallback
 
   brace-interpolation-sequence:
     # sequence expression
@@ -1751,16 +1652,24 @@ contexts:
       scope: keyword.operator.range.shell
       pop: 1
     - include: line-continuations
-    - include: expansion-brace-sequence-content
-    - match: ''
-      fail: brace-interpolation
+    - include: brace-interpolation-sequence-content
 
   brace-interpolation-sequence-body:
     - meta_content_scope: meta.interpolation.brace.shell
     - match: \.\.
       scope: keyword.operator.range.shell
-    - include: expansion-brace-end
-    - include: expansion-brace-sequence-content
+    - include: brace-interpolation-end
+    - include: brace-interpolation-sequence-content
+
+  brace-interpolation-sequence-content:
+    - include: expansions-variables
+    - match: ([-+]?)(\d+)
+      scope: meta.number.integer.decimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.value.shell
+    - match: '[[:alpha:]]'
+      scope: constant.character.shell
     - match: ''
       fail: brace-interpolation
 
@@ -1789,7 +1698,7 @@ contexts:
     - meta_content_scope:
         meta.interpolation.brace.shell
         meta.string.shell string.unquoted.shell
-    - include: expansion-brace-end
+    - include: brace-interpolation-end
     - include: brace-interpolation-series-content
 
   brace-interpolation-series-content:
@@ -1802,6 +1711,19 @@ contexts:
     - include: pattern-main-content
     - match: '{{word_break}}'
       fail: brace-interpolation
+
+  brace-interpolation-end:
+    - match: \}
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.end.shell
+      pop: 2
+    - include: line-continuations
+
+  brace-interpolation-fallback:
+    - meta_include_prototype: false
+    - match: \{
+      pop: 1
 
 ###[ COMMAND EXPANSIONS ]######################################################
 
