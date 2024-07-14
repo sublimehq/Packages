@@ -399,7 +399,7 @@ WITH HEADER=true;
 -- ^ keyword.other
 --   ^^^^^^ string.unquoted
 --         ^ keyword.operator
---          ^^^^ constant.language.boolean
+--          ^^^^ constant.language.boolean.true
 --              ^ punctuation.terminator.statement
 
 TRUNCATE table1;

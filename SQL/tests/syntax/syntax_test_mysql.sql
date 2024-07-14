@@ -82,9 +82,9 @@
 --      ^ - constant
 --       ^^^^ constant.language.null.sql
 --           ^ - constant
---            ^^^^ constant.language.boolean.sql
+--            ^^^^ constant.language.boolean.true.sql
 --                ^ - constant
---                 ^^^^^ constant.language.boolean.sql
+--                 ^^^^^ constant.language.boolean.false.sql
 --                      ^ - constant
 
     all default maxvalue
@@ -791,14 +791,14 @@ BEGIN
 --  ^^ keyword.control.conditional.sql
 --     ^^^^ variable.other.sql
 --          ^ keyword.operator.comparison.sql
---            ^^^^ constant.language.boolean.sql
+--            ^^^^ constant.language.boolean.true.sql
 --                 ^^^^ keyword.control.conditional.sql
 
     ELSEIF @var = FALSE THEN
 --  ^^^^^^ keyword.control.conditional.sql
 --         ^^^^ variable.other.sql
 --              ^ keyword.operator.comparison.sql
---                ^^^^^ constant.language.boolean.sql
+--                ^^^^^ constant.language.boolean.false.sql
 --                      ^^^^ keyword.control.conditional.sql
 
     ELSE
@@ -821,7 +821,7 @@ BEGIN
 
     WHILE TRUE
 --  ^^^^^ keyword.control.loop.sql
---        ^^^^ constant.language.boolean.sql
+--        ^^^^ constant.language.boolean.true.sql
 
     END WHILE
 --  ^^^^^^^^^ keyword.control.loop.sql
@@ -1275,7 +1275,7 @@ create table IF NOT EXISTS `testing123` (
     `col` bool DEFAULT FALSE,
 --        ^^^^ storage.type.sql
 --             ^^^^^^^ storage.modifier.sql
---                     ^^^^^ constant.language.boolean.sql
+--                     ^^^^^ constant.language.boolean.false.sql
 --                          ^ punctuation.separator.sequence
     `fkey` INT UNSIGNED NULL REFERENCES test2(id),
 --                           ^^^^^^^^^^ storage.modifier.sql
@@ -1315,6 +1315,8 @@ create table fancy_table (
 --             ^^^^^^^ storage.type.sql
     myflag boolean DEFAULT false,
 --         ^^^^^^^ storage.type.sql
+--                 ^^^^^^^ storage.modifier.sql
+--                         ^^^^^ constant.language.boolean.false.sql
     mycount double  precision DEFAULT 1,
 --          ^^^^^^^^^^^^^^^^^ storage.type.sql
     fancy_column character  varying(42) DEFAULT 'nice'::character varying,
@@ -4167,7 +4169,7 @@ INNER JOIN {ON tbl_name LEFT OUTER JOIN other1 other2 ON TRUE}
 --                                      ^^^^^^ meta.table-name.sql
 --                                             ^^^^^^ meta.alias.table.sql
 --                                                    ^^ keyword.control.conditional.sql
---                                                       ^^^^ constant.language.boolean.sql
+--                                                       ^^^^ constant.language.boolean.true.sql
 --                                                           ^ punctuation.section.braces.end.mysql
 
 -- ----------------------------------------------------------------------------

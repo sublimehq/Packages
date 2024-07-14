@@ -215,6 +215,10 @@ contexts:
 
 ###[ LITERALS ]################################################################
 
+  constants:
+    - meta_prepend: true
+    - include: booleans
+
   literals-and-variables:
     - meta_prepend: true
     - include: variables

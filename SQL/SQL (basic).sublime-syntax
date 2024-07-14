@@ -1405,10 +1405,14 @@ contexts:
     - include: strings
 
   constants:
-    - match: \b(?i:true|false)\b
-      scope: constant.language.boolean.sql
     - match: \b(?i:null)\b
       scope: constant.language.null.sql
+
+  booleans:
+    - match: \b(?i:true)\b
+      scope: constant.language.boolean.true.sql
+    - match: \b(?i:false)\b
+      scope: constant.language.boolean.false.sql
 
   numbers:
     - match: \b\d+(\.)\d+\b

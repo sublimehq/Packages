@@ -1520,6 +1520,7 @@ contexts:
       scope: constant.language.sql
 
   bool-constants:
+    - include: booleans
     - match: \b(?i:yes|no)\b
       scope: constant.language.boolean.sql
 
