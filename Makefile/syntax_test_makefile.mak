@@ -1059,13 +1059,13 @@ foo:
 	#   ^ constant.character.escape.makefile
 	#    ^ punctuation
 	#     ^ punctuation.section.interpolation.begin.shell
-	#      ^^^^ support.function.echo.shell
+	#      ^^^^ support.function.shell
 	#           ^ constant.character.escape.makefile
 	#            ^ punctuation.definition.variable.shell
 	#            ^^^^^ variable.language.builtin.shell
 
 	test "$$abc" = "$$def"
-	# ^ support.function.test.shell
+	# ^ support.function.shell
 	#    ^^^^^^^ string.quoted.double.shell
 	#     ^ constant.character.escape.makefile
 	#      ^ punctuation.definition.variable.shell

@@ -6,8 +6,6 @@ name: Bash
 scope: source.shell.bash
 version: 2
 
-extends: Packages/ShellScript/commands-builtin-shell-bash.sublime-syntax
-
 file_extensions:
   - sh
   - bash
@@ -64,8 +62,14 @@ variables:
   cmd_break: (?!{{cmd_char}})
   cmd_char: '[^{{metachar}}]'
 
+  builtin_cmds: |-
+    (?x: \. | \: | bg | bind | builtin | caller | cd | command | disown | enable
+    | eval | fg | getopts | hash | help | jobs | kill | logout | mapfile | printf
+    | pwd | read | readarray | set | shift | shopt | source | su | suspend | times
+    | type | ulimit | umask | wait ){{cmd_break}}
+
   # Command options are identifiers, which may start with interpolation.
-  opt_punctuation: '(--|[-+]){{word_begin}}'
+  opt_punctuation: (--|[-+])(?={{word_char}})
   opt_break: (?![^={{metachar}}])
 
   variable_begin: (?={{variable_first_char}})
@@ -350,7 +354,7 @@ contexts:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
       scope: punctuation.section.block.begin.shell
       set: def-anonymous-block-body
-    - include: cmd-args-illegal-options
+    - include: illegal-options
     - include: line-continuations
     - include: comments
     - include: else-pop
@@ -524,16 +528,10 @@ contexts:
     - include: immediately-pop
 
   cmd-alias-args:
-    - match: ([-+])p{{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-alias-args-definitions
+    - include: cmd-args-options
     - include: cmd-alias-args-definitions
 
   cmd-alias-args-definitions:
@@ -558,7 +556,7 @@ contexts:
       scope: punctuation.section.compound.begin.shell
       push: cmd-arithmetic-body
     - match: let{{cmd_break}}
-      scope: meta.function-call.identifier.shell support.function.let.shell
+      scope: meta.function-call.identifier.shell support.function.shell
       push: cmd-arithmetic-args
 
   cmd-arithmetic-body:
@@ -630,7 +628,7 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-declare-functions
+      set: cmd-args-end-of-options-then-function-declarations
     # option contains any mix of iA or Ai
     - match: ([-+])(?:[agIlnrtux]*?i[iagIlnrtux]*?A|[agIlnrtux]*?A[aAgIlnrtux]*?i)[aAgiIlnrtux]*?{{opt_break}}
       scope:
@@ -638,7 +636,7 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-declare-variables-with-arithmetic-mappings
+      set: cmd-args-end-of-options-then-variables-arithmetic-mappings
     # option contains any mix of ia or ai or i
     - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
       scope:
@@ -656,16 +654,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-declare-variables-with-literal-mappings
     # anything else is a variable with any value
-    - include: cmd-declare-options
     - include: cmd-args-end-of-options-then-variables-literal-values
-
-  cmd-declare-functions:
-    - include: cmd-declare-options
-    - include: cmd-args-end-of-options-then-function-declarations
-
-  cmd-declare-variables-with-arithmetic-mappings:
-    - include: cmd-declare-options
-    - include: cmd-args-end-of-options-then-variables-arithmetic-mappings
 
   cmd-declare-variables-with-arithmetic-values:
     - match: ([-+])[aAgiIlnrtux]*?A[aAgiIlnrtux]*?{{opt_break}}
@@ -674,8 +663,7 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-declare-variables-with-arithmetic-mappings
-    - include: cmd-declare-options
+      set: cmd-args-end-of-options-then-variables-arithmetic-mappings
     - include: cmd-args-end-of-options-then-variables-arithmetic-values
 
   cmd-declare-variables-with-literal-mappings:
@@ -685,17 +673,8 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-declare-variables-with-arithmetic-mappings
-    - include: cmd-declare-options
+      set: cmd-args-end-of-options-then-variables-arithmetic-mappings
     - include: cmd-args-end-of-options-then-variables-literal-mappings
-
-  cmd-declare-options:
-    - match: ([-+])(?:[aAgiIlnrtux]+|p){{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
 
 ###[ ECHO BUILTINS ]###########################################################
 
@@ -703,7 +682,7 @@ contexts:
     - match: echo{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.echo.shell
+        support.function.shell
       push: cmd-echo-args
 
   cmd-echo-args:
@@ -727,7 +706,7 @@ contexts:
     - match: exec{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.exec.shell
+        support.function.shell
       push: cmd-exec-args
 
   cmd-exec-args:
@@ -740,18 +719,12 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-value
-    - match: ([-+])[cl]+{{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
     - match: --{{word_break}}
       scope:
         meta.function-call.arguments.shell
         keyword.operator.end-of-options.shell
       pop: 1
-    - include: cmd-args-illegal-options
+    - include: cmd-args-options
     - include: else-pop
 
 ###[ EXPORT BUILTINS ]#########################################################
@@ -760,7 +733,7 @@ contexts:
     - match: export{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.export.shell
+        support.function.shell
       push:
         - cmd-args-meta
         - cmd-export-args
@@ -772,24 +745,8 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-export-options-then-functions
-    - include: cmd-export-options-then-variables
-
-  cmd-export-options-then-functions:
-    - include: cmd-export-options
-    - include: cmd-args-end-of-options-then-function-declarations
-
-  cmd-export-options-then-variables:
-    - include: cmd-export-options
+      set: cmd-args-end-of-options-then-function-declarations
     - include: cmd-args-end-of-options-then-variables-literal-values
-
-  cmd-export-options:
-    - match: ([-+])[np]{{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
 
 ###[ READONLY BUILTINS ]#######################################################
 
@@ -808,7 +765,7 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-readonly-options-then-functions
+      set: cmd-args-end-of-options-then-function-declarations
     # options contain -A => associative array (wins over -a)
     - match: ([-+])a?Aa?{{opt_break}}
       scope:
@@ -817,11 +774,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
       set: cmd-readonly-options-then-mappings
-    - include: cmd-readonly-options-then-variables
-
-  cmd-readonly-options-then-functions:
-    - include: cmd-readonly-options
-    - include: cmd-args-end-of-options-then-function-declarations
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-readonly-options-then-mappings:
     - match: ([-+])[aA]*f[aA]*{{opt_break}}
@@ -830,21 +783,8 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-readonly-options-then-functions
-    - include: cmd-readonly-options
+      set: cmd-args-end-of-options-then-function-declarations
     - include: cmd-args-end-of-options-then-variables-literal-mappings
-
-  cmd-readonly-options-then-variables:
-    - include: cmd-readonly-options
-    - include: cmd-args-end-of-options-then-variables-literal-values
-
-  cmd-readonly-options:
-    - match: ([-+])(?:[aAf]+|p){{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
 
 ###[ SUDO BUILTINS ]###########################################################
 
@@ -853,22 +793,12 @@ contexts:
     - match: sudo{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.sudo.shell
+        support.function.shell
       push: cmd-sudo-args
 
   cmd-sudo-args:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-end
-    - match: (--)(?x:askpass|auth-type|background|close-from|login-class|
-        preserve-env|edit|group|set-home|help|host|login|remove-timestamp|
-        reset-timestamp|list|non-interactive|preserve-groups|prompt|role|
-        stdin|shell|type|other-user|user|version|validate){{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-      push: cmd-args-option-maybe-assignment
     - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]{{opt_break}}
       scope:
         meta.parameter.option.shell
@@ -876,18 +806,12 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-value
-    - match: ([-+])[AbEeHiKklnPSsUuVv]+{{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
     - match: --{{word_break}}
       scope:
         meta.function-call.arguments.shell
         keyword.operator.end-of-options.shell
       pop: 1
-    - include: cmd-args-illegal-options
+    - include: cmd-args-options
     - include: else-pop
 
 ###[ TEST BUILTINS ]###########################################################
@@ -900,7 +824,7 @@ contexts:
       scope: punctuation.section.compound.begin.shell
       push: builtin-test-body
     - match: test{{cmd_break}}
-      scope: meta.function-call.identifier.shell support.function.test.shell
+      scope: meta.function-call.identifier.shell support.function.shell
       push: cmd-test-args
 
   builtin-test-body:
@@ -1026,19 +950,10 @@ contexts:
     - match: unalias{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.unalias.shell
+        support.function.shell
       push:
         - cmd-args-meta
-        - cmd-unalias-args
-
-  cmd-unalias-args:
-    - match: ([-+])a{{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: cmd-args-end-of-options-then-function-references
+        - cmd-args-end-of-options-then-function-references
 
 ###[ UNSET BUILTINS ]##########################################################
 
@@ -1046,7 +961,7 @@ contexts:
     - match: unset{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.unset.shell
+        support.function.shell
       push:
         - cmd-args-meta
         - cmd-unset-args
@@ -1058,24 +973,8 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-unset-options-then-functions
-    - include: cmd-unset-options-then-variables
-
-  cmd-unset-options-then-functions:
-    - include: cmd-unset-options
-    - include: cmd-args-end-of-options-then-function-references
-
-  cmd-unset-options-then-variables:
-    - include: cmd-unset-options
+      set: cmd-args-end-of-options-then-function-references
     - include: cmd-args-end-of-options-then-variables-literal-values
-
-  cmd-unset-options:
-    - match: ([-+])[nv]+{{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
 
 ###[ COMMANDS ]################################################################
 
@@ -1108,6 +1007,13 @@ contexts:
         1: punctuation.definition.history.shell
     - match: \!
       scope: punctuation.definition.history.shell
+
+  cmd-builtins:
+    - match: '{{builtin_cmds}}'
+      scope: meta.function-call.identifier.shell meta.path.shell support.function.shell
+      push:
+        - cmd-args-meta
+        - cmd-args
 
   cmd-basic:
     - match: \$?\"
@@ -1157,10 +1063,6 @@ contexts:
   cmd-args-end:
     - include: redirections
     - include: eoc-pop
-
-  cmd-args-illegal-options:
-    - match: (--|[-+]){{identifier}}
-      scope: invalid.illegal.parameter.shell
 
   cmd-args-options:
     - match: '{{opt_punctuation}}'
@@ -1214,10 +1116,10 @@ contexts:
     - include: cmd-args-values
 
   cmd-args-end-of-options-then-function-declarations:
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-function-declarations
+    - include: cmd-args-options
     - include: cmd-args-function-declarations
 
   cmd-args-function-declarations:
@@ -1234,10 +1136,10 @@ contexts:
       pop: 1
 
   cmd-args-end-of-options-then-function-references:
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-function-references
+    - include: cmd-args-options
     - include: cmd-args-function-references
 
   cmd-args-function-references:
@@ -1253,10 +1155,10 @@ contexts:
       pop: 1
 
   cmd-args-end-of-options-then-variables-arithmetic-mappings:
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-variables-arithmetic-mappings
+    - include: cmd-args-options
     - include: cmd-args-variables-arithmetic-mappings
 
   cmd-args-variables-arithmetic-mappings:
@@ -1268,10 +1170,10 @@ contexts:
     - include: illegal-words
 
   cmd-args-end-of-options-then-variables-arithmetic-values:
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-variables-arithmetic-values
+    - include: cmd-args-options
     - include: cmd-args-variables-arithmetic-values
 
   cmd-args-variables-arithmetic-values:
@@ -1283,10 +1185,10 @@ contexts:
     - include: illegal-words
 
   cmd-args-end-of-options-then-variables-literal-mappings:
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-variables-literal-mappings
+    - include: cmd-args-options
     - include: cmd-args-variables-literal-mappings
 
   cmd-args-variables-literal-mappings:
@@ -1298,10 +1200,10 @@ contexts:
     - include: illegal-words
 
   cmd-args-end-of-options-then-variables-literal-values:
-    - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-variables-literal-values
+    - include: cmd-args-options
     - include: cmd-args-variables-literal-values
 
   cmd-args-variables-literal-values:
@@ -3126,6 +3028,10 @@ contexts:
       pop: 1
 
 ###[ ILLEGALS ]################################################################
+
+  illegal-options:
+    - match: (--|[-+]){{identifier}}
+      scope: invalid.illegal.parameter.shell
 
   illegal-stray:
     - match: '[)}\]]'

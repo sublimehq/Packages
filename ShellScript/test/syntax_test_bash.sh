@@ -105,14 +105,14 @@ $((
 
 echo hello, world!
 #^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
-# <- meta.function-call.identifier.shell support.function.echo.shell
-#^^^ meta.function-call.identifier.shell support.function.echo.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell - variable
 #                 ^ - meta.function-call
 
 echo hello, \
-# <- meta.function-call.identifier.shell support.function.echo.shell
-#^^^ meta.function-call.identifier.shell support.function.echo.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^ meta.function-call.arguments.shell
 #           ^ punctuation.separator.continuation.line.shell
 #            ^ - punctuation
@@ -142,7 +142,7 @@ echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 #                                                                     ^^ constant.character.escape.shell
 
 echo the q"uick" f"ox" ju"mp"ed o"ve"r t'he' 'la'zy 'dog'
-#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                                        ^ - meta.function-call
 #         ^ punctuation.definition.string.begin.shell
@@ -168,7 +168,7 @@ echo the q"uick" f"ox" ju"mp"ed o"ve"r t'he' 'la'zy 'dog'
 #                                                       ^ punctuation.definition.string.end.shell
 
 echo 'no\e$capes\in\$ingle\quotes'
-#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^ meta.function-call.arguments.shell - keyword - string
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.quoted.single.shell - constant - keyword - variable
 #    ^ punctuation.definition.string.begin.shell
@@ -207,7 +207,7 @@ echo -e "\e[33mcolored text\e[0m uncolored"
 #                          ^^^^^ constant.character.escape.color.shell
 
 echo -e -a -n <1 ! # unknown options start printed text
-#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^ variable.parameter.option.shell
 #       ^^ meta.string.shell string.unquoted.shell
@@ -283,7 +283,7 @@ echo `echo \`echo hello, world!\``
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                 ^ - meta.interpolation
 #    ^ punctuation.section.interpolation.begin.shell
-#     ^^^^ support.function.echo
+#     ^^^^ support.function
 #          ^^ constant.character.escape
 #                              ^^ constant.character.escape
 #                                ^ punctuation.section.interpolation.end.shell
@@ -293,7 +293,7 @@ echo `echo \`echo hello, world!\\`
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                 ^ - meta.interpolation
 #    ^ punctuation.section.interpolation.begin.shell
-#     ^^^^ support.function.echo
+#     ^^^^ support.function
 #          ^^ constant.character.escape
 #                              ^^ constant.character.escape
 #                                ^ punctuation.section.interpolation.end.shell
@@ -303,7 +303,7 @@ echo `echo \`echo hello\\\`, world\\\\\`!`
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                         ^ - meta.interpolation
 #    ^ punctuation.section.interpolation.begin.shell
-#     ^^^^ support.function.echo
+#     ^^^^ support.function
 #          ^^ constant.character.escape
 #                      ^^^^ constant.character.escape
 #                                 ^^^^^^ constant.character.escape
@@ -330,7 +330,7 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                 ^ string.quoted.double.shell punctuation.definition.string.begin.shell
 #                  ^ punctuation.definition.variable.shell
 #                   ^ punctuation.section.interpolation.begin.shell
-#                    ^^^^ support.function.echo.shell
+#                    ^^^^ support.function.shell
 #                         ^^^^^ - variable
 #                              ^ punctuation.section.interpolation.end.shell
 #                               ^ string.quoted.double.shell punctuation.definition.string.end.shell
@@ -510,8 +510,7 @@ set +Euo pipefail
 #    ^^^ variable.parameter.option.shell - punctuation
 set +Eou pipefail
 #   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#    ^^ variable.parameter.option.shell - punctuation
-#      ^ - variable.parameter.option - punctuation
+#    ^^^ variable.parameter.option.shell - punctuation
 set -e -- -o {str,ing}
 #   ^^ variable.parameter.option.shell
 #     ^ - variable - keyword
@@ -528,28 +527,27 @@ read -d '' -sn 1 -t1 -- -t1 10
 #      ^^^^ - meta.parameter
 #          ^^^ meta.parameter.option.shell
 #             ^^^ - meta.parameter
-#                ^^ meta.parameter.option.shell
-#                  ^^^^^^^^^^^ - meta.parameter
-#^^^ support.function.read.shell
+#                ^^^ meta.parameter.option.shell
+#                   ^^^^^^^^^^ - meta.parameter
+#^^^ support.function.shell
 #    ^ variable.parameter.option.shell punctuation.definition.parameter.shell
 #     ^ variable.parameter.option.shell - punctuation
 #       ^^ string.quoted.single.shell
 #          ^^^ variable.parameter.option.shell
 #              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                ^^ variable.parameter.option.shell
-#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                ^^^ variable.parameter.option.shell
 #                    ^^ keyword.operator.end-of-options.shell
 #                       ^^^^ - constant - variable
 #                           ^^ constant.numeric.value.shell
 
 shift 2 -- 
-#^^^^ meta.function-call.identifier.shell support.function.shift.shell
+#^^^^ meta.function-call.identifier.shell support.function.shell
 #    ^^^^^ meta.function-call.arguments.shell
 #     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#       ^^ - keyword
+#       ^^ keyword.operator.end-of-options.shell
 
 umask 0777
-#^^^^ meta.function-call.identifier.shell support.function.umask.shell
+#^^^^ meta.function-call.identifier.shell support.function.shell
 #    ^^^^^ meta.function-call.arguments.shell
 #     ^ meta.number.integer.octal.shell constant.numeric.base.shell
 #      ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
@@ -735,7 +733,7 @@ sleep 2 & jobs
 #    ^^ meta.function-call.arguments.shell
 #      ^^^ - meta.function-call
 #       ^ keyword.operator
-#         ^^^^ meta.function-call.identifier.shell support.function.jobs.shell
+#         ^^^^ meta.function-call.identifier.shell support.function.shell
 
 {foo} -o --option -- -o
 # <- meta.function-call.identifier.shell variable.function.shell - meta.interpolation
@@ -774,8 +772,8 @@ ${foo}/${bar}/${baz}
 #             ^^^^^^ meta.interpolation.parameter.shell - variable.function
 
 echo>foo.txt
-# <- meta.function-call.identifier.shell support.function.echo.shell
-#^^^ meta.function-call.identifier.shell support.function.echo.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^ meta.function-call.arguments.shell - support.function
 #   ^ keyword.operator.assignment.redirection.shell
 
@@ -786,11 +784,11 @@ ls>foo.txt
 # ^ keyword.operator.assignment.redirection.shell
 
 cd foo/bar-2345
-#^ meta.function-call.identifier.shell support.function.cd.shell
+#^ meta.function-call.identifier.shell support.function.shell
 # ^^^^^^^^^^^^^ meta.function-call.arguments.shell - constant.numeric
 
 cd foo/bar2345
-#^ meta.function-call.identifier.shell support.function.cd.shell
+#^ meta.function-call.identifier.shell support.function.shell
 # ^^^^^^^^^^^^ meta.function-call.arguments.shell - constant.numeric
 
 
@@ -933,7 +931,7 @@ for x; do
 #    ^ punctuation.terminator.statement.shell
 #      ^^ keyword.control.loop.do.shell
     echo "${!x}"
-#   ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^^^^ meta.function-call.identifier.shell support.function.shell
 #       ^^^^^^^^ meta.function-call.arguments.shell
 done
 #<- keyword.control.loop.end.shell
@@ -953,7 +951,7 @@ for (( i = 0; i < 10; i++ )); do
 #                           ^ punctuation.terminator.statement.shell
 #                             ^^ keyword.control.loop.do.shell
     echo $i
-    # <- meta.function-call support.function.echo.shell
+    # <- meta.function-call support.function.shell
     #    ^ meta.function-call.arguments punctuation.definition.variable.shell
     #     ^ meta.function-call.arguments variable.other.readwrite.shell
 done
@@ -975,7 +973,7 @@ for (( i = 0; i < 10; i++ )) #; do
 do
 #<- keyword.control.loop.do.shell
     echo $i
-    # <- meta.function-call support.function.echo.shell
+    # <- meta.function-call support.function.shell
     #    ^ meta.function-call.arguments punctuation.definition.variable.shell
     #     ^ meta.function-call.arguments variable.other.readwrite.shell
 done
@@ -986,7 +984,7 @@ for \
 # ^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
 #                          ^^ keyword.control.loop.do.shell
 #                             ^^^^^^^ meta.function-call
-#                             ^^^^ support.function.echo.shell
+#                             ^^^^ support.function.shell
 #                                  ^^ variable.other.readwrite.shell
 #                                    ^ punctuation.terminator.statement.shell
 #                                      ^^^^ keyword.control.loop.end.shell
@@ -1004,7 +1002,7 @@ for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 #                                   ^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                      ^ punctuation.terminator.statement.shell
 #                                        ^^ keyword.control.loop.do.shell
-#                                           ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                                           ^^^^ meta.function-call.identifier.shell support.function.shell
 #                                                ^^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                                  ^ punctuation.terminator.statement.shell
 #                                                    ^^^^ keyword.control.loop.end.shell
@@ -1025,7 +1023,7 @@ for i in for in do echo done; do echo $i; done;
 #                       ^^^^ meta.string.shell string.unquoted.shell
 #                           ^ punctuation.terminator.statement.shell
 #                             ^^ keyword.control.loop.do.shell
-#                                ^^^^ support.function.echo.shell
+#                                ^^^^ support.function.shell
 #                                     ^^ variable.other.readwrite.shell
 #                                       ^ punctuation.terminator.statement.shell
 #                                         ^^^^ keyword.control.loop.end.shell
@@ -1044,7 +1042,7 @@ for i in { [ \( ; do echo $i; done;
 #              ^ - meta.string
 #               ^ punctuation.terminator.statement.shell
 #                 ^^ keyword.control.loop.do.shell
-#                    ^^^^ support.function.echo.shell
+#                    ^^^^ support.function.shell
 #                         ^^ variable.other.readwrite.shell
 #                           ^ punctuation.terminator.statement.shell
 #                             ^^^^ keyword.control.loop.end.shell
@@ -1057,7 +1055,7 @@ for i in <files.txt; do echo $i; done;
 #        ^ keyword.operator.assignment.redirection.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
-#                       ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                       ^^^^ meta.function-call.identifier.shell support.function.shell
 #                           ^^^ meta.function-call.arguments.shell
 #                            ^^ variable.other.readwrite.shell
 #                              ^ punctuation.terminator.statement.shell
@@ -1107,7 +1105,7 @@ for i in {1..10}; do echo $i; done;
 #              ^ punctuation.section.interpolation.end.shell
 #               ^ punctuation.terminator.statement.shell
 #                 ^^ keyword.control.loop.do.shell
-#                    ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                    ^^^^ meta.function-call.identifier.shell support.function.shell
 #                         ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #                          ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                           ^ punctuation.terminator.statement.shell
@@ -1128,7 +1126,7 @@ for i in {-10..+20}; do echo $i; done;
 #                 ^ punctuation.section.interpolation.end.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
-#                       ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                       ^^^^ meta.function-call.identifier.shell support.function.shell
 #                            ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #                             ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                              ^ punctuation.terminator.statement.shell
@@ -1152,7 +1150,7 @@ for i in {-10..+20..-4}; do echo $i; done;
 #                     ^ punctuation.section.interpolation.end.shell
 #                      ^ punctuation.terminator.statement.shell
 #                        ^^ keyword.control.loop.do.shell
-#                           ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                           ^^^^ meta.function-call.identifier.shell support.function.shell
 #                                ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #                                 ^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                  ^ punctuation.terminator.statement.shell
@@ -1174,7 +1172,7 @@ for i in $(seq 100); do
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
   :
-  # <- meta.function-call support.function.colon.shell
+  # <- meta.function-call support.function.shell
 done
 # <- keyword.control.loop.end.shell
 
@@ -1191,7 +1189,7 @@ done
 #                  ^ punctuation.section.interpolation.end.shell
 #                   ^ punctuation.terminator.statement.shell
 #                     ^^ keyword.control.loop.do.shell
-#                        ^^^^ support.function.echo.shell
+#                        ^^^^ support.function.shell
 #                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ keyword.control.loop.end.shell
 #                                    ^ punctuation.section.interpolation.end.shell
@@ -1204,7 +1202,7 @@ for domain in $domains; do echo $domain; done
 #             ^^^^^^^^ variable.other.readwrite.shell
 #                     ^ punctuation.terminator.statement.shell
 #                       ^^ keyword.control.loop.do.shell
-#                          ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                          ^^^^ meta.function-call.identifier.shell support.function.shell
 #                              ^^^^^^^^ meta.function-call.arguments.shell
 #                               ^^^^^^^ variable.other.readwrite.shell
 #                                      ^ punctuation.terminator.statement.shell
@@ -1233,7 +1231,7 @@ select var in 1 2 3 4 5; do echo $i; done;
 #                     ^ meta.string.shell string.unquoted.shell
 #                      ^ punctuation.terminator.statement.shell
 #                        ^^ keyword.control.loop.do.shell
-#                           ^^^^ support.function.echo.shell
+#                           ^^^^ support.function.shell
 #                                ^^ variable.other.readwrite.shell
 #                                  ^ punctuation.terminator.statement.shell
 #                                    ^^^^ keyword.control.loop.end.shell
@@ -1248,7 +1246,7 @@ select fname in *;
 do
 # <- keyword.control.loop.do.shell
   echo you picked $fname \($REPLY\)
-# ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+# ^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                  ^ - meta.function-call
   break;
@@ -1318,7 +1316,7 @@ while ! true; do echo bar; done
 #       ^^^^ constant.language.boolean.true.shell
 #           ^ punctuation.terminator.statement.shell
 #             ^^ keyword.control.loop.do.shell
-#                ^^^^ support.function.echo.shell
+#                ^^^^ support.function.shell
 #                        ^ punctuation.terminator.statement.shell
 #                          ^^^^ keyword.control.loop.end.shell
 
@@ -1360,7 +1358,7 @@ while ! ( [[ true ]] ); do echo bar; done
 
 while read -r -d '' f; do
 # <- keyword.control.loop.while.shell
-#     ^^^^ support.function.read.shell
+#     ^^^^ support.function.shell
 #          ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                ^^ string.quoted.single.shell
@@ -1373,7 +1371,7 @@ while IFS= read -r -d '' f; do
 # <- keyword.control.loop.while.shell
 #     ^^^ variable.language.builtin.shell
 #        ^ keyword.operator.assignment.shell
-#          ^^^^ support.function.read.shell
+#          ^^^^ support.function.shell
 #               ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                  ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                     ^^ string.quoted.single.shell
@@ -1642,7 +1640,7 @@ if [[ $- =~ *i* ]] ; then echo shell is not interactive; fi
 #               ^^ punctuation.section.compound.end.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^^^ keyword.control.conditional.then.shell
-#                         ^^^^ support.function.echo.shell
+#                         ^^^^ support.function.shell
 #                                                      ^ punctuation.terminator.statement.shell
 #                                                        ^^ keyword.control.conditional.endif.shell
 
@@ -1718,7 +1716,7 @@ if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #                             ^ punctuation.terminator.statement.shell
 #                               ^^^^ keyword.control.conditional.then.shell
     :
-#   ^ meta.function-call.identifier.shell support.function.colon.shell
+#   ^ meta.function-call.identifier.shell support.function.shell
 fi
 # <- keyword.control.conditional.endif.shell
 
@@ -1788,7 +1786,7 @@ asdf foo && FOO=some-value pwd
 #           ^^^ variable.other.readwrite.shell
 #              ^ keyword.operator.assignment.shell
 #               ^^^^^^^^^^ meta.string.shell string.unquoted.shell
-#                          ^^^ meta.function-call.identifier.shell support.function.pwd.shell
+#                          ^^^ meta.function-call.identifier.shell support.function.shell
 
 (cd Layer1-linux  && PLATFORM=${PLATFORM} ./build ) &&
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.command.shell
@@ -1914,8 +1912,8 @@ setup )
 # <- - variable.function - support.function - meta.function-call
 #     ^ punctuation.definition.pattern.end.shell
 echo Preparing the server...
-# <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.echo.shell
-#^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.echo.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
+#^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell
 ;;
 # <- meta.statement.conditional.case.body.shell meta.clause.shell punctuation.terminator.clause.shell
@@ -1929,8 +1927,8 @@ loy )
 # <- - variable.function - support.function - meta.function-call
 #   ^ punctuation.definition.pattern.end.shell
 echo Deploying...
-# <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.echo.shell
-#^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.echo.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
+#^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell
 ;;
 # <- meta.statement.conditional.case.body.shell meta.clause.shell punctuation.terminator.clause.shell
@@ -2099,14 +2097,14 @@ bk-+([0-9])\.host\.com) echo "Backup server"
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.definition.group.end.regexp.shell
 #                     ^ punctuation.definition.pattern.end.shell
-#                       ^^^^ support.function.echo.shell
+#                       ^^^^ support.function.shell
 ;;
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
 *)echo "Unknown server"
 # <- constant.other.wildcard.asterisk.shell
 #^ punctuation.definition.pattern.end.shell
-# ^^^^ support.function.echo.shell
+# ^^^^ support.function.shell
 ;;
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
@@ -2227,7 +2225,7 @@ coproc ls thisfiledoesntexist; read; 2>&1
 #^^^^^ keyword.declaration.coproc.shell
 #      ^^ variable.function.shell
 #                            ^ punctuation.terminator.statement.shell
-#                              ^^^^ support.function.read.shell
+#                              ^^^^ support.function.shell
 #                                  ^ punctuation.terminator.statement.shell
 #                                    ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                     ^^ keyword.operator.assignment.redirection.shell
@@ -2262,7 +2260,7 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #      ^ punctuation.section.compound.begin.shell
 #        ^^ variable.function.shell
 #                              ^ punctuation.terminator.statement.shell
-#                                ^^^^ support.function.read.shell
+#                                ^^^^ support.function.shell
 #                                    ^ punctuation.terminator.statement.shell
 #                                      ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                       ^^ keyword.operator.assignment.redirection.shell
@@ -2282,7 +2280,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #           ^ punctuation.section.compound.begin.shell
 #             ^^ variable.function.shell
 #                                   ^ punctuation.terminator.statement.shell
-#                                     ^^^^ support.function.read.shell
+#                                     ^^^^ support.function.shell
 #                                         ^ punctuation.terminator.statement.shell
 #                                           ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                            ^^ keyword.operator.assignment.redirection.shell
@@ -2326,7 +2324,7 @@ coproc foobar {
 #             ^ punctuation.section.compound.begin.shell
     read
 #^^^^^^^^ meta.coproc.command.shell meta.compound.command.shell
-#   ^^^^ meta.coproc.command.shell meta.compound.command.shell meta.function-call.identifier.shell support.function.read.shell
+#   ^^^^ meta.coproc.command.shell meta.compound.command.shell meta.function-call.identifier.shell support.function.shell
 }
 # <- meta.coproc.command.shell meta.compound.command.shell punctuation.section.compound.end.shell
 #^ - meta
@@ -2473,7 +2471,7 @@ function () ; {} arg
 #         ^^ meta.function.body.shell meta.block.shell
 #            ^^^^ invalid.illegal.unexpected-token.shell
 #                 ^ punctuation.terminator.statement.shell
-#                   ^^^^ support.function.echo.shell
+#                   ^^^^ support.function.shell
 #                        ^^^^ meta.string.shell string.unquoted.shell
 
   func () {} rest && echo done
@@ -2484,7 +2482,7 @@ function () ; {} arg
 #         ^^ meta.function.body.shell meta.block.shell
 #            ^^^^ invalid.illegal.unexpected-token.shell
 #                 ^^ keyword.operator.logical.shell
-#                    ^^^^ support.function.echo.shell
+#                    ^^^^ support.function.shell
 #                         ^^^^ meta.string.shell string.unquoted.shell
 
   logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
@@ -2531,7 +2529,7 @@ logExit ( ) {
   #^ meta.compound.conditional.shell punctuation.section.compound.begin.shell
   #            ^^ meta.compound.conditional.shell punctuation.section.compound.end.shell
   #               ^^ keyword.operator.logical.shell
-  #                  ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+  #                  ^^^^ meta.function-call.identifier.shell support.function.shell
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
   #            ^ meta.function punctuation.terminator.statement
@@ -2613,7 +2611,7 @@ function foo (     ) {
 #                    ^ punctuation.section.block.begin.shell
     echo 'hello from foo'
     # <- meta.function.body.shell meta.block.shell meta.function-call.identifier.shell
-    # <- support.function.echo.shell
+    # <- support.function.shell
 }
 # <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
 #^ - meta.function
@@ -2628,7 +2626,7 @@ f () (
 #    ^ meta.function.body.shell meta.block.shell punctuation.section.block.begin.shell
   echo hello
   # <- meta.function.body.shell meta.block.shell meta.function-call.identifier.shell
-  # <- support.function.echo.shell
+  # <- support.function.shell
 )
 # <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
 #^ - meta.function
@@ -2642,7 +2640,7 @@ function f (
 #        ^ entity.name.function.shell
 #          ^ punctuation.section.block.begin.shell
   echo hello
-  # <- meta.function meta.function-call support.function.echo
+  # <- meta.function meta.function-call support.function
 )
 # <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
 #^ - meta.function
@@ -3240,7 +3238,7 @@ foo=`cd -L`
 #      ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
 #         ^ meta.string.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
-#    ^^ support.function.cd.shell
+#    ^^ support.function.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ punctuation.section.interpolation.end.shell
 
@@ -3250,7 +3248,7 @@ foo=`echo -e`
 #        ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
 #           ^ meta.string.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
-#    ^^^^ support.function.echo.shell
+#    ^^^^ support.function.shell
 #         ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^ punctuation.section.interpolation.end.shell
 
@@ -3260,7 +3258,7 @@ foo=`let 5+5`
 #       ^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.arithmetic.shell
 #           ^ meta.string.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
-#    ^^^ support.function.let.shell
+#    ^^^ support.function.shell
 #        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ keyword.operator.arithmetic.shell
 #          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -8706,7 +8704,7 @@ LC_ALL=C 2> /dev/null
 # <- meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #^^ keyword.operator.assignment.redirection
 #  ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-#    ^^^^ meta.function-call support.function.echo
+#    ^^^^ meta.function-call support.function
 #        ^^^^ meta.function-call.arguments
 
 touch file.txt
@@ -8739,7 +8737,7 @@ cat <<FOOSTRING ; echo more stuff here
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^^^^^^^^^ entity.name.tag.heredoc.shell
 #               ^ punctuation.terminator.statement.shell
-#                 ^^^^ support.function.echo.shell
+#                 ^^^^ support.function.shell
 Hello, ${var}
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 #^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
@@ -8762,7 +8760,7 @@ cat << 'WHAT' ; echo more stuff here
 #       ^^^^ entity.name.tag.heredoc.shell
 #           ^ punctuation.definition.tag.end.shell - entity
 #             ^ punctuation.terminator.statement.shell
-#               ^^^^ support.function.echo.shell
+#               ^^^^ support.function.shell
 Hello, ${var}
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 #^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
@@ -9043,7 +9041,7 @@ alias -a -p -- foo=bar baz=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.shell
 #                             ^ - meta.declaration.alias
-#     ^^ invalid.illegal.parameter.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ keyword.operator.end-of-options.shell
 #              ^^^ meta.variable.shell entity.name.function.shell
@@ -9698,19 +9696,19 @@ printFunction "$variableString1" "`declare -p variableArray`"
 ###############################################################################
 
 eval
-# <- meta.function-call.identifier.shell support.function.eval.shell
-#^^^ meta.function-call.identifier.shell support.function.eval.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 
 eval ls .
-# <- meta.function-call.identifier.shell support.function.eval.shell
-#^^^ meta.function-call.identifier.shell support.function.eval.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^ meta.function-call.arguments.shell
 #    ^^ meta.string.shell string.unquoted.shell
 #       ^ meta.string.shell string.unquoted.shell
 
 eval "echo Helo ${name:a " + 2":$len}" !
-# <- meta.function-call.identifier.shell support.function.eval.shell
-#^^^ meta.function-call.identifier.shell support.function.eval.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
 #               ^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell
@@ -9724,44 +9722,44 @@ eval "echo Helo ${name:a " + 2":$len}" !
 ###############################################################################
 
 exec
-# <- meta.function-call.identifier.shell support.function.exec.shell
-#^^^ meta.function-call.identifier.shell support.function.exec.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 
 exec --
-# <- meta.function-call.identifier.shell support.function.exec.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell
-#^^^ support.function.exec.shell
+#^^^ support.function.shell
 #   ^^^ meta.function-call.arguments.shell
 #    ^^ keyword.operator.end-of-options.shell
 
 exec 3<&-
-# <- meta.function-call.identifier.shell support.function.exec.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell
 #   ^^^^^ meta.function-call.arguments.shell
-#^^^ support.function.exec.shell
+#^^^ support.function.shell
 #    ^ constant.numeric.value.shell
 #     ^^ keyword.operator.assignment.redirection.shell
 #       ^ punctuation.terminator.file-descriptor.shell
 
 exec -- foo bar
-# <- meta.function-call.identifier.shell support.function.exec.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell
 #   ^^^ meta.function-call.arguments.shell
 #       ^^^ meta.function-call.identifier.shell
 #          ^^^^ meta.function-call.arguments.shell
-#^^^ support.function.exec.shell
+#^^^ support.function.shell
 #    ^^ keyword.operator.end-of-options.shell
 #       ^^^ variable.function.shell
 
 exec -c -l -a name git status
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
-# <- meta.function-call.identifier.shell support.function.exec.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell
 #   ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                  ^^^ meta.function-call.identifier.shell
 #                     ^^^^^^^ meta.function-call.arguments.shell
-# <- support.function.exec.shell
-#^^^ support.function.exec.shell
+# <- support.function.shell
+#^^^ support.function.shell
 #    ^^ variable.parameter.option.shell
 #       ^^ variable.parameter.option.shell
 #          ^^ variable.parameter.option.shell
@@ -9774,11 +9772,11 @@ exec -la name -i --bar -- foo bar
 #                        ^ - meta.function-call
 #                         ^^^ meta.function-call.identifier.shell
 #                            ^^^^ meta.function-call.arguments.shell
-#^^^ support.function.exec.shell
+#^^^ support.function.shell
 #    ^^^ variable.parameter.option.shell
 #        ^^^^ string.unquoted.shell
-#             ^^ invalid.illegal.parameter.shell
-#                ^^^^^ invalid.illegal.parameter.shell
+#             ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                      ^^ keyword.operator.end-of-options.shell
 #                         ^^^ variable.function.shell
 
@@ -9786,19 +9784,19 @@ exec -al name
 #^^^ meta.function-call.identifier.shell
 #   ^^^^^ meta.function-call.arguments.shell
 #        ^^^^ meta.function-call.identifier.shell
-#^^^ support.function.exec.shell
-#    ^^^ invalid.illegal.parameter.shell
+#^^^ support.function.shell
+#    ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^^^ variable.function.shell
 
 exec git diff-index --check --cached $against --
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
-# <- meta.function-call.identifier.shell support.function.exec.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell
 #   ^ meta.function-call.arguments.shell
 #    ^^^ meta.function-call.identifier.shell
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-# <- support.function.exec.shell
-#^^^ support.function.exec.shell
+# <- support.function.shell
+#^^^ support.function.shell
 #    ^^^ variable.function.shell
 #                   ^^^^^^^ variable.parameter.option.shell
 #                           ^^^^^^^^ variable.parameter.option.shell
@@ -9866,21 +9864,21 @@ exec \
 ###############################################################################
 
 export
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^ - meta.function-call
 
 export foo          # 'foo' is a variable name
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^ meta.function-call.arguments.shell
 #         ^ - meta.function-call
 #      ^^^ variable.other.readwrite.shell
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export foo bar      # 'foo' and 'bar' are variable names
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^ meta.function-call.arguments.shell
 #             ^ - meta.function-call
 #      ^^^ variable.other.readwrite.shell
@@ -9889,8 +9887,8 @@ export foo bar      # 'foo' and 'bar' are variable names
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export foo='bar'    # 'foo' is a variable name
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^^ meta.function-call.arguments.shell
 #               ^ - meta.function-call
 #      ^^^ variable.other.readwrite.shell
@@ -9901,8 +9899,8 @@ export foo='bar'    # 'foo' is a variable name
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.string - meta.interpolation
 #                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
 #      ^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
@@ -9913,28 +9911,28 @@ export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.string.shell
 
 export -f foo
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^ meta.variable.shell entity.name.function.shell
 
 export -f =
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ meta.variable.shell entity.name.function.shell
 
 export -f ==cmd
-# <- meta.function-call.identifier.shell support.function.export.shell
-#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^^^ meta.variable.shell entity.name.function.shell
 
 export PATH="$PATH:$HOME/.local/bin"
-# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+# ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
 #      ^^^^ variable.language.builtin.shell
 #          ^ keyword.operator.assignment
@@ -9950,7 +9948,7 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # tilde expansion in unquoted strings
 export PATH=$PATH:~/.local/bin
-# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+# ^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^ variable.language.builtin.shell
 #          ^ keyword.operator.assignment
@@ -9960,7 +9958,7 @@ export PATH=$PATH:~/.local/bin
 
 # no tilde expansion in quoted strings
 export PATH="$PATH:~/.local/bin"
-# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+# ^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^ variable.language.builtin.shell
 #          ^ keyword.operator.assignment
@@ -9972,7 +9970,7 @@ export PATH="$PATH:~/.local/bin"
 #                              ^ punctuation.definition.string.end.shell
 
 export SOMETHING='/etc/test:/var/test:../foo:./foo'
-# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+# ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
 #      ^^^^^^^^^ meta.variable variable.other.readwrite
 #               ^ keyword.operator.assignment
@@ -9984,7 +9982,7 @@ export SOMETHING='/etc/test:/var/test:../foo:./foo'
 #                                                 ^ punctuation.definition.string.end
 
 export SOMETHING=/etc/test:/var/test
-# ^^^^ meta.function-call.identifier.shell support.function.export.shell
+# ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
 #      ^^^^^^^^^ meta.variable variable.other.readwrite
 #               ^ keyword.operator.assignment
@@ -10004,21 +10002,21 @@ url="https://sublimetext.com/"
 ###############################################################################
 
 let
-# <- meta.function-call.identifier.shell support.function.let.shell
-#^^ meta.function-call.identifier.shell support.function.let.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^ meta.function-call.identifier.shell support.function.shell
 #  ^ - meta.arithmetic
 let;
-#^^ support.function.let.shell
+#^^ support.function.shell
 let&
-#^^ support.function.let.shell
+#^^ support.function.shell
 let|
-#^^ support.function.let.shell
+#^^ support.function.shell
 let>/dev/null
-#^^ support.function.let.shell
+#^^ support.function.shell
 let -
-#^^ support.function.let.shell
+#^^ support.function.shell
 let()
-#^^ support.function.let.shell
+#^^ support.function.shell
 let[]
 #^^^^ - storage - keyword.declaration
 let{}
@@ -10041,10 +10039,10 @@ let+=
 #^^^^ - storage - keyword.declaration
 
 let expr 'expr' "expr"
-# <- meta.function-call.identifier.shell support.function.let.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^ meta.function-call.identifier.shell
 #  ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
-#^^ support.function.let.shell
+#^^ support.function.shell
 #   ^^^^ variable.other.readwrite.shell
 #        ^ punctuation.definition.quoted.begin.shell
 #         ^^^^ variable.other.readwrite.shell
@@ -10065,13 +10063,13 @@ let 5+5 # comment
 #^^ meta.function-call.identifier.shell
 #  ^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #      ^ - meta.arithmetic
-#^^ support.function.let.shell
+#^^ support.function.shell
 #   ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^ keyword.operator.arithmetic.shell
 #     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 let var[10]=5*(20+$idx)
-# <- meta.function-call.identifier.shell support.function.let.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^ meta.function-call.identifier.shell
 #  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #   ^^^ meta.variable.shell variable.other.readwrite.shell
@@ -10089,11 +10087,11 @@ let var[10]=5*(20+$idx)
 #                     ^ punctuation.section.group.end.shell
 
 let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
-# <- meta.function-call.identifier.shell support.function.let.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^ meta.function-call.identifier.shell
 #  ^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #            ^ - meta.function-call - meta.arithmetic
-#^^ support.function.let.shell
+#^^ support.function.shell
 #   ^ punctuation.definition.quoted.begin.shell
 #    ^^^ variable.other.readwrite.shell
 #       ^ keyword.operator.assignment.shell
@@ -10113,11 +10111,11 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #                                                  ^^ keyword.control.conditional.endif.shell
 
 let test -z $2 && { }
-#^^ meta.function-call.identifier.shell support.function.let.shell
+#^^ meta.function-call.identifier.shell support.function.shell
 #  ^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #             ^^^^ - meta.arithmetic - meta.compound
 #                 ^^^ meta.compound.command.shell
-#^^ support.function.let.shell
+#^^ support.function.shell
 #   ^^^^ variable.other.readwrite.shell
 #        ^ keyword.operator.arithmetic.shell
 #         ^ variable.other.readwrite.shell
@@ -10127,7 +10125,7 @@ let test -z $2 && { }
 #                   ^ punctuation.section.compound.end.shell
 
 let $var == test -z $5 && cmd
-#^^ meta.function-call.identifier.shell support.function.let.shell
+#^^ meta.function-call.identifier.shell support.function.shell
 #  ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #                     ^^^^^^^^ - meta.arithmetic
 #   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
@@ -10140,7 +10138,7 @@ let $var == test -z $5 && cmd
 #                         ^^^ variable.function.shell
 
 let 'test -z $2 && { }'
-#^^ meta.function-call.identifier.shell support.function.let.shell
+#^^ meta.function-call.identifier.shell support.function.shell
 #  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #   ^ punctuation.definition.quoted.begin.shell
 #    ^^^^ variable.other.readwrite.shell
@@ -10479,21 +10477,21 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 ###############################################################################
 
 test
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^ - meta.function-call
 test;
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 test&
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 test|
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 test>/dev/null
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 test -
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 test()
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 test[]
 #^^^^^ - support.function
 test{}
@@ -10516,39 +10514,39 @@ test+=
 #^^^^^ - support.function
 
 test $var != 0
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^ meta.function-call.arguments.shell - meta.string.regexp
 #             ^ - meta.function-call
 #         ^^ keyword.operator.comparison.shell
 #            ^ constant.numeric.value.shell
 
 test $var == true
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.string.regexp
 #         ^^ keyword.operator.comparison.shell
 #            ^^^^ constant.language.boolean.true.shell
 
 test str == "str"
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^ meta.string.shell string.unquoted.shell
 #        ^^ keyword.operator.comparison.shell
 #           ^^^^^ meta.string.shell string.quoted.double.shell
 
 test str != "str"
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^ meta.string.shell string.unquoted.shell
 #        ^^ keyword.operator.comparison.shell
 #           ^^^^^ meta.string.shell string.quoted.double.shell
 
 test str < 'str'
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^ meta.function-call.arguments.shell
 #               ^ - meta.function-call
 #    ^^^ meta.string.shell string.unquoted.shell
@@ -10556,8 +10554,8 @@ test str < 'str'
 #          ^^^^^ meta.string.shell string.quoted.single.shell
 
 test str > str
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^ meta.function-call.arguments.shell
 #             ^ - meta.function-call
 #    ^^^ meta.string.shell string.unquoted.shell
@@ -10565,8 +10563,8 @@ test str > str
 #          ^^^ meta.string.shell string.unquoted.shell
 
 test var[0] != var[^0-9]*$
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^^^^ meta.string.shell string.unquoted.shell
 #       ^^^ meta.set.regexp.shell
@@ -10574,8 +10572,8 @@ test var[0] != var[^0-9]*$
 #              ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.string.regexp
 
 test $var[0] != var[^0-9]*$
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^^^ meta.set.regexp.shell
@@ -10583,8 +10581,8 @@ test $var[0] != var[^0-9]*$
 #               ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.string.regexp
 
 test ${var[0]} != var[^0-9]*$
-#<- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^^ variable.other.readwrite.shell
@@ -10593,8 +10591,8 @@ test ${var[0]} != var[^0-9]*$
 #                 ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.string.regexp
 
 test expr -a expr -o expr -- | cmd |& cmd
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                           ^^^ - meta.function-call
 #         ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -10605,22 +10603,22 @@ test expr -a expr -o expr -- | cmd |& cmd
 #                                  ^^ keyword.operator.assignment.pipe.shell
 
 test ! $line == ^[0-9]+$
-# <- meta.function-call.identifier.shell support.function.test.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell - meta.function-call.arguments
 #   ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier
 #                       ^ - meta.function-call
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 #    ^ keyword.operator.logical.shell
 #      ^^^^^ variable.other.readwrite.shell
 #            ^^ keyword.operator.comparison.shell
 #               ^^^^^^^^ meta.string.shell string.unquoted.shell
 
 test ! $line =~ ^[0-9]+$ >> /file
-# <- meta.function-call.identifier.shell support.function.test.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell - meta.function-call.arguments
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier - meta.group
 #                                ^ - meta.function-call
-#^^^ support.function.test.shell
+#^^^ support.function.shell
 #    ^ keyword.operator.logical.shell
 #      ^^^^^ variable.other.readwrite.shell
 #            ^^ invalid.illegal.operator.shell
@@ -10629,19 +10627,19 @@ test ! $line =~ ^[0-9]+$ >> /file
 
 if test expr -a expr ; then echo "success"; fi
 # ^ - meta.function-call
-#  ^^^^ meta.function-call.identifier.shell support.function.test.shell
+#  ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                   ^^^^^^^^ - meta.function-call
 #            ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                    ^ punctuation.terminator.statement.shell
 #                      ^^^^ keyword.control.conditional.then.shell
-#                           ^^^^ support.function.echo.shell
+#                           ^^^^ support.function.shell
 #                                         ^ punctuation.terminator.statement.shell
 #                                           ^^ keyword.control.conditional.endif.shell
 
 if test "$VAR" != ";";then;fi
 # ^ - meta.function-call
-#  ^^^^ meta.function-call.identifier.shell support.function.test.shell
+#  ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #       ^^^^^^ meta.string.shell
 #              ^^ keyword.operator.comparison.shell
@@ -10660,16 +10658,16 @@ if test "$VAR" != ";";then;fi
 
 unalias
 unalias -a -b
-# <- meta.function-call.identifier.shell support.function.unalias.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^ meta.function-call.arguments.shell
 #            ^ - meta.function
 #       ^^ variable.parameter.option.shell
-#          ^^ invalid.illegal.parameter.shell
+#          ^^ variable.parameter.option.shell
 
 unalias foo
-# <- meta.function-call.identifier.shell support.function.unalias.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function
 #      ^ - meta.variable - variable
@@ -10677,8 +10675,8 @@ unalias foo
 #          ^ - meta.variable - variable
 
 unalias foo # comment
-# <- meta.function-call.identifier.shell support.function.unalias.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^ meta.function-call.arguments.shell
 #          ^^^^^^^^^^ - meta.function
 #      ^ - meta.variable - variable
@@ -10694,12 +10692,12 @@ unalias foo # comment
 
 unset
 unset foo b'a'r ba${z}  # 'foo' and 'bar' are variable names
-# <- meta.function-call.identifier.shell support.function.unset.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                     ^ - meta.function-call
 #         ^^^^^ meta.variable.shell
-#^^^^ support.function.unset.shell
+#^^^^ support.function.shell
 #    ^ - meta.variable - support - variable
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ - meta.variable - variable
@@ -10714,11 +10712,11 @@ unset foo b'a'r ba${z}  # 'foo' and 'bar' are variable names
 
 unset -n
 unset -nfv foo = == ==cmd cmd=name
-# <- meta.function-call.identifier.shell support.function.unset.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                 ^ - meta.function-call
-#^^^^ support.function.unset.shell
+#^^^^ support.function.shell
 #     ^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ - variable
 #          ^^^ variable.function.shell
@@ -10733,7 +10731,7 @@ unset -nfv foo = == ==cmd cmd=name
 #                                 ^ - variable
 
 unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
-# <- meta.function-call.identifier.shell support.function.unset.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                       ^^ - meta.function-call
@@ -10750,7 +10748,7 @@ unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
 #                   ^ punctuation.definition.quoted.begin.shell
 #                     ^ punctuation.definition.quoted.end.shell
 #                       ^ punctuation.terminator.statement.shell
-#                         ^^^^^ support.function.unset.shell
+#                         ^^^^^ support.function.shell
 #                              ^ - support - variable
 #                               ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                  ^ - variable
@@ -10760,7 +10758,7 @@ unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
 #                                        ^^ keyword.operator.assignment.redirection.shell
 
 unset -f -x +v -- foo bar; unset -vn -- foo
-# <- meta.function-call.identifier.shell support.function.unset.shell
+# <- meta.function-call.identifier.shell support.function.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                        ^^ - meta.function-call
@@ -10768,7 +10766,7 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #                               ^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                          ^ - meta.function-call
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
-#        ^^ invalid.illegal.parameter.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^^^^ - variable
 #              ^^ keyword.operator.end-of-options.shell
@@ -10776,7 +10774,7 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #                    ^ - variable
 #                     ^^^ variable.function.shell
 #                        ^ punctuation.terminator.statement.shell
-#                          ^^^^^ support.function.unset.shell
+#                          ^^^^^ support.function.shell
 #                               ^ - support - variable
 #                                ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                   ^^^^ - variable
@@ -10789,7 +10787,7 @@ unset-
 unset+
 # <- - support.function
 unset()
-# <- support.function.unset.shell
+# <- support.function.shell
 unset[]
 # <- - support.function
 unset{}
@@ -10807,16 +10805,16 @@ unset-=
 ###############################################################################
 
 sudo rm -rf
-# <- meta.function-call.identifier.shell support.function.sudo.shell
-#^^^ meta.function-call.identifier.shell support.function.sudo.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #    ^^ meta.function-call.identifier.shell variable.function.shell
 #      ^^^^ meta.function-call.arguments.shell
 #       ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ punctuation.definition.parameter.shell
 
 sudo -b -g network --host=$foo rm -rf
-# <- meta.function-call.identifier.shell support.function.sudo.shell
-#^^^ meta.function-call.identifier.shell support.function.sudo.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                              ^^ meta.function-call.identifier.shell
 #                                ^^^^ meta.function-call.arguments.shell
@@ -10835,8 +10833,8 @@ sudo -b -g network --host=$foo rm -rf
 #                                 ^ punctuation.definition.parameter.shell
 
 sudo --reset-timestamp -n -f -- rm -rf
-# <- meta.function-call.identifier.shell support.function.sudo.shell
-#^^^ meta.function-call.identifier.shell support.function.sudo.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                              ^ - meta.function-call
 #                               ^^ meta.function-call.identifier.shell
@@ -10844,7 +10842,7 @@ sudo --reset-timestamp -n -f -- rm -rf
 #                                     ^ - meta.function-call
 #    ^^^^^^^^^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                      ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                         ^^ invalid.illegal.parameter.shell
+#                         ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                            ^^ keyword.operator.end-of-options.shell
 #                               ^^ variable.function.shell
 #                                  ^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -11334,7 +11332,7 @@ sudo --reset-timestamp -n -f -- rm -rf
 
 [
 ]
-# <- - meta.conditional - support.function.test
+# <- - meta.conditional - support.function
 
 [ \
 ]
@@ -11814,43 +11812,43 @@ true false
 ###############################################################################
 
 fg fg
-# <- meta.function-call.identifier.shell support.function.fg.shell
-#^ meta.function-call.identifier.shell support.function.fg.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^ meta.function-call.identifier.shell support.function.shell
 # ^^^ meta.function-call.arguments.shell - support
 
 bg bg
-# <- meta.function-call.identifier.shell support.function.bg.shell
-#^ meta.function-call.identifier.shell support.function.bg.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^ meta.function-call.identifier.shell support.function.shell
 # ^^^ meta.function-call.arguments.shell - support
 
 jobs jobs
-# <- meta.function-call.identifier.shell support.function.jobs.shell
-#^^^ meta.function-call.identifier.shell support.function.jobs.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^ meta.function-call.arguments.shell - support
 
 kill -s
-# <- meta.function-call.identifier.shell support.function.kill.shell
-#^^^ meta.function-call.identifier.shell support.function.kill.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^ meta.function-call.arguments.shell
 #    ^^ meta.parameter.option.shell variable.parameter.option.shell
 
 wait -fn -p varname
-# <- meta.function-call.identifier.shell support.function.wait.shell
-#^^^ meta.function-call.identifier.shell support.function.wait.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^^^^^^ meta.string.shell string.unquoted.shell
 
 disown -ar
-# <- meta.function-call.identifier.shell support.function.disown.shell
-#^^^^^ meta.function-call.identifier.shell support.function.disown.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^ meta.function-call.arguments.shell
 #      ^^^ meta.parameter.option.shell variable.parameter.option.shell
 
 suspend -f
-# <- meta.function-call.identifier.shell support.function.suspend.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.suspend.shell
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^ meta.function-call.arguments.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
 
