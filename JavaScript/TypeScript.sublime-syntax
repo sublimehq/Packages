@@ -254,7 +254,7 @@ contexts:
       set:
         - ts-meta-module
         - block
-        - literal-string
+        - ts-module-name
     - include: declaration
     - match: (?={{identifier_start}})
       pop: 1
@@ -265,6 +265,40 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.module.js
     - include: immediately-pop
+
+  ts-module-name:
+    - match: \"
+      scope: punctuation.definition.quoted.begin.js
+      set: ts-double-quoted-module-name-content
+    - match: \'
+      scope: punctuation.definition.quoted.begin.js
+      set: ts-single-quoted-module-name-content
+    - match: '{{non_reserved_identifier}}'
+      scope: entity.name.module.js
+      pop: 1
+    - include: else-pop
+
+  ts-double-quoted-module-name-content:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.module.js
+    - match: \"
+      scope: punctuation.definition.quoted.end.js
+      pop: 1
+    - match: \n
+      scope: invalid.illegal.newline.js
+      pop: 1
+    - include: string-content
+
+  ts-single-quoted-module-name-content:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.module.js
+    - match: \'
+      scope: punctuation.definition.quoted.end.js
+      pop: 1
+    - match: \n
+      scope: invalid.illegal.newline.js
+      pop: 1
+    - include: string-content
 
   ts-abstract-class:
     - match: abstract{{identifier_break}}

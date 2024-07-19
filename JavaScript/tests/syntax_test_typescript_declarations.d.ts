@@ -177,9 +177,27 @@
 //                      ^ punctuation.section.block.begin
 //                       ^ punctuation.section.block.end
 
+    declare module module {}
+//  ^^^^^^^ storage.modifier
+//          ^^^^^^^^^^^^^^^^ meta.module
+//          ^^^^^^ keyword.declaration.module
+//                 ^^^^^^ entity.name.module.js
+//                        ^^ meta.block
+
     declare module 'module' {}
 //  ^^^^^^^ storage.modifier
 //          ^^^^^^^^^^^^^^^^^^ meta.module
 //          ^^^^^^ keyword.declaration.module
-//                 ^^^^^^^^ meta.string string.quoted.single
+//                 ^^^^^^^^ entity.name.module.js
+//                 ^ punctuation.definition.quoted.begin.js
+//                        ^ punctuation.definition.quoted.end.js
+//                          ^^ meta.block
+
+    declare module "module" {}
+//  ^^^^^^^ storage.modifier
+//          ^^^^^^^^^^^^^^^^^^ meta.module
+//          ^^^^^^ keyword.declaration.module
+//                 ^^^^^^^^ entity.name.module.js
+//                 ^ punctuation.definition.quoted.begin.js
+//                        ^ punctuation.definition.quoted.end.js
 //                          ^^ meta.block
