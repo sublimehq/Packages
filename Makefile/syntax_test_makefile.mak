@@ -1062,7 +1062,7 @@ foo:
 	#      ^^^^ support.function.echo.shell
 	#           ^ constant.character.escape.makefile
 	#            ^ punctuation.definition.variable.shell
-	#            ^^^^^ variable.other.readwrite.shell
+	#            ^^^^^ variable.language.builtin.shell
 
 	test "$$abc" = "$$def"
 	# ^ support.function.test.shell

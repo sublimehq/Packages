@@ -47,7 +47,7 @@ first_line_match: |-
 ###############################################################################
 
 variables:
-  is_interpolation: (?=\$[({{{identifier_char}}{{builtin_variable}}]|`)
+  is_interpolation: (?=\$[({{{identifier_char}}{{special_variable}}]|`)
 
   # posix identifiers (alpha-numeric)
   identifier: '{{identifier_first_char}}{{identifier_char}}*'
@@ -73,7 +73,131 @@ variables:
   word_char: '[^{{metachar}}]'
 
   # Shell Parameter Expansions
-  builtin_variable: '[$#@!*?_-]'
+  # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
+  # Note: do not sort! order required to fully scope all variables
+  builtin_variable: |-
+    (?x:
+      _\b
+    | {{shell_variables}}
+    | CDPATH
+    | CHILD_MAX
+    | COLUMNS
+    | COMP_CWORD
+    | COMP_KEY
+    | COMP_LINE
+    | COMP_POINT
+    | COMP_TYPE
+    | COMP_WORDBREAKS
+    | COMP_WORDS
+    | COMPREPLY
+    | COPROC
+    | DIRSTACK
+    | EMACS
+    | ENV
+    | EPOCHREALTIME
+    | EPOCHSECONDS
+    | EUID
+    | EXECIGNORE
+    | FCEDIT
+    | FIGNORE
+    | FUNCNAME
+    | FUNCNEST
+    | GLOBIGNORE
+    | GROUPS
+    | histchars
+    | HISTCMD
+    | HISTCONTROL
+    | HISTFILESIZE
+    | HISTFILE
+    | HISTIGNORE
+    | HISTSIZE
+    | HISTTIMEFORMAT
+    | HOME
+    | HOSTFILE
+    | HOSTNAME
+    | HOSTTYPE
+    | IFS
+    | IGNOREEOF
+    | INPUTRC
+    | INSIDE_EMACS
+    | LANG
+    | LC_ALL
+    | LC_COLLATE
+    | LC_CTYPE
+    | LC_MESSAGES
+    | LC_NUMERIC
+    | LC_TIME
+    | LINENO
+    | LINES
+    | MACHTYPE
+    | MAILCHECK
+    | MAILPATH
+    | MAIL
+    | MAPFILE
+    | OLDPWD
+    | OPTARG
+    | OPTERR
+    | OPTIND
+    | OSTYPE
+    | PATH
+    | PIPESTATUS
+    | POSIXLY_CORRECT
+    | PPID
+    | PROMPT_COMMAND
+    | PROMPT_DIRTRIM
+    | PS0
+    | PS1
+    | PS2
+    | PS3
+    | PS4
+    | PWD
+    | RANDOM
+    | READLINE_ARGUMENT
+    | READLINE_LINE
+    | READLINE_MARK
+    | READLINE_POINT
+    | REPLY
+    | SECONDS
+    | SHELLOPTS
+    | SHELL
+    | SHLVL
+    | SRANDOM
+    | TIMEFORMAT
+    | TMOUT
+    | TMPDIR
+    | UID
+    )
+
+  # Shell specific built-in variable
+  shell_variables: |-
+    (?x:
+      BASH
+      (?:
+       _(?:
+          ALIASES
+        | ARGC
+        | ARGV0
+        | ARGV
+        | CMDS
+        | COMMAND
+        | COMPAT
+        | ENV
+        | EXECUTION_STRING
+        | LINENO
+        | LOADABLES_PATH
+        | REMATCH
+        | SOURCE
+        | SUBSHELL
+        | VERSINFO
+        | VERSION
+        | XTRACEFD
+        )
+      | OPTS
+      | PID
+      )?
+    )
+
+  special_variable: '[$#@!*?-]'
   parameter_switch: '[AEKLPQUaku]'
 
   # posix regexp quantifiers
@@ -309,11 +433,11 @@ contexts:
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   def-variables:
-    - match: '{{identifier}}(?=(?:\[[^\]]*\])*{{varassign}})'
-      scope: variable.other.readwrite.shell
+    - match: (?={{identifier}}(?:\[[^\]]*\])*{{varassign}})
       push:
         - variable-value-assignment
         - variable-subscription
+        - variable-name-begin
 
   variable-subscription:
     - meta_scope: meta.variable.shell
@@ -326,7 +450,7 @@ contexts:
       scope: meta.item-access.shell
       captures:
         1: punctuation.section.item-access.begin.shell
-        2: variable.language.shell
+        2: variable.language.array.shell
         3: punctuation.section.item-access.end.shell
     - match: \[
       scope: punctuation.section.item-access.begin.shell
@@ -1798,9 +1922,14 @@ contexts:
       scope: meta.interpolation.parameter.shell variable.language.positional.shell
       captures:
         1: punctuation.definition.variable.shell
+    # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
+    - match: (\$){{builtin_variable}}
+      scope: meta.interpolation.parameter.shell variable.language.builtin.shell
+      captures:
+        1: punctuation.definition.variable.shell
     # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
-    - match: (\$){{builtin_variable}}(?!\w)
-      scope: meta.interpolation.parameter.shell variable.language.shell
+    - match: (\$){{special_variable}}
+      scope: meta.interpolation.parameter.shell variable.language.special.shell
       captures:
         1: punctuation.definition.variable.shell
     - match: (\$){{identifier}}
@@ -1837,7 +1966,10 @@ contexts:
       scope: variable.language.positional.shell
       pop: 1
     - match: '{{builtin_variable}}(?=[-+*/%?,:=#^@}\[])'
-      scope: variable.language.shell
+      scope: variable.language.builtin.shell
+      pop: 1
+    - match: '{{special_variable}}(?=[-+*/%?,:=#^@}\[])'
+      scope: variable.language.special.shell
       pop: 1
     - match: ''
       set: expansion-parameter-name-chars
@@ -1846,7 +1978,7 @@ contexts:
     - meta_content_scope: variable.other.readwrite.shell
     # note: no quoted name parts allowed within parameter expansions
     - match: '[@*](?!\w)'
-      scope: variable.language.shell
+      scope: variable.language.special.shell
       pop: 1
     - include: variable-name-chars
 
@@ -2650,7 +2782,15 @@ contexts:
 
   variables:
     - match: '{{word_begin}}'
-      push: [variable-subscription, variable-name-chars]
+      push: [variable-subscription, variable-name-begin]
+
+  variable-name-begin:
+    - meta_include_prototype: false
+    - match: '{{builtin_variable}}'
+      scope: variable.language.builtin.shell
+      pop: 1
+    - match: ''
+      set: variable-name-chars
 
   variable-name-chars:
     - meta_scope: variable.other.readwrite.shell
