@@ -68,6 +68,9 @@ variables:
   opt_punctuation: '(--|[-+]){{word_begin}}'
   opt_break: (?![^={{metachar}}])
 
+  variable_begin: (?={{variable_first_char}})
+  variable_first_char: '[[:alpha:]_''"$%]'
+
   word_begin: (?=\S)
   word_break: (?!{{word_char}})
   word_char: '[^{{metachar}}]'
@@ -256,8 +259,7 @@ contexts:
     - include: def-functions
     - include: booleans
     - include: cmd-basic
-    - match: '[)}\]]'
-      scope: invalid.illegal.stray.shell
+    - include: illegal-stray
 
   statement:
     - include: statements
@@ -435,8 +437,7 @@ contexts:
   def-variables:
     - match: (?={{identifier}}(?:\[[^\]]*\])*{{varassign}})
       push:
-        - variable-value-assignment
-        - variable-subscription
+        - literal-array-value-assignment
         - variable-name-begin
 
   variable-subscription:
@@ -465,60 +466,6 @@ contexts:
       pop: 1
     - include: eoc-pop
     - include: string-unquoted-content
-
-  variable-value-assignment:
-    - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: variable-value
-    - include: line-continuations
-    - include: immediately-pop
-
-  variable-value:
-    - meta_include_prototype: false
-    - match: \(
-      scope: punctuation.section.sequence.begin.shell
-      set: variable-value-list-body
-    - include: line-continuations
-    - include: boolean
-    - include: number
-    - include: string-path-pattern
-    - include: immediately-pop
-
-  variable-value-list-body:
-    - meta_scope: meta.sequence.shell
-    - match: \)
-      scope: punctuation.section.sequence.end.shell
-      pop: 1
-    - match: \[
-      scope: punctuation.definition.key.begin.shell
-      push: variable-mapping-key-body
-    - include: comments
-    - match: (?=\S)
-      push: variable-value
-
-  variable-mapping-key-body:
-    - meta_scope: meta.mapping.key.shell
-    - meta_content_scope: entity.name.key.shell
-    - match: \]
-      scope: punctuation.definition.key.end.shell
-      set: variable-mapping-value-assignment
-    - include: eoc-pop
-    - include: literal-unquoted-content
-
-  variable-mapping-value-assignment:
-    - meta_content_scope: meta.mapping.shell
-    - match: '{{varassign}}'
-      scope: meta.mapping.shell keyword.operator.assignment.shell
-      set:
-        - variable-mapping-meta
-        - variable-value
-    - include: line-continuations
-    - include: immediately-pop
-
-  variable-mapping-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.mapping.value.shell
-    - include: immediately-pop
 
 ###[ ALIAS BUILTINS ]##########################################################
 
@@ -553,7 +500,7 @@ contexts:
     - include: cmd-args-end
     - match: =
       scope: keyword.operator.assignment.shell
-      push: variable-value
+      push: literal-array-value
     - match: '{{word_begin}}'
       push: alias-name-chars
 
@@ -671,25 +618,74 @@ contexts:
     - include: immediately-pop
 
   cmd-declare-args:
-    - match: ([-+])(?:[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*)
+    # option contains -f or -F
+    - match: ([-+])[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-declare-options-then-functions
-    - include: cmd-declare-options-then-variables
+      set: cmd-declare-functions
+    # option contains any mix of iA or Ai
+    - match: ([-+])(?:[agIlnrtux]*?i[iagIlnrtux]*?A|[agIlnrtux]*?A[aAgIlnrtux]*?i)[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-arithmetic-mappings
+    # option contains any mix of ia or ai or i
+    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-arithmetic-values
+    # option contains contains A
+    - match: ([-+])[aAgIlnrtux]*?A[aAgIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-literal-mappings
+    # anything else is a variable with any value
+    - include: cmd-declare-options
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
-  cmd-declare-options-then-functions:
+  cmd-declare-functions:
     - include: cmd-declare-options
     - include: cmd-args-end-of-options-then-function-declarations
 
-  cmd-declare-options-then-variables:
+  cmd-declare-variables-with-arithmetic-mappings:
     - include: cmd-declare-options
-    - include: cmd-args-end-of-options-then-variables
+    - include: cmd-args-end-of-options-then-variables-arithmetic-mappings
+
+  cmd-declare-variables-with-arithmetic-values:
+    - match: ([-+])[aAgiIlnrtux]*?A[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-arithmetic-mappings
+    - include: cmd-declare-options
+    - include: cmd-args-end-of-options-then-variables-arithmetic-values
+
+  cmd-declare-variables-with-literal-mappings:
+    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-arithmetic-mappings
+    - include: cmd-declare-options
+    - include: cmd-args-end-of-options-then-variables-literal-mappings
 
   cmd-declare-options:
-    - match: ([-+])(?:[aAgiIlnrtux]+|p)
+    - match: ([-+])(?:[aAgiIlnrtux]+|p){{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -770,7 +766,7 @@ contexts:
     - include: immediately-pop
 
   cmd-export-args:
-    - match: ([-+])n?fn?
+    - match: ([-+])n?fn?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -785,10 +781,10 @@ contexts:
 
   cmd-export-options-then-variables:
     - include: cmd-export-options
-    - include: cmd-args-end-of-options-then-variables
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-export-options:
-    - match: ([-+])[np]
+    - match: ([-+])[np]{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -812,25 +808,45 @@ contexts:
     - include: immediately-pop
 
   cmd-readonly-args:
-    - match: ([-+])[aA]*f[aA]*
+    # options contain -f => function declarations (wins over -A)
+    - match: ([-+])[aA]*f[aA]*{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       set: cmd-readonly-options-then-functions
+    # options contain -A => associative array (wins over -a)
+    - match: ([-+])a?Aa?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-readonly-options-then-mappings
     - include: cmd-readonly-options-then-variables
 
   cmd-readonly-options-then-functions:
     - include: cmd-readonly-options
-    - include: cmd-args-end-of-options-then-functions
+    - include: cmd-args-end-of-options-then-function-declarations
+
+  cmd-readonly-options-then-mappings:
+    - match: ([-+])[aA]*f[aA]*{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-readonly-options-then-functions
+    - include: cmd-readonly-options
+    - include: cmd-args-end-of-options-then-variables-literal-mappings
 
   cmd-readonly-options-then-variables:
     - include: cmd-readonly-options
-    - include: cmd-args-end-of-options-then-variables
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-readonly-options:
-    - match: ([-+])(?:[aAf]+|p)
+    - match: ([-+])(?:[aAf]+|p){{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -1022,21 +1038,21 @@ contexts:
         support.function.unalias.shell
       push:
         - cmd-unalias-args-meta
-        - cmd-unalias-options
+        - cmd-unalias-args
 
   cmd-unalias-args-meta:
     - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
-  cmd-unalias-options:
-    - match: ([-+])a
+  cmd-unalias-args:
+    - match: ([-+])a{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: cmd-args-end-of-options-then-functions
+    - include: cmd-args-end-of-options-then-function-references
 
 ###[ UNSET BUILTINS ]##########################################################
 
@@ -1055,7 +1071,7 @@ contexts:
     - include: immediately-pop
 
   cmd-unset-args:
-    - match: ([-+])[nv]?f[nv]?
+    - match: ([-+])[nv]?f[nv]?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -1066,14 +1082,14 @@ contexts:
 
   cmd-unset-options-then-functions:
     - include: cmd-unset-options
-    - include: cmd-args-end-of-options-then-functions
+    - include: cmd-args-end-of-options-then-function-references
 
   cmd-unset-options-then-variables:
     - include: cmd-unset-options
-    - include: cmd-args-end-of-options-then-variables
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-unset-options:
-    - match: ([-+])[nv]+
+    - match: ([-+])[nv]+{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -1182,17 +1198,25 @@ contexts:
     - meta_include_prototype: false
     - match: =
       scope: keyword.operator.assignment.shell
-      set: variable-value
+      set: cmd-args-option-value
     - include: line-continuations
     - include: immediately-pop
 
   cmd-args-option-maybe-value:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - meta_include_prototype: false
-    - match: '{{wspace}}(?![-\]}{{metachar}}])'
-      set: variable-value
+    - match: '{{wspace}}(?![-+\]}{{metachar}}])'
+      set: cmd-args-option-value
     - include: number
     - include: line-continuations
+    - include: immediately-pop
+
+  cmd-args-option-value:
+    - meta_include_prototype: false
+    - include: line-continuations
+    - include: boolean
+    - include: number
+    - include: string-path-pattern
     - include: immediately-pop
 
   cmd-args-end-of-options-then-ambigious:
@@ -1226,14 +1250,14 @@ contexts:
     - match: '{{word_break}}'
       pop: 1
 
-  cmd-args-end-of-options-then-functions:
+  cmd-args-end-of-options-then-function-references:
     - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
-      set: cmd-args-functions
-    - include: cmd-args-functions
+      set: cmd-args-function-references
+    - include: cmd-args-function-references
 
-  cmd-args-functions:
+  cmd-args-function-references:
     - include: cmd-args-end
     - match: '{{word_begin}}'
       push: function-reference-name-chars
@@ -1245,19 +1269,65 @@ contexts:
     - match: '{{word_break}}'
       pop: 1
 
-  cmd-args-end-of-options-then-variables:
+  cmd-args-end-of-options-then-variables-arithmetic-mappings:
     - include: cmd-args-illegal-options
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
-      set: cmd-args-variables
-    - include: cmd-args-variables
+      set: cmd-args-variables-arithmetic-mappings
+    - include: cmd-args-variables-arithmetic-mappings
 
-  cmd-args-variables:
+  cmd-args-variables-arithmetic-mappings:
     - include: cmd-args-end
-    - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      push: variable-value
-    - include: variables
+    - match: '{{variable_begin}}'
+      push:
+        - arithmetic-mapping-value-assignment
+        - variable-name-begin
+    - include: illegal-words
+
+  cmd-args-end-of-options-then-variables-arithmetic-values:
+    - include: cmd-args-illegal-options
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-arithmetic-values
+    - include: cmd-args-variables-arithmetic-values
+
+  cmd-args-variables-arithmetic-values:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - arithmetic-array-value-assignment
+        - variable-name-begin
+    - include: illegal-words
+
+  cmd-args-end-of-options-then-variables-literal-mappings:
+    - include: cmd-args-illegal-options
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-literal-mappings
+    - include: cmd-args-variables-literal-mappings
+
+  cmd-args-variables-literal-mappings:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - literal-mapping-value-assignment
+        - variable-name-begin
+    - include: illegal-words
+
+  cmd-args-end-of-options-then-variables-literal-values:
+    - include: cmd-args-illegal-options
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-literal-values
+    - include: cmd-args-variables-literal-values
+
+  cmd-args-variables-literal-values:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - literal-array-value-assignment
+        - variable-name-begin
+    - include: illegal-words
 
   cmd-args-values:
     - meta_include_prototype: false
@@ -1404,6 +1474,208 @@ contexts:
     - meta_include_prototype: false
     - include: cmd-args-end
     - include: string-path-patterns
+
+###[ ARITHMETIC VALUE ASSIGNMENTS ]############################################
+
+  arithmetic-array-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.variable.shell
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      set: arithmetic-array-value
+    - include: variable-subscriptions
+    - include: line-continuations
+    - include: immediately-pop
+
+  arithmetic-array-value:
+    # maybe indexed array of or single arithmetic expression value
+    - meta_include_prototype: false
+    - include: line-continuations
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: arithmetic-explicit-mapping-body
+    - match: ''
+      set: arithmetic-value-body
+
+  arithmetic-mapping-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.variable.shell
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      set: arithmetic-mapping-value
+    - include: variable-subscriptions
+    - include: line-continuations
+    - include: immediately-pop
+
+  arithmetic-mapping-value:
+    # maybe associative of or single arithmetic expression value
+    - meta_include_prototype: false
+    - include: line-continuations
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: arithmetic-mapping-begin
+    - match: ''
+      set: arithmetic-value-body
+
+  arithmetic-mapping-begin:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: line-continuations
+    - include: comments
+    - match: (?=\[)
+      set: arithmetic-explicit-mapping-body
+    - match: (?=\S)
+      set: arithmetic-implicit-mapping-body
+
+  arithmetic-explicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: comments
+    - include: explicit-mapping-keys
+    - include: arithmetic-operators
+    - include: numbers
+    - include: variables
+    - include: illegal-words
+
+  arithmetic-implicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: comments
+    - match: '{{word_begin}}'
+      push: arithmetic-implicit-mapping-key-body
+
+  arithmetic-implicit-mapping-key-body:
+    - meta_scope: meta.item-access.shell entity.name.key.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{word_break}}'
+      set: arithmetic-implicit-mapping-value
+
+  arithmetic-implicit-mapping-value:
+    - include: line-continuations
+    - include: comments
+    - match: '{{word_begin}}'
+      set: arithmetic-value-body
+
+  arithmetic-value-body:
+    - match: '{{word_break}}'
+      pop: 1
+    - include: line-continuations
+    - include: arithmetic-operators
+    - include: numbers
+    - include: variables
+
+###[ LITERAL VALUE ASSIGNMENTS ]###############################################
+
+  literal-array-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.variable.shell
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      set: literal-array-value
+    - include: variable-subscriptions
+    - include: line-continuations
+    - include: immediately-pop
+
+  literal-array-value:
+    # maybe indexed array of or single literal/string value
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: literal-explicit-mapping-body
+    - include: line-continuations
+    - include: boolean
+    - include: string-path-pattern
+    - include: immediately-pop
+
+  literal-mapping-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.variable.shell
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      set: literal-mapping-value
+    - include: variable-subscriptions
+    - include: line-continuations
+    - include: immediately-pop
+
+  literal-mapping-value:
+    # maybe associative array of or single literal/string value
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: literal-mapping-begin
+    - include: line-continuations
+    - include: boolean
+    - include: string-path-pattern
+    - include: immediately-pop
+
+  literal-mapping-begin:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: line-continuations
+    - include: comments
+    - match: (?=\[)
+      set: literal-explicit-mapping-body
+    - match: (?=\S)
+      set: literal-implicit-mapping-body
+
+  literal-explicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: comments
+    - include: explicit-mapping-keys
+    - include: booleans
+    - include: string-path-patterns
+
+  literal-implicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: comments
+    - match: '{{word_begin}}'
+      push: literal-implicit-mapping-key-body
+
+  literal-implicit-mapping-key-body:
+    - meta_scope: meta.item-access.shell entity.name.key.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{word_break}}'
+      set: literal-implicit-mapping-value
+
+  literal-implicit-mapping-value:
+    - include: line-continuations
+    - include: comments
+    - include: boolean
+    - include: string-path-pattern
+
+###[ ARRAY VALUE PROTOTYPES ]##################################################
+
+  explicit-mapping-keys:
+    - match: \[
+      scope: punctuation.section.item-access.begin.shell
+      push: explicit-mapping-key-body
+
+  explicit-mapping-key-body:
+    - meta_scope: meta.item-access.shell
+    - meta_content_scope: entity.name.key.shell
+    - match: \]
+      scope: punctuation.section.item-access.end.shell
+      set: explicit-mapping-value-assignment
+    - include: literal-unquoted-content
+
+  explicit-mapping-value-assignment:
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      pop: 1
+    - include: line-continuations
+    - include: immediately-pop
+
+  list-end:
+    - match: \)
+      scope: punctuation.section.sequence.end.shell
+      pop: 1
+    - match: '[(<>]+'
+      scope: invalid.illegal.unexpected.shell
+    - include: line-continuations
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -2786,7 +3058,7 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
-    - match: '{{word_begin}}'
+    - match: '{{variable_begin}}'
       push: [variable-subscription, variable-name-begin]
 
   variable-name-begin:
@@ -2802,4 +3074,22 @@ contexts:
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{identifier_break}}'
+      pop: 1
+
+###[ ILLEGALS ]################################################################
+
+  illegal-stray:
+    - match: '[)}\]]'
+      scope: invalid.illegal.stray.shell
+
+  illegal-words:
+    - match: '{{word_begin}}'
+      push: illegal-word-chars
+
+  illegal-word-chars:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.unexpected.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{word_break}}'
       pop: 1

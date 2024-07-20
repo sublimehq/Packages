@@ -2803,7 +2803,7 @@ x=0.19.8.1
 x=10
 # <- variable.other.readwrite.shell
 #^ keyword.operator.assignment.shell
-# ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+# ^^ meta.string.shell string.unquoted.shell
 
 # Spaces following an assignment token means an empty string value!
 x= pwd
@@ -2950,41 +2950,38 @@ array=()  # an empty array
 #     ^ punctuation.section.sequence.begin
 #      ^ punctuation.section.sequence.end
 
-array=(one two three four -5 (foo bar baz) (5 6 7))
+array=(one two three four -5 (foo bar baz)
 #<- meta.variable.shell variable.other.readwrite.shell
 #^^^^ meta.variable.shell - meta.sequence
 #    ^ - meta.variable - meta.sequence
-#     ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell - meta.sequence meta.sequence
-#                            ^^^^^^^^^^^^^ meta.sequence.shell meta.sequence.shell
-#                                         ^ meta.sequence.shell - meta.sequence meta.sequence
-#                                          ^^^^^^^ meta.sequence.shell meta.sequence.shell
-#                                                 ^ meta.sequence.shell - meta.sequence meta.sequence
-#                                                  ^ - meta
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell - meta.sequence meta.sequence
+#                                         ^ - meta
 #^^^^ variable.other.readwrite.shell
 #    ^ keyword.operator.assignment.shell
 #     ^ punctuation.section.sequence.begin.shell
-#      ^^^ string.unquoted.shell
-#          ^^^ string.unquoted.shell
-#              ^^^^^ string.unquoted.shell
-#                    ^^^^ string.unquoted.shell
-#                         ^ keyword.operator.arithmetic.shell
-#                          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                            ^ punctuation.section.sequence.begin.shell
+#      ^^^ meta.string.shell string.unquoted.shell
+#         ^ - meta.string - string
+#          ^^^ meta.string.shell string.unquoted.shell
+#             ^ - meta.string - string
+#              ^^^^^ meta.string.shell string.unquoted.shell
+#                   ^ - meta.string - string
+#                    ^^^^ meta.string.shell string.unquoted.shell
+#                        ^ - meta.string - string
+#                         ^^ meta.string.shell string.unquoted.shell
+#                           ^^ - meta.string - string
+#                            ^ invalid.illegal.unexpected.shell
 #                             ^^^ meta.string.shell string.unquoted.shell
-#                                 ^^^ string.unquoted.shell
-#                                     ^^^ string.unquoted.shell
+#                                ^ - meta.string - string
+#                                 ^^^ meta.string.shell string.unquoted.shell
+#                                    ^ - meta.string - string
+#                                     ^^^ meta.string.shell string.unquoted.shell
 #                                        ^ punctuation.section.sequence.end.shell
-#                                          ^ punctuation.section.sequence.begin.shell
-#                                           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                                             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                                               ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                                                ^^ punctuation.section.sequence.end.shell
 
 array=($one "two" ${three} 'four' $5)
 #<- meta.variable.shell variable.other.readwrite.shell
 #^^^^ meta.variable.shell
 #^^^^^ - meta.sequence
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #                                    ^ - meta.sequence
 # <- variable.other.readwrite.shell
 #    ^ keyword.operator.assignment.shell
@@ -3007,50 +3004,40 @@ array=($one "two" ${three} 'four' $5)
 
 array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
 #^^^^^ - meta.sequence
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #                                                         ^ - meta.sequence
-#      ^^^^^ meta.mapping.key.shell
-#           ^ meta.mapping.shell
-#            ^ meta.mapping.value.shell
-#              ^^^^^^^ meta.mapping.key.shell
-#                     ^ meta.mapping.shell
-#                      ^^^^^^ meta.mapping.value.shell
-#                             ^^^^^ meta.mapping.key.shell
-#                                  ^ meta.mapping.shell
-#                                   ^^^ meta.mapping.value.shell
-#                                       ^^^^^^ meta.mapping.key.shell
-#                                             ^ meta.mapping.shell
-#                                              ^ meta.mapping.value.shell
-#                                                ^^^^^ meta.mapping.key.shell
-#                                                     ^ meta.mapping.shell
-#                                                      ^^ meta.mapping.value.shell
+#      ^^^^^ meta.item-access.shell
+#              ^^^^^^^ meta.item-access.shell
+#                             ^^^^^ meta.item-access.shell
+#                                       ^^^^^^ meta.item-access.shell
+#                                                ^^^^^ meta.item-access.shell
 #    ^ keyword.operator.assignment.shell
 #     ^ punctuation.section.sequence.begin.shell
-#      ^ punctuation.definition.key.begin.shell
+#      ^ punctuation.section.item-access.begin.shell
 #       ^^^ entity.name.key.shell
-#          ^ punctuation.definition.key.end.shell
+#          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
 #            ^ meta.string.shell string.unquoted.shell - keyword
-#              ^ punctuation.definition.key.begin.shell
+#              ^ punctuation.section.item-access.begin.shell
 #               ^^^^^ entity.name.key.shell
 #               ^ punctuation.definition.quoted.begin.shell
 #                   ^ punctuation.definition.quoted.end.shell
-#                    ^ punctuation.definition.key.end.shell
+#                    ^ punctuation.section.item-access.end.shell
 #                     ^ keyword.operator.assignment.shell
 #                      ^^^^^^ string.quoted.single.shell
-#                             ^ punctuation.definition.key.begin.shell
+#                             ^ punctuation.section.item-access.begin.shell
 #                              ^^^ entity.name.key.shell - constant - keyword
-#                                 ^ punctuation.definition.key.end.shell
+#                                 ^ punctuation.section.item-access.end.shell
 #                                  ^ keyword.operator.assignment.shell
 #                                   ^^^ meta.string.shell string.unquoted.shell
-#                                       ^ punctuation.definition.key.begin.shell
+#                                       ^ punctuation.section.item-access.begin.shell
 #                                        ^^^^ entity.name.key.shell
-#                                            ^ punctuation.definition.key.end.shell
+#                                            ^ punctuation.section.item-access.end.shell
 #                                             ^ keyword.operator.assignment.shell
-#                                              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                                                ^ punctuation.definition.key.begin.shell
+#                                              ^ meta.string.shell string.unquoted.shell
+#                                                ^ punctuation.section.item-access.begin.shell
 #                                                 ^^^ entity.name.key.shell
-#                                                    ^ punctuation.definition.key.end.shell
+#                                                    ^ punctuation.section.item-access.end.shell
 #                                                     ^ keyword.operator.assignment.shell
 #                                                      ^^ meta.string.shell string.unquoted.shell
 #                                                        ^ punctuation.section.sequence.end.shell
@@ -3178,17 +3165,17 @@ foo=`(uname -r) 2>/dev/null` || foo=unknown
 #                                   ^^^^^^^ meta.string.shell string.unquoted.shell
 
 commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
-#       ^ meta.sequence.shell - meta.interpolation
-#        ^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell - meta.function
-#          ^^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell - meta.function meta.function
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell  - meta.function meta.function
+#       ^ meta.sequence.list.shell - meta.interpolation
+#        ^^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell - meta.function
+#          ^^^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell - meta.function meta.function
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell  - meta.function meta.function
 #                                 ^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
 #                                   ^^^^^^^ meta.parameter.option.shell meta.interpolation.parameter.shell
 #                                          ^^^^^^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
 #                                                  ^^^^^^^^^ meta.string.shell
 #                                                                 ^^^^^^^^^ meta.string.shell
-#                                                                          ^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell - meta.function
-#                                                                           ^ meta.sequence.shell - meta.interpolation
+#                                                                          ^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell - meta.function
+#                                                                           ^ meta.sequence.list.shell - meta.interpolation
 #       ^ punctuation.section.sequence.begin.shell
 #        ^ punctuation.definition.variable.shell
 #         ^ punctuation.section.interpolation.begin.shell
@@ -3916,7 +3903,7 @@ foo=~/~${bar}
 #           ^ punctuation.section.interpolation.end.shell
 
 foo=(~/~foo ~/~bar)
-#   ^^^^^^^^^^^^^^^ meta.sequence.shell
+#   ^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #    ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
 #     ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
 #           ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
@@ -8952,90 +8939,491 @@ declare             # comment
 declare foo         # 'foo' is a variable name
 #^^^^^^ meta.declaration.variable.shell
 #      ^^^^ meta.declaration.variable.arguments.shell
-#          ^ - meta.declaration.variable
+#          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #          ^ - variable.other.readwrite
 #                  ^ - meta.declaration.variable
 
-declare +A          # this is a comment
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^ meta.declaration.variable.arguments.shell
-#         ^ - meta.declaration.variable
-#                   ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-
-declare -A foo bar  # 'foo' and 'bar' are variable names
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell
-#                 ^ - meta.declaration.variable
-#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-
-declare -I foo
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^ meta.declaration.variable.arguments.shell
-#       ^^ variable.parameter.option.shell
-#          ^^^ variable.other.readwrite.shell
-
-declare ret; bar=foo # comment
+declare foo|       # '|' terminates statement
 #^^^^^^ meta.declaration.variable.shell
 #      ^^^^ meta.declaration.variable.arguments.shell
-#          ^ - meta.declaration.variable
-# <- keyword.declaration.variable.shell
-#          ^ punctuation.terminator.statement.shell
-#               ^ keyword.operator.assignment.shell
-#                ^^^ meta.string.shell string.unquoted.shell
-#                   ^ - meta.string - string - comment
-#                    ^^^^^^^^^^ comment.line.number-sign.shell
-
-declare ret ;
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
-#          ^ - meta.declaration.variable
-# <- keyword.declaration.variable.shell
-#           ^ punctuation.terminator.statement.shell
-
-declare ret&
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
-#          ^ - meta.declaration.variable
+#          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #          ^ keyword.operator
 
-declare ret &
+declare foo |      # '|' terminates statement
 #^^^^^^ meta.declaration.variable.shell
 #      ^^^^ meta.declaration.variable.arguments.shell
-#          ^ - meta.declaration.variable
+#          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #           ^ keyword.operator
 
+declare foo&       # '&' terminates statement
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#          ^ keyword.operator
+
+declare foo &      # '&' terminates statement
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#           ^ keyword.operator
+
+declare foo ;     # ';' terminates statement
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#           ^ punctuation.terminator.statement.shell
+
+declare foo; bar=baz # 2nd statement after ';'
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ punctuation.terminator.statement.shell
+#            ^^^ variable.other.readwrite.shell
+#               ^ keyword.operator.assignment.shell
+#                ^^^ meta.string.shell string.unquoted.shell
+#                   ^ - meta.string - string - comment
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+declare foo==bar baz =buz  # assignment must immediately follow a variable
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                        ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#      ^ - variable
+#       ^^^ variable.other.readwrite.shell
+#          ^ keyword.operator.assignment.shell
+#           ^^^^ meta.string.shell string.unquoted.shell
+#               ^ - variable
+#                ^^^ variable.other.readwrite.shell
+#                   ^ - variable
+#                    ^^^^ invalid.illegal.unexpected.shell
+#                        ^ - variable
+
+declare foo=<input.txt
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^ meta.declaration.variable.arguments.shell
+#           ^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.redirection.shell
+#                     ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ keyword.operator.assignment.shell
+#           ^ keyword.operator.assignment.redirection.shell
+#            ^^^^^^^^^ meta.string.shell string.unquoted.shell
+
+# string value with pattern expansion
 declare bar=\
-foo # comment
+foo?bar+2*baz/$buz # comment
 # <- meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
-#^^ meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
-#  ^ - meta.function
-#   ^^^^^^^^^^ comment.line.number-sign.shell
+#^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
+#             ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                 ^ - meta.declaration
+#                  ^^^^^^^^^^ comment.line.number-sign.shell
 
+# simple arithmetic expression value
+declare -i bar=\
+foo?bar+2*baz/$buz # comment
+# <- meta.declaration.variable.arguments.shell meta.variable.shell variable.other.readwrite.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                 ^ - meta.declaration
+#^^ meta.variable.shell variable.other.readwrite.shell
+#  ^ - meta.variable - variable
+#   ^^^ meta.variable.shell variable.other.readwrite.shell
+#      ^ keyword.operator.arithmetic.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^^^ meta.variable.shell variable.other.readwrite.shell
+#            ^ keyword.operator.arithmetic.shell
+#             ^^^^ meta.variable.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^^^^^^^^^^ comment.line.number-sign.shell
+
+# indexed array with string values
 declare bar=\
-(foo) # comment
-#^^^^ meta.declaration.variable.arguments.shell
-#    ^ - meta.function
+(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                                                          ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
-#   ^ punctuation.section.sequence.end.shell
-#     ^^^^^^^^^^ comment.line.number-sign.shell
+#^^^ meta.string.shell string.unquoted.shell
+#   ^ - meta.string - string
+#    ^^ meta.string.shell string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^ - meta.string - string
+#         ^^^^ meta.string.shell string.unquoted.shell
+#             ^ - meta.string - string
+#              ^^^^^ meta.string.shell string.quoted.single.shell
+#                   ^ - meta.string - string
+#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                          ^^^^^ meta.item-access.shell
+#                               ^ keyword.operator.assignment.shell
+#                                ^^^ meta.string.shell string.unquoted.shell
+#                                    ^^^^^ meta.item-access.shell
+#                                          ^^^^ meta.string.shell string.unquoted.shell
+#                                               ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                                ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                                         ^ punctuation.section.sequence.end.shell
+#                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
+# indexed array with string values
+declare -a bar=\
+(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                                                          ^ - meta.declaration
+# <- punctuation.section.sequence.begin.shell
+#^^^ meta.string.shell string.unquoted.shell
+#   ^ - meta.string - string
+#    ^^ meta.string.shell string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^ - meta.string - string
+#         ^^^^ meta.string.shell string.unquoted.shell
+#             ^ - meta.string - string
+#              ^^^^^ meta.string.shell string.quoted.single.shell
+#                   ^ - meta.string - string
+#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                          ^^^^^ meta.item-access.shell
+#                               ^ keyword.operator.assignment.shell
+#                                ^^^ meta.string.shell string.unquoted.shell
+#                                    ^^^^^ meta.item-access.shell
+#                                          ^^^^ meta.string.shell string.unquoted.shell
+#                                               ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                                ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                                         ^ punctuation.section.sequence.end.shell
+#                                                           ^^^^^^^^^^ comment.line.number-sign.shell
+
+# indexed array with arithmetic values
+declare -ai bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                                                                          ^ - meta.declaration
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^^ variable.other.readwrite.shell
+#              ^ keyword.operator.assignment.shell
+#               ^ punctuation.section.sequence.begin.shell
+#                ^^^ meta.variable.shell variable.other.readwrite.shell
+#                    ^ meta.variable.shell variable.other.readwrite.shell
+#                     ^ keyword.operator.arithmetic.shell
+#                      ^^ meta.variable.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                         ^ meta.variable.shell variable.other.readwrite.shell
+#                          ^ keyword.operator.arithmetic.shell
+#                           ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                              ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                    ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                          ^^^^^ meta.item-access.shell
+#                                               ^ keyword.operator.assignment.shell
+#                                                ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                    ^^^^^ meta.item-access.shell
+#                                                          ^^^^ invalid.illegal.unexpected.shell
+#                                                               ^ invalid.illegal.unexpected.shell
+#                                                                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                                     ^^^^ invalid.illegal.unexpected.shell
+#                                                                         ^ punctuation.section.sequence.end.shell
+#                                                                           ^^^^^^^^^^ comment.line.number-sign.shell
+
+# indexed array with arithmetic values
+declare -ia bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                                                                          ^ - meta.declaration
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^^ variable.other.readwrite.shell
+#              ^ keyword.operator.assignment.shell
+#               ^ punctuation.section.sequence.begin.shell
+#                ^^^ meta.variable.shell variable.other.readwrite.shell
+#                    ^ meta.variable.shell variable.other.readwrite.shell
+#                     ^ keyword.operator.arithmetic.shell
+#                      ^^ meta.variable.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                         ^ meta.variable.shell variable.other.readwrite.shell
+#                          ^ keyword.operator.arithmetic.shell
+#                           ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                              ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                    ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                          ^^^^^ meta.item-access.shell
+#                                               ^ keyword.operator.assignment.shell
+#                                                ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                    ^^^^^ meta.item-access.shell
+#                                                          ^^^^ invalid.illegal.unexpected.shell
+#                                                               ^ invalid.illegal.unexpected.shell
+#                                                                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                                     ^^^^ invalid.illegal.unexpected.shell
+#                                                                         ^ punctuation.section.sequence.end.shell
+#                                                                           ^^^^^^^^^^ comment.line.number-sign.shell
+
+# indexed array with arithmetic values
+declare -a -i bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                                                                            ^ - meta.declaration
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell
+#          ^^ meta.parameter.option.shell variable.parameter.option.shell
+#             ^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.assignment.shell
+#                 ^ punctuation.section.sequence.begin.shell
+#                  ^^^ meta.variable.shell variable.other.readwrite.shell
+#                      ^ meta.variable.shell variable.other.readwrite.shell
+#                       ^ keyword.operator.arithmetic.shell
+#                        ^^ meta.variable.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                           ^ meta.variable.shell variable.other.readwrite.shell
+#                            ^ keyword.operator.arithmetic.shell
+#                             ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                      ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                            ^^^^^ meta.item-access.shell
+#                                                 ^ keyword.operator.assignment.shell
+#                                                  ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                      ^^^^^ meta.item-access.shell
+#                                                            ^^^^ invalid.illegal.unexpected.shell
+#                                                                 ^ invalid.illegal.unexpected.shell
+#                                                                  ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                                       ^^^^ invalid.illegal.unexpected.shell
+#                                                                           ^ punctuation.section.sequence.end.shell
+#                                                                             ^^^^^^^^^^ comment.line.number-sign.shell
+
+# indexed array with arithmetic values
+declare -i -a bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                                                                            ^ - meta.declaration
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell
+#          ^^ meta.parameter.option.shell variable.parameter.option.shell
+#             ^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.assignment.shell
+#                 ^ punctuation.section.sequence.begin.shell
+#                  ^^^ meta.variable.shell variable.other.readwrite.shell
+#                      ^ meta.variable.shell variable.other.readwrite.shell
+#                       ^ keyword.operator.arithmetic.shell
+#                        ^^ meta.variable.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                           ^ meta.variable.shell variable.other.readwrite.shell
+#                            ^ keyword.operator.arithmetic.shell
+#                             ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                      ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                            ^^^^^ meta.item-access.shell
+#                                                 ^ keyword.operator.assignment.shell
+#                                                  ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                      ^^^^^ meta.item-access.shell
+#                                                            ^^^^ invalid.illegal.unexpected.shell
+#                                                                 ^ invalid.illegal.unexpected.shell
+#                                                                  ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                                                                       ^^^^ invalid.illegal.unexpected.shell
+#                                                                           ^ punctuation.section.sequence.end.shell
+#                                                                             ^^^^^^^^^^ comment.line.number-sign.shell
+
+# associative array with implicit keys and string values
+declare -A var=(key1 1+2 key2 4-foo key3 val%10)
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#               ^^^^ meta.item-access.shell entity.name.key.shell
+#                        ^^^^ meta.item-access.shell entity.name.key.shell
+#                                   ^^^^ meta.item-access.shell entity.name.key.shell
+#              ^ punctuation.section.sequence.begin.shell
+#               ^^^^ entity.name.key.shell
+#                    ^^^ meta.string.shell string.unquoted.shell
+#                        ^^^^ entity.name.key.shell
+#                             ^^^^^ meta.string.shell string.unquoted.shell
+#                                   ^^^^ entity.name.key.shell
+#                                        ^^^ meta.string.shell string.unquoted.shell
+#                                           ^^^ meta.string.shell meta.interpolation.job.shell variable.language.job.shell
+#                                              ^ punctuation.section.sequence.end.shell
+
+# associative array with implicit keys and arithmetic values
+declare -Ai var=(key1 1+2 key2 4-foo key3 val%10)
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
+#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                ^^^^ meta.item-access.shell entity.name.key.shell
+#                         ^^^^ meta.item-access.shell entity.name.key.shell
+#                                    ^^^^ meta.item-access.shell entity.name.key.shell
+#               ^ punctuation.section.sequence.begin.shell
+#                ^^^^ entity.name.key.shell
+#                     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                      ^ keyword.operator.arithmetic.shell
+#                       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                         ^^^^ entity.name.key.shell
+#                              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                               ^ keyword.operator.arithmetic.shell
+#                                ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                    ^^^^ entity.name.key.shell
+#                                         ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                            ^ keyword.operator.arithmetic.shell
+#                                             ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                               ^ punctuation.section.sequence.end.shell
+
+# associative array with implicit keys and arithmetic values
+declare -iA var=(key1 1+2 key2 4-foo key3 val%10)
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
+#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                ^^^^ meta.item-access.shell entity.name.key.shell
+#                         ^^^^ meta.item-access.shell entity.name.key.shell
+#                                    ^^^^ meta.item-access.shell entity.name.key.shell
+#               ^ punctuation.section.sequence.begin.shell
+#                ^^^^ entity.name.key.shell
+#                     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                      ^ keyword.operator.arithmetic.shell
+#                       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                         ^^^^ entity.name.key.shell
+#                              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                               ^ keyword.operator.arithmetic.shell
+#                                ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                    ^^^^ entity.name.key.shell
+#                                         ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                            ^ keyword.operator.arithmetic.shell
+#                                             ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                               ^ punctuation.section.sequence.end.shell
+
+# associative array with implicit keys and arithmetic values
+declare -A -i var=(key1 1+2 key2 4-foo key3 val%10)
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
+#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                  ^^^^ meta.item-access.shell entity.name.key.shell
+#                           ^^^^ meta.item-access.shell entity.name.key.shell
+#                                      ^^^^ meta.item-access.shell entity.name.key.shell
+#                 ^ punctuation.section.sequence.begin.shell
+#                  ^^^^ entity.name.key.shell
+#                       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                        ^ keyword.operator.arithmetic.shell
+#                         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                           ^^^^ entity.name.key.shell
+#                                ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                 ^ keyword.operator.arithmetic.shell
+#                                  ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                      ^^^^ entity.name.key.shell
+#                                           ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                              ^ keyword.operator.arithmetic.shell
+#                                               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                                 ^ punctuation.section.sequence.end.shell
+
+# associative array with implicit keys and arithmetic values
+declare -i -A var=(key1 1+2 key2 4-foo key3 val%10)
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
+#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                  ^^^^ meta.item-access.shell entity.name.key.shell
+#                           ^^^^ meta.item-access.shell entity.name.key.shell
+#                                      ^^^^ meta.item-access.shell entity.name.key.shell
+#                 ^ punctuation.section.sequence.begin.shell
+#                  ^^^^ entity.name.key.shell
+#                       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                        ^ keyword.operator.arithmetic.shell
+#                         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                           ^^^^ entity.name.key.shell
+#                                ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                 ^ keyword.operator.arithmetic.shell
+#                                  ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                      ^^^^ entity.name.key.shell
+#                                           ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                              ^ keyword.operator.arithmetic.shell
+#                                               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                                 ^ punctuation.section.sequence.end.shell
+
+# indexed array with string values with explicit keys
+# (implicitly turned into an associative array, if keys are strings)
 declare -a owners=(
     # dogs
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
     [susan]=labrador
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.mapping.key.shell
-#          ^ meta.declaration.variable.arguments.shell meta.sequence.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
     # cats
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
     [terry]=tabby
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.mapping.key.shell
-#          ^ meta.declaration.variable.arguments.shell meta.sequence.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
 )
+
+# associative array with string values with explicit keys
+declare -A owners=(
+    # dogs
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
+    [susan]=labrador
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+    # cats
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
+    [terry]=tabby
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+)
+
+# associative array with explicit keys and arithmetic values
+declare -iA var=(
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
+#      ^^^^^^^^^ meta.declaration.variable.arguments.shell
+#               ^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+  [foo]=1+2
+# ^^^^^ meta.item-access.shell
+# ^ punctuation.section.item-access.begin.shell
+#  ^^^ entity.name.key.shell
+#     ^ punctuation.section.item-access.end.shell
+#      ^ keyword.operator.assignment.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+  [bar]=1+5*foo
+# ^^^^^ meta.item-access.shell
+# ^ punctuation.section.item-access.begin.shell
+#  ^^^ entity.name.key.shell
+#     ^ punctuation.section.item-access.end.shell
+#      ^ keyword.operator.assignment.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ keyword.operator.arithmetic.shell
+#           ^^^ meta.variable.shell variable.other.readwrite.shell
+
+  [baz]==1/3
+# ^^^^^ meta.item-access.shell
+# ^ punctuation.section.item-access.begin.shell
+#  ^^^ entity.name.key.shell
+#     ^ punctuation.section.item-access.end.shell
+#      ^ keyword.operator.assignment.shell
+#       ^^^^ invalid.illegal.unexpected.shell
+
+  [buz] =1/3
+# ^^^^^ meta.item-access.shell
+# ^ punctuation.section.item-access.begin.shell
+#  ^^^ entity.name.key.shell
+#     ^ punctuation.section.item-access.end.shell
+#       ^^^^ invalid.illegal.unexpected.shell
+
+)
+# <- meta.declaration.variable.arguments.shell meta.sequence.list.shell punctuation.section.sequence.end.shell
+#^ - meta
+
+# function declarations
 
 declare -f =
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -9066,6 +9454,8 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
 #                                                   ^^ variable.parameter.option.shell
+
+# declare called in command substituations
 
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
@@ -9447,7 +9837,7 @@ local foo+=10 bar-=true
 #    ^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^^ keyword.operator.assignment.shell
-#          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^^ meta.string.shell string.unquoted.shell
 #             ^^^ meta.variable.shell variable.other.readwrite.shell
 #                ^^ keyword.operator.assignment.shell
 #                  ^^^^ constant.language.boolean.true.shell
@@ -9530,7 +9920,128 @@ readonly foo        # 'foo' is a variable name
 #        ^^^ variable.other.readwrite
 #           ^ - variable
 
-readonly -f foo     # 'foo' is a variable name
+# indexed array with string values
+readonly bar=\
+(foo b*$r b-20 'b?r' "b*z" [100]=val <input.txt) # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                                               ^ - meta.declaration
+# <- punctuation.section.sequence.begin.shell
+#^^^ meta.string.shell string.unquoted.shell
+#   ^ - meta.string - string
+#    ^^ meta.string.shell string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^ - meta.string - string
+#         ^^^^ meta.string.shell string.unquoted.shell
+#             ^ - meta.string - string
+#              ^^^^^ meta.string.shell string.quoted.single.shell
+#                   ^ - meta.string - string
+#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                          ^^^^^ meta.item-access.shell
+#                               ^ keyword.operator.assignment.shell
+#                                ^^^ meta.string.shell string.unquoted.shell
+#                                    ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                     ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                              ^ punctuation.section.sequence.end.shell
+#                                                ^^^^^^^^^^ comment.line.number-sign.shell
+
+# indexed array with string values
+readonly -a bar=\
+(foo b*$r b-20 'b?r' "b*z" [100]=val <input.txt) # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                                               ^ - meta.declaration
+# <- punctuation.section.sequence.begin.shell
+#^^^ meta.string.shell string.unquoted.shell
+#   ^ - meta.string - string
+#    ^^ meta.string.shell string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^ - meta.string - string
+#         ^^^^ meta.string.shell string.unquoted.shell
+#             ^ - meta.string - string
+#              ^^^^^ meta.string.shell string.quoted.single.shell
+#                   ^ - meta.string - string
+#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                          ^^^^^ meta.item-access.shell
+#                               ^ keyword.operator.assignment.shell
+#                                ^^^ meta.string.shell string.unquoted.shell
+#                                    ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                     ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                              ^ punctuation.section.sequence.end.shell
+#                                                ^^^^^^^^^^ comment.line.number-sign.shell
+
+# associative array with implicit keys and string values
+readonly -A var=(key1 1+2 key2 4-foo key3 val%10)
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#                ^^^^ meta.item-access.shell entity.name.key.shell
+#                         ^^^^ meta.item-access.shell entity.name.key.shell
+#                                    ^^^^ meta.item-access.shell entity.name.key.shell
+#               ^ punctuation.section.sequence.begin.shell
+#                ^^^^ entity.name.key.shell
+#                     ^^^ meta.string.shell string.unquoted.shell
+#                         ^^^^ entity.name.key.shell
+#                              ^^^^^ meta.string.shell string.unquoted.shell
+#                                    ^^^^ entity.name.key.shell
+#                                         ^^^ meta.string.shell string.unquoted.shell
+#                                            ^^^ meta.string.shell meta.interpolation.job.shell variable.language.job.shell
+#                                               ^ punctuation.section.sequence.end.shell
+
+readonly -A -f foo   # 'foo' is a variable name
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                 ^ - meta.declaration.variable
+#^^^^^^^ keyword.declaration.variable.shell
+#       ^ - storage - variable
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#          ^ - variable
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#             ^ - variable
+#              ^^^ meta.variable.shell entity.name.function.shell
+#                 ^ - variable
+
+readonly -Af foo     # 'foo' is a variable name
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^^ meta.declaration.variable.arguments.shell
+#               ^ - meta.declaration.variable
+#^^^^^^^ keyword.declaration.variable.shell
+#       ^ - storage - variable
+#        ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^ - variable
+#            ^^^ meta.variable.shell entity.name.function.shell
+#               ^ - variable
+
+readonly -f -A foo   # 'foo' is a variable name
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                 ^ - meta.declaration.variable
+#^^^^^^^ keyword.declaration.variable.shell
+#       ^ - storage - variable
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#          ^ - variable
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#             ^ - variable
+#              ^^^ meta.variable.shell entity.name.function.shell
+#                 ^ - variable
+
+readonly -fA foo     # 'foo' is a variable name
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^^ meta.declaration.variable.arguments.shell
+#               ^ - meta.declaration.variable
+#^^^^^^^ keyword.declaration.variable.shell
+#       ^ - storage - variable
+#        ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^ - variable
+#            ^^^ meta.variable.shell entity.name.function.shell
+#               ^ - variable
+
+readonly -f foo      # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
 #^^^^^^^ meta.declaration.variable.shell
 #       ^^^^^^^ meta.declaration.variable.arguments.shell
@@ -9539,7 +10050,7 @@ readonly -f foo     # 'foo' is a variable name
 #       ^ - storage - variable
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #          ^ - variable
-#           ^^^ meta.variable.shell variable.function.shell
+#           ^^^ meta.variable.shell entity.name.function.shell
 #              ^ - variable
 
 foo=`readonly x=5`
@@ -9548,7 +10059,7 @@ foo=`readonly x=5`
 #    ^^^^^^^^ meta.interpolation.command.shell keyword.declaration.variable.shell
 #             ^ meta.interpolation.command.shell variable.other.readwrite
 #              ^ meta.interpolation.command.shell keyword.operator.assignment
-#               ^ meta.string.shell meta.interpolation.command.shell meta.declaration.variable.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^ meta.interpolation.command.shell meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
 #                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 
@@ -10780,7 +11291,8 @@ true false
 
 
 ###############################################################################
-# Arithmetic tests                                                            #
+# 6.5 Shell Arithmetic                                                        #
+# https://www.gnu.org/software/bash/manual/bash.html#Shell-Arithmetic         #
 ###############################################################################
 
 (( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
