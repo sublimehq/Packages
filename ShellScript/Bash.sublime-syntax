@@ -1891,7 +1891,7 @@ contexts:
         4: punctuation.definition.tag.begin.shell
         5: entity.name.tag.heredoc.shell
         6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
+      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble, cmd-args]
     - match: (\d*)(<<-)\s*((")({{identifier}})("))
       captures:
         1: meta.file-descriptor.shell
@@ -1902,7 +1902,7 @@ contexts:
         4: punctuation.definition.tag.begin.shell
         5: entity.name.tag.heredoc.shell
         6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
+      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble, cmd-args]
     - match: (\d*)(<<-)\s*((\\)({{identifier}}))
       captures:
         1: meta.file-descriptor.shell
@@ -1912,7 +1912,7 @@ contexts:
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.shell
         5: entity.name.tag.heredoc.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
+      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble, cmd-args]
     - match: (\d*)(<<-)\s*({{identifier}})
       captures:
         1: meta.file-descriptor.shell
@@ -1920,7 +1920,7 @@ contexts:
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      push: [heredocs-body-allow-tabs, heredocs-preamble]
+      push: [heredocs-body-allow-tabs, heredocs-preamble, cmd-args]
     # These are the variants that DON'T allow tabs before the end token
     - match: (\d*)(<<)\s*((')({{identifier}})('))
       captures:
@@ -1932,7 +1932,7 @@ contexts:
         4: punctuation.definition.tag.begin.shell
         5: entity.name.tag.heredoc.shell
         6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
+      push: [heredocs-body-no-expansion, heredocs-preamble, cmd-args]
     - match: (\d*)(<<)\s*((")({{identifier}})("))
       captures:
         1: meta.file-descriptor.shell
@@ -1943,7 +1943,7 @@ contexts:
         4: punctuation.definition.tag.begin.shell
         5: entity.name.tag.heredoc.shell
         6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
+      push: [heredocs-body-no-expansion, heredocs-preamble, cmd-args]
     - match: (\d*)(<<)\s*((\\)({{identifier}}))
       captures:
         1: meta.file-descriptor.shell
@@ -1953,7 +1953,7 @@ contexts:
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.shell
         5: entity.name.tag.heredoc.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
+      push: [heredocs-body-no-expansion, heredocs-preamble, cmd-args]
     - match: (\d*)(<<)\s*({{identifier}})
       captures:
         1: meta.file-descriptor.shell
@@ -1961,7 +1961,7 @@ contexts:
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      push: [heredocs-body, heredocs-preamble]
+      push: [heredocs-body, heredocs-preamble, cmd-args]
 
   heredocs-body:
     - meta_scope: meta.string.heredoc.shell
@@ -2034,8 +2034,7 @@ contexts:
     - clear_scopes: 1
     - match: ^
       pop: 1
-    - match: (?=\S)
-      push: [statement, cmd-args]
+    - include: statements
 
 ###[ LITERALS ]################################################################
 

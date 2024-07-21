@@ -1929,15 +1929,16 @@ echo Deploying...
 * )
 # <- constant.other.wildcard.asterisk.shell
 # ^ keyword.control.conditional.patterns.end.shell
-cat <<'ENDCAT'
+cat <<'ENDCAT' # comment
 # <- meta.function-call.identifier.shell variable.function.shell
 #   ^^ meta.function-call.arguments.shell - meta.string - meta.tag
 #     ^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#             ^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^ punctuation.definition.tag.begin.shell - entity
 #      ^^^^^^ entity.name.tag.heredoc.shell
 #            ^ punctuation.definition.tag.end.shell - entity
+#              ^^^^^^^^^^ comment.line.number-sign.shell
 
 foo
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
