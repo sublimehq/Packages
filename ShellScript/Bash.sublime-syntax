@@ -262,7 +262,30 @@ contexts:
     - include: illegal-stray
 
   statement:
-    - include: statements
+    - include: redirections
+    - include: operators
+    - include: def-anonymous
+    - include: cmd-alias
+    - include: cmd-arithmetic
+    - include: cmd-compound
+    - include: cmd-echo
+    - include: cmd-historic
+    - include: cmd-sudo
+    - include: cmd-test
+    - include: cmd-control
+    - include: cmd-coproc
+    - include: cmd-exec
+    - include: cmd-unalias
+    - include: cmd-unset
+    - include: cmd-builtins
+    - include: cmd-declare
+    - include: cmd-export
+    - include: cmd-readonly
+    - include: def-variables
+    - include: def-functions
+    - include: booleans
+    - include: cmd-basic
+    - include: illegal-stray
     - include: eol-pop
 
 ###[ PROTOTYPES ]##############################################################
