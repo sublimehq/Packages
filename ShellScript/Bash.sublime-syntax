@@ -1547,80 +1547,6 @@ contexts:
       pop: 1
     - include: expressions
 
-###[ CONSTANTS ]###############################################################
-
-  booleans:
-    - match: false\b
-      scope: constant.language.boolean.false.shell
-    - match: true\b
-      scope: constant.language.boolean.true.shell
-
-  boolean:
-    - match: false\b
-      scope: constant.language.boolean.false.shell
-      pop: 1
-    - match: true\b
-      scope: constant.language.boolean.true.shell
-      pop: 1
-
-  numbers:
-    # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: \b(0[xX])(\h*)
-      scope: meta.number.integer.hexadecimal.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-    # Constants with a leading 0 are interpreted as octal numbers.
-    - match: \b(0)([0-7]+)
-      scope: meta.number.integer.octal.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-    # Otherwise, numbers take the form [base#]n, where the optional base is a
-    # decimal number between 2 and 64 representing the arithmetic base, and n is
-    # a number in that base. When specifying n, the digits greater than 9 are
-    # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
-    # in that order.
-    - match: \b(\d+#)([a-zA-Z0-9@_]+)
-      scope: meta.number.integer.other.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-    # If base# is omitted, then base 10 is used.
-    - match: \b\d+(?![.\w])
-      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
-
-  number:
-    # Note: Leading sign is scoped as operator for consistent highlighting as
-    #       we can't distinguish operators from sign for sure everywhere.
-    - match: ([-+]?)(0[xX])(\h*){{word_break}}
-      scope: meta.number.integer.hexadecimal.shell
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.base.shell
-        3: constant.numeric.value.shell
-      pop: 1
-    - match: ([-+]?)(0)([0-7]+){{word_break}}
-      scope: meta.number.integer.octal.shell
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.base.shell
-        3: constant.numeric.value.shell
-      pop: 1
-    - match: ([-+]?)(\d+#)([a-zA-Z0-9@_]+){{word_break}}
-      scope: meta.number.integer.other.she
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.base.shell
-        3: constant.numeric.value.shell
-    # If base# is omitted, then base 10 is used.
-    - match: ([-+]?)(\d+){{word_break}}
-      scope: meta.number.integer.decimal.shell
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.value.shell
-      pop: 1
-
 ###[ OPERATORS ]###############################################################
 
   line-continuations:
@@ -2583,6 +2509,78 @@ contexts:
       scope: invalid.illegal.stray.regexp.shell
 
 ###[ LITERALS ]################################################################
+
+  booleans:
+    - match: false\b
+      scope: constant.language.boolean.false.shell
+    - match: true\b
+      scope: constant.language.boolean.true.shell
+
+  boolean:
+    - match: false\b
+      scope: constant.language.boolean.false.shell
+      pop: 1
+    - match: true\b
+      scope: constant.language.boolean.true.shell
+      pop: 1
+
+  numbers:
+    # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
+    - match: \b(0[xX])(\h*)
+      scope: meta.number.integer.hexadecimal.shell
+      captures:
+        1: constant.numeric.base.shell
+        2: constant.numeric.value.shell
+    # Constants with a leading 0 are interpreted as octal numbers.
+    - match: \b(0)([0-7]+)
+      scope: meta.number.integer.octal.shell
+      captures:
+        1: constant.numeric.base.shell
+        2: constant.numeric.value.shell
+    # Otherwise, numbers take the form [base#]n, where the optional base is a
+    # decimal number between 2 and 64 representing the arithmetic base, and n is
+    # a number in that base. When specifying n, the digits greater than 9 are
+    # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
+    # in that order.
+    - match: \b(\d+#)([a-zA-Z0-9@_]+)
+      scope: meta.number.integer.other.shell
+      captures:
+        1: constant.numeric.base.shell
+        2: constant.numeric.value.shell
+    # If base# is omitted, then base 10 is used.
+    - match: \b\d+(?![.\w])
+      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
+
+  number:
+    # Note: Leading sign is scoped as operator for consistent highlighting as
+    #       we can't distinguish operators from sign for sure everywhere.
+    - match: ([-+]?)(0[xX])(\h*){{word_break}}
+      scope: meta.number.integer.hexadecimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.base.shell
+        3: constant.numeric.value.shell
+      pop: 1
+    - match: ([-+]?)(0)([0-7]+){{word_break}}
+      scope: meta.number.integer.octal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.base.shell
+        3: constant.numeric.value.shell
+      pop: 1
+    - match: ([-+]?)(\d+#)([a-zA-Z0-9@_]+){{word_break}}
+      scope: meta.number.integer.other.she
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.base.shell
+        3: constant.numeric.value.shell
+    # If base# is omitted, then base 10 is used.
+    - match: ([-+]?)(\d+){{word_break}}
+      scope: meta.number.integer.decimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.value.shell
+      pop: 1
 
   literal-unquoted-content:
     - match: \$?\"
