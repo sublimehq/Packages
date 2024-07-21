@@ -1405,6 +1405,76 @@ contexts:
     - include: cmd-args-end
     - include: string-path-patterns
 
+###[ EXPRESSIONS ]#############################################################
+
+  expressions:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-group-body
+    # multi char operators
+    - match: '[-+*/%&|^]=|<<=|>>='
+      scope: keyword.operator.assignment.augmented.shell
+    - match: '<<|>>'
+      scope: keyword.operator.bitwise.shell
+    - match: '<=?|>=?|[=!]='
+      scope: keyword.operator.comparison.shell
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.shell
+    # single char operators
+    - match: '='
+      scope: keyword.operator.assignment.shell
+    - match: '[&|^~]'
+      scope: keyword.operator.bitwise.shell
+    - match: ;
+      scope: punctuation.terminator.statement.shell
+    - match: \,
+      scope: punctuation.separator.sequence.shell
+    - match: \:|\?
+      scope: keyword.operator.ternary.shell
+    - include: arithmetic-operators
+    # Shell variables are allowed as operands; parameter expansion is performed
+    # before the expression is evaluated. Within an expression, shell variables
+    # may also be referenced by name without using the parameter expansion
+    # syntax.
+    - include: booleans
+    - include: numbers
+    - include: variables
+
+  expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: expressions
+
+###[ OPERATORS ]###############################################################
+
+  line-continuations:
+    - match: (\\)\n
+      captures:
+        1: punctuation.separator.continuation.line.shell
+      push: line-continuation-body
+    - match: \\(\s+)\n
+      captures:
+        1: invalid.illegal.unexpected-whitespace.shell
+
+  line-continuation-body:
+    - meta_include_prototype: false
+    - match: ^
+      pop: 1
+
+  arithmetic-operators:
+    - match: '[-+*/%]'
+      scope: keyword.operator.arithmetic.shell
+
+  operators:
+    - match: \|\||\&\&|\!(?!\S)
+      scope: keyword.operator.logical.shell
+    - match: \||\&
+      scope: keyword.operator.assignment.pipe.shell
+    - match: ;
+      scope: punctuation.terminator.statement.shell
+
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
   redirections:
@@ -1652,73 +1722,6 @@ contexts:
       pop: 1
     - match: (?=\S)
       push: [statement, cmd-args]
-
-###[ EXPRESSIONS ]#############################################################
-
-  expressions:
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push: expression-group-body
-    # multi char operators
-    - match: '[-+*/%&|^]=|<<=|>>='
-      scope: keyword.operator.assignment.augmented.shell
-    - match: '<<|>>'
-      scope: keyword.operator.bitwise.shell
-    - match: '<=?|>=?|[=!]='
-      scope: keyword.operator.comparison.shell
-    - match: '&&|\|\||!'
-      scope: keyword.operator.logical.shell
-    # single char operators
-    - match: '[-+*/%]'
-      scope: keyword.operator.arithmetic.shell
-    - match: '='
-      scope: keyword.operator.assignment.shell
-    - match: '[&|^~]'
-      scope: keyword.operator.bitwise.shell
-    - match: ;
-      scope: punctuation.terminator.statement.shell
-    - match: \,
-      scope: punctuation.separator.sequence.shell
-    - match: \:|\?
-      scope: keyword.operator.ternary.shell
-    # Shell variables are allowed as operands; parameter expansion is performed
-    # before the expression is evaluated. Within an expression, shell variables
-    # may also be referenced by name without using the parameter expansion
-    # syntax.
-    - include: booleans
-    - include: numbers
-    - include: variables
-
-  expression-group-body:
-    - meta_scope: meta.group.shell
-    - match: \)
-      scope: punctuation.section.group.end.shell
-      pop: 1
-    - include: expressions
-
-###[ OPERATORS ]###############################################################
-
-  line-continuations:
-    - match: (\\)\n
-      captures:
-        1: punctuation.separator.continuation.line.shell
-      push: line-continuation-body
-    - match: \\(\s+)\n
-      captures:
-        1: invalid.illegal.unexpected-whitespace.shell
-
-  line-continuation-body:
-    - meta_include_prototype: false
-    - match: ^
-      pop: 1
-
-  operators:
-    - match: \|\||\&\&|\!(?!\S)
-      scope: keyword.operator.logical.shell
-    - match: \||\&
-      scope: keyword.operator.assignment.pipe.shell
-    - match: ;
-      scope: punctuation.terminator.statement.shell
 
 ###[ EXPANSIONS ]##############################################################
 
