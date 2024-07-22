@@ -440,6 +440,25 @@ contexts:
         - literal-array-value-assignment
         - variable-name-begin
 
+  variables:
+    - match: '{{variable_begin}}'
+      push: [variable-subscription, variable-name-begin]
+
+  variable-name-begin:
+    - meta_include_prototype: false
+    - match: '{{builtin_variable}}'
+      scope: variable.language.builtin.shell
+      pop: 1
+    - match: ''
+      set: variable-name-chars
+
+  variable-name-chars:
+    - meta_scope: variable.other.readwrite.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{identifier_break}}'
+      pop: 1
+
   variable-subscription:
     - meta_scope: meta.variable.shell
     - include: variable-subscriptions
@@ -3054,27 +3073,6 @@ contexts:
     - include: string-interpolations
     - match: (?=[/{{metachar}}])
       pop: 2
-
-###[ VARIABLES ]###############################################################
-
-  variables:
-    - match: '{{variable_begin}}'
-      push: [variable-subscription, variable-name-begin]
-
-  variable-name-begin:
-    - meta_include_prototype: false
-    - match: '{{builtin_variable}}'
-      scope: variable.language.builtin.shell
-      pop: 1
-    - match: ''
-      set: variable-name-chars
-
-  variable-name-chars:
-    - meta_scope: variable.other.readwrite.shell
-    - include: line-continuations
-    - include: literal-unquoted-content
-    - match: '{{identifier_break}}'
-      pop: 1
 
 ###[ ILLEGALS ]################################################################
 
