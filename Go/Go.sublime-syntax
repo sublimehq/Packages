@@ -747,8 +747,24 @@ contexts:
     - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
       scope: constant.other.placeholder.go
 
+  match-block-string-templates:
+    # This context is used for interpolation within quoted or unquoted multiline strings.
+    # Doesn't check for closing `}}` as it might be located on a sub-sequent line.
+    # It clears the `string` scope of the owning context.
+    # Note: used by YAML (Go).sublime-syntax
+    - match: ({{)(-?)
+      captures:
+        1: punctuation.section.interpolation.begin.go
+        2: keyword.operator.template.trim.left.go
+      push:
+        - pop-now-clear-scope
+        - match-template-inner
+        - match-template-function
+        - match-template-keyword
+
   match-string-templates:
     # This context is used for interpolation within quoted or unquoted strings.
+    # Matchs only if closing `}}` is found on same line to avoid false positives.
     # It clears the `string` scope of the owning context.
     - match: ({{)(-?)(?=.*?}})
       captures:

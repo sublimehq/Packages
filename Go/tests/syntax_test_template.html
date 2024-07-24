@@ -67,6 +67,18 @@
   </head>
 
   <body>
+
+    {{/*
+|  ^ - meta.interpolation
+|   ^^ meta.interpolation.go punctuation.section.interpolation.begin.go
+|     ^^ meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.begin.go
+      Spread a key-value map into the "env" list
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.go source.go.template comment.block.go
+    */}}
+|   ^^ meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.end.go
+|     ^^ meta.interpolation.go punctuation.section.interpolation.end.go
+|       ^ - meta.interpolation
+
     {{ block "main" . }}
 |   ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.go
 |   ^^ punctuation.section.interpolation.begin.go

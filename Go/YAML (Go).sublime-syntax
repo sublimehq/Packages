@@ -37,23 +37,23 @@ contexts:
 
   block-scalar-body:
     - meta_prepend: true
-    - include: scope:source.go#match-string-templates
+    - include: scope:source.go#match-block-string-templates
 
   flow-scalar-plain-in-body:
     - meta_prepend: true
-    - include: scope:source.go#match-string-templates
+    - include: scope:source.go#match-block-string-templates
 
   flow-scalar-plain-out-body:
     - meta_prepend: true
-    - include: scope:source.go#match-string-templates
+    - include: scope:source.go#match-block-string-templates
 
   flow-scalar-double-quoted-body:
     - meta_prepend: true
-    - include: scope:source.go#match-string-templates
+    - include: scope:source.go#match-block-string-templates
 
   flow-scalar-single-quoted-body:
     - meta_prepend: true
-    - include: scope:source.go#match-string-templates
+    - include: scope:source.go#match-block-string-templates
 
   flow-mapping:
     - match: \{(?![{%#])
