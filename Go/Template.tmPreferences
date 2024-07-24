@@ -10,7 +10,7 @@
 	whether templates are wrapped with whitespace.
 	 -->
 	<key>scope</key>
-	<string>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.go string) - source.go.template</string>
+	<string>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.go string) - source.go.template</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
