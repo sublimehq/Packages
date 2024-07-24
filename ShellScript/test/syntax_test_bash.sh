@@ -11266,7 +11266,7 @@ true false
 #^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 #  ^ meta.number.integer.octal.shell constant.numeric.base.shell
 #   ^^^^^^^^ meta.number.integer.octal.shell constant.numeric.value.shell
-#           ^^^ - meta.number - constant
+#           ^^^ meta.number.integer.octal.shell invalid.illegal.shell
 
 (( 0x ))
 # ^ - meta.number - constant
@@ -11283,7 +11283,8 @@ true false
 #                       ^ - meta.number - constant
 #                        ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
 #                          ^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
-#                                          ^^^^ - meta.number - constant
+#                                          ^ meta.number.integer.hexadecimal.shell invalid.illegal.shell
+#                                           ^^^ - meta.number - constant
 
 (( 64#123@_ ))
 #  ^^^ meta.number.integer.other.shell constant.numeric.base.shell

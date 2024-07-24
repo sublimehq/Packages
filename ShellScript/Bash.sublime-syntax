@@ -2032,29 +2032,32 @@ contexts:
 
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: \b(0[xX])(\h*)
+    - match: (0[xX])(\h*)({{word_char}}*)
       scope: meta.number.integer.hexadecimal.shell
       captures:
         1: constant.numeric.base.shell
         2: constant.numeric.value.shell
+        3: invalid.illegal.shell
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: \b(0)([0-7]+)
+    - match: (0)([0-7]+)({{word_char}}*)
       scope: meta.number.integer.octal.shell
       captures:
         1: constant.numeric.base.shell
         2: constant.numeric.value.shell
+        3: invalid.illegal.shell
     # Otherwise, numbers take the form [base#]n, where the optional base is a
     # decimal number between 2 and 64 representing the arithmetic base, and n is
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
-    - match: \b(\d+#)([a-zA-Z0-9@_]+)
+    - match: (\d+#)([[:alnum:]@_]+)({{word_char}}*)
       scope: meta.number.integer.other.shell
       captures:
         1: constant.numeric.base.shell
         2: constant.numeric.value.shell
+        3: invalid.illegal.shell
     # If base# is omitted, then base 10 is used.
-    - match: \b\d+(?![.\w])
+    - match: \d+(?![.\w])
       scope: meta.number.integer.decimal.shell constant.numeric.value.shell
 
   number:
@@ -2074,7 +2077,7 @@ contexts:
         2: constant.numeric.base.shell
         3: constant.numeric.value.shell
       pop: 1
-    - match: ([-+]?)(\d+#)([a-zA-Z0-9@_]+){{word_break}}
+    - match: ([-+]?)(\d+#)([[:alnum:]@_]+){{word_break}}
       scope: meta.number.integer.other.she
       captures:
         1: keyword.operator.arithmetic.shell
