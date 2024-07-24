@@ -288,40 +288,6 @@ contexts:
     - include: illegal-stray
     - include: eol-pop
 
-###[ PROTOTYPES ]##############################################################
-
-  brace-pop:
-    - match: (?=\})
-      pop: 1
-
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  eoc-pop:
-    - match: (?=\s*(?:[)}|;]|&(?!>)))
-      pop: 1
-    - include: eol-pop
-
-  eoc-pop2:
-    - match: (?=\s*(?:[)}|;]|&(?!>)))
-      pop: 2
-    - include: eol-pop2
-
-  eol-pop:
-    - match: (?=\s*$|\s+#)
-      pop: 1
-    - include: line-continuations
-
-  eol-pop2:
-    - match: (?=\s*$|\s+#)
-      pop: 2
-    - include: line-continuations
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -3115,4 +3081,38 @@ contexts:
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{word_break}}'
+      pop: 1
+
+###[ PROTOTYPES ]##############################################################
+
+  brace-pop:
+    - match: (?=\})
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  eoc-pop:
+    - match: (?=\s*(?:[)}|;]|&(?!>)))
+      pop: 1
+    - include: eol-pop
+
+  eoc-pop2:
+    - match: (?=\s*(?:[)}|;]|&(?!>)))
+      pop: 2
+    - include: eol-pop2
+
+  eol-pop:
+    - match: (?=\s*$|\s+#)
+      pop: 1
+    - include: line-continuations
+
+  eol-pop2:
+    - match: (?=\s*$|\s+#)
+      pop: 2
+    - include: line-continuations
+
+  immediately-pop:
+    - match: ''
       pop: 1
