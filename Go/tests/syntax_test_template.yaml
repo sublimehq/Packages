@@ -1,0 +1,72 @@
+# SYNTAX TEST "Packages/Go/YAML (Go).sublime-syntax"
+
+key: {{ /*comment*/ }}
+#    ^^^^^^^^^^^^^^^^^ meta.string.yaml meta.interpolation.go - string
+#    ^^ punctuation.section.interpolation.begin.go
+#      ^^^^^^^^^^^^^ source.go.template
+#                   ^^ punctuation.section.interpolation.end.go
+
+{{ if $var true }}
+# <- meta.string.yaml meta.interpolation.go punctuation.section.interpolation.begin.go
+#^^^^^^^^^^^^^^^^^ meta.string.yaml meta.interpolation.go
+#^ punctuation.section.interpolation.begin.go
+# ^^^^^^^^^^^^^^ meta.string.yaml meta.interpolation.go source.go.template
+#               ^^ punctuation.section.interpolation.end.go
+
+    {{ .keyname }}: "String{{value}}"
+#   ^^^^^^^^^^^^^^ meta.mapping.key.yaml meta.string.yaml meta.interpolation.go
+#   ^^ punctuation.section.interpolation.begin.go
+#     ^^^^^^^^^^ source.go.template
+#               ^^ punctuation.section.interpolation.end.go
+#                 ^ punctuation.separator.key-value.mapping.yaml
+#                   ^^^^^^^ meta.string.yaml string.quoted.double.yaml
+#                          ^^^^^^^^^ meta.string.yaml meta.interpolation.go
+#                                   ^ meta.string.yaml string.quoted.double.yaml punctuation.definition.string.end.yaml
+
+{{ else }}
+# <- meta.string.yaml meta.interpolation.go punctuation.section.interpolation.begin.go
+#^^^^^^^^^ meta.string.yaml meta.interpolation.go
+#^ punctuation.section.interpolation.begin.go
+# ^^^^^^ meta.string.yaml meta.interpolation.go source.go.template
+#       ^^ punctuation.section.interpolation.end.go
+
+    {{ .keyname }}:
+#   ^^^^^^^^^^^^^^ meta.mapping.key.yaml meta.string.yaml meta.interpolation.go
+#   ^^ punctuation.section.interpolation.begin.go
+#     ^^^^^^^^^^ source.go.template
+#               ^^ punctuation.section.interpolation.end.go
+#                 ^ punctuation.separator.key-value.mapping.yaml
+        - Val{{ $ue }}
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^ meta.string.yaml string.unquoted.plain.out.yaml
+#            ^^^^^^^^^ meta.template.go meta.string.yaml meta.interpolation.go
+#            ^^ punctuation.section.interpolation.begin.go
+#               ^^^ variable.other.template.go
+#                   ^^ punctuation.section.interpolation.end.go
+
+        - 'Val{{ $ue }}'
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^ meta.template.go meta.string.yaml string.quoted.single.yaml
+#         ^ punctuation.definition.string.begin.yaml
+#             ^^^^^^^^^ meta.template.go meta.string.yaml meta.interpolation.go
+#             ^^ punctuation.section.interpolation.begin.go
+#                ^^^ variable.other.template.go
+#                    ^^ punctuation.section.interpolation.end.go
+#                      ^ punctuation.definition.string.end.yaml
+
+        - "Val{{ $ue }}"
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^ meta.template.go meta.string.yaml string.quoted.double.yaml
+#         ^ punctuation.definition.string.begin.yaml
+#             ^^^^^^^^^ meta.template.go meta.string.yaml meta.interpolation.go
+#             ^^ punctuation.section.interpolation.begin.go
+#                ^^^ variable.other.template.go
+#                    ^^ punctuation.section.interpolation.end.go
+#                      ^ punctuation.definition.string.end.yaml
+
+{{ end }}
+# <- meta.string.yaml meta.interpolation.go punctuation.section.interpolation.begin.go
+#^^^^^^^^ meta.string.yaml meta.interpolation.go
+#^ punctuation.section.interpolation.begin.go
+# ^^^^^ meta.string.yaml meta.interpolation.go source.go.template
+#      ^^ punctuation.section.interpolation.end.go

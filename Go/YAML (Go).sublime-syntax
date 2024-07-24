@@ -1,0 +1,61 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: YAML (Go)
+scope: source.yaml.go
+version: 2
+
+extends: Packages/YAML/YAML.sublime-syntax
+
+file_extensions:
+  - goyaml
+  - go.yaml
+  - goyml
+  - go.yml
+
+variables:
+  ns_plain_first_plain_in: |- # c=plain-in
+    (?x:
+        [^\s{{c_indicator}}]
+      | [?:-] [^\s{{c_flow_indicator}}]
+      | (?:[?:-] )?{{  # begins with go interpolation
+
+    )
+
+  ns_plain_first_plain_out: |- # c=plain-out
+    (?x:
+        [^\s{{c_indicator}}]
+      | [?:-] \S
+      | (?:[?:-] )?{{  # begins with go interpolation
+    )
+
+contexts:
+
+  main:
+    - meta_prepend: true
+    - meta_scope: meta.template.go
+
+  block-scalar-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates
+
+  flow-scalar-plain-in-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates
+
+  flow-scalar-plain-out-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates
+
+  flow-scalar-double-quoted-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates
+
+  flow-scalar-single-quoted-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates
+
+  flow-mapping:
+    - match: \{(?![{%#])
+      scope: punctuation.definition.mapping.begin.yaml
+      push: flow-mapping-body
