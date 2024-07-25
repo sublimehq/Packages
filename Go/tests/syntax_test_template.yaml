@@ -13,6 +13,17 @@
 #   ^^ meta.string.yaml meta.interpolation.go punctuation.section.interpolation.end.go
 #     ^ - meta.string - meta.interpolation
 
+{{- printf "- name: %s" $key -}}
+# <- meta.string.yaml meta.interpolation.go punctuation.section.interpolation.begin.go - meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.yaml meta.interpolation.go - meta.mapping
+#                             ^^ punctuation.section.interpolation.end.go
+
+{{- printf "- name: %s" $key -}}:
+# <- meta.mapping.key.yaml meta.string.yaml meta.interpolation.go punctuation.section.interpolation.begin.go
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml meta.string.yaml meta.interpolation.go
+#                             ^^ punctuation.section.interpolation.end.go
+#                               ^ punctuation.separator.key-value.mapping.yaml
+
 key: {{ /*comment*/ }}
 #    ^^^^^^^^^^^^^^^^^ meta.string.yaml meta.interpolation.go - string
 #    ^^ punctuation.section.interpolation.begin.go

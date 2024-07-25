@@ -16,18 +16,76 @@ file_extensions:
 variables:
   ns_plain_first_plain_in: |- # c=plain-in
     (?x:
+        {{yaml_ns_plain_first_plain_in}}
+      | (?:[?:-] )?{{  # begins with go interpolation
+    )
+
+  # original value from YAML
+  yaml_ns_plain_first_plain_in: |- # c=plain-in
+    (?x:
         [^\s{{c_indicator}}]
       | [?:-] [^\s{{c_flow_indicator}}]
-      | (?:[?:-] )?{{  # begins with go interpolation
-
     )
 
   ns_plain_first_plain_out: |- # c=plain-out
     (?x:
-        [^\s{{c_indicator}}]
-      | [?:-] \S
+        {{yaml_ns_plain_first_plain_out}}
       | (?:[?:-] )?{{  # begins with go interpolation
     )
+
+  # original value from YAML
+  yaml_ns_plain_first_plain_out: |- # c=plain-out
+    (?x:
+        [^\s{{c_indicator}}]
+      | [?:-] \S
+    )
+
+  _flow_key_in_lookahead: |-
+    (?x:
+      (?=
+        (
+            (?:
+              {{yaml_ns_plain_first_plain_in}}
+              | {{go_interpolation}}  # begins with interpolation
+            )
+            ( [^\s:{{c_flow_indicator}}]
+            | : [^\s{{c_flow_indicator}}]
+            | \s+ (?![#\s])
+            | {{go_interpolation}}    # ignore interpolation
+            )*
+          | \".*\" # simplified
+          | \'.*\'
+        )
+        \s*
+        :
+        (?:\s|$)
+      )
+    )
+
+  _flow_key_out_lookahead: |-
+    (?x:
+      (?=
+
+        (
+            (?:
+              {{yaml_ns_plain_first_plain_out}}
+              | {{go_interpolation}}  # begins with interpolation
+            )
+            ( [^\s:]
+            | : \S
+            | \s+ (?![#\s])
+            | {{go_interpolation}}    # ignore interpolation
+            )*
+          | \".*\" # simplified
+          | \'.*\'
+        )
+        \s*
+        :
+        (?:\s|$)
+      )
+    )
+
+  go_interpolation: '{{.*?}}'
 
 contexts:
 
