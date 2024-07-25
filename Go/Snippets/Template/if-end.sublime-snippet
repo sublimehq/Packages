@@ -3,6 +3,6 @@
 $0
 ${TM_TEMPLATE_START}end${TM_TEMPLATE_END}]]></content>
 <tabTrigger>tifend</tabTrigger>
-<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.go string) - source.go.template</scope>
+<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.yaml.go | source.go string) - source.go.template</scope>
 <description>{{if ...}} ... {{end}}</description>
 </snippet>
