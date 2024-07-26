@@ -2114,28 +2114,23 @@ esac
 # https://www.gnu.org/software/bash/manual/bash.html#Command-Grouping         #
 ###############################################################################
 
-(foo) -o
+(foo)
 # <- meta.compound.shell punctuation.section.compound.begin.shell
 #^^^ meta.compound.shell meta.function-call.identifier.shell variable.function.shell
 #   ^ meta.compound.shell punctuation.section.compound.end.shell
-#    ^^^ meta.compound.arguments.shell
+#    ^ - meta
 
-{ foo -o } --opt -- --no-option
+{ foo -o }
 # <- meta.compound.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^ meta.compound.shell - meta.compound meta.compound
 # ^^^ meta.function-call.identifier.shell
 #    ^^^ meta.function-call.arguments.shell
 #       ^^ - meta.function-call
-#         ^^^^^^^^^^^^^^^^^^^^^ meta.compound.arguments.shell - meta.compound meta.compound
-#                              ^ - meta.compound
+#         ^ - meta.compound
 # ^^^ variable.function.shell
 #     ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
 #      ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #        ^ punctuation.section.compound.end.shell
-#          ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
-#            ^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
-#                ^^ keyword.operator.end-of-options.shell
-#                   ^^^^^^^^^^^ - variable - punctuation
 
 {
 # <- meta.compound.shell punctuation.section.compound.begin.shell
@@ -2150,16 +2145,14 @@ esac
 #      ^^^^^ meta.function-call.arguments.shell
   } 2>> "$stderr_log"
 #^^ meta.compound.shell meta.compound.shell
-#  ^^^^^^^^^^^^^^^^^^ meta.compound.shell meta.compound.arguments.shell
-#                    ^ meta.compound.shell - meta.compound meta.compound
+#  ^ meta.compound.shell - meta.compound meta.compound
+#   ^^^^^^^^^^^^^^^^^ meta.compound.shell meta.redirection.shell
 # ^ punctuation.section.compound.end.shell
-  # ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell - variable.function
 } 1>> "$stdout_log"
 # <- meta.compound.shell - meta.compound meta.compound
-#^^^^^^^^^^^^^^^^^^ meta.compound.arguments.shell
-#                  ^ - meta
+#^ - meta
+# ^^^^^^^^^^^^^^^^^ meta.redirection.shell
 # <- punctuation.section.compound.end.shell
-# ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell - variable.function
 
 
 ###############################################################################
@@ -2275,16 +2268,21 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 # ^^^^^^ meta.compound.shell meta.coproc.shell
 #       ^^^^^ meta.compound.shell meta.coproc.identifier.shell
 #            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.shell
-#                            ^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.arguments.shell
-#                                ^^^ meta.compound.shell - meta.coproc
-#                                   ^^^^^ meta.compound.arguments.shell - meta.coproc - meta.function-call
+#                            ^ meta.compound.shell - meta.redirection - meta.coproc
+#                             ^^^ meta.compound.shell meta.redirection.shell - meta.coproc
+#                                ^^^ meta.compound.shell - meta.redirection - meta.coproc
+#                                   ^ - meta
+#                                    ^^^^ meta.redirection.shell
 # ^^^^^^ keyword.declaration.coproc.shell
 #        ^^^ entity.name.function.shell
 #            ^ punctuation.section.compound.begin.shell
 #              ^^^ variable.function.shell
+#                  ^^^^^^^ meta.string.shell string.unquoted.shell
+#                          ^ punctuation.terminator.statement.shell
 #                           ^ punctuation.section.compound.end.shell
 #                             ^^ keyword.operator.assignment.redirection
 #                               ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                 ^ punctuation.terminator.statement.shell
 #                                  ^ punctuation.section.compound.end.shell
 #                                    ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                     ^^ keyword.operator.assignment.redirection

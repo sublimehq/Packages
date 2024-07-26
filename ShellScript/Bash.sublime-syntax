@@ -606,7 +606,7 @@ contexts:
       scope:
         meta.compound.shell
         punctuation.section.compound.end.shell
-      set: cmd-compound-args
+      pop: 1
     - include: statements
 
 ###[ DECLARE BUILTINS ]########################################################
@@ -1118,19 +1118,15 @@ contexts:
     - meta_scope: meta.compound.shell
     - match: \}
       scope: punctuation.section.compound.end.shell
-      set: cmd-compound-args
+      pop: 1
     - include: statements
 
   cmd-compound-parens-body:
     - meta_scope: meta.compound.shell
     - match: \)
       scope: punctuation.section.compound.end.shell
-      set: cmd-compound-args
+      pop: 1
     - include: statements
-
-  cmd-compound-args:
-    - meta_content_scope: meta.compound.arguments.shell
-    - include: cmd-args
 
   cmd-historic:
     - match: (\!)(-?\d+|!)
