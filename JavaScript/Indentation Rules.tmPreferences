@@ -2,7 +2,12 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.js, source.ts, source.jsx, source.tsx</string>
+	<string>
+		source.js - source.js meta.mapping,
+		source.ts - source.ts meta.mapping,
+		source.jsx - source.jsx meta.mapping,
+		source.tsx - source.tsx meta.mapping
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
@@ -68,8 +73,6 @@
 			)
 		]]></string>
 
-		<key>indentSquareBrackets</key>
-		<true/>
 	</dict>
 </dict>
 </plist>
