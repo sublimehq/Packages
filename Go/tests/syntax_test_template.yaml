@@ -107,3 +107,8 @@ key: {{ /*comment*/ }}
 #^ punctuation.section.interpolation.begin.go
 # ^^^^^ meta.string.yaml meta.interpolation.go source.go.template
 #      ^^ punctuation.section.interpolation.end.go
+
+path: /{{.Values.ingress.path}}/*
+#     ^ meta.string.yaml string.unquoted.plain.out.yaml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.yaml meta.interpolation.go
+#                              ^^ meta.string.yaml string.unquoted.plain.out.yaml - comment
