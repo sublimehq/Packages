@@ -631,16 +631,12 @@ function testIfElseIndentationWithBracesAndComment(v) {
 
 function testSwitchCaseIndentation(v) {
     switch (s) {
-    case
     case:
-    case break
     case: break
     case "(": break
     case ")": break;
     case ":": break;
     case ";": break;
-    case
-        break;
     case:
         break;
     case ":"
