@@ -1644,7 +1644,7 @@ if [[ $- =~ *i* ]] ; then echo shell is not interactive; fi
 #                    ^^^^ keyword.control.conditional.then.shell
 #                         ^^^^ support.function.echo.shell
 #                                                      ^ punctuation.terminator.statement.shell
-#                                                        ^^ keyword.control.conditional.end.shell
+#                                                        ^^ keyword.control.conditional.endif.shell
 
 if [[ "$ERL_TOP" != ";"; ]];then;fi
 #^ keyword.control.conditional.if.shell
@@ -1656,7 +1656,7 @@ if [[ "$ERL_TOP" != ";"; ]];then;fi
 #                          ^ punctuation.terminator.statement.shell
 #                           ^^^^ keyword.control.conditional.then.shell
 #                               ^ punctuation.terminator.statement.shell
-#                                ^^ keyword.control.conditional.end.shell
+#                                ^^ keyword.control.conditional.endif.shell
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if.shell
@@ -1720,7 +1720,7 @@ if [ ! -f q4m-$Q4MVER.tar.gz ]; then
     :
 #   ^ meta.function-call.identifier.shell support.function.colon.shell
 fi
-# <- keyword.control.conditional.end.shell
+# <- keyword.control.conditional.endif.shell
 
 if true ; then false ; fi
 #^ keyword.control.conditional.if.shell
@@ -1729,7 +1729,7 @@ if true ; then false ; fi
 #         ^^^^ keyword.control.conditional.then.shell
 #              ^^^^^ constant.language.boolean.false.shell
 #                    ^ punctuation.terminator.statement.shell
-#                      ^^ keyword.control.conditional.end.shell
+#                      ^^ keyword.control.conditional.endif.shell
 
 if (ruby extconf.rb &&
 #  ^ punctuation.section.compound.begin.shell
@@ -1780,7 +1780,7 @@ elif [ "$1" ]; then
     #           ^ keyword.operator.assignment.shell
     #            ^^ variable.language.positional.shell
 fi
-# <- keyword.control.conditional.end.shell
+# <- keyword.control.conditional.endif.shell
 
 asdf foo && FOO=some-value pwd
 # <- meta.function-call.identifier.shell variable.function.shell
@@ -8788,7 +8788,7 @@ if opam upgrade --check; then
 #                          ^^^ keyword.operator.herestring
 #                             ^ - keyword.control.heredoc-token - string.unquoted.heredoc
 fi
-# <- keyword.control.conditional.end - string.unquoted.heredoc
+# <- keyword.control.conditional.endif.shell - string
 
 cat -c <<<$(echo pipephobic)
 #  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
@@ -10110,7 +10110,7 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #                                          ^ keyword.operator.assignment.shell
 #                                           ^^^^^ string.quoted.double.shell
 #                                                ^ punctuation.terminator.statement.shell
-#                                                  ^^ keyword.control.conditional.end.shell
+#                                                  ^^ keyword.control.conditional.endif.shell
 
 let test -z $2 && { }
 #^^ meta.function-call.identifier.shell support.function.let.shell
@@ -10637,7 +10637,7 @@ if test expr -a expr ; then echo "success"; fi
 #                      ^^^^ keyword.control.conditional.then.shell
 #                           ^^^^ support.function.echo.shell
 #                                         ^ punctuation.terminator.statement.shell
-#                                           ^^ keyword.control.conditional.end.shell
+#                                           ^^ keyword.control.conditional.endif.shell
 
 if test "$VAR" != ";";then;fi
 # ^ - meta.function-call
@@ -10650,7 +10650,7 @@ if test "$VAR" != ";";then;fi
 #                    ^ punctuation.terminator.statement.shell
 #                     ^^^^ keyword.control.conditional.then.shell
 #                         ^ punctuation.terminator.statement.shell
-#                          ^^ keyword.control.conditional.end.shell
+#                          ^^ keyword.control.conditional.endif.shell
 
 
 ###############################################################################
@@ -11908,7 +11908,7 @@ else remotefilter="grep"
      done
      # <- keyword.control.loop.end.shell
 fi
-# <- keyword.control.conditional.end.shell
+# <- keyword.control.conditional.endif.shell
 
 curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell

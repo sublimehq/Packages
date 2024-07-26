@@ -1001,7 +1001,7 @@ TESTTOOL = sh -c '\
   fi' TESTTOOL
 # ^^^ meta.string.makefile meta.interpolation.makefile
 #    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
-# ^^ source.shell.embedded keyword.control.conditional.end.shell - source.shell source.shell
+# ^^ source.shell.embedded keyword.control.conditional.endif.shell - source.shell source.shell
 #   ^ punctuation.section.interpolation.end.makefile
 
 

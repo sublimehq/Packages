@@ -1329,7 +1329,7 @@ contexts:
     - match: elif{{cmd_break}}
       scope: keyword.control.conditional.elseif.shell
     - match: fi{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
+      scope: keyword.control.conditional.endif.shell
     - match: else{{cmd_break}}
       scope: keyword.control.conditional.else.shell
     - match: case{{cmd_break}}
