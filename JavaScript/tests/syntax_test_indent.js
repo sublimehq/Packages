@@ -1,10 +1,10 @@
 // SYNTAX TEST reindent "Packages/JavaScript/JavaScript.sublime-syntax"
 
 /*
-property definitions
+mapping definitions
 */
 
-const props = defineProps({
+const maps = {
     case: "case",
     default: "default",
     switch: "switch",
@@ -19,8 +19,26 @@ const props = defineProps({
         "switch",
         "case"
     ],
-    list2: ["value1", "value2"]
-});
+    list3: ["value1", "value2"]
+};
+
+/*
+list definitions
+*/
+
+const list = [
+    case,
+    default,
+    switch,
+    if,
+    elif,
+    else,
+    [
+        case,
+        default
+    ],
+    ["value1", "value2"]
+]
 
 /*
 functions

@@ -3,20 +3,22 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.js - source.js meta.mapping,
-		source.ts - source.ts meta.mapping,
-		source.jsx - source.jsx meta.mapping,
-		source.tsx - source.tsx meta.mapping
+		source.js - source.js meta.mapping - source.js meta.sequence,
+		source.jsx - source.jsx meta.mapping - source.jsx meta.sequence,
+		source.ts - source.ts meta.mapping - source.ts meta.sequence,
+		source.tsx - source.tsx meta.mapping - source.tsx meta.sequence
 	</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string><![CDATA[(?x)
-			# line beginning with whitespace or block comments
+			# line beginning with whitespace
 			^ (.*\*/)? \s*
 			(?:
 			# dedent closing braces
 			  \}
+			# dedent closing brackets
+			| \]
 			# detent `case ... :`
 			| case\b
 			# detent `default:`
