@@ -1,5 +1,88 @@
 // SYNTAX TEST reindent-unchanged "Packages/JavaScript/JavaScript.sublime-syntax"
 
+/*
+ * Export definitions
+ */
+
+export default {
+    default: 'value',
+    case() {
+        const map1 = {
+            default: 'value'
+        }
+        const list1 = [
+            default
+        ]
+
+        if (foo == true)
+            return 1
+        else if (bar == true)
+            return 2
+        else
+            return 3
+
+        switch (map1) {
+        case null:
+            return 0
+        default:
+            const map2 = {
+                default: 'value'
+            }
+            const list2 = [
+                default,
+                () => {
+                    switch (map2) {
+                    default:
+                        return 0
+                    case null:
+                        return 1
+                    }
+                }
+            ]
+        }
+    }
+}
+
+/*
+ * mapping definitions
+ */
+
+const maps = {
+    case: "case",
+    default: "default",
+    switch: "switch",
+    if: "if",
+    elif: "elif",
+    else: "else",
+    function: "function",
+    object: {
+        "key": "value",
+    },
+    list1: [
+        "switch",
+        "case"
+    ],
+    list3: ["value1", "value2"]
+};
+
+/*
+ * list definitions
+ */
+
+const list = [
+    case,
+    default,
+    switch,
+    if,
+    elif,
+    else,
+    [
+        case,
+        default
+    ],
+    ["value1", "value2"]
+]
+
 /**
  * This is my first JavaScript program.
  * This will print 'Hello World' as the output
