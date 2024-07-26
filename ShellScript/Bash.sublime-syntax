@@ -579,15 +579,14 @@ contexts:
       push: cmd-coproc-identifier
 
   cmd-coproc-identifier:
-    - match: (\s*({{cmd_literal}})\s*)(\{)
+    - match: (\s*)(({{cmd_literal}})\s*)?(\{)
       captures:
-        1: meta.coproc.identifier.shell
-        2: entity.name.function.shell
-        3: meta.coproc.command.shell meta.compound.shell
+        1: meta.coproc.shell
+        2: meta.coproc.identifier.shell
+        3: entity.name.function.shell
+        4: meta.coproc.command.shell meta.compound.shell
            punctuation.section.compound.begin.shell
-      set:
-        - cmd-coproc-compound-meta
-        - cmd-coproc-compound-command
+      set: cmd-coproc-compound-command
     - match: ''
       set: cmd-coproc-basic-command
 
@@ -595,16 +594,11 @@ contexts:
     - meta_scope: meta.coproc.command.shell
     - include: statement
 
-  cmd-coproc-compound-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.coproc.command.shell
-    - include: immediately-pop
-
   cmd-coproc-compound-command:
-    - meta_content_scope: meta.compound.shell
+    - meta_content_scope: meta.coproc.command.shell meta.compound.shell
     - match: \}
       scope:
-        meta.compound.shell
+        meta.coproc.command.shell meta.compound.shell
         punctuation.section.compound.end.shell
       pop: 1
     - include: statements

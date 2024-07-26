@@ -2220,10 +2220,10 @@ coproc awk '{print "foo" $0;fflush()}'
 
 coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 # <- meta.coproc.shell keyword.declaration.coproc.shell
-#^^^^^ meta.coproc.shell
-#     ^ meta.coproc.command.shell
+#^^^^^^ meta.coproc.shell
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.shell
-#                                            ^^^^^^ meta.coproc.command.shell - meta.compound
+#                                            ^^^ - meta.coproc - meta.compound - meta.function-call
+#                                               ^^^ meta.function-call.identifier.shell
 #                                                  ^ - meta.function-call - meta.function.coproc
 #        ^^ meta.function-call.identifier.shell
 #          ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -2245,8 +2245,8 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 
 coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 # <- meta.coproc.shell keyword.declaration.coproc.shell
-#^^^^^ meta.coproc.shell
-#     ^^^^^^ meta.coproc.identifier.shell - meta.compound
+#^^^^^^ meta.coproc.shell
+#      ^^^^^ meta.coproc.identifier.shell - meta.compound
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.shell
 #                                                 ^^^ - meta.function-call
 #                                                    ^^^ meta.function-call.identifier.shell
@@ -2265,8 +2265,8 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 
 { coproc tee { tee logfile ;} >&3 ;} 3>&1
 # <- meta.compound.shell punctuation.section.compound.begin.shell
-# ^^^^^^ meta.compound.shell meta.coproc.shell
-#       ^^^^^ meta.compound.shell meta.coproc.identifier.shell
+# ^^^^^^^ meta.compound.shell meta.coproc.shell
+#        ^^^^ meta.compound.shell meta.coproc.identifier.shell
 #            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.shell
 #                            ^ meta.compound.shell - meta.redirection - meta.coproc
 #                             ^^^ meta.compound.shell meta.redirection.shell - meta.coproc
@@ -2290,8 +2290,8 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 
 coproc foobar {
 # <- meta.coproc.shell keyword.declaration.coproc.shell
-#^^^^^ meta.coproc.shell
-#     ^^^^^^^^ meta.coproc.identifier.shell
+#^^^^^^ meta.coproc.shell
+#      ^^^^^^^ meta.coproc.identifier.shell
 #             ^^ meta.coproc.command.shell meta.compound.shell
 #^^^^^ keyword.declaration.coproc.shell
 #      ^^^^^^ entity.name.function.shell
