@@ -3852,20 +3852,20 @@ any --arg{1,2,3} ={1,2,3}
 
 : ~fred/foo*  # The subdirectory foo of the home directory of the user fred
 # ^ meta.interpolation.tilde.shell variable.language.tilde.shell
-#  ^^^^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - variable
+#  ^^^^ meta.interpolation.tilde.shell constant.other.username.shell - variable
 #      ^^^^^ - meta.interpolation
 #          ^ constant.other.wildcard.asterisk.shell
 
 : ~fr\
 ed/foo*  # The subdirectory foo of the home directory of the user fred
-# <- meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - variable
-#^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - variable
+# <- meta.interpolation.tilde.shell constant.other.username.shell - variable
+#^ meta.interpolation.tilde.shell constant.other.username.shell - variable
 # ^^^^^ - meta.interpolation
 #     ^ constant.other.wildcard.asterisk.shell
 
 : ~${fred}/foo?bar
 # ^ meta.interpolation.tilde.shell variable.language.tilde.shell - variable meta.interpolation
-#  ^^^^^^^ meta.interpolation.tilde.shell meta.string.shell meta.interpolation.parameter.shell
+#  ^^^^^^^ meta.interpolation.tilde.shell meta.interpolation.parameter.shell
 #         ^^^^^^^^ - meta.interpolation
 #  ^ punctuation.definition.variable.shell
 #   ^ punctuation.section.interpolation.begin.shell
@@ -3875,9 +3875,9 @@ ed/foo*  # The subdirectory foo of the home directory of the user fred
 
 : ~f${re}d/foo?bar
 # ^ meta.interpolation.tilde.shell variable.language.tilde.shell - meta.interpolation meta.interpolation - string
-#  ^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - meta.interpolation meta.interpolation
-#   ^^^^^ meta.interpolation.tilde.shell meta.string.shell meta.interpolation.parameter.shell - string
-#        ^ meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - meta.interpolation meta.interpolation
+#  ^ meta.interpolation.tilde.shell constant.other.username.shell - meta.interpolation meta.interpolation
+#   ^^^^^ meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
+#        ^ meta.interpolation.tilde.shell constant.other.username.shell - meta.interpolation meta.interpolation
 #         ^^^^^^^^ - meta.interpolation
 #   ^ punctuation.definition.variable.shell
 #    ^ punctuation.section.interpolation.begin.shell
@@ -3937,7 +3937,7 @@ test $me -eq ~/~foo
 #             ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
 
 ~/.bin/~app
-# <- meta.function-call.identifier.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+# <- meta.function-call.identifier.shell meta.interpolation.tilde.shell variable.language.tilde.shell - variable.function
 #^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
 #^ punctuation.separator.path.shell
 #     ^ punctuation.separator.path.shell
@@ -4347,9 +4347,9 @@ foo}
 # ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
 #       ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#        ^ meta.string.shell meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - string string
-#         ^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.string.shell meta.interpolation.parameter.shell - string
-#              ^ meta.string.shell meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - string string
+#        ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
+#         ^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
+#              ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
 #               ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
 #                ^ constant.other.wildcard.asterisk.shell
 #                    ^ punctuation.section.interpolation.end.shell
@@ -4465,9 +4465,9 @@ foo}
 # ^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
 #        ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#         ^ meta.string.shell meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - string string
-#          ^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.string.shell meta.interpolation.parameter.shell - string
-#               ^ meta.string.shell meta.interpolation.tilde.shell meta.string.shell string.unquoted.username.shell - string string
+#         ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
+#          ^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
+#               ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
 #                ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
 #                 ^ constant.other.wildcard.asterisk.shell
 #                     ^ punctuation.section.interpolation.end.shell
@@ -5729,7 +5729,7 @@ a\/b/c/d}
 #      ^ keyword.operator.substitution.shell
 #       ^^ meta.string.regexp.shell
 #       ^ variable.language.tilde.shell
-#        ^ string.unquoted.username.shell
+#        ^ constant.other.username.shell
 #         ^ keyword.operator.substitution.shell
 #          ^ punctuation.section.interpolation.end.shell
 
@@ -5751,7 +5751,7 @@ a\/b/c/d}
 #      ^ keyword.operator.substitution.shell
 #       ^^^^^ meta.string.regexp.shell meta.interpolation.tilde.shell
 #       ^ variable.language.tilde.shell
-#        ^^^^ meta.string.shell string.unquoted.username.shell
+#        ^^^^ meta.string.shell constant.other.username.shell
 #            ^ keyword.operator.substitution.shell
 #             ^^^^^^ meta.string.shell string.unquoted.shell - variable
 #                   ^ punctuation.section.interpolation.end.shell

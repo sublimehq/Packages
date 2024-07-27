@@ -2255,7 +2255,7 @@ contexts:
 ###[ PATH PATTERN MATCHING ]###################################################
 
   path-pattern-begin:
-    - include: tilde-expansion
+    - include: tilde-interpolation
     - include: path-pattern-quoted-begin
 
   path-pattern-quoted-begin:
@@ -3020,40 +3020,26 @@ contexts:
   tilde-interpolation:
     - match: \~
       scope: variable.language.tilde.shell
-      set: tilde-interpolation-modifier
+      set: tilde-modifier
 
-  tilde-interpolation-modifier:
+  tilde-modifier:
     - clear_scopes: 1
-    - meta_include_prototype: false
-    - meta_scope: meta.interpolation.tilde.shell
-    - include: tilde-expansion-modifier
-
-  maybe-tilde-expansion:
-    - include: tilde-expansion
-    - include: line-continuations
-    - include: immediately-pop
-
-  tilde-expansion:
-    - match: \~
-      scope: variable.language.tilde.shell
-      set: tilde-expansion-modifier
-
-  tilde-expansion-modifier:
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.tilde.shell
     - match: (?:[-+]?\d+|[-+](?![^/{{metachar}}]))
       scope: variable.language.tilde.shell
       pop: 1
     - match: ''
-      push: tilde-expansion-username
+      set: tilde-modifier-username
 
-  tilde-expansion-username:
+  tilde-modifier-username:
+    - clear_scopes: 1
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.shell string.unquoted.username.shell
+    - meta_content_scope: meta.interpolation.tilde.shell constant.other.username.shell
     - include: line-continuations
     - include: string-interpolations
     - match: (?=[/{{metachar}}])
-      pop: 2
+      pop: 1
 
 ###[ ILLEGALS ]################################################################
 
