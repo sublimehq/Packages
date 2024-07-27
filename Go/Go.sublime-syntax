@@ -1331,6 +1331,7 @@ contexts:
 
   pop-now-clear-scope:
     - clear_scopes: 1
+    - meta_include_prototype: false
     - include: pop-now
 
   pop-now:
