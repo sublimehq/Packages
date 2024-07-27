@@ -1655,7 +1655,7 @@ if [[ "$ERL_TOP" != ";"; ]];then;fi
 #  ^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #  ^^^^^^^^^^^^^^^^^ - meta.string.regexp
 #                   ^^^ meta.string.regexp.shell
-#                      ^ invalid.illegal.unexpected.shell - meta.string
+#                      ^ invalid.illegal.unexpected-token.shell - meta.string
 #                       ^^^ - meta.string.regexp
 #                          ^ punctuation.terminator.statement.shell
 #                           ^^^^ keyword.control.conditional.then.shell
@@ -2968,7 +2968,7 @@ array=(one two three four -5 (foo bar baz)
 #                        ^ - meta.string - string
 #                         ^^ meta.string.shell string.unquoted.shell
 #                           ^^ - meta.string - string
-#                            ^ invalid.illegal.unexpected.shell
+#                            ^ invalid.illegal.unexpected-token.shell
 #                             ^^^ meta.string.shell string.unquoted.shell
 #                                ^ - meta.string - string
 #                                 ^^^ meta.string.shell string.unquoted.shell
@@ -8257,7 +8257,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #^^^^^^^^^^^^^^ meta.conditional.shell
 #              ^ - meta.conditional
 #       ^^ keyword.operator.comparison.shell
-#          ^ invalid.illegal.unexpected.shell
+#          ^ invalid.illegal.unexpected-token.shell
 #            ^^ support.function.test.end.shell
 
 [[ ( $foo =~ ; ) ]]   # unquoted semicolons are illegal
@@ -8267,7 +8267,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #               ^^^ meta.conditional.shell - meta.group
 #                  ^ - meta.conditional
 #         ^^ keyword.operator.comparison.shell
-#            ^ invalid.illegal.unexpected.shell
+#            ^ invalid.illegal.unexpected-token.shell
 #              ^ punctuation.section.group.end.shell
 #                ^^ support.function.test.end.shell
 
@@ -9004,7 +9004,7 @@ declare foo==bar baz =buz  # assignment must immediately follow a variable
 #               ^ - variable
 #                ^^^ variable.other.readwrite.shell
 #                   ^ - variable
-#                    ^^^^ invalid.illegal.unexpected.shell
+#                    ^^^^ invalid.illegal.unexpected-token.shell
 #                        ^ - variable
 
 declare foo=<input.txt
@@ -9066,7 +9066,7 @@ declare bar=\
 #                                ^^^ meta.string.shell string.unquoted.shell
 #                                    ^^^^^ meta.item-access.shell
 #                                          ^^^^ meta.string.shell string.unquoted.shell
-#                                               ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                               ^ invalid.illegal.unexpected-token.shell - meta.redirection
 #                                                ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
 #                                                         ^ punctuation.section.sequence.end.shell
 #                                                           ^^^^^^^^^^ comment.line.number-sign.shell
@@ -9093,7 +9093,7 @@ declare -a bar=\
 #                                ^^^ meta.string.shell string.unquoted.shell
 #                                    ^^^^^ meta.item-access.shell
 #                                          ^^^^ meta.string.shell string.unquoted.shell
-#                                               ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                               ^ invalid.illegal.unexpected-token.shell - meta.redirection
 #                                                ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
 #                                                         ^ punctuation.section.sequence.end.shell
 #                                                           ^^^^^^^^^^ comment.line.number-sign.shell
@@ -9123,10 +9123,10 @@ declare -ai bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # co
 #                                               ^ keyword.operator.assignment.shell
 #                                                ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                                    ^^^^^ meta.item-access.shell
-#                                                          ^^^^ invalid.illegal.unexpected.shell
-#                                                               ^ invalid.illegal.unexpected.shell
+#                                                          ^^^^ invalid.illegal.unexpected-token.shell
+#                                                               ^ invalid.illegal.unexpected-token.shell
 #                                                                ^^^^^ meta.variable.shell variable.other.readwrite.shell
-#                                                                     ^^^^ invalid.illegal.unexpected.shell
+#                                                                     ^^^^ invalid.illegal.unexpected-token.shell
 #                                                                         ^ punctuation.section.sequence.end.shell
 #                                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -9155,10 +9155,10 @@ declare -ia bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # co
 #                                               ^ keyword.operator.assignment.shell
 #                                                ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                                    ^^^^^ meta.item-access.shell
-#                                                          ^^^^ invalid.illegal.unexpected.shell
-#                                                               ^ invalid.illegal.unexpected.shell
+#                                                          ^^^^ invalid.illegal.unexpected-token.shell
+#                                                               ^ invalid.illegal.unexpected-token.shell
 #                                                                ^^^^^ meta.variable.shell variable.other.readwrite.shell
-#                                                                     ^^^^ invalid.illegal.unexpected.shell
+#                                                                     ^^^^ invalid.illegal.unexpected-token.shell
 #                                                                         ^ punctuation.section.sequence.end.shell
 #                                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -9188,10 +9188,10 @@ declare -a -i bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # 
 #                                                 ^ keyword.operator.assignment.shell
 #                                                  ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                                      ^^^^^ meta.item-access.shell
-#                                                            ^^^^ invalid.illegal.unexpected.shell
-#                                                                 ^ invalid.illegal.unexpected.shell
+#                                                            ^^^^ invalid.illegal.unexpected-token.shell
+#                                                                 ^ invalid.illegal.unexpected-token.shell
 #                                                                  ^^^^^ meta.variable.shell variable.other.readwrite.shell
-#                                                                       ^^^^ invalid.illegal.unexpected.shell
+#                                                                       ^^^^ invalid.illegal.unexpected-token.shell
 #                                                                           ^ punctuation.section.sequence.end.shell
 #                                                                             ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -9221,10 +9221,10 @@ declare -i -a bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # 
 #                                                 ^ keyword.operator.assignment.shell
 #                                                  ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                                      ^^^^^ meta.item-access.shell
-#                                                            ^^^^ invalid.illegal.unexpected.shell
-#                                                                 ^ invalid.illegal.unexpected.shell
+#                                                            ^^^^ invalid.illegal.unexpected-token.shell
+#                                                                 ^ invalid.illegal.unexpected-token.shell
 #                                                                  ^^^^^ meta.variable.shell variable.other.readwrite.shell
-#                                                                       ^^^^ invalid.illegal.unexpected.shell
+#                                                                       ^^^^ invalid.illegal.unexpected-token.shell
 #                                                                           ^ punctuation.section.sequence.end.shell
 #                                                                             ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -9409,14 +9409,14 @@ declare -iA var=(
 #  ^^^ entity.name.key.shell
 #     ^ punctuation.section.item-access.end.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^^ invalid.illegal.unexpected.shell
+#       ^^^^ invalid.illegal.unexpected-token.shell
 
   [buz] =1/3
 # ^^^^^ meta.item-access.shell
 # ^ punctuation.section.item-access.begin.shell
 #  ^^^ entity.name.key.shell
 #     ^ punctuation.section.item-access.end.shell
-#       ^^^^ invalid.illegal.unexpected.shell
+#       ^^^^ invalid.illegal.unexpected-token.shell
 
 )
 # <- meta.declaration.variable.arguments.shell meta.sequence.list.shell punctuation.section.sequence.end.shell
@@ -9939,7 +9939,7 @@ readonly bar=\
 #                          ^^^^^ meta.item-access.shell
 #                               ^ keyword.operator.assignment.shell
 #                                ^^^ meta.string.shell string.unquoted.shell
-#                                    ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                    ^ invalid.illegal.unexpected-token.shell - meta.redirection
 #                                     ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
 #                                              ^ punctuation.section.sequence.end.shell
 #                                                ^^^^^^^^^^ comment.line.number-sign.shell
@@ -9964,7 +9964,7 @@ readonly -a bar=\
 #                          ^^^^^ meta.item-access.shell
 #                               ^ keyword.operator.assignment.shell
 #                                ^^^ meta.string.shell string.unquoted.shell
-#                                    ^ invalid.illegal.unexpected.shell - meta.redirection
+#                                    ^ invalid.illegal.unexpected-token.shell - meta.redirection
 #                                     ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
 #                                              ^ punctuation.section.sequence.end.shell
 #                                                ^^^^^^^^^^ comment.line.number-sign.shell

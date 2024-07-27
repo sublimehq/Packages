@@ -955,7 +955,7 @@ contexts:
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - match: ;
-      scope: invalid.illegal.unexpected.shell
+      scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
     - include: test-expression-common
 
@@ -991,7 +991,7 @@ contexts:
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - match: ;
-      scope: invalid.illegal.unexpected.shell
+      scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
     - include: test-expression-common
 
@@ -1672,7 +1672,7 @@ contexts:
       scope: punctuation.section.sequence.end.shell
       pop: 1
     - match: '[(<>]+'
-      scope: invalid.illegal.unexpected.shell
+      scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
 
 ###[ EXPRESSIONS ]#############################################################
@@ -3053,7 +3053,7 @@ contexts:
 
   illegal-word-chars:
     - meta_include_prototype: false
-    - meta_scope: invalid.illegal.unexpected.shell
+    - meta_scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{word_break}}'
