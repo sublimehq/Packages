@@ -1238,62 +1238,62 @@ contexts:
     - match: (css)\s*((\`){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
-        2: meta.string.js string.quoted.other.js
+        2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:source.css.js-template
-      embed_scope: meta.string.js source.css.embedded.js
+      embed_scope: meta.string.template.js source.css.embedded.js
       escape: '{{leading_wspace}}?(\`)'
       escape_captures:
-        0: meta.string.js string.quoted.other.js
+        0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
     - match: (html)\s*((\`){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
-        2: meta.string.js string.quoted.other.js
+        2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:text.html.js-template
-      embed_scope: meta.string.js text.html.embedded.js
+      embed_scope: meta.string.template.js text.html.embedded.js
       escape: '{{leading_wspace}}?(\`)'
       escape_captures:
-        0: meta.string.js string.quoted.other.js
+        0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
     - match: (js)\s*((\`){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
-        2: meta.string.js string.quoted.other.js
+        2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:source.js.js-template
-      embed_scope: meta.string.js source.js.embedded.js
+      embed_scope: meta.string.template.js source.js.embedded.js
       escape: '{{leading_wspace}}?(\`)'
       escape_captures:
-        0: meta.string.js string.quoted.other.js
+        0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
     - match: (json)\s*((\`){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
-        2: meta.string.js string.quoted.other.js
+        2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:source.json.js-template
-      embed_scope: meta.string.js source.json.embedded.js
+      embed_scope: meta.string.template.js source.json.embedded.js
       escape: '{{leading_wspace}}?(\`)'
       escape_captures:
-        0: meta.string.js string.quoted.other.js
+        0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
     - match: (?:({{identifier_name}})\s*)?(\`)
       captures:
         1: variable.function.tagged-template.js
-        2: meta.string.js string.quoted.other.js punctuation.definition.string.begin.js
+        2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
       set: literal-string-template-content
 
   literal-string-template-content:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.js string.quoted.other.js
+    - meta_content_scope: meta.string.template.js string.quoted.other.js
     - match: \`
-      scope: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
+      scope: meta.string.template.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
     - include: string-interpolations
     - include: string-content
