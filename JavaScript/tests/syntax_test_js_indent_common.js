@@ -1056,3 +1056,80 @@ function testWhileIndentationWithBracesAndComments(v)  {
         v++                             // ;  "comments" ()
     }                                   // ;  "comments" ()
 }
+
+/*
+ * CSS Templates
+ */
+
+var style = css`
+    tr, p {
+        background: red solid;
+    }
+`;
+
+/*
+ * HTML Templates
+ */
+
+var html = html`
+    <head>
+        <script type="text/javascript">
+            var ${name} = "Value ${interpol}"
+        </script>
+
+        <script type="text/json">
+            {
+                "simple": "val${ue}",
+                "list": [
+                    "value1",
+                    "value2"
+                ],
+                "object": {
+                    "simple": "val${ue}",
+                    "list": [
+                        "value1",
+                        "value2"
+                    ]
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div style="width: ${width}%" class="${class_name}" onclick="${click}">
+            <p>${content}</p>
+        </div>
+    </body>
+`;
+
+/*
+ * JavaScript Templates
+ */
+
+var script = js`
+    var ${name} = "Value ${interpol}"
+
+    function foo (arg1, arg2) {
+        return 0;
+    }
+`
+
+/*
+ * JSON Templates
+ */
+
+var json = json`
+    {
+        "simple": "val${ue}",
+        "list": [
+            "value1",
+            "value2"
+        ],
+        "object": {
+            "simple": "val${ue}",
+            "list": [
+                "value1",
+                "value2"
+            ]
+        }
+    }
+`
