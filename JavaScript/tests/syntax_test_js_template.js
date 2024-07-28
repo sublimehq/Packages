@@ -6,7 +6,9 @@
 
 var html = html`
 /*         ^^^^ variable.function.tagged-template */
-/*             ^ meta.string.js punctuation.definition.string.begin.js */
+/*             ^^ meta.string.js string.quoted.other.js */
+/*             ^ punctuation.definition.string.begin.js */
+/*              ^ - text.html.embedded */
 
     <script type="text/javascript">
         var ${name} = "Value ${interpol}"
@@ -79,9 +81,9 @@ var html = html`
 /*                                                                       ^^^^^^^^^^ meta.string.js text.html.embedded.js meta.interpolation.js */
 /*                                                                                 ^^^^ meta.string.js text.html.embedded.js meta.tag.block.any.html */
     `
-/* <- meta.string.js text.html.embedded.js */
-/*^^ meta.string.js text.html.embedded.js */
-/*  ^ meta.string.js string.quoted.other.js punctuation.definition.string.end.js - text.html.embedded */
+/* <- meta.string.js string.quoted.other.js - text.html.embedded */
+/*^^^ meta.string.js string.quoted.other.js - text.html.embedded */
+/*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
 /*
@@ -90,7 +92,9 @@ var html = html`
 
 var json = json`
 /*         ^^^^ variable.function.tagged-template */
-/*             ^ meta.string.js punctuation.definition.string.begin.js */
+/*             ^^ meta.string.js string.quoted.other.js */
+/*             ^ punctuation.definition.string.begin.js */
+/*              ^ - source.json.embedded */
     {
 /*  ^ meta.string.js source.json.embedded.js meta.mapping.json punctuation.section.mapping.begin.json */
 
@@ -123,9 +127,9 @@ var json = json`
     }
 /*  ^ meta.string.js source.json.embedded.js meta.mapping.json punctuation.section.mapping.end.json */
     `
-/* <- meta.string.js source.json.embedded.js */
-/*^^ meta.string.js source.json.embedded.js */
-/*  ^ meta.string.js string.quoted.other.js punctuation.definition.string.end.js - source.json.embedded */
+/* <- meta.string.js string.quoted.other.js - source.json.embedded */
+/*^^^ meta.string.js string.quoted.other.js - source.json.embedded */
+/*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
 /*
@@ -134,7 +138,9 @@ var json = json`
 
 var script = js`
 /*           ^^ variable.function.tagged-template */
-/*             ^ meta.string.js punctuation.definition.string.begin.js */
+/*             ^^ meta.string.js string.quoted.other.js */
+/*             ^ punctuation.definition.string.begin.js */
+/*              ^ - source.js.embedded */
 
     var ${name} = "Value ${interpol}"
 /*      ^^^^^^^ meta.interpolation.js */
@@ -142,9 +148,9 @@ var script = js`
 /*                       ^^^^^^^^^^^ meta.string.js source.js.embedded.js meta.string.js meta.interpolation.js */
 /*                                  ^ meta.string.js source.js.embedded.js meta.string.js string.quoted.double.js */
     `
-/* <- meta.string.js source.js.embedded.js */
-/*^^ meta.string.js source.js.embedded.js */
-/*  ^ meta.string.js string.quoted.other.js punctuation.definition.string.end.js - source.js.embedded */
+/* <- meta.string.js string.quoted.other.js - source.js.embedded */
+/*^^^ meta.string.js string.quoted.other.js - source.js.embedded */
+/*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
 /*
@@ -153,8 +159,9 @@ var script = js`
 
 var style = css`
 /*          ^^^ variable.function.tagged-template */
-/*             ^ meta.string.js punctuation.definition.string.begin.js */
-/*              ^ source.css.embedded.js */
+/*             ^^ meta.string.js string.quoted.other.js */
+/*             ^ punctuation.definition.string.begin.js */
+/*              ^ - source.css.embedded */
 
     tr, .${sel} {
 /*  ^^^^^^^^^^^^ meta.selector.css */
@@ -172,9 +179,9 @@ var style = css`
     }
 /*  ^ meta.block.css punctuation.section.block.end.css */
     `
-/* <- meta.string.js source.css.embedded.js */
-/*^^ meta.string.js source.css.embedded.js */
-/*  ^ meta.string.js string.quoted.other.js punctuation.definition.string.end.js - source.css */
+/* <- meta.string.js string.quoted.other.js - source.css.embedded */
+/*^^^ meta.string.js string.quoted.other.js - source.css.embedded */
+/*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
 /*
