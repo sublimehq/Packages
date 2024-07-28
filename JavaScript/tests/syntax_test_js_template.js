@@ -4,6 +4,12 @@
  * HTML Templates
  */
 
+var html = html` <p>${content}</p> `
+/*             ^^^^^^^^^^^^^^^^^^^^^ meta.string.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js - text.html.embedded */
+/*              ^^^^^^^^^^^^^^^^^^^ text.html.embedded.js - string */
+/*                                 ^ string.quoted.other.js punctuation.definition.string.end.js - text.html.embedded */
+
 var html = html`
 /*         ^^^^ variable.function.tagged-template */
 /*             ^^ meta.string.js string.quoted.other.js */
@@ -90,6 +96,12 @@ var html = html`
  * JSON Templates
  */
 
+var json = json` { "key": "value" } `
+/*             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js - source.json.embedded */
+/*              ^^^^^^^^^^^^^^^^^^^^ source.json.embedded.js */
+/*                                  ^ string.quoted.other.js punctuation.definition.string.end.js - source.json.embedded */
+
 var json = json`
 /*         ^^^^ variable.function.tagged-template */
 /*             ^^ meta.string.js string.quoted.other.js */
@@ -136,6 +148,12 @@ var json = json`
  * JavaScript Templates
  */
 
+var script = js` var = 0 `
+/*             ^^^^^^^^^^^ meta.string.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js - source.js.embedded */
+/*              ^^^^^^^^^ source.js.embedded.js */
+/*                       ^ string.quoted.other.js punctuation.definition.string.end.js - source.js.embedded */
+
 var script = js`
 /*           ^^ variable.function.tagged-template */
 /*             ^^ meta.string.js string.quoted.other.js */
@@ -156,6 +174,13 @@ var script = js`
 /*
  * CSS Templates
  */
+
+
+var style = css` tr {  } `
+/*             ^^^^^^^^^^^ meta.string.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js - source.css.embedded */
+/*              ^^^^^^^^^ source.css.embedded.js */
+/*                       ^ string.quoted.other.js punctuation.definition.string.end.js - source.css.embedded */
 
 var style = css`
 /*          ^^^ variable.function.tagged-template */
