@@ -1224,6 +1224,50 @@ contexts:
     - include: string-content
 
   literal-string-template:
+    - match: (css)(\`)
+      scope: meta.string.js
+      captures:
+        1: constant.other.language-name.js
+        2: string.quoted.other.js punctuation.definition.string.begin.js
+      embed: scope:source.css.js-template
+      embed_scope: meta.string.js source.css.embedded.js
+      escape: \`
+      escape_captures:
+        0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
+      pop: 1
+    - match: (html)(\`)
+      scope: meta.string.js
+      captures:
+        1: constant.other.language-name.js
+        2: string.quoted.other.js punctuation.definition.string.begin.js
+      embed: scope:text.html.js-template
+      embed_scope: meta.string.js text.html.embedded.js
+      escape: \`
+      escape_captures:
+        0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
+      pop: 1
+    - match: (js)(\`)
+      scope: meta.string.js
+      captures:
+        1: constant.other.language-name.js
+        2: string.quoted.other.js punctuation.definition.string.begin.js
+      embed: scope:source.js.js-template
+      embed_scope: meta.string.js source.js.embedded.js
+      escape: \`
+      escape_captures:
+        0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
+      pop: 1
+    - match: (json)(\`)
+      scope: meta.string.js
+      captures:
+        1: constant.other.language-name.js
+        2: string.quoted.other.js punctuation.definition.string.begin.js
+      embed: scope:source.json.js-template
+      embed_scope: meta.string.js source.json.embedded.js
+      escape: \`
+      escape_captures:
+        0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
+      pop: 1
     - match: \`
       scope: punctuation.definition.string.begin.js
       set: literal-string-template-content
@@ -1252,11 +1296,20 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.js
     - meta_content_scope: source.js.embedded
+    - include: text-interpolation-content
+
+  text-interpolations:
+    - match: \$\{
+      scope: punctuation.section.interpolation.begin.js
+      push: text-interpolation-content
+
+  text-interpolation-content:
+    - meta_scope: meta.interpolation.js
+    - meta_content_scope: source.js.embedded
     - match: \}
       scope: punctuation.section.interpolation.end.js
       pop: 1
-    - match: (?=\S)
-      push: expression
+    - include: expressions
 
   regexp-complete:
     - match: '/'
