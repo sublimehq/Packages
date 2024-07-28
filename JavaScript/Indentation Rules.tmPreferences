@@ -12,6 +12,8 @@
 			(?:
 			# dedent closing braces
 			  \}
+			# dedent closing tagged templates
+			| `
 			# detent `case ... :`
 			| case\b
 			# detent `default:`
@@ -27,6 +29,8 @@
 			# indent after opening braces (may be followed by whitespace or comments)
 			# but exclude lines such as `extern "C" {`
 			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			# indent after opening tagged template: e.g.: "css`"
+			| .* \w+ \s* `
 			# indent after `case ... :`
 			| case\b
 			# indent after `default:`
