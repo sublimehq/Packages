@@ -180,3 +180,36 @@ var style = css`
 /*^^ meta.string.js source.css.embedded.js */
 /*  ^ meta.string.js string.quoted.other.js punctuation.definition.string.end.js - source.css */
 /*   ^ - meta.string */
+
+/*
+ * Unknown Template
+ */
+
+var other = other`
+/*          ^^^^^^^ meta.string.js */
+/*          ^^^^^ constant.other.language-name.js */
+/*               ^ punctuation.definition.string.begin.js */
+/*                ^ string.quoted.other.js */
+    Any content ${type}.
+/* ^^^^^^^^^^^^^ meta.string.js string.quoted.other.js */
+/*              ^^^^^^^ meta.string.js meta.interpolation.js - string */
+/*                     ^^ meta.string.js string.quoted.other.js */
+    `
+/* <- meta.string.js string.quoted.other.js */
+/*^^^ meta.string.js string.quoted.other.js */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string */
+
+var other = `
+/*          ^^ meta.string.js */
+/*          ^ punctuation.definition.string.begin.js */
+/*           ^ string.quoted.other.js */
+    Any content ${type}.
+/* ^^^^^^^^^^^^^ meta.string.js string.quoted.other.js */
+/*              ^^^^^^^ meta.string.js meta.interpolation.js - string */
+/*                     ^^ meta.string.js string.quoted.other.js */
+    `
+/* <- meta.string.js string.quoted.other.js */
+/*^^^ meta.string.js string.quoted.other.js */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string */

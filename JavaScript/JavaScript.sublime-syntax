@@ -1268,8 +1268,10 @@ contexts:
       escape_captures:
         0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
-    - match: \`
-      scope: punctuation.definition.string.begin.js
+    - match: ({{identifier_name}})?(\`)
+      captures:
+        1: constant.other.language-name.js
+        2: punctuation.definition.string.begin.js
       set: literal-string-template-content
 
   literal-string-template-content:
