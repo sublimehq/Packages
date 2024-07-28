@@ -5,9 +5,8 @@
  */
 
 var html = html`
-/*         ^^^^^^ meta.string.js */
-/*         ^^^^ constant.other.language-name.js */
-/*             ^ punctuation.definition.string.begin.js */
+/*         ^^^^ variable.function.tagged-template */
+/*             ^ meta.string.js punctuation.definition.string.begin.js */
 
     <script type="text/javascript">
         var ${name} = "Value ${interpol}"
@@ -90,9 +89,8 @@ var html = html`
  */
 
 var json = json`
-/*         ^^^^^^ meta.string.js */
-/*         ^^^^ constant.other.language-name.js */
-/*             ^ punctuation.definition.string.begin.js */
+/*         ^^^^ variable.function.tagged-template */
+/*             ^ meta.string.js punctuation.definition.string.begin.js */
     {
 /*  ^ meta.string.js source.json.embedded.js meta.mapping.json punctuation.section.mapping.begin.json */
 
@@ -135,9 +133,8 @@ var json = json`
  */
 
 var script = js`
-/*           ^^^^ meta.string.js */
-/*           ^^ constant.other.language-name.js */
-/*             ^ punctuation.definition.string.begin.js */
+/*           ^^ variable.function.tagged-template */
+/*             ^ meta.string.js punctuation.definition.string.begin.js */
 
     var ${name} = "Value ${interpol}"
 /*      ^^^^^^^ meta.interpolation.js */
@@ -155,9 +152,8 @@ var script = js`
  */
 
 var style = css`
-/*          ^^^^^ meta.string.js */
-/*          ^^^ constant.other.language-name.js */
-/*             ^ punctuation.definition.string.begin.js */
+/*          ^^^ variable.function.tagged-template */
+/*             ^ meta.string.js punctuation.definition.string.begin.js */
 /*              ^ source.css.embedded.js */
 
     tr, .${sel} {
@@ -186,10 +182,8 @@ var style = css`
  */
 
 var other = other`
-/*          ^^^^^^^ meta.string.js */
-/*          ^^^^^ constant.other.language-name.js */
-/*               ^ punctuation.definition.string.begin.js */
-/*                ^ string.quoted.other.js */
+/*          ^^^^^ variable.function.tagged-template */
+/*               ^ meta.string.js punctuation.definition.string.begin.js */
     Any content ${type}.
 /* ^^^^^^^^^^^^^ meta.string.js string.quoted.other.js */
 /*              ^^^^^^^ meta.string.js meta.interpolation.js - string */

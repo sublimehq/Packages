@@ -1011,8 +1011,7 @@ contexts:
         - include: decorator-name
         - include: object-property
 
-    - match: (?=`)
-      push: literal-string-template
+    - include: literal-string-templates
 
     - match: (?={{function_call_after_lookahead}})
       push: function-call-arguments
@@ -1078,8 +1077,7 @@ contexts:
   left-expression-end:
     - include: expression-break
 
-    - match: (?=`)
-      push: literal-string-template
+    - include: literal-string-templates
 
     - match: '{{function_call_after_lookahead}}'
       push: function-call-arguments
@@ -1223,62 +1221,62 @@ contexts:
       pop: 1
     - include: string-content
 
+  literal-string-templates:
+    - match: (?=(?:{{identifier_name}}\s*)?`)
+      push: literal-string-template
+
   literal-string-template:
-    - match: (css)(\`)
-      scope: meta.string.js
+    - match: (css)\s*(\`)
       captures:
-        1: constant.other.language-name.js
-        2: string.quoted.other.js punctuation.definition.string.begin.js
+        1: variable.function.tagged-template.js
+        2: meta.string.js string.quoted.other.js punctuation.definition.string.begin.js
       embed: scope:source.css.js-template
       embed_scope: meta.string.js source.css.embedded.js
       escape: \`
       escape_captures:
         0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
-    - match: (html)(\`)
-      scope: meta.string.js
+    - match: (html)\s*(\`)
       captures:
-        1: constant.other.language-name.js
-        2: string.quoted.other.js punctuation.definition.string.begin.js
+        1: variable.function.tagged-template.js
+        2: meta.string.js string.quoted.other.js punctuation.definition.string.begin.js
       embed: scope:text.html.js-template
       embed_scope: meta.string.js text.html.embedded.js
       escape: \`
       escape_captures:
         0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
-    - match: (js)(\`)
-      scope: meta.string.js
+    - match: (js)\s*(\`)
       captures:
-        1: constant.other.language-name.js
-        2: string.quoted.other.js punctuation.definition.string.begin.js
+        1: variable.function.tagged-template.js
+        2: meta.string.js string.quoted.other.js punctuation.definition.string.begin.js
       embed: scope:source.js.js-template
       embed_scope: meta.string.js source.js.embedded.js
       escape: \`
       escape_captures:
         0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
-    - match: (json)(\`)
-      scope: meta.string.js
+    - match: (json)\s*(\`)
       captures:
-        1: constant.other.language-name.js
-        2: string.quoted.other.js punctuation.definition.string.begin.js
+        1: variable.function.tagged-template.js
+        2: meta.string.js string.quoted.other.js punctuation.definition.string.begin.js
       embed: scope:source.json.js-template
       embed_scope: meta.string.js source.json.embedded.js
       escape: \`
       escape_captures:
         0: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
-    - match: ({{identifier_name}})?(\`)
+    - match: (?:({{identifier_name}})\s*)?(\`)
       captures:
-        1: constant.other.language-name.js
-        2: punctuation.definition.string.begin.js
+        1: variable.function.tagged-template.js
+        2: meta.string.js string.quoted.other.js punctuation.definition.string.begin.js
       set: literal-string-template-content
 
   literal-string-template-content:
     - meta_include_prototype: false
-    - meta_scope: meta.string.js string.quoted.other.js
+    - meta_content_scope: meta.string.js string.quoted.other.js
     - match: \`
-      scope: punctuation.definition.string.end.js
+      scope: meta.string.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
     - include: string-interpolations
     - include: string-content
@@ -2143,9 +2141,7 @@ contexts:
         - function-name-meta
         - literal-variable-base
 
-    - match: '{{identifier_name}}(?={{nothing}}`)'
-      scope: variable.function.tagged-template.js
-      pop: 1
+    - include: literal-string-template
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
@@ -2578,9 +2574,7 @@ contexts:
     - match: '(?=#?{{identifier_name}}{{function_call_after_lookahead}})'
       set: call-method-name
 
-    - match: '{{identifier_name}}(?={{nothing}}`)'
-      scope: variable.function.tagged-template.js
-      pop: 1
+    - include: literal-string-template
 
     - include: object-property-base
     - include: else-pop
