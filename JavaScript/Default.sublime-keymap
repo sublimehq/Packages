@@ -33,7 +33,7 @@
         ]
     },
 
-    // Add indented line in backquotes
+    // Add indented line in backticks
     { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n\t$0\n"}, "context":
         [
             { "key": "setting.auto_indent" },
