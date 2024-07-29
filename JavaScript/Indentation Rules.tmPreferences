@@ -3,13 +3,13 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.js - source.js meta.mapping - source.js meta.sequence,
+		source.js - source.js meta.mapping - source.js meta.sequence - source.js meta.string,
 		source.js meta.function,
-		source.jsx - source.jsx meta.mapping - source.jsx meta.sequence,
+		source.jsx - source.jsx meta.mapping - source.jsx meta.sequence - source.jsx meta.string,
 		source.jsx meta.function,
-		source.ts - source.ts meta.mapping - source.ts meta.sequence,
+		source.ts - source.ts meta.mapping - source.ts meta.sequence - source.ts meta.string,
 		source.ts meta.function,
-		source.tsx - source.tsx meta.mapping - source.tsx meta.sequence
+		source.tsx - source.tsx meta.mapping - source.tsx meta.sequence - source.tsx meta.string,
 		source.tsx meta.function
 	</string>
 	<key>settings</key>
@@ -41,7 +41,7 @@
 			# but exclude lines such as `extern "C" {`
 			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
 			# indent after opening tagged template: e.g.: "css`"
-			| .* \w+ \s* `
+			# see: Indentation Rules - Template Strings.tmPreferences
 			# indent after `case ... :`
 			| case\b.*:
 			# indent after `default:`

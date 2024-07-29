@@ -1061,6 +1061,8 @@ function testWhileIndentationWithBracesAndComments(v)  {
  * CSS Templates
  */
 
+var style = css`tr{color:red}`;
+
 var style = css`
     tr, p {
         background: red solid;
@@ -1070,6 +1072,8 @@ var style = css`
 /*
  * HTML Templates
  */
+
+var html = html`<p>${content}</p>`;
 
 var html = html`
     <head>
@@ -1105,6 +1109,8 @@ var html = html`
  * JavaScript Templates
  */
 
+var script = js`console.log(${string})`;
+
 var script = js`
     var ${name} = "Value ${interpol}"
 
@@ -1116,6 +1122,8 @@ var script = js`
 /*
  * JSON Templates
  */
+
+var json = json`{"key": "value"}`;
 
 var json = json`
     {
@@ -1133,3 +1141,48 @@ var json = json`
         }
     }
 `
+
+/*
+ * Other Templates
+ */
+
+var other = other`template ${string}`;
+
+var other = other`
+    # Heading
+
+    My ${pragraph}!
+`
+
+/*
+ * Plain String Templates
+ */
+
+`single line template string`
+
+`
+    multi line template strings
+    ignore normal JavaScript indentation rules
+
+    switch (${var}) {
+        case "foo":
+        break;
+                case "bar":
+                    break;
+    case "baz":
+        break;
+    }
+`
+
+function print(var) {
+    return `
+        switch (${var}) {
+            case "foo":
+            break;
+                    case "bar":
+                        break;
+        case "baz":
+            break;
+        }
+    `;
+}
