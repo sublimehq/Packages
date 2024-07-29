@@ -8840,8 +8840,7 @@ alias
 
 alias foo=bar
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell
-#    ^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^ meta.declaration.alias.shell
 #            ^ - meta.declaration.alias
 #     ^^^ meta.variable.shell entity.name.function.shell
 #        ^ keyword.operator.assignment.shell
@@ -8849,8 +8848,7 @@ alias foo=bar
 
 alias foo=bar -p 7za=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell
-#    ^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.shell
 #                       ^ - meta.declaration.alias
 #     ^^^ meta.variable.shell entity.name.function.shell
 #        ^ keyword.operator.assignment.shell
@@ -8862,8 +8860,7 @@ alias foo=bar -p 7za=qux
 
 alias -p foo=bar 7za=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell
-#    ^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.shell
 #                       ^ - meta.declaration.alias
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^^ meta.variable.shell entity.name.function.shell
@@ -8875,8 +8872,7 @@ alias -p foo=bar 7za=qux
 
 alias -a -p -- foo=bar baz=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.shell
 #                             ^ - meta.declaration.alias
 #     ^^ invalid.illegal.parameter.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -8890,8 +8886,7 @@ alias -a -p -- foo=bar baz=qux
 
 alias $foo=bar
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell
-#    ^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^ meta.declaration.alias.shell
 #             ^ - meta.declaration.alias
 #     ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #         ^ keyword.operator.assignment.shell
@@ -8899,16 +8894,16 @@ alias $foo=bar
 
 alias ..='cd ..'
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell keyword.declaration.alias.shell
-#    ^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^^^ meta.declaration.alias.shell
+#^^^^ keyword.declaration.alias.shell
 #     ^^ meta.variable.shell entity.name.function.shell
 #       ^ keyword.operator.assignment.shell
 #        ^^^^^^^ meta.string.shell string.quoted.single.shell
 
 alias -p ..='cd ..'
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell keyword.declaration.alias.shell
-#    ^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^^^^^^ meta.declaration.alias.shell
+#^^^^ keyword.declaration.alias.shell
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.variable.shell entity.name.function.shell
 #          ^ keyword.operator.assignment.shell
@@ -8916,8 +8911,8 @@ alias -p ..='cd ..'
 
 alias -- -='cd -'
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
-#^^^^ meta.declaration.alias.shell keyword.declaration.alias.shell
-#    ^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#^^^^^^^^^^^^^^^^ meta.declaration.alias.shell
+#^^^^ keyword.declaration.alias.shell
 #     ^^ keyword.operator.end-of-options.shell
 #        ^ meta.variable.shell entity.name.function.shell
 #         ^ keyword.operator.assignment.shell

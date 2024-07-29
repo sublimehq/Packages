@@ -479,16 +479,14 @@ contexts:
 
   cmd-alias:
     - match: alias{{cmd_break}}
-      scope:
-        meta.declaration.alias.shell
-        keyword.declaration.alias.shell
+      scope: keyword.declaration.alias.shell
       push:
         - cmd-alias-args-meta
         - cmd-alias-args
 
   cmd-alias-args-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.declaration.alias.arguments.shell
+    - meta_scope: meta.declaration.alias.shell
     - include: immediately-pop
 
   cmd-alias-args:
