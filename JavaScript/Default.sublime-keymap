@@ -33,6 +33,26 @@
         ]
     },
 
+    // Add indented line in backquotes
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n\t$0\n"}, "context":
+        [
+            { "key": "setting.auto_indent" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "meta.string.template.js" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "`$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
+        ]
+    },
+    { "keys": ["keypad_enter"], "command": "insert_snippet", "args": {"contents": "\n\t$0\n"}, "context":
+        [
+            { "key": "setting.auto_indent" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "meta.string.template.js" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "`$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
+        ]
+    },
+
     // Auto-pair interpolation
     { "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
         [
