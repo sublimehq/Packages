@@ -605,16 +605,14 @@ contexts:
 
   cmd-declare:
     - match: (declare|local|typeset){{cmd_break}}
-      scope:
-        meta.declaration.variable.shell
-        keyword.declaration.variable.shell
+      scope: keyword.declaration.variable.shell
       push:
         - cmd-declare-args-meta
         - cmd-declare-args
 
   cmd-declare-args-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.declaration.variable.arguments.shell
+    - meta_scope: meta.declaration.variable.shell
     - include: immediately-pop
 
   cmd-declare-args:
@@ -795,17 +793,10 @@ contexts:
 
   cmd-readonly:
     - match: readonly{{cmd_break}}
-      scope:
-        meta.declaration.variable.shell
-        keyword.declaration.variable.shell
+      scope: keyword.declaration.variable.shell
       push:
-        - cmd-readonly-args-meta
+        - cmd-declare-args-meta
         - cmd-readonly-args
-
-  cmd-readonly-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.declaration.variable.arguments.shell
-    - include: immediately-pop
 
   cmd-readonly-args:
     # options contain -f => function declarations (wins over -A)

@@ -8931,51 +8931,44 @@ declare             # comment
 #                   ^^^^^^^^^^ comment.line.number-sign.shell
 
 declare foo         # 'foo' is a variable name
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #          ^ - variable.other.readwrite
 #                  ^ - meta.declaration.variable
 
 declare foo|       # '|' terminates statement
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #          ^ keyword.operator
 
 declare foo |      # '|' terminates statement
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #           ^ keyword.operator
 
 declare foo&       # '&' terminates statement
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #          ^ keyword.operator
 
 declare foo &      # '&' terminates statement
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #           ^ keyword.operator
 
 declare foo ;     # ';' terminates statement
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #           ^ punctuation.terminator.statement.shell
 
 declare foo; bar=baz # 2nd statement after ';'
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #^^^^^^ keyword.declaration.variable.shell
@@ -8988,8 +8981,7 @@ declare foo; bar=baz # 2nd statement after ';'
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 declare foo==bar baz =buz  # assignment must immediately follow a variable
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                        ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #      ^ - variable
@@ -9003,9 +8995,8 @@ declare foo==bar baz =buz  # assignment must immediately follow a variable
 #                        ^ - variable
 
 declare foo=<input.txt
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^ meta.declaration.variable.arguments.shell
-#           ^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.redirection.shell
+#^^^^^^^^^^^ meta.declaration.variable.shell - meta.redirection
+#           ^^^^^^^^^^ meta.declaration.variable.shell meta.redirection.shell
 #                     ^ - meta.declaration
 # <- keyword.declaration.variable.shell
 #       ^^^ variable.other.readwrite.shell
@@ -9016,8 +9007,8 @@ declare foo=<input.txt
 # string value with pattern expansion
 declare bar=\
 foo?bar+2*baz/$buz # comment
-# <- meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
-#^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
+# <- meta.declaration.variable.shell meta.string.shell string.unquoted.shell
+#^^^^^^^^^^^^^ meta.declaration.variable.shell meta.string.shell string.unquoted.shell
 #             ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
 #                 ^ - meta.declaration
 #                  ^^^^^^^^^^ comment.line.number-sign.shell
@@ -9025,8 +9016,8 @@ foo?bar+2*baz/$buz # comment
 # simple arithmetic expression value
 declare -i bar=\
 foo?bar+2*baz/$buz # comment
-# <- meta.declaration.variable.arguments.shell meta.variable.shell variable.other.readwrite.shell
-#^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+# <- meta.declaration.variable.shell meta.variable.shell variable.other.readwrite.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                 ^ - meta.declaration
 #^^ meta.variable.shell variable.other.readwrite.shell
 #  ^ - meta.variable - variable
@@ -9042,7 +9033,7 @@ foo?bar+2*baz/$buz # comment
 # indexed array with string values
 declare bar=\
 (foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                                          ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
 #^^^ meta.string.shell string.unquoted.shell
@@ -9069,7 +9060,7 @@ declare bar=\
 # indexed array with string values
 declare -a bar=\
 (foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                                          ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
 #^^^ meta.string.shell string.unquoted.shell
@@ -9096,9 +9087,8 @@ declare -a bar=\
 # indexed array with arithmetic values
 declare -ai bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                                                                          ^ - meta.declaration
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -9128,9 +9118,8 @@ declare -ai bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # co
 # indexed array with arithmetic values
 declare -ia bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                                                                          ^ - meta.declaration
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -9160,9 +9149,8 @@ declare -ia bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # co
 # indexed array with arithmetic values
 declare -a -i bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                                                                            ^ - meta.declaration
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -9193,9 +9181,8 @@ declare -a -i bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # 
 # indexed array with arithmetic values
 declare -i -a bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # comment
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                                                                            ^ - meta.declaration
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -9226,9 +9213,8 @@ declare -i -a bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # 
 # associative array with implicit keys and string values
 declare -A var=(key1 1+2 key2 4-foo key3 val%10)
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #               ^^^^ meta.item-access.shell entity.name.key.shell
 #                        ^^^^ meta.item-access.shell entity.name.key.shell
 #                                   ^^^^ meta.item-access.shell entity.name.key.shell
@@ -9245,9 +9231,8 @@ declare -A var=(key1 1+2 key2 4-foo key3 val%10)
 # associative array with implicit keys and arithmetic values
 declare -Ai var=(key1 1+2 key2 4-foo key3 val%10)
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                ^^^^ meta.item-access.shell entity.name.key.shell
 #                         ^^^^ meta.item-access.shell entity.name.key.shell
 #                                    ^^^^ meta.item-access.shell entity.name.key.shell
@@ -9269,9 +9254,8 @@ declare -Ai var=(key1 1+2 key2 4-foo key3 val%10)
 # associative array with implicit keys and arithmetic values
 declare -iA var=(key1 1+2 key2 4-foo key3 val%10)
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                ^^^^ meta.item-access.shell entity.name.key.shell
 #                         ^^^^ meta.item-access.shell entity.name.key.shell
 #                                    ^^^^ meta.item-access.shell entity.name.key.shell
@@ -9293,9 +9277,8 @@ declare -iA var=(key1 1+2 key2 4-foo key3 val%10)
 # associative array with implicit keys and arithmetic values
 declare -A -i var=(key1 1+2 key2 4-foo key3 val%10)
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^ meta.declaration.variable.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                  ^^^^ meta.item-access.shell entity.name.key.shell
 #                           ^^^^ meta.item-access.shell entity.name.key.shell
 #                                      ^^^^ meta.item-access.shell entity.name.key.shell
@@ -9317,9 +9300,8 @@ declare -A -i var=(key1 1+2 key2 4-foo key3 val%10)
 # associative array with implicit keys and arithmetic values
 declare -i -A var=(key1 1+2 key2 4-foo key3 val%10)
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                  ^^^^ meta.item-access.shell entity.name.key.shell
 #                           ^^^^ meta.item-access.shell entity.name.key.shell
 #                                      ^^^^ meta.item-access.shell entity.name.key.shell
@@ -9342,41 +9324,40 @@ declare -i -A var=(key1 1+2 key2 4-foo key3 val%10)
 # (implicitly turned into an associative array, if keys are strings)
 declare -a owners=(
     # dogs
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell comment.line.number-sign.shell
     [susan]=labrador
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
-#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
     # cats
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell comment.line.number-sign.shell
     [terry]=tabby
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
-#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
 )
 
 # associative array with string values with explicit keys
 declare -A owners=(
     # dogs
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell comment.line.number-sign.shell
     [susan]=labrador
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
-#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
     # cats
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell comment.line.number-sign.shell
     [terry]=tabby
-#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.item-access.shell
-#          ^ meta.declaration.variable.arguments.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#   ^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.item-access.shell
+#          ^ meta.declaration.variable.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
+#           ^^^^^ meta.declaration.variable.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
 )
 
 # associative array with explicit keys and arithmetic values
 declare -iA var=(
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^^^^^ meta.declaration.variable.arguments.shell
-#               ^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#               ^^ meta.declaration.variable.shell meta.sequence.list.shell
   [foo]=1+2
 # ^^^^^ meta.item-access.shell
 # ^ punctuation.section.item-access.begin.shell
@@ -9414,29 +9395,28 @@ declare -iA var=(
 #       ^^^^ invalid.illegal.unexpected-token.shell
 
 )
-# <- meta.declaration.variable.arguments.shell meta.sequence.list.shell punctuation.section.sequence.end.shell
+# <- meta.declaration.variable.shell meta.sequence.list.shell punctuation.section.sequence.end.shell
 #^ - meta
 
 # function declarations
 
 declare -f =
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #          ^ entity.name.function.shell
 
 declare -f ==cmd
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#      ^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #          ^^^^^ entity.name.function.shell
 
 declare -f _init_completion > /dev/null && complete -F _upto upto
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                      ^^^^ - meta.declaration - meta.function-call
 #                                          ^^^^^^^^ meta.function-call.identifier.shell
 #                                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -9802,9 +9782,9 @@ local+=
 
 local foo bar       # 'foo' and 'bar' are variable names
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#    ^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^ meta.declaration.variable.shell
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.variable
+#^^^^ keyword.declaration.variable.shell
 #    ^ - variable
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ - variable
@@ -9813,8 +9793,8 @@ local foo bar       # 'foo' and 'bar' are variable names
 
 local foo bar='baz' # 'foo' and 'bar' are variable names
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#    ^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^ keyword.declaration.variable.shell
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.variable
 #    ^ - variable
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
@@ -9827,8 +9807,8 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 
 local foo+=10 bar-=true
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#    ^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^ keyword.declaration.variable.shell
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^^ keyword.operator.assignment.shell
 #          ^^ meta.string.shell string.unquoted.shell
@@ -9838,23 +9818,22 @@ local foo+=10 bar-=true
 
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ keyword.operator.assignment.shell
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
 
 local -fn foo
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-#    ^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^ keyword.declaration.variable.shell
 #     ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^ meta.variable.shell entity.name.function.shell
 
 f() {
     local -a "$@"
-    #^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
-    #    ^^^^^^^^ meta.declaration.variable.arguments.shell
+    #^^^^^^^^^^^^ meta.declaration.variable.shell
     # <- keyword.declaration.variable.shell
     #^^^^ keyword.declaration.variable.shell
     #     ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -9906,8 +9885,7 @@ f() {
 
 readonly foo        # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^ meta.declaration.variable.shell
 #           ^ - meta.declaration.variable
 #^^^^^^^ keyword.declaration.variable.shell
 #       ^ - storage - variable
@@ -9917,7 +9895,7 @@ readonly foo        # 'foo' is a variable name
 # indexed array with string values
 readonly bar=\
 (foo b*$r b-20 'b?r' "b*z" [100]=val <input.txt) # comment
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                               ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
 #^^^ meta.string.shell string.unquoted.shell
@@ -9942,7 +9920,7 @@ readonly bar=\
 # indexed array with string values
 readonly -a bar=\
 (foo b*$r b-20 'b?r' "b*z" [100]=val <input.txt) # comment
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                               ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
 #^^^ meta.string.shell string.unquoted.shell
@@ -9967,9 +9945,8 @@ readonly -a bar=\
 # associative array with implicit keys and string values
 readonly -A var=(key1 1+2 key2 4-foo key3 val%10)
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^^^^^ meta.declaration.variable.arguments.shell - meta.sequence
-#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.list.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell - meta.sequence
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.sequence.list.shell
 #                ^^^^ meta.item-access.shell entity.name.key.shell
 #                         ^^^^ meta.item-access.shell entity.name.key.shell
 #                                    ^^^^ meta.item-access.shell entity.name.key.shell
@@ -9985,8 +9962,7 @@ readonly -A var=(key1 1+2 key2 4-foo key3 val%10)
 
 readonly -A -f foo   # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                 ^ - meta.declaration.variable
 #^^^^^^^ keyword.declaration.variable.shell
 #       ^ - storage - variable
@@ -9999,8 +9975,7 @@ readonly -A -f foo   # 'foo' is a variable name
 
 readonly -Af foo     # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #               ^ - meta.declaration.variable
 #^^^^^^^ keyword.declaration.variable.shell
 #       ^ - storage - variable
@@ -10011,8 +9986,7 @@ readonly -Af foo     # 'foo' is a variable name
 
 readonly -f -A foo   # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                 ^ - meta.declaration.variable
 #^^^^^^^ keyword.declaration.variable.shell
 #       ^ - storage - variable
@@ -10025,8 +9999,7 @@ readonly -f -A foo   # 'foo' is a variable name
 
 readonly -fA foo     # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #               ^ - meta.declaration.variable
 #^^^^^^^ keyword.declaration.variable.shell
 #       ^ - storage - variable
@@ -10037,8 +10010,7 @@ readonly -fA foo     # 'foo' is a variable name
 
 readonly -f foo      # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^^ meta.declaration.variable.shell
-#       ^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #              ^ - meta.declaration.variable
 #^^^^^^^ keyword.declaration.variable.shell
 #       ^ - storage - variable
@@ -10051,9 +10023,9 @@ foo=`readonly x=5`
 # <- variable.other.readwrite
 #   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
 #    ^^^^^^^^ meta.interpolation.command.shell keyword.declaration.variable.shell
-#             ^ meta.interpolation.command.shell variable.other.readwrite
-#              ^ meta.interpolation.command.shell keyword.operator.assignment
-#               ^ meta.interpolation.command.shell meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
+#             ^ meta.interpolation.command.shell variable.other.readwrite.shell
+#              ^ meta.interpolation.command.shell keyword.operator.assignment.shell
+#               ^ meta.interpolation.command.shell meta.string.shell string.unquoted.shell
 #                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 
@@ -10064,8 +10036,7 @@ foo=`readonly x=5`
 
 typeset foo         # 'foo' is a variable name
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration.variable
 #^^^^^^ keyword.declaration.variable.shell
 #      ^ - storage - variable
@@ -10075,8 +10046,7 @@ typeset foo         # 'foo' is a variable name
 
 typeset -f _init_completion > /dev/null && complete -F _upto upto
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
-#^^^^^^ meta.declaration.variable.shell
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                      ^^^^ - meta.declaration - meta.function-call
 #                                          ^^^^^^^^ meta.function-call.identifier.shell
 #                                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
