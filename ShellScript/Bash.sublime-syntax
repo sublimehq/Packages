@@ -1470,7 +1470,7 @@ contexts:
 
   for-args:
     - meta_include_prototype: false
-    - include: line-continuations
+    - include: eoc-pop
     - match: \(\(
       scope: punctuation.section.arithmetic.begin.shell
       set: cmd-arithmetic-body

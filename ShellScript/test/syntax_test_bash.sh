@@ -920,6 +920,20 @@ do$var
  do+=
 #^^^^ - keyword.control
 
+for
+var in $vars;
+# <- - variable.other
+#^^ - variable.other
+#^^^^^^^^^^^ meta.function-call
+
+for \
+var in $vars;
+#<-  variable.other.readwrite.shell
+#^^ variable.other.readwrite.shell
+#   ^^ keyword.control.in.shell
+#      ^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#           ^ punctuation.terminator.statement.shell
+
 for done
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
