@@ -9,116 +9,184 @@ scope: commands.builtin.shell.bash
 version: 2
 hidden: true
 contexts:
-  main:
-  - match: ''
+  main: []
   cmd-builtins:
   - match: bind{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.bind.shell
-    push: cmd-bind-args
+    push:
+    - cmd-args-meta
+    - cmd-bind-args
   - match: builtin{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.builtin.shell
-    push: cmd-builtin-args
+    push:
+    - cmd-args-meta
+    - cmd-builtin-args
   - match: caller{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.caller.shell
-    push: cmd-caller-args
+    push:
+    - cmd-args-meta
+    - cmd-caller-args
   - match: :{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.colon.shell
-    push: cmd-colon-args
+    push:
+    - cmd-args-meta
+    - cmd-colon-args
   - match: command{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.command.shell
-    push: cmd-command-args
+    push:
+    - cmd-args-meta
+    - cmd-command-args
   - match: cd{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.cd.shell
-    push: cmd-cd-args
+    push:
+    - cmd-args-meta
+    - cmd-cd-args
   - match: \.{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.dot.shell
-    push: cmd-dot-args
+    push:
+    - cmd-args-meta
+    - cmd-dot-args
   - match: enable{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.enable.shell
-    push: cmd-enable-args
+    push:
+    - cmd-args-meta
+    - cmd-enable-args
   - match: help{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.help.shell
-    push: cmd-help-args
+    push:
+    - cmd-args-meta
+    - cmd-help-args
   - match: logout{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.logout.shell
-    push: cmd-logout-args
+    push:
+    - cmd-args-meta
+    - cmd-logout-args
   - match: mapfile{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.mapfile.shell
-    push: cmd-mapfile-args
+    push:
+    - cmd-args-meta
+    - cmd-mapfile-args
   - match: printf{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.printf.shell
-    push: cmd-printf-args
+    push:
+    - cmd-args-meta
+    - cmd-printf-args
   - match: read{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.read.shell
-    push: cmd-read-args
+    push:
+    - cmd-args-meta
+    - cmd-read-args
   - match: readarray{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.readarray.shell
-    push: cmd-readarray-args
+    push:
+    - cmd-args-meta
+    - cmd-readarray-args
   - match: source{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.source.shell
-    push: cmd-source-args
+    push:
+    - cmd-args-meta
+    - cmd-source-args
   - match: type{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.type.shell
-    push: cmd-type-args
+    push:
+    - cmd-args-meta
+    - cmd-type-args
   - match: ulimit{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.ulimit.shell
-    push: cmd-ulimit-args
+    push:
+    - cmd-args-meta
+    - cmd-ulimit-args
   - match: eval{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.eval.shell
-    push: cmd-eval-args
+    push:
+    - cmd-args-meta
+    - cmd-eval-args
   - match: getopts{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.getopts.shell
-    push: cmd-getopts-args
+    push:
+    - cmd-args-meta
+    - cmd-getopts-args
   - match: hash{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.hash.shell
-    push: cmd-hash-args
+    push:
+    - cmd-args-meta
+    - cmd-hash-args
   - match: pwd{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.pwd.shell
-    push: cmd-pwd-args
+    push:
+    - cmd-args-meta
+    - cmd-pwd-args
   - match: shift{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.shift.shell
-    push: cmd-shift-args
+    push:
+    - cmd-args-meta
+    - cmd-shift-args
   - match: times{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.times.shell
-    push: cmd-times-args
+    push:
+    - cmd-args-meta
+    - cmd-times-args
   - match: trap{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.trap.shell
-    push: cmd-trap-args
+    push:
+    - cmd-args-meta
+    - cmd-trap-args
   - match: umask{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.umask.shell
-    push: cmd-umask-args
+    push:
+    - cmd-args-meta
+    - cmd-umask-args
   - match: set{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.set.shell
-    push: cmd-set-args
+    push:
+    - cmd-args-meta
+    - cmd-set-args
   - match: shopt{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.shopt.shell
-    push: cmd-shopt-args
+    push:
+    - cmd-args-meta
+    - cmd-shopt-args
   - match: bg{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.bg.shell
-    push: cmd-bg-args
+    push:
+    - cmd-args-meta
+    - cmd-bg-args
   - match: fg{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.fg.shell
-    push: cmd-fg-args
+    push:
+    - cmd-args-meta
+    - cmd-fg-args
   - match: jobs{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.jobs.shell
-    push: cmd-jobs-args
+    push:
+    - cmd-args-meta
+    - cmd-jobs-args
   - match: kill{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.kill.shell
-    push: cmd-kill-args
+    push:
+    - cmd-args-meta
+    - cmd-kill-args
   - match: wait{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.wait.shell
-    push: cmd-wait-args
+    push:
+    - cmd-args-meta
+    - cmd-wait-args
   - match: disown{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.disown.shell
-    push: cmd-disown-args
+    push:
+    - cmd-args-meta
+    - cmd-disown-args
   - match: suspend{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.suspend.shell
-    push: cmd-suspend-args
+    push:
+    - cmd-args-meta
+    - cmd-suspend-args
   - match: su{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.su.shell
-    push: cmd-su-args
+    push:
+    - cmd-args-meta
+    - cmd-su-args
   cmd-bind-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[lpsvPSVX]*[mqurfx]
@@ -132,21 +200,17 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-builtin-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-caller-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-colon-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-values
   cmd-command-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[pVv]+
@@ -155,7 +219,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-cd-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[LPe@]
@@ -165,11 +228,9 @@ contexts:
     push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-dot-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-values
   cmd-enable-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dnps]*[af]
@@ -183,7 +244,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-help-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dms]+
@@ -192,12 +252,10 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-logout-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-mapfile-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dnOstuCc]
@@ -207,7 +265,6 @@ contexts:
     push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-printf-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[v]
@@ -217,7 +274,6 @@ contexts:
     push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-read-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[ers]*[adeinNprstu]
@@ -231,7 +287,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-readarray-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[ers]*[adeinNprstu]
@@ -245,12 +300,10 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-source-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-type-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[afptP]+
@@ -259,7 +312,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-ulimit-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[HSabcdefiklmnpqrstuvxPT]+
@@ -268,16 +320,13 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-eval-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-values
   cmd-getopts-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-hash-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[dt]*[rpl]
@@ -291,7 +340,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-pwd-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[LP]+
@@ -300,16 +348,13 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-shift-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-values
   cmd-times-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-trap-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[lp]+
@@ -318,7 +363,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-umask-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[pS]
@@ -328,7 +372,6 @@ contexts:
     push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-set-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[abefhkmnptuvxBCEHPT]*[o]
@@ -342,7 +385,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-shopt-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[pqsu]*[o]
@@ -356,17 +398,14 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-bg-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-fg-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - include: cmd-args-values
   cmd-jobs-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[lnprs]*[x]
@@ -380,27 +419,22 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-kill-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[snlL]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
-    push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-wait-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[fnp]+
     scope: meta.parameter.option.shell variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
-    push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-disown-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[ar]*[h]
@@ -414,7 +448,6 @@ contexts:
       1: punctuation.definition.parameter.shell
   - include: cmd-args-values
   cmd-suspend-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[f]
@@ -424,7 +457,6 @@ contexts:
     push: cmd-args-option-maybe-value
   - include: cmd-args-values
   cmd-su-args:
-  - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-end
   - include: cmd-args-end-of-options-then-ambigious
   - match: ([-+])[mp]*[-cls]

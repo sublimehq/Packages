@@ -9,7 +9,7 @@ def main():
 
     main = []
     contexts = {
-        "main": [{"match": ''}],
+        "main": [],
         "cmd-builtins": main
     }
 
@@ -17,9 +17,7 @@ def main():
         if not value:
             value = {}
 
-        cmd_args = [{"meta_content_scope": "meta.function-call.arguments.shell"}]
-
-        cmd_args.append({"include": "cmd-args-end"})
+        cmd_args = [{"include": "cmd-args-end"}]
 
         allow_eoo = value.get("allow-end-of-options-token", True)
         if allow_eoo:
@@ -72,7 +70,7 @@ def main():
         main.append({
             "match": match,
             "scope": scope,
-            "push": f"cmd-{command}-args"
+            "push": ["cmd-args-meta", f"cmd-{command}-args"]
         })
 
     commands_output = {

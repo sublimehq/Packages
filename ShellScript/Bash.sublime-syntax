@@ -361,7 +361,9 @@ contexts:
     - meta_scope: meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
     - match: \}
       scope: punctuation.section.block.end.shell
-      set: cmd-args
+      set:
+        - cmd-args-meta
+        - cmd-args
     - include: statements
 
 ###[ FUNCTION DEFINITIONS ]####################################################
@@ -789,13 +791,8 @@ contexts:
         meta.function-call.identifier.shell
         support.function.export.shell
       push:
-        - cmd-export-args-meta
+        - cmd-args-meta
         - cmd-export-args
-
-  cmd-export-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
 
   cmd-export-args:
     - match: ([-+])n?fn?{{opt_break}}
@@ -1062,13 +1059,8 @@ contexts:
         meta.function-call.identifier.shell
         support.function.unalias.shell
       push:
-        - cmd-unalias-args-meta
+        - cmd-args-meta
         - cmd-unalias-args
-
-  cmd-unalias-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
 
   cmd-unalias-args:
     - match: ([-+])a{{opt_break}}
@@ -1087,13 +1079,8 @@ contexts:
         meta.function-call.identifier.shell
         support.function.unset.shell
       push:
-        - cmd-unset-args-meta
+        - cmd-args-meta
         - cmd-unset-args
-
-  cmd-unset-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
 
   cmd-unset-args:
     - match: ([-+])[nv]?f[nv]?{{opt_break}}
@@ -1182,15 +1169,21 @@ contexts:
     - include: line-continuations
     - include: path-pattern-content
     - match: '{{cmd_break}}'
-      set: cmd-args
+      set:
+        - cmd-args-meta
+        - cmd-args
 
   cmd-args:
     - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-end
     - include: cmd-args-end-of-options-then-ambigious
     - include: cmd-args-options
     - include: cmd-args-values
+
+  cmd-args-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: immediately-pop
 
   cmd-args-end:
     - include: redirections
@@ -1243,12 +1236,12 @@ contexts:
   cmd-args-end-of-options-then-ambigious:
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
-      push: cmd-args-ambigious
+      set: cmd-args-ambigious
 
   cmd-args-ambigious:
     - meta_include_prototype: false
     - include: redirections
-    - include: eoc-pop2
+    - include: eoc-pop
     - include: cmd-args-values
 
   cmd-args-end-of-options-then-function-declarations:
@@ -3099,19 +3092,9 @@ contexts:
       pop: 1
     - include: eol-pop
 
-  eoc-pop2:
-    - match: (?=\s*(?:[)}|;]|&(?!>)))
-      pop: 2
-    - include: eol-pop2
-
   eol-pop:
     - match: (?=\s*$|\s+#)
       pop: 1
-    - include: line-continuations
-
-  eol-pop2:
-    - match: (?=\s*$|\s+#)
-      pop: 2
     - include: line-continuations
 
   immediately-pop:
