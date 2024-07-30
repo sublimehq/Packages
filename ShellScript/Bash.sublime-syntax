@@ -526,7 +526,7 @@ contexts:
     - include: immediately-pop
 
   cmd-alias-args:
-    - match: ([-+])p
+    - match: ([-+])p{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -898,14 +898,14 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-assignment
-    - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]
+    - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-value
-    - match: ([-+])[AbEeHiKklnPSsUuVv]+
+    - match: ([-+])[AbEeHiKklnPSsUuVv]+{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
