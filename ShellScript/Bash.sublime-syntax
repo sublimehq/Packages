@@ -557,51 +557,24 @@ contexts:
 
   cmd-arithmetic:
     - match: \(\(
-      scope: punctuation.section.arithmetic.begin.shell
+      scope: punctuation.section.compound.begin.shell
       push: cmd-arithmetic-body
     - match: let{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.let.shell
+      scope: meta.function-call.identifier.shell support.function.let.shell
       push: cmd-arithmetic-args
 
   cmd-arithmetic-body:
-    - meta_scope: meta.arithmetic.shell
+    - meta_scope: meta.compound.arithmetic.shell
+    - meta_content_scope: meta.arithmetic.shell
     - match: \)\)
-      scope: punctuation.section.arithmetic.end.shell
+      scope: punctuation.section.compound.end.shell
       pop: 1
-    - include: expressions
+    - include: expression-content
 
   cmd-arithmetic-args:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - match: \"
-      scope:
-        meta.string.shell string.quoted.double.shell
-        punctuation.definition.string.begin.shell
-      embed: cmd-arithmetic-args-quoted-commen
-      embed_scope: meta.string.shell meta.interpolation.shell
-      escape: '{{no_escape_behind}}"'
-      escape_captures:
-        0: meta.string.shell string.quoted.double.shell
-           punctuation.definition.string.end.shell
-    - match: \'
-      scope:
-        meta.string.shell string.quoted.single.shell
-        punctuation.definition.string.begin.shell
-      embed: cmd-arithmetic-args-quoted-commen
-      embed_scope: meta.string.shell meta.interpolation.shell
-      escape: '{{no_escape_behind}}'''
-      escape_captures:
-        0: meta.string.shell string.quoted.single.shell
-           punctuation.definition.string.end.shell
+    - meta_content_scope: meta.function-call.arguments.shell meta.arithmetic.shell
     - include: cmd-args-end
-    - include: cmd-test
-    - include: expressions
-
-  cmd-arithmetic-args-quoted-commen:
-    - include: line-continuations
-    - include: cmd-test
-    - include: expressions
+    - include: expression-content
 
 ###[ COPROC BUILTINS ]#########################################################
 
@@ -1472,7 +1445,7 @@ contexts:
     - meta_include_prototype: false
     - include: eoc-pop
     - match: \(\(
-      scope: punctuation.section.arithmetic.begin.shell
+      scope: punctuation.section.compound.begin.shell
       set: cmd-arithmetic-body
     - match: (?=\S)
       set: loop-iterator-var
@@ -1504,12 +1477,12 @@ contexts:
   arithmetic-array-value:
     # maybe indexed array of or single arithmetic expression value
     - meta_include_prototype: false
-    - include: line-continuations
     - match: \(
       scope: punctuation.section.sequence.begin.shell
       set: arithmetic-explicit-mapping-body
-    - match: ''
-      set: arithmetic-value-body
+    - include: line-continuations
+    - include: arithmetic-word
+    - include: immediately-pop
 
   arithmetic-mapping-value-assignment:
     # maybe variable subscripts followed by value assignment
@@ -1524,12 +1497,12 @@ contexts:
   arithmetic-mapping-value:
     # maybe associative of or single arithmetic expression value
     - meta_include_prototype: false
-    - include: line-continuations
     - match: \(
       scope: punctuation.section.sequence.begin.shell
       set: arithmetic-mapping-begin
-    - match: ''
-      set: arithmetic-value-body
+    - include: line-continuations
+    - include: arithmetic-word
+    - include: immediately-pop
 
   arithmetic-mapping-begin:
     - meta_scope: meta.sequence.list.shell
@@ -1546,9 +1519,8 @@ contexts:
     - include: list-end
     - include: comments
     - include: explicit-mapping-keys
-    - include: arithmetic-operators
-    - include: numbers
-    - include: variables
+    - match: (?=[[:alnum:]_'"])
+      push: arithmetic-word
     - include: illegal-words
 
   arithmetic-implicit-mapping-body:
@@ -1568,16 +1540,7 @@ contexts:
   arithmetic-implicit-mapping-value:
     - include: line-continuations
     - include: comments
-    - match: '{{word_begin}}'
-      set: arithmetic-value-body
-
-  arithmetic-value-body:
-    - match: '{{word_break}}'
-      pop: 1
-    - include: line-continuations
-    - include: arithmetic-operators
-    - include: numbers
-    - include: variables
+    - include: arithmetic-word
 
 ###[ LITERAL VALUE ASSIGNMENTS ]###############################################
 
@@ -1691,12 +1654,93 @@ contexts:
       scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
 
-###[ EXPRESSIONS ]#############################################################
+###[ ARITHMETIC EXPRESSIONS ]##################################################
 
-  expressions:
+  arithmetic-word:
+    # A `word` which is interpreted as arithmetic expression
+    - match: \"
+      scope: punctuation.definition.quoted.begin.shell
+      set: arithmetic-word-double-quoted-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      set: arithmetic-word-single-quoted-body
+    - match: '{{word_begin}}'
+      set: arithmetic-word-unquoted-body
+
+  arithmetic-word-double-quoted-body:
+    - meta_scope: meta.arithmetic.shell
+    - include: expression-double-quoted-body
+
+  arithmetic-word-single-quoted-body:
+    - meta_scope: meta.arithmetic.shell
+    - include: expression-single-quoted-body
+
+  arithmetic-word-unquoted-body:
+    - meta_scope: meta.arithmetic.shell
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: expression-group-body
+    - include: expression-common
+    - match: '{{word_break}}'
+      pop: 1
+
+  expression-content:
+    # arithmetic expression content without word boundary checks
+    - match: \"
+      scope: punctuation.definition.quoted.begin.shell
+      push: expression-double-quoted-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      push: expression-single-quoted-body
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-group-body
+    - include: expression-common
+
+  expression-double-quoted-body:
+    - match: \"
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-double-quoted-group-body
+    - include: expression-common
+
+  expression-double-quoted-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - match: (?=")
+      pop: 1
+    - include: expression-common
+
+  expression-single-quoted-body:
+    - match: \'
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-single-quoted-group-body
+    - include: expression-common
+
+  expression-single-quoted-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - match: (?=')
+      pop: 1
+    - include: expression-common
+
+  expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: expression-common
+
+  expression-common:
     # multi char operators
     - match: '[-+*/%&|^]=|<<=|>>='
       scope: keyword.operator.assignment.augmented.shell
@@ -1707,31 +1751,43 @@ contexts:
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
     # single char operators
+    - match: '[-+*/%]'
+      scope: keyword.operator.arithmetic.shell
     - match: '='
       scope: keyword.operator.assignment.shell
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.shell
-    - match: ;
-      scope: punctuation.terminator.statement.shell
     - match: \,
       scope: punctuation.separator.sequence.shell
     - match: \:|\?
       scope: keyword.operator.ternary.shell
-    - include: arithmetic-operators
+    - include: terminators
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
     - include: booleans
     - include: numbers
-    - include: variables
+    - include: expression-variables
+    - include: expression-illegals
 
-  expression-group-body:
-    - meta_scope: meta.group.shell
-    - match: \)
-      scope: punctuation.section.group.end.shell
+  expression-illegals:
+    - match: '{{word_char}}'
+      scope: invalid.illegal.unexpected-token.shell
+
+  expression-variables:
+    # variables within arithmetic expressions must not contain quotes
+    - match: (?=[{{identifier_first_char}}$%])
+      push:
+        - variable-subscription
+        - expression-variable-chars
+
+  expression-variable-chars:
+    - meta_scope: variable.other.readwrite.shell
+    - include: line-continuations
+    - include: string-interpolations
+    - match: '{{identifier_break}}'
       pop: 1
-    - include: expressions
 
 ###[ OPERATORS ]###############################################################
 
@@ -1748,10 +1804,6 @@ contexts:
     - meta_include_prototype: false
     - match: ^
       pop: 1
-
-  arithmetic-operators:
-    - match: '[-+*/%]'
-      scope: keyword.operator.arithmetic.shell
 
   operators:
     - match: \|\||\&\&|\!(?!\S)
@@ -2642,7 +2694,7 @@ contexts:
     - match: \)\)
       scope: punctuation.section.interpolation.end.shell
       pop: 1
-    - include: expressions
+    - include: expression-content
 
 ###[ BRACE EXPANSIONS ]########################################################
 
@@ -2918,14 +2970,16 @@ contexts:
     - include: variable-subscriptions
 
   expansion-parameter-substr-start:
+    - meta_content_scope: meta.arithmetic.shell
     - match: ':'
       scope: keyword.operator.substring.end.shell
       set: expansion-parameter-expression
     - include: expansion-parameter-expression
 
   expansion-parameter-expression:
+    - meta_content_scope: meta.arithmetic.shell
     - include: expansion-parameter-end
-    - include: expressions
+    - include: expression-content
 
   expansion-parameter-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions
