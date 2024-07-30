@@ -238,6 +238,7 @@ contexts:
     - include: line-continuations
     - include: redirections
     - include: operators
+    - include: terminators
     - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
@@ -264,6 +265,7 @@ contexts:
   statement:
     - include: redirections
     - include: operators
+    - include: terminators
     - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
@@ -324,34 +326,65 @@ contexts:
     - match: \n
       pop: 1
 
-###[ FUNCTION DEFINITIONS ]####################################################
+###[ ANONYMOUS FUNCTION DEFINITIONS ]##########################################
 
   def-anonymous:
-    - match: (?=\(\s*\))
-      push:
-        - def-anonymous-body
-        - def-function-params
+    # anonymous functions are immediatelly called
+    # hence scoping as meta.function-call meta.function
+    - match: (\()\s*(\))
+      scope: meta.function-call.shell meta.function.anonymous.parameters.shell
+      captures:
+        1: punctuation.section.parameters.begin.shell
+        2: punctuation.section.parameters.end.shell
+      push: def-anonymous-body
+
+  def-anonymous-begin:
+    # anonymous functions are immediatelly called
+    # hence scoping as meta.function-call meta.function
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.shell meta.function.anonymous.shell
+    - match: ''
+      set: def-anonymous-body
 
   def-anonymous-body:
     - meta_include_prototype: false
-    - meta_scope: meta.function.shell
-    - include: def-function-body-braces
+    - meta_content_scope: meta.function-call.shell meta.function.anonymous.shell
+    - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
+      scope: punctuation.section.block.begin.shell
+      set: def-anonymous-block-body
+    - include: cmd-args-illegal-options
     - include: line-continuations
     - include: comments
     - include: else-pop
 
+  def-anonymous-block-body:
+    - meta_scope: meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
+    - match: \}
+      scope: punctuation.section.block.end.shell
+      set: cmd-args
+    - include: statements
+
+###[ FUNCTION DEFINITIONS ]####################################################
+
   def-functions:
     # [Bash] 3.3 Shell Functions
+    - match: function{{cmd_break}}
+      scope: keyword.declaration.function.shell
+      branch_point: function
+      branch:
+        - def-function-begin
+        - def-anonymous-begin
     - match: (?={{cmd_literal}}\s*\(\s*\))
       push:
         - def-function-body
         - def-function-params
         - def-function-name
-    - match: function{{cmd_break}}
-      scope:
-        meta.function.shell
-        keyword.declaration.function.shell
-      push:
+
+  def-function-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.shell
+    - match: ''
+      set:
         - def-function-body
         - def-function-params
         - def-function-name
@@ -360,8 +393,8 @@ contexts:
     - meta_include_prototype: false
     - match: '{{cmd_begin}}'
       set: def-function-name-chars
-    - include: else-pop
-    - include: eol-pop
+    - match: (?=\S)
+      fail: function
 
   def-function-name-chars:
     - meta_scope: entity.name.function.shell
@@ -383,10 +416,11 @@ contexts:
     - include: line-continuations
     - include: comments
     - include: else-pop
+    - include: eol-pop
 
   def-function-body:
     - meta_include_prototype: false
-    - meta_scope: meta.function.shell
+    - meta_content_scope: meta.function.shell
     - include: def-function-body-braces
     - include: def-function-body-parens
     - include: line-continuations
@@ -395,16 +429,14 @@ contexts:
 
   def-function-body-braces:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
-      scope: meta.block.shell punctuation.section.block.begin.shell
+      scope: punctuation.section.block.begin.shell
       set: def-function-body-braces-body
 
   def-function-body-braces-body:
-    - meta_content_scope: meta.function.shell meta.block.shell
+    - meta_scope: meta.function.body.shell meta.block.shell
     - match: \}
-      scope:
-        meta.function.shell meta.block.shell
-        punctuation.section.block.end.shell
-      pop: 1
+      scope: punctuation.section.block.end.shell
+      set: def-function-end
     - include: statements
 
   def-function-body-parens:
@@ -413,13 +445,15 @@ contexts:
       set: def-function-body-parens-body
 
   def-function-body-parens-body:
-    - meta_content_scope: meta.function.shell meta.block.shell
+    - meta_scope: meta.function.body.shell meta.block.shell
     - match: \)
-      scope:
-        meta.function.shell meta.block.shell
-        punctuation.section.block.end.shell
-      pop: 1
+      scope: punctuation.section.block.end.shell
+      set: def-function-end
     - include: statements
+
+  def-function-end:
+    - include: eoc-pop
+    - include: illegal-words
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
@@ -1731,6 +1765,8 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: \||\&
       scope: keyword.operator.assignment.pipe.shell
+
+  terminators:
     - match: ;
       scope: punctuation.terminator.statement.shell
 
