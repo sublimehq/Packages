@@ -556,7 +556,7 @@ contexts:
 ###[ ARITHMETIC BUILTINS ]#####################################################
 
   cmd-arithmetic:
-    - match: \(\((?=.+\)\))
+    - match: \(\(
       scope: punctuation.section.arithmetic.begin.shell
       push: cmd-arithmetic-body
     - match: let{{cmd_break}}
