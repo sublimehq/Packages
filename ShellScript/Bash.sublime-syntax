@@ -1335,8 +1335,8 @@ contexts:
     - match: else{{cmd_break}}
       scope: keyword.control.conditional.else.shell
     - match: case{{cmd_break}}
-      scope: keyword.control.conditional.case.shell
-      push: [case-meta, case-word]
+      scope: meta.statement.conditional.case.shell keyword.control.conditional.case.shell
+      push: case-word
     - match: esac{{cmd_break}}
       scope: keyword.control.conditional.end.shell
     # loops
@@ -1368,17 +1368,14 @@ contexts:
       scope: keyword.control.flow.return.shell
       push: flow-args
 
-  case-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.conditional.case.shell
-    - include: immediately-pop
-
   case-end:
     - match: esac{{cmd_break}}
       scope: keyword.control.conditional.end.shell
       pop: 1
 
   case-word:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.statement.conditional.case.word.shell
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
       set: case-body
@@ -1388,23 +1385,21 @@ contexts:
     - include: cmd-args-values
 
   case-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.conditional.case.shell
     - include: case-end
     - include: comments
     - match: \(|(?=\S)
-      scope: keyword.control.conditional.patterns.begin.shell
-      push:
-        - case-clause-commands
-        - case-clause-patterns
+      scope: meta.clause.pattern.shell punctuation.definition.pattern.begin.shell
+      push: case-clause-patterns
 
   case-clause-patterns:
-    - meta_scope: meta.patterns.shell
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
     - match: \)
-      scope: keyword.control.conditional.patterns.end.shell
-      pop: 1
+      scope: meta.clause.pattern.shell punctuation.definition.pattern.end.shell
+      set: case-clause-commands
     # emergency bail outs if ')' is missing
-    - match: (?=;;&?|;&)
-      pop: 1
+    - include: case-clause-end
     - include: line-continuations
     - include: case-clause-pattern-content
 
@@ -1424,11 +1419,15 @@ contexts:
     - include: case-clause-pattern-content
 
   case-clause-commands:
-    - match: ;;&?|;&
-      scope: punctuation.terminator.case.clause.shell
-      pop: 1
+    - meta_content_scope: meta.clause.body.shell
+    - include: case-clause-end
     - include: case-end-ahead
     - include: statements
+
+  case-clause-end:
+    - match: ;;&?|;&
+      scope: meta.clause.shell punctuation.terminator.clause.shell
+      pop: 1
 
   case-end-ahead:
     - match: (?=esac{{cmd_break}})
