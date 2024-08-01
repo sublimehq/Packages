@@ -3,6 +3,6 @@
 	${0:#statements}
 done]]></content>
 	<tabTrigger>while</tabTrigger>
-	<scope>source.shell.bash</scope>
+	<scope>source.shell.bash, source.shell.zsh</scope>
 	<description>while … done</description>
 </snippet>

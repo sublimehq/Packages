@@ -4,7 +4,7 @@
 	<key>scope</key>
 	<string>
 		source.shell,
-		meta.clause.body.shell
+		source.shell meta.clause.body
 	</string>
 	<key>settings</key>
 	<dict>
@@ -27,9 +27,10 @@
 			| .*  (?: [({\[] | \b(?: do | in | then )\b ) \s* (?: \#.* | \\ )? $
 			)
 		]]></string>
+		<key>bracketIndentNextLinePattern</key>
+		<string></string>
 		<key>disableIndentNextLinePattern</key>
 		<string><![CDATA[^\s*[{(]\s*$]]></string>
-
 		<key>indentParens</key>
 		<false/>
 		<key>indentSquareBrackets</key>

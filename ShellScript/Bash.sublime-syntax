@@ -11,7 +11,6 @@ file_extensions:
   - bash
   - bashrc    # e.g.: /etc/bash.bashrc
   - ash
-  - zsh
 
 hidden_file_extensions:
   - .bash_aliases
@@ -25,11 +24,6 @@ hidden_file_extensions:
   - .bashrc
   - .profile
   - .textmate_init
-  - .zlogin
-  - .zlogout
-  - .zprofile
-  - .zshenv
-  - .zshrc
   - APKBUILD  # https://wiki.alpinelinux.org/wiki/APKBUILD_Reference
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
@@ -37,16 +31,15 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b            # shebang
+    ^ \#! .* \b(bash|sh|tcsh|ash|dash)\b                # shebang
   | ^ \s* \# .*? -\*- .*? \bshell(-script)?\b .*? -\*-  # editorconfig
-  | ^ \#(autoload|compdef)\b                            # zsh completions
   )
 
 ###############################################################################
 
 variables:
   # Language identifier in shebang
-  shebang_language: \b(?:bash|zsh|sh|tcsh|ash|dash)\b
+  shebang_language: \b(?:bash|sh|tcsh|ash|dash)\b
 
   # Commands literals are command names without interpolation or quotation.
   cmd_literal: '{{cmd_literal_char}}+{{cmd_break}}'
@@ -94,7 +87,7 @@ variables:
     (?x: ascii | alnum | alpha | blank | cntrl | digit | graph
     | lower | print | punct | space | upper | word | xdigit )
 
-
+  digit: \d
   varassign: '[-+]?='
   wspace: (?:\s+|^)
 
@@ -2136,14 +2129,14 @@ contexts:
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
-    - match: (\d+#)([[:alnum:]@_]+)({{word_char}}*)
+    - match: (\d{{digit}}*#)([[:alnum:]@_]+)({{word_char}}*)
       scope: meta.number.integer.other.shell
       captures:
         1: constant.numeric.base.shell
         2: constant.numeric.value.shell
         3: invalid.illegal.shell
     # If base# is omitted, then base 10 is used.
-    - match: \d+(?![.\w])
+    - match: \d{{digit}}*(?![.\w])
       scope: meta.number.integer.decimal.shell constant.numeric.value.shell
 
   number:
@@ -2163,14 +2156,14 @@ contexts:
         2: constant.numeric.base.shell
         3: constant.numeric.value.shell
       pop: 1
-    - match: ([-+]?)(\d+#)([[:alnum:]@_]+){{word_break}}
+    - match: ([-+]?)(\d{{digit}}*#)([[:alnum:]@_]+){{word_break}}
       scope: meta.number.integer.other.she
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.base.shell
         3: constant.numeric.value.shell
     # If base# is omitted, then base 10 is used.
-    - match: ([-+]?)(\d+){{word_break}}
+    - match: ([-+]?)(\d{{digit}}*){{word_break}}
       scope: meta.number.integer.decimal.shell
       captures:
         1: keyword.operator.arithmetic.shell

@@ -73,6 +73,15 @@
                 <key>excludeTrailingNewlines</key>
                 <true/>
             </dict>
+            <dict>
+                <!-- ZSH -->
+                <key>begin</key>
+                <string>meta.statement.loop.foreach punctuation.section.sequence.end</string>
+                <key>end</key>
+                <string>keyword.control.loop.endforeach</string>
+                <key>excludeTrailingNewlines</key>
+                <true/>
+            </dict>
         </array>
     </dict>
 </dict>

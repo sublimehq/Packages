@@ -1,0 +1,3531 @@
+# SYNTAX TEST "Packages/ShellScript/Zsh.sublime-syntax"
+
+###############################################################################
+# 6 Shell Grammar                                                             #
+# https://zsh.sourceforge.io/Doc/Release/Shell-Grammar.html                   #
+###############################################################################
+
+# 6.1 Simple Commands & Pipelines
+
+echo foo
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^ meta.function-call.arguments.shell
+
+echo foo | sed 's/foo/bar/'
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^ meta.function-call
+#        ^ keyword.operator.assignment.pipe.shell
+#          ^^^^^^^^^^^^^^^^ meta.function-call
+#          ^^^ variable.function.shell
+#              ^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
+
+dmesg &| grep panic &! print yes
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^^ meta.function-call.identifier.shell variable.function.shell
+#     ^^ keyword.operator.assignment.pipe.shell
+#        ^^^^^^^^^^ meta.function-call
+#                   ^^ keyword.operator.assignment.pipe.shell
+#                      ^^^^^^^^^ meta.function-call
+
+# 6.2 Precommand Modifiers
+
+builtin cmd -a val
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
+#       ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#          ^^^^^^^ meta.function-call.arguments.shell
+
+exec -cl -a argv0
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+
+nocorrect cmd
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#         ^^^ meta.function-call.identifier.shell variable.function.shell
+
+noglob cmd **/file.txt
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
+#      ^^^ meta.function-call.identifier.shell variable.function.shell
+#         ^^^^^^^^^^^^ meta.function-call.arguments.shell
+
+# 6.3 Complex Commands
+
+if [[ -f ~./foo ]] echo 'yes' elif [[  ]] { echo 'no' } else { echo 'error' }
+# <- keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.conditional - meta.compound
+#                                                    ^^^ - meta.function-call
+#                                                     ^ invalid.illegal.stray.shell
+#                                                       ^^^^ keyword.control.conditional.else.shell
+#                                                            ^^^^^^^^^^^^^^^^ meta.block.shell
+
+# if list then list [ elif list then list ] ... [ else list ] fi
+if [[ -f ~./foo ]] echo 'oh'; echo 'yes'; elif [[  ]] echo 'oh' | echo ' no'; else echo 'error'; fi
+# <- keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                  ^^^^^^^^^ meta.function-call
+#                           ^ punctuation.terminator.statement.shell
+#                             ^^^^^^^^^^ meta.function-call
+#                                       ^ punctuation.terminator.statement.shell
+#                                         ^^^^ keyword.control.conditional.elseif.shell
+#                                              ^^^^^^ meta.compound.conditional.shell
+#                                                     ^^^^^^^^^ meta.function-call
+#                                                               ^ keyword.operator.assignment.pipe.shell
+#                                                                 ^^^^^^^^^^ meta.function-call
+#                                                                           ^ punctuation.terminator.statement.shell
+#                                                                             ^^^^ keyword.control.conditional.else.shell
+#                                                                                  ^^^^^^^^^^^^ meta.function-call
+#                                                                                              ^ punctuation.terminator.statement.shell
+#                                                                                                ^^ keyword.control.conditional.endif.shell
+
+# for name ... [ in word ... ] term do list done
+for name in word1 word2; do echo me; done
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^ variable.other.readwrite.shell
+#        ^^ keyword.operator.iterator.in.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+#                 ^^^^^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.terminator.statement.shell
+#                        ^^ keyword.control.loop.do.shell
+#                           ^^^^ meta.function-call.identifier.shell support.function.shell
+#                                ^^ meta.function-call.arguments.shell
+#                                  ^ punctuation.terminator.statement.shell
+#                                    ^^^^ keyword.control.loop.end.shell
+
+# for (( [expr1] ; [expr2] ; [expr3] )) do list done
+for (( i = 1; i < 10; i++ )) do echo $i; done
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#   ^^ punctuation.section.compound.begin.shell
+#      ^ variable.other.readwrite.shell
+#        ^ keyword.operator.assignment.shell
+#          ^ constant.numeric.value.shell
+#           ^ punctuation.terminator.statement.shell
+#             ^ variable.other.readwrite.shell
+#               ^ keyword.operator.comparison.shell
+#                 ^^ constant.numeric.value.shell
+#                   ^ punctuation.terminator.statement.shell
+#                     ^ variable.other.readwrite.shell
+#                      ^^ keyword.operator.arithmetic.shell
+#                         ^^ punctuation.section.compound.end.shell
+#                            ^^ keyword.control.loop.do.shell
+#                               ^^^^ meta.function-call.identifier.shell support.function.shell
+#                                   ^^^ meta.function-call.arguments.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^^^ keyword.control.loop.end.shell
+
+# repeat word do list done
+repeat $i+10 do echo .; done
+# <- meta.statement.loop.repeat.shell keyword.control.loop.repeat.shell
+#^^^^^^^^^^^ meta.statement.loop.repeat.shell
+#^^^^^ keyword.control.loop.repeat.shell
+#      ^^ variable.other.readwrite.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^^ keyword.control.loop.do.shell
+#               ^^^^^^ meta.function-call
+#                     ^ punctuation.terminator.statement.shell
+#                       ^^^^ keyword.control.loop.end.shell
+
+# until list do list done
+until (( i > 10 )) ; do echo $i; (( i += 1 )); done
+# <- keyword.control.loop.until.shell
+#^^^^ keyword.control.loop.until.shell
+#     ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                  ^ punctuation.terminator.statement.shell
+#                    ^^ keyword.control.loop.do.shell
+#                       ^^^^^^^ meta.function-call
+#                              ^ punctuation.terminator.statement.shell
+#                                ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                                            ^ punctuation.terminator.statement.shell
+#                                              ^^^^ keyword.control.loop.end.shell
+
+# while list do list done
+while (( i < 10 )) ; do echo $i; (( i += 1 )); done
+# <- keyword.control.loop.while.shell
+#^^^^ keyword.control.loop.while.shell
+#     ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                  ^ punctuation.terminator.statement.shell
+#                    ^^ keyword.control.loop.do.shell
+#                       ^^^^^^^ meta.function-call
+#                              ^ punctuation.terminator.statement.shell
+#                                ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                                            ^ punctuation.terminator.statement.shell
+#                                              ^^^^ keyword.control.loop.end.shell
+
+# select name [ in word ... term ] do list done
+select name in word1 word2; do echo $name; done
+# <- keyword.control.loop.select.shell
+#^^^^^ keyword.control.loop.select.shell
+#      ^^^^ variable.other.readwrite.shell
+#           ^^ keyword.operator.iterator.in.shell
+#              ^^^^^ meta.string.shell string.unquoted.shell
+#                    ^^^^^ meta.string.shell string.unquoted.shell
+#                         ^ punctuation.terminator.statement.shell
+#                           ^^ keyword.control.loop.do.shell
+#                              ^^^^^^^^^^ meta.function-call
+#                                        ^ punctuation.terminator.statement.shell
+#                                          ^^^^ keyword.control.loop.end.shell
+
+# ( list )   execute list in subshell
+(ls .) >1
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^^^ meta.compound.command.shell
+#    ^ punctuation.section.compound.end.shell
+#      ^ keyword.operator.assignment.redirection.shell
+#       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
+# { list }   execute list
+{ls .} >1
+# <- meta.block.shell punctuation.section.block.begin.shell
+#^^^^^ meta.block.shell
+#    ^ punctuation.section.block.end.shell
+#      ^ keyword.operator.assignment.redirection.shell
+#       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
+# { try-list } always { always-list }
+{ try-list } always { always-list }
+# <- meta.block.shell punctuation.section.block.begin.shell
+#^^^^^^^^^^^ meta.block.shell
+# ^^^^^^^^ variable.function.shell
+#          ^ punctuation.section.block.end.shell
+#            ^^^^^^ keyword.control.exception.always.shell
+#                   ^^^^^^^^^^^^^^^ meta.block.shell
+#                   ^ punctuation.section.block.begin.shell
+#                     ^^^^^^^^^^^ variable.function.shell
+#                                 ^ punctuation.section.block.end.shell
+
+# function [ -T ] word ... [ () ] [ term ] { list }
+function func { echo foo; }
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell keyword.declaration.function.shell
+#       ^ meta.function.shell - entity
+#        ^^^^ meta.function.identifier.shell entity.name.function.shell
+#            ^ meta.function.identifier.shell - entity
+#             ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
+#             ^ punctuation.section.block.begin.shell
+#               ^^^^^^^^ meta.function-call
+#                       ^ punctuation.terminator.statement.shell
+#                         ^ punctuation.section.block.end.shell
+
+function -T func { echo foo; }
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function.shell
+#          ^^^^^^ meta.function.identifier.shell
+#                ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ variable.parameter.option.shell
+#           ^^^^ entity.name.function.shell
+#                ^ punctuation.section.block.begin.shell
+#                  ^^^^^^^^ meta.function-call
+#                          ^ punctuation.terminator.statement.shell
+#                            ^ punctuation.section.block.end.shell
+
+function -T func; { echo foo; }
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function.shell
+#          ^^^^^ meta.function.identifier.shell
+#               ^^ meta.function.shell - meta.block
+#                 ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ variable.parameter.option.shell
+#           ^^^^ entity.name.function.shell
+#               ^ punctuation.terminator.statement.shell
+#                 ^ punctuation.section.block.begin.shell
+#                   ^^^^^^^^ meta.function-call
+#                           ^ punctuation.terminator.statement.shell
+#                             ^ punctuation.section.block.end.shell
+
+function -T func() { echo foo; }
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function.shell
+#          ^^^^^ meta.function.identifier.shell
+#               ^^ meta.function.parameters.shell
+#                 ^ meta.function.shell - meta.block
+#                  ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ variable.parameter.option.shell
+#           ^^^^ entity.name.function.shell
+#               ^ punctuation.section.parameters.begin.shell
+#                ^ punctuation.section.parameters.end.shell
+#                  ^ punctuation.section.block.begin.shell
+#                    ^^^^^^^^ meta.function-call
+#                            ^ punctuation.terminator.statement.shell
+#                              ^ punctuation.section.block.end.shell
+
+function -T func(); { echo foo; }
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function.shell
+#          ^^^^^ meta.function.identifier.shell
+#               ^^ meta.function.parameters.shell
+#                 ^^ meta.function.shell - meta.block
+#                   ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ variable.parameter.option.shell
+#           ^^^^ entity.name.function.shell
+#               ^ punctuation.section.parameters.begin.shell
+#                ^ punctuation.section.parameters.end.shell
+#                 ^ punctuation.terminator.statement.shell
+#                   ^ punctuation.section.block.begin.shell
+#                     ^^^^^^^^ meta.function-call
+#                             ^ punctuation.terminator.statement.shell
+#                               ^ punctuation.section.block.end.shell
+
+func() { ... } 2>&1
+# <- meta.function.identifier.shell entity.name.function.shell
+#^^^ meta.function.identifier.shell entity.name.function.shell
+#   ^^ meta.function.parameters.shell
+#     ^ meta.function.shell - meta.block
+#      ^^^^^^^ meta.function.body.shell meta.block.shell
+#      ^ punctuation.section.block.begin.shell
+#        ^^^ meta.function-call.identifier.shell variable.function.shell
+#            ^ punctuation.section.block.end.shell
+#             ^^^^^^ - meta.function
+#              ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^^ keyword.operator.assignment.redirection.shell
+#                 ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
+time cmd1 arg | cmd2 -t >1
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell
+#    ^^^^ meta.function-call.identifier.shell
+#        ^^^^ meta.function-call.arguments.shell
+#            ^^^ - meta.function-call
+#               ^^^^ meta.function-call.identifier.shell
+#                   ^^^^^^ meta.function-call.arguments.shell
+#    ^^^^ variable.function.shell
+#         ^^^ meta.string.shell string.unquoted.shell
+#             ^ keyword.operator.assignment.pipe.shell
+#               ^^^^ variable.function.shell
+#                    ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                       ^ keyword.operator.assignment.redirection.shell
+#                        ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
+# 6.4 Alternate Forms For Complex Commands
+
+if [[ -f ~./foo ]] { echo 'yes' } elif [[  ]] { echo 'no' } else { echo 'error' }
+# <- keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                  ^^^^^^^^^^^^^^ meta.block.shell
+#                                 ^^^^ keyword.control.conditional.elseif.shell
+#                                      ^^^^^^ meta.compound.conditional.shell
+#                                             ^^^^^^^^^^^^^ meta.block.shell
+#                                                           ^^^^ keyword.control.conditional.else.shell
+#                                                                ^^^^^^^^^^^^^^^^ meta.block.shell
+
+if [[ -f ~./foo ]] then { echo 'yes' } elif [[  ]] then { echo 'no' } else { echo 'error' }
+# <- keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                  ^^^^ keyword.control.conditional.then.shell
+#                       ^^^^^^^^^^^^^^ meta.block.shell
+#                                      ^^^^ keyword.control.conditional.elseif.shell
+#                                           ^^^^^^ meta.compound.conditional.shell
+#                                                  ^^^^ keyword.control.conditional.then.shell
+#                                                       ^^^^^^^^^^^^^ meta.block.shell
+#                                                                     ^^^^ keyword.control.conditional.else.shell
+#                                                                          ^^^^^^^^^^^^^^^^ meta.block.shell
+
+# for name ... ( word ... ) sublist
+for name ( word1 $word2 ) print $name
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^ variable.other.readwrite.shell
+#        ^^^^^^^^^^^^^^^^ meta.sequence.list.shell
+#        ^ punctuation.section.sequence.begin.shell
+#          ^^^^^ meta.string.shell string.unquoted.shell
+#                ^^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                       ^ punctuation.section.sequence.end.shell
+#                         ^^^^^^^^^^^ meta.function-call
+#                         ^^^^^ support.function.shell
+#                               ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+
+# for name ... [ in word ... ] term sublist
+for name in word1 word2; echo me;
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^ variable.other.readwrite.shell
+#        ^^ keyword.operator.iterator.in.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+#                 ^^^^^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.terminator.statement.shell
+#                        ^^^^ meta.function-call.identifier.shell support.function.shell
+#                             ^^ meta.function-call.arguments.shell
+#                               ^ punctuation.terminator.statement.shell
+
+# for (( [expr1] ; [expr2] ; [expr3] )) sublist
+for (( i = 1; i < 10; i++ )) echo $i;
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                            ^^^^^^^ meta.function-call
+#   ^^ punctuation.section.compound.begin.shell
+#      ^ variable.other.readwrite.shell
+#        ^ keyword.operator.assignment.shell
+#          ^ constant.numeric.value.shell
+#           ^ punctuation.terminator.statement.shell
+#             ^ variable.other.readwrite.shell
+#               ^ keyword.operator.comparison.shell
+#                 ^^ constant.numeric.value.shell
+#                   ^ punctuation.terminator.statement.shell
+#                     ^ variable.other.readwrite.shell
+#                      ^^ keyword.operator.arithmetic.shell
+#                         ^^ punctuation.section.compound.end.shell
+#                            ^^^^ support.function.shell
+#                                 ^^ variable.other.readwrite.shell
+#                                   ^ punctuation.terminator.statement.shell
+
+# foreach name ... ( word ... ) list end
+foreach name ( word1 word2 ) echo $name; end
+# <- meta.statement.loop.foreach.shell.zsh keyword.control.loop.foreach.shell.zsh
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.foreach.shell.zsh
+#^^^^^^ keyword.control.loop.foreach.shell.zsh
+#       ^^^^ variable.other.readwrite.shell
+#            ^^^^^^^^^^^^^^^ meta.sequence.list.shell.zsh
+#            ^ punctuation.section.sequence.begin.shell.zsh
+#              ^^^^^ meta.string.shell string.unquoted.shell
+#                    ^^^^^ meta.string.shell string.unquoted.shell
+#                          ^ punctuation.section.sequence.end.shell.zsh
+#                            ^^^^^^^^^^ meta.function-call
+#                            ^^^^ support.function.shell
+#                                 ^^^^^ variable.other.readwrite.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^^ keyword.control.loop.endforeach.shell.zsh
+
+foreach
+    name ( word1 word2 ) echo $name; end
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.statement.loop.foreach.shell.zsh
+#   ^^^^ variable.function.shell
+
+foreach \
+    name ( word1 word2 ) echo $name; end
+# ^^^^^^^ meta.statement.loop.foreach.shell.zsh - meta.sequence
+#        ^^^^^^^^^^^^^^^ meta.statement.loop.foreach.shell.zsh meta.sequence.list.shell.zsh
+#   ^^^^ variable.other.readwrite.shell
+#        ^ punctuation.section.sequence.begin.shell.zsh
+#          ^^^^^ meta.string.shell string.unquoted.shell
+#                ^^^^^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.section.sequence.end.shell.zsh
+
+foreach \
+    name \
+    ( word1 word2 ) echo $name; end
+#   ^^^^^^^^^^^^^^^ meta.statement.loop.foreach.shell.zsh meta.sequence.list.shell.zsh
+#   ^ punctuation.section.sequence.begin.shell.zsh
+#     ^^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^^ meta.string.shell string.unquoted.shell
+#                 ^ punctuation.section.sequence.end.shell.zsh
+#                   ^^^^^^^^^^ meta.function-call
+#                   ^^^^ support.function.shell
+#                        ^^^^^ variable.other.readwrite.shell
+#                             ^ punctuation.terminator.statement.shell
+#                               ^^^ keyword.control.loop.endforeach.shell.zsh
+
+foreach \
+    name \
+    (
+#   ^^ meta.statement.loop.foreach.shell.zsh meta.sequence.list.shell.zsh
+#   ^ punctuation.section.sequence.begin.shell.zsh
+        word1
+#       ^^^^^ meta.string.shell string.unquoted.shell
+        word2
+#       ^^^^^ meta.string.shell string.unquoted.shell
+    ) echo $name; end
+#   ^ meta.statement.loop.foreach.shell.zsh meta.sequence.list.shell.zsh punctuation.section.sequence.end.shell.zsh
+#     ^^^^^^^^^^ meta.function-call
+#     ^^^^ support.function.shell
+#          ^^^^^ variable.other.readwrite.shell
+#               ^ punctuation.terminator.statement.shell
+#                 ^^^ keyword.control.loop.endforeach.shell.zsh
+
+# repeat word sublist
+repeat $i+10 echo .;
+# <- meta.statement.loop.repeat.shell.zsh keyword.control.loop.repeat.shell.zsh
+#^^^^^^^^^^^ meta.statement.loop.repeat.shell.zsh
+#^^^^^ keyword.control.loop.repeat.shell.zsh
+#      ^^ variable.other.readwrite.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^^^^^^ meta.function-call
+#                  ^ punctuation.terminator.statement.shell
+
+# until list { list }
+until (( i > 10 )) { echo $i; (( i += 1 )); }
+# <- keyword.control.loop.until.shell
+#^^^^ keyword.control.loop.until.shell
+#     ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.shell
+#                  ^ punctuation.section.block.begin.shell
+#                    ^^^^^^^ meta.function-call
+#                           ^ punctuation.terminator.statement.shell
+#                             ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                                         ^ punctuation.terminator.statement.shell
+#                                           ^ punctuation.section.block.end.shell
+
+# while list do list done
+while (( i < 10 )) { echo $i; (( i += 1 )); }
+# <- keyword.control.loop.while.shell
+#^^^^ keyword.control.loop.while.shell
+#     ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.shell
+#                  ^ punctuation.section.block.begin.shell
+#                    ^^^^^^^ meta.function-call
+#                           ^ punctuation.terminator.statement.shell
+#                             ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                                         ^ punctuation.terminator.statement.shell
+#                                           ^ punctuation.section.block.end.shell
+
+# select name [ in word ... term ] do list done
+select name in word1 word2; do echo $name; done;
+# <- keyword.control.loop.select.shell
+#^^^^^ keyword.control.loop.select.shell
+#      ^^^^ variable.other.readwrite.shell
+#           ^^ keyword.operator.iterator.in.shell
+#              ^^^^^ meta.string.shell string.unquoted.shell
+#                    ^^^^^ meta.string.shell string.unquoted.shell
+#                         ^ punctuation.terminator.statement.shell
+#                           ^^ keyword.control.loop.do.shell
+#                              ^^^^^^^^^^ meta.function-call
+#                                        ^ punctuation.terminator.statement.shell
+#                                          ^^^^ keyword.control.loop.end.shell
+#                                              ^ punctuation.terminator.statement.shell
+
+# case word { [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... }
+case $word {
+# <- meta.statement.conditional.case.shell keyword.control.conditional.case.shell
+#^^^ meta.statement.conditional.case.shell
+#   ^^^^^^^ meta.statement.conditional.case.word.shell
+#          ^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh
+#^^^ keyword.control.conditional.case.shell
+#    ^^^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.block.begin.shell
+    pattern | pa*?ern )
+# ^^ meta.statement.conditional.case.body.shell
+#   ^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell
+#                     ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell - meta.string
+#           ^ keyword.operator.logical.regexp.shell
+#               ^ constant.other.wildcard.asterisk.shell
+#                ^ constant.other.wildcard.questionmark.shell
+#                     ^ punctuation.definition.pattern.end.shell
+        cmd -arg value;;
+#^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.body.shell
+#                     ^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.shell
+# ^^^^^^ - meta.function-call
+#       ^^^ meta.function-call.identifier.shell variable.function.shell
+#          ^^^^^^^^^^^ meta.function-call.arguments.shell
+#                     ^^ punctuation.terminator.clause.shell
+}
+# <- meta.statement.conditional.case.body.shell punctuation.section.block.end.shell
+
+###############################################################################
+# 7 Redirection                                                               #
+# https://zsh.sourceforge.io/Doc/Release/Redirection.html#Redirection         #
+###############################################################################
+
+# Open file word for reading as standard input. It is an error to open a file
+# in this fashion if it does not exist.
+: < word
+# ^^^^^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+
+# Open file word for reading and writing as standard input. If the file does
+# not exist then it is created.
+: <> word
+# ^^^^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+
+# Open file word for writing as standard output. If the file does not exist
+# then it is created.
+: > word >| word >! word
+# ^^^^^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#        ^^^^^^^ meta.redirection.shell
+#        ^^ keyword.operator.assignment.redirection.shell
+#                ^^^^^^^ meta.redirection.shell
+#                ^^ keyword.operator.assignment.redirection.shell
+
+# Open file word for writing in append mode as standard output. If the file
+# does not exist, and the CLOBBER and APPEND_CREATE options are both unset,
+# this causes an error; otherwise, the file is created.
+: >> word  >>| word >>! word
+# ^^^^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^ meta.redirection.shell
+#          ^^^ keyword.operator.assignment.redirection.shell
+#                   ^^^^^^^^ meta.redirection.shell
+#                   ^^^ keyword.operator.assignment.redirection.shell
+
+# The shell input is read up to a line that is the same as word, or to an
+# end-of-file.
+: << word
+# ^^ keyword.operator.assignment.redirection.shell
+#    ^^^^^ meta.string.heredoc.shell
+#    ^^^^ entity.name.tag.heredoc.shell
+word
+# <- entity.name.tag.heredoc.shell
+
+# Perform shell expansion on word and pass the result to standard input.
+: <<< word
+# ^^^ keyword.operator.herestring.shell
+#     ^^^^ meta.string.shell string.unquoted.shell
+
+# The standard input/output is duplicated from file descriptor number (see dup2(2)).
+: <& 1 >& 1
+# ^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#      ^^^^ meta.redirection.shell
+#      ^^ keyword.operator.assignment.redirection.shell
+
+# Close the standard input/output.
+: <& - >& -
+# ^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#      ^^^^ meta.redirection.shell
+#      ^^ keyword.operator.assignment.redirection.shell
+
+# Redirects both standard output and standard error (file descriptor 2) in the
+# manner of ‘>| word’.
+: >&| word >&! word &>| word &>! word
+# ^^^^^^^^ meta.redirection.shell
+# ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^ meta.redirection.shell
+#          ^^^ keyword.operator.assignment.redirection.shell
+#                   ^^^^^^^^ meta.redirection.shell
+#                   ^^^ keyword.operator.assignment.redirection.shell
+#                            ^^^^^^^^ meta.redirection.shell
+#                            ^^^ keyword.operator.assignment.redirection.shell
+
+# Redirects both standard output and standard error (file descriptor 2) in the
+# manner of ‘>> word’.
+: >>& word &>> word
+# ^^^^^^^^ meta.redirection.shell
+# ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^ meta.redirection.shell
+#          ^^^ keyword.operator.assignment.redirection.shell
+
+# Redirects both standard output and standard error (file descriptor 2) in the
+# manner of ‘>>| word’.
+: >>&| word >>&! word &>>| word &>>! word
+# ^^^^^^^^^ meta.redirection.shell
+# ^^^^ keyword.operator.assignment.redirection.shell
+#           ^^^^^^^^^ meta.redirection.shell
+#           ^^^^ keyword.operator.assignment.redirection.shell
+#                     ^^^^^^^^^ meta.redirection.shell
+#                     ^^^^ keyword.operator.assignment.redirection.shell
+#                               ^^^^^^^^^ meta.redirection.shell
+#                               ^^^^ keyword.operator.assignment.redirection.shell
+
+
+###############################################################################
+# 8 Command Execution                                                         #
+###############################################################################
+
+cmd
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#  ^ - meta.function
+
+/path/to/app
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.separator.path.shell
+#^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#           ^ - meta.function
+
+./.bin/app
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell constant.other.path.self.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ punctuation.separator.path.shell
+# ^ - constant
+#     ^ punctuation.separator.path.shell
+
+../.bin/app
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell constant.other.path.parent.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#^ constant.other.path.parent.shell
+# ^ punctuation.separator.path.shell
+#  ^ - constant
+#      ^ punctuation.separator.path.shell
+
+
+###############################################################################
+# 9 Functions                                                                 #
+# https://zsh.sourceforge.io/Doc/Release/Functions.html#Functions             #
+###############################################################################
+
+function name () echo "$0 called with $*!"
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^ meta.function.shell
+#        ^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^ meta.function.shell
+#                ^^^^ meta.function.body.shell meta.function-call.identifier.shell
+#                    ^ meta.function.body.shell meta.function-call.arguments.shell
+#                     ^^^^^^^^^^^^^^^^^^^^ meta.function.body.shell meta.function-call.arguments.shell meta.string.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^^^^ support.function.shell
+
+
+###############################################################################
+# 9.1 Autoloading Functions                                                   #
+# https://zsh.sourceforge.io/Doc/Release/Functions.html#Autoloading-Functions #
+###############################################################################
+
+function -u func;
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function.shell
+#          ^^^^^ meta.function.identifier.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ variable.parameter.option.shell
+#           ^^^^ entity.name.function.shell
+
+typeset -fu func;
+# <- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#       ^^^ variable.parameter.option.shell
+#           ^^^^ entity.name.function.shell
+
+autoload +X
+# <- meta.function-call.identifier.shell support.function.shell.zsh
+#^^^^^^^ meta.function-call.identifier.shell support.function.shell.zsh
+#       ^^^ meta.function-call.arguments.shell
+#        ^^ variable.parameter.option.shell
+
+fpath=(~/myfuncs $fpath)
+autoload myfunc1 myfunc2
+# <- meta.function-call.identifier.shell support.function.shell.zsh
+#^^^^^^^ meta.function-call.identifier.shell support.function.shell.zsh
+#       ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#        ^^^^^^^ variable.function.shell
+#                ^^^^^^^ variable.function.shell
+
+
+###############################################################################
+# 9.2 Anonymous Functions                                                     #
+# https://zsh.sourceforge.io/Doc/Release/Functions.html#Anonymous-Functions   #
+###############################################################################
+
+   ()
+#^^ - meta.function-call - meta.function
+#  ^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+#    ^ meta.function-call.shell meta.function.anonymous.shell
+
+   ()
+   {}
+# ^^^ meta.function-call.shell
+# ^ meta.function.anonymous.shell - meta.block
+#  ^^ meta.function.anonymous.body.shell meta.block.shell
+#    ^ - meta.function
+#  ^ punctuation.section.block.begin.shell
+#   ^ punctuation.section.block.end.shell
+
+   () \
+   {}
+# ^^^ meta.function-call.shell
+# ^ meta.function.anonymous.shell - meta.block
+#  ^^ meta.function.anonymous.body.shell meta.block.shell
+#    ^ - meta.function
+#  ^ punctuation.section.block.begin.shell
+#   ^ punctuation.section.block.end.shell
+
+  () ; {
+# ^^^^^^^ meta.function-call.shell
+# ^^ meta.function.anonymous.parameters.shell
+#   ^^^ meta.function.anonymous.shell
+#      ^^ meta.function.anonymous.body.shell meta.block.shell
+# ^ punctuation.section.parameters.begin.shell
+#  ^ punctuation.section.parameters.end.shell
+#    ^ punctuation.terminator.statement.shell
+#      ^ punctuation.section.block.begin.shell
+  local variable=inside
+# ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell meta.declaration.variable.shell
+  print "I am $variable with arguments $*"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
+} this and that
+# <- meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell punctuation.section.block.end.shell
+#^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.shell string.unquoted.shell
+#          ^^^^ meta.string.shell string.unquoted.shell
+
+function {} arg
+# <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^ meta.function.anonymous.shell
+#        ^^ meta.function.anonymous.body.shell meta.block.shell
+#          ^^^^ meta.function-call.arguments.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ punctuation.section.block.begin.shell
+#         ^ punctuation.section.block.end.shell
+#           ^^^ meta.string.shell string.unquoted.shell
+
+function -U {} arg
+# <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^^^^ meta.function.anonymous.shell
+#           ^^ meta.function.anonymous.body.shell meta.block.shell
+#             ^^^^ meta.function-call.arguments.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ invalid.illegal.parameter.shell
+#           ^ punctuation.section.block.begin.shell
+#            ^ punctuation.section.block.end.shell
+#              ^^^ meta.string.shell string.unquoted.shell
+
+function ; {} arg
+# <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^^^ meta.function.anonymous.shell
+#          ^^ meta.function.anonymous.body.shell meta.block.shell
+#            ^^^^ meta.function-call.arguments.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ punctuation.terminator.statement.shell
+#          ^ punctuation.section.block.begin.shell
+#           ^ punctuation.section.block.end.shell
+#             ^^^ meta.string.shell string.unquoted.shell
+
+function () {} arg
+# <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^ meta.function.anonymous.shell
+#        ^^ meta.function.anonymous.parameters.shell
+#          ^ meta.function.anonymous.shell
+#           ^^ meta.function.anonymous.body.shell meta.block.shell
+#             ^^^^ meta.function-call.arguments.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ punctuation.section.parameters.begin.shell
+#         ^ punctuation.section.parameters.end.shell
+#           ^ punctuation.section.block.begin.shell
+#            ^ punctuation.section.block.end.shell
+#              ^^^ meta.string.shell string.unquoted.shell
+
+function () ; {} arg
+# <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
+#^^^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^ meta.function.anonymous.shell
+#        ^^ meta.function.anonymous.parameters.shell
+#          ^^^ meta.function.anonymous.shell
+#             ^^ meta.function.anonymous.body.shell meta.block.shell
+#               ^^^^ meta.function-call.arguments.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ punctuation.section.parameters.begin.shell
+#         ^ punctuation.section.parameters.end.shell
+#           ^ punctuation.terminator.statement.shell
+#             ^ punctuation.section.block.begin.shell
+#              ^ punctuation.section.block.end.shell
+#                ^^^ meta.string.shell string.unquoted.shell
+
+function {
+# <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
+#^^^^^^^^ meta.function-call.shell meta.function.anonymous.shell - meta.block
+#        ^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ punctuation.section.block.begin.shell
+  local variable=inside
+# ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell meta.declaration.variable.shell
+  print "I am $variable with arguments $*"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell meta.function-call
+} this and that
+# <- meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell punctuation.section.block.end.shell
+#^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.shell string.unquoted.shell
+#          ^^^^ meta.string.shell string.unquoted.shell
+
+
+###############################################################################
+# 9.3 Special Functions                                                       #
+# https://zsh.sourceforge.io/Doc/Release/Functions.html#Special-Functions     #
+###############################################################################
+
+# 9.3.1 Hook Functions
+
+  chpwd() {}
+# ^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#      ^^ meta.function.parameters.shell
+#        ^ meta.function.shell
+#         ^^ meta.function.body.shell meta.block.shell
+
+  periodic() {}
+# ^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#         ^^ meta.function.parameters.shell
+#           ^ meta.function.shell
+#            ^^ meta.function.body.shell meta.block.shell
+
+  precmd() {}
+# ^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#       ^^ meta.function.parameters.shell
+#         ^ meta.function.shell
+#          ^^ meta.function.body.shell meta.block.shell
+
+  preexec() {}
+# ^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#        ^^ meta.function.parameters.shell
+#          ^ meta.function.shell
+#           ^^ meta.function.body.shell meta.block.shell
+
+  zshaddhistory() {}
+# ^^^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#              ^^ meta.function.parameters.shell
+#                ^ meta.function.shell
+#                 ^^ meta.function.body.shell meta.block.shell
+
+  zshexit() {}
+# ^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#        ^^ meta.function.parameters.shell
+#          ^ meta.function.shell
+#           ^^ meta.function.body.shell meta.block.shell
+
+# 9.3.2 Trap Functions
+
+  TRAPDEBUG() {}    # ZSH specific trap
+# ^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#          ^^ meta.function.parameters.shell
+#            ^ meta.function.shell
+#             ^^ meta.function.body.shell meta.block.shell
+
+  TRAPEXIT() {}     # ZSH specific trap
+# ^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#         ^^ meta.function.parameters.shell
+#           ^ meta.function.shell
+#            ^^ meta.function.body.shell meta.block.shell
+
+  TRAPINT() {}      # called if SIGINT is received
+# ^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#        ^^ meta.function.parameters.shell
+#          ^ meta.function.shell
+#           ^^ meta.function.body.shell meta.block.shell
+
+  TRAPTERM() {}     # called if SIGTERM is received
+# ^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#         ^^ meta.function.parameters.shell
+#           ^ meta.function.shell
+#            ^^ meta.function.body.shell meta.block.shell
+
+  TRAPRTMAX-1() {}  # called if SIGRTMAX-1 is received
+# ^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#            ^^ meta.function.parameters.shell
+#              ^ meta.function.shell
+#               ^^ meta.function.body.shell meta.block.shell
+
+  TRAPRTMIN+1() {}  # called if SIGRTMIN+1 is received
+# ^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell support.function.shell.zsh
+#            ^^ meta.function.parameters.shell
+#              ^ meta.function.shell
+#               ^^ meta.function.body.shell meta.block.shell
+
+
+###############################################################################
+# 11 Arithmetic Evaluation                                                    #
+# https://zsh.sourceforge.io/Doc/Release/Arithmetic-Evaluation.html           #
+###############################################################################
+
+  let val = 1 + 2
+# ^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+# ^^^ support.function.shell
+#     ^^^ variable.other.readwrite.shell
+#         ^ keyword.operator.assignment.shell
+#           ^ constant.numeric.value.shell
+#             ^ keyword.operator.arithmetic.shell
+#               ^ constant.numeric.value.shell
+
+  let 'val = 1 + 2'
+# ^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+# ^^^ support.function.shell
+#     ^ punctuation.definition.quoted.begin.shell
+#      ^^^ variable.other.readwrite.shell
+#          ^ keyword.operator.assignment.shell
+#            ^ constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#                ^ constant.numeric.value.shell
+#                 ^ punctuation.definition.quoted.end.shell
+
+  let "val = 1 + 2"
+# ^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+# ^^^ support.function.shell
+#     ^ punctuation.definition.quoted.begin.shell
+#      ^^^ variable.other.readwrite.shell
+#          ^ keyword.operator.assignment.shell
+#            ^ constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#                ^ constant.numeric.value.shell
+#                 ^ punctuation.definition.quoted.end.shell
+
+  (( val = 1. + 1.23 + 1.23e-10 ))  # floating point numbers
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+# ^^ punctuation.section.compound.begin.shell
+#    ^^^ variable.other.readwrite.shell
+#        ^ keyword.operator.assignment.shell
+#          ^^ meta.number.float.decimal.shell.zsh constant.numeric.value.shell.zsh
+#             ^ keyword.operator.arithmetic.shell
+#               ^^^^ meta.number.float.decimal.shell.zsh constant.numeric.value.shell.zsh
+#                    ^ keyword.operator.arithmetic.shell
+#                      ^^^^^^^^ meta.number.float.decimal.shell.zsh constant.numeric.value.shell.zsh
+#                               ^^ punctuation.section.compound.end.shell
+
+  (( 123_24_32_ + _42234 ))
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#    ^^^^^^^^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^^^^^^ meta.variable.shell variable.other.readwrite.shell
+
+  (( 3_162.277_660_168_379_5 ))  # numbers can contain underscores
+#    ^^^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.shell.zsh constant.numeric.value.shell.zsh
+
+  (( 2_4#234_2abd27 ))
+#    ^^^^ meta.number.integer.other.shell constant.numeric.base.shell
+#        ^^^^^^^^^^ meta.number.integer.other.shell constant.numeric.value.shell
+
+  (( abs(1 - 5) + 3 ))  # arithmetic function calls
+# ^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#    ^^^ meta.function-call.identifier.shell.zsh
+#       ^^^^^^^ meta.function-call.arguments.shell.zsh
+# ^^ punctuation.section.compound.begin.shell
+#    ^^^ variable.function.shell.zsh
+#       ^ punctuation.section.arguments.begin.shell.zsh
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ keyword.operator.arithmetic.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ punctuation.section.arguments.end.shell.zsh
+#               ^ keyword.operator.arithmetic.shell
+#                 ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                   ^^ punctuation.section.compound.end.shell
+
+  (( [#16_4] 65536 ** 2 ))
+# ^^ meta.compound.arithmetic.shell punctuation.section.compound.begin.shell - meta.arithmetic
+#   ^ meta.compound.arithmetic.shell meta.arithmetic.shell - meta.modifier
+#    ^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell meta.modifier.base.shell.zsh
+#           ^^^^^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell - meta.modifier
+#                       ^^ meta.compound.arithmetic.shell punctuation.section.compound.end.shell - meta.arithmetic
+#    ^^ punctuation.definition.modifier.begin.shell.zsh
+#      ^^^^ storage.modifier.mode.base.shell.zsh
+#          ^ punctuation.definition.modifier.end.shell.zsh
+#            ^^^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^^ keyword.operator.arithmetic.shell
+#                     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+
+  (( [#$base] 65536 ** 2 ))
+# ^^ meta.compound.arithmetic.shell punctuation.section.compound.begin.shell - meta.arithmetic
+#   ^ meta.compound.arithmetic.shell meta.arithmetic.shell - meta.modifier
+#    ^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell meta.modifier.base.shell.zsh
+#            ^^^^^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell - meta.modifier
+#                        ^^ meta.compound.arithmetic.shell punctuation.section.compound.end.shell - meta.arithmetic
+#    ^^ punctuation.definition.modifier.begin.shell.zsh
+#      ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#             ^^^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                   ^^ keyword.operator.arithmetic.shell
+#                      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+
+: $(( val = 1 + 2 ))  # aritmetic expansions
+# ^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^ variable.other.readwrite.shell
+#         ^ keyword.operator.assignment.shell
+#           ^ constant.numeric.value.shell
+#             ^ keyword.operator.arithmetic.shell
+#               ^ constant.numeric.value.shell
+#                 ^^ punctuation.section.interpolation.end.shell
+
+: ${val:start + 3:len % 5}  # aritmetic evaluation in substitutions
+# ^^^^^^ meta.string.shell meta.interpolation.parameter.shell - meta.arithmetic
+#       ^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell meta.arithmetic.shell
+#                ^ meta.string.shell meta.interpolation.parameter.shell - meta.arithmetic
+#                 ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell meta.arithmetic.shell
+#                        ^ meta.string.shell meta.interpolation.parameter.shell - meta.arithmetic
+
+
+###############################################################################
+# 14.3 Parameter Expansion                                                    #
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion   #
+###############################################################################
+
+: ${var}    # Substitute contents of var, no splitting
+# ^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.interpolation.end.shell
+
+: ${#var}   # Length of var in words (array) or bytes
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.length.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+: ${+var}   # 1 if var is set, else 0 (ZSH only)
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.valid.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+: ${=var}   # Split words of result like lesser shells (ZSH only)
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.split.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+: ${==var}  # Turn off splitting words of result like lesser shells (ZSH only)
+# ^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^ keyword.operator.expansion.split.shell
+#     ^^^ variable.other.readwrite.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${^var}   # Expand elements like brace expansion (ZSH only)
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.brace.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+: ${^^var}  # Turn off expanding elements like brace expansion (ZSH only)
+# ^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^ keyword.operator.expansion.brace.shell
+#     ^^^ variable.other.readwrite.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${~var}   # Allow globbing, file expansion on result (ZSH only)
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.glob.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+: ${~~var}  # Disallow globbing, file expansion on result (ZSH only)
+# ^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^ keyword.operator.expansion.glob.shell
+#     ^^^ variable.other.readwrite.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+## Flags
+
+: ${(#)var}  # Evaluate the resulting words as numeric expressions and interpret these as character codes.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(%)var}  # Expand all % escapes in the resulting words in the same way as in prompts
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(@)var}  # In double quotes, array elements are put into separate words.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(A)var}  # Convert the substitution into an array expression, even if it otherwise would be scalar.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(a)var}  # Sort in array index order; when combined with ‘O’ sort in reverse array index order.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(b)var}  # Quote with backslashes only characters that are special to pattern matching
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(c)var}  # With ${#name}, count the total number of characters in an array
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(C)var}  # Capitalize the resulting words.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(D)var}  # Assume the string or array elements contain directories and attempt to substitute the leading part of these by names.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(e)var}  # Perform single word shell expansions, namely parameter expansion, command substitution and arithmetic expansion, on the result.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(f)var}  # Split the result of the expansion at newlines.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(F)var}  # Join the words of arrays together using newline as a separator
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(i)var}  # Sort case-insensitively. May be combined with ‘n’ or ‘O’.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(k)var}  # If name refers to an associative array, substitute the keys (element names) rather than the values of the elements.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(L)var}  # Convert all letters in the result to lower case.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(n)var}  # Sort decimal integers numerically
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(-)var}  # As n, but a leading minus sign indicates a negative decimal integer.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(o)var}  # Sort the resulting words in ascending order
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(O)var}  # Sort the resulting words in descending order
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(p)var}  # This forces the value of the parameter name to be interpreted as a further parameter name
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(q)var}  # Quote characters that are special to the shell in the resulting words with backslashes
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(Q)var}  # Remove one level of quotes from the resulting words.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(t)var}  # Use a string describing the type of the parameter where the value of the parameter would usually appear.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(u)var}  # Expand only the first occurrence of each unique word.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(U)var}  # Convert all letters in the result to upper case.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(v)var}  # Used with k, substitute (as two consecutive words) both the key and the value of each associative array element.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(V)var}  # Make any special characters in the resulting words visible.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(w)var}  # With ${#name}, count words in arrays or strings; the s flag may be used to set a word delimiter.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(W)var}  # Similar to w with the difference that empty words between repeated delimiters are also counted.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(X)var}  # With this flag, parsing errors occurring with the Q, e and # flags or the pattern matching forms such as ‘${name#pattern}’ are reported.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(z)var}  # Split the result of the expansion into words using shell parsing to find the words
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(0)var}  # Split the result of the expansion on null bytes. This is a shorthand for ‘ps:\0:’.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(~)var}  #
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(j<:>)var} ${(j{:})var} ${(j[:])var} ${(j(:))var} ${(j.:.)var}  # Join the words of arrays together using string as a separator.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#         ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^ string.unquoted.shell.zsh
+#       ^ punctuation.section.argument.end.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
+#             ^ - meta.interpolation
+#              ^^ meta.interpolation.parameter.shell - meta.modifier
+#                ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#              ^ punctuation.definition.variable.shell
+#               ^ punctuation.section.interpolation.begin.shell
+#                ^ punctuation.definition.modifier.begin.shell.zsh
+#                 ^ storage.modifier.expansion.flag.shell.zsh
+#                  ^ punctuation.section.argument.begin.shell.zsh
+#                   ^ string.unquoted.shell.zsh
+#                    ^ punctuation.section.argument.end.shell.zsh
+#                     ^ punctuation.definition.modifier.end.shell.zsh
+#                      ^^^ variable.other.readwrite.shell
+#                         ^ punctuation.section.interpolation.end.shell
+#                          ^ - meta.interpolation
+#                           ^^ meta.interpolation.parameter.shell - meta.modifier
+#                             ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                                   ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                           ^ punctuation.definition.variable.shell
+#                            ^ punctuation.section.interpolation.begin.shell
+#                             ^ punctuation.definition.modifier.begin.shell.zsh
+#                              ^ storage.modifier.expansion.flag.shell.zsh
+#                               ^ punctuation.section.argument.begin.shell.zsh
+#                                ^ string.unquoted.shell.zsh
+#                                 ^ punctuation.section.argument.end.shell.zsh
+#                                  ^ punctuation.definition.modifier.end.shell.zsh
+#                                   ^^^ variable.other.readwrite.shell
+#                                      ^ punctuation.section.interpolation.end.shell
+#                                       ^ - meta.interpolation
+#                                        ^^ meta.interpolation.parameter.shell - meta.modifier
+#                                          ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                                                ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                                        ^ punctuation.definition.variable.shell
+#                                         ^ punctuation.section.interpolation.begin.shell
+#                                          ^ punctuation.definition.modifier.begin.shell.zsh
+#                                           ^ storage.modifier.expansion.flag.shell.zsh
+#                                            ^ punctuation.section.argument.begin.shell.zsh
+#                                             ^ string.unquoted.shell.zsh
+#                                              ^ punctuation.section.argument.end.shell.zsh
+#                                               ^ punctuation.definition.modifier.end.shell.zsh
+#                                                ^^^ variable.other.readwrite.shell
+#                                                   ^ punctuation.section.interpolation.end.shell
+#                                                    ^ - meta.interpolation
+#                                                     ^^ meta.interpolation.parameter.shell - meta.modifier
+#                                                       ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                                                             ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                                                     ^ punctuation.definition.variable.shell
+#                                                      ^ punctuation.section.interpolation.begin.shell
+#                                                       ^ punctuation.definition.modifier.begin.shell.zsh
+#                                                        ^ storage.modifier.expansion.flag.shell.zsh
+#                                                         ^ punctuation.section.argument.begin.shell.zsh
+#                                                          ^ string.unquoted.shell.zsh
+#                                                           ^ punctuation.section.argument.end.shell.zsh
+#                                                            ^ punctuation.definition.modifier.end.shell.zsh
+#                                                             ^^^ variable.other.readwrite.shell
+#                                                                ^ punctuation.section.interpolation.end.shell
+#                                                                 ^ - meta.interpolation
+
+: ${(l:expr::string1::string2:)var}
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                              ^^^^ meta.interpolation.parameter.shell - meta.modifer
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.argument.end.shell.zsh
+#           ^ punctuation.section.argument.begin.shell.zsh
+#            ^^^^^^^ meta.string.shell.zsh string.unquoted.shell.zsh
+#                   ^ punctuation.section.argument.end.shell.zsh
+#                    ^ punctuation.section.argument.begin.shell.zsh
+#                     ^^^^^^^meta.string.shell.zsh string.unquoted.shell.zsh
+#                            ^ punctuation.section.argument.end.shell.zsh
+#                             ^ punctuation.definition.modifier.end.shell.zsh
+#                              ^^^ variable.other.readwrite.shell
+#                                 ^ punctuation.section.interpolation.end.shell
+
+: ${(m)var}  # Only useful together with one of the flags l or r or with the # length operator
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(r:expr:)var} ${(r<expr>)var}
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#            ^^^^ meta.interpolation.parameter.shell - meta.modifer
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.argument.end.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#            ^^^ variable.other.readwrite.shell
+#               ^ punctuation.section.interpolation.end.shell
+#                 ^^ meta.interpolation.parameter.shell - meta.modifier
+#                   ^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                            ^^^^ meta.interpolation.parameter.shell - meta.modifer
+#                 ^ punctuation.definition.variable.shell
+#                  ^ punctuation.section.interpolation.begin.shell
+#                   ^ punctuation.definition.modifier.begin.shell.zsh
+#                    ^ storage.modifier.expansion.flag.shell.zsh
+#                     ^ punctuation.section.argument.begin.shell.zsh
+#                      ^^^^ variable.other.readwrite.shell
+#                          ^ punctuation.section.argument.end.shell.zsh
+#                           ^ punctuation.definition.modifier.end.shell.zsh
+#                            ^^^ variable.other.readwrite.shell
+#                               ^ punctuation.section.interpolation.end.shell
+
+: ${(r:expr::string1:)var}
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                     ^^^^ meta.interpolation.parameter.shell - meta.modifer
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.argument.end.shell.zsh
+#           ^ punctuation.section.argument.begin.shell.zsh
+#            ^^^^^^^ meta.string.shell.zsh string.unquoted.shell.zsh
+#                   ^ punctuation.section.argument.end.shell.zsh
+#                    ^ punctuation.definition.modifier.end.shell.zsh
+#                     ^^^ variable.other.readwrite.shell
+#                        ^ punctuation.section.interpolation.end.shell
+
+: ${(r:expr::string1::string2:)var}
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                              ^^^^ meta.interpolation.parameter.shell - meta.modifer
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.argument.end.shell.zsh
+#           ^ punctuation.section.argument.begin.shell.zsh
+#            ^^^^^^^ meta.string.shell.zsh string.unquoted.shell.zsh
+#                   ^ punctuation.section.argument.end.shell.zsh
+#                    ^ punctuation.section.argument.begin.shell.zsh
+#                     ^^^^^^^meta.string.shell.zsh string.unquoted.shell.zsh
+#                            ^ punctuation.section.argument.end.shell.zsh
+#                             ^ punctuation.definition.modifier.end.shell.zsh
+#                              ^^^ variable.other.readwrite.shell
+#                                 ^ punctuation.section.interpolation.end.shell
+
+: ${(s.:.)var} ${(s:del$im:)var}  # Force field splitting at the separator string.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#         ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^ string.unquoted.shell.zsh
+#       ^ punctuation.section.argument.end.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
+#             ^ - meta.interpolation
+#              ^^ meta.interpolation.parameter.shell - meta.modifier
+#                ^^^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                           ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#              ^ punctuation.definition.variable.shell
+#               ^ punctuation.section.interpolation.begin.shell
+#                ^ punctuation.definition.modifier.begin.shell.zsh
+#                 ^ storage.modifier.expansion.flag.shell.zsh
+#                  ^ punctuation.section.argument.begin.shell.zsh
+#                   ^^^ string.unquoted.shell.zsh - variable
+#                      ^^^ variable.other.readwrite.shell - string
+#                         ^ punctuation.section.argument.end.shell.zsh
+#                          ^ punctuation.definition.modifier.end.shell.zsh
+#                           ^^^ variable.other.readwrite.shell
+#                              ^ punctuation.section.interpolation.end.shell
+#                               ^ - meta.interpolation
+
+: ${(Z+c+)var} ${(Z+C+)var} ${(Z+n+)var} ${(Z+Cn+)var} ${(Z+$opt+)var}  # As z but takes a combination of option letters between a following pair of delimiter characters.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#         ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^ meta.string.shell.zsh string.unquoted.shell.zsh
+#       ^ punctuation.section.argument.end.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
+#              ^^ meta.interpolation.parameter.shell - meta.modifier
+#                ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#              ^ punctuation.definition.variable.shell
+#               ^ punctuation.section.interpolation.begin.shell
+#                ^ punctuation.definition.modifier.begin.shell.zsh
+#                 ^ storage.modifier.expansion.flag.shell.zsh
+#                  ^ punctuation.section.argument.begin.shell.zsh
+#                   ^ meta.string.shell.zsh string.unquoted.shell.zsh
+#                    ^ punctuation.section.argument.end.shell.zsh
+#                     ^ punctuation.definition.modifier.end.shell.zsh
+#                      ^^^ variable.other.readwrite.shell
+#                         ^ punctuation.section.interpolation.end.shell
+#                           ^^ meta.interpolation.parameter.shell - meta.modifier
+#                             ^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                                   ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                           ^ punctuation.definition.variable.shell
+#                            ^ punctuation.section.interpolation.begin.shell
+#                             ^ punctuation.definition.modifier.begin.shell.zsh
+#                              ^ storage.modifier.expansion.flag.shell.zsh
+#                               ^ punctuation.section.argument.begin.shell.zsh
+#                                ^ meta.string.shell.zsh string.unquoted.shell.zsh
+#                                 ^ punctuation.section.argument.end.shell.zsh
+#                                  ^ punctuation.definition.modifier.end.shell.zsh
+#                                   ^^^ variable.other.readwrite.shell
+#                                      ^ punctuation.section.interpolation.end.shell
+#                                        ^^ meta.interpolation.parameter.shell - meta.modifier
+#                                          ^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                                                 ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                                        ^ punctuation.definition.variable.shell
+#                                         ^ punctuation.section.interpolation.begin.shell
+#                                          ^ punctuation.definition.modifier.begin.shell.zsh
+#                                           ^ storage.modifier.expansion.flag.shell.zsh
+#                                            ^ punctuation.section.argument.begin.shell.zsh
+#                                             ^^ meta.string.shell.zsh string.unquoted.shell.zsh
+#                                               ^ punctuation.section.argument.end.shell.zsh
+#                                                ^ punctuation.definition.modifier.end.shell.zsh
+#                                                 ^^^ variable.other.readwrite.shell
+#                                                    ^ punctuation.section.interpolation.end.shell
+#                                                      ^^ meta.interpolation.parameter.shell - meta.modifier
+#                                                        ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh - meta.interpolation meta.interpolation
+#                                                           ^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh meta.interpolation.parameter.shell
+#                                                               ^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh - meta.interpolation meta.interpolation
+#                                                                 ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                                                      ^ punctuation.definition.variable.shell
+#                                                       ^ punctuation.section.interpolation.begin.shell
+#                                                        ^ punctuation.definition.modifier.begin.shell.zsh
+#                                                         ^ storage.modifier.expansion.flag.shell.zsh
+#                                                          ^ punctuation.section.argument.begin.shell.zsh
+#                                                           ^^^^ meta.string.shell.zsh meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                                               ^ punctuation.section.argument.end.shell.zsh
+#                                                                ^ punctuation.definition.modifier.end.shell.zsh
+#                                                                 ^^^ variable.other.readwrite.shell
+#                                                                    ^ punctuation.section.interpolation.end.shell
+
+: ${(_:expr:)var}  # The underscore (_) flag is reserved for future use.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#            ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.reserved.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^^^^ invalid.illegal.unsupported.shell.zsh
+#          ^ punctuation.section.argument.end.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#            ^^^ variable.other.readwrite.shell
+#               ^ punctuation.section.interpolation.end.shell
+
+: ${(S)var}  # Search for the match that starts closest to the start of the string
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(I:expr:)var}  # Search the `expr`th match (where `expr`` evaluates to a number).
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh - meta.arithmetic
+#      ^^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh meta.arithmetic.shell meta.variable.shell
+#          ^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh - meta.arithmetic
+#            ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.section.argument.begin.shell.zsh
+#      ^^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.argument.end.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#            ^^^ variable.other.readwrite.shell
+#               ^ punctuation.section.interpolation.end.shell
+
+: ${(*)var}  # Enable EXTENDED_GLOB for substitution via ${.../...} or ${...//...}.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(B)var}  # Include the index of the beginning of the match in the result.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(E)var}  # Include the index one character past the end of the match in the result (note this is inconsistent with other uses of parameter index).
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(M)var}  # Include the matched portion in the result.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(N)var}  # Include the length of the match in the result.
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(R)var}  # Include the unmatched portion in the result (the Rest).
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${(#)#var}  # Flags can be combined with leading operators
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#      ^^^^^ meta.interpolation.parameter.shell - meta.modifier
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#      ^ keyword.operator.expansion.length.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+## Operators
+
+: ${var:-str}    # $var if non-null, else str
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.assignment.shell
+#        ^^^ string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var-str}     # $var if set (even if null) else str
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.shell
+#       ^^^ string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var:=str}    # $var if non-null, else str and set var to it
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.assignment.shell
+#        ^^^ string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var::=str}   # Same but always use str
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ keyword.operator.assignment.shell
+#         ^^^ string.unquoted.shell
+#            ^ punctuation.section.interpolation.end.shell
+
+: ${var:?str}    # $var if non-null else error, abort
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.assignment.shell
+#        ^^^ string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+
+: ${var:+str}    # str if $var is non-null
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.assignment.shell
+#        ^^^ string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var#pat}     # min match of pat removed from head
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^ meta.string.regexp.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var##pat}    # max match of pat removed from head
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^ meta.string.regexp.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var%pat}     # min match of pat removed from tail
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^ meta.string.regexp.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var%%pat}    # max match of pat removed from tail
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^ meta.string.regexp.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:#pat}    # $var unless pat matches, then empty
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.assignment.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var/p/r}     # One occurrence of p replaced by r
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^ meta.string.regexp.shell string.unquoted.shell
+#        ^ keyword.operator.substitution.shell
+#         ^ meta.string.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var//p/r}    # All occurrences of p replaced by r
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.substitution.shell
+#        ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ keyword.operator.substitution.shell
+#          ^ meta.string.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${${var%p}#q}  # Apply %p then #q to $var
+# ^^ meta.interpolation.parameter.shell
+#   ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell
+#           ^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.variable.shell
+#    ^ punctuation.section.interpolation.begin.shell
+#     ^^^ variable.other.readwrite.shell
+#        ^ keyword.operator.expansion.shell
+#         ^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+#           ^ keyword.operator.expansion.shell
+#            ^ meta.string.regexp.shell string.unquoted.shell
+#             ^ punctuation.section.interpolation.end.shell
+
+: ${^foo//:/[}]
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#             ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.brace.shell.zsh
+#    ^^^ variable.other.readwrite.shell
+#           ^ - punctuation
+#            ^ punctuation.section.interpolation.end.shell
+
+: ${^foo//:/[\}]}
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ keyword.operator.expansion.brace.shell.zsh
+#    ^^^ variable.other.readwrite.shell
+#           ^^^^ meta.string.shell string.unquoted.shell
+#            ^^ constant.character.escape.shell
+#               ^ punctuation.section.interpolation.end.shell
+
+###############################################################################
+# 14.5 Arithmetic Expansion
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Arithmetic-Expansion
+###############################################################################
+
+# Bash Style
+: $(( a = b + (2 % c) ))
+# ^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.group
+#             ^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.group.shell
+#                    ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.group
+#                       ^ - meta.string - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^ variable.other.readwrite.shell
+#       ^ keyword.operator.assignment.shell
+#         ^ variable.other.readwrite.shell
+#           ^ keyword.operator.arithmetic.shell
+#             ^ punctuation.section.group.begin.shell
+#              ^ constant.numeric.value.shell
+#                ^ keyword.operator.arithmetic.shell
+#                  ^ variable.other.readwrite.shell
+#                   ^ punctuation.section.group.end.shell
+#                     ^^ punctuation.section.interpolation.end.shell
+
+: $(( # foo ))
+# ^^^^^^^^^^^^ meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^ invalid.illegal.unexpected-token.shell
+#       ^^^ variable.other.readwrite.shell
+#           ^^ punctuation.section.interpolation.end.shell
+
+: $(( #foo ))
+# ^^^^^^^^^^^ meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^ invalid.illegal.unexpected-token.shell
+#      ^^^ variable.other.readwrite.shell
+#          ^^ punctuation.section.interpolation.end.shell
+
+# Zsh Style
+: $[ a = b + (2 % c) ]
+# ^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.group
+#            ^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.group.shell
+#                   ^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.group
+#                     ^ - meta.string - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^ variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.shell
+#        ^ variable.other.readwrite.shell
+#          ^ keyword.operator.arithmetic.shell
+#            ^ punctuation.section.group.begin.shell
+#             ^ constant.numeric.value.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^ variable.other.readwrite.shell
+#                  ^ punctuation.section.group.end.shell
+#                    ^ punctuation.section.interpolation.end.shell
+
+: $[ # foo ]
+# ^^^^^^^^^^ meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^ invalid.illegal.unexpected-token.shell
+#      ^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: $[ #foo ]
+# ^^^^^^^^^ meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^ invalid.illegal.unexpected-token.shell
+#     ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+
+###############################################################################
+# 14.6 Brace Expansion
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Brace-Expansion
+###############################################################################
+
+: prefix{a,b,c}suffix
+# ^^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+#       ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell
+#        ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#         ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#          ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#           ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#            ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#             ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell
+#              ^^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+
+: {a,b,~,%,!,.,\,,\{,\},*,?,-1,+2,0," ",' '}
+#^ - meta.interpolation
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation.brace meta.interpolation.brace
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.string.shell string.unquoted.shell
+#   ^ punctuation.separator.sequence.shell
+#    ^ meta.string.shell string.unquoted.shell
+#     ^ punctuation.separator.sequence.shell
+#      ^ keyword.operator.logical.regexp.shell
+#       ^ punctuation.separator.sequence.shell
+#        ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#         ^ punctuation.separator.sequence.shell
+#          ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#           ^ punctuation.separator.sequence.shell
+#            ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#             ^ punctuation.separator.sequence.shell
+#              ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                ^ punctuation.separator.sequence.shell
+#                 ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                   ^ punctuation.separator.sequence.shell
+#                    ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                      ^ punctuation.separator.sequence.shell
+#                       ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#                        ^ punctuation.separator.sequence.shell
+#                         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.questionmark.shell
+#                          ^ punctuation.separator.sequence.shell
+#                           ^^ meta.string.shell string.unquoted.shell
+#                             ^ punctuation.separator.sequence.shell
+#                              ^^ meta.string.shell string.unquoted.shell
+#                                ^ punctuation.separator.sequence.shell
+#                                 ^ meta.string.shell string.unquoted.shell
+#                                  ^ punctuation.separator.sequence.shell
+#                                   ^^^ meta.string.shell string.quoted.double.shell
+#                                      ^ punctuation.separator.sequence.shell
+#                                       ^^^ meta.string.shell string.quoted.single.shell
+#                                          ^ punctuation.section.interpolation.end.shell
+#                                           ^ - meta.interpolation
+
+: {${foo},${bar},$(ls ~),foo${bar}buz,a{a,b,c}d}
+# ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#        ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#         ^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#               ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                ^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.interpolation.command.shell
+#                       ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#                        ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                           ^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.parameter.shell
+#                                 ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                    ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#                                     ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                      ^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                                      ^ punctuation.section.interpolation.begin.shell
+#                                       ^ meta.string.shell string.unquoted.shell
+#                                        ^ punctuation.separator.sequence.shell
+#                                         ^ meta.string.shell string.unquoted.shell
+#                                          ^ punctuation.separator.sequence.shell
+#                                           ^ meta.string.shell string.unquoted.shell
+#                                            ^ punctuation.section.interpolation.end.shell
+#                                             ^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                              ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+
+: {foo\
+bar,baz}
+# <- meta.interpolation.brace.shell
+#^^^^^^^ meta.interpolation.brace.shell
+#       ^ - meta.interpolation
+
+: {..,..2}
+# ^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell - keyword
+#    ^ punctuation.separator.sequence.shell
+#     ^^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell - keyword
+#       ^ - constant.numeric
+#        ^ punctuation.section.interpolation.end.shell
+
+: {{foo,{bar,baz},foo},bar,{1..10}}
+# ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
+#       ^^^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                ^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
+#                     ^^^^^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                          ^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                                 ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                                  ^ - meta.string - meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#   ^^^ string.unquoted.shell
+#      ^ punctuation.separator.sequence.shell
+#       ^ punctuation.section.interpolation.begin.shell
+#        ^^^ string.unquoted.shell
+#           ^ punctuation.separator.sequence.shell
+#            ^^^ string.unquoted.shell
+#               ^ punctuation.section.interpolation.end.shell
+#                ^ punctuation.separator.sequence.shell
+#                 ^^^ string.unquoted.shell
+#                    ^ punctuation.section.interpolation.end.shell
+#                     ^ punctuation.separator.sequence.shell
+#                      ^^^ string.unquoted.shell
+#                         ^ punctuation.separator.sequence.shell
+#                          ^ punctuation.section.interpolation.begin.shell
+#                           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                            ^^ keyword.operator.range.shell
+#                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                ^^ punctuation.section.interpolation.end.shell
+
+: {*,?}
+# ^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ constant.other.wildcard.asterisk.shell
+#   ^ punctuation.separator.sequence.shell
+#    ^ constant.other.wildcard.questionmark.shell
+#     ^ punctuation.section.interpolation.end.shell
+
+# Patterns to be brace expanded take the form of ...
+# a sequence expression between a pair of braces
+
+: {1..10}
+#^ - meta.interpolation
+# ^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#   ^^ keyword.operator.range.shell
+#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ - meta.interpolation
+
+: {1..10..2}
+#^ - meta.interpolation
+# ^^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#   ^^ keyword.operator.range.shell
+#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^^ keyword.operator.range.shell
+#         ^ constant.numeric.value.shell
+#          ^ punctuation.section.interpolation.end.shell
+#           ^ - meta.interpolation
+
+: {-10..+10}
+#^ - meta.interpolation
+# ^^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.interpolation.brace.shell meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#   ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^^ keyword.operator.range.shell
+#       ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.interpolation.end.shell
+#           ^ - meta.interpolation
+
+: {-10..+10..-5}
+#^ - meta.interpolation
+# ^^^^^^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#   ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^^ keyword.operator.range.shell
+#       ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^^ keyword.operator.range.shell
+#            ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ punctuation.section.interpolation.end.shell
+#               ^ - meta.interpolation
+
+: {a..z}
+#^ - meta.interpolation
+# ^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ constant.character.shell
+#   ^^ keyword.operator.range.shell
+#     ^ constant.character.shell
+#      ^ punctuation.section.interpolation.end.shell
+#       ^ - meta.interpolation
+
+: {a..z..2}
+#^ - meta.interpolation
+# ^^^^^^^^^ meta.interpolation.brace.shell
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ meta.interpolation.brace.shell constant.character.shell
+#   ^^ keyword.operator.range.shell
+#     ^ constant.character.shell
+#      ^^ keyword.operator.range.shell
+#        ^ constant.numeric.value.shell
+#         ^ punctuation.section.interpolation.end.shell
+#          ^ - meta.interpolation
+
+: {\
+a..z..2}
+# <- meta.interpolation.brace.shell constant.character.shell
+#^^^^^^^ meta.interpolation.brace.shell
+#^^ keyword.operator.range.shell
+#  ^ constant.character.shell
+#   ^^ keyword.operator.range.shell
+#     ^ constant.numeric.value.shell
+#      ^ punctuation.section.interpolation.end.shell
+
+: {\
+a..\
+z..2}
+# <- meta.interpolation.brace.shell constant.character.shell
+#^^^^ meta.interpolation.brace.shell
+#^^ keyword.operator.range.shell
+#  ^ constant.numeric.value.shell
+#   ^ punctuation.section.interpolation.end.shell
+
+: {a..z..2\
+}
+# <- meta.interpolation.brace.shell punctuation.section.interpolation.end.shell
+
+: {${start}..$(( start + len ))..${incr}}
+# ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^^^^ meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#          ^^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#            ^^^^^^^^^^^^^^^^^^ meta.interpolation.brace.shell meta.interpolation.arithmetic.shell
+#                              ^^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                                ^^^^^^^ meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#                                       ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+# ^ meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell
+#  ^ meta.interpolation.parameter.shell punctuation.definition.variable.shell
+#   ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#    ^^^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+#          ^^ keyword.operator.range.shell
+#            ^ meta.interpolation.arithmetic.shell punctuation.definition.variable.shell
+#             ^^ punctuation.section.interpolation.begin.shell
+#                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                      ^ keyword.operator.arithmetic.shell
+#                        ^^^ meta.variable.shell variable.other.readwrite.shell
+#                            ^^ meta.interpolation.arithmetic.shell punctuation.section.interpolation.end.shell
+#                              ^^ keyword.operator.range.shell
+#                                ^ punctuation.definition.variable.shell
+#                                 ^ punctuation.section.interpolation.begin.shell
+#                                  ^^^^ variable.other.readwrite.shell
+#                                      ^^ punctuation.section.interpolation.end.shell
+
+  { : {1..21} }
+# ^^^^ meta.block.shell - meta.interpolation
+#     ^^^^^^^ meta.block.shell meta.interpolation.brace.shell
+#            ^^ meta.block.shell - meta.interpolation
+
+  ( : {1..21} )
+# ^^^^ meta.compound.command.shell - meta.interpolation
+#     ^^^^^^^ meta.compound.command.shell meta.interpolation.brace.shell
+#            ^^ meta.compound.command.shell - meta.interpolation
+
+any --arg{1..4}={1..4}
+#   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
+#        ^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
+#              ^ keyword.operator.assignment.shell
+#               ^^^^^^ meta.string.shell meta.interpolation.brace.shell
+
+any --arg{1..4} ={1..4}
+#   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
+#        ^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
+#               ^ meta.string.shell string.unquoted.shell - meta.interpolation
+#                ^^^^^^ meta.string.shell meta.interpolation.brace.shell
+
+any --arg{1,2,3}={1,2,3}
+#   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
+#        ^^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
+#               ^ keyword.operator.assignment.shell
+#                ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
+
+any --arg{1,2,3} ={1,2,3}
+#   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
+#        ^^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
+#                ^ meta.string.shell string.unquoted.shell - meta.interpolation
+#                 ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
+
+# invalid brace expansions due to whitespace
+
+: {} {*} {1} {a} {foo} {'bar'} {"baz"}
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: { 1..9} {1..9 } {1.. 9} {1 ..9} {a, b, c}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: {1..&} {1..|} {1..<} {1..>} {(..)} {a..)}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: {a..z\
+  ..2}
+#^^^^^ - meta.interpolation
+
+: {foo\
+  bar,baz}
+#^^^^^^^^^^ - meta.interpolation
+
+: '{foo,bar,baz}' '{1..10}'
+# ^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
+#                 ^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
+
+: "{foo,bar,baz}" "{1..10}"
+# ^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
+#                 ^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
+
+
+###############################################################################
+# 14.7 Filename Expansion
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Filename-Expansion
+###############################################################################
+
+: ~     # expand to $HOME
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^ - meta.interpolation
+
+: ~/    # expand to $HOME
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#  ^ - meta.interpolation
+
+: ~+    # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~+/   # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~-    # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~-/   # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~0    # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~0/   # expand to current working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~1    # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~1/   # expand to previous working dir
+# ^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#   ^ - meta.interpolation
+
+: ~+0   # equivalent to ~+
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~+0/  # equivalent to ~+
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~+1   # top of directory stack
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+: ~+1/  # top of directory stack
+# ^^^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#    ^ - meta.interpolation
+
+# 14.7.1 Dynamic named directories
+
+: ~[...]/
+# ^ meta.string.shell meta.interpolation.tilde.shell - meta.brackets - meta.interpolation meta.function-call
+#  ^ meta.string.shell meta.interpolation.tilde.shell meta.brackets - meta.interpolation meta.function-call
+#   ^^^ meta.string.shell meta.interpolation.tilde.shell meta.brackets.shell.zsh meta.function-call.identifier.shell.zsh variable.function.shell.zsh
+#      ^ meta.string.shell meta.interpolation.tilde.shell meta.brackets - meta.interpolation meta.function-call
+# ^ variable.language.tilde.shell
+#  ^ punctuation.section.brackets.begin.shell.zsh - variable variable
+#   ^^^ variable.function.shell.zsh - variable variable
+#      ^ punctuation.section.brackets.end.shell.zsh - variable variable
+
+: ~[dyn_${dir}_name]/
+# ^ meta.string.shell meta.interpolation.tilde.shell - meta.interpolation meta.function-call
+#  ^ meta.string.shell meta.interpolation.tilde.shell meta.brackets - meta.interpolation meta.function-call
+#   ^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.tilde.shell meta.brackets.shell.zsh meta.function-call.identifier.shell.zsh - meta.interpolation.parameter
+#       ^^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.brackets.shell.zsh meta.function-call.identifier.shell.zsh meta.interpolation.parameter.shell
+#             ^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.tilde.shell meta.brackets.shell.zsh meta.function-call.identifier.shell.zsh - meta.interpolation.parameter
+#                  ^ meta.string.shell meta.interpolation.tilde.shell meta.brackets - meta.interpolation meta.function-call
+#                   ^ meta.string.shell string.unquoted.shell - meta.interpolation
+# ^ variable.language.tilde.shell
+#  ^ punctuation.section.brackets.begin.shell.zsh - variable variable
+#   ^^^^ variable.function.shell.zsh - variable variable
+#       ^ punctuation.definition.variable.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#         ^^^ variable.other.readwrite.shell - variable variable
+#            ^ punctuation.section.interpolation.end.shell
+#             ^^^^^ variable.function.shell.zsh - variable variable
+#                  ^ punctuation.section.brackets.end.shell.zsh - variable variable
+
+dyn_dir_name() {
+  emulate -L zsh
+  setopt extendedglob
+  local -a match mbegin mend
+  if [[ $1 = d ]]; then
+    # turn the directory into a name
+    if [[ $2 = (#b)(/home/pws/perforce/)([^/]##)* ]]; then
+      typeset -ga reply
+      reply=(p:$match[2] $(( ${#match[1]} + ${#match[2]} )) )
+    else
+      return 1
+    fi
+  elif [[ $1 = n ]]; then
+    # turn the name into a directory
+    [[ $2 != (#b)p:(?*) ]] && return 1
+    typeset -ga reply
+    reply=(/home/pws/perforce/$match[1])
+  elif [[ $1 = c ]]; then
+    # complete names
+    local expl
+    local -a dirs
+    dirs=(/home/pws/perforce/*(/:t))
+    dirs=(p:${^dirs})
+    _wanted dynamic-dirs expl 'dynamic directory' compadd -S\] -a dirs
+    return
+  else
+    return 1
+  fi
+  return 0
+}
+
+# 14.7.2 Static named directories
+
+~n_a-m.e/ ~n_a-m.e/
+# <- meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#^^^^^^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell constant.other.username.shell
+#       ^ meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.separator.path.shell
+#         ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#          ^^^^^^^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - variable
+#                 ^ meta.string.shell - meta.interpolation
+
+~n_${a-m}.e/ ~n_${a-m}.e/
+# <- meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell variable.language.tilde.shell - variable.function
+#^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell constant.other.username.shell
+#  ^^^^^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell
+#        ^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell constant.other.username.shell
+#          ^ meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.separator.path.shell
+#            ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#             ^^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - variable
+#               ^^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell
+#                     ^^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - variable
+#                       ^ meta.string.shell - meta.interpolation
+
+# 14.7.3 ‘=’ expansion
+
+=command =command
+# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.definition.expansion.shell.zsh
+#^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#        ^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#        ^ punctuation.definition.expansion.shell
+
+
+###############################################################################
+# 14.8 Filename Generation
+# 14.8.1 Glob Operators
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Operators
+###############################################################################
+
+: *
+# ^ constant.other.wildcard.asterisk.shell
+
+: ?
+# ^ constant.other.wildcard.questionmark.shell
+
+: [[:alnum:]] # The character is alphanumeric
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:alpha:]] # The character is alphabetic
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:ascii:]] # The character is 7-bit, i.e. is a single-byte character without the top bit set.
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:blank:]] # The character is a blank character
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:cntrl:]] # The character is a control character
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:digit:]] # The character is a decimal digit
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:graph:]] # The character is a printable character other than whitespace
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:lower:]] # The character is a lowercase letter
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:print:]] # The character is printable
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:punct:]] # The character is printable but neither alphanumeric nor whitespace
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:space:]] # The character is whitespace
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:upper:]] # The character is an uppercase letter
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:xdigit:]] # The character is a hexadecimal digit
+# ^^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^^ constant.other.posix-class.regexp.shell
+#           ^^ punctuation.definition.set.end.regexp.shell
+
+# Another set of named classes is handled internally by the shell and is not sensitive to the locale:
+
+: [[:IDENT:]] # The character is allowed to form part of a shell identifier, such as a parameter name.
+# ^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^ constant.other.posix-class.regexp.shell
+#          ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:IFS:]] # The character is used as an input field separator, i.e. is contained in the IFS parameter
+# ^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^ constant.other.posix-class.regexp.shell
+#        ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:IFSSPACE:]] # The character is an IFS white space character.
+# ^^^^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^^^^ constant.other.posix-class.regexp.shell
+#             ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:INCOMPLETE:]] # Matches a byte that starts an incomplete multibyte character.
+# ^^^^^^^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^^^^^^^ constant.other.posix-class.regexp.shell
+#               ^^ punctuation.definition.set.end.regexp.shell
+
+: [[:WORD:]] # The character is treated as part of a word.
+# ^^^^^^^^^^ meta.set.regexp.shell
+# ^^ punctuation.definition.set.begin.regexp.shell
+#   ^^^^^^ constant.other.posix-class.regexp.shell
+#         ^^ punctuation.definition.set.end.regexp.shell
+
+: [^.][!\ ] # Like [...], except that it matches any character which is not in the given set.
+# ^^^^^^^^^ meta.string.shell string.unquoted.shell meta.set.regexp.shell
+# ^ punctuation.definition.set.begin.regexp.shell
+#  ^ keyword.operator.logical.regexp.shell
+#    ^ punctuation.definition.set.end.regexp.shell
+#     ^ punctuation.definition.set.begin.regexp.shell
+#      ^ keyword.operator.logical.regexp.shell
+#       ^^ constant.character.escape.shell
+#         ^ punctuation.definition.set.end.regexp.shell
+
+: <-> # Matches any number
+# ^^^ meta.range.shell.zsh
+# ^ punctuation.definition.range.begin.shell.zsh
+#  ^ keyword.operator.range.shell.zsh
+#   ^ punctuation.definition.range.end.shell.zsh
+
+: <2-> # Matches any number greator or equal 2
+# ^^^^ meta.range.shell.zsh
+# ^ punctuation.definition.range.begin.shell.zsh
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#   ^ keyword.operator.range.shell.zsh
+#    ^ punctuation.definition.range.end.shell.zsh
+
+: <-5> # Matches any number greator or equal 2
+# ^^^^ meta.range.shell.zsh
+# ^ punctuation.definition.range.begin.shell.zsh
+#  ^ keyword.operator.range.shell.zsh
+#   ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#    ^ punctuation.definition.range.end.shell.zsh
+
+: <2-5>  # Matches numbers from 2 to 5
+# ^^^^ meta.range.shell.zsh
+# ^ punctuation.definition.range.begin.shell.zsh
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#   ^ keyword.operator.range.shell.zsh
+#    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^ punctuation.definition.range.end.shell.zsh
+
+: <$start-$end>  # Matches numbers from $start to $end
+# ^ meta.range.shell.zsh punctuation.definition.range.begin.shell.zsh
+#  ^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^ meta.range.shell.zsh keyword.operator.range.shell.zsh
+#         ^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell variable.other.readwrite.shell
+#             ^ meta.range.shell.zsh punctuation.definition.range.end.shell.zsh
+
+: <${start: 1 + 2 : 5}-${end:${pt0}:${len}}>  # Matches numbers from calculated start to end
+# ^ meta.range.shell.zsh punctuation.definition.range.begin.shell.zsh
+#  ^^^^^^^^^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell
+#                     ^ meta.range.shell.zsh keyword.operator.range.shell.zsh
+#                      ^^^^^^^^^^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell
+#                                          ^ meta.range.shell.zsh punctuation.definition.range.end.shell.zsh
+
+: <${start##<1-5>0}->
+# ^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
+#  ^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
+#           ^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.regexp.shell meta.range.shell.zsh
+#                ^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
+#                  ^^ meta.range.shell.zsh
+#                    ^ - meta.range
+
+: foo<5-21> foo<5-21>bar <5-21>bar
+#    ^^^^^^ meta.range.shell.zsh
+#              ^^^^^^ meta.range.shell.zsh
+#                        ^^^^^^ meta.range.shell.zsh
+
+: 1<1-5> 1<1-5>0 <1-5>0
+#  ^^^^^ meta.range.shell.zsh
+#         ^^^^^ meta.range.shell.zsh
+#                ^^^^^ meta.range.shell.zsh
+
+: foo/(a*/)#bar               # bar matches foo/bar, foo/any/bar, foo/any/anyother/bar, ...
+# ^^^^ meta.string.shell string.unquoted.shell
+#     ^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#          ^^^^ meta.string.shell string.unquoted.shell
+#     ^ punctuation.definition.group.begin.regexp.shell
+#       ^ constant.other.wildcard.asterisk.shell
+#         ^ punctuation.definition.group.end.regexp.shell
+#          ^  keyword.operator.quantifier.regexp.shell.zsh
+
+: (foo|bar)|baz
+# ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
+# ^ punctuation.definition.group.begin.regexp.shell
+#     ^ keyword.operator.logical.regexp.shell
+#         ^ punctuation.definition.group.end.regexp.shell
+#          ^ keyword.operator.assignment.pipe.shell
+#           ^^^ variable.function.shell
+
+  ^foo/bar ^foo/bar           # Matches anything except the pattern x
+# ^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+#         ^ meta.function-call.arguments.shell - variable - string
+#          ^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+#                  ^ - meta
+# ^^^^^^^^ variable.function.shell
+# ^ keyword.operator.logical.regexp.shell.zsh
+#     ^ punctuation.separator.path.shell
+#          ^^^^^^^^ string.unquoted.shell
+#          ^ keyword.operator.logical.regexp.shell.zsh
+
+  ^~/foo/bar ^~/foo/bar      # Matches anything except the pattern x
+# ^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+#           ^ meta.function-call.arguments.shell - variable - string
+#            ^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+#                      ^ - meta
+# ^ keyword.operator.logical.regexp.shell.zsh
+#  ^ variable.language.tilde.shell
+#   ^^^^^^^^ variable.function.shell
+#   ^ punctuation.separator.path.shell
+#       ^ punctuation.separator.path.shell
+#            ^ string.unquoted.shell keyword.operator.logical.regexp.shell.zsh
+#             ^ variable.language.tilde.shell
+#              ^^^^^^^^ string.unquoted.shell
+
+  /foo~/bar /foo~/bar        # Match anything that matches the pattern x but does not match y
+# ^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+#          ^ meta.function-call.arguments.shell - variable - string
+#           ^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+#                    ^ - meta
+# ^^^^^^^^^ variable.function.shell
+# ^ punctuation.separator.path.shell
+#     ^ keyword.operator.logical.regexp.shell.zsh
+#      ^ punctuation.separator.path.shell
+#           ^^^^^^^^^ string.unquoted.shell
+#               ^ keyword.operator.logical.regexp.shell.zsh
+
+  ^/foo~^/bar ^/foo~^/bar
+# ^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+#            ^ meta.function-call.arguments.shell - variable - string
+#             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+#                        ^ - meta
+# ^^^^^^^^^^^ variable.function.shell
+# ^ keyword.operator.logical.regexp.shell.zsh
+#  ^ punctuation.separator.path.shell
+#      ^^ keyword.operator.logical.regexp.shell.zsh
+#        ^ punctuation.separator.path.shell
+#             ^^^^^^^^^^^ string.unquoted.shell
+#             ^ keyword.operator.logical.regexp.shell.zsh
+#                  ^^ keyword.operator.logical.regexp.shell.zsh
+
+  ~/foo~~/bar ~/foo~~/bar
+# ^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+#            ^ meta.function-call.arguments.shell - variable - string
+#             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+#                        ^ - meta
+# ^ variable.language.tilde.shell
+#  ^^^^^ variable.function.shell
+#  ^ punctuation.separator.path.shell
+#      ^ keyword.operator.logical.regexp.shell.zsh
+#       ^ variable.language.tilde.shell
+#        ^^^^ variable.function.shell
+#        ^ punctuation.separator.path.shell
+#             ^ variable.language.tilde.shell
+#              ^^^^ string.unquoted.shell
+#                  ^ keyword.operator.logical.regexp.shell.zsh
+#                   ^ variable.language.tilde.shell
+#                    ^^^^ string.unquoted.shell
+
+  ^~/foo~^~/bar ^~/foo~^~/bar
+# ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+#              ^ meta.function-call.arguments.shell - variable - string
+#               ^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+#                            ^ - meta
+#  ^ variable.language.tilde.shell
+#   ^^^^ variable.function.shell
+#   ^ punctuation.separator.path.shell
+#       ^^ keyword.operator.logical.regexp.shell.zsh
+#         ^ variable.language.tilde.shell
+#          ^^^^ variable.function.shell
+#          ^ punctuation.separator.path.shell
+#                ^ variable.language.tilde.shell
+#                 ^^^^ string.unquoted.shell
+#                     ^^ keyword.operator.logical.regexp.shell.zsh
+#                       ^ variable.language.tilde.shell
+#                        ^^^^ string.unquoted.shell
+
+
+###############################################################################
+# 14.8.2 ksh-like Glob Operators
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#ksh_002dlike-Glob-Operators
+###############################################################################
+
+: @(...) is (...)    # Match the pattern in the parentheses. (Like ‘(...)’.)
+# ^ keyword.operator.quantifier.regexp.shell
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.definition.group.begin.regexp.shell
+#      ^ punctuation.definition.group.end.regexp.shell
+#           ^^^^^ meta.group.regexp.shell
+#           ^ punctuation.definition.group.begin.regexp.shell
+#               ^ punctuation.definition.group.end.regexp.shell
+
+# note: scope * as glob instead of operator as it is more likely in ZSH
+: *(...) is (...)#   # Match any number of occurrences. (Like ‘(...)#’, except that recursive directory searching is not supported.)
+# ^ constant.other.wildcard.asterisk.shell
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.definition.group.begin.regexp.shell
+#      ^ punctuation.definition.group.end.regexp.shell
+#           ^^^^^ meta.group.regexp.shell
+#           ^ punctuation.definition.group.begin.regexp.shell
+#               ^ punctuation.definition.group.end.regexp.shell
+#                ^ keyword.operator.quantifier.regexp.shell
+
+: +(...) is (...)##  # Match at least one occurrence. (Like ‘(...)##’, except that recursive directory searching is not supported.)
+# ^ keyword.operator.quantifier.regexp.shell
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.definition.group.begin.regexp.shell
+#      ^ punctuation.definition.group.end.regexp.shell
+#           ^^^^^ meta.group.regexp.shell
+#           ^ punctuation.definition.group.begin.regexp.shell
+#               ^ punctuation.definition.group.end.regexp.shell
+#                ^^ keyword.operator.quantifier.regexp.shell
+
+# note: scope ? as glob instead of operator as it is more likely in ZSH
+: ?(...) is (|...)   # Match zero or one occurrence. (Like ‘(|...)’.)
+# ^ constant.other.wildcard.questionmark.shell
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.definition.group.begin.regexp.shell
+#      ^ punctuation.definition.group.end.regexp.shell
+#           ^^^^^^ meta.group.regexp.shell
+#           ^ punctuation.definition.group.begin.regexp.shell
+#            ^ keyword.operator.logical.regexp.shell
+#                ^ punctuation.definition.group.end.regexp.shell
+
+: !(...) is (^(...)) # Match anything but the expression in parentheses. (Like ‘(^(...))’.)
+# ^ keyword.operator.quantifier.regexp.shell
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.definition.group.begin.regexp.shell
+#      ^ punctuation.definition.group.end.regexp.shell
+#           ^^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
+#           ^ punctuation.definition.group.begin.regexp.shell
+#            ^ keyword.operator.logical.regexp.shell
+#             ^^^^^ meta.group.regexp.shell meta.group.regexp.shell
+#             ^ punctuation.definition.group.begin.regexp.shell
+#                 ^^ punctuation.definition.group.end.regexp.shell
+#                  ^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
+
+
+###############################################################################
+# 14.8.4 Globbing Flags
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Globbing-Flags
+###############################################################################
+
+: (#i)       #  Match case insensitively
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#l)       #  Lower case matches upper case
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#I)       #  Match case sensitively
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#b)       #  Parentheses set match, mbegin, mend
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#B)       #  Parentheses no longer set arrays
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#c1)      # requires exactly N matches
+# ^^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#c,4)     # requires maximum M matches
+# ^^^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^^^ storage.modifier.mode.glob.shell.zsh
+#      ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#c1,)     # requires at least N matches
+# ^^^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^^^ storage.modifier.mode.glob.shell.zsh
+#      ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#c1,4)    # requires between N and M matches
+# ^^^^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^^^^ storage.modifier.mode.glob.shell.zsh
+#       ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#c$start,$end)    # requires between N and M matches
+# ^^^ meta.modifier.glob.shell.zsh - meta.interpolation
+#    ^^^^^^ meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
+#          ^ meta.modifier.glob.shell.zsh - meta.interpolation
+#           ^^^^ meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
+#               ^ meta.modifier.glob.shell.zsh - meta.interpolation
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^^^^^^ variable.other.readwrite.shell
+#          ^ punctuation.separator.sequence.shell
+#           ^^^^ variable.other.readwrite.shell
+#               ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#m)       #  Match in MATCH, MBEGIN, MEND
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#M)       #  Don’t use MATCH etc.
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#a3)      #  Match with num approximations
+# ^^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#s)       #  Match only at start of test string
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#e)       #  Match only at end of test string
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#q)       #  A ‘q’ and everything up to the closing parenthesis of the globbing flags are ignored by the pattern matching code.
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#qexpr)   #  expr is a a set of glob qualifiers (below)
+# ^^^^^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^^^^ - storage.modifier.mode.glob
+#        ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#u)       #  Respect the current locale in determining the presence of multibyte characters in a pattern
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+: (#U)       #  All characters are considered to be a single byte long.
+# ^^^^ meta.modifier.glob.shell.zsh
+# ^^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.definition.modifier.end.shell.zsh
+
+# examples
+
+: (#ia2)readme # case-insensitive matching of readme with up to two errors.
+# ^^^^^^ meta.string.shell meta.modifier.glob.shell.zsh - string
+#       ^^^^^^ meta.string.shell string.unquoted.shell
+
+: ((#i)foo)bar
+# ^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
+# ^ meta.group.regexp.shell punctuation.definition.group.begin.regexp.shell
+#  ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
+#      ^^^^ meta.group.regexp.shell string.unquoted.shell
+#          ^^^ string.unquoted.shell
+
+arr=(veldt jynx grimps waqf zho buck)
+print ${arr//(#m)[aeiou]/${(U)MATCH}}
+#     ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell - meta.interpolation.parameter meta.interpolation.parameter
+#                        ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell meta.string.shell meta.interpolation.parameter.shell
+#                                   ^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell - meta.interpolation.parameter meta.interpolation.parameter
+#     ^ meta.interpolation.parameter.shell punctuation.definition.variable.shell
+#      ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^^ keyword.operator.substitution.shell
+#            ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#                ^^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.set.regexp.shell
+#                       ^ keyword.operator.substitution.shell
+#                        ^ punctuation.definition.variable.shell
+#                         ^ punctuation.section.interpolation.begin.shell
+#                          ^^^ meta.interpolation.parameter.shell meta.modifier.parameter.shell.zsh
+#                             ^^^^^ variable.language.builtin.shell
+#                                  ^^ punctuation.section.interpolation.end.shell
+
+: *((#s)|/)test((#e)|/)*
+# ^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+# ^ constant.other.wildcard.asterisk.shell
+#  ^ meta.group.regexp.shell - meta.modifier
+#   ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
+#       ^^^ meta.group.regexp.shell - meta.modifier
+#       ^^^^^^^^ string.unquoted.shell
+#              ^ meta.group.regexp.shell - meta.modifier
+#               ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
+#                   ^^^ meta.group.regexp.shell string.unquoted.shell - meta.modifier
+#                      ^ constant.other.wildcard.asterisk.shell
+
+
+###############################################################################
+# 14.8.7 Glob Qualifiers
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Qualifiers
+###############################################################################
+
+# lists all directories and symbolic links that point to directories, and
+ls -ld -- *(-/)
+#         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#          ^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+
+# lists all broken symbolic links, and
+ls -ld -- *(-@)
+#         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#          ^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+
+# lists all world-writable device files in the current directory, and
+ls -ld -- *(%W)
+#         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#          ^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+
+# lists all files in the current directory that are world-writable or world-executable, and
+ls -ld -- *(W,X)
+#         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#          ^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+
+# outputs the basename of all root-owned files beginning with the string ‘foo’
+# in /tmp, ignoring symlinks, and
+print -rC1 /tmp/foo*(u0^@:t)
+#          ^^^^^^^^^ meta.string.shell string.unquoted.shell
+#                   ^^^^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+
+# lists all files having a link count of one whose names contain a dot (but
+# not those starting with a dot, since GLOB_DOTS is explicitly switched off)
+# except for lex.c, lex.h, parse.c and parse.h.
+ls -ld -- *.*~(lex|parse).[ch](^D^l1)
+#         ^^^^ meta.string.shell string.unquoted.shell
+#             ^^^^^^^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#                        ^ meta.string.shell string.unquoted.shell
+#                         ^^^^ meta.string.shell string.unquoted.shell meta.set.regexp.shell
+#                             ^^^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+
+# demonstrates how colon modifiers and other qualifiers may be chained together.
+# TODO: colon initiats history expansions' modifiers
+print -rC1 b*.pro(#q:s/pro/shmo/)(#q.:s/builtin/shmiltin/)
+#          ^^^^^^ meta.string.shell string.unquoted.shell
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.modifier.glob.shell.zsh
+#                                                         ^ - meta.string - meta.modifier
+
+###[ COMMON EXPANSIONS ]#######################################################
+
+# https://wiki.zshell.dev/community/zsh_guide/roadmap/expansion
+ls *(.)                              # List just regular files
+ls -ld *(/om[1,3])                   # Show three newest directories, "om" orders by modification. "[1,3]" works like Python slice
+rm -i *(.L0)                         # Remove zero length files, prompt for each file
+ls *(^m0)                            # Files not modified today
+ls **/*(.x)                          # List all executable files in this tree
+ls *~*.*(.)                          # List all files that does not have a dot in the filename
+ls -l */**(Lk+100)                   # List all files larger than 100kb in this tree
+ls DATA_[0-9](#c4,7).csv             # List DATA_nnnn.csv to DATA_nnnnnnn.csv
+rm ../debianpackage(.)               # Remove files only
+ls -d *(/)                           # List directories only
+ls /etc/*(@)                         # List symlinks only
+ls -l *.(png|jpg|gif)                # List pictures only
+ls *(*)                              # List executables only
+ls /etc/**/zsh                       # Which directories contain zsh?
+ls **/*(-@)                          # List dangling symlinks (** recurses down directory trees)
+ls foo*~*bar*                        # Match everything that starts with foo but doesn't contain bar
+ls *(e:'file $REPLY | grep -q JPEG':) # Match all files of which file says that they are JPEGs
+ls -ldrt -- *(mm+15)                 # List all files older than 15mins
+ls -ldrt -- *(.mm+15)                # List just regular files
+ls -ld /my/path/**/*(D@-^@)          # List the unbroken symlinks under a directory
+ls -Lldrt -- *(-mm+15)               # List the age of the pointed-to file for symlinks
+ls -l **/README                      # Search for README in all Subdirectories
+ls -l foo<23->                       # List files beginning at foo23 upwards (foo23, foo24, foo25, ..)
+ls -l 200406{04..10}*(N)             # List all files that begin with the date strings from June 4 through June 9 of 2004
+ls -l 200406<4-10>.*                 # List will match the form of 200406XX
+ls -l *.(c|h)                        # Show only all *.c and *.h files
+ls -l *(R)                           # Show only world-readable files
+ls -fld *(OL)                        # Sort the output from ls -l by file size
+ls -fl *(DOL[1,5])                   # Print only 5 lines by the ls command (is equal to: ls -laS | head -n 5)
+ls -l *(G[users])                    # Show only files are owned from group users
+ls *(L0f.go-w.)                      # Show only empty files which nor group or world writable
+ls *.c~foo.c                         # Show only all *.c files and ignore foo.c
+print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directories, list their contents, and output the first item in the above list
+print -rl /**/*~^*/path(|/*)         # Find command to search for directory name instead of basename
+print -l ~/*(ND.^w)                  # List files in the current directory that are not writable by the owner
+print -rl -- *(Dmh+10^/)             # List all files which have not been updated in the last 10 hours
+print -rl -- **/*(Dom[1,10])         # List the ten newest files in directories and subdirectories (recursive)
+print -rl -- /path/to/dir/**/*(D.om[5,10])  # Display the 5-10 last modified files
+print -rl -- **/*.c(D.OL[1,10]:h) | sort -u # Print the path of the directories holding the ten biggest C regular files in the current directory and subdirectories
+print directory/**/*(om[1])                 # Find most recent file in a directory
+for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces from filenames
+
+
+### [ ARRAY VARIABLES ] #######################################################
+
+var[1]=Hello
+# <- meta.variable.shell variable.other.readwrite.shell
+#^^ meta.variable.shell variable.other.readwrite.shell
+#  ^^^ meta.variable.shell meta.item-access.shell
+#  ^ punctuation.section.item-access.begin.shell - meta.string - string
+#   ^ meta.string.shell string.unquoted.shell - punctuation
+#    ^ punctuation.section.item-access.end.shell - meta.string - string
+#     ^ keyword.operator.assignment.shell
+#      ^^^^^ meta.string.shell string.unquoted.shell
+
+echo $var[1] World
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell
+#        ^^^ meta.item-access.shell - variable
+#        ^ punctuation.section.item-access.begin.shell - string
+#         ^ meta.string.shell string.unquoted.shell
+#          ^ punctuation.section.item-access.end.shell - string
+#            ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+
+
+##############################################################################
+# 15.5 Parameters Set By The Shell
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Set-By-The-Shell
+##############################################################################
+
+: $ARGC
+# ^^^^^ variable.language.builtin.shell
+: $argv
+# ^^^^^ variable.language.builtin.shell
+: $status
+# ^^^^^^^ variable.language.builtin.shell
+: $pipestatus
+# ^^^^^^^^^^^ variable.language.builtin.shell
+: $CPUTYPE
+# ^^^^^^^^ variable.language.builtin.shell
+: $EGID
+# ^^^^^ variable.language.builtin.shell
+: $EUID
+# ^^^^^ variable.language.builtin.shell
+: $ERRNO
+# ^^^^^^ variable.language.builtin.shell
+: $FUNCNEST
+# ^^^^^^^^^ variable.language.builtin.shell
+: $GID
+# ^^^^ variable.language.builtin.shell
+: $HISTCMD
+# ^^^^^^^^ variable.language.builtin.shell
+: $HOST
+# ^^^^^ variable.language.builtin.shell
+: $LINENO
+# ^^^^^^^ variable.language.builtin.shell
+: $LOGNAME
+# ^^^^^^^^ variable.language.builtin.shell
+: $MACHTYPE
+# ^^^^^^^^^ variable.language.builtin.shell
+: $OLDPWD
+# ^^^^^^^ variable.language.builtin.shell
+: $OPTARG
+# ^^^^^^^ variable.language.builtin.shell
+: $OPTIND
+# ^^^^^^^ variable.language.builtin.shell
+: $OSTYPE
+# ^^^^^^^ variable.language.builtin.shell
+: $PPID
+# ^^^^^ variable.language.builtin.shell
+: $PWD
+# ^^^^ variable.language.builtin.shell
+: $RANDOM
+# ^^^^^^^ variable.language.builtin.shell
+: $SECONDS
+# ^^^^^^^^ variable.language.builtin.shell
+: $SHLVL
+# ^^^^^^ variable.language.builtin.shell
+: $signals
+# ^^^^^^^^ variable.language.builtin.shell
+: $TRY_BLOCK_ERROR
+# ^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $TRY_BLOCK_INTERRUPT
+# ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $TTY
+# ^^^^ variable.language.builtin.shell
+: $TTYIDLE
+# ^^^^^^^^ variable.language.builtin.shell
+: $UID
+# ^^^^ variable.language.builtin.shell
+: $USERNAME
+# ^^^^^^^^^ variable.language.builtin.shell
+: $VENDOR
+# ^^^^^^^ variable.language.builtin.shell
+: $zsh_eval_context
+# ^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_ARGZERO
+# ^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_EXECUTION_STRING
+# ^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_NAME
+# ^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_PATCHLEVEL
+# ^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $zsh_scheduled_events
+# ^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_SCRIPT
+# ^^^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_SUBSHELL
+# ^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZSH_VERSION
+# ^^^^^^^^^^^^ variable.language.builtin.shell
+
+##############################################################################
+# 15.6 Parameters Used By The Shell
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell
+##############################################################################
+
+: $ARGV0
+# ^^^^^^ variable.language.builtin.shell
+: $BAUD
+# ^^^^^ variable.language.builtin.shell
+: $cdpath
+# ^^^^^^^ variable.language.builtin.shell
+: $COLUMNS
+# ^^^^^^^^ variable.language.builtin.shell
+: $CORRECT_IGNORE
+# ^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $CORRECT_IGNORE_FILE
+# ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $DIRSTACKSIZE
+# ^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ENV
+# ^^^^ variable.language.builtin.shell
+: $FCEDIT
+# ^^^^^^^ variable.language.builtin.shell
+: $fignore
+# ^^^^^^^^ variable.language.builtin.shell
+: $fpath
+# ^^^^^^ variable.language.builtin.shell
+: $histchars
+# ^^^^^^^^^^ variable.language.builtin.shell
+: $HISTCHARS
+# ^^^^^^^^^^ variable.language.builtin.shell
+: $HISTFILE
+# ^^^^^^^^^ variable.language.builtin.shell
+: $HISTORY_IGNORE
+# ^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $HISTSIZE
+# ^^^^^^^^^ variable.language.builtin.shell
+: $HOME
+# ^^^^^ variable.language.builtin.shell
+: $IFS
+# ^^^^ variable.language.builtin.shell
+: $KEYBOARD_HACK
+# ^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $KEYTIMEOUT
+# ^^^^^^^^^^^ variable.language.builtin.shell
+: $LANG
+# ^^^^^ variable.language.builtin.shell
+: $LC_ALL
+# ^^^^^^^ variable.language.builtin.shell
+: $LC_COLLATE
+# ^^^^^^^^^^^ variable.language.builtin.shell
+: $LC_CTYPE
+# ^^^^^^^^^ variable.language.builtin.shell
+: $LC_MESSAGES
+# ^^^^^^^^^^^^ variable.language.builtin.shell
+: $LC_NUMERIC
+# ^^^^^^^^^^^ variable.language.builtin.shell
+: $LC_TIME
+# ^^^^^^^^ variable.language.builtin.shell
+: $LINES
+# ^^^^^^ variable.language.builtin.shell
+: $LISTMAX
+# ^^^^^^^^ variable.language.builtin.shell
+: $MAIL
+# ^^^^^ variable.language.builtin.shell
+: $MAILCHECK
+# ^^^^^^^^^^ variable.language.builtin.shell
+: $mailpath
+# ^^^^^^^^^ variable.language.builtin.shell
+: $manpath
+# ^^^^^^^^ variable.language.builtin.shell
+: $match
+# ^^^^^^ variable.language.builtin.shell
+: $mbegin
+# ^^^^^^^ variable.language.builtin.shell
+: $mend
+# ^^^^^ variable.language.builtin.shell
+: $MATCH
+# ^^^^^^ variable.language.builtin.shell
+: $MBEGIN
+# ^^^^^^^ variable.language.builtin.shell
+: $MEND
+# ^^^^^ variable.language.builtin.shell
+: $module_path
+# ^^^^^^^^^^^^ variable.language.builtin.shell
+: $NULLCMD
+# ^^^^^^^^ variable.language.builtin.shell
+: $path
+# ^^^^^ variable.language.builtin.shell
+: $POSTEDIT
+# ^^^^^^^^^ variable.language.builtin.shell
+: $PROMPT
+# ^^^^^^^ variable.language.builtin.shell
+: $PROMPT2
+# ^^^^^^^^ variable.language.builtin.shell
+: $PROMPT3
+# ^^^^^^^^ variable.language.builtin.shell
+: $PROMPT4
+# ^^^^^^^^ variable.language.builtin.shell
+: $prompt
+# ^^^^^^^ variable.language.builtin.shell
+: $PROMPT_EOL_MARK
+# ^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $PS1
+# ^^^^ variable.language.builtin.shell
+: $PS2
+# ^^^^ variable.language.builtin.shell
+: $PS3
+# ^^^^ variable.language.builtin.shell
+: $PS4
+# ^^^^ variable.language.builtin.shell
+: $psvar
+# ^^^^^^ variable.language.builtin.shell
+: $READNULLCMD
+# ^^^^^^^^^^^^ variable.language.builtin.shell
+: $REPORTMEMORY
+# ^^^^^^^^^^^^^ variable.language.builtin.shell
+: $REPORTTIME
+# ^^^^^^^^^^^ variable.language.builtin.shell
+: $REPLY
+# ^^^^^^ variable.language.builtin.shell
+: $reply
+# ^^^^^^ variable.language.builtin.shell
+: $RPROMPT
+# ^^^^^^^^ variable.language.builtin.shell
+: $RPS1
+# ^^^^^ variable.language.builtin.shell
+: $RPROMPT2
+# ^^^^^^^^^ variable.language.builtin.shell
+: $RPS2
+# ^^^^^ variable.language.builtin.shell
+: $SAVEHIST
+# ^^^^^^^^^ variable.language.builtin.shell
+: $SPROMPT
+# ^^^^^^^^ variable.language.builtin.shell
+: $STTY
+# ^^^^^ variable.language.builtin.shell
+: $TERM
+# ^^^^^ variable.language.builtin.shell
+: $TERMINFO
+# ^^^^^^^^^ variable.language.builtin.shell
+: $TERMINFO_DIRS
+# ^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $TIMEFMT
+# ^^^^^^^^ variable.language.builtin.shell
+: $TMOUT
+# ^^^^^^ variable.language.builtin.shell
+: $TMPPREFIX
+# ^^^^^^^^^^ variable.language.builtin.shell
+: $TMPSUFFIX
+# ^^^^^^^^^^ variable.language.builtin.shell
+: $WORDCHARS
+# ^^^^^^^^^^ variable.language.builtin.shell
+: $ZBEEP
+# ^^^^^^ variable.language.builtin.shell
+: $ZDOTDIR
+# ^^^^^^^^ variable.language.builtin.shell
+: $zle_bracketed_paste
+# ^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $zle_highlight
+# ^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZLE_LINE_ABORTED
+# ^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZLE_REMOVE_SUFFIX_CHARS
+# ^^^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZLE_SPACE_SUFFIX_CHARS
+# ^^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+: $ZLE_RPROMPT_INDENT
+# ^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell

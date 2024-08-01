@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.shell</string>
+	<string>source.shell.zsh</string>
 	<key>settings</key>
 	<dict>
 		<!--
@@ -12,24 +12,34 @@
 		 -->
 		<key>cancelCompletion</key>
 		<string><![CDATA[(?x)
-			^ .* \b(?:
-			  case
+			^ .*
+			\b(?:
+			  always
+			| case
 			| coproc
 			| declare
 			| do
 			| done
 			| elif
 			| else
+			| end
 			| esac
 			| export
 			| fi
+			| float
 			| for
+			| foreach
 			| function
 			| if
+			| integer
 			| local
+			| nocorrect
+			| noglob
 			| readonly
+			| repeat
 			| select
 			| then
+			| time
 			| typeset
 			| until
 			| while
