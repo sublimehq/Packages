@@ -9688,6 +9688,32 @@ printFunction "$variableString1" "`declare -p variableArray`"
 
 
 ###############################################################################
+# 4.2 Bash Builtin Commands (eval)                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-eval               #
+###############################################################################
+
+eval
+# <- meta.function-call.identifier.shell support.function.eval.shell
+#^^^ meta.function-call.identifier.shell support.function.eval.shell
+
+eval ls .
+# <- meta.function-call.identifier.shell support.function.eval.shell
+#^^^ meta.function-call.identifier.shell support.function.eval.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#    ^^ meta.string.shell string.unquoted.shell
+#       ^ meta.string.shell string.unquoted.shell
+
+eval "echo Helo ${name:a " + 2":$len}" !
+# <- meta.function-call.identifier.shell support.function.eval.shell
+#^^^ meta.function-call.identifier.shell support.function.eval.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#               ^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell
+#                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                      ^ meta.string.shell string.unquoted.shell
+
+
+###############################################################################
 # 4.2 Bash Builtin Commands (exec)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-exec               #
 ###############################################################################
