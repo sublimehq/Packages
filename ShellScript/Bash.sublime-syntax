@@ -264,8 +264,6 @@ contexts:
 
   statement:
     - include: redirections
-    - include: operators
-    - include: terminators
     - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
@@ -286,9 +284,9 @@ contexts:
     - include: def-variables
     - include: def-functions
     - include: booleans
+    - include: eoc-pop
     - include: cmd-basic
     - include: illegal-stray
-    - include: eol-pop
 
 ###[ COMMENTS ]################################################################
 

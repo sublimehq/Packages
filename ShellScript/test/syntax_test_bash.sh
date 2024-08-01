@@ -2215,10 +2215,9 @@ coproc ls thisfiledoesntexist; read; 2>&1
 #     ^ meta.coproc.command.shell
 #      ^^ meta.coproc.command.shell meta.function-call.identifier.shell
 #        ^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.function-call.arguments.shell
-#                            ^^ meta.coproc.command.shell - meta.function-call.identifier.shell
-#                              ^^^^ meta.coproc.command.shell meta.function-call.identifier.shell
-#                                  ^^^^^^ meta.coproc.command.shell - meta.function-call.identifier.shell
-#                                        ^ - meta.coproc
+#                            ^^^^^^^^^^^^^ - meta.coproc
+#                              ^^^^ meta.function-call.identifier.shell
+#                                  ^^^^^^ - meta.function-call.identifier.shell
 #^^^^^ keyword.declaration.coproc.shell
 #      ^^ variable.function.shell
 #                            ^ punctuation.terminator.statement.shell
