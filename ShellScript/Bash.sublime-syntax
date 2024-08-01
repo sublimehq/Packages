@@ -591,7 +591,7 @@ contexts:
         1: meta.coproc.shell
         2: meta.coproc.identifier.shell
         3: entity.name.function.shell
-        4: meta.coproc.command.shell meta.compound.shell
+        4: meta.coproc.command.shell meta.compound.command.shell
            punctuation.section.compound.begin.shell
       set: cmd-coproc-compound-command
     - match: ''
@@ -602,10 +602,10 @@ contexts:
     - include: statement
 
   cmd-coproc-compound-command:
-    - meta_content_scope: meta.coproc.command.shell meta.compound.shell
+    - meta_content_scope: meta.coproc.command.shell meta.compound.command.shell
     - match: \}
       scope:
-        meta.coproc.command.shell meta.compound.shell
+        meta.coproc.command.shell meta.compound.command.shell
         punctuation.section.compound.end.shell
       pop: 1
     - include: statements
@@ -1090,14 +1090,14 @@ contexts:
       push: cmd-compound-parens-body
 
   cmd-compound-braces-body:
-    - meta_scope: meta.compound.shell
+    - meta_scope: meta.compound.command.shell
     - match: \}
       scope: punctuation.section.compound.end.shell
       pop: 1
     - include: statements
 
   cmd-compound-parens-body:
-    - meta_scope: meta.compound.shell
+    - meta_scope: meta.compound.command.shell
     - match: \)
       scope: punctuation.section.compound.end.shell
       pop: 1
@@ -1830,16 +1830,16 @@ contexts:
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
-        3: meta.compound.shell
+        3: meta.compound.command.shell
            punctuation.section.compound.begin.shell
       push: redirections-process-body
 
   redirections-process-body:
     - meta_scope: meta.redirection.shell
-    - meta_content_scope: meta.compound.shell
+    - meta_content_scope: meta.compound.command.shell
     - match: \)
       scope:
-        meta.compound.shell
+        meta.compound.command.shell
         punctuation.section.compound.end.shell
       pop: 1
     - include: statements

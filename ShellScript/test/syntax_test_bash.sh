@@ -1791,7 +1791,7 @@ asdf foo && FOO=some-value pwd
 #                          ^^^ meta.function-call.identifier.shell support.function.pwd.shell
 
 (cd Layer1-linux  && PLATFORM=${PLATFORM} ./build ) &&
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.command.shell
 # <- punctuation.section.compound.begin.shell
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
@@ -1801,7 +1801,7 @@ asdf foo && FOO=some-value pwd
 #                                                 ^ punctuation.section.compound.end.shell
 #                                                   ^^ keyword.operator.logical.shell
 (cd Layer2-nodejs && PLATFORM=${PLATFORM} ./build ) &&
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.command.shell
 # <- punctuation.section.compound.begin.shell
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
@@ -1811,7 +1811,7 @@ asdf foo && FOO=some-value pwd
 #                                                 ^ punctuation.section.compound.end.shell
 #                                                   ^^ keyword.operator.logical.shell
 (cd Layer3-base   && PLATFORM=${PLATFORM} ./build ) &&
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.command.shell
 # <- punctuation.section.compound.begin.shell
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
@@ -1821,7 +1821,7 @@ asdf foo && FOO=some-value pwd
 #                                                 ^ punctuation.section.compound.end.shell
 #                                                   ^^ keyword.operator.logical.shell
 (cd Layer4-custom && PLATFORM=${PLATFORM} name=${NOSN} ./build ) || err $?
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.command.shell
 # <- punctuation.section.compound.begin.shell
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
@@ -2111,14 +2111,14 @@ esac
 ###############################################################################
 
 (foo)
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^^^ meta.compound.shell meta.function-call.identifier.shell variable.function.shell
-#   ^ meta.compound.shell punctuation.section.compound.end.shell
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^ meta.compound.command.shell meta.function-call.identifier.shell variable.function.shell
+#   ^ meta.compound.command.shell punctuation.section.compound.end.shell
 #    ^ - meta
 
 { foo -o }
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^ meta.compound.shell - meta.compound meta.compound
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^ meta.compound.command.shell - meta.compound meta.compound
 # ^^^ meta.function-call.identifier.shell
 #    ^^^ meta.function-call.arguments.shell
 #       ^^ - meta.function-call
@@ -2129,23 +2129,23 @@ esac
 #        ^ punctuation.section.compound.end.shell
 
 {
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^ meta.compound.shell - meta.compound meta.compound
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^ meta.compound.command.shell - meta.compound meta.compound
   {
-#^ meta.compound.shell - meta.compound meta.compound
-# ^^ meta.compound.shell meta.compound.shell
+#^ meta.compound.command.shell - meta.compound meta.compound
+# ^^ meta.compound.command.shell meta.compound.command.shell
 # ^ punctuation.section.compound.begin.shell
     foo args
-#^^^^^^^^^^^^ meta.compound.shell meta.compound.shell
+#^^^^^^^^^^^^ meta.compound.command.shell meta.compound.command.shell
 #   ^^^ meta.function-call.identifier.shell variable.function.shell
 #      ^^^^^ meta.function-call.arguments.shell
   } 2>> "$stderr_log"
-#^^ meta.compound.shell meta.compound.shell
-#  ^ meta.compound.shell - meta.compound meta.compound
-#   ^^^^^^^^^^^^^^^^^ meta.compound.shell meta.redirection.shell
+#^^ meta.compound.command.shell meta.compound.command.shell
+#  ^ meta.compound.command.shell - meta.compound meta.compound
+#   ^^^^^^^^^^^^^^^^^ meta.compound.command.shell meta.redirection.shell
 # ^ punctuation.section.compound.end.shell
 } 1>> "$stdout_log"
-# <- meta.compound.shell - meta.compound meta.compound
+# <- meta.compound.command.shell - meta.compound meta.compound
 #^ - meta
 # ^^^^^^^^^^^^^^^^^ meta.redirection.shell
 # <- punctuation.section.compound.end.shell
@@ -2217,7 +2217,7 @@ coproc awk '{print "foo" $0;fflush()}'
 coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 # <- meta.coproc.shell keyword.declaration.coproc.shell
 #^^^^^^ meta.coproc.shell
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.command.shell
 #                                            ^^^ - meta.coproc - meta.compound - meta.function-call
 #                                               ^^^ meta.function-call.identifier.shell
 #                                                  ^ - meta.function-call - meta.function.coproc
@@ -2243,7 +2243,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 # <- meta.coproc.shell keyword.declaration.coproc.shell
 #^^^^^^ meta.coproc.shell
 #      ^^^^^ meta.coproc.identifier.shell - meta.compound
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.shell
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.command.shell
 #                                                 ^^^ - meta.function-call
 #                                                    ^^^ meta.function-call.identifier.shell
 #^^^^^ keyword.declaration.coproc.shell
@@ -2260,13 +2260,13 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                                    ^^^ variable.function.shell
 
 { coproc tee { tee logfile ;} >&3 ;} 3>&1
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-# ^^^^^^^ meta.compound.shell meta.coproc.shell
-#        ^^^^ meta.compound.shell meta.coproc.identifier.shell
-#            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.shell
-#                            ^ meta.compound.shell - meta.redirection - meta.coproc
-#                             ^^^ meta.compound.shell meta.redirection.shell - meta.coproc
-#                                ^^^ meta.compound.shell - meta.redirection - meta.coproc
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+# ^^^^^^^ meta.compound.command.shell meta.coproc.shell
+#        ^^^^ meta.compound.command.shell meta.coproc.identifier.shell
+#            ^^^^^^^^^^^^^^^^ meta.compound.command.shell meta.coproc.command.shell meta.compound.command.shell
+#                            ^ meta.compound.command.shell - meta.redirection - meta.coproc
+#                             ^^^ meta.compound.command.shell meta.redirection.shell - meta.coproc
+#                                ^^^ meta.compound.command.shell - meta.redirection - meta.coproc
 #                                   ^ - meta
 #                                    ^^^^ meta.redirection.shell
 # ^^^^^^ keyword.declaration.coproc.shell
@@ -2288,15 +2288,15 @@ coproc foobar {
 # <- meta.coproc.shell keyword.declaration.coproc.shell
 #^^^^^^ meta.coproc.shell
 #      ^^^^^^^ meta.coproc.identifier.shell
-#             ^^ meta.coproc.command.shell meta.compound.shell
+#             ^^ meta.coproc.command.shell meta.compound.command.shell
 #^^^^^ keyword.declaration.coproc.shell
 #      ^^^^^^ entity.name.function.shell
 #             ^ punctuation.section.compound.begin.shell
     read
-#^^^^^^^^ meta.coproc.command.shell meta.compound.shell
-#   ^^^^ meta.coproc.command.shell meta.compound.shell meta.function-call.identifier.shell support.function.read.shell
+#^^^^^^^^ meta.coproc.command.shell meta.compound.command.shell
+#   ^^^^ meta.coproc.command.shell meta.compound.command.shell meta.function-call.identifier.shell support.function.read.shell
 }
-# <- meta.coproc.command.shell meta.compound.shell punctuation.section.compound.end.shell
+# <- meta.coproc.command.shell meta.compound.command.shell punctuation.section.compound.end.shell
 #^ - meta
 
 
@@ -3033,16 +3033,16 @@ charclass=\}ower
 #         ^^ constant.character.escape.shell
 
 (foo=bar)
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^^^^^^^^ meta.compound.shell
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^^^^^^ meta.compound.command.shell
 #^^^ meta.variable.shell variable.other.readwrite.shell
 #   ^ keyword.operator.assignment.shell
 #    ^^^ meta.string.shell string.unquoted.shell
 #       ^ punctuation.section.compound.end.shell - string-unquoted
 
 { foo=bar }
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^ meta.compound.shell
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.command.shell
 # ^^^ meta.variable.shell variable.other.readwrite.shell
 #    ^ keyword.operator.assignment.shell
 #     ^^^ meta.string.shell string.unquoted.shell
@@ -3256,7 +3256,7 @@ foo=`some-command -x`
 
 foo=`(uname -r --) 2>/dev/null`
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
-#    ^^^^^^^^^^^^^ meta.compound.shell
+#    ^^^^^^^^^^^^^ meta.compound.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #     ^^^^^ variable.function.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -3268,7 +3268,7 @@ foo=`(uname -r --) 2>/dev/null`
 
 foo=`(uname -r) 2>/dev/null` || foo=unknown
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
-#    ^^^^^^^^^^ meta.compound.shell
+#    ^^^^^^^^^^ meta.compound.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #     ^^^^^ variable.function.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -3846,14 +3846,14 @@ z..2}
 #                                      ^^ punctuation.section.interpolation.end.shell
 
   { : {1..21} }
-# ^^^^ meta.compound.shell - meta.interpolation
-#     ^^^^^^^ meta.compound.shell meta.interpolation.brace.shell
-#            ^^ meta.compound.shell - meta.interpolation
+# ^^^^ meta.compound.command.shell - meta.interpolation
+#     ^^^^^^^ meta.compound.command.shell meta.interpolation.brace.shell
+#            ^^ meta.compound.command.shell - meta.interpolation
 
   ( : {1..21} )
-# ^^^^ meta.compound.shell - meta.interpolation
-#     ^^^^^^^ meta.compound.shell meta.interpolation.brace.shell
-#            ^^ meta.compound.shell - meta.interpolation
+# ^^^^ meta.compound.command.shell - meta.interpolation
+#     ^^^^^^^ meta.compound.command.shell meta.interpolation.brace.shell
+#            ^^ meta.compound.command.shell - meta.interpolation
 
 any --arg{1..4}={1..4}
 #   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
@@ -8628,10 +8628,10 @@ tr "o" "a" < <(echo "Foo")
 wc <(cat /usr/share/dict/linux.words)
 # ^ meta.function-call.arguments.shell - meta.redirection
 #  ^ meta.function-call.arguments.shell meta.redirection.shell - meta.compound
-#   ^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell - meta.function-call meta.function-call
-#    ^^^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell meta.function-call.identifier.shell
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell meta.function-call.arguments.shell
-#                                   ^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.shell - meta.function-call meta.function-call
+#   ^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.command.shell - meta.function-call meta.function-call
+#    ^^^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.command.shell meta.function-call.identifier.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.command.shell meta.function-call.arguments.shell
+#                                   ^ meta.function-call.arguments.shell meta.redirection.shell meta.compound.command.shell - meta.function-call meta.function-call
 #  ^ keyword.operator.assignment.redirection.shell
 #   ^ punctuation.section.compound.begin.shell
 #    ^^^ variable.function.shell
@@ -8639,10 +8639,10 @@ wc <(cat /usr/share/dict/linux.words)
 
 comm <(ls -l) <(ls -al)
 #    ^ meta.redirection.shell - meta.compound
-#     ^^^^^^^ meta.redirection.shell meta.compound.shell
+#     ^^^^^^^ meta.redirection.shell meta.compound.command.shell
 #            ^ - meta.redirection - meta.compound
 #             ^ meta.redirection.shell - meta.compound
-#              ^^^^^^^^ meta.redirection.shell meta.compound.shell
+#              ^^^^^^^^ meta.redirection.shell meta.compound.command.shell
 #                      ^ - meta.redirection - meta.compound
 #    ^ keyword.operator.assignment.redirection.shell
 #     ^ punctuation.section.compound.begin.shell
@@ -10058,7 +10058,7 @@ let test -z $2 && { }
 #^^ meta.function-call.identifier.shell support.function.let.shell
 #  ^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
 #             ^^^^ - meta.arithmetic - meta.compound
-#                 ^^^ meta.compound.shell
+#                 ^^^ meta.compound.command.shell
 #^^ support.function.let.shell
 #   ^^^^ variable.other.readwrite.shell
 #        ^ keyword.operator.arithmetic.shell
