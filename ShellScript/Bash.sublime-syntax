@@ -896,22 +896,20 @@ contexts:
 
   cmd-test:
     - match: \[\[(?=\s)
-      scope: support.function.test.begin.shell
+      scope: punctuation.section.compound.begin.shell
       push: compound-test-body
     - match: \[(?=\s)
-      scope: support.function.test.begin.shell
+      scope: punctuation.section.compound.begin.shell
       push: builtin-test-body
     - match: test{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.test.shell
+      scope: meta.function-call.identifier.shell support.function.test.shell
       push: cmd-test-args
 
   builtin-test-body:
-    - meta_scope: meta.conditional.shell
+    - meta_scope: meta.compound.conditional.shell
     - match: '{{wspace}}(\])'
       captures:
-        1: support.function.test.end.shell
+        1: punctuation.section.compound.end.shell
       pop: 1
     - include: cmd-test-args
 
@@ -927,10 +925,10 @@ contexts:
     - include: test-expression-common
 
   compound-test-body:
-    - meta_scope: meta.conditional.shell
+    - meta_scope: meta.compound.conditional.shell
     - match: '{{wspace}}(\]\])'
       captures:
-        1: support.function.test.end.shell
+        1: punctuation.section.compound.end.shell
       pop: 1
     - match: \(
       scope: punctuation.section.group.begin.shell
