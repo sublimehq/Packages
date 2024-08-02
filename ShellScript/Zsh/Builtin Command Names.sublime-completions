@@ -1,0 +1,370 @@
+{
+	"scope": "source.shell.zsh meta.function-call.identifier - source.shell.zsh meta.function.identifier meta.interpolation",
+	"completions": [
+		{
+			"trigger": "autoload",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "bg",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "bindkey",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "bye",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "cap",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "chdir",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "clone",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "comparguments",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compcall",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compctl",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compdescribe",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compfiles",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compgroups",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compquote",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "comptags",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "comptry",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "compvalues",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "dirs",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "disable",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "disown",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "echotc",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "echoti",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "emulate",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "false",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "fc",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "fg",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "float",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "functions",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "getcap",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "getln",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "history",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "integer",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "job",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "jobs",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "kill",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "limit",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "noglob",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "popd",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "print",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "pushd",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "pushln",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "r",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "rehash",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "sched",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "set",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "setcap",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "setopt",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "stat",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "suspend",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "true",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "ttyctl",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "unfunction",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "unhash",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "unlimit",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "unset",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "unsetopt",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "vared",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "wait",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "whence",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "where",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "which",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zcompile",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zformat",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zftp",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zle",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zmodload",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zparseopts",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zprof",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zpty",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zregexparse",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zsocket",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "zstyle",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
+			"trigger": "ztcp",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+	],
+}
