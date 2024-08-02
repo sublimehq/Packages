@@ -912,7 +912,7 @@ for \
 var in $vars;
 #<-  variable.other.readwrite.shell
 #^^ variable.other.readwrite.shell
-#   ^^ keyword.control.in.shell
+#   ^^ keyword.operator.iterator.in.shell
 #      ^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #           ^ punctuation.terminator.statement.shell
 
@@ -995,7 +995,7 @@ for \
 for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^^^^ meta.string.shell string.unquoted.shell
 #             ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                   ^^^^^^ meta.string.shell string.quoted.double.shell
@@ -1012,7 +1012,7 @@ for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 
 for i in for in do echo done; do echo $i; done;
 # <- keyword.control.loop.for.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #       ^ - meta.string
 #        ^^^ meta.string.shell string.unquoted.shell
 #           ^ - meta.string
@@ -1034,7 +1034,7 @@ for i in for in do echo done; do echo $i; done;
 for i in { [ \( ; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #       ^ - meta.string
 #        ^ meta.string.shell string.unquoted.shell
 #         ^ - meta.string
@@ -1053,7 +1053,7 @@ for i in { [ \( ; do echo $i; done;
 for i in <files.txt; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^ keyword.operator.assignment.redirection.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
@@ -1068,7 +1068,7 @@ for i in <files.txt; do echo $i; done;
 for i in {foo,bar,baz}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
 #         ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
 #            ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
@@ -1081,7 +1081,7 @@ for i in {foo,bar,baz}; do echo $i; done;
 for i in for pre{foo,bar,baz}suf; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^^^ meta.string.shell string.unquoted.shell
 #           ^ - meta.string
 #            ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
@@ -1098,7 +1098,7 @@ for i in for pre{foo,bar,baz}suf; do echo $i; done;
 for i in {1..10}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -1117,7 +1117,7 @@ for i in {1..10}; do echo $i; done;
 for i in {-10..+20}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^^^^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
@@ -1138,7 +1138,7 @@ for i in {-10..+20}; do echo $i; done;
 for i in {-10..+20..-4}; do echo $i; done;
 # <- keyword.control.loop.for.shell
 #   ^ meta.variable.shell variable.other.readwrite.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^^^^^^^^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
@@ -1166,7 +1166,7 @@ for i in $(seq 100); do
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #        ^^^^^^^^^^ meta.interpolation.command.shell
-#     ^^ keyword.control.in.shell
+#     ^^ keyword.operator.iterator.in.shell
 #        ^ punctuation.definition.variable.shell
 #         ^ punctuation.section.interpolation.begin.shell
 #          ^^^ meta.function-call variable.function.shell
@@ -1184,7 +1184,7 @@ done
 #         ^^^^^^^^^^ meta.interpolation.command.shell
 #                   ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
 #^^^ keyword.control.loop.for.shell
-#      ^^ keyword.control.in.shell
+#      ^^ keyword.operator.iterator.in.shell
 #         ^ punctuation.definition.variable.shell
 #          ^ punctuation.section.interpolation.begin.shell
 #           ^^^ meta.function-call.identifier.shell variable.function.shell
@@ -1200,7 +1200,7 @@ for domain in $domains; do echo $domain; done
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^^^^^ variable.other.readwrite.shell - keyword
-#          ^^ keyword.control.in.shell
+#          ^^ keyword.operator.iterator.in.shell
 #             ^^^^^^^^ variable.other.readwrite.shell
 #                     ^ punctuation.terminator.statement.shell
 #                       ^^ keyword.control.loop.do.shell
@@ -1220,7 +1220,7 @@ for domain in $domains; do echo $domain; done
 select var in 1 2 3 4 5; do echo $i; done;
 # <- keyword.control.loop.select.shell
 #      ^^^ variable.other.readwrite.shell
-#          ^^ keyword.control.in.shell
+#          ^^ keyword.operator.iterator.in.shell
 #            ^ - string
 #             ^ meta.string.shell string.unquoted.shell
 #              ^ - string
@@ -1242,7 +1242,7 @@ select var in 1 2 3 4 5; do echo $i; done;
 select fname in *;
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
-#            ^^ keyword.control.in.shell
+#            ^^ keyword.operator.iterator.in.shell
 #               ^ meta.string.shell string.unquoted.shell
 #                ^ punctuation.terminator.statement.shell
 do

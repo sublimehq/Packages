@@ -1464,7 +1464,7 @@ contexts:
 
   loop-iterator-var:
     - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
+      scope: keyword.operator.iterator.in.shell
       set: loop-iterator-wordlist
     - include: cmd-args-end
     - include: variables
