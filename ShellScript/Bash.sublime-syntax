@@ -1336,7 +1336,7 @@ contexts:
       scope: meta.statement.conditional.case.shell keyword.control.conditional.case.shell
       push: case-word
     - match: esac{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
+      scope: keyword.control.conditional.endcase.shell
     # loops
     - match: do{{cmd_break}}
       scope: keyword.control.loop.do.shell
@@ -1366,16 +1366,11 @@ contexts:
       scope: keyword.control.flow.return.shell
       push: flow-args
 
-  case-end:
-    - match: esac{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
-      pop: 1
-
   case-word:
     - meta_include_prototype: false
     - meta_content_scope: meta.statement.conditional.case.word.shell
     - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
+      scope: meta.statement.conditional.case.shell keyword.control.conditional.in.shell
       set: case-body
     - include: case-end
     - include: comments
@@ -1383,23 +1378,33 @@ contexts:
     - include: cmd-args-values
 
   case-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.statement.conditional.case.shell
+    - meta_content_scope: meta.statement.conditional.case.body.shell
     - include: case-end
     - include: comments
+    - include: case-clauses
+
+  case-clauses:
     - match: \(|(?=\S)
       scope: meta.clause.pattern.shell punctuation.definition.pattern.begin.shell
-      push: case-clause-patterns
+      push: case-clause-pattern
 
-  case-clause-patterns:
+  case-clause-pattern:
     - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
     - match: \)
       scope: meta.clause.pattern.shell punctuation.definition.pattern.end.shell
-      set: case-clause-commands
+      set: case-clause-after-pattern
     # emergency bail outs if ')' is missing
     - include: case-clause-end
     - include: line-continuations
     - include: case-clause-pattern-content
+
+  case-clause-after-pattern:
+    # required to handle scope specific indentation rules
+    - meta_include_prototype: false
+    - meta_content_scope: meta.clause.shell
+    - include: comments
+    - match: ^|(?=\S)
+      set: case-clause-body
 
   case-clause-pattern-content:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
@@ -1416,7 +1421,7 @@ contexts:
     - include: pattern-group-end
     - include: case-clause-pattern-content
 
-  case-clause-commands:
+  case-clause-body:
     - meta_content_scope: meta.clause.body.shell
     - include: case-clause-end
     - include: case-end-ahead
@@ -1426,6 +1431,18 @@ contexts:
     - match: ;;&?|;&
       scope: meta.clause.shell punctuation.terminator.clause.shell
       pop: 1
+
+  case-end:
+    - match: esac{{cmd_break}}
+      scope: keyword.control.conditional.endcase.shell
+      set: case-end-meta
+
+  case-end-meta:
+    # This context is required for case...esac specific
+    # indentation rules to be correctly applied.
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.conditional.case.end.shell
+    - include: immediately-pop
 
   case-end-ahead:
     - match: (?=esac{{cmd_break}})
