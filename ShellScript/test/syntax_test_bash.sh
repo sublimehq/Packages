@@ -11014,10 +11014,6 @@ sudo --reset-timestamp -n -f -- rm -rf
 # ^^^^^^^^^ variable.language.builtin.shell
 # ^ punctuation.definition.variable.shell
 
-: $EMACS
-# ^^^^^^ variable.language.builtin.shell
-# ^ punctuation.definition.variable.shell
-
 : $ENV
 # ^^^^ variable.language.builtin.shell
 # ^ punctuation.definition.variable.shell
@@ -11300,10 +11296,6 @@ sudo --reset-timestamp -n -f -- rm -rf
 
 : $TMOUT
 # ^^^^^^ variable.language.builtin.shell
-# ^ punctuation.definition.variable.shell
-
-: $TMPDIR
-# ^^^^^^^ variable.language.builtin.shell
 # ^ punctuation.definition.variable.shell
 
 : $UID
