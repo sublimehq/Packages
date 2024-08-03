@@ -2255,7 +2255,8 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #          ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                              ^^ - meta.function-call.identifier.shell
 #                                ^^^^ meta.function-call.identifier.shell
-#                                    ^^^^^^^^ - meta.function-call.identifier.shell
+#                                    ^^^^^^^^^^^ - meta.function-call
+#                                               ^^^ meta.function-call.identifier.shell
 #^^^^^ keyword.declaration.coproc.shell
 #      ^ punctuation.section.compound.begin.shell
 #        ^^ variable.function.shell

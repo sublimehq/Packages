@@ -239,55 +239,33 @@ contexts:
 
   statements:
     - include: comments
-    - include: line-continuations
-    - include: redirections
-    - include: operators
     - include: terminators
-    - include: def-anonymous
-    - include: cmd-alias
-    - include: cmd-arithmetic
-    - include: cmd-compound
-    - include: cmd-echo
-    - include: cmd-historic
-    - include: cmd-sudo
-    - include: cmd-test
-    - include: cmd-control
-    - include: cmd-coproc
-    - include: cmd-exec
-    - include: cmd-unalias
-    - include: cmd-unset
-    - include: cmd-builtins
-    - include: cmd-declare
-    - include: cmd-export
-    - include: cmd-readonly
-    - include: def-variables
-    - include: def-functions
-    - include: booleans
-    - include: cmd-basic
-    - include: illegal-stray
+    - match: (?=\S)
+      push: statement
 
   statement:
     - include: redirections
+    - include: operators
     - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-compound
-    - include: cmd-echo
-    - include: cmd-historic
-    - include: cmd-sudo
-    - include: cmd-test
     - include: cmd-control
     - include: cmd-coproc
+    - include: cmd-declare
+    - include: cmd-echo
     - include: cmd-exec
+    - include: cmd-export
+    - include: cmd-historic
+    - include: cmd-readonly
+    - include: cmd-sudo
+    - include: cmd-test
     - include: cmd-unalias
     - include: cmd-unset
-    - include: cmd-builtins
-    - include: cmd-declare
-    - include: cmd-export
-    - include: cmd-readonly
-    - include: def-variables
-    - include: def-functions
-    - include: booleans
+    - include: cmd-builtin
+    - include: def-variable
+    - include: def-function
+    - include: boolean
     - include: eoc-pop
     - include: cmd-basic
     - include: illegal-stray
@@ -338,7 +316,7 @@ contexts:
       captures:
         1: punctuation.section.parameters.begin.shell
         2: punctuation.section.parameters.end.shell
-      push: def-anonymous-body
+      set: def-anonymous-body
 
   def-anonymous-begin:
     # anonymous functions are immediatelly called
@@ -370,7 +348,7 @@ contexts:
 
 ###[ FUNCTION DEFINITIONS ]####################################################
 
-  def-functions:
+  def-function:
     # [Bash] 3.3 Shell Functions
     - match: function{{cmd_break}}
       scope: keyword.declaration.function.shell
@@ -378,8 +356,9 @@ contexts:
       branch:
         - def-function-begin
         - def-anonymous-begin
+      pop: 1
     - match: (?={{cmd_literal}}\s*\(\s*\))
-      push:
+      set:
         - def-function-body
         - def-function-params
         - def-function-name
@@ -461,9 +440,9 @@ contexts:
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
-  def-variables:
+  def-variable:
     - match: (?={{identifier}}(?:\[[^\]]*\])*{{varassign}})
-      push:
+      set:
         - literal-array-value-assignment
         - variable-name-begin
 
@@ -518,7 +497,7 @@ contexts:
   cmd-alias:
     - match: alias{{cmd_break}}
       scope: keyword.declaration.alias.shell
-      push:
+      set:
         - cmd-alias-args-meta
         - cmd-alias-args
 
@@ -554,10 +533,10 @@ contexts:
   cmd-arithmetic:
     - match: \(\(
       scope: punctuation.section.compound.begin.shell
-      push: cmd-arithmetic-body
+      set: cmd-arithmetic-body
     - match: let{{cmd_break}}
       scope: meta.function-call.identifier.shell support.function.shell
-      push: cmd-arithmetic-args
+      set: cmd-arithmetic-args
 
   cmd-arithmetic-body:
     - meta_scope: meta.compound.arithmetic.shell
@@ -579,39 +558,29 @@ contexts:
       scope:
         meta.coproc.shell
         keyword.declaration.coproc.shell
-      push: cmd-coproc-identifier
+      set: cmd-coproc-identifier
 
   cmd-coproc-identifier:
-    - match: (\s*)(({{cmd_literal}})\s*)?(\{)
+    - match: (?:(\s*)(({{cmd_literal}})\s*)?(?=\{))?
       captures:
         1: meta.coproc.shell
         2: meta.coproc.identifier.shell
         3: entity.name.function.shell
-        4: meta.coproc.command.shell meta.compound.command.shell
-           punctuation.section.compound.begin.shell
-      set: cmd-coproc-compound-command
-    - match: ''
-      set: cmd-coproc-basic-command
+      set:
+        - cmd-coproc-command-meta
+        - statement
 
-  cmd-coproc-basic-command:
-    - meta_scope: meta.coproc.command.shell
-    - include: statement
-
-  cmd-coproc-compound-command:
-    - meta_content_scope: meta.coproc.command.shell meta.compound.command.shell
-    - match: \}
-      scope:
-        meta.coproc.command.shell meta.compound.command.shell
-        punctuation.section.compound.end.shell
-      pop: 1
-    - include: statements
+  cmd-coproc-command-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.coproc.command.shell
+    - include: immediately-pop
 
 ###[ DECLARE BUILTINS ]########################################################
 
   cmd-declare:
     - match: (declare|local|typeset){{cmd_break}}
       scope: keyword.declaration.variable.shell
-      push:
+      set:
         - cmd-declare-args-meta
         - cmd-declare-args
 
@@ -683,7 +652,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.shell
-      push: cmd-echo-args
+      set: cmd-echo-args
 
   cmd-echo-args:
     - meta_content_scope: meta.function-call.arguments.shell
@@ -707,7 +676,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.shell
-      push: cmd-exec-args
+      set: cmd-exec-args
 
   cmd-exec-args:
     - meta_content_scope: meta.function-call.arguments.shell
@@ -734,7 +703,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.shell
-      push:
+      set:
         - cmd-args-meta
         - cmd-export-args
 
@@ -753,7 +722,7 @@ contexts:
   cmd-readonly:
     - match: readonly{{cmd_break}}
       scope: keyword.declaration.variable.shell
-      push:
+      set:
         - cmd-declare-args-meta
         - cmd-readonly-args
 
@@ -794,7 +763,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.shell
-      push: cmd-sudo-args
+      set: cmd-sudo-args
 
   cmd-sudo-args:
     - meta_content_scope: meta.function-call.arguments.shell
@@ -819,13 +788,13 @@ contexts:
   cmd-test:
     - match: \[\[(?=\s)
       scope: punctuation.section.compound.begin.shell
-      push: compound-test-body
+      set: compound-test-body
     - match: \[(?=\s)
       scope: punctuation.section.compound.begin.shell
-      push: builtin-test-body
+      set: builtin-test-body
     - match: test{{cmd_break}}
       scope: meta.function-call.identifier.shell support.function.shell
-      push: cmd-test-args
+      set: cmd-test-args
 
   builtin-test-body:
     - meta_scope: meta.compound.conditional.shell
@@ -951,7 +920,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.shell
-      push:
+      set:
         - cmd-args-meta
         - cmd-args-end-of-options-then-function-references
 
@@ -962,7 +931,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.shell
-      push:
+      set:
         - cmd-args-meta
         - cmd-unset-args
 
@@ -981,10 +950,10 @@ contexts:
   cmd-compound:
     - match: \{{{cmd_break}}
       scope: punctuation.section.compound.begin.shell
-      push: cmd-compound-braces-body
+      set: cmd-compound-braces-body
     - match: \(
       scope: punctuation.section.compound.begin.shell
-      push: cmd-compound-parens-body
+      set: cmd-compound-parens-body
 
   cmd-compound-braces-body:
     - meta_scope: meta.compound.command.shell
@@ -1008,7 +977,7 @@ contexts:
     - match: \!
       scope: punctuation.definition.history.shell
 
-  cmd-builtins:
+  cmd-builtin:
     - match: '{{builtin_cmds}}'
       scope: meta.function-call.identifier.shell meta.path.shell support.function.shell
       push:
@@ -1018,24 +987,24 @@ contexts:
   cmd-basic:
     - match: \$?\"
       scope: punctuation.definition.quoted.begin.shell
-      push:
+      set:
         - cmd-name-body
         - path-pattern-double-quoted-body
         - path-pattern-quoted-begin
     - match: \$\'
       scope: punctuation.definition.quoted.begin.shell
-      push:
+      set:
         - cmd-name-body
         - path-pattern-ansi-c-body
         - path-pattern-quoted-begin
     - match: \'
       scope: punctuation.definition.quoted.begin.shell
-      push:
+      set:
         - cmd-name-body
         - path-pattern-single-quoted-body
         - path-pattern-quoted-begin
     - match: '{{cmd_begin}}'
-      push:
+      set:
         - cmd-name-body
         - path-pattern-begin
 
@@ -1236,7 +1205,7 @@ contexts:
       scope: keyword.control.conditional.else.shell
     - match: case{{cmd_break}}
       scope: meta.statement.conditional.case.shell keyword.control.conditional.case.shell
-      push: case-word
+      set: case-word
     - match: esac{{cmd_break}}
       scope: keyword.control.conditional.endcase.shell
     # loops
@@ -1246,10 +1215,10 @@ contexts:
       scope: keyword.control.loop.end.shell
     - match: for{{cmd_break}}
       scope: keyword.control.loop.for.shell
-      push: for-args
+      set: for-args
     - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
-      push: loop-iterator-var
+      set: loop-iterator-var
     - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
     - match: while{{cmd_break}}
@@ -1257,16 +1226,16 @@ contexts:
     # flow
     - match: break{{cmd_break}}
       scope: keyword.control.flow.break.shell
-      push: flow-args
+      set: flow-args
     - match: continue{{cmd_break}}
       scope: keyword.control.flow.continue.shell
-      push: flow-args
+      set: flow-args
     - match: exit{{cmd_break}}
       scope: keyword.control.flow.exit.shell
-      push: flow-args
+      set: flow-args
     - match: return{{cmd_break}}
       scope: keyword.control.flow.return.shell
-      push: flow-args
+      set: flow-args
 
   case-word:
     - meta_include_prototype: false
