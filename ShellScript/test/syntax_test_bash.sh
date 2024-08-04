@@ -9425,7 +9425,7 @@ alias foo=bar
 #            ^ - meta.declaration.alias
 #     ^^^ meta.variable.shell entity.name.function.shell
 #        ^ keyword.operator.assignment.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.shell meta.path.shell variable.function.shell
 
 alias foo=bar -p 7za=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9433,11 +9433,11 @@ alias foo=bar -p 7za=qux
 #                       ^ - meta.declaration.alias
 #     ^^^ meta.variable.shell entity.name.function.shell
 #        ^ keyword.operator.assignment.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.shell meta.path.shell variable.function.shell
 #             ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                ^^^ meta.variable.shell entity.name.function.shell
 #                   ^ keyword.operator.assignment.shell
-#                    ^^^ meta.string.shell string.unquoted.shell
+#                    ^^^ meta.string.shell meta.path.shell variable.function.shell
 
 alias -p foo=bar 7za=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9446,10 +9446,10 @@ alias -p foo=bar 7za=qux
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^^ meta.variable.shell entity.name.function.shell
 #           ^ keyword.operator.assignment.shell
-#            ^^^ meta.string.shell string.unquoted.shell
+#            ^^^ meta.string.shell meta.path.shell variable.function.shell
 #                ^^^ meta.variable.shell entity.name.function.shell
 #                   ^ keyword.operator.assignment.shell
-#                    ^^^ meta.string.shell string.unquoted.shell
+#                    ^^^ meta.string.shell meta.path.shell variable.function.shell
 
 alias -a -p -- foo=bar baz=qux
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9460,10 +9460,10 @@ alias -a -p -- foo=bar baz=qux
 #           ^^ keyword.operator.end-of-options.shell
 #              ^^^ meta.variable.shell entity.name.function.shell
 #                 ^ keyword.operator.assignment.shell
-#                  ^^^ meta.string.shell string.unquoted.shell
+#                  ^^^ meta.string.shell meta.path.shell variable.function.shell
 #                      ^^^ meta.variable.shell entity.name.function.shell
 #                         ^ keyword.operator.assignment.shell
-#                          ^^^ meta.string.shell string.unquoted.shell
+#                          ^^^ meta.string.shell meta.path.shell variable.function.shell
 
 alias $foo=bar
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9471,7 +9471,7 @@ alias $foo=bar
 #             ^ - meta.declaration.alias
 #     ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #         ^ keyword.operator.assignment.shell
-#          ^^^ meta.string.shell string.unquoted.shell
+#          ^^^ meta.string.shell meta.path.shell variable.function.shell
 
 alias ..='cd ..'
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9479,7 +9479,11 @@ alias ..='cd ..'
 #^^^^ keyword.declaration.alias.shell
 #     ^^ meta.variable.shell entity.name.function.shell
 #       ^ keyword.operator.assignment.shell
-#        ^^^^^^^ meta.string.shell string.quoted.single.shell
+#        ^ meta.string.shell string.quoted.single.shell punctuation.section.string.begin.shell
+#         ^^ meta.string.shell meta.function-call.identifier.shell meta.path.shell support.function.shell - string
+#           ^ meta.string.shell meta.function-call.arguments.shell - string
+#            ^^ meta.string.shell meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#              ^ meta.string.shell string.quoted.single.shell punctuation.section.string.end.shell
 
 alias -p ..='cd ..'
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9488,7 +9492,11 @@ alias -p ..='cd ..'
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.variable.shell entity.name.function.shell
 #          ^ keyword.operator.assignment.shell
-#           ^^^^^^^ meta.string.shell string.quoted.single.shell
+#           ^ meta.string.shell string.quoted.single.shell punctuation.section.string.begin.shell
+#            ^^ meta.string.shell meta.function-call.identifier.shell meta.path.shell support.function.shell - string
+#              ^ meta.string.shell meta.function-call.arguments.shell - string
+#               ^^ meta.string.shell meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#                 ^ meta.string.shell string.quoted.single.shell punctuation.section.string.end.shell
 
 alias -- -='cd -'
 # <- meta.declaration.alias.shell keyword.declaration.alias.shell
@@ -9497,7 +9505,11 @@ alias -- -='cd -'
 #     ^^ keyword.operator.end-of-options.shell
 #        ^ meta.variable.shell entity.name.function.shell
 #         ^ keyword.operator.assignment.shell
-#          ^^^^^^ meta.string.shell string.quoted.single.shell
+#          ^ meta.string.shell string.quoted.single.shell punctuation.section.string.begin.shell
+#           ^^ meta.string.shell meta.function-call.identifier.shell meta.path.shell support.function.shell - string
+#             ^ meta.string.shell meta.function-call.arguments.shell - string
+#              ^ meta.string.shell meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#               ^ meta.string.shell string.quoted.single.shell punctuation.section.string.end.shell
 
 
 ###############################################################################
@@ -11134,6 +11146,93 @@ time -p cmd -p
 #   ^^^^ meta.function-call.arguments.shell
 #       ^^^ meta.function-call.identifier.shell
 #          ^^^ meta.function-call.arguments.shell
+
+
+###############################################################################
+# 4.2 Bash Builtin Commands (trap)                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-trap               #
+###############################################################################
+
+trap
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+
+trap cmd
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell
+#    ^^^ meta.function-call.arguments.shell meta.path.shell variable.function.shell
+
+trap cmd EXIT
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^^^ meta.path.shell variable.function.shell
+#        ^^^^ constant.language.signal.shell
+
+trap -p cmd EXIT
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^^ meta.parameter.option.shell variable.parameter.option.shell
+#       ^^^ meta.path.shell variable.function.shell
+#           ^^^^ constant.language.signal.shell
+
+trap 'cmd --args="value"' SIGINT
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^ meta.function-call.arguments.shell meta.string.shell string.quoted.single.shell
+#     ^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.identifier.shell
+#        ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.arguments.shell
+#                       ^ meta.function-call.arguments.shell meta.string.shell string.quoted.single.shell
+#                        ^^^^^^^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^ punctuation.section.string.begin.shell
+#     ^^^ variable.function.shell
+#         ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#               ^ keyword.operator.assignment.shell
+#                ^^^^^^^ meta.string.shell string.quoted.double.shell
+#                       ^ punctuation.section.string.end.shell
+#                         ^^^^^^ constant.language.signal.shell
+
+trap "cmd --args='value'" SIGKILL
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell
+#     ^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.identifier.shell
+#        ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.arguments.shell
+#                       ^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell
+#                        ^^^^^^^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^ punctuation.section.string.begin.shell
+#     ^^^ variable.function.shell
+#         ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#               ^ keyword.operator.assignment.shell
+#                ^^^^^^^ meta.string.shell string.quoted.single.shell
+#                       ^ punctuation.section.string.end.shell
+#                         ^^^^^^^ constant.language.signal.shell
+
+trap "\"cmd\" --args=\"val${ue}\"" SIGKILL
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell
+#     ^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.identifier.shell
+#            ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.arguments.shell
+#                                ^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell
+#                                 ^^^^^^^ meta.function-call.arguments.shell - meta.function-call meta-function-call
+#    ^ punctuation.section.string.begin.shell
+#     ^^^^^^^ variable.function.shell
+#     ^^ constant.character.escape.shell
+#          ^^ constant.character.escape.shell
+#             ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                   ^ keyword.operator.assignment.shell
+#                    ^^^^^ meta.string.shell string.unquoted.shell
+#                    ^^ constant.character.escape.shell
+#                         ^^^^^ meta.string.shell meta.interpolation.parameter.shell
+#                              ^^ constant.character.escape.shell
+#                                ^ punctuation.section.string.end.shell
+#                                  ^^^^^^^ constant.language.signal.shell
 
 
 ###############################################################################

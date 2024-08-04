@@ -109,7 +109,7 @@ variables:
     (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
     | getopts | hash | help | jobs | kill | logout | mapfile | printf | pwd
     | read | readarray | set | shift | shopt | source | su | suspend | times
-    | trap | type | ulimit | umask | wait ){{cmd_break}}
+    | type | ulimit | umask | wait ){{cmd_break}}
 
   modifier_cmds: |-
     (?x: builtin ){{cmd_break}}
@@ -231,7 +231,7 @@ variables:
   special_variables: '[$#@!*?-]'
 
   signal_names: |-
-    (?x: SIG {{signal_subnames}} ){{word_break}}
+    (?x: EXIT | DEBUG | SIG {{signal_subnames}} ){{word_break}}
 
   signal_subnames: |-
     (?x:
@@ -304,6 +304,7 @@ contexts:
     - include: cmd-readonly
     - include: cmd-sudo
     - include: cmd-test
+    - include: cmd-trap
     - include: cmd-unalias
     - include: cmd-unset
     - include: cmd-builtin
@@ -555,11 +556,10 @@ contexts:
 
   cmd-alias-args-definitions:
     - include: cmd-args-end
-    - match: =
-      scope: keyword.operator.assignment.shell
-      push: literal-array-value
     - match: '{{word_begin}}'
-      push: alias-name-chars
+      push:
+        - statements-value-assignment
+        - alias-name-chars
 
   alias-name-chars:
     - meta_scope: meta.variable.shell entity.name.function.shell
@@ -966,6 +966,29 @@ contexts:
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
     - include: comments
+    - include: cmd-args-values
+
+###[ TRAP BUILTINS ]###########################################################
+
+  cmd-trap:
+    - match: trap{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-trap-sigspec
+        - cmd-trap-command
+
+  cmd-trap-command:
+    - include: cmd-args-end
+    - include: cmd-args-options
+    - include: statements-word
+
+  cmd-trap-sigspec:
+    - include: cmd-args-end
+    - match: '{{signal_names}}'
+      scope: constant.language.signal.shell
     - include: cmd-args-values
 
 ###[ UNALIAS BUILTINS ]########################################################
@@ -1590,6 +1613,54 @@ contexts:
     - include: comments
     - include: boolean
     - include: string-path-pattern
+
+###[ STATEMENT VALUE ASSIGNMENTS ]#############################################
+
+  statements-value-assignment:
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      set: statements-value
+    - include: line-continuations
+    - include: immediately-pop
+
+  statements-value:
+    - include: statements-word
+    - include: immediately-pop
+
+  statements-word:
+    - match: \"
+      scope:
+        meta.string.shell string.quoted.double.shell
+        punctuation.section.string.begin.shell
+      embed: statements
+      embed_scope: meta.string.shell
+      escape: '{{no_escape_behind}}\"'
+      escape_captures:
+        0: meta.string.shell string.quoted.double.shell
+           punctuation.section.string.end.shell
+      pop: 1
+    - match: \'
+      scope:
+        meta.string.shell string.quoted.single.shell
+        punctuation.section.string.begin.shell
+      embed: statements
+      embed_scope: meta.string.shell
+      escape: '{{no_escape_behind}}'''
+      escape_captures:
+        0: meta.string.shell string.quoted.single.shell
+           punctuation.section.string.end.shell
+      pop: 1
+    - match: '{{cmd_begin}}'
+      set:
+        - unquoted-statements-word-body
+        - path-pattern-begin
+
+  unquoted-statements-word-body:
+    - meta_scope: meta.string.shell meta.path.shell variable.function.shell
+    - include: line-continuations
+    - include: path-pattern-content
+    - match: '{{cmd_break}}'
+      pop: 1
 
 ###[ ARRAY VALUE PROTOTYPES ]##################################################
 
@@ -2307,6 +2378,10 @@ contexts:
     - include: immediately-pop
 
   path-pattern-content:
+    - include: path-pattern-common
+    - include: pattern-charsets
+
+  path-pattern-common:
     - match: \$?\"
       scope: punctuation.definition.quoted.begin.shell
       push: path-pattern-double-quoted-body
