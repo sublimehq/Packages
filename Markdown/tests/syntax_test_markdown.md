@@ -1790,7 +1790,7 @@ foo
 # test
 | ^^^^^ source.shell comment.line.number-sign
 echo hello, \
-|           ^^ punctuation.separator.continuation.line
+|           ^ punctuation.separator.continuation.line
 echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 ```
@@ -1985,7 +1985,7 @@ var_dump(expression);
 
 ```python
 |^^^^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|        ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|        ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 |^^ punctuation.definition.raw.code-fence.begin
 |  ^^^^^^ constant.other.language-name
 def function():
@@ -2000,7 +2000,7 @@ unclosed_paren = (
 
 ```regex
 |^^^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|       ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|       ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 (?x)
 \s+
 | <- markup.raw.code-fence.regexp.markdown-gfm source.regexp
@@ -2011,7 +2011,7 @@ unclosed_paren = (
 
 ```scala
 |^^^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|       ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|       ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 
 | <- markup.raw.code-fence.scala.markdown-gfm source.scala
 ```
@@ -2021,7 +2021,7 @@ unclosed_paren = (
 
 ```sh
 |^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|    ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|    ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 
 | <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.bash
 ```
@@ -2030,12 +2030,12 @@ unclosed_paren = (
 
 ```shell
 |^^^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|       ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|       ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 
 function foo () {
 | <- markup.raw.code-fence.shell.markdown-gfm source.shell.interactive.markdown meta.function.shell keyword.declaration.function.shell 
 }
-| <- markup.raw.code-fence.shell.markdown-gfm source.shell.interactive.markdown meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
+| <- markup.raw.code-fence.shell.markdown-gfm source.shell.interactive.markdown meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
 
 $ ls ~
 | <- markup.raw.code-fence.shell.markdown-gfm source.shell.interactive comment.other.shell
@@ -2067,7 +2067,7 @@ function foo () {}
 
    ```shell
 |  ^^^^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|          ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|          ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
    $ ls
 |  ^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.interactive.markdown
 |  ^ comment.other.shell
@@ -2083,9 +2083,18 @@ function foo () {}
 | <- meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |^^ meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
+```zsh
+|^^^^^ meta.code-fence.definition.begin - meta.fold - markup
+|     ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
+
+| <- markup.raw.code-fence.shell-script.markdown-gfm source.shell.zsh
+```
+| <- meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.shell-script.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
 ```sql
 |^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|     ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|     ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 |^^ punctuation.definition.raw.code-fence.begin.markdown
 |  ^^^ constant.other.language-name
 SELECT TOP 10 *
@@ -2112,7 +2121,7 @@ declare type foo = 'bar'
 
 ```xml
 |^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|     ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|     ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 |^^ punctuation.definition.raw.code-fence.begin.markdown
 |  ^^^ constant.other.language-name
 <?xml version="1.0" ?>
@@ -2128,7 +2137,7 @@ declare type foo = 'bar'
 
 ```jsx:file.jsx
 |^^^^^^^^^^^^^^ meta.code-fence.definition.begin - meta.fold - markup
-|              ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - merkup
+|              ^ meta.code-fence.definition.begin meta.fold.code-fence.begin - markup
 |^^ punctuation.definition.raw.code-fence.begin.markdown
 |  ^^^ constant.other.language-name.markdown
 |     ^^^^^^^^^ comment.line.infostring.markdown
