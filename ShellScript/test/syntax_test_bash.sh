@@ -827,58 +827,30 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
 #                                           ^^ variable.function
 #                                              ^ variable.parameter
 
-
 ###############################################################################
 # 3.2.5 Compound Commands                                                     #
-# 3.2.5.1 Looping Constructs (for loops)                                      #
+# 3.2.5.1 Looping Constructs (do..done)                                       #
 # https://www.gnu.org/software/bash/manual/bash.html#index-for                #
 ###############################################################################
 
-for;
-#^^ keyword.control.loop.for.shell
-for&
-#^^ keyword.control.loop.for.shell
-for|
-#^^ keyword.control.loop.for.shell
-for>/dev/null
-#^^ keyword.control.loop.for.shell
-for -
-#^^ keyword.control.loop.for.shell
-for()
-#^^ keyword.control.loop.for.shell
-for[]
-#^^^^ - keyword.control
-for{}
-#^^^^ - keyword.control
-for-
-#^^^ - keyword.control
--for
-#^^^ - keyword.control
-for+
-#^^^ - keyword.control
-for$
-#^^^ - keyword.control
-for$var
-#^^^^^^ - keyword.control
-for=
-#^^^ - keyword.control
-for-=
-#^^^^ - keyword.control
-for+=
-#^^^^ - keyword.control
-
  do;
 #^^ keyword.control.loop.do.shell
+#  ^ - keyword.control.loop
  do&
 #^^ keyword.control.loop.do.shell
+#  ^ - keyword.control.loop
  do|
 #^^ keyword.control.loop.do.shell
+#  ^ - keyword.control.loop
  do>/dev/null
 #^^ keyword.control.loop.do.shell
+#  ^ - keyword.control.loop
  do -
 #^^ keyword.control.loop.do.shell
+#  ^ - keyword.control.loop
  do()
 #^^ keyword.control.loop.do.shell
+#  ^ - keyword.control.loop
  do[]
 #^^^^ - keyword.control
  do{}
@@ -900,45 +872,146 @@ do$var
  do+=
 #^^^^ - keyword.control
 
-for
-var in $vars;
-# <- - variable.other
-#^^ - variable.other
-#^^^^^^^^^^^ meta.function-call
+ done;
+#^^^^ keyword.control.loop.end.shell
+#    ^ - keyword.control.loop
+ done&
+#^^^^ keyword.control.loop.end.shell
+#    ^ - keyword.control.loop
+ done|
+#^^^^ keyword.control.loop.end.shell
+#    ^ - keyword.control.loop
+ done>/dev/null
+#^^^^ keyword.control.loop.end.shell
+#    ^ - keyword.control.loop
+ done -
+#^^^^ keyword.control.loop.end.shell
+#    ^ - keyword.control.loop
+ done()
+#^^^^ keyword.control.loop.end.shell
+#    ^ - keyword.control.loop
+ done[]
+#^^^^^^ - keyword.control
+ done{}
+#^^^^^^ - keyword.control
+ done-
+#^^^^^ - keyword.control
+ -done
+#^^^^^ - keyword.control
+ done+
+#^^^^^ - keyword.control
+ done$
+#^^^^^ - keyword.control
+done$var
+#^^^^^^^^ - keyword.control
+ done=
+#^^^^^ - keyword.control
+ done-=
+#^^^^^^ - keyword.control
+ done+=
+#^^^^^^ - keyword.control
 
-for \
-var in $vars;
-#<-  variable.other.readwrite.shell
-#^^ variable.other.readwrite.shell
-#   ^^ keyword.operator.iterator.in.shell
-#      ^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+do
+# <- keyword.control.loop.do.shell
+#^ keyword.control.loop.do.shell
+
+    break
+#   ^^^^^ keyword.control.flow.break.shell
+    break 2;
+#   ^^^^^ keyword.control.flow.break.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.terminator.statement.shell
+    break ${levels};
+#   ^^^^^ keyword.control.flow.break.shell
+#         ^^^^^^^^^ meta.interpolation.parameter.shell
+#                  ^ punctuation.terminator.statement.shell
+    continue
+#   ^^^^^^^^ keyword.control.flow.continue.shell
+    continue 2;
+#   ^^^^^^^^ keyword.control.flow.continue.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ punctuation.terminator.statement.shell
+    continue ${levels};
+#   ^^^^^^^^ keyword.control.flow.continue.shell
+#            ^^^^^^^^^ meta.interpolation.parameter.shell
+#                     ^ punctuation.terminator.statement.shell
+
+    exit
+#   ^^^^ keyword.control.flow.exit.shell
+    exit 2;
+#   ^^^^ keyword.control.flow.exit.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ punctuation.terminator.statement.shell
+    exit ${code};
+#   ^^^^ keyword.control.flow.exit.shell
+#        ^^^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.terminator.statement.shell
+
+    return
+#   ^^^^^^ keyword.control.flow.return.shell
+    return 2;
+#   ^^^^^^ keyword.control.flow.return.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #           ^ punctuation.terminator.statement.shell
+    return ${code};
+#   ^^^^^^ keyword.control.flow.return.shell
+#          ^^^^^^^ meta.interpolation.parameter.shell
+#                 ^ punctuation.terminator.statement.shell
 
-for done
-# <- keyword.control.loop.for.shell
-#^^ keyword.control.loop.for.shell
-#   ^^^^ variable.other.readwrite.shell - keyword
-
-for do done
-# <- keyword.control.loop.for.shell
-#^^ keyword.control.loop.for.shell
-#   ^^ variable.other.readwrite.shell - keyword
-#      ^^^^ variable.other.readwrite.shell - keyword
-
-for x; do
-#<- keyword.control.loop.for.shell
-#^^ keyword.control.loop.for.shell
-#    ^ punctuation.terminator.statement.shell
-#      ^^ keyword.control.loop.do.shell
-    echo "${!x}"
-#   ^^^^ meta.function-call.identifier.shell support.function.shell
-#       ^^^^^^^^ meta.function-call.arguments.shell
 done
-#<- keyword.control.loop.end.shell
+# <- keyword.control.loop.end.shell
+#^^^ keyword.control.loop.end.shell
+
+
+###############################################################################
+# 3.2.5 Compound Commands                                                     #
+# 3.2.5.1 Looping Constructs (for loops)                                      #
+# https://www.gnu.org/software/bash/manual/bash.html#index-for                #
+###############################################################################
+
+for;
+#^^ keyword.control.loop.for.shell
+#  ^ - keyword.control.loop
+for&
+#^^ keyword.control.loop.for.shell
+#  ^ - keyword.control.loop
+for|
+#^^ keyword.control.loop.for.shell
+#  ^ - keyword.control.loop
+for>/dev/null
+#^^ keyword.control.loop.for.shell
+#  ^ - keyword.control.loop
+for -
+#^^ keyword.control.loop.for.shell
+#  ^ - keyword.control.loop
+for()
+#^^ keyword.control.loop.for.shell
+#  ^ - keyword.control.loop
+for[]
+#^^^^ - keyword.control
+for{}
+#^^^^ - keyword.control
+for-
+#^^^ - keyword.control
+-for
+#^^^ - keyword.control
+for+
+#^^^ - keyword.control
+for$
+#^^^ - keyword.control
+for$var
+#^^^^^^ - keyword.control
+for=
+#^^^ - keyword.control
+for-=
+#^^^^ - keyword.control
+for+=
+#^^^^ - keyword.control
 
 for (( i = 0; i < 10; i++ )); do
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
-# <- keyword.control.loop.for.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^ meta.statement.loop.for.shell - meta.compound
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell meta.compound.arithmetic.shell
 #   ^^ punctuation.section.compound.begin.shell
 #        ^ keyword.operator.assignment.shell
 #          ^ meta.number.integer.decimal.shell constant.numeric.value.shell - punctuation
@@ -958,8 +1031,9 @@ done
 # <- keyword.control.loop.end.shell
 
 for (( i = 0; i < 10; i++ )) #; do
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
-# <- keyword.control.loop.for.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^ meta.statement.loop.for.shell - meta.compound
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell meta.compound.arithmetic.shell
 #   ^^ punctuation.section.compound.begin.shell
 #        ^ keyword.operator.assignment.shell
 #          ^ meta.number.integer.decimal.shell constant.numeric.value.shell - punctuation
@@ -971,7 +1045,7 @@ for (( i = 0; i < 10; i++ )) #; do
 #                         ^^ punctuation.section.compound.end.shell
 #                            ^^^^^^ comment.line.number-sign.shell
 do
-#<- keyword.control.loop.do.shell
+# <- keyword.control.loop.do.shell
     echo $i
     # <- meta.function-call support.function.shell
     #    ^ meta.function-call.arguments punctuation.definition.variable.shell
@@ -981,7 +1055,8 @@ done
 
 for \
   (( i = 0; i < 10; i++ )) do echo $i; done;
-# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#^ meta.statement.loop.for.shell - meta.compound
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell meta.compound.arithmetic.shell
 #                          ^^ keyword.control.loop.do.shell
 #                             ^^^^^^^ meta.function-call
 #                             ^^^^ support.function.shell
@@ -990,26 +1065,57 @@ for \
 #                                      ^^^^ keyword.control.loop.end.shell
 #                                          ^ punctuation.terminator.statement.shell
 
-for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
-# <- keyword.control.loop.for.shell
+# Iterator form
+
+
+for in
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^ meta.statement.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^ variable.other.readwrite.shell - keyword
+
+for in in in in
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^ variable.other.readwrite.shell - keyword
+#      ^^ keyword.operator.iterator.in.shell
+#         ^^ meta.string.shell string.unquoted.shell
+#            ^^ meta.string.shell string.unquoted.shell
+
+for do do do do
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^ meta.statement.loop.for.shell
+#      ^^^^^^^^ - meta.statement.loop
+#^^ keyword.control.loop.for.shell
+#   ^^ variable.other.readwrite.shell - keyword
+#      ^^ keyword.control.loop.do.shell
+#         ^^ keyword.control.loop.do.shell
+#            ^^ keyword.control.loop.do.shell
+
+for done done
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^ meta.statement.loop.for.shell
+#        ^^^^ - meta.statement.loop
+#^^ keyword.control.loop.for.shell
+#   ^^^^ variable.other.readwrite.shell - keyword
+#        ^^^^ keyword.control.loop.end.shell
+
+for x; do echo "${!x}"; done
+#<- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^ meta.statement.loop.for.shell
+#^^ keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
-#        ^^^^ meta.string.shell string.unquoted.shell
-#             ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                   ^^^^^^ meta.string.shell string.quoted.double.shell
-#                          ^^^^^^ meta.string.shell string.quoted.single.shell
-#                                 ^^ meta.string.shell string.unquoted.shell
-#                                   ^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                                      ^ punctuation.terminator.statement.shell
-#                                        ^^ keyword.control.loop.do.shell
-#                                           ^^^^ meta.function-call.identifier.shell support.function.shell
-#                                                ^^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                                                  ^ punctuation.terminator.statement.shell
-#                                                    ^^^^ keyword.control.loop.end.shell
-#                                                        ^ punctuation.terminator.statement.shell
+#    ^ punctuation.terminator.statement.shell
+#      ^^ keyword.control.loop.do.shell
+#         ^^^^ meta.function-call.identifier.shell support.function.shell
+#             ^^^^^^^^ meta.function-call.arguments.shell
+#                     ^ punctuation.terminator.statement.shell
+#                       ^^^^ keyword.control.loop.end.shell
 
 for i in for in do echo done; do echo $i; done;
-# <- keyword.control.loop.for.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #     ^^ keyword.operator.iterator.in.shell
 #       ^ - meta.string
 #        ^^^ meta.string.shell string.unquoted.shell
@@ -1030,7 +1136,8 @@ for i in for in do echo done; do echo $i; done;
 #                                             ^ punctuation.terminator.statement.shell
 
 for i in { [ \( ; do echo $i; done;
-# <- keyword.control.loop.for.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #       ^ - meta.string
@@ -1048,8 +1155,28 @@ for i in { [ \( ; do echo $i; done;
 #                             ^^^^ keyword.control.loop.end.shell
 #                                 ^ punctuation.terminator.statement.shell
 
+for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^^ keyword.operator.iterator.in.shell
+#        ^^^^ meta.string.shell string.unquoted.shell
+#             ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^^^^^^ meta.string.shell string.quoted.double.shell
+#                          ^^^^^^ meta.string.shell string.quoted.single.shell
+#                                 ^^ meta.string.shell string.unquoted.shell
+#                                   ^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^ keyword.control.loop.do.shell
+#                                           ^^^^ meta.function-call.identifier.shell support.function.shell
+#                                                ^^ meta.function-call.arguments.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                                  ^ punctuation.terminator.statement.shell
+#                                                    ^^^^ keyword.control.loop.end.shell
+#                                                        ^ punctuation.terminator.statement.shell
+
 for i in <files.txt; do echo $i; done;
-# <- keyword.control.loop.for.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^ keyword.operator.assignment.redirection.shell
@@ -1064,8 +1191,9 @@ for i in <files.txt; do echo $i; done;
 #
 
 for i in {foo,bar,baz}; do echo $i; done;
-# <- keyword.control.loop.for.shell
-#   ^ meta.variable.shell variable.other.readwrite.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
 #         ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
@@ -1077,8 +1205,9 @@ for i in {foo,bar,baz}; do echo $i; done;
 #                     ^ punctuation.terminator.statement.shell
 
 for i in for pre{foo,bar,baz}suf; do echo $i; done;
-# <- keyword.control.loop.for.shell
-#   ^ meta.variable.shell variable.other.readwrite.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^^^ meta.string.shell string.unquoted.shell
 #           ^ - meta.string
@@ -1094,8 +1223,9 @@ for i in for pre{foo,bar,baz}suf; do echo $i; done;
 #                               ^ punctuation.terminator.statement.shell
 
 for i in {1..10}; do echo $i; done;
-# <- keyword.control.loop.for.shell
-#   ^ meta.variable.shell variable.other.readwrite.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
@@ -1113,8 +1243,9 @@ for i in {1..10}; do echo $i; done;
 #                                 ^ punctuation.terminator.statement.shell
 
 for i in {-10..+20}; do echo $i; done;
-# <- keyword.control.loop.for.shell
-#   ^ meta.variable.shell variable.other.readwrite.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^^^^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
@@ -1134,8 +1265,9 @@ for i in {-10..+20}; do echo $i; done;
 #                                    ^ punctuation.terminator.statement.shell
 
 for i in {-10..+20..-4}; do echo $i; done;
-# <- keyword.control.loop.for.shell
-#   ^ meta.variable.shell variable.other.readwrite.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^^^^^^^^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
@@ -1157,45 +1289,27 @@ for i in {-10..+20..-4}; do echo $i; done;
 #                                    ^^^^ keyword.control.loop.end.shell
 #                                        ^ punctuation.terminator.statement.shell
 
+for i in (foo bar baz); do echo $i; done;
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^^ keyword.operator.iterator.in.shell
+#        ^ meta.statement.loop.for.shell invalid.illegal.unexpected-token.shell
+#         ^^^ meta.statement.loop.for.shell meta.string.shell string.unquoted.shell
+#            ^ - meta.string
+#             ^^^ meta.statement.loop.for.shell meta.string.shell string.unquoted.shell
+#                ^ - meta.string
+#                 ^^^ meta.statement.loop.for.shell meta.string.shell string.unquoted.shell
+#                    ^ invalid.illegal.stray.shell
+#                    ^ invalid.illegal.stray.shell
+#                     ^ punctuation.terminator.statement.shell
+
 for i in $*; do echo $i; done;
 #        ^^ meta.interpolation.parameter.shell variable.language.special.shell
 
-for i in $(seq 100); do
-# <- keyword.control.loop.for.shell
-#^^ keyword.control.loop.for.shell
-#        ^^^^^^^^^^ meta.interpolation.command.shell
-#     ^^ keyword.operator.iterator.in.shell
-#        ^ punctuation.definition.variable.shell
-#         ^ punctuation.section.interpolation.begin.shell
-#          ^^^ meta.function-call variable.function.shell
-#                 ^ punctuation.section.interpolation.end.shell
-#                  ^ punctuation.terminator.statement.shell
-#                    ^^ keyword.control.loop.do.shell
-  :
-  # <- meta.function-call support.function.shell
-done
-# <- keyword.control.loop.end.shell
-
-`for i in $(seq 100); do echo i; done`
-# <- meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
-#^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
-#         ^^^^^^^^^^ meta.interpolation.command.shell
-#                   ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
-#^^^ keyword.control.loop.for.shell
-#      ^^ keyword.operator.iterator.in.shell
-#         ^ punctuation.definition.variable.shell
-#          ^ punctuation.section.interpolation.begin.shell
-#           ^^^ meta.function-call.identifier.shell variable.function.shell
-#                  ^ punctuation.section.interpolation.end.shell
-#                   ^ punctuation.terminator.statement.shell
-#                     ^^ keyword.control.loop.do.shell
-#                        ^^^^ support.function.shell
-#                              ^ punctuation.terminator.statement.shell
-#                                ^^^^ keyword.control.loop.end.shell
-#                                    ^ punctuation.section.interpolation.end.shell
-
 for domain in $domains; do echo $domain; done
-# <- keyword.control.loop.for.shell
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^^^^^ variable.other.readwrite.shell - keyword
 #          ^^ keyword.operator.iterator.in.shell
@@ -1208,6 +1322,72 @@ for domain in $domains; do echo $domain; done
 #                                      ^ punctuation.terminator.statement.shell
 #                                        ^^^^ keyword.control.loop.end.shell
 
+for i in $(seq 100); do
+# <- meta.statement.loop.for.shell keyword.control.loop.for.shell
+#^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#        ^^^^^^^^^^ meta.interpolation.command.shell
+#     ^^ keyword.operator.iterator.in.shell
+#        ^ punctuation.definition.variable.shell
+#         ^ punctuation.section.interpolation.begin.shell
+#          ^^^ meta.function-call variable.function.shell
+#                 ^ punctuation.section.interpolation.end.shell
+#                  ^ punctuation.terminator.statement.shell
+#                    ^^ keyword.control.loop.do.shell
+  echo $i
+  # <- meta.function-call support.function.shell
+done
+# <- keyword.control.loop.end.shell
+
+for
+  var in foo bar baz;
+# ^^^ - variable.other
+#     ^^ - keyword
+# ^^^^^^^^^^^^^^^^^^ meta.function-call
+
+for \
+  var in foo bar baz;
+#<- meta.statement.loop.for.shell
+#^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+# ^^^ variable.other.readwrite.shell
+#     ^^ keyword.operator.iterator.in.shell
+#        ^^^ meta.string.shell string.unquoted.shell
+#            ^^^ meta.string.shell string.unquoted.shell
+#                ^^^ meta.string.shell string.unquoted.shell
+#                   ^ punctuation.terminator.statement.shell
+
+for \
+  var \
+in foo bar baz;
+#<- meta.statement.loop.for.shell keyword.operator.iterator.in.shell
+#^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#^ meta.statement.loop.for.shell keyword.operator.iterator.in.shell
+#  ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.shell string.unquoted.shell
+#          ^^^ meta.string.shell string.unquoted.shell
+#             ^ punctuation.terminator.statement.shell
+
+`for i in $(seq 100); do echo $i; done`
+# <- meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.interpolation.command.shell meta.statement.loop.for.shell - meta.interpolation meta.interpolation
+#         ^^^^^^^^^^ meta.interpolation.command.shell meta.statement.loop.for.shell
+#                   ^^^^^^^^^^ meta.interpolation.command.shell - meta.statement.loop - meta.interpolation meta.interpolation
+#                             ^^ meta.interpolation.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - meta.statement.loop
+#                               ^^^^^^ meta.interpolation.command.shell - meta.statement.loop - meta.interpolation meta.interpolation
+#^^^ keyword.control.loop.for.shell
+#      ^^ keyword.operator.iterator.in.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^^^ meta.function-call.identifier.shell variable.function.shell
+#                  ^ punctuation.section.interpolation.end.shell
+#                   ^ punctuation.terminator.statement.shell
+#                     ^^ keyword.control.loop.do.shell
+#                        ^^^^ support.function.shell
+#                             ^^ variable.other.readwrite.shell
+#                               ^ punctuation.terminator.statement.shell
+#                                 ^^^^ keyword.control.loop.end.shell
+#                                     ^ punctuation.section.interpolation.end.shell
+
 
 ###############################################################################
 # 3.2.5 Compound Commands                                                     #
@@ -1215,27 +1395,121 @@ for domain in $domains; do echo $domain; done
 # https://www.gnu.org/software/bash/manual/bash.html#index-select             #
 ###############################################################################
 
-select var in 1 2 3 4 5; do echo $i; done;
-# <- keyword.control.loop.select.shell
-#      ^^^ variable.other.readwrite.shell
-#          ^^ keyword.operator.iterator.in.shell
-#            ^ - string
-#             ^ meta.string.shell string.unquoted.shell
-#              ^ - string
-#               ^ meta.string.shell string.unquoted.shell
-#                ^ - string
-#                 ^ meta.string.shell string.unquoted.shell
-#                  ^ - string
-#                   ^ meta.string.shell string.unquoted.shell
-#                    ^ - string
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^ punctuation.terminator.statement.shell
-#                        ^^ keyword.control.loop.do.shell
-#                           ^^^^ support.function.shell
-#                                ^^ variable.other.readwrite.shell
-#                                  ^ punctuation.terminator.statement.shell
-#                                    ^^^^ keyword.control.loop.end.shell
-#                                        ^ punctuation.terminator.statement.shell
+select;
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select&
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select|
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select>/dev/null
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select -
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select()
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select[]
+#^^^^^^^ - keyword.control
+select{}
+#^^^^^^^ - keyword.control
+select-
+#^^^^^^ - keyword.control
+-select
+#^^^^^^ - keyword.control
+select+
+#^^^^^^ - keyword.control
+select$
+#^^^^^^ - keyword.control
+select$var
+#^^^^^^^^^ - keyword.control
+select=
+#^^^^^^ - keyword.control
+select-=
+#^^^^^^^ - keyword.control
+select+=
+#^^^^^^^ - keyword.control
+
+select select select select
+# <- meta.statement.loop.select.shell keyword.control.loop.select.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.select.shell
+#                          ^ - meta.statement.loop
+#^^^^^ keyword.control.loop.select.shell
+#      ^^^^^^ variable.other.readwrite.shell
+#             ^^^^^^ keyword.control.loop.select.shell
+#                    ^^^^^^ variable.other.readwrite.shell
+
+select in in in select do done; do echo $in; done;
+# <- meta.statement.loop.select.shell keyword.control.loop.select.shell
+#^^^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
+#           ^^^^^^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell
+#                             ^^ - meta.statement.loop - meta.sequence
+#^^^^^ keyword.control.loop.select.shell
+#      ^^ variable.other.readwrite.shell
+#         ^^ keyword.operator.iterator.in.shell
+#           ^ - meta.string - string
+#            ^^ meta.string.shell string.unquoted.shell
+#              ^ - meta.string - string
+#               ^^^^^^ meta.string.shell string.unquoted.shell
+#                     ^ - meta.string - string
+#                      ^^ meta.string.shell string.unquoted.shell
+#                        ^ - meta.string - string
+#                         ^^^^ meta.string.shell string.unquoted.shell
+#                             ^ punctuation.terminator.statement.shell
+#                               ^^ keyword.control.loop.do.shell
+#                                  ^^^^ support.function.shell
+#                                       ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                          ^ punctuation.terminator.statement.shell
+#                                            ^^^^ keyword.control.loop.end.shell
+#                                                ^ punctuation.terminator.statement.shell
+
+select \
+  fname in ~/**/*.~\$tmp; do rm -f $fname; done;
+# <- meta.statement.loop.select.shell
+#^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
+#         ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
+#          ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.shell
+#                       ^^ - meta.statement.loop - meta.sequence
+# ^^^^^ variable.other.readwrite.shell
+#       ^^ keyword.operator.iterator.in.shell
+#          ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#           ^^^^^^^^^^^^ string.unquoted.shell
+#            ^^ constant.other.wildcard.asterisk.shell
+#               ^ constant.other.wildcard.asterisk.shell
+#                  ^^ constant.character.escape.shell
+
+select \
+  fname \
+  in ~/**/*.~\$tmp; do rm -f $fname; done;
+# <- meta.statement.loop.select.shell
+#^^^ meta.statement.loop.select.shell - meta.sequence
+#   ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
+#    ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.shell
+#                 ^^ - meta.statement.loop - meta.sequence
+# ^^ keyword.operator.iterator.in.shell
+#    ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#     ^^^^^^^^^^^^ string.unquoted.shell
+#      ^^ constant.other.wildcard.asterisk.shell
+#         ^ constant.other.wildcard.asterisk.shell
+#            ^^ constant.character.escape.shell
+
+select \
+  fname \
+  in \
+  ~/**/*.~\$tmp; do rm -f $fname; done;
+# <- meta.statement.loop.select.shell
+#^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
+# ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.shell
+#              ^^ - meta.statement.loop - meta.sequence
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#  ^^^^^^^^^^^^ string.unquoted.shell
+#   ^^ constant.other.wildcard.asterisk.shell
+#      ^ constant.other.wildcard.asterisk.shell
+#         ^^ constant.character.escape.shell
 
 select fname in *;
 # <- keyword.control.loop.select.shell
@@ -1262,16 +1536,101 @@ done
 # https://www.gnu.org/software/bash/manual/bash.html#index-until              #
 ###############################################################################
 
-do echo bar; until ! { [[ true ]]; }
-# <- keyword.control.loop.do.shell
-#            ^^^^^ keyword.control.loop.until.shell
-#                  ^ keyword.operator.logical.shell
-#                    ^ punctuation.section.compound.begin.shell
-#                      ^^ punctuation.section.compound.begin.shell
-#                         ^^^^ constant.language.boolean.true.shell
-#                              ^^ punctuation.section.compound.end.shell
-#                                ^ punctuation.terminator.statement.shell
-#                                  ^ punctuation.section.compound.end.shell
+until;
+#^^^^ keyword.control.loop.until.shell
+#    ^ - keyword.control.loop
+until&
+#^^^^ keyword.control.loop.until.shell
+#    ^ - keyword.control.loop
+until|
+#^^^^ keyword.control.loop.until.shell
+#    ^ - keyword.control.loop
+until>/dev/null
+#^^^^ keyword.control.loop.until.shell
+#    ^ - keyword.control.loop
+until -
+#^^^^ keyword.control.loop.until.shell
+#    ^ - keyword.control.loop
+until()
+#^^^^ keyword.control.loop.until.shell
+#    ^ - keyword.control.loop
+until[]
+#^^^^^^ - keyword.control
+until{}
+#^^^^^^ - keyword.control
+until-
+#^^^^^ - keyword.control
+-until
+#^^^^^ - keyword.control
+until+
+#^^^^^ - keyword.control
+until$
+#^^^^^ - keyword.control
+until$var
+#^^^^^^^^ - keyword.control
+until=
+#^^^^^ - keyword.control
+until-=
+#^^^^^^ - keyword.control
+until+=
+#^^^^^^ - keyword.control
+
+until test-commands --arg val; do cmd --arg; done
+# <- keyword.control.loop.until.shell
+#^^^^ keyword.control.loop.until.shell
+#     ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                  ^^^^^^^^^^ meta.function-call.arguments.shell
+#                            ^ punctuation.terminator.statement.shell
+#                              ^^ keyword.control.loop.do.shell
+#                                 ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                                    ^^^^^^ meta.function-call.arguments.shell
+#                                          ^ punctuation.terminator.statement.shell
+#                                            ^^^^ keyword.control.loop.end.shell
+
+until
+  test-commands --arg val; do cmd --arg; done
+# ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#              ^^^^^^^^^^ meta.function-call.arguments.shell
+#                        ^ punctuation.terminator.statement.shell
+#                          ^^ keyword.control.loop.do.shell
+#                             ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                                ^^^^^^ meta.function-call.arguments.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^^^ keyword.control.loop.end.shell
+
+until
+  test-commands \
+  --arg val; do cmd --arg; done
+#^^^^^^^^^^ meta.function-call.arguments.shell
+#          ^ punctuation.terminator.statement.shell
+#            ^^ keyword.control.loop.do.shell
+#               ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                  ^^^^^^ meta.function-call.arguments.shell
+#                        ^ punctuation.terminator.statement.shell
+#                          ^^^^ keyword.control.loop.end.shell
+
+until
+  test-commands \
+  --arg val
+#^^^^^^^^^^ meta.function-call.arguments.shell
+  do cmd --arg; done
+# ^^ keyword.control.loop.do.shell
+#    ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#       ^^^^^^ meta.function-call.arguments.shell
+#             ^ punctuation.terminator.statement.shell
+#               ^^^^ keyword.control.loop.end.shell
+
+until ! (( i < 10 )) ; do echo Step $(( i+= 1 ))...; done
+# <- keyword.control.loop.until.shell
+#^^^^ keyword.control.loop.until.shell
+#     ^ keyword.operator.logical.shell
+#       ^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#                    ^ punctuation.terminator.statement.shell
+#                      ^^ keyword.control.loop.do.shell
+#                         ^^^^ meta.function-call.identifier.shell support.function.shell
+#                             ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                  ^ punctuation.terminator.statement.shell
+#                                                    ^^^^ keyword.control.loop.end.shell
 
 
 ###############################################################################
@@ -1280,35 +1639,89 @@ do echo bar; until ! { [[ true ]]; }
 # https://www.gnu.org/software/bash/manual/bash.html#index-while              #
 ###############################################################################
 
-while true; do
-# <- keyword.control.loop.while
+while;
 #^^^^ keyword.control.loop.while.shell
-#    ^ - constant - keyword
-#     ^^^^ constant.language.boolean.true.shell
-#         ^ punctuation.terminator.statement.shell
-#           ^^ keyword.control.loop.do.shell
-    break
-#   ^^^^^ keyword.control.flow.break.shell
-    break 2;
-#   ^^^^^ keyword.control.flow.break.shell
-#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#    ^ - keyword.control.loop
+while&
+#^^^^ keyword.control.loop.while.shell
+#    ^ - keyword.control.loop
+while|
+#^^^^ keyword.control.loop.while.shell
+#    ^ - keyword.control.loop
+while>/dev/null
+#^^^^ keyword.control.loop.while.shell
+#    ^ - keyword.control.loop
+while -
+#^^^^ keyword.control.loop.while.shell
+#    ^ - keyword.control.loop
+while()
+#^^^^ keyword.control.loop.while.shell
+#    ^ - keyword.control.loop
+while[]
+#^^^^^^ - keyword.control
+while{}
+#^^^^^^ - keyword.control
+while-
+#^^^^^ - keyword.control
+-while
+#^^^^^ - keyword.control
+while+
+#^^^^^ - keyword.control
+while$
+#^^^^^ - keyword.control
+while$var
+#^^^^^^^^ - keyword.control
+while=
+#^^^^^ - keyword.control
+while-=
+#^^^^^^ - keyword.control
+while+=
+#^^^^^^ - keyword.control
+
+while test-commands --arg val; do cmd --arg; done
+# <- keyword.control.loop.while.shell
+#^^^^ keyword.control.loop.while.shell
+#     ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                  ^^^^^^^^^^ meta.function-call.arguments.shell
+#                            ^ punctuation.terminator.statement.shell
+#                              ^^ keyword.control.loop.do.shell
+#                                 ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                                    ^^^^^^ meta.function-call.arguments.shell
+#                                          ^ punctuation.terminator.statement.shell
+#                                            ^^^^ keyword.control.loop.end.shell
+
+while
+  test-commands --arg val; do cmd --arg; done
+# ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#              ^^^^^^^^^^ meta.function-call.arguments.shell
+#                        ^ punctuation.terminator.statement.shell
+#                          ^^ keyword.control.loop.do.shell
+#                             ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                                ^^^^^^ meta.function-call.arguments.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^^^ keyword.control.loop.end.shell
+
+while
+  test-commands \
+  --arg val; do cmd --arg; done
+#^^^^^^^^^^ meta.function-call.arguments.shell
 #          ^ punctuation.terminator.statement.shell
-    break ${levels};
-#   ^^^^^ keyword.control.flow.break.shell
-#         ^^^^^^^^^ meta.interpolation.parameter.shell
-#                  ^ punctuation.terminator.statement.shell
-    continue
-#   ^^^^^^^^ keyword.control.flow.continue.shell
-    continue 2;
-#   ^^^^^^^^ keyword.control.flow.continue.shell
-#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^^ keyword.control.loop.do.shell
+#               ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                  ^^^^^^ meta.function-call.arguments.shell
+#                        ^ punctuation.terminator.statement.shell
+#                          ^^^^ keyword.control.loop.end.shell
+
+while
+  test-commands \
+  --arg val
+#^^^^^^^^^^ meta.function-call.arguments.shell
+  do cmd --arg; done
+# ^^ keyword.control.loop.do.shell
+#    ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#       ^^^^^^ meta.function-call.arguments.shell
 #             ^ punctuation.terminator.statement.shell
-    continue ${levels};
-#   ^^^^^^^^ keyword.control.flow.continue.shell
-#            ^^^^^^^^^ meta.interpolation.parameter.shell
-#                     ^ punctuation.terminator.statement.shell
-done
-# <- keyword.control.loop.end
+#               ^^^^ keyword.control.loop.end.shell
 
 while ! true; do echo bar; done
 # <- keyword.control.loop.while.shell

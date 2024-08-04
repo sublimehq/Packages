@@ -1251,10 +1251,15 @@ contexts:
       scope: keyword.control.loop.end.shell
     - match: for{{cmd_break}}
       scope: keyword.control.loop.for.shell
-      set: for-args
+      set:
+        - for-meta
+        - for-args
     - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
-      set: loop-iterator-var
+      set:
+        - select-meta
+        - loop-iterator-wordlist
+        - loop-iterator-var
     - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
     - match: while{{cmd_break}}
@@ -1360,6 +1365,11 @@ contexts:
     - include: number
     - include: string-path-pattern
 
+  for-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.for.shell
+    - include: immediately-pop
+
   for-args:
     - meta_include_prototype: false
     - include: eoc-pop
@@ -1367,20 +1377,32 @@ contexts:
       scope: punctuation.section.compound.begin.shell
       set: cmd-arithmetic-body
     - match: (?=\S)
-      set: loop-iterator-var
-
-  loop-iterator-var:
-    - match: in{{cmd_break}}
-      scope: keyword.operator.iterator.in.shell
-      set: loop-iterator-wordlist
-    - include: cmd-args-end
-    - match: '{{variable_begin}}'
-      push:
-        - variable-subscription
+      set:
+        - loop-iterator-wordlist
         - variable-name-begin
 
-  loop-iterator-wordlist:
+  select-meta:
     - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.select.shell
+    - include: immediately-pop
+
+  loop-iterator-var:
+    - include: eoc-pop
+    - match:  (?=\S)
+      set: variable-name-begin
+
+  loop-iterator-wordlist:
+    - match: in{{cmd_break}}
+      scope: keyword.operator.iterator.in.shell
+      set: loop-iterator-wordlist-body
+    - include: cmd-args-end
+    - include: else-pop
+
+  loop-iterator-wordlist-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.sequence.list.shell
+    - match: \(
+      scope: invalid.illegal.unexpected-token.shell
     - include: cmd-args-end
     - include: string-path-patterns
 
