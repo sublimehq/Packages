@@ -106,10 +106,13 @@ variables:
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
   # Note: Contains thosw, which are not present as dedicated context
   builtin_cmds: |-
-    (?x: \. | \: | bg | bind | builtin | caller | cd | disown | enable | eval | fg
+    (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
     | getopts | hash | help | jobs | kill | logout | mapfile | printf | pwd
     | read | readarray | set | shift | shopt | source | su | suspend | times
     | trap | type | ulimit | umask | wait ){{cmd_break}}
+
+  modifier_cmds: |-
+    (?x: builtin ){{cmd_break}}
 
   # 5 Shell Variables
   # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
@@ -1030,6 +1033,10 @@ contexts:
       scope: punctuation.definition.history.shell
 
   cmd-builtin:
+    # cmd modifier commands are directly followed by simple commands
+    - match: '{{modifier_cmds}}'
+      scope: meta.function-call.identifier.shell meta.path.shell support.function.shell
+    # shell built-in commands with arbritary arguments
     - match: '{{builtin_cmds}}'
       scope: meta.function-call.identifier.shell meta.path.shell support.function.shell
       push:

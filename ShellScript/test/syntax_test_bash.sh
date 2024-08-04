@@ -10105,6 +10105,27 @@ printFunction "$variableString1" "`declare -p variableArray`"
 
 
 ###############################################################################
+# 4.2 Bash Builtin Commands (builtin)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-builtin            #
+###############################################################################
+
+builtin
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
+
+builtin -pV -v cmd -a val
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell
+#       ^^^ meta.function-call.identifier.shell
+#          ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#       ^^^ variable.function.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#              ^^^ meta.string.shell string.unquoted.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                     ^^^ meta.string.shell string.unquoted.shell
+
+
+###############################################################################
 # 4.2 Bash Builtin Commands (command)                                         #
 # https://www.gnu.org/software/bash/manual/bash.html#index-command            #
 ###############################################################################
