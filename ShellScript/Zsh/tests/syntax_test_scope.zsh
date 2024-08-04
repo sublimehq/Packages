@@ -568,10 +568,11 @@ case $word {
 # end-of-file.
 : << word
 # ^^ keyword.operator.assignment.redirection.shell
-#    ^^^^^ meta.string.heredoc.shell
-#    ^^^^ entity.name.tag.heredoc.shell
+#    ^^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
 word
-# <- entity.name.tag.heredoc.shell
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#   ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity
 
 # Perform shell expansion on word and pass the result to standard input.
 : <<< word

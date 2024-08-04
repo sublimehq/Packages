@@ -2356,8 +2356,8 @@ cat <<'ENDCAT' # comment
 # <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell meta.path.shell variable.function.shell
 #^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell meta.path.shell variable.function.shell
 #  ^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell - meta.string - meta.tag
-#     ^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#             ^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#     ^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell meta.tag.heredoc.begin.shell - string.unquoted.heredoc
+#             ^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell - meta.tag - string.unquoted.heredoc
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^ punctuation.definition.tag.begin.shell - entity
 #      ^^^^^^ entity.name.tag.heredoc.shell
@@ -2367,7 +2367,7 @@ cat <<'ENDCAT' # comment
 foo
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 ENDCAT
-# <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 ;;
 # <- meta.statement.conditional.case.body.shell meta.clause.shell punctuation.terminator.clause.shell
 #^ meta.statement.conditional.case.body.shell meta.clause.shell punctuation.terminator.clause.shell
@@ -9141,17 +9141,18 @@ exec >&${tee[1]} 2>&1
 ###############################################################################
 
 var=world!
-cat <<FOOSTRING ; echo more stuff here
-#  ^^^ - meta.string - meta.tag
-#     ^^^^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell
-#              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
-#                 ^^^^ meta.function-call.identifier.shell
-#                     ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+cat <<FOOSTRING ; echo "more stuff here"
+#  ^^^ - meta.tag - meta.string - string
+#     ^^^^^^^^^ meta.tag.heredoc.begin.shell - meta.string
+#              ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag - meta.string.heredoc - string.unquoted.heredoc
+#                 ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#                     ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
 #  ^ - keyword - variable
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^^^^^^^^^ entity.name.tag.heredoc.shell
 #               ^ punctuation.terminator.statement.shell
 #                 ^^^^ support.function.shell
+#                      ^^^^^^^^^^^^^^^^^ string.quoted.double.shell
 Hello, ${var}
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 #^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
@@ -9161,12 +9162,12 @@ Hello, ${var}
 #        ^^^variable.other.readwrite.shell
 #           ^ punctuation.section.interpolation.end.shell
 FOOSTRING
-# <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-cat << 'WHAT' ; echo more stuff here
-#  ^^^^ - meta.string - meta.tag
-#      ^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell
-#            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.tag
-#               ^^^^ meta.function-call.identifier.shell
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+cat << 'WHAT' ; echo "more stuff here"
+#  ^^^^ - meta.tag - meta.string - string
+#      ^^^^^^ meta.tag.heredoc.begin.shell - meta.string
+#            ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag - meta.string.heredoc - string.unquoted.heredoc
+#               ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
 #                   ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
 #  ^ - keyword - variable
 #   ^^ keyword.operator.assignment.redirection.shell
@@ -9175,11 +9176,12 @@ cat << 'WHAT' ; echo more stuff here
 #           ^ punctuation.definition.tag.end.shell - entity
 #             ^ punctuation.terminator.statement.shell
 #               ^^^^ support.function.shell
+#                    ^^^^^^^^^^^^^^^^^ string.quoted.double.shell
 Hello, ${var}
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 #^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 WHAT
-# <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
 
 cat <<< "A wild herestring appears" ; cat more stuff | bar | qux
 # <- meta.function-call.identifier.shell variable.function.shell
@@ -9210,9 +9212,9 @@ cat -c <<<$(echo pipephobic)
 
 # Escaped and non-escaped backticks in heredocs...
 cat << backticks_are_deprecated
-#^^^^^^ - meta.string - meta.tag
-#      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#                              ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#^^^^^^ - meta.tag - meta.string - string
+#      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#                              ^ - meta.tag - meta.string - string
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^ - entity - keyword
 #      ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.heredoc.shell
@@ -9227,15 +9229,16 @@ foo=`pwd`
 #   ^ punctuation.section.interpolation.begin.shell
 #       ^ punctuation.section.interpolation.end.shell
 backticks_are_deprecated
-#<- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#                       ^ - meta.function-call - meta.string - meta.tag - entity
+#<- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#                       ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 # Redirection after heredoc token
 cat << redirection_comes_next > foo.txt
-#^^^^^^ - meta.string - meta.tag
-#      ^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#                            ^^^^^^^^^^^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#^^^^^^ - meta.tag - meta.string - string
+#      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#                            ^^^ - meta.tag - meta.string - string
+#                               ^^^^^^^ meta.redirection.shell meta.string.shell string.unquoted.shell - meta.string.heredoc
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^ - entiy - keyword
 #      ^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.heredoc.shell
@@ -9245,14 +9248,14 @@ cat << redirection_comes_next > foo.txt
 hello
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 redirection_comes_next
-#<- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#                     ^ - meta.function-call - meta.string - meta.tag - entity
+#<- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#                     ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 cat <<     FARAWAY
-#^^^^^^^^^^ - meta.string - meta.tag
-#          ^^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#                 ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#^^^^^^^^^^ - meta.tag - meta.string - string
+#          ^^^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#                 ^ - meta.tag - meta.string - string
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^^^^^ - entiy - keyword
 #          ^^^^^^^ entity.name.tag.heredoc.shell
@@ -9260,14 +9263,14 @@ cat <<     FARAWAY
 foo
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 FARAWAY
-#<- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#      ^ - meta.function-call - meta.string - meta.tag - entity
+#<- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#^^^^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#      ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 cat <<- INDENTED
 #^^^^^^^ - meta.string - meta.tag
-#       ^^^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#               ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#       ^^^^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#               ^ - meta.tag - meta.string - string
 #   ^^^ keyword.operator.assignment.redirection.shell
 #      ^ - entity - keyword
 #       ^^^^^^^^ entity.name.tag.heredoc.shell
@@ -9276,14 +9279,14 @@ cat <<- INDENTED
 # ^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
 #              ^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.interpolation.parameter.shell - string
 	INDENTED
-# <- meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
-#^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#        ^ - meta.function-call - meta.string - meta.tag - entity
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
+#^^^^^^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#        ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 cat <<-  'indented_without_expansions'
 #^^^^^^^^ - meta.string - meta.tag
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#                                     ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#                                     ^ - meta.tag - meta.string - string
 #   ^^^ keyword.operator.assignment.redirection.shell
 #        ^ punctuation.definition.tag.begin.shell - entity
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.heredoc.shell
@@ -9292,22 +9295,23 @@ cat <<-  'indented_without_expansions'
 #^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
 #     ^^^ - variable.other
 		indented_without_expansions
-#^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#                            ^ - meta.function-call - meta.string - meta.tag - entity
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
+#^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#                            ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 variable=$(cat <<SETVAR
 This variable
 runs over multiple lines.
 SETVAR
-# <- meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
+# <- meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 )
 # <- meta.string.shell meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 cat <<- "FOO"
 #^^^^^^^ - meta.string - meta.tag
-#       ^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#            ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#       ^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#            ^ - meta.tag - meta.string - string
 #   ^^^ keyword.operator.assignment.redirection.shell
 #       ^ punctuation.definition.tag.begin.shell - entity
 #        ^^^ entity.name.tag.heredoc.shell
@@ -9316,13 +9320,13 @@ cat <<- "FOO"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
 		FOO
-# ^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#    ^ - meta.function-call - meta.string - meta.tag - entity
+# ^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#    ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 cat <<- \FOO
 #^^^^^^^ - meta.string - meta.tag
-#       ^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#           ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#       ^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#           ^ - meta.tag - meta.string - string
 #   ^^^ keyword.operator.assignment.redirection.shell
 #       ^ punctuation.definition.tag.shell - entity
 #        ^^^ entity.name.tag.heredoc.shell
@@ -9337,13 +9341,13 @@ cat <<- \FOO
   	FOO
 #^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell string.unquoted.heredoc.shell
 		FOO
-# ^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#    ^ - meta.function-call - meta.string - meta.tag - entity
+# ^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#    ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 cat << "FOO"
 #^^^^^^ - meta.string - meta.tag
-#      ^^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#           ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#      ^^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#           ^ - meta.tag - meta.string - string
 #   ^^ keyword.operator.assignment.redirection.shell
 #      ^ punctuation.definition.tag.begin.shell - entity
 #       ^^^ entity.name.tag.heredoc.shell
@@ -9352,14 +9356,14 @@ cat << "FOO"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
 FOO
-# <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#  ^ - meta.function-call - meta.string - meta.tag - entity
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#  ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 cat << \FOO
 #^^^^^^ - meta.string - meta.tag
-#      ^^^^ meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
-#          ^ meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
+#      ^^^^ meta.tag.heredoc.begin.shell - meta.string - string
+#          ^ - meta.tag - meta.string - string
 #   ^^ keyword.operator.assignment.redirection.shell
 #      ^ punctuation.definition.tag.shell - entity
 #       ^^^ entity.name.tag.heredoc.shell
@@ -9368,17 +9372,18 @@ cat << \FOO
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell - meta.interpolation
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.shell - constant - keyword - variable
 FOO
-# <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#  ^ - meta.function-call - meta.string - meta.tag - entity
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#  ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 sed 's/^    //' << EOF >$dummy.c
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - string.unquoted.heredoc
 #   ^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
-#              ^^^^ - meta.string
-#                  ^^^ meta.string.heredoc.shell meta.tag.heredoc.shell
-#                     ^^^^^^^^^^ meta.string.heredoc.shell - meta.tag
+#              ^^^^ - meta.tag - meta.string
+#                  ^^^ meta.tag.heredoc.begin.shell - meta.string
+#                     ^ - meta.tag - meta.string.heredoc
+#                      ^^^^^^^^^ meta.redirection.shell - meta.tag - meta.string.heredoc
 #               ^^ keyword.operator.assignment.redirection.shell
 #                  ^^^ entity.name.tag.heredoc.shell
 #                      ^ keyword.operator.assignment.redirection.shell
@@ -9403,9 +9408,9 @@ sed 's/^    //' << EOF >$dummy.c
       exit (-1);
     }
 EOF
-# <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-#  ^ - meta.function-call - meta.string - meta.tag - entity
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell - meta.string - string
+#  ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity - meta.string - string
 
 
 ###############################################################################
@@ -11948,12 +11953,14 @@ sudo --reset-timestamp -n -f -- rm -rf
 #   ^^^ string.unquoted.shell
 #       ^ punctuation.section.compound.end.shell
 
-[ <<cmd ]
+# heredocs causing issues, but no way around it
+[ <<cmd ]  # <- ] should close the conditional
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^ meta.compound.conditional.shell
 # ^^ keyword.operator.assignment.redirection.shell
-#   ^^^^^^ meta.string.heredoc.shell
+#   ^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
 cmd
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 
 [ -a file ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
