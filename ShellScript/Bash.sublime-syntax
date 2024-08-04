@@ -106,9 +106,9 @@ variables:
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
   # Note: Contains thosw, which are not present as dedicated context
   builtin_cmds: |-
-    (?x: \. | \: | bg | bind | builtin | caller | cd | command | disown | enable
-    | eval | fg | getopts | hash | help | jobs | kill | logout | mapfile | printf
-    | pwd | read | readarray | set | shift | shopt | source | su | suspend | times
+    (?x: \. | \: | bg | bind | builtin | caller | cd | disown | enable | eval | fg
+    | getopts | hash | help | jobs | kill | logout | mapfile | printf | pwd
+    | read | readarray | set | shift | shopt | source | su | suspend | times
     | trap | type | ulimit | umask | wait ){{cmd_break}}
 
   # 5 Shell Variables
@@ -289,6 +289,7 @@ contexts:
     - include: def-anonymous
     - include: cmd-alias
     - include: cmd-arithmetic
+    - include: cmd-command
     - include: cmd-compound
     - include: cmd-control
     - include: cmd-coproc
@@ -586,6 +587,21 @@ contexts:
     - meta_content_scope: meta.function-call.arguments.shell meta.arithmetic.shell
     - include: cmd-args-end
     - include: expression-content
+
+###[ COMMAND BUILTINS ]########################################################
+
+  cmd-command:
+    - match: (?:command|time){{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set: cmd-command-args
+
+  cmd-command-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-end
+    - include: cmd-args-options
+    - include: else-pop
 
 ###[ COPROC BUILTINS ]#########################################################
 

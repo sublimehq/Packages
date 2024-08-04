@@ -10105,6 +10105,28 @@ printFunction "$variableString1" "`declare -p variableArray`"
 
 
 ###############################################################################
+# 4.2 Bash Builtin Commands (command)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-command            #
+###############################################################################
+
+command
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
+
+command -pV -v cmd -a val
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell
+#      ^^^^^^^^ meta.function-call.arguments.shell
+#              ^^^ meta.function-call.identifier.shell meta.path.shell
+#                 ^^^^^^^ meta.function-call.arguments.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#              ^^^ variable.function.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                     ^^^ meta.string.shell string.unquoted.shell
+
+
+###############################################################################
 # 4.2 Bash Builtin Commands (eval)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-eval               #
 ###############################################################################
@@ -11063,6 +11085,34 @@ if test "$VAR" != ";";then;fi
 #                     ^^^^ keyword.control.conditional.then.shell
 #                         ^ punctuation.terminator.statement.shell
 #                          ^^ keyword.control.conditional.endif.shell
+
+
+###############################################################################
+# 4.2 Bash Builtin Commands (time)                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-time               #
+###############################################################################
+
+time cmd1 --arg val | cmd2 -n |& cmd3
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell
+#    ^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#        ^^^^^^^^^^ meta.function-call.arguments.shell
+#         ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#               ^^^ meta.string.shell string.unquoted.shell
+#                   ^ keyword.operator.assignment.pipe.shell
+#                     ^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#                         ^^^ meta.function-call.arguments.shell
+#                          ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                             ^^ keyword.operator.assignment.pipe.shell
+#                                ^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+
+time -p cmd -p
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell
+#   ^^^^ meta.function-call.arguments.shell
+#       ^^^ meta.function-call.identifier.shell
+#          ^^^ meta.function-call.arguments.shell
 
 
 ###############################################################################
