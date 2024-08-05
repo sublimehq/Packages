@@ -846,11 +846,12 @@ contexts:
 
   for-condition:
     - match: \(
-      scope: meta.group.js punctuation.section.group.begin.js
+      scope: punctuation.section.group.begin.js
       branch_point: for-in-of
       branch:
         - for-in-of
         - for-oldstyle
+      pop: 1
     - include: else-pop
 
   for-condition-end:
@@ -864,6 +865,7 @@ contexts:
 
   for-in-of:
     - meta_include_prototype: false
+    - meta_scope: meta.group.js
     - match: ''
       set:
         - for-condition-end
@@ -916,6 +918,7 @@ contexts:
 
   for-oldstyle:
     - meta_include_prototype: false
+    - meta_scope: meta.group.js
     - match: ''
       set:
         - for-condition-end

@@ -306,6 +306,10 @@
 //                                   ^ punctuation.section.group.end
 //                                     ^^ meta.block
 
+    for (var in list) (i = 0 ; i < 10; i++)
+//  ^^^^^^^^^^^^^^^^^^ meta.for.js
+//                    ^^^^^^^^^^^^^^^^^^^^^ meta.group.js - meta.for
+
 for
     42;
 //  ^^ constant.numeric - meta.for
