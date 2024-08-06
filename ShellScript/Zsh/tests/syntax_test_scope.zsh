@@ -625,6 +625,89 @@ word
 #                               ^^^^^^^^^ meta.redirection.shell
 #                               ^^^^ keyword.operator.assignment.redirection.shell
 
+heredoc=<<__HERE.DOC-TAG__
+#       ^^ keyword.operator.assignment.redirection.shell
+#         ^^^^^^^^^^^^^^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
+
+    if [[ -z "~/$file" ]] then echo "${msg}"; fi;
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell
+#               ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                    ^^^^^^ meta.interpolation.parameter.shell
+__HERE.DOC-TAG__
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^^^^^^^^^^^^^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#               ^ meta.tag.heredoc.end.shell - entity
+
+heredoc=<<'EOF'
+#       ^^ keyword.operator.assignment.redirection.shell
+#         ^^^^^ meta.tag.heredoc.begin.shell
+#         ^ punctuation.definition.tag.begin.shell
+#          ^^^ entity.name.tag.heredoc.shell
+#             ^ punctuation.definition.tag.end.shell
+
+    if [[ -z "~/$file" ]] then echo "${msg}"; fi;
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
+EOF
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#  ^ meta.tag.heredoc.end.shell - entity
+
+heredoc=<<"EOF"
+#       ^^ keyword.operator.assignment.redirection.shell
+#         ^^^^^ meta.tag.heredoc.begin.shell
+#         ^ punctuation.definition.tag.begin.shell
+#          ^^^ entity.name.tag.heredoc.shell
+#             ^ punctuation.definition.tag.end.shell
+
+    if [[ -z "~/$file" ]] then echo "${msg}"; fi;
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
+EOF
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#  ^ meta.tag.heredoc.end.shell - entity
+
+heredoc=<<-__HERE.DOC-TAG__
+#       ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^^^^^^^^^^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
+
+    if [[ -z "~/$file" ]] then echo "${msg}"; fi;
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell
+#               ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                    ^^^^^^ meta.interpolation.parameter.shell
+__HERE.DOC-TAG__
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^^^^^^^^^^^^^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#               ^ meta.tag.heredoc.end.shell - entity
+
+heredoc=<<-'EOF'
+#       ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^ meta.tag.heredoc.begin.shell
+#          ^ punctuation.definition.tag.begin.shell
+#           ^^^ entity.name.tag.heredoc.shell
+#              ^ punctuation.definition.tag.end.shell
+
+    if [[ -z "~/$file" ]] then echo "${msg}"; fi;
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
+EOF
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#  ^ meta.tag.heredoc.end.shell - entity
+
+heredoc=<<-"EOF"
+#       ^^^ keyword.operator.assignment.redirection.shell
+#          ^^^^^ meta.tag.heredoc.begin.shell
+#          ^ punctuation.definition.tag.begin.shell
+#           ^^^ entity.name.tag.heredoc.shell
+#              ^ punctuation.definition.tag.end.shell
+
+    if [[ -z "~/$file" ]] then echo "${msg}"; fi;
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.shell string.unquoted.heredoc.shell - meta.interpolation
+EOF
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#  ^ meta.tag.heredoc.end.shell - entity
+
+
 
 ###############################################################################
 # 8 Command Execution                                                         #
@@ -2818,6 +2901,11 @@ dyn_dir_name() {
 #  ^^^^^ meta.range.shell.zsh
 #         ^^^^^ meta.range.shell.zsh
 #                ^^^^^ meta.range.shell.zsh
+
+: this<input>output
+#     ^^^^^^^ - meta.range
+#     ^ keyword.operator.assignment.redirection.shell
+#           ^ keyword.operator.assignment.redirection.shell
 
 : foo/(a*/)#bar               # bar matches foo/bar, foo/any/bar, foo/any/anyother/bar, ...
 # ^^^^ meta.string.shell string.unquoted.shell
