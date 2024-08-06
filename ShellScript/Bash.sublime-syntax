@@ -662,6 +662,7 @@ contexts:
     - include: test-expression-common
 
   compound-test-eregexp:
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - match: (?=[\s;])
       pop: 1
@@ -669,6 +670,7 @@ contexts:
     - include: eregexp-main-content
 
   compound-test-pattern:
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - match: (?=[\s;])
       pop: 1
@@ -698,11 +700,13 @@ contexts:
     - include: test-expression-common
 
   compound-test-group-eregexp:
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: compound-test-group-pattern-end
     - include: eregexp-group-content
 
   compound-test-group-pattern:
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: compound-test-group-pattern-end
     - include: pattern-group-content
@@ -1112,6 +1116,7 @@ contexts:
       push: case-clause-pattern
 
   case-clause-pattern:
+    - meta_include_prototype: false
     - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
     - match: \)
       scope: meta.clause.pattern.shell punctuation.definition.pattern.end.shell
@@ -1140,6 +1145,7 @@ contexts:
 
   case-clause-pattern-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_content_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
     - include: case-clause-pattern-content
@@ -2007,6 +2013,7 @@ contexts:
         - maybe-tilde-interpolation
 
   string-path-pattern-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.shell
     - include: line-continuations
     - include: string-path-pattern-content
@@ -2243,6 +2250,7 @@ contexts:
 
   pattern-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_content_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
     - include: pattern-group-content
@@ -2311,6 +2319,7 @@ contexts:
 
   eregexp-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_scope: meta.group.regexp.shell string.unquoted.shell
     - match: \)
       scope: punctuation.section.group.end.regexp.shell
@@ -2723,6 +2732,7 @@ contexts:
 
   expansion-parameter-substitution-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - match: /
       scope: keyword.operator.substitution.shell
@@ -2731,6 +2741,7 @@ contexts:
 
   expansion-parameter-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: expansion-parameter-end
     - include: string-unquoted-content
@@ -2770,6 +2781,7 @@ contexts:
 
   expansion-parameter-pattern-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
     - meta_content_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
     - include: string-unquoted-content
