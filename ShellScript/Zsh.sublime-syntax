@@ -515,12 +515,12 @@ contexts:
     - match: ::=
       scope: keyword.operator.assignment.shell.zsh
       set:
-        - expansion-parameter-value
+        - expansion-parameter-pattern
         - maybe-tilde-interpolation
     - match: :#
       scope: keyword.operator.assignment.shell.zsh
       set:
-        - expansion-parameter-value
+        - expansion-parameter-pattern
         - maybe-tilde-interpolation
 
   expansion-parameter-pattern:

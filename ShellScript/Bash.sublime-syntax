@@ -2682,7 +2682,7 @@ contexts:
     - match: :?[-+=?]
       scope: keyword.operator.assignment.shell
       set:
-        - expansion-parameter-value
+        - expansion-parameter-pattern
         - maybe-tilde-interpolation
     # ${parameter:offset:length}
     - match: ':'
@@ -2720,6 +2720,14 @@ contexts:
     - meta_content_scope: meta.arithmetic.shell
     - include: expansion-parameter-end
     - include: expression-content
+
+  expansion-parameter-substitution-pattern:
+    # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - match: /
+      scope: keyword.operator.substitution.shell
+      set: expansion-parameter-string
+    - include: expansion-parameter-pattern
 
   expansion-parameter-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions
@@ -2794,25 +2802,11 @@ contexts:
     - include: pattern-charset-end
     - include: pattern-charset-content
 
-  expansion-parameter-substitution-pattern:
-    # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: /
-      scope: keyword.operator.substitution.shell
-      set: expansion-parameter-substitution-value
-    - include: expansion-parameter-pattern
-
-  expansion-parameter-substitution-value:
+  expansion-parameter-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.shell string.unquoted.shell
     - include: expansion-parameter-end
     - include: string-unquoted-content
-
-  expansion-parameter-value:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.shell string.unquoted.shell
-    - include: expansion-parameter-end
-    - include: pattern-main-content
 
   expansion-parameter-end:
     - match: \}

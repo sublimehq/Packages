@@ -7692,7 +7692,7 @@ a\/b/c/d}
 
 : ${foo:="$bar"}
 # ^^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#         ^^^^ meta.interpolation.parameter.shell meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #             ^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
 #        ^ punctuation.definition.string.begin.shell
 #         ^ punctuation.definition.variable.shell
