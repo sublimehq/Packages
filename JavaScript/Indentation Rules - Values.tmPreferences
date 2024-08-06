@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		(source.js meta.mapping, source.js meta.sequence) - source.js meta.function,
+		source.js meta.function meta.mapping,
+		source.js meta.function meta.sequence,
+		(source.jsx meta.mapping, source.jsx meta.sequence) - source.jsx meta.function,
+		source.jsx meta.function meta.mapping,
+		source.jsx meta.function meta.sequence,
+		(source.ts meta.mapping, source.ts meta.sequence) - source.ts meta.function,
+		source.ts meta.function meta.mapping,
+		source.ts meta.function meta.sequence,
+		(source.tsx meta.mapping, source.tsx meta.sequence) - source.tsx meta.function,
+		source.tsx meta.function meta.mapping,
+		source.tsx meta.function meta.sequence
+	</string>
+	<key>settings</key>
+	<dict>
+		<!-- NOTE: Keep in sync with JSON! -->
+		<key>decreaseIndentPattern</key>
+		<string>(?x)
+			# When an object is closed, but not opened
+			(
+				^
+				(
+					# Consume strings
+					"(?:[^"\\]|\\.)*"
+					|
+					# Consume all chars that don't start a string, comment or
+					# open an object on this line
+					[^"/{\n]
+				)*
+				\}.*$
+			)
+			|
+			# When an array is closed by itself on a line (interacts with indentSquareBrackets)
+			(
+				^(.*\*/)?\s*\].*$
+			)
+		</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)
+			# When an object is opened, but not closed
+			(
+				^.*\{
+				(
+					# Consume strings
+					"(?:[^"\\]|\\.)*"
+					|
+					# Consume all chars that don't start a string, comment or
+					# end the object that was opened on this line
+					[^"/}]
+				)*
+				# Stop matching at the end of the line, or once we hit a comment
+				($|/[/*])
+			)
+			|
+			# When an array is opened, but not closed
+			(
+				^.*\[
+				(
+					# Consume strings
+					"(?:[^"\\]|\\.)*"
+					|
+					# Consume all chars that don't start a string, comment or
+					# end the array that was opened on this line
+					[^"/\]]
+				)*
+				# Stop matching at the end of the line, or once we hit a comment
+				($|/[/*])
+			)
+		</string>
+	</dict>
+</dict>
+</plist>

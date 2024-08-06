@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>string.quoted.other.js</string>
+	<key>settings</key>
+	<dict>
+		<!--
+		Only first row containing opening backtick is included in auto-indentation.
+		Content of plain tagged template strings is otherwise excluded.
+
+		Note:
+		Decreasing indentation of last row, containing stand-alone closing backtick
+		is handled by normal indentation rules.
+		 -->
+
+		<!--
+		<key>decreaseIndentPattern</key>
+		<string>^\s*`</string>
+ 		-->
+
+		<key>increaseIndentPattern</key>
+		<string>^[^`]*`\s*$</string>
+
+		<key>unIndentedLinePattern</key>
+		<string>^[^`]*$</string>
+	</dict>
+</dict>
+</plist>

@@ -2,22 +2,33 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.js, source.ts, source.jsx, source.tsx</string>
+	<string>
+		source.js - source.js meta.mapping - source.js meta.sequence - source.js meta.string,
+		source.js meta.function,
+		source.jsx - source.jsx meta.mapping - source.jsx meta.sequence - source.jsx meta.string,
+		source.jsx meta.function,
+		source.ts - source.ts meta.mapping - source.ts meta.sequence - source.ts meta.string,
+		source.ts meta.function,
+		source.tsx - source.tsx meta.mapping - source.tsx meta.sequence - source.tsx meta.string,
+		source.tsx meta.function
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string><![CDATA[(?x)
-			# line beginning with whitespace or block comments
+			# line beginning with whitespace
 			^ (.*\*/)? \s*
 			(?:
 			# dedent closing braces
 			  \}
+			# dedent closing brackets
+			| \]
 			# dedent closing tagged templates
 			| `
 			# detent `case ... :`
-			| case\b
+			| case\b.*:
 			# detent `default:`
-			| default\b
+			| default\s*:
 			)
 		]]></string>
 
@@ -30,11 +41,11 @@
 			# but exclude lines such as `extern "C" {`
 			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
 			# indent after opening tagged template: e.g.: "css`"
-			| .* \w+ \s* `
+			# see: Indentation Rules - Template Strings.tmPreferences
 			# indent after `case ... :`
-			| case\b
+			| case\b.*:
 			# indent after `default:`
-			| default\b
+			| default\s*:
 			)
 		]]></string>
 
@@ -72,8 +83,6 @@
 			)
 		]]></string>
 
-		<key>indentSquareBrackets</key>
-		<true/>
 	</dict>
 </dict>
 </plist>
