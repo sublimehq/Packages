@@ -100,8 +100,10 @@ contexts:
       pop: 1
 
   shebang:
-    - match: ^\#!
-      scope: punctuation.definition.comment.shell
+    # allow extending syntaxes like Markdown to ignore indentation restrictions
+    - match: '{{no_indent}}(\#!)'
+      captures:
+        1: punctuation.definition.comment.shell
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Bash is embedded.
       pop: 1
@@ -1714,7 +1716,7 @@ contexts:
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       embed: heredoc-begin
-      escape: ^\t*(\3)$\n?
+      escape: '{{tab_indent}}(\3)$\n?'
       escape_captures:
         0: meta.tag.heredoc.end.shell
         1: entity.name.tag.heredoc.shell
@@ -1725,7 +1727,7 @@ contexts:
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       embed: heredoc-begin
-      escape: ^(\3)$\n?
+      escape: '{{no_indent}}(\3)$\n?'
       escape_captures:
         0: meta.tag.heredoc.end.shell
         1: entity.name.tag.heredoc.shell
@@ -2932,6 +2934,11 @@ variables:
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
   # ‘(’, ‘)’, ‘<’, or ‘>’.
   metachar: '[\s|&;()<>]'
+  wspace: (?:\s+|^)
+
+  # Indentation and whitespace patterns
+  no_indent: ^
+  tab_indent: ^\t*
 
   # Parameter expansions
   is_interpolation: (?=\$[({{{identifier_char}}{{special_variables}}]|`)
@@ -2948,7 +2955,6 @@ variables:
 
   digit: \d
   varassign: '[-+]?='
-  wspace: (?:\s+|^)
 
   no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
 
