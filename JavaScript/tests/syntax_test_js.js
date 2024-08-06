@@ -1506,7 +1506,7 @@ var o = {
 }
 
 var query = {
-    type: type==undefined ? null : {$in: type.split(',')}
+    type: type==undefined ? null : {$in: type.split(',')},
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 //              ^^^^^^^^^ constant.language.undefined
 //                        ^ keyword.operator.ternary
@@ -1516,6 +1516,26 @@ var query = {
 //                                   ^^ meta.mapping.key.js
 //                                     ^ punctuation.separator.key-value.js
 //                                                      ^ punctuation.section.mapping.end
+//                                                       ^ punctuation.separator.comma.js
+
+    key: foo > 2 ? foo < 5 ? '2 to 5' : '>=5' : '<=2',
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.js
+//  ^^^ meta.mapping.key.js
+//     ^ punctuation.separator.key-value.js
+//       ^^^ variable.other.readwrite.js
+//           ^ keyword.operator.comparison.js
+//             ^ constant.numeric.value.js
+//               ^ keyword.operator.ternary.js
+//                 ^^^ variable.other.readwrite.js
+//                     ^ keyword.operator.comparison.js
+//                       ^ constant.numeric.value.js
+//                         ^ keyword.operator.ternary.js
+//                           ^^^^^^^^ string.quoted.single.js
+//                                    ^ keyword.operator.ternary.js
+//                                      ^^^^^ string.quoted.single.js
+//                                            ^ keyword.operator.ternary.js
+//                                              ^^^^^ string.quoted.single.js
+//                                                   ^ punctuation.separator.comma.js
 };
 
 var str = `Hello, ${name}!`;

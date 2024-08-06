@@ -846,11 +846,12 @@ contexts:
 
   for-condition:
     - match: \(
-      scope: meta.group.js punctuation.section.group.begin.js
+      scope: punctuation.section.group.begin.js
       branch_point: for-in-of
       branch:
         - for-in-of
         - for-oldstyle
+      pop: 1
     - include: else-pop
 
   for-condition-end:
@@ -858,13 +859,16 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.js
       pop: 1
+    - match: ;
+      scope: invalid.illegal.unexpected-token.js
+    - include: expressions
 
   for-in-of:
     - meta_include_prototype: false
+    - meta_scope: meta.group.js
     - match: ''
       set:
         - for-condition-end
-        - expression
         - for-in-of-word
         - for-in-of-declaration
 
@@ -914,25 +918,28 @@ contexts:
 
   for-oldstyle:
     - meta_include_prototype: false
+    - meta_scope: meta.group.js
     - match: ''
       set:
-        - for-oldstyle-rest
-        - for-oldstyle-first
+        - for-condition-end
+        - for-oldstyle-separator
+        - expression
+        - for-oldstyle-separator
+        - for-oldstyle-declaration
 
-  for-oldstyle-first:
+  for-oldstyle-declaration:
     - match: (?:const|let|var){{identifier_break}}
       scope: keyword.declaration.js
       set:
         - variable-binding-list-top
         - variable-binding-top
-    - include: else-pop
+    - include: expression
 
-  for-oldstyle-rest:
-    - meta_scope: meta.group.js
+  for-oldstyle-separator:
     - match: ;
       scope: punctuation.separator.expression.js
-    - include: for-condition-end
-    - include: expressions
+      pop: 1
+    - include: else-pop
 
   block-scope:
     - include: block
@@ -1507,7 +1514,7 @@ contexts:
   ternary-operator-expect-colon:
     - match: ':'
       scope: keyword.operator.ternary.js
-      set: expression
+      set: expression-no-comma
     - include: else-pop
 
   postfix-operators:
