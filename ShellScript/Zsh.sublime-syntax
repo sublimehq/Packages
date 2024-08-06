@@ -529,12 +529,6 @@ contexts:
     - include: zsh-pattern-operators
     - include: zsh-pattern-ranges
 
-  expansion-parameter-pattern-group-body:
-    - meta_prepend: true
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
-
   expansion-parameter-pattern-groups:
     # KSH_GLOB is optional (hence not matching ? and * in favor of ZSH globs)
     - match: ([+@!]??)(\()
@@ -542,6 +536,12 @@ contexts:
         1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
         2: meta.group.regexp.shell string.unquoted.shell punctuation.definition.group.begin.regexp.shell
       push: expansion-parameter-pattern-group-body
+
+  expansion-parameter-pattern-group-body:
+    - meta_prepend: true
+    - include: zsh-pattern-flags
+    - include: zsh-pattern-operators
+    - include: zsh-pattern-ranges
 
   zsh-parameter-subscription:
     - meta_include_prototype: false
