@@ -564,21 +564,6 @@ case $word {
 #                   ^^^^^^^^ meta.redirection.shell
 #                   ^^^ keyword.operator.assignment.redirection.shell
 
-# The shell input is read up to a line that is the same as word, or to an
-# end-of-file.
-: << word
-# ^^ keyword.operator.assignment.redirection.shell
-#    ^^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
-word
-# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
-#^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
-#   ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity
-
-# Perform shell expansion on word and pass the result to standard input.
-: <<< word
-# ^^^ keyword.operator.herestring.shell
-#     ^^^^ meta.string.shell string.unquoted.shell
-
 # The standard input/output is duplicated from file descriptor number (see dup2(2)).
 : <& 1 >& 1
 # ^^^^ meta.redirection.shell
@@ -624,6 +609,22 @@ word
 #                     ^^^^ keyword.operator.assignment.redirection.shell
 #                               ^^^^^^^^^ meta.redirection.shell
 #                               ^^^^ keyword.operator.assignment.redirection.shell
+
+
+###############################################################################
+# 7 Redirection                                                               #
+#   HERE DOCUMENTS                                                            #
+###############################################################################
+
+# The shell input is read up to a line that is the same as word, or to an
+# end-of-file.
+: << word
+# ^^ keyword.operator.assignment.redirection.shell
+#    ^^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
+word
+# <- meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#^^^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+#   ^ meta.function-call.arguments.shell meta.tag.heredoc.end.shell - entity
 
 heredoc=<<__HERE.DOC-TAG__
 #       ^^ keyword.operator.assignment.redirection.shell
@@ -707,6 +708,94 @@ EOF
 #^^ meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 #  ^ meta.tag.heredoc.end.shell - entity
 
+
+###############################################################################
+# 7 Redirection                                                               #
+#   HERESTRINGS                                                               #
+###############################################################################
+
+# Perform shell expansion on word and pass the result to standard input.
+
+: <<< word --opt ~/**/[Ff]oo?.bar
+# ^^^ keyword.operator.assignment.herestring
+#     ^^^^ meta.string.herestring.shell string.unquoted.shell
+#          ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                ^^^^^^^^^^^^^^^^ meta.string.shell
+#                ^ variable.language.tilde.shell
+#                  ^^ constant.other.wildcard.asterisk.shell
+#                     ^^^^ meta.set.regexp.shell
+#                           ^ constant.other.wildcard.questionmark.shell
+
+: <<< "word --opt ~/**/[Ff]oo?.bar"
+# ^^^ keyword.operator.assignment.herestring
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.herestring.shell string.quoted.double.shell - constant - variable
+
+: 1<<< "word --opt"
+# ^  meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#  ^^^ keyword.operator.assignment.herestring
+#      ^^^^^^^^^^^^ meta.string.herestring.shell string.quoted.double.shell
+
+herestring=<<<${here}string
+#          ^^^ keyword.operator.assignment.herestring
+#             ^^^^^^^ meta.string.herestring.shell meta.interpolation.parameter.shell
+#                    ^^^^^^ meta.string.herestring.shell string.unquoted.shell
+#
+
+herestring=<<<"This is a \\$here \"\$string.\""
+#             ^^^^^^^^^^^^^ meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
+#                          ^^^^^ meta.string.herestring.shell meta.interpolation.parameter.shell - string
+#                               ^^^^^^^^^^^^^^^ meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
+#          ^^^ keyword.operator.assignment.herestring
+#             ^ punctuation.definition.string.begin.shell
+#                        ^^ constant.character.escape.shell
+#                          ^^^^^ variable.other.readwrite.shell
+#                          ^ punctuation.definition.variable.shell
+#                                ^^^^ constant.character.escape.shell
+#                                           ^^ constant.character.escape.shell
+#                                             ^ punctuation.definition.string.end.shell
+
+cat <<< "This is a \\$here \"\$string.\"" ; cat more stuff | bar | qux
+# <- meta.function-call.identifier.shell variable.function.shell
+#   ^^^^ meta.function-call.arguments.shell - meta.string
+#       ^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
+#                    ^^^^^ meta.function-call.arguments.shell meta.string.herestring.shell meta.interpolation.parameter.shell - string
+#                         ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
+#                                        ^^^ - meta.function-call
+#                                           ^^^ meta.function-call.identifier.shell
+#                                              ^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                         ^^^ - meta.function-call
+#                                                            ^^^ meta.function-call.identifier.shell
+#                                                               ^^^ - meta.function-call
+#                                                                  ^^^ meta.function-call.identifier.shell
+#   ^^^ keyword.operator.assignment.herestring
+#       ^ punctuation.definition.string.begin.shell
+#                  ^^ constant.character.escape.shell
+#                    ^^^^^ variable.other.readwrite.shell
+#                    ^ punctuation.definition.variable.shell
+#                          ^^^^ constant.character.escape.shell
+#                                     ^^ constant.character.escape.shell
+#                                       ^ punctuation.definition.string.end.shell
+#                                         ^ punctuation.terminator.statement.shell
+#                                           ^^^ variable.function.shell
+#                                               ^^^^ meta.string.shell string.unquoted.shell
+#                                                    ^^^^^ meta.string.shell string.unquoted.shell
+#                                                          ^ keyword.operator.assignment.pipe.shell
+#                                                            ^^^ variable.function.shell
+#                                                                ^ keyword.operator.assignment.pipe.shell
+#                                                                  ^^^ variable.function.shell
+
+cat -c <<<$(echo pipephobic)
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#      ^^^ keyword.operator.assignment.herestring.shell
+#         ^^^^^^^^^^^^^^^^^^ meta.string.herestring.shell meta.interpolation.command.shell
+#           ^^^^ support.function
+
+if opam upgrade --check; then
+    opam upgrade --dry-run <<<n
+#                          ^^^ keyword.operator.assignment.herestring.shell
+#                             ^ - keyword.control.heredoc-token - string.unquoted.heredoc
+fi
+# <- keyword.control.conditional.endif.shell - string
 
 
 ###############################################################################

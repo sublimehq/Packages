@@ -1706,7 +1706,16 @@ contexts:
         1: meta.file-descriptor.shell
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
-        2: keyword.operator.herestring.shell
+        2: keyword.operator.assignment.herestring.shell
+      push: here-string-body
+
+  here-string-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.herestring.shell string.unquoted.shell
+    - include: line-continuations
+    - include: string-unquoted-content
+    - match: '{{word_break}}'
+      pop: 1
 
   redirections-here-document:
     - match: (\d*)(<<-)\s*(?=["'\\]?({{heredoc}}))
