@@ -2940,9 +2940,16 @@ variables:
   no_indent: ^
   tab_indent: ^\t*
 
+  # A lookbehind used in embed..escape patterns, to check for unescaped characters
+  # in embed...escape statements.
+  no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
+
   # Parameter expansions
   is_interpolation: (?=\$[({{{identifier_char}}{{special_variables}}]|`)
   parameter_switch: '[AEKLPQUaku]'
+
+  # Filename expansions
+  pathlist_separator: :(?=\$|(?:~|\.?\.)?/(?!/))
 
   # POSIX extended regexp quantifiers
   character_quantifier: '[?*+]'
@@ -2953,12 +2960,9 @@ variables:
     (?x: ascii | alnum | alpha | blank | cntrl | digit | graph
     | lower | print | punct | space | upper | word | xdigit )
 
+  # Numbers
   digit: \d
   varassign: '[-+]?='
-
-  no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
-
-  pathlist_separator: :(?=\$|(?:~|\.?\.)?/(?!/))
 
   # 4.2 Shell Built-in Commands
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
