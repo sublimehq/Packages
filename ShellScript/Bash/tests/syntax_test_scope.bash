@@ -10888,6 +10888,70 @@ mapfile -d ";" -n 10 -O $origin -s 5 -t -u 20 -C callback -c 10 array
 
 
 ###############################################################################
+# 4.2 Bash Builtin Commands (readarray)                                       #
+# https://www.gnu.org/software/bash/manual/bash.html#index-readarray          #
+# readarray [-d delim] [-n count] [-O origin] [-s count]                      #
+#     [-t] [-u fd] [-C callback] [-c quantum] [array]                         #
+###############################################################################
+
+readarray
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#        ^ - meta.function-call
+
+readarray array
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#        ^^^^^^ meta.function-call.arguments.shell
+#         ^^^^^ variable.other.readwrite.shell
+#              ^ - meta.function-call
+
+readarray -C ; result=10
+#        ^^^ meta.function-call.arguments.shell
+#           ^^^^^^^^^^^^^ - meta.function-call
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#            ^ punctuation.terminator.statement.shell
+#              ^^^^^^ variable.other.readwrite.shell
+#                    ^ keyword.operator.assignment.shell
+#                     ^^ string.unquoted.shell
+
+readarray -C "~/.bin/app -p $val arg" array
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#        ^^^^ meta.function-call.arguments.shell - meta.string
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#            ^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell punctuation.section.string.begin.shell
+#             ^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.identifier.shell
+#                       ^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.function-call.arguments.shell
+#                                   ^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell punctuation.section.string.end.shell
+#                                    ^ meta.function-call.arguments.shell - meta.string - variable
+#                                     ^^^^^ meta.function-call.arguments.shell meta.variable.shell variable.other.readwrite.shell
+#                                          ^ - meta.function-call
+
+readarray -d ";" -n 10 -O $origin -s 5 -t -u 20 -C callback -c 10 array
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                                      ^ - meta.function-call
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#            ^^^ meta.string.shell string.quoted.double.shell
+#                ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                   ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                      ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                         ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                 ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                      ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                               ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                                  ^^^^^^^^ meta.string.shell meta.command.shell variable.function.shell
+#                                                           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                                                 ^^^^^ meta.variable.shell variable.other.readwrite.shell
+
+
+###############################################################################
 # 4.2 Bash Builtin Commands (readonly)                                        #
 # https://www.gnu.org/software/bash/manual/bash.html#index-readonly           #
 ###############################################################################

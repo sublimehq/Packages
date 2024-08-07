@@ -79,6 +79,14 @@ function f${name:$start:5}()
 # @@@@@@@ reference
 #             @@@@@ reference
 
+  readarray -C func3 array
+# @@@@@@@@@ reference
+#              @@@@@ reference
+
+  readarray -C "func3 arg" array
+# @@@@@@@@@ reference
+#               @@@@@ reference
+
   trap 'func3' SIGTERM
 # @@@@ reference
 #       @@@@@ reference

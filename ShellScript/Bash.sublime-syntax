@@ -542,7 +542,7 @@ contexts:
 
   cmd-mapfile:
     # bash only
-    - match: mapfile{{cmd_break}}
+    - match: (?:mapfile|readarray){{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.shell
@@ -3020,7 +3020,7 @@ variables:
   builtin_cmds: |-
     (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
     | getopts | hash | help | jobs | kill | logout | printf | pwd
-    | read | readarray | set | shift | shopt | source | su | suspend | times
+    | read | set | shift | shopt | source | su | suspend | times
     | type | ulimit | umask | wait ){{cmd_break}}
 
   modifier_cmds: |-
