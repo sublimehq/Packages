@@ -328,7 +328,7 @@ contexts:
         - alias-name-chars
 
   alias-name-chars:
-    - meta_scope: meta.variable.shell entity.name.function.shell
+    - meta_scope: meta.command.shell entity.name.function.shell
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{opt_break}}'
@@ -857,10 +857,10 @@ contexts:
   cmd-builtin:
     # cmd modifier commands are directly followed by simple commands
     - match: '{{modifier_cmds}}'
-      scope: meta.function-call.identifier.shell meta.path.shell support.function.shell
+      scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
     # shell built-in commands with arbritary arguments
     - match: '{{builtin_cmds}}'
-      scope: meta.function-call.identifier.shell meta.path.shell support.function.shell
+      scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
       push:
         - cmd-args-meta
         - cmd-args
@@ -890,7 +890,7 @@ contexts:
         - path-pattern-begin
 
   cmd-name-body:
-    - meta_scope: meta.function-call.identifier.shell meta.path.shell variable.function.shell
+    - meta_scope: meta.function-call.identifier.shell meta.command.shell variable.function.shell
     - include: line-continuations
     - include: path-pattern-content
     - match: '{{cmd_break}}'
@@ -984,7 +984,7 @@ contexts:
       push: function-declaration-name-chars
 
   function-declaration-name-chars:
-    - meta_scope: meta.variable.shell entity.name.function.shell
+    - meta_scope: meta.command.shell entity.name.function.shell
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{word_break}}'
@@ -1003,7 +1003,7 @@ contexts:
       push: function-reference-name-chars
 
   function-reference-name-chars:
-    - meta_scope: meta.variable.shell variable.function.shell
+    - meta_scope: meta.command.shell variable.function.shell
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{word_break}}'
@@ -1462,7 +1462,7 @@ contexts:
         - path-pattern-begin
 
   unquoted-statements-word-body:
-    - meta_scope: meta.string.shell meta.path.shell variable.function.shell
+    - meta_scope: meta.string.shell meta.command.shell variable.function.shell
     - include: line-continuations
     - include: path-pattern-content
     - match: '{{cmd_break}}'

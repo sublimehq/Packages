@@ -33,7 +33,7 @@ dmesg &| grep panic &! print yes
 builtin cmd -a val
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^^^^ meta.function-call.identifier.shell support.function.shell
-#       ^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+#       ^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #          ^^^^^^^ meta.function-call.arguments.shell
 
 exec -cl -a argv0
@@ -803,25 +803,25 @@ fi
 ###############################################################################
 
 cmd
-# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell
-#^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #  ^ - meta.function
 
 /path/to/app
-# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.separator.path.shell
-#^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell punctuation.separator.path.shell
+#^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #           ^ - meta.function
 
 ./.bin/app
-# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell constant.other.path.self.shell
-#^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell constant.other.path.self.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #^ punctuation.separator.path.shell
 # ^ - constant
 #     ^ punctuation.separator.path.shell
 
 ../.bin/app
-# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell constant.other.path.parent.shell
-#^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell constant.other.path.parent.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #^ constant.other.path.parent.shell
 # ^ punctuation.separator.path.shell
 #  ^ - constant
@@ -2771,19 +2771,19 @@ dyn_dir_name() {
 # 14.7.2 Static named directories
 
 ~n_a-m.e/ ~n_a-m.e/
-# <- meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell variable.language.tilde.shell
-#^^^^^^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell constant.other.username.shell
-#       ^ meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.separator.path.shell
+# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell constant.other.username.shell
+#       ^ meta.function-call.identifier.shell meta.command.shell variable.function.shell punctuation.separator.path.shell
 #         ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
 #          ^^^^^^^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - variable
 #                 ^ meta.string.shell - meta.interpolation
 
 ~n_${a-m}.e/ ~n_${a-m}.e/
-# <- meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell variable.language.tilde.shell - variable.function
-#^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell constant.other.username.shell
-#  ^^^^^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell
-#        ^^ meta.function-call.identifier.shell meta.path.shell meta.interpolation.tilde.shell constant.other.username.shell
-#          ^ meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.separator.path.shell
+# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell variable.language.tilde.shell - variable.function
+#^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell constant.other.username.shell
+#  ^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell
+#        ^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell constant.other.username.shell
+#          ^ meta.function-call.identifier.shell meta.command.shell variable.function.shell punctuation.separator.path.shell
 #            ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
 #             ^^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - variable
 #               ^^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell
@@ -2793,8 +2793,8 @@ dyn_dir_name() {
 # 14.7.3 ‘=’ expansion
 
 =command =command
-# <- meta.function-call.identifier.shell meta.path.shell variable.function.shell punctuation.definition.expansion.shell.zsh
-#^^^^^^^ meta.function-call.identifier.shell meta.path.shell variable.function.shell
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell punctuation.definition.expansion.shell.zsh
+#^^^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #        ^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
 #        ^ punctuation.definition.expansion.shell
 
@@ -3014,7 +3014,7 @@ dyn_dir_name() {
 #           ^^^ variable.function.shell
 
   ^foo/bar ^foo/bar           # Matches anything except the pattern x
-# ^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# ^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #         ^ meta.function-call.arguments.shell - variable - string
 #          ^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
 #                  ^ - meta
@@ -3025,7 +3025,7 @@ dyn_dir_name() {
 #          ^ keyword.operator.logical.regexp.shell.zsh
 
   ^~/foo/bar ^~/foo/bar      # Matches anything except the pattern x
-# ^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# ^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #           ^ meta.function-call.arguments.shell - variable - string
 #            ^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
 #                      ^ - meta
@@ -3039,7 +3039,7 @@ dyn_dir_name() {
 #              ^^^^^^^^ string.unquoted.shell
 
   /foo~/bar /foo~/bar        # Match anything that matches the pattern x but does not match y
-# ^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# ^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #          ^ meta.function-call.arguments.shell - variable - string
 #           ^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
 #                    ^ - meta
@@ -3051,7 +3051,7 @@ dyn_dir_name() {
 #               ^ keyword.operator.logical.regexp.shell.zsh
 
   ^/foo~^/bar ^/foo~^/bar
-# ^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# ^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #            ^ meta.function-call.arguments.shell - variable - string
 #             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
 #                        ^ - meta
@@ -3065,7 +3065,7 @@ dyn_dir_name() {
 #                  ^^ keyword.operator.logical.regexp.shell.zsh
 
   ~/foo~~/bar ~/foo~~/bar
-# ^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# ^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #            ^ meta.function-call.arguments.shell - variable - string
 #             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
 #                        ^ - meta
@@ -3083,7 +3083,7 @@ dyn_dir_name() {
 #                    ^^^^ string.unquoted.shell
 
   ^~/foo~^~/bar ^~/foo~^~/bar
-# ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.path.shell
+# ^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
 #              ^ meta.function-call.arguments.shell - variable - string
 #               ^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
 #                            ^ - meta

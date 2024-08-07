@@ -49,6 +49,10 @@ function f$name()
 function f${name:$start:5}()
 #        @@@@@@@@@@@@@@@@@ definition
 
+  export -f func3
+# @@@@@@ reference
+#           @@@@@ definition
+
   func3()
 # @@@@@ definition
 
@@ -66,6 +70,14 @@ function f${name:$start:5}()
 
 { func3 }
 # @@@@@ reference
+
+  mapfile -C func3 array
+# @@@@@@@ reference
+#            @@@@@ reference
+
+  mapfile -C "func3 arg" array
+# @@@@@@@ reference
+#             @@@@@ reference
 
   trap 'func3' SIGTERM
 # @@@@ reference

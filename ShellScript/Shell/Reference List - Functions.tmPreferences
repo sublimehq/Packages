@@ -3,8 +3,8 @@
 <dict>
 	<key>scope</key>
 	<string>
-		meta.function-call.identifier.shell variable.function,
-		meta.function-call.identifier.shell meta.interpolation
+		meta.command.shell meta.interpolation - meta.command.shell meta.interpolation.command,
+		meta.command.shell variable.function
 	</string>
 	<key>settings</key>
 	<dict>
