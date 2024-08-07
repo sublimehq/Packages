@@ -285,155 +285,57 @@ contexts:
 
   string-path-pattern-content:
     - meta_prepend: true
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
+    - include: zsh-glob-flags
+    - include: zsh-glob-operators
+    - include: zsh-glob-ranges
 
 ###[ PATH PATTERN MATCHING ]###################################################
 
   path-pattern-content:
     - meta_prepend: true
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
+    - include: zsh-glob-flags
+    - include: zsh-glob-operators
+    - include: zsh-glob-ranges
 
 ###[ SHELL PATTERN MATCHING ]##################################################
 
   pattern-main-content:
     - meta_prepend: true
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
+    - include: zsh-glob-flags
+    - include: zsh-glob-operators
+    - include: zsh-glob-ranges
 
   pattern-groups:
-    # KSH_GLOB is optional (hence not matching ? and * in favor of ZSH globs)
-    - match: ([+@!]??)(\()
-      captures:
-        1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell string.unquoted.shell punctuation.definition.group.begin.regexp.shell
-      push: pattern-group-body
+    # KSH_GLOB is optional (hence don't support it)
+    - match: (?=\()
+      branch_point: pattern-group
+      branch:
+        - zsh-glob-qualifier
+        - pattern-group
+
+  pattern-group:
+    - match: \(
+      scope: punctuation.definition.group.begin.regexp.shell
+      set: pattern-group-body
+
+  pattern-group-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: meta.group.regexp.shell string.unquoted.shell
+    - include: pattern-group-end
+    - include: pattern-group-content
 
   pattern-group-content:
     - meta_prepend: true
-    - match: (?=e(?:[<{(\[]|.["']))
-      push: zsh-evaluation-interpolation
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
+    - include: zsh-glob-flags
+    - include: zsh-glob-operators
+    - include: zsh-glob-ranges
 
-  zsh-evaluation-interpolation:
-    - clear_scopes: 1
-    - meta_scope: meta.interpolation.command.shell.zsh
-    - match: e\{(["']?)
-      scope: punctuation.section.interpolation.begin.shell.zsh
-      embed: statements
-      escape: \1\}
-      escape_captures:
-        0: punctuation.section.interpolation.end.shell.zsh
-    - match: e\[(["']?)
-      scope: punctuation.section.interpolation.begin.shell.zsh
-      embed: statements
-      escape: \1\]
-      escape_captures:
-        0: punctuation.section.interpolation.end.shell.zsh
-    - match: e\((["']?)
-      scope: punctuation.section.interpolation.begin.shell.zsh
-      embed: statements
-      escape: \3\)
-      escape_captures:
-        0: punctuation.section.interpolation.end.shell.zsh
-    - match: e<(["']?)
-      scope: punctuation.section.interpolation.begin.shell.zsh
-      embed: statements
-      escape: \3>
-      escape_captures:
-        0: punctuation.section.interpolation.end.shell.zsh
-    - match: e(.)(['"]?)
-      scope: punctuation.section.interpolation.begin.shell.zsh
-      embed: statements
-      escape: \2\1
-      escape_captures:
-        0: punctuation.section.interpolation.end.shell.zsh
-    - include: immediately-pop
-
-  zsh-pattern-flags:
-    - match: \(#
-      scope: punctuation.definition.modifier.begin.shell.zsh
-      push: zsh-pattern-flag-body
-
-  zsh-pattern-flag-body:
-    - clear_scopes: 1
-    - meta_scope: meta.modifier.glob.shell.zsh
-    - meta_content_scope: storage.modifier.mode.glob.shell.zsh
-    - include: zsh-pattern-flag-end
-    - include: string-interpolations
-    - match: \,
-      scope: punctuation.separator.sequence.shell
-    - match: q
-      scope: storage.modifier.mode.glob.shell.zsh
-      set: zsh-pattern-flag-qualifier-body
-
-  zsh-pattern-flag-qualifier-body:
-    # Contains glob qualifiers if EXTENDED_GLOB is set
-    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Qualifiers
-    - clear_scopes: 1
-    - meta_scope: meta.modifier.glob.shell.zsh
-    - include: zsh-pattern-flag-end
-    - include: string-interpolations
-
-  zsh-pattern-flag-end:
+  pattern-group-end:
     - match: \)
-      scope: punctuation.definition.modifier.end.shell.zsh
+      scope: punctuation.definition.group.end.regexp.shell
       pop: 1
     - include: line-continuations
-
-  zsh-pattern-operators:
-    - match: '[~^]'
-      scope: keyword.operator.logical.regexp.shell.zsh
-      push: maybe-tilde-interpolation
-    - match: \#{1,2}
-      scope: keyword.operator.quantifier.regexp.shell.zsh
-
-  zsh-pattern-ranges:
-    - match: (?=<[^<&])
-      branch_point: zsh-pattern-range
-      branch:
-        - zsh-pattern-range-begin
-        - zsh-pattern-range-fallback
-
-  zsh-pattern-range-begin:
-    - meta_include_prototype: false
-    - match: \<
-      scope: punctuation.definition.range.begin.shell.zsh
-      set: zsh-pattern-range-body
-
-  zsh-pattern-range-body:
-    - meta_scope: meta.range.shell.zsh
-    - match: \>
-      scope: punctuation.definition.range.end.shell.zsh
-      pop: 1
-    - include: line-continuations
-    - include: expansions-variables
-    - match: \-
-      scope: keyword.operator.range.shell.zsh
-    - match: ([-+]?)(\d+)
-      scope: meta.number.integer.decimal.shell
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.value.shell
-    - match: ''
-      fail: zsh-pattern-range
-
-  zsh-pattern-range-fallback:
-    - meta_include_prototype: false
-    # input redirection
-    - match: (\d*)(<&?)
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-      set: redirection-descriptor
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
@@ -527,9 +429,9 @@ contexts:
 
   expansion-parameter-pattern:
     - meta_prepend: true
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
+    - include: zsh-glob-flags
+    - include: zsh-glob-operators
+    - include: zsh-glob-ranges
 
   expansion-parameter-pattern-groups:
     # KSH_GLOB is optional (hence not matching ? and * in favor of ZSH globs)
@@ -541,9 +443,9 @@ contexts:
 
   expansion-parameter-pattern-group-body:
     - meta_prepend: true
-    - include: zsh-pattern-flags
-    - include: zsh-pattern-operators
-    - include: zsh-pattern-ranges
+    - include: zsh-glob-flags
+    - include: zsh-glob-operators
+    - include: zsh-glob-ranges
 
   zsh-parameter-subscription:
     - meta_include_prototype: false
@@ -559,166 +461,38 @@ contexts:
     - include: immediately-pop
 
   zsh-parameter-flag-body:
-    - meta_scope: meta.modifier.parameter.shell.zsh
-    - match: \)
-      scope: punctuation.definition.modifier.end.shell.zsh
-      pop: 1
+    - meta_scope: meta.modifier.expansion.shell.zsh
+    - include: zsh-modifier-end
     # bailout from unbalanced brackets
     - include: brace-pop
     # flag:expr:
-    - match: '[Ilr]'
+    - match: 'I'
       scope: storage.modifier.expansion.flag.shell.zsh
-      push: zsh-parameter-flag-expression-argument
-    # _:flags:
-    - match: (_)(\W)(.*?)(\2)
-      captures:
-        1: storage.modifier.expansion.flag.reserved.shell.zsh
-        2: punctuation.section.argument.begin.shell.zsh
-        3: invalid.illegal.unsupported.shell.zsh
-        4: punctuation.section.argument.end.shell.zsh
+      push: zsh-modifier-expression
+    # flag:string:
+    - match: '[_gjsZ]'
+      scope: storage.modifier.expansion.flag.shell.zsh
+      push: zsh-modifier-string
+    # flag:expr::string::string:
+    - match: '[lr]'
+      scope: storage.modifier.expansion.flag.shell.zsh
+      push:
+        - zsh-modifier-string
+        - zsh-modifier-string
+        - zsh-modifier-expression
     # simple single char flags
-    # TODO: `*` enables extended globs -> handle in syntax?
-    - match: '[-~#%*@0ABCDEFLMNOPQRSTUVWXZabcefgijkmnopqstuvwz]'
+    - match: '[-~#%*@0ABCDEFLMNOPQRSTUVWXabcefikmnopqtuvwz]'
       scope: storage.modifier.expansion.flag.shell.zsh
-    # string arguments
-    - match: \<
-      scope: punctuation.section.argument.begin.shell.zsh
-      push: zsh-parameter-flag-angle-string-argument
-    - match: \{
-      scope: punctuation.section.argument.begin.shell.zsh
-      push: zsh-parameter-flag-brace-string-argument
-    - match: \[
-      scope: punctuation.section.argument.begin.shell.zsh
-      push: zsh-parameter-flag-bracket-string-argument
-    - match: \(
-      scope: punctuation.section.argument.begin.shell.zsh
-      push: zsh-parameter-flag-paren-string-argument
-    - match: (\W)
-      scope: punctuation.section.argument.begin.shell.zsh
-      push: zsh-parameter-flag-string-argument
-
-  zsh-parameter-flag-expression-argument:
-    - meta_include_prototype: false
-    - match: \<
-      scope: punctuation.section.argument.begin.shell.zsh
-      set: zsh-parameter-flag-angle-expression-argument
-    - match: \{
-      scope: punctuation.section.argument.begin.shell.zsh
-      set: zsh-parameter-flag-brace-expression-argument
-    - match: \[
-      scope: punctuation.section.argument.begin.shell.zsh
-      set: zsh-parameter-flag-bracket-expression-argument
-    - match: \(
-      scope: punctuation.section.argument.begin.shell.zsh
-      set: zsh-parameter-flag-paren-expression-argument
-    - match: (\W)
-      scope: punctuation.section.argument.begin.shell.zsh
-      set: zsh-parameter-flag-other-expression-argument
-    - include: immediately-pop
-
-  zsh-parameter-flag-angle-expression-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \>
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: expression-content
-
-  zsh-parameter-flag-brace-expression-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \}
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: expression-content
-
-  zsh-parameter-flag-bracket-expression-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \]
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: expression-content
-
-  zsh-parameter-flag-paren-expression-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \)
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: expression-content
-
-  zsh-parameter-flag-other-expression-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \1
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: expression-content
-
-  zsh-parameter-flag-angle-string-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.string.shell.zsh string.unquoted.shell.zsh
-    - match: \>
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: string-unquoted-content
-
-  zsh-parameter-flag-brace-string-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.string.shell.zsh string.unquoted.shell.zsh
-    - match: \}
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: string-unquoted-content
-
-  zsh-parameter-flag-bracket-string-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.string.shell.zsh string.unquoted.shell.zsh
-    - match: \]
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: string-unquoted-content
-
-  zsh-parameter-flag-paren-string-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.string.shell.zsh string.unquoted.shell.zsh
-    - match: \)
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: string-unquoted-content
-
-  zsh-parameter-flag-string-argument:
-    - meta_include_prototype: false
-    - meta_scope: meta.argument.shell.zsh
-    - meta_content_scope: meta.string.shell.zsh string.unquoted.shell.zsh
-    - match: \1
-      scope: punctuation.section.argument.end.shell.zsh
-      pop: 1
-    - include: brace-pop
-    - include: string-unquoted-content
 
 ###[ TILDE EXPANSIONS ]########################################################
 
   tilde-interpolation:
     - meta_append: true
-    - include: equals-expansion
+    # 14.7.3 '=' expansion
+    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#g_t_0060_003d_0027-expansion
+    - match: =
+      scope: punctuation.definition.expansion.shell.zsh
+      pop: 1
 
   tilde-modifier:
     - meta_prepend: true
@@ -736,12 +510,451 @@ contexts:
       pop: 2
     - include: literal-unquoted-content
 
-  equals-expansion:
-    # 14.7.3 ‘=’ expansion
-    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#g_t_0060_003d_0027-expansion
-    - match: =
-      scope: punctuation.definition.expansion.shell.zsh
+###[ ZSH GLOB FLAGS ]##########################################################
+
+  zsh-glob-flags:
+    # 14.8.4 Globbing Flags
+    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Globbing-Flags
+    - match: \(#
+      scope: punctuation.definition.modifier.begin.shell.zsh
+      push: zsh-glob-flag-body
+
+  zsh-glob-flag-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_scope: meta.modifier.glob.shell.zsh
+    - meta_content_scope: storage.modifier.mode.glob.shell.zsh
+    - include: zsh-modifier-end
+    - include: comma-separators
+    - include: string-interpolations
+    - match: q
+      scope: storage.modifier.mode.glob.shell.zsh
+      push: zsh-glob-flag-qualifier
+
+  zsh-glob-flag-qualifier:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - include: zsh-modifier-end-ahead
+    - include: zsh-glob-qualifier-content
+
+###[ ZSH GLOB OPERATORS ]######################################################
+
+  zsh-glob-operators:
+    - match: '[~^]'
+      scope: keyword.operator.logical.regexp.shell.zsh
+      push: maybe-tilde-interpolation
+    - match: \#{1,2}
+      scope: keyword.operator.quantifier.regexp.shell.zsh
+
+###[ ZSH GLOB QUALIFIERS ]#####################################################
+
+  zsh-glob-qualifier:
+    # 14.8.7 Glob Qualifiers
+    # Contains glob qualifiers if EXTENDED_GLOB is set
+    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Qualifiers
+    - match: \(
+      scope: punctuation.definition.modifier.begin.shell.zsh
+      set: zsh-glob-qualifier-body
+
+  zsh-glob-qualifier-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: meta.modifier.glob.shell.zsh
+    - include: zsh-glob-qualifier-end
+    - include: zsh-glob-qualifier-content
+
+  zsh-glob-qualifier-end:
+    - match: \)
+      scope: punctuation.definition.modifier.end.shell.zsh
+      set: zsh-glob-qualifier-check
+    - include: line-continuations
+
+  zsh-glob-qualifier-check:
+    # it's only a qualifier at the end of a pattern (word).
+    - meta_include_prototype: false
+    - match: '{{word_break}}'
       pop: 1
+    - match: ''
+      fail: pattern-group
+
+  zsh-glob-qualifier-fail:
+    - match: (?=\S)
+      fail: pattern-group
+
+  zsh-glob-qualifier-content:
+    - include: comma-separators
+    - include: expansions-variables
+    - include: zsh-glob-numbers
+    # begin of history expansion modifiers
+    - match: ':'
+      scope: punctuation.separator.sequence.shell.zsh
+      push: zsh-glob-qualifier-modifier
+    # restrict which matches are returned
+    - match: \[
+      scope: punctuation.definition.range.begin.shell.zsh
+      push: zsh-glob-qualifier-range-body
+    # file credentials
+    - match: f
+      scope: storage.modifier.glob.shell.zsh
+      push: zsh-qualifier-fspec
+    # evaluation of subshell command
+    - match: e
+      scope: storage.modifier.glob.shell.zsh
+      push: zsh-modifier-statement
+    # device, group, user, prefix
+    - match: '[dGPU]'
+      scope: storage.modifier.glob.shell.zsh
+      push: zsh-modifier-string
+    - match: |-
+        (?x)
+        # device files
+          %[bc]?
+        # file size
+        | [Ll][GMkT]?
+        # access / creation / modification time
+        | [acm][Mwhms]?
+        # sort order
+        | [Oo][nLlamcdN]?
+        # other single char flags
+        | [*./=@ADEFIMNnprRsStTuwWxXY]
+      scope: storage.modifier.glob.shell.zsh
+    - match: '[-^]'
+      scope: keyword.operator.logical.shell.zsh
+    # anything else indicates normal pattern group
+    - include: zsh-glob-qualifier-fail
+
+  zsh-glob-qualifier-modifier:
+    - include: zsh-modifier-end-ahead
+    - include: zsh-modifier-content
+    - include: zsh-glob-qualifier-fail
+
+  zsh-glob-qualifier-range-body:
+    - meta_scope: meta.range.glob.shell.zsh
+    - match: \]
+      scope: punctuation.definition.range.end.shell.zsh
+      pop: 1
+    - include: comma-separators
+    - include: expansions-variables
+    - include: zsh-glob-numbers
+    - include: zsh-glob-qualifier-fail
+
+  zsh-qualifier-fspec:
+    # credentials given as octal number
+    - match: ([-+=]?)([?0-7]{1,3})
+      captures:
+        1: keyword.operator.logical.shell.zsh
+        2: meta.number.integer.octal.shell constant.numeric.value.shell
+      pop: 1
+    # credentials given as interpolation
+    - match: ([-+=]?){{is_interpolation}}
+      captures:
+        1: keyword.operator.logical.shell.zsh
+      set: string-interpolation-body
+    # anything else is a glob string
+    - include: zsh-modifier-string
+
+###[ ZSH GLOB RANGES ]#########################################################
+
+  zsh-glob-ranges:
+    - match: (?=<[^<&])
+      branch_point: zsh-glob-range
+      branch:
+        - zsh-glob-range-begin
+        - zsh-glob-range-fallback
+
+  zsh-glob-range-begin:
+    - meta_include_prototype: false
+    - match: \<
+      scope: punctuation.definition.range.begin.shell.zsh
+      set: zsh-glob-range-body
+
+  zsh-glob-range-body:
+    - meta_scope: meta.range.shell.zsh
+    - match: \>
+      scope: punctuation.definition.range.end.shell.zsh
+      pop: 1
+    - match: \-
+      scope: keyword.operator.range.shell.zsh
+    - include: line-continuations
+    - include: expansions-variables
+    - include: zsh-glob-numbers
+    - match: ''
+      fail: zsh-glob-range
+
+  zsh-glob-range-fallback:
+    - meta_include_prototype: false
+    # input redirection
+    - match: <
+      scope: keyword.operator.assignment.redirection.shell
+      set: redirection-descriptor
+
+  zsh-glob-numbers:
+    - match: ([-+]?)(\d+)
+      scope: meta.number.integer.decimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.value.shell
+
+###[ ZSH MODIFIERS ]###########################################################
+
+  zsh-modifier-end:
+    - match: \)
+      scope: punctuation.definition.modifier.end.shell.zsh
+      pop: 1
+    - include: line-continuations
+
+  zsh-modifier-end-ahead:
+    - match: (?=\))
+      pop: 1
+    - include: line-continuations
+
+  zsh-modifier-content:
+    # 14.1.4 Modifiers
+    # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Modifiers
+    - include: zsh-glob-numbers
+    # s/pat/repl[/flag]
+    # valid only in modifiers or qualifiers
+    - match: (s)([^`'"<>()])
+      captures:
+        1: support.function.substitution.shell.zsh
+        2: keyword.operator.substitution.shell.zsh
+      push:
+        - zsh-modifier-subst-flag
+        - zsh-modifier-subst-replacement
+        - zsh-modifier-subst-pattern
+    - match: 'F'
+      scope: storage.modifier.glob.shell.zsh
+      push: zsh-modifier-expression
+    - match: 'W'
+      scope: storage.modifier.glob.shell.zsh
+      push: zsh-modifier-string
+    - match: '[&aAcefhlpPqQrtuwx]'
+      scope: storage.modifier.glob.shell.zsh
+    - match: ':'
+      scope: punctuation.separator.sequence.shell.zsh
+
+  zsh-modifier-subst-pattern:
+    - match: \2
+      scope: keyword.operator.substitution.shell.zsh
+      pop: 1
+    - include: zsh-modifier-end-ahead
+    - include: line-continuations
+    - include: string-path-pattern-content
+
+  zsh-modifier-subst-replacement:
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - include: zsh-modifier-subst-pattern
+
+  zsh-modifier-subst-flag:
+    - meta_scope: meta.substituation.shell.zsh
+    - match: (:)(G)
+      captures:
+        1: punctuation.separator.sequence.shell.zsh
+        2: constant.other.flag.regexp.shell.zsh
+      pop: 1
+    - include: immediately-pop
+
+###[ ZSH MODIFIER STATEMENT STRINGS ]##########################################
+
+  zsh-modifier-statement:
+    # note: additional `meta.modifier.glob.shell.zsh` scope in escape due to
+    # issue: https://github.com/sublimehq/sublime_text/issues/4069
+    - meta_include_prototype: false
+    - match: (<)\s*(["']?)
+      scope: meta.quoted.glob.shell.zsh
+      captures:
+         1: punctuation.definition.quoted.begin.shell.zsh
+         2: punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.glob.shell.zsh meta.interpolation.command.shell
+      escape: (?:(\2)\s*)?(>)
+      escape_captures:
+        0: meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+        1: punctuation.definition.quoted.end.shell
+        2: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - match: (\{)\s*(["']?)
+      scope: meta.quoted.glob.shell.zsh
+      captures:
+         1: punctuation.definition.quoted.begin.shell.zsh
+         2: punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.glob.shell.zsh meta.interpolation.command.shell
+      escape: (?:(\2)\s*)?(\})
+      escape_captures:
+        0: meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+        1: punctuation.definition.quoted.end.shell
+        2: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - match: (\[)\s*(["']?)
+      scope: meta.quoted.glob.shell.zsh
+      captures:
+         1: punctuation.definition.quoted.begin.shell.zsh
+         2: punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.glob.shell.zsh meta.interpolation.command.shell
+      escape: (?:(\2)\s*)?(\])
+      escape_captures:
+        0: meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+        1: punctuation.definition.quoted.end.shell
+        2: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - match: (\()\s*(["']?)
+      scope: meta.quoted.glob.shell.zsh
+      captures:
+         1: punctuation.definition.quoted.begin.shell.zsh
+         2: punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.glob.shell.zsh meta.interpolation.command.shell
+      escape: (?:(\2)\s*)?(\))
+      escape_captures:
+        0: meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+        1: punctuation.definition.quoted.end.shell
+        2: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - match: '{{glob_string_quote}}\s*([''"]?)'
+      scope: meta.quoted.glob.shell.zsh
+      captures:
+         1: punctuation.definition.quoted.begin.shell.zsh
+         2: punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.glob.shell.zsh meta.interpolation.command.shell
+      escape: (?:(\2)\s*)?(\1)
+      escape_captures:
+        0: meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+        1: punctuation.definition.quoted.end.shell
+        2: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: immediately-pop
+
+###[ ZSH MODIFIER EXPRESSION STRINGS ]#########################################
+
+  zsh-modifier-expression:
+    - meta_include_prototype: false
+    - match: \<
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-expression-angle-body
+    - match: \{
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-expression-brace-body
+    - match: \[
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-expression-bracket-body
+    - match: \(
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-expression-paren-body
+    - match: '{{glob_string_quote}}'
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-expression-other-body
+    - include: immediately-pop
+
+  zsh-modifier-expression-angle-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: meta.arithmetic.shell
+    - match: \>
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: expression-content
+
+  zsh-modifier-expression-brace-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: meta.arithmetic.shell
+    - match: \}
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: expression-content
+
+  zsh-modifier-expression-bracket-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: meta.arithmetic.shell
+    - match: \]
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: expression-content
+
+  zsh-modifier-expression-paren-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: meta.arithmetic.shell
+    - match: \)
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: expression-content
+
+  zsh-modifier-expression-other-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: meta.arithmetic.shell
+    - match: \1
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: expression-content
+
+###[ ZSH MODIFIER LITERAL STRINGS ]############################################
+
+  zsh-modifier-string:
+    - match: \<
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-string-angle-body
+    - match: \{
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-string-brace-body
+    - match: \[
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-string-bracket-body
+    - match: \(
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-string-paren-body
+    - match: '{{glob_string_quote}}'
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-string-other-body
+    - include: immediately-pop
+
+  zsh-modifier-string-angle-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \>
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: string-unquoted-content
+
+  zsh-modifier-string-brace-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \}
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: string-unquoted-content
+
+  zsh-modifier-string-bracket-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \]
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: string-unquoted-content
+
+  zsh-modifier-string-paren-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \)
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: string-unquoted-content
+
+  zsh-modifier-string-other-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \1
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: string-unquoted-content
 
 ###[ VARIABLES ]###############################################################
 
@@ -758,6 +971,8 @@ variables:
   # A character that, when unquoted, separates words.
   # Bash ones + `{` and `}`
   metachar: '[\s|&;(){}<>]'
+
+  glob_string_quote: ([^])}>\s\w])
 
   # 9.3.1 Hook Functions
   hook_functions: |-

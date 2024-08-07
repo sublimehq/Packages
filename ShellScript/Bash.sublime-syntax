@@ -1595,10 +1595,9 @@ contexts:
       scope: keyword.operator.assignment.shell
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.shell
-    - match: \,
-      scope: punctuation.separator.sequence.shell
     - match: \:|\?
       scope: keyword.operator.ternary.shell
+    - include: comma-separators
     - include: terminators
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
@@ -1648,6 +1647,10 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: \||\&
       scope: keyword.operator.assignment.pipe.shell
+
+  comma-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.shell
 
   terminators:
     - match: ;
