@@ -101,6 +101,8 @@ contexts:
         - cmd-args-meta
         - cmd-args-end-of-options-then-function-references
 
+  cmd-mapfile: []
+
 ###[ COMMANDS ]################################################################
 
   cmd-compound:

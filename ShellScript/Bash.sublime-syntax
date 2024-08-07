@@ -64,6 +64,7 @@ contexts:
     - include: cmd-exec
     - include: cmd-export
     - include: cmd-historic
+    - include: cmd-mapfile
     - include: cmd-readonly
     - include: cmd-sudo
     - include: cmd-test
@@ -537,6 +538,35 @@ contexts:
       set: cmd-args-end-of-options-then-function-declarations
     - include: cmd-args-end-of-options-then-variables-literal-values
 
+###[ MAPFILE BUILTINS ]########################################################
+
+  cmd-mapfile:
+    # bash only
+    - match: mapfile{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-mapfile-args
+
+  cmd-mapfile-args:
+    - match: ([-+])t*C{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-command
+    - match: ([-+])[t]*[cdnOsu]{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-value
+    - include: cmd-args-end-of-options-then-variables-literal-values
+
 ###[ READONLY BUILTINS ]#######################################################
 
   cmd-readonly:
@@ -906,6 +936,11 @@ contexts:
       set: cmd-args-option-value
     - include: line-continuations
     - include: immediately-pop
+
+  cmd-args-option-maybe-command:
+    - include: cmd-args-end
+    - include: statements-word
+    - include: else-pop
 
   cmd-args-option-maybe-value:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
@@ -2984,7 +3019,7 @@ variables:
   # Note: Contains thosw, which are not present as dedicated context
   builtin_cmds: |-
     (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
-    | getopts | hash | help | jobs | kill | logout | mapfile | printf | pwd
+    | getopts | hash | help | jobs | kill | logout | printf | pwd
     | read | readarray | set | shift | shopt | source | su | suspend | times
     | type | ulimit | umask | wait ){{cmd_break}}
 

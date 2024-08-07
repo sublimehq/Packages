@@ -3707,3 +3707,13 @@ echo $var[1] World
 # ^^^^^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
 : $ZLE_RPROMPT_INDENT
 # ^^^^^^^^^^^^^^^^^^^ variable.language.builtin.shell
+
+
+##############################################################################
+# 17 Shell Builtin Commands
+# https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html
+##############################################################################
+
+mapfile # mapfile is not a known/built-in command in ZSH
+# <- meta.function-call.identifier.shell variable.function.shell - support.function
+#^^^^^^ meta.function-call.identifier.shell variable.function.shell - support.function
