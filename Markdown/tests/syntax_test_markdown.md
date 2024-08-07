@@ -1802,7 +1802,7 @@ EOF
 | <- markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 |^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 $ cmd  # no interactive shell marker
-| <- markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.function-call.identifier.shell meta.path.shell variable.function.shell
+| <- markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.function-call.identifier.shell variable.function.shell
 |^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.function-call.arguments.shell
 ```
 | <- meta.code-fence.definition.end.shell punctuation.definition.raw.code-fence.end
@@ -1819,7 +1819,7 @@ $ cmd  # no interactive shell marker
 |  ^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 
    $ cmd  # no interactive shell marker
-|  ^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.function-call.identifier.shell meta.path.shell variable.function.shell
+|  ^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.function-call.identifier.shell variable.function.shell
 |   ^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.function-call.arguments.shell
    ```
 |  ^^^ meta.code-fence.definition.end.shell.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
@@ -2235,7 +2235,7 @@ EOF
 |^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 
 $ cmd  # no interactive shell marker
-| <- markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.function-call.identifier.shell meta.path.shell variable.function.shell
+| <- markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.function-call.identifier.shell variable.function.shell
 |^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.function-call.arguments.shell
 
 ```
@@ -2253,7 +2253,7 @@ $ cmd  # no interactive shell marker
 |  ^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 
    $ cmd  # no interactive shell marker
-|  ^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.function-call.identifier.shell meta.path.shell variable.function.shell
+|  ^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.function-call.identifier.shell variable.function.shell
 |   ^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.function-call.arguments.shell
    ```
 |  ^^^ meta.code-fence.definition.end.shell.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
