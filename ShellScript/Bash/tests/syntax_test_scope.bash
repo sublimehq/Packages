@@ -9477,6 +9477,7 @@ fi
 # 4.2 Bash Builtin Commands (alias)                                           #
 # https://www.gnu.org/software/bash/manual/bash.html#index-alias              #
 # https://www.gnu.org/software/bash/manual/bash.html#Aliases                  #
+# alias [-p] [name[=value] …]                                                 #
 ###############################################################################
 
 alias
@@ -9578,8 +9579,54 @@ alias -- -='cd -'
 
 
 ###############################################################################
+# 4.2 Bash Builtin Commands (builtin)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-builtin            #
+# builtin [shell-builtin [args]]                                              #
+###############################################################################
+
+builtin
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
+
+builtin -pV -v cmd -a val
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell
+#       ^^^ meta.function-call.identifier.shell
+#          ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#       ^^^ variable.function.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#              ^^^ meta.string.shell string.unquoted.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                     ^^^ meta.string.shell string.unquoted.shell
+
+
+###############################################################################
+# 4.2 Bash Builtin Commands (command)                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-command            #
+# command [-pVv] command [arguments …]                                        #
+###############################################################################
+
+command
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.shell
+
+command -pV -v cmd -a val
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^ meta.function-call.identifier.shell
+#      ^^^^^^^^ meta.function-call.arguments.shell
+#              ^^^ meta.function-call.identifier.shell meta.command.shell
+#                 ^^^^^^^ meta.function-call.arguments.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#              ^^^ variable.function.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                     ^^^ meta.string.shell string.unquoted.shell
+
+
+###############################################################################
 # 4.2 Bash Builtin Commands (declare)                                         #
 # https://www.gnu.org/software/bash/manual/bash.html#index-declare            #
+# declare [-aAfFgiIlnrtux] [-p] [name[=value] …]                              #
 ###############################################################################
 
 declare             # comment
@@ -10182,49 +10229,6 @@ printFunction "$variableString1" "`declare -p variableArray`"
 
 
 ###############################################################################
-# 4.2 Bash Builtin Commands (builtin)                                         #
-# https://www.gnu.org/software/bash/manual/bash.html#index-builtin            #
-###############################################################################
-
-builtin
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.shell
-
-builtin -pV -v cmd -a val
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^^^^ meta.function-call.identifier.shell
-#       ^^^ meta.function-call.identifier.shell
-#          ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#       ^^^ variable.function.shell
-#           ^^ meta.parameter.option.shell variable.parameter.option.shell
-#              ^^^ meta.string.shell string.unquoted.shell
-#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                     ^^^ meta.string.shell string.unquoted.shell
-
-
-###############################################################################
-# 4.2 Bash Builtin Commands (command)                                         #
-# https://www.gnu.org/software/bash/manual/bash.html#index-command            #
-###############################################################################
-
-command
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^^^^ meta.function-call.identifier.shell support.function.shell
-
-command -pV -v cmd -a val
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^^^^^ meta.function-call.arguments.shell
-#              ^^^ meta.function-call.identifier.shell meta.command.shell
-#                 ^^^^^^^ meta.function-call.arguments.shell
-#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
-#           ^^ meta.parameter.option.shell variable.parameter.option.shell
-#              ^^^ variable.function.shell
-#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                     ^^^ meta.string.shell string.unquoted.shell
-
-
-###############################################################################
 # 4.2 Bash Builtin Commands (eval)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-eval               #
 ###############################################################################
@@ -10533,6 +10537,7 @@ url="https://sublimetext.com/"
 ###############################################################################
 # 4.2 Bash Builtin Commands (let)                                             #
 # https://www.gnu.org/software/bash/manual/bash.html#index-let                #
+# let expression [expression …]                                               #
 ###############################################################################
 
 let
@@ -10688,6 +10693,7 @@ let 'test -z $2 && { }'
 ###############################################################################
 # 4.2 Bash Builtin Commands (local)                                           #
 # https://www.gnu.org/software/bash/manual/bash.html#index-local              #
+# local [option] name[=value] …                                               #
 ###############################################################################
 
 local
@@ -10954,6 +10960,7 @@ readarray -d ";" -n 10 -O $origin -s 5 -t -u 20 -C callback -c 10 array
 ###############################################################################
 # 4.2 Bash Builtin Commands (readonly)                                        #
 # https://www.gnu.org/software/bash/manual/bash.html#index-readonly           #
+# readonly [-aAf] [-p] [name[=value]] …                                       #
 ###############################################################################
 
 readonly foo        # 'foo' is a variable name
@@ -11105,6 +11112,7 @@ foo=`readonly x=5`
 ###############################################################################
 # 4.2 Bash Builtin Commands (typeset)                                         #
 # https://www.gnu.org/software/bash/manual/bash.html#index-typeset            #
+# typeset [-afFgrxilnrtux] [-p] [name[=value] …]                              #
 ###############################################################################
 
 typeset foo         # 'foo' is a variable name
@@ -11136,6 +11144,7 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 ###############################################################################
 # 4.2 Bash Builtin Commands (test)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-test               #
+# test expr                                                                   #
 ###############################################################################
 
 test
@@ -11316,6 +11325,7 @@ if test "$VAR" != ";";then;fi
 ###############################################################################
 # 4.2 Bash Builtin Commands (time)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-time               #
+# time pipeline                                                               #
 ###############################################################################
 
 time cmd1 --arg val | cmd2 -n |& cmd3
@@ -11344,6 +11354,7 @@ time -p cmd -p
 ###############################################################################
 # 4.2 Bash Builtin Commands (trap)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-trap               #
+# trap [-lp] [arg] [sigspec …]                                                #
 ###############################################################################
 
 trap
@@ -11431,6 +11442,7 @@ trap "\"cmd\" --args=\"val${ue}\"" SIGKILL
 ###############################################################################
 # 4.2 Bash Builtin Commands (unalias)                                         #
 # https://www.gnu.org/software/bash/manual/bash.html#index-unalias            #
+# unalias [-a] [name … ]                                                      #
 ###############################################################################
 
 unalias
