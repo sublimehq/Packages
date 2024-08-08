@@ -2020,6 +2020,23 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, &$var2) {
 //                                                                   ^ punctuation.section.group.end.php
 //                                                                     ^ punctuation.section.block.begin.php
 
+   some_function(fn() => throw $exception);
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//                       ^^^^^^^^^^^^^^^^ meta.function.anonymous.php
+//                       ^^^^^ keyword.control.flow.throw.php
+//                             ^^^^^^^^^^ variable.other.php
+//                                       ^ punctuation.section.group.end.php
+
+   some_function(fn() => throw $exception, 'some other argument');
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.php meta.group.php
+//                       ^^^^^^^^^^^^^^^^ meta.function.anonymous.php
+//                                       ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.anonymous
+//                       ^^^^^ keyword.control.flow.throw.php
+//                             ^^^^^^^^^^ variable.other.php
+//                                       ^ punctuation.separator.sequence.php
+//                                         ^^^^^^^^^^^^^^^^^^^^^ meta.string.php string.quoted.single.php
+//                                                              ^ punctuation.section.group.end.php
+
 };
 // <- meta.function.php meta.block.php punctuation.section.block.end.php
 
