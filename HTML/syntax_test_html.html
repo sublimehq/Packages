@@ -62,11 +62,11 @@
             <!--
         ## ^^^^^ - meta.tag - source
         ##  ^^^^ comment.block.html punctuation.definition.comment.begin.html
-        ##      ^ source.js.embedded.html - meta.tag - comment
+        ##      ^ - source.js.embedded - meta.tag - comment
             var i = 0;
         ## ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
             -->
-        ##^^ source.js.embedded.html - meta.tag - comment
+        ##^^ - source - meta.tag - comment
         ##  ^^^^ - source - meta.tag
         ##  ^^^ comment.block.html punctuation.definition.comment.end.html
             var i = 0;
@@ -101,11 +101,10 @@
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
         ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value - source
         ##                            ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
-        ##                             ^^^^^ - meta.tag  - source
+        ##                             ^^^^^^ - meta.tag  - source
         ## ^ entity.name.tag.script
         ##            ^ string.quoted.double.html
         ##                              ^^^^ comment.block.html punctuation.definition.comment.begin.html
-        ##                                  ^ source.js.embedded.html
             var foo = 100;
             var baz = function() {
                 ## <- entity.name.function.js
@@ -129,6 +128,9 @@
             var foo = 100;
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
+## <- - source.js.embedded
+##^^^^^^ - source.js.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type=application/json>
             {
@@ -139,21 +141,33 @@
             }
         ##  ^ source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
         </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type="application/ld+json">
             { "@id": {"key": "value" } }
         ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
         </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type="application/f̱oo+json">
             { "@id": {"key": "value" } }
         ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.json
         </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type="application/ld+json;charset=utf-8">
             { "@id": {"key": "value" } }
         ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
         </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type="whatever+json">
             <![CDATA[
@@ -166,6 +180,9 @@
         ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
             ]]>
         </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type = "text/html"> <!--
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
@@ -205,8 +222,7 @@
 ##          ^^^^ punctuation.definition.comment.begin.html
 ##              ^^^^^^^ source.js.embedded.html
             -->
-##      ^^^^ source.js.embedded.html
-##          ^^^^ - source
+##      ^^^^^^^^ - source
 ##          ^^^ comment.block.html punctuation.definition.comment.end.html
         </script>
 
@@ -326,16 +342,19 @@
 ## <- source.css.embedded.html
 ## ^^^^^^^^^^^^^ source.css.embedded.html
         </style>
+## <- - source.css.embedded
+##^^^^^^ - source.css.embedded
+##      ^^^^^^^^ meta.tag.style.end.html
 
         <style type="text/css">
             <!--
         ## ^ - meta.tag - comment - source
         ##  ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
-        ##      ^ source.css.embedded.html - comment
+        ##      ^ - comment - source
                 h1 {}
         ##     ^^^^^^^ source.css.embedded.html
             -->
-        ## ^ source.css.embedded.html - comment
+        ## ^ - comment - source
         ##  ^^^ comment.block.html punctuation.definition.comment.end.html - source
         ##     ^ - meta.tag - comment - source
         </style>
@@ -343,8 +362,7 @@
 
         <style type="text/css"> <!--
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html - source.css
-        ##                     ^^^^^ - meta.tag - source.css
-        ##                          ^ source.css.embedded.html
+        ##                     ^^^^^^ - meta.tag - source.css
         ## ^^^ entity.name.tag.style.html
         ##    ^ - entity
         ##     ^^^^ entity.other.attribute-name

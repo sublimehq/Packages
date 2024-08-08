@@ -142,8 +142,9 @@ variables:
   # - https://github.com/sublimehq/sublime_text/issues/4701
   script_content_begin: |-
     (?x:
-    # whitespace followed by opening html comment begin punctuation
-      \s*(<!--)
+    # whitespace followed by opening html comment begin punctuation,
+    # optionally followed by whitespeace until end of line
+      \s*(<!--) (?:\s*\n)?
     # or any other non-whitespace character ahead
     | (?=\s*(?!<!--)\S)
     # or beginning of a line
@@ -151,18 +152,22 @@ variables:
     )
   script_content_end: |-
     (?x:
-    # optional html comment end punctuation followed by </script> tag
-      (?: (\s*) (-->) \s* )? (?=</(?i:script){{tag_name_break_char}})
+    # optional html comment end punctuation or any whitespace at beginning of
+    # line followed by </script> tag
+      (?: (?: ^ \s* | (\s*) ) (-->) \s* | ^ \s* )? (?=</(?i:script){{tag_name_break_char}})
     # or standalone html comment end punctuation in a line
-    |   ^ (\s*) (-->) \s* $
+    # note: Keep empty capture group for compatibility with existing 3rd-party syntaxes!
+    | ^ \s* () (-->) \s* $
     )
   style_content_begin: '{{script_content_begin}}'
   style_content_end: |-
     (?x:
-    # optional html comment end punctuation followed by </style> tag
-      (?: (\s*) (-->) \s* )? (?=</(?i:style){{tag_name_break_char}})
+    # optional html comment end punctuation or any whitespace at beginning of
+    # line followed by </style> tag
+      (?: (?: ^ \s* | (\s*) ) (-->) \s* | ^ \s* )? (?=</(?i:style){{tag_name_break_char}})
     # or standalone html comment end punctuation in a line
-    |   ^ (\s*) (-->) \s* $
+    # note: Keep empty capture group for compatibility with existing 3rd-party syntaxes!
+    | ^ \s* () (-->) \s* $
     )
 
   event_attribute_names: |-

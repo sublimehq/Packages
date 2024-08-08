@@ -12,8 +12,9 @@
 			  ^[^<>]*+ </ (?!html[\t\n\f /<>])[^\t\n\f /<>]+ [^>]* >
 			| ^[\t\n\f ]*+
 			(
-				# closing comment punctuation, optionally preceded by an end "comment selector"
-				  (<!\[ .*? \])?-->
+				# the beginning of the line followed by closing HTML comment
+				# and </script> or </style> tag
+				  --> [\t\n\f ]* </ (?: script | style )[\t\n\f /<>]
 				# closing directive/section punctuation
 				| [?%]>
 				# closing curly brace
@@ -38,8 +39,6 @@
 					# not closing in the same line
 					(?! .* </\k<html_tag>)
 				)
-				# comments that don't close themselves on the same line
-				| <!--(?!.*?-->)
 				# directives that don't close themselves on the same line
 				| <\?(?!.*?\?>)
 				# sections that don't close themselves on the same line

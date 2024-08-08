@@ -161,9 +161,8 @@
             Dim var = 0
     '  ^^^^^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
         -->
-    ' <- source.asp.embedded.html
-    '^^^ source.asp.embedded.html
-    '   ^^^^ - meta.tag - source
+    ' <- - source
+    '^^^^^^^ - meta.tag - source
     '   ^^^ comment.block.html punctuation.definition.comment.end.html
     </script>
     ' ^^^^^^^ meta.tag - source
@@ -200,11 +199,11 @@
         <!--
     '  ^ - meta.tag - comment - source
     '   ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
-    '       ^ source.css.embedded.html - comment
+    '       ^ - comment - source
             h1 {}
     '      ^^^^^^^ source.css.embedded.html
         -->
-    '  ^ source.css.embedded.html - comment
+    '  ^ - comment - source
     '   ^^^ comment.block.html punctuation.definition.comment.end.html - source
     '      ^ - meta.tag - comment - source
     </style>

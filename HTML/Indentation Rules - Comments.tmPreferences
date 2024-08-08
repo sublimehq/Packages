@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>text.html comment.block.html</string>
+	<key>settings</key>
+	<dict>
+		<!-- ignore anything until standalone closing comment punctuation -->
+		<key>unIndentedLinePattern</key>
+		<string>^(?!\s*-->)</string>
+	</dict>
+</dict>
+</plist>
