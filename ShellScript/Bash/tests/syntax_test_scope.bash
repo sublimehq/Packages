@@ -2279,7 +2279,7 @@ case var in
 #        ^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
 #          ^^^^ meta.statement.conditional.case.end.shell
 # ^ punctuation.definition.pattern.begin.shell
-#        ^ punctuation.definition.group.begin.regexp.shell
+#        ^ punctuation.section.group.begin.regexp.shell
 #          ^^^^ keyword.control.conditional.endcase.shell
 #              ^ - meta.conditional
 
@@ -2450,10 +2450,10 @@ case $TERM in
         # ^ constant.other.wildcard.asterisk.shell
         #  ^ keyword.operator.logical.regexp.shell
         #       ^ keyword.operator.logical.regexp.shell
-        #        ^ punctuation.definition.group.begin.regexp.shell
+        #        ^ punctuation.section.group.begin.regexp.shell
         #           ^ keyword.operator.logical.regexp.shell
         #             ^ keyword.operator.logical.regexp.shell
-        #               ^ punctuation.definition.group.end.regexp.shell
+        #               ^ punctuation.section.group.end.regexp.shell
         #                    ^ punctuation.definition.pattern.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
         #                                             ^ meta.function punctuation.section.block.end.shell
@@ -2476,12 +2476,12 @@ ws-+([0-9]).host.com) echo "Web Server"
 #                   ^ meta.clause.pattern.shell - meta.string - meta.group - string
 #^^^^^^^^^^^^^^^^^^^ string.unquoted.shell
 #  ^ keyword.operator.quantifier.regexp.shell
-#   ^ punctuation.definition.group.begin.regexp.shell
+#   ^ punctuation.section.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
 #     ^^^ constant.other.range.regexp.shell
 #      ^ punctuation.separator.sequence.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
-#         ^ punctuation.definition.group.end.regexp.shell
+#         ^ punctuation.section.group.end.regexp.shell
 #                   ^ punctuation.definition.pattern.end.shell
 ;;
 # <- punctuation.terminator.clause.shell
@@ -2491,24 +2491,24 @@ db-+([0-9])\.host\.com) echo "DB server"
 #   ^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell
 #          ^^^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
-#   ^ punctuation.definition.group.begin.regexp.shell
+#   ^ punctuation.section.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
 #     ^^^ constant.other.range.regexp.shell
 #      ^ punctuation.separator.sequence.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
-#         ^ punctuation.definition.group.end.regexp.shell
+#         ^ punctuation.section.group.end.regexp.shell
 #                     ^ punctuation.definition.pattern.end.shell
 ;;
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
 bk-+([0-9])\.host\.com) echo "Backup server"
 #  ^ keyword.operator.quantifier.regexp.shell
-#   ^ punctuation.definition.group.begin.regexp.shell
+#   ^ punctuation.section.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
 #     ^^^ constant.other.range.regexp.shell
 #      ^ punctuation.separator.sequence.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
-#         ^ punctuation.definition.group.end.regexp.shell
+#         ^ punctuation.section.group.end.regexp.shell
 #                     ^ punctuation.definition.pattern.end.shell
 #                       ^^^^ support.function.shell
 ;;
@@ -6216,7 +6216,7 @@ a\/b/c/d}
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^ keyword.operator.quantifier.regexp.shell
-#         ^ punctuation.definition.group.begin.regexp.shell
+#         ^ punctuation.section.group.begin.regexp.shell
 #          ^^^^^ - constant - punctuation
 #               ^^ constant.character.escape.shell
 #                 ^ punctuation.section.interpolation.end.shell
@@ -6231,10 +6231,10 @@ a\/b/c/d}
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^ keyword.operator.quantifier.regexp.shell
-#         ^ punctuation.definition.group.begin.regexp.shell
+#         ^ punctuation.section.group.begin.regexp.shell
 #          ^^^^ - constant - punctuation
 #            ^ keyword.operator.logical.regexp.shell
-#              ^ punctuation.definition.group.end.regexp.shell
+#              ^ punctuation.section.group.end.regexp.shell
 #               ^ keyword.operator.substitution.shell
 #                ^^ constant.character.escape.shell
 #                  ^ punctuation.section.interpolation.end.shell
@@ -7804,12 +7804,12 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 : @([^:]*)
 #^^^^^^^^^ meta.function-call.arguments.shell
 # ^ keyword.operator.quantifier.regexp.shell
-#  ^ punctuation.definition.group.begin.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
 #   ^ punctuation.definition.set.begin.regexp.shell
 #    ^ keyword.operator.logical.regexp.shell
 #      ^ punctuation.definition.set.end.regexp.shell
 #       ^ constant.other.wildcard.asterisk.shell
-#        ^ punctuation.definition.group.end.regexp.shell
+#        ^ punctuation.section.group.end.regexp.shell
 
 : @([[] []] [![] [!]] [^[] [^]])
 #   ^^^ meta.group.regexp.shell meta.set.regexp.shell
@@ -7942,7 +7942,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                           ^^ meta.function-call.arguments.shell meta.string.shell meta.group.regexp.shell - meta.set
 #                             ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
-#  ^ punctuation.definition.group.begin.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
 #    ^^ punctuation.definition.set.begin.regexp.shell
 #      ^ constant.other.posix-class.regexp.shell
 #       ^ punctuation.definition.variable.shell
@@ -7955,7 +7955,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                        ^ constant.other.posix-class.regexp.shell
 #                         ^^ punctuation.definition.set.end.regexp.shell
 #                           ^ constant.other.wildcard.asterisk.shell
-#                            ^ punctuation.definition.group.end.regexp.shell
+#                            ^ punctuation.section.group.end.regexp.shell
 
 : ?([[:alpha:]]|[[:digit:]]|[[:unknwn:]])*
 #^^ meta.function-call.arguments.shell - meta.group
@@ -7963,7 +7963,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                                        ^ meta.function-call.arguments.shell - meta.group
 #                                         ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
-#  ^ punctuation.definition.group.begin.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
 #   ^^ punctuation.definition.set.begin.regexp.shell
 #     ^ constant.other.posix-class.regexp.shell punctuation.definition.class.begin.regexp.shell
 #      ^^^^^ constant.other.posix-class.regexp.shell - punctuation
@@ -7980,7 +7980,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                            ^^^^^^^^^ - constant.other.posix-class
 #                                     ^ punctuation.definition.set.end.regexp.shell
 #                                      ^ - punctuation
-#                                       ^ punctuation.definition.group.end.regexp.shell
+#                                       ^ punctuation.section.group.end.regexp.shell
 #                                        ^ constant.other.wildcard.asterisk.shell
 
 : @(foo*)*
@@ -7989,9 +7989,9 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #        ^ meta.function-call.arguments.shell - meta.group
 #         ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
-#  ^ punctuation.definition.group.begin.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
 #      ^ constant.other.wildcard.asterisk.shell
-#       ^ punctuation.definition.group.end.regexp.shell
+#       ^ punctuation.section.group.end.regexp.shell
 #        ^ constant.other.wildcard.asterisk.shell
 
 : +(bar|qux) | wc
@@ -7999,9 +7999,9 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #  ^^^^^^^^^ meta.function-call.arguments.shell meta.group.regexp.shell
 #           ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
-#  ^ punctuation.definition.group.begin.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
 #      ^ keyword.operator.logical.regexp.shell
-#          ^ punctuation.definition.group.end.regexp.shell
+#          ^ punctuation.section.group.end.regexp.shell
 #            ^ keyword.operator.assignment.pipe.shell
 
 
@@ -8056,7 +8056,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                 ^^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
 #                   ^ - meta.string.regexp
 #         ^ keyword.operator.quantifier.regexp.shell
-#          ^ punctuation.definition.group.begin.regexp.shell
+#          ^ punctuation.section.group.begin.regexp.shell
 #           ^ constant.other.wildcard.questionmark.shell
 #            ^ punctuation.definition.set.begin.regexp.shell
 #             ^^^ constant.other.range.regexp.shell
@@ -8090,7 +8090,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #          ^ meta.string.regexp.shell
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
 #          ^ keyword.operator.quantifier.regexp.shell
-#           ^ punctuation.definition.group.begin.regexp.shell
+#           ^ punctuation.section.group.begin.regexp.shell
 #               ^ keyword.operator.logical.regexp.shell
 #                   ^ keyword.operator.logical.regexp.shell
 #                    ^^^ constant.other.wildcard.questionmark.shell
@@ -8102,7 +8102,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                             ^ keyword.operator.logical.regexp.shell
 #                              ^ punctuation.definition.string.begin.shell
 #                                ^ punctuation.definition.string.end.shell
-#                                 ^ punctuation.definition.group.end.regexp.shell
+#                                 ^ punctuation.section.group.end.regexp.shell
 #                                   ^^ punctuation.section.compound.end.shell
 
 [[ ( $foo == *
@@ -8138,7 +8138,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #          ^ meta.compound.conditional.shell meta.string.regexp.shell - meta.group
 #           ^^^^^ meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
 #          ^ keyword.operator.quantifier.regexp.shell
-#           ^ punctuation.definition.group.begin.regexp.shell
+#           ^ punctuation.section.group.begin.regexp.shell
 #             ^^ - punctuation
    [!0-9]+ ) ]]
 # <- meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell
@@ -8151,7 +8151,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #    ^^^ constant.other.range.regexp.shell
 #       ^ punctuation.definition.set.end.regexp.shell
 #        ^ - constant - keyword
-#          ^ punctuation.definition.group.end.regexp.shell
+#          ^ punctuation.section.group.end.regexp.shell
 #            ^^ punctuation.section.compound.end.shell
 
 

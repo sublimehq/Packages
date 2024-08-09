@@ -2663,8 +2663,8 @@ any --arg{1,2,3} ={1,2,3}
 
 : /(:v) # not a valid modifier, fallback to normal regexp group
 #  ^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
-#  ^ punctuation.definition.group.begin.regexp.shell
-#     ^ punctuation.definition.group.end.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#     ^ punctuation.section.group.end.regexp.shell
 
 : /(:a) # Turn a file name into an absolute path
 #  ^^^^ meta.string.shell meta.modifier.glob.shell.zsh
@@ -3315,16 +3315,16 @@ dyn_dir_name() {
 # ^^^^ meta.string.shell string.unquoted.shell
 #     ^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
 #          ^^^^ meta.string.shell string.unquoted.shell
-#     ^ punctuation.definition.group.begin.regexp.shell
+#     ^ punctuation.section.group.begin.regexp.shell
 #       ^ constant.other.wildcard.asterisk.shell
-#         ^ punctuation.definition.group.end.regexp.shell
+#         ^ punctuation.section.group.end.regexp.shell
 #          ^  keyword.operator.quantifier.regexp.shell.zsh
 
 : (foo|bar)|baz
 # ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
-# ^ punctuation.definition.group.begin.regexp.shell
+# ^ punctuation.section.group.begin.regexp.shell
 #     ^ keyword.operator.logical.regexp.shell
-#         ^ punctuation.definition.group.end.regexp.shell
+#         ^ punctuation.section.group.end.regexp.shell
 #          ^ keyword.operator.assignment.pipe.shell
 #           ^^^ variable.function.shell
 
@@ -3423,55 +3423,55 @@ dyn_dir_name() {
 
 # : @(...) is (...)    # Match the pattern in the parentheses. (Like ‘(...)’.)
 # #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.definition.group.begin.regexp.shell
-# #      ^ punctuation.definition.group.end.regexp.shell
+# #  ^ punctuation.section.group.begin.regexp.shell
+# #      ^ punctuation.section.group.end.regexp.shell
 # #           ^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.definition.group.begin.regexp.shell
-# #               ^ punctuation.definition.group.end.regexp.shell
+# #           ^ punctuation.section.group.begin.regexp.shell
+# #               ^ punctuation.section.group.end.regexp.shell
 
 # # note: scope * as glob instead of operator as it is more likely in ZSH
 # : *(...) is (...)#   # Match any number of occurrences. (Like ‘(...)#’, except that recursive directory searching is not supported.)
 # # ^ constant.other.wildcard.asterisk.shell
 # #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.definition.group.begin.regexp.shell
-# #      ^ punctuation.definition.group.end.regexp.shell
+# #  ^ punctuation.section.group.begin.regexp.shell
+# #      ^ punctuation.section.group.end.regexp.shell
 # #           ^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.definition.group.begin.regexp.shell
-# #               ^ punctuation.definition.group.end.regexp.shell
+# #           ^ punctuation.section.group.begin.regexp.shell
+# #               ^ punctuation.section.group.end.regexp.shell
 # #                ^ keyword.operator.quantifier.regexp.shell
 
 # : +(...) is (...)##  # Match at least one occurrence. (Like ‘(...)##’, except that recursive directory searching is not supported.)
 # # ^ keyword.operator.quantifier.regexp.shell
 # #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.definition.group.begin.regexp.shell
-# #      ^ punctuation.definition.group.end.regexp.shell
+# #  ^ punctuation.section.group.begin.regexp.shell
+# #      ^ punctuation.section.group.end.regexp.shell
 # #           ^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.definition.group.begin.regexp.shell
-# #               ^ punctuation.definition.group.end.regexp.shell
+# #           ^ punctuation.section.group.begin.regexp.shell
+# #               ^ punctuation.section.group.end.regexp.shell
 # #                ^^ keyword.operator.quantifier.regexp.shell
 
 # # note: scope ? as glob instead of operator as it is more likely in ZSH
 # : ?(...) is (|...)   # Match zero or one occurrence. (Like ‘(|...)’.)
 # # ^ constant.other.wildcard.questionmark.shell
 # #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.definition.group.begin.regexp.shell
-# #      ^ punctuation.definition.group.end.regexp.shell
+# #  ^ punctuation.section.group.begin.regexp.shell
+# #      ^ punctuation.section.group.end.regexp.shell
 # #           ^^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.definition.group.begin.regexp.shell
+# #           ^ punctuation.section.group.begin.regexp.shell
 # #            ^ keyword.operator.logical.regexp.shell
-# #                ^ punctuation.definition.group.end.regexp.shell
+# #                ^ punctuation.section.group.end.regexp.shell
 
 # : !(...) is (^(...)) # Match anything but the expression in parentheses. (Like ‘(^(...))’.)
 # # ^ keyword.operator.quantifier.regexp.shell
 # #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.definition.group.begin.regexp.shell
-# #      ^ punctuation.definition.group.end.regexp.shell
+# #  ^ punctuation.section.group.begin.regexp.shell
+# #      ^ punctuation.section.group.end.regexp.shell
 # #           ^^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
-# #           ^ punctuation.definition.group.begin.regexp.shell
+# #           ^ punctuation.section.group.begin.regexp.shell
 # #            ^ keyword.operator.logical.regexp.shell
 # #             ^^^^^ meta.group.regexp.shell meta.group.regexp.shell
-# #             ^ punctuation.definition.group.begin.regexp.shell
-# #                 ^^ punctuation.definition.group.end.regexp.shell
+# #             ^ punctuation.section.group.begin.regexp.shell
+# #                 ^^ punctuation.section.group.end.regexp.shell
 # #                  ^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
 
 
@@ -3609,7 +3609,7 @@ dyn_dir_name() {
 
 : ((#i)foo)bar
 # ^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell
-# ^ meta.group.regexp.shell punctuation.definition.group.begin.regexp.shell
+# ^ meta.group.regexp.shell punctuation.section.group.begin.regexp.shell
 #  ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
 #      ^^^^ meta.group.regexp.shell string.unquoted.shell
 #          ^^^ string.unquoted.shell

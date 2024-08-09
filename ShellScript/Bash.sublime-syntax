@@ -1173,7 +1173,7 @@ contexts:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
     - match: \(  # Note: exists to support ZSH
-      scope: meta.group.regexp.shell string.unquoted.shell punctuation.definition.group.begin.regexp.shell
+      scope: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
       push: case-clause-pattern-group-body
     - include: case-end-ahead
     - include: pattern-group-content
@@ -2277,7 +2277,7 @@ contexts:
     - match: ([?*+@!])(\()
       captures:
         1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell string.unquoted.shell punctuation.definition.group.begin.regexp.shell
+        2: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
       push: pattern-group-body
 
   pattern-group-body:
@@ -2296,7 +2296,7 @@ contexts:
 
   pattern-group-end:
     - match: \)
-      scope: meta.group.regexp.shell string.unquoted.shell punctuation.definition.group.end.regexp.shell
+      scope: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.end.regexp.shell
       pop: 1
     - include: line-continuations
 
@@ -2808,7 +2808,7 @@ contexts:
     - match: ([?*+@!])(\()
       captures:
         1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell string.unquoted.shell punctuation.definition.group.begin.regexp.shell
+        2: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
       push: expansion-parameter-pattern-group-body
 
   expansion-parameter-pattern-group-body:
