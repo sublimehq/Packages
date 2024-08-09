@@ -1435,26 +1435,20 @@ contexts:
 
   statements-word:
     - match: \"
-      scope:
-        meta.string.shell string.quoted.double.shell
-        punctuation.section.string.begin.shell
+      scope: meta.quoted.shell punctuation.definition.quoted.begin.shell
       embed: statements
-      embed_scope: meta.string.shell
+      embed_scope: meta.quoted.shell
       escape: '{{no_escape_behind}}\"'
       escape_captures:
-        0: meta.string.shell string.quoted.double.shell
-           punctuation.section.string.end.shell
+        0: meta.quoted.shell punctuation.definition.quoted.end.shell
       pop: 1
     - match: \'
-      scope:
-        meta.string.shell string.quoted.single.shell
-        punctuation.section.string.begin.shell
+      scope: meta.quoted.shell punctuation.definition.quoted.begin.shell
       embed: statements
-      embed_scope: meta.string.shell
+      embed_scope: meta.quoted.shell
       escape: '{{no_escape_behind}}'''
       escape_captures:
-        0: meta.string.shell string.quoted.single.shell
-           punctuation.section.string.end.shell
+        0: meta.quoted.shell punctuation.definition.quoted.end.shell
       pop: 1
     - match: '{{cmd_begin}}'
       set:
@@ -1462,7 +1456,7 @@ contexts:
         - path-pattern-begin
 
   unquoted-statements-word-body:
-    - meta_scope: meta.string.shell meta.command.shell variable.function.shell
+    - meta_scope: meta.command.shell variable.function.shell
     - include: line-continuations
     - include: path-pattern-content
     - match: '{{cmd_break}}'
@@ -1512,11 +1506,11 @@ contexts:
       set: arithmetic-word-unquoted-body
 
   arithmetic-word-double-quoted-body:
-    - meta_scope: meta.arithmetic.shell
+    - meta_scope: meta.quoted.shell meta.arithmetic.shell
     - include: expression-double-quoted-body
 
   arithmetic-word-single-quoted-body:
-    - meta_scope: meta.arithmetic.shell
+    - meta_scope: meta.quoted.shell meta.arithmetic.shell
     - include: expression-single-quoted-body
 
   arithmetic-word-unquoted-body:
