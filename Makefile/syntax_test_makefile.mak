@@ -1001,7 +1001,7 @@ TESTTOOL = sh -c '\
   fi' TESTTOOL
 # ^^^ meta.string.makefile meta.interpolation.makefile
 #    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
-# ^^ source.shell.embedded keyword.control.conditional.end.shell - source.shell source.shell
+# ^^ source.shell.embedded keyword.control.conditional.endif.shell - source.shell source.shell
 #   ^ punctuation.section.interpolation.end.makefile
 
 
@@ -1059,13 +1059,13 @@ foo:
 	#   ^ constant.character.escape.makefile
 	#    ^ punctuation
 	#     ^ punctuation.section.interpolation.begin.shell
-	#      ^^^^ support.function.echo.shell
+	#      ^^^^ support.function.shell
 	#           ^ constant.character.escape.makefile
 	#            ^ punctuation.definition.variable.shell
-	#            ^^^^^ variable.other.readwrite.shell
+	#            ^^^^^ variable.language.builtin.shell
 
 	test "$$abc" = "$$def"
-	# ^ support.function.test.shell
+	# ^ support.function.shell
 	#    ^^^^^^^ string.quoted.double.shell
 	#     ^ constant.character.escape.makefile
 	#      ^ punctuation.definition.variable.shell
