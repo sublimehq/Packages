@@ -2102,10 +2102,6 @@ contexts:
     - include: immediately-pop
 
   path-pattern-content:
-    - include: path-pattern-common
-    - include: pattern-charsets
-
-  path-pattern-common:
     - match: \$?\"
       scope: punctuation.definition.quoted.begin.shell
       push: path-pattern-double-quoted-body
@@ -2123,21 +2119,21 @@ contexts:
     - include: pattern-groups
     - include: pattern-charsets
     - include: pattern-common
-    - include: path-pattern-separators
+    - include: path-separators
 
   path-pattern-ansi-c-body:
     - include: literal-ansi-c-body
-    - include: path-pattern-separators
+    - include: path-separators
 
   path-pattern-double-quoted-body:
     - include: literal-double-quoted-body
-    - include: path-pattern-separators
+    - include: path-separators
 
   path-pattern-single-quoted-body:
     - include: literal-single-quoted-body
-    - include: path-pattern-separators
+    - include: path-separators
 
-  path-pattern-separators:
+  path-separators:
     - match: (/)(?:(?:(\.\.)|(\.))(?=/))?
       captures:
         1: punctuation.separator.path.shell
