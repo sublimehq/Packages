@@ -523,6 +523,81 @@ case $word {
 #       ^^^ meta.function-call.identifier.shell variable.function.shell
 #          ^^^^^^^^^^^ meta.function-call.arguments.shell
 #                     ^^ punctuation.terminator.clause.shell
+
+    ws-+([0-9]).host.com)
+#   ^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#       ^ meta.group.regexp.shell - meta.set
+#        ^^^^^ meta.group.regexp.shell meta.set.regexp.shell
+#             ^ meta.group.regexp.shell - meta.set
+#                       ^ meta.clause.pattern.shell - meta.group - string
+#                        ^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.shell - meta.clause.pattern
+        ;;
+#       ^^ punctuation.terminator.clause.shell
+
+    ((foo|bar)baz) cmd arg ;;
+#   ^ meta.clause.pattern.shell - meta.string - string
+#    ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#                ^ meta.clause.pattern.shell - meta.string - string
+#                 ^ meta.clause.shell
+#                  ^^^^^^^^ meta.clause.body.shell
+#   ^ punctuation.definition.pattern.begin.shell
+#    ^ punctuation.section.group.begin.regexp.shell
+#        ^ keyword.operator.logical.regexp.shell
+#            ^ punctuation.section.group.end.regexp.shell
+#                ^ punctuation.definition.pattern.end.shell
+#                  ^^^ variable.function.shell
+#                      ^^^ meta.string.shell string.unquoted.shell
+#                          ^^ punctuation.terminator.clause.shell
+
+    (foo|bar)baz) cmd arg ;;
+#   ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#            ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#               ^ meta.clause.pattern.shell - meta.string - string
+#                ^ meta.clause.shell
+#                 ^^^^^^^^ meta.clause.body.shell
+#   ^ punctuation.section.group.begin.regexp.shell
+#       ^ keyword.operator.logical.regexp.shell
+#           ^ punctuation.section.group.end.regexp.shell
+#               ^ punctuation.definition.pattern.end.shell
+#                 ^^^ variable.function.shell
+#                     ^^^ meta.string.shell string.unquoted.shell
+#                         ^^ punctuation.terminator.clause.shell
+
+    ((foo|bar)baz)
+#   ^ meta.clause.pattern.shell - meta.string - string
+#    ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#                ^ meta.clause.pattern.shell - meta.string - string
+#                 ^ meta.clause.shell
+#   ^ punctuation.definition.pattern.begin.shell
+#    ^ punctuation.section.group.begin.regexp.shell
+#        ^ keyword.operator.logical.regexp.shell
+#            ^ punctuation.section.group.end.regexp.shell
+#                ^ punctuation.definition.pattern.end.shell
+        cmd arg ;;
+#       ^^^^^^^^ meta.clause.body.shell
+#       ^^^ variable.function.shell
+#           ^^^ meta.string.shell string.unquoted.shell
+#               ^^ punctuation.terminator.clause.shell
+
+    (foo|bar)baz)
+#   ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#            ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#               ^ meta.clause.pattern.shell - meta.string - string
+#                ^ meta.clause.shell
+#   ^ punctuation.section.group.begin.regexp.shell
+#       ^ keyword.operator.logical.regexp.shell
+#           ^ punctuation.section.group.end.regexp.shell
+#               ^ punctuation.definition.pattern.end.shell
+        cmd arg ;;
+#       ^^^^^^^^ meta.clause.body.shell
+#       ^^^ variable.function.shell
+#           ^^^ meta.string.shell string.unquoted.shell
+#               ^^ punctuation.terminator.clause.shell
+
+    incomplete | pattern
+#   ^^^^^^^^^^^^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
 }
 # <- meta.statement.conditional.case.body.shell punctuation.section.block.end.shell
 

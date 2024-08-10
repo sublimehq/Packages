@@ -156,6 +156,41 @@ contexts:
     - include: comments
     - include: case-clauses
 
+  case-clauses:
+    # This branch handles the tricky part of determining whether a case pattern
+    # is enclosed in parentheses or whether the first opening parenthesis just
+    # belongs to a normal pattern group.
+    #
+    # Examples:
+    #   a) `( group ) pattern ) statements ;;`
+    #   b) `( ( group ) pattern ) statements ;;`
+    - match: (?=\()
+      branch_point: case-clause-paren-pattern
+      branch:
+        - case-clause-plain-pattern-body
+        - case-clause-paren-pattern
+    - match: (?=\S)
+      push: case-clause-plain-pattern-body
+
+  case-clause-paren-pattern:
+    - meta_include_prototype: false
+    - match: \(
+      scope: meta.clause.pattern.shell punctuation.definition.pattern.begin.shell
+      set: case-clause-paren-pattern-body
+
+  case-clause-plain-pattern-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+    # comment, end of clause or end of line
+    # indicate pattern being enclosed in balanced parentheses
+    - match: (?=(?:$|;;&?|;&)|\s+#)
+      fail: case-clause-paren-pattern
+    - include: case-clause-paren-pattern-body
+
+  case-end-ahead:
+    - meta_prepend: true
+    - include: brace-pop
+
   foreach-meta:
     - meta_include_prototype: false
     - meta_scope: meta.statement.loop.foreach.shell.zsh

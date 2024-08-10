@@ -2275,11 +2275,10 @@ case var in
   ( patt ( esac
 #^ meta.statement.conditional.case.body.shell
 # ^ meta.clause.pattern.shell - meta.string - meta.group - string
-#  ^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
-#        ^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#  ^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
 #          ^^^^ meta.statement.conditional.case.end.shell
 # ^ punctuation.definition.pattern.begin.shell
-#        ^ punctuation.section.group.begin.regexp.shell
+#        ^ - punctuation
 #          ^^^^ keyword.control.conditional.endcase.shell
 #              ^ - meta.conditional
 
@@ -2442,19 +2441,20 @@ case $TERM in
         update_terminal_cwd() { print -Pn "\e]l%~\e\\" };;
         #                                              ^ meta.function punctuation.section.block.end.shell
         #                                               ^^ punctuation.terminator.clause.shell
-    *xterm*|rxvt|(dt|k|E)term)
+    *xterm*|rxvt|?(dt|k|E)term)
         #^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-        #        ^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
-        #                ^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-        #                    ^ meta.clause.pattern.shell - meta.string - meta.group - string
+        #         ^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+        #                 ^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+        #                     ^ meta.clause.pattern.shell - meta.string - meta.group - string
         # ^ constant.other.wildcard.asterisk.shell
         #  ^ keyword.operator.logical.regexp.shell
         #       ^ keyword.operator.logical.regexp.shell
-        #        ^ punctuation.section.group.begin.regexp.shell
-        #           ^ keyword.operator.logical.regexp.shell
-        #             ^ keyword.operator.logical.regexp.shell
-        #               ^ punctuation.section.group.end.regexp.shell
-        #                    ^ punctuation.definition.pattern.end.shell
+        #        ^ keyword.operator.quantifier.regexp.shell
+        #         ^ punctuation.section.group.begin.regexp.shell
+        #            ^ keyword.operator.logical.regexp.shell
+        #              ^ keyword.operator.logical.regexp.shell
+        #                ^ punctuation.section.group.end.regexp.shell
+        #                     ^ punctuation.definition.pattern.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
         #                                             ^ meta.function punctuation.section.block.end.shell
         #                                              ^^ punctuation.terminator.clause.shell
