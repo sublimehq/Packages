@@ -306,7 +306,7 @@ contexts:
     - include: zsh-glob-ranges
 
   pattern-groups:
-    # KSH_GLOB is optional (hence don't support it)
+    # prefer EXTENDED_GLOB over optional KSH_GLOB
     - match: (?=\()
       branch_point: pattern-group
       branch:
@@ -434,11 +434,9 @@ contexts:
     - include: zsh-glob-ranges
 
   expansion-parameter-pattern-groups:
-    # KSH_GLOB is optional (hence not matching ? and * in favor of ZSH globs)
-    - match: ([+@!]??)(\()
-      captures:
-        1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
+    # prefer EXTENDED_GLOB over optional KSH_GLOB
+    - match: \(
+      scope: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
       push: expansion-parameter-pattern-group-body
 
   expansion-parameter-pattern-group-body:

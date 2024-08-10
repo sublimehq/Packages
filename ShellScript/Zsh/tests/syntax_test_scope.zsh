@@ -3419,60 +3419,55 @@ dyn_dir_name() {
 ###############################################################################
 # 14.8.2 ksh-like Glob Operators
 # https://zsh.sourceforge.io/Doc/Release/Expansion.html#ksh_002dlike-Glob-Operators
+# Note: KSH_GLOB is optional and thus not scoped in favor of EXTENDED_KOB
 ###############################################################################
 
-# : @(...) is (...)    # Match the pattern in the parentheses. (Like ‘(...)’.)
-# #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.section.group.begin.regexp.shell
-# #      ^ punctuation.section.group.end.regexp.shell
-# #           ^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.section.group.begin.regexp.shell
-# #               ^ punctuation.section.group.end.regexp.shell
+: @(___) is (___)    # Match the pattern in the parentheses. (Like ‘(___)’.)
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ punctuation.section.group.end.regexp.shell
+#           ^^^^^ meta.group.regexp.shell
+#           ^ punctuation.section.group.begin.regexp.shell
+#               ^ punctuation.section.group.end.regexp.shell
 
-# # note: scope * as glob instead of operator as it is more likely in ZSH
-# : *(...) is (...)#   # Match any number of occurrences. (Like ‘(...)#’, except that recursive directory searching is not supported.)
-# # ^ constant.other.wildcard.asterisk.shell
-# #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.section.group.begin.regexp.shell
-# #      ^ punctuation.section.group.end.regexp.shell
-# #           ^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.section.group.begin.regexp.shell
-# #               ^ punctuation.section.group.end.regexp.shell
-# #                ^ keyword.operator.quantifier.regexp.shell
+: *(___) is (___)#   # Match any number of occurrences. (Like ‘(___)#’, except that recursive directory searching is not supported.)
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ punctuation.section.group.end.regexp.shell
+#           ^^^^^ meta.group.regexp.shell
+#           ^ punctuation.section.group.begin.regexp.shell
+#               ^ punctuation.section.group.end.regexp.shell
+#                ^ keyword.operator.quantifier.regexp.shell
 
-# : +(...) is (...)##  # Match at least one occurrence. (Like ‘(...)##’, except that recursive directory searching is not supported.)
-# # ^ keyword.operator.quantifier.regexp.shell
-# #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.section.group.begin.regexp.shell
-# #      ^ punctuation.section.group.end.regexp.shell
-# #           ^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.section.group.begin.regexp.shell
-# #               ^ punctuation.section.group.end.regexp.shell
-# #                ^^ keyword.operator.quantifier.regexp.shell
+: +(___) is (___)##  # Match at least one occurrence. (Like ‘(___)##’, except that recursive directory searching is not supported.)
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ punctuation.section.group.end.regexp.shell
+#           ^^^^^ meta.group.regexp.shell
+#           ^ punctuation.section.group.begin.regexp.shell
+#               ^ punctuation.section.group.end.regexp.shell
+#                ^^ keyword.operator.quantifier.regexp.shell
 
-# # note: scope ? as glob instead of operator as it is more likely in ZSH
-# : ?(...) is (|...)   # Match zero or one occurrence. (Like ‘(|...)’.)
-# # ^ constant.other.wildcard.questionmark.shell
-# #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.section.group.begin.regexp.shell
-# #      ^ punctuation.section.group.end.regexp.shell
-# #           ^^^^^^ meta.group.regexp.shell
-# #           ^ punctuation.section.group.begin.regexp.shell
-# #            ^ keyword.operator.logical.regexp.shell
-# #                ^ punctuation.section.group.end.regexp.shell
+: ?(___) is (|___)   # Match zero or one occurrence. (Like ‘(|___)’.)
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ punctuation.section.group.end.regexp.shell
+#           ^^^^^^ meta.group.regexp.shell
+#           ^ punctuation.section.group.begin.regexp.shell
+#            ^ keyword.operator.logical.regexp.shell
+#                ^ punctuation.section.group.end.regexp.shell
 
-# : !(...) is (^(...)) # Match anything but the expression in parentheses. (Like ‘(^(...))’.)
-# # ^ keyword.operator.quantifier.regexp.shell
-# #  ^^^^^ meta.group.regexp.shell
-# #  ^ punctuation.section.group.begin.regexp.shell
-# #      ^ punctuation.section.group.end.regexp.shell
-# #           ^^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
-# #           ^ punctuation.section.group.begin.regexp.shell
-# #            ^ keyword.operator.logical.regexp.shell
-# #             ^^^^^ meta.group.regexp.shell meta.group.regexp.shell
-# #             ^ punctuation.section.group.begin.regexp.shell
-# #                 ^^ punctuation.section.group.end.regexp.shell
-# #                  ^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
+: !(___) is (^(___)) # Match anything but the expression in parentheses. (Like ‘(^(___))’.)
+#  ^^^^^ meta.group.regexp.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ punctuation.section.group.end.regexp.shell
+#           ^^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
+#           ^ punctuation.section.group.begin.regexp.shell
+#            ^ keyword.operator.logical.regexp.shell
+#             ^^^^^ meta.group.regexp.shell meta.group.regexp.shell
+#             ^ punctuation.section.group.begin.regexp.shell
+#                 ^^ punctuation.section.group.end.regexp.shell
+#                  ^ meta.group.regexp.shell - meta.group.regexp meta.group.regexp
 
 
 ###############################################################################
