@@ -283,7 +283,7 @@ contexts:
 
   numbers:
     - meta_prepend: true
-    - match: (\d{{digit}}*(\.){{digit}}*(?:[eE][-+]?{{digit}}*)?)({{word_char}}*)
+    - match: (\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?)({{word_char}}*)
       scope: meta.number.float.decimal.shell.zsh
       captures:
         1: constant.numeric.value.shell.zsh
@@ -292,7 +292,7 @@ contexts:
 
   number:
     - meta_prepend: true
-    - match: ([-+]?)(\d{{digit}}*(\.){{digit}}*(?:[eE][-+]?{{digit}}*)?){{word_break}}
+    - match: ([-+]?)(\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?){{word_break}}
       scope: meta.number.float.decimal.shell.zsh
       captures:
         1: keyword.operator.arithmetic.shell.zsh
@@ -615,25 +615,25 @@ contexts:
     - match: \]
       scope: punctuation.definition.range.end.shell.zsh
       pop: 1
+    - include: line-continuations
     - include: comma-separators
-    - include: expansions-variables
-    - include: zsh-glob-numbers
+    - include: zsh-glob-only-numbers
     - include: zsh-glob-qualifier-fail
 
   zsh-qualifier-fspec:
-    # credentials given as octal number
-    - match: ([-+=]?)([?0-7]{1,3})
-      captures:
-        1: keyword.operator.logical.shell.zsh
-        2: meta.number.integer.octal.shell constant.numeric.value.shell
-      pop: 1
-    # credentials given as interpolation
-    - match: ([-+=]?){{is_interpolation}}
-      captures:
-        1: keyword.operator.logical.shell.zsh
-      set: string-interpolation-body
+    # credentials given as octal number without base
+    - match: '[-+=]?(?=[$?0-7])'
+      scope: keyword.operator.logical.shell.zsh
+      set: zsh-qualifier-fspec-number-body
     # anything else is a glob string
     - include: zsh-modifier-string
+
+  zsh-qualifier-fspec-number-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.number.integer.octal.shell
+    - match: \?
+      scope: constant.other.wildcard.questionmark.shell
+    - include: oct-number-body
 
 ###[ ZSH GLOB RANGES ]#########################################################
 
@@ -657,9 +657,8 @@ contexts:
       pop: 1
     - match: \-
       scope: keyword.operator.range.shell.zsh
+    - include: zsh-glob-only-numbers
     - include: line-continuations
-    - include: expansions-variables
-    - include: zsh-glob-numbers
     - match: ''
       fail: zsh-glob-range
 
@@ -676,6 +675,12 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.value.shell
+
+  zsh-glob-only-numbers:
+    # use in contexts, which support (decimal) integers, only
+    - match: '[-+]?(?=[\d$])'
+      scope: keyword.operator.arithmetic.shell
+      push: dec-number-body
 
 ###[ ZSH MODIFIERS ]###########################################################
 
@@ -947,7 +952,9 @@ variables:
   shebang_language: \bzsh\b
 
   # Numbers
-  digit: '[\d_]'
+  dec_digit: '[\d_]'
+  hex_digit: '[\h_]'
+  oct_digit: '[0-7_]'
 
   # Parameter expansions
   is_interpolation: (?=\$[({\[{{identifier_char}}{{special_variables}}]|`)

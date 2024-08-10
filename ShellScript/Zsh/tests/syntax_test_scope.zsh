@@ -3831,31 +3831,37 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #   ^ storage.modifier.glob.shell.zsh
 #    ^ punctuation.definition.modifier.end.shell.zsh
 
-: /(f70?) (f=7?0) (f+?70) (f-703)  # octal acces right specification
+: /(f70?) (f=7?0) (f+?70) (f-7${g}3)  # octal acces right specification
 #   ^ storage.modifier.glob.shell.zsh
-#    ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+#    ^^ meta.number.integer.octal.shell constant.numeric.value.shell
+#      ^ meta.number.integer.octal.shell constant.other.wildcard.questionmark.shell
 #          ^ storage.modifier.glob.shell.zsh
 #           ^ keyword.operator.logical.shell.zsh
-#            ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+#            ^ meta.number.integer.octal.shell constant.numeric.value.shell
+#             ^ meta.number.integer.octal.shell constant.other.wildcard.questionmark.shell
+#              ^ meta.number.integer.octal.shell constant.numeric.value.shell
 #                  ^ storage.modifier.glob.shell.zsh
 #                   ^ keyword.operator.logical.shell.zsh
-#                    ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+#                    ^ meta.number.integer.octal.shell constant.other.wildcard.questionmark.shell
+#                     ^^ meta.number.integer.octal.shell constant.numeric.value.shell
 #                          ^ storage.modifier.glob.shell.zsh
 #                           ^ keyword.operator.logical.shell.zsh
-#                            ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+#                            ^ meta.number.integer.octal.shell constant.numeric.value.shell
+#                             ^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
+#                                 ^ meta.number.integer.octal.shell constant.numeric.value.shell
 
 : /(f$mode) (f=$mode) (f+$mode) (f-$mode)  # octal acces right specification
 #   ^ storage.modifier.glob.shell.zsh
-#    ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#    ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #            ^ storage.modifier.glob.shell.zsh
 #             ^ keyword.operator.logical.shell.zsh
-#              ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#              ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                      ^ storage.modifier.glob.shell.zsh
 #                       ^ keyword.operator.logical.shell.zsh
-#                        ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                        ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                ^ storage.modifier.glob.shell.zsh
 #                                 ^ keyword.operator.logical.shell.zsh
-#                                  ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                  ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 
 : /(f<gu+w,0-rx>) /(f{gu+w,0-rx}) /(f[gu+w,0-rx]) /(f(gu+w,0-rx)) /(f:gu+w,0-rx:)
 #  ^^ meta.modifier.glob.shell.zsh
@@ -4469,7 +4475,7 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #                                                              ^^ punctuation.definition.quoted.end.shell
 #                                                                ^ punctuation.definition.modifier.end.shell.zsh
 
-: /([10]) /([1,20]) # specifies which of the matched filenames should be included in the returned list.
+: /([10]) /([1,20]) /([$start,1${end}2]) # specifies which of the matched filenames should be included in the returned list.
 #  ^ meta.string.shell meta.modifier.glob.shell.zsh - meta.range
 #   ^^^^ meta.string.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh
 #       ^ meta.string.shell meta.modifier.glob.shell.zsh - meta.range
@@ -4488,6 +4494,17 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                ^ punctuation.definition.range.end.shell.zsh
 #                 ^ punctuation.definition.modifier.end.shell.zsh
+#                    ^ meta.string.shell meta.modifier.glob.shell.zsh - meta.range
+#                     ^^^^^^^^^^^^^^^^^ meta.string.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh
+#                                      ^ meta.string.shell meta.modifier.glob.shell.zsh - meta.range
+#                     ^ punctuation.definition.range.begin.shell.zsh
+#                      ^^^^^^ meta.number.integer.decimal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                            ^ punctuation.separator.sequence.shell
+#                             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                              ^^^^^^ meta.number.integer.decimal.shell meta.interpolation.parameter.shell - constant
+#                                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                     ^ punctuation.definition.range.end.shell.zsh
+#                                      ^ meta.modifier.glob.shell.zsh punctuation.definition.modifier.end.shell.zsh
 
 : /(P"pre") /(P<pre>) /(P{pre}) /(P[pre]) /(P(pre)) /(P:pre:)
 #  ^^ meta.string.shell meta.modifier.glob.shell.zsh - meta.quoted

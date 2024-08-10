@@ -1839,64 +1839,88 @@ contexts:
 
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: (0[xX])(\h*)({{word_char}}*)
-      scope: meta.number.integer.hexadecimal.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-        3: invalid.illegal.shell
+    - match: 0[xX]
+      scope: constant.numeric.base.shell
+      push: hex-number-body
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: (0)([0-7]+)({{word_char}}*)
-      scope: meta.number.integer.octal.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-        3: invalid.illegal.shell
+    - match: 0(?=[0-7$])
+      scope: constant.numeric.base.shell
+      push: oct-number-body
     # Otherwise, numbers take the form [base#]n, where the optional base is a
     # decimal number between 2 and 64 representing the arithmetic base, and n is
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
-    - match: (\d{{digit}}*#)([[:alnum:]@_]+)({{word_char}}*)
-      scope: meta.number.integer.other.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-        3: invalid.illegal.shell
+    - match: \d{{dec_digit}}*#
+      scope: constant.numeric.base.shell
+      push: other-number-body
     # If base# is omitted, then base 10 is used.
-    - match: \d{{digit}}*(?![.\w])
-      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
+    - match: (?=\d)
+      push: dec-number-body
 
   number:
     # Note: Leading sign is scoped as operator for consistent highlighting as
     #       we can't distinguish operators from sign for sure everywhere.
-    - match: ([-+]?)(0[xX])(\h*){{word_break}}
-      scope: meta.number.integer.hexadecimal.shell
+    # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
+    - match: ([-+]?)(0[xX])
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.base.shell
-        3: constant.numeric.value.shell
-      pop: 1
-    - match: ([-+]?)(0)([0-7]+){{word_break}}
+      set: hex-number-body
+    # Constants with a leading 0 are interpreted as octal numbers.
+    - match: ([-+]?)(0)(?=[0-7$])
       scope: meta.number.integer.octal.shell
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.base.shell
-        3: constant.numeric.value.shell
-      pop: 1
-    - match: ([-+]?)(\d{{digit}}*#)([[:alnum:]@_]+){{word_break}}
+      set: oct-number-body
+    # Otherwise, numbers take the form [base#]n, where the optional base is a
+    # decimal number between 2 and 64 representing the arithmetic base, and n is
+    # a number in that base. When specifying n, the digits greater than 9 are
+    # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
+    # in that order.
+    - match: ([-+]?)(\d{{dec_digit}}*#)
       scope: meta.number.integer.other.she
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.base.shell
-        3: constant.numeric.value.shell
+      set: other-number-body
     # If base# is omitted, then base 10 is used.
-    - match: ([-+]?)(\d{{digit}}*){{word_break}}
-      scope: meta.number.integer.decimal.shell
-      captures:
-        1: keyword.operator.arithmetic.shell
-        2: constant.numeric.value.shell
-      pop: 1
+    - match: '[-+]?(?=\d)'
+      scope: keyword.operator.arithmetic.shell
+      set: dec-number-body
+
+  dec-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.decimal.shell
+    - match: '{{dec_digit}}+'
+      scope: constant.numeric.value.shell
+    - include: expansions-variables
+    - include: immediately-pop
+
+  hex-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.hexadecimal.shell
+    - match: '{{hex_digit}}+'
+      scope: constant.numeric.value.shell
+    - include: expansions-variables
+    - include: immediately-pop
+
+  oct-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.octal.shell
+    - match: '{{oct_digit}}+'
+      scope: constant.numeric.value.shell
+    - include: expansions-variables
+    - include: immediately-pop
+
+  other-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.other.shell
+    - match: '[[:alnum:]@_]+'
+      scope: constant.numeric.value.shell
+    - include: expansions-variables
+    - include: immediately-pop
 
   literal-unquoted-content:
     - match: \$?\"
@@ -2998,7 +3022,9 @@ variables:
     | lower | print | punct | space | upper | word | xdigit )
 
   # Numbers
-  digit: \d
+  dec_digit: \d
+  hex_digit: \h
+  oct_digit: '[0-7]'
   varassign: '[-+]?='
 
   # 4.2 Shell Built-in Commands
