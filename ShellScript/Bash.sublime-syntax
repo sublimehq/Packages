@@ -323,16 +323,14 @@ contexts:
   cmd-alias-args-definitions:
     - include: cmd-args-end
     - match: '{{word_begin}}'
-      push:
-        - statements-value-assignment
-        - alias-name-chars
+      push: alias-name-chars
 
   alias-name-chars:
     - meta_scope: meta.command.shell entity.name.function.shell
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{opt_break}}'
-      pop: 1
+      set: statements-value-assignment
 
 ###[ ARITHMETIC BUILTINS ]#####################################################
 
@@ -898,13 +896,6 @@ contexts:
         - cmd-args-meta
         - cmd-args
 
-  cmd-args:
-    - meta_include_prototype: false
-    - include: cmd-args-end
-    - include: cmd-args-end-of-options-then-ambigious
-    - include: cmd-args-options
-    - include: cmd-args-values
-
   cmd-args-meta:
     - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
@@ -914,60 +905,18 @@ contexts:
     - include: redirections
     - include: eoc-pop
 
-  cmd-args-options:
-    - match: '{{opt_punctuation}}'
-      scope: punctuation.definition.parameter.shell
-      push:
-        - cmd-args-option-maybe-assignment
-        - cmd-args-option-name
-
-  cmd-args-option-name:
-    - meta_scope: meta.parameter.option.shell variable.parameter.option.shell
-    - include: line-continuations
-    - include: literal-unquoted-content
-    - match: '{{opt_break}}'
-      pop: 1
-
-  cmd-args-option-maybe-assignment:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - meta_include_prototype: false
-    - match: =
-      scope: keyword.operator.assignment.shell
-      set: cmd-args-option-value
-    - include: line-continuations
-    - include: immediately-pop
-
-  cmd-args-option-maybe-command:
-    - include: cmd-args-end
-    - include: statements-word
-    - include: else-pop
-
-  cmd-args-option-maybe-value:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - meta_include_prototype: false
-    - match: '{{wspace}}(?![-+\]}{{metachar}}])'
-      set: cmd-args-option-value
-    - include: number
-    - include: line-continuations
-    - include: immediately-pop
-
-  cmd-args-option-value:
-    - meta_include_prototype: false
-    - include: line-continuations
-    - include: boolean
-    - include: number
-    - include: string-path-pattern
-    - include: immediately-pop
+  cmd-args:
+    - include: cmd-args-end-of-options-then-ambigious
 
   cmd-args-end-of-options-then-ambigious:
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
       set: cmd-args-ambigious
+    - include: cmd-args-options
+    - include: cmd-args-ambigious
 
   cmd-args-ambigious:
-    - meta_include_prototype: false
-    - include: redirections
-    - include: eoc-pop
+    - include: cmd-args-end
     - include: cmd-args-values
 
   cmd-args-end-of-options-then-function-declarations:
@@ -978,7 +927,6 @@ contexts:
     - include: cmd-args-function-declarations
 
   cmd-args-function-declarations:
-    - meta_include_prototype: false
     - include: cmd-args-end
     - match: '{{word_begin}}'
       push: function-declaration-name-chars
@@ -1069,8 +1017,47 @@ contexts:
         - variable-name-begin
     - include: illegal-words
 
-  cmd-args-values:
+  cmd-args-options:
+    - match: '{{opt_punctuation}}'
+      scope: punctuation.definition.parameter.shell
+      push: cmd-args-option-name
+
+  cmd-args-option-name:
+    - meta_scope: meta.parameter.option.shell variable.parameter.option.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{opt_break}}'
+      set: cmd-args-option-maybe-assignment
+
+  cmd-args-option-maybe-assignment:
     - meta_include_prototype: false
+    - match: =
+      scope: keyword.operator.assignment.shell
+      set: cmd-args-option-assignment-value
+    - include: line-continuations
+    - include: immediately-pop
+
+  cmd-args-option-assignment-value:
+    - meta_include_prototype: false
+    - include: line-continuations
+    - include: boolean
+    - include: number
+    - include: string-path-pattern
+    - include: immediately-pop
+
+  cmd-args-option-maybe-command:
+    - meta_include_prototype: false
+    - include: eoc-pop
+    - include: statements-word
+
+  cmd-args-option-maybe-value:
+    - meta_include_prototype: false
+    - include: eoc-pop
+    - include: boolean
+    - include: number
+    - include: string-path-pattern
+
+  cmd-args-values:
     - include: booleans
     - include: numbers
     - include: string-path-patterns
@@ -1430,6 +1417,7 @@ contexts:
     - include: immediately-pop
 
   statements-value:
+    - meta_include_prototype: false
     - include: statements-word
     - include: immediately-pop
 
