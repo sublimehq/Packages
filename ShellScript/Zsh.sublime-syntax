@@ -318,59 +318,21 @@ contexts:
         - string-path-pattern-body
         - maybe-tilde-interpolation
 
-  string-path-pattern-content:
-    - meta_prepend: true
-    - include: zsh-glob-flags
-    - include: zsh-glob-operators
-    - include: zsh-glob-ranges
-
-###[ PATH PATTERN MATCHING ]###################################################
-
-  path-pattern-content:
-    - meta_prepend: true
-    - include: zsh-glob-flags
-    - include: zsh-glob-operators
-    - include: zsh-glob-ranges
-
 ###[ SHELL PATTERN MATCHING ]##################################################
 
-  pattern-main-content:
-    - meta_prepend: true
-    - include: zsh-glob-flags
-    - include: zsh-glob-operators
-    - include: zsh-glob-ranges
-
   pattern-groups:
+    - include: zsh-glob-flags
     # prefer EXTENDED_GLOB over optional KSH_GLOB
     - match: (?=\()
-      branch_point: pattern-group
+      branch_point: zsh-glob-qualifier
       branch:
         - zsh-glob-qualifier
         - pattern-group
 
-  pattern-group:
-    - match: \(
-      scope: punctuation.section.group.begin.regexp.shell
-      set: pattern-group-body
-
-  pattern-group-body:
-    - clear_scopes: 1  # clear `string.unquoted`
-    - meta_include_prototype: false
-    - meta_scope: meta.group.regexp.shell string.unquoted.shell
-    - include: pattern-group-end
-    - include: pattern-group-content
-
-  pattern-group-content:
+  pattern-common:
     - meta_prepend: true
-    - include: zsh-glob-flags
     - include: zsh-glob-operators
     - include: zsh-glob-ranges
-
-  pattern-group-end:
-    - match: \)
-      scope: punctuation.section.group.end.regexp.shell
-      pop: 1
-    - include: line-continuations
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
@@ -462,23 +424,12 @@ contexts:
         - expansion-parameter-pattern
         - maybe-tilde-interpolation
 
-  expansion-parameter-pattern:
-    - meta_prepend: true
-    - include: zsh-glob-flags
-    - include: zsh-glob-operators
-    - include: zsh-glob-ranges
-
   expansion-parameter-pattern-groups:
+    - include: zsh-glob-flags
     # prefer EXTENDED_GLOB over optional KSH_GLOB
     - match: \(
-      scope: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
+      scope: punctuation.section.group.begin.regexp.shell
       push: expansion-parameter-pattern-group-body
-
-  expansion-parameter-pattern-group-body:
-    - meta_prepend: true
-    - include: zsh-glob-flags
-    - include: zsh-glob-operators
-    - include: zsh-glob-ranges
 
   zsh-parameter-subscription:
     - meta_include_prototype: false
@@ -606,11 +557,11 @@ contexts:
     - match: '{{word_break}}'
       pop: 1
     - match: ''
-      fail: pattern-group
+      fail: zsh-glob-qualifier
 
   zsh-glob-qualifier-fail:
     - match: (?=\S)
-      fail: pattern-group
+      fail: zsh-glob-qualifier
 
   zsh-glob-qualifier-content:
     - include: comma-separators

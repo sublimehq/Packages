@@ -2052,7 +2052,9 @@ contexts:
     - include: brace-interpolations
     - include: string-interpolations
     - include: expansions-job
-    - include: expansions-patterns
+    - include: pattern-groups
+    - include: pattern-charsets
+    - include: pattern-common
     - include: string-pathlist-separators
 
   string-path-pattern-ansi-c-body:
@@ -2118,7 +2120,9 @@ contexts:
     - include: brace-interpolations
     - include: string-interpolations
     - include: expansions-job
-    - include: expansions-patterns
+    - include: pattern-groups
+    - include: pattern-charsets
+    - include: pattern-common
     - include: path-pattern-separators
 
   path-pattern-ansi-c-body:
@@ -2145,7 +2149,9 @@ contexts:
   pattern-main-content:
     # [3.5.8.1] Pattern Matching in arbitrary expressions
     - include: string-unquoted-content
-    - include: expansions-patterns
+    - include: pattern-groups
+    - include: pattern-charsets
+    - include: pattern-common
 
   pattern-charsets:
     - match: (?=\[)
@@ -2259,31 +2265,35 @@ contexts:
     - include: eol-pop
 
   pattern-groups:
-    - match: ([?*+@!])(\()
-      captures:
-        1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
-      push: pattern-group-body
+    - match: '[?*+@!](?=\()'
+      scope: keyword.operator.quantifier.regexp.shell
+      push: pattern-group
+
+  pattern-group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.regexp.shell
+      set: pattern-group-body
 
   pattern-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
     - meta_include_prototype: false
-    - meta_content_scope: meta.group.regexp.shell string.unquoted.shell
+    - meta_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
     - include: pattern-group-content
+
+  pattern-group-end:
+    - match: \)
+      scope: punctuation.section.group.end.regexp.shell
+      pop: 1
+    - include: line-continuations
 
   pattern-group-content:
     - include: string-unquoted-content
     - include: pattern-groups
     - include: pattern-group-charsets
-    - include: pattern-operators
-    - include: pattern-wildcards
-
-  pattern-group-end:
-    - match: \)
-      scope: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.end.regexp.shell
-      pop: 1
-    - include: line-continuations
+    - include: pattern-group-operators
+    - include: pattern-common
 
   pattern-group-charsets:
     - match: (?=\[)
@@ -2308,11 +2318,11 @@ contexts:
     - include: pattern-charset-end
     - include: pattern-charset-content
 
-  pattern-operators:
+  pattern-group-operators:
     - match: \|
       scope: keyword.operator.logical.regexp.shell
 
-  pattern-wildcards:
+  pattern-common:
     - match: \*
       scope: constant.other.wildcard.asterisk.shell
     - match: \?
@@ -2435,11 +2445,6 @@ contexts:
       scope: invalid.illegal.stray.regexp.shell
 
 ###[ EXPANSIONS ]##############################################################
-
-  expansions-patterns:
-    - include: pattern-groups
-    - include: pattern-charsets
-    - include: pattern-wildcards
 
   expansions-variables:
     - include: expansions-arithmetic
@@ -2764,7 +2769,7 @@ contexts:
     - include: string-unquoted-content
     - include: expansion-parameter-pattern-charsets
     - include: expansion-parameter-pattern-groups
-    - include: pattern-wildcards
+    - include: pattern-common
 
   expansion-parameter-pattern-charsets:
     - match: (?=\[)
@@ -2790,22 +2795,26 @@ contexts:
     - include: pattern-charset-content
 
   expansion-parameter-pattern-groups:
-    - match: ([?*+@!])(\()
-      captures:
-        1: string.unquoted.shell keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
-      push: expansion-parameter-pattern-group-body
+    - match: '[?*+@!]?(?=\()'
+      scope: keyword.operator.quantifier.regexp.shell
+      push: expansion-parameter-pattern-group
+
+  expansion-parameter-pattern-group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.regexp.shell
+      set: expansion-parameter-pattern-group-body
 
   expansion-parameter-pattern-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
     - meta_include_prototype: false
-    - meta_content_scope: meta.group.regexp.shell string.unquoted.shell
+    - meta_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
     - include: string-unquoted-content
     - include: expansion-parameter-pattern-groups
     - include: expansion-parameter-pattern-group-charsets
-    - include: pattern-operators
-    - include: pattern-wildcards
+    - include: pattern-group-operators
+    - include: pattern-common
     - include: brace-pop
 
   expansion-parameter-pattern-group-charsets:
