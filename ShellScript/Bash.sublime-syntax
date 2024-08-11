@@ -2033,12 +2033,23 @@ contexts:
 ###[ STRING PATH PATTERN MATCHING ]############################################
 
   string-path-patterns:
+    - match: (/)dev(/)null{{word_break}}
+      scope: meta.path.shell constant.language.null.shell
+      captures:
+        1: punctuation.separator.path.shell
+        2: punctuation.separator.path.shell
     - match: '{{word_begin}}'
       push:
         - string-path-pattern-body
         - maybe-tilde-interpolation
 
   string-path-pattern:
+    - match: (/)dev(/)null{{word_break}}
+      scope: meta.path.shell constant.language.null.shell
+      captures:
+        1: punctuation.separator.path.shell
+        2: punctuation.separator.path.shell
+      pop: 1
     - match: '{{word_begin}}'
       set:
         - string-path-pattern-body

@@ -8957,6 +8957,13 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #  ^ constant.numeric.value.shell
 #   ^ - meta.redirection
 
+  > /dev/null
+# ^^^^^^^^^^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#   ^^^^^^^^^ meta.path.shell constant.language.null.shell
+#   ^ punctuation.separator.path.shell
+#       ^ punctuation.separator.path.shell
+
   > out~put-
 # ^^ meta.redirection.shell - meta.command
 #   ^^^^^^^^ meta.redirection.shell
