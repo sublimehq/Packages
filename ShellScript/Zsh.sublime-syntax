@@ -768,7 +768,6 @@ contexts:
       scope: keyword.operator.substitution.shell.zsh
       pop: 1
     - include: zsh-modifier-end-ahead
-    - include: line-continuations
     - include: string-path-pattern-content
 
   zsh-modifier-subst-replacement:
