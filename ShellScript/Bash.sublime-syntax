@@ -933,10 +933,8 @@ contexts:
 
   function-declaration-name-chars:
     - meta_scope: meta.command.shell entity.name.function.shell
-    - include: line-continuations
     - include: literal-unquoted-content
-    - match: '{{word_break}}'
-      pop: 1
+    - include: word-end
 
   cmd-args-end-of-options-then-function-references:
     - match: --{{word_break}}
@@ -952,10 +950,8 @@ contexts:
 
   function-reference-name-chars:
     - meta_scope: meta.command.shell variable.function.shell
-    - include: line-continuations
     - include: literal-unquoted-content
-    - match: '{{word_break}}'
-      pop: 1
+    - include: word-end
 
   cmd-args-end-of-options-then-variables-arithmetic-mappings:
     - match: --{{word_break}}
@@ -1504,8 +1500,7 @@ contexts:
       scope: punctuation.section.group.begin.shell
       push: expression-group-body
     - include: expression-common
-    - match: '{{word_break}}'
-      pop: 1
+    - include: word-end
 
   expression-content:
     # arithmetic expression content without word boundary checks
@@ -1735,10 +1730,8 @@ contexts:
   here-string-body:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.herestring.shell string.unquoted.shell
-    - include: line-continuations
     - include: string-unquoted-content
-    - match: '{{word_break}}'
-      pop: 1
+    - include: word-end
 
   redirections-here-document:
     - match: (\d*)(<<-)\s*(?=["'\\]?({{heredoc}}))
@@ -2056,10 +2049,8 @@ contexts:
   string-path-pattern-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.shell
-    - include: line-continuations
     - include: string-path-pattern-content
-    - match: '{{word_break}}'
-      pop: 1
+    - include: word-end
 
   string-path-pattern-content:
     - match: \$?\"
@@ -2922,10 +2913,8 @@ contexts:
   illegal-word-chars:
     - meta_include_prototype: false
     - meta_scope: invalid.illegal.unexpected-token.shell
-    - include: line-continuations
     - include: literal-unquoted-content
-    - match: '{{word_break}}'
-      pop: 1
+    - include: word-end
 
 ###[ PROTOTYPES ]##############################################################
 
@@ -2950,6 +2939,11 @@ contexts:
   immediately-pop:
     - match: ''
       pop: 1
+
+  word-end:
+    - match: '{{word_break}}'
+      pop: 1
+    - include: line-continuations
 
 ###[ VARIABLES ]###############################################################
 
