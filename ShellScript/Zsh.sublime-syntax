@@ -268,16 +268,65 @@ contexts:
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
   redirections-input:
-    # not looking like a number range
-    - match: (\d*)(<(?:&|(?!(?:\{.*?\}|\S)*>)))
+    # maybe a zsh glob range, starting a pattern or a input redirection
+    - match: (?=\d*<)
+      branch_point: zsh-glob-range
+      branch:
+        - zsh-glob-range-begin
+        - zsh-redirection-input
+
+  zsh-redirection-input:
+    - meta_include_prototype: false
+    - match: (\d*)(<&?)
       captures:
         1: meta.file-descriptor.shell
            meta.number.integer.decimal.shell
            constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
-      push:
+      set:
         - redirection-meta
         - redirection-descriptor
+
+  zsh-glob-range-begin:
+    - meta_include_prototype: false
+    - match: \<(?!&)
+      scope: punctuation.definition.range.begin.shell.zsh
+      set:
+        - string-path-pattern-body
+        - zsh-glob-range-end
+        - zsh-glob-range-number
+        - zsh-glob-range-operator
+        - zsh-glob-range-number
+    - match: \d+
+      scope: meta.string.shell string.unquoted.shell
+    - include: zsh-glob-range-fail
+
+  zsh-glob-range-end:
+    - clear_scopes: 1 # clear string scope
+    - meta_scope: meta.range.shell.zsh
+    - match: \>
+      scope: punctuation.definition.range.end.shell.zsh
+      pop: 1
+    - include: zsh-glob-range-fail
+
+  zsh-glob-range-number:
+    - match: (?=[\d$])
+      scope: keyword.operator.arithmetic.shell
+      set: dec-number-body
+    - include: line-continuations
+    - include: immediately-pop
+
+  zsh-glob-range-operator:
+    # range operator is crucial
+    - match: \-
+      scope: keyword.operator.range.shell.zsh
+      pop: 1
+    - include: zsh-glob-range-fail
+
+  zsh-glob-range-fail:
+    - include: line-continuations
+    - match: ''
+      fail: zsh-glob-range
 
 ###[ LITERALS ]################################################################
 
@@ -332,7 +381,6 @@ contexts:
   pattern-common:
     - meta_prepend: true
     - include: zsh-glob-operators
-    - include: zsh-glob-ranges
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
@@ -430,11 +478,12 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.regexp.shell
       push: expansion-parameter-pattern-group-body
-
-  zsh-parameter-subscription:
-    - meta_include_prototype: false
-    - meta_scope: meta.interpolation.parameter.shell
-    - include: variable-subscription
+    # a pattern range `<1-20>` or literal `<`, but no redirection
+    - match: (?=<)
+      branch_point: zsh-parameter-pattern-range
+      branch:
+        - zsh-parameter-pattern-range-begin
+        - immediately-pop
 
   zsh-parameter-flags:
     # 14.3.1 Parameter Expansion Flags
@@ -467,6 +516,41 @@ contexts:
     # simple single char flags
     - match: '[-~#%*@0ABCDEFLMNOPQRSTUVWXabcefikmnopqtuvwz]'
       scope: storage.modifier.expansion.flag.shell.zsh
+
+  zsh-parameter-pattern-range-begin:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - match: \<
+      scope: punctuation.definition.range.begin.shell.zsh
+      push:
+        - zsh-parameter-pattern-range-end
+        - zsh-glob-range-number
+        - zsh-parameter-pattern-range-operator
+        - zsh-glob-range-number
+
+  zsh-parameter-pattern-range-end:
+    - meta_scope: meta.range.shell.zsh
+    - match: \>
+      scope: punctuation.definition.range.end.shell.zsh
+      pop: 2
+    - include: zsh-parameter-pattern-range-fail
+
+  zsh-parameter-pattern-range-fail:
+    - include: line-continuations
+    - match: ''
+      fail: zsh-parameter-pattern-range
+
+  zsh-parameter-pattern-range-operator:
+    # range operator is crucial
+    - match: \-
+      scope: keyword.operator.range.shell.zsh
+      pop: 1
+    - include: zsh-parameter-pattern-range-fail
+
+  zsh-parameter-subscription:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.parameter.shell
+    - include: variable-subscription
 
 ###[ TILDE EXPANSIONS ]########################################################
 
@@ -635,39 +719,10 @@ contexts:
       scope: constant.other.wildcard.questionmark.shell
     - include: oct-number-body
 
-###[ ZSH GLOB RANGES ]#########################################################
-
-  zsh-glob-ranges:
-    - match: (?=<[^<&])
-      branch_point: zsh-glob-range
-      branch:
-        - zsh-glob-range-begin
-        - zsh-glob-range-fallback
-
-  zsh-glob-range-begin:
-    - meta_include_prototype: false
-    - match: \<
-      scope: punctuation.definition.range.begin.shell.zsh
-      set: zsh-glob-range-body
-
-  zsh-glob-range-body:
-    - meta_scope: meta.range.shell.zsh
-    - match: \>
-      scope: punctuation.definition.range.end.shell.zsh
-      pop: 1
-    - match: \-
-      scope: keyword.operator.range.shell.zsh
-    - include: zsh-glob-only-numbers
-    - include: line-continuations
-    - match: ''
-      fail: zsh-glob-range
-
-  zsh-glob-range-fallback:
-    - meta_include_prototype: false
-    # input redirection
-    - match: <
-      scope: keyword.operator.assignment.redirection.shell
-      set: redirection-descriptor
+  zsh-glob-only-numbers:
+    - match: '[-+]?(?=[\d$])'
+      scope: keyword.operator.arithmetic.shell
+      push: dec-number-body
 
   zsh-glob-numbers:
     - match: ([-+]?)(\d+)
@@ -675,12 +730,6 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.value.shell
-
-  zsh-glob-only-numbers:
-    # use in contexts, which support (decimal) integers, only
-    - match: '[-+]?(?=[\d$])'
-      scope: keyword.operator.arithmetic.shell
-      push: dec-number-body
 
 ###[ ZSH MODIFIERS ]###########################################################
 
