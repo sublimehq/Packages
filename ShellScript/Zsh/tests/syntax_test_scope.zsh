@@ -5235,18 +5235,28 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #                                                          ^ punctuation.definition.quoted.end.shell.zsh
 #                                                           ^ punctuation.definition.modifier.end.shell.zsh
 
-: (/*(/:t)) # qualifiers are valid in groups
-# ^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-#    ^^^^^ meta.string.shell meta.group.regexp.shell meta.modifier.glob.shell.zsh
-#         ^ meta.string.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-# ^ meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
+a=(/*(/:t)) # qualifiers are valid in arrays
+# ^ meta.sequence.list.shell - meta.string
+#  ^^ meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#    ^^^^^ meta.sequence.list.shell meta.string.shell meta.modifier.glob.shell.zsh
+#         ^ meta.sequence.list.shell - meta.string
+# ^ punctuation.section.sequence.begin.shell
 #   ^ constant.other.wildcard.asterisk.shell
 #    ^ punctuation.definition.modifier.begin.shell.zsh
 #     ^ storage.modifier.glob.shell.zsh
 #      ^ punctuation.separator.sequence.shell.zsh
 #       ^ storage.modifier.glob.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^ punctuation.section.group.end.regexp.shell
+#         ^ punctuation.section.sequence.end.shell
+
+: (/*(/:t)) # qualifiers are not valid in groups
+# ^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
+#    ^^^^^ meta.string.shell meta.group.regexp.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
+#         ^ meta.string.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
+# ^ meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
+#   ^ constant.other.wildcard.asterisk.shell
+#    ^ punctuation.section.group.begin.regexp.shell
+#        ^^ punctuation.section.group.end.regexp.shell
 
 ls /(D)/  # qualifiers are always located at the end
 #  ^^^^^ meta.string.shell string.unquoted.shell

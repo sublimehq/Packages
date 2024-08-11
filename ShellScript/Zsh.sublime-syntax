@@ -378,6 +378,20 @@ contexts:
         - zsh-glob-qualifier
         - pattern-group
 
+  pattern-group-content:
+    - include: string-unquoted-content
+    - include: pattern-group-groups
+    - include: pattern-group-charsets
+    - include: pattern-group-operators
+    - include: pattern-common
+
+  pattern-group-groups:
+    - include: zsh-glob-flags
+    # only groups are valid in groups, no glob qualifiers
+    - match: \(
+      scope: punctuation.section.group.begin.regexp.shell
+      push: pattern-group-body
+
   pattern-common:
     - meta_prepend: true
     - include: zsh-glob-operators
