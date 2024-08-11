@@ -2340,7 +2340,7 @@ contexts:
 
   pattern-group-operators:
     - match: \|
-      scope: keyword.operator.logical.regexp.shell
+      scope: keyword.operator.alternation.regexp.shell
 
   pattern-common:
     - match: \*

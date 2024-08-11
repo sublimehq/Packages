@@ -512,7 +512,7 @@ case $word {
 # ^^ meta.statement.conditional.case.body.shell
 #   ^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell
 #                     ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell - meta.string
-#           ^ keyword.operator.logical.regexp.shell
+#           ^ keyword.operator.alternation.regexp.shell
 #               ^ constant.other.wildcard.asterisk.shell
 #                ^ constant.other.wildcard.questionmark.shell
 #                     ^ punctuation.definition.pattern.end.shell
@@ -543,7 +543,7 @@ case $word {
 #                  ^^^^^^^^ meta.clause.body.shell
 #   ^ punctuation.definition.pattern.begin.shell
 #    ^ punctuation.section.group.begin.regexp.shell
-#        ^ keyword.operator.logical.regexp.shell
+#        ^ keyword.operator.alternation.regexp.shell
 #            ^ punctuation.section.group.end.regexp.shell
 #                ^ punctuation.definition.pattern.end.shell
 #                  ^^^ variable.function.shell
@@ -557,7 +557,7 @@ case $word {
 #                ^ meta.clause.shell
 #                 ^^^^^^^^ meta.clause.body.shell
 #   ^ punctuation.section.group.begin.regexp.shell
-#       ^ keyword.operator.logical.regexp.shell
+#       ^ keyword.operator.alternation.regexp.shell
 #           ^ punctuation.section.group.end.regexp.shell
 #               ^ punctuation.definition.pattern.end.shell
 #                 ^^^ variable.function.shell
@@ -572,7 +572,7 @@ case $word {
 #                 ^ meta.clause.shell
 #   ^ punctuation.definition.pattern.begin.shell
 #    ^ punctuation.section.group.begin.regexp.shell
-#        ^ keyword.operator.logical.regexp.shell
+#        ^ keyword.operator.alternation.regexp.shell
 #            ^ punctuation.section.group.end.regexp.shell
 #                ^ punctuation.definition.pattern.end.shell
         cmd arg ;;
@@ -587,7 +587,7 @@ case $word {
 #               ^ meta.clause.pattern.shell - meta.string - string
 #                ^ meta.clause.shell
 #   ^ punctuation.section.group.begin.regexp.shell
-#       ^ keyword.operator.logical.regexp.shell
+#       ^ keyword.operator.alternation.regexp.shell
 #           ^ punctuation.section.group.end.regexp.shell
 #               ^ punctuation.definition.pattern.end.shell
         cmd arg ;;
@@ -2796,7 +2796,7 @@ a\/b/c/d}
 #        ^ - keyword.operator
 #         ^ punctuation.section.group.begin.regexp.shell
 #          ^^^^ - constant - punctuation
-#            ^ keyword.operator.logical.regexp.shell
+#            ^ keyword.operator.alternation.regexp.shell
 #              ^ punctuation.section.group.end.regexp.shell
 #               ^ keyword.operator.substitution.shell
 #                ^^ constant.character.escape.shell
@@ -4041,7 +4041,7 @@ dyn_dir_name() {
 : (foo|bar)|baz
 # ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
 # ^ punctuation.section.group.begin.regexp.shell
-#     ^ keyword.operator.logical.regexp.shell
+#     ^ keyword.operator.alternation.regexp.shell
 #         ^ punctuation.section.group.end.regexp.shell
 #          ^ keyword.operator.assignment.pipe.shell
 #           ^^^ variable.function.shell
@@ -4172,7 +4172,7 @@ dyn_dir_name() {
 #      ^ punctuation.section.group.end.regexp.shell
 #           ^^^^^^ meta.group.regexp.shell
 #           ^ punctuation.section.group.begin.regexp.shell
-#            ^ keyword.operator.logical.regexp.shell
+#            ^ keyword.operator.alternation.regexp.shell
 #                ^ punctuation.section.group.end.regexp.shell
 
 : !(___) is (^(___)) # Match anything but the expression in parentheses. (Like ‘(^(___))’.)

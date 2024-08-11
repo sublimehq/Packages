@@ -2397,7 +2397,7 @@ case "${foo}" in- in_ in=10 in
 #                    ^^ meta.statement.conditional.case.body.shell meta.clause.shell
 #                      ^ meta.statement.conditional.case.body.shell - meta.clause
 #   ^ punctuation.definition.pattern.begin.shell
-#          ^ keyword.operator.logical.regexp.shell
+#          ^ keyword.operator.alternation.regexp.shell
 #              ^ punctuation.definition.pattern.end.shell
 #                    ^^ punctuation.terminator.clause.shell
     do1 ) foo1 ;&
@@ -2447,12 +2447,12 @@ case $TERM in
         #                 ^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
         #                     ^ meta.clause.pattern.shell - meta.string - meta.group - string
         # ^ constant.other.wildcard.asterisk.shell
-        #  ^ keyword.operator.logical.regexp.shell
-        #       ^ keyword.operator.logical.regexp.shell
+        #  ^ keyword.operator.alternation.regexp.shell
+        #       ^ keyword.operator.alternation.regexp.shell
         #        ^ keyword.operator.quantifier.regexp.shell
         #         ^ punctuation.section.group.begin.regexp.shell
-        #            ^ keyword.operator.logical.regexp.shell
-        #              ^ keyword.operator.logical.regexp.shell
+        #            ^ keyword.operator.alternation.regexp.shell
+        #              ^ keyword.operator.alternation.regexp.shell
         #                ^ punctuation.section.group.end.regexp.shell
         #                     ^ punctuation.definition.pattern.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
@@ -6233,7 +6233,7 @@ a\/b/c/d}
 #        ^ keyword.operator.quantifier.regexp.shell
 #         ^ punctuation.section.group.begin.regexp.shell
 #          ^^^^ - constant - punctuation
-#            ^ keyword.operator.logical.regexp.shell
+#            ^ keyword.operator.alternation.regexp.shell
 #              ^ punctuation.section.group.end.regexp.shell
 #               ^ keyword.operator.substitution.shell
 #                ^^ constant.character.escape.shell
@@ -7982,13 +7982,13 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #      ^^^^^ constant.other.posix-class.regexp.shell - punctuation
 #           ^ constant.other.posix-class.regexp.shell punctuation.definition.class.end.regexp.shell
 #            ^^ punctuation.definition.set.end.regexp.shell
-#              ^ keyword.operator.logical.regexp.shell
+#              ^ keyword.operator.alternation.regexp.shell
 #               ^^ punctuation.definition.set.begin.regexp.shell
 #                 ^ constant.other.posix-class.regexp.shell punctuation.definition.class.begin.regexp.shell
 #                  ^^^^^ constant.other.posix-class.regexp.shell - punctuation
 #                       ^ constant.other.posix-class.regexp.shell punctuation.definition.class.end.regexp.shell
 #                        ^^ punctuation.definition.set.end.regexp.shell
-#                          ^ keyword.operator.logical.regexp.shell
+#                          ^ keyword.operator.alternation.regexp.shell
 #                           ^ punctuation.definition.set.begin.regexp.shell
 #                            ^^^^^^^^^ - constant.other.posix-class
 #                                     ^ punctuation.definition.set.end.regexp.shell
@@ -8013,7 +8013,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #           ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
 #  ^ punctuation.section.group.begin.regexp.shell
-#      ^ keyword.operator.logical.regexp.shell
+#      ^ keyword.operator.alternation.regexp.shell
 #          ^ punctuation.section.group.end.regexp.shell
 #            ^ keyword.operator.assignment.pipe.shell
 
@@ -8104,15 +8104,15 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
 #          ^ keyword.operator.quantifier.regexp.shell
 #           ^ punctuation.section.group.begin.regexp.shell
-#               ^ keyword.operator.logical.regexp.shell
-#                   ^ keyword.operator.logical.regexp.shell
+#               ^ keyword.operator.alternation.regexp.shell
+#                   ^ keyword.operator.alternation.regexp.shell
 #                    ^^^ constant.other.wildcard.questionmark.shell
-#                       ^ keyword.operator.logical.regexp.shell
+#                       ^ keyword.operator.alternation.regexp.shell
 #                        ^ constant.other.wildcard.asterisk.shell
-#                         ^ keyword.operator.logical.regexp.shell
+#                         ^ keyword.operator.alternation.regexp.shell
 #                          ^ punctuation.definition.string.begin.shell
 #                            ^ punctuation.definition.string.end.shell
-#                             ^ keyword.operator.logical.regexp.shell
+#                             ^ keyword.operator.alternation.regexp.shell
 #                              ^ punctuation.definition.string.begin.shell
 #                                ^ punctuation.definition.string.end.shell
 #                                 ^ punctuation.section.group.end.regexp.shell
