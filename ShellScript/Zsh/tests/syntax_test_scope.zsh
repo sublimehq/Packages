@@ -2321,6 +2321,71 @@ function {
 #            ^ meta.string.regexp.shell string.unquoted.shell
 #             ^ punctuation.section.interpolation.end.shell
 
+################################
+# ${parameter/pattern/word}
+
+# tilde expansion in pattern
+
+: ${foo/~/}
+# ^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^ meta.string.regexp.shell variable.language.tilde.shell
+#        ^ keyword.operator.substitution.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${foo/~\/}   # note: bash replaces `~\/` literal, zsh expanded
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#        ^^ constant.character.escape.shell - meta.interpolation.tilde
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${foo/~\/**\//repl}   # note: bash replaces `~\/` literal, zsh expanded
+# ^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^^^^^^^ meta.string.regexp.shell
+#       ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#        ^^ constant.character.escape.shell - meta.interpolation.tilde
+#          ^^ constant.other.wildcard.asterisk.shell
+#            ^^ constant.character.escape.shell
+#              ^ keyword.operator.substitution.shell - string
+#               ^^^^ meta.string.shell string.unquoted.shell
+#                   ^ punctuation.section.interpolation.end.shell
+
+: ${foo/~+/}
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^^ meta.string.regexp.shell variable.language.tilde.shell
+#         ^ keyword.operator.substitution.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${foo/~name/~other}
+# ^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.substitution.shell
+#       ^^^^^ meta.string.regexp.shell meta.interpolation.tilde.shell
+#       ^ variable.language.tilde.shell
+#        ^^^^ meta.string.shell constant.other.username.shell
+#            ^ keyword.operator.substitution.shell
+#             ^^^^^^ meta.string.shell string.unquoted.shell - variable
+#                   ^ punctuation.section.interpolation.end.shell
+
+# ZSH operator in front of parameter name
+
 : ${^foo//:/[}]
 # ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #             ^ - meta.interpolation
@@ -2340,6 +2405,7 @@ function {
 #           ^^^^ meta.string.shell string.unquoted.shell
 #            ^^ constant.character.escape.shell
 #               ^ punctuation.section.interpolation.end.shell
+
 
 ###############################################################################
 # 14.5 Arithmetic Expansion

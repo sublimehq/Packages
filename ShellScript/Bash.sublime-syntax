@@ -2890,7 +2890,7 @@ contexts:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.tilde.shell
-    - match: (?:[-+]?\d+|[-+](?![^/{{metachar}}]))
+    - match: (?:[-+]?\d+|[-+](?=\\?/|{{metachar}}))
       scope: variable.language.tilde.shell
       pop: 1
     - match: ''
@@ -2902,7 +2902,7 @@ contexts:
     - meta_content_scope: meta.interpolation.tilde.shell constant.other.username.shell
     - include: line-continuations
     - include: string-interpolations
-    - match: (?=[/{{metachar}}])
+    - match: (?=\\?/|{{metachar}})
       pop: 1
 
 ###[ ILLEGALS ]################################################################
