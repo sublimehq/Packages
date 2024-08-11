@@ -696,13 +696,12 @@ contexts:
 
   zsh-glob-qualifier-range-body:
     - meta_scope: meta.range.glob.shell.zsh
+    - meta_content_scope: meta.arithmetic.shell
     - match: \]
       scope: punctuation.definition.range.end.shell.zsh
       pop: 1
     - include: line-continuations
-    - include: comma-separators
-    - include: zsh-glob-only-numbers
-    - include: zsh-glob-qualifier-fail
+    - include: expression-content
 
   zsh-qualifier-fspec:
     # credentials given as octal number without base
@@ -718,11 +717,6 @@ contexts:
     - match: \?
       scope: constant.other.wildcard.questionmark.shell
     - include: oct-number-body
-
-  zsh-glob-only-numbers:
-    - match: '[-+]?(?=[\d$])'
-      scope: keyword.operator.arithmetic.shell
-      push: dec-number-body
 
   zsh-glob-numbers:
     - match: ([-+]?)(\d+)

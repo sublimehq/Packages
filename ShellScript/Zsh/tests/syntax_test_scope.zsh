@@ -5141,13 +5141,37 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #                     ^^^^^^^^^^^^^^^^^ meta.string.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh
 #                                      ^ meta.string.shell meta.modifier.glob.shell.zsh - meta.range
 #                     ^ punctuation.definition.range.begin.shell.zsh
-#                      ^^^^^^ meta.number.integer.decimal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                      ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                            ^ punctuation.separator.sequence.shell
 #                             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                              ^^^^^^ meta.number.integer.decimal.shell meta.interpolation.parameter.shell - constant
 #                                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                     ^ punctuation.definition.range.end.shell.zsh
 #                                      ^ meta.modifier.glob.shell.zsh punctuation.definition.modifier.end.shell.zsh
+
+: /*(["1+var", foo ? 2 : 5])
+# ^^ meta.string.shell string.unquoted.shell
+#   ^ meta.string.shell meta.modifier.glob.shell.zsh - string
+#    ^ meta.string.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh - string
+#     ^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh meta.arithmetic.shell - string
+#                         ^ meta.string.shell meta.modifier.glob.shell.zsh meta.range.glob.shell.zsh - string
+#                          ^ meta.string.shell meta.modifier.glob.shell.zsh - string
+#  ^ constant.other.wildcard.asterisk.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ punctuation.definition.range.begin.shell.zsh
+#     ^ punctuation.definition.quoted.begin.shell
+#      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^ keyword.operator.arithmetic.shell
+#        ^^^ meta.variable.shell variable.other.readwrite.shell
+#           ^ punctuation.definition.quoted.end.shell
+#            ^ punctuation.separator.sequence.shell
+#              ^^^ meta.variable.shell variable.other.readwrite.shell
+#                  ^ keyword.operator.ternary.shell
+#                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                      ^ keyword.operator.ternary.shell
+#                        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                         ^ punctuation.definition.range.end.shell.zsh
+#                          ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(P"pre") /(P<pre>) /(P{pre}) /(P[pre]) /(P(pre)) /(P:pre:)
 #  ^^ meta.string.shell meta.modifier.glob.shell.zsh - meta.quoted
