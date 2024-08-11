@@ -650,8 +650,19 @@ case $word {
 : <& - >& -
 # ^^^^ meta.redirection.shell
 # ^^ keyword.operator.assignment.redirection.shell
+#    ^ meta.file-descriptor.shell variable.language.stdio.shell
 #      ^^^^ meta.redirection.shell
 #      ^^ keyword.operator.assignment.redirection.shell
+#         ^ meta.file-descriptor.shell variable.language.stdio.shell
+
+# The input/output from/to the coprocess is moved to the standard input/output.
+: <& p >& p
+# ^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#    ^ meta.file-descriptor.shell variable.language.stdio.shell
+#      ^^^^ meta.redirection.shell
+#      ^^ keyword.operator.assignment.redirection.shell
+#         ^ meta.file-descriptor.shell variable.language.stdio.shell
 
 # Redirects both standard output and standard error (file descriptor 2) in the
 # manner of ‘>| word’.

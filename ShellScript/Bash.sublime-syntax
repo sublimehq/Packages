@@ -1707,13 +1707,11 @@ contexts:
 
   redirection-descriptor:
     - meta_include_prototype: false
-    - match: (?:(\d+)(-?)|(-)){{word_break}}
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: punctuation.terminator.file-descriptor.shell
-        3: punctuation.terminator.file-descriptor.shell
+    - match: \d+{{word_break}}
+      scope: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+      pop: 1
+    - match: '[-p]{{word_break}}'
+      scope: meta.file-descriptor.shell variable.language.stdio.shell
       pop: 1
     - include: eoc-pop
     - include: string-path-pattern

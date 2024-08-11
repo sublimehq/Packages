@@ -8939,10 +8939,16 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 # ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
 #  ^ - meta.redirection
 
-  >-
+  >- # standard output/input
 # ^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
-#  ^ punctuation.terminator.file-descriptor.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+  >p # coproc output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
 #   ^ - meta.redirection
 
   >2
@@ -9042,7 +9048,7 @@ foo 2>&1
 
 foo 2>&-
 #   ^^^^ meta.redirection.shell
-#      ^ punctuation.terminator.file-descriptor.shell
+#      ^ variable.language.stdio.shell
 
 foo | bar 2>&1
 #         ^^^^ meta.redirection.shell
@@ -10290,7 +10296,7 @@ exec 3<&-
 #^^^ support.function.shell
 #    ^ constant.numeric.value.shell
 #     ^^ keyword.operator.assignment.redirection.shell
-#       ^ punctuation.terminator.file-descriptor.shell
+#       ^ variable.language.stdio.shell
 
 exec -- foo bar
 # <- meta.function-call.identifier.shell support.function.shell
