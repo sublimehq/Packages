@@ -608,25 +608,99 @@ case $word {
 
 # Open file word for reading as standard input. It is an error to open a file
 # in this fashion if it does not exist.
+
+: <
+# ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#  ^ - meta.redirection
+
+: <- # standard output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+: <p # coproc output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+: <2
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ constant.numeric.value.shell
+#   ^ - meta.redirection
+
 : < word
 # ^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
+#   ^^^^ meta.string.shell string.unquoted.shell
 
 # Open file word for reading and writing as standard input. If the file does
 # not exist then it is created.
+
+: <>
+# ^^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#   ^ - meta.redirection
+
+: <>- # standard output/input
+# ^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^ variable.language.stdio.shell
+#    ^ - meta.redirection
+
+: <>p # coproc output/input
+# ^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^ variable.language.stdio.shell
+#    ^ - meta.redirection
+
+: <>2
+# ^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^ constant.numeric.value.shell
+#    ^ - meta.redirection
+
 : <> word
 # ^^^^^^^ meta.redirection.shell
 # ^^ keyword.operator.assignment.redirection.shell
+#    ^^^^ meta.string.shell string.unquoted.shell
 
 # Open file word for writing as standard output. If the file does not exist
 # then it is created.
+
+: >
+# ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#  ^ - meta.redirection
+
+: >- # standard output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+: >p # coproc output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+: >2
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ constant.numeric.value.shell
+#   ^ - meta.redirection
+
 : > word >| word >! word
 # ^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
+#   ^^^^ meta.string.shell string.unquoted.shell
 #        ^^^^^^^ meta.redirection.shell
 #        ^^ keyword.operator.assignment.redirection.shell
+#           ^^^^ meta.string.shell string.unquoted.shell
 #                ^^^^^^^ meta.redirection.shell
 #                ^^ keyword.operator.assignment.redirection.shell
+#                   ^^^^ meta.string.shell string.unquoted.shell
 
 # Open file word for writing in append mode as standard output. If the file
 # does not exist, and the CLOBBER and APPEND_CREATE options are both unset,

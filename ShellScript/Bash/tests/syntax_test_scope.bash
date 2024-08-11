@@ -8935,74 +8935,135 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 # https://www.gnu.org/software/bash/manual/bash.html#Redirections             #
 ###############################################################################
 
-  >
+# Open file word for reading as standard input. It is an error to open a file
+# in this fashion if it does not exist.
+
+: <
 # ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
 #  ^ - meta.redirection
 
-  >- # standard output/input
+: <- # standard output/input
 # ^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
 #  ^ variable.language.stdio.shell
 #   ^ - meta.redirection
 
-  >p # coproc output/input
+: <p # coproc output/input
 # ^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
 #  ^ variable.language.stdio.shell
 #   ^ - meta.redirection
 
-  >2
+: <2
 # ^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
 #  ^ constant.numeric.value.shell
 #   ^ - meta.redirection
 
-  > /dev/null
+: < word
+# ^^^^^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#   ^^^^ meta.string.shell string.unquoted.shell
+
+# Open file word for reading and writing as standard input. If the file does
+# not exist then it is created.
+
+: <>
+# ^^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#   ^ - meta.redirection
+
+: <>- # standard output/input
+# ^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^ variable.language.stdio.shell
+#    ^ - meta.redirection
+
+: <>p # coproc output/input
+# ^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^ variable.language.stdio.shell
+#    ^ - meta.redirection
+
+: <>2
+# ^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^ constant.numeric.value.shell
+#    ^ - meta.redirection
+
+: <> word
+# ^^^^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#    ^^^^ meta.string.shell string.unquoted.shell
+
+# Open file word for writing as standard output. If the file does not exist
+# then it is created.
+
+: >
+# ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#  ^ - meta.redirection
+
+: >- # standard output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+: >p # coproc output/input
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ variable.language.stdio.shell
+#   ^ - meta.redirection
+
+: >2
+# ^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#  ^ constant.numeric.value.shell
+#   ^ - meta.redirection
+
+: > word >| word >! word
+# ^^^^^^ meta.redirection.shell
+# ^ keyword.operator.assignment.redirection.shell
+#   ^^^^ meta.string.shell string.unquoted.shell
+#       ^ - meta.redirection
+#        ^^^^^^^ meta.redirection.shell
+#        ^^ keyword.operator.assignment.redirection.shell
+#           ^^^^ meta.string.shell string.unquoted.shell
+#               ^ - meta.redirection
+#                ^^^^^^^ meta.redirection.shell
+#                ^^ keyword.operator.assignment.redirection.shell
+#                   ^^^^ meta.string.shell string.unquoted.shell
+#                       ^ - meta.redirection
+
+: > /dev/null
 # ^^^^^^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
 #   ^^^^^^^^^ meta.path.shell constant.language.null.shell
 #   ^ punctuation.separator.path.shell
 #       ^ punctuation.separator.path.shell
+#            ^ - meta.redirection
 
-  > out~put-
-# ^^ meta.redirection.shell - meta.command
-#   ^^^^^^^^ meta.redirection.shell
+: > out~put-
+# ^^^^^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
+#   ^^^^^^^^ meta.string.shell string.unquoted.shell
 #    ^ - variable
 #          ^ - punctuation
+#           ^ - meta.redirection
 
-  > ~/.local/file
-# ^^ meta.redirection.shell - meta.command
+: > ~/.local/file
+# ^^ meta.redirection.shell - meta.string
 #   ^ meta.redirection.shell meta.string.shell meta.interpolation.tilde.shell
 #    ^^^^^^^^^^^^ meta.redirection.shell meta.string.shell string.unquoted.shell - meta.interpolation
 # ^ keyword.operator.assignment.redirection.shell
 #   ^ variable.language.tilde.shell
 
-  > "~/.local/file"
-# ^^ meta.redirection.shell - meta.command
+: > "~/.local/file"
+# ^^ meta.redirection.shell - meta.string
 #   ^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.shell string.quoted.double.shell
 # ^ keyword.operator.assignment.redirection.shell
 #   ^ punctuation.definition.string.begin.shell
 #    ^ - variable.language
 #                 ^ punctuation.definition.string.end.shell
-
-  > "~/.local/file"
-# ^^ meta.redirection.shell - meta.command
-#   ^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.shell string.quoted.double.shell
-# ^ keyword.operator.assignment.redirection.shell
-#   ^ punctuation.definition.string.begin.shell
-#    ^ - variable.language
-#                 ^ punctuation.definition.string.end.shell
-
-# Open file word for writing as standard output. If the file does not exist
-# then it is created.
-: > word >| word >! word
-# ^^^^^^ meta.redirection.shell
-# ^ keyword.operator.assignment.redirection.shell
-#        ^^^^^^^ meta.redirection.shell
-#        ^^ keyword.operator.assignment.redirection.shell
-#                ^^^^^^^ meta.redirection.shell
-#                ^^ keyword.operator.assignment.redirection.shell
 
 # Open file word for writing in append mode as standard output. If the file
 # does not exist, and the CLOBBER and APPEND_CREATE options are both unset,

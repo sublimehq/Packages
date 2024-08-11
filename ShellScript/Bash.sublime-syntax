@@ -1642,9 +1642,9 @@ contexts:
     - include: redirections-here-string
     - include: redirections-here-document
     - include: redirections-process
+    - include: redirections-inout
     - include: redirections-input
     - include: redirections-output
-    - include: redirections-inout
 
   redirections-process:
     - match: (\d*)([<>])(\()
