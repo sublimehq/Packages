@@ -264,21 +264,20 @@ contexts:
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
-  redirections-input:
+  redirection-input:
     # maybe a zsh glob range, starting a pattern or a input redirection
     - match: (?=\d*<)
       branch_point: zsh-glob-range
       branch:
         - zsh-glob-range-begin
         - zsh-redirection-input
+      pop: 1
 
   zsh-redirection-input:
     - meta_include_prototype: false
     - match: (\d*)(<&?)
       captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       set:
         - redirection-meta

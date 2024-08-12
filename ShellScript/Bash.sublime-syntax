@@ -1039,6 +1039,7 @@ contexts:
   cmd-args-option-assignment-value:
     - meta_include_prototype: false
     - include: line-continuations
+    - include: redirection
     - include: boolean
     - include: number
     - include: string-path-pattern
@@ -1051,6 +1052,7 @@ contexts:
 
   cmd-args-option-maybe-value:
     - meta_include_prototype: false
+    - include: redirection
     - include: eoc-pop
     - include: boolean
     - include: number
@@ -1199,7 +1201,8 @@ contexts:
       pop: 1
 
   flow-args:
-    - include: cmd-args-end
+    - include: redirection
+    - include: eoc-pop
     - include: number
     - include: string-path-pattern
 
@@ -1333,6 +1336,7 @@ contexts:
       scope: punctuation.section.sequence.begin.shell
       set: literal-explicit-mapping-body
     - include: line-continuations
+    - include: redirection
     - include: boolean
     - include: string-path-pattern
     - include: immediately-pop
@@ -1352,6 +1356,7 @@ contexts:
       scope: punctuation.section.sequence.begin.shell
       set: literal-mapping-begin
     - include: line-continuations
+    - include: redirection
     - include: boolean
     - include: string-path-pattern
     - include: immediately-pop
@@ -1630,123 +1635,41 @@ contexts:
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
   redirections:
-    - include: redirections-here-string
-    - include: redirections-here-document
-    - include: redirections-process
-    - include: redirections-inout
-    - include: redirections-input
-    - include: redirections-output
+    - match: (?=\d*&?[<>])
+      push: redirection
 
-  redirections-process:
-    - match: (\d*)([<>])(\()
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.compound.command.shell
-           punctuation.section.compound.begin.shell
-      push: redirections-process-body
+  redirection:
+    - include: redirection-here-string
+    - include: redirection-here-document
+    - include: redirection-process
+    - include: redirection-inout
+    - include: redirection-input
+    - include: redirection-output
 
-  redirections-process-body:
-    - meta_scope: meta.redirection.shell
-    - meta_content_scope: meta.compound.command.shell
-    - match: \)
-      scope:
-        meta.compound.command.shell
-        punctuation.section.compound.end.shell
-      pop: 1
-    - include: statements
-
-  redirections-output:
-    - match: (\d*)(&>>?[|!]?|>>?&?[|!]?)
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-      push:
-        - redirection-meta
-        - redirection-descriptor
-
-  redirections-input:
-    - match: (\d*)(<&?)
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-      push:
-        - redirection-meta
-        - redirection-descriptor
-
-  redirections-inout:
-    - match: (\d*)(<>)
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-      push:
-        - redirection-meta
-        - redirection-descriptor
-
-  redirection-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.redirection.shell
-    - include: immediately-pop
-
-  redirection-descriptor:
-    - meta_include_prototype: false
-    - match: \d+{{word_break}}
-      scope: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-      pop: 1
-    - match: '[-p]{{word_break}}'
-      scope: meta.file-descriptor.shell variable.language.stdio.shell
-      pop: 1
-    - include: eoc-pop
-    - include: string-path-pattern
-
-  redirections-here-string:
-    - match: (\d*)(<<<)\s*{{word_begin}}
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.herestring.shell
-      push: here-string-body
-
-  here-string-body:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.herestring.shell string.unquoted.shell
-    - include: string-unquoted-content
-    - include: word-end
-
-  redirections-here-document:
+  redirection-here-document:
     - match: (\d*)(<<-)\s*(?=["'\\]?({{heredoc}}))
       captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       embed: heredoc-begin
       escape: '{{tab_indent}}(\3)$\n?'
       escape_captures:
-        0: meta.tag.heredoc.end.shell
+        0: meta.redirection.shell meta.tag.heredoc.end.shell
         1: entity.name.tag.heredoc.shell
+      pop: 1
     - match: (\d*)(<<)\s*(?=["'\\]?({{heredoc}}))
       captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       embed: heredoc-begin
       escape: '{{no_indent}}(\3)$\n?'
       escape_captures:
-        0: meta.tag.heredoc.end.shell
+        0: meta.redirection.shell meta.tag.heredoc.end.shell
         1: entity.name.tag.heredoc.shell
+      pop: 1
 
   heredoc-begin:
+    - meta_scope: meta.redirection.shell
     # These are the variants that allow tabs before the end token
     - match: (')({{heredoc}})(')
       scope: meta.tag.heredoc.begin.shell
@@ -1802,6 +1725,72 @@ contexts:
 
   heredoc-body-no-expansion:
     - meta_scope: meta.string.heredoc.shell string.unquoted.heredoc.shell
+
+  redirection-here-string:
+    - match: (\d*)(<<<)\s*{{word_begin}}
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.herestring.shell
+      set: here-string-body
+
+  here-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.redirection.shell
+    - meta_content_scope: meta.string.herestring.shell string.unquoted.shell
+    - include: string-unquoted-content
+    - include: word-end
+
+  redirection-input:
+    - match: (\d*)(<&?)
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - redirection-descriptor
+
+  redirection-inout:
+    - match: (\d*)(<>)
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - redirection-descriptor
+
+  redirection-output:
+    - match: (\d*)((?:&>>?|>>?&?)[|!]?)
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - redirection-descriptor
+
+  redirection-process:
+    - match: (\d*)([<>])(?=\()
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - cmd-compound-paren
+
+  redirection-descriptor:
+    - meta_include_prototype: false
+    - match: \d+{{word_break}}
+      scope: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+      pop: 1
+    - match: '[-p]{{word_break}}'
+      scope: meta.file-descriptor.shell variable.language.stdio.shell
+      pop: 1
+    - include: eoc-pop
+    - include: string-path-pattern
+
+  redirection-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.redirection.shell
+    - include: immediately-pop
 
 ###[ LITERALS ]################################################################
 
