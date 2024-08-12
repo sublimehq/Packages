@@ -942,16 +942,16 @@ EOF
 #                  ^ - meta.redirection - meta.string
 
 herestring=<<<${here}string
-#          ^^^ meta.redirection.shell keyword.operator.assignment.herestring
-#             ^^^^^^^ meta.redirection.shell meta.string.herestring.shell meta.interpolation.parameter.shell
-#                    ^^^^^^ meta.redirection.shell meta.string.herestring.shell string.unquoted.shell
+#          ^^^ meta.assignment.r-value.shell meta.redirection.shell keyword.operator.assignment.herestring.shell
+#             ^^^^^^^ meta.assignment.r-value.shell meta.redirection.shell meta.string.herestring.shell meta.interpolation.parameter.shell
+#                    ^^^^^^ meta.assignment.r-value.shell meta.redirection.shell meta.string.herestring.shell string.unquoted.shell
 #                          ^ - meta.assignment - meta.redirection - meta.string
 
 herestring=<<<"This is a \\$here \"\$string.\""
-#          ^^^ meta.redirection.shell keyword.operator.assignment.herestring.shell
-#             ^^^^^^^^^^^^^ meta.redirection.shell meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
-#                          ^^^^^ meta.redirection.shell meta.string.herestring.shell meta.interpolation.parameter.shell - string
-#                               ^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
+#          ^^^ meta.assignment.r-value.shell meta.redirection.shell keyword.operator.assignment.herestring.shell
+#             ^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.redirection.shell meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
+#                          ^^^^^ meta.assignment.r-value.shell meta.redirection.shell meta.string.herestring.shell meta.interpolation.parameter.shell - string
+#                               ^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.redirection.shell meta.string.herestring.shell string.quoted.double.shell - meta.interpolation
 #                                              ^ - meta.assignment - meta.string
 #          ^^^ keyword.operator.assignment.herestring
 #             ^ punctuation.definition.string.begin.shell
@@ -1362,7 +1362,7 @@ function {
 # ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
 #    ^^^^^^^^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #               ^ keyword.operator.arithmetic.shell
-#                 ^^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                 ^^^^^^ variable.other.readwrite.shell
 
   (( 3_162.277_660_168_379_5 ))  # numbers can contain underscores
 #    ^^^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.shell.zsh constant.numeric.value.shell.zsh
@@ -2217,7 +2217,7 @@ function {
 : ${(I:expr:)var}  # Search the `expr`th match (where `expr`` evaluates to a number).
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh - meta.arithmetic
-#      ^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh meta.arithmetic.shell meta.variable.shell
+#      ^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh meta.arithmetic.shell
 #          ^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh - meta.arithmetic
 #            ^^^^ meta.interpolation.parameter.shell - meta.modifier
 # ^ punctuation.definition.variable.shell
@@ -3304,9 +3304,9 @@ z..2}
 #          ^^ keyword.operator.range.shell
 #            ^ meta.interpolation.arithmetic.shell punctuation.definition.variable.shell
 #             ^^ punctuation.section.interpolation.begin.shell
-#                ^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                ^^^^^ variable.other.readwrite.shell
 #                      ^ keyword.operator.arithmetic.shell
-#                        ^^^ meta.variable.shell variable.other.readwrite.shell
+#                        ^^^ variable.other.readwrite.shell
 #                            ^^ meta.interpolation.arithmetic.shell punctuation.section.interpolation.end.shell
 #                              ^^ keyword.operator.range.shell
 #                                ^ punctuation.definition.variable.shell
@@ -4095,6 +4095,10 @@ dyn_dir_name() {
 #         ^ punctuation.section.group.end.regexp.shell
 #          ^ keyword.operator.assignment.pipe.shell
 #           ^^^ variable.function.shell
+
+a=<1-4>others
+# ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
+#      ^^^^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
 
   ^foo/bar ^foo/bar           # Matches anything except the pattern x
 # ^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
@@ -5212,10 +5216,10 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #     ^ punctuation.definition.quoted.begin.shell
 #      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ keyword.operator.arithmetic.shell
-#        ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^^ variable.other.readwrite.shell
 #           ^ punctuation.definition.quoted.end.shell
 #            ^ punctuation.separator.sequence.shell
-#              ^^^ meta.variable.shell variable.other.readwrite.shell
+#              ^^^ variable.other.readwrite.shell
 #                  ^ keyword.operator.ternary.shell
 #                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                      ^ keyword.operator.ternary.shell
@@ -5424,9 +5428,9 @@ for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces f
 ### [ ARRAY VARIABLES ] #######################################################
 
 var[1]=Hello
-# <- meta.variable.shell variable.other.readwrite.shell
-#^^ meta.variable.shell variable.other.readwrite.shell
-#  ^^^ meta.variable.shell meta.item-access.shell
+# <- variable.other.readwrite.shell
+#^^ variable.other.readwrite.shell
+#  ^^^ meta.item-access.shell
 #  ^ punctuation.section.item-access.begin.shell - meta.string - string
 #   ^ meta.string.shell string.unquoted.shell - punctuation
 #    ^ punctuation.section.item-access.end.shell - meta.string - string

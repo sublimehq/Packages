@@ -274,7 +274,6 @@ contexts:
       pop: 1
 
   variable-subscription:
-    - meta_scope: meta.variable.shell
     - include: variable-subscriptions
     - include: line-continuations
     - include: immediately-pop
@@ -299,6 +298,11 @@ contexts:
       pop: 1
     - include: eoc-pop
     - include: string-unquoted-content
+
+  assignment-value-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.assignment.r-value.shell
+    - include: immediately-pop
 
 ###[ ALIAS BUILTINS ]##########################################################
 
@@ -327,7 +331,7 @@ contexts:
       push: alias-name-chars
 
   alias-name-chars:
-    - meta_scope: meta.command.shell entity.name.function.shell
+    - meta_scope: meta.assignment.l-value.shell meta.command.shell entity.name.function.shell
     - include: line-continuations
     - include: literal-unquoted-content
     - match: '{{opt_break}}'
@@ -1251,10 +1255,12 @@ contexts:
 
   arithmetic-array-value-assignment:
     # maybe variable subscripts followed by value assignment
-    - meta_content_scope: meta.variable.shell
+    - meta_content_scope: meta.assignment.l-value.shell
     - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: arithmetic-array-value
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - arithmetic-array-value
     - include: variable-subscription
 
   arithmetic-array-value:
@@ -1269,10 +1275,12 @@ contexts:
 
   arithmetic-mapping-value-assignment:
     # maybe variable subscripts followed by value assignment
-    - meta_content_scope: meta.variable.shell
+    - meta_content_scope: meta.assignment.l-value.shell
     - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: arithmetic-mapping-value
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - arithmetic-mapping-value
     - include: variable-subscription
 
   arithmetic-mapping-value:
@@ -1323,10 +1331,12 @@ contexts:
 
   literal-array-value-assignment:
     # maybe variable subscripts followed by value assignment
-    - meta_content_scope: meta.variable.shell
+    - meta_content_scope: meta.assignment.l-value.shell
     - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: literal-array-value
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - literal-array-value
     - include: variable-subscription
 
   literal-array-value:
@@ -1343,10 +1353,12 @@ contexts:
 
   literal-mapping-value-assignment:
     # maybe variable subscripts followed by value assignment
-    - meta_content_scope: meta.variable.shell
+    - meta_content_scope: meta.assignment.l-value.shell
     - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: literal-mapping-value
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - literal-mapping-value
     - include: variable-subscription
 
   literal-mapping-value:
@@ -1398,9 +1410,12 @@ contexts:
 ###[ STATEMENT VALUE ASSIGNMENTS ]#############################################
 
   statements-value-assignment:
+    - meta_content_scope: meta.assignment.l-value.shell
     - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: statements-value
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - statements-value
     - include: line-continuations
     - include: immediately-pop
 
