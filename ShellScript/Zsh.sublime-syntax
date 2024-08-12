@@ -105,15 +105,12 @@ contexts:
 
 ###[ COMMANDS ]################################################################
 
-  cmd-compound:
+  cmd-compound-brace:
     - match: \{
       scope: punctuation.section.block.begin.shell
-      set: cmd-compound-braces-body
-    - match: \(
-      scope: punctuation.section.compound.begin.shell
-      set: cmd-compound-parens-body
+      set: cmd-compound-brace-body
 
-  cmd-compound-braces-body:
+  cmd-compound-brace-body:
     - meta_scope: meta.block.shell
     - match: \}
       scope: punctuation.section.block.end.shell

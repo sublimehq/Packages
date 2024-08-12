@@ -56,7 +56,8 @@ contexts:
     - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-command
-    - include: cmd-compound
+    - include: cmd-compound-brace
+    - include: cmd-compound-paren
     - include: cmd-control
     - include: cmd-coproc
     - include: cmd-declare
@@ -822,22 +823,24 @@ contexts:
 
 ###[ COMMANDS ]################################################################
 
-  cmd-compound:
+  cmd-compound-brace:
     - match: \{{{cmd_break}}
       scope: punctuation.section.compound.begin.shell
-      set: cmd-compound-braces-body
-    - match: \(
-      scope: punctuation.section.compound.begin.shell
-      set: cmd-compound-parens-body
+      set: cmd-compound-brace-body
 
-  cmd-compound-braces-body:
+  cmd-compound-brace-body:
     - meta_scope: meta.compound.command.shell
     - match: \}
       scope: punctuation.section.compound.end.shell
       pop: 1
     - include: statements
 
-  cmd-compound-parens-body:
+  cmd-compound-paren:
+    - match: \(
+      scope: punctuation.section.compound.begin.shell
+      set: cmd-compound-paren-body
+
+  cmd-compound-paren-body:
     - meta_scope: meta.compound.command.shell
     - match: \)
       scope: punctuation.section.compound.end.shell
