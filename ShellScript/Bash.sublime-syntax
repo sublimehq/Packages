@@ -1246,9 +1246,7 @@ contexts:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       set: arithmetic-array-value
-    - include: variable-subscriptions
-    - include: line-continuations
-    - include: immediately-pop
+    - include: variable-subscription
 
   arithmetic-array-value:
     # maybe indexed array of or single arithmetic expression value
@@ -1266,9 +1264,7 @@ contexts:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       set: arithmetic-mapping-value
-    - include: variable-subscriptions
-    - include: line-continuations
-    - include: immediately-pop
+    - include: variable-subscription
 
   arithmetic-mapping-value:
     # maybe associative of or single arithmetic expression value
@@ -1322,9 +1318,7 @@ contexts:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       set: literal-array-value
-    - include: variable-subscriptions
-    - include: line-continuations
-    - include: immediately-pop
+    - include: variable-subscription
 
   literal-array-value:
     # maybe indexed array of or single literal/string value
@@ -1343,9 +1337,7 @@ contexts:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       set: literal-mapping-value
-    - include: variable-subscriptions
-    - include: line-continuations
-    - include: immediately-pop
+    - include: variable-subscription
 
   literal-mapping-value:
     # maybe associative array of or single literal/string value
