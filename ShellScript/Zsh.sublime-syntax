@@ -390,7 +390,11 @@ contexts:
 
   pattern-common:
     - meta_prepend: true
-    - include: zsh-glob-operators
+    - match: '[~^]'
+      scope: keyword.operator.logical.regexp.shell.zsh
+      push: maybe-tilde-interpolation
+    - match: \#{1,2}
+      scope: keyword.operator.quantifier.regexp.shell.zsh
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
@@ -612,15 +616,6 @@ contexts:
     - clear_scopes: 1  # clear `string.unquoted`
     - include: zsh-modifier-end-ahead
     - include: zsh-glob-qualifier-content
-
-###[ ZSH GLOB OPERATORS ]######################################################
-
-  zsh-glob-operators:
-    - match: '[~^]'
-      scope: keyword.operator.logical.regexp.shell.zsh
-      push: maybe-tilde-interpolation
-    - match: \#{1,2}
-      scope: keyword.operator.quantifier.regexp.shell.zsh
 
 ###[ ZSH GLOB QUALIFIERS ]#####################################################
 
