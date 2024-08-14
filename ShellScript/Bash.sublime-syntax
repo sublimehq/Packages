@@ -1283,8 +1283,6 @@ contexts:
   arithmetic-mapping-begin:
     - meta_scope: meta.sequence.list.shell
     - include: list-end
-    - include: line-continuations
-    - include: comments
     - match: (?=\[)
       set: arithmetic-explicit-mapping-body
     - match: (?=\S)
@@ -1293,7 +1291,6 @@ contexts:
   arithmetic-explicit-mapping-body:
     - meta_scope: meta.sequence.list.shell
     - include: list-end
-    - include: comments
     - include: explicit-mapping-keys
     - match: (?=[[:alnum:]_'"])
       push: arithmetic-word
@@ -1302,7 +1299,6 @@ contexts:
   arithmetic-implicit-mapping-body:
     - meta_scope: meta.sequence.list.shell
     - include: list-end
-    - include: comments
     - match: '{{word_begin}}'
       push: arithmetic-implicit-mapping-key-body
 
@@ -1365,8 +1361,6 @@ contexts:
   literal-mapping-begin:
     - meta_scope: meta.sequence.list.shell
     - include: list-end
-    - include: line-continuations
-    - include: comments
     - match: (?=\[)
       set: literal-explicit-mapping-body
     - match: (?=\S)
@@ -1375,7 +1369,6 @@ contexts:
   literal-explicit-mapping-body:
     - meta_scope: meta.sequence.list.shell
     - include: list-end
-    - include: comments
     - include: explicit-mapping-keys
     - include: booleans
     - include: string-path-patterns
@@ -1383,7 +1376,6 @@ contexts:
   literal-implicit-mapping-body:
     - meta_scope: meta.sequence.list.shell
     - include: list-end
-    - include: comments
     - match: '{{word_begin}}'
       push: literal-implicit-mapping-key-body
 
@@ -1472,6 +1464,7 @@ contexts:
     - match: '[(<>]+'
       scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
+    - include: comments
 
 ###[ ARITHMETIC EXPRESSIONS ]##################################################
 
