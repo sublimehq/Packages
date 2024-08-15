@@ -336,18 +336,23 @@ if [[ -f ~./foo ]] then { echo 'yes' } elif [[  ]] then { echo 'no' } else { ech
 #                                                                          ^^^^^^^^^^^^^^^^ meta.block.shell
 
 # for name ... ( word ... ) sublist
-for name ( word1 $word2 ) print $name
+for name ( word1 $word2 | & ; < > ) print $name
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^^^ variable.other.readwrite.shell
-#        ^^^^^^^^^^^^^^^^ meta.sequence.list.shell
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #        ^ punctuation.section.sequence.begin.shell
 #          ^^^^^ meta.string.shell string.unquoted.shell
 #                ^^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                       ^ punctuation.section.sequence.end.shell
-#                         ^^^^^^^^^^^ meta.function-call
-#                         ^^^^^ support.function.shell
-#                               ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                       ^ invalid.illegal.unexpected-token.shell
+#                         ^ invalid.illegal.unexpected-token.shell
+#                           ^ invalid.illegal.unexpected-token.shell
+#                             ^ invalid.illegal.unexpected-token.shell
+#                               ^ invalid.illegal.unexpected-token.shell
+#                                 ^ punctuation.section.sequence.end.shell
+#                                   ^^^^^^^^^^^ meta.function-call
+#                                   ^^^^^ support.function.shell
+#                                         ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 
 # for name ... [ in word ... ] term sublist
 for name in word1 word2; echo me;
@@ -4075,6 +4080,14 @@ dyn_dir_name() {
 #       ^^ constant.character.escape.shell
 #         ^ punctuation.definition.set.end.regexp.shell
 
+## Zsh Glob Ranges
+
+./cmd<1-2>
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell constant.other.path.self.shell
+#^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#    ^^^^^ meta.function-call.identifier.shell meta.command.shell meta.range.shell.zsh
+#         ^ - meta.function-call - meta.range
+
 : <-> # Matches any number
 # ^^^ meta.range.shell.zsh
 # ^ punctuation.definition.range.begin.shell.zsh
@@ -4117,7 +4130,7 @@ dyn_dir_name() {
 #                      ^^^^^^^^^^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - string
 #                                          ^ meta.range.shell.zsh punctuation.definition.range.end.shell.zsh - string
 
-: <${start##<1-5>0<1-}->
+: <${start##<1-5>0<1-}->  # optional glob range in default values, with `<` treated literal
 # ^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
 #  ^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
 #           ^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.regexp.shell meta.range.shell.zsh - string
@@ -4126,7 +4139,7 @@ dyn_dir_name() {
 #                     ^^ meta.range.shell.zsh
 #                       ^ - meta.range
 
-: <-${start/f<o<1-$end>o>bar/b<a>z}>
+: <-${start/f<o<1-$end>o>bar/b<a>z}>  # optional glob range in replacements, with `<` treated literal
 # ^^ meta.range.shell.zsh - meta.interpolation - meta.range meta.range
 #   ^^^^^^^^^^^ meta.range.shell.zsh meta.interpolation.parameter.shell - meta.range meta.range
 #              ^^^ meta.range.shell.zsh meta.interpolation.parameter.shell meta.string.regexp.shell meta.range.shell.zsh - string
@@ -4148,7 +4161,7 @@ dyn_dir_name() {
 #                               ^ - keyword - punctuation
 #                                  ^ punctuation.definition.range.end.shell.zsh
 
-: foo<5-21> foo<5-21>bar <5-21>bar
+: foo<5-21> foo<5-21>bar <5-21>bar <baz
 # ^^^ meta.string.shell string.unquoted.shell
 #    ^^^^^^ meta.string.shell meta.range.shell.zsh - string
 #          ^ - meta.range meta.string - string
@@ -4158,8 +4171,10 @@ dyn_dir_name() {
 #                       ^ - meta.range meta.string - string
 #                        ^^^^^^ meta.string.shell meta.range.shell.zsh - string
 #                              ^^^ meta.string.shell string.unquoted.shell
+#                                  ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#                                   ^^^ meta.redirection.shell meta.string.shell string.unquoted.shell
 
-: 1<1-5> 1<1-5>0 <1-5>0  # not numbers, but a patterns
+: 1<1-5> 1<1-5>0 <1-5>0 <0  # not numbers, but a patterns
 # ^ meta.string.shell string.unquoted.shell
 #  ^^^^^ meta.string.shell meta.range.shell.zsh - string
 #       ^ - meta.range meta.string - string
@@ -4169,6 +4184,191 @@ dyn_dir_name() {
 #               ^ - meta.range meta.string - string
 #                ^^^^^ meta.string.shell meta.range.shell.zsh - string
 #                     ^ meta.string.shell string.unquoted.shell
+#                       ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
+#                        ^ meta.redirection.shell meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+
+: (<1-5>foo|bar<1-)<1-5>  # glob ranges in pattern groups
+# ^ meta.string.shell meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
+#  ^^^^^ meta.string.shell meta.group.regexp.shell meta.range.shell.zsh - string
+#       ^^^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#              ^^^ meta.redirection.shell
+#                 ^ invalid.illegal.stray.shell
+#                  ^^^^^ meta.string.shell meta.range.shell.zsh - string
+
+## glob ranges in parameter assignments
+
+a=<1-4>foo  # glob range beginning assignment value
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.shell keyword.operator.assignment.shell
+# ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
+#      ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+
+a=foo<1-4>bar  # glob range within assignment value
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.shell keyword.operator.assignment.shell
+# ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#    ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
+#         ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+
+a=foo<1-4>foo<bar  # redirections don't belong to assignment
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.shell keyword.operator.assignment.shell
+# ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#    ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
+#         ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#            ^ meta.redirection.shell keyword.operator.assignment.redirection.shell - meta.assignment
+#             ^^^ meta.redirection.shell meta.string.shell string.unquoted.shell - meta.assignment
+
+a=(<1-2>foo [foo]=<3-4>bar [buz]=s(<5-6>uf) <10-foo ^~<err>or)  # glob ranges within indexed or associative arrays
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.shell keyword.operator.assignment.shell
+# ^ meta.assignment.r-value.shell meta.sequence.list.shell - meta.string
+#  ^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell meta.range.shell.zsh
+#       ^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#          ^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell - meta.string meta.item-access.shell
+#                 ^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell meta.range.shell.zsh - string
+#                      ^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#                         ^ meta.assignment.r-value.shell meta.sequence.list.shell - meta.string
+#                          ^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
+#                                ^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell - meta.group
+#                                 ^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell meta.group.regexp.shell - meta.range
+#                                  ^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell meta.group.regexp.shell meta.range.shell.zsh - string
+#                                       ^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell meta.group.regexp.shell - meta.range
+#                                          ^ meta.assignment.r-value.shell meta.sequence.list.shell - meta.string
+#                                           ^ meta.assignment.r-value.shell meta.sequence.list.shell invalid.illegal.unexpected-token.shell.zsh
+#                                            ^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#                                                   ^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell
+#                                                   ^ keyword.operator.logical.regexp.shell.zsh
+#                                                    ^ variable.language.tilde.shell
+#                                                     ^ invalid.illegal.unexpected-token.shell.zsh
+#                                                      ^^^ string.unquoted.shell
+#                                                         ^ meta.assignment.r-value.shell meta.sequence.list.shell invalid.illegal.unexpected-token.shell
+#                                                          ^^ meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#                                                            ^ meta.assignment.r-value.shell meta.sequence.list.shell punctuation.section.sequence.end.shell
+
+declare -A a=(key <1-2>value key <1-2ill key ^~<err>or)  # glob ranges within associative arrays
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
+#             ^^^ entity.name.key.shell
+#                 ^^^^^ meta.string.shell meta.range.shell.zsh - string
+#                      ^^^^^ meta.string.shell string.unquoted.shell
+#                            ^^^ entity.name.key.shell
+#                                ^ invalid.illegal.unexpected-token.shell.zsh
+#                                 ^^^^^^ meta.string.shell string.unquoted.shell
+#                                        ^^^ entity.name.key.shell
+#                                            ^^^^^^ meta.string.shell
+#                                            ^ keyword.operator.logical.regexp.shell.zsh
+#                                             ^ variable.language.tilde.shell
+#                                              ^ invalid.illegal.unexpected-token.shell.zsh
+#                                               ^^^ string.unquoted.shell
+#                                                  ^ invalid.illegal.unexpected-token.shell - entity - string - keyword
+#                                                   ^^ entity.name.key.shell
+
+## glob ranges in case clause patterns
+
+case $foo in
+  <1-2>pat | pat<1-2> | <-a>ny ) ;;
+# ^^^^^^^^^^^^^^^^^^^^ meta.clause.patterns.shell
+# ^^^^^ meta.string.shell meta.range.shell.zsh - string
+#      ^^^ meta.string.shell string.unquoted.shell
+#          ^ keyword.operator.logical.shell
+#            ^^^ meta.string.shell string.unquoted.shell
+#               ^^^^^ meta.string.shell meta.range.shell.zsh - string
+#                     ^ keyword.operator.logical.shell
+#                       ^ invalid.illegal.unexpected-token.shell
+#                        ^^ meta.string.shell string.unquoted.shell
+#                          ^ invalid.illegal.unexpected-token.shell
+#                           ^^ meta.string.shell string.unquoted.shell
+
+  (<1-2>|<-) | foo<1-2> | <- ) ;;
+# ^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell - meta.range
+#  ^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell meta.range.shell.zsh
+#       ^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell - meta.range
+#        ^^ meta.clause.patterns.shell meta.string.shell - meta.group
+#          ^ meta.clause.patterns.shell - meta.string
+#           ^ meta.clause.shell - meta.clause.patterns
+#            ^^^^^^^^^^^^^^^^^^ meta.clause.body.shell
+#        ^ invalid.illegal.unexpected-token.shell.zsh
+#         ^ string.unquoted.shell
+#          ^ punctuation.section.patterns.end.shell
+#            ^ keyword.operator.assignment.pipe.shell
+#              ^^^ meta.command.shell variable.function.shell
+#                 ^^^^^ meta.range.shell.zsh
+#                       ^ keyword.operator.assignment.pipe.shell
+#                         ^^ meta.redirection.shell
+#                         ^ keyword.operator.assignment.redirection.shell
+#                          ^ variable.language.stdio.shell
+#                            ^ invalid.illegal.stray.shell
+#                              ^^ punctuation.terminator.clause.shell
+esac
+
+# glob in test expressions
+
+[[ $foo == <1-2>bar || $foo == b<1-2>r || $foo == bar<1-2> || $foo == b<a>r ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                                                                             ^ - meta.compound
+#          ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#               ^^^ meta.string.regexp.shell string.unquoted.shell
+#                              ^ meta.string.regexp.shell string.unquoted.shell
+#                               ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                                    ^ meta.string.regexp.shell string.unquoted.shell
+#                                                 ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                    ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+
+[[ ( $foo == <1-2>bar ) || ( $foo == b<1-2>r ) || ( $foo == bar<1-2> ) || ( $foo == b<a>r ) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                      ^^^^ meta.compound.conditional.shell - meta.group
+#                          ^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                             ^^^^ meta.compound.conditional.shell - meta.group
+#                                                 ^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                                                     ^^^^ meta.compound.conditional.shell - meta.group
+#                                                                         ^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                                                                          ^^^ meta.compound.conditional.shell - meta.group
+#                                                                                             ^ - meta.compound
+#            ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                 ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                    ^ meta.string.regexp.shell string.unquoted.shell
+#                                     ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                                          ^ meta.string.regexp.shell string.unquoted.shell
+#                                                           ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                              ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+
+[[ $foo == (<1-2>bar) || $foo == (b<1-2>r) || $foo == (bar<1-2>) || $foo == (b<a>r) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                                                                                     ^ - meta.compound
+#           ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                 ^ meta.string.regexp.shell string.unquoted.shell
+#                                  ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                                       ^ meta.string.regexp.shell string.unquoted.shell
+#                                                      ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                         ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+
+[[ ( $foo == (<1-2>bar) ) || ( $foo == (b<1-2>r) ) || ( $foo == (bar<1-2>) ) || ( $foo == (b<a>r) ) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                        ^^^^ meta.compound.conditional.shell - meta.group
+#                            ^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                                 ^^^^ meta.compound.conditional.shell - meta.group
+#                                                     ^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                                                           ^^^^ meta.compound.conditional.shell - meta.group
+#                                                                               ^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                                                                                ^^^^^ meta.compound.conditional.shell - meta.group
+#                                                                                                     ^ - meta.compound
+#             ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                  ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                       ^ meta.string.regexp.shell string.unquoted.shell
+#                                        ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+#                                             ^ meta.string.regexp.shell string.unquoted.shell
+#                                                                ^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                                   ^^^^^ meta.string.regexp.shell meta.range.shell.zsh
+
+
+## no glob ranges
 
 : 'foo<5-21>bar'
 # ^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.redirection - meta.range
@@ -4188,6 +4388,8 @@ dyn_dir_name() {
 : "this<input>output"
 # ^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.redirection - meta.range
 
+## pattern groups
+
 : foo/(a*/)#bar               # bar matches foo/bar, foo/any/bar, foo/any/anyother/bar, ...
 # ^^^^ meta.string.shell string.unquoted.shell
 #     ^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
@@ -4205,9 +4407,47 @@ dyn_dir_name() {
 #          ^ keyword.operator.assignment.pipe.shell
 #           ^^^ variable.function.shell
 
-a=<1-4>others
-# ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
-#      ^^^^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+: (foo&bar)|baz  # `&` terminates group and command arguments
+# ^^^^ meta.group.regexp.shell string.unquoted.shell
+#     ^^^^^^^^^^ - meta.group
+# ^ punctuation.section.group.begin.regexp.shell
+#     ^ keyword.operator.assignment.pipe.shell
+#      ^^^ variable.function.shell
+#         ^ invalid.illegal.stray.shell
+#          ^ keyword.operator.assignment.pipe.shell
+#           ^^^ variable.function.shell
+
+: (foo;bar)|baz  # `;` terminates group and command arguments
+# ^^^^ meta.group.regexp.shell string.unquoted.shell
+#     ^^^^^^^^^^ - meta.group
+# ^ punctuation.section.group.begin.regexp.shell
+#     ^ punctuation.terminator.statement.shell
+#      ^^^ variable.function.shell
+#         ^ invalid.illegal.stray.shell
+#          ^ keyword.operator.assignment.pipe.shell
+#           ^^^ variable.function.shell
+
+: (foo>bar)|baz  # `>` terminates group and command arguments
+# ^^^^ meta.group.regexp.shell string.unquoted.shell
+#     ^^^^ meta.redirection.shell - meta.group
+#         ^^^^^^ - meta.group - meta.redirection
+# ^ punctuation.section.group.begin.regexp.shell
+#     ^ keyword.operator.assignment.redirection.shell
+#      ^^^ string.unquoted.shell
+#         ^ invalid.illegal.stray.shell
+#          ^ keyword.operator.assignment.pipe.shell
+#           ^^^ variable.function.shell
+
+: (foo<bar)|baz  # `<` terminates group and command arguments
+# ^^^^ meta.group.regexp.shell string.unquoted.shell
+#     ^^^^ meta.redirection.shell - meta.group
+#         ^^^^^^ - meta.group - meta.redirection
+# ^ punctuation.section.group.begin.regexp.shell
+#     ^ keyword.operator.assignment.redirection.shell
+#      ^^^ string.unquoted.shell
+#         ^ invalid.illegal.stray.shell
+#          ^ keyword.operator.assignment.pipe.shell
+#           ^^^ variable.function.shell
 
   ^foo/bar ^foo/bar           # Matches anything except the pattern x
 # ^^^^^^^^ meta.function-call.identifier.shell meta.command.shell
@@ -5556,6 +5796,19 @@ echo $var[1] World
 #         ^ meta.string.shell string.unquoted.shell
 #          ^ punctuation.section.item-access.end.shell - string
 #            ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+
+
+##############################################################################
+# 15.2 Array Parameters
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Parameters
+##############################################################################
+
+illegals=( | & ; < > )
+#          ^ invalid.illegal.unexpected-token.shell
+#            ^ invalid.illegal.unexpected-token.shell
+#              ^ invalid.illegal.unexpected-token.shell
+#                ^ invalid.illegal.unexpected-token.shell
+#                  ^ invalid.illegal.unexpected-token.shell
 
 
 ##############################################################################

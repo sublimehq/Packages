@@ -722,8 +722,6 @@ contexts:
       push: compound-test-pattern
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
-    - match: ;
-      scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
     - include: test-expression-common
 
@@ -734,6 +732,7 @@ contexts:
       pop: 1
     - include: line-continuations
     - include: eregexp-main-content
+    - include: illegal-pipeseps
 
   compound-test-pattern:
     - meta_include_prototype: false
@@ -742,6 +741,7 @@ contexts:
       pop: 1
     - include: line-continuations
     - include: pattern-main-content
+    - include: illegal-pipeseps
 
   compound-test-group-body:
     - meta_scope: meta.group.shell
@@ -760,8 +760,6 @@ contexts:
       push: compound-test-group-pattern
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
-    - match: ;
-      scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
     - include: test-expression-common
 
@@ -769,13 +767,15 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: compound-test-group-pattern-end
-    - include: eregexp-group-content
+    - include: eregexp-main-content
+    - include: illegal-pipeseps
 
   compound-test-group-pattern:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: compound-test-group-pattern-end
-    - include: pattern-group-content
+    - include: pattern-main-content
+    - include: illegal-pipeseps
 
   compound-test-group-pattern-end:
     - match: '{{wspace}}(\]\])'
@@ -800,6 +800,7 @@ contexts:
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
+    - include: illegal-pipeseps
     - include: comments
     - include: cmd-args-values
 
@@ -1200,7 +1201,7 @@ contexts:
       scope: keyword.operator.logical.shell
     - include: case-end-ahead
     - include: line-continuations
-    - include: string-path-patterns
+    - include: group-path-patterns
 
   case-clause-after-pattern:
     # required to handle scope specific indentation rules
@@ -1419,7 +1420,7 @@ contexts:
     - include: list-end
     - include: explicit-mapping-keys
     - include: booleans
-    - include: string-path-patterns
+    - include: group-path-patterns
 
   literal-implicit-mapping-body:
     - meta_scope: meta.sequence.list.shell
@@ -1438,7 +1439,7 @@ contexts:
     - include: line-continuations
     - include: comments
     - include: boolean
-    - include: string-path-pattern
+    - include: group-path-pattern
 
 ###[ STATEMENT VALUE ASSIGNMENTS ]#############################################
 
@@ -1512,8 +1513,6 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.shell
       pop: 1
-    - match: '[(<>]+'
-      scope: invalid.illegal.unexpected-token.shell
     - include: line-continuations
     - include: comments
 
@@ -2074,16 +2073,39 @@ contexts:
 
 ###[ STRING PATH PATTERN MATCHING ]############################################
 
-  string-path-patterns:
+  group-path-patterns:
+    # This context consumes glob patterns within contexts (groups or lists)
+    # which do not support redirections or any other kind of pipelines.
+    # Operators like `&`, `;`, `|`, `<` or `>` are scoped illegal.
+    - match: (?=\S)
+      push: group-path-pattern
+
+  group-path-pattern:
     - match: (/)dev(/)null{{word_break}}
       scope: meta.path.shell constant.language.null.shell
       captures:
         1: punctuation.separator.path.shell
         2: punctuation.separator.path.shell
+      pop: 1
+    - match: '{{illegal_group_separators}}+'
+      scope: invalid.illegal.unexpected-token.shell
+      pop: 1
     - match: '{{word_begin}}'
-      push:
-        - string-path-pattern-body
+      set:
+        - group-path-pattern-body
         - maybe-tilde-interpolation
+
+  group-path-pattern-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.unquoted.shell
+    - include: string-path-pattern-content
+    - include: word-end
+
+  string-path-patterns:
+    # This context consumes glob patterns within contexts
+    # which support redirections or pipelines.
+    - match: (?=\S)
+      push: string-path-pattern
 
   string-path-pattern:
     - match: (/)dev(/)null{{word_break}}
@@ -2352,10 +2374,14 @@ contexts:
 
   pattern-group-content:
     - include: string-unquoted-content
-    - include: pattern-groups
+    - include: pattern-group-groups
     - include: pattern-group-charsets
     - include: pattern-group-operators
     - include: pattern-common
+
+  pattern-group-groups:
+    # required to distinguish nested groups in ZSH
+    - include: pattern-groups
 
   pattern-group-charsets:
     - match: (?=\[)
@@ -2410,10 +2436,7 @@ contexts:
     - clear_scopes: 1  # clear `string.unquoted`
     - meta_include_prototype: false
     - meta_scope: meta.group.regexp.shell string.unquoted.shell
-    - match: \)
-      scope: punctuation.section.group.end.regexp.shell
-      pop: 1
-    - include: line-continuations
+    - include: pattern-group-end
     - include: eregexp-group-content
 
   eregexp-group-content:
@@ -2888,12 +2911,15 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
+    - include: expansion-parameter-pattern-group-content
+    - include: brace-pop
+
+  expansion-parameter-pattern-group-content:
     - include: string-unquoted-content
     - include: expansion-parameter-pattern-groups
     - include: expansion-parameter-pattern-group-charsets
     - include: pattern-group-operators
     - include: pattern-common
-    - include: brace-pop
 
   expansion-parameter-pattern-group-charsets:
     - match: (?=\[)
@@ -2969,6 +2995,10 @@ contexts:
     - match: (--|[-+]){{identifier}}
       scope: invalid.illegal.parameter.shell
 
+  illegal-pipeseps:
+    - match: '[{{pipe_seps}}]'
+      scope: invalid.illegal.unexpected-token.shell
+
   illegal-stray:
     - match: '[)}\]]'
       scope: invalid.illegal.stray.shell
@@ -3005,6 +3035,10 @@ contexts:
 
   immediately-pop:
     - match: ''
+      pop: 1
+
+  pipesep-pop:
+    - match: (?=[{{pipe_seps}}])
       pop: 1
 
   word-end:
@@ -3055,7 +3089,8 @@ variables:
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
   # ‘(’, ‘)’, ‘<’, or ‘>’.
-  metachar: '[\s|&;()<>]'
+  metachar: '[\s(){{pipe_seps}}]'
+  pipe_seps: '\|&<>;'
   wspace: (?:\s+|^)
 
   # Indentation and whitespace patterns
@@ -3073,6 +3108,8 @@ variables:
   # Filename expansions
   pathlist_separator: :(?=\$|(?:~|\.?\.)?/(?!/))
 
+  illegal_group_separators: '[({{pipe_seps}}]'
+
   # POSIX extended regexp quantifiers
   character_quantifier: '[?*+]'
   lazy_or_possessive: '[?+]?'
@@ -3083,7 +3120,7 @@ variables:
     | lower | print | punct | space | upper | word | xdigit )
 
   # Numbers
-  dec_break: (?=[\s|&;()<>])
+  dec_break: '{{word_break}}'
   dec_digit: \d
   hex_digit: \h
   oct_digit: '[0-7]'

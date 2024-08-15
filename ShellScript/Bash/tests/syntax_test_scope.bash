@@ -2255,12 +2255,10 @@ case var in
 #^ meta.statement.conditional.case.body.shell
 # ^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #   ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.groupD
-#       ^ meta.clause.patterns.shell - meta.string - meta.group - string
-#        ^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.groupD
-#         ^ meta.clause.patterns.shell - meta.string - meta.group - string
+#       ^^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #          ^^^^ meta.statement.conditional.case.end.shell
 # ^ punctuation.section.patterns.begin.shell
-#        ^ meta.string.shell string.unquoted.shell
+#        ^ invalid.illegal.unexpected-token.shell
 #          ^^^^ keyword.control.conditional.endcase.shell
 #              ^ - meta.conditional
 
@@ -8128,7 +8126,7 @@ stash) || true)
 #       ^ punctuation.section.group.end.regexp.shell
 #        ^ constant.other.wildcard.asterisk.shell
 
-: +(bar|qux) | wc
+: +(foo|bar)|baz
 #^^ meta.function-call.arguments.shell - meta.group
 #  ^^^^^^^^^ meta.function-call.arguments.shell meta.group.regexp.shell
 #           ^ - meta.function-call - meta.group
@@ -8136,7 +8134,44 @@ stash) || true)
 #  ^ punctuation.section.group.begin.regexp.shell
 #      ^ keyword.operator.alternation.regexp.shell
 #          ^ punctuation.section.group.end.regexp.shell
-#            ^ keyword.operator.assignment.pipe.shell
+#           ^ keyword.operator.assignment.pipe.shell
+#            ^^^ variable.function.shell
+
+: +(foo&bar)|baz  # `&` terminates group and command arguments
+#  ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
+#           ^^^^^ - meta.group
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ - keyword
+#          ^ punctuation.section.group.end.regexp.shell
+#           ^ keyword.operator.assignment.pipe.shell
+#            ^^^ variable.function.shell
+
+: +(foo;bar)|baz  # `;` terminates group and command arguments
+#  ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
+#           ^^^^^ - meta.group
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ - keyword
+#          ^ punctuation.section.group.end.regexp.shell
+#           ^ keyword.operator.assignment.pipe.shell
+#            ^^^ variable.function.shell
+
+: +(foo>bar)|baz  # `>` terminates group and command arguments
+#  ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
+#           ^^^^^ - meta.group
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ - keyword
+#          ^ punctuation.section.group.end.regexp.shell
+#           ^ keyword.operator.assignment.pipe.shell
+#            ^^^ variable.function.shell
+
+: +(foo<bar)|baz  # `<` terminates group and command arguments
+#  ^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
+#           ^^^^^ - meta.group
+#  ^ punctuation.section.group.begin.regexp.shell
+#      ^ - keyword
+#          ^ punctuation.section.group.end.regexp.shell
+#           ^ keyword.operator.assignment.pipe.shell
+#            ^^^ variable.function.shell
 
 
 ###############################################################################
@@ -8200,6 +8235,13 @@ stash) || true)
 [[ abc == ^abc|bca$ ]]
 #^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #         ^^^^^^^^^ meta.string.regexp.shell - keyword
+#             ^ invalid.illegal.unexpected-token.shell
+#                   ^^ punctuation.section.compound.end.shell
+
+[[ abc == ^abc&bca$ ]]
+#^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#         ^^^^^^^^^ meta.string.regexp.shell - keyword
+#             ^ invalid.illegal.unexpected-token.shell
 #                   ^^ punctuation.section.compound.end.shell
 
 [[ a\$b*c == a'$b*'? ]]
@@ -8634,6 +8676,14 @@ stash) || true)
 #           ^^ keyword.operator.comparison.shell
 #                 ^ keyword.operator.alternation.regexp.shell
 
+[[ "${foo}" =~ bar&baz ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^^^^^^^^^^^^^^ - meta.string.regexp.shell
+#              ^^^^^^^ meta.string.regexp.shell - meta.interpolation
+#                     ^^^ - meta.string.regexp.shell
+#           ^^ keyword.operator.comparison.shell
+#                 ^ invalid.illegal.unexpected-token.shell
+
 [[ $foo =~ ^$'\t' ]]
 #^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #                   ^ - meta.conditional
@@ -9039,6 +9089,255 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #              ^^ punctuation.section.compound.end.shell
 
 [[ ( $foo =~ ";" ) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
+#               ^^ meta.compound.conditional.shell meta.group.shell - meta.string
+#                 ^^^ meta.compound.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ & ]]       # unquoted ambersands are illegal
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#              ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ invalid.illegal.unexpected-token.shell
+#            ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ & ) ]]   # unquoted ambersands are illegal
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#               ^^^ meta.compound.conditional.shell - meta.group
+#                  ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ invalid.illegal.unexpected-token.shell
+#              ^ punctuation.section.group.end.shell
+#                ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ (&) ]]     # unquoted ambersands allowed in pattern groups
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.conditional.shell - meta.group
+#          ^^^ meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.compound.conditional.shell - meta.group
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#            ^ punctuation.section.group.end.regexp.shell
+#              ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ (&) ) ]] # unquoted ambersands allowed in pattern groups
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#            ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#               ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#                 ^^^ meta.compound.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ punctuation.section.group.begin.regexp.shell
+#              ^ punctuation.section.group.end.regexp.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ \& ]]      # escaped ambersands are allowed
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#               ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^ constant.character.escape.shell
+#             ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ \& ) ]]  # escaped ambersands are allowed
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                ^^^ meta.compound.conditional.shell - meta.group
+#                   ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^^ constant.character.escape.shell
+#               ^ punctuation.section.group.end.shell
+#                 ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ "&" ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ string
+#              ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ "&" ) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
+#               ^^ meta.compound.conditional.shell meta.group.shell - meta.string
+#                 ^^^ meta.compound.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ < ]]       # unquoted redirections are illegal
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#              ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ invalid.illegal.unexpected-token.shell
+#            ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ < ) ]]   # unquoted redirections are illegal
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#               ^^^ meta.compound.conditional.shell - meta.group
+#                  ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ invalid.illegal.unexpected-token.shell
+#              ^ punctuation.section.group.end.shell
+#                ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ (<) ]]     # unquoted redirections allowed in pattern groups
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.conditional.shell - meta.group
+#          ^^^ meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.compound.conditional.shell - meta.group
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#            ^ punctuation.section.group.end.regexp.shell
+#              ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ (<) ) ]] # unquoted redirections allowed in pattern groups
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#            ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#               ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#                 ^^^ meta.compound.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ punctuation.section.group.begin.regexp.shell
+#              ^ punctuation.section.group.end.regexp.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ \< ]]      # escaped redirections are allowed
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#               ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^ constant.character.escape.shell
+#             ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ \< ) ]]  # escaped redirections are allowed
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                ^^^ meta.compound.conditional.shell - meta.group
+#                   ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^^ constant.character.escape.shell
+#               ^ punctuation.section.group.end.shell
+#                 ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ "<" ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ string
+#              ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ "<" ) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
+#            ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
+#               ^^ meta.compound.conditional.shell meta.group.shell - meta.string
+#                 ^^^ meta.compound.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ > ]]       # unquoted redirections are illegal
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#              ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ invalid.illegal.unexpected-token.shell
+#            ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ > ) ]]   # unquoted redirections are illegal
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#               ^^^ meta.compound.conditional.shell - meta.group
+#                  ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ invalid.illegal.unexpected-token.shell
+#              ^ punctuation.section.group.end.shell
+#                ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ (>) ]]     # unquoted redirections allowed in pattern groups
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.conditional.shell - meta.group
+#          ^^^ meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.compound.conditional.shell - meta.group
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^ punctuation.section.group.begin.regexp.shell
+#            ^ punctuation.section.group.end.regexp.shell
+#              ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ (>) ) ]] # unquoted redirections allowed in pattern groups
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#            ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
+#               ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#                 ^^^ meta.compound.conditional.shell - meta.group
+#                    ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^ punctuation.section.group.begin.regexp.shell
+#              ^ punctuation.section.group.end.regexp.shell
+#                ^ punctuation.section.group.end.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ \> ]]      # escaped redirections are allowed
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#               ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^ constant.character.escape.shell
+#             ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ \> ) ]]  # escaped redirections are allowed
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                ^^^ meta.compound.conditional.shell - meta.group
+#                   ^ - meta.conditional
+#         ^^ keyword.operator.comparison.shell
+#            ^^ constant.character.escape.shell
+#               ^ punctuation.section.group.end.shell
+#                 ^^ punctuation.section.compound.end.shell
+
+[[ $foo =~ ">" ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#                ^ - meta.conditional
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ string
+#              ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo =~ ">" ) ]]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
@@ -10058,10 +10357,7 @@ declare -ai bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # co
 #                                                ^^^ variable.other.readwrite.shell
 #                                                    ^^^^^ meta.item-access.shell
 #                                                          ^^^^ invalid.illegal.unexpected-token.shell
-#                                                               ^ invalid.illegal.unexpected-token.shell
-#                                                                ^^^^^ variable.other.readwrite.shell
-#                                                                     ^ invalid.illegal.unexpected-token.shell
-#                                                                      ^^^ variable.other.readwrite.shell
+#                                                               ^^^^^^^^^^ invalid.illegal.unexpected-token.shell
 #                                                                         ^ punctuation.section.sequence.end.shell
 #                                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10100,10 +10396,7 @@ declare -ia bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # co
 #                                                ^^^ variable.other.readwrite.shell
 #                                                    ^^^^^ meta.item-access.shell
 #                                                          ^^^^ invalid.illegal.unexpected-token.shell
-#                                                               ^ invalid.illegal.unexpected-token.shell
-#                                                                ^^^^^ variable.other.readwrite.shell
-#                                                                     ^ invalid.illegal.unexpected-token.shell
-#                                                                      ^^^ variable.other.readwrite.shell
+#                                                               ^^^^^^^^^^ invalid.illegal.unexpected-token.shell
 #                                                                         ^ punctuation.section.sequence.end.shell
 #                                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10143,10 +10436,7 @@ declare -a -i bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # 
 #                                                  ^^^ variable.other.readwrite.shell
 #                                                      ^^^^^ meta.item-access.shell
 #                                                            ^^^^ invalid.illegal.unexpected-token.shell
-#                                                                 ^ invalid.illegal.unexpected-token.shell
-#                                                                  ^^^^^ variable.other.readwrite.shell
-#                                                                       ^ invalid.illegal.unexpected-token.shell
-#                                                                        ^^^ variable.other.readwrite.shell
+#                                                                 ^^^^^^^^^^ invalid.illegal.unexpected-token.shell
 #                                                                           ^ punctuation.section.sequence.end.shell
 #                                                                             ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10186,10 +10476,7 @@ declare -i -a bar=(foo b*$r b-20 'b?r' "b*z" [100]=val [100] =val <input.txt) # 
 #                                                  ^^^ variable.other.readwrite.shell
 #                                                      ^^^^^ meta.item-access.shell
 #                                                            ^^^^ invalid.illegal.unexpected-token.shell
-#                                                                 ^ invalid.illegal.unexpected-token.shell
-#                                                                  ^^^^^ variable.other.readwrite.shell
-#                                                                       ^ invalid.illegal.unexpected-token.shell
-#                                                                        ^^^ variable.other.readwrite.shell
+#                                                                 ^^^^^^^^^^ invalid.illegal.unexpected-token.shell
 #                                                                           ^ punctuation.section.sequence.end.shell
 #                                                                             ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10379,6 +10666,14 @@ declare -A owners=(
 #           ^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
 )
 
+declare -A illegals=( | & ; ( < > )
+#                     ^ invalid.illegal.unexpected-token.shell
+#                       ^ invalid.illegal.unexpected-token.shell
+#                         ^ invalid.illegal.unexpected-token.shell
+#                           ^ invalid.illegal.unexpected-token.shell
+#                             ^ invalid.illegal.unexpected-token.shell
+#                               ^ invalid.illegal.unexpected-token.shell
+
 # associative array with explicit keys and arithmetic values
 declare -iA var=(
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -10422,6 +10717,13 @@ declare -iA var=(
 #     ^ punctuation.section.item-access.end.shell
 #       ^^^^ invalid.illegal.unexpected-token.shell
 
+  | & ; ( < >
+# ^ invalid.illegal.unexpected-token.shell
+#   ^ invalid.illegal.unexpected-token.shell
+#     ^ invalid.illegal.unexpected-token.shell
+#       ^ invalid.illegal.unexpected-token.shell
+#         ^ invalid.illegal.unexpected-token.shell
+#           ^ invalid.illegal.unexpected-token.shell
 )
 # <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell punctuation.section.sequence.end.shell
 #^ - meta
