@@ -59,7 +59,7 @@
             </dict>
             <dict>
                 <key>begin</key>
-                <string>meta.clause.pattern punctuation.definition.pattern.end</string>
+                <string>meta.clause.patterns punctuation.section.patterns.end</string>
                 <key>end</key>
                 <string>punctuation.terminator.clause</string>
                 <key>excludeTrailingNewlines</key>

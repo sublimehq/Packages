@@ -1130,7 +1130,7 @@ contexts:
 
   case-clauses:
     - match: \(
-      scope: meta.clause.pattern.shell punctuation.definition.pattern.begin.shell
+      scope: punctuation.section.patterns.begin.shell
       push: case-clause-paren-pattern-body
     - match: (?=\S)
       push: case-clause-plain-pattern-body
@@ -1138,24 +1138,27 @@ contexts:
   case-clause-paren-pattern-body:
     # patterns enclosed in parentesis may continue on next line without \
     - meta_include_prototype: false
-    - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-    - match: \)
-      scope: meta.clause.pattern.shell punctuation.definition.pattern.end.shell
-      set: case-clause-after-pattern
-    - include: line-continuations
-    - include: case-end-ahead
-    - include: pattern-group-content
+    - meta_scope: meta.clause.patterns.shell
+    - include: comments
+    - include: case-clause-pattern-body
 
   case-clause-plain-pattern-body:
     # patterns not enclosed in parentesis are terminated at eol
     - meta_include_prototype: false
-    - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-    - match: \)
-      scope: meta.clause.pattern.shell punctuation.definition.pattern.end.shell
+    - meta_scope: meta.clause.patterns.shell
+    - match: $|(?=\s+[#\n])
       set: case-clause-after-pattern
-    - include: eol-pop
+    - include: case-clause-pattern-body
+
+  case-clause-pattern-body:
+    - match: \)
+      scope: punctuation.section.patterns.end.shell
+      set: case-clause-after-pattern
+    - match: \|
+      scope: keyword.operator.logical.shell
     - include: case-end-ahead
-    - include: pattern-group-content
+    - include: line-continuations
+    - include: string-path-patterns
 
   case-clause-after-pattern:
     # required to handle scope specific indentation rules
@@ -2926,7 +2929,7 @@ contexts:
     - include: eol-pop
 
   eol-pop:
-    - match: (?=\s*$|\s+#)
+    - match: $|(?=\s+[#\n])
       pop: 1
     - include: line-continuations
 

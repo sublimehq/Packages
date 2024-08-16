@@ -510,12 +510,14 @@ case $word {
 #          ^ punctuation.section.block.begin.shell
     pattern | pa*?ern )
 # ^^ meta.statement.conditional.case.body.shell
-#   ^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell
-#                     ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell - meta.string
-#           ^ keyword.operator.alternation.regexp.shell
+#   ^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell
+#          ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string
+#             ^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell
+#                    ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string
+#           ^ keyword.operator.logical.shell
 #               ^ constant.other.wildcard.asterisk.shell
 #                ^ constant.other.wildcard.questionmark.shell
-#                     ^ punctuation.definition.pattern.end.shell
+#                     ^ punctuation.section.patterns.end.shell
         cmd -arg value;;
 #^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.body.shell
 #                     ^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.shell
@@ -525,56 +527,73 @@ case $word {
 #                     ^^ punctuation.terminator.clause.shell
 
     ws-+([0-9]).host.com)
-#   ^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#   ^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.patterns.shell meta.string.shell string.unquoted.shell
 #       ^ meta.group.regexp.shell - meta.set
 #        ^^^^^ meta.group.regexp.shell meta.set.regexp.shell
 #             ^ meta.group.regexp.shell - meta.set
-#                       ^ meta.clause.pattern.shell - meta.group - string
-#                        ^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.shell - meta.clause.pattern
+#                       ^ meta.clause.patterns.shell - meta.group - string
+#                        ^ meta.statement.conditional.case.body.shell meta.block.shell.zsh meta.clause.shell - meta.clause.patterns
         ;;
 #       ^^ punctuation.terminator.clause.shell
 
     ((foo|bar)baz) cmd arg ;;
-#   ^ meta.clause.pattern.shell - meta.string - string
-#    ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
-#             ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#                ^ meta.clause.pattern.shell - meta.string - string
+#   ^ meta.clause.patterns.shell - meta.string - string
+#    ^^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#                ^ meta.clause.patterns.shell - meta.string - string
 #                 ^ meta.clause.shell
 #                  ^^^^^^^^ meta.clause.body.shell
-#   ^ punctuation.definition.pattern.begin.shell
+#   ^ punctuation.section.patterns.begin.shell
 #    ^ punctuation.section.group.begin.regexp.shell
 #        ^ keyword.operator.alternation.regexp.shell
 #            ^ punctuation.section.group.end.regexp.shell
-#                ^ punctuation.definition.pattern.end.shell
+#                ^ punctuation.section.patterns.end.shell
 #                  ^^^ variable.function.shell
 #                      ^^^ meta.string.shell string.unquoted.shell
 #                          ^^ punctuation.terminator.clause.shell
 
     (foo|bar)baz) cmd arg ;;
-#   ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
-#            ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#               ^ meta.clause.pattern.shell - meta.string - string
+#   ^^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#            ^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#               ^ meta.clause.patterns.shell - meta.string - string
 #                ^ meta.clause.shell
 #                 ^^^^^^^^ meta.clause.body.shell
 #   ^ punctuation.section.group.begin.regexp.shell
 #       ^ keyword.operator.alternation.regexp.shell
 #           ^ punctuation.section.group.end.regexp.shell
-#               ^ punctuation.definition.pattern.end.shell
+#               ^ punctuation.section.patterns.end.shell
 #                 ^^^ variable.function.shell
 #                     ^^^ meta.string.shell string.unquoted.shell
 #                         ^^ punctuation.terminator.clause.shell
 
+    ( foo | bar ) | baz ) cmd arg ;;
+#   ^^^^^^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#                ^^^ meta.clause.patterns.shell - meta.string - string
+#                   ^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#                      ^^ meta.clause.patterns.shell - meta.string - string
+#                        ^ meta.clause.shell
+#                         ^^^^^^^^ meta.clause.body.shell
+#   ^ punctuation.section.group.begin.regexp.shell
+#         ^ keyword.operator.alternation.regexp.shell
+#               ^ punctuation.section.group.end.regexp.shell
+#                 ^ keyword.operator.logical.shell
+#                   ^^^ meta.string.shell string.unquoted.shell
+#                       ^ punctuation.section.patterns.end.shell
+#                         ^^^ variable.function.shell
+#                             ^^^ meta.string.shell string.unquoted.shell
+#                                 ^^ punctuation.terminator.clause.shell
+
     ((foo|bar)baz)
-#   ^ meta.clause.pattern.shell - meta.string - string
-#    ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
-#             ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#                ^ meta.clause.pattern.shell - meta.string - string
+#   ^ meta.clause.patterns.shell - meta.string - string
+#    ^^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#             ^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#                ^ meta.clause.patterns.shell - meta.string - string
 #                 ^ meta.clause.shell
-#   ^ punctuation.definition.pattern.begin.shell
+#   ^ punctuation.section.patterns.begin.shell
 #    ^ punctuation.section.group.begin.regexp.shell
 #        ^ keyword.operator.alternation.regexp.shell
 #            ^ punctuation.section.group.end.regexp.shell
-#                ^ punctuation.definition.pattern.end.shell
+#                ^ punctuation.section.patterns.end.shell
         cmd arg ;;
 #       ^^^^^^^^ meta.clause.body.shell
 #       ^^^ variable.function.shell
@@ -582,14 +601,27 @@ case $word {
 #               ^^ punctuation.terminator.clause.shell
 
     (foo|bar)baz)
-#   ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
-#            ^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#               ^ meta.clause.pattern.shell - meta.string - string
+#   ^^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#            ^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#               ^ meta.clause.patterns.shell - meta.string - string
 #                ^ meta.clause.shell
 #   ^ punctuation.section.group.begin.regexp.shell
 #       ^ keyword.operator.alternation.regexp.shell
 #           ^ punctuation.section.group.end.regexp.shell
-#               ^ punctuation.definition.pattern.end.shell
+#               ^ punctuation.section.patterns.end.shell
+        cmd arg ;;
+#       ^^^^^^^^ meta.clause.body.shell
+#       ^^^ variable.function.shell
+#           ^^^ meta.string.shell string.unquoted.shell
+#               ^^ punctuation.terminator.clause.shell
+
+    ( foo | bar ) \
+        | baz )
+#      ^^^^^^^^ meta.clause.patterns.shell
+#              ^ meta.clause.shell
+#       ^ keyword.operator.logical.shell
+#         ^^^ meta.string.shell string.unquoted.shell
+#             ^ punctuation.section.patterns.end.shell
         cmd arg ;;
 #       ^^^^^^^^ meta.clause.body.shell
 #       ^^^ variable.function.shell
@@ -597,7 +629,11 @@ case $word {
 #               ^^ punctuation.terminator.clause.shell
 
     incomplete | pattern
-#   ^^^^^^^^^^^^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+#  ^ - meta.clause - meta.string - string
+#   ^^^^^^^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#             ^^^ meta.clause.patterns.shell - meta.string - string
+#                ^^^^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#                       ^ meta.clause.shell - meta.string - string
 }
 # <- meta.statement.conditional.case.body.shell punctuation.section.block.end.shell
 

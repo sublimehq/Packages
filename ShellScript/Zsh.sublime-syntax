@@ -167,25 +167,25 @@ contexts:
     - match: (?=\()
       branch_point: case-clause-paren-pattern
       branch:
-        - case-clause-plain-pattern-body
-        - case-clause-paren-pattern
+        - case-clause-maybe-plain-pattern
+        - case-clause-else-paren-pattern
     - match: (?=\S)
       push: case-clause-plain-pattern-body
 
-  case-clause-paren-pattern:
+  case-clause-maybe-plain-pattern:
     - meta_include_prototype: false
-    - match: \(
-      scope: meta.clause.pattern.shell punctuation.definition.pattern.begin.shell
-      set: case-clause-paren-pattern-body
-
-  case-clause-plain-pattern-body:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
+    - meta_scope: meta.clause.patterns.shell
     # comment, end of clause or end of line
     # indicate pattern being enclosed in balanced parentheses
-    - match: (?=(?:$|;;&?|;&)|\s+#)
+    - match: (?=(?:$|;;&?|;&|}|esac{{cmd_break}})|\s+#)
       fail: case-clause-paren-pattern
-    - include: case-clause-paren-pattern-body
+    - include: case-clause-pattern-body
+
+  case-clause-else-paren-pattern:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.patterns.begin.shell
+      set: case-clause-paren-pattern-body
 
   case-end-ahead:
     - meta_prepend: true

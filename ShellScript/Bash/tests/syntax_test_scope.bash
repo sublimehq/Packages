@@ -2274,14 +2274,16 @@ esac
 case var in
   ( patt ( esac
 #^ meta.statement.conditional.case.body.shell
-# ^ meta.clause.pattern.shell - meta.string - meta.group - string
-#  ^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
+# ^^ meta.clause.patterns.shell - meta.string - meta.group - string
+#   ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.groupD
+#       ^ meta.clause.patterns.shell - meta.string - meta.group - string
+#        ^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.groupD
+#         ^ meta.clause.patterns.shell - meta.string - meta.group - string
 #          ^^^^ meta.statement.conditional.case.end.shell
-# ^ punctuation.definition.pattern.begin.shell
-#        ^ - punctuation
+# ^ punctuation.section.patterns.begin.shell
+#        ^ meta.string.shell string.unquoted.shell
 #          ^^^^ keyword.control.conditional.endcase.shell
 #              ^ - meta.conditional
-
 
 case   # comment
 #^^^ meta.statement.conditional.case.shell
@@ -2300,9 +2302,9 @@ case   # comment
 #      ^^^^^^^^^^ comment.line.number-sign.shell
   pattern) # comment
 #^ meta.statement.conditional.case.body.shell
-# ^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
-#        ^ meta.clause.pattern.shell - meta.clause.body - meta.string - meta.group - string
-#         ^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.shell - meta.clause.pattern
+# ^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#        ^ meta.clause.patterns.shell - meta.clause.body - meta.string - meta.group - string
+#         ^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.shell - meta.clause.patterns
 #          ^^^^^^^^^^ comment.line.number-sign.shell
 esac
 # <- meta.statement.conditional.case.end.shell keyword.control.conditional.endcase.shell
@@ -2318,11 +2320,11 @@ case "$1" in
 #       ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #         ^^ keyword.control.conditional.in.shell
 setup )
-# <- meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#^^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#     ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell punctuation.definition.pattern.end.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#    ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - string
 # <- - variable.function - support.function - meta.function-call
-#     ^ punctuation.definition.pattern.end.shell
+#     ^ punctuation.section.patterns.end.shell
 echo Preparing the server...
 # <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
 #^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
@@ -2333,11 +2335,11 @@ echo Preparing the server...
 # ^ meta.statement.conditional.case.body.shell - meta.clause
 dep\
 loy )
-# <- meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-#   ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell punctuation.definition.pattern.end.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+#  ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - string
 # <- - variable.function - support.function - meta.function-call
-#   ^ punctuation.definition.pattern.end.shell
+#   ^ punctuation.section.patterns.end.shell
 echo Deploying...
 # <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
 #^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell support.function.shell
@@ -2347,9 +2349,9 @@ echo Deploying...
 #^ meta.statement.conditional.case.body.shell meta.clause.shell punctuation.terminator.clause.shell
 # ^ meta.statement.conditional.case.body.shell - meta.clause
 * )
-# <- meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
-#^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-# ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell punctuation.definition.pattern.end.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - string - punctuation
+# ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell punctuation.section.patterns.end.shell
 #  ^ meta.statement.conditional.case.body.shell meta.clause.shell
 cat <<'ENDCAT' # comment
 # <- meta.statement.conditional.case.body.shell meta.clause.body.shell meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -2388,48 +2390,50 @@ case "${foo}" in- in_ in=10 in
 #                     ^^ - keyword.control.conditional.in
 #                           ^^ keyword.control.conditional.in
     ( help | h ) bar ;;
-#^^^ meta.statement.conditional.case.body.shell - meta.clause.pattern
-#   ^ meta.clause.pattern.shell - meta.string - meta.group - string
-#    ^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
-#              ^ meta.clause.pattern.shell - meta.string - meta.group - string
+#^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
+#   ^^ meta.clause.patterns.shell - meta.string - meta.group - string
+#     ^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#         ^^^ meta.clause.patterns.shell - meta.string - meta.group - string
+#            ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#             ^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #               ^ meta.statement.conditional.case.body.shell meta.clause.shell
-#                ^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell - meta.clause.pattern
+#                ^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell - meta.clause.patterns
 #                    ^^ meta.statement.conditional.case.body.shell meta.clause.shell
 #                      ^ meta.statement.conditional.case.body.shell - meta.clause
-#   ^ punctuation.definition.pattern.begin.shell
-#          ^ keyword.operator.alternation.regexp.shell
-#              ^ punctuation.definition.pattern.end.shell
+#   ^ punctuation.section.patterns.begin.shell
+#          ^ keyword.operator.logical.shell
+#              ^ punctuation.section.patterns.end.shell
 #                    ^^ punctuation.terminator.clause.shell
     do1 ) foo1 ;&
-#^^^ meta.statement.conditional.case.body.shell - meta.clause.pattern
-#   ^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
-#       ^ meta.clause.pattern.shell - meta.string - meta.group - string
+#^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
+#   ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#      ^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #        ^ meta.statement.conditional.case.body.shell meta.clause.shell
-#         ^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell - meta.clause.pattern
+#         ^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell - meta.clause.patterns
 #              ^^ meta.statement.conditional.case.body.shell meta.clause.shell
 #                ^ meta.statement.conditional.case.body.shell - meta.clause
-#       ^ punctuation.definition.pattern.end.shell
+#       ^ punctuation.section.patterns.end.shell
 #              ^^ punctuation.terminator.clause.shell
     (do2 ) foo2 ;;&
-#^^^ meta.statement.conditional.case.body.shell - meta.clause.pattern
-#   ^ meta.clause.pattern.shell - meta.string - meta.group - string
-#    ^^^^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
-#        ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell - meta.string - meta.group - string
+#^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
+#   ^ meta.clause.patterns.shell - meta.string - meta.group - string
+#    ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#       ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - meta.group - string
 #         ^ meta.statement.conditional.case.body.shell meta.clause.shell
 #          ^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell
 #               ^^^ meta.statement.conditional.case.body.shell meta.clause.shell
 #                  ^ meta.statement.conditional.case.body.shell - meta.clause
-#   ^ punctuation.definition.pattern.begin.shell
-#        ^ punctuation.definition.pattern.end.shell
+#   ^ punctuation.section.patterns.begin.shell
+#        ^ punctuation.section.patterns.end.shell
 #               ^^^ punctuation.terminator.clause.shell
     *) bar
-#^^^ meta.statement.conditional.case.body.shell - meta.clause.pattern
-#   ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell - meta.group
-#    ^ meta.statement.conditional.case.body.shell meta.clause.pattern.shell - meta.string - meta.group - string
+#^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
+#   ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#    ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - meta.group - string
 #     ^ meta.statement.conditional.case.body.shell meta.clause.shell
 #      ^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell
-#   ^ meta.string.regexp.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
-#    ^ punctuation.definition.pattern.end.shell
+#   ^ constant.other.wildcard.asterisk.shell
+#    ^ punctuation.section.patterns.end.shell
 esac
 # <- meta.statement.conditional.case.end.shell keyword.control.conditional.endcase.shell
 #^^^ meta.statement.conditional.case.end.shell keyword.control.conditional.endcase.shell
@@ -2437,30 +2441,34 @@ esac
 
 case $TERM in
     sun-cmd)
-        #  ^ punctuation.definition.pattern.end.shell
+        #  ^ punctuation.section.patterns.end.shell
         update_terminal_cwd() { print -Pn "\e]l%~\e\\" };;
         #                                              ^ meta.function punctuation.section.block.end.shell
         #                                               ^^ punctuation.terminator.clause.shell
     *xterm*|rxvt|?(dt|k|E)term)
-        #^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-        #         ^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
-        #                 ^^^^ meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell
-        #                     ^ meta.clause.pattern.shell - meta.string - meta.group - string
+        #^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #  ^ meta.clause.patterns.shell - meta.string - meta.group - string
+        #   ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #       ^ meta.clause.patterns.shell - meta.string - meta.group - string
+        #        ^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #         ^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
+        #                 ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #                     ^ meta.clause.patterns.shell - meta.string - meta.group - string
         # ^ constant.other.wildcard.asterisk.shell
-        #  ^ keyword.operator.alternation.regexp.shell
-        #       ^ keyword.operator.alternation.regexp.shell
+        #  ^ keyword.operator.logical.shell
+        #       ^ keyword.operator.logical.shell
         #        ^ keyword.operator.quantifier.regexp.shell
         #         ^ punctuation.section.group.begin.regexp.shell
         #            ^ keyword.operator.alternation.regexp.shell
         #              ^ keyword.operator.alternation.regexp.shell
         #                ^ punctuation.section.group.end.regexp.shell
-        #                     ^ punctuation.definition.pattern.end.shell
+        #                     ^ punctuation.section.patterns.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
         #                                             ^ meta.function punctuation.section.block.end.shell
         #                                              ^^ punctuation.terminator.clause.shell
     *)
-    # <- meta.clause.pattern.shell meta.string.regexp.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
-    #^ punctuation.definition.pattern.end.shell
+    # <- meta.clause.patterns.shell meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+    #^ punctuation.section.patterns.end.shell
         update_terminal_cwd() {};;
         #                      ^ meta.function punctuation.section.block.end.shell
         #                       ^^ punctuation.terminator.clause.shell
@@ -2470,10 +2478,10 @@ esac
 case $SERVER in
 # <- keyword.control.conditional.case.shell
 ws-+([0-9]).host.com) echo "Web Server"
-#^^^ meta.clause.pattern.shell meta.string.regexp.shell - meta.group
-#   ^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell
-#          ^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell - meta.group
-#                   ^ meta.clause.pattern.shell - meta.string - meta.group - string
+#^^^ meta.clause.patterns.shell meta.string.shell - meta.group
+#   ^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell
+#          ^^^^^^^^^ meta.clause.patterns.shell meta.string.shell - meta.group
+#                   ^ meta.clause.patterns.shell - meta.string - meta.group - string
 #^^^^^^^^^^^^^^^^^^^ string.unquoted.shell
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.section.group.begin.regexp.shell
@@ -2482,14 +2490,14 @@ ws-+([0-9]).host.com) echo "Web Server"
 #      ^ punctuation.separator.sequence.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.section.group.end.regexp.shell
-#                   ^ punctuation.definition.pattern.end.shell
+#                   ^ punctuation.section.patterns.end.shell
 ;;
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
 db-+([0-9])\.host\.com) echo "DB server"
-#^^^ meta.clause.pattern.shell meta.string.regexp.shell - meta.group
-#   ^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell meta.group.regexp.shell
-#          ^^^^^^^^^^^ meta.clause.pattern.shell meta.string.regexp.shell - meta.group
+#^^^ meta.clause.patterns.shell meta.string.shell - meta.group
+#   ^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell
+#          ^^^^^^^^^^^ meta.clause.patterns.shell meta.string.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.section.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
@@ -2497,7 +2505,7 @@ db-+([0-9])\.host\.com) echo "DB server"
 #      ^ punctuation.separator.sequence.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.section.group.end.regexp.shell
-#                     ^ punctuation.definition.pattern.end.shell
+#                     ^ punctuation.section.patterns.end.shell
 ;;
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
@@ -2509,14 +2517,14 @@ bk-+([0-9])\.host\.com) echo "Backup server"
 #      ^ punctuation.separator.sequence.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.section.group.end.regexp.shell
-#                     ^ punctuation.definition.pattern.end.shell
+#                     ^ punctuation.section.patterns.end.shell
 #                       ^^^^ support.function.shell
 ;;
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
 *)echo "Unknown server"
 # <- constant.other.wildcard.asterisk.shell
-#^ punctuation.definition.pattern.end.shell
+#^ punctuation.section.patterns.end.shell
 # ^^^^ support.function.shell
 ;;
 # <- punctuation.terminator.clause.shell
@@ -3304,7 +3312,7 @@ __git_aliased_command ()
         case "$word" in
         {)  : skip start of shell helper function ;;
 #       ^ - punctuation.section.interpolation.begin
-#        ^ punctuation.definition.pattern.end.shell
+#        ^ punctuation.section.patterns.end.shell
         \'*)    : skip opening quote after sh -c ;;
         *)
             echo "$word"

@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>meta.clause.pattern.shell, meta.clause.shell</string>
+	<string>meta.clause.patterns.shell, meta.clause.shell</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
