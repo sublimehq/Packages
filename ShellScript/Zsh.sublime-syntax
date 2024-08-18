@@ -102,6 +102,7 @@ contexts:
         - cmd-args-end-of-options-then-function-references
 
   cmd-mapfile: []
+  cmd-read: []
 
 ###[ COMMANDS ]################################################################
 

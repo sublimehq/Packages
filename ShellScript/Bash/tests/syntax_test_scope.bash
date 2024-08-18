@@ -519,27 +519,6 @@ set -e -- -o {str,ing}
 #         ^^ - variable.parameter.option
 #            ^^^^^^^^^ meta.interpolation.brace.shell
 
-read -d '' -sn 1 -t1 -- -t1 10
-#^^^ meta.function-call.identifier.shell
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#   ^ - meta.parameter
-#    ^^ meta.parameter.option.shell
-#      ^^^^ - meta.parameter
-#          ^^^ meta.parameter.option.shell
-#             ^^^ - meta.parameter
-#                ^^^ meta.parameter.option.shell
-#                   ^^^^^^^^^^ - meta.parameter
-#^^^ support.function.shell
-#    ^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#     ^ variable.parameter.option.shell - punctuation
-#       ^^ string.quoted.single.shell
-#          ^^^ variable.parameter.option.shell
-#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#                ^^^ variable.parameter.option.shell
-#                    ^^ keyword.operator.end-of-options.shell
-#                       ^^^^ - constant - variable
-#                           ^^ constant.numeric.value.shell
-
 shift 2 -- 
 #^^^^ meta.function-call.identifier.shell support.function.shell
 #    ^^^^^ meta.function-call.arguments.shell
@@ -11066,6 +11045,70 @@ mapfile -d ";" -n 10 -O $origin -s 5 -t -u 20 -C callback -c 10 array
 #                                                            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                                               ^^^^^ variable.other.readwrite.shell
 
+
+###############################################################################
+# 4.2 Bash Builtin Commands (read)                                            #
+# https://www.gnu.org/software/bash/manual/bash.html#index-read               #
+# read [-ers] [-a aname] [-d delim] [-i text] [-n nchars]                     #
+#     [-N nchars] [-p prompt] [-t timeout] [-u fd] [name …]                   #
+###############################################################################
+
+read
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ - meta.function-call
+
+read data
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#    ^^^^ variable.other.readwrite.shell
+#        ^ - meta.function-call
+
+read -d '' -sn 1 -t1 -- -t1 10 data
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ - meta.parameter
+#    ^^ meta.parameter.option.shell
+#      ^^^^ - meta.parameter
+#          ^^^ meta.parameter.option.shell
+#             ^^^ - meta.parameter
+#                ^^^ meta.parameter.option.shell
+#                   ^^^^^^^^^^ - meta.parameter
+#^^^ support.function.shell
+#    ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#     ^ variable.parameter.option.shell - punctuation
+#       ^^ string.quoted.single.shell
+#          ^^^ variable.parameter.option.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                ^^^ variable.parameter.option.shell
+#                    ^^ keyword.operator.end-of-options.shell
+#                       ^^^ invalid.illegal.unexpected-token.shell
+#                           ^^ invalid.illegal.unexpected-token.shell
+#                              ^^^^ variable.other.readwrite.shell
+
+read -ers -a aname -d ";" -i text -n 1 -N 2 -p prompt -t 10 -u 103 data
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^ variable.parameter.option.shell
+#         ^^ variable.parameter.option.shell
+#            ^^^^^ variable.other.readwrite.shell
+#                  ^^ variable.parameter.option.shell
+#                     ^^^ string.quoted.double.shell
+#                         ^^ variable.parameter.option.shell
+#                            ^^^^ string.unquoted.shell
+#                                 ^^ variable.parameter.option.shell
+#                                    ^ constant.numeric.value.shell
+#                                      ^^ variable.parameter.option.shell
+#                                         ^ constant.numeric.value.shell
+#                                           ^^ variable.parameter.option.shell
+#                                              ^^^^^^ string.unquoted.shell
+#                                                     ^^ variable.parameter.option.shell
+#                                                        ^^ constant.numeric.value.shell
+#                                                           ^^ variable.parameter.option.shell
+#                                                              ^^^ constant.numeric.value.shell
+#                                                                  ^^^^ variable.other.readwrite.shell
 
 ###############################################################################
 # 4.2 Bash Builtin Commands (readarray)                                       #

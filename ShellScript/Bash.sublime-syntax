@@ -66,6 +66,7 @@ contexts:
     - include: cmd-export
     - include: cmd-historic
     - include: cmd-mapfile
+    - include: cmd-read
     - include: cmd-readonly
     - include: cmd-sudo
     - include: cmd-test
@@ -562,6 +563,27 @@ contexts:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-command
     - match: ([-+])[t]*[cdnOsu]{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-value
+    - include: cmd-args-end-of-options-then-variables-literal-values
+
+###[ MAPFILE BUILTINS ]########################################################
+
+  cmd-read:
+    - match: read{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-read-args
+
+  cmd-read-args:
+    - match: ([-+])[cdiNnOpstu]+{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -3030,9 +3052,9 @@ variables:
   # Note: Contains thosw, which are not present as dedicated context
   builtin_cmds: |-
     (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
-    | getopts | hash | help | jobs | kill | logout | printf | pwd
-    | read | set | shift | shopt | source | su | suspend | times
-    | type | ulimit | umask | wait ){{cmd_break}}
+    | getopts | hash | help | jobs | kill | logout | printf | pwd | set
+    | shift | shopt | source | su | suspend | times | type | ulimit | umask
+    | wait ){{cmd_break}}
 
   modifier_cmds: |-
     (?x: builtin ){{cmd_break}}
