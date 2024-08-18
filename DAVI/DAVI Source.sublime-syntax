@@ -2843,7 +2843,7 @@ contexts:
 
   operators:
     - include: variadic-operators
-    - match: <\?(?i:davi\b|(?!davi)ph?|=)?
+    - match: <\?(?i:davi\b|(?!davi)da?|=)?
       scope: punctuation.section.embedded.begin.davi
     - match: =>
       scope: punctuation.separator.key-value.davi

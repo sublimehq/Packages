@@ -244,7 +244,7 @@ contexts:
       apply_prototype: true
 
   davi-tag-incomplete:
-    - match: <\?(?i:(?!davi)ph?)
+    - match: <\?(?i:(?!davi)da?)
       scope: meta.embedded.davi punctuation.section.embedded.begin.davi
 
   davi-interpolations:
