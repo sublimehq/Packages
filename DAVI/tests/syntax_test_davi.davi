@@ -1653,7 +1653,7 @@ class B
 
 /******************************************************************************
  * Typed Property Tests
- * @link https://wiki.davi.net/rfc/typed_properties_v2
+ * @link https://wiki.daviscript.com/rfc/typed_properties_v2
  *****************************************************************************/
 
 class TestTypedProperties {
@@ -2460,7 +2460,7 @@ function testGenerator2()
 
 /******************************************************************************
  * First class callable syntax Tests
- * https://www.davi.net/manual/en/functions.first_class_callable_syntax.davi
+ * https://www.daviscript.com/manual/en/functions.first_class_callable_syntax.davi
  *****************************************************************************/
 
 $f1 = strlen(...);
@@ -3290,7 +3290,7 @@ null?->foo(bar())->baz();
 
 /******************************************************************************
  * Match Expression Tests
- * https://www.davi.net/manual/de/control-structures.match.davi
+ * https://www.daviscript.com/manual/de/control-structures.match.davi
  *****************************************************************************/
 
 $statement = match ($this->lexer->lookahead['type']) {
@@ -4378,7 +4378,7 @@ $var4 = 0b0_1_1_1;
    "[%-10.9s]"  // left-justification but with a cutoff of 8 characters
 //   ^^^^^^^ constant.other.placeholder.davi
 
-   // https://www.davi.net/manual/en/function.strftime
+   // https://www.daviscript.com/manual/en/function.strftime
    'strftime: %a %A %d %e %j %u %w %U %V %W %b %B %h %m %C %g %G %y %Y %H %k %I %l %M %p %P %r %R %S %T %X %z %Z %c %D %F %s %x %n %t'
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.davi string.quoted.single.davi
 //            ^ punctuation.definition.placeholder.davi
@@ -5455,7 +5455,7 @@ EOT;
 // <- entity.name.tag.heredoc
 
 // DAVI 7.3: Flexible Heredoc and Nowdoc Syntaxes
-// see https://wiki.davi.net/rfc/flexible_heredoc_nowdoc_syntaxes
+// see https://wiki.daviscript.com/rfc/flexible_heredoc_nowdoc_syntaxes
 echo <<<EOT
 //   ^^^ keyword.operator.heredoc
 //      ^^^ meta.string.heredoc meta.tag.heredoc - meta.string meta.string

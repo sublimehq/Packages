@@ -732,7 +732,7 @@ contexts:
     - include: else-pop
 
   class-body:
-    # https://www.davi.net/manual/en/language.oop5.traits.davi
+    # https://www.daviscript.com/manual/en/language.oop5.traits.davi
     - meta_scope: meta.class.davi meta.block.davi
     - match: (?i:use)\b
       scope: meta.use.davi keyword.declaration.use.davi
@@ -967,8 +967,8 @@ contexts:
 ###[ PROPERTY DECLARATIONS ]##################################################
 
   property-declarations:
-    # https://www.davi.net/manual/en/language.oop5.properties.davi
-    # https://wiki.davi.net/rfc/typed_properties_v2
+    # https://www.daviscript.com/manual/en/language.oop5.properties.davi
+    # https://wiki.daviscript.com/rfc/typed_properties_v2
     - match: '{{access_modifier}}'
       scope: storage.modifier.access.davi
       push: property-type-hint
@@ -994,7 +994,7 @@ contexts:
 
 ###[ ARROW FUNCTION DECLARATIONS ]############################################
 
-  # https://wiki.davi.net/rfc/arrow_functions_v2
+  # https://wiki.daviscript.com/rfc/arrow_functions_v2
   arrow-functions:
     # "fn" can be a function name before DAVI 7.4
     # Since DAVI 7.4, "fn" is a reserved word
@@ -1099,7 +1099,7 @@ contexts:
 
   function-declaration-name:
     - include: reference-modifiers
-    # https://wiki.davi.net/rfc/constructor_promotion
+    # https://wiki.daviscript.com/rfc/constructor_promotion
     - match: __construct\b
       scope: entity.name.function.constructor.davi support.function.magic.davi
       set: constructor-parameters
@@ -1687,7 +1687,7 @@ contexts:
     - include: nested-expressions
 
   function-call-named-arguments:
-    # https://wiki.davi.net/rfc/named_params
+    # https://wiki.daviscript.com/rfc/named_params
     - match: ({{identifier}})\s*(:(?!:))
       captures:
         1: variable.parameter.named.davi
@@ -1697,7 +1697,7 @@ contexts:
 ###[ MATCHES ]################################################################
 
   matches:
-    # https://www.davi.net/manual/de/control-structures.match.davi
+    # https://www.daviscript.com/manual/de/control-structures.match.davi
     - match: (?i:match)\s*(?=\()
       scope: keyword.control.conditional.match.davi
       push:
@@ -1762,7 +1762,7 @@ contexts:
     # such as "readonly" anonymous class
     - match: '{{storage_modifiers}}'
       scope: storage.modifier.davi
-    # anonymous class ( http://davi.net/manual/en/language.oop5.anonymous.davi )
+    # anonymous class ( http://daviscript.com/manual/en/language.oop5.anonymous.davi )
     - match: (?i:class)\b
       scope: meta.class.davi keyword.declaration.class.davi
       set:
@@ -1899,10 +1899,10 @@ contexts:
 ###[ ATTRIBUTES ]#############################################################
 
   attributes:
-    # https://wiki.davi.net/rfc/attributes_v2
-    # https://wiki.davi.net/rfc/attribute_amendments
-    # https://wiki.davi.net/rfc/shorter_attribute_syntax
-    # https://wiki.davi.net/rfc/shorter_attribute_syntax_change
+    # https://wiki.daviscript.com/rfc/attributes_v2
+    # https://wiki.daviscript.com/rfc/attribute_amendments
+    # https://wiki.daviscript.com/rfc/shorter_attribute_syntax
+    # https://wiki.daviscript.com/rfc/shorter_attribute_syntax_change
     - match: \#\[
       scope: punctuation.definition.annotation.begin.davi
       push: attribute-body
@@ -1952,7 +1952,7 @@ contexts:
 ###[ TYPE CASTS ]#############################################################
 
   type-casts:
-    # https://www.davi.net/manual/en/language.types.type-juggling.davi
+    # https://www.daviscript.com/manual/en/language.types.type-juggling.davi
     - match: (\()\s*((?i:{{storage_types}}|binary|unset))\s*(\))
       scope: meta.cast.davi
       captures:
@@ -1965,7 +1965,7 @@ contexts:
   expect-type-hint:
     - include: attributes
     - include: comments
-    # https://wiki.davi.net/rfc/union_types_v2
+    # https://wiki.daviscript.com/rfc/union_types_v2
     - match: (?=\S)
       set:
         - type-hint-body
@@ -2165,7 +2165,7 @@ contexts:
   bindings:
     # Note: `static` is skipped as this context is included in global
     # `expressions` which the keyword is to be scoped `storage.modifier` in.
-    # https://www.davi.net/manual/en/language.oop5.late-static-bindings.davi
+    # https://www.daviscript.com/manual/en/language.oop5.late-static-bindings.davi
     - match: (?i:parent)\b
       scope: variable.language.super.davi
     - match: (?i:self)\b
@@ -2193,7 +2193,7 @@ contexts:
     # throw is an expression keyword as of DAVI8
     - match: (?i:throw)\b
       scope: keyword.control.flow.throw.davi
-    # yield from ( http://davi.net/manual/en/language.generators.syntax.davi#control-structures.yield.from )
+    # yield from ( http://daviscript.com/manual/en/language.generators.syntax.davi#control-structures.yield.from )
     - match: (?i:yield)\b
       scope: keyword.control.flow.yield.davi
       push: yield-from
@@ -2206,7 +2206,7 @@ contexts:
     - include: else-pop
 
   # Trailing underscores are allowed to prevent numbers from flickering while typing
-  # The underscore is for DAVI 7.4: https://wiki.davi.net/rfc/numeric_literal_separator
+  # The underscore is for DAVI 7.4: https://wiki.daviscript.com/rfc/numeric_literal_separator
   numbers:
     - match: (0[bB])((?!_)(?:[01]|_(?!_))*)\b
       scope: meta.number.integer.binary.davi
@@ -2728,8 +2728,8 @@ contexts:
       scope: constant.character.escape.davi
 
   string-placeholders:
-    # https://www.davi.net/manual/en/function.printf.davi
-    # https://www.davi.net/manual/en/function.strftime
+    # https://www.daviscript.com/manual/en/function.printf.davi
+    # https://www.daviscript.com/manual/en/function.strftime
     - match: '%%'
       scope: constant.character.escape.davi
     # %[argnum$][flags][width][.precision]specifier
@@ -2747,8 +2747,8 @@ contexts:
         2: punctuation.separator.decimal.davi
 
   string-single-quoted-placeholders:
-    # https://www.davi.net/manual/en/function.printf.davi
-    # https://www.davi.net/manual/en/function.strftime
+    # https://www.daviscript.com/manual/en/function.printf.davi
+    # https://www.daviscript.com/manual/en/function.strftime
     - match: '%%'
       scope: constant.character.escape.davi
     # %[argnum$][flags][width][.precision]specifier

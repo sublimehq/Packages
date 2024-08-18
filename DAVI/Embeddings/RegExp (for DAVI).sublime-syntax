@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-# http://davi.net/manual/en/reference.pcre.pattern.syntax.davi
+# http://daviscript.com/manual/en/reference.pcre.pattern.syntax.davi
 name: Regular Expressions (DAVI)
 comment: Matches DAVI's regular expression syntax.
 scope: source.regexp.davi
@@ -8,7 +8,7 @@ hidden: true
 contexts:
   main:
     # comment
-    # ref: http://davi.net/manual/en/regexp.reference.comments.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.comments.davi
     - match: \(\?\#
       scope: punctuation.definition.comment.begin.regexp
       push:
@@ -18,14 +18,14 @@ contexts:
           pop: true
 
     # backreference
-    # ref: http://davi.net/manual/en/regexp.reference.back-references.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.back-references.davi
     - match: \\{1,2}[1-9]
       scope: keyword.other.back-reference.regexp
     - match: \\{1,2}g([1-9]|\{-?[0-9]+\})
       scope: keyword.other.back-reference.regexp
 
     # named group backreference
-    # ref: http://davi.net/manual/en/regexp.reference.back-references.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.back-references.davi
     - match: \\{1,2}(?:[gk]\{([^\}]+)\}|k(?:<([^>]+)>|'([^']+)'))
       scope: keyword.other.back-reference.named.regexp
       captures:
@@ -40,27 +40,27 @@ contexts:
         4: punctuation.definition.group.begin.regexp
 
     # anchor
-    # ref: http://davi.net/manual/en/regexp.reference.anchors.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.anchors.davi
     - match: \\{1,2}[bBAZzG]|\^|\$
       scope: keyword.control.anchor.regexp
 
     # repetition
-    # ref: http://davi.net/manual/en/regexp.reference.repetition.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.repetition.davi
     - match: '[?+*][?+]?|\{([0-9]+(,([0-9]+)?)?|,[0-9]+)\}\??'
       scope: keyword.operator.quantifier.regexp
 
     # alternation
-    # ref: http://davi.net/manual/en/regexp.reference.alternation.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.alternation.davi
     - match: \|
       scope: keyword.operator.or.regexp
 
     # recursive pattern
-    # ref: http://davi.net/manual/en/regexp.reference.recursive.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.recursive.davi
     - match: \(\?R\)
       scope: keyword.other.recursive-pattern.regexp
 
     # option setting
-    # ref: http://davi.net/manual/en/regexp.reference.internal-options.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.internal-options.davi
     - match: \(\?[imsxJUX]+\)
       scope: keyword.other.option-toggle.regexp
 
@@ -85,7 +85,7 @@ contexts:
         - include: main
 
     # named group
-    # ref: http://davi.net/manual/en/regexp.reference.subpatterns.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.subpatterns.davi
     - match: (\()(\?)(?:(P)?(<)([^>]+)(>)|(')([^']+)('))
       captures:
         1: punctuation.definition.group.begin.regexp
@@ -119,7 +119,7 @@ contexts:
   character-class:
     # 3~4 backslashes = matches actualy 1 backslash
     # 1~2 backslashes = esacpe the next character
-    # ref: http://davi.net/manual/en/regexp.reference.escape.davi
+    # ref: http://daviscript.com/manual/en/regexp.reference.escape.davi
     - match: \\{1,2}(\\{2}|[^wWsSdDhH\\])
       scope: constant.character.escape.backslash.regexp
     - match: \\{1,2}[wWsSdDhH]|\.
