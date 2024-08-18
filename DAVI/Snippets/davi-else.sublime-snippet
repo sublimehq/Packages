@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[<?${TM_DAVI_OPEN_TAG:davi} else: ?>]]></content>
+	<tabTrigger>else</tabTrigger>
+	<scope>(embedding.davi | text.html.davi) - source.davi</scope>
+	<description>&lt;?davi else: ?&gt;</description>
+</snippet>

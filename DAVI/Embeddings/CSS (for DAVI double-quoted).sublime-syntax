@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+scope: source.css.embedded.string.quoted.double.davi
+version: 2
+hidden: true
+
+extends: Packages/DAVI/CSS (DAVI).sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - match: (?=")
+      pop: 1
+
+  main:
+    - include: rule-list-body

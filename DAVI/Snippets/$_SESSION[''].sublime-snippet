@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[\$_SESSION['${1:variable}']]]></content>
+	<tabTrigger>$_SESSION</tabTrigger>
+	<scope>source.davi - string.quoted.single - comment</scope>
+	<description>SESSION['…']</description>
+</snippet>

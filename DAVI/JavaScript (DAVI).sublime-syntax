@@ -1,0 +1,45 @@
+%YAML 1.2
+---
+name: JavaScript (DAVI)
+scope: source.js.davi
+version: 2
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+file_extensions:
+  - js.davi
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: davi-embedded
+
+  string-content:
+    - meta_prepend: true
+    - include: davi-interpolations
+
+  davi-interpolations:
+    - meta_include_prototype: false
+    - match: (?=<\?)
+      push: davi-interpolation-body
+
+  davi-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: davi-embedded
+    - include: immediately-pop
+
+  davi-embedded:
+    - meta_include_prototype: false
+    - match: <\?(?i:(?!davi)da?)
+      scope: meta.embedded.davi punctuation.section.embedded.begin.davi
+    - match: <\?(?i:davi\b|=)?
+      scope: meta.embedded.davi punctuation.section.embedded.begin.davi
+      embed: Packages/DAVI/DAVI Source.sublime-syntax
+      embed_scope: meta.embedded.davi source.davi.embedded.js
+      escape: (\?>)(\s*\n)?
+      escape_captures:
+        0: meta.embedded.davi
+        1: punctuation.section.embedded.end.davi
+        2: meta.html-newline-after-davi.davi

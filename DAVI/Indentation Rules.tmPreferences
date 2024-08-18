@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		source.davi - comment - meta.embedded.html - string,
+		meta.html-newline-after-davi
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^                                                                                 # the start of the line
+			(
+			    (
+			        .*\*/                                                                     # with an end block comment somewhere on the line
+			    |   \s* (<\?(davi)?\s+)?                                                       # OR a DAVI open tag
+			    )?                                                                            # the above is optional
+			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing: curly brace, square bracket or paren
+			|                                                                                 # OR
+			    \s* (<\?(davi)?\s+)?                                                           # an optional DAVI open tag
+			    (else(\s*if)?\b.*:\s*($|//|/\*|\?>)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
+			)
+		]]></string>
+
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			# define subexpressions
+			(?<string>"(?:[^"]++|\\.)*+"|'(?:[^']++|\\.)*+'){0}
+			(?<block_comment>/\*(?:[^*]++|\*(?!/))*+\*/){0}
+			(?<not_paren>(?:\g<string>++|\g<block_comment>++|[^()'"/]++|/(?!\*))*+){0}
+			(?<balanced_paren>
+			    \(                         # an open paren
+			    \g<not_paren>              # followed by anything that's not a paren
+			    \g<balanced_paren>*+       # followed by any number of nested parens
+			    \g<not_paren>              # followed by anything that's not a paren
+			    \)                         # a closing paren
+			){0}
+			# begin rule
+			^.*              # anything on the line followed by:
+			(
+			    \{[^}"']*    # an open curly brace not followed by a closing brace or string punctuation
+			|   \[[^]"']*    # an open square bracket not followed by a closing square bracket or string punctuation
+			|   \([^)"']*    # an open bracket not followed by a closing bracket or string punctuation
+			)$
+			| # OR
+			^\s* (<\?(davi)?\s+)?                                                                # the beginning of the line followed by any amount of whitespace and an optional davi open tag
+			(   (?:
+			        (?:else)?if\s*\g<balanced_paren>|else                                       # DAVI "if" related statements
+			    )\s*:(?!.*\bendif\b)                                                            # followed by a colon, not followed by an "endif" anywhere on the line
+			    |
+			    (?<davi_control_word>foreach|for|switch|while)\s*\g<balanced_paren>              # DAVI control keywords, followed by balanced DAVI
+			    \s*:(?!.*\bend\k<davi_control_word>\b)                                           # followed by a colon, and where the control structures don't end themselves on the same line
+			)
+		]]></string>
+
+		<key>indentNextLinePattern</key>
+		<string><![CDATA[^(?!.*(#|//|\*/|<\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|<\?davi.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)]]></string>
+
+		<key>bracketIndentNextLinePattern</key>
+		<string>(?x)
+		^ \s* \b(if|while|else|elseif|foreach)\b [^;]* $
+		| ^ \s* \b(for)\b .* [^;]\s*$
+		</string>
+	</dict>
+</dict>
+</plist>

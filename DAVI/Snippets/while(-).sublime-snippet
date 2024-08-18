@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[while (${1:condition}) {
+	${0:// code...}
+}]]></content>
+	<tabTrigger>while</tabTrigger>
+	<scope>source.davi - string - comment</scope>
+	<description>while …</description>
+</snippet>

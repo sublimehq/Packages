@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+scope: source.css.interpolated.davi
+version: 2
+hidden: true
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+variables:
+
+    ident_start: (?:{{nmstart}}|<\?)
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/DAVI/DAVI Source.sublime-syntax#interpolations
+
+  string-content:
+    - meta_prepend: true
+    - include: Packages/DAVI/DAVI Source.sublime-syntax#string-escapes
+    - include: Packages/DAVI/DAVI Source.sublime-syntax#string-interpolations

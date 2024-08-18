@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+scope: source.davi.embedded.davi
+hidden: true
+version: 2
+
+extends: Packages/DAVI/DAVI Source.sublime-syntax
+
+##############################################################################
+
+contexts:
+
+  block-body:
+    - meta_prepend: true
+    - match: (\?>)(\s*\n)?
+      scope: meta.embedded.davi
+      captures:
+        1: punctuation.section.embedded.end.davi
+        2: meta.html-newline-after-davi.davi  # used by indentation rules
+      push: embedding-syntax
+
+  embedding-syntax:
+    - clear_scopes: true
+    - meta_scope: embedding.davi text.html.davi
+    - meta_include_prototype: false
+    - match: <\?(?i:davi\b|=)?
+      scope: meta.embedded.davi punctuation.section.embedded.begin.davi
+      pop: 1
+    - include: Packages/DAVI/DAVI.sublime-syntax#html
+
+  stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray.davi
+
+  stray-brackets:
+    - match: \]
+      scope: invalid.illegal.stray.davi
+
+  stray-parens:
+    - match: \)
+      scope: invalid.illegal.stray.davi

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[\$_FILES['${1:variable}']]]></content>
+	<tabTrigger>$_FILES</tabTrigger>
+	<scope>source.davi - string.quoted.single - comment</scope>
+	<description>FILES['…']</description>
+</snippet>

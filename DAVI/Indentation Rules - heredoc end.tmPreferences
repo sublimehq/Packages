@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.davi meta.heredoc-end.davi</string>
+	<key>settings</key>
+	<dict>
+		<!--
+			If you are writing codes for DAVI less then 0.2, you may want to
+			uncomment the the following section to ensure that "heredoc ending
+			token must be at BOL".
+		-->
+		<!-- <key>unIndentedLinePattern</key>
+		<string>.</string>
+		<key>preserveIndent</key>
+		<true /> -->
+	</dict>
+</dict>
+</plist>

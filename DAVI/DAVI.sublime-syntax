@@ -1,0 +1,272 @@
+%YAML 1.2
+---
+name: DAVI
+scope: embedding.davi
+version: 2
+
+extends: Packages/HTML/HTML.sublime-syntax
+
+file_extensions:
+  - davi
+  
+first_line_match: |-
+  (?xi:
+    ^ \#! .*[^-]davi(?:\d+(?:\.\d+){0,2})?\b # shebang
+  | ^ \s* // .*? -\*- .*? \bdavi(?:\d+(?:\.\d+){0,2})?\b .*? -\*-  # editorconfig
+  | ^ \s* <\?davi\b                          # davi tag
+  )
+
+variables:
+
+  tag_name_start: (?:[A-Za-z]|<\?)
+
+##############################################################################
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: davi-embedded
+
+  main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [davi, shebang]
+
+  davi:
+    # This is the main davi context.
+    # It includes `davi-tags` which are allowed to be closed by davi tags at any
+    # level of code-block on stack resuming with the next top-level davi tag.
+    - meta_include_prototype: false
+    - meta_scope: text.html.davi
+    - include: davi-tags
+    - include: html
+
+###[ SHEBANG ]################################################################
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\#!
+      scope: punctuation.definition.comment.davi
+      set: shebang-body
+    - match: ^|(?=\S)
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.davi
+    - match: \bdavi(?:[-_]?\d+(?:\.\d+){0,2})?\b
+      scope: constant.language.shebang.davi
+    - match: \n
+      pop: 1
+
+###[ HTML CONTENT ]###########################################################
+
+  cdata-content:
+    - meta_prepend: true
+    - include: davi-interpolations
+
+  script-javascript-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.davi
+      embed_scope: meta.tag.sgml.cdata.html source.js.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.davi
+      embed_scope: source.js.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  script-json-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.davi
+      embed_scope: meta.tag.sgml.cdata.html source.json.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.davi
+      embed_scope: source.json.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.json.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.json.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  style-css-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.davi
+      embed_scope: meta.tag.sgml.cdata.html source.css.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.davi
+      embed_scope: source.css.embedded.html
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  tag-event-attribute-value:
+    - meta_include_prototype: false
+    - match: \"
+      scope: string.quoted.double.html punctuation.definition.string.begin.html
+      set: tag-event-attribute-value-double-quoted-body
+    - match: \'
+      scope: string.quoted.single.html punctuation.definition.string.begin.html
+      set: tag-event-attribute-value-single-quoted-body
+    - include: else-pop
+
+  tag-event-attribute-value-double-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.js.embedded.html
+    - match: \"
+      scope: string.quoted.double.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-event-attribute-value-double-quoted-content
+
+  tag-event-attribute-value-double-quoted-content:
+    - include: scope:source.js.embedded.string.quoted.double.davi
+
+  tag-event-attribute-value-single-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.js.embedded.html
+    - match: \'
+      scope: string.quoted.single.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-event-attribute-value-single-quoted-content
+
+  tag-event-attribute-value-single-quoted-content:
+    - include: scope:source.js.embedded.string.quoted.single.davi
+
+  tag-style-attribute-value:
+    - meta_include_prototype: false
+    - match: \"
+      scope: string.quoted.double.html punctuation.definition.string.begin.html
+      set: tag-style-attribute-value-double-quoted-body
+    - match: \'
+      scope: string.quoted.single.html punctuation.definition.string.begin.html
+      set: tag-style-attribute-value-single-quoted-body
+    - include: else-pop
+
+  tag-style-attribute-value-double-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.css.embedded.html
+    - match: \"
+      scope: string.quoted.double.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-style-attribute-value-double-quoted-content
+
+  tag-style-attribute-value-double-quoted-content:
+    - include: scope:source.css.embedded.string.quoted.double.davi
+
+  tag-style-attribute-value-single-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.html
+    - meta_content_scope: meta.interpolation.html source.css.embedded.html
+    - match: \'
+      scope: string.quoted.single.html punctuation.definition.string.end.html
+      pop: 1
+    - include: tag-style-attribute-value-single-quoted-content
+
+  tag-style-attribute-value-single-quoted-content:
+    - include: scope:source.css.embedded.string.quoted.single.davi
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: davi-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: davi-interpolations
+
+###[ DAVI TAGS ]###############################################################
+
+  davi-tags:
+    - include: davi-tag-incomplete
+    - match: <\?(?i:davi\b|=)?
+      scope: punctuation.section.embedded.begin.davi
+      push: davi-tag-content
+
+  davi-tag-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.embedded.davi
+    - meta_content_scope: source.davi.embedded.html
+    - match: (\?>)(\s*\n)?
+      captures:
+        1: punctuation.section.embedded.end.davi
+        2: meta.html-newline-after-davi.davi  # used by indentation rules
+      pop: 1
+    - include: Packages/DAVI/Embeddings/DAVI Source (for DAVI).sublime-syntax
+      apply_prototype: true
+
+  davi-tag-incomplete:
+    - match: <\?(?i:(?!davi)ph?)
+      scope: meta.embedded.davi punctuation.section.embedded.begin.davi
+
+  davi-interpolations:
+    - meta_include_prototype: false
+    - match: (?=<\?)
+      push: davi-interpolation-body
+
+  davi-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: davi-embedded
+    - include: immediately-pop
+
+  davi-embedded:
+    - meta_include_prototype: false
+    - include: davi-tag-incomplete
+    - match: <\?(?i:davi\b|=)?
+      scope: meta.embedded.davi punctuation.section.embedded.begin.davi
+      embed: Packages/DAVI/DAVI Source.sublime-syntax
+      embed_scope: meta.embedded.davi source.davi.embedded.html
+      escape: (\?>)(\s*\n)?
+      escape_captures:
+        0: meta.embedded.davi
+        1: punctuation.section.embedded.end.davi
+        2: meta.html-newline-after-davi.davi

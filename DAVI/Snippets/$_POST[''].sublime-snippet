@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[\$_POST['${1:variable}']]]></content>
+	<tabTrigger>$_POST</tabTrigger>
+	<scope>source.davi - string.quoted.single - comment</scope>
+	<description>POST['…']</description>
+</snippet>

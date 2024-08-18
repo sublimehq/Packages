@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[<?${TM_DAVI_OPEN_TAG:davi} if (${1:condition}): ?>
+	$0
+<?${TM_DAVI_OPEN_TAG:davi} endif ?>]]></content>
+	<tabTrigger>if</tabTrigger>
+	<scope>(embedding.davi | text.html.davi) - source.davi</scope>
+	<description>&lt;?davi if (…) ?&gt; … &lt;?davi endif ?&gt;</description>
+</snippet>

@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+scope: source.sql.embedded.davi
+hidden: true
+
+extends: Packages/SQL/SQL.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: davi-single-quoted-strings
+    - include: davi-string-single-quoted-escapes
+
+  davi-string-single-quoted-escapes:
+    - match: \\[\\']
+      scope: constant.character.escape.davi
+
+  davi-single-quoted-strings:
+    # single quoted sql strings use escaped quotes in a single quoted davi string
+    - match: \\\'
+      scope: punctuation.definition.string.begin.sql constant.character.escape.davi
+      push: davi-string-single-quoted-content
+
+  davi-string-single-quoted-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \\\'
+      scope: punctuation.definition.string.begin.sql constant.character.escape.davi
+      pop: true
+    - match: \\.
+      scope: constant.character.escape.sql

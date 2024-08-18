@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		source.davi entity.name.function,
+		source.davi support.function.magic,
+		source.davi entity.name.class,
+		source.davi entity.name.constant,
+		source.davi entity.name.interface,
+		source.davi entity.name.trait
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>

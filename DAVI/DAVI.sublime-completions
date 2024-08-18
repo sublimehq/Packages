@@ -1,0 +1,578 @@
+{
+	"scope": "source.davi - string - comment - variable.other.davi - meta.embedded.html - punctuation.section.embedded.begin.davi",
+	"completions":
+	[
+		"davi",
+		{
+			"trigger": "abs()",
+			"contents": "abs(${1:number})",
+			"kind": "function",
+			"details": "Absolute value"
+		},
+		{
+			"trigger": "acos()",
+			"contents": "acos(${1:arg})",
+			"kind": "function",
+			"details": "Arc cosine"
+		},
+		{
+			"trigger": "acosh()",
+			"contents": "acosh(${1:arg})",
+			"kind": "function",
+			"details": "Inverse hyperbolic cosine"
+		},
+		{
+			"trigger": "addcslashes()",
+			"contents": "addcslashes(${1:str}, ${2:charlist})",
+			"kind": "function",
+			"details": "Quote string with slashes in a C style"
+		},
+		{
+			"trigger": "addslashes()",
+			"contents": "addslashes(${1:str})",
+			"kind": "function",
+			"details": "Quote string with slashes"
+		},
+		{
+			"trigger": "array()",
+			"contents": "array()",
+			"kind": "function",
+			"details": "Create an array"
+		},
+		{
+			"trigger": "array_change_key_case()",
+			"contents": "array_change_key_case(${1:input})",
+			"kind": "function",
+			"details": "Changes the case of all keys in an array"
+		},
+		{
+			"trigger": "array_chunk()",
+			"contents": "array_chunk(${1:input}, ${2:size})",
+			"kind": "function",
+			"details": "Split an array into chunks"
+		},
+		{
+			"trigger": "array_column()",
+			"contents": "array_column(${1:input}, ${2:column_key})",
+			"kind": "function",
+			"details": "Return the values from a single column in the input array"
+		},
+		{
+			"trigger": "array_combine()",
+			"contents": "array_combine(${1:keys}, ${2:values})",
+			"kind": "function",
+			"details": "Creates an array by using one array for keys and another for its values"
+		},
+		{
+			"trigger": "array_count_values()",
+			"contents": "array_count_values(${1:input})",
+			"kind": "function",
+			"details": "Counts all the values of an array"
+		},
+		{
+			"trigger": "array_diff()",
+			"contents": "array_diff(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays"
+		},
+		{
+			"trigger": "array_diff_assoc()",
+			"contents": "array_diff_assoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays with additional index check"
+		},
+		{
+			"trigger": "array_diff_key()",
+			"contents": "array_diff_key(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays using keys for comparison"
+		},
+		{
+			"trigger": "array_diff_uassoc()",
+			"contents": "array_diff_uassoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays with additional index check which is performed by a user supplied callback function"
+		},
+		{
+			"trigger": "array_diff_ukey()",
+			"contents": "array_diff_ukey(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays using a callback function on the keys for comparison"
+		},
+		{
+			"trigger": "array_fill()",
+			"contents": "array_fill(${1:start_index}, ${2:num}, ${3:value})",
+			"kind": "function",
+			"details": "Fill an array with values"
+		},
+		{
+			"trigger": "array_fill_keys()",
+			"contents": "array_fill_keys(${1:keys}, ${2:value})",
+			"kind": "function",
+			"details": "Fill an array with values, specifying keys"
+		},
+		{
+			"trigger": "array_filter()",
+			"contents": "array_filter(${1:input})",
+			"kind": "function",
+			"details": "Filters elements of an array using a callback function"
+		},
+		{
+			"trigger": "array_flip()",
+			"contents": "array_flip(${1:trans})",
+			"kind": "function",
+			"details": "Exchanges all keys with their associated values in an array"
+		},
+		{
+			"trigger": "array_intersect()",
+			"contents": "array_intersect(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays"
+		},
+		{
+			"trigger": "array_intersect_assoc()",
+			"contents": "array_intersect_assoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays with additional index check"
+		},
+		{
+			"trigger": "array_intersect_key()",
+			"contents": "array_intersect_key(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays using keys for comparison"
+		},
+		{
+			"trigger": "array_intersect_uassoc()",
+			"contents": "array_intersect_uassoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays with additional index check, compares indexes by a callback function"
+		},
+		{
+			"trigger": "array_intersect_ukey()",
+			"contents": "array_intersect_ukey(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays using a callback function on the keys for comparison"
+		},
+		{
+			"trigger": "array_is_list()",
+			"contents": "array_is_list(${1:array})",
+			"kind": "function",
+			"details": "Checks if the given array is a list"
+		},
+		{
+			"trigger": "array_key_exists()",
+			"contents": "array_key_exists(${1:key}, ${2:array})",
+			"kind": "function",
+			"details": "Checks if the given key or index exists in the array"
+		},
+		{
+			"trigger": "array_key_first()",
+			"contents": "array_key_first(${1:array})",
+			"kind": "function",
+			"details": "Gets the first key of an array"
+		},
+		{
+			"trigger": "array_key_last()",
+			"contents": "array_key_last(${1:array})",
+			"kind": "function",
+			"details": "Gets the last key of an array"
+		},
+		{
+			"trigger": "array_keys()",
+			"contents": "array_keys(${1:input})",
+			"kind": "function",
+			"details": "Return all the keys or a subset of the keys of an array"
+		},
+		{
+			"trigger": "array_map()",
+			"contents": "array_map(${1:callback}, ${2:arr1})",
+			"kind": "function",
+			"details": "Applies the callback to the elements of the given arrays"
+		},
+		{
+			"trigger": "array_merge()",
+			"contents": "array_merge(${1:array1})",
+			"kind": "function",
+			"details": "Merge one or more arrays"
+		},
+		{
+			"trigger": "array_merge_recursive()",
+			"contents": "array_merge_recursive(${1:array1})",
+			"kind": "function",
+			"details": "Merge one or more arrays recursively"
+		},
+		{
+			"trigger": "array_multisort()",
+			"contents": "array_multisort(${1:arr})",
+			"kind": "function",
+			"details": "Sort multiple or multi-dimensional arrays"
+		},
+		{
+			"trigger": "array_pad()",
+			"contents": "array_pad(${1:input}, ${2:pad_size}, ${3:pad_value})",
+			"kind": "function",
+			"details": "Pad array to the specified length with a value"
+		},
+		{
+			"trigger": "array_pop()",
+			"contents": "array_pop(${1:array})",
+			"kind": "function",
+			"details": "Pop the element off the end of array"
+		},
+		{
+			"trigger": "array_product()",
+			"contents": "array_product(${1:array})",
+			"kind": "function",
+			"details": "Calculate the product of values in an array"
+		},
+		{
+			"trigger": "array_push()",
+			"contents": "array_push(${1:array}, ${2:var})",
+			"kind": "function",
+			"details": "Push one or more elements onto the end of array"
+		},
+		{
+			"trigger": "array_rand()",
+			"contents": "array_rand(${1:input})",
+			"kind": "function",
+			"details": "Pick one or more random keys out of an array"
+		},
+		{
+			"trigger": "array_reduce()",
+			"contents": "array_reduce(${1:input}, ${2:function})",
+			"kind": "function",
+			"details": "Iteratively reduce the array to a single value using a callback function"
+		},
+		{
+			"trigger": "array_replace()",
+			"contents": "array_replace(${1:array}, ${2:array1})",
+			"kind": "function",
+			"details": "Replaces elements from passed arrays into the first array"
+		},
+		{
+			"trigger": "array_replace_recursive()",
+			"contents": "array_replace_recursive(${1:array}, ${2:array1})",
+			"kind": "function",
+			"details": "Replaces elements from passed arrays into the first array recursively"
+		},
+		{
+			"trigger": "array_reverse()",
+			"contents": "array_reverse(${1:array})",
+			"kind": "function",
+			"details": "Return an array with elements in reverse order"
+		},
+		{
+			"trigger": "array_search()",
+			"contents": "array_search(${1:needle}, ${2:haystack})",
+			"kind": "function",
+			"details": "Searches the array for a given value and returns the first corresponding key if successful"
+		},
+		{
+			"trigger": "array_shift()",
+			"contents": "array_shift(${1:array})",
+			"kind": "function",
+			"details": "Shift an element off the beginning of array"
+		},
+		{
+			"trigger": "array_slice()",
+			"contents": "array_slice(${1:array}, ${2:offset})",
+			"kind": "function",
+			"details": "Extract a slice of the array"
+		},
+		{
+			"trigger": "array_splice()",
+			"contents": "array_splice(${1:input}, ${2:offset})",
+			"kind": "function",
+			"details": "Remove a portion of the array and replace it with something else"
+		},
+		{
+			"trigger": "array_sum()",
+			"contents": "array_sum(${1:array})",
+			"kind": "function",
+			"details": "Calculate the sum of values in an array"
+		},
+		{
+			"trigger": "array_udiff()",
+			"contents": "array_udiff(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays by using a callback function for data comparison"
+		},
+		{
+			"trigger": "array_udiff_assoc()",
+			"contents": "array_udiff_assoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays with additional index check, compares data by a callback function"
+		},
+		{
+			"trigger": "array_udiff_uassoc()",
+			"contents": "array_udiff_uassoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the difference of arrays with additional index check, compares data and indexes by a callback function"
+		},
+		{
+			"trigger": "array_uintersect()",
+			"contents": "array_uintersect(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays, compares data by a callback function"
+		},
+		{
+			"trigger": "array_uintersect_assoc()",
+			"contents": "array_uintersect_assoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays with additional index check, compares data by a callback function"
+		},
+		{
+			"trigger": "array_uintersect_uassoc()",
+			"contents": "array_uintersect_uassoc(${1:array1}, ${2:array2})",
+			"kind": "function",
+			"details": "Computes the intersection of arrays with additional index check, compares data and indexes by separate callback functions"
+		},
+		{
+			"trigger": "array_unique()",
+			"contents": "array_unique(${1:array})",
+			"kind": "function",
+			"details": "Removes duplicate values from an array"
+		},
+		{
+			"trigger": "array_unshift()",
+			"contents": "array_unshift(${1:array}, ${2:var})",
+			"kind": "function",
+			"details": "Prepend one or more elements to the beginning of an array"
+		},
+		{
+			"trigger": "array_values()",
+			"contents": "array_values(${1:input})",
+			"kind": "function",
+			"details": "Return all the values of an array"
+		},
+		{
+			"trigger": "array_walk()",
+			"contents": "array_walk(${1:array}, ${2:funcname})",
+			"kind": "function",
+			"details": "Apply a user supplied function to every member of an array"
+		},
+		{
+			"trigger": "array_walk_recursive()",
+			"contents": "array_walk_recursive(${1:input}, ${2:funcname})",
+			"kind": "function",
+			"details": "Apply a user function recursively to every member of an array"
+		},
+		{
+			"trigger": "arsort()",
+			"contents": "arsort(${1:array})",
+			"kind": "function",
+			"details": "Sort an array in reverse order and maintain index association"
+		},
+		{
+			"trigger": "asin()",
+			"contents": "asin(${1:arg})",
+			"kind": "function",
+			"details": "Arc sine"
+		},
+		{
+			"trigger": "asinh()",
+			"contents": "asinh(${1:arg})",
+			"kind": "function",
+			"details": "Inverse hyperbolic sine"
+		},
+		{
+			"trigger": "asort()",
+			"contents": "asort(${1:array})",
+			"kind": "function",
+			"details": "Sort an array and maintain index association"
+		},
+		{
+			"trigger": "symlink()",
+			"contents": "symlink(${1:target}, ${2:link})",
+			"kind": "function",
+			"details": "Creates a symbolic link"
+		},
+		{
+			"trigger": "sys_get_temp_dir()",
+			"contents": "sys_get_temp_dir()",
+			"kind": "function",
+			"details": "Returns directory path used for temporary files"
+		},
+		{
+			"trigger": "sys_getloadavg()",
+			"contents": "sys_getloadavg()",
+			"kind": "function",
+			"details": "Gets system load average"
+		},
+		{
+			"trigger": "syslog()",
+			"contents": "syslog(${1:priority}, ${2:message})",
+			"kind": "function",
+			"details": "Generate a system log message"
+		},
+		{
+			"trigger": "system()",
+			"contents": "system(${1:command})",
+			"kind": "function",
+			"details": "Execute an external program and display the output"
+		},
+		{
+			"trigger": "tan()",
+			"contents": "tan(${1:arg})",
+			"kind": "function",
+			"details": "Tangent"
+		},
+		{
+			"trigger": "tanh()",
+			"contents": "tanh(${1:arg})",
+			"kind": "function",
+			"details": "Hyperbolic tangent"
+		},
+		{
+			"trigger": "tcpwrap_check()",
+			"contents": "tcpwrap_check(${1:daemon}, ${2:address})",
+			"kind": "function",
+			"details": "Performs a tcpwrap check"
+		},
+		{
+			"trigger": "tempnam()",
+			"contents": "tempnam(${1:dir}, ${2:prefix})",
+			"kind": "function",
+			"details": "Create file with unique file name"
+		},
+		{
+			"trigger": "textdomain()",
+			"contents": "textdomain(${1:text_domain})",
+			"kind": "function",
+			"details": "Sets the default domain"
+		},
+		{
+			"trigger": "time()",
+			"contents": "time()",
+			"kind": "function",
+			"details": "Return current Unix timestamp"
+		},
+	
+		{
+			"trigger": "tmpfile()",
+			"contents": "tmpfile()",
+			"kind": "function",
+			"details": "Creates a temporary file"
+		},
+		{
+			"trigger": "touch()",
+			"contents": "touch(${1:filename})",
+			"kind": "function",
+			"details": "Sets access and modification time of file"
+		},
+		{
+			"trigger": "trigger_error()",
+			"contents": "trigger_error(${1:error_msg})",
+			"kind": "function",
+			"details": "Generates a user-level error/warning/notice message"
+		},
+		{
+			"trigger": "trim()",
+			"contents": "trim(${1:str})",
+			"kind": "function",
+			"details": "Strip whitespace (or other characters) from the beginning and end of a string"
+		},
+		{
+			"trigger": "uasort()",
+			"contents": "uasort(${1:array}, ${2:cmp_function})",
+			"kind": "function",
+			"details": "Sort an array with a user-defined comparison function and maintain index association"
+		},
+		{
+			"trigger": "ucfirst()",
+			"contents": "ucfirst(${1:str})",
+			"kind": "function",
+			"details": "Make a string's first character uppercase"
+		},
+		{
+			"trigger": "ucwords()",
+			"contents": "ucwords(${1:str})",
+			"kind": "function",
+			"details": "Uppercase the first character of each word in a string"
+		},
+		{
+			"trigger": "uksort()",
+			"contents": "uksort(${1:array}, ${2:cmp_function})",
+			"kind": "function",
+			"details": "Sort an array by keys using a user-defined comparison function"
+		},
+		{
+			"trigger": "umask()",
+			"contents": "umask()",
+			"kind": "function",
+			"details": "Changes the current umask"
+		},
+		{
+			"trigger": "uniqid()",
+			"contents": "uniqid()",
+			"kind": "function",
+			"details": "Generate a unique ID"
+		},
+		{
+			"trigger": "unserialize()",
+			"contents": "unserialize(${1:str})",
+			"kind": "function",
+			"details": "Creates a DAVI value from a stored representation"
+		},
+		{
+			"trigger": "unset()",
+			"contents": "unset(${1:var})",
+			"kind": "function",
+			"details": "Unset a given variable"
+		},
+		{
+			"trigger": "urlDecode()",
+			"contents": "urlDecode(${1:str})",
+			"kind": "function",
+			"details": "Decodes URL-encoded string"
+		},
+		{
+			"trigger": "urlEncode()",
+			"contents": "urlEncode(${1:str})",
+			"kind": "function",
+			"details": "URL-encodes string"
+		},
+		{
+			"trigger": "usleep()",
+			"contents": "usleep(${1:micro_seconds})",
+			"kind": "function",
+			"details": "Delay execution in microseconds"
+		},
+		{
+			"trigger": "usort()",
+			"contents": "usort(${1:array}, ${2:cmp_function})",
+			"kind": "function",
+			"details": "Sort an array by values using a user-defined comparison function"
+		},
+		{
+			"trigger": "utf8Decode()",
+			"contents": "utf8Decode(${1:data})",
+			"kind": "function",
+			"details": "Converts a string with ISO-8859-1 characters encoded with UTF-8 to single-byte ISO-8859-1"
+		},
+		{
+			"trigger": "utf8Encode()",
+			"contents": "utf8Encode(${1:data})",
+			"kind": "function",
+			"details": "Encodes an ISO-8859-1 string to UTF-8"
+		},
+		{
+			"trigger": "dump()",
+			"contents": "dump(${1:expression})",
+			"kind": "function",
+			"details": "Dumps information about a variable"
+		},
+		{
+			"trigger": "dd()",
+			"contents": "dd(${1:expression})",
+			"kind": "function",
+			"details": "Dumps information about a variable"
+		},
+		{
+			"trigger": "varExport()",
+			"contents": "varExport(${1:expression})",
+			"kind": "function",
+			"details": "Outputs or returns a parsable string representation of a variable"
+		}
+	]
+}

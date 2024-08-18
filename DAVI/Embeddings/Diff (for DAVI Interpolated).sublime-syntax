@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+scope: source.diff.interpolated.davi
+# version: 2
+hidden: true
+
+extends: Packages/Diff/Diff.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/DAVI/DAVI Source.sublime-syntax#interpolations

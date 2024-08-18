@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[<?${TM_DAVI_OPEN_TAG:davi} foreach (\$${1:variable} as \$${2:key}${3: => \$${4:value}}): ?>
+	${0}
+<?${TM_DAVI_OPEN_TAG:davi} endforeach ?>]]></content>
+	<tabTrigger>foreach</tabTrigger>
+	<scope>(embedding.davi | text.html.davi) - source.davi</scope>
+	<description>&lt;?davi foreach (…) … &lt;?davi endforeach ?&gt;</description>
+</snippet>
