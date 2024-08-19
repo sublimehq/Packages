@@ -1617,13 +1617,20 @@ contexts:
     # may also be referenced by name without using the parameter expansion
     # syntax.
     - include: booleans
-    - include: numbers
+    - include: expression-numbers
     - include: expression-variables
     - include: expression-illegals
 
   expression-illegals:
     - match: '{{word_char}}'
       scope: invalid.illegal.unexpected-token.shell
+
+  expression-numbers:
+    # lazily consume everything which looks like a number.
+    # supports interpolation in decimal integers.
+    - include: base-numbers
+    - match: (?=\d)
+      push: dec-number-body
 
   expression-variables:
     # variables within arithmetic expressions must not contain quotes
@@ -1846,6 +1853,12 @@ contexts:
       pop: 1
 
   numbers:
+    # strictly consume full numbers only, for use in contexts with strings
+    - include: base-numbers
+    - match: \d+{{word_break}}
+      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
+
+  base-numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
     - match: 0[xX]
       scope: constant.numeric.base.shell
@@ -1862,9 +1875,6 @@ contexts:
     - match: \d{{dec_digit}}*#
       scope: constant.numeric.base.shell
       push: other-number-body
-    # If base# is omitted, then base 10 is used.
-    - match: (?=\d)
-      push: dec-number-body
 
   number:
     # Note: Leading sign is scoped as operator for consistent highlighting as
@@ -1894,9 +1904,13 @@ contexts:
         2: constant.numeric.base.shell
       set: other-number-body
     # If base# is omitted, then base 10 is used.
-    - match: '[-+]?(?=\d)'
-      scope: keyword.operator.arithmetic.shell
-      set: dec-number-body
+    # note: consume whole uninterpolated word only to avoid false positives.
+    - match: ([-+]?)(\d+){{word_break}}
+      scope: meta.number.integer.decimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.value.shell
+      pop: 1
 
   dec-number-body:
     - meta_include_prototype: false

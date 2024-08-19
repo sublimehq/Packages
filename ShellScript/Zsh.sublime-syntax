@@ -327,14 +327,13 @@ contexts:
 
 ###[ LITERALS ]################################################################
 
-  numbers:
+  base-numbers:
     - meta_prepend: true
-    - match: (\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?)({{word_char}}*)
+    - match: (\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?){{word_break}}
       scope: meta.number.float.decimal.shell.zsh
       captures:
         1: constant.numeric.value.shell.zsh
         2: punctuation.separator.decimal.shell.zsh
-        3: invalid.illegal.shell.zsh
 
   number:
     - meta_prepend: true

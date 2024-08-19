@@ -12601,6 +12601,16 @@ true false
 #             ^^^ meta.number.integer.other.shell constant.numeric.value.shell
 #                ^ - meta.number - constant
 
+: -target 20.10.2.4:8080 -port 80
+#         ^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+
+: -target=20.10.2.4:8080 -port=80
+#         ^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+
+ip=10.10.20.14
+#  ^^^^^^^^^^^ meta.string.shell string.unquoted.shell
 
 ###############################################################################
 # 6.5 Shell Arithmetic                                                        #
