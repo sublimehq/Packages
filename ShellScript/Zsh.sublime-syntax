@@ -999,6 +999,7 @@ variables:
   shebang_language: \bzsh\b
 
   # Numbers
+  dec_break: (?=[\s|&;()}<>])
   dec_digit: '[\d_]'
   hex_digit: '[\h_]'
   oct_digit: '[0-7_]'

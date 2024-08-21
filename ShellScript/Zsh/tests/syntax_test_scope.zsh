@@ -3089,6 +3089,11 @@ a\/b/c/d}
 #             ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell
 #              ^^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
 
+: 123{4,5,6}789
+# ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+#    ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
+#           ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+
 : {a,b,~,%,!,.,\,,\{,\},*,?,-1,+2,0," ",' '}
 #^ - meta.interpolation
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation.brace meta.interpolation.brace

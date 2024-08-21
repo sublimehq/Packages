@@ -1855,7 +1855,7 @@ contexts:
   numbers:
     # strictly consume full numbers only, for use in contexts with strings
     - include: base-numbers
-    - match: \d+{{word_break}}
+    - match: \d+{{dec_break}}
       scope: meta.number.integer.decimal.shell constant.numeric.value.shell
 
   base-numbers:
@@ -1905,7 +1905,7 @@ contexts:
       set: other-number-body
     # If base# is omitted, then base 10 is used.
     # note: consume whole uninterpolated word only to avoid false positives.
-    - match: ([-+]?)(\d+){{word_break}}
+    - match: ([-+]?)(\d+){{dec_break}}
       scope: meta.number.integer.decimal.shell
       captures:
         1: keyword.operator.arithmetic.shell
@@ -3056,6 +3056,7 @@ variables:
     | lower | print | punct | space | upper | word | xdigit )
 
   # Numbers
+  dec_break: (?=[\s|&;()<>])
   dec_digit: \d
   hex_digit: \h
   oct_digit: '[0-7]'
