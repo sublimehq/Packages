@@ -3,18 +3,10 @@
 <dict>
 	<key>scope</key>
 	<string>
-		(source.js meta.mapping, source.js meta.sequence) - source.js meta.function,
-		source.js meta.function meta.mapping,
-		source.js meta.function meta.sequence,
-		(source.jsx meta.mapping, source.jsx meta.sequence) - source.jsx meta.function,
-		source.jsx meta.function meta.mapping,
-		source.jsx meta.function meta.sequence,
-		(source.ts meta.mapping, source.ts meta.sequence) - source.ts meta.function,
-		source.ts meta.function meta.mapping,
-		source.ts meta.function meta.sequence,
-		(source.tsx meta.mapping, source.tsx meta.sequence) - source.tsx meta.function,
-		source.tsx meta.function meta.mapping,
-		source.tsx meta.function meta.sequence
+		source.js meta.mapping, source.js meta.sequence,
+		source.jsx meta.mapping, source.jsx meta.sequence,
+		source.ts meta.mapping, source.ts meta.sequence,
+		source.tsx meta.mapping, source.tsx meta.sequence
 	</string>
 	<key>settings</key>
 	<dict>
@@ -72,6 +64,9 @@
 				($|/[/*])
 			)
 		</string>
+		<!-- Reset for value rules -->
+		<key>bracketIndentNextLinePattern</key>
+		<string></string>
 	</dict>
 </dict>
 </plist>

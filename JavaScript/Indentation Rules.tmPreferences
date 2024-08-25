@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
+	<!--
+		The meta.function scopes are used
+		to re-override the separate mapping and sequence-sepcific patterns
+		defined in `Indentation Rules - Values.tmPreferences`.
+		This relies on a scope selector scoring adjustment in 4173.
+		See also: https://github.com/sublimehq/sublime_text/issues/2152
+	-->
 	<key>scope</key>
 	<string>
-		source.js - source.js meta.mapping - source.js meta.sequence - source.js meta.string,
-		source.js meta.function,
-		source.jsx - source.jsx meta.mapping - source.jsx meta.sequence - source.jsx meta.string,
-		source.jsx meta.function,
-		source.ts - source.ts meta.mapping - source.ts meta.sequence - source.ts meta.string,
-		source.ts meta.function,
-		source.tsx - source.tsx meta.mapping - source.tsx meta.sequence - source.tsx meta.string,
-		source.tsx meta.function
+		source.js - source.js meta.string,
+		source.js meta.function - source.js meta.string,
+		source.jsx - source.jsx meta.string,
+		source.jsx meta.function - source.jsx meta.string,
+		source.ts - source.ts meta.string,
+		source.ts meta.function - source.ts meta.string,
+		source.tsx - source.tsx meta.string,
+		source.tsx meta.function - source.tsx meta.string
 	</string>
 	<key>settings</key>
 	<dict>
