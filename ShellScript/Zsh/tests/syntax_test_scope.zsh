@@ -637,6 +637,41 @@ case $word {
 }
 # <- meta.statement.conditional.case.body.shell punctuation.section.block.end.shell
 
+()
+# <- meta.function-call.shell meta.function.anonymous.parameters.shell punctuation.section.parameters.begin.shell
+#^ meta.function-call.shell meta.function.anonymous.parameters.shell punctuation.section.parameters.end.shell
+
+(foo)
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^ meta.compound.command.shell meta.function-call.identifier.shell variable.function.shell
+#   ^ meta.compound.command.shell punctuation.section.compound.end.shell
+#    ^ - meta
+
+((git stash) || true)
+#^^^^^^^^^^^^^^^^^^^^ - meta.compound.arithmetic
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^ meta.compound.command.shell meta.compound.command.shell
+#           ^^^^^^^^^ meta.compound.command.shell
+#^ punctuation.section.compound.begin.shell
+# ^^^ meta.command.shell variable.function.shell
+#     ^^^^^ meta.string.shell string.unquoted.shell
+#          ^ punctuation.section.compound.end.shell
+#            ^^ keyword.operator.logical.shell
+#               ^^^^ constant.language.boolean.true.shell
+#                   ^ punctuation.section.compound.end.shell
+
+((git \
+stash) || true)
+#^^^^^^^^^^^^^^ - meta.compound.arithmetic
+#^^^^^ meta.compound.command.shell meta.compound.command.shell
+#     ^^^^^^^^^ meta.compound.command.shell
+#^^^^ meta.string.shell string.unquoted.shell
+#    ^ punctuation.section.compound.end.shell
+#      ^^ keyword.operator.logical.shell
+#         ^^^^ constant.language.boolean.true.shell
+#             ^ punctuation.section.compound.end.shell
+
+
 ###############################################################################
 # 7 Redirection                                                               #
 # https://zsh.sourceforge.io/Doc/Release/Redirection.html#Redirection         #
@@ -2995,6 +3030,64 @@ a\/b/c/d}
 #           ^^^^ meta.string.shell string.unquoted.shell
 #            ^^ constant.character.escape.shell
 #               ^ punctuation.section.interpolation.end.shell
+
+
+###############################################################################
+# 14.4 Command Expansion
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Command-Substitution
+###############################################################################
+
+: $()
+# ^^^ meta.interpolation.command.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.section.interpolation.end.shell
+
+: $((  ) )
+# ^^^^^^^^ meta.interpolation.command.shell
+#   ^^^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+#       ^ meta.function-call.shell meta.function.anonymous.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.section.parameters.begin.shell
+#      ^ punctuation.section.parameters.end.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+: $( (  ))
+# ^^^^^^^^ meta.interpolation.command.shell
+#    ^^^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^ punctuation.section.parameters.begin.shell
+#       ^ punctuation.section.parameters.end.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+
+# not an arithmetic, even if starting with ((
+: $((git stash) || true)
+#^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation.arithmetic
+# ^^ meta.interpolation.command.shell - meta.compound
+#   ^^^^^^^^^^^ meta.interpolation.command.shell meta.compound.command.shell
+#              ^^^^^^^^^ meta.interpolation.command.shell - meta.compound
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.section.compound.begin.shell
+#    ^^^ meta.command.shell variable.function.shell
+#        ^^^^^ meta.string.shell string.unquoted.shell
+#             ^ punctuation.section.compound.end.shell
+#               ^^ keyword.operator.logical.shell
+#                  ^^^^ constant.language.boolean.true.shell
+#                      ^ punctuation.section.interpolation.end.shell
+
+: $((git \
+stash) || true)
+#^^^^^^^^^^^^^^ - meta.interpolation.arithmetic
+#^^^^^ meta.interpolation.command.shell meta.compound.command.shell
+#     ^^^^^^^^^ meta.interpolation.command.shell - meta.compound
+#^^^^ meta.string.shell string.unquoted.shell
+#    ^ punctuation.section.compound.end.shell
+#      ^^ keyword.operator.logical.shell
+#         ^^^^ constant.language.boolean.true.shell
+#             ^ punctuation.section.interpolation.end.shell
 
 
 ###############################################################################

@@ -2542,11 +2542,39 @@ esac
 # https://www.gnu.org/software/bash/manual/bash.html#Command-Grouping         #
 ###############################################################################
 
+()
+# <- meta.function-call.shell meta.function.anonymous.parameters.shell punctuation.section.parameters.begin.shell
+#^ meta.function-call.shell meta.function.anonymous.parameters.shell punctuation.section.parameters.end.shell
+
 (foo)
 # <- meta.compound.command.shell punctuation.section.compound.begin.shell
 #^^^ meta.compound.command.shell meta.function-call.identifier.shell variable.function.shell
 #   ^ meta.compound.command.shell punctuation.section.compound.end.shell
 #    ^ - meta
+
+((git stash) || true)
+#^^^^^^^^^^^^^^^^^^^^ - meta.compound.arithmetic
+# <- meta.compound.command.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^ meta.compound.command.shell meta.compound.command.shell
+#           ^^^^^^^^^ meta.compound.command.shell
+#^ punctuation.section.compound.begin.shell
+# ^^^ meta.command.shell variable.function.shell
+#     ^^^^^ meta.string.shell string.unquoted.shell
+#          ^ punctuation.section.compound.end.shell
+#            ^^ keyword.operator.logical.shell
+#               ^^^^ constant.language.boolean.true.shell
+#                   ^ punctuation.section.compound.end.shell
+
+((git \
+stash) || true)
+#^^^^^^^^^^^^^^ - meta.compound.arithmetic
+#^^^^^ meta.compound.command.shell meta.compound.command.shell
+#     ^^^^^^^^^ meta.compound.command.shell
+#^^^^ meta.string.shell string.unquoted.shell
+#    ^ punctuation.section.compound.end.shell
+#      ^^ keyword.operator.logical.shell
+#         ^^^^ constant.language.boolean.true.shell
+#             ^ punctuation.section.compound.end.shell
 
 { foo -o }
 # <- meta.compound.command.shell punctuation.section.compound.begin.shell
@@ -7827,6 +7855,79 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                                                             ^ punctuation.definition.variable.shell
 #                                                              ^ punctuation.section.interpolation.begin.shell
 #                                                                        ^^ punctuation.section.interpolation.end.shell
+
+
+###############################################################################
+# 3.5.4 Command Expansions                                                    #
+# https://www.gnu.org/software/bash/manual/bash.html#Command-Expansion        #
+###############################################################################
+
+: $()
+# ^^^ meta.interpolation.command.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.section.interpolation.end.shell
+
+: $((  ) )
+# ^^^^^^^^ meta.interpolation.command.shell
+#   ^^^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+#       ^ meta.function-call.shell meta.function.anonymous.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.section.parameters.begin.shell
+#      ^ punctuation.section.parameters.end.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+: $( (  ))
+# ^^^^^^^^ meta.interpolation.command.shell
+#    ^^^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^ punctuation.section.parameters.begin.shell
+#       ^ punctuation.section.parameters.end.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+
+# not an arithmetic, even if starting with ((
+: $((git stash) || true)
+#^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation.arithmetic
+# ^^ meta.interpolation.command.shell - meta.compound
+#   ^^^^^^^^^^^ meta.interpolation.command.shell meta.compound.command.shell
+#              ^^^^^^^^^ meta.interpolation.command.shell - meta.compound
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.section.compound.begin.shell
+#    ^^^ meta.command.shell variable.function.shell
+#        ^^^^^ meta.string.shell string.unquoted.shell
+#             ^ punctuation.section.compound.end.shell
+#               ^^ keyword.operator.logical.shell
+#                  ^^^^ constant.language.boolean.true.shell
+#                      ^ punctuation.section.interpolation.end.shell
+
+: $((git \
+stash) || true)
+#^^^^^^^^^^^^^^ - meta.interpolation.arithmetic
+#^^^^^ meta.interpolation.command.shell meta.compound.command.shell
+#     ^^^^^^^^^ meta.interpolation.command.shell - meta.compound
+#^^^^ meta.string.shell string.unquoted.shell
+#    ^ punctuation.section.compound.end.shell
+#      ^^ keyword.operator.logical.shell
+#         ^^^^ constant.language.boolean.true.shell
+#             ^ punctuation.section.interpolation.end.shell
+
+
+###############################################################################
+# 3.5.5 Arithmetic Expansions                                                 #
+# https://www.gnu.org/software/bash/manual/bash.html#Arithmetic-Expansion     #
+###############################################################################
+
+: $(())
+# ^^^^^ meta.string.shell meta.interpolation.arithmetic.shell
+
+: $((  ))
+# ^^^^^^^ meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#      ^^ punctuation.section.interpolation.end.shell
 
 
 ###############################################################################

@@ -341,12 +341,21 @@ contexts:
 ###[ ARITHMETIC BUILTINS ]#####################################################
 
   cmd-arithmetic:
-    - match: \(\(
-      scope: punctuation.section.compound.begin.shell
-      set: cmd-arithmetic-body
+    - match: (?=\(\()
+      branch_point: cmd-arithmetic
+      branch:
+        - cmd-compound-arithmetic
+        - cmd-compound-paren
+      pop: 1
     - match: let{{cmd_break}}
       scope: meta.function-call.identifier.shell support.function.shell
       set: cmd-arithmetic-args
+
+  cmd-compound-arithmetic:
+    - meta_include_prototype: false
+    - match: \(\(
+      scope: punctuation.section.compound.begin.shell
+      set: cmd-arithmetic-body
 
   cmd-arithmetic-body:
     - meta_scope: meta.compound.arithmetic.shell
@@ -354,6 +363,8 @@ contexts:
     - match: \)\)
       scope: punctuation.section.compound.end.shell
       pop: 1
+    - match: (?=\))
+      fail: cmd-arithmetic
     - include: expression-content
 
   cmd-arithmetic-args:
@@ -2505,17 +2516,26 @@ contexts:
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
   expansions-arithmetic:
+    - match: (?=\$\(\()
+      branch_point: arithmetic-expansion
+      branch:
+        - arithmetic-expansion
+        - command-expansion
+
+  arithmetic-expansion:
     - match: (\$)(\(\()
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
-      push: arithmetic-expansion-parens-body
+      set: arithmetic-expansion-parens-body
 
   arithmetic-expansion-parens-body:
     - meta_scope: meta.interpolation.arithmetic.shell
     - match: \)\)
       scope: punctuation.section.interpolation.end.shell
       pop: 1
+    - match: (?=\))
+      fail: arithmetic-expansion
     - include: expression-content
 
 ###[ BRACE EXPANSIONS ]########################################################
@@ -2626,7 +2646,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
-      push: expansion-command-body
+      push: command-expansion-body
     - match: \`
       scope:
         meta.interpolation.command.shell
@@ -2638,7 +2658,14 @@ contexts:
         0: meta.interpolation.command.shell
            punctuation.section.interpolation.end.shell
 
-  expansion-command-body:
+  command-expansion:
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+      set: command-expansion-body
+
+  command-expansion-body:
     - meta_scope: meta.interpolation.command.shell
     - match: \s*(\))
       captures:
