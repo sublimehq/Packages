@@ -18,6 +18,7 @@ file_extensions:
   - sublime-project
   - sublime-settings
   - sublime-theme
+  - sublime-merge-theme
   - sublime-workspace
   - ipynb
   - gltf

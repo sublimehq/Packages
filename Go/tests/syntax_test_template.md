@@ -21,6 +21,16 @@
 |                     ^ keyword.operator.template.trim.right.go
 |                      ^^ punctuation.section.interpolation.end.go - source.go
 
+  {{/* 
+|^ meta.paragraph.markdown - meta.interpolation
+| ^^ meta.paragraph.markdown meta.interpolation.go punctuation.section.interpolation.begin.go
+|   ^^ meta.paragraph.markdown meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.begin.go
+    Spread a key-value map into the "env" list 
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.interpolation.go source.go.template comment.block.go
+  */}}
+| ^^ meta.paragraph.markdown meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.end.go
+|   ^^ meta.paragraph.markdown meta.interpolation.go punctuation.section.interpolation.end.go
+|     ^ meta.paragraph.markdown - meta.interpolation
 
 # My {{ .Site.Title }} homepage
 | <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown

@@ -51,9 +51,8 @@ variables:
     | {{class_modifier}}
     | {{static_modifier}}
     | {{builtin_variables}}
+    | {{expression_keywords}}
     | function\b
-    | as\b
-    | yield\b
     )
 
   keywords: |-
@@ -72,9 +71,11 @@ variables:
     (?xi: case | catch | default | do | (?: end )? (?: for(?:each)? | if | switch | while )
     | else | elseif | finally | switch | try )\b
   flow_keywords: |-
-    (?xi: break | continue | die | exit | finally | goto | return | throw )\b
+    (?xi: break | continue | die | exit | finally | goto | return )\b
 
   # Expression Level Keywords
+  expression_keywords: |-
+    (?xi: as | throw | yield )\b
   builtin_functions: |-
     (?xi: echo | print | empty | eval | isset | list | unset )\b
   builtin_variables: |-
@@ -1308,8 +1309,6 @@ contexts:
       scope: keyword.control.flow.panic.php
     - match: (?i:return)\b
       scope: keyword.control.flow.return.php
-    - match: (?i:throw)\b
-      scope: keyword.control.flow.throw.php
 
   goto-label:
     - match: '{{guarded_identifier}}'
@@ -2209,6 +2208,9 @@ contexts:
       scope: keyword.other.clone.php
     - match: (?i:insteadof)\b
       scope: keyword.other.insteadof.php
+    # throw is an expression keyword as of PHP8
+    - match: (?i:throw)\b
+      scope: keyword.control.flow.throw.php
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
     - match: (?i:yield)\b
       scope: keyword.control.flow.yield.php

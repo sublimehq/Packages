@@ -1,0 +1,119 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: YAML (Go)
+scope: source.yaml.go
+version: 2
+
+extends: Packages/YAML/YAML.sublime-syntax
+
+file_extensions:
+  - goyaml
+  - go.yaml
+  - goyml
+  - go.yml
+
+variables:
+  ns_plain_first_plain_in: |- # c=plain-in
+    (?x:
+        {{yaml_ns_plain_first_plain_in}}
+      | (?:[?:-] )?{{  # begins with go interpolation
+    )
+
+  # original value from YAML
+  yaml_ns_plain_first_plain_in: |- # c=plain-in
+    (?x:
+        [^\s{{c_indicator}}]
+      | [?:-] [^\s{{c_flow_indicator}}]
+    )
+
+  ns_plain_first_plain_out: |- # c=plain-out
+    (?x:
+        {{yaml_ns_plain_first_plain_out}}
+      | (?:[?:-] )?{{  # begins with go interpolation
+    )
+
+  # original value from YAML
+  yaml_ns_plain_first_plain_out: |- # c=plain-out
+    (?x:
+        [^\s{{c_indicator}}]
+      | [?:-] \S
+    )
+
+  _flow_key_in_lookahead: |-
+    (?x:
+      (?=
+        (
+            (?:
+              {{yaml_ns_plain_first_plain_in}}
+              | {{go_interpolation}}  # begins with interpolation
+            )
+            ( [^\s:{{c_flow_indicator}}]
+            | : [^\s{{c_flow_indicator}}]
+            | \s+ (?![#\s])
+            | {{go_interpolation}}    # ignore interpolation
+            )*
+          | \".*\" # simplified
+          | \'.*\'
+        )
+        \s*
+        :
+        (?:\s|$)
+      )
+    )
+
+  _flow_key_out_lookahead: |-
+    (?x:
+      (?=
+
+        (
+            (?:
+              {{yaml_ns_plain_first_plain_out}}
+              | {{go_interpolation}}  # begins with interpolation
+            )
+            ( [^\s:]
+            | : \S
+            | \s+ (?![#\s])
+            | {{go_interpolation}}    # ignore interpolation
+            )*
+          | \".*\" # simplified
+          | \'.*\'
+        )
+        \s*
+        :
+        (?:\s|$)
+      )
+    )
+
+  go_interpolation: '{{.*?}}'
+
+contexts:
+
+  main:
+    - meta_prepend: true
+    - meta_scope: meta.template.go
+
+  block-scalar-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-block-string-templates
+
+  flow-scalar-plain-in-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-block-string-templates
+
+  flow-scalar-plain-out-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-block-string-templates
+
+  flow-scalar-double-quoted-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-block-string-templates
+
+  flow-scalar-single-quoted-body:
+    - meta_prepend: true
+    - include: scope:source.go#match-block-string-templates
+
+  flow-mapping:
+    - match: \{(?![{%#])
+      scope: punctuation.definition.mapping.begin.yaml
+      push: flow-mapping-body

@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
+	<!--
+		The meta.function scopes are used
+		to re-override the separate mapping and sequence-sepcific patterns
+		defined in `Indentation Rules - Values.tmPreferences`.
+		This relies on a scope selector scoring adjustment in 4173.
+		See also: https://github.com/sublimehq/sublime_text/issues/2152
+	-->
 	<key>scope</key>
-	<string>source.js, source.ts, source.jsx, source.tsx</string>
+	<string>
+		source.js - source.js meta.string,
+		source.js meta.function - source.js meta.string,
+		source.jsx - source.jsx meta.string,
+		source.jsx meta.function - source.jsx meta.string,
+		source.ts - source.ts meta.string,
+		source.ts meta.function - source.ts meta.string,
+		source.tsx - source.tsx meta.string,
+		source.tsx meta.function - source.tsx meta.string
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string><![CDATA[(?x)
-			# line beginning with whitespace or block comments
+			# line beginning with whitespace
 			^ (.*\*/)? \s*
 			(?:
 			# dedent closing braces
 			  \}
+			# dedent closing brackets
+			| \]
+			# dedent closing tagged templates
+			| `
 			# detent `case ... :`
-			| case\b
+			| case\b.*:
 			# detent `default:`
-			| default\b
+			| default\s*:
 			)
 		]]></string>
 
@@ -27,10 +47,12 @@
 			# indent after opening braces (may be followed by whitespace or comments)
 			# but exclude lines such as `extern "C" {`
 			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			# indent after opening tagged template: e.g.: "css`"
+			# see: Indentation Rules - Template Strings.tmPreferences
 			# indent after `case ... :`
-			| case\b
+			| case\b.*:
 			# indent after `default:`
-			| default\b
+			| default\s*:
 			)
 		]]></string>
 
@@ -68,8 +90,6 @@
 			)
 		]]></string>
 
-		<key>indentSquareBrackets</key>
-		<true/>
 	</dict>
 </dict>
 </plist>

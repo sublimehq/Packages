@@ -1,5 +1,88 @@
 // SYNTAX TEST reindent-unchanged "Packages/JavaScript/JavaScript.sublime-syntax"
 
+/*
+ * Export definitions
+ */
+
+export default {
+    default: 'value',
+    case() {
+        const map1 = {
+            default: 'value'
+        }
+        const list1 = [
+            default
+        ]
+
+        if (foo == true)
+            return 1
+        else if (bar == true)
+            return 2
+        else
+            return 3
+
+        switch (map1) {
+        case null:
+            return 0
+        default:
+            const map2 = {
+                default: 'value'
+            }
+            const list2 = [
+                default,
+                () => {
+                    switch (map2) {
+                    default:
+                        return 0
+                    case null:
+                        return 1
+                    }
+                }
+            ]
+        }
+    }
+}
+
+/*
+ * mapping definitions
+ */
+
+const maps = {
+    case: "case",
+    default: "default",
+    switch: "switch",
+    if: "if",
+    elif: "elif",
+    else: "else",
+    function: "function",
+    object: {
+        "key": "value",
+    },
+    list1: [
+        "switch",
+        "case"
+    ],
+    list3: ["value1", "value2"]
+};
+
+/*
+ * list definitions
+ */
+
+const list = [
+    case,
+    default,
+    switch,
+    if,
+    elif,
+    else,
+    [
+        case,
+        default
+    ],
+    ["value1", "value2"]
+]
+
 /**
  * This is my first JavaScript program.
  * This will print 'Hello World' as the output
@@ -548,16 +631,12 @@ function testIfElseIndentationWithBracesAndComment(v) {
 
 function testSwitchCaseIndentation(v) {
     switch (s) {
-    case
     case:
-    case break
     case: break
     case "(": break
     case ")": break;
     case ":": break;
     case ";": break;
-    case
-        break;
     case:
         break;
     case ":"
@@ -976,4 +1055,134 @@ function testWhileIndentationWithBracesAndComments(v)  {
         v++                             // ;  "comments" ()
         v++                             // ;  "comments" ()
     }                                   // ;  "comments" ()
+}
+
+/*
+ * CSS Templates
+ */
+
+var style = css`tr{color:red}`;
+
+var style = css`
+    tr, p {
+        background: red solid;
+    }
+`;
+
+/*
+ * HTML Templates
+ */
+
+var html = html`<p>${content}</p>`;
+
+var html = html`
+    <head>
+        <script type="text/javascript">
+            var ${name} = "Value ${interpol}"
+        </script>
+
+        <script type="text/json">
+            {
+                "simple": "val${ue}",
+                "list": [
+                    "value1",
+                    "value2"
+                ],
+                "object": {
+                    "simple": "val${ue}",
+                    "list": [
+                        "value1",
+                        "value2"
+                    ]
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div style="width: ${width}%" class="${class_name}" onclick="${click}">
+            <p>${content}</p>
+        </div>
+    </body>
+`;
+
+/*
+ * JavaScript Templates
+ */
+
+var script = js`console.log(${string})`;
+
+var script = js`
+    var ${name} = "Value ${interpol}"
+
+    function foo (arg1, arg2) {
+        return 0;
+    }
+`
+
+/*
+ * JSON Templates
+ */
+
+var json = json`{"key": "value"}`;
+
+var json = json`
+    {
+        "simple": "val${ue}",
+        "list": [
+            "value1",
+            "value2"
+        ],
+        "object": {
+            "simple": "val${ue}",
+            "list": [
+                "value1",
+                "value2"
+            ]
+        }
+    }
+`
+
+/*
+ * Other Templates
+ */
+
+var other = other`template ${string}`;
+
+var other = other`
+    # Heading
+
+    My ${pragraph}!
+`
+
+/*
+ * Plain String Templates
+ */
+
+`single line template string`
+
+`
+    multi line template strings
+    ignore normal JavaScript indentation rules
+
+    switch (${var}) {
+        case "foo":
+        break;
+                case "bar":
+                    break;
+    case "baz":
+        break;
+    }
+`
+
+function print(var) {
+    return `
+        switch (${var}) {
+            case "foo":
+            break;
+                    case "bar":
+                        break;
+        case "baz":
+            break;
+        }
+    `;
 }
