@@ -4162,35 +4162,35 @@ dyn_dir_name() {
 #                                  ^ punctuation.definition.range.end.shell.zsh
 
 : foo<5-21> foo<5-21>bar <5-21>bar <baz
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.shell string.unquoted.shell - meta.range
 #    ^^^^^^ meta.string.shell meta.range.shell.zsh - string
 #          ^ - meta.range meta.string - string
-#           ^^^ meta.string.shell string.unquoted.shell
+#           ^^^ meta.string.shell string.unquoted.shell - meta.range
 #              ^^^^^^ meta.string.shell meta.range.shell.zsh - string
-#                    ^^^ meta.string.shell string.unquoted.shell
+#                    ^^^ meta.string.shell string.unquoted.shell - meta.range
 #                       ^ - meta.range meta.string - string
 #                        ^^^^^^ meta.string.shell meta.range.shell.zsh - string
-#                              ^^^ meta.string.shell string.unquoted.shell
+#                              ^^^ meta.string.shell string.unquoted.shell - meta.range
 #                                  ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
 #                                   ^^^ meta.redirection.shell meta.string.shell string.unquoted.shell
 
 : 1<1-5> 1<1-5>0 <1-5>0 <0  # not numbers, but a patterns
-# ^ meta.string.shell string.unquoted.shell
+# ^ meta.string.shell string.unquoted.shell - meta.range
 #  ^^^^^ meta.string.shell meta.range.shell.zsh - string
 #       ^ - meta.range meta.string - string
-#        ^ meta.string.shell string.unquoted.shell
+#        ^ meta.string.shell string.unquoted.shell - meta.range
 #         ^^^^^ meta.string.shell meta.range.shell.zsh - string
-#              ^ meta.string.shell string.unquoted.shell
+#              ^ meta.string.shell string.unquoted.shell - meta.range
 #               ^ - meta.range meta.string - string
 #                ^^^^^ meta.string.shell meta.range.shell.zsh - string
-#                     ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.shell string.unquoted.shell - meta.range
 #                       ^ meta.redirection.shell keyword.operator.assignment.redirection.shell
 #                        ^ meta.redirection.shell meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 
 : (<1-5>foo|bar<1-)<1-5>  # glob ranges in pattern groups
 # ^ meta.string.shell meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
 #  ^^^^^ meta.string.shell meta.group.regexp.shell meta.range.shell.zsh - string
-#       ^^^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell
+#       ^^^^^^^ meta.string.shell meta.group.regexp.shell string.unquoted.shell - meta.range
 #              ^^^ meta.redirection.shell
 #                 ^ invalid.illegal.stray.shell
 #                  ^^^^^ meta.string.shell meta.range.shell.zsh - string
@@ -4200,22 +4200,22 @@ dyn_dir_name() {
 a=<1-4>foo  # glob range beginning assignment value
 # <- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^ meta.assignment.shell keyword.operator.assignment.shell
-# ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
-#      ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+# ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh - string
+#      ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell - meta.range
 
 a=foo<1-4>bar  # glob range within assignment value
 # <- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^ meta.assignment.shell keyword.operator.assignment.shell
-# ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
-#    ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
-#         ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+# ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell - meta.range
+#    ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh - string
+#         ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell - meta.range
 
 a=foo<1-4>foo<bar  # redirections don't belong to assignment
 # <- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^ meta.assignment.shell keyword.operator.assignment.shell
-# ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
-#    ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh
-#         ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+# ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell - meta.range
+#    ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.range.shell.zsh - string
+#         ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell - meta.range
 #            ^ meta.redirection.shell keyword.operator.assignment.redirection.shell - meta.assignment
 #             ^^^ meta.redirection.shell meta.string.shell string.unquoted.shell - meta.assignment
 
@@ -4269,11 +4269,12 @@ case $foo in
   <1-2>pat | pat<1-2> | <-a>ny ) ;;
 # ^^^^^^^^^^^^^^^^^^^^ meta.clause.patterns.shell
 # ^^^^^ meta.string.shell meta.range.shell.zsh - string
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.shell string.unquoted.shell - meta.range
 #          ^ keyword.operator.logical.shell
-#            ^^^ meta.string.shell string.unquoted.shell
+#            ^^^ meta.string.shell string.unquoted.shell - meta.range
 #               ^^^^^ meta.string.shell meta.range.shell.zsh - string
 #                     ^ keyword.operator.logical.shell
+#                       ^^^^^^^^ - meta.range
 #                       ^ invalid.illegal.unexpected-token.shell
 #                        ^^ meta.string.shell string.unquoted.shell
 #                          ^ invalid.illegal.unexpected-token.shell

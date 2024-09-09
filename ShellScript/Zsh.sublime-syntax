@@ -280,21 +280,20 @@ contexts:
     - match: (\d*)(<)
       captures:
         1: string.unquoted.shell
-        2: punctuation.definition.range.begin.shell.zsh
+        2: meta.range.shell.zsh punctuation.definition.range.begin.shell.zsh
       set:
         - string-path-pattern-body
         - zsh-redirection-glob-range-end
         - zsh-glob-range-number
         - zsh-redirection-glob-range-operator
         - zsh-glob-range-number
-    - include: zsh-redirection-glob-range-fail
 
   zsh-redirection-glob-range-end:
     - clear_scopes: 1  # clear `string.unquoted`
-    - meta_scope: meta.range.shell.zsh
     - meta_include_prototype: false
+    - meta_content_scope: meta.range.shell.zsh
     - match: \>
-      scope: punctuation.definition.range.end.shell.zsh
+      scope: meta.range.shell.zsh punctuation.definition.range.end.shell.zsh
       pop: 1
     - include: zsh-redirection-glob-range-fail
 
