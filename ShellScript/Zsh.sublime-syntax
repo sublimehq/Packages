@@ -393,7 +393,7 @@ contexts:
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
-  expansions-arithmetic:
+  arithmetic-expansions:
     - meta_prepend: true
     - match: (\$)(\[)
       captures:
@@ -410,16 +410,16 @@ contexts:
 
 ###[ PARAMETER EXPANSIONS ]####################################################
 
-  expansions-parameter:
+  parameter-expansions:
     - match: (\$)(\{)
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
       push:
-        - expansion-parameter-meta
-        - expansion-parameter-modifier
-        - expansion-parameter-name
-        - expansion-parameter-operator
+        - parameter-expansion-meta
+        - parameter-expansion-modifier
+        - parameter-expansion-name
+        - parameter-expansion-operator
         - zsh-parameter-flags
     # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
     - match: (\$)\d
@@ -445,7 +445,7 @@ contexts:
         1: punctuation.definition.variable.shell
       push: zsh-parameter-subscription
 
-  expansion-parameter-operator:
+  parameter-expansion-operator:
     # 14.3 Parameter Expansion
     # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion
     - meta_prepend: true
@@ -466,28 +466,28 @@ contexts:
       scope: keyword.operator.expansion.valid.shell.zsh
       pop: 1
 
-  expansion-parameter-modifier:
+  parameter-expansion-modifier:
     # 14.3 Parameter Expansion
     - meta_prepend: true
     # $var if non-null, else str and set var to it
     - match: ::=
       scope: keyword.operator.assignment.shell.zsh
       set:
-        - expansion-parameter-pattern
+        - parameter-expansion-pattern
         - maybe-tilde-interpolation
     - match: :#
       scope: keyword.operator.assignment.shell.zsh
       set:
-        - expansion-parameter-pattern
+        - parameter-expansion-pattern
         - maybe-tilde-interpolation
 
-  expansion-parameter-pattern-groups:
+  parameter-expansion-pattern-groups:
     - include: zsh-glob-flags
     - include: zsh-parameter-glob-ranges
     # prefer EXTENDED_GLOB over optional KSH_GLOB
     - match: \(
       scope: punctuation.section.group.begin.regexp.shell
-      push: expansion-parameter-pattern-group-body
+      push: parameter-expansion-pattern-group-body
 
   zsh-parameter-flags:
     # 14.3.1 Parameter Expansion Flags
@@ -763,7 +763,7 @@ contexts:
 
   zsh-glob-qualifier-content:
     - include: comma-separators
-    - include: expansions-variables
+    - include: variable-expansions
     - include: zsh-glob-numbers
     # begin of history expansion modifiers
     - match: ':'

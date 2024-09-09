@@ -8,8 +8,7 @@ extends: Packages/ShellScript/Shell-Unix-Generic.sublime-syntax
 
 contexts:
 
-  expansions-parameter:
-    - meta_prepend: true
+  parameter-expansions:
     - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
 
   string-prototype:

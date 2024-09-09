@@ -660,13 +660,13 @@ contexts:
     - match: \$(?=\$[{\w])
       scope: constant.character.escape.makefile
       push:
-        - include: scope:source.shell.bash#expansions-parameter
+        - include: scope:source.shell.bash#parameter-expansions
         - match: ''
           pop: 1
     - match: \$(?=\$\()
       scope: constant.character.escape.makefile
       push:
-        - include: scope:source.shell.embedded.makefile#expansions-command
+        - include: scope:source.shell.embedded.makefile#command-expansions
         - match: ''
           pop: 1
     - match: (\$)[[:alpha:]]

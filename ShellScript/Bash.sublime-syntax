@@ -1927,7 +1927,7 @@ contexts:
     - meta_scope: meta.number.integer.decimal.shell
     - match: '{{dec_digit}}+'
       scope: constant.numeric.value.shell
-    - include: expansions-variables
+    - include: variable-expansions
     - include: immediately-pop
 
   hex-number-body:
@@ -1935,7 +1935,7 @@ contexts:
     - meta_scope: meta.number.integer.hexadecimal.shell
     - match: '{{hex_digit}}+'
       scope: constant.numeric.value.shell
-    - include: expansions-variables
+    - include: variable-expansions
     - include: immediately-pop
 
   oct-number-body:
@@ -1943,7 +1943,7 @@ contexts:
     - meta_scope: meta.number.integer.octal.shell
     - match: '{{oct_digit}}+'
       scope: constant.numeric.value.shell
-    - include: expansions-variables
+    - include: variable-expansions
     - include: immediately-pop
 
   other-number-body:
@@ -1951,7 +1951,7 @@ contexts:
     - meta_scope: meta.number.integer.other.shell
     - match: '[[:alnum:]@_]+'
       scope: constant.numeric.value.shell
-    - include: expansions-variables
+    - include: variable-expansions
     - include: immediately-pop
 
   literal-unquoted-content:
@@ -2064,7 +2064,7 @@ contexts:
   string-interpolation-body:
     - clear_scopes: 1
     - meta_include_prototype: false
-    - include: expansions-variables
+    - include: variable-expansions
     - include: immediately-pop
 
   # for use by inheriting syntaxes to easily inject string interpolation
@@ -2139,7 +2139,7 @@ contexts:
     - include: any-escapes
     - include: brace-interpolations
     - include: string-interpolations
-    - include: expansions-job
+    - include: job-expansions
     - include: pattern-groups
     - include: pattern-charsets
     - include: pattern-common
@@ -2203,7 +2203,7 @@ contexts:
     - include: any-escapes
     - include: brace-interpolations
     - include: string-interpolations
-    - include: expansions-job
+    - include: job-expansions
     - include: pattern-groups
     - include: pattern-charsets
     - include: pattern-common
@@ -2308,7 +2308,7 @@ contexts:
         2: punctuation.separator.sequence.regexp.shell
         3: constant.character.escape.regexp.shell
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
     - include: eol-pop
 
   pattern-charset-collate-body:
@@ -2320,7 +2320,7 @@ contexts:
         2: punctuation.definition.set.end.regexp.shell
       pop: 1
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
     - include: eol-pop
 
   pattern-charset-equivalence-body:
@@ -2332,7 +2332,7 @@ contexts:
         2: punctuation.definition.set.end.regexp.shell
       pop: 1
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
     - include: eol-pop
 
   pattern-charset-posix-body:
@@ -2345,7 +2345,7 @@ contexts:
         3: punctuation.definition.set.end.regexp.shell
       pop: 1
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
     - include: eol-pop
 
   pattern-groups:
@@ -2531,14 +2531,14 @@ contexts:
 
 ###[ EXPANSIONS ]##############################################################
 
-  expansions-variables:
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-parameter
+  variable-expansions:
+    - include: arithmetic-expansions
+    - include: command-expansions
+    - include: parameter-expansions
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
-  expansions-arithmetic:
+  arithmetic-expansions:
     - match: (?=\$\(\()
       branch_point: arithmetic-expansion
       branch:
@@ -2599,7 +2599,7 @@ contexts:
     - include: brace-interpolation-sequence-content
 
   brace-interpolation-sequence-content:
-    - include: expansions-variables
+    - include: variable-expansions
     - match: ([-+]?)(\d+)
       scope: meta.number.integer.decimal.shell
       captures:
@@ -2664,7 +2664,7 @@ contexts:
 
 ###[ COMMAND EXPANSIONS ]######################################################
 
-  expansions-command:
+  command-expansions:
     - match: (\$)(\()
       captures:
         1: punctuation.definition.variable.shell
@@ -2698,7 +2698,7 @@ contexts:
 
 ###[ JOB EXPANSIONS ]##########################################################
 
-  expansions-job:
+  job-expansions:
     # There are a number of ways to refer to a job in the shell.
     # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
     # which is the last job stopped while it was in the foreground or started in
@@ -2727,16 +2727,16 @@ contexts:
 
 ###[ PARAMETER EXPANSIONS ]####################################################
 
-  expansions-parameter:
+  parameter-expansions:
     - match: (\$)(\{)
       captures:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
       push:
-        - expansion-parameter-meta
-        - expansion-parameter-modifier
-        - expansion-parameter-name
-        - expansion-parameter-operator
+        - parameter-expansion-meta
+        - parameter-expansion-modifier
+        - parameter-expansion-name
+        - parameter-expansion-operator
     # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
     - match: (\$)\d
       scope: meta.interpolation.parameter.shell variable.language.positional.shell
@@ -2757,12 +2757,12 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
 
-  expansion-parameter-meta:
+  parameter-expansion-meta:
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.parameter.shell
     - include: immediately-pop
 
-  expansion-parameter-operator:
+  parameter-expansion-operator:
     # Both ! and # are operators and special parameters at the same time.
     # First char is operator only if not followed by } or operator
     # Note: Matches may be wrong if line continuation follows, but it seems
@@ -2780,7 +2780,7 @@ contexts:
     - include: line-continuations
     - include: immediately-pop
 
-  expansion-parameter-name:
+  parameter-expansion-name:
     - meta_include_prototype: false
     - match: \d+
       scope: variable.language.positional.shell
@@ -2792,9 +2792,9 @@ contexts:
       scope: variable.language.special.shell
       pop: 1
     - match: ''
-      set: expansion-parameter-name-chars
+      set: parameter-expansion-name-chars
 
-  expansion-parameter-name-chars:
+  parameter-expansion-name-chars:
     - meta_content_scope: variable.other.readwrite.shell
     # note: no quoted name parts allowed within parameter expansions
     - match: '[@*](?!\w)'
@@ -2802,7 +2802,7 @@ contexts:
       pop: 1
     - include: variable-name-chars
 
-  expansion-parameter-modifier:
+  parameter-expansion-modifier:
     # ${parameter@operator}
     - match: (?:(@)({{parameter_switch}}))?(})
       captures:
@@ -2814,17 +2814,17 @@ contexts:
     - match: :?[-+=?]
       scope: keyword.operator.assignment.shell
       set:
-        - expansion-parameter-pattern
+        - parameter-expansion-pattern
         - maybe-tilde-interpolation
     # ${parameter:offset:length}
     - match: ':'
       scope: keyword.operator.substring.begin.shell
-      set: expansion-parameter-substr-start
+      set: parameter-expansion-substr-start
     # ${parameter/pattern/word}
     - match: /[/#%]?
       scope: keyword.operator.substitution.shell
       set:
-        - expansion-parameter-substitution-pattern
+        - parameter-expansion-substitution-pattern
         - maybe-tilde-interpolation
     # ${parameter#pattern}
     # ${parameter##pattern}
@@ -2837,120 +2837,120 @@ contexts:
     - match: (?:##?|%%?|\^\^?|,,?)
       scope: keyword.operator.expansion.shell
       set:
-        - expansion-parameter-pattern
+        - parameter-expansion-pattern
         - maybe-tilde-interpolation
     - include: variable-subscriptions
 
-  expansion-parameter-substr-start:
+  parameter-expansion-substr-start:
     - meta_content_scope: meta.arithmetic.shell
     - match: ':'
       scope: keyword.operator.substring.end.shell
-      set: expansion-parameter-expression
-    - include: expansion-parameter-expression
+      set: parameter-expansion-expression
+    - include: parameter-expansion-expression
 
-  expansion-parameter-expression:
+  parameter-expansion-expression:
     - meta_content_scope: meta.arithmetic.shell
-    - include: expansion-parameter-end
+    - include: parameter-expansion-end
     - include: expression-content
 
-  expansion-parameter-substitution-pattern:
+  parameter-expansion-substitution-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
     - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - match: /
       scope: keyword.operator.substitution.shell
-      set: expansion-parameter-string
-    - include: expansion-parameter-pattern
+      set: parameter-expansion-string
+    - include: parameter-expansion-pattern
 
-  expansion-parameter-pattern:
+  parameter-expansion-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions
     - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - include: expansion-parameter-end
+    - include: parameter-expansion-end
     - include: string-unquoted-content
-    - include: expansion-parameter-pattern-charsets
-    - include: expansion-parameter-pattern-groups
+    - include: parameter-expansion-pattern-charsets
+    - include: parameter-expansion-pattern-groups
     - include: pattern-common
 
-  expansion-parameter-pattern-charsets:
+  parameter-expansion-pattern-charsets:
     - match: (?=\[)
-      branch_point: expansion-parameter-pattern-charset
+      branch_point: parameter-expansion-pattern-charset
       branch:
-        - expansion-parameter-pattern-charset
+        - parameter-expansion-pattern-charset
         - pattern-charset-fallback
 
-  expansion-parameter-pattern-charset:
+  parameter-expansion-pattern-charset:
     - match: (\[)([!^]?)
       captures:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       set:
-        - expansion-parameter-pattern-charset-body
+        - parameter-expansion-pattern-charset-body
         - pattern-charset-begin
 
-  expansion-parameter-pattern-charset-body:
+  parameter-expansion-pattern-charset-body:
     - meta_scope: meta.set.regexp.shell
     - match: $|(?=\}) # bailout at end parameter
-      fail: expansion-parameter-pattern-charset
+      fail: parameter-expansion-pattern-charset
     - include: pattern-charset-end
     - include: pattern-charset-content
 
-  expansion-parameter-pattern-groups:
+  parameter-expansion-pattern-groups:
     - match: '[?*+@!]?(?=\()'
       scope: keyword.operator.quantifier.regexp.shell
-      push: expansion-parameter-pattern-group
+      push: parameter-expansion-pattern-group
 
-  expansion-parameter-pattern-group:
+  parameter-expansion-pattern-group:
     - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.group.begin.regexp.shell
-      set: expansion-parameter-pattern-group-body
+      set: parameter-expansion-pattern-group-body
 
-  expansion-parameter-pattern-group-body:
+  parameter-expansion-pattern-group-body:
     - clear_scopes: 1  # clear `string.unquoted`
     - meta_include_prototype: false
     - meta_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
-    - include: expansion-parameter-pattern-group-content
+    - include: parameter-expansion-pattern-group-content
     - include: brace-pop
 
-  expansion-parameter-pattern-group-content:
+  parameter-expansion-pattern-group-content:
     - include: string-unquoted-content
-    - include: expansion-parameter-pattern-groups
-    - include: expansion-parameter-pattern-group-charsets
+    - include: parameter-expansion-pattern-groups
+    - include: parameter-expansion-pattern-group-charsets
     - include: pattern-group-operators
     - include: pattern-common
 
-  expansion-parameter-pattern-group-charsets:
+  parameter-expansion-pattern-group-charsets:
     - match: (?=\[)
-      branch_point: expansion-parameter-pattern-group-charset
+      branch_point: parameter-expansion-pattern-group-charset
       branch:
-        - expansion-parameter-pattern-group-charset
+        - parameter-expansion-pattern-group-charset
         - pattern-charset-fallback
 
-  expansion-parameter-pattern-group-charset:
+  parameter-expansion-pattern-group-charset:
     - match: (\[)([!^]?)
       captures:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       set:
-        - expansion-parameter-pattern-group-charset-body
+        - parameter-expansion-pattern-group-charset-body
         - pattern-charset-begin
 
-  expansion-parameter-pattern-group-charset-body:
+  parameter-expansion-pattern-group-charset-body:
     - meta_scope: meta.set.regexp.shell
     - match: $|(?=[)}]) # bailout at end of group or parameter
-      fail: expansion-parameter-pattern-group-charset
+      fail: parameter-expansion-pattern-group-charset
     - include: pattern-charset-end
     - include: pattern-charset-content
 
-  expansion-parameter-string:
+  parameter-expansion-string:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.shell string.unquoted.shell
-    - include: expansion-parameter-end
+    - include: parameter-expansion-end
     - include: string-unquoted-content
 
-  expansion-parameter-end:
+  parameter-expansion-end:
     - match: \}
       scope: punctuation.section.interpolation.end.shell
       pop: 1
