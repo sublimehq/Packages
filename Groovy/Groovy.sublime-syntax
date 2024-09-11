@@ -519,20 +519,22 @@ contexts:
           pop: true
         - include: string-escape-sequences
         - include: single-dollar-string-interpolation
-        - match: '\$\{'
-          scope: punctuation.section.interpolation.begin.groovy
-          push:
-            - meta_scope: source.groovy.embedded.source
-            - match: '\}'
-              scope: punctuation.section.interpolation.end.groovy
-              pop: true
-            - include: escaped-end-of-line
-            - include: groovy-code
+        - include: string-interpolation-multiple-lines
         # anything else following a dollar sign is not a valid interpolation
         - match: \$(?=")
           scope: invalid.illegal.groovy
         - match: \$[^"]+
           scope: invalid.illegal.groovy
+  string-interpolation-multiple-lines:
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
+      push:
+        - meta_scope: source.groovy.embedded.source
+        - match: '\}'
+          scope: punctuation.section.interpolation.end.groovy
+          pop: true
+        - include: escaped-end-of-line
+        - include: groovy-code
   string-dollar-slashy:
     - match: '\$/'
       scope: punctuation.definition.string.begin.groovy
@@ -609,6 +611,25 @@ contexts:
       escape_captures:
         0: meta.string.embedded-shell.groovy punctuation.definition.string.end.groovy
       #- include: string-escape-sequences
+    - match: \b(sh)\s+(""")
+      captures:
+        1: support.function.groovy
+        2: meta.string.embedded-shell.groovy punctuation.definition.string.begin.groovy
+      embed: scope:source.shell.bash
+      embed_scope: meta.string.embedded-shell.groovy string.quoted.double.block.groovy
+      escape: '"""'
+      escape_captures:
+        0: meta.string.embedded-shell.groovy punctuation.definition.string.end.groovy
+      #- include: string-interpolation-multiple-lines
+    - match: \b(sh)\s+(')
+      captures:
+        1: support.function.groovy
+        2: meta.string.embedded-shell.groovy punctuation.definition.string.begin.groovy
+      embed: scope:source.shell.bash
+      embed_scope: meta.string.embedded-shell.groovy string.quoted.single.groovy
+      escape: \'
+      escape_captures:
+        0: meta.string.embedded-shell.groovy punctuation.definition.string.end.groovy
     - match: \b(?!def\b)(?![A-Z])\w+\b(?!\s+\w)
       scope: variable.other.readwrite.groovy
   inside-parens:

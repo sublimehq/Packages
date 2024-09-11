@@ -62,7 +62,7 @@ def greeting = "Hello ${true ? 'World' : 'Home'}"
 //           ^ keyword.operator.assignment
 //             ^ punctuation.definition.string.begin
 //             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-//                    ^^ punctuation.section.embedded
+//                    ^^ punctuation.section.interpolation.begin
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.groovy.embedded.source
 //                      ^^^^ constant.language
 //                           ^^^^^^^^^^^^^^^^^^ meta.evaluation.ternary
@@ -75,7 +75,7 @@ def greeting = "Hello ${true ? 'World' : 'Home'}"
 //                                       ^ punctuation.definition.string.begin
 //                                       ^^^^^^ string.quoted.single
 //                                            ^ punctuation.definition.string.end
-//                                             ^ punctuation.section.embedded
+//                                             ^ punctuation.section.interpolation.end
 //                                              ^ punctuation.definition.string.end
 //                                               ^ - string.quoted - invalid
 
