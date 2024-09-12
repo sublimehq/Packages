@@ -199,8 +199,8 @@ public readonly struct Distance(double dx, double dy)
     public readonly double Direction { get; } = Math.Atan2(dy, dx);
 }
 
-file record struct Person(string Name);
-/// ^^ storage.modifier.access
+  file record struct Person(string Name);
+///^^^ storage.modifier.access
 ///    ^^^^^^^^^^^^^^^^^^^^ meta.class.record - meta.class.constructor.parameters
 ///                        ^^^^^^^^^^^^^ meta.class.constructor.parameters
 ///    ^^^^^^ keyword.declaration.class.record
