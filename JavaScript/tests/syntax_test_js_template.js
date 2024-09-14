@@ -188,6 +188,10 @@ var style = css`
 /*             ^ punctuation.definition.string.begin.js */
 /*              ^ - source.css.embedded */
 
+    @media screen {}
+/*  ^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*         ^^^^^^ support.constant.media.css */
+
     tr, .${sel} {
 /*  ^^^^^^^^^^^^ meta.selector.css */
 /*  ^^ entity.name.tag.html.css */
@@ -203,6 +207,18 @@ var style = css`
 /*                          ^^^^^^^^ meta.property-value.css meta.interpolation.js */
     }
 /*  ^ meta.block.css punctuation.section.block.end.css */
+
+    background: var(--color);
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js source.css.embedded.js */
+/*  ^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*            ^ punctuation.separator.key-value.css */
+/*              ^^^^^^^^^^^^ meta.property-value.css */
+/*              ^^^ meta.function-call.identifier.css support.function.var.css */
+/*                 ^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                 ^ punctuation.section.group.begin.css */
+/*                  ^^^^^^^ variable.other.custom-property.css */
+/*                         ^ punctuation.section.group.end.css */
+/*                          ^ punctuation.terminator.rule.css */
     `
 /* <- meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*^^^ meta.string.template.js string.quoted.other.js - source.css.embedded */
