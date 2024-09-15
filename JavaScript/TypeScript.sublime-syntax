@@ -1239,7 +1239,7 @@ contexts:
     - meta_prepend: true
     - include: ts-non-null-assertion
 
-  literal-string-template:
+  literal-string-template-begin:
     # Notes:
     #  Consume trailing whitespace after opening punctuation
     #  and leading whitespace in front of closing punctuation
@@ -1299,3 +1299,4 @@ contexts:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
       set: literal-string-template-content
+    - include: immediately-pop
