@@ -1238,3 +1238,65 @@ contexts:
   function-call-arguments:
     - meta_prepend: true
     - include: ts-non-null-assertion
+
+  literal-string-template-begin:
+    # Notes:
+    #  Consume trailing whitespace after opening punctuation
+    #  and leading whitespace in front of closing punctuation
+    #  to maintain JavaScript indentation rules until embedded
+    #  code really begins/ends. It's required for embedded code
+    #  to be indented using global JavaScript indentation rules.
+    - match: (css)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.css.ts-template
+      embed_scope: meta.string.template.js source.css.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (html)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:text.html.ts-template
+      embed_scope: meta.string.template.js text.html.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (js)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.js.ts-template
+      embed_scope: meta.string.template.js source.js.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (json)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.json.ts-template
+      embed_scope: meta.string.template.js source.json.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (?:({{identifier_name}})\s*)?(\`)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
+      set: literal-string-template-content
+    - include: immediately-pop
