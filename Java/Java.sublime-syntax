@@ -563,11 +563,18 @@ contexts:
     - include: immediately-pop
 
   import-modifier:
+    - match: module{{break}}
+      scope: keyword.declaration.module.java
+      set: import-module
     - match: static{{break}}
       scope: storage.modifier.java
       set: import-static
     - match: (?=\S)
       set: type-import
+
+  import-module:
+    - include: entity-module
+    - include: else-pop
 
   import-static:
     - match: (?=\S)
