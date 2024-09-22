@@ -5733,46 +5733,755 @@ print -rC1 b*.pro(#q:s/pro/shmo/)(#q.:s@builtin@"sh${mi}ltin"@)
 
 # https://wiki.zshell.dev/community/zsh_guide/roadmap/expansion
 ls *(.)                              # List just regular files
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^ meta.function-call.arguments.shell
+#  ^^^^ meta.string.glob.shell
+#  ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#   ^^^ meta.modifier.glob.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -ld *(/om[1,3])                   # Show three newest directories, "om" orders by modification. "[1,3]" works like Python slice
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#      ^^^^^^^^^^^ meta.string.glob.shell
+#      ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#       ^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#       ^ punctuation.definition.modifier.begin.shell.zsh
+#        ^^^ storage.modifier.glob.shell.zsh
+#           ^^^^^ meta.range.glob.shell.zsh
+#           ^ punctuation.definition.range.begin.shell.zsh
+#            ^^^ meta.arithmetic.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ punctuation.separator.sequence.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^ punctuation.definition.range.end.shell.zsh
+#                ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 rm -i *(.L0)                         # Remove zero length files, prompt for each file
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^ meta.string.glob.shell
+#     ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#      ^^^^^ meta.modifier.glob.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^^ storage.modifier.glob.shell.zsh
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls *(^m0)                            # Files not modified today
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^ meta.string.glob.shell
+#  ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#   ^^^^^ meta.modifier.glob.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ keyword.operator.logical.shell.zsh
+#     ^ storage.modifier.glob.shell.zsh
+#      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls **/*(.x)                          # List all executable files in this tree
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^ meta.string.glob.shell
+#  ^^ constant.other.wildcard.asterisk.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^^^^ meta.modifier.glob.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^^ storage.modifier.glob.shell.zsh
+#         ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls *~*.*(.)                          # List all files that does not have a dot in the filename
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^ meta.string.glob.shell
+#  ^^^^^ string.unquoted.shell
+#  ^ constant.other.wildcard.asterisk.shell
+#   ^ keyword.operator.logical.regexp.shell.zsh
+#    ^ constant.other.wildcard.asterisk.shell
+#      ^ constant.other.wildcard.asterisk.shell
+#       ^^^ meta.modifier.glob.shell.zsh
+#       ^ punctuation.definition.modifier.begin.shell.zsh
+#        ^ storage.modifier.glob.shell.zsh
+#         ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l */**(Lk+100)                   # List all files larger than 100kb in this tree
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^^^^^ meta.string.glob.shell
+#     ^^^^ string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#       ^^ constant.other.wildcard.asterisk.shell
+#         ^^^^^^^^ meta.modifier.glob.shell.zsh
+#         ^ punctuation.definition.modifier.begin.shell.zsh
+#          ^^ storage.modifier.glob.shell.zsh
+#            ^^^^ meta.number.integer.decimal.shell
+#            ^ keyword.operator.arithmetic.shell
+#             ^^^ constant.numeric.value.shell
+#                ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls DATA_[0-9](#c4,7).csv             # List DATA_nnnn.csv to DATA_nnnnnnn.csv
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#  ^^^^^^^^^^ string.unquoted.shell
+#       ^^^^^ meta.set.regexp.shell
+#       ^ punctuation.definition.set.begin.regexp.shell
+#        ^^^ constant.other.range.regexp.shell
+#         ^ punctuation.separator.sequence.regexp.shell
+#           ^ punctuation.definition.set.end.regexp.shell
+#            ^^^^^^^ meta.modifier.glob.shell.zsh
+#            ^^ punctuation.definition.modifier.begin.shell.zsh
+#              ^^^^ storage.modifier.mode.glob.shell.zsh
+#                ^ punctuation.separator.sequence.shell
+#                  ^ punctuation.definition.modifier.end.shell.zsh
+#                   ^^^^ string.unquoted.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 rm ../debianpackage(.)               # Remove files only
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#  ^^^^^^^^^^^^^^^^ string.unquoted.shell
+#                  ^^^ meta.modifier.glob.shell.zsh
+#                  ^ punctuation.definition.modifier.begin.shell.zsh
+#                   ^ storage.modifier.glob.shell.zsh
+#                    ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -d *(/)                           # List directories only
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^ meta.string.glob.shell
+#     ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#      ^^^ meta.modifier.glob.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls /etc/*(@)                         # List symlinks only
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^ meta.string.glob.shell
+#  ^^^^^^ string.unquoted.shell
+#       ^ constant.other.wildcard.asterisk.shell
+#        ^^^ meta.modifier.glob.shell.zsh
+#        ^ punctuation.definition.modifier.begin.shell.zsh
+#         ^ storage.modifier.glob.shell.zsh
+#          ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l *.(png|jpg|gif)                # List pictures only
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^^^^^^^^ meta.string.glob.shell
+#     ^^ string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#       ^^^^^^^^^^^^^ meta.group.regexp.shell string.unquoted.shell
+#       ^ punctuation.section.group.begin.regexp.shell
+#           ^ keyword.operator.alternation.regexp.shell
+#               ^ keyword.operator.alternation.regexp.shell
+#                   ^ punctuation.section.group.end.regexp.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls *(*)                              # List executables only
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^ meta.function-call.arguments.shell
+#  ^^^^ meta.string.glob.shell
+#  ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#   ^^^ meta.modifier.glob.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls /etc/**/zsh                       # Which directories contain zsh?
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#       ^^ constant.other.wildcard.asterisk.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls **/*(-@)                          # List dangling symlinks (** recurses down directory trees)
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^ meta.string.glob.shell
+#  ^^^^ string.unquoted.shell
+#  ^^ constant.other.wildcard.asterisk.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^^^^ meta.modifier.glob.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ keyword.operator.logical.shell.zsh
+#        ^ storage.modifier.glob.shell.zsh
+#         ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls foo*~*bar*                        # Match everything that starts with foo but doesn't contain bar
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#      ^ keyword.operator.logical.regexp.shell.zsh
+#       ^ constant.other.wildcard.asterisk.shell
+#           ^ constant.other.wildcard.asterisk.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls *(e:'file $REPLY | grep -q JPEG':) # Match all files of which file says that they are JPEGs
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#  ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.glob.shell.zsh
+#     ^ punctuation.definition.quoted.begin.shell.zsh
+#      ^ punctuation.definition.quoted.begin.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#       ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#           ^^^^^^^ meta.function-call.arguments.shell
+#            ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.builtin.shell
+#            ^ punctuation.definition.variable.shell
+#                   ^ keyword.operator.assignment.pipe.shell
+#                     ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#                         ^^^^^^^^ meta.function-call.arguments.shell
+#                          ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                          ^ punctuation.definition.parameter.shell
+#                             ^^^^ meta.string.glob.shell string.unquoted.shell
+#                                 ^ punctuation.definition.quoted.end.shell
+#                                  ^ punctuation.definition.quoted.end.shell.zsh
+#                                   ^ punctuation.definition.modifier.end.shell.zsh
+#                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                     ^ punctuation.definition.comment.shell
+
 ls -ldrt -- *(mm+15)                 # List all files older than 15mins
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#        ^^ keyword.operator.end-of-options.shell
+#           ^^^^^^^^ meta.string.glob.shell
+#           ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#            ^^^^^^^ meta.modifier.glob.shell.zsh
+#            ^ punctuation.definition.modifier.begin.shell.zsh
+#             ^^ storage.modifier.glob.shell.zsh
+#               ^^^ meta.number.integer.decimal.shell
+#               ^ keyword.operator.arithmetic.shell
+#                ^^ constant.numeric.value.shell
+#                  ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -ldrt -- *(.mm+15)                # List just regular files
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#        ^^ keyword.operator.end-of-options.shell
+#           ^^^^^^^^^ meta.string.glob.shell
+#           ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#            ^^^^^^^^ meta.modifier.glob.shell.zsh
+#            ^ punctuation.definition.modifier.begin.shell.zsh
+#             ^^^ storage.modifier.glob.shell.zsh
+#                ^^^ meta.number.integer.decimal.shell
+#                ^ keyword.operator.arithmetic.shell
+#                 ^^ constant.numeric.value.shell
+#                   ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -ld /my/path/**/*(D@-^@)          # List the unbroken symlinks under a directory
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#      ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#      ^^^^^^^^^^^^^ string.unquoted.shell
+#               ^^ constant.other.wildcard.asterisk.shell
+#                  ^ constant.other.wildcard.asterisk.shell
+#                   ^^^^^^^ meta.modifier.glob.shell.zsh
+#                   ^ punctuation.definition.modifier.begin.shell.zsh
+#                    ^^ storage.modifier.glob.shell.zsh
+#                      ^^ keyword.operator.logical.shell.zsh
+#                        ^ storage.modifier.glob.shell.zsh
+#                         ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -Lldrt -- *(-mm+15)               # List the age of the pointed-to file for symlinks
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#         ^^ keyword.operator.end-of-options.shell
+#            ^^^^^^^^^ meta.string.glob.shell
+#            ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#             ^^^^^^^^ meta.modifier.glob.shell.zsh
+#             ^ punctuation.definition.modifier.begin.shell.zsh
+#              ^ keyword.operator.logical.shell.zsh
+#               ^^ storage.modifier.glob.shell.zsh
+#                 ^^^ meta.number.integer.decimal.shell
+#                 ^ keyword.operator.arithmetic.shell
+#                  ^^ constant.numeric.value.shell
+#                    ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l **/README                      # Search for README in all Subdirectories
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#     ^^ constant.other.wildcard.asterisk.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l foo<23->                       # List files beginning at foo23 upwards (foo23, foo24, foo25, ..)
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^ meta.string.glob.shell
+#     ^^^ string.unquoted.shell
+#        ^^^^^ meta.range.shell.zsh
+#        ^ punctuation.definition.range.begin.shell.zsh
+#         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#           ^ keyword.operator.range.shell.zsh
+#            ^ punctuation.definition.range.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l 200406{04..10}*(N)             # List all files that begin with the date strings from June 4 through June 9 of 2004
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#     ^^^^^^ string.unquoted.shell
+#           ^^^^^^^^ meta.interpolation.brace.shell
+#           ^ punctuation.section.interpolation.begin.shell
+#            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^^ keyword.operator.range.shell
+#                ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ punctuation.section.interpolation.end.shell
+#                   ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#                    ^^^ meta.modifier.glob.shell.zsh
+#                    ^ punctuation.definition.modifier.begin.shell.zsh
+#                     ^ storage.modifier.glob.shell.zsh
+#                      ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l 200406<4-10>.*                 # List will match the form of 200406XX
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^^^^^^^ meta.string.glob.shell
+#     ^^^^^^ string.unquoted.shell
+#           ^^^^^^ meta.range.shell.zsh
+#           ^ punctuation.definition.range.begin.shell.zsh
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ keyword.operator.range.shell.zsh
+#              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                ^ punctuation.definition.range.end.shell.zsh
+#                 ^^ string.unquoted.shell
+#                  ^ constant.other.wildcard.asterisk.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l *.(c|h)                        # Show only all *.c and *.h files
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^ meta.string.glob.shell
+#     ^^ string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#       ^^^^^ meta.group.regexp.shell string.unquoted.shell
+#       ^ punctuation.section.group.begin.regexp.shell
+#         ^ keyword.operator.alternation.regexp.shell
+#           ^ punctuation.section.group.end.regexp.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l *(R)                           # Show only world-readable files
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^ meta.string.glob.shell
+#     ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#      ^^^ meta.modifier.glob.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -fld *(OL)                        # Sort the output from ls -l by file size
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#       ^^^^^ meta.string.glob.shell
+#       ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#        ^^^^ meta.modifier.glob.shell.zsh
+#        ^ punctuation.definition.modifier.begin.shell.zsh
+#         ^^ storage.modifier.glob.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -fl *(DOL[1,5])                   # Print only 5 lines by the ls command (is equal to: ls -laS | head -n 5)
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#      ^^^^^^^^^^^ meta.string.glob.shell
+#      ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#       ^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#       ^ punctuation.definition.modifier.begin.shell.zsh
+#        ^^^ storage.modifier.glob.shell.zsh
+#           ^^^^^ meta.range.glob.shell.zsh
+#           ^ punctuation.definition.range.begin.shell.zsh
+#            ^^^ meta.arithmetic.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ punctuation.separator.sequence.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^ punctuation.definition.range.end.shell.zsh
+#                ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls -l *(G[users])                    # Show only files are owned from group users
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#  ^ punctuation.definition.parameter.shell
+#     ^^^^^^^^^^^ meta.string.glob.shell
+#     ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#      ^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^^^^^^^ meta.quoted.glob.shell.zsh
+#        ^ punctuation.definition.quoted.begin.shell.zsh
+#         ^^^^^ string.quoted.other.shell.zsh
+#              ^ punctuation.definition.quoted.end.shell.zsh
+#               ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls *(L0f.go-w.)                      # Show only empty files which nor group or world writable
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^ meta.string.glob.shell
+#  ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#   ^^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^^ string.quoted.other.shell.zsh
+#            ^ punctuation.definition.quoted.end.shell.zsh
+#             ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 ls *.c~foo.c                         # Show only all *.c files and ignore foo.c
+#^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+# ^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#  ^ constant.other.wildcard.asterisk.shell
+#     ^ keyword.operator.logical.regexp.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directories, list their contents, and output the first item in the above list
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#         ^^^^^^^^^^^^^ string.unquoted.shell
+#                  ^^ constant.other.wildcard.asterisk.shell
+#                     ^ constant.other.wildcard.asterisk.shell
+#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#                      ^ punctuation.definition.modifier.begin.shell.zsh
+#                       ^^^ storage.modifier.glob.shell.zsh
+#                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.glob.shell.zsh
+#                          ^ punctuation.definition.quoted.begin.shell.zsh
+#                           ^ punctuation.definition.quoted.begin.shell
+#                            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#                            ^^^^^ meta.assignment.l-value.shell variable.language.builtin.shell
+#                                 ^ meta.assignment.shell keyword.operator.assignment.shell
+#                                  ^^^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
+#                                  ^ punctuation.section.sequence.begin.shell
+#                                   ^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#                                   ^^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
+#                                   ^ punctuation.definition.variable.shell
+#                                         ^^ string.unquoted.shell
+#                                          ^ constant.other.wildcard.asterisk.shell
+#                                           ^^^^^^^^^ meta.modifier.glob.shell.zsh
+#                                           ^ punctuation.definition.modifier.begin.shell.zsh
+#                                            ^ storage.modifier.glob.shell.zsh
+#                                             ^^^^ meta.range.glob.shell.zsh
+#                                             ^ punctuation.definition.range.begin.shell.zsh
+#                                              ^^ meta.arithmetic.shell
+#                                              ^ keyword.operator.arithmetic.shell
+#                                               ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                                ^ punctuation.definition.range.end.shell.zsh
+#                                                 ^ punctuation.separator.sequence.shell.zsh
+#                                                  ^ storage.modifier.glob.shell.zsh
+#                                                   ^ punctuation.definition.modifier.end.shell.zsh
+#                                                    ^ punctuation.section.sequence.end.shell
+#                                                     ^ punctuation.definition.quoted.end.shell
+#                                                      ^ punctuation.definition.quoted.end.shell.zsh
+#                                                       ^ punctuation.definition.modifier.end.shell.zsh
+#                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                                          ^ punctuation.definition.comment.shell
+
 print -rl /**/*~^*/path(|/*)         # Find command to search for directory name instead of basename
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#         ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#         ^^^^^^^^^^^^^ string.unquoted.shell
+#          ^^ constant.other.wildcard.asterisk.shell
+#             ^ constant.other.wildcard.asterisk.shell
+#              ^^ keyword.operator.logical.regexp.shell.zsh
+#                ^ constant.other.wildcard.asterisk.shell
+#                      ^^^^^ meta.group.regexp.shell string.unquoted.shell
+#                      ^ punctuation.section.group.begin.regexp.shell
+#                       ^ keyword.operator.alternation.regexp.shell
+#                         ^ constant.other.wildcard.asterisk.shell
+#                          ^ punctuation.section.group.end.regexp.shell
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 print -l ~/*(ND.^w)                  # List files in the current directory that are not writable by the owner
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#        ^^^^^^^^^^ meta.string.glob.shell
+#        ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#         ^^ string.unquoted.shell
+#          ^ constant.other.wildcard.asterisk.shell
+#           ^^^^^^^ meta.modifier.glob.shell.zsh
+#           ^ punctuation.definition.modifier.begin.shell.zsh
+#            ^^^ storage.modifier.glob.shell.zsh
+#               ^ keyword.operator.logical.shell.zsh
+#                ^ storage.modifier.glob.shell.zsh
+#                 ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 print -rl -- *(Dmh+10^/)             # List all files which have not been updated in the last 10 hours
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#         ^^ keyword.operator.end-of-options.shell
+#            ^^^^^^^^^^^ meta.string.glob.shell
+#            ^ string.unquoted.shell constant.other.wildcard.asterisk.shell
+#             ^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#             ^ punctuation.definition.modifier.begin.shell.zsh
+#              ^^^ storage.modifier.glob.shell.zsh
+#                 ^^^ meta.number.integer.decimal.shell
+#                 ^ keyword.operator.arithmetic.shell
+#                  ^^ constant.numeric.value.shell
+#                    ^ keyword.operator.logical.shell.zsh
+#                     ^ storage.modifier.glob.shell.zsh
+#                      ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 print -rl -- **/*(Dom[1,10])         # List the ten newest files in directories and subdirectories (recursive)
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#         ^^ keyword.operator.end-of-options.shell
+#            ^^^^^^^^^^^^^^^ meta.string.glob.shell
+#            ^^^^ string.unquoted.shell
+#            ^^ constant.other.wildcard.asterisk.shell
+#               ^ constant.other.wildcard.asterisk.shell
+#                ^^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#                ^ punctuation.definition.modifier.begin.shell.zsh
+#                 ^^^ storage.modifier.glob.shell.zsh
+#                    ^^^^^^ meta.range.glob.shell.zsh
+#                    ^ punctuation.definition.range.begin.shell.zsh
+#                     ^^^^ meta.arithmetic.shell
+#                     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                      ^ punctuation.separator.sequence.shell
+#                       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                         ^ punctuation.definition.range.end.shell.zsh
+#                          ^ punctuation.definition.modifier.end.shell.zsh
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                    ^ punctuation.definition.comment.shell
+
 print -rl -- /path/to/dir/**/*(D.om[5,10])  # Display the 5-10 last modified files
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#         ^^ keyword.operator.end-of-options.shell
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#            ^^^^^^^^^^^^^^^^^ string.unquoted.shell
+#                         ^^ constant.other.wildcard.asterisk.shell
+#                            ^ constant.other.wildcard.asterisk.shell
+#                             ^^^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#                             ^ punctuation.definition.modifier.begin.shell.zsh
+#                              ^^^^ storage.modifier.glob.shell.zsh
+#                                  ^^^^^^ meta.range.glob.shell.zsh
+#                                  ^ punctuation.definition.range.begin.shell.zsh
+#                                   ^^^^ meta.arithmetic.shell
+#                                   ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                    ^ punctuation.separator.sequence.shell
+#                                     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                       ^ punctuation.definition.range.end.shell.zsh
+#                                        ^ punctuation.definition.modifier.end.shell.zsh
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                           ^ punctuation.definition.comment.shell
+
 print -rl -- **/*.c(D.OL[1,10]:h) | sort -u # Print the path of the directories holding the ten biggest C regular files in the current directory and subdirectories
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#         ^^ keyword.operator.end-of-options.shell
+#            ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#            ^^^^^^ string.unquoted.shell
+#            ^^ constant.other.wildcard.asterisk.shell
+#               ^ constant.other.wildcard.asterisk.shell
+#                  ^^^^^^^^^^^^^^ meta.modifier.glob.shell.zsh
+#                  ^ punctuation.definition.modifier.begin.shell.zsh
+#                   ^^^^ storage.modifier.glob.shell.zsh
+#                       ^^^^^^ meta.range.glob.shell.zsh
+#                       ^ punctuation.definition.range.begin.shell.zsh
+#                        ^^^^ meta.arithmetic.shell
+#                        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                         ^ punctuation.separator.sequence.shell
+#                          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                            ^ punctuation.definition.range.end.shell.zsh
+#                             ^ punctuation.separator.sequence.shell.zsh
+#                              ^ storage.modifier.glob.shell.zsh
+#                               ^ punctuation.definition.modifier.end.shell.zsh
+#                                 ^ keyword.operator.assignment.pipe.shell
+#                                   ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#                                       ^^^ meta.function-call.arguments.shell
+#                                        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                        ^ punctuation.definition.parameter.shell
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                           ^ punctuation.definition.comment.shell
+
 print directory/**/*(om[1])                 # Find most recent file in a directory
+#^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#     ^^^^^^^^^^^^^^ string.unquoted.shell
+#               ^^ constant.other.wildcard.asterisk.shell
+#                  ^ constant.other.wildcard.asterisk.shell
+#                   ^^^^^^^ meta.modifier.glob.shell.zsh
+#                   ^ punctuation.definition.modifier.begin.shell.zsh
+#                    ^^ storage.modifier.glob.shell.zsh
+#                      ^^^ meta.range.glob.shell.zsh
+#                      ^ punctuation.definition.range.begin.shell.zsh
+#                       ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#                        ^ punctuation.definition.range.end.shell.zsh
+#                         ^ punctuation.definition.modifier.end.shell.zsh
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                           ^ punctuation.definition.comment.shell
+
 for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces from filenames
+#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^^ keyword.operator.iterator.in.shell
+#       ^^^^^^^^^^^^^^^ meta.sequence.list.shell
+#        ^^^^^^^^^^^^^^ meta.string.glob.shell
+#        ^^^^^^^^^ string.unquoted.shell
+#          ^^ constant.other.wildcard.asterisk.shell
+#             ^ constant.other.wildcard.asterisk.shell
+#              ^^ constant.character.escape.shell
+#                ^ constant.other.wildcard.asterisk.shell
+#                 ^^^^^ meta.modifier.glob.shell.zsh
+#                 ^ punctuation.definition.modifier.begin.shell.zsh
+#                  ^^^ storage.modifier.glob.shell.zsh
+#                     ^ punctuation.definition.modifier.end.shell.zsh
+#                      ^ punctuation.terminator.statement.shell
+#                        ^^ keyword.control.loop.do.shell
+#                           ^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#                             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                              ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                              ^ punctuation.definition.variable.shell
+#                                 ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#                                 ^^^^^^ meta.interpolation.parameter.shell
+#                                 ^ punctuation.definition.variable.shell
+#                                  ^ punctuation.section.interpolation.begin.shell
+#                                   ^ variable.other.readwrite.shell
+#                                    ^ keyword.operator.substring.begin.shell
+#                                     ^ meta.arithmetic.shell variable.other.readwrite.shell
+#                                      ^ punctuation.section.interpolation.end.shell
+#                                       ^ string.unquoted.shell
+#                                        ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#                                        ^ punctuation.definition.variable.shell
+#                                         ^ punctuation.section.interpolation.begin.shell
+#                                          ^ variable.other.readwrite.shell
+#                                           ^ keyword.operator.substring.begin.shell
+#                                            ^ meta.arithmetic.shell variable.other.readwrite.shell
+#                                             ^ keyword.operator.substring.end.shell
+#                                              ^^^^^^ meta.arithmetic.shell
+#                                              ^^ variable.other.readwrite.shell
+#                                                ^ keyword.operator.arithmetic.shell
+#                                                  ^ keyword.operator.arithmetic.shell
+#                                                   ^ variable.other.readwrite.shell
+#                                                    ^ punctuation.section.interpolation.end.shell
+#                                                     ^ punctuation.terminator.statement.shell
+#                                                       ^^^^ keyword.control.loop.end.shell
+#                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#                                                              ^ punctuation.definition.comment.shell
 
 
 ### [ ARRAY VARIABLES ] #######################################################
