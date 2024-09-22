@@ -1021,7 +1021,7 @@ html:
 shell_string_interpolation:
     var1="double nquoted $(string) value"
     #    ^^^^^^^^^^^^^^^^ string.quoted.double.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.shell
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.glob.shell
     #                    ^^^^^^^^^ meta.interpolation
     #                    ^^ keyword.other.block.begin.makefile
     #                      ^^^^^^ variable.parameter.makefile
@@ -1029,7 +1029,7 @@ shell_string_interpolation:
     #                             ^^^^^^^ string.quoted.double.shell
     var1='single nquoted $(string) value'
     #    ^^^^^^^^^^^^^^^^ string.quoted.single.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.shell
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.glob.shell
     #                    ^^^^^^^^^ meta.interpolation
     #                    ^^ keyword.other.block.begin.makefile
     #                      ^^^^^^ variable.parameter.makefile
@@ -1037,7 +1037,7 @@ shell_string_interpolation:
     #                             ^^^^^^^ string.quoted.single.shell
     var1=unquoted\ $(string)\ value
     #    ^^^^^^^^^^ string.unquoted.shell
-    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.shell
+    #    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile meta.string.glob.shell
     #              ^^^^^^^^^ meta.interpolation
     #              ^^ keyword.other.block.begin.makefile
     #                ^^^^^^ variable.parameter.makefile

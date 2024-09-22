@@ -64,9 +64,9 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 #                                                                      ^^^ - comment
 #     ^ punctuation.section.interpolation.begin.shell
 #                                  ^ punctuation.section.interpolation.end.shell
-#                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
-#                                     ^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
-#                                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                    ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                                     ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
+#                                                    ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                                      ^ keyword.operator.assignment.pipe.shell
 #                                                        ^ punctuation.section.interpolation.begin.shell
 #                                                                        ^ punctuation.separator.continuation.line.shell
@@ -146,46 +146,46 @@ echo the q"uick" f"ox" ju"mp"ed o"ve"r t'he' 'la'zy 'dog'
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                                        ^ - meta.function-call
 #         ^ punctuation.definition.string.begin.shell
-#         ^^^^^^ meta.string.shell string.quoted.double.shell
+#         ^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #              ^ punctuation.definition.string.end.shell
 #                 ^ punctuation.definition.string.begin.shell
-#                 ^^^^ meta.string.shell string.quoted.double.shell
+#                 ^^^^ meta.string.glob.shell string.quoted.double.shell
 #                    ^ punctuation.definition.string.end.shell
 #                        ^ punctuation.definition.string.begin.shell
-#                        ^^^^ meta.string.shell string.quoted.double.shell
+#                        ^^^^ meta.string.glob.shell string.quoted.double.shell
 #                           ^ punctuation.definition.string.end.shell
 #                                ^ punctuation.definition.string.begin.shell
-#                                ^^^^ meta.string.shell string.quoted.double.shell
+#                                ^^^^ meta.string.glob.shell string.quoted.double.shell
 #                                   ^ punctuation.definition.string.end.shell
 #                                       ^ punctuation.definition.string.begin.shell
-#                                       ^^^^ meta.string.shell string.quoted.single.shell
+#                                       ^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                          ^ punctuation.definition.string.end.shell
 #                                            ^ punctuation.definition.string.begin.shell
-#                                            ^^^^ meta.string.shell string.quoted.single.shell
+#                                            ^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                               ^ punctuation.definition.string.end.shell
 #                                                   ^ punctuation.definition.string.begin.shell
-#                                                   ^^^^^ meta.string.shell string.quoted.single.shell
+#                                                   ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                                                       ^ punctuation.definition.string.end.shell
 
 echo 'no\e$capes\in\$ingle\quotes'
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^ meta.function-call.arguments.shell - keyword - string
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.quoted.single.shell - constant - keyword - variable
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell - constant - keyword - variable
 #    ^ punctuation.definition.string.begin.shell
 #                                ^ punctuation.definition.string.end.shell
 
 echo 'singe\' \\''
 #    ^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^^^^^^ meta.string.shell string.quoted.single.shell - string.unquoted
+#    ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell - string.unquoted
 #    ^ punctuation.definition.string.begin.shell
 #          ^^ - constant
-#             ^^ meta.string.shell string.unquoted.shell - string.quoted
+#             ^^ meta.string.glob.shell string.unquoted.shell - string.quoted
 #             ^^ constant.character.escape.shell
-#               ^^ meta.string.shell string.quoted.single.shell - string.unquoted
+#               ^^ meta.string.glob.shell string.quoted.single.shell - string.unquoted
 #                 ^ - meta.string - string
 
 echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z\''
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #    ^^ punctuation.definition.string.begin.shell
 #      ^^^^ constant.character.escape.shell
 #          ^^^^^^ - constant.character.escape
@@ -210,17 +210,17 @@ echo -e -a -n <1 ! # unknown options start printed text
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^ variable.parameter.option.shell
-#       ^^ meta.string.shell string.unquoted.shell
-#          ^^ meta.string.shell string.unquoted.shell
+#       ^^ meta.string.glob.shell string.unquoted.shell
+#          ^^ meta.string.glob.shell string.unquoted.shell
 #             ^^ meta.redirection.shell
 #             ^ keyword.operator.assignment.redirection.shell
 #              ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-#                ^ meta.string.shell string.unquoted.shell
+#                ^ meta.string.glob.shell string.unquoted.shell
 #                 ^ - meta.function-call - comment
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 echo $'Hello\' World\\'
-#    ^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
+#    ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #    ^^ punctuation.definition.string.begin.shell
 #           ^^ constant.character.escape.shell
 #                   ^^ constant.character.escape.shell
@@ -228,7 +228,7 @@ echo $'Hello\' World\\'
 #                      ^ - meta.string - string
 
 echo $"Hello\" World\\"
-#    ^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#    ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #    ^^ punctuation.definition.string.begin.shell
 #           ^^ constant.character.escape.shell
 #                   ^^ constant.character.escape.shell
@@ -236,30 +236,30 @@ echo $"Hello\" World\\"
 #                      ^ - meta.string - string
 
 echo $"Hello
-#    ^^^^^^^^ meta.string.shell string.quoted.double.shell
+#    ^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #    ^^ punctuation.definition.string.begin.shell
   World\\"
-#^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #      ^^ constant.character.escape.shell
 #        ^ punctuation.definition.string.end.shell
 #         ^ - meta.string - string
 
 # Note: Line continuation causes the linefeed to be removed from the output string.
 echo $"Hello \
-#    ^^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#    ^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #    ^^ punctuation.definition.string.begin.shell
 #            ^ punctuation.separator.continuation.line.shell
 #             ^ - punctuation
   World\\"
-#^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #      ^^ constant.character.escape.shell
 #        ^ punctuation.definition.string.end.shell
 #         ^ - meta.string - string
 
 echo $"Hello \\\"$world\""
-#    ^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation - variable
-#                ^^^^^^ meta.string.shell meta.interpolation.parameter.shell
-#                      ^^^ meta.string.shell string.quoted.double.shell - meta.interpolation - variable
+#    ^^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation - variable
+#                ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                      ^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation - variable
 #    ^^ punctuation.definition.string.begin.shell
 #            ^^^^ constant.character.escape.shell
 #                ^ punctuation.definition.variable.shell
@@ -268,9 +268,9 @@ echo $"Hello \\\"$world\""
 #                        ^ punctuation.definition.string.end.shell
 
 echo $"Hello \\\"`echo World`\""
-#    ^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation - variable
-#                ^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
-#                            ^^^ meta.string.shell string.quoted.double.shell - meta.interpolation - variable
+#    ^^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation - variable
+#                ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell
+#                            ^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation - variable
 #    ^^ punctuation.definition.string.begin.shell
 #            ^^^^ constant.character.escape.shell
 #                ^ punctuation.section.interpolation.begin.shell
@@ -310,12 +310,12 @@ echo `echo \`echo hello\\\`, world\\\\\`!`
 #                                        ^ punctuation.section.interpolation.end.shell
 
 echo "`dirname -- foo/bar`"
-#    ^ meta.function-call.arguments.shell meta.string.shell - meta.interpolation
-#     ^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
-#      ^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
-#             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
-#                        ^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
-#                         ^ meta.function-call.arguments.shell meta.string.shell - meta.interpolation
+#    ^ meta.function-call.arguments.shell meta.string.glob.shell - meta.interpolation
+#     ^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell
+#      ^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#                        ^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell
+#                         ^ meta.function-call.arguments.shell meta.string.glob.shell - meta.interpolation
 #    ^ string.quoted.double.shell punctuation.definition.string.begin.shell
 #     ^ punctuation.section.interpolation.begin.shell
 #      ^^^^^^^ variable.function.shell
@@ -324,9 +324,9 @@ echo "`dirname -- foo/bar`"
 #                         ^ string.quoted.double.shell punctuation.definition.string.end.shell
 
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
-#                 ^ meta.string.shell
-#                  ^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell - string.quoted.double
-#                               ^ meta.string.shell - meta.interpolation
+#                 ^ meta.string.glob.shell
+#                  ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell - string.quoted.double
+#                               ^ meta.string.glob.shell - meta.interpolation
 #                 ^ string.quoted.double.shell punctuation.definition.string.begin.shell
 #                  ^ punctuation.definition.variable.shell
 #                   ^ punctuation.section.interpolation.begin.shell
@@ -337,7 +337,7 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                                 ^ keyword.operator.assignment.pipe.shell
 #                                   ^^^^ variable.function.shell
 #                                        ^^ variable.parameter.option.shell
-#                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
+#                                           ^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 
 ' echo '
 # <- meta.function-call.identifier.shell meta.command.shell
@@ -558,14 +558,14 @@ foo\
 -e Hello
 # <- - punctuation
 #^ - variable.parameter
-#  ^^^^^ meta.string.shell string.unquoted.shell
+#  ^^^^^ meta.string.glob.shell string.unquoted.shell
 
 foo -e =Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^^ meta.function-call.arguments.shell
 #   ^ punctuation.definition.parameter.shell
 #   ^^ meta.parameter.option.shell variable.parameter.option.shell
-#      ^^^^^^ meta.string.shell string.unquoted.shell
+#      ^^^^^^ meta.string.glob.shell string.unquoted.shell
 #      ^ - keyword.operator
 
 foo -e=Hello
@@ -575,7 +575,7 @@ foo -e=Hello
 #   ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
 #    ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #     ^ keyword.operator.assignment.shell
-#      ^^^^^ meta.string.shell string.unquoted.shell
+#      ^^^^^ meta.string.glob.shell string.unquoted.shell
 
 foo -$e=Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
@@ -583,7 +583,7 @@ foo -$e=Hello
 #   ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
 #    ^^ meta.parameter.option.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - variable variable
 #      ^ keyword.operator.assignment.shell
-#       ^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^^^ meta.string.glob.shell string.unquoted.shell
 
 any --h\elp
 #   ^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -693,7 +693,7 @@ git log --format="%h git has this pattern, too"
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
 #         ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #               ^ keyword.operator.assignment.shell
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 
 7za x -a -9r -= -] -!
 # <- meta.function-call.identifier.shell variable.function.shell
@@ -1059,8 +1059,8 @@ for in in in in
 #^^ keyword.control.loop.for.shell
 #   ^^ variable.other.readwrite.shell - keyword
 #      ^^ keyword.operator.iterator.in.shell
-#         ^^ meta.string.shell string.unquoted.shell
-#            ^^ meta.string.shell string.unquoted.shell
+#         ^^ meta.string.glob.shell string.unquoted.shell
+#            ^^ meta.string.glob.shell string.unquoted.shell
 
 for do do do do
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
@@ -1097,15 +1097,15 @@ for i in for in do echo done; do echo $i; done;
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #     ^^ keyword.operator.iterator.in.shell
 #       ^ - meta.string
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ - meta.string
-#            ^^ meta.string.shell string.unquoted.shell
+#            ^^ meta.string.glob.shell string.unquoted.shell
 #              ^ - meta.string
-#               ^^ meta.string.shell string.unquoted.shell
+#               ^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ - meta.string
-#                  ^^^^ meta.string.shell string.unquoted.shell
+#                  ^^^^ meta.string.glob.shell string.unquoted.shell
 #                      ^ - meta.string
-#                       ^^^^ meta.string.shell string.unquoted.shell
+#                       ^^^^ meta.string.glob.shell string.unquoted.shell
 #                           ^ punctuation.terminator.statement.shell
 #                             ^^ keyword.control.loop.do.shell
 #                                ^^^^ support.function.shell
@@ -1120,11 +1120,11 @@ for i in { [ \( ; do echo $i; done;
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #       ^ - meta.string
-#        ^ meta.string.shell string.unquoted.shell
+#        ^ meta.string.glob.shell string.unquoted.shell
 #         ^ - meta.string
-#          ^ meta.string.shell string.unquoted.shell
+#          ^ meta.string.glob.shell string.unquoted.shell
 #           ^ - meta.string
-#            ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#            ^^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #              ^ - meta.string
 #               ^ punctuation.terminator.statement.shell
 #                 ^^ keyword.control.loop.do.shell
@@ -1139,12 +1139,12 @@ for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
-#        ^^^^ meta.string.shell string.unquoted.shell
+#        ^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                   ^^^^^^ meta.string.shell string.quoted.double.shell
-#                          ^^^^^^ meta.string.shell string.quoted.single.shell
-#                                 ^^ meta.string.shell string.unquoted.shell
-#                                   ^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^^^^^^ meta.string.glob.shell string.quoted.double.shell
+#                          ^^^^^^ meta.string.glob.shell string.quoted.single.shell
+#                                 ^^ meta.string.glob.shell string.unquoted.shell
+#                                   ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                      ^ punctuation.terminator.statement.shell
 #                                        ^^ keyword.control.loop.do.shell
 #                                           ^^^^ meta.function-call.identifier.shell support.function.shell
@@ -1174,13 +1174,13 @@ for i in {foo,bar,baz}; do echo $i; done;
 #^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
-#        ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
-#         ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#            ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
-#             ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
-#                 ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                    ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell - string
+#        ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
+#         ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#            ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#             ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#                 ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                    ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell - string
 #                     ^ punctuation.terminator.statement.shell
 
 for i in for pre{foo,bar,baz}suf; do echo $i; done;
@@ -1188,17 +1188,17 @@ for i in for pre{foo,bar,baz}suf; do echo $i; done;
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ - meta.string
-#            ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
-#               ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
-#                ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                   ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
-#                    ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                       ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
-#                        ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                           ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell - string
-#                            ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+#            ^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#               ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
+#                ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                   ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#                    ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                       ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
+#                        ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                           ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell - string
+#                            ^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
 #                               ^ punctuation.terminator.statement.shell
 
 for i in {1..10}; do echo $i; done;
@@ -1274,11 +1274,11 @@ for i in (foo bar baz); do echo $i; done;
 #   ^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
 #        ^ meta.statement.loop.for.shell invalid.illegal.unexpected-token.shell
-#         ^^^ meta.statement.loop.for.shell meta.string.shell string.unquoted.shell
+#         ^^^ meta.statement.loop.for.shell meta.string.glob.shell string.unquoted.shell
 #            ^ - meta.string
-#             ^^^ meta.statement.loop.for.shell meta.string.shell string.unquoted.shell
+#             ^^^ meta.statement.loop.for.shell meta.string.glob.shell string.unquoted.shell
 #                ^ - meta.string
-#                 ^^^ meta.statement.loop.for.shell meta.string.shell string.unquoted.shell
+#                 ^^^ meta.statement.loop.for.shell meta.string.glob.shell string.unquoted.shell
 #                    ^ invalid.illegal.stray.shell
 #                    ^ invalid.illegal.stray.shell
 #                     ^ punctuation.terminator.statement.shell
@@ -1330,9 +1330,9 @@ for \
 #^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 # ^^^ variable.other.readwrite.shell
 #     ^^ keyword.operator.iterator.in.shell
-#        ^^^ meta.string.shell string.unquoted.shell
-#            ^^^ meta.string.shell string.unquoted.shell
-#                ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^^^ meta.string.glob.shell string.unquoted.shell
+#                ^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ punctuation.terminator.statement.shell
 
 for \
@@ -1341,9 +1341,9 @@ in foo bar baz;
 #<- meta.statement.loop.for.shell keyword.operator.iterator.in.shell
 #^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #^ meta.statement.loop.for.shell keyword.operator.iterator.in.shell
-#  ^^^ meta.string.shell string.unquoted.shell
-#      ^^^ meta.string.shell string.unquoted.shell
-#          ^^^ meta.string.shell string.unquoted.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ punctuation.terminator.statement.shell
 
 `for i in $(seq 100); do echo $i; done`
@@ -1431,13 +1431,13 @@ select in in in select do done; do echo $in; done;
 #      ^^ variable.other.readwrite.shell
 #         ^^ keyword.operator.iterator.in.shell
 #           ^ - meta.string - string
-#            ^^ meta.string.shell string.unquoted.shell
+#            ^^ meta.string.glob.shell string.unquoted.shell
 #              ^ - meta.string - string
-#               ^^^^^^ meta.string.shell string.unquoted.shell
+#               ^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                     ^ - meta.string - string
-#                      ^^ meta.string.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell string.unquoted.shell
 #                        ^ - meta.string - string
-#                         ^^^^ meta.string.shell string.unquoted.shell
+#                         ^^^^ meta.string.glob.shell string.unquoted.shell
 #                             ^ punctuation.terminator.statement.shell
 #                               ^^ keyword.control.loop.do.shell
 #                                  ^^^^ support.function.shell
@@ -1451,7 +1451,7 @@ select \
 # <- meta.statement.loop.select.shell
 #^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
 #         ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
-#          ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.shell
+#          ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
 #                       ^^ - meta.statement.loop - meta.sequence
 # ^^^^^ variable.other.readwrite.shell
 #       ^^ keyword.operator.iterator.in.shell
@@ -1467,7 +1467,7 @@ select \
 # <- meta.statement.loop.select.shell
 #^^^ meta.statement.loop.select.shell - meta.sequence
 #   ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
-#    ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.shell
+#    ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
 #                 ^^ - meta.statement.loop - meta.sequence
 # ^^ keyword.operator.iterator.in.shell
 #    ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
@@ -1482,7 +1482,7 @@ select \
   ~/**/*.~\$tmp; do rm -f $fname; done;
 # <- meta.statement.loop.select.shell
 #^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
-# ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.shell
+# ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
 #              ^^ - meta.statement.loop - meta.sequence
 # ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
 #  ^^^^^^^^^^^^ string.unquoted.shell
@@ -1494,7 +1494,7 @@ select fname in *;
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
 #            ^^ keyword.operator.iterator.in.shell
-#               ^ meta.string.shell string.unquoted.shell
+#               ^ meta.string.glob.shell string.unquoted.shell
 #                ^ punctuation.terminator.statement.shell
 do
 # <- keyword.control.loop.do.shell
@@ -1937,12 +1937,12 @@ if !cmd
 #
 
 [[ '-e' == -e ]]   # -e undergoes pattern matching on the right
-#  ^^^^ meta.string.shell string.quoted.single.shell
+#  ^^^^ meta.string.glob.shell string.quoted.single.shell
 #       ^^ keyword.operator.comparison.shell
 #          ^^ meta.compound.conditional.shell meta.string.regexp.shell string.unquoted.shell - variable
 
 [[ -e == -e ]]     # a syntax error in bash but allowed in zsh
-#  ^^ meta.string.shell string.unquoted.shell - variable
+#  ^^ meta.string.glob.shell string.unquoted.shell - variable
 #     ^^ keyword.operator.comparison.shell
 #        ^^ meta.compound.conditional.shell meta.string.regexp.shell string.unquoted.shell - variable
 
@@ -2177,7 +2177,7 @@ asdf foo && FOO=some-value pwd
 #        ^^ keyword.operator.logical.shell
 #           ^^^ variable.other.readwrite.shell
 #              ^ keyword.operator.assignment.shell
-#               ^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#               ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                          ^^^ meta.function-call.identifier.shell support.function.shell
 
 (cd Layer1-linux  && PLATFORM=${PLATFORM} ./build ) &&
@@ -2186,7 +2186,7 @@ asdf foo && FOO=some-value pwd
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
 #                            ^ keyword.operator.assignment.shell
-#                             ^ meta.string.shell meta.interpolation.parameter.shell - string
+#                             ^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #                                         ^^^^^^^ variable.function.shell
 #                                                 ^ punctuation.section.compound.end.shell
 #                                                   ^^ keyword.operator.logical.shell
@@ -2196,7 +2196,7 @@ asdf foo && FOO=some-value pwd
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
 #                            ^ keyword.operator.assignment.shell
-#                             ^ meta.string.shell meta.interpolation.parameter.shell - string
+#                             ^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #                                         ^^^^^^^ variable.function.shell
 #                                                 ^ punctuation.section.compound.end.shell
 #                                                   ^^ keyword.operator.logical.shell
@@ -2206,7 +2206,7 @@ asdf foo && FOO=some-value pwd
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
 #                            ^ keyword.operator.assignment.shell
-#                             ^ meta.string.shell meta.interpolation.parameter.shell - string
+#                             ^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #                                         ^^^^^^^ variable.function.shell
 #                                                 ^ punctuation.section.compound.end.shell
 #                                                   ^^ keyword.operator.logical.shell
@@ -2216,10 +2216,10 @@ asdf foo && FOO=some-value pwd
 #                 ^^ keyword.operator.logical.shell
 #                           ^ variable.other.readwrite.shell
 #                            ^ keyword.operator.assignment.shell
-#                             ^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                             ^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #                                         ^^^^ variable.other.readwrite.shell
 #                                             ^ keyword.operator.assignment.shell
-#                                              ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                              ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #                                                      ^^^^^^^ variable.function.shell
 #                                                              ^ punctuation.section.compound.end.shell
 #                                                                ^^ keyword.operator.logical.shell
@@ -2254,7 +2254,7 @@ case var in
   ( patt ( esac
 #^ meta.statement.conditional.case.body.shell
 # ^^ meta.clause.patterns.shell - meta.string - meta.group - string
-#   ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.groupD
+#   ^^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.groupD
 #       ^^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #          ^^^^ meta.statement.conditional.case.end.shell
 # ^ punctuation.section.patterns.begin.shell
@@ -2279,7 +2279,7 @@ case   # comment
 #      ^^^^^^^^^^ comment.line.number-sign.shell
   pattern) # comment
 #^ meta.statement.conditional.case.body.shell
-# ^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+# ^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.group
 #        ^ meta.clause.patterns.shell - meta.clause.body - meta.string - meta.group - string
 #         ^^^^^^^^^^^ meta.statement.conditional.case.body.shell meta.clause.shell - meta.clause.patterns
 #          ^^^^^^^^^^ comment.line.number-sign.shell
@@ -2291,14 +2291,14 @@ esac
 case "$1" in
 # <- keyword.control.conditional.case.shell
 #^^^ keyword.control.conditional.case.shell
-#    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
-#     ^ meta.string.shell meta.interpolation.parameter.shell variable.language.positional.shell punctuation.definition.variable.shell
-#      ^ meta.string.shell meta.interpolation.parameter.shell variable.language.positional.shell
-#       ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#    ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.positional.shell punctuation.definition.variable.shell
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.positional.shell
+#       ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #         ^^ keyword.control.conditional.in.shell
 setup )
-# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
-#^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
+#^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #    ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - string
 # <- - variable.function - support.function - meta.function-call
 #     ^ punctuation.section.patterns.end.shell
@@ -2312,8 +2312,8 @@ echo Preparing the server...
 # ^ meta.statement.conditional.case.body.shell - meta.clause
 dep\
 loy )
-# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
-#^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
+#^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #  ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - string
 # <- - variable.function - support.function - meta.function-call
 #   ^ punctuation.section.patterns.end.shell
@@ -2326,7 +2326,7 @@ echo Deploying...
 #^ meta.statement.conditional.case.body.shell meta.clause.shell punctuation.terminator.clause.shell
 # ^ meta.statement.conditional.case.body.shell - meta.clause
 * )
-# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+# <- meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
 #^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - string - punctuation
 # ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell punctuation.section.patterns.end.shell
 #  ^ meta.statement.conditional.case.body.shell meta.clause.shell
@@ -2370,9 +2370,9 @@ case "${foo}" in- in_ in=10 in
     ( help | h ) bar ;;
 #^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
 #   ^^ meta.clause.patterns.shell - meta.string - meta.group - string
-#     ^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#     ^^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.group
 #         ^^^ meta.clause.patterns.shell - meta.string - meta.group - string
-#            ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#            ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.group
 #             ^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #               ^ meta.statement.conditional.case.body.shell meta.clause.shell
 #                ^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell - meta.clause.patterns
@@ -2384,7 +2384,7 @@ case "${foo}" in- in_ in=10 in
 #                    ^^ punctuation.terminator.clause.shell
     do1 ) foo1 ;&
 #^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
-#   ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#   ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.group
 #      ^^ meta.clause.patterns.shell - meta.string - meta.group - string
 #        ^ meta.statement.conditional.case.body.shell meta.clause.shell
 #         ^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell - meta.clause.patterns
@@ -2395,7 +2395,7 @@ case "${foo}" in- in_ in=10 in
     (do2 ) foo2 ;;&
 #^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
 #   ^ meta.clause.patterns.shell - meta.string - meta.group - string
-#    ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#    ^^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.group
 #       ^^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - meta.group - string
 #         ^ meta.statement.conditional.case.body.shell meta.clause.shell
 #          ^^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell
@@ -2406,7 +2406,7 @@ case "${foo}" in- in_ in=10 in
 #               ^^^ punctuation.terminator.clause.shell
     *) bar
 #^^^ meta.statement.conditional.case.body.shell - meta.clause.patterns
-#   ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.shell string.unquoted.shell - meta.group
+#   ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell - meta.group
 #    ^ meta.statement.conditional.case.body.shell meta.clause.patterns.shell - meta.string - meta.group - string
 #     ^ meta.statement.conditional.case.body.shell meta.clause.shell
 #      ^^^^ meta.statement.conditional.case.body.shell meta.clause.body.shell
@@ -2424,13 +2424,13 @@ case $TERM in
         #                                              ^ meta.function punctuation.section.block.end.shell
         #                                               ^^ punctuation.terminator.clause.shell
     *xterm*|rxvt|?(dt|k|E)term)
-        #^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
         #  ^ meta.clause.patterns.shell - meta.string - meta.group - string
-        #   ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #   ^^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
         #       ^ meta.clause.patterns.shell - meta.string - meta.group - string
-        #        ^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
-        #         ^^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell string.unquoted.shell
-        #                 ^^^^ meta.clause.patterns.shell meta.string.shell string.unquoted.shell
+        #        ^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
+        #         ^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+        #                 ^^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
         #                     ^ meta.clause.patterns.shell - meta.string - meta.group - string
         # ^ constant.other.wildcard.asterisk.shell
         #  ^ keyword.operator.logical.shell
@@ -2445,7 +2445,7 @@ case $TERM in
         #                                             ^ meta.function punctuation.section.block.end.shell
         #                                              ^^ punctuation.terminator.clause.shell
     *)
-    # <- meta.clause.patterns.shell meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+    # <- meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
     #^ punctuation.section.patterns.end.shell
         update_terminal_cwd() {};;
         #                      ^ meta.function punctuation.section.block.end.shell
@@ -2456,9 +2456,9 @@ esac
 case $SERVER in
 # <- keyword.control.conditional.case.shell
 ws-+([0-9]).host.com) echo "Web Server"
-#^^^ meta.clause.patterns.shell meta.string.shell - meta.group
-#   ^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell
-#          ^^^^^^^^^ meta.clause.patterns.shell meta.string.shell - meta.group
+#^^^ meta.clause.patterns.shell meta.string.glob.shell - meta.group
+#   ^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell
+#          ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell - meta.group
 #                   ^ meta.clause.patterns.shell - meta.string - meta.group - string
 #^^^^^^^^^^^^^^^^^^^ string.unquoted.shell
 #  ^ keyword.operator.quantifier.regexp.shell
@@ -2473,9 +2473,9 @@ ws-+([0-9]).host.com) echo "Web Server"
 # <- punctuation.terminator.clause.shell
 #^ punctuation.terminator.clause.shell
 db-+([0-9])\.host\.com) echo "DB server"
-#^^^ meta.clause.patterns.shell meta.string.shell - meta.group
-#   ^^^^^^^ meta.clause.patterns.shell meta.string.shell meta.group.regexp.shell
-#          ^^^^^^^^^^^ meta.clause.patterns.shell meta.string.shell - meta.group
+#^^^ meta.clause.patterns.shell meta.string.glob.shell - meta.group
+#   ^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell
+#          ^^^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.section.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
@@ -2557,7 +2557,7 @@ esac
 #           ^^^^^^^^^ meta.compound.command.shell
 #^ punctuation.section.compound.begin.shell
 # ^^^ meta.command.shell variable.function.shell
-#     ^^^^^ meta.string.shell string.unquoted.shell
+#     ^^^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.compound.end.shell
 #            ^^ keyword.operator.logical.shell
 #               ^^^^ constant.language.boolean.true.shell
@@ -2568,7 +2568,7 @@ stash) || true)
 #^^^^^^^^^^^^^^ - meta.compound.arithmetic
 #^^^^^ meta.compound.command.shell meta.compound.command.shell
 #     ^^^^^^^^^ meta.compound.command.shell
-#^^^^ meta.string.shell string.unquoted.shell
+#^^^^ meta.string.glob.shell string.unquoted.shell
 #    ^ punctuation.section.compound.end.shell
 #      ^^ keyword.operator.logical.shell
 #         ^^^^ constant.language.boolean.true.shell
@@ -2667,7 +2667,7 @@ coproc awk '{print "foo" $0;fflush()}'
 #                                     ^ - meta.coproc - meta.function-call
 #^^^^^ keyword.declaration.coproc.shell
 #      ^^^ variable.function.shell
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell - meta.interpolation
 #          ^ punctuation.definition.string.begin.shell
 #                                    ^ punctuation.definition.string.end.shell
 
@@ -2731,7 +2731,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #        ^^^ entity.name.function.shell
 #            ^ punctuation.section.compound.begin.shell
 #              ^^^ variable.function.shell
-#                  ^^^^^^^ meta.string.shell string.unquoted.shell
+#                  ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                          ^ punctuation.terminator.statement.shell
 #                           ^ punctuation.section.compound.end.shell
 #                             ^^ keyword.operator.assignment.redirection
@@ -2809,8 +2809,8 @@ coproc foobar {
 #                  ^^ punctuation.section.compound.end
 #                     ^^ keyword.operator.logical
 #                                                                                    ^ punctuation.section.block.end.shell
-#                                                                                      ^^^^ meta.string.shell string.unquoted.shell
-#                                                                                           ^^^^ meta.string.shell string.unquoted.shell
+#                                                                                      ^^^^ meta.string.glob.shell string.unquoted.shell
+#                                                                                           ^^^^ meta.string.glob.shell string.unquoted.shell
 
 function ; {} arg
 # <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
@@ -2821,7 +2821,7 @@ function ; {} arg
 #^^^^^^^ keyword.declaration.function.shell
 #        ^ punctuation.terminator.statement.shell
 #          ^^ variable.function.shell
-#             ^^^ meta.string.shell string.unquoted.shell
+#             ^^^ meta.string.glob.shell string.unquoted.shell
 
 function () {} arg
 # <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
@@ -2836,7 +2836,7 @@ function () {} arg
 #         ^ punctuation.section.parameters.end.shell
 #           ^ punctuation.section.block.begin.shell
 #            ^ punctuation.section.block.end.shell
-#              ^^^ meta.string.shell string.unquoted.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
 
 function () ; {} arg
 # <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
@@ -2852,7 +2852,7 @@ function () ; {} arg
 #         ^ punctuation.section.parameters.end.shell
 #           ^ punctuation.terminator.statement.shell
 #             ^^ variable.function.shell
-#                ^^^ meta.string.shell string.unquoted.shell
+#                ^^^ meta.string.glob.shell string.unquoted.shell
 
 # Posix Functions
 
@@ -2900,7 +2900,7 @@ function () ; {} arg
 #            ^^^^ invalid.illegal.unexpected-token.shell
 #                 ^ punctuation.terminator.statement.shell
 #                   ^^^^ support.function.shell
-#                        ^^^^ meta.string.shell string.unquoted.shell
+#                        ^^^^ meta.string.glob.shell string.unquoted.shell
 
   func () {} rest && echo done
 #^ source.shell - meta.function
@@ -2911,7 +2911,7 @@ function () ; {} arg
 #            ^^^^ invalid.illegal.unexpected-token.shell
 #                 ^^ keyword.operator.logical.shell
 #                    ^^^^ support.function.shell
-#                         ^^^^ meta.string.shell string.unquoted.shell
+#                         ^^^^ meta.string.glob.shell string.unquoted.shell
 
   logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
 #^ source.shell - meta.function
@@ -3344,7 +3344,7 @@ x= # some comment
 x=a
 # <- variable.other.readwrite
 #^ keyword.operator.assignment.shell
-# ^ meta.string.shell string.unquoted.shell
+# ^ meta.string.glob.shell string.unquoted.shell
 x=a # some comment
 #^ keyword.operator.assignment.shell
 #  ^ - string.unquoted
@@ -3352,17 +3352,17 @@ x=a#not-a-comment
 #^ keyword.operator.assignment.shell
 #  ^ meta.string string.unquoted - comment
 foo=bar baz=qux
-#   ^^^ meta.string.shell string.unquoted.shell
-#           ^^^ meta.string.shell string.unquoted.shell
+#   ^^^ meta.string.glob.shell string.unquoted.shell
+#           ^^^ meta.string.glob.shell string.unquoted.shell
 foo=bar\
 qux
-#<- meta.string.shell string.unquoted.shell
-#^^ meta.string.shell string.unquoted.shell
+#<- meta.string.glob.shell string.unquoted.shell
+#^^ meta.string.glob.shell string.unquoted.shell
 foo=bar"baz"qux
 #<- variable.other.readwrite.shell
 #^^ variable.other.readwrite.shell
 #  ^ keyword.operator.assignment.shell
-#   ^^^^^^^^^^^ meta.string.shell - string string
+#   ^^^^^^^^^^^ meta.string.glob.shell - string string
 #   ^^^ string.unquoted.shell
 #      ^^^^^ string.quoted.double.shell
 #           ^^^ string.unquoted.shell
@@ -3370,7 +3370,7 @@ foo='bar'
 #<- variable.other.readwrite.shell
 #^^ variable.other.readwrite.shell
 #  ^ keyword.operator.assignment.shell
-#   ^^^^^ meta.string.shell string.quoted.single.shell
+#   ^^^^^ meta.string.glob.shell string.quoted.single.shell
 x=0.19.8.1
 # <- variable.other.readwrite.shell
 #^ keyword.operator.assignment.shell
@@ -3378,7 +3378,7 @@ x=0.19.8.1
 x=10
 # <- variable.other.readwrite.shell
 #^ keyword.operator.assignment.shell
-# ^^ meta.string.shell string.unquoted.shell
+# ^^ meta.string.glob.shell string.unquoted.shell
 
 # Spaces following an assignment token means an empty string value!
 x= pwd
@@ -3404,18 +3404,18 @@ x="a b" pwd
 #       ^^^ meta.function-call support.function
 x=a y=b pwd
 #^ keyword.operator.assignment.shell
-# ^ meta.string.shell string.unquoted.shell
+# ^ meta.string.glob.shell string.unquoted.shell
 #  ^ - string.unquoted
 #    ^ keyword.operator.assignment.shell
-#     ^ meta.string.shell string.unquoted.shell
+#     ^ meta.string.glob.shell string.unquoted.shell
 #      ^ - string.unquoted
 #       ^^^ meta.function-call support.function
 x=${foo} y=${baz}"asdf" pwd
 #^ keyword.operator.assignment.shell
-# ^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+# ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #       ^^^ - meta.string - mete.interpolation - string
-#          ^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
-#                ^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
+#          ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
+#                ^^^^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
 #                      ^^^^ - meta.string - mete.interpolation - string
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
@@ -3487,14 +3487,14 @@ charclass=\}ower
 # <- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^^^^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 #        ^ meta.assignment.shell keyword.operator.assignment.shell
-#         ^^^^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#         ^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #         ^^ constant.character.escape.shell
 
 (foo=bar)
 # <- meta.compound.command.shell punctuation.section.compound.begin.shell
 #^^^ meta.compound.command.shell meta.assignment.l-value.shell variable.other.readwrite.shell
 #   ^ meta.compound.command.shell meta.assignment.shell keyword.operator.assignment.shell
-#    ^^^ meta.compound.command.shell meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#    ^^^ meta.compound.command.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #       ^ meta.compound.command.shell punctuation.section.compound.end.shell - string
 
 { foo=bar }
@@ -3502,7 +3502,7 @@ charclass=\}ower
 #^ meta.compound.command.shell - meta.assignment
 # ^^^ meta.compound.command.shell meta.assignment.l-value.shell variable.other.readwrite.shell
 #    ^ meta.compound.command.shell meta.assignment.shell keyword.operator.assignment.shell
-#     ^^^ meta.compound.command.shell meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#     ^^^ meta.compound.command.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #        ^ meta.compound.command.shell - meta.assignment
 #         ^ meta.compound.command.shell punctuation.section.compound.end.shell
 
@@ -3510,13 +3510,13 @@ foo+=" baz"
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 #  ^^ meta.assignment.shell keyword.operator.assignment.shell
-#    ^^^^^^ meta.assignment.r-value.shell meta.string.shell string.quoted.double.shell
+#    ^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.quoted.double.shell
 
 foo-=" baz"
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^ meta.assignment.l-value.shell variable.other.readwrite.shell
 #  ^^ meta.assignment.shell keyword.operator.assignment.shell
-#    ^^^^^^ meta.assignment.r-value.shell meta.string.shell string.quoted.double.shell
+#    ^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.quoted.double.shell
 
 ## Arrays ##
 
@@ -3534,22 +3534,22 @@ array=(one two three four -5 (foo bar baz)
 #^^^^ variable.other.readwrite.shell
 #    ^ keyword.operator.assignment.shell
 #     ^ punctuation.section.sequence.begin.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ - meta.string - string
-#          ^^^ meta.string.shell string.unquoted.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ - meta.string - string
-#              ^^^^^ meta.string.shell string.unquoted.shell
+#              ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ - meta.string - string
-#                    ^^^^ meta.string.shell string.unquoted.shell
+#                    ^^^^ meta.string.glob.shell string.unquoted.shell
 #                        ^ - meta.string - string
-#                         ^^ meta.string.shell string.unquoted.shell
+#                         ^^ meta.string.glob.shell string.unquoted.shell
 #                           ^^ - meta.string - string
 #                            ^ invalid.illegal.unexpected-token.shell
-#                             ^^^ meta.string.shell string.unquoted.shell
+#                             ^^^ meta.string.glob.shell string.unquoted.shell
 #                                ^ - meta.string - string
-#                                 ^^^ meta.string.shell string.unquoted.shell
+#                                 ^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^ - meta.string - string
-#                                     ^^^ meta.string.shell string.unquoted.shell
+#                                     ^^^ meta.string.glob.shell string.unquoted.shell
 #                                        ^ punctuation.section.sequence.end.shell
 
 array=($one "two" ${three} 'four' $5)
@@ -3593,7 +3593,7 @@ array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
 #       ^^^ entity.name.key.shell
 #          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
-#            ^ meta.string.shell string.unquoted.shell - keyword
+#            ^ meta.string.glob.shell string.unquoted.shell - keyword
 #              ^ punctuation.section.item-access.begin.shell
 #               ^^^^^ entity.name.key.shell
 #               ^ punctuation.definition.quoted.begin.shell
@@ -3605,17 +3605,17 @@ array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
 #                              ^^^ entity.name.key.shell - constant - keyword
 #                                 ^ punctuation.section.item-access.end.shell
 #                                  ^ keyword.operator.assignment.shell
-#                                   ^^^ meta.string.shell string.unquoted.shell
+#                                   ^^^ meta.string.glob.shell string.unquoted.shell
 #                                       ^ punctuation.section.item-access.begin.shell
 #                                        ^^^^ entity.name.key.shell
 #                                            ^ punctuation.section.item-access.end.shell
 #                                             ^ keyword.operator.assignment.shell
-#                                              ^ meta.string.shell string.unquoted.shell
+#                                              ^ meta.string.glob.shell string.unquoted.shell
 #                                                ^ punctuation.section.item-access.begin.shell
 #                                                 ^^^ entity.name.key.shell
 #                                                    ^ punctuation.section.item-access.end.shell
 #                                                     ^ keyword.operator.assignment.shell
-#                                                      ^^ meta.string.shell string.unquoted.shell
+#                                                      ^^ meta.string.glob.shell string.unquoted.shell
 #                                                        ^ punctuation.section.sequence.end.shell
 
 declare -a array
@@ -3624,21 +3624,21 @@ array[500]=value
 #^^^^ meta.assignment.l-value.shell - meta.sequence
 #    ^^^^^ meta.assignment.l-value.shell meta.item-access.shell
 #         ^ meta.assignment.shell - meta.sequence
-#          ^^^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#          ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #               ^ - meta
 #^^^^ variable.other.readwrite.shell
 #    ^ punctuation.section.item-access.begin.shell
 #     ^^^ meta.string.shell string.unquoted.shell
 #        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.assignment
-#          ^^^^^ meta.string.shell string.unquoted.shell
+#          ^^^^^ meta.string.glob.shell string.unquoted.shell
 
 array["foo"]=bar
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^^^ meta.assignment.l-value.shell - meta.sequence
 #    ^^^^^^^ meta.assignment.l-value.shell meta.item-access.shell
 #           ^ meta.assignment.shell - meta.sequence
-#            ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#            ^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #               ^ - meta
 #^^^^ variable.other.readwrite.shell
 #    ^^^^^^^ meta.item-access.shell - variable
@@ -3646,30 +3646,30 @@ array["foo"]=bar
 #     ^^^^^ string.quoted.double.shell
 #          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
-#            ^^^ meta.string.shell string.unquoted.shell
+#            ^^^ meta.string.glob.shell string.unquoted.shell
 
 array[foo]=bar
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^^^ meta.assignment.l-value.shell - meta.sequence
 #    ^^^^^ meta.assignment.l-value.shell meta.item-access.shell
 #         ^ meta.assignment.shell - meta.sequence
-#          ^^^ meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
+#          ^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #             ^ - meta
 #    ^^^^^ meta.item-access.shell
 #    ^ punctuation.section.item-access.begin.shell - variable
 #     ^^^ meta.string.shell string.unquoted.shell
 #        ^ punctuation.section.item-access.end.shell - variable
 #         ^ keyword.operator.assignment.shell
-#          ^^^ meta.string.shell string.unquoted.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
 
 foo[${j}+10]="`foo`"
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^^ meta.assignment.l-value.shell - meta.sequence
 #  ^^^^^^^^^ meta.assignment.l-value.shell meta.item-access.shell
 #           ^ meta.assignment.shell - meta.sequence
-#            ^ meta.assignment.r-value.shell meta.string.shell - meta.interpolation
-#             ^^^^^ meta.assignment.r-value.shell meta.string.shell meta.interpolation.command.shell
-#                  ^ meta.assignment.r-value.shell meta.string.shell - meta.interpolation
+#            ^ meta.assignment.r-value.shell meta.string.glob.shell - meta.interpolation
+#             ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell meta.interpolation.command.shell
+#                  ^ meta.assignment.r-value.shell meta.string.glob.shell - meta.interpolation
 #                   ^ - meta
 #^^ variable.other.readwrite.shell
 #  ^ punctuation.section.item-access.begin.shell
@@ -3688,30 +3688,30 @@ foo[${j}+10]="`foo`"
 #                  ^ string.quoted.double.shell punctuation.definition.string.end.shell
 
 foo=`cd -L`
-#   ^ meta.string.shell meta.interpolation.command.shell
-#    ^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
-#      ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
-#         ^ meta.string.shell meta.interpolation.command.shell
+#   ^ meta.string.glob.shell meta.interpolation.command.shell
+#    ^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#      ^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#         ^ meta.string.glob.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #    ^^ support.function.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 foo=`echo -e`
-#   ^ meta.string.shell meta.interpolation.command.shell
-#    ^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
-#        ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
-#           ^ meta.string.shell meta.interpolation.command.shell
+#   ^ meta.string.glob.shell meta.interpolation.command.shell
+#    ^^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#        ^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#           ^ meta.string.glob.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #    ^^^^ support.function.shell
 #         ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 foo=`let 5+5`
-#   ^ meta.string.shell meta.interpolation.command.shell
-#    ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
-#       ^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.arithmetic.shell
-#           ^ meta.string.shell meta.interpolation.command.shell
+#   ^ meta.string.glob.shell meta.interpolation.command.shell
+#    ^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#       ^^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.arithmetic.shell
+#           ^ meta.string.glob.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #    ^^^ support.function.shell
 #        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -3720,27 +3720,27 @@ foo=`let 5+5`
 #           ^ punctuation.section.interpolation.end.shell
 
 foo=`some-command --long1`
-#   ^ meta.string.shell meta.interpolation.command.shell
-#    ^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
-#                ^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
-#                        ^ meta.string.shell meta.interpolation.command.shell
+#   ^ meta.string.glob.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#                ^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#                        ^ meta.string.glob.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #    ^^^^^^^^^^^^ variable.function.shell
 #                 ^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                        ^ punctuation.section.interpolation.end.shell
 
 foo=`some-command -x`
-#   ^ meta.string.shell meta.interpolation.command.shell
-#    ^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
-#                ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
-#                   ^ meta.string.shell meta.interpolation.command.shell
+#   ^ meta.string.glob.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#                ^^^ meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#                   ^ meta.string.glob.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #    ^^^^^^^^^^^^ variable.function.shell
 #                 ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                   ^ punctuation.section.interpolation.end.shell
 
 foo=`(uname -r --) 2>/dev/null`
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell
 #    ^^^^^^^^^^^^^ meta.compound.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #     ^^^^^ variable.function.shell
@@ -3752,7 +3752,7 @@ foo=`(uname -r --) 2>/dev/null`
 #                             ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
 
 foo=`(uname -r) 2>/dev/null` || foo=unknown
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell
 #    ^^^^^^^^^^ meta.compound.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #     ^^^^^ variable.function.shell
@@ -3764,19 +3764,19 @@ foo=`(uname -r) 2>/dev/null` || foo=unknown
 #                            ^^ keyword.operator.logical.shell
 #                               ^^^ variable.other.readwrite.shell
 #                                  ^ keyword.operator.assignment.shell
-#                                   ^^^^^^^ meta.string.shell string.unquoted.shell
+#                                   ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
 #       ^ meta.sequence.list.shell - meta.interpolation
-#        ^^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell - meta.function
-#          ^^^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell - meta.function meta.function
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell  - meta.function meta.function
+#        ^^ meta.sequence.list.shell meta.string.glob.shell meta.interpolation.command.shell - meta.function
+#          ^^^ meta.sequence.list.shell meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell - meta.function meta.function
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell  - meta.function meta.function
 #                                 ^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
 #                                   ^^^^^^^ meta.parameter.option.shell meta.interpolation.parameter.shell
 #                                          ^^^^^^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
-#                                                  ^^^^^^^^^ meta.string.shell
-#                                                                 ^^^^^^^^^ meta.string.shell
-#                                                                          ^ meta.sequence.list.shell meta.string.shell meta.interpolation.command.shell - meta.function
+#                                                  ^^^^^^^^^ meta.string.glob.shell
+#                                                                 ^^^^^^^^^ meta.string.glob.shell
+#                                                                          ^ meta.sequence.list.shell meta.string.glob.shell meta.interpolation.command.shell - meta.function
 #                                                                           ^ meta.sequence.list.shell - meta.interpolation
 #       ^ punctuation.section.sequence.begin.shell
 #        ^ punctuation.definition.variable.shell
@@ -3880,9 +3880,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the positional parameters, starting from one. When the expansion
 # occurs within double quotes, each parameter expands to a separate word. That
@@ -3911,9 +3911,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the number of positional parameters in decimal.
 : $# ${#} ${!#} ${##} _$#_
@@ -3936,9 +3936,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the exit status of the most recently executed foreground pipeline.
 : $? ${?} ${!?} ${#?} _$?_
@@ -3961,9 +3961,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the current option flags as specified upon invocation, by the set
 # builtin command, or those set by the shell itself (such as the -i option).
@@ -3987,9 +3987,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the process ID of the shell. In a () subshell, it expands to the
 # process ID of the invoking shell, not the subshell.
@@ -4013,9 +4013,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the process ID of the job most recently placed into the background,
 # whether executed as an asynchronous command or using the bg builtin
@@ -4039,9 +4039,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.special.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.special.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 # Expands to the name of the shell or shell script. This is set at shell
 # initialization. If Bash is invoked with a file of commands (see Shell
@@ -4069,9 +4069,9 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 #                 ^ keyword.operator.expansion.length.shell
 #                  ^ variable.language.positional.shell
 #                   ^ punctuation.section.interpolation.end.shell
-#                     ^ meta.string.shell string.unquoted.shell
-#                      ^^ meta.string.shell meta.interpolation.parameter.shell variable.language.positional.shell
-#                        ^ meta.string.shell string.unquoted.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.positional.shell
+#                        ^ meta.string.glob.shell string.unquoted.shell
 
 
 ###############################################################################
@@ -4084,79 +4084,79 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 # followed by an optional postscript.
 
 : prefix{a,b,c}suffix
-# ^^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
-#       ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell
-#        ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#         ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
-#          ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#           ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
-#            ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#             ^ meta.string.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell
-#              ^^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+# ^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#       ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell
+#        ^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#         ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#          ^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#           ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#            ^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#             ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.end.shell
+#              ^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
 
 : 123{4,5,6}789
-# ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
-#    ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
-#           ^^^ meta.string.shell string.unquoted.shell - meta.interpolation
+# ^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#    ^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell
+#           ^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
 
 : {a,b,~,%,!,.,\,,\{,\},*,?,-1,+2,0," ",' '}
 #^ - meta.interpolation
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation.brace meta.interpolation.brace
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation.brace meta.interpolation.brace
 # ^ punctuation.section.interpolation.begin.shell
-#  ^ meta.string.shell string.unquoted.shell
+#  ^ meta.string.glob.shell string.unquoted.shell
 #   ^ punctuation.separator.sequence.shell
-#    ^ meta.string.shell string.unquoted.shell
+#    ^ meta.string.glob.shell string.unquoted.shell
 #     ^ punctuation.separator.sequence.shell
-#      ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#      ^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation - variable
 #       ^ punctuation.separator.sequence.shell
-#        ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#        ^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation - variable
 #         ^ punctuation.separator.sequence.shell
-#          ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#          ^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation - variable
 #           ^ punctuation.separator.sequence.shell
-#            ^ meta.string.shell string.unquoted.shell - keyword - punctuation - variable
+#            ^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation - variable
 #             ^ punctuation.separator.sequence.shell
-#              ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#              ^^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #                ^ punctuation.separator.sequence.shell
-#                 ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                 ^^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #                   ^ punctuation.separator.sequence.shell
-#                    ^^ meta.string.shell string.unquoted.shell constant.character.escape.shell
+#                    ^^ meta.string.glob.shell string.unquoted.shell constant.character.escape.shell
 #                      ^ punctuation.separator.sequence.shell
-#                       ^ meta.string.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
+#                       ^ meta.string.glob.shell string.unquoted.shell constant.other.wildcard.asterisk.shell
 #                        ^ punctuation.separator.sequence.shell
-#                         ^ meta.string.shell string.unquoted.shell constant.other.wildcard.questionmark.shell
+#                         ^ meta.string.glob.shell string.unquoted.shell constant.other.wildcard.questionmark.shell
 #                          ^ punctuation.separator.sequence.shell
-#                           ^^ meta.string.shell string.unquoted.shell
+#                           ^^ meta.string.glob.shell string.unquoted.shell
 #                             ^ punctuation.separator.sequence.shell
-#                              ^^ meta.string.shell string.unquoted.shell
+#                              ^^ meta.string.glob.shell string.unquoted.shell
 #                                ^ punctuation.separator.sequence.shell
-#                                 ^ meta.string.shell string.unquoted.shell
+#                                 ^ meta.string.glob.shell string.unquoted.shell
 #                                  ^ punctuation.separator.sequence.shell
-#                                   ^^^ meta.string.shell string.quoted.double.shell
+#                                   ^^^ meta.string.glob.shell string.quoted.double.shell
 #                                      ^ punctuation.separator.sequence.shell
-#                                       ^^^ meta.string.shell string.quoted.single.shell
+#                                       ^^^ meta.string.glob.shell string.quoted.single.shell
 #                                          ^ punctuation.section.interpolation.end.shell
 #                                           ^ - meta.interpolation
 
 : {${foo},${bar},$(ls ~),foo${bar}buz,a{a,b,c}d}
-# ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
-#  ^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.interpolation.parameter.shell
-#        ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
-#         ^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.interpolation.parameter.shell
-#               ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
-#                ^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.interpolation.command.shell
-#                       ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
-#                        ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                           ^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.parameter.shell
-#                                 ^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                                    ^ meta.string.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
-#                                     ^ meta.string.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
-#                                      ^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+# ^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#        ^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#         ^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.interpolation.parameter.shell
+#               ^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                ^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.interpolation.command.shell
+#                       ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#                        ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                           ^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.parameter.shell
+#                                 ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                    ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell
+#                                     ^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
+#                                      ^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
 #                                      ^ punctuation.section.interpolation.begin.shell
-#                                       ^ meta.string.shell string.unquoted.shell
+#                                       ^ meta.string.glob.shell string.unquoted.shell
 #                                        ^ punctuation.separator.sequence.shell
-#                                         ^ meta.string.shell string.unquoted.shell
+#                                         ^ meta.string.glob.shell string.unquoted.shell
 #                                          ^ punctuation.separator.sequence.shell
-#                                           ^ meta.string.shell string.unquoted.shell
+#                                           ^ meta.string.glob.shell string.unquoted.shell
 #                                            ^ punctuation.section.interpolation.end.shell
 #                                             ^ meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
 #                                              ^ meta.interpolation.brace.shell - meta.interpolation meta.interpolation
@@ -4177,13 +4177,13 @@ bar,baz}
 #        ^ punctuation.section.interpolation.end.shell
 
 : {{foo,{bar,baz},foo},bar,{1..10}}
-# ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
-#  ^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
-#       ^^^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
-#                ^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
-#                     ^^^^^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
-#                          ^^^^^^^ meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
-#                                 ^ meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+# ^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#  ^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
+#       ^^^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                ^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation meta.interpolation
+#                     ^^^^^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
+#                          ^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell meta.interpolation.brace.shell
+#                                 ^ meta.string.glob.shell meta.interpolation.brace.shell - meta.interpolation meta.interpolation
 #                                  ^ - meta.string - meta.interpolation
 # ^^ punctuation.section.interpolation.begin.shell
 #   ^^^ string.unquoted.shell
@@ -4349,25 +4349,25 @@ any --arg{1..4}={1..4}
 #   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
 #        ^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
 #              ^ keyword.operator.assignment.shell
-#               ^^^^^^ meta.string.shell meta.interpolation.brace.shell
+#               ^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell
 
 any --arg{1..4} ={1..4}
 #   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
 #        ^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
-#               ^ meta.string.shell string.unquoted.shell - meta.interpolation
-#                ^^^^^^ meta.string.shell meta.interpolation.brace.shell
+#               ^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#                ^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell
 
 any --arg{1,2,3}={1,2,3}
 #   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
 #        ^^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
 #               ^ keyword.operator.assignment.shell
-#                ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
+#                ^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell
 
 any --arg{1,2,3} ={1,2,3}
 #   ^^^^^ meta.parameter.option.shell variable.parameter.option.shell - meta.interpolation
 #        ^^^^^^^ meta.function-call.arguments.shell meta.parameter.option.shell meta.interpolation.brace.shell - variable.parameter
-#                ^ meta.string.shell string.unquoted.shell - meta.interpolation
-#                 ^^^^^^^ meta.string.shell meta.interpolation.brace.shell
+#                ^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#                 ^^^^^^^ meta.string.glob.shell meta.interpolation.brace.shell
 
 # invalid brace expansions due to whitespace
 
@@ -4389,12 +4389,12 @@ any --arg{1,2,3} ={1,2,3}
 #^^^^^^^^^^ - meta.interpolation
 
 : '{foo,bar,baz}' '{1..10}'
-# ^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
-#                 ^^^^^^^^^ meta.string.shell string.quoted.single.shell - meta.interpolation
+# ^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell - meta.interpolation
+#                 ^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell - meta.interpolation
 
 : "{foo,bar,baz}" "{1..10}"
-# ^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
-#                 ^^^^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
+# ^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
+#                 ^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
 
 
 ###############################################################################
@@ -4497,9 +4497,9 @@ foo=~/~
 #    ^^ string.unquoted.shell - variable
 
 foo=~/~${bar}
-#   ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#    ^^ meta.string.shell string.unquoted.shell - meta.interpolation
-#      ^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#   ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#    ^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#      ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
 #            ^ - meta.string - meta.interpolation
 #   ^ variable.language.tilde.shell
 #    ^^ string.unquoted.shell
@@ -4511,38 +4511,38 @@ foo=~/~${bar}
 
 foo=(~/~foo ~/~bar)
 #   ^^^^^^^^^^^^^^^ meta.sequence.list.shell
-#    ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#     ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
-#           ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#            ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+#    ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#     ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
+#           ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
 
 cmd --foo=~/~bar --baz =~/~buz
 #        ^ keyword.operator.assignment.shell
-#         ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#          ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
-#                      ^^^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - keyword - variable
+#         ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#          ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
+#                      ^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - keyword - variable
 
 cmd ~/f~oo b~ar -- ~/f~oo b~ar
-#   ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#    ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
-#          ^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+#   ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#    ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
+#          ^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
 #               ^^ keyword.operator.end-of-options.shell
-#                  ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#                   ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
-#                         ^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+#                  ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#                   ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
+#                         ^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
 
 echo ~/~foo ~/~foo  # tilde expansions, but no path pattern support
-#    ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#     ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
-#           ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#            ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+#    ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#     ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
+#           ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
 
 echo "~/~foo" # literal quoted string
-#    ^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.quoted.double.shell - meta.interpolation - variable
+#    ^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell string.quoted.double.shell - meta.interpolation - variable
 
 test $me -eq ~/~foo
-#            ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell
-#             ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation - variable
+#            ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#             ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation - variable
 
 ~/.bin/~app
 # <- meta.function-call.identifier.shell meta.interpolation.tilde.shell variable.language.tilde.shell - variable.function
@@ -4569,7 +4569,7 @@ $__ $__
 # <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - variable variable
 #  ^ meta.function-call.arguments.shell - meta.string - meta.interpolation - variable
-#   ^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#   ^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #   ^ punctuation.definition.variable.shell
 #      ^ - meta.function-call - meta.string - meta.interpolation - variable
 
@@ -4577,7 +4577,7 @@ $var_0 $var_0
 # <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - variable variable
 #     ^ meta.function-call.arguments.shell - meta.string - meta.interpolation - variable
-#      ^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #      ^ punctuation.definition.variable.shell
 #            ^ - meta.function-call - meta.string - meta.interpolation - variable
 
@@ -4585,7 +4585,7 @@ $_var0 $_var0
 # <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - variable variable
 #     ^ meta.function-call.arguments.shell - meta.string - meta.interpolation - variable
-#      ^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #      ^ punctuation.definition.variable.shell
 #            ^ - meta.function-call - meta.string - meta.interpolation - variable
 
@@ -4593,7 +4593,7 @@ $_0var_ $_0var_
 # <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 #^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - variable variable
 #      ^ meta.function-call.arguments.shell - meta.string - meta.interpolation - variable
-#       ^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #       ^ punctuation.definition.variable.shell
 #              ^ - meta.function-call - meta.string - meta.interpolation - variable
 
@@ -4853,7 +4853,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${*-bar}
@@ -4863,7 +4863,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${?-bar}
@@ -4873,7 +4873,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${#-bar}
@@ -4883,7 +4883,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${$-bar}
@@ -4893,7 +4893,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${--bar}
@@ -4903,7 +4903,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${!-bar}
@@ -4913,7 +4913,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${_-bar}
@@ -4923,7 +4923,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${foo-bar}
@@ -4933,32 +4933,32 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${foo-~+/*bar}
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#         ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#       ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#         ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #          ^ constant.other.wildcard.asterisk.shell
 #              ^ punctuation.section.interpolation.end.shell
 
 : ${foo-m~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #        ^^ - constant - variable
 #           ^ constant.other.wildcard.asterisk.shell
 
 : ${foo-~u${se}r/*bar}
 # ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#        ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
-#         ^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
-#              ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
-#               ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#       ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#        ^ meta.string.glob.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
+#         ^^^^^ meta.string.glob.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
+#              ^ meta.string.glob.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
+#               ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #                ^ constant.other.wildcard.asterisk.shell
 #                    ^ punctuation.section.interpolation.end.shell
 
@@ -4971,7 +4971,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${*:-bar}
@@ -4981,7 +4981,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${?:-bar}
@@ -4991,7 +4991,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${#:-bar}
@@ -5001,7 +5001,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${$:-bar}
@@ -5011,7 +5011,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${-:-bar}
@@ -5021,7 +5021,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${!:-bar}
@@ -5031,7 +5031,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${_:-bar}
@@ -5041,7 +5041,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${foo:-bar}
@@ -5051,32 +5051,32 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${foo:-~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#          ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#        ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#          ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #           ^ constant.other.wildcard.asterisk.shell
 #               ^ punctuation.section.interpolation.end.shell
 
 : ${foo:-m~+/*bar}
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^^^^^^ meta.string.shell string.unquoted.shell
+#        ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ - constant - variable
 #            ^ constant.other.wildcard.asterisk.shell
 
 : ${foo:-~u${se}r/*bar}
 # ^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#         ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
-#          ^^^^^ meta.string.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
-#               ^ meta.string.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
-#                ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#        ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#         ^ meta.string.glob.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
+#          ^^^^^ meta.string.glob.shell meta.interpolation.tilde.shell meta.interpolation.parameter.shell - string
+#               ^ meta.string.glob.shell meta.interpolation.tilde.shell constant.other.username.shell - string string
+#                ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #                 ^ constant.other.wildcard.asterisk.shell
 #                     ^ punctuation.section.interpolation.end.shell
 
@@ -5093,7 +5093,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${*=bar}
@@ -5103,7 +5103,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${#=bar}
@@ -5113,7 +5113,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${?=bar}
@@ -5123,7 +5123,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${$=bar}
@@ -5133,7 +5133,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${-=bar}
@@ -5143,7 +5143,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${!=bar}
@@ -5153,7 +5153,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${_=bar}
@@ -5163,7 +5163,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${foo=bar}
@@ -5173,21 +5173,21 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${foo=~+/*bar}
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#         ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#       ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#         ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #          ^ constant.other.wildcard.asterisk.shell
 #              ^ punctuation.section.interpolation.end.shell
 
 : ${foo=m~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #        ^^ - constant - variable
 #           ^ constant.other.wildcard.asterisk.shell
 
@@ -5200,7 +5200,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${*:=bar}
@@ -5210,7 +5210,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${#:=bar}
@@ -5220,7 +5220,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${?:=bar}
@@ -5230,7 +5230,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${$:=bar}
@@ -5240,7 +5240,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${-:=bar}
@@ -5250,7 +5250,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${!:=bar}
@@ -5260,7 +5260,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${_:=bar}
@@ -5270,7 +5270,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${foo:=bar}
@@ -5280,21 +5280,21 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${foo:=~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#          ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#        ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#          ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #           ^ constant.other.wildcard.asterisk.shell
 #               ^ punctuation.section.interpolation.end.shell
 
 : ${foo:=m~+/*bar}
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^^^^^^ meta.string.shell string.unquoted.shell
+#        ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ - constant - variable
 #            ^ constant.other.wildcard.asterisk.shell
 
@@ -5312,7 +5312,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${*?bar}
@@ -5322,7 +5322,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${#?bar}
@@ -5332,7 +5332,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${??bar}
@@ -5342,7 +5342,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${$?bar}
@@ -5352,7 +5352,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${-?bar}
@@ -5362,7 +5362,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${!?bar}
@@ -5372,7 +5372,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${_?bar}
@@ -5382,7 +5382,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${foo?bar}
@@ -5392,21 +5392,21 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${foo?~+/?bar}
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#         ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#       ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#         ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #          ^ constant.other.wildcard.questionmark.shell
 #              ^ punctuation.section.interpolation.end.shell
 
 : ${foo?m~+/?bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #        ^^ - constant - variable
 #           ^ constant.other.wildcard.questionmark.shell
 
@@ -5419,7 +5419,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${*:?bar}
@@ -5429,7 +5429,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${#:?bar}
@@ -5439,7 +5439,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${?:?bar}
@@ -5449,7 +5449,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${$:?bar}
@@ -5459,7 +5459,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${-:?bar}
@@ -5469,7 +5469,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${!:?bar}
@@ -5479,7 +5479,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${_:?bar}
@@ -5489,7 +5489,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${foo:?bar}
@@ -5499,21 +5499,21 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${foo:?~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#          ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#        ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#          ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #           ^ constant.other.wildcard.asterisk.shell
 #               ^ punctuation.section.interpolation.end.shell
 
 : ${foo:?m~+/*bar}
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^^^^^^ meta.string.shell string.unquoted.shell
+#        ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ - constant - variable
 #            ^ constant.other.wildcard.asterisk.shell
 
@@ -5529,7 +5529,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${*+bar}
@@ -5539,7 +5539,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${#+bar}
@@ -5549,7 +5549,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${?+bar}
@@ -5559,7 +5559,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${$+bar}
@@ -5569,7 +5569,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${-+bar}
@@ -5579,7 +5579,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${!+bar}
@@ -5589,7 +5589,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${_+bar}
@@ -5599,7 +5599,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${foo+bar}
@@ -5609,21 +5609,21 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${foo+~+/*bar}
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#         ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#       ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#         ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #          ^ constant.other.wildcard.asterisk.shell
 #              ^ punctuation.section.interpolation.end.shell
 
 : ${foo+m~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.assignment.shell
-#       ^^^^^^^^ meta.string.shell string.unquoted.shell
+#       ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #        ^^ - constant - variable
 #           ^ constant.other.wildcard.asterisk.shell
 
@@ -5636,7 +5636,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${*:+bar}
@@ -5646,7 +5646,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${#:+bar}
@@ -5656,7 +5656,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${?:+bar}
@@ -5666,7 +5666,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${$:+bar}
@@ -5676,7 +5676,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${-:+bar}
@@ -5686,7 +5686,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${!:+bar}
@@ -5696,7 +5696,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.special.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${_:+bar}
@@ -5706,7 +5706,7 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.builtin.shell
 #    ^^ keyword.operator.assignment.shell
-#      ^^^ meta.string.shell string.unquoted.shell
+#      ^^^ meta.string.glob.shell string.unquoted.shell
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${foo:+bar}
@@ -5716,21 +5716,21 @@ foo}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${foo:+~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^ meta.string.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#          ^^^^^ meta.string.shell string.unquoted.shell - meta.interpolation.tilde
+#        ^^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#          ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation.tilde
 #           ^ constant.other.wildcard.asterisk.shell
 #               ^ punctuation.section.interpolation.end.shell
 
 : ${foo:+m~+/*bar}
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.assignment.shell
-#        ^^^^^^^^ meta.string.shell string.unquoted.shell
+#        ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #         ^^ - constant - variable
 #            ^ constant.other.wildcard.asterisk.shell
 
@@ -5900,7 +5900,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5912,7 +5912,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5924,7 +5924,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5936,7 +5936,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5948,7 +5948,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5960,7 +5960,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5972,7 +5972,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5984,7 +5984,7 @@ foo}
 #    ^ keyword.operator.substitution.shell
 #     ^^^ meta.string.regexp.shell
 #        ^ keyword.operator.substitution.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.interpolation.end.shell
 #             ^ - meta
 
@@ -5996,7 +5996,7 @@ foo}
 #      ^ keyword.operator.substitution.shell
 #       ^^^ meta.string.regexp.shell
 #          ^ keyword.operator.substitution.shell
-#           ^^^ meta.string.shell string.unquoted.shell
+#           ^^^ meta.string.glob.shell string.unquoted.shell
 #              ^ punctuation.section.interpolation.end.shell
 #               ^ - meta
 
@@ -6009,7 +6009,7 @@ foo}
 #       ^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell
 #           ^ keyword.operator.substitution.shell
-#            ^^^ meta.string.shell string.unquoted.shell
+#            ^^^ meta.string.glob.shell string.unquoted.shell
 #               ^ punctuation.section.interpolation.end.shell
 #                ^ - meta
 
@@ -6022,7 +6022,7 @@ foo}
 #       ^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell
 #           ^ keyword.operator.substitution.shell
-#            ^^^ meta.string.shell string.unquoted.shell
+#            ^^^ meta.string.glob.shell string.unquoted.shell
 #               ^ punctuation.section.interpolation.end.shell
 #                ^ - meta
 
@@ -6037,7 +6037,7 @@ foo}
 #         ^ keyword.operator.substitution.shell
 #          ^^^ meta.string.regexp.shell
 #             ^ keyword.operator.substitution.shell
-#              ^^^ meta.string.shell string.unquoted.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.interpolation.end.shell
 #                  ^ - meta
 
@@ -6052,7 +6052,7 @@ foo}
 #         ^ keyword.operator.substitution.shell
 #          ^^^ meta.string.regexp.shell
 #             ^ keyword.operator.substitution.shell
-#              ^^^ meta.string.shell string.unquoted.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.interpolation.end.shell
 #                  ^ - meta
 
@@ -6301,7 +6301,7 @@ a\/b/c/d}
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
-#            ^^^^ meta.string.shell string.unquoted.shell - keyword - punctuation
+#            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
 : ${var//f&o/b&ar}  # `&` has no meaing in patterns or replacement strings
@@ -6309,7 +6309,7 @@ a\/b/c/d}
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
-#            ^^^^ meta.string.shell string.unquoted.shell - keyword - punctuation
+#            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
 : ${var//f>o/b>ar}  # `>` has no meaing in patterns or replacement strings
@@ -6317,7 +6317,7 @@ a\/b/c/d}
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
-#            ^^^^ meta.string.shell string.unquoted.shell - keyword - punctuation
+#            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
 : ${var//f<o/b<ar}  # `<` has no meaing in patterns or replacement strings
@@ -6325,7 +6325,7 @@ a\/b/c/d}
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
-#            ^^^^ meta.string.shell string.unquoted.shell - keyword - punctuation
+#            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
 : ${var//f;o/b;ar}  # `;` has no meaing in patterns or replacement strings
@@ -6333,7 +6333,7 @@ a\/b/c/d}
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
 #           ^ keyword.operator.substitution.shell
-#            ^^^^ meta.string.shell string.unquoted.shell - keyword - punctuation
+#            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
 # tilde expansion in pattern
@@ -6370,7 +6370,7 @@ a\/b/c/d}
 #          ^^ constant.other.wildcard.asterisk.shell
 #            ^^ constant.character.escape.shell
 #              ^ keyword.operator.substitution.shell - string
-#               ^^^^ meta.string.shell string.unquoted.shell
+#               ^^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ punctuation.section.interpolation.end.shell
 
 : ${foo/~+/}
@@ -6391,9 +6391,9 @@ a\/b/c/d}
 #      ^ keyword.operator.substitution.shell
 #       ^^^^^ meta.string.regexp.shell meta.interpolation.tilde.shell
 #       ^ variable.language.tilde.shell
-#        ^^^^ meta.string.shell constant.other.username.shell
+#        ^^^^ meta.string.glob.shell constant.other.username.shell
 #            ^ keyword.operator.substitution.shell
-#             ^^^^^^ meta.string.shell string.unquoted.shell - variable
+#             ^^^^^^ meta.string.glob.shell string.unquoted.shell - variable
 #                   ^ punctuation.section.interpolation.end.shell
 
 ################################
@@ -7711,7 +7711,7 @@ a\/b/c/d}
 : ${foo:='bar'}
 # ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #        ^ punctuation.definition.string.begin.shell
-#        ^^^^^ meta.string.shell string.quoted.single.shell
+#        ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #            ^ punctuation.definition.string.end.shell
 #             ^ punctuation.section.interpolation.end.shell
 
@@ -7761,7 +7761,7 @@ a\/b/c/d}
 
 : ${foo:="${bar} baz"}
 # ^^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#        ^^^^^^^^^^^^ meta.string.shell
+#        ^^^^^^^^^^^^ meta.string.glob.shell
 #         ^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell - string
 #        ^ punctuation.definition.string.begin.shell
 #         ^ punctuation.definition.variable.shell
@@ -7778,13 +7778,13 @@ a\/b/c/d}
 ################################
 
 status="${status#"${status%%[![:space:]]*}"}"
-#      ^ meta.string.shell string.quoted.double.shell - meta.interpolation
-#       ^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#                ^ meta.string.shell meta.interpolation.parameter.shell meta.string.regexp.shell - meta.interpolation meta.interpolation
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell meta.string.regexp.shell meta.interpolation.parameter.shell
-#                                         ^ meta.string.shell meta.interpolation.parameter.shell meta.string.regexp.shell - meta.interpolation meta.interpolation
-#                                          ^ meta.string.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#                                           ^ meta.string.shell string.quoted.double.shell - meta.interpolation
+#      ^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
+#       ^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#                ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.string.regexp.shell - meta.interpolation meta.interpolation
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.string.regexp.shell meta.interpolation.parameter.shell
+#                                         ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.string.regexp.shell - meta.interpolation meta.interpolation
+#                                          ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#                                           ^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
 #                                            ^ - meta - string
 #     ^ keyword.operator.assignment.shell
 #               ^ keyword.operator.expansion.shell
@@ -7803,11 +7803,11 @@ status="${status#"${status%%[![:space:]]*}"}"
 #                                          ^ punctuation.section.interpolation.end.shell
 
 status="${status#${status%%[![:space:]]*}}"
-#      ^ meta.string.shell string.quoted.double.shell - meta.interpolation
-#       ^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell meta.string.regexp.shell meta.interpolation.parameter.shell
-#                                        ^ meta.string.shell meta.interpolation.parameter.shell
-#                                         ^ meta.string.shell string.quoted.double.shell - meta.interpolation
+#      ^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
+#       ^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.string.regexp.shell meta.interpolation.parameter.shell
+#                                        ^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                                         ^ meta.string.glob.shell string.quoted.double.shell - meta.interpolation
 #                                          ^ - meta - string
 #     ^ keyword.operator.assignment.shell
 #               ^ keyword.operator.expansion.shell
@@ -7895,7 +7895,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ punctuation.section.compound.begin.shell
 #    ^^^ meta.command.shell variable.function.shell
-#        ^^^^^ meta.string.shell string.unquoted.shell
+#        ^^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ punctuation.section.compound.end.shell
 #               ^^ keyword.operator.logical.shell
 #                  ^^^^ constant.language.boolean.true.shell
@@ -7906,7 +7906,7 @@ stash) || true)
 #^^^^^^^^^^^^^^ - meta.interpolation.arithmetic
 #^^^^^ meta.interpolation.command.shell meta.compound.command.shell
 #     ^^^^^^^^^ meta.interpolation.command.shell - meta.compound
-#^^^^ meta.string.shell string.unquoted.shell
+#^^^^ meta.string.glob.shell string.unquoted.shell
 #    ^ punctuation.section.compound.end.shell
 #      ^^ keyword.operator.logical.shell
 #         ^^^^ constant.language.boolean.true.shell
@@ -7919,7 +7919,7 @@ stash) || true)
 ###############################################################################
 
 : $(())
-# ^^^^^ meta.string.shell meta.interpolation.arithmetic.shell
+# ^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
 
 : $((  ))
 # ^^^^^^^ meta.interpolation.arithmetic.shell
@@ -8068,10 +8068,10 @@ stash) || true)
 : *(g[[:${charclass/\}/l}:]]*)
 #^^ meta.function-call.arguments.shell - meta.group
 #  ^^ meta.function-call.arguments.shell meta.group.regexp.shell - meta.set
-#    ^^^ meta.function-call.arguments.shell meta.string.shell meta.group.regexp.shell meta.set.regexp.shell
-#       ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.group.regexp.shell meta.set.regexp.shell meta.set.regexp.shell meta.interpolation.parameter.shell
-#                        ^^^ meta.function-call.arguments.shell meta.string.shell meta.group.regexp.shell meta.set.regexp.shell
-#                           ^^ meta.function-call.arguments.shell meta.string.shell meta.group.regexp.shell - meta.set
+#    ^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.group.regexp.shell meta.set.regexp.shell
+#       ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.group.regexp.shell meta.set.regexp.shell meta.set.regexp.shell meta.interpolation.parameter.shell
+#                        ^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.group.regexp.shell meta.set.regexp.shell
+#                           ^^ meta.function-call.arguments.shell meta.string.glob.shell meta.group.regexp.shell - meta.set
 #                             ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
 #  ^ punctuation.section.group.begin.regexp.shell
@@ -8893,7 +8893,7 @@ stash) || true)
 
 [[ ' foo ' =~ ( foo ) ]]  # evaluates to true
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^^^^ meta.string.shell string.quoted.single.shell
+#  ^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #          ^^ keyword.operator.comparison.shell
 #             ^^^^^^^ meta.string.regexp.shell meta.group.regexp.shell
 #             ^ punctuation.section.group.begin.regexp.shell
@@ -8902,7 +8902,7 @@ stash) || true)
 
 [[ ' foo ' =~ ([ ]foo[ ]) ]]  # evaluates to true
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^^^^ meta.string.shell string.quoted.single.shell
+#  ^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #             ^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
 #              ^^^ meta.string.regexp.shell meta.group.regexp.shell meta.set.regexp.shell
 #                 ^^^ meta.string.regexp.shell meta.group.regexp.shell - meta.set
@@ -8971,19 +8971,19 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 [[ $foo =~ 'bar' || $foo =~ "baz" && $bar =~ baz ]]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #      ^^^^ - meta.string
 #       ^^ keyword.operator.comparison.shell
 #          ^^^^^ meta.string.regexp.shell
 #               ^^^^ - meta.string
 #                ^^ keyword.operator.logical.shell
-#                   ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                       ^^^^ - meta.string
 #                        ^^ keyword.operator.comparison.shell
 #                           ^^^^^ meta.string.regexp.shell
 #                                ^^^^ - meta.string
 #                                 ^^ keyword.operator.logical.shell
-#                                    ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                    ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                        ^^^^ - meta.string
 #                                         ^^ keyword.operator.comparison.shell
 #                                            ^^^ meta.string.regexp.shell
@@ -8997,20 +8997,20 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #                                    ^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell - meta.group
 #^^^^ - meta.string
 #  ^ punctuation.section.group.begin.shell
-#    ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#    ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^^^^ - meta.string
 #         ^^ keyword.operator.comparison.shell
 #            ^^^^^ meta.string.regexp.shell
 #                 ^^^^ - meta.string
 #                  ^^ keyword.operator.logical.shell
-#                     ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                     ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                         ^^^^ - meta.string
 #                          ^^ keyword.operator.comparison.shell
 #                             ^^^^^ meta.string.regexp.shell
 #                                  ^^^^^^ - meta.string
 #                                   ^ punctuation.section.group.end.shell
 #                                     ^^ keyword.operator.logical.shell
-#                                        ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                        ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                            ^^^^ - meta.string
 #                                             ^^ keyword.operator.comparison.shell
 #                                                ^^^ meta.string.regexp.shell
@@ -9383,7 +9383,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 : < word
 # ^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
-#   ^^^^ meta.string.shell string.unquoted.shell
+#   ^^^^ meta.string.glob.shell string.unquoted.shell
 
 # Open file word for reading and writing as standard input. If the file does
 # not exist then it is created.
@@ -9413,7 +9413,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 : <> word
 # ^^^^^^^ meta.redirection.shell
 # ^^ keyword.operator.assignment.redirection.shell
-#    ^^^^ meta.string.shell string.unquoted.shell
+#    ^^^^ meta.string.glob.shell string.unquoted.shell
 
 # Open file word for writing as standard output. If the file does not exist
 # then it is created.
@@ -9443,15 +9443,15 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 : > word >| word >! word
 # ^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
-#   ^^^^ meta.string.shell string.unquoted.shell
+#   ^^^^ meta.string.glob.shell string.unquoted.shell
 #       ^ - meta.redirection
 #        ^^^^^^^ meta.redirection.shell
 #        ^^ keyword.operator.assignment.redirection.shell
-#           ^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^ meta.string.glob.shell string.unquoted.shell
 #               ^ - meta.redirection
 #                ^^^^^^^ meta.redirection.shell
 #                ^^ keyword.operator.assignment.redirection.shell
-#                   ^^^^ meta.string.shell string.unquoted.shell
+#                   ^^^^ meta.string.glob.shell string.unquoted.shell
 #                       ^ - meta.redirection
 
 : > /dev/null
@@ -9465,21 +9465,21 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 : > out~put-
 # ^^^^^^^^^^ meta.redirection.shell
 # ^ keyword.operator.assignment.redirection.shell
-#   ^^^^^^^^ meta.string.shell string.unquoted.shell
+#   ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #    ^ - variable
 #          ^ - punctuation
 #           ^ - meta.redirection
 
 : > ~/.local/file
 # ^^ meta.redirection.shell - meta.string
-#   ^ meta.redirection.shell meta.string.shell meta.interpolation.tilde.shell
-#    ^^^^^^^^^^^^ meta.redirection.shell meta.string.shell string.unquoted.shell - meta.interpolation
+#   ^ meta.redirection.shell meta.string.glob.shell meta.interpolation.tilde.shell
+#    ^^^^^^^^^^^^ meta.redirection.shell meta.string.glob.shell string.unquoted.shell - meta.interpolation
 # ^ keyword.operator.assignment.redirection.shell
 #   ^ variable.language.tilde.shell
 
 : > "~/.local/file"
 # ^^ meta.redirection.shell - meta.string
-#   ^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.shell string.quoted.double.shell
+#   ^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.glob.shell string.quoted.double.shell
 # ^ keyword.operator.assignment.redirection.shell
 #   ^ punctuation.definition.string.begin.shell
 #    ^ - variable.language
@@ -9723,7 +9723,7 @@ cat << redirection_comes_next > foo.txt
 #      ^^^^^^^^^^^^^^^^^^^^^^ meta.redirection.shell meta.tag.heredoc.begin.shell - meta.string - string
 #                            ^ meta.redirection.shell - meta.tag - meta.string - string
 #                             ^^ meta.redirection.shell meta.redirection.shell - meta.string
-#                               ^^^^^^^ meta.redirection.shell meta.redirection.shell meta.string.shell string.unquoted.shell
+#                               ^^^^^^^ meta.redirection.shell meta.redirection.shell meta.string.glob.shell string.unquoted.shell
 #   ^^ keyword.operator.assignment.redirection.shell
 #     ^ - entiy - keyword
 #      ^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.heredoc.shell
@@ -9792,9 +9792,9 @@ variable=$(cat <<SETVAR
 This variable
 runs over multiple lines.
 SETVAR
-# <- meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+# <- meta.string.glob.shell meta.interpolation.command.shell meta.function-call.arguments.shell meta.redirection.shell meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
 )
-# <- meta.string.shell meta.interpolation.command.shell punctuation.section.interpolation.end.shell
+# <- meta.string.glob.shell meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 cat <<- "FOO"
 #^^^ - meta.redirection - meta.string - meta.tag
@@ -9871,7 +9871,7 @@ FOO
 sed 's/^    //' << EOF >$dummy.c
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - string.unquoted.heredoc
-#   ^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
+#   ^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #              ^ - meta.redirection - meta.tag - meta.string
 #               ^^ meta.redirection.shell - meta.tag - meta.string
 #                  ^^^ meta.redirection.shell meta.tag.heredoc.begin.shell - meta.string
@@ -9918,7 +9918,7 @@ EOF
 # ^^^ keyword.operator.assignment.herestring
 #     ^^^^ string.unquoted.shell
 #          ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
-#                ^^^^^^^^^^^^^^^^ meta.string.shell
+#                ^^^^^^^^^^^^^^^^ meta.string.glob.shell
 #                ^ variable.language.tilde.shell
 #                  ^^ constant.other.wildcard.asterisk.shell
 #                     ^^^^ meta.set.regexp.shell
@@ -9981,8 +9981,8 @@ cat <<< "This is a \\$here \"\$string.\"" ; cat more stuff | bar | qux
 #                                       ^ punctuation.definition.string.end.shell
 #                                         ^ punctuation.terminator.statement.shell
 #                                           ^^^ variable.function.shell
-#                                               ^^^^ meta.string.shell string.unquoted.shell
-#                                                    ^^^^^ meta.string.shell string.unquoted.shell
+#                                               ^^^^ meta.string.glob.shell string.unquoted.shell
+#                                                    ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                                          ^ keyword.operator.assignment.pipe.shell
 #                                                            ^^^ variable.function.shell
 #                                                                ^ keyword.operator.assignment.pipe.shell
@@ -10079,7 +10079,7 @@ alias ..='cd ..'
 #        ^ meta.quoted.shell punctuation.definition.quoted.begin.shell
 #         ^^ meta.quoted.shell meta.function-call.identifier.shell meta.command.shell support.function.shell - string
 #           ^ meta.quoted.shell meta.function-call.arguments.shell - string
-#            ^^ meta.quoted.shell meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#            ^^ meta.quoted.shell meta.function-call.arguments.shell meta.string.glob.shell string.unquoted.shell
 #              ^ meta.quoted.shell punctuation.definition.quoted.end.shell
 
 alias -p ..='cd ..'
@@ -10092,7 +10092,7 @@ alias -p ..='cd ..'
 #           ^ meta.quoted.shell punctuation.definition.quoted.begin.shell
 #            ^^ meta.quoted.shell meta.function-call.identifier.shell meta.command.shell support.function.shell - string
 #              ^ meta.quoted.shell meta.function-call.arguments.shell - string
-#               ^^ meta.quoted.shell meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#               ^^ meta.quoted.shell meta.function-call.arguments.shell meta.string.glob.shell string.unquoted.shell
 #                 ^ meta.quoted.shell punctuation.definition.quoted.end.shell
 
 alias -- -='cd -'
@@ -10105,7 +10105,7 @@ alias -- -='cd -'
 #          ^ meta.quoted.shell punctuation.definition.quoted.begin.shell
 #           ^^ meta.quoted.shell meta.function-call.identifier.shell meta.command.shell support.function.shell - string
 #             ^ meta.quoted.shell meta.function-call.arguments.shell - string
-#              ^ meta.quoted.shell meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#              ^ meta.quoted.shell meta.function-call.arguments.shell meta.string.glob.shell string.unquoted.shell
 #               ^ meta.quoted.shell punctuation.definition.quoted.end.shell
 
 
@@ -10126,9 +10126,9 @@ builtin -pV -v cmd -a val
 #          ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #       ^^^ variable.function.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
-#              ^^^ meta.string.shell string.unquoted.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
 #                  ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                     ^^^ meta.string.shell string.unquoted.shell
+#                     ^^^ meta.string.glob.shell string.unquoted.shell
 
 
 ###############################################################################
@@ -10151,7 +10151,7 @@ command -pV -v cmd -a val
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #              ^^^ variable.function.shell
 #                  ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                     ^^^ meta.string.shell string.unquoted.shell
+#                     ^^^ meta.string.glob.shell string.unquoted.shell
 
 
 ###############################################################################
@@ -10212,7 +10212,7 @@ declare foo; bar=baz # 2nd statement after ';'
 #          ^ punctuation.terminator.statement.shell
 #            ^^^ variable.other.readwrite.shell
 #               ^ keyword.operator.assignment.shell
-#                ^^^ meta.string.shell string.unquoted.shell
+#                ^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ - meta.string - string - comment
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10223,7 +10223,7 @@ declare foo==bar baz =buz  # assignment must immediately follow a variable
 #      ^ - variable
 #       ^^^ variable.other.readwrite.shell
 #          ^ keyword.operator.assignment.shell
-#           ^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^ meta.string.glob.shell string.unquoted.shell
 #               ^ - variable
 #                ^^^ variable.other.readwrite.shell
 #                   ^ - variable
@@ -10240,14 +10240,14 @@ declare foo=<input.txt
 #       ^^^ variable.other.readwrite.shell
 #          ^ keyword.operator.assignment.shell
 #           ^ keyword.operator.assignment.redirection.shell
-#            ^^^^^^^^^ meta.string.shell string.unquoted.shell
+#            ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 # string value with pattern expansion
 declare bar=\
 foo?bar+2*baz/$buz # comment
-# <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
-#^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.shell string.unquoted.shell
-#             ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+# <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+#^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+#             ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
 #                 ^ - meta.declaration
 #                  ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10274,24 +10274,24 @@ declare bar=\
 # <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell punctuation.section.sequence.begin.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell
 #                                                          ^ - meta.declaration - meta.assignment - meta.sequence
-#^^^ meta.string.shell string.unquoted.shell
+#^^^ meta.string.glob.shell string.unquoted.shell
 #   ^ - meta.string - string
-#    ^^ meta.string.shell string.unquoted.shell
+#    ^^ meta.string.glob.shell string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^ - meta.string - string
-#         ^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ - meta.string - string
-#              ^^^^^ meta.string.shell string.quoted.single.shell
+#              ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                   ^ - meta.string - string
-#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                    ^^^^^ meta.string.glob.shell string.quoted.double.shell
 #                          ^^^^^ meta.item-access.shell
 #                               ^ keyword.operator.assignment.shell
-#                                ^^^ meta.string.shell string.unquoted.shell
+#                                ^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^^^^^ meta.item-access.shell
-#                                          ^^^^ meta.string.shell string.unquoted.shell
+#                                          ^^^^ meta.string.glob.shell string.unquoted.shell
 #                                               ^ invalid.illegal.unexpected-token.shell - meta.redirection
-#                                                ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                                ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.redirection
 #                                                         ^ punctuation.section.sequence.end.shell
 #                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10301,24 +10301,24 @@ declare -a bar=\
 # <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell punctuation.section.sequence.begin.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell
 #                                                          ^ - meta.declaration - meta.assignment - meta.sequence
-#^^^ meta.string.shell string.unquoted.shell
+#^^^ meta.string.glob.shell string.unquoted.shell
 #   ^ - meta.string - string
-#    ^^ meta.string.shell string.unquoted.shell
+#    ^^ meta.string.glob.shell string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^ - meta.string - string
-#         ^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ - meta.string - string
-#              ^^^^^ meta.string.shell string.quoted.single.shell
+#              ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                   ^ - meta.string - string
-#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                    ^^^^^ meta.string.glob.shell string.quoted.double.shell
 #                          ^^^^^ meta.item-access.shell
 #                               ^ keyword.operator.assignment.shell
-#                                ^^^ meta.string.shell string.unquoted.shell
+#                                ^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^^^^^ meta.item-access.shell
-#                                          ^^^^ meta.string.shell string.unquoted.shell
+#                                          ^^^^ meta.string.glob.shell string.unquoted.shell
 #                                               ^ invalid.illegal.unexpected-token.shell - meta.redirection
-#                                                ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                                ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.redirection
 #                                                         ^ punctuation.section.sequence.end.shell
 #                                                           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -10490,15 +10490,15 @@ declare -A var=(key1 val key+2 1+2 key-3 3-foo key/4 "4 / val" key%5 val%-5)
 #                                                                           ^ - meta.declaration - meta.assignment - meta.sequence
 #              ^ punctuation.section.sequence.begin.shell
 #               ^^^^ meta.item-access.shell entity.name.key.shell
-#                    ^^^ meta.string.shell string.unquoted.shell
+#                    ^^^ meta.string.glob.shell string.unquoted.shell
 #                        ^^^^^ meta.item-access.shell entity.name.key.shell
-#                              ^^^ meta.string.shell string.unquoted.shell
+#                              ^^^ meta.string.glob.shell string.unquoted.shell
 #                                  ^^^^^ meta.item-access.shell entity.name.key.shell
-#                                        ^^^^^ meta.string.shell string.unquoted.shell
+#                                        ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                              ^^^^^ meta.item-access.shell entity.name.key.shell
-#                                                    ^^^^^^^^^ meta.string.shell string.quoted.double.shell
+#                                                    ^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #                                                              ^^^^^ meta.item-access.shell entity.name.key.shell
-#                                                                    ^^^^^^ meta.string.shell string.unquoted.shell
+#                                                                    ^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                                                          ^ punctuation.section.sequence.end.shell
 
 # associative array with implicit keys and arithmetic values
@@ -10641,13 +10641,13 @@ declare -a owners=(
     [susan]=labrador
 #   ^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.item-access.shell
 #          ^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#           ^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
     # cats
 #   ^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell comment.line.number-sign.shell
     [terry]=tabby
 #   ^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.item-access.shell
 #          ^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#           ^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
 )
 
 # associative array with string values with explicit keys
@@ -10657,13 +10657,13 @@ declare -A owners=(
     [susan]=labrador
 #   ^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.item-access.shell
 #          ^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#           ^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
     # cats
 #   ^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell comment.line.number-sign.shell
     [terry]=tabby
 #   ^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.item-access.shell
 #          ^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell keyword.operator.assignment.shell - meta.mapping.key
-#           ^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.shell string.unquoted.shell
+#           ^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
 )
 
 declare -A illegals=( | & ; ( < > )
@@ -10762,12 +10762,12 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 # declare called in command substituations
 
 printFunction "$variableString1" "$(declare -p variableArray)"
-#             ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
-#              ^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
-#                              ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
-#                                ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
-#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell - string
-#                                                            ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#             ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#              ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
+#                              ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell - string
+#                                                            ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                  ^ punctuation.section.interpolation.begin.shell
 #                                   ^^^^^^^ keyword.declaration.variable.shell
 #                                           ^^ variable.parameter.option
@@ -10776,12 +10776,12 @@ printFunction "$variableString1" "$(declare -p variableArray)"
 
 # <- - variable.other
 printFunction "$variableString1" "`declare -p variableArray`"
-#             ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
-#              ^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
-#                              ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
-#                                ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
-#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell - string
-#                                                           ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#             ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#              ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
+#                              ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell - string
+#                                                           ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                 ^ punctuation.section.interpolation.begin.shell
 #                                  ^^^^^^^ keyword.declaration.variable.shell
 #                                          ^^ variable.parameter.option
@@ -10802,17 +10802,17 @@ eval ls .
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^ meta.function-call.arguments.shell
-#    ^^ meta.string.shell string.unquoted.shell
-#       ^ meta.string.shell string.unquoted.shell
+#    ^^ meta.string.glob.shell string.unquoted.shell
+#       ^ meta.string.glob.shell string.unquoted.shell
 
 eval "echo Helo ${name:a " + 2":$len}" !
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
-#               ^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell
-#                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
-#                                      ^ meta.string.shell string.unquoted.shell
+#    ^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
+#               ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                                    ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                      ^ meta.string.glob.shell string.unquoted.shell
 
 
 ###############################################################################
@@ -10862,7 +10862,7 @@ exec -c -l -a name git status
 #    ^^ variable.parameter.option.shell
 #       ^^ variable.parameter.option.shell
 #          ^^ variable.parameter.option.shell
-#             ^^^^ meta.string.shell string.unquoted.shell
+#             ^^^^ meta.string.glob.shell string.unquoted.shell
 #                  ^^^ variable.function.shell
 
 exec -la name -i --bar -- foo bar
@@ -10926,7 +10926,7 @@ exec \
   -la name \
 #^^^^^^^^^^^^ meta.function-call.arguments.shell
 # ^^^ meta.parameter.option.shell variable.parameter.option.shell
-#     ^^^^ meta.string.shell string.unquoted.shell
+#     ^^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.separator.continuation.line.shell
 #           ^ - punctuation
 
@@ -10992,7 +10992,7 @@ export foo='bar'    # 'foo' is a variable name
 #               ^ - meta.function-call
 #      ^^^ variable.other.readwrite.shell
 #         ^ keyword.operator.assignment.shell
-#          ^^^^^ meta.string.shell string.quoted.single.shell
+#          ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #          ^ punctuation.definition.string.begin.shell
 #              ^ punctuation.definition.string.end.shell
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
@@ -11001,13 +11001,13 @@ export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^^^ meta.function-call.identifier.shell support.function.shell
 #     ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.string - meta.interpolation
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell
 #      ^^^^^^^^^^ variable.other.readwrite.shell
 #                ^ keyword.operator.assignment.shell
 #                 ^ punctuation.definition.variable.shell
 #                  ^ punctuation.section.interpolation.begin.shell
 #                   ^^^ variable.function.shell
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.string.shell
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.command.shell meta.string.glob.shell
 
 export -f foo
 # <- meta.function-call.identifier.shell support.function.shell
@@ -11051,7 +11051,7 @@ export PATH=$PATH:~/.local/bin
 #     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^ variable.language.builtin.shell
 #          ^ keyword.operator.assignment
-#           ^^^^^^^^^^^^^^^^^^ meta.string.shell
+#           ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
 #           ^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
 #                 ^ meta.interpolation.tilde.shell variable.language.tilde.shell
 
@@ -11061,7 +11061,7 @@ export PATH="$PATH:~/.local/bin"
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^ variable.language.builtin.shell
 #          ^ keyword.operator.assignment.shell
-#           ^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+#           ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
 #           ^ punctuation.definition.string.begin.shell
 #            ^^^^^ meta.interpolation.parameter.shell variable.language.builtin.shell
 #                 ^ punctuation.separator.sequence.shell
@@ -11073,7 +11073,7 @@ export SOMETHING='/etc/test:/var/test:../foo:./foo'
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^^^^^^ variable.other.readwrite.shell
 #               ^ keyword.operator.assignment.shell
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                ^ punctuation.definition.string.begin.shell
 #                          ^ punctuation.separator.sequence.shell
 #                                    ^ punctuation.separator.sequence.shell
@@ -11085,7 +11085,7 @@ export SOMETHING=/etc/test:/var/test
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^^^^^^ variable.other.readwrite.shell
 #               ^ keyword.operator.assignment.shell
-#                ^^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#                ^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                         ^ punctuation.separator.sequence
 
 msg="Count: ${count}"
@@ -11315,7 +11315,7 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 #        ^ - variable
 #         ^^^ variable.other.readwrite.shell
 #            ^ keyword.operator.assignment.shell
-#             ^^^^^ meta.string.shell string.quoted.single.shell
+#             ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                  ^ - comment - string
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -11325,7 +11325,7 @@ local foo+=10 bar-=true
 #^^^^ keyword.declaration.variable.shell
 #     ^^^ variable.other.readwrite.shell
 #        ^^ keyword.operator.assignment.shell
-#          ^^ meta.string.shell string.unquoted.shell
+#          ^^ meta.string.glob.shell string.unquoted.shell
 #             ^^^ variable.other.readwrite.shell
 #                ^^ keyword.operator.assignment.shell
 #                  ^^^^ constant.language.boolean.true.shell
@@ -11336,7 +11336,7 @@ local pid="$(cat "$PIDFILE" 2>/dev/null)"
 #^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
 #     ^^^ variable.other.readwrite.shell
 #        ^ keyword.operator.assignment.shell
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
 
 local -fn foo
 # <- meta.declaration.variable.shell keyword.declaration.variable.shell
@@ -11382,7 +11382,7 @@ f() {
         IFS=, local -a "$x"'=("${x}: ${'"$x"'[*]}")'
         # ^ variable.language.builtin.shell
         #  ^ keyword.operator.assignment.shell
-        #   ^ meta.string.shell string.unquoted.shell
+        #   ^ meta.string.glob.shell string.unquoted.shell
         #     ^ keyword.declaration.variable.shell
     done
     # <- keyword.control.loop.end.shell
@@ -11437,11 +11437,11 @@ mapfile -d ";" -n 10 -O $origin -s 5 -t -u 20 -C callback -c 10 array
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                                                    ^ - meta.function-call
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
-#          ^^^ meta.string.shell string.quoted.double.shell
+#          ^^^ meta.string.glob.shell string.quoted.double.shell
 #              ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                 ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                    ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                       ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                       ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                               ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                    ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -11565,11 +11565,11 @@ readarray -d ";" -n 10 -O $origin -s 5 -t -u 20 -C callback -c 10 array
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                                                      ^ - meta.function-call
 #         ^^ meta.parameter.option.shell variable.parameter.option.shell
-#            ^^^ meta.string.shell string.quoted.double.shell
+#            ^^^ meta.string.glob.shell string.quoted.double.shell
 #                ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                   ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                      ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                         ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                         ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                                 ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                      ^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -11603,22 +11603,22 @@ readonly bar=\
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                               ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
-#^^^ meta.string.shell string.unquoted.shell
+#^^^ meta.string.glob.shell string.unquoted.shell
 #   ^ - meta.string - string
-#    ^^ meta.string.shell string.unquoted.shell
+#    ^^ meta.string.glob.shell string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^ - meta.string - string
-#         ^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ - meta.string - string
-#              ^^^^^ meta.string.shell string.quoted.single.shell
+#              ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                   ^ - meta.string - string
-#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                    ^^^^^ meta.string.glob.shell string.quoted.double.shell
 #                          ^^^^^ meta.item-access.shell
 #                               ^ keyword.operator.assignment.shell
-#                                ^^^ meta.string.shell string.unquoted.shell
+#                                ^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^ invalid.illegal.unexpected-token.shell - meta.redirection
-#                                     ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                     ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.redirection
 #                                              ^ punctuation.section.sequence.end.shell
 #                                                ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -11628,22 +11628,22 @@ readonly -a bar=\
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
 #                                               ^ - meta.declaration
 # <- punctuation.section.sequence.begin.shell
-#^^^ meta.string.shell string.unquoted.shell
+#^^^ meta.string.glob.shell string.unquoted.shell
 #   ^ - meta.string - string
-#    ^^ meta.string.shell string.unquoted.shell
+#    ^^ meta.string.glob.shell string.unquoted.shell
 #     ^ constant.other.wildcard.asterisk.shell
-#      ^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^ - meta.string - string
-#         ^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^ - meta.string - string
-#              ^^^^^ meta.string.shell string.quoted.single.shell
+#              ^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                   ^ - meta.string - string
-#                    ^^^^^ meta.string.shell string.quoted.double.shell
+#                    ^^^^^ meta.string.glob.shell string.quoted.double.shell
 #                          ^^^^^ meta.item-access.shell
 #                               ^ keyword.operator.assignment.shell
-#                                ^^^ meta.string.shell string.unquoted.shell
+#                                ^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^ invalid.illegal.unexpected-token.shell - meta.redirection
-#                                     ^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.redirection
+#                                     ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.redirection
 #                                              ^ punctuation.section.sequence.end.shell
 #                                                ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -11657,12 +11657,12 @@ readonly -A var=(key1 1+2 key2 4-foo key3 val%10)
 #                                    ^^^^ meta.item-access.shell entity.name.key.shell
 #               ^ punctuation.section.sequence.begin.shell
 #                ^^^^ entity.name.key.shell
-#                     ^^^ meta.string.shell string.unquoted.shell
+#                     ^^^ meta.string.glob.shell string.unquoted.shell
 #                         ^^^^ entity.name.key.shell
-#                              ^^^^^ meta.string.shell string.unquoted.shell
+#                              ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                                    ^^^^ entity.name.key.shell
-#                                         ^^^ meta.string.shell string.unquoted.shell
-#                                            ^^^ meta.string.shell meta.interpolation.job.shell variable.language.job.shell
+#                                         ^^^ meta.string.glob.shell string.unquoted.shell
+#                                            ^^^ meta.string.glob.shell meta.interpolation.job.shell variable.language.job.shell
 #                                               ^ punctuation.section.sequence.end.shell
 
 readonly -A -f foo   # 'foo' is a variable name
@@ -11730,7 +11730,7 @@ foo=`readonly x=5`
 #    ^^^^^^^^ meta.interpolation.command.shell keyword.declaration.variable.shell
 #             ^ meta.interpolation.command.shell variable.other.readwrite.shell
 #              ^ meta.interpolation.command.shell keyword.operator.assignment.shell
-#               ^ meta.interpolation.command.shell meta.string.shell string.unquoted.shell
+#               ^ meta.interpolation.command.shell meta.string.glob.shell string.unquoted.shell
 #                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 
@@ -11828,44 +11828,44 @@ test str == "str"
 #<- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.string.shell string.unquoted.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.shell string.quoted.double.shell
+#           ^^^^^ meta.string.glob.shell string.quoted.double.shell
 
 test str != "str"
 #<- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^ meta.string.shell string.unquoted.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.shell string.quoted.double.shell
+#           ^^^^^ meta.string.glob.shell string.quoted.double.shell
 
 test str < 'str'
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^ meta.function-call.arguments.shell
 #               ^ - meta.function-call
-#    ^^^ meta.string.shell string.unquoted.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ keyword.operator.comparison.shell
-#          ^^^^^ meta.string.shell string.quoted.single.shell
+#          ^^^^^ meta.string.glob.shell string.quoted.single.shell
 
 test str > str
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^ meta.function-call.arguments.shell
 #             ^ - meta.function-call
-#    ^^^ meta.string.shell string.unquoted.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
 #        ^ keyword.operator.comparison.shell
-#          ^^^ meta.string.shell string.unquoted.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
 
 test var[0] != var[^0-9]*$
 #<- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^^^^ meta.string.shell string.unquoted.shell
+#    ^^^^^^ meta.string.glob.shell string.unquoted.shell
 #       ^^^ meta.set.regexp.shell
 #           ^^ keyword.operator.comparison.shell
-#              ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.string.regexp
+#              ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.string.regexp
 
 test $var[0] != var[^0-9]*$
 #<- meta.function-call.identifier.shell support.function.shell
@@ -11874,7 +11874,7 @@ test $var[0] != var[^0-9]*$
 #    ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^^^ meta.set.regexp.shell
 #            ^^ keyword.operator.comparison.shell
-#               ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.string.regexp
+#               ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.string.regexp
 
 test ${var[0]} != var[^0-9]*$
 #<- meta.function-call.identifier.shell support.function.shell
@@ -11884,7 +11884,7 @@ test ${var[0]} != var[^0-9]*$
 #      ^^^ variable.other.readwrite.shell
 #         ^^^ meta.item-access.shell
 #              ^^ keyword.operator.comparison.shell
-#                 ^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.string.regexp
+#                 ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.string.regexp
 
 test expr -a expr -o expr -- | cmd |& cmd
 # <- meta.function-call.identifier.shell support.function.shell
@@ -11907,7 +11907,7 @@ test ! $line == ^[0-9]+$
 #    ^ keyword.operator.logical.shell
 #      ^^^^^ variable.other.readwrite.shell
 #            ^^ keyword.operator.comparison.shell
-#               ^^^^^^^^ meta.string.shell string.unquoted.shell
+#               ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 test ! $line =~ ^[0-9]+$ >> /file
 # <- meta.function-call.identifier.shell support.function.shell
@@ -11918,7 +11918,7 @@ test ! $line =~ ^[0-9]+$ >> /file
 #    ^ keyword.operator.logical.shell
 #      ^^^^^ variable.other.readwrite.shell
 #            ^^ invalid.illegal.operator.shell
-#               ^^^^^^^^ meta.string.shell string.unquoted.shell
+#               ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                        ^^ keyword.operator.assignment.redirection.shell
 
 if test expr -a expr ; then echo "success"; fi
@@ -11937,9 +11937,9 @@ if test "$VAR" != ";";then;fi
 # ^ - meta.function-call
 #  ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#       ^^^^^^ meta.string.shell
+#       ^^^^^^ meta.string.glob.shell
 #              ^^ keyword.operator.comparison.shell
-#                 ^^^ meta.string.shell string.quoted.double.shell
+#                 ^^^ meta.string.glob.shell string.quoted.double.shell
 #                    ^^^^^^^^ - meta.function-call
 #                    ^ punctuation.terminator.statement.shell
 #                     ^^^^ keyword.control.conditional.then.shell
@@ -11960,7 +11960,7 @@ time cmd1 --arg val | cmd2 -n |& cmd3
 #    ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #        ^^^^^^^^^^ meta.function-call.arguments.shell
 #         ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
-#               ^^^ meta.string.shell string.unquoted.shell
+#               ^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^ keyword.operator.assignment.pipe.shell
 #                     ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #                         ^^^ meta.function-call.arguments.shell
@@ -12020,7 +12020,7 @@ trap 'cmd --args="value"' SIGINT
 #     ^^^ variable.function.shell
 #         ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #               ^ keyword.operator.assignment.shell
-#                ^^^^^^^ meta.string.shell string.quoted.double.shell
+#                ^^^^^^^ meta.string.glob.shell string.quoted.double.shell
 #                       ^ punctuation.definition.quoted.end.shell
 #                         ^^^^^^ constant.language.signal.shell
 
@@ -12037,7 +12037,7 @@ trap "cmd --args='value'" SIGKILL
 #     ^^^ variable.function.shell
 #         ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #               ^ keyword.operator.assignment.shell
-#                ^^^^^^^ meta.string.shell string.quoted.single.shell
+#                ^^^^^^^ meta.string.glob.shell string.quoted.single.shell
 #                       ^ punctuation.definition.quoted.end.shell
 #                         ^^^^^^^ constant.language.signal.shell
 
@@ -12056,9 +12056,9 @@ trap "\"cmd\" --args=\"val${ue}\"" SIGKILL
 #          ^^ constant.character.escape.shell
 #             ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                   ^ keyword.operator.assignment.shell
-#                    ^^^^^ meta.string.shell string.unquoted.shell
+#                    ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                    ^^ constant.character.escape.shell
-#                         ^^^^^ meta.string.shell meta.interpolation.parameter.shell
+#                         ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #                              ^^ constant.character.escape.shell
 #                                ^ punctuation.definition.quoted.end.shell
 #                                  ^^^^^^^ constant.language.signal.shell
@@ -12237,11 +12237,11 @@ sudo -b -g network --host=$foo rm -rf
 #    ^ punctuation.definition.parameter.shell
 #       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ punctuation.definition.parameter.shell
-#          ^^^^^^^ meta.string.shell string.unquoted.shell
+#          ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                  ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                  ^^ punctuation.definition.parameter.shell
 #                        ^ keyword.operator.assignment.shell
-#                         ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                         ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                              ^^ variable.function.shell
 #                                 ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                 ^ punctuation.definition.parameter.shell
@@ -12798,99 +12798,99 @@ cmd
 [ file1 -ef file2 ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.string.shell string.unquoted.shell
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
 #       ^^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.compound.end.shell
 
 [ file1 -nt file2 ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.string.shell string.unquoted.shell
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
 #       ^^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.compound.end.shell
 
 [ file1 -ot file2 ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.string.shell string.unquoted.shell
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
 #       ^^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^ punctuation.section.compound.end.shell
 
 [ ! str != str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 # ^ keyword.operator.logical.shell
-#   ^^^ meta.string.shell string.unquoted.shell
+#   ^^^ meta.string.glob.shell string.unquoted.shell
 #       ^^ keyword.operator.comparison.shell
-#          ^^^ meta.string.shell string.unquoted.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
 #              ^ punctuation.section.compound.end.shell
 
 [ str != str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^^ keyword.operator.comparison.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.compound.end.shell
 
 [ str == str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^^ keyword.operator.comparison.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.compound.end.shell
 
 [ str =~ str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^^ invalid.illegal.operator.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.compound.end.shell
 
 [ str >= str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^^ invalid.illegal.operator.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.compound.end.shell
 
 [ str <= str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^^ invalid.illegal.operator.shell
-#        ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^ punctuation.section.compound.end.shell
 
 [ str = str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^ keyword.operator.comparison.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.compound.end.shell
 
 
 [ str < str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^ keyword.operator.comparison.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.compound.end.shell
 
 [ str > str ]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.shell string.unquoted.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
 #     ^ keyword.operator.comparison.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.compound.end.shell
 
 [ $arg -lt 2 ]
@@ -13010,15 +13010,15 @@ true false
 #                ^ - meta.number - constant
 
 : -target 20.10.2.4:8080 -port 80
-#         ^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 : -target=20.10.2.4:8080 -port=80
-#         ^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #                              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 ip=10.10.20.14
-#  ^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#  ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 ###############################################################################
 # 6.5 Shell Arithmetic                                                        #
@@ -13272,7 +13272,7 @@ wait -fn -p varname
 #   ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
-#           ^^^^^^^ meta.string.shell string.unquoted.shell
+#           ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
 disown -ar
 # <- meta.function-call.identifier.shell support.function.shell
@@ -13296,7 +13296,7 @@ function clk {
     #<- keyword.declaration.variable.shell
     #       ^^^^ variable.other.readwrite.shell
     #           ^ keyword.operator.assignment.shell
-    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
     [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
     # <- punctuation.section.compound.begin.shell
     #                                                                  ^^ punctuation.section.compound.end.shell
@@ -13320,20 +13320,20 @@ then remotefilter="cat"
 #                ^ keyword.operator.assignment.shell
 else remotefilter="grep"
 #               ^ variable.other.readwrite.shell
-#                 ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                 ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell
      for glob in "$@"
      do  glob=$(
      # ^^^^^^^ - meta.string - meta.interpolation
-     #        ^^^ meta.string.shell meta.interpolation.command.shell
+     #        ^^^ meta.string.glob.shell meta.interpolation.command.shell
      #      ^ variable.other.readwrite.shell
      #       ^ keyword.operator.assignment.shell
      #        ^ punctuation.definition.variable.shell
      #         ^ punctuation.section.interpolation.begin.shell
            echo "$glob" |
            sed -e 's@\*@[^ ]*@g' -e 's/\?/[^ ]/g'
-           # <- meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell variable.function.shell - string
+           # <- meta.string.glob.shell meta.interpolation.command.shell meta.function-call.identifier.shell variable.function.shell - string
          )
-         # <- meta.string.shell meta.interpolation.command.shell punctuation.section.interpolation.end.shell - string
+         # <- meta.string.glob.shell meta.interpolation.command.shell punctuation.section.interpolation.end.shell - string
          remotefilter="$remotefilter -e '^$glob ' -e ' $glob\$'"
          #          ^ variable.other.readwrite.shell
          #           ^ keyword.operator.assignment.shell
@@ -13343,4 +13343,4 @@ fi
 # <- keyword.control.conditional.endif.shell
 
 curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell

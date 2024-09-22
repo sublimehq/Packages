@@ -2097,7 +2097,7 @@ contexts:
 
   group-path-pattern-body:
     - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.shell
+    - meta_scope: meta.string.glob.shell string.unquoted.shell
     - include: string-path-pattern-content
     - include: word-end
 
@@ -2121,7 +2121,7 @@ contexts:
 
   string-path-pattern-body:
     - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.shell
+    - meta_scope: meta.string.glob.shell string.unquoted.shell
     - include: string-path-pattern-content
     - include: word-end
 
