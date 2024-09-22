@@ -314,7 +314,7 @@ contexts:
     - include: shell-content
 
   shell-content:
-    - include: Packages/Makefile/Makefile Shell.sublime-syntax
+    - include: Packages/Makefile/Embeddings/Shell (for Makefile).sublime-syntax
       apply_prototype: true
 
   line-continuation:
