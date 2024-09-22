@@ -3621,64 +3621,69 @@ array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
 declare -a array
 array[500]=value
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
-#^^^^ meta.assignment.l-value.shell - meta.sequence
+#^^^^ meta.assignment.l-value.shell - meta.item-access
 #    ^^^^^ meta.assignment.l-value.shell meta.item-access.shell
-#         ^ meta.assignment.shell - meta.sequence
+#         ^ meta.assignment.shell - meta.item-access
 #          ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #               ^ - meta
 #^^^^ variable.other.readwrite.shell
 #    ^ punctuation.section.item-access.begin.shell
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.assignment
 #          ^^^^^ meta.string.glob.shell string.unquoted.shell
 
 array["foo"]=bar
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
-#^^^^ meta.assignment.l-value.shell - meta.sequence
-#    ^^^^^^^ meta.assignment.l-value.shell meta.item-access.shell
-#           ^ meta.assignment.shell - meta.sequence
+#^^^^ meta.assignment.l-value.shell - meta.item-access
+#    ^ meta.assignment.l-value.shell meta.item-access.shell - meta.arithmetic
+#     ^^^^^ meta.assignment.l-value.shell meta.item-access.shell meta.arithmetic.shell
+#          ^ meta.assignment.l-value.shell meta.item-access.shell - meta.arithmetic
+#           ^ meta.assignment.shell - meta.item-access
 #            ^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #               ^ - meta
 #^^^^ variable.other.readwrite.shell
-#    ^^^^^^^ meta.item-access.shell - variable
 #    ^ punctuation.section.item-access.begin.shell
-#     ^^^^^ string.quoted.double.shell
+#     ^ punctuation.definition.quoted.begin.shell
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.definition.quoted.end.shell
 #          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
 #            ^^^ meta.string.glob.shell string.unquoted.shell
 
 array[foo]=bar
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
-#^^^^ meta.assignment.l-value.shell - meta.sequence
+#^^^^ meta.assignment.l-value.shell - meta.item-access
 #    ^^^^^ meta.assignment.l-value.shell meta.item-access.shell
-#         ^ meta.assignment.shell - meta.sequence
+#         ^ meta.assignment.shell - meta.item-access
 #          ^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #             ^ - meta
-#    ^^^^^ meta.item-access.shell
 #    ^ punctuation.section.item-access.begin.shell - variable
-#     ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.arithmetic.shell variable.other.readwrite.shell
 #        ^ punctuation.section.item-access.end.shell - variable
 #         ^ keyword.operator.assignment.shell
 #          ^^^ meta.string.glob.shell string.unquoted.shell
 
 foo[${j}+10]="`foo`"
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
-#^^^ meta.assignment.l-value.shell - meta.sequence
-#  ^^^^^^^^^ meta.assignment.l-value.shell meta.item-access.shell
-#           ^ meta.assignment.shell - meta.sequence
+#^^ meta.assignment.l-value.shell - meta.item-access
+#  ^ meta.assignment.l-value.shell meta.item-access.shell - meta.arithmetic
+#   ^^^^^^^ meta.assignment.l-value.shell meta.item-access.shell meta.arithmetic.shell
+#          ^ meta.assignment.l-value.shell meta.item-access.shell - meta.arithmetic
+#           ^ meta.assignment.shell - meta.item-access
 #            ^ meta.assignment.r-value.shell meta.string.glob.shell - meta.interpolation
 #             ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell meta.interpolation.command.shell
 #                  ^ meta.assignment.r-value.shell meta.string.glob.shell - meta.interpolation
 #                   ^ - meta
 #^^ variable.other.readwrite.shell
 #  ^ punctuation.section.item-access.begin.shell
-#   ^^^^ meta.string.shell meta.interpolation.parameter.shell
+#   ^^^^ meta.interpolation.parameter.shell
 #   ^ punctuation.definition.variable.shell
 #    ^ punctuation.section.interpolation.begin.shell
 #     ^ variable.other.readwrite.shell
 #      ^ punctuation.section.interpolation.end.shell
-#       ^^^ meta.string.shell string.unquoted.shell
+#       ^ keyword.operator.arithmetic.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
 #            ^ string.quoted.double.shell punctuation.definition.string.begin.shell
@@ -11175,7 +11180,7 @@ let var[10]=5*(20+$idx)
 #   ^^^ variable.other.readwrite.shell
 #      ^^^^ meta.item-access.shell
 #      ^ punctuation.section.item-access.begin.shell
-#       ^^ meta.string.shell string.unquoted.shell
+#       ^^ constant.numeric.value.shell
 #         ^ punctuation.section.item-access.end.shell
 #          ^ keyword.operator.assignment.shell
 #           ^ meta.number.integer.decimal.shell constant.numeric.value.shell

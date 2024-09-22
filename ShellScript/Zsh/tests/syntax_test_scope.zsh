@@ -5781,9 +5781,9 @@ var[1]=Hello
 # <- variable.other.readwrite.shell
 #^^ variable.other.readwrite.shell
 #  ^^^ meta.item-access.shell
-#  ^ punctuation.section.item-access.begin.shell - meta.string - string
-#   ^ meta.string.shell string.unquoted.shell - punctuation
-#    ^ punctuation.section.item-access.end.shell - meta.string - string
+#  ^ punctuation.section.item-access.begin.shell
+#   ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#    ^ punctuation.section.item-access.end.shell
 #     ^ keyword.operator.assignment.shell
 #      ^^^^^ meta.string.glob.shell string.unquoted.shell
 
@@ -5793,9 +5793,9 @@ echo $var[1] World
 #   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #    ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #        ^^^ meta.item-access.shell - variable
-#        ^ punctuation.section.item-access.begin.shell - string
-#         ^ meta.string.glob.shell string.unquoted.shell
-#          ^ punctuation.section.item-access.end.shell - string
+#        ^ punctuation.section.item-access.begin.shell
+#         ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
 #            ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
 
 

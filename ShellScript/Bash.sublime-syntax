@@ -293,12 +293,12 @@ contexts:
   variable-subscription-body:
     - meta_include_prototype: false
     - meta_scope: meta.item-access.shell
-    - meta_content_scope: meta.string.shell string.unquoted.shell
+    - meta_content_scope: meta.arithmetic.shell
     - match: \]
       scope: punctuation.section.item-access.end.shell
       pop: 1
     - include: eoc-pop
-    - include: string-unquoted-content
+    - include: expression-content
 
   assignment-value-meta:
     - meta_include_prototype: false
