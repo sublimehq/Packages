@@ -2503,8 +2503,6 @@ contexts:
       scope: constant.character.escape.octal.java
     - match: '{{escape_other}}'
       scope: constant.character.escape.other.java
-    - match: \\.
-      scope: invalid.illegal.escape.java
 
 ###[ OPERATORS ]###############################################################
 

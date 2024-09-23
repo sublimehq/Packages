@@ -11154,12 +11154,8 @@ class LiteralsTests {
 //
 
     String illegalEscapes = "\x \+ \8 \9"
-//                          ^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                          ^^^^^^^^^^^^^ meta.string.java string.quoted.double.java - constant.character
 //                          ^ punctuation.definition.string.begin.java
-//                           ^^ invalid.illegal.escape
-//                              ^^ invalid.illegal.escape
-//                                 ^^ invalid.illegal.escape
-//                                    ^^ invalid.illegal.escape
 //                                      ^ punctuation.definition.string.end.java
 
     String incompleteString = "String without closing quote
