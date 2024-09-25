@@ -84,6 +84,9 @@ variables:
 
   keyword_or_ident: \b[[:alpha:]_][[:alnum:]_]*\b
 
+  # Heuristic to scope types, assuming they start with upper case
+  type_ident: \b[[:upper:]_][[:alnum:]_]*\b
+
   # Sublime normalizes newlines from `\r\n` and `\r` into `\n`. Sublime's syntax
   # engine uses regexps line-by-line, so `$` is often equivalent to `\n`. For
   # semantic accuracy, we should use `\n` when possible. However, the last line
@@ -122,8 +125,33 @@ variables:
   #
   # Known defect: fails to recognize multiline type argument lists.
   # We should convert from lookahead to branching.
-  type_argument_list: \[(?:{{noise}}|[^\[\]])*\]
-
+  type_argument_list: |-
+    (?x:
+      \[ (?:
+      {{noise}}
+      | \[ (?:
+        {{noise}}
+        | \[ (?:
+          {{noise}}
+          | \[ (?:
+            {{noise}}
+            | \[ (?:
+              {{noise}}
+              | \[ (?:
+                {{noise}}
+                | [^\[\]]
+                )* \]
+              | [^\[\]]
+              )* \]
+            | [^\[\]]
+            )* \]
+          | [^\[\]]
+          )* \]
+        | [^\[\]]
+        )* \]
+      | [^\[\]]
+      )* \]
+    )
 
   iface_entry_delim: (?://|;|\}|{{newline}})
   struct_entry_delim: (?:"|`|{{iface_entry_delim}})
@@ -487,7 +515,7 @@ contexts:
     - match: '{{ident_anon}}(?!{{noise}}\()'
       scope: variable.language.anonymous.go
       pop: 1
-    - match: '{{ident}}(?!{{noise}}\()'
+    - match: '{{ident}}(?!{{noise}}{{type_argument_list}}?\()'
       scope: variable.other.member.go
       pop: 1
     - match: \(
@@ -1253,6 +1281,10 @@ contexts:
     - match: '{{ident_anon}}'
       scope: variable.language.anonymous.go
       push: pop-parameter-type
+
+    - match: '{{type_ident}}'
+      scope: storage.type.go
+      push: pop-type-argument-list
 
     - match: '{{ident}}'
       scope: variable.parameter.go
