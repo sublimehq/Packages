@@ -106,6 +106,63 @@
 //                                  ^ - meta.for
 //                                   ^ punctuation.terminator.statement.empty
 
+    for ( var i = 0 ; i < 10 ; i++ ) { } ;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group
+//        ^^^ keyword.declaration
+//            ^ meta.binding.name variable.other.readwrite
+//              ^ keyword.operator.assignment
+//                ^ meta.number.integer.decimal constant.numeric.value
+//                  ^ punctuation.separator.expression
+//                    ^ variable.other.readwrite
+//                      ^ keyword.operator.comparison
+//                        ^^ meta.number.integer.decimal constant.numeric.value
+//                           ^ punctuation.separator.expression
+//                             ^ variable.other.readwrite
+//                              ^^ keyword.operator.arithmetic
+//                                 ^ punctuation.section.group
+//                                   ^^^ meta.block
+//                                   ^ punctuation.section.block.begin
+//                                     ^ punctuation.section.block.end
+//                                      ^ - meta.for
+//                                       ^ punctuation.terminator.statement.empty
+
+    for ( 
+//  ^^^^ meta.for - meta.group
+//      ^^^ meta.for meta.group
+//  ^^^ keyword.control.loop.for
+//      ^ punctuation.section.group.begin
+        var i = 0 ; 
+//     ^^^^^^^^^^^^^ meta.for meta.group
+//      ^^^ keyword.declaration
+//          ^ meta.binding.name variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^ meta.number.integer.decimal constant.numeric.value
+//                ^ punctuation.separator.expression
+
+        i < 10 ; 
+//     ^^^^^^^^^^ meta.for meta.group
+//      ^ variable.other.readwrite
+//        ^ keyword.operator.comparison
+//          ^^ meta.number.integer.decimal constant.numeric.value
+//             ^ punctuation.separator.expression
+        i++ 
+//     ^^^^^ meta.for meta.group
+//      ^ variable.other.readwrite
+//       ^^ keyword.operator.arithmetic
+    ) { } ;
+//^^^ meta.for meta.group
+//   ^ meta.for - meta.block - meta.group
+//    ^^^ meta.for meta.block
+//  ^ punctuation.section.group
+//    ^^^ meta.block
+//    ^ punctuation.section.block.begin
+//      ^ punctuation.section.block.end
+//       ^ - meta.for
+//        ^ punctuation.terminator.statement.empty
+
     for (;;) 42;
 //  ^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
