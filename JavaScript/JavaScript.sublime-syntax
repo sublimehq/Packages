@@ -1063,7 +1063,7 @@ contexts:
 
   expression:
     - meta_include_prototype: false
-    - match: ''
+    - match: (?=\S)
       set: [ expression-end, expression-begin ]
 
   expression-list:
@@ -1077,7 +1077,7 @@ contexts:
 
   expression-no-comma:
     - meta_include_prototype: false
-    - match: ''
+    - match: (?=\S)
       set: [ expression-end-no-comma, expression-begin ]
 
   expression-break:
