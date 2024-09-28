@@ -744,7 +744,17 @@ contexts:
   match-placeholders:
     - match: \%%
       scope: constant.character.escape.go
-    - match: \%(?:\[\d+\])?[ .\d*#+-]*[A-Za-z]
+    - match: |-
+        (?x)
+        \%
+        # flags
+        [-+#0 ]*
+        # width
+        (?: \d+ | (?:\[\d+\])? \* )?
+        # precision
+        (?: \. (?: \d+ | (?:\[\d+\])? \* )? )?
+        # maybe indexed verb
+        (?:\[\d+\])? [bcdeEfFgGoOpqsTtUvxX]
       scope: constant.other.placeholder.go
 
   match-block-string-templates:
