@@ -489,6 +489,8 @@ contexts:
     - include: expect-table-name
 
   dml-update:
+    - match: (?={{simple_identifier}}\s*=)
+      pop: 1
     - include: expect-table-name
 
   distinct:

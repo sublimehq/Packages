@@ -4483,3 +4483,46 @@ BEGIN
 -- ^^^^^^ keyword.control.flow.return
 END
 -- <- keyword.control.flow.end
+
+INSERT INTO some_table (id, `from`, `to`, a, b)
+-- ^^^^^^^^ keyword.other.dml.sql
+--          ^^^^^^^^^^ meta.table-name.sql
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                     ^ punctuation.section.group.begin.sql
+--                      ^^ meta.column-name.sql
+--                        ^ punctuation.separator.sequence.sql
+--                          ^ punctuation.definition.identifier.begin.sql
+--                          ^^^^^^ meta.column-name.sql
+--                               ^ punctuation.definition.identifier.end.sql
+--                                ^ punctuation.separator.sequence.sql
+VALUES (
+-- <- keyword.other.dml.II.sql
+    :id,
+--  ^^^ variable.parameter.sql
+--  ^ punctuation.definition.variable.sql
+--     ^ punctuation.separator.sequence.sql
+    :from,
+--  ^^^^^ variable.parameter.sql
+--  ^ punctuation.definition.variable.sql
+--       ^ punctuation.separator.sequence.sql
+    :to,
+    :a,
+    :b
+)
+ON DUPLICATE KEY UPDATE
+-- <- keyword.other.dml.sql
+-- ^^^^^^^^^^^^^ keyword.other.dml.sql
+--               ^^^^^^ keyword.other.dml.sql
+    a = :a,
+--  ^ meta.column-name.sql
+--    ^ keyword.operator.comparison.sql
+    b = :b
+--  ^ meta.column-name.sql
+--    ^ keyword.operator
+--      ^ variable.parameter.sql punctuation.definition.variable.sql
+--       ^ variable.parameter.sql
+
+select @@hostname;
+--     ^^ variable.language.sql punctuation.definition.variable.sql
+--       ^^^^^^^^ variable.language.sql
+--               ^ punctuation.terminator.statement.sql

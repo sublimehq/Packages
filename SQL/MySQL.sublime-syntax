@@ -602,6 +602,8 @@ contexts:
       push: expect-table-name
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.sql
+    - match: \b(?i:on\s+duplicate\s+key)\b
+      scope: keyword.other.dml.sql
 
   join-expressions:
     # https://mariadb.com/kb/en/join-syntax
@@ -1538,6 +1540,14 @@ contexts:
       scope: keyword.other.unit.sql
 
   variables:
+    - match: (:){{simple_identifier}}\b
+      scope: variable.parameter.sql
+      captures:
+        1: punctuation.definition.variable.sql
+    - match: (@@){{simple_identifier}}\b
+      scope: variable.language.sql
+      captures:
+        1: punctuation.definition.variable.sql
     - match: (@){{simple_identifier}}\b
       scope: variable.other.sql
       captures:
