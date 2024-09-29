@@ -2819,6 +2819,12 @@ contexts:
     - include: function-arguments-prototype
     - include: comma-delimiters
     - include: attr-functions
+    - match: (?:e|pi){{break}}
+      scope: constant.language.css
+    - match: -?infinity{{break}}
+      scope: constant.language.infinity.css
+    - match: NaN{{break}}
+      scope: constant.language.nan.css
     - match: '{{float}}({{units}})?'
       scope: meta.number.float.decimal.css
       captures:
