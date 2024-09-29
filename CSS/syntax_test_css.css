@@ -3615,6 +3615,40 @@
 /*                                             ^^ constant.language.css */
 }
 
+.test-round-function {
+    top: round(down 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^^^ keyword.other.round.strategy.css */
+/*                  ^^^^ meta.number.integer.decimal.css */
+/*                       ^^^ support.function.var.css */
+/*                           ^^^^^^^^^^ variable.other.custom-property.css */
+
+    top: round(nearest 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^^^^^^ keyword.other.round.strategy.css */
+/*                     ^^^^ meta.number.integer.decimal.css */
+/*                          ^^^ support.function.var.css */
+/*                              ^^^^^^^^^^ variable.other.custom-property.css */
+
+    top: round(to-zero 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^^^^^^ keyword.other.round.strategy.css */
+/*                     ^^^^ meta.number.integer.decimal.css */
+/*                          ^^^ support.function.var.css */
+/*                              ^^^^^^^^^^ variable.other.custom-property.css */
+
+    top: round(up 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^ keyword.other.round.strategy.css */
+/*                ^^^^ meta.number.integer.decimal.css */
+/*                     ^^^ support.function.var.css */
+/*                         ^^^^^^^^^^ variable.other.custom-property.css */
+}
+
 .test-toggle-function {
     top: toggle(5px red preserve-3d);
 /*       ^^^^^^ support.function.toggle.css */
