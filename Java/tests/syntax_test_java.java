@@ -840,6 +840,17 @@ import static C.d.ced
 //               ^ punctuation.accessor.dot.java
 //                ^^^ entity.name.import.java
 
+import module java.desktop;
+//^^^^^^^^^^^^ meta.import.java - meta.path
+//            ^^^^^^^^^^^^ meta.import.java meta.path.java
+//                        ^ - meta.import - meta.path
+//^^^^ keyword.declaration.import.java
+//     ^^^^^^ keyword.declaration.module.java
+//            ^^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^ entity.name.namespace.module.java
+//                        ^ punctuation.terminator.java
+
 /******************************************************************************
  * Class Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
@@ -11143,12 +11154,8 @@ class LiteralsTests {
 //
 
     String illegalEscapes = "\x \+ \8 \9"
-//                          ^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                          ^^^^^^^^^^^^^ meta.string.java string.quoted.double.java - constant.character
 //                          ^ punctuation.definition.string.begin.java
-//                           ^^ invalid.illegal.escape
-//                              ^^ invalid.illegal.escape
-//                                 ^^ invalid.illegal.escape
-//                                    ^^ invalid.illegal.escape
 //                                      ^ punctuation.definition.string.end.java
 
     String incompleteString = "String without closing quote

@@ -4476,45 +4476,94 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^ punctuation.definition.string.begin.go
 //  ^^^^^^^^^ meta.string.go string.quoted.double.go
 //          ^ punctuation.definition.string.end.go
+
     "one \\ \n two"
 //  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^ constant.character.escape.go
+
     "one %% two"
 //  ^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^ constant.character.escape.go
+
     "one % two"
 //  ^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^ constant.other.placeholder.go
+
     "one %v two"
 //  ^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^ constant.other.placeholder.go
+
+    "one %#v two"
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//       ^^^ constant.other.placeholder.go
+
     "one %+v two"
 //  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^ constant.other.placeholder.go
+
+    "one %-v two"
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//       ^^^ constant.other.placeholder.go
+
+    "one %0v two"
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//       ^^^ constant.other.placeholder.go
+
+    "one %.2d two"
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//       ^^^^ constant.other.placeholder.go
+
     "one %1.2d two"
 //  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
+
     "one %[1] two"
 //  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
-//       ^^^^^^ constant.other.placeholder.go
+//       ^^^^ - constant.other.placeholder.go
+
     "one %[1]v two"
 //  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
+
     "one %[1]+v two"
 //  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//       ^^^^^^ - constant.other.placeholder
+
+    "one %+[1]v two"
+//  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^^ constant.other.placeholder.go
+
     "one %[1]1.2d two"
 //  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//       ^^^^^^^^ - constant.other.placeholder
+
+    "one %1.2[1]d two"
+//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^^^^ constant.other.placeholder.go
+
     "foo %*f bar"
 //  ^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^ constant.other.placeholder.go
+
     "foo %.*f bar"
 //  ^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^ constant.other.placeholder.go
+
     "foo %*.*f bar"
 //  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
+
+    "%[3]*.[2]*[1]f"
+//  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//   ^^^^^^^^^^^^^^ constant.other.placeholder.go
+
+    "%d %d %#[1]x %#x"
+//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+//   ^^ constant.other.placeholder.go
+//      ^^ constant.other.placeholder.go
+//         ^^^^^^ constant.other.placeholder.go
+//                ^^^ constant.other.placeholder.go
+
     "%"
 //  ^^^ meta.string.go string.quoted.double.go
 //   ^ - constant.other.placeholder
@@ -4556,37 +4605,95 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^ punctuation.definition.string.begin.go
 //  ^^^^^^^^^ string.quoted.backtick.go
 //          ^ punctuation.definition.string.end.go
+
     `one \\ \n two`
-//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go - constant.character.escape
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go - constant.character.escape
+
     `one %% two`
-//  ^^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^ constant.character.escape.go
+
     `one % two`
-//  ^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^^ constant.other.placeholder.go
+
     `one %v two`
-//  ^^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^ constant.other.placeholder.go
-    `one %+v two`
-//  ^^^^^^^^^^^^^ string.quoted.backtick.go
+
+    `one %#v two`
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^^ constant.other.placeholder.go
+
+    `one %+v two`
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^ constant.other.placeholder.go
+
+    `one %-v two`
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^ constant.other.placeholder.go
+
+    `one %0v two`
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^ constant.other.placeholder.go
+
+    `one %.2d two`
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^^ constant.other.placeholder.go
+
     `one %1.2d two`
-//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^^^^ constant.other.placeholder.go
+
     `one %[1] two`
-//  ^^^^^^^^^^^ string.quoted.backtick.go
-//       ^^^^^^ constant.other.placeholder.go
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^^ - constant.other.placeholder.go
+
     `one %[1]v two`
-//  ^^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^^^^ constant.other.placeholder.go
+
     `one %[1]+v two`
-//  ^^^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^^^^ - constant.other.placeholder
+
+    `one %+[1]v two`
+//  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^^^^^ constant.other.placeholder.go
+
     `one %[1]1.2d two`
-//  ^^^^^^^^^^^^^^^ string.quoted.backtick.go
+//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^^^^^^ - constant.other.placeholder
+
+    `one %1.2[1]d two`
+//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //       ^^^^^^^^ constant.other.placeholder.go
+
+    `foo %*f bar`
+//  ^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^ constant.other.placeholder.go
+
+    `foo %.*f bar`
+//  ^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^^ constant.other.placeholder.go
+
+    `foo %*.*f bar`
+//  ^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//       ^^^^^ constant.other.placeholder.go
+
+    `%[3]*.[2]*[1]f`
+//  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//   ^^^^^^^^^^^^^^ constant.other.placeholder.go
+
+    `%d %d %#[1]x %#x`
+//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
+//   ^^ constant.other.placeholder.go
+//      ^^ constant.other.placeholder.go
+//         ^^^^^^ constant.other.placeholder.go
+//                ^^^ constant.other.placeholder.go
+
     `%`
-//  ^^^ string.quoted.backtick.go
+//  ^^^ meta.string.go string.quoted.backtick.go
 //   ^ - constant.other.placeholder
 
     `

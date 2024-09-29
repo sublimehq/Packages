@@ -563,11 +563,18 @@ contexts:
     - include: immediately-pop
 
   import-modifier:
+    - match: module{{break}}
+      scope: keyword.declaration.module.java
+      set: import-module
     - match: static{{break}}
       scope: storage.modifier.java
       set: import-static
     - match: (?=\S)
       set: type-import
+
+  import-module:
+    - include: entity-module
+    - include: else-pop
 
   import-static:
     - match: (?=\S)
@@ -2496,8 +2503,6 @@ contexts:
       scope: constant.character.escape.octal.java
     - match: '{{escape_other}}'
       scope: constant.character.escape.other.java
-    - match: \\.
-      scope: invalid.illegal.escape.java
 
 ###[ OPERATORS ]###############################################################
 

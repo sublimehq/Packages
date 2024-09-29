@@ -36,6 +36,8 @@
 			| case\b.*:
 			# detent `default:`
 			| default\s*:
+			# detent JSX final tag
+			| </ (?!html[\t\n\f /<>])[^\t\n\f /<>]+ [^>]* >
 			)
 		]]></string>
 

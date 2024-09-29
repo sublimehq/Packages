@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>meta.jsx.js</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^ [\t\n\f ]*
+			(?:
+			# a valid close tag except "html"
+			  </ (?!html[\t\n\f /<>])[^\t\n\f /<>]+ [^>]* >
+			# closing directive/section/tag punctuation
+			| /?>
+			# closing curly brace
+			| }
+			)
+		]]></string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			# standalone tag end punctuation
+			  ^ [\t\n\f ]* >
+			# beginning of line followed by anything
+			| ^ .*
+			  (?:
+			    < (?:
+			    # tags that don't close themselves on the same line
+			      (?:
+			      # interpolation
+			        { .*? }
+			      # double quoted string
+			      | " .*? "
+			      # single quoted string
+			      | ' .*? '
+			      # anything but no closing tag
+			      | [^>]
+			      )*$
+			    # a valid non-self-closing tag that doesn't close itself on the same line
+			    | (?! (?i:area|base|br|col|frame|hr|html|img|input|link|meta|param)[\t\n\f /<>] )
+			      # tag name
+			      (?<html_tag>[^\t\n\f /<>]+)
+			      # not self closing
+			      (?:(?!/>)[^>])* >
+			      # not closing in the same line
+			      (?! .* </\k<html_tag>)
+			    )
+			    # open curly braces at the end of a line
+			    | { \s* $
+			  )
+		]]></string>
+	</dict>
+</dict>
+</plist>
