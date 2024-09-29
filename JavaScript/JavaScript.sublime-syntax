@@ -1063,7 +1063,7 @@ contexts:
 
   expression:
     - meta_include_prototype: false
-    - match: ''
+    - match: (?=\S)
       set: [ expression-end, expression-begin ]
 
   expression-list:
@@ -1077,7 +1077,7 @@ contexts:
 
   expression-no-comma:
     - meta_include_prototype: false
-    - match: ''
+    - match: (?=\S)
       set: [ expression-end-no-comma, expression-begin ]
 
   expression-break:
@@ -1233,9 +1233,14 @@ contexts:
 
   literal-string-templates:
     - match: (?=(?:{{identifier_name}}\s*)?`)
-      push: literal-string-template
+      push: literal-string-template-begin
 
   literal-string-template:
+    - match: (?=(?:{{identifier_name}}\s*)?`)
+      set: literal-string-template-begin
+
+  literal-string-template-begin:
+    - meta_include_prototype: false
     # Notes:
     #  Consume trailing whitespace after opening punctuation
     #  and leading whitespace in front of closing punctuation
@@ -1295,6 +1300,7 @@ contexts:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
       set: literal-string-template-content
+    - include: immediately-pop
 
   literal-string-template-content:
     - meta_include_prototype: false
