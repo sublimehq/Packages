@@ -257,7 +257,7 @@ dollarSlashy02 = $/today is ${new Date().format( 'yyyy-MM-dd' )}./$
 //                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.groovy.embedded.source
 //                          ^^ punctuation.section.embedded.groovy
 //                            ^^^ keyword.other.new.groovy
-//                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.method-call.groovy
+//                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 //                                                               ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
 
 dollarSlashy03 = $/$ dollar sign/$

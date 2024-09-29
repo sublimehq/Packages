@@ -35,6 +35,7 @@ variables:
   # in identifiers in other contexts
   # e.g. `"$$a"` is invalid, but `"${$a}"` is fine.
   single_dollar_interpolation_identifier: (?:{{unicode_letter}}|[a-zA-Z_])(?:{{unicode_letter}}|[a-zA-Z0-9_])*
+  primitive: (?:boolean|byte|char|short|int|float|long|double)\b
 
 contexts:
   main:
@@ -99,22 +100,26 @@ contexts:
   comment-block:
     - match: /\*
       scope: punctuation.definition.comment.groovy
-      push:
-        - meta_scope: comment.block.groovy
-        - match: \*/
-          scope: punctuation.definition.comment.groovy
-          pop: true
+      push: inside-comment-block
+  inside-comment-block:
+    - meta_scope: comment.block.groovy
+    - match: \*/
+      scope: punctuation.definition.comment.groovy
+      pop: true
   comments:
     - match: /\*\*/
       scope: comment.block.empty.groovy punctuation.definition.comment.groovy
     - include: scope:text.html.javadoc
     - include: comment-block
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.groovy
-      captures:
-        1: punctuation.definition.comment.groovy
+    - match: //
+      scope: punctuation.definition.comment.groovy
+      push: inside-line-comment
+  inside-line-comment:
+    - meta_scope: comment.line.double-slash.groovy
+    - match: $\n?
+      pop: true
   constants:
-    - match: '\b([A-Z][A-Z0-9_]+)\b'
+    - match: \b([A-Z][A-Z0-9_]+)\b(?!\s*:)
       scope: constant.other.groovy
     - match: \bfalse\b
       scope: constant.language.boolean.false.groovy
@@ -127,8 +132,8 @@ contexts:
     - include: methods
     - include: groovy-code
   groovy-code:
-    - include: groovy-code-minus-map-keys
     - include: map-keys
+    - include: groovy-code-minus-map-keys
     - include: block
   groovy-code-minus-map-keys:
     - include: comments
@@ -218,12 +223,12 @@ contexts:
   method-call:
     - match: (\w+)(\()
       captures:
-        1: meta.method.groovy
-        2: punctuation.definition.method-parameters.begin.groovy
+        1: meta.function-call.identifier.groovy variable.function.groovy
+        2: meta.function-call.arguments.groovy punctuation.section.arguments.begin.groovy
       push:
-        - meta_scope: meta.method-call.groovy
+        - meta_content_scope: meta.function-call.arguments.groovy
         - match: \)
-          scope: punctuation.definition.method-parameters.end.groovy
+          scope: meta.function-call.groovy punctuation.section.arguments.end.groovy
           pop: true
         - match: ","
           scope: punctuation.definition.separator.parameter.groovy
@@ -239,7 +244,7 @@ contexts:
         - match: |-
             (?x)\s*
               (
-                (?:boolean|byte|char|short|int|float|long|double|(?:\w+\.)*[A-Z]\w*\b(?:<(?:[\w, ]*)>)?(?:\[\s*\])*)
+                (?:{{primitive}}|(?:\w+\.)*[A-Z]\w*\b(?:<(?:[\w, ]*)>)?(?:\[\s*\])*)
               )?
               \s*
               ([a-z_][A-Za-z0-9_]*) # variable
@@ -247,7 +252,7 @@ contexts:
           captures:
             1: storage.type.parameter.groovy
             2: variable.parameter.groovy
-        - match: '(boolean|byte|char|short|int|float|long|double|(?:\w+\.)*[A-Z]\w*\b(?:<(?:[\w, ]*)>)?(?:\[\s*\])*)'
+        - match: '({{primitive}}|(?:\w+\.)*[A-Z]\w*\b(?:<(?:[\w, ]*)>)?(?:\[\s*\])*)'
           scope: meta.definition.method.parameter.groovy
           captures:
             1: storage.type.parameter.groovy
@@ -288,7 +293,7 @@ contexts:
         5: punctuation.definition.parameters.begin.groovy
       push:
         - meta_scope: meta.definition.constructor.groovy
-        - match: '{|$\n?'
+        - match: '(?={)|$\n?'
           pop: true
         - include: method-declaration-remainder
     - match: |-
@@ -299,7 +304,7 @@ contexts:
               (?:\b
                 (void\b)
                 |
-                ((?:boolean|byte|char|short|int|float|long|double)\b) # primitive
+                ({{primitive}}) # primitive
                 |
                 ( # or class type
                   (?:\w+\.)*[A-Z]\w+\b # Class name
@@ -314,7 +319,7 @@ contexts:
               |
               (void\b)
               |
-              ((?:boolean|byte|char|short|int|float|long|double)\b) # primitive
+              ({{primitive}}) # primitive
               |
               ( # or class type
                 (?:\w+\.)*[A-Z]\w+\b # Class name
@@ -335,14 +340,14 @@ contexts:
         5: storage.type.return-type.void.groovy
         6: storage.type.return-type.primitive.groovy
         7: storage.type.return-type.class.groovy
-        8: storage.type.return-type.def.groovy
+        8: keyword.declaration.function.groovy
         9: storage.type.return-type.void.groovy
         10: storage.type.return-type.primitive.groovy
         11: storage.type.return-type.class.groovy
         12: entity.name.function.groovy
       push:
         - meta_scope: meta.definition.method.groovy
-        - match: '{|$\n?'
+        - match: '(?={)|$\n?'
           pop: true
         - include: method-declaration-remainder
   block:
@@ -360,31 +365,32 @@ contexts:
   regexp:
     - match: "/(?=[^/]+/)"
       scope: punctuation.definition.string.regexp.begin.groovy
+      push: inside-regexp
+  inside-regexp:
+    - meta_scope: string.regexp.groovy
+    - match: /
+      scope: punctuation.definition.string.regexp.end.groovy
+      pop: true
+    # backslashes only escape forward slashes and newlines (and unicode)
+    - match: \\/
+      scope: constant.character.escape.groovy
+    - include: escaped-end-of-line
+    - include: unicode-escape-sequence
+    - include: single-dollar-string-interpolation
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
       push:
-        - meta_scope: string.regexp.groovy
-        - match: /
-          scope: punctuation.definition.string.regexp.end.groovy
+        - meta_scope: source.groovy.embedded.source
+        - match: '\}'
+          scope: punctuation.section.interpolation.end.groovy
           pop: true
-        # backslashes only escape forward slashes and newlines (and unicode)
-        - match: \\/
-          scope: constant.character.escape.groovy
         - include: escaped-end-of-line
-        - include: unicode-escape-sequence
-        - include: single-dollar-string-interpolation
-        - match: '\$\{'
-          scope: punctuation.section.embedded.groovy
-          push:
-            - meta_scope: source.groovy.embedded.source
-            - match: '\}'
-              scope: punctuation.section.embedded.groovy
-              pop: true
-            - include: escaped-end-of-line
-            # newlines are invalid inside the interpolation
-            # but outside of a nested multiline string
-            - match: '\n'
-              scope: invalid.illegal.newline.groovy
-              pop: true
-            - include: groovy-code
+        # newlines are invalid inside the interpolation
+        # but outside of a nested multiline string
+        - match: '\n'
+          scope: invalid.illegal.newline.groovy
+          pop: true
+        - include: groovy-code
   storage-modifiers:
     - match: \b(private|protected|public)\b
       scope: storage.modifier.access-control.groovy
@@ -399,25 +405,26 @@ contexts:
       captures:
         1: storage.type.annotation.groovy
         2: punctuation.definition.annotation-arguments.begin.groovy
-      push:
-        - meta_scope: meta.declaration.annotation.groovy
-        - match: (\))
-          captures:
-            1: punctuation.definition.annotation-arguments.end.groovy
-          pop: true
-        - match: (\w*)\s*(=)
-          captures:
-            1: constant.other.key.groovy
-            2: keyword.operator.assignment.groovy
-        - include: values
-        - match: ","
-          scope: punctuation.definition.separator.groovy
+      push: inside-annotation
     - match: '@\S+'
       scope: storage.type.annotation.groovy
     - match: \b(def)\b
       scope: storage.type.def.groovy
-    - match: '\b(boolean|byte|char|short|int|float|long|double)(?:\[\s*\])*\b'
+    - match: '\b({{primitive}})(?:\[\s*\])*\b'
       scope: storage.type.primitive.groovy
+  inside-annotation:
+    - meta_scope: meta.declaration.annotation.groovy
+    - match: (\))
+      captures:
+        1: punctuation.definition.annotation-arguments.end.groovy
+      pop: true
+    - match: (\w*)\s*(=)
+      captures:
+        1: constant.other.key.groovy
+        2: keyword.operator.assignment.groovy
+    - include: values
+    - match: ","
+      scope: punctuation.definition.separator.groovy
   single-dollar-string-interpolation:
     - match: \${{single_dollar_interpolation_identifier}}
       scope: variable.other.interpolated.groovy
@@ -461,11 +468,11 @@ contexts:
         - include: string-escape-sequences
         - include: single-dollar-string-interpolation
         - match: '\$\{'
-          scope: punctuation.section.embedded.groovy
+          scope: punctuation.section.interpolation.begin.groovy
           push:
             - meta_scope: source.groovy.embedded.source
             - match: '\}'
-              scope: punctuation.section.embedded.groovy
+              scope: punctuation.section.interpolation.end.groovy
               pop: true
             - include: escaped-end-of-line
             # we don't consume the newline here, so that
@@ -513,11 +520,11 @@ contexts:
         - include: string-escape-sequences
         - include: single-dollar-string-interpolation
         - match: '\$\{'
-          scope: punctuation.section.embedded.groovy
+          scope: punctuation.section.interpolation.begin.groovy
           push:
             - meta_scope: source.groovy.embedded.source
             - match: '\}'
-              scope: punctuation.section.embedded.groovy
+              scope: punctuation.section.interpolation.end.groovy
               pop: true
             - include: escaped-end-of-line
             - include: groovy-code
@@ -541,11 +548,11 @@ contexts:
         - include: unicode-escape-sequence
         - include: single-dollar-string-interpolation
         - match: '\$\{'
-          scope: punctuation.section.embedded.groovy
+          scope: punctuation.section.interpolation.begin.groovy
           push:
             - meta_scope: source.groovy.embedded.source
             - match: '\}'
-              scope: punctuation.section.embedded.groovy
+              scope: punctuation.section.interpolation.end.groovy
               pop: true
             - include: escaped-end-of-line
             - include: groovy-code
@@ -559,14 +566,15 @@ contexts:
   structures:
     - match: '\['
       scope: punctuation.definition.structure.begin.groovy
-      push:
-        - meta_scope: meta.structure.groovy
-        - match: '\]'
-          scope: punctuation.definition.structure.end.groovy
-          pop: true
-        - include: groovy-code
-        - match: ","
-          scope: punctuation.definition.separator.groovy
+      push: inside-structure
+  inside-structure:
+    - meta_scope: meta.structure.groovy
+    - match: '\]'
+      scope: punctuation.definition.structure.end.groovy
+      pop: true
+    - include: groovy-code
+    - match: ","
+      scope: punctuation.definition.separator.groovy
   support-functions:
     - match: (?x)\b(?:sprintf|print(?:f|ln)?)\b
       scope: support.function.print.groovy
@@ -578,13 +586,34 @@ contexts:
     - match: (?x)\b(?:sleep|inspect|dump|use|with)\b
       scope: support.function.other.groovy
   values:
-    - include: variables
     - include: strings
     - include: numbers
     - include: constants
     - include: class-object
     - include: structures
     - include: method-call
+    - include: variables
+    - match: \(
+      scope: punctuation.section.group.begin.groovy
+      push: inside-parens
   variables:
     - match: \b(this|super)\b
       scope: variable.language.groovy
+    - match: \b(sh)\s+(''')
+      captures:
+        1: support.function.groovy
+        2: meta.string.embedded-shell.groovy punctuation.definition.string.begin.groovy
+      embed: scope:source.shell.bash
+      embed_scope: meta.string.embedded-shell.groovy string.quoted.single.block.groovy
+      escape: "'''"
+      escape_captures:
+        0: meta.string.embedded-shell.groovy punctuation.definition.string.end.groovy
+      #- include: string-escape-sequences
+    - match: \b(?!def\b)(?![A-Z])\w+\b(?!\s+\w)
+      scope: variable.other.readwrite.groovy
+  inside-parens:
+    - meta_scope: meta.group.groovy
+    - match: \)
+      scope: punctuation.section.group.end.groovy
+      pop: true
+    - include: groovy-code-minus-map-keys
