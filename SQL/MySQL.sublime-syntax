@@ -841,6 +841,7 @@ contexts:
       scope: support.function.string.sql
     - match: \b(?i:using)\b
       scope: keyword.other.dml.sql
+    - include: like-expressions
 
 ###[ ALGORITHM EXPRESSIONS ]###################################################
 
@@ -1609,6 +1610,26 @@ contexts:
         1: punctuation.section.interpolation.begin.sql
         3: punctuation.section.interpolation.end.sql
       push: clear-scope-imediately-pop
+
+###[ LIKE EXPRESSIONS ]########################################################
+
+  like-string-not-followed-by-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-fail
+        - inside-like-single-quoted-string-slash-escape
+    - include: else-pop
+
+  like-escape-character-slash:
+    - match: (\')(\\\\)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
 
 ###[ OPERATORS ]###############################################################
 

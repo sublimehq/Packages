@@ -650,135 +650,6 @@ contexts:
     - meta_content_scope: string.quoted.tsql
     - include: immediately-pop
 
-###[ LIKE EXPRESSIONS ]########################################################
-
-  like-expressions:
-    - match: \b(?i:like)\b
-      scope: keyword.operator.logical.sql
-      branch_point: like-expressions
-      branch:
-        - like-string-not-followed-by-escape
-        - like-string-followed-by-escape-slash
-        - like-string-followed-by-escape-caret
-        - like-string-followed-by-unknown-escape
-
-  like-string-not-followed-by-escape:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-fail
-        - inside-like-single-quoted-string
-    - include: else-pop
-
-  like-string-followed-by-escape-slash:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-character-slash
-        - like-escape
-        - inside-like-single-quoted-string-slash-escape
-    - include: else-pop
-
-  like-string-followed-by-escape-caret:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-character-caret
-        - like-escape
-        - inside-like-single-quoted-string-caret-escape
-    - include: else-pop
-
-  like-string-followed-by-unknown-escape:
-    - match: \'
-      scope: punctuation.definition.string.begin.sql
-      set:
-        - like-escape-character-any
-        - like-escape
-        - inside-like-single-quoted-string
-    - include: else-pop
-
-  inside-like-single-quoted-string-slash-escape:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.like.sql string.quoted.single.sql
-    - match: \\.
-      scope: constant.character.escape.sql
-    - include: inside-like-single-quoted-string
-
-  inside-like-single-quoted-string-caret-escape:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.like.sql string.quoted.single.sql
-    - match: \^.
-      scope: constant.character.escape.sql
-    - include: inside-like-single-quoted-string
-
-  inside-like-single-quoted-string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.like.sql string.quoted.single.sql
-    - match: \'
-      scope: punctuation.definition.string.end.sql
-      pop: 1
-    - match: |-
-        (?x)
-        (\[)(\^)?
-        (?:.|[^]'-]+?)
-        (?:(-)[^]'-]*)?
-        (\])
-      scope: meta.set.like.sql
-      captures:
-        1: keyword.control.set.begin.sql
-        2: keyword.control.set.negation.sql
-        3: constant.other.range.sql
-        4: keyword.control.set.end.sql
-    - match: '%'
-      scope: constant.other.wildcard.percent.sql
-    - match: '_'
-      scope: constant.other.wildcard.underscore.sql
-
-  like-else-fail:
-    - match: (?=\S)
-      fail: like-expressions
-
-  like-escape-fail:
-    - match: \b(?i:escape)\b
-      fail: like-expressions
-    - include: else-pop
-
-  like-escape:
-    - match: \b(?i:escape)\b
-      scope: keyword.operator.word.sql
-      pop: 1
-    - include: else-pop
-
-  like-escape-character-any:
-    - match: (\')([^'])(\')
-      scope: meta.string.escape.sql string.quoted.single.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        2: constant.character.escape.sql
-        3: punctuation.definition.string.end.sql
-      pop: 1
-    - include: else-pop
-
-  like-escape-character-caret:
-    - match: (\')(\^)(\')
-      scope: meta.string.escape.sql string.quoted.single.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        2: constant.character.escape.sql
-        3: punctuation.definition.string.end.sql
-      pop: 1
-    - include: like-else-fail
-
-  like-escape-character-slash:
-    - match: (\')(\\)(\')
-      scope: meta.string.escape.sql string.quoted.single.sql
-      captures:
-        1: punctuation.definition.string.begin.sql
-        2: constant.character.escape.sql
-        3: punctuation.definition.string.end.sql
-      pop: 1
-    - include: like-else-fail
-
 ###[ USER MANAGEMENT EXPRESSIONS ]#############################################
 
   grant:
@@ -1156,6 +1027,22 @@ contexts:
       scope: constant.language.tsql
     - match: \b(?i:D?D|YYYY|YY?|Q?Q|M?M|DY|WK|WW|HH|MI|N|SS?|MS|MCS|NS)\b(?!\s*\.)
       scope: constant.language.tsql
+
+###[ LIKE EXPRESSIONS ]########################################################
+  inside-like-single-quoted-string:
+    - meta_append: true
+    - match: |-
+        (?x)
+        (\[)(\^)?
+        (?:.|[^]'-]+?)
+        (?:(-)[^]'-]*)?
+        (\])
+      scope: meta.set.like.sql
+      captures:
+        1: keyword.control.set.begin.sql
+        2: keyword.control.set.negation.sql
+        3: constant.other.range.sql
+        4: keyword.control.set.end.sql
 
 ###[ OPERATORS ]###############################################################
 

@@ -4526,3 +4526,47 @@ select @@hostname;
 --     ^^ variable.language.sql punctuation.definition.variable.sql
 --       ^^^^^^^^ variable.language.sql
 --               ^ punctuation.terminator.statement.sql
+
+SELECT *
+FROM suppliers
+WHERE supplier_name LIKE 'H%\_';
+--                  ^^^^ keyword.operator.logical.sql
+--                       ^^^^^^ meta.string.like.sql string.quoted.single.sql
+--                       ^ punctuation.definition.string.begin.sql
+--                        ^ - constant
+--                         ^ constant.other.wildcard.percent.sql
+--                          ^^ constant.character.escape.sql
+--                            ^ punctuation.definition.string.end.sql
+--                             ^ punctuation.terminator.statement.sql
+
+SELECT *
+FROM suppliers
+WHERE supplier_name LIKE 'H%\__' ESCAPE '\\';
+--                  ^^^^ keyword.operator.logical.sql
+--                       ^^^^^^ meta.string.like.sql string.quoted.single.sql
+--                        ^ - constant
+--                         ^ constant.other.wildcard.percent.sql
+--                          ^^ constant.character.escape.sql
+--                            ^ constant.other.wildcard.underscore.sql
+--                               ^^^^^^ keyword.operator.word.sql
+--                                      ^ meta.string.escape.sql string.quoted.single.sql punctuation.definition.string.begin.sql
+--                                       ^^ meta.string.escape.sql string.quoted.single.sql constant.character.escape.sql
+--                                         ^ meta.string.escape.sql string.quoted.single.sql punctuation.definition.string.end.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+SELECT *
+FROM suppliers
+WHERE supplier_name LIKE 'H%\_#_' ESCAPE '#';
+--                  ^^^^ keyword.operator.logical.sql
+--                       ^^^^^^^^ meta.string.like.sql string.quoted.single.sql
+--                        ^ - constant
+--                         ^ constant.other.wildcard.percent.sql
+--                          ^ - constant
+--                           ^ constant.other.wildcard.underscore.sql
+--                            ^^ constant.character.escape.sql
+--                              ^ punctuation.definition.string.end.sql
+--                                ^^^^^^ keyword.operator.word.sql
+--                                       ^ meta.string.escape.sql string.quoted.single.sql punctuation.definition.string.begin.sql
+--                                        ^ meta.string.escape.sql string.quoted.single.sql constant.character.escape.sql
+--                                         ^ meta.string.escape.sql string.quoted.single.sql punctuation.definition.string.end.sql
+--                                          ^ punctuation.terminator.statement.sql

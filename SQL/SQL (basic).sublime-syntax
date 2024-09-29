@@ -1443,6 +1443,150 @@ contexts:
     - match: '{{string_escape}}'
       scope: constant.character.escape.sql
 
+###[ LIKE EXPRESSIONS ]########################################################
+
+  like-expressions:
+    - match: \b(?i:like)\b
+      scope: keyword.operator.logical.sql
+      branch_point: like-expressions
+      branch:
+        - like-string-not-followed-by-escape
+        - like-string-followed-by-escape-slash
+        - like-string-followed-by-escape-caret
+        - like-string-followed-by-escape-hash
+        - like-string-followed-by-unknown-escape
+
+  like-string-not-followed-by-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-fail
+        - inside-like-single-quoted-string
+    - include: else-pop
+
+  like-string-followed-by-escape-slash:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-slash
+        - like-escape
+        - inside-like-single-quoted-string-slash-escape
+    - include: else-pop
+
+  like-string-followed-by-escape-caret:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-caret
+        - like-escape
+        - inside-like-single-quoted-string-caret-escape
+    - include: else-pop
+
+  like-string-followed-by-escape-hash:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-hash
+        - like-escape
+        - inside-like-single-quoted-string-hash-escape
+    - include: else-pop
+
+  like-string-followed-by-unknown-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-character-any
+        - like-escape
+        - inside-like-single-quoted-string
+    - include: else-pop
+
+  inside-like-single-quoted-string-slash-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \\.
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string-caret-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \^.
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string-hash-escape:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: '#.'
+      scope: constant.character.escape.sql
+    - include: inside-like-single-quoted-string
+
+  inside-like-single-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.like.sql string.quoted.single.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - match: '%'
+      scope: constant.other.wildcard.percent.sql
+    - match: '_'
+      scope: constant.other.wildcard.underscore.sql
+
+  like-else-fail:
+    - match: (?=\S)
+      fail: like-expressions
+
+  like-escape-fail:
+    - match: \b(?i:escape)\b
+      fail: like-expressions
+    - include: else-pop
+
+  like-escape:
+    - match: \b(?i:escape)\b
+      scope: keyword.operator.word.sql
+      pop: 1
+    - include: else-pop
+
+  like-escape-character-any:
+    - match: (\')([^'])(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: else-pop
+
+  like-escape-character-caret:
+    - match: (\')(\^)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
+
+  like-escape-character-slash:
+    - match: (\')(\\)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
+
+  like-escape-character-hash:
+    - match: (\')(#)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
+
 ###[ OPERATORS ]###############################################################
 
   maybe-condition:
