@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[class BlankSlate < BasicObject
+	def initialize${2/(^.*?\S.*)|.*/(?1:\()/}${2:args}${2/(^.*?\S.*)|.*/(?1:\))/}
+		$0
+	end
+	
+	
+end]]></content>
+	<tabTrigger>clab</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>class BlankSlate .. initialize .. end</description>
+</snippet>
