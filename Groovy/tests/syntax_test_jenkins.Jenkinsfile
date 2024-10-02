@@ -84,3 +84,33 @@ int something = sh(returnStdout: true, script: '''#!/bin/bash
     echo 7
     ''')
 // TODO: highlight bash above
+
+node('some-node-name') {
+    try {
+    // <- meta.block.groovy keyword.control.exception.try.groovy
+    //  ^ punctuation.section.block.begin.groovy
+        lock(lockName) {
+            
+        }
+    } catch (InterruptedException e) {
+    // <- punctuation.section.block.end.groovy
+    //^^^^^ keyword.control.exception.catch.groovy
+    //      ^ punctuation.section.group.begin.groovy
+    //       ^^^^^^^^^^^^^^^^^^^^ storage.type.class.groovy
+    //                            ^ variable.other.readwrite.groovy
+    //                             ^ punctuation.section.group.end.groovy
+    //                               ^ punctuation.section.block.begin.groovy
+        if (isDeployment) {
+        // <- meta.block.groovy meta.block.groovy keyword.control.conditional.if.groovy
+        // ^ meta.block.groovy meta.block.groovy meta.group.groovy punctuation.section.group.begin.groovy
+        //  ^^^^^^^^^^^^ meta.block.groovy meta.block.groovy meta.group.groovy variable.other.readwrite.groovy
+        //              ^ meta.block.groovy meta.block.groovy meta.group.groovy punctuation.section.group.end.groovy
+        //                ^ meta.block.groovy meta.block.groovy meta.block.groovy punctuation.section.block.begin.groovy
+            notify.deployment(channel: config.jobStatusChannel, status: 'ABORTED', environment: params.CI_ENVIRONMENT)
+        }
+        throw e
+        // <- meta.block.groovy meta.block.groovy keyword.control.flow.throw.groovy
+        //    ^ meta.block.groovy meta.block.groovy variable.other.readwrite.groovy
+    }
+    // <- meta.block.groovy meta.block.groovy punctuation.section.block.end.groovy
+}
