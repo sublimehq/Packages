@@ -110,10 +110,10 @@ interpolation6 = "The sum of 1 and 2 is equal to ${def a = 1; a + 2}"
 interpolation7 = "foo { ${if (x) { y } else { z } } }"
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.groovy
 //                    ^ - punctuation
-//                        ^^ keyword.control.groovy
+//                        ^^ keyword.control.conditional.if.groovy
 //                               ^ punctuation.section.block.begin.groovy
 //                                   ^ punctuation.section.block.end.groovy - punctuation.section.interpolation
-//                                     ^^^^ keyword.control.groovy
+//                                     ^^^^ keyword.control.conditional.else.groovy
 //                                          ^ punctuation.section.block.begin.groovy
 //                                              ^ punctuation.section.block.end.groovy - punctuation.section.interpolation
 //                                                ^ punctuation.section.interpolation.end.groovy
@@ -256,7 +256,7 @@ dollarSlashy01 = $/Hello $person.name/$
 dollarSlashy02 = $/today is ${new Date().format( 'yyyy-MM-dd' )}./$
 //                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.groovy.embedded.source
 //                          ^^ punctuation.section.interpolation.begin.groovy
-//                            ^^^ keyword.other.new.groovy
+//                            ^^^ keyword.operator.new.groovy
 //                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 //                                                               ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
 
