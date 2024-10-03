@@ -1550,6 +1550,7 @@ contexts:
 ###[ PROPERTY IDENTIFIERS ]####################################################
 
   properties-or-selectors:
+    - include: custom-properties
     - match: '{{property_or_selector_begin}}'
       branch_point: property-or-selector
       branch:
