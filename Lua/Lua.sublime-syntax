@@ -82,6 +82,7 @@ contexts:
   comments:
     - include: block-comments
     - include: line-comments
+    - include: scope:text.diff3#conflicts  # merge conflict marker
 
   block-comments:
     - match: --\[\[--

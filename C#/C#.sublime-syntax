@@ -83,6 +83,7 @@ contexts:
           captures:
             1: punctuation.definition.comment.cs
         - include: comments_in
+    - include: scope:text.diff3#conflicts  # merge conflict marker
 
   comments_in:
     - match: \b(?i:todo|hack|xxx)\b

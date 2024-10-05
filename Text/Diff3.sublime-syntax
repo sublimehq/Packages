@@ -1,0 +1,37 @@
+%YAML 1.2
+---
+# A plain text syntax with merge conflict markers
+# to improve UX if Sublime Text is used as merge tool.
+#
+# The primary task however is to provide a common source
+# of re-usable patterns for merge conflict markers.
+#
+# The `conflicts` context is included by all bundled syntax definitions
+# to help maintaining syntax highlighting when resolving merge conflicts.
+name: Diff3
+scope: text.diff3
+version: 2
+
+contexts:
+  main:
+    - include: conflicts
+
+  conflicts:
+    # Consume git merge conflict markers to
+    # - reduce risk for them to break syntax highlighting
+    # - and add first class support for Sublime Text as git merge tool
+    - match: ^\s*(<{7})(?:[ ]([-/.\w ]+))?$\n?
+      scope: markup.conflict.begin.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+    - match: ^\s*(>{7})(?:[ ]([-/.\w ]+))?$\n?
+      scope: markup.conflict.end.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+    - match: ^\s*(={7}|\|{7})(?:[ ]([-/.\w ]+))?$\n?
+      scope: markup.conflict.separator.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3

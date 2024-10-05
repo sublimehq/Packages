@@ -1,0 +1,95 @@
+# SYNTAX TEST "Packages/Text/Diff3.sublime-syntax"
+
+<<<<<<< HEAD
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#           ^ markup.conflict.begin.diff3 - entity - punctuation
+
+<<<<<<< path-like/branch
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#                       ^ markup.conflict.begin.diff3 - entity - punctuation
+
+<<<<<<< b709551881dedb723fa6d621e51585ecb9856fb5
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#                                               ^ markup.conflict.begin.diff3 - entity - punctuation
+
+<<<<<<< v1.0.5-beta.5
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#                    ^ markup.conflict.begin.diff3 - entity - punctuation
+
+<<<<<<< Updated upstream
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#                       ^ markup.conflict.begin.diff3 - entity - punctuation
+
+|||||||
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation
+
+||||||| name
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation - entity
+#       ^^^^ markup.conflict.separator.diff3 entity.name.section.conflict.diff3
+#           ^ markup.conflict.separator.diff3 - punctuation - entity
+
+=======
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation
+
+======= name
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation - entity
+#       ^^^^ markup.conflict.separator.diff3 entity.name.section.conflict.diff3
+#           ^ markup.conflict.separator.diff3 - punctuation - entity
+
+>>>>>>> HEAD
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#           ^ markup.conflict.end.diff3 - entity - punctuation
+
+>>>>>>> path-like/branch
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#                       ^ markup.conflict.end.diff3 - entity - punctuation
+
+>>>>>>> b709551881dedb723fa6d621e51585ecb9856fb5
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#                                               ^ markup.conflict.end.diff3 - entity - punctuation
+
+>>>>>>> v1.0.5-beta.5
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#                    ^ markup.conflict.end.diff3 - entity - punctuation
+
+>>>>>>> Stashed changes
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#                      ^ markup.conflict.end.diff3 - entity - punctuation
