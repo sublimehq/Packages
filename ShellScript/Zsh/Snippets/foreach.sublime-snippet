@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[foreach ${1:var} (${2:10})
+	${0:# statements}
+end]]></content>
+	<tabTrigger>foreach</tabTrigger>
+	<scope>source.shell.zsh</scope>
+	<description>foreach … done</description>
+</snippet>

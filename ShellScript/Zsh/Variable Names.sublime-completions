@@ -1,0 +1,426 @@
+{
+    "scope": "source.shell.zsh meta.interpolation.parameter variable, source.shell.zsh meta.arithmetic",
+    "completions": [
+        {
+            "trigger": "ARGC",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ARGV0",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "BAUD",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "CORRECT_IGNORE",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "CORRECT_IGNORE_FILE",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "CPUTYPE",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "DIRSTACKSIZE",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "EGID",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ERRNO",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "GID",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "HISTCHARS",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "HISTORY_IGNORE",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "HOST",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "KEYBOARD_HACK",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "KEYTIMEOUT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "LISTMAX",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "LOGNAME",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "MATCH",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "MBEGIN",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "MEND",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "NULLCMD",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "POSTEDIT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "PROMPT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "PROMPT2",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "PROMPT3",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "PROMPT4",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "PROMPT_EOL_MARK",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "READNULLCMD",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "REPORTMEMORY",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "REPORTTIME",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "RPROMPT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "RPROMPT2",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "RPS1",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "RPS2",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "SAVEHIST",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "SPROMPT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "STTY",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TERM",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TERMINFO",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TERMINFO_DIRS",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TIMEFMT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TMPPREFIX",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TMPSUFFIX",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TRY_BLOCK_ERROR",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TRY_BLOCK_INTERRUPT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TTY",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "TTYIDLE",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "USERNAME",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "VENDOR",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "WORDCHARS",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZBEEP",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZDOTDIR",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZLE_LINE_ABORTED",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZLE_REMOVE_SUFFIX_CHARS",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZLE_RPROMPT_INDENT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZLE_SPACE_SUFFIX_CHARS",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_ARGZERO",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_EXECUTION_STRING",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_NAME",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_PATCHLEVEL",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_SCRIPT",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_SUBSHELL",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "ZSH_VERSION",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "argv",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "cdpath",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "fignore",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "fpath",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "mailpath",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "manpath",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "match",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "mbegin",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "mend",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "module_path",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "path",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "pipestatus",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "prompt",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "psvar",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "reply",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "signals",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "status",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "zle_bracketed_paste",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "zle_highlight",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "zsh_eval_context",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        {
+            "trigger": "zsh_scheduled_events",
+            "kind": "variable",
+            "details": "zsh built-in variable",
+        },
+        
+    ]
+}

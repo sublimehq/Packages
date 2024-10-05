@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		meta.command.shell meta.interpolation - meta.command.shell meta.interpolation.command,
+		meta.command.shell variable.function
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedReferenceList</key>
+		<integer>1</integer>
+		<key>symbolIndexTransformation</key>
+		<string>
+			s/\\\n//g;
+			s/['"]//g;
+		</string>
+	</dict>
+</dict>
+</plist>

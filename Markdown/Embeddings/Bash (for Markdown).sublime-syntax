@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+scope: source.shell.bash.embedded.markdown
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Bash.sublime-syntax
+
+contexts:
+  main:
+    - meta_include_prototype: false
+    # found shebang => normal script
+    - match: ^(?=\s*#!)
+      set: [statements, shebang]
+    # first non-comment line starts with `$` => interactive shell
+    - match: ^(?=\s*\$\s)
+      set: shell-interactive
+    # some script without shebang
+    - match: ^(?=\s*[^#])
+      set: statements
+    - include: comments
+
+  shell-interactive:
+    - match: ^\s*(\$)(?=\s)
+      captures:
+        1: comment.other.shell
+      embed: statements
+      escape: '{{no_escape_behind}}\n'
+
+  line-continuation-body:
+    - meta_prepend: true
+    # continuation line of interactive shells begin with `> `
+    - match: ^\s*(>)\s
+      captures:
+        1: comment.other.shell
+      pop: 1
+
+variables:
+  # lazy escaping from heredoc as shell maybe indented
+  no_indent: ^\s*
+  tab_indent: ^\s*

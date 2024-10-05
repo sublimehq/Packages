@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.shell.bash</string>
+	<key>settings</key>
+	<dict>
+		<!--
+		Cancel completions immediately after reserved words to
+		1. give snippets precedence over completions
+		2. prefer enter adding a linefeed rather than committing a completion
+		 -->
+		<key>cancelCompletion</key>
+		<string><![CDATA[(?x)
+			^ .* \b(?:
+			  case
+			| coproc
+			| declare
+			| do
+			| done
+			| elif
+			| else
+			| esac
+			| export
+			| fi
+			| for
+			| function
+			| if
+			| local
+			| readonly
+			| select
+			| then
+			| typeset
+			| until
+			| while
+			)$
+		]]></string>
+	</dict>
+</dict>
+</plist>
