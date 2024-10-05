@@ -161,7 +161,7 @@
 | ^^^^ meta.disable-markdown meta.tag - meta.attribute-with-value
 |     ^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html - meta.string
 |           ^^^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
-|                   ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html meta.embedded.html source.css.embedded.html meta.property-value.css meta.interpolation.go
+|                   ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html source.css.embedded.html meta.property-value.css meta.interpolation.go
 |                                  ^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
 |                                   ^^ meta.disable-markdown meta.tag - meta.attribute-with-value
 |                   ^^ punctuation.section.interpolation.begin.go - source.go.template
