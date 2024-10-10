@@ -155,6 +155,21 @@
 |                           ^^ punctuation.section.interpolation.end.go - source.go.template
 |                             ^ punctuation.terminator.rule.css
     }
+
+    {{ $tag }} > .{{ $cls }} #{{ $id }} { {{$prop_name}}: {{ $value }} }
+|   ^^^^^^^^^^ meta.selector.css meta.interpolation.go
+|             ^^^^ meta.selector.css - meta.interpolation
+|                 ^^^^^^^^^^ meta.selector.css meta.interpolation.go
+|                           ^^ meta.selector.css - meta.interpolation
+|                             ^^^^^^^^^ meta.selector.css meta.interpolation.go
+|                                      ^ meta.selector.css - meta.interpolation
+|                                       ^^ meta.property-list.css meta.block.css - meta.property-name - meta.interpolation
+|                                         ^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css support.type.property-name.css meta.interpolation.go
+|                                                       ^ meta.property-list.css meta.block.css - meta.property-name - meta.property-value - meta.interpolation
+|                                                        ^ meta.property-list.css meta.block.css meta.property-value.css - meta.interpolation
+|                                                         ^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.go
+|                                                                     ^ meta.property-list.css meta.block.css meta.property-value.css - meta.interpolation
+|                                                                      ^ meta.property-list.css meta.block.css - meta.property-value - meta.interpolation
   </style>
 
   <hr style="color: {{.Site.Color}}"/>
