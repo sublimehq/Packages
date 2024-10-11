@@ -1,0 +1,126 @@
+/* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
+
+<<<<<<< HEAD
+/* <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.begin.diff3 - entity - punctuation */
+/*      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3 */
+/*          ^ markup.conflict.begin.diff3 - entity - punctuation */
+
+=======
+/* <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.separator.diff3 - punctuation */
+
+>>>>>>> master
+/* <- markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.end.diff3 - entity - punctuation */
+/*      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3 */
+/*            ^ markup.conflict.end.diff3 - entity - punctuation */
+
+/* in block comments
+<<<<<<< HEAD
+/* <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.begin.diff3 - entity - punctuation */
+/*      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3 */
+/*          ^ markup.conflict.begin.diff3 - entity - punctuation */
+
+/* in block comments
+=======
+/* <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.separator.diff3 - punctuation */
+
+/* in block comments
+>>>>>>> master
+/* <- markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.end.diff3 - entity - punctuation */
+/*      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3 */
+/*            ^ markup.conflict.end.diff3 - entity - punctuation */
+
+
+@media {
+<<<<<<< HEAD
+/* <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.begin.diff3 - entity - punctuation */
+/*      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3 */
+/*          ^ markup.conflict.begin.diff3 - entity - punctuation */
+
+=======
+/* <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.separator.diff3 - punctuation */
+
+>>>>>>> master
+/* <- markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.end.diff3 - entity - punctuation */
+/*      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3 */
+/*            ^ markup.conflict.end.diff3 - entity - punctuation */    
+}
+
+> .class {
+<<<<<<< HEAD
+/* <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.begin.diff3 - entity - punctuation */
+/*      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3 */
+/*          ^ markup.conflict.begin.diff3 - entity - punctuation */
+    color: ours;
+=======
+/* <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.separator.diff3 - punctuation */
+    color: theirs;
+>>>>>>> master
+/* <- markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.end.diff3 - entity - punctuation */
+/*      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3 */
+/*            ^ markup.conflict.end.diff3 - entity - punctuation */    
+
+    > .nested {
+<<<<<<< HEAD
+/* <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.begin.diff3 - entity - punctuation */
+/*      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3 */
+/*          ^ markup.conflict.begin.diff3 - entity - punctuation */
+        color: ours;
+=======
+/* <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.separator.diff3 - punctuation */
+        color: theirs;
+>>>>>>> master
+/* <- markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.end.diff3 - entity - punctuation */
+/*      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3 */
+/*            ^ markup.conflict.end.diff3 - entity - punctuation */    
+    }
+}
+
+
+> [
+<<<<<<< HEAD
+/* <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.begin.diff3 - entity - punctuation */
+/*      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3 */
+/*          ^ markup.conflict.begin.diff3 - entity - punctuation */
+=======
+/* <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.separator.diff3 - punctuation */
+>>>>>>> master
+/* <- markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3 */
+/*     ^ markup.conflict.end.diff3 - entity - punctuation */
+/*      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3 */
+/*            ^ markup.conflict.end.diff3 - entity - punctuation */    
+];

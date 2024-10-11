@@ -24,6 +24,29 @@ multiline comment
 #^^^^^^^^^^^^^^^^^ comment.line.number-sign.makefile
 
 #################################
+# Merge Conflict Markers        #
+#################################
+
+<<<<<<< HEAD
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#           ^ markup.conflict.begin.diff3 - entity - punctuation
+
+=======
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation
+
+>>>>>>> master
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#             ^ markup.conflict.end.diff3 - entity - punctuation
+
+#################################
 # 6.3.1 substitution references #
 #################################
 
