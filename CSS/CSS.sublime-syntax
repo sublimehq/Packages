@@ -708,7 +708,7 @@ contexts:
 
   at-keyframe-block-body:
     # CAUTION:
-    # porperty-lists must follow selector, properties, at-rules
+    # property-lists must follow selector, properties, at-rules
     # to give {{ interpolation }} precedence
     - meta_include_prototype: false
     - meta_scope: meta.block.css
