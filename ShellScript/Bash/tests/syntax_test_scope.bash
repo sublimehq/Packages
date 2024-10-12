@@ -2882,6 +2882,15 @@ function () ; {} arg
 #        ^ meta.function.shell
 #         ^^ meta.function.body.shell meta.block.shell
 
+  func () {} >&2 # comment
+#^ source.shell - meta.function
+# ^^^^^ meta.function.identifier.shell
+#      ^^ meta.function.parameters.shell
+#        ^ meta.function.shell
+#         ^^ meta.function.body.shell meta.block.shell
+#            ^^^ meta.redirection.shell
+#                 ^^^^^^^^^^ comment.line.number-sign.shell
+
   func () {} rest # comment
 #^ source.shell - meta.function
 # ^^^^^ meta.function.identifier.shell

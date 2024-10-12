@@ -249,6 +249,7 @@ contexts:
 
   def-function-end:
     - include: eoc-pop
+    - include: redirections
     - include: illegal-words
 
 ###[ VARIABLE DEFINITIONS ]####################################################
