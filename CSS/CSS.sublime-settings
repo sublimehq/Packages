@@ -4,7 +4,7 @@
 
     // Controls what scopes default completions will be provided in.
     // Can be a list of strings which are joined before matching.
-    "default_completions_selector": "source.css - meta.selector.css",
+    "default_completions_selector": "source.css - source.css comment - source.css meta.embedded",
 
     // Default separators except `-`
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?",
