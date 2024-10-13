@@ -21,6 +21,16 @@
 |                     ^ keyword.operator.template.trim.right.go
 |                      ^^ punctuation.section.interpolation.end.go - source.go
 
+  {{/* 
+|^ meta.paragraph.markdown - meta.interpolation
+| ^^ meta.paragraph.markdown meta.interpolation.go punctuation.section.interpolation.begin.go
+|   ^^ meta.paragraph.markdown meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.begin.go
+    Spread a key-value map into the "env" list 
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph.markdown meta.interpolation.go source.go.template comment.block.go
+  */}}
+| ^^ meta.paragraph.markdown meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.end.go
+|   ^^ meta.paragraph.markdown meta.interpolation.go punctuation.section.interpolation.end.go
+|     ^ meta.paragraph.markdown - meta.interpolation
 
 # My {{ .Site.Title }} homepage
 | <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
@@ -145,6 +155,21 @@
 |                           ^^ punctuation.section.interpolation.end.go - source.go.template
 |                             ^ punctuation.terminator.rule.css
     }
+
+    {{ $tag }} > .{{ $cls }} #{{ $id }} { {{$prop_name}}: {{ $value }} }
+|   ^^^^^^^^^^ meta.selector.css meta.interpolation.go
+|             ^^^^ meta.selector.css - meta.interpolation
+|                 ^^^^^^^^^^ meta.selector.css meta.interpolation.go
+|                           ^^ meta.selector.css - meta.interpolation
+|                             ^^^^^^^^^ meta.selector.css meta.interpolation.go
+|                                      ^ meta.selector.css - meta.interpolation
+|                                       ^^ meta.property-list.css meta.block.css - meta.property-name - meta.interpolation
+|                                         ^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css support.type.property-name.css meta.interpolation.go
+|                                                       ^ meta.property-list.css meta.block.css - meta.property-name - meta.property-value - meta.interpolation
+|                                                        ^ meta.property-list.css meta.block.css meta.property-value.css - meta.interpolation
+|                                                         ^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.go
+|                                                                     ^ meta.property-list.css meta.block.css meta.property-value.css - meta.interpolation
+|                                                                      ^ meta.property-list.css meta.block.css - meta.property-value - meta.interpolation
   </style>
 
   <hr style="color: {{.Site.Color}}"/>

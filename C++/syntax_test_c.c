@@ -356,8 +356,7 @@ int disabled_func() {
 #endif
 
 #if 0000000
-/*
-    ^^^^^^^ meta.number constant.numeric.value
+/*  ^^^^^^^ meta.number constant.numeric.value
 */
 #endif
 
@@ -372,8 +371,7 @@ int disabled_func() {
 #endif
 
 #if 0090
-/*
-    ^^^^ meta.number constant.numeric.value
+/*  ^^^^ meta.number constant.numeric.value
 */
 #endif
 

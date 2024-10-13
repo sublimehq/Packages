@@ -2167,6 +2167,21 @@
 }
 
 .test-var-functions {
+    --custom-theme: { color: white; };
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^^^^^ meta.property-name.css entity.other.custom-property.css */
+/*                ^ punctuation.separator.key-value.css */
+/*                 ^ meta.property-value.css */
+/*                  ^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                    ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                         ^ punctuation.separator.key-value.css */
+/*                          ^^^^^^ meta.property-value.css */
+/*                           ^^^^^ support.constant.color.w3c.standard.css */
+/*                                ^ punctuation.terminator.rule.css */
+/*                                  ^ punctuation.section.block.end.css */
+/*                                   ^ punctuation.terminator.rule.css */
+
     --test-var: arial;
 /*  ^^^^^^^^^^ entity.other.custom-property.css */
 /*            ^ punctuation.separator.key-value.css*/
@@ -3606,6 +3621,47 @@
 /*                                                                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                                   ^ punctuation.section.group.end.css */
 /*                                                                    ^ punctuation.terminator.rule.css - meta.group */
+
+    top: calc(NaN * -infinity + infinity / e - pi);
+/*            ^^^ constant.language.nan.css */
+/*                   ^^^^^^^^ constant.language.infinity.css */
+/*                              ^^^^^^^^ constant.language.infinity.css */
+/*                                         ^ constant.language.css */
+/*                                             ^^ constant.language.css */
+}
+
+.test-round-function {
+    top: round(down 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^^^ keyword.other.round.strategy.css */
+/*                  ^^^^ meta.number.integer.decimal.css */
+/*                       ^^^ support.function.var.css */
+/*                           ^^^^^^^^^^ variable.other.custom-property.css */
+
+    top: round(nearest 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^^^^^^ keyword.other.round.strategy.css */
+/*                     ^^^^ meta.number.integer.decimal.css */
+/*                          ^^^ support.function.var.css */
+/*                              ^^^^^^^^^^ variable.other.custom-property.css */
+
+    top: round(to-zero 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^^^^^^ keyword.other.round.strategy.css */
+/*                     ^^^^ meta.number.integer.decimal.css */
+/*                          ^^^ support.function.var.css */
+/*                              ^^^^^^^^^^ variable.other.custom-property.css */
+
+    top: round(up 10px var(--interval));
+/*       ^^^^^ meta.function-call.identifier.css support.function.calc.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*             ^^ keyword.other.round.strategy.css */
+/*                ^^^^ meta.number.integer.decimal.css */
+/*                     ^^^ support.function.var.css */
+/*                         ^^^^^^^^^^ variable.other.custom-property.css */
 }
 
 .test-toggle-function {

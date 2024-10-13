@@ -106,6 +106,63 @@
 //                                  ^ - meta.for
 //                                   ^ punctuation.terminator.statement.empty
 
+    for ( var i = 0 ; i < 10 ; i++ ) { } ;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group
+//        ^^^ keyword.declaration
+//            ^ meta.binding.name variable.other.readwrite
+//              ^ keyword.operator.assignment
+//                ^ meta.number.integer.decimal constant.numeric.value
+//                  ^ punctuation.separator.expression
+//                    ^ variable.other.readwrite
+//                      ^ keyword.operator.comparison
+//                        ^^ meta.number.integer.decimal constant.numeric.value
+//                           ^ punctuation.separator.expression
+//                             ^ variable.other.readwrite
+//                              ^^ keyword.operator.arithmetic
+//                                 ^ punctuation.section.group
+//                                   ^^^ meta.block
+//                                   ^ punctuation.section.block.begin
+//                                     ^ punctuation.section.block.end
+//                                      ^ - meta.for
+//                                       ^ punctuation.terminator.statement.empty
+
+    for ( 
+//  ^^^^ meta.for - meta.group
+//      ^^^ meta.for meta.group
+//  ^^^ keyword.control.loop.for
+//      ^ punctuation.section.group.begin
+        var i = 0 ; 
+//     ^^^^^^^^^^^^^ meta.for meta.group
+//      ^^^ keyword.declaration
+//          ^ meta.binding.name variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^ meta.number.integer.decimal constant.numeric.value
+//                ^ punctuation.separator.expression
+
+        i < 10 ; 
+//     ^^^^^^^^^^ meta.for meta.group
+//      ^ variable.other.readwrite
+//        ^ keyword.operator.comparison
+//          ^^ meta.number.integer.decimal constant.numeric.value
+//             ^ punctuation.separator.expression
+        i++ 
+//     ^^^^^ meta.for meta.group
+//      ^ variable.other.readwrite
+//       ^^ keyword.operator.arithmetic
+    ) { } ;
+//^^^ meta.for meta.group
+//   ^ meta.for - meta.block - meta.group
+//    ^^^ meta.for meta.block
+//  ^ punctuation.section.group
+//    ^^^ meta.block
+//    ^ punctuation.section.block.begin
+//      ^ punctuation.section.block.end
+//       ^ - meta.for
+//        ^ punctuation.terminator.statement.empty
+
     for (;;) 42;
 //  ^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
@@ -125,14 +182,15 @@
 //           ^^ keyword.operator
 //                  ^ punctuation.separator.expression
 
-    for (a[x in list];;) {}
-//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+    for (a[x in list];;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^ meta.group
 //        ^^^^^^^^^^^ meta.brackets
 //           ^^ keyword.operator
 //                   ^ punctuation.separator.expression
 //                    ^ punctuation.separator.expression
+//                     ^ invalid.illegal.unexpected-token
 
     for (;function () {}/a/g;) {}
 //                      ^ keyword.operator
@@ -157,13 +215,13 @@
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
-    for (a in b, c ? d: e, f(g())) {};
+    for (a in b, c ? d: e, f(g());) {};
 //  ^^^^ meta.for - meta.group
 //      ^^^^^^^^^^^^^^^^^^^ meta.for meta.group - meta.function-call
 //                         ^^^^^^ meta.for meta.group meta.function-call
-//                               ^ meta.for meta.group - meta.function-call
-//                                ^ meta.for - meta.block - meta.group
-//                                 ^^ meta.for meta.block
+//                               ^^ meta.for meta.group - meta.function-call
+//                                 ^ meta.for - meta.block - meta.group
+//                                  ^^ meta.for meta.block
 //  ^^^ keyword.control.loop.for
 //      ^ punctuation.section.group.begin
 //       ^ variable.other.readwrite
@@ -180,9 +238,11 @@
 //                          ^ punctuation.section.group.begin
 //                           ^ variable.function
 //                            ^ punctuation.section.group.begin
-//                             ^^^ punctuation.section.group.end
-//                                 ^ punctuation.section.block.begin
-//                                  ^ punctuation.section.block.end
+//                             ^^ punctuation.section.group.end
+//                               ^ invalid.illegal.unexpected-token
+//                                ^ punctuation.section.group.end
+//                                  ^ punctuation.section.block.begin
+//                                   ^ punctuation.section.block.end
 
     for (x of list) {}
 //  ^^^^^^^^^^^^^^^^^^ meta.for
@@ -302,6 +362,10 @@
 //                                 ^^ punctuation.separator.expression
 //                                   ^ punctuation.section.group.end
 //                                     ^^ meta.block
+
+    for (var in list) (i = 0 ; i < 10; i++)
+//  ^^^^^^^^^^^^^^^^^^ meta.for.js
+//                    ^^^^^^^^^^^^^^^^^^^^^ meta.group.js - meta.for
 
 for
     42;

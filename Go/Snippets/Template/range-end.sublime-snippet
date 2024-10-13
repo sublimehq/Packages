@@ -3,6 +3,6 @@
 $0
 ${TM_TEMPLATE_START}end${TM_TEMPLATE_END}]]></content>
 <tabTrigger>trangeend</tabTrigger>
-<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.go string) - source.go.template</scope>
+<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.yaml.go | source.go string) - source.go.template</scope>
 <description>{{range ...}}...{{end}}</description>
 </snippet>

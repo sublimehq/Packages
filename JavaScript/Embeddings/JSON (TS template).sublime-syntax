@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+# highlight tagged template strings
+scope: source.json.ts-template
+version: 2
+hidden: true
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.ts#text-interpolations
+
+  string-prototype:
+    - meta_prepend: true
+    - include: scope:source.ts#string-interpolations

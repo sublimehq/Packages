@@ -107,6 +107,9 @@ variables:
   # '@' followed by a pattern like \S but excluding literal '*' and '@'.
   jsdoc_block_tag: \@[^\n\t\f\v *@]+
 
+  leading_wspace: (?:^\s*)
+  trailing_wspace: (?:\s*$\n?)
+
 contexts:
   main:
     - meta_include_prototype: false # don't match comments before shebang
@@ -843,11 +846,12 @@ contexts:
 
   for-condition:
     - match: \(
-      scope: meta.group.js punctuation.section.group.begin.js
+      scope: punctuation.section.group.begin.js
       branch_point: for-in-of
       branch:
         - for-in-of
         - for-oldstyle
+      pop: 1
     - include: else-pop
 
   for-condition-end:
@@ -855,13 +859,16 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.js
       pop: 1
+    - match: ;
+      scope: invalid.illegal.unexpected-token.js
+    - include: expressions
 
   for-in-of:
     - meta_include_prototype: false
+    - meta_scope: meta.group.js
     - match: ''
       set:
         - for-condition-end
-        - expression
         - for-in-of-word
         - for-in-of-declaration
 
@@ -911,25 +918,28 @@ contexts:
 
   for-oldstyle:
     - meta_include_prototype: false
+    - meta_scope: meta.group.js
     - match: ''
       set:
-        - for-oldstyle-rest
-        - for-oldstyle-first
+        - for-condition-end
+        - for-oldstyle-separator
+        - expression
+        - for-oldstyle-separator
+        - for-oldstyle-declaration
 
-  for-oldstyle-first:
+  for-oldstyle-declaration:
     - match: (?:const|let|var){{identifier_break}}
       scope: keyword.declaration.js
       set:
         - variable-binding-list-top
         - variable-binding-top
-    - include: else-pop
+    - include: expression
 
-  for-oldstyle-rest:
-    - meta_scope: meta.group.js
+  for-oldstyle-separator:
     - match: ;
       scope: punctuation.separator.expression.js
-    - include: for-condition-end
-    - include: expressions
+      pop: 1
+    - include: else-pop
 
   block-scope:
     - include: block
@@ -1011,8 +1021,7 @@ contexts:
         - include: decorator-name
         - include: object-property
 
-    - match: (?=`)
-      push: literal-string-template
+    - include: literal-string-templates
 
     - match: (?={{function_call_after_lookahead}})
       push: function-call-arguments
@@ -1054,7 +1063,7 @@ contexts:
 
   expression:
     - meta_include_prototype: false
-    - match: ''
+    - match: (?=\S)
       set: [ expression-end, expression-begin ]
 
   expression-list:
@@ -1068,7 +1077,7 @@ contexts:
 
   expression-no-comma:
     - meta_include_prototype: false
-    - match: ''
+    - match: (?=\S)
       set: [ expression-end-no-comma, expression-begin ]
 
   expression-break:
@@ -1078,8 +1087,7 @@ contexts:
   left-expression-end:
     - include: expression-break
 
-    - match: (?=`)
-      push: literal-string-template
+    - include: literal-string-templates
 
     - match: '{{function_call_after_lookahead}}'
       push: function-call-arguments
@@ -1223,16 +1231,82 @@ contexts:
       pop: 1
     - include: string-content
 
+  literal-string-templates:
+    - match: (?=(?:{{identifier_name}}\s*)?`)
+      push: literal-string-template-begin
+
   literal-string-template:
-    - match: \`
-      scope: punctuation.definition.string.begin.js
+    - match: (?=(?:{{identifier_name}}\s*)?`)
+      set: literal-string-template-begin
+
+  literal-string-template-begin:
+    - meta_include_prototype: false
+    # Notes:
+    #  Consume trailing whitespace after opening punctuation
+    #  and leading whitespace in front of closing punctuation
+    #  to maintain JavaScript indentation rules until embedded
+    #  code really begins/ends. It's required for embedded code
+    #  to be indented using global JavaScript indentation rules.
+    - match: (css)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.css.js-template
+      embed_scope: meta.string.template.js source.css.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (html)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:text.html.js-template
+      embed_scope: meta.string.template.js text.html.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (js)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.js.js-template
+      embed_scope: meta.string.template.js source.js.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (json)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.json.js-template
+      embed_scope: meta.string.template.js source.json.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (?:({{identifier_name}})\s*)?(\`)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
       set: literal-string-template-content
+    - include: immediately-pop
 
   literal-string-template-content:
     - meta_include_prototype: false
-    - meta_scope: meta.string.js string.quoted.other.js
+    - meta_content_scope: meta.string.template.js string.quoted.other.js
     - match: \`
-      scope: punctuation.definition.string.end.js
+      scope: meta.string.template.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
     - include: string-interpolations
     - include: string-content
@@ -1252,11 +1326,20 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.js
     - meta_content_scope: source.js.embedded
+    - include: text-interpolation-content
+
+  text-interpolations:
+    - match: \$\{
+      scope: punctuation.section.interpolation.begin.js
+      push: text-interpolation-content
+
+  text-interpolation-content:
+    - meta_scope: meta.interpolation.js
+    - meta_content_scope: source.js.embedded
     - match: \}
       scope: punctuation.section.interpolation.end.js
       pop: 1
-    - match: (?=\S)
-      push: expression
+    - include: expressions
 
   regexp-complete:
     - match: '/'
@@ -1437,7 +1520,7 @@ contexts:
   ternary-operator-expect-colon:
     - match: ':'
       scope: keyword.operator.ternary.js
-      set: expression
+      set: expression-no-comma
     - include: else-pop
 
   postfix-operators:
@@ -2088,9 +2171,7 @@ contexts:
         - function-name-meta
         - literal-variable-base
 
-    - match: '{{identifier_name}}(?={{nothing}}`)'
-      scope: variable.function.tagged-template.js
-      pop: 1
+    - include: literal-string-template
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
@@ -2523,9 +2604,7 @@ contexts:
     - match: '(?=#?{{identifier_name}}{{function_call_after_lookahead}})'
       set: call-method-name
 
-    - match: '{{identifier_name}}(?={{nothing}}`)'
-      scope: variable.function.tagged-template.js
-      pop: 1
+    - include: literal-string-template
 
     - include: object-property-base
     - include: else-pop
