@@ -8,6 +8,8 @@ extends: JavaScript.sublime-syntax
 
 file_extensions:
   - ts
+  - mts
+  - cts
 
 first_line_match: |-
   (?xi:
