@@ -683,14 +683,14 @@ contexts:
     - match: \"
       scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
       embed: scope:source.js
-      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
+      embed_scope: meta.string.html source.js.embedded.html
       escape: \"
       escape_captures:
         0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: \'
       scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
       embed: scope:source.js
-      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
+      embed_scope: meta.string.html source.js.embedded.html
       escape: \'
       escape_captures:
         0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
@@ -859,14 +859,14 @@ contexts:
     - match: \"
       scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
-      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
+      embed_scope: meta.string.html source.css.embedded.html
       escape: \"
       escape_captures:
         0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: \'
       scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
-      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
+      embed_scope: meta.string.html source.css.embedded.html
       escape: \'
       escape_captures:
         0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
