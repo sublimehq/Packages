@@ -1,0 +1,361 @@
+%YAML 1.2
+---
+name: PostgreSQL
+scope: source.sql.psql
+version: 2
+
+extends: Packages/SQL/MySQL.sublime-syntax
+
+file_extensions:
+  - psql
+
+variables:
+  simple_types: |-
+    (?xi: smallint | integer | bigint | real | double\s+precision
+    | smallserial | serial | bigserial
+    | money
+    | bytea
+    | boolean
+    | times? | timestamp(?:s | tz)? | date | interval
+    | int4range | int8range | numrange | tsrange | tstzrange | daterange
+    | point | line | lseg | box | path | polygon | circle
+    | cidr | inet | macaddr | macaddr8
+    | tsvector | tsquery
+    | uuid
+    | text | xml | jsonb? )
+
+  types_with_optional_number: |-
+    (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
+
+contexts:
+
+  sql:
+    - meta_prepend: true
+    - include: declare-statements
+
+  statements:
+    - meta_prepend: true
+    - match: (\$\$)\s+(LANGUAGE)\s+(\w+)(?:\s+(IMMUTABLE|STABLE)\b)?
+      captures:
+        1: punctuation.section.block.end.psql
+        2: keyword.other.psql
+        3: constant.language.psql
+        4: storage.modifier.psql
+    - match: \$\$
+      scope: punctuation.section.block.begin.psql
+    - match: \b(?i:if)\b
+      scope: keyword.control.conditional.if.psql
+    - match: \b(?i:for)\b
+      scope: keyword.control.loop.psql
+      push:
+        - declaration-variable-name
+        - single-identifier
+    - match: \b(?i:loop)\b
+      scope: keyword.control.loop.psql
+    # TODO: priortise variables over columns when not in a select statement etc.
+
+  built-in-type:
+    - meta_prepend: true
+    - match: |-
+        (?xi)
+        \b{{types_with_optional_number}}\b
+        (\[)(\])
+      scope: storage.type.sql
+      captures:
+        1: punctuation.section.brackets.begin.psql
+        2: punctuation.section.brackets.end.psql
+      set: maybe-group
+
+###[ DECLARE STATEMENTS ]######################################################
+
+  declare-statements:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.variable.psql
+      push: inside-declaration
+
+  inside-declaration:
+    - match: (?=\S)
+      set:
+        - expect-type
+        - declaration-variable-name
+        - single-identifier
+
+  declaration-variable-name:
+    - meta_include_prototype: false
+    - meta_scope: variable.other.psql
+    - include: immediately-pop
+
+###[ DDL CREATE STATEMENTS ]###################################################
+
+  create-target:
+    - meta_prepend: true
+    - include: create-extension
+
+  create-extension:
+    # https://www.postgresql.org/docs/current/sql-createextension.html
+    - match: \b(?i:extension|domain)\b
+      scope: keyword.other.ddl.psql
+      set:
+        - create-extension-args
+        - expect-extension-name-declaration
+        - create-extension-condition
+
+  create-extension-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-extension-args:
+    - meta_scope: meta.extension.sql
+    - match: \b(?i:with)\b
+      scope: keyword.other.psql
+    - match: \b(?i:schema)\b
+      scope: storage.modifier.psql
+      push: expect-schema-name
+    - include: extension-attributes
+    - include: expressions
+
+  create-index-condition:
+    # https://www.postgresql.org/docs/current/sql-createindex.html
+    - meta_prepend: true
+    - match: \b(?i:concurrently)\b
+      scope: keyword.other.ddl.psql
+
+  create-common-args:
+    - meta_prepend: true
+    - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
+      scope: keyword.other.psql
+      push: maybe-on-table-name
+    - match: \b(?i:for\s+each\s+row\s+execute\s+procedure)\b
+      scope: keyword.other.psql
+
+###[ DDL DROP STATEMENTS ]#####################################################
+
+  drop-target:
+    - meta_prepend: true
+    - include: drop-extension
+
+  drop-extension:
+    # https://www.postgresql.org/docs/current/sql-dropextension.html
+    - match: \b(?i:extension|domain)\b
+      scope: keyword.other.ddl.psql
+      set:
+        - drop-extension-args
+        - expect-extension-name
+        - drop-extension-condition
+
+  drop-extension-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-extension-args:
+    - meta_scope: meta.extension.psql
+    - match: ','
+      scope: punctuation.separator.sequence.psql
+      push: expect-extension-name
+    - include: extension-attributes
+    - include: else-pop
+
+###[ DDL ALTER STATEMENTS ]####################################################
+
+  alter-target:
+    - meta_prepend: true
+    # https://www.postgresql.org/docs/current/sql-alterextension.html
+    - match: \b(?i:extension|domain)\b
+      scope: keyword.other.ddl.psql
+      set:
+        - alter-extension-args
+        - expect-extension-name
+
+  alter-extension-args:
+    - match: \b(?i:add|drop)\b
+      scope: keyword.other.ddl.sql
+      push: expect-member-name
+    - match: \b(?i:(set)\s+(schema))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: storage.modifier.psql
+      push: expect-schema-name
+    - match: \b(?i:(update)\s+(to))\b
+      captures:
+        1: keyword.other.ddl.psql
+        2: keyword.other.ddl.psql
+    - include: numbers
+    - include: else-pop
+
+###[ DDL STATEMENT PROTOTYPES ]################################################
+
+  on-table-names:
+    - match: \b(?i:(on)(?:\s+(only))?)\b
+      captures:
+        1: keyword.other.sql
+        2: keyword.other.psql
+      push: expect-table-name
+
+###[ EXPRESSIONS ]#############################################################
+
+  expressions:
+    - meta_prepend: true
+    - match: \b(?i:array)\b
+      scope: keyword.declaration.psql
+    - match: \[
+      scope: punctuation.section.brackets.begin.psql
+    - match: \]
+      scope: punctuation.section.brackets.end.psql
+
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:unique)\b
+      scope: keyword.other.psql
+
+###[ EXTENSION EXPRESSIONS ]###################################################
+
+  extension-attributes:
+    - match: \b(?i:cascade|restrict|version)\b
+      scope: storage.modifier.psql
+
+###[ FUNCTION EXPRESSIONS ]####################################################
+
+  expect-function-characteristics:
+    # https://mariadb.com/kb/en/create-function
+    - meta_prepend: true
+    - match: \b(?i:as)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+
+###[ IDENTIFIERS ]#############################################################
+
+  expect-extension-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [extension-name, single-identifier]
+
+  extension-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.extension-name.psql
+    - include: immediately-pop
+
+  expect-extension-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [extension-name-declaration, single-identifier]
+
+  extension-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.namespace.psql
+    - include: immediately-pop
+
+  expect-member-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [member-name, single-identifier]
+
+  member-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.member-name.psql
+    - include: immediately-pop
+
+  expect-member-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [member-name-declaration, single-identifier]
+
+  member-name-declaration:
+    - meta_include_prototype: false
+    - meta_content_scope: entity.name.member.psql
+    - include: immediately-pop
+
+  expect-schema-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [schema-name, single-identifier]
+
+  schema-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.schema-name.psql
+    - include: immediately-pop
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - meta_prepend: true
+    - match: '::'
+      scope: keyword.operator.cast.psql
+      push: expect-type
+    - match: ':='
+      scope: keyword.operator.assignment.psql
+    - match: ':(?!:)'
+      scope: keyword.operator.range.psql
+    - include: regex-operators
+    - match: \.\.
+      scope: keyword.operator.psql
+
+  regex-operators:
+    # https://www.postgresql.org/docs/7.4/functions-matching.html#FUNCTIONS-POSIX-REGEXP
+    - match: '!?~\*?'
+      scope: keyword.operator.comparison.psql
+      push: expect-regexp
+
+  expect-regexp:
+    - match: \'
+      scope: meta.string.regexp.psql punctuation.definition.string.begin.psql
+      embed: scope:source.regexp
+      embed_scope: meta.string.regexp.psql
+      escape: \'
+      escape_captures:
+        0: meta.string.regexp.psql punctuation.definition.string.end.psql
+      pop: 1
+    - include: else-pop
+
+  strings:
+    - meta_prepend: true
+    # https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
+    - match: (?i:E)\'
+      scope: punctuation.definition.string.begin.sql
+      push: inside-single-quoted-escape-string
+    - match: \'(?=[^']+'::bytea\b)
+      scope: punctuation.definition.string.begin.sql
+      push: inside-single-quoted-bytea-string
+
+  inside-single-quoted-escape-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \'\'
+      scope: constant.character.escape.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.sql
+    - match: \\x\h{1,2}
+      scope: constant.character.escape.sql
+    - match: \\u\h{4}
+      scope: constant.character.escape.sql
+    - match: \\U\h{8}
+      scope: constant.character.escape.sql
+    - include: string-escapes
+
+  inside-single-quoted-bytea-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.single.sql
+    - match: \'\'
+      scope: constant.character.escape.sql
+    - match: \'
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.sql
+    - match: \\x\h{8}
+      scope: constant.character.escape.sql
+    - include: string-escapes
