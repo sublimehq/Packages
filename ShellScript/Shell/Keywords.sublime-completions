@@ -1,0 +1,78 @@
+{
+    "scope": "source.shell meta.function-call.identifier - source.shell meta.function.identifier meta.interpolation",
+    "completions": [
+
+        // control
+
+        {
+            "trigger": "case",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "do",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "done",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "elif",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "else",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "esac",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "fi",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "for",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "if",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "in",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "select",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "then",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "until",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+        {
+            "trigger": "while",
+            "kind": "keyword",
+            "details": "shell control keyword"
+        },
+    ]
+}
