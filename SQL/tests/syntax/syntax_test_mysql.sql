@@ -352,7 +352,10 @@ CREATE OR REPLACE SCHEMA schema_name
 --  ^^^^^^^^^^^^^^^^^^^^^ variable.parameter.database.sql
 --                        ^ keyword.operator.assignment.sql
 --                          ^^^^^^^^ meta.string.sql string.quoted.single.sql
-
+    DEFAULT CHARSET=utf8
+-- <- meta.statement.create.sql meta.database.sql
+--  ^^^^^^^^^^^^^^^ variable.parameter.database.sql
+--                 ^ keyword.operator.assignment.sql
     COLLATE = 'collation'
 -- <- meta.statement.create.sql meta.database.sql
 -- ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.database.sql
@@ -4570,3 +4573,81 @@ WHERE supplier_name LIKE 'H%\_#_' ESCAPE '#';
 --                                        ^ meta.string.escape.sql string.quoted.single.sql constant.character.escape.sql
 --                                         ^ meta.string.escape.sql string.quoted.single.sql punctuation.definition.string.end.sql
 --                                          ^ punctuation.terminator.statement.sql
+
+LOCK TABLES trans READ, customer WRITE;
+-- ^^^^^^^^ keyword.context.resource.mysql
+--          ^^^^^ meta.table-name.sql
+--                ^^^^ constant.language.lock-type.mysql
+--                    ^ punctuation.separator.sequence.mysql
+--                      ^^^^^^^^ meta.table-name.sql
+--                               ^^^^^ constant.language.lock-type.mysql
+--                                    ^ punctuation.terminator.statement.sql
+SELECT SUM(value) FROM trans WHERE customer_id=some_id;
+UPDATE customer
+  SET total_value=sum_from_previous_statement
+  WHERE customer_id=some_id;
+UNLOCK TABLES;
+-- ^^^^^^^^^^ keyword.context.resource.mysql
+--           ^ punctuation.terminator.statement.sql
+
+DESCRIBE City;
+-- ^^^^^ meta.statement.show.sql keyword.other.dml.sql
+--       ^^^^ meta.column-name.sql
+--           ^ punctuation.terminator.statement.sql
+SHOW COLUMNS FROM City;
+-- ^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^ keyword.other.mysql
+--           ^^^^ keyword.other.mysql
+--                ^^^^ meta.table-name.sql
+--                    ^ punctuation.terminator.statement.sql
+SHOW FULL COLUMNS FROM mytable FROM mydb;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+--   ^^^^ keyword.other.mysql
+--        ^^^^^^^ keyword.other.mysql
+--                ^^^^ keyword.other.mysql
+--                     ^^^^^^^  meta.table-name.sql
+--                             ^^^^ keyword.other.dml.sql
+--                                      ^ punctuation.terminator.statement.sql
+
+SHOW EXTENDED COLUMNS FROM mydb.mytable;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^  keyword.other.dml.sql
+--   ^^^^^^^^  keyword.other.mysql
+--            ^^^^^^^  keyword.other.mysql
+--                    ^^^^  keyword.other.mysql
+--                         ^^^^^^^^^^^^  meta.table-name.sql
+--                                     ^ punctuation.terminator.statement.sql
+
+EXPLAIN FORMAT=JSON INTO @myselect 
+-- ^^^^ keyword.other.dml.sql
+--      ^^^^^^ variable.parameter.explain.sql
+--            ^ keyword.operator.assignment.sql
+--             ^^^^ string.unquoted.mysql
+--                  ^^^^ keyword.other.dml.sql
+--                       ^ variable.other.sql punctuation.definition.variable.sql
+--                        ^^^^^^^^ variable.other.sql
+    SELECT name FROM a WHERE id = 2;
+SELECT @myselect
+
+EXPLAIN FORMAT=TREE FOR SCHEMA s1 SELECT * FROM t WHERE c2 > 50;
+-- ^^^^ keyword.other.dml.sql
+--      ^^^^^^ variable.parameter.explain.sql
+--            ^ keyword.operator.assignment.sql
+--             ^^^^ string.unquoted.mysql
+--                  ^^^^^^^^^^ keyword.other.dml.sql
+--                             ^^ meta.other-name.sql
+--                                ^^^^^^ keyword.other.dml.sql
+SELECT @@explain_format;
+SET @@explain_format=TREE;
+
+EXPLAIN ANALYZE SELECT * FROM t1 JOIN t2 ON (t1.c1 = t2.c2);
+EXPLAIN ANALYZE FORMAT=TREE SELECT * FROM t3 WHERE pk > 17;
+-- ^^^^^^^^^^^^ keyword.other.dml.sql
+--              ^^^^^^ variable.parameter.explain.sql
+--                    ^ keyword.operator.assignment.sql
+--                     ^^^^ string.unquoted.mysql
+
+CREATE USER 'read' IDENTIFIED BY 'toor';
+GRANT SELECT ON * . * TO 'read';
+FLUSH PRIVILEGES;
