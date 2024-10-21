@@ -402,12 +402,12 @@ contexts:
 
   script-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      scope: meta.attribute-with-value.type.html entity.other.attribute-name.html
       set: script-type-attribute-assignment
 
   script-type-attribute-assignment:
     - meta_include_prototype: false
-    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.type.html
     - match: =
       scope: punctuation.separator.key-value.html
       set: script-type-attribute-value
@@ -416,40 +416,45 @@ contexts:
 
   script-type-attribute-value:
     - meta_include_prototype: false
-    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.type.html
     - include: script-type-decider
 
   script-type-decider:
     - match: (?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
       set:
         - script-javascript
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?=(?i:module{{unquoted_attribute_break}}|'module'|"module"))
       set:
         - script-javascript
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?=>|''|"")
       set:
         - script-javascript
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?={{json_mime_type}}{{unquoted_attribute_break}}|'{{json_mime_type}}'|"{{json_mime_type}}")
       set:
         - script-json
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?=(?i:{{html_mime_type}}{{unquoted_attribute_break}}|'{{html_mime_type}}'|"{{html_mime_type}}"))
       set:
         - script-html
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?=\S)
       set:
         - script-other
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
+
+  tag-type-attribute-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute-with-value.type.html
+    - include: immediately-pop
 
 ###[ STYLE TAG ]##############################################################
 
@@ -527,12 +532,12 @@ contexts:
 
   style-type-attribute:
     - match: (?i:type){{attribute_name_break}}
-      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      scope: meta.attribute-with-value.type.html entity.other.attribute-name.html
       set: style-type-attribute-assignment
 
   style-type-attribute-assignment:
     - meta_include_prototype: false
-    - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.type.html
     - match: =
       scope: punctuation.separator.key-value.html
       set: style-type-attribute-value
@@ -541,24 +546,24 @@ contexts:
 
   style-type-attribute-value:
     - meta_include_prototype: false
-    - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+    - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.type.html
     - include: style-type-decider
 
   style-type-decider:
     - match: (?=(?i:text/css{{unquoted_attribute_break}}|'text/css'|"text/css"))
       set:
         - style-css
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?=>|''|"")
       set:
         - style-css
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
     - match: (?=\S)
       set:
         - style-other
-        - tag-generic-attribute-meta
+        - tag-type-attribute-meta
         - tag-generic-attribute-value
 
 ###[ ATTRIBUTES ]#############################################################
