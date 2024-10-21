@@ -42,9 +42,7 @@ contexts:
         meta.string.html string.quoted.double.html
         punctuation.definition.string.begin.html
       embed: scope:source.js.embedded.asp
-      embed_scope:
-        meta.string.html meta.interpolation.html
-        source.js.embedded.html
+      embed_scope: meta.string.html source.js.embedded.html
       escape: \"
       escape_captures:
         0: meta.string.html string.quoted.double.html
@@ -54,9 +52,7 @@ contexts:
         meta.string.html string.quoted.single.html
         punctuation.definition.string.begin.html
       embed: scope:source.js.embedded.asp
-      embed_scope:
-        meta.string.html meta.interpolation.html
-        source.js.embedded.html
+      embed_scope: meta.string.html source.js.embedded.html
       escape: \'
       escape_captures:
         0: meta.string.html string.quoted.single.html
@@ -69,9 +65,7 @@ contexts:
         meta.string.html string.quoted.double.html
         punctuation.definition.string.begin.html
       embed: scope:source.css.embedded.asp#rule-list-body
-      embed_scope:
-        meta.string.html meta.interpolation.html
-        source.css.embedded.html
+      embed_scope: meta.string.html source.css.embedded.html
       escape: \"
       escape_captures:
         0: meta.string.html string.quoted.double.html
@@ -81,9 +75,7 @@ contexts:
         meta.string.html string.quoted.single.html
         punctuation.definition.string.begin.html
       embed: scope:source.css.embedded.asp#rule-list-body
-      embed_scope:
-        meta.string.html meta.interpolation.html
-        source.css.embedded.html
+      embed_scope: meta.string.html source.css.embedded.html
       escape: \'
       escape_captures:
         0: meta.string.html string.quoted.single.html
@@ -271,7 +263,6 @@ contexts:
 
   asp-tag-clear-scope:
     - clear_scopes: 1
-    - meta_scope: meta.interpolation.html
     - include: immediately-pop
 
   asp-tag-content:
