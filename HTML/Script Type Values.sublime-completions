@@ -4,12 +4,12 @@
 		{
 			"trigger": "application/ecmascript",
 			"kind": ["type", "t", "Mime Type"],
-			"details": "JSON"
+			"details": "ECMA Script"
 		},
 		{
 			"trigger": "application/javascript",
 			"kind": ["type", "t", "Mime Type"],
-			"details": "JSON"
+			"details": "JavaScript"
 		},
 		{
 			"trigger": "application/json",
@@ -17,14 +17,14 @@
 			"details": "JSON"
 		},
 		{
-			"trigger": "text/html",
-			"kind": ["type", "t", "Mime Type"],
-			"details": "JavaScript"
-		},
-		{
 			"trigger": "text/ecmascript",
 			"kind": ["type", "t", "Mime Type"],
-			"details": "JSON"
+			"details": "ECMA Script"
+		},
+		{
+			"trigger": "text/html",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "HTML"
 		},
 		{
 			"trigger": "text/javascript",
