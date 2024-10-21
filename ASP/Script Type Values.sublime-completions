@@ -1,0 +1,15 @@
+{
+	"scope": "text.html.asp meta.tag.script meta.attribute-with-value.type",
+	"completions": [
+		{
+			"trigger": "application/vbscript",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "Visual Basic Script"
+		},
+		{
+			"trigger": "text/vbscript",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "Visual Basic Script"
+		}
+	]
+}

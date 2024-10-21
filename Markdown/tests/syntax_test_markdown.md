@@ -2384,7 +2384,7 @@ okay
 
 <style
   type="text/css">
-| ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.style.begin.html meta.attribute-with-value.html
+| ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.style.begin.html meta.attribute-with-value.type.html
 h1 {color:red;}
 |   ^^^^^ meta.disable-markdown source.css.embedded.html meta.property-list.css meta.property-name.css support.type.property-name.css
 

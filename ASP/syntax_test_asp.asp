@@ -84,6 +84,7 @@
 
     <script language="jscript"> var foo = 0 </script>
     ' ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.lang.html
     '                          ^^^^^^^^^^^^^ source.js.embedded.html - meta.tag
     '                                       ^^^^^^^^^ meta.tag - source
 
@@ -104,16 +105,19 @@
 
     <script language="vbscript"> Dim var = 0 </script>
     ' ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.lang.html
     '                           ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
     '                                        ^^^^^^^^^ meta.tag - source
 
     <script type="vbscript"> Dim var = 0 </script>
     ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^^^^ meta.attribute-with-value.type.html
     '                       ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
     '                                    ^^^^^^^^^ meta.tag - source
 
     <script type="vbscript"> Dim var = 0 --> </script>
     ' ^^^^^^^^^^^^^^^^^^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^^^^ meta.attribute-with-value.type.html
     '                       ^^^^^^^^^^^^^ source.asp.embedded.html - meta.tag
     '                                    ^^^^ - meta.tag - source
     '                                    ^^^ comment.block.html punctuation.definition.comment.end.html
