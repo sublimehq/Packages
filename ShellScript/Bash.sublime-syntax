@@ -50,16 +50,23 @@ contexts:
       push: statement
 
   statement:
+    # reserved words
     - include: redirections
+    - include: eoc-pop
     - include: operators
-    - include: def-anonymous
+    - include: cmd-control
+    # definitions
+    - include: def-variable
+    - include: def-coproc
+    - include: def-function
+    # builtin commands
+    #  can be augmented by function definitions
+    - include: boolean
     - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-command
     - include: cmd-compound-brace
     - include: cmd-compound-paren
-    - include: cmd-control
-    - include: cmd-coproc
     - include: cmd-declare
     - include: cmd-echo
     - include: cmd-exec
@@ -74,10 +81,7 @@ contexts:
     - include: cmd-unalias
     - include: cmd-unset
     - include: cmd-builtin
-    - include: def-variable
-    - include: def-function
-    - include: boolean
-    - include: eoc-pop
+    # user defined commands
     - include: cmd-basic
     - include: illegal-stray
 
@@ -119,9 +123,46 @@ contexts:
     - match: \n
       pop: 1
 
-###[ ANONYMOUS FUNCTION DEFINITIONS ]##########################################
+###[ COPROC DEFINITIONS ]######################################################
 
-  def-anonymous:
+  def-coproc:
+    - match: coproc{{cmd_break}}
+      scope:
+        meta.coproc.shell
+        keyword.declaration.coproc.shell
+      set: def-coproc-identifier
+
+  def-coproc-identifier:
+    - match: (?:(\s*)(({{cmd_literal}})\s*)?(?=\{))?
+      captures:
+        1: meta.coproc.shell
+        2: meta.coproc.identifier.shell
+        3: entity.name.function.shell
+      set:
+        - def-coproc-command-meta
+        - statement
+
+  def-coproc-command-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.coproc.command.shell
+    - include: immediately-pop
+
+###[ FUNCTION DEFINITIONS ]####################################################
+
+  def-function:
+    # [Bash] 3.3 Shell Functions
+    - match: function{{cmd_break}}
+      scope: keyword.declaration.function.shell
+      branch_point: function
+      branch:
+        - def-function-begin
+        - def-anonymous-begin
+      pop: 1
+    - match: (?={{cmd_literal}}\s*\(\s*\))
+      set:
+        - def-function-body
+        - def-function-params
+        - def-function-name
     # anonymous functions are immediatelly called
     # hence scoping as meta.function-call meta.function
     - match: (\()\s*(\))
@@ -158,23 +199,6 @@ contexts:
         - cmd-args-meta
         - cmd-args
     - include: statements
-
-###[ FUNCTION DEFINITIONS ]####################################################
-
-  def-function:
-    # [Bash] 3.3 Shell Functions
-    - match: function{{cmd_break}}
-      scope: keyword.declaration.function.shell
-      branch_point: function
-      branch:
-        - def-function-begin
-        - def-anonymous-begin
-      pop: 1
-    - match: (?={{cmd_literal}}\s*\(\s*\))
-      set:
-        - def-function-body
-        - def-function-params
-        - def-function-name
 
   def-function-begin:
     - meta_include_prototype: false
@@ -376,7 +400,7 @@ contexts:
 ###[ COMMAND BUILTINS ]########################################################
 
   cmd-command:
-    - match: (?:command|time){{cmd_break}}
+    - match: command{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.shell
@@ -387,30 +411,6 @@ contexts:
     - include: cmd-args-end
     - include: cmd-args-options
     - include: else-pop
-
-###[ COPROC BUILTINS ]#########################################################
-
-  cmd-coproc:
-    - match: coproc{{cmd_break}}
-      scope:
-        meta.coproc.shell
-        keyword.declaration.coproc.shell
-      set: cmd-coproc-identifier
-
-  cmd-coproc-identifier:
-    - match: (?:(\s*)(({{cmd_literal}})\s*)?(?=\{))?
-      captures:
-        1: meta.coproc.shell
-        2: meta.coproc.identifier.shell
-        3: entity.name.function.shell
-      set:
-        - cmd-coproc-command-meta
-        - statement
-
-  cmd-coproc-command-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.coproc.command.shell
-    - include: immediately-pop
 
 ###[ DECLARE BUILTINS ]########################################################
 
@@ -1154,6 +1154,9 @@ contexts:
     - match: return{{cmd_break}}
       scope: keyword.control.flow.return.shell
       set: flow-args
+    - match: time{{cmd_break}}
+      scope: keyword.control.flow.time.shell
+      set: time-args
 
   case-word:
     - meta_include_prototype: false
@@ -1285,6 +1288,11 @@ contexts:
       scope: invalid.illegal.unexpected-token.shell
     - include: cmd-args-end
     - include: string-path-patterns
+
+  time-args:
+    - include: cmd-args-end
+    - include: cmd-args-options
+    - include: else-pop
 
 ###[ ARITHMETIC VALUE ASSIGNMENTS ]############################################
 

@@ -2992,6 +2992,24 @@ logExit $? $WEIRD
 #          ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                ^ - meta.function-call - meta.interpolation - variable
 
+time () {  }   # reserved words can not be overwritten by local function definitions
+# <- - meta.function
+#^^^^ - meta.function
+#    ^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+#      ^ meta.function-call.shell meta.function.anonymous.shell
+#       ^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
+
+alias () {  }  # built-in functions/commands can be overwritten
+#^^^^^ meta.function.identifier.shell
+#     ^^ meta.function.parameters.shell
+#       ^ meta.function.shell
+#        ^^^^ meta.function.body.shell meta.block.shell
+#^^^^ entity.name.function.shell
+#     ^ punctuation.section.parameters.begin.shell
+#      ^ punctuation.section.parameters.end.shell
+#        ^ punctuation.section.block.begin.shell
+#           ^ punctuation.section.block.end.shell
+
 function foo
 #^^^^^^^^^^^^ source.shell - meta.function meta.function
 # <- source.shell meta.function.shell keyword.declaration.function.shell
@@ -11130,7 +11148,7 @@ let>/dev/null
 let -
 #^^ support.function.shell
 let()
-#^^ support.function.shell
+#^^^^ - storage - keyword.declaration
 let[]
 #^^^^ - storage - keyword.declaration
 let{}
@@ -11286,7 +11304,7 @@ local>/dev/null
 local -
 #^^^^ keyword.declaration.variable.shell
 local()
-#^^^^ keyword.declaration.variable.shell
+#^^^^^^ - storage - keyword.declaration
 local[]
 #^^^^^^ - storage - keyword.declaration
 local{}
@@ -11801,7 +11819,7 @@ test>/dev/null
 test -
 #^^^ support.function.shell
 test()
-#^^^ support.function.shell
+#^^^^^ - support.function
 test[]
 #^^^^^ - support.function
 test{}
@@ -11968,9 +11986,8 @@ if test "$VAR" != ";";then;fi
 ###############################################################################
 
 time cmd1 --arg val | cmd2 -n |& cmd3
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^ meta.function-call.identifier.shell support.function.shell
-#   ^ meta.function-call.arguments.shell
+# <- keyword.control.flow.time.shell
+#^^^ keyword.control.flow.time.shell
 #    ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 #        ^^^^^^^^^^ meta.function-call.arguments.shell
 #         ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -11983,9 +12000,9 @@ time cmd1 --arg val | cmd2 -n |& cmd3
 #                                ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 
 time -p cmd -p
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^ meta.function-call.identifier.shell
-#   ^^^^ meta.function-call.arguments.shell
+# <- keyword.control.flow.time.shell
+#^^^ keyword.control.flow.time.shell
+#    ^^ variable.parameter.option.shell
 #       ^^^ meta.function-call.identifier.shell
 #          ^^^ meta.function-call.arguments.shell
 
@@ -12215,7 +12232,7 @@ unset-
 unset+
 # <- - support.function
 unset()
-# <- support.function.shell
+# <- - support.function
 unset[]
 # <- - support.function
 unset{}

@@ -295,9 +295,8 @@ func() { ... } 2>&1
 #                 ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 
 time cmd1 arg | cmd2 -t >1
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^ meta.function-call.identifier.shell support.function.shell
-#   ^ meta.function-call.arguments.shell
+# <- keyword.control.flow.time.shell
+#^^^ keyword.control.flow.time.shell
 #    ^^^^ meta.function-call.identifier.shell
 #        ^^^^ meta.function-call.arguments.shell
 #            ^^^ - meta.function-call
@@ -1098,6 +1097,23 @@ function name () echo "$0 called with $*!"
 #              ^ punctuation.section.parameters.end.shell
 #                ^^^^ support.function.shell
 
+time () {  }   # reserved words can not be overwritten by local function definitions
+# <- - meta.function
+#^^^^ - meta.function
+#    ^^ meta.function-call.shell meta.function.anonymous.parameters.shell
+#      ^ meta.function-call.shell meta.function.anonymous.shell
+#       ^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
+
+alias () {  }  # built-in functions/commands can be overwritten
+#^^^^^ meta.function.identifier.shell
+#     ^^ meta.function.parameters.shell
+#       ^ meta.function.shell
+#        ^^^^ meta.function.body.shell meta.block.shell
+#^^^^ entity.name.function.shell
+#     ^ punctuation.section.parameters.begin.shell
+#      ^ punctuation.section.parameters.end.shell
+#        ^ punctuation.section.block.begin.shell
+#           ^ punctuation.section.block.end.shell
 
 ###############################################################################
 # 9.1 Autoloading Functions                                                   #
