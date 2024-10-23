@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		source.shell.zsh,
+		source.shell.zsh meta.clause.body
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^ \s* (?: [])}] | (?: end | elif | else | esac | fi | done | do | in | then )\b )
+		]]></string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^
+			(?:
+			  \s* (?:
+			  # beginning of condition branch, also indent condition
+			    else\b
+			  | (?: if | elif )\b(?! .*? \b(?: else | fi | then )\b )
+			  # beginning of foreach loop
+			  | foreach (?! .*? (?: \{ | \b(?: do | end )\b ) )
+			  # beginning of loop condition (keeps indented until `do` or `{`)
+			  | (?: for | repeat | select | until | while )
+			  # followed by optional whitespace and comment or line continuation
+			    \s* (?: \#.* | \\ )? $
+			  )
+			# beginning of indented code block
+			| .*  (?: [({\[] | \b(?: do | in | then )\b ) \s* (?: \#.* | \\ )? $
+			)
+		]]></string>
+		<key>bracketIndentNextLinePattern</key>
+		<string><![CDATA[(?x)
+			^ \s*
+			# line beginning with loop keyword
+			(?: for | repeat | select | until | while )
+			# followed by loop condition expression, but not by code block, starting with `do` or `{`
+			\s+ (?! .*? (?: \{ | \b(?: do | end )\b ) )
+		]]></string>
+		<key>disableIndentNextLinePattern</key>
+		<string><![CDATA[(?x)
+			# don't indent line after loop keyword if it starts with `do` or `{`
+			^ \s* ( \{ | \bdo\b )
+		]]></string>
+		<key>indentParens</key>
+		<false/>
+		<key>indentSquareBrackets</key>
+		<false/>
+		<key>preserveIndent</key>
+		<false/>
+	</dict>
+</dict>
+</plist>
