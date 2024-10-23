@@ -534,9 +534,17 @@ int foo(int val, float val2[])
 
     if (val == -1) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
+#elifdef BAR
+ /* ^ meta.block meta.block */
+    if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#elifndef BAZ
+ /* ^ meta.block meta.block */
+    if (val == -3) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
 #else
  /* <- keyword.control.import */
-    if (val == -2) {
+    if (val == -4) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
  /* <- keyword.control.import */
