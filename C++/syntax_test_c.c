@@ -437,8 +437,16 @@ if (1) {
 if (2) {
 # elif BAZ
 if (3) {
-# else
+#elifdef BAR2
 if (4) {
+# elifdef BAZ2
+if (5) {
+#elifndef BAR3
+if (6) {
+# elifndef BAZ3
+if (7) {
+# else
+if (8) {
 #endif
     int bar = 1;
 }
