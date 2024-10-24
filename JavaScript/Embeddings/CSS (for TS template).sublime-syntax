@@ -24,6 +24,7 @@ contexts:
 
   main:
     # support properties in top-level context
+    - meta_include_prototype: false
     - include: comments
     - include: property-lists
     - include: properties-or-selectors

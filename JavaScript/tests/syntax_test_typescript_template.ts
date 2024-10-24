@@ -219,11 +219,52 @@ var style = css`
 /*                  ^^^^^^^ variable.other.custom-property.css */
 /*                         ^ punctuation.section.group.end.css */
 /*                          ^ punctuation.terminator.rule.css */
+
+    ${tag}, .${cls} { ${prop}: ${value} }
+/*  ^^^^^^ meta.selector.css meta.interpolation.js */
+/*        ^^^ meta.selector.css - meta.interpolation */
+/*           ^^^^^^ meta.selector.css meta.interpolation.js */
+/*                 ^ meta.selector.css - meta.interpolation */
+/*                  ^^ meta.property-list.css meta.block.css */
+/*                    ^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css support.type.property-name.css meta.interpolation.js */
+/*                           ^^ meta.property-list.css meta.block.css - meta.interpolation */
+/*                             ^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.js */
+/*                                     ^^ meta.property-list.css meta.block.css - meta.interpolation */
+/*  ^^ punctuation.section.interpolation.begin.js */
+/*    ^^^ variable.other.readwrite.js */
+/*       ^ punctuation.section.interpolation.end.js */
+/*        ^ punctuation.separator.sequence.css */
+/*          ^^^^^^^ entity.other.attribute-name.class.css */
+/*          ^ punctuation.definition.entity.css */
+/*           ^^ punctuation.section.interpolation.begin.js */
+/*             ^^^ variable.other.readwrite.js */
+/*                ^ punctuation.section.interpolation.end.js */
+/*                  ^ punctuation.section.block.begin.css */
+/*                    ^^ punctuation.section.interpolation.begin.js */
+/*                      ^^^^ variable.other.readwrite.js */
+/*                          ^ punctuation.section.interpolation.end.js */
+/*                           ^ punctuation.separator.key-value.css */
+/*                             ^^ punctuation.section.interpolation.begin.js */
+/*                               ^^^^^ variable.other.readwrite.js */
+/*                                    ^ punctuation.section.interpolation.end.js */
+/*                                      ^ punctuation.section.block.end.css */
     `
 /* <- meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*^^^ meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
+
+var style = css`color:${color}`;
+/*          ^^^ variable.function.tagged-template.js */
+/*             ^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js */
+/*              ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                   ^ punctuation.separator.key-value.css */
+/*                    ^^ meta.property-value.css meta.interpolation.js punctuation.section.interpolation.begin.js */
+/*                      ^^^^^ meta.property-value.css meta.interpolation.js source.js.embedded variable.other.readwrite.js */
+/*                           ^ meta.property-value.css meta.interpolation.js punctuation.section.interpolation.end.js */
+/*                            ^ string.quoted.other.js punctuation.definition.string.end.js */
+/*                             ^ punctuation.terminator.statement.js - meta.string */
 
 /*
  * Unknown Template
