@@ -174,22 +174,22 @@
     <script type="application/ld+json">
         {
             <% key %>: <%.Site.Color%>,
-        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
-        |   ^^^^^^^^^ meta.mapping.json meta.interpolation.asp
-        |            ^^ meta.mapping.json - meta.interpolation
-        |              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.asp
-        |                             ^ meta.mapping.json - meta.interpolation
+        '  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        '   ^^^^^^^^^ meta.mapping.json meta.embedded.asp
+        '            ^^ meta.mapping.json - meta.embedded
+        '              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.embedded.asp
+        '                             ^ meta.mapping.json - meta.embedded
 
             "<% key %>": "<%.Site.Color%>",
-        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
-        |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
-        |    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.asp - string
-        |             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
-        |              ^^ meta.mapping.json - meta.interpolation
-        |                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
-        |                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.asp - string
-        |                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
-        |                                 ^ meta.mapping.json - meta.interpolation
+        '  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        '   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+        '    ^^^^^^^^^ meta.mapping.key.json meta.embedded.asp - string
+        '             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+        '              ^^ meta.mapping.json - meta.embedded
+        '                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+        '                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.embedded.asp - string
+        '                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+        '                                 ^ meta.mapping.json - meta.embedded
         }
     </script>
 
@@ -1248,10 +1248,10 @@ test = "hello%>
 '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
 '                                         ^^^^^^^^^ meta.tag.block.any.html
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
-'         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
-'          ^^ meta.attribute-with-value.class.html  meta.string.html meta.interpolation.html - string
-'                                   ^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html meta.interpolation.html - string
-'                                            ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
+'         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.embedded
+'          ^^ meta.attribute-with-value.class.html meta.string.html meta.embedded.asp - string
+'                                   ^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html meta.embedded.asp - string
+'                                            ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.embedded
 '                                             ^ - string
 '          ^^^^^^^^^^^^^^^^ meta.class-name.html
 '                                  ^^^^^^^^^^ meta.class-name.html
@@ -1380,7 +1380,7 @@ test = "hello%>
 
 <![CDATA[Text with <%= vbscript %> interpolation.]]>
 '        ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
-'                  ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.interpolation.html - string
+'                  ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.embedded.asp - string
 '                                 ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
 '                  ^^^ punctuation.section.embedded.begin.asp
 '                               ^^ punctuation.section.embedded.end.asp
@@ -1388,7 +1388,7 @@ test = "hello%>
   <my-<%=tag%> <%=attr%>=<%=value%>/>
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
 ' ^ meta.tag.other.html punctuation.definition.tag.begin.html
-'  ^^^ entity.name.tag.other.html - meta.interpolation
+'  ^^^ entity.name.tag.other.html - meta.embedded
 '     ^^^^^^^^ entity.name.tag.other.html meta.embedded.asp
 '     ^^^ punctuation.section.embedded.begin.asp 
 '        ^^^ variable.other.asp
