@@ -1772,11 +1772,13 @@ contexts:
     - include: statements
 
   heredoc-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.heredoc.shell string.unquoted.heredoc.shell
     # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
     # expansion, command substitution, and arithmetic expansion, the character
     # sequence \newline is ignored, and ‘\’ must be used to quote the
     # characters ‘\’, ‘$’, and ‘`’.
+    - include: string-prototype
     - include: string-escapes
     - include: brace-interpolations
     - include: string-interpolations
@@ -1787,6 +1789,7 @@ contexts:
     - include: statements
 
   heredoc-body-no-expansion:
+    - meta_include_prototype: false
     - meta_scope: meta.string.heredoc.shell string.unquoted.heredoc.shell
 
   redirection-here-string:
