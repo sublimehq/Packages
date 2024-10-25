@@ -174,7 +174,7 @@ contexts:
   comments:
     - include: line-comments
     - include: block-comments
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
   block-comments:
     # empty block comments

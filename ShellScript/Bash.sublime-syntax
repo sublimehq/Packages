@@ -91,7 +91,7 @@ contexts:
     - match: \#+
       scope: punctuation.definition.comment.shell
       push: comments-body
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
   comments-body:
     - meta_scope: comment.line.number-sign.shell
@@ -2083,7 +2083,7 @@ contexts:
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string
   string-prototype:
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
 ###[ STRING PATH PATTERN MATCHING ]############################################
 

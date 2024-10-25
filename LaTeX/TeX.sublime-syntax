@@ -145,7 +145,7 @@ contexts:
   comments:
     - match: '%.*$\n?'
       scope: comment.line.percentage.tex
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
 ###[ BLOCKS ]###################################################################
 

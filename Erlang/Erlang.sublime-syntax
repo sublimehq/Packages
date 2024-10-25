@@ -238,7 +238,7 @@ contexts:
     - match: \%+
       scope: punctuation.definition.comment.erlang
       push: comment-body
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
   comment-body:
     - meta_include_prototype: false

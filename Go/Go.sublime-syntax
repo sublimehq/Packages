@@ -153,7 +153,7 @@ contexts:
     - include: match-comment-magic
     - include: match-comment-line
     - include: match-comment-general
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
   match-comment-magic:
     - include: match-comment-magic-general

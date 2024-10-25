@@ -543,7 +543,7 @@ contexts:
             0: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
   comments.nested:
     - match: \(\*
@@ -556,7 +556,7 @@ contexts:
             0: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
 
   data-structures:
     - match: '(\{)'

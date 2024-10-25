@@ -117,7 +117,7 @@ contexts:
     - match: //
       scope: punctuation.definition.comment.groovy
       push: inside-line-comment
-    - include: scope:text.diff3#conflicts  # merge conflict marker
+    - include: scope:source.diff3#conflicts  # merge conflict marker
   inside-line-comment:
     - meta_scope: comment.line.double-slash.groovy
     - match: $\n?
