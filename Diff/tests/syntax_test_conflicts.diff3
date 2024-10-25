@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Text/Diff3.sublime-syntax"
+# SYNTAX TEST "Packages/Diff/Diff3.sublime-syntax"
 
 <<<<<<< HEAD
 #  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
