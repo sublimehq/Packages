@@ -809,6 +809,11 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*                   ^ punctuation.definition.string.end */
 #endif
 
+static const unsigned char image_png[] = {
+#embed <image.png>
+/* <- keyword.control.import.include */
+};
+
 #include<iostream>
 /* <- keyword.control.import.include */
 /*      ^ punctuation.definition.string.begin */
