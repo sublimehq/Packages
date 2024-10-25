@@ -2165,7 +2165,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.objc++
-    - match: ^\s*(#\s*(?:include|include_next))\b
+    - match: ^\s*(#\s*(?:include|include_next|embed))\b
       captures:
         1: keyword.control.import.include.objc++
       push:

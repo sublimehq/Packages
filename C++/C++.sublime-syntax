@@ -2291,7 +2291,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c++
-    - match: ^\s*(#\s*(?:include|include_next|import))\b
+    - match: ^\s*(#\s*(?:include|include_next|embed|import))\b
       captures:
         1: keyword.control.import.include.c++
       push:
