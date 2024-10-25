@@ -1,0 +1,40 @@
+{
+	"scope": "text.html meta.tag.script meta.attribute-with-value.type",
+	"completions": [
+		{
+			"trigger": "application/ecmascript",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "ECMA Script"
+		},
+		{
+			"trigger": "application/javascript",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "JavaScript"
+		},
+		{
+			"trigger": "application/json",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "JSON"
+		},
+		{
+			"trigger": "text/ecmascript",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "ECMA Script"
+		},
+		{
+			"trigger": "text/html",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "HTML"
+		},
+		{
+			"trigger": "text/javascript",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "JavaScript"
+		},
+		{
+			"trigger": "text/json",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "JSON"
+		}
+	]
+}

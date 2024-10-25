@@ -1,0 +1,45 @@
+{
+	"scope": "source.shell.bash meta.function-call.identifier - source.shell.bash meta.function.identifier meta.interpolation",
+	"completions": [
+		{
+			"trigger": "bind",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "caller",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "help",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "mapfile",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "readarray",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "shopt",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "set",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
+			"trigger": "unset",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+	],
+}

@@ -1,0 +1,216 @@
+{
+    "scope": "source.shell meta.interpolation.parameter variable, source.shell meta.arithmetic",
+    "completions": [
+        {
+            "trigger": "CDPATH",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "COLUMNS",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "ENV",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "EUID",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "FCEDIT",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "FUNCNEST",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "HISTCMD",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "HISTFILE",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "HISTSIZE",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "HOME",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "IFS",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LANG",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LC_ALL",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LC_COLLATE",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LC_CTYPE",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LC_MESSAGES",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LC_NUMERIC",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LC_TIME",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LINENO",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "LINES",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "MACHTYPE",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "MAIL",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "MAILCHECK",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "OLDPWD",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "OPTARG",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "OPTIND",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "OSTYPE",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PATH",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PPID",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PS1",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PS2",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PS3",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PS4",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "PWD",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "RANDOM",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "REPLY",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "SECONDS",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "SHELL",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "SHLVL",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "TMOUT",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "UID",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "histchars",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        
+    ]
+}

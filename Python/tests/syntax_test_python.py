@@ -2124,6 +2124,9 @@ class MyClass():
 #            ^^ meta.class.inheritance.python - meta.class meta.class
 #              ^ meta.class.python - meta.class meta.class punctuation.section.class.begin
     def my_func(self, param1, # Multi-line function definition
+#               ^^^^ variable.parameter.python variable.language.python
+#                   ^ punctuation.separator.parameters.python
+#                     ^^^^^^ variable.parameter.python - variable.language
 #                             ^ comment.line.number-sign
         # This is defaulted
 #       ^ comment.line.number-sign
