@@ -1,5 +1,101 @@
 # SYNTAX TEST "Packages/Diff/Diff3.sublime-syntax"
 
+## Normal Format
+
+====2
+# <- markup.hunk.two-way.diff3 punctuation.section.hunk.diff3
+#^^^ markup.hunk.two-way.diff3 punctuation.section.hunk.diff3
+#   ^ markup.hunk.two-way.diff3 constant.numeric.file.diff3
+#    ^ markup.hunk.two-way.diff3 - constant
+1:1,2c
+#^^^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ punctuation.separator.comma.diff3
+#   ^ constant.numeric.line.end.diff3
+#    ^ keyword.operator.change.diff3
+3:1,2c
+  The Way that can be told of is not the eternal Way;
+  The name that can be named is not the eternal name.
+2:0a
+#^^^ meta.command.append.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ keyword.operator.append.diff3
+====1
+#^^^^ markup.hunk.two-way.diff3
+#^^^ punctuation.section.hunk.diff3
+#   ^ constant.numeric.file.diff3
+1:4c
+#^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ keyword.operator.change.diff3
+  The Named is the mother of all things.
+2:2,3c
+#^^^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ punctuation.separator.comma.diff3
+#   ^ constant.numeric.line.end.diff3
+#    ^ keyword.operator.change.diff3
+3:4,5c
+#^^^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ punctuation.separator.comma.diff3
+#   ^ constant.numeric.line.end.diff3
+#    ^ keyword.operator.change.diff3
+  The named is the mother of all things.
+====3
+#^^^^ markup.hunk.two-way.diff3
+#^^^ punctuation.section.hunk.diff3
+#   ^ constant.numeric.file.diff3
+1:8c
+#^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ keyword.operator.change.diff3
+2:7c
+#^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ keyword.operator.change.diff3
+    so we may see their outcome.
+3:9c
+#^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^ constant.numeric.line.begin.diff3
+#  ^ keyword.operator.change.diff3
+    so we may see their result.
+====
+#^^^ markup.hunk.three-way.diff3 punctuation.section.hunk.diff3
+1:11a
+#^^^^ meta.command.append.diff3
+#^ punctuation.separator.colon.diff3
+# ^^ constant.numeric.line.begin.diff3
+#   ^ keyword.operator.append.diff3
+2:11,13c
+#^^^^^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^^ constant.numeric.line.begin.diff3
+#   ^ punctuation.separator.comma.diff3
+#    ^^ constant.numeric.line.end.diff3
+#      ^ keyword.operator.change.diff3
+  They both may be called deep and profound.
+  Deeper and more profound,
+  The door of all subtleties!
+3:13,14c
+#^^^^^^^ meta.command.change.diff3
+#^ punctuation.separator.colon.diff3
+# ^^ constant.numeric.line.begin.diff3
+#   ^ punctuation.separator.comma.diff3
+#    ^^ constant.numeric.line.end.diff3
+#      ^ keyword.operator.change.diff3
+
+
+## Conflicts
+
 <<<<<<< HEAD
 #  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
 # ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
