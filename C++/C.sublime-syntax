@@ -215,7 +215,7 @@ contexts:
       scope: constant.language.boolean.false.c
     - match: \b(true|TRUE)\b
       scope: constant.language.boolean.true.c
-    - match: \bNULL\b
+    - match: \b(nullptr|NULL)\b
       scope: constant.language.null.c
     - match: \b__func__\b
       scope: constant.language.c

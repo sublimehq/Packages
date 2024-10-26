@@ -295,6 +295,12 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+void *null_pointer1 = NULL;
+                    /* ^ constant.language.null */
+
+void *null_pointer2 = nullptr;
+                    /* ^ constant.language.null */
+
 FOOBAR
 hello() {
     /* <- meta.function entity.name.function */
