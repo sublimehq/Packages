@@ -11006,6 +11006,14 @@ export foo          # 'foo' is a variable name
 #         ^ - meta.function-call
 #      ^^^ variable.other.readwrite.shell
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+export -n foo        # remove export property
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
+#     ^^^^^^^ meta.function-call.arguments.shell
+#            ^ - meta.function-call
+#      ^^ meta.parameter.option.shell variable.parameter.option.shell
+#         ^^^ variable.other.readwrite.shell
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export foo bar      # 'foo' and 'bar' are variable names
 # <- meta.function-call.identifier.shell support.function.shell
@@ -11061,6 +11069,19 @@ export -f ==cmd
 #     ^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^^^ meta.command.shell entity.name.function.shell
+
+export -fn ==cmd
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
+#     ^^^^^^^^^^ meta.function-call.arguments.shell
+#      ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#          ^^^^^ meta.command.shell entity.name.function.shell
+
+export -p
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^ meta.function-call.identifier.shell support.function.shell
+#     ^^^ meta.function-call.arguments.shell
+#      ^^ meta.parameter.option.shell variable.parameter.option.shell
 
 export PATH="$PATH:$HOME/.local/bin"
 # ^^^^ meta.function-call.identifier.shell support.function.shell
