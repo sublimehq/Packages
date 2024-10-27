@@ -595,7 +595,7 @@ contexts:
         - cmd-read-args
 
   cmd-read-args:
-    - match: ([-+])[cdiNnOpstu]+{{opt_break}}
+    - match: ([-+])[deiNnprstu]*[diNnptu]{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
