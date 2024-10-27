@@ -11505,6 +11505,14 @@ read data
 #    ^^^^ variable.other.readwrite.shell
 #        ^ - meta.function-call
 
+read -rn 1 -nr 1
+#^^^ meta.function-call.identifier.shell
+#   ^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ variable.parameter.option.shell
+#        ^ constant.numeric.value.shell
+#          ^^^ variable.parameter.option.shell
+#              ^ invalid.illegal.unexpected-token.shell
+
 read -d '' -sn 1 -t1 -- -t1 10 data
 #^^^ meta.function-call.identifier.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
