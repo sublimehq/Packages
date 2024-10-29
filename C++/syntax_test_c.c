@@ -218,6 +218,12 @@ typeof_unqual(i) dt;
 /*           ^ punctuation.section.group.begin */
 /*             ^ punctuation.section.group.end */
 
+static_assert(sizeof(int) == 4);
+/* <- keyword.operator.word */
+
+_Static_assert(sizeof(int) == 4);
+/* <- keyword.operator.word */
+
 void build_default_prototype(Function *ret) {
     static typeof(*ret->params) params[4];
            /* <- keyword.declaration.type */

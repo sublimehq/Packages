@@ -48,7 +48,7 @@ variables:
   type_qualifier: 'const|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|sizeof|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|sizeof|static_assert|_Static_assert|__declspec|__attribute__'
 
 contexts:
   main:
@@ -197,7 +197,7 @@ contexts:
       scope: keyword.control.flow.return.c
     - match: \b({{control_keywords}})\b
       scope: keyword.control.c
-    - match: \bsizeof\b
+    - match: \b(sizeof|static_assert|_Static_assert)\b
       scope: keyword.operator.word.c
 
   modifiers:
