@@ -183,7 +183,7 @@ contexts:
           ((-?\d+)|\*(-?\d+\$)?)?                       # minimum field width
           (\.((-?\d+)|\*(-?\d+\$)?)?)?                  # precision
           (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)?          # length modifier
-          (\[[^\]]+\]|[am]s|[diouxXDOUeEfFgGaACcSspn%]) # conversion type
+          (\[[^\]]+\]|[am]s|[diouxXbDOUeEfFgGaACcSspn%]) # conversion type
       scope: constant.other.placeholder.c
 
   keywords:
