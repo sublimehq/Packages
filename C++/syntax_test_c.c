@@ -224,6 +224,12 @@ typeof_unqual(i) dt;
 /*           ^ punctuation.section.group.begin */
 /*             ^ punctuation.section.group.end */
 
+static_assert(alignof(int) == 4);
+/*              ^ keyword.operator.word */
+
+_Static_assert(_Alignof(int) == 4);
+/*              ^ keyword.operator.word */
+
 static_assert(sizeof(int) == 4);
 /* <- keyword.operator.word */
 
