@@ -460,14 +460,41 @@ bool b;
 char ch;
 /* <- storage.type */
 
-char16_t ch16;
-/* <- storage.type */
+size_t size_t_var;
+/* <- support.type.stddef */
 
-char32_t ch32;
-/* <- storage.type */
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
 
-wchar_t wch;
-/* <- storage.type */
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
 
 unsigned int ui;
 /* <- storage.type */
