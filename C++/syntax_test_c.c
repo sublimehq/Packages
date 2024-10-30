@@ -201,6 +201,12 @@ struct foo {
 int i;
 /* <- storage.type */
 
+thread_local int tl1;
+/* <- storage.modifier */
+
+_Thread_local int tl2;
+/* <- storage.modifier */
+
 typeof(i) dt;
 /* <- keyword.declaration.type */
 /*    ^ punctuation.section.group.begin */
