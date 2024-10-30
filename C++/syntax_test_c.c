@@ -734,6 +734,9 @@ static const uint32_t * const MACRO funcname();
 /*                      ^ storage.modifier */
 /*                                  ^ entity.name.function */
 
+static constexpr int bar = 1;
+/*     ^ storage.modifier */
+
 MACRO int
 /*    ^ storage.type */
 funcname2
