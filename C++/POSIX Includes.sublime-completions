@@ -1,0 +1,352 @@
+{
+    "scope": "(source.c | source.objc | source.c++ | source.objc++) & (meta.preprocessor.include string.quoted.other)",
+
+    // POSIX is an extension of ISO C so we only include POSIX includes.
+    // Taken from https://pubs.opengroup.org/onlinepubs/9799919799/idx/head.html
+    // Update as needed.
+    "completions":
+    [
+        {
+            // asynchronous input and output
+            "trigger": "aio.h",
+            "contents": "aio.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for internet operations
+            "trigger": "arpa/inet.h",
+            "contents": "arpa/inet.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // cpio archive values
+            "trigger": "cpio.h",
+            "contents": "cpio.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // device control
+            "trigger": "devctl.h",
+            "contents": "devctl.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // format of directory entries
+            "trigger": "dirent.h",
+            "contents": "dirent.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // dynamic linking
+            "trigger": "dlfcn.h",
+            "contents": "dlfcn.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // system endianness
+            "trigger": "endian.h",
+            "contents": "endian.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // file control options
+            "trigger": "fcntl.h",
+            "contents": "fcntl.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // message display structures
+            "trigger": "fmtmsg.h",
+            "contents": "fmtmsg.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // filename-matching types
+            "trigger": "fnmatch.h",
+            "contents": "fnmatch.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // file tree traversal
+            "trigger": "ftw.h",
+            "contents": "ftw.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // pathname pattern-matching types
+            "trigger": "glob.h",
+            "contents": "glob.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // group structure
+            "trigger": "grp.h",
+            "contents": "grp.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // codeset conversion facility
+            "trigger": "iconv.h",
+            "contents": "iconv.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // language information constants
+            "trigger": "langinfo.h",
+            "contents": "langinfo.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for pattern matching functions
+            "trigger": "libgen.h",
+            "contents": "libgen.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // international messaging
+            "trigger": "libintl.h",
+            "contents": "libintl.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // monetary types
+            "trigger": "monetary.h",
+            "contents": "monetary.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // message queues
+            "trigger": "mqueue.h",
+            "contents": "mqueue.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for ndbm database operations
+            "trigger": "ndbm.h",
+            "contents": "ndbm.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // sockets local interfaces
+            "trigger": "net/if.h",
+            "contents": "net/if.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for network database operations
+            "trigger": "netdb.h",
+            "contents": "netdb.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Internet address family
+            "trigger": "netinet/in.h",
+            "contents": "netinet/in.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for the Internet Transmission Control Protocol (TCP)
+            "trigger": "netinet/tcp.h",
+            "contents": "netinet/tcp.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // data types
+            "trigger": "nl_types.h",
+            "contents": "nl_types.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for the poll() function
+            "trigger": "poll.h",
+            "contents": "poll.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // threads
+            "trigger": "pthread.h",
+            "contents": "pthread.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // password structure
+            "trigger": "pwd.h",
+            "contents": "pwd.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // regular expression matching types
+            "trigger": "regex.h",
+            "contents": "regex.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // execution scheduling
+            "trigger": "sched.h",
+            "contents": "sched.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // search tables
+            "trigger": "search.h",
+            "contents": "search.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // semaphores
+            "trigger": "semaphore.h",
+            "contents": "semaphore.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // spawn
+            "trigger": "spawn.h",
+            "contents": "spawn.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // string operations
+            "trigger": "strings.h",
+            "contents": "strings.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // XSI interprocess communication access structure
+            "trigger": "sys/ipc.h",
+            "contents": "sys/ipc.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // memory management declarations
+            "trigger": "sys/mman.h",
+            "contents": "sys/mman.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // XSI message queue structures
+            "trigger": "sys/msg.h",
+            "contents": "sys/msg.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for resource operations
+            "trigger": "sys/resource.h",
+            "contents": "sys/resource.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // select types
+            "trigger": "sys/select.h",
+            "contents": "sys/select.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // XSI semaphore facility
+            "trigger": "sys/sem.h",
+            "contents": "sys/sem.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // XSI shared memory facility
+            "trigger": "sys/shm.h",
+            "contents": "sys/shm.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // main sockets header
+            "trigger": "sys/socket.h",
+            "contents": "sys/socket.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // data returned by the stat() function
+            "trigger": "sys/stat.h",
+            "contents": "sys/stat.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // VFS File System information structure
+            "trigger": "sys/statvfs.h",
+            "contents": "sys/statvfs.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // time types
+            "trigger": "sys/time.h",
+            "contents": "sys/time.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // file access and modification times structure
+            "trigger": "sys/times.h",
+            "contents": "sys/times.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // data types
+            "trigger": "sys/types.h",
+            "contents": "sys/types.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for vector I/O operations
+            "trigger": "sys/uio.h",
+            "contents": "sys/uio.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for UNIX domain sockets
+            "trigger": "sys/un.h",
+            "contents": "sys/un.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // system name structure
+            "trigger": "sys/utsname.h",
+            "contents": "sys/utsname.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // declarations for waiting
+            "trigger": "sys/wait.h",
+            "contents": "sys/wait.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // definitions for system error logging
+            "trigger": "syslog.h",
+            "contents": "syslog.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // extended tar definitions
+            "trigger": "tar.h",
+            "contents": "tar.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // define values for termios
+            "trigger": "termios.h",
+            "contents": "termios.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // standard symbolic constants and types
+            "trigger": "unistd.h",
+            "contents": "unistd.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // user accounting database definitions
+            "trigger": "utmpx.h",
+            "contents": "utmpx.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // word-expansion types
+            "trigger": "wordexp.h",
+            "contents": "wordexp.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+    ]
+}
