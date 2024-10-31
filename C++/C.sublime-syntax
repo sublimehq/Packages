@@ -854,7 +854,7 @@ contexts:
           scope: constant.other.c
 
   keywords-parens:
-    - match: '\b(sizeof)\b\s*(\()'
+    - match: '\b(sizeof|alignof|_Alignof|static_assert|_Static_assert)\b\s*(\()'
       captures:
         1: keyword.operator.word.c
         2: meta.group.c punctuation.section.group.begin.c
