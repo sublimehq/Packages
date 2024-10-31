@@ -361,6 +361,14 @@ void *null_pointer1 = NULL;
 void *null_pointer2 = nullptr;
                     /* ^ constant.language.null */
 
+_Noreturn
+/* <- storage.modifier */
+void foo(void) { abort(); }
+
+noreturn
+/* <- storage.modifier */
+void bar(void) { abort(); }
+
 FOOBAR
 hello() {
     /* <- meta.function entity.name.function */
