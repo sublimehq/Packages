@@ -6,10 +6,8 @@
     // Can be a list of strings which are joined before matching.
     "default_completions_selector": [
         // Plain HTML
-        "text.html - source - string - text.html.markdown, ",
+        "text.html - text.html meta.embedded - text.html meta.interpolation - text.html source - (text.html.markdown - markup.raw.code-fence text.html), ",
         // Embedded HTML blocks
-        "text.html.embedded - text.html.embedded source, ",
-        // Markdown fenced code blocks
-        "markup.raw.code-fence text.html - markup.raw.code-fence text.html source"
+        "text.html.embedded - text.html.embedded meta.embedded - text.html.embedded meta.interpolation - text.html.embedded source",
     ]
 }
