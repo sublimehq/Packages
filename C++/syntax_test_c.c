@@ -201,6 +201,12 @@ struct foo {
 int i;
 /* <- storage.type */
 
+_Atomic int ai1;
+/* <- storage.modifier */
+
+_Atomic(int) ai2;
+/* <- storage.modifier */
+
 thread_local int tl1;
 /* <- storage.modifier */
 

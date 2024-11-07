@@ -48,10 +48,10 @@ variables:
   uchar: 'mbstate_t|char8_t|char16_t|char32_t'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|extern|register|thread_local|_Thread_local|constexpr|{{declspec}}'
-  type_qualifier: 'const|volatile'
+  type_qualifier: 'const|volatile|_Atomic'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|sizeof|alignof|_Alignof|static_assert|_Static_assert|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|sizeof|alignof|_Alignof|static_assert|_Static_assert|__declspec|__attribute__'
 
 contexts:
   main:
@@ -260,7 +260,7 @@ contexts:
     - include: types-parens
 
   types-parens:
-    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual)\b\s*(\()'
+    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual|_Atomic)\b\s*(\()'
       captures:
         1: keyword.declaration.type.c
         2: meta.group.c punctuation.section.group.begin.c
