@@ -49,7 +49,7 @@ variables:
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|extern|register|thread_local|_Thread_local|constexpr|{{declspec}}'
   type_qualifier: 'const|volatile|_Atomic'
-  compiler_directive: 'inline|restrict|__restrict__|__restrict'
+  compiler_directive: 'inline|restrict|__restrict__|__restrict|_Noreturn|noreturn'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|sizeof|alignof|_Alignof|static_assert|_Static_assert|__declspec|__attribute__'
 
