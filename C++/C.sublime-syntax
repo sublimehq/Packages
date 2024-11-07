@@ -52,7 +52,7 @@ variables:
   type_qualifier: 'const|volatile|_Atomic'
   compiler_directive: 'inline|restrict|__restrict__|__restrict|_Noreturn|noreturn'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|_BitInt|sizeof|alignof|_Alignof|static_assert|_Static_assert|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|_BitInt|sizeof|alignof|_Alignof|alignas|_Alignas|static_assert|_Static_assert|__declspec|__attribute__'
 
 contexts:
   main:
@@ -263,7 +263,7 @@ contexts:
     - include: types-parens
 
   types-parens:
-    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual|_Atomic|_BitInt)\b\s*(\()'
+    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual|alignas|_Alignas|_Atomic|_BitInt)\b\s*(\()'
       captures:
         1: keyword.declaration.type.c
         2: meta.group.c punctuation.section.group.begin.c
