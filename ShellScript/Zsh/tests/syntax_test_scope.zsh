@@ -1497,6 +1497,46 @@ function {
 ip=10.10.20.14
 #  ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
+###############################################################################
+#  Special Parameters                                                         #
+###############################################################################
+
+# Expands to the number of positional parameters in decimal.
+: $# ${#} ${!#} ${##} _$#_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^ meta.string.glob.shell string.unquoted.shell
+#                      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+
+: $#__ints {1..$#__hits}
+# ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#  ^ keyword.operator.expansion.length.shell
+#          ^^^^^^^^^^^^^ meta.interpolation.brace.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^^ keyword.operator.range.shell
+#              ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#              ^ punctuation.definition.variable.shell
+#               ^ keyword.operator.expansion.length.shell
+#                      ^ punctuation.section.interpolation.end.shell
 
 ###############################################################################
 # 14.3 Parameter Expansion                                                    #
