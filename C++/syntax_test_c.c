@@ -327,6 +327,120 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+atomic_bool atomic_bool_var;
+/* <- support.type.stdatomic */
+
+atomic_char atomic_char_var;
+/* <- support.type.stdatomic */
+
+atomic_schar atomic_schar_var;
+/* <- support.type.stdatomic */
+
+atomic_uchar atomic_uchar_var;
+/* <- support.type.stdatomic */
+
+atomic_short atomic_short_var;
+/* <- support.type.stdatomic */
+
+atomic_ushort atomic_ushort_var;
+/* <- support.type.stdatomic */
+
+atomic_int atomic_int_var;
+/* <- support.type.stdatomic */
+
+atomic_uint atomic_uint_var;
+/* <- support.type.stdatomic */
+
+atomic_long atomic_long_var;
+/* <- support.type.stdatomic */
+
+atomic_ulong atomic_ulong_var;
+/* <- support.type.stdatomic */
+
+atomic_llong atomic_llong_var;
+/* <- support.type.stdatomic */
+
+atomic_ullong atomic_ullong_var;
+/* <- support.type.stdatomic */
+
+atomic_char8_t atomic_char8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_char16_t atomic_char16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_char32_t atomic_char32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_wchar_t atomic_wchar_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least8_t atomic_int_least8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least8_t atomic_uint_least8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least16_t atomic_int_least16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least16_t atomic_uint_least16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least32_t atomic_int_least32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least32_t atomic_uint_least32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least64_t atomic_int_least64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least64_t atomic_uint_least64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast8_t atomic_int_fast8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast8_t atomic_uint_fast8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast16_t atomic_int_fast16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast16_t atomic_uint_fast16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast32_t atomic_int_fast32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast32_t atomic_uint_fast32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast64_t atomic_int_fast64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast64_t atomic_uint_fast64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_intptr_t atomic_intptr_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uintptr_t atomic_uintptr_t_var;
+/* <- support.type.stdatomic */
+
+atomic_size_t atomic_size_t_var;
+/* <- support.type.stdatomic */
+
+atomic_ptrdiff_t atomic_ptrdiff_t_var;
+/* <- support.type.stdatomic */
+
+atomic_intmax_t atomic_intmax_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uintmax_t atomic_uintmax_t_var;
+/* <- support.type.stdatomic */
+
 size_t size_t_var;
 /* <- support.type.stddef */
 
