@@ -201,6 +201,14 @@ struct foo {
 int i;
 /* <- storage.type */
 
+signed _BitInt(4) bi1 = 1wb;
+/*     ^ keyword.declaration.type */
+/*                       ^ constant.numeric.suffix */
+
+unsigned _BitInt(4) bi2 = 1uwb;
+/*       ^ keyword.declaration.type */
+/*                         ^ constant.numeric.suffix */
+
 _Atomic int ai1;
 /* <- storage.modifier */
 

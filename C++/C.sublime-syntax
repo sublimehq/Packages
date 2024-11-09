@@ -33,7 +33,7 @@ variables:
   hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
   double_suffix: '[fFlL]'
   float_suffix: '[fF]'
-  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
+  integer_suffix: 'u?wb|[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
@@ -51,7 +51,7 @@ variables:
   type_qualifier: 'const|volatile|_Atomic'
   compiler_directive: 'inline|restrict|__restrict__|__restrict|_Noreturn|noreturn'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|sizeof|alignof|_Alignof|static_assert|_Static_assert|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|_BitInt|sizeof|alignof|_Alignof|static_assert|_Static_assert|__declspec|__attribute__'
 
 contexts:
   main:
@@ -180,12 +180,12 @@ contexts:
   string_placeholder:
     - match: |-
         (?x)%
-          (\d+\$)?                                      # field (argument #)
-          [#0\- +']*                                    # flags
-          [,;:_]?                                       # separator character (AltiVec)
-          ((-?\d+)|\*(-?\d+\$)?)?                       # minimum field width
-          (\.((-?\d+)|\*(-?\d+\$)?)?)?                  # precision
-          (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)?          # length modifier
+          (\d+\$)?                                       # field (argument #)
+          [#0\- +']*                                     # flags
+          [,;:_]?                                        # separator character (AltiVec)
+          ((-?\d+)|\*(-?\d+\$)?)?                        # minimum field width
+          (\.((-?\d+)|\*(-?\d+\$)?)?)?                   # precision
+          (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl|wf?[0-9]+)? # length modifier
           (\[[^\]]+\]|[am]s|[diouxXbDOUeEfFgGaACcSspn%]) # conversion type
       scope: constant.other.placeholder.c
 
@@ -260,7 +260,7 @@ contexts:
     - include: types-parens
 
   types-parens:
-    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual|_Atomic)\b\s*(\()'
+    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual|_Atomic|_BitInt)\b\s*(\()'
       captures:
         1: keyword.declaration.type.c
         2: meta.group.c punctuation.section.group.begin.c
