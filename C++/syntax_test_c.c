@@ -327,6 +327,27 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+complex complex_t_var;
+/* <- support.type.complex */
+
+imaginary imaginary_t_var;
+/* <- support.type.complex */
+
+fenv_t fenv_t_var;
+/* <- support.type.fenv */
+
+fexcept_t fexcept_t_var;
+/* <- support.type.fenv */
+
+jmp_buf jmp_buf_var;
+/* <- support.type.setjmp */
+
+sig_atomic_t sig_atomic_t_var;
+/* <- support.type.signal */
+
+va_list va_list_var;
+/* <- support.type.stdarg */
+
 atomic_bool atomic_bool_var;
 /* <- support.type.stdatomic */
 
@@ -441,6 +462,30 @@ atomic_intmax_t atomic_intmax_t_var;
 atomic_uintmax_t atomic_uintmax_t_var;
 /* <- support.type.stdatomic */
 
+atomic_flag atomic_flag_var;
+/* <- support.type.stdatomic */
+
+memory_order memory_order_var;
+/* <- support.type.stdatomic */
+
+FILE *FILE_var;
+/* <- support.type.stdio */
+
+fpos_t fpos_t_var;
+/* <- support.type.stdio */
+
+div_t div_t_var;
+/* <- support.type.stdlib */
+
+ldiv_t ldiv_t_var;
+/* <- support.type.stdlib */
+
+lldiv_t lldiv_t_var;
+/* <- support.type.stdlib */
+
+imaxdiv_t imaxdiv_t_var;
+/* <- support.type.stdlib */
+
 size_t size_t_var;
 /* <- support.type.stddef */
 
@@ -476,6 +521,33 @@ char16_t char16_t_var;
 
 char32_t char32_t_var;
 /* <- support.type.uchar */
+
+time_t time_t_var;
+/* <- support.type.time */
+
+clock_t clock_t_var;
+/* <- support.type.time */
+
+thrd_t thrd_t_var;
+/* <- support.type.threads */
+
+thrd_start_t thrd_start_t_var;
+/* <- support.type.threads */
+
+mtx_t mtx_t_var;
+/* <- support.type.threads */
+
+cnd_t cnd_t_var;
+/* <- support.type.threads */
+
+tss_t tss_t_var;
+/* <- support.type.threads */
+
+tss_dtor_t tss_dtor_t_var;
+/* <- support.type.threads */
+
+once_flag once_flag_var;
+/* <- support.type.threads */
 
 void *null_pointer1 = NULL;
                     /* ^ constant.language.null */
