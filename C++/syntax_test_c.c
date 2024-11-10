@@ -215,6 +215,12 @@ _Atomic int ai1;
 _Atomic(int) ai2;
 /* <- storage.modifier */
 
+_Alignas(int) int aa1;
+/* <- keyword.declaration.type */
+
+alignas(int) int aa2;
+/* <- keyword.declaration.type */
+
 thread_local int tl1;
 /* <- storage.modifier */
 
