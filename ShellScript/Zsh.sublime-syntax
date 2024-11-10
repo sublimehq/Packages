@@ -432,14 +432,16 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
       push: zsh-parameter-subscription
+    # length operator has precedence over special parameters
+    - match: (\$)(\#?){{identifier}}
+      scope: meta.interpolation.parameter.shell variable.other.readwrite.shell
+      captures:
+        1: punctuation.definition.variable.shell
+        2: keyword.operator.expansion.length.shell
+      push: zsh-parameter-subscription
     # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
     - match: (\$){{special_variables}}
       scope: variable.language.special.shell
-      captures:
-        1: punctuation.definition.variable.shell
-      push: zsh-parameter-subscription
-    - match: (\$){{identifier}}
-      scope: variable.other.readwrite.shell
       captures:
         1: punctuation.definition.variable.shell
       push: zsh-parameter-subscription
