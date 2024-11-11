@@ -333,6 +333,15 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+_Decimal32 d32;
+/* <- storage.type */
+
+_Decimal64 d64;
+/* <- storage.type */
+
+_Decimal128 d128;
+/* <- storage.type */
+
 complex complex_t_var;
 /* <- support.type.complex */
 
@@ -1112,9 +1121,8 @@ dec1 = 1234567890;
 /*               ^ punctuation.terminator - constant */
 
 dec2 = 1234567890f;
-/*     ^^^^^^^^^^^ meta.number.float.decimal.c */
 /*     ^^^^^^^^^^ constant.numeric.value.c */
-/*               ^ constant.numeric.suffix.c */
+/*               ^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
 dec3 = 1234567890L;

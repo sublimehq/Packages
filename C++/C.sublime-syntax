@@ -20,8 +20,6 @@ variables:
   dec_digit: '\d'
   hex_digit: '\h'
 
-  dec_digits: '{{dec_digit}}+'
-
   # number exponents
   dec_exponent: '(?:[eE][-+]?{{dec_digit}}*)'
   hex_exponent: '(?:[pP][-+]?{{dec_digit}}*)'
@@ -31,14 +29,13 @@ variables:
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
   hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
-  double_suffix: '[fFlL]'
-  float_suffix: '[fF]'
+  double_suffix: 'df|DF|dd|DD|dl|DL|[fFlL]'
   integer_suffix: 'u?wb|[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
-  basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
+  basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|_Decimal(32|64|128)|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
   microsoft_types: '__int8|__int16|__int32|__int64'
   windows_types: 'APIENTRY|ATOM|BOOL|BOOLEAN|BYTE|CALLBACK|CCHAR|CHAR|COLORREF|CONST|DWORD|DWORDLONG|DWORD_PTR|DWORD32|DWORD64|FLOAT|HACCEL|HALF_PTR|HANDLE|HBITMAP|HBRUSH|HCOLORSPACE|HCONV|HCONVLIST|HCURSOR|HDC|HDDEDATA|HDESK|HDROP|HDWP|HENHMETAFILE|HFILE|HFONT|HGDIOBJ|HGLOBAL|HHOOK|HICON|HINSTANCE|HKEY|HKL|HLOCAL|HMENU|HMETAFILE|HMODULE|HMONITOR|HPALETTE|HPEN|HRESULT|HRGN|HRSRC|HSZ|HWINSTA|HWND|INT|INT_PTR|INT8|INT16|INT32|INT64|LANGID|LCID|LCTYPE|LGRPID|LONG|LONGLONG|LONG_PTR|LONG32|LONG64|LPARAM|LPBOOL|LPBYTE|LPCOLORREF|LPCSTR|LPCTSTR|LPCVOID|LPCWSTR|LPDWORD|LPHANDLE|LPINT|LPLONG|LPSTR|LPTSTR|LPVOID|LPWORD|LPWSTR|LRESULT|PBOOL|PBOOLEAN|PBYTE|PCHAR|PCSTR|PCTSTR|PCWSTR|PDWORD|PDWORDLONG|PDWORD_PTR|PDWORD32|PDWORD64|PFLOAT|PHALF_PTR|PHANDLE|PHKEY|PINT|PINT_PTR|PINT8|PINT16|PINT32|PINT64|PLCID|PLONG|PLONGLONG|PLONG_PTR|PLONG32|PLONG64|POINTER_32|POINTER_64|POINTER_SIGNED|POINTER_UNSIGNED|PSHORT|PSIZE_T|PSSIZE_T|PSTR|PTBYTE|PTCHAR|PTSTR|PUCHAR|PUHALF_PTR|PUINT|PUINT_PTR|PUINT8|PUINT16|PUINT32|PUINT64|PULONG|PULONGLONG|PULONG_PTR|PULONG32|PULONG64|PUSHORT|PVOID|PWCHAR|PWORD|PWSTR|QWORD|SC_HANDLE|SC_LOCK|SERVICE_STATUS_HANDLE|SHORT|SIZE_T|SSIZE_T|TBYTE|TCHAR|UCHAR|UHALF_PTR|UINT|UINT_PTR|UINT8|UINT16|UINT32|UINT64|ULONG|ULONGLONG|ULONG_PTR|ULONG32|ULONG64|UNICODE_STRING|USHORT|USN|VOID|WCHAR|WINAPI|WORD|WPARAM'
@@ -190,13 +187,13 @@ contexts:
   string_placeholder:
     - match: |-
         (?x)%
-          (\d+\$)?                                       # field (argument #)
-          [#0\- +']*                                     # flags
-          [,;:_]?                                        # separator character (AltiVec)
-          ((-?\d+)|\*(-?\d+\$)?)?                        # minimum field width
-          (\.((-?\d+)|\*(-?\d+\$)?)?)?                   # precision
-          (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl|wf?[0-9]+)? # length modifier
-          (\[[^\]]+\]|[am]s|[diouxXbDOUeEfFgGaACcSspn%]) # conversion type
+          (\d+\$)?                                              # field (argument #)
+          [#0\- +']*                                            # flags
+          [,;:_]?                                               # separator character (AltiVec)
+          ((-?\d+)|\*(-?\d+\$)?)?                               # minimum field width
+          (\.((-?\d+)|\*(-?\d+\$)?)?)?                          # precision
+          (hh|h|ll|l|j|t|z|q|L|H|D|DD|vh|vl|v|hv|hl|wf?[0-9]+)? # length modifier
+          (\[[^\]]+\]|[am]s|[diouxXbDOUeEfFgGaACcSspn%])        # conversion type
       scope: constant.other.placeholder.c
 
   keywords:
@@ -306,39 +303,26 @@ contexts:
 
     # decimal floats
     - match: |-
-        (?x:
-          \b({{dec_digits}})
+        (?x)
+        (
+          \b{{dec_digit}}+
           (?:
-            ( (\.)
-              (?:
-                # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                {{dec_digit}}+ {{dec_exponent}}?
-                # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | {{dec_exponent}}
-                # 1., 1.f, 1.L # but not `..`
-                | (?!\.)
-              )
-              # 1e1 1e1f 1e1L
-              | {{dec_exponent}}
-            ) ({{double_suffix}})?
-            # 1f
-            | ({{float_suffix}})
-          ) ({{dec_suffix}})?
-          # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
+          # 1., 1.f, 1.L, 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
+            (\.) (?: {{dec_digit}}+ | (?!\.) ) {{dec_exponent}}?
+          # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
+          | {{dec_exponent}}
+          )
+        # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
+        |  (\.) {{dec_digit}}+ {{dec_exponent}}?
         )
+        (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
       scope: meta.number.float.decimal.c
       captures:
         1: constant.numeric.value.c
-        2: constant.numeric.value.c
+        2: punctuation.separator.decimal.c
         3: punctuation.separator.decimal.c
         4: constant.numeric.suffix.c
-        5: constant.numeric.suffix.c
-        6: invalid.illegal.numeric.suffix.c
-        7: constant.numeric.value.c
-        8: punctuation.separator.decimal.c
-        9: constant.numeric.suffix.c
-        10: invalid.illegal.numeric.suffix.c
+        5: invalid.illegal.numeric.suffix.c
 
     # hexadecimal float (C99)
     - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})(?:([fFlL]\b)|({{dec_suffix}}))?
@@ -380,7 +364,7 @@ contexts:
         4: invalid.illegal.numeric.suffix.c
 
     # decimal integer
-    - match: \b({{dec_digits}})(?:({{integer_suffix}})|({{dec_suffix}}))?
+    - match: \b({{dec_digit}}+)(?:({{integer_suffix}})|({{dec_suffix}}))?
       scope: meta.number.integer.decimal.c
       captures:
         1: constant.numeric.value.c
