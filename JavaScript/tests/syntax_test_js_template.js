@@ -210,6 +210,60 @@ var style = css`
 /*   ^ - meta.string */
 
 /*
+ * SQL Templates
+ */
+
+var sql = sql`SELECT * FROM "foo";`
+/*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
+
+var sql = SQL`SELECT * FROM "foo";`
+/*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
+var sql = sql`
+/*        ^^^ variable.function.tagged-template */
+/*           ^^ meta.string.template.js string.quoted.other.js */
+/*           ^ punctuation.definition.string.begin.js */
+/*            ^ - source.sql.embedded */
+
+SELECT  *,
+/* ^^^ keyword.other.DML.sql */
+/*      ^ constant.other.wildcard.asterisk.sql */
+        f.id AS database_id
+/*           ^^ keyword.operator.assignment.alias.sql */
+FROM    foo
+WHERE   f.a IS NULL
+/* ^^ keyword.other.DML.sql */
+/*          ^^ keyword.operator.logical.sql */
+/*             ^^^^ constant.language.null.sql */
+        AND f.b IS NOT NULL
+/*      ^^^ keyword.operator.logical.sql */
+/*              ^^ keyword.operator.logical.sql */
+/*                 ^^^ keyword.operator.logical.sql */
+/*                     ^^^^ constant.language.null.sql */
+
+    `
+/* <- meta.string.template.js string.quoted.other.js - source.sql.embedded */
+/*^^^ meta.string.template.js string.quoted.other.js - source.sql.embedded */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string */
+
+var sql = sql`SELECT * FROM ${users};`
+/*            ^^^^^^^^^^^^^^ meta.string.template.js source.sql.embedded.js - meta.interpolation.js */
+/*                          ^^^^^^^^ meta.string.template.js source.sql.embedded.js meta.interpolation.js */
+/*                          ^^ punctuation.section.interpolation.begin.js */
+/*                            ^^^^^ source.js.embedded variable.other.readwrite.js */
+/*                                 ^ punctuation.section.interpolation.end.js */
+/*                                  ^ punctuation.terminator.statement.sql - meta.interpolation.js */
+/*                                   ^ string.quoted.other.js punctuation.definition.string.end.js */
+
+/*
  * Unknown Template
  */
 
