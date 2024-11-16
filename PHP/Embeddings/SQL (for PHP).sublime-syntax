@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 scope: source.sql.embedded.php
+version: 2
 hidden: true
 
 extends: Packages/SQL/SQL.sublime-syntax

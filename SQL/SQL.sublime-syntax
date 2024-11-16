@@ -2,6 +2,7 @@
 ---
 name: SQL
 scope: source.sql
+version: 2
 
 file_extensions:
   - sql
