@@ -314,7 +314,7 @@ contexts:
     - include: shell-content
 
   shell-content:
-    - include: Packages/Makefile/Makefile Shell.sublime-syntax
+    - include: Packages/Makefile/Embeddings/Shell (for Makefile).sublime-syntax
       apply_prototype: true
 
   line-continuation:
@@ -660,13 +660,13 @@ contexts:
     - match: \$(?=\$[{\w])
       scope: constant.character.escape.makefile
       push:
-        - include: scope:source.shell.bash#expansions-parameter
+        - include: scope:source.shell.bash#parameter-expansions
         - match: ''
           pop: 1
     - match: \$(?=\$\()
       scope: constant.character.escape.makefile
       push:
-        - include: scope:source.shell.embedded.makefile#expansions-command
+        - include: scope:source.shell.embedded.makefile#command-expansions
         - match: ''
           pop: 1
     - match: (\$)[[:alpha:]]

@@ -85,6 +85,13 @@ variables:
 
   logical_operators: (?i:and|or|not|only)
 
+  # Block punctuations
+  #  Provides an easy and safe interface for template syntaxes to override
+  #  block punctuation patterns to prevent ambiguities with interpolations.
+  #  It helps to correctly highlight {{ tag }} { {{prop}}: {{value}} }
+  block_start: \{
+  block_end: \}
+
   # Properties and Selectors
   property_or_selector_begin: (?={{ident_begin}}|{{selector_start}})
   property_end: (?=[;@)}])
@@ -355,10 +362,14 @@ contexts:
 
   stylesheet:
     # https://www.w3.org/TR/css-syntax-3/#typedef-stylesheet
+    #
+    # CAUTION:
+    # property-lists must follow selector, properties, at-rules
+    # to give {{ interpolation }} precedence
     - include: comments
-    - include: property-lists
     - include: selectors
     - include: at-rules
+    - include: property-lists
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
@@ -531,7 +542,7 @@ contexts:
   at-counter-style-declaration-list:
     # https://www.w3.org/TR/css-syntax-3/#typedef-declaration-list
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: at-counter-style-declaration-list-body
     - include: comments
@@ -689,19 +700,22 @@ contexts:
 
   at-keyframe-block:
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: at-keyframe-block-body
     - include: comments
     - include: else-pop
 
   at-keyframe-block-body:
+    # CAUTION:
+    # property-lists must follow selector, properties, at-rules
+    # to give {{ interpolation }} precedence
     - meta_include_prototype: false
     - meta_scope: meta.block.css
     - include: block-end
     - include: comments
-    - include: property-lists
     - include: at-keyframe-selectors
+    - include: property-lists
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
@@ -1008,7 +1022,7 @@ contexts:
 
   at-other-body:
     - meta_scope: meta.at-rule.other.css
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       push: at-other-block-body
     - include: at-rule-end
@@ -1492,7 +1506,7 @@ contexts:
 
   maybe-stylesheet-block:
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: stylesheet-block-body
     - include: comments
@@ -1508,14 +1522,14 @@ contexts:
 
   maybe-property-list:
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: property-list-body
     - include: comments
     - include: else-pop
 
   property-lists:
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       push: property-list-body
 
@@ -1523,13 +1537,17 @@ contexts:
     # According to official specs, this is a style-block.
     # It supports declarations, nested style-rules and at-rules.
     # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
+    #
+    # CAUTION:
+    # property-lists must follow selector, properties, at-rules
+    # to give {{ interpolation }} precedence
     - meta_include_prototype: false
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
     - include: comments
-    - include: property-lists
     - include: properties-or-selectors
     - include: nested-at-rules
+    - include: property-lists
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
@@ -1550,6 +1568,7 @@ contexts:
 ###[ PROPERTY IDENTIFIERS ]####################################################
 
   properties-or-selectors:
+    - include: custom-properties
     - match: '{{property_or_selector_begin}}'
       branch_point: property-or-selector
       branch:
@@ -3463,12 +3482,12 @@ contexts:
       scope: punctuation.separator.sequence.css
 
   block-end:
-    - match: \}
+    - match: '{{block_end}}'
       scope: punctuation.section.block.end.css
       pop: 1
 
   block-end2:
-    - match: \}
+    - match: '{{block_end}}'
       scope: punctuation.section.block.end.css
       pop: 2
 
@@ -3492,13 +3511,13 @@ contexts:
 
   illegal-blocks:
     # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
-    - match: \{
+    - match: '{{block_start}}'
       scope: invalid.illegal.unexpected-token.css
       push:
-        - match: \}
+        - match: '{{block_end}}'
           scope: invalid.illegal.unexpected-token.css
           pop: 1
-    - match: \}
+    - match: '{{block_end}}'
       scope: invalid.illegal.unexpected-token.css
 
   illegal-groups:

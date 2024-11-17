@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.shell</string>
+    <key>settings</key>
+    <dict>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.block.begin</string>
+                <key>end</key>
+                <string>punctuation.section.block.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.compound.begin</string>
+                <key>end</key>
+                <string>punctuation.section.compound.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.group.begin</string>
+                <key>end</key>
+                <string>punctuation.section.group.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>keyword.control.conditional.then</string>
+                <key>end</key>
+                <string>keyword.control.conditional.else, keyword.control.conditional.elseif, keyword.control.conditional.endif</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>keyword.control.conditional.if, keyword.control.conditional.elseif</string>
+                <key>end</key>
+                <string>keyword.control.conditional.then</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>keyword.control.conditional.else</string>
+                <key>end</key>
+                <string>keyword.control.conditional.endif</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>keyword.control.conditional.case</string>
+                <key>end</key>
+                <string>keyword.control.conditional.endcase</string>
+                <key>excludeTrailingNewlines</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>meta.clause.patterns punctuation.section.patterns.end</string>
+                <key>end</key>
+                <string>punctuation.terminator.clause</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>keyword.control.loop.do</string>
+                <key>end</key>
+                <string>keyword.control.loop.end</string>
+                <key>excludeTrailingNewlines</key>
+                <true/>
+            </dict>
+            <dict>
+                <!-- ZSH -->
+                <key>begin</key>
+                <string>meta.statement.loop.foreach punctuation.section.sequence.end</string>
+                <key>end</key>
+                <string>keyword.control.loop.endforeach</string>
+                <key>excludeTrailingNewlines</key>
+                <true/>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

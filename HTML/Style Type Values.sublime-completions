@@ -1,0 +1,10 @@
+{
+	"scope": "text.html meta.tag.style meta.attribute-with-value.type",
+	"completions": [
+		{
+			"trigger": "text/css",
+			"kind": ["type", "t", "Mime Type"],
+			"details": "Cascading Stylesheet"
+		}
+	]
+}

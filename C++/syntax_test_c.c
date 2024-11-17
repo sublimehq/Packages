@@ -218,6 +218,12 @@ typeof_unqual(i) dt;
 /*           ^ punctuation.section.group.begin */
 /*             ^ punctuation.section.group.end */
 
+static_assert(sizeof(int) == 4);
+/* <- keyword.operator.word */
+
+_Static_assert(sizeof(int) == 4);
+/* <- keyword.operator.word */
+
 void build_default_prototype(Function *ret) {
     static typeof(*ret->params) params[4];
            /* <- keyword.declaration.type */
@@ -294,6 +300,12 @@ int f(int x, \
 bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
+
+void *null_pointer1 = NULL;
+                    /* ^ constant.language.null */
+
+void *null_pointer2 = nullptr;
+                    /* ^ constant.language.null */
 
 FOOBAR
 hello() {
@@ -589,9 +601,17 @@ int foo(int val, float val2[])
     if (val == -1) {
 /*  ^^ keyword.control */
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
-#else
+#elifdef BAR
  /* <- keyword.control.import */
     if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#elifndef BAZ
+ /* <- keyword.control.import */
+    if (val == -3) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#else
+ /* <- keyword.control.import */
+    if (val == -4) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
  /* <- keyword.control.import */
@@ -803,6 +823,11 @@ func_call(foo
 /*             ^^^^^^ string.quoted.other.lt-gt.include */
 /*                   ^ punctuation.definition.string.end */
 #endif
+
+static const unsigned char image_png[] = {
+#embed <image.png>
+/* <- keyword.control.import.include */
+};
 
 #include<iostream>
 /* <- keyword.control.import.include */

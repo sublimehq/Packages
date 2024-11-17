@@ -2167,6 +2167,21 @@
 }
 
 .test-var-functions {
+    --custom-theme: { color: white; };
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^^^^^ meta.property-name.css entity.other.custom-property.css */
+/*                ^ punctuation.separator.key-value.css */
+/*                 ^ meta.property-value.css */
+/*                  ^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                    ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                         ^ punctuation.separator.key-value.css */
+/*                          ^^^^^^ meta.property-value.css */
+/*                           ^^^^^ support.constant.color.w3c.standard.css */
+/*                                ^ punctuation.terminator.rule.css */
+/*                                  ^ punctuation.section.block.end.css */
+/*                                   ^ punctuation.terminator.rule.css */
+
     --test-var: arial;
 /*  ^^^^^^^^^^ entity.other.custom-property.css */
 /*            ^ punctuation.separator.key-value.css*/

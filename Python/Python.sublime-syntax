@@ -2408,6 +2408,8 @@ contexts:
 
   parameter-names:
     - include: illegal-names
+    - match: (?:self|cls)\b
+      scope: variable.parameter.python variable.language.python
     - match: '{{identifier}}'
       scope: variable.parameter.python
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.shell meta.statement.conditional.case</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[^\s*(?:\{|in\b)]]></string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[^\s*(?:case|in)\b]]></string>
+		<key>bracketIndentNextLinePattern</key>
+		<string></string>
+		<key>disableIndentNextLinePattern</key>
+		<string></string>
+	</dict>
+</dict>
+</plist>

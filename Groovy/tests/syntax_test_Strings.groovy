@@ -77,12 +77,12 @@ regularCharactersDollarSlashy = $/\$\'\"\t\n\r\t\f\b\y\1\+\{/$
 //                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.dollar-slashy.groovy - constant.character.escape.groovy
 
 interpolation1 = "2 + 3 = ${2 + 3}"
-//                        ^^ punctuation.section.embedded.groovy
+//                        ^^ punctuation.section.interpolation.begin.groovy
 //                          ^^^^^ source.groovy.embedded.source
 //                          ^ constant.numeric.groovy
 //                            ^ keyword.operator.arithmetic.groovy
 //                              ^ constant.numeric.groovy
-//                               ^ punctuation.section.embedded.groovy
+//                               ^ punctuation.section.interpolation.end.groovy
 //                                ^ punctuation.definition.string.end.groovy
 
 interpolation3 = "Hello $name"
@@ -109,15 +109,15 @@ interpolation6 = "The sum of 1 and 2 is equal to ${def a = 1; a + 2}"
 
 interpolation7 = "foo { ${if (x) { y } else { z } } }"
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.groovy
-//                    ^ - punctuation.section.block.begin.groovy
+//                    ^ - punctuation
 //                        ^^ keyword.control.groovy
 //                               ^ punctuation.section.block.begin.groovy
-//                                   ^ punctuation.section.block.end.groovy - punctuation.section.embedded.groovy
+//                                   ^ punctuation.section.block.end.groovy - punctuation.section.interpolation
 //                                     ^^^^ keyword.control.groovy
 //                                          ^ punctuation.section.block.begin.groovy
-//                                              ^ punctuation.section.block.end.groovy - punctuation.section.embedded.groovy
-//                                                ^ punctuation.section.embedded.groovy
-//                                                  ^ - punctuation.section.block.end.groovy
+//                                              ^ punctuation.section.block.end.groovy - punctuation.section.interpolation
+//                                                ^ punctuation.section.interpolation.end.groovy
+//                                                  ^ - punctuation
 //                                                   ^ punctuation.definition.string.end.groovy
 
 unicodeInterpolation1 = "$À"
@@ -219,12 +219,12 @@ unclosedStr4 = "newlines ${'''
 embed1 = "embed ${'''
 //       ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
 //        ^^^^^^ string.quoted.double.groovy
-//              ^^ punctuation.section.embedded.groovy
+//              ^^ punctuation.section.interpolation.begin.groovy
 //                ^^^ source.groovy.embedded.source
   Some text
 //^^^^^^^^^ string.quoted.double.groovy source.groovy.embedded.source string.quoted.single.block.groovy
 '''}"
-// ^ punctuation.section.embedded.groovy
+// ^ punctuation.section.interpolation.end.groovy
 //  ^ string.quoted.double.groovy punctuation.definition.string.end.groovy
 
 // multiline > singleline > multiline
@@ -234,9 +234,9 @@ embed2 = """I hope
 //        ^^^^^^^ string.quoted.double.block.groovy source.groovy.embedded.source string.quoted.double.groovy
 //                    ^^^^^ string.quoted.single.block.groovy
         actually'''}"
-//                 ^ string.quoted.double.block.groovy source.groovy.embedded.source string.quoted.double.groovy punctuation.section.embedded.groovy
+//                 ^ string.quoted.double.block.groovy source.groovy.embedded.source string.quoted.double.groovy punctuation.section.interpolation.end.groovy
     }
-//  ^ punctuation.section.embedded.groovy
+//  ^ punctuation.section.interpolation.end.groovy
               do this
   """
 //^^^ string.quoted.double.block.groovy punctuation.definition.string.end.groovy
@@ -255,9 +255,9 @@ dollarSlashy01 = $/Hello $person.name/$
 
 dollarSlashy02 = $/today is ${new Date().format( 'yyyy-MM-dd' )}./$
 //                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.groovy.embedded.source
-//                          ^^ punctuation.section.embedded.groovy
+//                          ^^ punctuation.section.interpolation.begin.groovy
 //                            ^^^ keyword.other.new.groovy
-//                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.method-call.groovy
+//                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 //                                                               ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
 
 dollarSlashy03 = $/$ dollar sign/$
