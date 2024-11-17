@@ -1753,7 +1753,7 @@ contexts:
     - include: quoted-eol-pop
 
   escaped-characters:
-    - match: \^.
+    - match: \^[^%\n]
       scope: constant.character.escape.dosbatch
 
   escaped-variables:
