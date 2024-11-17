@@ -540,7 +540,7 @@ case $word {
         ;;
 #       ^^ punctuation.terminator.clause.shell
 
-    ((foo|bar)baz) cmd arg ;;
+    ((foo|bar)baz) cmd arg ;|
 #   ^ meta.clause.patterns.shell - meta.string - string
 #    ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
 #             ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
@@ -556,7 +556,7 @@ case $word {
 #                      ^^^ meta.string.glob.shell string.unquoted.shell
 #                          ^^ punctuation.terminator.clause.shell
 
-    (foo|bar)baz) cmd arg ;;
+    (foo|bar)baz) cmd arg ;&
 #   ^^^^^^^^^ meta.clause.patterns.shell meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
 #            ^^^ meta.clause.patterns.shell meta.string.glob.shell string.unquoted.shell
 #               ^ meta.clause.patterns.shell - meta.string - string
