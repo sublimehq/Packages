@@ -1113,8 +1113,8 @@ contexts:
             - match : \)
               scope: punctuation.section.group.end.objc++
               set: function-definition-continue
-            - match: '\bvoid\b'
-              scope: storage.type.objc++
+            - include: modifiers
+            - include: types
             - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.objc++
             - match: '='

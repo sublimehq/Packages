@@ -219,11 +219,106 @@ var style = css`
 /*                  ^^^^^^^ variable.other.custom-property.css */
 /*                         ^ punctuation.section.group.end.css */
 /*                          ^ punctuation.terminator.rule.css */
+
+    ${tag}, .${cls} { ${prop}: ${value} }
+/*  ^^^^^^ meta.selector.css meta.interpolation.js */
+/*        ^^^ meta.selector.css - meta.interpolation */
+/*           ^^^^^^ meta.selector.css meta.interpolation.js */
+/*                 ^ meta.selector.css - meta.interpolation */
+/*                  ^^ meta.property-list.css meta.block.css */
+/*                    ^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css support.type.property-name.css meta.interpolation.js */
+/*                           ^^ meta.property-list.css meta.block.css - meta.interpolation */
+/*                             ^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.js */
+/*                                     ^^ meta.property-list.css meta.block.css - meta.interpolation */
+/*  ^^ punctuation.section.interpolation.begin.js */
+/*    ^^^ variable.other.readwrite.js */
+/*       ^ punctuation.section.interpolation.end.js */
+/*        ^ punctuation.separator.sequence.css */
+/*          ^^^^^^^ entity.other.attribute-name.class.css */
+/*          ^ punctuation.definition.entity.css */
+/*           ^^ punctuation.section.interpolation.begin.js */
+/*             ^^^ variable.other.readwrite.js */
+/*                ^ punctuation.section.interpolation.end.js */
+/*                  ^ punctuation.section.block.begin.css */
+/*                    ^^ punctuation.section.interpolation.begin.js */
+/*                      ^^^^ variable.other.readwrite.js */
+/*                          ^ punctuation.section.interpolation.end.js */
+/*                           ^ punctuation.separator.key-value.css */
+/*                             ^^ punctuation.section.interpolation.begin.js */
+/*                               ^^^^^ variable.other.readwrite.js */
+/*                                    ^ punctuation.section.interpolation.end.js */
+/*                                      ^ punctuation.section.block.end.css */
     `
 /* <- meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*^^^ meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
+
+var style = css`color:${color}`;
+/*          ^^^ variable.function.tagged-template.js */
+/*             ^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js */
+/*              ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                   ^ punctuation.separator.key-value.css */
+/*                    ^^ meta.property-value.css meta.interpolation.js punctuation.section.interpolation.begin.js */
+/*                      ^^^^^ meta.property-value.css meta.interpolation.js source.js.embedded variable.other.readwrite.js */
+/*                           ^ meta.property-value.css meta.interpolation.js punctuation.section.interpolation.end.js */
+/*                            ^ string.quoted.other.js punctuation.definition.string.end.js */
+/*                             ^ punctuation.terminator.statement.js - meta.string */
+
+/*
+ * SQL Templates
+ */
+
+var sql = sql`SELECT * FROM "foo";`
+/*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
+
+var sql = SQL`SELECT * FROM "foo";`
+/*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
+var sql = sql`
+/*        ^^^ variable.function.tagged-template */
+/*           ^^ meta.string.template.js string.quoted.other.js */
+/*           ^ punctuation.definition.string.begin.js */
+/*            ^ - source.sql.embedded */
+
+SELECT  *,
+/* ^^^ keyword.other.DML.sql */
+/*      ^ constant.other.wildcard.asterisk.sql */
+        f.id AS database_id
+/*           ^^ keyword.operator.assignment.alias.sql */
+FROM    foo
+WHERE   f.a IS NULL
+/* ^^ keyword.other.DML.sql */
+/*          ^^ keyword.operator.logical.sql */
+/*             ^^^^ constant.language.null.sql */
+        AND f.b IS NOT NULL
+/*      ^^^ keyword.operator.logical.sql */
+/*              ^^ keyword.operator.logical.sql */
+/*                 ^^^ keyword.operator.logical.sql */
+/*                     ^^^^ constant.language.null.sql */
+
+    `
+/* <- meta.string.template.js string.quoted.other.js - source.sql.embedded */
+/*^^^ meta.string.template.js string.quoted.other.js - source.sql.embedded */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string */
+
+var sql = sql`SELECT * FROM ${users};`
+/*            ^^^^^^^^^^^^^^ meta.string.template.js source.sql.embedded.js - meta.interpolation.js */
+/*                          ^^^^^^^^ meta.string.template.js source.sql.embedded.js meta.interpolation.js */
+/*                          ^^ punctuation.section.interpolation.begin.js */
+/*                            ^^^^^ source.js.embedded variable.other.readwrite.js */
+/*                                 ^ punctuation.section.interpolation.end.js */
+/*                                  ^ punctuation.terminator.statement.sql - meta.interpolation.js */
+/*                                   ^ string.quoted.other.js punctuation.definition.string.end.js */
 
 /*
  * Unknown Template

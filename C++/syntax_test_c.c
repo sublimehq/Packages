@@ -201,6 +201,32 @@ struct foo {
 int i;
 /* <- storage.type */
 
+signed _BitInt(4) bi1 = 1wb;
+/*     ^ keyword.declaration.type */
+/*                       ^ constant.numeric.suffix */
+
+unsigned _BitInt(4) bi2 = 1uwb;
+/*       ^ keyword.declaration.type */
+/*                         ^ constant.numeric.suffix */
+
+_Atomic int ai1;
+/* <- storage.modifier */
+
+_Atomic(int) ai2;
+/* <- storage.modifier */
+
+_Alignas(int) int aa1;
+/* <- keyword.declaration.type */
+
+alignas(int) int aa2;
+/* <- keyword.declaration.type */
+
+thread_local int tl1;
+/* <- storage.modifier */
+
+_Thread_local int tl2;
+/* <- storage.modifier */
+
 typeof(i) dt;
 /* <- keyword.declaration.type */
 /*    ^ punctuation.section.group.begin */
@@ -217,6 +243,12 @@ typeof_unqual(i) dt;
 /* <- keyword.declaration.type */
 /*           ^ punctuation.section.group.begin */
 /*             ^ punctuation.section.group.end */
+
+static_assert(alignof(int) == 4);
+/*              ^ keyword.operator.word */
+
+_Static_assert(_Alignof(int) == 4);
+/*              ^ keyword.operator.word */
 
 static_assert(sizeof(int) == 4);
 /* <- keyword.operator.word */
@@ -301,11 +333,250 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+_Decimal32 d32;
+/* <- storage.type */
+
+_Decimal64 d64;
+/* <- storage.type */
+
+_Decimal128 d128;
+/* <- storage.type */
+
+complex complex_t_var;
+/* <- support.type.complex */
+
+imaginary imaginary_t_var;
+/* <- support.type.complex */
+
+fenv_t fenv_t_var;
+/* <- support.type.fenv */
+
+fexcept_t fexcept_t_var;
+/* <- support.type.fenv */
+
+jmp_buf jmp_buf_var;
+/* <- support.type.setjmp */
+
+sig_atomic_t sig_atomic_t_var;
+/* <- support.type.signal */
+
+va_list va_list_var;
+/* <- support.type.stdarg */
+
+atomic_bool atomic_bool_var;
+/* <- support.type.stdatomic */
+
+atomic_char atomic_char_var;
+/* <- support.type.stdatomic */
+
+atomic_schar atomic_schar_var;
+/* <- support.type.stdatomic */
+
+atomic_uchar atomic_uchar_var;
+/* <- support.type.stdatomic */
+
+atomic_short atomic_short_var;
+/* <- support.type.stdatomic */
+
+atomic_ushort atomic_ushort_var;
+/* <- support.type.stdatomic */
+
+atomic_int atomic_int_var;
+/* <- support.type.stdatomic */
+
+atomic_uint atomic_uint_var;
+/* <- support.type.stdatomic */
+
+atomic_long atomic_long_var;
+/* <- support.type.stdatomic */
+
+atomic_ulong atomic_ulong_var;
+/* <- support.type.stdatomic */
+
+atomic_llong atomic_llong_var;
+/* <- support.type.stdatomic */
+
+atomic_ullong atomic_ullong_var;
+/* <- support.type.stdatomic */
+
+atomic_char8_t atomic_char8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_char16_t atomic_char16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_char32_t atomic_char32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_wchar_t atomic_wchar_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least8_t atomic_int_least8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least8_t atomic_uint_least8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least16_t atomic_int_least16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least16_t atomic_uint_least16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least32_t atomic_int_least32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least32_t atomic_uint_least32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least64_t atomic_int_least64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least64_t atomic_uint_least64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast8_t atomic_int_fast8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast8_t atomic_uint_fast8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast16_t atomic_int_fast16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast16_t atomic_uint_fast16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast32_t atomic_int_fast32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast32_t atomic_uint_fast32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast64_t atomic_int_fast64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast64_t atomic_uint_fast64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_intptr_t atomic_intptr_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uintptr_t atomic_uintptr_t_var;
+/* <- support.type.stdatomic */
+
+atomic_size_t atomic_size_t_var;
+/* <- support.type.stdatomic */
+
+atomic_ptrdiff_t atomic_ptrdiff_t_var;
+/* <- support.type.stdatomic */
+
+atomic_intmax_t atomic_intmax_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uintmax_t atomic_uintmax_t_var;
+/* <- support.type.stdatomic */
+
+atomic_flag atomic_flag_var;
+/* <- support.type.stdatomic */
+
+memory_order memory_order_var;
+/* <- support.type.stdatomic */
+
+FILE *FILE_var;
+/* <- support.type.stdio */
+
+fpos_t fpos_t_var;
+/* <- support.type.stdio */
+
+div_t div_t_var;
+/* <- support.type.stdlib */
+
+ldiv_t ldiv_t_var;
+/* <- support.type.stdlib */
+
+lldiv_t lldiv_t_var;
+/* <- support.type.stdlib */
+
+imaxdiv_t imaxdiv_t_var;
+/* <- support.type.stdlib */
+
+size_t size_t_var;
+/* <- support.type.stddef */
+
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
+
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
+
+time_t time_t_var;
+/* <- support.type.time */
+
+clock_t clock_t_var;
+/* <- support.type.time */
+
+thrd_t thrd_t_var;
+/* <- support.type.threads */
+
+thrd_start_t thrd_start_t_var;
+/* <- support.type.threads */
+
+mtx_t mtx_t_var;
+/* <- support.type.threads */
+
+cnd_t cnd_t_var;
+/* <- support.type.threads */
+
+tss_t tss_t_var;
+/* <- support.type.threads */
+
+tss_dtor_t tss_dtor_t_var;
+/* <- support.type.threads */
+
+once_flag once_flag_var;
+/* <- support.type.threads */
+
 void *null_pointer1 = NULL;
                     /* ^ constant.language.null */
 
 void *null_pointer2 = nullptr;
                     /* ^ constant.language.null */
+
+_Noreturn
+/* <- storage.modifier */
+void foo(void) { abort(); }
+
+noreturn
+/* <- storage.modifier */
+void bar(void) { abort(); }
 
 FOOBAR
 hello() {
@@ -563,6 +834,23 @@ struct UI_MenuBoxData
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
+int bar(int, int const *, int const * const);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+/*     ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
+/*                                          ^ punctuation.terminator */
+/*      ^^^ storage.type */
+/*         ^ punctuation.separator */
+/*           ^^^ storage.type */
+/*               ^^^^^ storage.modifier */
+/*                     ^ keyword.operator */
+/*                      ^ punctuation.separator */
+/*                        ^^^ storage.type */
+/*                            ^^^^^ storage.modifier */
+/*                                  ^ keyword.operator */
+/*                                    ^^^^^ storage.modifier */
+
 int foo(int val, float val2[])
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
@@ -728,6 +1016,9 @@ static const uint32_t * const MACRO funcname();
 /*                      ^ storage.modifier */
 /*                                  ^ entity.name.function */
 
+static constexpr int bar = 1;
+/*     ^ storage.modifier */
+
 MACRO int
 /*    ^ storage.type */
 funcname2
@@ -847,9 +1138,8 @@ dec1 = 1234567890;
 /*               ^ punctuation.terminator - constant */
 
 dec2 = 1234567890f;
-/*     ^^^^^^^^^^^ meta.number.float.decimal.c */
 /*     ^^^^^^^^^^ constant.numeric.value.c */
-/*               ^ constant.numeric.suffix.c */
+/*               ^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
 dec3 = 1234567890L;

@@ -1296,6 +1296,18 @@ contexts:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
+    - match: (sql|SQL)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.sql.ts-template
+      embed_scope: meta.string.template.js source.sql.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
     - match: (?:({{identifier_name}})\s*)?(\`)
       captures:
         1: variable.function.tagged-template.js

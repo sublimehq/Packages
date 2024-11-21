@@ -443,6 +443,12 @@ ECHO : Not a comment ^
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
 ::    ^ - entity
 
+   :^%
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch - constant.character.escape - punctuation
+::    ^ - entity
+
    :%%
 ::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
@@ -795,6 +801,17 @@ ECHO : Not a comment ^
 ::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^% 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.label.dosbatch
+::      ^^^ variable.label.dosbatch - keyword - constant.character
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL :%% 10
@@ -1277,6 +1294,23 @@ bar baz
 ::     ^ - keyword - variable
 ::      ^ variable.label.dosbatch
 ::       ^ - variable
+
+   GOTO ^%
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch - constant.character
+::        ^ - variable
+
+   GOTO ^%var%
+:: ^^^^^^^^^^^ meta.command.goto.dosbatch
+::            ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch - meta.interpolation - constant.character
+::       ^^^^^ variable.label.dosbatch meta.interpolation.dosbatch - constant.character
+::            ^ - variable
 
    GOTO %var% ignored content ( & echo foo
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
@@ -2507,6 +2541,12 @@ put arg1 arg2
 ::                         ^ punctuation.section.interpolation.begin.dosbatch
 ::                         ^^^^^^^ meta.interpolation.dosbatch
 ::                               ^ punctuation.section.interpolation.end.dosbatch
+
+   ren example.txt example_^%today%.txt
+::                         ^ - constant.character.escape
+::                          ^ punctuation.section.interpolation.begin.dosbatch
+::                          ^^^^^^^ meta.interpolation.dosbatch
+::                                ^ punctuation.section.interpolation.end.dosbatch
 
    powershell get-date -uformat "%%Y%%m%%d">today.txt
 ::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
