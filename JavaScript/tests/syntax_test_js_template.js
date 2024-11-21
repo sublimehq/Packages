@@ -291,13 +291,13 @@ var sql = sql`
 /*            ^ - source.sql.embedded */
 
 SELECT  *,
-/* ^^^ keyword.other.DML.sql */
+/* ^^^ keyword.other.dml.sql */
 /*      ^ constant.other.wildcard.asterisk.sql */
         f.id AS database_id
 /*           ^^ keyword.operator.assignment.alias.sql */
 FROM    foo
 WHERE   f.a IS NULL
-/* ^^ keyword.other.DML.sql */
+/* ^^ keyword.other.dml.sql */
 /*          ^^ keyword.operator.logical.sql */
 /*             ^^^^ constant.language.null.sql */
         AND f.b IS NOT NULL
