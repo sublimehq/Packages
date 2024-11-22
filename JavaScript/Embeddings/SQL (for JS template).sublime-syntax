@@ -3,7 +3,7 @@
 # http://www.sublimetext.com/docs/syntax.html
 # highlight tagged template strings
 scope: source.sql.js-template
-version: 1
+version: 2
 hidden: true
 
 extends: Packages/SQL/SQL.sublime-syntax

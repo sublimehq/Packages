@@ -2,13 +2,27 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.sql</string>
+	<string>source.sql - string - comment</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>\)(?!=.*\()</string>
+		<string>(?xi)
+			\)(?!=.*\()
+			|^\s*end\b
+		</string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*(create|grant|insert|delete|update)\b|\((?!.*\))</string>
+		<string>(?xi)
+			^\s*
+			(?:
+				(?:create|grant|delete|update|begin)\b
+			#|	select\s*$
+			)
+			|\((?!.*\))
+		</string>
+		<key>unIndentedLinePattern</key>
+		<string>(?xi)
+			^go$
+		</string>
 	</dict>
 </dict>
 </plist>
