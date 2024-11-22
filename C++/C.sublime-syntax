@@ -325,14 +325,27 @@ contexts:
         5: invalid.illegal.numeric.suffix.c
 
     # hexadecimal float (C99)
-    - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})(?:([fFlL]\b)|({{dec_suffix}}))?
+    - match: |-
+        (?x)
+        \b(0[xX])
+        (
+          (?:
+            # 0xfp1, 0xf.p1, 0xfp1f, 0xf.p1f
+            {{hex_digit}}+ (\.)?
+            # 0x.fp1, 0xf.fp1, 0x.fp1f, 0xf.fp1f
+            | {{hex_digit}}* (\.) {{hex_digit}}+
+          )
+          {{hex_exponent}}
+        )
+        (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
       scope: meta.number.float.hexadecimal.c
       captures:
         1: constant.numeric.base.c
         2: constant.numeric.value.c
         3: punctuation.separator.decimal.c
-        4: constant.numeric.suffix.c
-        5: invalid.illegal.numeric.suffix.c
+        4: punctuation.separator.decimal.c
+        5: constant.numeric.suffix.c
+        6: invalid.illegal.numeric.suffix.c
 
     # https://en.cppreference.com/w/c/language/integer_constant
 
