@@ -148,8 +148,6 @@ contexts:
       scope: keyword.operator.word.c++
 
   unique-types:
-    - match: \b(char8_t|char16_t|char32_t|wchar_t|nullptr_t)\b
-      scope: storage.type.c++
     - match: \bclass\b
       scope: keyword.declaration.class.c++
 
@@ -1225,8 +1223,8 @@ contexts:
             - match : \)
               scope: punctuation.section.group.end.c++
               set: function-definition-continue
-            - match: '\bvoid\b'
-              scope: storage.type.c++
+            - include: modifiers
+            - include: types
             - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.c++
             - match: '='
@@ -2291,7 +2289,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c++
-    - match: ^\s*(#\s*(?:include|include_next|import))\b
+    - match: ^\s*(#\s*(?:include|include_next|embed|import))\b
       captures:
         1: keyword.control.import.include.c++
       push:

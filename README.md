@@ -41,7 +41,8 @@ Alternatively, download the portable version and clone this repository directly 
 ### ⚠️ Things to keep in mind
 
 After you've finished, keep in mind that you're now overriding a default package.
-If other people make upstream changes to an overridden package, yours will be out-of-date when Sublime Text updates to a new version. To get the latest version, pull the changes from this repository.
+- If other people make upstream changes to an overridden package, yours will be out-of-date when Sublime Text updates to a new version. To get the latest version, pull the changes from this repository.
+- If you delete/rename files, but they still exist in the package version which was shipped with the build of Sublime Text you are using, those original files will still be picked up by Sublime unless you replace the entire shipped package with an installed package by the same name. For example, if your build of Sublime has a `syntax_test_sql.sql` file inside the root of `<ST Installation Dir>/Packages/SQL.sublime-package`, then you symlink the SQL folder from this repository to `<ST User Data Dir>/Packages/SQL`, and move that file to a `tests` subfolder, then run all syntax tests, the old syntax test file will still get used in addition to the new one. To fix this, you can create an empty zip file in your `<ST User Data Dir>/Installed Packages` directory like `SQL.sublime-package` and that will cause ST to load this one in place of the shipped one. Then you are just overriding an empty package, instead of merging new files into an existing package.
 
 ## Reference
 

@@ -19,6 +19,8 @@ variables:
   jsx_identifier_break: (?!{{jsx_identifier_part}})
   jsx_identifier: '{{identifier_start}}{{jsx_identifier_part}}*{{jsx_identifier_break}}'
 
+  jsx_tag_name_start: '{{identifier_start}}'
+
 contexts:
   expression-begin:
     - meta_prepend: true
@@ -62,6 +64,7 @@ contexts:
 
   jsx-expect-tag-end:
     - meta_content_scope: meta.tag.js
+    - match: '>{2,}' # ignore invalid punctuation
     - match: '>'
       scope: meta.tag.js punctuation.definition.tag.end.js
       pop: 1
@@ -73,7 +76,7 @@ contexts:
     - include: immediately-pop
 
   jsx-tag:
-    - match: '<'
+    - match: '<(?=\s*[/>{{jsx_tag_name_start}}])'
       scope: punctuation.definition.tag.begin.js
       set:
         - jsx-meta
@@ -83,6 +86,7 @@ contexts:
     - include: jsx-tag
 
   jsx-tag-attributes-top:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.js
     - match: '/'
       scope: punctuation.definition.tag.begin.js
@@ -104,6 +108,7 @@ contexts:
   jsx-tag-attributes:
     - meta_content_scope: meta.tag.attributes.js
 
+    - match: '>{2,}' # ignore invalid punctuation
     - match: '>'
       scope: meta.tag.js punctuation.definition.tag.end.js
       set: jsx-body
@@ -187,10 +192,10 @@ contexts:
 
   jsx-body:
     - meta_include_prototype: false
-
-    - match: '<'
+    - match: '<(?=\s*[/>{{jsx_tag_name_start}}])'
       scope: punctuation.definition.tag.begin.js
       set:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.js
 
         - match: '/'

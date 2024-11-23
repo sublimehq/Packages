@@ -596,7 +596,7 @@ contexts:
         - cmd-read-args
 
   cmd-read-args:
-    - match: ([-+])[cdiNnOpstu]+{{opt_break}}
+    - match: ([-+])[deiNnprstu]*[diNnptu]{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -1223,7 +1223,7 @@ contexts:
     - include: statements
 
   case-clause-end:
-    - match: ;;&?|;&
+    - match: '{{case_clause_end}}'
       scope: meta.clause.shell punctuation.terminator.clause.shell
       pop: 1
 
@@ -3114,6 +3114,8 @@ variables:
   # A lookbehind used in embed..escape patterns, to check for unescaped characters
   # in embed...escape statements.
   no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
+
+  case_clause_end: ;;&?|;&
 
   # Parameter expansions
   is_interpolation: (?=\$[({{{identifier_char}}{{special_variables}}]|`)

@@ -175,7 +175,7 @@ contexts:
     - meta_scope: meta.clause.patterns.shell
     # comment, end of clause or end of line
     # indicate pattern being enclosed in balanced parentheses
-    - match: (?=(?:$|;;&?|;&|}|esac{{cmd_break}})|\s+#)
+    - match: (?=(?:$|}|{{case_clause_end}}|esac{{cmd_break}})|\s+#)
       fail: case-clause-paren-pattern
     - include: case-clause-pattern-body
 
@@ -432,14 +432,16 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
       push: zsh-parameter-subscription
+    # length operator has precedence over special parameters
+    - match: (\$)(\#?){{identifier}}
+      scope: meta.interpolation.parameter.shell variable.other.readwrite.shell
+      captures:
+        1: punctuation.definition.variable.shell
+        2: keyword.operator.expansion.length.shell
+      push: zsh-parameter-subscription
     # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
     - match: (\$){{special_variables}}
       scope: variable.language.special.shell
-      captures:
-        1: punctuation.definition.variable.shell
-      push: zsh-parameter-subscription
-    - match: (\$){{identifier}}
-      scope: variable.other.readwrite.shell
       captures:
         1: punctuation.definition.variable.shell
       push: zsh-parameter-subscription
@@ -1111,6 +1113,8 @@ variables:
   dec_digit: '[\d_]'
   hex_digit: '[\h_]'
   oct_digit: '[0-7_]'
+
+  case_clause_end: ;[;&|]
 
   # Parameter expansions
   is_interpolation: (?=\$[({\[{{identifier_char}}{{special_variables}}]|`)

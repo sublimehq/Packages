@@ -1,0 +1,1694 @@
+%YAML 1.2
+---
+name: MySQL
+scope: source.sql.mysql
+version: 2
+
+extends: Packages/SQL/SQL (basic).sublime-syntax
+
+variables:
+  additional_toplevel_reserved: |-
+    (?xi: {{conditional_keywords}} | {{flow_keywords}} | {{loop_keywords}}
+    | begin | end | rename | show )
+
+  conditional_keywords: |-
+    (?xi: if | end\s+if | else(?:if)? | then )
+
+  flow_keywords: |-
+    (?xi: continue | exit | return )
+
+  loop_keywords: |-
+    (?xi: loop | end\s+(?: loop | repeat | while ) | repeat | while )
+
+  other_keywords: |-
+    (?xi: close | cursor | declare | deallocate | delimiter | execute | fetch
+    | for | found | open | prepare | with )
+
+  function_parameter_modifier: |-
+    (?xi: in\s*out | in | out )
+
+  database_parameters: |-
+    (?xi: (?:default\s+)? (?: char(?:acter\s+)?set | collate ) )
+
+  partition_parameters: |-
+    (?xi: (?:storage\s+)?engine | (?:data|index)\s+directory | max_rows | min_rows | nodegroup )
+
+  table_parameters: |-
+    (?xi: (?:storage\s+)?engine | (?:default\s+)?(?: char(?:acter\s+)?set | collate )
+    | auto_increment | avg_row_length | checksum | connection | data\s+directory
+    | delay_key_write | encrypted | encryption_key_id | ietf_quotes | index\s+directory
+    | insert_method | key_block_size | max_rows | min_rows | pack_keys | page_checksum
+    | page_compressed | page_compression_level | password | row_format | sequence
+    | stats_auto_recalc | stats_persistent | stats_sample_pages | transactional )
+  table_row_formats: |-
+    (?xi: dynamic | fixed | compressed | redundant | compact | page )
+
+  # https://mariadb.com/kb/en/data-types
+  simple_types: |-
+    (?xi: boolean | bool | uuid | year )
+
+  types_with_optional_number: |-
+    (?xi:
+    # numeric data types
+      (?: big | medium | middle | small | tiny ) int
+    | bit(?: \s+ varying )?
+    | date(?: time )?
+    | dec(?: imal )?
+    | double(?: \s+ precision )?
+    | fixed
+    | float[48]?
+    | int(?: [12348] | eger )?
+    | number
+    | numeric
+    | real
+    | (?: local )?time(?: stamp )?
+    # string data types
+    | (?: long | medium | tiny )? (?: blob | text )
+    | binary (?: \s+ varying )?
+    | char \s+ byte
+    | (?: national \s+ )? char(?: acter )? (?: \s+ varying )?
+    | inet[46]
+    | long(?: \s+ varchar )?
+    | var(?: binary | char (?: acter )? )
+    )
+
+  time_units: |-
+    (?xi: year(?: _month )? | day(?: _hour | _minute | _second | _microsecond )?
+    | hour(?: _minute | _second  | _microsecond )? | minute(?: _second | _microsecond )?
+    | second(?: _microsecond )? | quarter | month | week )
+
+  builtin_constants: |-
+    (?xi: all | default | maxvalue
+    # index algorithm/lock values
+    | inplace | copy | nocopy | instant | exclusive | shared
+    | system\s+versioning )
+
+  builtin_user_functions: |-
+    (?xi: (?: current | session | system )_(?: role | user ))
+
+contexts:
+  sql:
+    - meta_append: true
+    - include: regexps
+
+  statements:
+    - meta_prepend: true
+    - include: rename-statements
+    - include: show-statements
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    - meta_append: true
+    - include: number-sign-comments
+
+  double-dash-comments:
+    - match: '--(?=\s)'
+      scope: punctuation.definition.comment.sql
+      push: inside-double-dash-comment
+
+  number-sign-comments:
+    - match: '#'
+      scope: punctuation.definition.comment.sql
+      push: inside-number-sign-comment
+
+  inside-number-sign-comment:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.sql
+    - match: \n
+      pop: 1
+
+###[ DDL CREATE STATEMENTS ]###################################################
+
+  create-statements:
+    - meta_prepend: true
+    - match: \b(?i:create\s+or\s+replace)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - create-meta
+        - create-target
+
+  create-target:
+    - meta_prepend: true
+    - include: algorithms
+    - include: definers
+    - include: create-database
+    - include: create-event
+    - include: create-role
+    - include: create-user
+
+  create-database:
+    # https://mariadb.com/kb/en/create-database
+    - match: \b(?i:database|schema)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-database-args
+        - expect-database-creation-name
+        - create-database-condition
+
+  create-database-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-database-args:
+    - meta_scope: meta.database.sql
+    - match: \b{{database_parameters}}\b
+      scope: variable.parameter.database.sql
+    - include: assignment-operators-constants
+    - include: comment-keywords
+    - include: strings
+    - include: else-pop
+
+  create-event:
+    # https://mariadb.com/kb/en/create-event
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-event-args
+        - expect-event-creation-name
+        - create-event-condition
+
+  create-event-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-event-args:
+    - meta_scope: meta.event.sql
+    - include: event-options
+    - include: pop-on-top-level-reserved-word
+
+  create-index-args:
+    # https://mariadb.com/kb/en/create-index
+    - meta_prepend: true
+    - include: index-algorithm-args
+    - include: index-clustering-args
+    - include: index-lock-args
+    - include: index-parser-args
+    - include: index-type-args
+    - include: index-wait-args
+    - include: index-other-args
+    - include: comment-keywords
+
+  create-role:
+    # https://mariadb.com/kb/en/create-role
+    - match: \b(?i:role)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-role-args
+        - expect-user-name-declaration
+        - create-role-condition
+
+  create-role-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-role-args:
+    - meta_scope: meta.user.sql
+    - include: maybe-with-admin-user
+
+  create-table-args:
+    # https://mariadb.com/kb/en/create-table
+    - meta_prepend: true
+    - include: partition-declaration-lists
+    - include: partition-options
+    - include: table-options
+
+  create-user:
+    # https://mariadb.com/kb/en/create-user
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - create-user-args
+        - create-user-name-list
+        - user-identification
+        - expect-user-name-declaration
+        - create-user-condition
+
+  create-user-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-user-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-identification
+        - expect-user-name-declaration
+    - include: else-pop
+
+  create-user-args:
+    - meta_scope: meta.user.sql
+    - include: user-options
+
+  create-other-args:
+    - meta_prepend: true
+    - match: (?=\()
+      push: column-declaration-list
+
+###[ DDL DROP STATEMENTS ]#####################################################
+
+  drop-target:
+    - meta_prepend: true
+    - include: algorithms
+    - include: drop-database
+    - include: drop-event
+    - include: drop-user
+
+  drop-database:
+    # https://mariadb.com/kb/en/drop-database
+    - match: \b(?i:database|schema)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - drop-database-args
+        - expect-database-name
+        - drop-database-condition
+
+  drop-database-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-database-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.database.sql
+    - include: immediately-pop
+
+  drop-event:
+    # https://mariadb.com/kb/en/drop-event
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - drop-event-args
+        - expect-event-name
+        - drop-event-condition
+
+  drop-event-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-event-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.event.sql
+    - include: immediately-pop
+
+  drop-index-args:
+    - meta_prepend: true
+    - include: index-wait-args
+
+  drop-user:
+    # https://mariadb.com/kb/en/drop-role
+    # https://mariadb.com/kb/en/drop-user
+    - match: \b(?i:role|user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - drop-user-args
+        - expect-user-name
+        - drop-user-condition
+
+  drop-user-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  drop-user-args:
+    - meta_scope: meta.user.sql
+    - include: user-name-list
+
+###[ DDL ALTER STATEMENTS ]####################################################
+
+  alter-target:
+    - meta_prepend: true
+    - include: algorithms
+    - include: definers
+    - include: alter-database
+    - include: alter-event
+    - include: alter-user
+
+###[ DDL ALTER COLUMNS STATEMENTS ]############################################
+
+  alter-columns:
+    - meta_prepend: true
+    - match: \b(?i:(change)\s+(column))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      push:
+        - expect-type
+        - expect-column-name-declaration
+        - expect-column-name
+
+###[ DDL ALTER DATABASE STATEMENTS ]###########################################
+
+  alter-database:
+    # https://mariadb.com/kb/en/alter-database
+    - match: \b(?i:database|schema)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - alter-database-args
+        - expect-database-name
+        - alter-database-condition
+
+  alter-database-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  alter-database-args:
+    - meta_scope: meta.database.sql
+    - match: \b(?i:(upgrade)(?:\s+(data\s+directory\s+name))?)\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      pop: 1
+    - include: create-database-args
+
+###[ DDL ALTER EVENT STATEMENTS ]##############################################
+
+  alter-event:
+    # https://mariadb.com/kb/en/alter-event
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - alter-event-args
+        - expect-event-name
+        - alter-event-condition
+
+  alter-event-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  alter-event-args:
+    - meta_scope: meta.event.sql
+    - include: event-options
+    - include: pop-on-top-level-reserved-word
+
+###[ DDL ALTER TABLE STATEMENTS ]##############################################
+
+  alter-table:
+    - meta_prepend: true
+    - match: \b(?i:online|ignore)\b
+      scope: keyword.other.ddl.sql
+
+  alter-table-args:
+    - match: \b(?i:add)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-add-target
+    - match: \b(?i:change)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-change-target
+    - match: \b(?i:drop)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-drop-target
+    - match: \b(?i:modify)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-modify-target
+    - match: \b(?i:rename)\b
+      scope: keyword.other.ddl.sql
+      push: alter-table-rename-target
+    # drop args
+    - match: \b(?i:cascade|restrict)\b
+      scope: keyword.other.ddl.sql
+    # partition commands
+    - match: \b(?i:check)\b
+      scope: keyword.other.sql
+    # table options
+    - include: index-wait-args
+    - include: partition-options
+    - include: table-options
+    # expressions
+    - include: pop-on-top-level-reserved-word
+    - include: literals-and-variables
+    - include: comma-separators
+    - include: operators
+
+  alter-table-add-target:
+    - include: system-versioning
+    - include: alter-table-add-index
+    - include: alter-table-add-partition
+    - include: alter-table-add-period
+    - include: alter-table-add-column # must be the last one
+
+  alter-table-add-column:
+    - match: (?=\S)
+      set:
+        - maybe-column-position
+        - expect-column-declaration
+        - maybe-condition
+        - maybe-column
+
+  alter-table-add-index:
+    - match: \b(?i:constraint)\b
+      scope: keyword.other.ddl.sql
+      push:
+        - maybe-check
+        - expect-constraint-name
+    - match: \b(?i:(primary)\s+(key))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set: alter-table-add-index-args
+    - match: \b(?i:(?:(foreign|fulltext|spatial|unique)\s+)?(index|key))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+      set:
+        - alter-table-add-index-args
+        - expect-index-name
+        - maybe-condition
+
+  alter-table-add-index-args:
+    - include: column-name-lists
+    - include: comment-keywords
+    - include: index-algorithm-args
+    - include: index-clustering-args
+    - include: index-lock-args
+    - include: index-parser-args
+    - include: index-type-args
+    - include: index-other-args
+    - include: literals-and-variables
+    - include: operators
+    - include: else-pop
+
+  alter-table-add-partition:
+    - match: \b(?i:partition)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - maybe-partition-declaration-list
+        - maybe-condition
+
+  alter-table-add-period:
+    - match: \b(?i:(period)\s+(for)\s+(system_time))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+        3: keyword.other.ddl.sql
+      set: maybe-column-name-list
+
+  alter-table-change-target:
+    - include: alter-table-change-column
+
+  alter-table-change-column:
+    - match: (?=\S)
+      set:
+        - after-type
+        - expect-type
+        - expect-column-name-declaration
+        - expect-column-name
+        - maybe-condition
+        - maybe-column
+
+  alter-table-drop-target:
+    - include: system-versioning
+    - include: alter-table-drop-constraint
+    - include: alter-table-drop-index
+    - include: alter-table-drop-partition
+    - include: alter-table-drop-column # must be the last one
+
+  alter-table-drop-column:
+    - match: (?=\S)
+      set:
+        - expect-column-name
+        - maybe-condition
+        - maybe-column
+
+  alter-table-drop-constraint:
+    - match: \b(?i:constraint)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-constraint-name
+        - maybe-condition
+
+  alter-table-drop-index:
+    - match: \b(?i:primary\s+key)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+    - match: \b(?i:index|(?:foreign\s+)?key)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-index-name
+        - maybe-condition
+
+  alter-table-drop-partition:
+    - match: \b(?i:partition)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-partition-name
+        - maybe-condition
+
+  alter-table-modify-target:
+    - include: alter-table-modify-column
+
+  alter-table-modify-column:
+    - match: (?=\S)
+      set:
+        - after-type
+        - expect-type
+        - expect-column-name-declaration
+        - maybe-condition
+        - maybe-column
+
+  alter-table-rename-target:
+    - include: alter-table-rename-column
+    - include: alter-table-rename-index
+    - include: alter-table-rename-table # must be the last one
+
+  alter-table-rename-column:
+    - match: \b(?i:column)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-column-name
+        - maybe-to
+        - expect-column-name
+
+  alter-table-rename-index:
+    - match: \b(?i:index|key)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-index-name
+        - maybe-to
+        - expect-index-name
+
+  alter-table-rename-table:
+    - match: (?=\S)
+      set:
+        - expect-table-name
+        - maybe-to
+
+###[ DDL ALTER USER STATEMENTS ]###############################################
+
+  alter-user:
+    # https://mariadb.com/kb/en/alter-user
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - alter-user-args
+        - expect-user-identification-list
+        - user-identification
+        - expect-user-name
+        - alter-user-condition
+
+  alter-user-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  alter-user-args:
+    - meta_scope: meta.user.sql
+    - include: user-options
+
+###[ DML STATEMENTS ]##########################################################
+
+  dml-statements:
+    - meta_append: true
+    - include: index-hint-lists
+    - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - match: \b(?i:limit)\b
+      scope: keyword.other.dml.sql
+    - match: \b(?i:on\s+duplicate\s+key)\b
+      scope: keyword.other.dml.sql
+
+  join-expressions:
+    # https://mariadb.com/kb/en/join-syntax
+    - match: \b(?i:(?:(?:cross|inner|(?:natural\s+)?(?:left|right)(?:\s+outer)?)\s+|straight_)?join)\b
+      scope: keyword.other.dml.sql
+      push:
+        - join-condition
+        - table-name-or-subquery
+
+  join-condition:
+    - meta_prepend: true
+    - match: \b(?i:using)\b
+      scope: keyword.other.dml.sql
+      set: maybe-column-name-list
+
+###[ DML SET STATEMENTS ]######################################################
+
+  set-target:
+    - meta_prepend: true
+    - include: set-password
+    - include: set-role
+
+  set-password:
+    # https://mariadb.com/kb/en/set-password
+    - match: \b(?i:password)\b
+      scope: keyword.other.dml.sql
+      set:
+        - set-other-assignment
+        - maybe-for-user
+
+  set-role:
+    # https://mariadb.com/kb/en/set-role
+    # https://mariadb.com/kb/en/set-default-role
+    - match: \b(?i:(?:(default)\s+)?(role))\b
+      captures:
+        1: keyword.other.dml.sql
+        2: keyword.other.dml.sql
+      set:
+        - maybe-for-user
+        - set-role-name
+
+  set-role-name:
+    - include: none-constant
+    - include: expect-user-name
+
+  set-other-assignment:
+    - match: =
+      scope: keyword.operator.assignment.sql
+      set: set-other-value
+    - include: else-pop
+
+  set-other-value:
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
+
+###[ GRANT STATEMENTS ]########################################################
+
+  grant-statements:
+    # https://mariadb.com/kb/en/grant
+    - match: \b(?i:grant)\b
+      scope: keyword.other.authorization.sql
+      push:
+        - grant-meta
+        - grant-options
+        - grant-to-user
+        - grant-target
+
+  grant-target:
+    # grant proxy on name to user
+    - match: \b(?i:proxy)\b
+      scope: keyword.other.ddl.sql
+      set: grant-on-user
+    # grant role name to
+    - match: (?=\S+\s+(?i:to)\b)
+      set: expect-user-name
+    # grant operation on
+    - match: (?=\S)
+      set: grant-operations
+
+  grant-operations:
+    - match: (?=[;)]|\b(?i:grant|to|with)\b)
+      pop: 1
+    - include: on-privilidge-level
+    - include: comma-separators
+    - include: user-privileges
+
+  grant-on-user:
+    - match: \b(?i:on)\b
+      scope: keyword.context.sql
+    - include: expect-user-name
+
+  grant-to-user:
+    - match: \b(?i:to)\b
+      scope: keyword.context.sql
+    - include: expect-user-identification-list
+
+  grant-options:
+    - include: user-grant-privileges
+    - include: user-resource-options
+    - include: else-pop
+
+###[ RENAME STATEMENTS ]#######################################################
+
+  rename-statements:
+    # https://mariadb.com/kb/en/rename-user
+    - match: \b(?i:rename)\b
+      scope: keyword.other.authorization.sql
+      push:
+        - rename-meta
+        - rename-target
+
+  rename-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.rename.sql
+    - include: immediately-pop
+
+  rename-target:
+    - match: \b(?i:user)\b
+      scope: keyword.other.authorization.sql
+      set:
+        - rename-user
+        - expect-user-name
+    - include: else-pop
+
+  rename-user:
+    - match: \b(?i:to)\b
+      scope: keyword.context.sql
+      push: expect-user-name
+    - include: user-name-list
+
+###[ REVOKE STATEMENTS ]#######################################################
+
+  revoke-statements:
+    # https://mariadb.com/kb/en/revoke
+    - match: \b(?i:revoke)\b
+      scope: keyword.other.authorization.sql
+      push:
+        - revoke-meta
+        - revoke-options
+        - revoke-privileges
+
+  revoke-privileges:
+    - match: (?=[;)]|\b(?i:for|from)\b)
+      pop: 1
+    - include: on-privilidge-level
+    - include: comma-separators
+    - include: user-privileges
+
+  revoke-options:
+    - match: \b(?i:for|from)\b
+      scope: keyword.context.sql
+      push:
+        - user-name-list
+        - expect-user-name
+    - include: else-pop
+
+###[ SHOW STATEMENTS ]#########################################################
+
+  show-statements:
+    - match: \b(?i:show|describe)\b
+      scope: keyword.other.dml.sql
+      push:
+        - show-meta
+        - show-target
+    - match: \b(?i:explain(?:\s+analyze)?)\b
+      scope: keyword.other.dml.sql
+      push: explain-parameters
+
+  show-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.show.sql
+    - include: immediately-pop
+
+  show-target:
+    - include: show-create
+    - include: show-grants
+    - include: show-columns
+    - include: else-pop
+
+  show-create:
+    - match: \b(?i:create)\b
+      scope: keyword.other.ddl.sql
+      set: show-create-target
+
+  show-create-target:
+    - include: show-create-event
+    - include: show-create-user
+    - include: show-create-other
+    - include: else-pop
+
+  show-create-event:
+    # https://mariadb.com/kb/en/show-create-event
+    - match: \b(?i:event)\b
+      scope: keyword.other.ddl.sql
+      set: expect-event-name
+
+  show-create-user:
+    # https://mariadb.com/kb/en/show-create-user
+    - match: \b(?i:user)\b
+      scope: keyword.other.ddl.sql
+      set: expect-user-name
+
+  show-create-other:
+    - match: '{{simple_identifier}}'
+      scope: keyword.other.ddl.sql
+      set: expect-other-name
+
+  show-grants:
+    # https://mariadb.com/kb/en/show-grants
+    - match: \b(?i:grants)\b
+      scope: keyword.other.dml.sql
+      set: maybe-for-user
+
+  show-columns:
+    - match: \b(?i:full|extended)\b
+      scope: keyword.other.mysql
+    - match: \b(?i:columns|fields)\b
+      scope: keyword.other.mysql
+    - match: \b(?i:from|in)\b
+      scope: keyword.other.mysql
+      set: expect-table-name
+
+  explain-parameters:
+    - match: \b(?i:format)\b
+      scope: variable.parameter.explain.sql
+    - include: assignment-operators-constants
+    - match: \b(?i:into)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - match: \b(?i:for\s+schema)\b
+      scope: keyword.other.dml.sql
+      push: expect-other-name
+    - include: else-pop
+
+###[ OTHER STATEMENTS ]########################################################
+
+  other-statements:
+    - match: \b{{conditional_keywords}}\b
+      scope: keyword.control.conditional.sql
+    - match: \b{{loop_keywords}}\b
+      scope: keyword.control.loop.sql
+    - match: \b(?i:begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b
+      scope: keyword.other.luw.sql
+    - match: \b(?i:end)\b
+      scope: keyword.control.flow.end.sql
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.sql
+    - match: \b(?i:exit)\b
+      scope: keyword.control.flow.exit.sql
+    - match: \b(?i:return)\b
+      scope: keyword.control.flow.return.sql
+    - match: \b(?i:(?:un)?lock\s+tables?)\b
+      scope: keyword.context.resource.mysql
+      push:
+        - expect-lock-type
+        - expect-table-name
+
+  expect-lock-type:
+    - match: \b(?i:read|write)\b
+      scope: constant.language.lock-type.mysql
+    - match: ','
+      scope: punctuation.separator.sequence.mysql
+      set:
+        - expect-lock-type
+        - expect-table-name
+    - include: else-pop
+
+###[ EXPRESSIONS ]#############################################################
+
+  expressions:
+    - meta_prepend: true
+    - match: \b{{other_keywords}}\b
+      scope: keyword.other.sql
+    - match: \b(?i:concatenate|convert|lower|substring|translate|trim|upper)\b
+      scope: support.function.string.sql
+    - match: \b(?i:using)\b
+      scope: keyword.other.dml.sql
+    - include: like-expressions
+
+  assignment-operators-constants:
+    - include: assignment-operators
+    - match: \b(?i:utf8|utf8mb3|tree|traditional|json)\b
+      scope: string.unquoted.mysql
+
+###[ ALGORITHM EXPRESSIONS ]###################################################
+
+  algorithms:
+    - match: \b(?i:algorithm)\b
+      scope: keyword.other.mysql
+      push: algorithm-assignment
+
+  algorithm-assignment:
+    - match: =
+      scope: keyword.operator.assignment.sql
+      set: algorithm-value
+    - include: else-pop
+
+  algorithm-value:
+    - match: \b(?i:merge|temptable|undefined)\b
+      scope: constant.language.sql
+      pop: 1
+    - include: else-pop
+
+  definers:
+    - match: \b(?i:definer)\b
+      scope: variable.parameter.definer.sql
+      push: maybe-user-assignment
+
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  inside-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:auto_increment)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
+      scope: keyword.other.object-comments.sql
+
+###[ EVENT EXPRESSIONS ]#######################################################
+
+  event-options:
+    - match: \b(?i:do)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+    - include: comment-keywords
+    - include: event-schedule-args
+    - include: event-enable-args
+    - include: event-completion-args
+
+  event-completion-args:
+    - match: \b(?i:(on)\s+(completion))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:preserve)\b
+      scope: constant.language.sql
+
+  event-enable-args:
+    - match: \b(?i:(on)\s+(slave))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:enable|disable)\b
+      scope: keyword.other.ddl.sql
+
+  event-schedule-args:
+    - match: \b(?i:(on)\s+(schedule))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:starts|ends)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:at)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:every)\b
+      scope: keyword.other.ddl.sql
+    - include: intervals
+    - include: expressions
+
+###[ FUNCTION EXPRESSIONS ]####################################################
+
+  expect-function-characteristics:
+    # https://mariadb.com/kb/en/create-function
+    - meta_prepend: true
+    - match: \b(?i:return)\b
+      scope: keyword.control.flow.return.sql
+      pop: 1
+    - match: \b(?i:not)\b
+      scope: keyword.operator.logical.sql
+    - match: \b(?i:deterministic)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:(?:contains|no)\s+sql|(?:reads|modifies)\s+sql\s+data)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:sql\s+security)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:definer|invoker)\b
+      scope: constant.language.user.sql
+    - match: \b(?i:soname)\b
+      scope: keyword.other.ddl.sql
+    - include: comment-keywords
+
+###[ INDEX EXPRESSIONS ]#######################################################
+
+  index-algorithm-args:
+    - match: \b(?i:algorithm)\b
+      scope: keyword.other.ddl.sql
+
+  index-clustering-args:
+    - match: \b(?i:clustering)\b
+      scope: keyword.other.ddl.sql
+
+  index-lock-args:
+    - match: \b(?i:lock)\b
+      scope: keyword.other.ddl.sql
+
+  index-parser-args:
+    - match: \b(?i:with\s+parser)\b
+      scope: keyword.other.ddl.sql
+      push: expect-other-name
+
+  index-type-args:
+    - match: \b(?i:using)\b
+      scope: keyword.other.ddl.sql
+      push: index-type-value
+
+  index-type-value:
+    - match: \b(?i:btree|hash|rtree)\b
+      scope: constant.language.sql
+      pop: 1
+    - include: else-pop
+
+  index-wait-args:
+    - match: \b(?i:nowait|wait)\b
+      scope: keyword.other.ddl.sql
+
+  index-other-args:
+    - match: \b(?i:ignored)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:key_block_size)\b
+      scope: keyword.other.ddl.sql
+
+###[ PARTITION EXPRESSIONS ]###################################################
+
+  maybe-partition-declaration-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set:
+        - inside-partition-declaration-list
+        - expect-partition-creation-name
+        - maybe-partition
+    - include: else-pop
+
+  partition-declaration-lists:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      push:
+        - inside-partition-declaration-list
+        - expect-partition-creation-name
+        - maybe-partition
+
+  inside-partition-declaration-list:
+    - meta_scope: meta.group.partitions.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    # partition and subpartition declarations
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - expect-partition-creation-name
+        - maybe-partition
+    # partition parameters
+    - match: \b(?i:values)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:in|less\s+than)\b
+      scope: keyword.operator.logical.sql
+      push: maybe-group
+    - match: \b{{partition_parameters}}\b
+      scope: variable.parameter.sql
+    - include: partition-declaration-lists
+    - include: comment-keywords
+    - include: tablespaces
+    - include: expressions
+
+  maybe-partition:
+    - match: \b(?i:(?:sub)?partition)\b
+      scope: keyword.other.ddl.sql
+    - include: else-pop
+
+  partition-options:
+    # partition keywords
+    - match: \b(?i:(?:sub)?partition by)\b
+      scope: keyword.other.sql
+    - match: \b(?i:(?:sub)?partitions)\b
+      scope: keyword.other.sql
+    # partition arguments
+    - match: \b(?i:linear)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:hash|range|list)\b
+      scope: support.function.sql
+      push: maybe-group
+    - match: \b(?i:key)\b
+      scope: support.function.sql
+      push: maybe-column-name-list
+    - match: \b(?i:limit|system_time)\b
+      scope: keyword.other.sql
+    - include: intervals
+    - include: time-units
+
+  maybe-partition-name-list:
+    - include: partition-name-list
+    - include: else-pop
+
+  partition-name-list:
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: inside-partition-name-list
+
+  inside-partition-name-list:
+    - meta_scope: meta.group.partitions.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-partition-names
+
+###[ TABLE EXPRESSIONS ]#######################################################
+
+  table-options:
+    - include: comment-keywords
+    # table options with special treatment
+    - include: tablespaces
+    - match: \b(?i:like)\b
+      scope: keyword.other.sql
+      push: expect-table-name
+    - match: \b(?i:union)\b
+      scope: variable.parameter.sql
+      push: maybe-table-name-list
+    - match: \b(?i:with)\b
+      scope: keyword.other.sql
+    # common table options
+    - match: \b{{table_parameters}}\b
+      scope: variable.parameter.sql
+    - match: \b{{table_row_formats}}\b
+      scope: constant.language.sql
+    # common table option values
+    - match: \b(?i:after)\b
+      scope: keyword.other.position.sql
+      push: expect-column-name
+    - match: \b(?i:first|last)\b
+      scope: keyword.other.position.sql
+    - match: \b(?i:system\s+versioning)\b
+      scope: constant.language.sql
+
+  maybe-column-position:
+    - match: \b(?i:after)\b
+      scope: keyword.other.position.sql
+      set: expect-column-name
+    - match: \b(?i:first|last)\b
+      scope: keyword.other.position.sql
+      pop: 1
+    - include: else-pop
+
+  system-versioning:
+    - match: \b(?i:system\s+versioning)\b
+      scope: constant.language.sql
+      pop: 1
+
+  tablespaces:
+    - match: \b(?i:tablespace)\b
+      scope: variable.parameter.sql
+      push: maybe-tablespace-name
+
+  maybe-tablespace-name:
+    - include: assignment-operators
+    - include: expect-other-name
+
+  maybe-table-name-list:
+    - match: \(
+      scope: punctuation.section.sequence.begin.sql
+      set: inside-table-name-list
+    - include: assignment-operators
+    - include: else-pop
+
+  inside-table-name-list:
+    - meta_scope: meta.sequence.tables.sql
+    - match: \)
+      scope: punctuation.section.sequence.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-table-names
+
+###[ USER MANAGEMENT EXPRESSIONS ]#############################################
+
+  maybe-with-admin-user:
+    - meta_scope: meta.user.sql
+    - match: \b(?i:with)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - expect-user-name
+        - maybe-admin
+    - include: else-pop
+
+  maybe-admin:
+    - match: \b(?i:admin)\b
+      scope: keyword.other.ddl.sql
+      pop: 1
+    - include: else-pop
+
+  maybe-for-user:
+    - match: \b(?i:for)\b
+      scope: keyword.other.dml.sql
+      set: expect-user-name
+    - include: else-pop
+
+  maybe-user-assignment:
+    - match: =
+      scope: keyword.operator.assignment.sql
+      set: expect-user-name
+    - include: else-pop
+
+  expect-user-identification-list:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set:
+        - user-identification-list
+        - user-identification
+        - expect-user-name
+
+  user-identification-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-identification
+        - expect-user-name
+    - include: else-pop
+
+  user-identification:
+    - match: \b(?i:identified|by)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:password)\b
+      scope: storage.modifier.sql
+    - match: \b(?i:via)\b
+      scope: keyword.other.ddl.sql
+      set:
+        - user-auth-list
+        - user-auth-args
+        - expect-other-name
+    - include: strings
+    - include: else-pop
+
+  user-name-list:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push: expect-user-name
+    - include: else-pop
+
+  user-auth-list:
+    # used by CREATE/ALTER user
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push:
+        - user-auth-args
+        - expect-other-name
+    # used by GRANT statements
+    - match: \b(?i:or)\b
+      scope: keyword.operator.logical.sql
+      push:
+        - user-auth-args
+        - expect-other-name
+    - include: else-pop
+
+  user-auth-args:
+    - match: (?=,|\b(?i:account|on|or|require|with)\b)
+      pop: 1
+    - match: \b(?i:as)\b
+      scope: keyword.operator.assignment.alias.sql
+    - match: \b(?i:using)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:password)
+      scope: support.function.sql
+      push: function-call-arguments
+    - include: strings
+    - include: pop-on-top-level-reserved-word
+
+  user-options:
+    - include: user-account-options
+    - include: user-password-options
+    - include: user-resource-options
+    - include: user-tls-options
+    - include: numbers
+    - include: strings
+    - include: pop-on-top-level-reserved-word
+
+  user-account-options:
+    - match: \b(?i:account)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:unlock|lock)\b
+      scope: constant.language.sql
+
+  user-password-options:
+    - match: \b(?i:(password)\s+(expire))\b
+      captures:
+        1: keyword.other.ddl.sql
+        2: keyword.other.ddl.sql
+    - match: \b(?i:default|never)\b
+      scope: constant.language.sql
+    - include: intervals
+    - include: time-units
+
+  user-resource-options:
+    - match: \b(?i:with)\b
+      scope: keyword.other.ddl.sql
+    - match: |-
+        \b(?xi: max_queries_per_hour | max_updates_per_hour
+        | max_connections_per_hour | max_user_connections
+        | max_statement_time )\b
+      scope: constant.language.sql
+
+  user-tls-options:
+    - match: \b(?i:require)\b
+      scope: keyword.other.ddl.sql
+    - match: \b(?i:and)\b
+      scope: keyword.operator.logical.sql
+    - match: \b(?i:ssl|x509|cipher|issuer|subject)\b
+      scope: constant.language.sql
+    - include: none-constants
+
+  user-privileges:
+    - meta_append: true
+    - match: \b(?i:super)\b
+      scope: constant.language.sql
+    - include: user-grant-privileges
+
+  user-grant-privileges:
+    - match: \b(?i:(?:grant|admin)\s+option)\b
+      scope: constant.language.sql
+
+  on-privilidge-level:
+    - match: \b(?i:on)\b
+      scope: keyword.context.sql
+      set: privilidge-level
+
+  privilidge-level:
+    # object type
+    - match: \b(?i:table|function|procedure|package)\b
+      scope: storage.type.sql
+    # wildcard privilidge level
+    - match: (\*)(?:(\.)(\*))?
+      scope: meta.other-name.sql
+      captures:
+        1: constant.other.wildcard.asterisk.sql
+        2: punctuation.accessor.dot.sql
+        3: constant.other.wildcard.asterisk.sql
+      pop: 1
+    # named privilidge level: database, table or method
+    - include: expect-other-name
+
+###[ TABLE NAMES OR SUBQUERIES ]###############################################
+
+  table-subquery:
+    # https://mariadb.com/kb/en/join-syntax
+    - match: \(
+      scope: punctuation.section.group.begin.sql
+      set: table-subquery-begin
+    - match: \{
+      scope: punctuation.section.braces.begin.mysql
+      set:
+        - table-braced-subquery-body
+        - maybe-on-table
+
+  table-braced-subquery-body:
+    - meta_scope: meta.braces.mysql
+    - match: \}
+      scope: punctuation.section.braces.end.mysql
+      pop: 1
+    - include: join-expressions
+
+  maybe-on-table:
+    - match: \b(?i:on)\b
+      scope: keyword.other.dml.sql
+      set: table-name-or-subquery
+    - include: else-pop
+
+  table-subquery-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.sql
+    - include: comments
+    # table subquery
+    - match: (?=(?i:select)\b)
+      set:
+        - maybe-table-alias
+        - inside-group
+    # table reference list
+    - match: (?=\S)
+      set: inside-table-reference-list
+
+  inside-table-reference-list:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-table-references
+
+  expect-table-references:
+    - meta_include_prototype: false
+    - match: (?=\S)
+      push:
+        - join-condition
+        - table-name-or-subquery
+
+  table-name-not-function-call:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - maybe-index-hint-list
+        - maybe-table-alias
+        - table-name-fail-if-function-call
+        - table-name
+        - single-identifier
+
+  maybe-table-alias:
+    - meta_prepend: true
+    - match: (?=(?i:force|ignore|on|use|using)\b)
+      pop: 1
+    - match: \b(?i:partition)\b
+      scope: keyword.other.dml.sql
+      push: maybe-partition-name-list
+
+###[ INDEX HINTS ]#############################################################
+
+  maybe-index-hint-list:
+    # https://mariadb.com/kb/en/join-syntax
+    - include: index-hint-lists
+    - include: comma-separators
+    - include: else-pop
+
+  index-hint-lists:
+    - match: \b(?i:(?:force|ignore|use)\s+(?:index|key))\b
+      scope: keyword.other.dml.sql
+      push:
+        - maybe-index-name-list
+        - maybe-index-hint-target
+
+  maybe-index-hint-target:
+    - match: \b(?i:for\s+(?:join|(?:group|order)\s+by))\b
+      scope: keyword.other.dml.sql
+      pop: 1
+    - include: else-pop
+
+  maybe-index-name-list:
+    - match: \(
+      scope: punctuation.section.sequence.begin.sql
+      set: inside-index-name-list
+    - include: else-pop
+
+  inside-index-name-list:
+    - meta_scope: meta.group.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - include: comma-separators
+    - include: expect-index-names
+
+###[ TYPES ]###################################################################
+
+  intervals:
+    - match: \b(?i:interval)\b
+      scope: storage.type.interval.sql
+
+  built-in-types:
+    - meta_prepend: true
+    # https://mariadb.com/kb/en/row
+    - match: \b(?i:row)\b
+      scope: storage.type.sql
+      push:
+        - after-type
+        - maybe-column-declaration-list
+    - match: \b(?i:set)(?=\s*\()
+      scope: storage.type.sql
+      push:
+        - after-type
+        - maybe-group
+
+  built-in-type:
+    - meta_prepend: true
+    # https://mariadb.com/kb/en/row
+    - match: \b(?i:row)\b
+      scope: storage.type.sql
+      set:
+        - after-type
+        - maybe-column-declaration-list
+    - match: \b(?i:set)\b
+      scope: storage.type.sql
+      set:
+        - after-type
+        - maybe-group
+
+  after-type:
+    - meta_prepend: true
+    - match: \b(?i:with(?:out)?\s+time\s+zone)\b
+      scope: storage.modifier.sql
+      pop: 1
+
+###[ IDENTIFIERS ]#############################################################
+
+  expect-user-name-declaration:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [user-name-declaration, user-identifier]
+
+  expect-user-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - include: built-in-user-function-call
+    - match: (?=\S)
+      set: [user-name, user-identifier]
+
+  user-identifier:
+    # https://mariadb.com/kb/en/grant/#account-names
+    - meta_include_prototype: false
+    - include: pop-on-top-level-reserved-word
+    - match: ''
+      set:
+        - identifier-host-accessor
+        - identifier-part
+
+  identifier-host-accessor:
+    - meta_include_prototype: false
+    - match: \s*(@)
+      captures:
+        1: punctuation.accessor.at.sql
+      set: identifier-host-part
+    - include: immediately-pop
+
+  identifier-host-part:
+    - meta_include_prototype: false
+    - match: \%
+      scope: constant.other.wildcard.percent.sql
+      pop: 1
+    - match: (')(%)(')
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: constant.other.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - match: (")(%)(")
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: constant.other.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - match: (`)(%)(`)
+      captures:
+        1: punctuation.definition.identifier.begin.sql
+        2: constant.other.wildcard.percent.sql
+        3: punctuation.definition.identifier.end.sql
+      pop: 1
+    - include: identifier-part
+
+###[ LITERALS ]################################################################
+
+  literals-and-variables:
+    - meta_append: true
+    - include: time-units
+    - include: variables
+
+  comment-keywords:
+    - match: \b(?i:comment)\b
+      scope: variable.parameter.sql
+
+  constants:
+    - meta_append: true
+    - include: bool-constants
+    - include: none-constants
+    - match: \b{{builtin_constants}}\b
+      scope: constant.language.sql
+
+  bool-constants:
+    - include: booleans
+    - match: \b(?i:yes|no)\b
+      scope: constant.language.boolean.sql
+
+  none-constants:
+    - match: \b(?i:none)\b
+      scope: constant.language.null.sql
+
+  none-constant:
+    - match: \b(?i:none)\b
+      scope: constant.language.null.sql
+      pop: 1
+
+  time-units:
+    - match: \b{{time_units}}(?!\()\b
+      scope: keyword.other.unit.sql
+
+  variables:
+    - match: (:){{simple_identifier}}\b
+      scope: variable.parameter.sql
+      captures:
+        1: punctuation.definition.variable.sql
+    - match: (@@){{simple_identifier}}\b
+      scope: variable.language.sql
+      captures:
+        1: punctuation.definition.variable.sql
+    - match: (@){{simple_identifier}}\b
+      scope: variable.other.sql
+      captures:
+        1: punctuation.definition.variable.sql
+
+  regexps:
+    - match: /(?=\S.*/)
+      scope: punctuation.definition.string.begin.sql
+      push: inside-regexp
+
+  inside-regexp:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.regexp.sql string.regexp.sql
+    - match: /
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+    - match: \\/
+      scope: constant.character.escape.slash.sql
+
+  strings:
+    - meta_append: true
+    - include: double-quoted-strings
+    - include: interpolations
+
+  double-quoted-strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.sql
+      push: inside-double-quoted-string
+
+  inside-double-quoted-string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.quoted.double.sql
+    - match: \"\"
+      scope: constant.character.escape.sql
+    - match: \"
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+
+  interpolations:
+    - match: \%\{
+      scope: punctuation.definition.string.begin.sql
+      push: inside-interpolation
+
+  inside-interpolation:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.sql string.other.quoted.brackets.sql
+    - match: \}
+      scope: punctuation.definition.string.end.sql
+      pop: 1
+    - include: string-interpolations
+
+  string-interpolations:
+    - meta_include_prototype: false
+    - match: (#\{)([^\}]*)(\})
+      scope: meta.interpolation.sql
+      captures:
+        1: punctuation.section.interpolation.begin.sql
+        3: punctuation.section.interpolation.end.sql
+      push: clear-scope-imediately-pop
+
+###[ LIKE EXPRESSIONS ]########################################################
+
+  like-string-not-followed-by-escape:
+    - match: \'
+      scope: punctuation.definition.string.begin.sql
+      set:
+        - like-escape-fail
+        - inside-like-single-quoted-string-slash-escape
+    - include: else-pop
+
+  like-escape-character-slash:
+    - match: (\')(\\\\)(\')
+      scope: meta.string.escape.sql string.quoted.single.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        2: constant.character.escape.sql
+        3: punctuation.definition.string.end.sql
+      pop: 1
+    - include: like-else-fail
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - meta_append: true
+    - match: \|\|
+      scope: keyword.operator.concatenation.sql
+    - match: \!
+      scope: keyword.operator.logical.sql
+    - match: \b(?i:div|mod)\b
+      scope: keyword.operator.arithmetic.sql
+
+###[ PROTOTYPES ]##############################################################
+
+  clear-scope-imediately-pop:
+    - clear_scopes: 1
+    - include: immediately-pop

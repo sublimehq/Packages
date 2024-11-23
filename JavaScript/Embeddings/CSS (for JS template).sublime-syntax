@@ -21,3 +21,14 @@ contexts:
   strings-content:
     - meta_prepend: true
     - include: scope:source.js#string-interpolations
+
+  main:
+    # support properties in top-level context
+    - meta_include_prototype: false
+    - include: comments
+    - include: property-lists
+    - include: properties-or-selectors
+    - include: at-rules
+    - include: rule-terminators
+    - include: illegal-commas
+    - include: illegal-groups

@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[<?xml version="1.0" encoding="UTF-8"?>]]></content>
 	<tabTrigger>xml-declaration</tabTrigger>
-	<scope>text.xml</scope>
+	<scope>text.xml - text.xml meta.tag - text.xml meta.embedded - text.xml meta.interpolation - text.xml comment - text.xml string - text.xml source</scope>
 	<description>XML Declaration</description>
 </snippet>
