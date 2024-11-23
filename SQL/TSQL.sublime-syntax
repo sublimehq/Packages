@@ -1029,6 +1029,7 @@ contexts:
       scope: constant.language.tsql
 
 ###[ LIKE EXPRESSIONS ]########################################################
+
   inside-like-single-quoted-string:
     - meta_append: true
     - match: |-
