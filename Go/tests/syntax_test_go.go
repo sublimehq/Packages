@@ -1211,6 +1211,16 @@ by accident, but if necessary, such support could be sacrificed.
 //                               ^^^ meta.type.go storage.type.go
 //                                  ^ meta.type.go punctuation.section.parens.end.go
 
+        Method(Type[TypeArg])
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.type.go
+//      ^^^^^^ entity.name.function.go
+//            ^ punctuation.section.parens.begin.go
+//             ^^^^ storage.type.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^^^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.section.parens.end.go
+
         Inherit
 //      ^^^^^^^ meta.type.go storage.type.go
 
@@ -4931,6 +4941,16 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^ variable.function.go
     )
 
+    ident[Type[TypeArg]]()
+//  ^^^^^ variable.function.go
+//       ^ punctuation.section.brackets.begin.go
+//        ^^^^ variable.other.type.go
+//            ^ punctuation.section.brackets.begin.go
+//             ^^^^^^^ variable.other.go
+//                    ^^ punctuation.section.brackets.end.go
+//                      ^ punctuation.section.parens.begin.go
+//                       ^ punctuation.section.parens.end.go
+
     ident.ident()
 //  ^^^^^ variable.other.go
 //       ^ punctuation.accessor.dot.go
@@ -4952,6 +4972,36 @@ by accident, but if necessary, such support could be sacrificed.
 //                   ^ punctuation.section.parens.begin.go
 //                    ^^^^^ variable.other.go
 //                         ^ punctuation.section.parens.end.go
+
+    ident.ident.ident[Type, Type](ident)
+//  ^^^^^ variable.other.go
+//       ^ punctuation.accessor.dot.go
+//        ^^^^^ variable.other.member.go
+//             ^ punctuation.accessor.dot.go
+//              ^^^^^ variable.function.go
+//                   ^ punctuation.section.brackets.begin.go
+//                    ^^^^ variable.other.type.go
+//                        ^ punctuation.separator.go
+//                          ^^^^ variable.other.type.go
+//                              ^ punctuation.section.brackets.end.go
+//                               ^ punctuation.section.parens.begin.go
+//                                ^^^^^ variable.other.go
+//                                     ^ punctuation.section.parens.end.go
+
+    ident.ident.ident[Type[TypeArg]](ident)
+//  ^^^^^ variable.other.go
+//       ^ punctuation.accessor.dot.go
+//        ^^^^^ variable.other.member.go
+//             ^ punctuation.accessor.dot.go
+//              ^^^^^ variable.function.go
+//                   ^ punctuation.section.brackets.begin.go
+//                    ^^^^ variable.other.type.go
+//                        ^ punctuation.section.brackets.begin.go
+//                         ^^^^^^^ variable.other.go
+//                                ^^ punctuation.section.brackets.end.go
+//                                  ^ punctuation.section.parens.begin.go
+//                                   ^^^^^ variable.other.go
+//                                        ^ punctuation.section.parens.end.go
 
     ident /**/ . /**/
 //  ^^^^^ variable.other.go
@@ -5138,6 +5188,19 @@ by accident, but if necessary, such support could be sacrificed.
     ) typ {}
 //    ^^^ storage.type.go
 
+    func FuncName(param [][]Type) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//  ^^^^ keyword.declaration.function.go
+//       ^^^^^^^^ entity.name.function.go
+//               ^ punctuation.section.parens.begin.go
+//                ^^^^^ variable.parameter.go
+//                      ^ punctuation.section.brackets.begin.go
+//                       ^ punctuation.section.brackets.end.go
+//                        ^ punctuation.section.brackets.begin.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^^^^ storage.type.go
+//                              ^ punctuation.section.parens.end.go
+
 /* ### Methods */
 
     func (self Type) Method() {}
@@ -5157,6 +5220,18 @@ by accident, but if necessary, such support could be sacrificed.
 //              ^^^^^^ meta.function.declaration.go entity.name.function.go
 //                    ^ punctuation.section.parens.begin.go
 //                     ^ punctuation.section.parens.end.go
+
+    func(Type, Type[TypeArg])
+//  ^^^^ keyword.declaration.function.go
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.go
+//      ^ punctuation.section.parens.begin.go
+//       ^^^^ storage.type.go
+//           ^ punctuation.separator.go
+//             ^^^^ storage.type.go
+//                 ^ punctuation.section.brackets.begin.go
+//                  ^^^^^^^ variable.other.type.go
+//                         ^ punctuation.section.brackets.end.go
+//                          ^ punctuation.section.parens.end.go
 
     func /**/
 //  ^^^^ keyword.declaration.function.go
