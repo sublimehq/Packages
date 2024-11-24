@@ -54,11 +54,38 @@ auto wysiwyg = r"f// \n\";
 //              ^ punctuation.definition.string.begin.d
 //                   ^^ - constant.character.escape.d
 //                      ^ punctuation.definition.string.end.d
+
 auto wysiwygAlt = `f//\n\`;
 //                ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
 //                ^ punctuation.definition.string.begin.d
 //                    ^^ - constant.character.escape.d
 //                       ^ punctuation.definition.string.end.d
+
+auto wysiwygInter = i`string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())\r\n`;
+//                  ^ storage.modifier.string.d
+//                   ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
+//                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                           ^^ punctuation.section.interpolation.begin.d
+//                             ^^^^ variable.language.d
+//                                 ^ punctuation.accessor.dot.d
+//                                  ^^^ variable.other.d
+//                                     ^ punctuation.section.interpolation.end.d
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
+//                                      ^^^^ - constant.character
+//                                                   ^^ constant.character.escape.d
+//                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                                                                 ^^ punctuation.section.interpolation.begin.d
+//                                                                   ^^^^ variable.language.d
+//                                                                       ^ punctuation.accessor.dot.d
+//                                                                        ^^^ variable.function.d
+//                                                                           ^ punctuation.section.parens.begin.d
+//                                                                            ^ punctuation.section.parens.end.d
+//                                                                             ^ punctuation.section.interpolation.end.d
+//                                                                              ^^^^^ meta.string.d string.quoted.double.raw.backtick.d
+//                                                                              ^^^^ - constant.character
+//                                                                                  ^ punctuation.definition.string.end.d
+//                                                                                   ^ punctuation.terminator.d - meta.string
+
 auto doubleQuoted = "c://\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.d
 //                  ^ punctuation.definition.string.begin.d
@@ -76,6 +103,32 @@ auto invalidEscape4 = "\u12398";
 //                    ^^^^^^^^^ meta.string.d string.quoted.double.d
 //                     ^^^^^^ constant.character.escape.d
 //                           ^ - constant.character.escape.d
+
+auto interpolated = i"string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())\r\n";
+//                  ^ storage.modifier.string.d
+//                   ^^^^^^^^ meta.string.d string.quoted.double.d
+//                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                           ^^ punctuation.section.interpolation.begin.d
+//                             ^^^^ variable.language.d
+//                                 ^ punctuation.accessor.dot.d
+//                                  ^^^ variable.other.d
+//                                     ^ punctuation.section.interpolation.end.d
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.d
+//                                      ^^^^ constant.character.escape.d
+//                                                   ^^ constant.character.escape.d
+//                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                                                                 ^^ punctuation.section.interpolation.begin.d
+//                                                                   ^^^^ variable.language.d
+//                                                                       ^ punctuation.accessor.dot.d
+//                                                                        ^^^ variable.function.d
+//                                                                           ^ punctuation.section.parens.begin.d
+//                                                                            ^ punctuation.section.parens.end.d
+//                                                                             ^ punctuation.section.interpolation.end.d
+//                                                                              ^^^^^ meta.string.d string.quoted.double.d
+//                                                                              ^^^^ constant.character.escape.d
+//                                                                                  ^ punctuation.definition.string.end.d
+//                                                                                   ^ punctuation.terminator.d - meta.string
+
 auto hexString = x"00 ba
 //               ^^^^^^^^ meta.string.d string.quoted.double.raw.d
 //               ^ storage.modifier.string.d
@@ -199,6 +252,28 @@ auto tokenString = q{ if { () /*}*/ else /*{*/ } };
 //                                             ^ punctuation.section.braces.end.d
 //                                               ^ string.unquoted.embedded.d punctuation.definition.string.end.d
 //                                                ^ punctuation.terminator.d
+
+auto interpolTokenStr = iq{ if $(this.var) { me = $(this.bar) } }
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
+//                      ^^ storage.modifier.string.d
+//                        ^ punctuation.definition.string.begin.d
+//                          ^^ keyword.d
+//                             ^^^^^^^^^^^ meta.interpolation.d
+//                             ^^ punctuation.section.interpolation.begin.d
+//                               ^^^^ variable.language.d
+//                                   ^ punctuation.accessor.dot.d
+//                                    ^^^ variable.other.d
+//                                       ^ punctuation.section.interpolation.end.d
+//                                         ^ punctuation.section.braces.begin.d
+//                                              ^ keyword.operator.assignment.d
+//                                                ^^^^^^^^^^^ meta.interpolation.d
+//                                                ^^ punctuation.section.interpolation.begin.d
+//                                                  ^^^^ variable.language.d
+//                                                      ^ punctuation.accessor.dot.d
+//                                                       ^^^ variable.other.d
+//                                                          ^ punctuation.section.interpolation.end.d
+//                                                            ^ punctuation.section.braces.end.d
+//                                                              ^ punctuation.definition.string.end.d
 
 auto c = 'a';
 //       ^^^ meta.string.d string.quoted.single.d
