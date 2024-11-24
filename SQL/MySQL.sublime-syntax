@@ -1659,6 +1659,7 @@ contexts:
 ###[ LIKE EXPRESSIONS ]########################################################
 
   like-string-not-followed-by-escape:
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set:
@@ -1667,6 +1668,7 @@ contexts:
     - include: else-pop
 
   like-escape-character-slash:
+    - meta_include_prototype: false
     - match: (\')(\\\\)(\')
       scope: meta.string.escape.sql string.quoted.single.sql
       captures:

@@ -1457,6 +1457,7 @@ contexts:
         - like-string-followed-by-unknown-escape
 
   like-string-not-followed-by-escape:
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set:
@@ -1465,6 +1466,7 @@ contexts:
     - include: else-pop
 
   like-string-followed-by-escape-slash:
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set:
@@ -1474,6 +1476,7 @@ contexts:
     - include: else-pop
 
   like-string-followed-by-escape-caret:
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set:
@@ -1483,6 +1486,7 @@ contexts:
     - include: else-pop
 
   like-string-followed-by-escape-hash:
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set:
@@ -1492,6 +1496,7 @@ contexts:
     - include: else-pop
 
   like-string-followed-by-unknown-escape:
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.begin.sql
       set:
@@ -1548,6 +1553,7 @@ contexts:
     - include: else-pop
 
   like-escape-character-any:
+    - meta_include_prototype: false
     - match: (\')([^'])(\')
       scope: meta.string.escape.sql string.quoted.single.sql
       captures:
@@ -1558,6 +1564,7 @@ contexts:
     - include: else-pop
 
   like-escape-character-caret:
+    - meta_include_prototype: false
     - match: (\')(\^)(\')
       scope: meta.string.escape.sql string.quoted.single.sql
       captures:
@@ -1568,6 +1575,7 @@ contexts:
     - include: like-else-fail
 
   like-escape-character-slash:
+    - meta_include_prototype: false
     - match: (\')(\\)(\')
       scope: meta.string.escape.sql string.quoted.single.sql
       captures:
@@ -1578,6 +1586,7 @@ contexts:
     - include: like-else-fail
 
   like-escape-character-hash:
+    - meta_include_prototype: false
     - match: (\')(#)(\')
       scope: meta.string.escape.sql string.quoted.single.sql
       captures:
@@ -1600,6 +1609,7 @@ contexts:
     - include: logical-operators
 
   maybe-operator:
+    - meta_include_prototype: false
     - match: '<=>|[!<>]?=|<>|<|>'
       scope: keyword.operator.comparison.sql
       pop: 1

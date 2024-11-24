@@ -308,6 +308,7 @@ contexts:
       push: expect-regexp
 
   expect-regexp:
+    - meta_include_prototype: false
     - match: \'
       scope: meta.string.regexp.psql punctuation.definition.string.begin.psql
       embed: scope:source.regexp
