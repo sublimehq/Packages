@@ -102,8 +102,8 @@ conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 #                                                          ^ constant.character.escape.python
 
 regex = r'\b ([fobar]*){1}(?:a|b)?'
-#         ^ meta.string.python keyword.control.anchor.regexp
-#                       ^ keyword.operator.quantifier.regexp
+#         ^^ meta.string.python keyword.control.anchor.regexp
+#                      ^^^ keyword.operator.quantifier.regexp
 
 regex = r'.* # Not a comment (yet)'
 #            ^^^^^^^^^^^^^^^^^^^^^ - comment
@@ -114,6 +114,76 @@ regex = r".* # Not a comment (yet)"
 #            ^^^^^^^^^^^^^^^^^^^^^ - comment
 #                                 ^ punctuation.definition.string.end.python - comment
 #                                  ^ - invalid
+
+regex = r"(backref) \1 "
+#                   ^^ keyword.other.backref-and-recursion.regexp
+#                    ^ variable.other.backref-and-recursion.regexp
+#                     ^ - keyword
+
+regex = r'(?P<quote>[\'"]).*?(?P=quote)'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp - invalid
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                             ^^^ keyword.other.back-reference.named.regexp
+#                                ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+
+regex = r'(?P<Quote>[\'"]).*?(?P=Quote)'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp - invalid
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                             ^^^ keyword.other.back-reference.named.regexp
+#                                ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+
+regex = r'(?P<àuote>[\'"]).*?(?P=àuote)'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp invalid.deprecated.regexp
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                             ^^^ keyword.other.back-reference.named.regexp
+#                                ^^^^^ variable.other.backref-and-recursion.regexp invalid.deprecated.regexp
+
+regex = r'(?P<quàte>[\'"]).*?(?P=quàte)'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp invalid.deprecated.regexp
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                             ^^^ keyword.other.back-reference.named.regexp
+#                                ^^^^^ variable.other.backref-and-recursion.regexp invalid.deprecated.regexp
+
+
+regex = r'(?P<quote>[\'"]).*?\g<quote>'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp - invalid
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                            ^^ keyword.other.backref-and-recursion.regexp
+#                               ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+
+regex = r'(?P<Quote>[\'"]).*?\g<Quote>'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp - invalid
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                            ^^ keyword.other.backref-and-recursion.regexp
+#                               ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+
+regex = r'(?P<àuote>[\'"]).*?\g<àuote>'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp invalid.deprecated.regexp
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                            ^^ keyword.other.backref-and-recursion.regexp
+#                               ^^^^^ variable.other.backref-and-recursion.regexp invalid.deprecated.regexp
+
+regex = r'(?P<quàte>[\'"]).*?\g<quàte>'
+#          ^^ keyword.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp invalid.deprecated.regexp
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                            ^^ keyword.other.backref-and-recursion.regexp
+#                               ^^^^^ variable.other.backref-and-recursion.regexp invalid.deprecated.regexp
 
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
 #           ^ keyword.control.anchor.regexp
