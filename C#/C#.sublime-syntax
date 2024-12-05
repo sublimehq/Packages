@@ -442,11 +442,19 @@ contexts:
     - match: (?=\S)
       push: [method_param, method_param_type]
 
-  delegate_end:
+  terminator:
     - match: \s*(;)
       captures:
         1: punctuation.terminator.statement.cs
       pop: true
+
+  maybe_terminator:
+    - include: terminator
+    - match: (?=\S)
+      pop: true
+
+  delegate_end:
+    - include: terminator
     - match: \s*(?=\S)
       scope: invalid.illegal.expected.colon
       pop: true
@@ -546,6 +554,9 @@ contexts:
     - include: type_constraint_common
     - match: '{{name}}'
       scope: entity.other.inherited-class.cs
+      push:
+        - maybe_terminator
+        - maybe_constructor_parameters
     - include: type
 
   type_constraint_common:
@@ -787,6 +798,8 @@ contexts:
 
   method_param_type:
     - include: attribute
+    - include: lambdas
+
     - match: (?=[^\s\[])
       set:
       - match: '\s*\b(out|ref|this|params|in)\s+'
