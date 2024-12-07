@@ -239,6 +239,7 @@ contexts:
     # Detect & switch context to changed content
     - match: ^(?=@|GIT binary)
       set: diff-content
+    - include: headers-unified
     # old mode <mode>
     # new mode <mode>
     # deleted file mode <mode>
@@ -301,6 +302,7 @@ contexts:
     - include: pop-before-diff-header
     - include: binary-deltas
     # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
+    - include: line-ranges-unified
     - include: deltas
 
   # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
