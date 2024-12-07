@@ -122,6 +122,7 @@ Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Examp
 ---
 > The named is the mother of all things.
 > 
+\^ - meta.whitespace
 11a11,13
 > They both may be called deep and profound.
 > Deeper and more profound,
@@ -173,6 +174,7 @@ Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 \ <- punctuation.definition.changed.diff
 ! 
 \ <- markup.changed.diff punctuation.definition.changed.diff
+\^ - meta.whitespace
   Therefore let there always be non-being,
     so we may see their subtlety,
   And let there always be being,

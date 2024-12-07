@@ -223,24 +223,26 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
   deltas-normal:
-    - match: ^>
+    - match: ^> ?
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^<
+    - match: ^< ?
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
-    - match: ^[\\/]
-      scope: punctuation.definition.comment.begin.diff
-      push: line-ignored
+    - include: incomplete-line
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
   deltas-context:
-    # This is not precisely correct: Context Mode has a space after each +/-.
-    - include: deltas-unified
-    - match: ^!
+    - match: ^\+ ?
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: ^- ?
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - match: ^! ?
       scope: punctuation.definition.changed.diff
       push: line-changed
+    - include: incomplete-line
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
   deltas-unified:
@@ -250,7 +252,10 @@ contexts:
     - match: ^-
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
+    - include: incomplete-line
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
+  incomplete-line:
     - match: ^[\\/]
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
