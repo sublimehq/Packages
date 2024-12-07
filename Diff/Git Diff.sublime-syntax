@@ -107,9 +107,9 @@ contexts:
             - match: \]
               scope: punctuation.definition.annotation.end.diff
               pop: 1
-            - match: \bv\d+\b
+            - match: \bv[0-9]+\b
               scope: meta.annotation.patch-version.diff storage.modifier.diff
-            - match: (\d+)(/)(\d+)
+            - match: ([0-9]+)(/)([0-9]+)
               scope: meta.annotation.patch-sequence.diff
               captures:
                 1: meta.number.integer.decimal.diff constant.numeric.value.diff
@@ -123,13 +123,23 @@ contexts:
         2: punctuation.separator.mapping.key-value.diff
       push:
         - meta_scope: meta.mapping.diff
-        - match: '{{day3}}(,) [0-3]?\d {{month3}} \d{4} \d\d(:)\d\d(:)\d\d(?: ([+-])\d{4})?'
-          scope: constant.numeric.value.diff
+        - match: |-
+            (?x:
+              {{day3}}(,) [ ]  # Day of week
+              [0-3]?[0-9] [ ]  # Day of month
+              {{month3}} [ ]   # Month
+              [0-9]{4} [ ]     # Year
+              [0-9]{2}(:)      # Hour
+              [0-9]{2}(:)      # Minute
+              [0-9]{2}         # Second
+              (?:[ ]([+-][0-9]{4}))? # Optional UTC offset
+            )
+          scope: meta.date.diff constant.numeric.value.diff
           captures:
             1: punctuation.separator.date.diff
             2: punctuation.separator.date.diff
             3: punctuation.separator.date.diff
-            4: keyword.operator.arithmetic.diff
+            4: storage.modifier.diff
         - include: pop-before-eol
     # Other headers
     - match: ^\b([\w-]+)\b(:)
@@ -187,8 +197,8 @@ contexts:
             (?x:
               (\|)[ ]+
               (?:
-                (Bin)[ ](\d+)[ ](->)[ ](\d+)[ ](bytes)  # Binary files
-              | (\d+)[ ](\+*)(-*)                       # Text files
+                (Bin)[ ]([0-9]+)[ ](->)[ ]([0-9]+)[ ](bytes)  # Binary files
+              | ([0-9]+)[ ](\+*)(-*)                          # Text files
               )
             )
           captures:
@@ -201,10 +211,10 @@ contexts:
             7: meta.number.integer.decimal.diff constant.numeric.value.diff
             8: markup.inserted.diff
             9: markup.deleted.diff
-    - match: ^(?= \d+ file)
+    - match: ^(?= [0-9]+ file)
       push:
         - include: pop-eol
-        - match: \d+
+        - match: '[0-9]+'
           scope: meta.number.integer.decimal.diff constant.numeric.value.diff
         - match: ','
           scope: punctuation.separator.sequence.diff
@@ -310,7 +320,7 @@ contexts:
     - match: ^(?:dis)?similarity index
       push:
         - include: pop-before-eol
-        - match: (100|[1-9]?\d)(%)
+        - match: (100|[1-9]?[0-9])(%)
           scope: meta.number.integer.decimal.git
           captures:
             1: constant.numeric.value.git
@@ -345,7 +355,7 @@ contexts:
     - match: ^GIT binary patch
       scope: keyword.other.diff
       push:
-        - match: ^(delta|literal) (\d+)
+        - match: ^(delta|literal) ([0-9]+)
           captures:
             1: support.function.diff
             2: meta.number.integer.decimal.diff constant.numeric.value.diff
@@ -386,7 +396,7 @@ contexts:
       scope: punctuation.definition.range.end.diff
       pop: 1
     - include: line-range-span
-    - match: '[+-](?=\d)'
+    - match: '[+-](?=[0-9])'
       scope: support.function.diff
 
   line-range-combined-2:
