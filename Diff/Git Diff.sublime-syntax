@@ -206,17 +206,19 @@ contexts:
     - match: ^ (?=create mode)
       push:
         - meta_content_scope: markup.inserted.diff
-        - include: inside-create-delete-mode
+        - include: pop-before-eol
+        - include: path-separators
+        - include: file-modes
     - match: ^ (?=delete mode)
       push:
         - meta_content_scope: markup.deleted.diff
-        - include: inside-create-delete-mode
+        - include: pop-before-eol
+        - include: path-separators
+        - include: file-modes
     - match: '{{empty_line}}'
       set: diffs
 
-  inside-create-delete-mode:
-    - include: pop-before-eol
-    - include: path-separators
+  file-modes:
     - match: \b(?:100)?644\b
       scope: meta.number.integer.octal.diff constant.numeric.value.diff
     - match: \b(?:100)?755\b
@@ -224,15 +226,8 @@ contexts:
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   # TODO: Full meta block for each file header.
-  # TODO: multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
   diffs:
-    # Signature (usually Git version)
-    # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
-    - match: ^(-- )$\r?\n?
-      captures:
-        1: meta.separator.diff punctuation.definition.separator.diff
-      set:
-        - meta_content_scope: comment.block.diff
+    - include: signature
     # File header
     - match: ^(diff) ((--)git)
       captures:
@@ -240,14 +235,14 @@ contexts:
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
       push:
+        - meta_scope: meta.toc-list.git
         - include: pop-eol
-        - match: (a|b|ours|theirs)(/)
+        - match: \b(a|b|ours|theirs)(/)
           captures:
             1: constant.language.diff
             2: punctuation.separator.sequence.diff
           push:
             - meta_scope: entity.name.diff
-            - meta_content_scope: meta.toc-list.filename.diff
             - match: (?=\s|$)
               pop: 1
             - include: path-separators
@@ -262,18 +257,32 @@ contexts:
     - match: ^(?=deleted file mode)
       push:
         - meta_content_scope: markup.deleted.diff
-        - include: inside-create-delete-mode
+        - include: pop-before-eol
+        - include: file-modes
     # new file mode <mode>
     - match: ^(?=new file mode)
       push:
         - meta_content_scope: markup.inserted.diff
-        - include: inside-create-delete-mode
+        - include: pop-before-eol
+        - include: file-modes
     # copy from <path>
     # copy to <path>
     # rename from <path>
     # rename to <path>
+    - match: ^(?:copy|rename) (from|to)
+      push:
+        - include: pop-before-eol
+        - include: path-separators
     # similarity index <number>
     # dissimilarity index <number>
+    - match: ^(?:dis)?similarity index
+      push:
+        - include: pop-before-eol
+        - match: (100|[1-9]?\d)(%)
+          scope: meta.number.integer.decimal.git
+          captures:
+            1: constant.numeric.value.git
+            2: constant.numeric.suffix.git
     # index <hash>..<hash> <mode>
     - match: ^(index) (?:(0{7,40})|({{hash}}))\b(\.\.)(?:(0{7,40})|({{hash}}))\b
       captures:
@@ -284,7 +293,8 @@ contexts:
         5: markup.deleted.diff
         6: constant.other.hash.git
       push:
-        - include: inside-create-delete-mode
+        - include: pop-before-eol
+        - include: file-modes
 
   # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
   binary-deltas:
@@ -310,3 +320,12 @@ contexts:
   # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
   text-deltas:
     - include: Diff.sublime-syntax#diff-common
+
+  # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
+  signature:
+    # This is the Git version unless otherwise configured
+    - match: ^(-- )$\r?\n?
+      captures:
+        1: meta.separator.diff punctuation.definition.separator.diff
+      set:
+        - meta_content_scope: comment.block.diff
