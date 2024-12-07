@@ -65,7 +65,7 @@ contexts:
         2: punctuation.separator.mapping.key-value.diff
       push:
         - meta_scope: meta.mapping.diff
-        - meta_content_scope: entity.name.label.diff
+        - meta_content_scope: markup.heading.diff
         - match: (\[)PATCH
           captures:
             1: punctuation.definition.annotation.begin.diff
@@ -127,6 +127,8 @@ contexts:
               pop: 1
             - match: /|\\
               scope: punctuation.separator.sequence.diff
+            - match: \.{3}
+              scope: keyword.operator.diff
         - match: \|
           scope: punctuation.separator.sequence.diff
         - match: (Bin) (\d+) (->) (\d+) (bytes)
@@ -134,7 +136,7 @@ contexts:
             1: storage.type.diff
             2: meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
             3: keyword.operator.logical.diff
-            4: meta.number.integer.decimal.diff constant.numeric.value.diff
+            4: meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
             5: constant.numeric.suffix.diff
         - match: \d+
           scope: meta.number.integer.decimal.diff constant.numeric.value.diff
@@ -162,7 +164,25 @@ contexts:
           captures:
             1: punctuation.definition.diff
             2: punctuation.definition.diff
+    - match: ^ (?=create mode)
+      push:
+        - meta_content_scope: markup.inserted.diff
+        - include: inside-create-delete-mode
+    - match: ^ (?=delete mode)
+      push:
+        - meta_content_scope: markup.deleted.diff
+        - include: inside-create-delete-mode
     - match: ^(?=\r?\n)
+      pop: 1
+
+  inside-create-delete-mode:
+    - match: \b(?:100)?644\b
+      scope: meta.number.integer.octal.diff constant.numeric.value.diff
+    - match: \b(?:100)?755\b
+      scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.diff
+    - match: /|\\
+      scope: punctuation.separator.sequence.diff
+    - match: (?=$)
       pop: 1
 
   diff:
