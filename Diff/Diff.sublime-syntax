@@ -225,6 +225,11 @@ contexts:
 
   # TODO: ours/theirs parent diff
   diff-git:
+    - match: ^(-- )$\r?\n?
+      captures:
+        1: meta.separator.diff punctuation.definition.separator.diff
+      set:
+        - meta_content_scope: comment.block.diff
     - match: ^(diff) ((--)git)
       captures:
         1: variable.function.diff
