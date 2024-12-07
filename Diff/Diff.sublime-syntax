@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # https://www.sublimetext.com/docs/syntax.html
-# https://www.gnu.org/software/diffutils/manual/html_node/index.html
+# https://www.gnu.org/software/diffutils/manual/diffutils.html
 name: Diff
 version: 2
 file_extensions:
@@ -39,7 +39,7 @@ contexts:
     - include: deltas
 
   headers:
-    # https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
     - match: ^-{3}{{eol}}
       scope: meta.separator.diff punctuation.definition.separator.diff
 
@@ -77,7 +77,7 @@ contexts:
         1: punctuation.separator.key-value.diff
         2: meta.toc-list.file-name.diff
 
-  # https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   headers-unified:
     - match: ^(-{3})[ ](?!$)
       captures:
@@ -100,7 +100,7 @@ contexts:
 
   line-ranges:
     - include: line-ranges-unified
-    # https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
     - match: ^\d+(?:(,)\d+)*(?:(a)|(d)|(c))\d+(?:(,)\d+)*{{eol}}
       scope: meta.diff.range.normal meta.range.normal.diff
       captures:
@@ -108,7 +108,7 @@ contexts:
         2: markup.inserted.diff
         3: markup.deleted.diff
         4: markup.changed.diff
-    # https://www.gnu.org/software/diffutils/manual/html_node/Example-Context.html
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
     - match: |-
         ^(?x:
           ( -{3})[ ].+[ ]( -{4})  # From range
@@ -120,9 +120,10 @@ contexts:
         2: punctuation.definition.range.diff
         3: punctuation.definition.range.diff
         4: punctuation.definition.range.diff
-    # TODO: diff3 https://www.gnu.org/software/diffutils/manual/html_node/Example-diff3-Normal.html
+    # TODO: diff3
+    # # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
 
-  # https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   line-ranges-unified:
     - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*{{eol}}
       scope: meta.diff.range.unified meta.range.unified.diff
@@ -133,9 +134,9 @@ contexts:
         4: entity.name.section.diff
 
   deltas:
-    # https://www.gnu.org/software/diffutils/manual/html_node/Example-Context.html
-    # https://www.gnu.org/software/diffutils/manual/html_node/Example-Unified.html
-    # https://www.gnu.org/software/diffutils/manual/html_node/Example-Normal.html
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
     - match: ^[+>]
       scope: punctuation.definition.inserted.diff
       push: line-inserted
@@ -145,7 +146,7 @@ contexts:
     - match: ^[!|]
       scope: punctuation.definition.changed.diff
       push: line-changed
-    # https://www.gnu.org/software/diffutils/manual/html_node/Incomplete-Lines.html
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
     - match: ^[\\/()]
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
