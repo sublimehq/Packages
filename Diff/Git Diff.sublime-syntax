@@ -141,21 +141,18 @@ contexts:
 
   email-body:
     - meta_content_scope: meta.block.git-body.diff
-    - match: ^(?=---\r?\n)
-      set: maybe-stat
+    - match: ^(---)\r?\n
+      captures:
+        1: punctuation.definition.section.diff
+      set: [diffs, stat]
     # https://git-scm.com/docs/git-am#_discussion
     - match: '^(?=Index: |diff -)'
-      set: diff
+      set: diffs
     - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
 
-  maybe-stat:
-    - match: ---\r?\n
-      scope: punctuation.definition.section.diff
-      set: stat
-    - match: (?=\S)
-      set: diffs
-
   stat:
+    - match: ^(?=\S)
+      pop: 1
     - match: ^ (?=([^|]+[ ]+)\|)
       push:
         - include: pop-before-eol
