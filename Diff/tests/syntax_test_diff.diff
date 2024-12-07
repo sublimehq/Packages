@@ -116,11 +116,11 @@ Unified Format https://www.gnu.org/software/diffutils/manual/html_node/Example-U
 --- lao	2002-02-21 23:30:39.942229878 -0800
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
 #^^ punctuation.definition.from-file
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
 +++ tzu	2002-02-21 23:30:50.442260588 -0800
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
 #^^ punctuation.definition.to-file
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
 @@ -1,7 +1,6 @@
 -The Way that can be told of is not the eternal Way;
 -The name that can be named is not the eternal name.
