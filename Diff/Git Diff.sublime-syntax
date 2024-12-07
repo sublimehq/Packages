@@ -50,6 +50,13 @@ contexts:
     - match: '{{hash40}}'
       scope: constant.other.hash.git
 
+  separator-comma:
+    - match: \,
+      scope: punctuation.separator.sequence.git
+
+  separator-twodot:
+    - match: \.\.
+      scope: punctuation.separator.sequence.git
   main:
     - match: ^(?={{git_first_line}})
       push: email-first-line
@@ -288,12 +295,22 @@ contexts:
         - meta_content_scope: markup.deleted.diff
         - include: pop-before-eol
         - include: file-modes
+        - include: separator-comma
     # new file mode <mode>
     - match: ^(?=new file mode)
       push:
         - meta_content_scope: markup.inserted.diff
         - include: pop-before-eol
         - include: file-modes
+    # mode <mode>,<mode>..<mode> (for combined diff)
+    - match: ^mode(?= [106475,.]+)
+      scope: keyword.other.diff
+      push:
+        - include: pop-before-eol
+        - include: file-modes
+        - include: separator-twodot
+        # Combined mode can have multiple pre-commits
+        - include: separator-comma
     # copy from <path>
     # copy to <path>
     # rename from <path>
@@ -320,10 +337,9 @@ contexts:
         - include: file-modes
         - include: hash-empty
         - include: hash
-        - match: \,
-          scope: punctuation.separator.sequence.git
-        - match: \.\.
-          scope: punctuation.separator.sequence.git
+        - include: separator-twodot
+        # Combined mode can have multiple pre-commits
+        - include: separator-comma
 
   diff-content:
     - meta_content_scope: meta.block.delta.diff
