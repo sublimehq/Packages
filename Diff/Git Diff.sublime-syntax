@@ -54,26 +54,38 @@ contexts:
 
   email-header:
     - meta_scope: meta.block.git-header.diff
+    # Person headers
     - match: |-
-        (?x:
-          ^(
-            From | To | Author | Committer |
-            Co-authored-by |
-            Signed-off-by |
-            Reviewed-by |
-            Acked-by |
-            Helped-by
+        ^(?x:
+          ( From | To | Author | Committer
+          | Co-authored-by
+          | Signed-off-by
+          | Reviewed-by
+          | Acked-by
+          | Helped-by
           )
           (:)
         )
       captures:
-        1: keyword
+        1: keyword.other.diff
         2: punctuation.separator.mapping.key-value.diff
       push:
         - meta_scope: meta.mapping.diff
         - include: scope:text.git.mailmap
         - match: (?=$)
           pop: 1
+    # Commit headers
+    - match: ^(In-Reply-To|References)(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - match: '{{commit_hash}}'
+          scope: constant.other.hash.git
+        - match: (?=$)
+          pop: 1
+    # Subject header
     - match: ^(Subject)(:)
       captures:
         1: keyword.other.diff
@@ -99,6 +111,7 @@ contexts:
                 3: meta.number.integer.decimal.diff constant.numeric.value.diff
         - match: (?=$)
           pop: 1
+    # Date headers
     - match: ^((?:Author|Committer)?Date)(:)
       captures:
         1: keyword.other.diff
@@ -114,6 +127,7 @@ contexts:
             4: keyword.operator.arithmetic.diff
         - match: (?=$)
           pop: 1
+    # Other headers
     - match: ^\b([\w-]+)\b(:)
       captures:
         1: keyword.other.diff
@@ -122,6 +136,7 @@ contexts:
         - meta_scope: meta.mapping.diff
         - match: (?=$)
           pop: 1
+    # Go to Body
     - match: '{{empty_line}}'
       set: email-body
 
