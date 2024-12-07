@@ -30,6 +30,10 @@ variables:
   scissors: (?:>8|8<)
 
 contexts:
+  pop-empty-line:
+    - match: '{{empty_line}}'
+      pop: 1
+
   pop-before-diff-header:
     - match: ^(?=diff --git\b)
       pop: 1
@@ -369,14 +373,11 @@ contexts:
   # https://git-scm.com/docs/diff-format#_combined_diff_format
   line-ranges-combined:
     - include: line-range-combined-2
+    - include: line-range-combined-3
+    - include: line-range-combined-4
+    - include: line-range-combined-5
 
-  line-range-combined-2:
-    - match: ^(@@@)(?=[^@\n]+\1(?:\s|$))
-      captures:
-        1: punctuation.definition.range.begin.diff
-      push: [deltas-combined-2, hunk-name, inside-line-ranges-combined-2]
-
-  inside-line-ranges-combined-2:
+  inside-line-ranges-combined:
     - meta_scope: meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
     - include: pop-eol
     - match: \1
@@ -386,9 +387,14 @@ contexts:
     - match: '[+-](?=\d)'
       scope: support.function.diff
 
+  line-range-combined-2:
+    - match: ^(@@{2})(?=[^@\n]+\1(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-2, hunk-name, inside-line-ranges-combined]
+
   deltas-combined-2:
-    - match: ^$
-      pop: 1
+    - include: pop-empty-line
     - match: ^[ ]{2}
     - match: ^[+ ]{2}
       scope: punctuation.definition.inserted.diff
@@ -396,6 +402,75 @@ contexts:
     - match: ^[- ]{2}
       scope: punctuation.definition.deleted.diff
       push: line-deleted
+    - match: ^[\\/ ]{2}
+      scope: punctuation.definition.comment.begin.diff
+      push: line-ignored
     - match: ^[+-]{2}
+      scope: punctuation.definition.changed.diff
+      push: line-changed
+
+  line-range-combined-3:
+    - match: ^(@@{3})(?=[^@\n]+\1(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-3, hunk-name, inside-line-ranges-combined]
+
+  deltas-combined-3:
+    - include: pop-empty-line
+    - match: ^[ ]{3}
+    - match: ^[+ ]{3}
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: ^[- ]{3}
       scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - match: ^[\\/ ]{3}
+      scope: punctuation.definition.comment.begin.diff
+      push: line-ignored
+    - match: ^[+-]{3}
+      scope: punctuation.definition.changed.diff
+      push: line-changed
+
+  line-range-combined-4:
+    - match: ^(@@{4})(?=[^@\n]+\1(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-4, hunk-name, inside-line-ranges-combined]
+
+  deltas-combined-4:
+    - include: pop-empty-line
+    - match: ^[ ]{4}
+    - match: ^[+ ]{4}
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: ^[- ]{4}
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - match: ^[\\/ ]{4}
+      scope: punctuation.definition.comment.begin.diff
+      push: line-ignored
+    - match: ^[+-]{4}
+      scope: punctuation.definition.changed.diff
+      push: line-changed
+
+  line-range-combined-5:
+    - match: ^(@@{5})(?=[^@\n]+\1(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-5, hunk-name, inside-line-ranges-combined]
+
+  deltas-combined-5:
+    - include: pop-empty-line
+    - match: ^[ ]{5}
+    - match: ^[+ ]{5}
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: ^[- ]{5}
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - match: ^[\\/ ]{5}
+      scope: punctuation.definition.comment.begin.diff
+      push: line-ignored
+    - match: ^[+-]{5}
+      scope: punctuation.definition.changed.diff
       push: line-changed
