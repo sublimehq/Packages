@@ -5,6 +5,7 @@
 # https://git-scm.com/docs/diff-format
 name: Git Diff
 version: 2
+extends: Diff.sublime-syntax
 file_extensions:
   - diff.eml
   - patch.eml
