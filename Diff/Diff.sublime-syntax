@@ -118,10 +118,15 @@ contexts:
       pop: 1
 
   git-stat:
-    - match: ^ (?=([^|]+\s+)\|)
+    - match: ^ (?=([^|]+[ ]+)\|)
       push:
-        - match: .+?(?=\s+\|)
-          scope: entity.name.diff
+        - match: (?=\S.+\|)
+          push:
+            - meta_content_scope: entity.name.diff
+            - match: (?=[ ]+\|)
+              pop: 1
+            - match: /|\\
+              scope: punctuation.separator.sequence.diff
         - match: \|
           scope: punctuation.separator.sequence.diff
         - match: (Bin) (\d+) (->) (\d+) (bytes)
@@ -139,6 +144,24 @@ contexts:
           scope: markup.deleted.diff
         - match: (?=\n|$)
           pop: 1
+    - match: ^(?= \d+ file)
+      push:
+        - match: $
+          pop: 1
+        - match: \d+
+          scope: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: ','
+          scope: punctuation.separator.sequence.diff
+        - match: insertions?(\()\+(\))
+          scope: markup.inserted.diff
+          captures:
+            1: punctuation.definition.diff
+            2: punctuation.definition.diff
+        - match: deletions?(\()-(\))
+          scope: markup.deleted.diff
+          captures:
+            1: punctuation.definition.diff
+            2: punctuation.definition.diff
     - match: ^(?=\r?\n)
       pop: 1
 
