@@ -221,28 +221,38 @@ contexts:
       scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.diff
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
-  # TODO: Full meta block for each file header.
   diffs:
     - include: signature
-    # File header
     - match: ^(diff) ((--)git)
       captures:
         1: variable.function.diff
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
+      push: [diff-header, file-header-continue]
+
+  file-header-continue:
+    - meta_scope: meta.toc-list.git
+    - include: pop-eol
+    - match: \b(a|b|ours|theirs)(/)
+      captures:
+        1: constant.language.diff
+        2: punctuation.separator.sequence.diff
       push:
-        - meta_scope: meta.toc-list.git
-        - include: pop-eol
-        - match: \b(a|b|ours|theirs)(/)
-          captures:
-            1: constant.language.diff
-            2: punctuation.separator.sequence.diff
-          push:
-            - meta_scope: entity.name.diff
-            - match: (?=\s|$)
-              pop: 1
-            - include: path-separators
+        - meta_scope: entity.name.diff
+        - match: (?=\s|$)
+          pop: 1
+        - include: path-separators
+
+  diff-header:
+    - meta_scope: meta.block.header.diff
+    - match: ^(?=@|GIT binary)
+      set: diff-content
     - include: diff-header-extended
+
+  diff-content:
+    - meta_content_scope: meta.block.delta.diff
+    - match: ^(?=diff --git\b)
+      pop: 1
     - include: deltas
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
