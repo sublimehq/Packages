@@ -137,7 +137,7 @@ contexts:
       set: [email-header, scissors-line]
     - match: ^(---)\r?\n
       captures:
-        1: punctuation.definition.section.diff
+        1: punctuation.section.block.diff
       set: [diffs, stat]
     # https://git-scm.com/docs/git-am#_discussion
     - match: '^(?=Index: |diff -)'
@@ -352,6 +352,6 @@ contexts:
     # This is the Git version unless otherwise configured
     - match: ^(-- ){{eol}}
       captures:
-        1: meta.separator.diff punctuation.definition.separator.diff
+        1: meta.separator.diff punctuation.section.block.diff
       set:
         - meta_content_scope: comment.block.diff

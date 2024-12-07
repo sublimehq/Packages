@@ -46,14 +46,14 @@ contexts:
   headers:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
     - match: ^-{3}{{eol}}
-      scope: meta.separator.diff punctuation.definition.separator.diff
+      scope: meta.separator.diff punctuation.separator.block.diff
 
     - include: headers-unified
 
     - match: ^(\*{15}|={67}){{eol}}
       scope: meta.separator.diff
       captures:
-        1: punctuation.definition.separator.diff
+        1: punctuation.separator.block.diff
     - match: ^(\*{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff

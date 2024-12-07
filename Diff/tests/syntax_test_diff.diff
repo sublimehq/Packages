@@ -55,24 +55,23 @@
 \         ^^^^ punctuation.definition.range.diff
 
 ***************
-\^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 
 ****************
-\^^^^^^^^^^^^^^^ -meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^^ - meta - punctuation
 
 ===================================================================
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 
 ====================================================================
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - punctuation
 
 ---
 \^^ meta.separator.diff
-\^^ punctuation.definition.separator.diff
+\^^ punctuation.separator.block.diff
 
 ----
-\^^^ - meta.separator.diff
-\^^^ - punctuation.definition.separator.diff
+\^^^ - meta - punctuation
 
 Plain Text
 \^^^^^^^^^ source.diff - markup
