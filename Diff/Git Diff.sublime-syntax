@@ -20,7 +20,6 @@ first_line_match: |-
 variables:
   hash40: \h{40}
   hash: \h{7,40}
-  email_first_line: (?:From {{hash40}} Mon Sep 17 00:00:00 2001)
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
@@ -28,14 +27,6 @@ variables:
 
 scope: source.diff.git
 contexts:
-  pop-eol:
-    - match: $|\r|\n
-      pop: 1
-
-  pop-before-eol:
-    - match: (?=$|\r|\n)
-      pop: 1
-
   pop-before-diff-header:
     - match: ^(?=diff --git\b)
       pop: 1
@@ -44,12 +35,8 @@ contexts:
     - match: /|\\
       scope: punctuation.separator.sequence.diff
 
-  deltas:
-    - include: binary-deltas
-    - include: text-deltas
-
   main:
-    - match: ^(?={{email_first_line}})
+    - match: ^(?={{git_first_line}})
       push: email-first-line
     - include: diffs
 
@@ -312,6 +299,8 @@ contexts:
   diff-content:
     - meta_content_scope: meta.block.delta.diff
     - include: pop-before-diff-header
+    - include: binary-deltas
+    # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
     - include: deltas
 
   # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
@@ -334,11 +323,6 @@ contexts:
             1: punctuation.definition.string.begin.diff
         - match: ^(?!delta|literal|$)
           pop: 2
-
-  # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
-  text-deltas:
-    - include: Diff.sublime-syntax#line-ranges
-    - include: Diff.sublime-syntax#deltas
 
   # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
   signature:

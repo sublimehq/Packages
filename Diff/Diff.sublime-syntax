@@ -27,6 +27,10 @@ contexts:
     - match: '{{eol}}'
       pop: 1
 
+  pop-before-eol:
+    - match: (?={{eol}})
+      pop: 1
+
   main:
     - match: ^(?={{git_first_line}})
       push: Git Diff.sublime-syntax#email-first-line
