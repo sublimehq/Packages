@@ -148,7 +148,8 @@ contexts:
     - meta_content_scope: meta.block.git-body.diff
     - match: ^(?=---\r?\n)
       set: maybe-stat
-    - match: ^(?=diff --git\b)
+    # https://git-scm.com/docs/git-am#_discussion
+    - match: '^(?=Index: |diff -)'
       set: diff
     - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
 
