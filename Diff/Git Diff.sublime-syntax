@@ -1,0 +1,284 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/syntax.html
+# https://git-scm.com/docs/git-format-patch
+# https://git-scm.com/docs/diff-format
+name: Git Diff
+version: 2
+file_extensions:
+  - diff.eml
+  - patch.eml
+  - diff.mbox
+  - patch.mbox
+first_line_match: |-
+  (?x)^
+      (diff\ --git[ ]
+      |From \h{40} Mon Sep 17 00:00:00 2001
+      )
+
+variables:
+  commit_hash_full: \h{40}
+  commit_hash: \h{7,40}
+  email_first_line: (?:From {{commit_hash_full}} Mon Sep 17 00:00:00 2001)
+  day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
+  month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
+  base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
+  empty_line: ^(?=\r?\n)
+
+scope: source.diff.git
+contexts:
+  pop-eol:
+    - match: $|\r|\n
+      pop: 1
+
+  pop-before-eol:
+    - match: (?=$|\r|\n)
+      pop: 1
+
+  path-separators:
+    - match: /|\\
+      scope: punctuation.separator.sequence.diff
+
+  main:
+    - match: ^(?={{email_first_line}})
+      push: email-first-line
+    - include: diffs
+
+  # https://git-scm.com/docs/git-format-patch#_description
+  email-first-line:
+    - meta_content_scope: comment.line.diff
+    - match: '{{commit_hash_full}}'
+      scope: constant.other.hash.git
+    - match: \n|$
+      set: email-header
+
+  email-header:
+    - meta_scope: meta.block.git-header.diff
+    - match: |-
+        (?x:
+          ^(
+            From | To | Author | Committer |
+            Co-authored-by |
+            Signed-off-by |
+            Reviewed-by |
+            Acked-by |
+            Helped-by
+          )
+          (:)
+        )
+      captures:
+        1: keyword
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - include: scope:text.git.mailmap
+        - match: (?=$)
+          pop: 1
+    - match: ^(Subject)(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - meta_content_scope: markup.heading.diff
+        - match: (\[)PATCH
+          captures:
+            1: punctuation.definition.annotation.begin.diff
+          push:
+            - meta_scope: variable.annotation.diff
+            - match: \]
+              scope: punctuation.definition.annotation.end.diff
+              pop: 1
+            - match: \bv\d+\b
+              scope: meta.annotation.patch-version.diff storage.modifier.diff
+            - match: (\d+)(/)(\d+)
+              scope: meta.annotation.patch-sequence.diff
+              captures:
+                1: meta.number.integer.decimal.diff constant.numeric.value.diff
+                2: punctuation.separator.sequence.diff
+                3: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: (?=$)
+          pop: 1
+    - match: ^((?:Author|Committer)?Date)(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - match: '{{day3}}(,) [0-3]?\d {{month3}} \d{4} \d\d(:)\d\d(:)\d\d(?: ([+-])\d{4})?'
+          scope: constant.numeric.value.diff
+          captures:
+            1: punctuation.separator.sequence.diff
+            2: punctuation.separator.sequence.diff
+            3: punctuation.separator.sequence.diff
+            4: keyword.operator.arithmetic.diff
+        - match: (?=$)
+          pop: 1
+    - match: ^\b([\w-]+)\b(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - match: (?=$)
+          pop: 1
+    - match: '{{empty_line}}'
+      set: email-body
+
+  email-body:
+    - meta_content_scope: meta.block.git-body.diff
+    - match: ^(?=---\r?\n)
+      set: maybe-stat
+    - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
+
+  maybe-stat:
+    - match: ---\r?\n
+      scope: punctuation.definition.section.diff
+      set: stat
+    - match: (?=\S)
+      set: diffs
+
+  stat:
+    - match: ^ (?=([^|]+[ ]+)\|)
+      push:
+        - include: pop-before-eol
+        - match: (?=\S.+\|)
+          push:
+            - meta_content_scope: meta.toc-list.filename.diff entity.name.diff
+            - match: (?=[ ]+\|)
+              pop: 1
+            - include: path-separators
+            - match: \.{3}
+              scope: keyword.operator.diff
+        - match: \|
+          scope: punctuation.separator.sequence.diff
+        - match: (Bin) (\d+) (->) (\d+) (bytes)
+          captures:
+            1: storage.type.diff
+            2: meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
+            3: keyword.operator.logical.diff
+            4: meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
+            5: constant.numeric.suffix.diff
+        - match: \d+
+          scope: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: \++
+          scope: markup.inserted.diff
+        - match: -+
+          scope: markup.deleted.diff
+    - match: ^(?= \d+ file)
+      push:
+        - include: pop-eol
+        - match: \d+
+          scope: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: ','
+          scope: punctuation.separator.sequence.diff
+        - match: insertions?(\()\+(\))
+          scope: markup.inserted.diff
+          captures:
+            1: punctuation.definition.diff
+            2: punctuation.definition.diff
+        - match: deletions?(\()-(\))
+          scope: markup.deleted.diff
+          captures:
+            1: punctuation.definition.diff
+            2: punctuation.definition.diff
+    - match: ^ (?=create mode)
+      push:
+        - meta_content_scope: markup.inserted.diff
+        - include: inside-create-delete-mode
+    - match: ^ (?=delete mode)
+      push:
+        - meta_content_scope: markup.deleted.diff
+        - include: inside-create-delete-mode
+    - match: '{{empty_line}}'
+      set: diffs
+
+  inside-create-delete-mode:
+    - include: pop-before-eol
+    - include: path-separators
+    - match: \b(?:100)?644\b
+      scope: meta.number.integer.octal.diff constant.numeric.value.diff
+    - match: \b(?:100)?755\b
+      scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.diff
+
+  # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
+  # TODO: multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
+  diffs:
+    # Signature (usually Git version)
+    # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
+    - match: ^(-- )$\r?\n?
+      captures:
+        1: meta.separator.diff punctuation.definition.separator.diff
+      set:
+        - meta_content_scope: comment.block.diff
+    # File header
+    - match: ^(diff) ((--)git)
+      captures:
+        1: variable.function.diff
+        2: variable.parameter.diff
+        3: punctuation.definition.parameter.diff
+      push:
+        - include: pop-eol
+        - match: (a|b|ours|theirs)(/)
+          captures:
+            1: constant.language.diff
+            2: punctuation.separator.sequence.diff
+          push:
+            - meta_scope: entity.name.diff
+            - meta_content_scope: meta.toc-list.filename.diff
+            - match: (?=\s|$)
+              pop: 1
+            - include: path-separators
+    - include: diff-header-extended
+    # Binary delta, encoded in Base85
+    - match: GIT binary patch
+      scope: keyword.other.diff
+      push:
+        - match: ^(delta|literal) (\d+)
+          captures:
+            1: support.function.diff
+            2: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: ^(H)cmV\?d00001$
+          scope: constant.language.null.diff
+          captures:
+            1: punctuation.definition.string.begin.diff
+        - match: ^([A-Za-z]){{base85}}{1,66}$
+          scope: meta.string.diff string.other.raw.diff
+          captures:
+            1: punctuation.definition.string.begin.diff
+        - match: ^(?!(delta|literal|$))
+          pop: 1
+    # Text delta
+    - include: Diff.sublime-syntax#diff-common
+
+  # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
+  diff-header-extended:
+    # old mode <mode>
+    # new mode <mode>
+    # deleted file mode <mode>
+    - match: ^(?=deleted file mode)
+      push:
+        - meta_content_scope: markup.deleted.diff
+        - include: inside-create-delete-mode
+    # new file mode <mode>
+    - match: ^(?=new file mode)
+      push:
+        - meta_content_scope: markup.inserted.diff
+        - include: inside-create-delete-mode
+    # copy from <path>
+    # copy to <path>
+    # rename from <path>
+    # rename to <path>
+    # similarity index <number>
+    # dissimilarity index <number>
+    # index <hash>..<hash> <mode>
+    - match: ^(index) (?:(0{7,40})|({{commit_hash}}))\b(\.\.)(?:(0{7,40})|({{commit_hash}}))\b
+      captures:
+        1: keyword.other.diff
+        2: markup.deleted.diff
+        3: constant.other.hash.git
+        4: punctuation.separator.sequence.diff
+        5: markup.deleted.diff
+        6: constant.other.hash.git
+      push:
+        - include: inside-create-delete-mode
