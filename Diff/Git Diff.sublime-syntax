@@ -17,12 +17,13 @@ file_extensions:
 first_line_match: |-
   ^(?x:
     diff[ ]--(?:git|combined|cc)[ ]
-  | From[ ]\h{40}[ ]Mon[ ]Sep[ ]17[ ]00:00:00[ ]2001
+  | From [ ]
+    (?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})  # Commit SHA
+    [ ]Mon[ ]Sep[ ]17[ ]00:00:00[ ]2001  # Magic date
   )
 
 variables:
-  hash40: \h{40}
-  hash: \h{7,40}
+  hash: '[0-9a-fA-F]{7,64}'
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
@@ -53,7 +54,7 @@ contexts:
   # https://git-scm.com/docs/git-format-patch#_description
   email-first-line:
     - meta_content_scope: comment.line.diff
-    - match: '{{hash40}}'
+    - match: '{{hash_full}}'
       scope: constant.other.hash.git
     - match: \n|$
       set: email-header
@@ -320,7 +321,7 @@ contexts:
       push:
         - include: pop-before-eol
         - include: file-modes
-        - include: hash-empty
+        - include: hash-empty-content
         - include: hash
         - include: separator-twodot
         # Combined mode can have multiple pre-commits
@@ -478,16 +479,16 @@ contexts:
 
 ###[ COMPONENTS ]##############################################################
 
-  hash-empty:
-    - match: '0{7,40}'
+  hash-empty-content:
+    - match: '0{7,64}'
       scope: constant.language.null.git
 
   hash:
     - match: '{{hash}}'
       scope: constant.other.hash.git
 
-  hash40:
-    - match: '{{hash40}}'
+  hash-full-length:
+    - match: '{{hash_full}}'
       scope: constant.other.hash.git
 
   separator-comma:
