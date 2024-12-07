@@ -181,7 +181,10 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
   line-ranges-context:
-    - match: ^([-*]){3}(?= .+ \1{4}{{eol}})
+    - match: ^(-){3}(?= .+ -{4}{{eol}})
+      scope: punctuation.definition.range.begin.diff
+      push: inside-line-ranges-context
+    - match: ^(\*){3}(?= .+ \*{4}{{eol}})
       scope: punctuation.definition.range.begin.diff
       push: inside-line-ranges-context
 
@@ -195,7 +198,7 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   line-ranges-unified:
-    - match: ^(@@)(?=[^@\n]+\1(?:\s|$))
+    - match: ^(@@)(?=[^@\n]+@@(?:\s|$))
       captures:
         1: punctuation.definition.range.begin.diff
       push: [hunk-name, inside-line-ranges-unified]
