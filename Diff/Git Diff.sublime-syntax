@@ -325,7 +325,12 @@ contexts:
     - include: binary-deltas
     # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
     - include: line-ranges-unified
-    - include: deltas
+    - include: deltas-unified
+
+  deltas-unified:
+    - meta_prepend: true
+    - match: ^(?=-- {{eol}})
+      pop: 1
 
   # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
   binary-deltas:
