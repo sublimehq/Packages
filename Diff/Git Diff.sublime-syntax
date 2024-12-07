@@ -28,35 +28,21 @@ variables:
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
   empty_line: ^(?=\r?\n)
   scissors: (?:>8|8<)
+  # https://git-scm.com/docs/git-am#_discussion
+  next_diff_header: '(?=Index: |diff -)'
 
 contexts:
+
+###[ PROTOTYPES ]##############################################################
+
   pop-empty-line:
     - match: '{{empty_line}}'
       pop: 1
 
   pop-before-diff-header:
-    - match: ^(?=diff --git\b)
+    - match: ^{{next_diff_header}}
       pop: 1
 
-  hash-empty:
-    - match: '0{7,40}'
-      scope: constant.language.null.git
-
-  hash:
-    - match: '{{hash}}'
-      scope: constant.other.hash.git
-
-  hash40:
-    - match: '{{hash40}}'
-      scope: constant.other.hash.git
-
-  separator-comma:
-    - match: \,
-      scope: punctuation.separator.sequence.git
-
-  separator-twodot:
-    - match: \.\.
-      scope: punctuation.separator.sequence.git
   main:
     - match: ^(?={{git_first_line}})
       push: email-first-line
@@ -165,8 +151,7 @@ contexts:
       captures:
         1: punctuation.section.block.diff
       set: [diffs, stat]
-    # https://git-scm.com/docs/git-am#_discussion
-    - match: '^(?=Index: |diff -)'
+    - match: ^{{next_diff_header}}
       set: diffs
     - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
     - match: ^>+
@@ -490,3 +475,25 @@ contexts:
     - match: ^[+-]{5}
       scope: punctuation.definition.changed.diff
       push: line-changed
+
+###[ COMPONENTS ]##############################################################
+
+  hash-empty:
+    - match: '0{7,40}'
+      scope: constant.language.null.git
+
+  hash:
+    - match: '{{hash}}'
+      scope: constant.other.hash.git
+
+  hash40:
+    - match: '{{hash40}}'
+      scope: constant.other.hash.git
+
+  separator-comma:
+    - match: \,
+      scope: punctuation.separator.sequence.git
+
+  separator-twodot:
+    - match: \.\.
+      scope: keyword.operator.logical.git

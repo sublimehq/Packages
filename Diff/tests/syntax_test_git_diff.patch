@@ -115,7 +115,7 @@ index 0000000000000000000000000000000000000000..064fa38be3ecd426a3c8977ed43df627
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff
 \^^^^ keyword.other.diff
 \     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.null.git
-\                                             ^^ punctuation.separator.sequence.git
+\                                             ^^ keyword.operator.logical.git
 \                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 GIT binary patch
 literal 50966
@@ -138,7 +138,7 @@ index 626bad58a4b2cec0becf93a6473ea19a74752019..7267a0c132111ef91e957a67aaaa5621
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff
 \^^^^ keyword.other.diff
 \     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
-\                                             ^^ punctuation.separator.sequence.git
+\                                             ^^ keyword.operator.logical.git
 \                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 GIT binary patch
 delta 946
