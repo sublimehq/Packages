@@ -18,13 +18,20 @@ first_line_match: |-
       )
 
 variables:
-  git_first_line: (?:From \h{40} Mon Sep 17 00:00:00 2001)
+  commit_hash_full: \h{40}
+  commit_hash: \h{7,40}
+  git_first_line: (?:From {{commit_hash_full}} Mon Sep 17 00:00:00 2001)
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
+  empty_line: ^(?=\r?\n)
 
 scope: source.diff
 contexts:
+
+  path-separators:
+    - match: /|\\
+      scope: punctuation.separator.sequence.diff
 
   main:
     - match: ^(?={{git_first_line}})
@@ -33,7 +40,7 @@ contexts:
 
   git-first-line:
     - meta_content_scope: comment.line.diff
-    - match: \h{40}
+    - match: '{{commit_hash_full}}'
       scope: constant.other.hash.git
     - match: \n|$
       set: git-email-header
@@ -108,7 +115,7 @@ contexts:
         - meta_scope: meta.mapping.diff
         - match: (?=$)
           pop: 1
-    - match: ^(?=\r?\n)
+    - match: '{{empty_line}}'
       set: git-email-body
 
   git-email-body:
@@ -122,7 +129,7 @@ contexts:
       scope: punctuation.definition.section.diff
       set: git-stat
     - match: (?=\S)
-      pop: 1
+      set: diff-git
 
   git-stat:
     - match: ^ (?=([^|]+[ ]+)\|)
@@ -132,8 +139,7 @@ contexts:
             - meta_content_scope: meta.toc-list.filename.diff entity.name.diff
             - match: (?=[ ]+\|)
               pop: 1
-            - match: /|\\
-              scope: punctuation.separator.sequence.diff
+            - include: path-separators
             - match: \.{3}
               scope: keyword.operator.diff
         - match: \|
@@ -179,7 +185,7 @@ contexts:
       push:
         - meta_content_scope: markup.deleted.diff
         - include: inside-create-delete-mode
-    - match: ^(?=\r?\n)
+    - match: '{{empty_line}}'
       set: diff-git
 
   inside-create-delete-mode:
@@ -187,8 +193,7 @@ contexts:
       scope: meta.number.integer.octal.diff constant.numeric.value.diff
     - match: \b(?:100)?755\b
       scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.diff
-    - match: /|\\
-      scope: punctuation.separator.sequence.diff
+    - include: path-separators
     - match: (?=$)
       pop: 1
 
@@ -235,7 +240,7 @@ contexts:
         1: variable.function.diff
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
-    - match: ^(index) (?:(0{1,40})|(\h{1,40}))\b(\.\.)(?:(0{1,40})|(\h{1,40}))\b
+    - match: ^(index) (?:(0{7,40})|({{commit_hash}}))\b(\.\.)(?:(0{7,40})|({{commit_hash}}))\b
       captures:
         1: keyword.other.diff
         2: markup.deleted.diff
