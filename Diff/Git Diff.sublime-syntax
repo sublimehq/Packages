@@ -312,10 +312,10 @@ contexts:
         )
       captures:
         1: keyword.other.diff
-        2: markup.deleted.diff
+        2: constant.language.null.diff
         3: constant.other.hash.git
         4: punctuation.separator.sequence.diff
-        5: markup.deleted.diff
+        5: constant.language.null.diff
         6: constant.other.hash.git
       push:
         - include: pop-before-eol

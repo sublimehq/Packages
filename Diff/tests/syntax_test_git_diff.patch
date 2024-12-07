@@ -112,6 +112,11 @@ index c661619..989efe8 100644
 diff --git a/app/assets/images/logo.jpeg b/app/assets/images/logo.jpeg
 new file mode 100644
 index 0000000000000000000000000000000000000000..064fa38be3ecd426a3c8977ed43df627c6f6f229
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff
+\^^^^ keyword.other.diff
+\     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.null.diff
+\                                             ^^ punctuation.separator.sequence.diff
+\                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 GIT binary patch
 literal 50966
 zcmbT6RZtv2x1a}i2o6CLAUMHc&=7(LcbCE49fAa#;4l!}9R?j7La@Qz-3jh4+5Goz
@@ -126,9 +131,15 @@ v97b_p1peNmKNs|WZ3Z9xD7de_7qxsD`+5QY01Jai0{XNQKl(o6fIt7)0U9~_
 
 literal 0
 HcmV?d00001
+\^^^^^^^^^^ meta.block.delta.diff constant.language.null.diff
 
 diff --git a/fonts/icomoon.eot b/fonts/icomoon.eot
 index 626bad58a4b2cec0becf93a6473ea19a74752019..7267a0c132111ef91e957a67aaaa5621a1bbb428 100644
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff
+\^^^^ keyword.other.diff
+\     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
+\                                             ^^ punctuation.separator.sequence.diff
+\                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 GIT binary patch
 delta 946
 zcmX|9ZA=qq9Dn|I?H#Qx?YOoF?X}vMyMxvid$(O*s7OGVb_JbiA;1QuVCVu$R+158
@@ -158,6 +169,8 @@ zX3iKk`N=iy&EnUc8SA-c@j38?@MZAT2qp=B6Z$5+M1(_Rk*J+mg1DcAg`}L+25C3x
 zGMQttesXi<Cn;=DJfak!yhUY&YMFYPrh?8Y!zV_o%vCH}EVo%dvUz7`;MnKn;Ns-E
 z%Wa1HBo8BxHy*z{cX&Jb82BXwx&+M#4hZQA{T2Qua$fYgm=m#P@rq0d0txF9UnK2G
 fPDyD<y_Bw$VU*F5aVt{_=wL=54%__i#vw)k9PEX^
+\ <- meta.block.delta.diff meta.string.diff string.other.raw.diff punctuation.definition.string.begin.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff meta.string.diff string.other.raw.diff
 
 -- 
 \^^ meta.separator.diff punctuation.section.block.diff
