@@ -1,7 +1,8 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 name: Diff
+version: 2
 file_extensions:
   - diff
   - patch
@@ -28,6 +29,13 @@ variables:
 
 scope: source.diff
 contexts:
+  pop-eol:
+    - match: $|\r|\n
+      pop: 1
+
+  pop-before-eol:
+    - match: (?=$|\r|\n)
+      pop: 1
 
   path-separators:
     - match: /|\\
@@ -134,6 +142,7 @@ contexts:
   git-stat:
     - match: ^ (?=([^|]+[ ]+)\|)
       push:
+        - include: pop-before-eol
         - match: (?=\S.+\|)
           push:
             - meta_content_scope: meta.toc-list.filename.diff entity.name.diff
@@ -157,12 +166,9 @@ contexts:
           scope: markup.inserted.diff
         - match: -+
           scope: markup.deleted.diff
-        - match: (?=\n|$)
-          pop: 1
     - match: ^(?= \d+ file)
       push:
-        - match: $
-          pop: 1
+        - include: pop-eol
         - match: \d+
           scope: meta.number.integer.decimal.diff constant.numeric.value.diff
         - match: ','
@@ -189,13 +195,12 @@ contexts:
       set: diff-git
 
   inside-create-delete-mode:
+    - include: pop-before-eol
+    - include: path-separators
     - match: \b(?:100)?644\b
       scope: meta.number.integer.octal.diff constant.numeric.value.diff
     - match: \b(?:100)?755\b
       scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.diff
-    - include: path-separators
-    - match: (?=$)
-      pop: 1
 
   diff-common:
     - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*$\n?
@@ -242,6 +247,18 @@ contexts:
         1: variable.function.diff
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
+      push:
+        - include: pop-eol
+        - match: (a|b|ours|theirs)(/)
+          captures:
+            1: constant.language.diff
+            2: punctuation.separator.sequence.diff
+          push:
+            - meta_scope: entity.name.diff
+            - meta_content_scope: meta.toc-list.filename.diff
+            - match: (?=\s|$)
+              pop: 1
+            - include: path-separators
     - match: ^(?=new file mode)
       push:
         - meta_content_scope: markup.inserted.diff
