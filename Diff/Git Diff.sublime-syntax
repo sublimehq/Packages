@@ -233,12 +233,15 @@ contexts:
   file-header-continue:
     - meta_scope: meta.toc-list.git
     - include: pop-eol
+    # TODO: Quoted file names https://git-scm.com/docs/git-config#Documentation/git-config.txt-corequotePath
     - match: \b(a|b|ours|theirs)(/)
       captures:
         1: constant.language.diff
         2: punctuation.separator.sequence.diff
       push:
         - meta_scope: entity.name.diff
+        - match: \\.
+          scope: constant.character.escape.git
         - match: (?=\s|$)
           pop: 1
         - include: path-separators
