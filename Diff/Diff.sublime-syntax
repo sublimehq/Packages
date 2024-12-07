@@ -128,7 +128,7 @@ contexts:
       push:
         - match: (?=\S.+\|)
           push:
-            - meta_content_scope: entity.name.diff
+            - meta_content_scope: meta.toc-list.filename.diff entity.name.diff
             - match: (?=[ ]+\|)
               pop: 1
             - match: /|\\
@@ -191,13 +191,8 @@ contexts:
     - match: (?=$)
       pop: 1
 
-  diff:
-    - match: '^((\*{15})|(={67})|(-{3}))$\n?'
-      scope: meta.separator.diff
-      captures:
-        1: punctuation.definition.separator.diff
-    - match: ^\d+(,\d+)*(a|d|c)\d+(,\d+)*$\n?
-      scope: meta.diff.range.normal meta.range.normal.diff
+
+  diff-common:
     - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*$\n?
       scope: meta.diff.range.unified meta.range.unified.diff
       captures:
@@ -205,46 +200,84 @@ contexts:
         2: meta.toc-list.line-number.diff
         3: punctuation.definition.range.diff
         4: entity.name.section.diff
-    - match: '^(((\-{3}) .+ (\-{4}))|((\*{3}) .+ (\*{4})))$\n?'
-      scope: meta.diff.range.context meta.range.context.diff
-      captures:
-        3: punctuation.definition.range.diff
-        4: punctuation.definition.range.diff
-        6: punctuation.definition.range.diff
-        7: punctuation.definition.range.diff
-    - match: '(^(((-{3}) .+)|((\*{3}) .+))$\n?|^(={4}) .+(?= - ))'
+    - match: ^-{3}$\n?
+      scope: meta.separator.diff punctuation.definition.separator.diff
+    - match: ^(-{3}) .+$\n?
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
-        4: punctuation.definition.from-file.diff
-        6: punctuation.definition.from-file.diff
-        7: punctuation.definition.from-file.diff
-    - match: '(^(\+{3}) .+$\n?| (-) .* (={4})$\n?)'
+        1: punctuation.definition.from-file.diff
+    - match: ^(\+{3}) .+$\n?
       scope: meta.diff.header.to-file meta.header.to-file.diff
       captures:
-        2: punctuation.definition.to-file.diff
-        3: punctuation.definition.to-file.diff
-        4: punctuation.definition.to-file.diff
-    - match: ^(?:(>)(?:\ .*?)?|(\+).*?)(\s*?)$\n?
+        1: punctuation.definition.to-file.diff
+    - match: ^(\+).*?(\s*?)$\n?
       scope: markup.inserted.diff
       captures:
         1: punctuation.definition.inserted.diff
-        2: punctuation.definition.inserted.diff
-        3: meta.whitespace.trailing.diff
+        2: meta.whitespace.trailing.diff
+    - match: ^(-).*?(\s*?)$\n?
+      scope: markup.deleted.diff
+      captures:
+        1: punctuation.definition.deleted.diff
+        2: meta.whitespace.trailing.diff
+    - match: ^\\ No newline at end of file
+      scope: comment.line.diff
+
+  # TODO: ours/theirs parent diff
+  # TODO: git-style binary
+  diff-git: []
+
+  diff-generic:
+    - match: ^\d+(?:(,)\d+)*(?:(a)|(d)|(c))\d+(?:(,)\d+)*$\n?
+      scope: meta.diff.range.normal meta.range.normal.diff
+      captures:
+        1: punctuation.separator.sequence.diff
+        2: markup.inserted.diff
+        3: markup.deleted.diff
+        4: markup.changed.diff
+    - match: ^(?:(-{3}) .+ (-{4})|(\*{3}) .+ (\*{4}))$\n?
+      scope: meta.diff.range.context meta.range.context.diff
+      captures:
+        1: punctuation.definition.range.diff
+        2: punctuation.definition.range.diff
+        3: punctuation.definition.range.diff
+        4: punctuation.definition.range.diff
+    - match: ^(\*{15}|={67})$\n?
+      scope: meta.separator.diff
+      captures:
+        1: punctuation.definition.separator.diff
     - match: ^(!).*?(\s*?)$\n?
       scope: markup.changed.diff
       captures:
         1: punctuation.definition.changed.diff
         2: meta.whitespace.trailing.diff
-    - match: ^(?:(<)(?:\ .*?)?|(-).*?)(\s*?)$\n?
+    - match: ^(>).*?(\s*?)$\n?
+      scope: markup.inserted.diff
+      captures:
+        1: punctuation.definition.inserted.diff
+        2: meta.whitespace.trailing.diff
+    - match: ^(<).*?(\s*?)$\n?
       scope: markup.deleted.diff
       captures:
         1: punctuation.definition.deleted.diff
-        2: punctuation.definition.deleted.diff
-        3: meta.whitespace.trailing.diff
+        2: meta.whitespace.trailing.diff
+    - match: ^(?:(\*{3}) .+)$\n?|^(={4}) .+(?= - )
+      scope: meta.diff.header.from-file meta.header.from-file.diff
+      captures:
+        1: punctuation.definition.from-file.diff
+        2: punctuation.definition.from-file.diff
+    - match: ' (-) .* (={4})$\n?'
+      scope: meta.diff.header.to-file meta.header.to-file.diff
+      captures:
+        1: punctuation.definition.to-file.diff
+        2: punctuation.definition.to-file.diff
     - match: ^Index(:) (.+)$\n?
       scope: meta.diff.index meta.index.diff
       captures:
         1: punctuation.separator.key-value.diff
         2: meta.toc-list.file-name.diff
-    - match: ^\\ No newline at end of file
-      scope: comment.line.diff
+
+  diff:
+    - include: diff-git
+    - include: diff-generic
+    - include: diff-common
