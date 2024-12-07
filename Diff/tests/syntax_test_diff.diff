@@ -35,6 +35,13 @@
 #                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
 #                                      ^ - entity.name.section.diff
 
+==== Something - Else ====
+#^^^^^^^^^^^^^ meta.header.from-file.diff
+#^^^ punctuation.definition.from-file.diff
+#             ^^^^^^^^^^^^ meta.header.to-file.diff
+#              ^ punctuation.definition.to-file.diff
+#                     ^^^^ punctuation.definition.to-file.diff
+
 --- Range ----
 #^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
 # <-           punctuation.definition.range.diff
@@ -68,7 +75,7 @@
 #^^^ -punctuation.definition.separator.diff
 
 Plain Text
-#^^^^^^^^^ source.diff
+#^^^^^^^^^ source.diff - markup
 
 + Addition  
 # <- markup.inserted.diff punctuation.definition.inserted.diff
