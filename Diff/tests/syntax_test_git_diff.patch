@@ -19,9 +19,9 @@ Date: Tue, 13 Jul 2010 11:42:54 -0700
 \^^^ keyword
 \   ^ punctuation.separator.mapping.key-value.diff
 \     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.value.diff
-\        ^ punctuation.separator.sequence.diff
-\                        ^ punctuation.separator.sequence.diff
-\                           ^ punctuation.separator.sequence.diff
+\        ^ punctuation.separator.date.diff
+\                        ^ punctuation.separator.date.diff
+\                           ^ punctuation.separator.date.diff
 \                               ^ keyword.operator.arithmetic.diff
 Subject: [PATCH v2 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig diet
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff

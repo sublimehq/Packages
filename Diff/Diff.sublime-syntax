@@ -351,19 +351,19 @@ contexts:
     - match: \b1970(-)01(-)01 0?0(:)00(:)00(?:(\.)0+)?(?:[ ]([+-]?0000|UTC))?
       scope: meta.date.diff constant.language.null.diff
       captures:
-        1: punctuation.separator.sequence.diff
-        2: punctuation.separator.sequence.diff
-        3: punctuation.separator.sequence.diff
-        4: punctuation.separator.sequence.diff
+        1: punctuation.separator.date.diff
+        2: punctuation.separator.date.diff
+        3: punctuation.separator.date.diff
+        4: punctuation.separator.date.diff
         5: punctuation.separator.decimal.diff
         6: storage.modifier.diff
     # 2002-02-21 23:30:50.442260588 -0800
     - match: \b\d{4}(-)\d\d(-)\d\d \d?\d(:)\d\d(:)\d\d(?:(\.)\d+)?(?:[ ]([+-]?\d{4}))?
       scope: meta.date.diff meta.number.integer.decimal.diff constant.numeric.value.diff
       captures:
-        1: punctuation.separator.sequence.diff
-        2: punctuation.separator.sequence.diff
-        3: punctuation.separator.sequence.diff
-        4: punctuation.separator.sequence.diff
+        1: punctuation.separator.date.diff
+        2: punctuation.separator.date.diff
+        3: punctuation.separator.date.diff
+        4: punctuation.separator.date.diff
         5: punctuation.separator.decimal.diff
         6: storage.modifier.diff

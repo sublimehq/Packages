@@ -125,9 +125,9 @@ contexts:
         - match: '{{day3}}(,) [0-3]?\d {{month3}} \d{4} \d\d(:)\d\d(:)\d\d(?: ([+-])\d{4})?'
           scope: constant.numeric.value.diff
           captures:
-            1: punctuation.separator.sequence.diff
-            2: punctuation.separator.sequence.diff
-            3: punctuation.separator.sequence.diff
+            1: punctuation.separator.date.diff
+            2: punctuation.separator.date.diff
+            3: punctuation.separator.date.diff
             4: keyword.operator.arithmetic.diff
         - include: pop-before-eol
     # Other headers
