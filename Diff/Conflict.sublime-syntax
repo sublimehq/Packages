@@ -1,0 +1,57 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.gnu.org/software/diffutils/manual/diffutils.html#Marking-Conflicts-1
+name: Conflict
+scope: source.conflict
+version: 2
+
+file_extensions:
+  - conflict
+
+variables:
+  eol: (?:$\r?\n?)
+
+contexts:
+  pop-new-section:
+    - match: ^(?=>{5,}|<{5,}|={5,}|\|{5,})
+      pop: 1
+
+  main:
+    # Old
+    - match: ^(<{5,})\s*(\S.*?)\s*{{eol}}
+      captures:
+        1: punctuation.section.block.begin.conflict
+        2: entity.name.section.conflict
+      push:
+        - meta_scope: meta.block.conflict
+        - meta_content_scope: markup.deleted.conflict
+        - match: ^(?:<{5,}|>{5,})
+          scope: invalid.illegal.conflict
+        - include: pop-new-section
+    # Index
+    - match: ^(\|{5,})\s*(\S.*?)\s*{{eol}}
+      captures:
+        1: punctuation.definition.comment.begin.conflict
+        2: entity.name.section.conflict
+      push:
+        - meta_scope: meta.block.conflict
+        - meta_content_scope: comment.block.conflict
+        - match: ^(?:>{5,}|<{5,})
+          scope: invalid.illegal.conflict
+        - include: pop-new-section
+    # New
+    - match: ^(={5,})\s*{{eol}}
+      captures:
+        1: punctuation.separator.section.conflict
+      push:
+        - meta_scope: meta.block.conflict
+        - meta_content_scope: markup.inserted.conflict
+        - match: ^(?:={5,}|<{5,}|\|{5,})
+          scope: invalid.illegal.conflict
+        - match: ^(>{5,})\s*(\S.*?)\s*{{eol}}
+          captures:
+            1: punctuation.section.block.end.conflict
+            2: entity.name.section.conflict
+          pop: 1
+        - include: pop-new-section
