@@ -36,6 +36,8 @@ contexts:
       push: email-first-line
     - include: diffs
 
+###[ EMAIL ]###################################################################
+
   # https://git-scm.com/docs/git-format-patch#_description
   email-first-line:
     - meta_content_scope: comment.line.diff
@@ -138,6 +140,8 @@ contexts:
       set: diffs
     - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
 
+###[ FRONT MATTER ]############################################################
+
   stat:
     - include: pop-before-diff-header
     - match: ^ (?=([^|]+[ ]+)\|)
@@ -206,6 +210,8 @@ contexts:
       scope: meta.number.integer.octal.diff constant.numeric.value.diff
     - match: \b(?:100)?755\b
       scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.executable.diff
+
+###[ DIFF ]####################################################################
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   diffs:
