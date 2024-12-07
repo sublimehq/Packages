@@ -108,10 +108,16 @@ contexts:
         - match: (?=$)
           pop: 1
     - match: ^(?=\r?\n)
+      set: git-email-body
+
+  git-email-body:
+    - meta_content_scope: meta.block.git-body.diff
+    - match: ^(?=---\r?\n)
       set: git-maybe-stat
+    - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
 
   git-maybe-stat:
-    - match: ---\n
+    - match: ---\r?\n
       scope: punctuation.definition.section.diff
       set: git-stat
     - match: (?=\S)
