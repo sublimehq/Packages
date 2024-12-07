@@ -1,148 +1,141 @@
-# SYNTAX TEST "Packages/Diff/Diff.sublime-syntax"
+\ SYNTAX TEST "Packages/Diff/Diff.sublime-syntax"
 
 --- Path to Original File
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff
-# <-                      punctuation.definition.from-file.diff
-#^^                       punctuation.definition.from-file.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff
+\ <-                      punctuation.definition.from-file.diff
+\^^                       punctuation.definition.from-file.diff
 
 +++ Path to Modified File
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file meta.header.to-file.diff
-# <-                      punctuation.definition.to-file.diff
-#^^                       punctuation.definition.to-file.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file meta.header.to-file.diff
+\ <-                      punctuation.definition.to-file.diff
+\^^                       punctuation.definition.to-file.diff
 
 28a211
-#^^^^^ meta.diff.range.normal meta.range.normal.diff
+\^^^^^ meta.diff.range.normal meta.range.normal.diff
 
 @@ -2,8 +2,11 @@
-#^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
-# <-             punctuation.definition.range.diff
-#^               punctuation.definition.range.diff
-# ^ - punctuation
-#  ^^^^^^^^^^    meta.toc-list.line-number.diff
-#            ^ - punctuation
-#             ^^ punctuation.definition.range.diff
-#               ^ - entity - punctuation
+\^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\ <-             punctuation.definition.range.diff
+\^               punctuation.definition.range.diff
+\ ^ - punctuation
+\  ^^^^^^^^^^    meta.toc-list.line-number.diff
+\            ^ - punctuation
+\             ^^ punctuation.definition.range.diff
+\               ^ - entity - punctuation
 
 @@ -2,8 +2,11 @@ function_hint(int var)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
-# <-             punctuation.definition.range.diff
-#^               punctuation.definition.range.diff
-# ^ - punctuation
-#  ^^^^^^^^^^    meta.toc-list.line-number.diff
-#            ^ - punctuation
-#             ^^ punctuation.definition.range.diff
-#               ^ - entity - punctuation
-#                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
-#                                      ^ - entity.name.section.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\ <-             punctuation.definition.range.diff
+\^               punctuation.definition.range.diff
+\ ^ - punctuation
+\  ^^^^^^^^^^    meta.toc-list.line-number.diff
+\            ^ - punctuation
+\             ^^ punctuation.definition.range.diff
+\               ^ - entity - punctuation
+\                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
+\                                      ^ - entity.name.section.diff
 
 ==== Something - Else ====
-#^^^^^^^^^^^^^ meta.header.from-file.diff
-#^^^ punctuation.definition.from-file.diff
-#             ^^^^^^^^^^^^ meta.header.to-file.diff
-#              ^ punctuation.definition.to-file.diff
-#                     ^^^^ punctuation.definition.to-file.diff
+\^^^^^^^^^^^^^ meta.header.from-file.diff
+\^^^ punctuation.definition.from-file.diff
+\             ^^^^^^^^^^^^ meta.header.to-file.diff
+\              ^ punctuation.definition.to-file.diff
+\                     ^^^^ punctuation.definition.to-file.diff
 
 --- Range ----
-#^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
-# <-           punctuation.definition.range.diff
-#^^            punctuation.definition.range.diff
-#         ^^^^ punctuation.definition.range.diff
+\^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\ <-           punctuation.definition.range.diff
+\^^            punctuation.definition.range.diff
+\         ^^^^ punctuation.definition.range.diff
 
 *** Range ****
-#^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
-# <-           punctuation.definition.range.diff
-#^^            punctuation.definition.range.diff
-#         ^^^^ punctuation.definition.range.diff
+\^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\ <-           punctuation.definition.range.diff
+\^^            punctuation.definition.range.diff
+\         ^^^^ punctuation.definition.range.diff
 
 ***************
-#^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
 
 ****************
-#^^^^^^^^^^^^^^^ -meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^^ -meta.separator.diff punctuation.definition.separator.diff
 
 ===================================================================
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
 
 ====================================================================
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -meta.separator.diff punctuation.definition.separator.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.separator.diff punctuation.definition.separator.diff
 
 ---
-#^^ meta.separator.diff
-#^^ punctuation.definition.separator.diff
+\^^ meta.separator.diff
+\^^ punctuation.definition.separator.diff
 
 ----
-#^^^ -meta.separator.diff
-#^^^ -punctuation.definition.separator.diff
+\^^^ - meta.separator.diff
+\^^^ - punctuation.definition.separator.diff
 
 Plain Text
-#^^^^^^^^^ source.diff - markup
+\^^^^^^^^^ source.diff - markup
 
 + Addition  
-# <- markup.inserted.diff punctuation.definition.inserted.diff
-# ^^^^^^^^ markup.inserted.diff - meta.whitespace
-#         ^^ markup.inserted.diff meta.whitespace.trailing.diff
+\ <-       punctuation.definition.inserted.diff
+\ ^^^^^^^^ markup.inserted.diff - meta.whitespace
+\         ^^ markup.inserted.diff meta.whitespace.trailing.diff
 
 > Addition  
-# <- markup.inserted.diff punctuation.definition.inserted.diff
-# ^^^^^^^^ markup.inserted.diff - meta.whitespace
-#         ^^ markup.inserted.diff meta.whitespace.trailing.diff
+\ <-       punctuation.definition.inserted.diff
+\ ^^^^^^^^ markup.inserted.diff - meta.whitespace
+\         ^^ markup.inserted.diff meta.whitespace.trailing.diff
 
 - Deletion  
-# <- markup.deleted.diff punctuation.definition.deleted.diff
-# ^^^^^^^^ markup.deleted.diff - meta.whitespace
-#         ^^ markup.deleted.diff meta.whitespace.trailing.diff
+\ <-       punctuation.definition.deleted.diff
+\ ^^^^^^^^ markup.deleted.diff - meta.whitespace
+\         ^^ markup.deleted.diff meta.whitespace.trailing.diff
 
 < Deletion  
-# <- markup.deleted.diff punctuation.definition.deleted.diff
-# ^^^^^^^^ markup.deleted.diff - meta.whitespace
-#         ^^ markup.deleted.diff meta.whitespace.trailing.diff
+\ <-       punctuation.definition.deleted.diff
+\ ^^^^^^^^ markup.deleted.diff - meta.whitespace
+\         ^^ markup.deleted.diff meta.whitespace.trailing.diff
 
 ! Modified  
-# <- markup.changed.diff punctuation.definition.changed.diff
-# ^^^^^^^^ markup.changed.diff - meta.whitespace
-#         ^^ markup.changed.diff meta.whitespace.trailing.diff
+\ <-       punctuation.definition.changed.diff
+\ ^^^^^^^^ markup.changed.diff - meta.whitespace
+\         ^^ markup.changed.diff meta.whitespace.trailing.diff
 
 Index: value
-#^^^^^^^^^^^ meta.diff.index meta.index.diff
-#    ^ punctuation.separator.key-value.diff
-#      ^^^^^ meta.toc-list.file-name.diff
+\^^^^^^^^^^^ meta.diff.index meta.index.diff
+\    ^       punctuation.separator.key-value.diff
+\      ^^^^^ meta.toc-list.file-name.diff
 
 \ No newline at end of file
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-# <- punctuation.definition.comment
+\^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+\ <- punctuation.definition.comment
 
 
-Unified Format https://www.gnu.org/software/diffutils/manual/html_node/Example-Unified.html
---- lao	2002-02-21 23:30:39.942229878 -0800
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
-#^^ punctuation.definition.from-file
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
-+++ tzu	2002-02-21 23:30:50.442260588 -0800
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
-#^^ punctuation.definition.to-file
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
-@@ -1,7 +1,6 @@
--The Way that can be told of is not the eternal Way;
--The name that can be named is not the eternal name.
- The Nameless is the origin of Heaven and Earth;
--The Named is the mother of all things.
-+The named is the mother of all things.
-+
- Therefore let there always be non-being,
-   so we may see their subtlety,
- And let there always be being,
-@@ -9,3 +8,6 @@
- The two are the same,
- But after they are produced,
-   they have different names.
-+They both may be called deep and profound.
-+Deeper and more profound,
-+The door of all subtleties!
+Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
+1,2d0
+< The Way that can be told of is not the eternal Way;
+< The name that can be named is not the eternal name.
+4c2,3
+< The Named is the mother of all things.
+---
+> The named is the mother of all things.
+> 
+11a11,13
+> They both may be called deep and profound.
+> Deeper and more profound,
+> The door of all subtleties!
 
 
-Context Format https://www.gnu.org/software/diffutils/manual/html_node/Example-Context.html
+Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
 *** lao	2002-02-21 23:30:39.942229878 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
+\^^ punctuation.definition.from-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
 --- tzu	2002-02-21 23:30:50.442260588 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
+\^^ punctuation.definition.to-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
 ***************
 *** 1,7 ****
 - The Way that can be told of is not the eternal Way;
@@ -168,3 +161,31 @@ Context Format https://www.gnu.org/software/diffutils/manual/html_node/Example-C
 + They both may be called deep and profound.
 + Deeper and more profound,
 + The door of all subtleties!
+
+
+Unified Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
+--- lao	2002-02-21 23:30:39.942229878 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
+\^^ punctuation.definition.from-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
++++ tzu	2002-02-21 23:30:50.442260588 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
+\^^ punctuation.definition.to-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
+@@ -1,7 +1,6 @@
+-The Way that can be told of is not the eternal Way;
+-The name that can be named is not the eternal name.
+ The Nameless is the origin of Heaven and Earth;
+-The Named is the mother of all things.
++The named is the mother of all things.
++
+ Therefore let there always be non-being,
+   so we may see their subtlety,
+ And let there always be being,
+@@ -9,3 +8,6 @@
+ The two are the same,
+ But after they are produced,
+   they have different names.
++They both may be called deep and profound.
++Deeper and more profound,
++The door of all subtleties!

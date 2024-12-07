@@ -1,77 +1,79 @@
-# SYNTAX TEST "Packages/Diff/Git Diff.sublime-syntax"
+\ SYNTAX TEST "Packages/Diff/Git Diff.sublime-syntax"
 From 8f72bad1baf19a53459661343e21d6491c3908d3 Mon Sep 17 00:00:00 2001
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff
+\    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 From: Tony Luck <tony.luck@intel.com>
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.diff
-#^^^ keyword
-#   ^ punctuation.separator.mapping.key-value.diff
-#     ^^^^^^^^^ meta.reference.user.git
-#               ^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
-#               ^ punctuation.definition.reference.email.begin.git
-#                ^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
-#                         ^ punctuation.separator.email.git
-#                               ^ punctuation.separator.domain.git
-#                                   ^ punctuation.definition.reference.email.end.git
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.diff
+\^^^ keyword
+\   ^ punctuation.separator.mapping.key-value.diff
+\     ^^^^^^^^^ meta.reference.user.git
+\               ^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+\               ^ punctuation.definition.reference.email.begin.git
+\                ^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+\                         ^ punctuation.separator.email.git
+\                               ^ punctuation.separator.domain.git
+\                                   ^ punctuation.definition.reference.email.end.git
 Date: Tue, 13 Jul 2010 11:42:54 -0700
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-#^^^ keyword
-#   ^ punctuation.separator.mapping.key-value.diff
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.value.diff
-#        ^ punctuation.separator.sequence.diff
-#                        ^ punctuation.separator.sequence.diff
-#                           ^ punctuation.separator.sequence.diff
-#                               ^ keyword.operator.arithmetic.diff
-Subject: [PATCH 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig diet
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-#^^^^^^ keyword
-#      ^ punctuation.separator.mapping.key-value.diff
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.diff
-#        ^^^^^^^^^^^ variable.annotation.diff
-#        ^ punctuation.definition.annotation.begin.diff
-#               ^ meta.number.integer.decimal.diff constant.numeric.value.diff
-#                ^ punctuation.separator.sequence.diff
-#                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
-#                  ^ punctuation.definition.annotation.end.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
+\^^^ keyword
+\   ^ punctuation.separator.mapping.key-value.diff
+\     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.value.diff
+\        ^ punctuation.separator.sequence.diff
+\                        ^ punctuation.separator.sequence.diff
+\                           ^ punctuation.separator.sequence.diff
+\                               ^ keyword.operator.arithmetic.diff
+Subject: [PATCH v2 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig diet
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
+\               ^^ meta.annotation.patch-version.diff storage.modifier.diff
+\                  ^^^ meta.annotation.patch-sequence.diff
+\^^^^^^ keyword
+\      ^ punctuation.separator.mapping.key-value.diff
+\        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.diff
+\        ^^^^^^^^^^^^^^ variable.annotation.diff
+\        ^ punctuation.definition.annotation.begin.diff
+\                  ^ meta.number.integer.decimal.diff constant.numeric.value.diff
+\                   ^ punctuation.separator.sequence.diff
+\                    ^ meta.number.integer.decimal.diff constant.numeric.value.diff
+\                     ^ punctuation.definition.annotation.end.diff
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-#^^^^^^^^^^^ keyword.other.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
+\^^^^^^^^^^^ keyword.other.diff
 Content-Transfer-Encoding: 8bit
 
 arch/arm config files were slimmed down using a python script
 
 (See commit c2330e286f68f1c408b4aa6515ba49d57f05beae comment)
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
+\           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 
 Do the same for ia64 so we can have sleek & trim looking
 
 ---
  Gemfile                      |   1 +
-#^^^^^^^ entity.name.diff
-#                             ^ punctuation.separator.sequence.diff
-#                                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
-#                                   ^ markup.inserted.diff
+\^^^^^^^ entity.name.diff
+\                             ^ punctuation.separator.sequence.diff
+\                                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
+\                                   ^ markup.inserted.diff
  app/assets/images/logo.jpeg  | Bin 0 -> 50966 bytes
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.diff
-#   ^ punctuation.separator.sequence.diff
-#          ^ punctuation.separator.sequence.diff
-#                 ^ punctuation.separator.sequence.diff
-#                             ^ punctuation.separator.sequence.diff
-#                               ^^^ storage.type.diff
-#                                   ^ meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
-#                                     ^^ keyword.operator.logical.diff
-#                                        ^^^^^ meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
-#                                              ^^^^^ constant.numeric.suffix.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.diff
+\   ^ punctuation.separator.sequence.diff
+\          ^ punctuation.separator.sequence.diff
+\                 ^ punctuation.separator.sequence.diff
+\                             ^ punctuation.separator.sequence.diff
+\                               ^^^ storage.type.diff
+\                                   ^ meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
+\                                     ^^ keyword.operator.logical.diff
+\                                        ^^^^^ meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
+\                                              ^^^^^ constant.numeric.suffix.diff
  fonts/icomoon.eot            | Bin 55452 -> 56000 bytes
  3 files changed, 1 insertion(+)
-#^ meta.number.integer.decimal.diff constant.numeric.value.diff
-#               ^ punctuation.separator.sequence.diff
-#                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
-#                   ^^^^^^^^^^^^ markup.inserted.diff
-#                            ^ punctuation.definition.diff
-#                              ^ punctuation.definition.diff
+\^ meta.number.integer.decimal.diff constant.numeric.value.diff
+\               ^ punctuation.separator.sequence.diff
+\                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
+\                   ^^^^^^^^^^^^ markup.inserted.diff
+\                            ^ punctuation.definition.diff
+\                              ^ punctuation.definition.diff
 
 diff --git a/Gemfile b/Gemfile
 index c661619..989efe8 100644
@@ -136,6 +138,6 @@ z%Wa1HBo8BxHy*z{cX&Jb82BXwx&+M#4hZQA{T2Qua$fYgm=m#P@rq0d0txF9UnK2G
 fPDyD<y_Bw$VU*F5aVt{_=wL=54%__i#vw)k9PEX^
 
 -- 
-#^^ meta.separator.diff punctuation.definition.separator.diff
+\^^ meta.separator.diff punctuation.definition.separator.diff
 2.11.1
-#^^^^^^ comment.block.diff
+\^^^^^^ comment.block.diff
