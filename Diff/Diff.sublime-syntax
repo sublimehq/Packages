@@ -3,10 +3,13 @@
 # https://www.sublimetext.com/docs/syntax.html
 # https://www.gnu.org/software/diffutils/manual/diffutils.html
 name: Diff
+scope: source.diff
 version: 2
+
 file_extensions:
   - diff
   - patch
+
 first_line_match: |-
   ^(?x:
     ===\ modified\ file
@@ -22,7 +25,6 @@ variables:
   git_first_line: (?:From \h{40} Mon Sep 17 00:00:00 2001)
   eol: (?:$\r?\n?)
 
-scope: source.diff
 contexts:
 
 ###[ PROTOTYPES ]##############################################################

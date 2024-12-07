@@ -4,13 +4,16 @@
 # https://git-scm.com/docs/git-format-patch
 # https://git-scm.com/docs/diff-format
 name: Git Diff
+scope: source.diff.git
 version: 2
 extends: Diff.sublime-syntax
+
 file_extensions:
   - diff.eml
   - patch.eml
   - diff.mbox
   - patch.mbox
+
 first_line_match: |-
   ^(?x:
     diff[ ]--git[ ]
@@ -26,7 +29,6 @@ variables:
   empty_line: ^(?=\r?\n)
   scissors: (?:>8|8<)
 
-scope: source.diff.git
 contexts:
   pop-before-diff-header:
     - match: ^(?=diff --git\b)
