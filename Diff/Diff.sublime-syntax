@@ -207,14 +207,16 @@ contexts:
         4: entity.name.section.diff
     - match: ^-{3}$\n?
       scope: meta.separator.diff punctuation.definition.separator.diff
-    - match: ^(-{3}) .+$\n?
+    - match: ^(-{3}) (?:(/dev/null)|.+)$\n?
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
         1: punctuation.definition.from-file.diff
-    - match: ^(\+{3}) .+$\n?
+        2: constant.language.null.diff
+    - match: ^(\+{3}) (?:(/dev/null)|.+)$\n?
       scope: meta.diff.header.to-file meta.header.to-file.diff
       captures:
         1: punctuation.definition.to-file.diff
+        2: constant.language.null.diff
     - match: ^(\+).*?(\s*?)$\n?
       scope: markup.inserted.diff
       captures:
@@ -240,6 +242,14 @@ contexts:
         1: variable.function.diff
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
+    - match: ^(?=new file mode)
+      push:
+        - meta_content_scope: markup.inserted.diff
+        - include: inside-create-delete-mode
+    - match: ^(?=deleted file mode)
+      push:
+        - meta_content_scope: markup.deleted.diff
+        - include: inside-create-delete-mode
     - match: ^(index) (?:(0{7,40})|({{commit_hash}}))\b(\.\.)(?:(0{7,40})|({{commit_hash}}))\b
       captures:
         1: keyword.other.diff
