@@ -19,6 +19,8 @@ first_line_match: |-
 
 variables:
   git_first_line: (?:From \h{40} Mon Sep 17 00:00:00 2001)
+  day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
+  month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
 
 scope: source.diff
 contexts:
@@ -37,6 +39,66 @@ contexts:
 
   git-email-header:
     - meta_scope: meta.block.git-header.diff
+    - match: |-
+        (?x:
+          ^(
+            From | To | Author | Committer |
+            Co-authored-by |
+            Signed-off-by |
+            Reviewed-by |
+            Acked-by |
+            Helped-by
+          )
+          (:)
+        )
+      captures:
+        1: keyword
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - include: scope:text.git.mailmap
+        - match: (?=$)
+          pop: 1
+    - match: ^(Subject)(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - meta_content_scope: entity.name.label.diff
+        - match: (\[)PATCH
+          captures:
+            1: punctuation.definition.annotation.begin.diff
+          push:
+            - meta_scope: variable.annotation.diff
+            - match: \]
+              scope: punctuation.definition.annotation.end.diff
+              pop: 1
+            - match: \bv\d+\b
+              scope: meta.annotation.patch-version.diff storage.modifier.diff
+            - match: (\d+)(/)(\d+)
+              scope: meta.annotation.patch-sequence.diff
+              captures:
+                1: meta.number.integer.decimal.diff constant.numeric.value.diff
+                2: punctuation.separator.sequence.diff
+                3: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: (?=$)
+          pop: 1
+    - match: ^((?:Author|Committer)?Date)(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - match: '{{day3}}(,) [0-3]?\d {{month3}} \d{4} \d\d(:)\d\d(:)\d\d(?: ([+-])\d{4})?'
+          scope: constant.numeric.value.diff
+          captures:
+            1: punctuation.separator.sequence.diff
+            2: punctuation.separator.sequence.diff
+            3: punctuation.separator.sequence.diff
+            4: keyword.operator.arithmetic.diff
+        - match: (?=$)
+          pop: 1
     - match: ^\b([\w-]+)\b(:)
       captures:
         1: keyword.other.diff
