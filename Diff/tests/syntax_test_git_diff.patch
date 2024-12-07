@@ -1,7 +1,7 @@
 # SYNTAX TEST "Packages/Diff/Diff.sublime-syntax"
 From 8f72bad1baf19a53459661343e21d6491c3908d3 Mon Sep 17 00:00:00 2001
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.git.diff
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 From: Tony Luck <tony.luck@intel.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.diff

@@ -34,7 +34,7 @@ contexts:
   git-first-line:
     - meta_content_scope: comment.line.diff
     - match: \h{40}
-      scope: entity.name.git.diff
+      scope: constant.other.hash.git
     - match: \n|$
       set: git-email-header
 
@@ -234,10 +234,10 @@ contexts:
       captures:
         1: keyword.other.diff
         2: markup.deleted.diff
-        3: entity.name.git.diff
+        3: constant.other.hash.git
         4: punctuation.separator.sequence.diff
         5: markup.deleted.diff
-        6: entity.name.git.diff
+        6: constant.other.hash.git
       push:
         - include: inside-create-delete-mode
     - match: GIT binary patch
