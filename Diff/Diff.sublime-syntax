@@ -175,27 +175,46 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
   line-ranges-context:
-    - match: |-
-        ^(?x:
-          ( -{3})[ ].+[ ]( -{4})  # From range
-        | (\*{3})[ ].+[ ](\*{4})  # To range
-        ){{eol}}
-      scope: meta.diff.range.context meta.range.context.diff meta.toc-list.line-number.diff
-      captures:
-        1: punctuation.definition.range.begin.diff
-        2: punctuation.definition.range.end.diff
-        3: punctuation.definition.range.begin.diff
-        4: punctuation.definition.range.end.diff
+    - match: ^([-*]){3}(?= .+ \1{4}{{eol}})
+      scope: punctuation.definition.range.begin.diff
+      push: inside-line-ranges-context
+
+  inside-line-ranges-context:
+    - meta_scope: meta.diff.range.context meta.range.context.diff meta.toc-list.hunk.diff
+    - include: pop-eol
+    - match: \1{4}
+      scope: punctuation.definition.range.end.diff
+      pop: 1
+    - include: line-range-span
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   line-ranges-unified:
-    - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*{{eol}}
-      scope: meta.diff.range.unified meta.range.unified.diff
+    - match: ^(@@)(?=[^@\n]+\1(?:\s|$))
       captures:
-        1: punctuation.definition.range.diff
-        2: meta.toc-list.line-number.diff
-        3: punctuation.definition.range.diff
-        4: entity.name.section.diff
+        1: punctuation.definition.range.begin.diff
+      push: [hunk-name, inside-line-ranges-unified]
+
+  inside-line-ranges-unified:
+    - meta_scope: meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+    - include: pop-eol
+    - match: \1
+      scope: punctuation.definition.range.end.diff
+      pop: 1
+    - include: line-range-span
+    - match: '[+-](?=\d)'
+      scope: support.function.diff
+
+  hunk-name:
+    - include: pop-eol
+    - match: '[ \t]+'
+      scope: meta.toc-list.hunk.diff
+    - match: \S.+?(?=\s*{{eol}})
+      scope: meta.toc-list.hunk.diff entity.name.section.diff
+
+  line-range-span:
+    - match: \d+(?:(,)\d+)?
+      captures:
+        1: punctuation.separator.sequence.diff
 
 ###[ DELTAS ]##################################################################
 

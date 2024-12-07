@@ -15,22 +15,22 @@
 
 @@ -2,8 +2,11 @@
 \^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
-\ <-             punctuation.definition.range.diff
-\^               punctuation.definition.range.diff
+\ <-             punctuation.definition.range.begin.diff
+\^               punctuation.definition.range.begin.diff
 \ ^ - punctuation
-\  ^^^^^^^^^^    meta.toc-list.line-number.diff
+\  ^^^^^^^^^^    meta.toc-list.hunk.diff
 \            ^ - punctuation
-\             ^^ punctuation.definition.range.diff
+\             ^^ punctuation.definition.range.end.diff
 \               ^ - entity - punctuation
 
 @@ -2,8 +2,11 @@ function_hint(int var)
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
-\ <-             punctuation.definition.range.diff
-\^               punctuation.definition.range.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    meta.toc-list.hunk.diff
+\^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\ <-             punctuation.definition.range.begin.diff
+\^               punctuation.definition.range.begin.diff
 \ ^ - punctuation
-\  ^^^^^^^^^^    meta.toc-list.line-number.diff
 \            ^ - punctuation
-\             ^^ punctuation.definition.range.diff
+\             ^^ punctuation.definition.range.end.diff
 \               ^ - entity - punctuation
 \                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
 \                                      ^ - entity.name.section.diff
@@ -143,7 +143,8 @@ Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 ***************
 \^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 *** 1,7 ****
-\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\    ^ punctuation.separator
 \^^ punctuation.definition.range.begin.diff
 \       ^^^^ punctuation.definition.range.end.diff
 - The Way that can be told of is not the eternal Way;
@@ -162,8 +163,9 @@ Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
     so we may see their subtlety,
   And let there always be being,
 --- 1,6 ----
-\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
 \^^ punctuation.definition.range.begin.diff
+\    ^ punctuation.separator
 \       ^^^^ punctuation.definition.range.end.diff
   The Nameless is the origin of Heaven and Earth;
 ! The named is the mother of all things.
@@ -178,10 +180,12 @@ Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 \^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 *** 9,11 ****
 \^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\    ^ punctuation.separator
 \^^ punctuation.definition.range.begin.diff
 \        ^^^^ punctuation.definition.range.end.diff
 --- 8,13 ----
 \^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\    ^ punctuation.separator
 \^^ punctuation.definition.range.begin.diff
 \        ^^^^ punctuation.definition.range.end.diff
   The two are the same,
@@ -202,6 +206,9 @@ Unified Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 \^^ punctuation.definition.to-file
 \       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
 @@ -1,7 +1,6 @@
+\^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\^ punctuation.definition.range.begin.diff
+\            ^^ punctuation.definition.range.end.diff
 -The Way that can be told of is not the eternal Way;
 -The name that can be named is not the eternal name.
  The Nameless is the origin of Heaven and Earth;
