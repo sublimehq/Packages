@@ -32,7 +32,7 @@ contexts:
     # Index
     - match: ^(\|{5,})\s*(\S.*?)\s*{{eol}}
       captures:
-        1: punctuation.definition.comment.begin.conflict
+        1: punctuation.section.block.begin.conflict
         2: entity.name.section.conflict
       push:
         - meta_scope: meta.block.conflict
@@ -43,7 +43,7 @@ contexts:
     # New
     - match: ^(={5,})\s*{{eol}}
       captures:
-        1: punctuation.separator.section.conflict
+        1: punctuation.section.block.begin.conflict
       push:
         - meta_scope: meta.block.conflict
         - meta_content_scope: markup.inserted.conflict
