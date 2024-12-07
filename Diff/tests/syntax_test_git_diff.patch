@@ -49,6 +49,28 @@ arch/arm config files were slimmed down using a python script
 
 Do the same for ia64 so we can have sleek & trim looking
 
+-- >8 ----- >8 ----
+\^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff punctuation.section.block.git
+\  ^^ support.function.scissors.git
+\           ^^ support.function.scissors.git
+Subject: [RFC PATCH v3] How about this instead?
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
+\         ^^^ storage.modifier.diff
+\                   ^^ meta.annotation.patch-version.diff storage.modifier.diff
+\^^^^^^ keyword
+\      ^ punctuation.separator.mapping.key-value.diff
+\        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.diff
+\        ^^^^^^^^^^^^^^ variable.annotation.diff
+\        ^ punctuation.definition.annotation.begin.diff
+\                     ^ punctuation.definition.annotation.end.diff
+
+> Do the same for ia64 so we can have sleek & trim looking
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-body.diff markup.quote.git
+\ <- punctuation.definition.blockquote.git
+
+Much better, no?
+\^^^^^^^^^^^^^^^^ meta.block.git-body.diff
+
 ---
  Gemfile                      |   1 +
 \^^^^^^^ entity.name.diff

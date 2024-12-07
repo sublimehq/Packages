@@ -24,6 +24,7 @@ variables:
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
   empty_line: ^(?=\r?\n)
+  scissors: (?:>8|8<)
 
 scope: source.diff.git
 contexts:
@@ -131,6 +132,9 @@ contexts:
 
   email-body:
     - meta_content_scope: meta.block.git-body.diff
+    # https://git-scm.com/docs/git-mailinfo#Documentation/git-mailinfo.txt---scissors
+    - match: ^(?=--[ -]*{{scissors}}(?:{{scissors}}|[ -])*--\s*$)
+      set: [email-header, scissors-line]
     - match: ^(---)\r?\n
       captures:
         1: punctuation.definition.section.diff
@@ -139,6 +143,18 @@ contexts:
     - match: '^(?=Index: |diff -)'
       set: diffs
     - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
+    - match: ^>+
+      scope: punctuation.definition.blockquote.git
+      push:
+        - meta_scope: markup.quote.git
+        - include: pop-eol
+        - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
+
+  scissors-line:
+    - meta_scope: punctuation.section.block.git
+    - include: pop-eol
+    - match: '{{scissors}}'
+      scope: support.function.scissors.git
 
 ###[ FRONT MATTER ]############################################################
 
