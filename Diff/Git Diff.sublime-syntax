@@ -16,7 +16,7 @@ file_extensions:
 
 first_line_match: |-
   ^(?x:
-    diff[ ]--git[ ]
+    diff[ ]--(?:git|combined|cc)[ ]
   | From[ ]\h{40}[ ]Mon[ ]Sep[ ]17[ ]00:00:00[ ]2001
   )
 
@@ -235,7 +235,7 @@ contexts:
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   diffs:
     - include: signature
-    - match: ^(diff) ((--)git)
+    - match: ^(diff) ((--)(?:git|combined|cc))
       captures:
         1: variable.function.diff
         2: variable.parameter.diff
@@ -302,7 +302,7 @@ contexts:
           (index)[ ]
           (?:
             (0{7,40})   # Empty hash
-          | ({{hash}})  # File content hash
+          | ({{hash}}(?:,{{hash}})*)  # File content hash (hacky combined diff multiples)
           )\b
           (\.\.)        # Double-dot separator
           (?:
@@ -325,7 +325,7 @@ contexts:
     - meta_content_scope: meta.block.delta.diff
     - include: pop-before-diff-header
     - include: binary-deltas
-    # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
+    - include: line-ranges-combined
     - include: line-ranges-unified
     - include: deltas-unified
 
@@ -363,3 +363,39 @@ contexts:
         1: meta.separator.diff punctuation.section.block.diff
       set:
         - meta_content_scope: comment.block.diff
+
+###[ COMBINED DIFF ]###########################################################
+
+  # https://git-scm.com/docs/diff-format#_combined_diff_format
+  line-ranges-combined:
+    - include: line-range-combined-2
+
+  line-range-combined-2:
+    - match: ^(@@@)(?=[^@\n]+\1(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-2, hunk-name, inside-line-ranges-combined-2]
+
+  inside-line-ranges-combined-2:
+    - meta_scope: meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
+    - include: pop-eol
+    - match: \1
+      scope: punctuation.definition.range.end.diff
+      pop: 1
+    - include: line-range-span
+    - match: '[+-](?=\d)'
+      scope: support.function.diff
+
+  deltas-combined-2:
+    - match: ^$
+      pop: 1
+    - match: ^[ ]{2}
+    - match: ^[+ ]{2}
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: ^[- ]{2}
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - match: ^[+-]{2}
+      scope: punctuation.definition.deleted.diff
+      push: line-changed
