@@ -29,7 +29,7 @@ contexts:
   main:
     - match: ^(?={{git_first_line}})
       push: git-first-line
-    - include: diff
+    - include: diff-generic
 
   git-first-line:
     - meta_content_scope: comment.line.diff
@@ -180,7 +180,7 @@ contexts:
         - meta_content_scope: markup.deleted.diff
         - include: inside-create-delete-mode
     - match: ^(?=\r?\n)
-      pop: 1
+      set: diff-git
 
   inside-create-delete-mode:
     - match: \b(?:100)?644\b
@@ -257,6 +257,7 @@ contexts:
             1: punctuation.definition.string.begin.diff
         - match: ^(?!(delta|literal|$))
           pop: 1
+    - include: diff-common
 
   diff-generic:
     - match: ^\d+(?:(,)\d+)*(?:(a)|(d)|(c))\d+(?:(,)\d+)*$\n?
@@ -307,8 +308,4 @@ contexts:
       captures:
         1: punctuation.separator.key-value.diff
         2: meta.toc-list.file-name.diff
-
-  diff:
-    - include: diff-git
-    - include: diff-generic
     - include: diff-common
