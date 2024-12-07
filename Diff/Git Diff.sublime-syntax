@@ -38,6 +38,18 @@ contexts:
     - match: ^(?=diff --git\b)
       pop: 1
 
+  hash-empty:
+    - match: '0{7,40}'
+      scope: constant.language.null.git
+
+  hash:
+    - match: '{{hash}}'
+      scope: constant.other.hash.git
+
+  hash40:
+    - match: '{{hash40}}'
+      scope: constant.other.hash.git
+
   main:
     - match: ^(?={{git_first_line}})
       push: email-first-line
@@ -301,29 +313,17 @@ contexts:
             1: constant.numeric.value.git
             2: constant.numeric.suffix.git
     # index <hash>..<hash> <mode>
-    - match: |-
-        ^(?x:
-          (index)[ ]
-          (?:
-            (0{7,40})   # Empty hash
-          | ({{hash}}(?:,{{hash}})*)  # File content hash (hacky combined diff multiples)
-          )\b
-          (\.\.)        # Double-dot separator
-          (?:
-            (0{7,40})   # Empty hash
-          | ({{hash}})  # File content hash
-          )\b
-        )
-      captures:
-        1: keyword.other.diff
-        2: constant.language.null.diff
-        3: constant.other.hash.git
-        4: punctuation.separator.sequence.diff
-        5: constant.language.null.diff
-        6: constant.other.hash.git
+    - match: ^index(?= [0-9a-f,.]+)
+      scope: keyword.other.diff
       push:
         - include: pop-before-eol
         - include: file-modes
+        - include: hash-empty
+        - include: hash
+        - match: \,
+          scope: punctuation.separator.sequence.git
+        - match: \.\.
+          scope: punctuation.separator.sequence.git
 
   diff-content:
     - meta_content_scope: meta.block.delta.diff
