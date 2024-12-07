@@ -333,12 +333,13 @@ contexts:
 
   # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
   text-deltas:
-    - include: Diff.sublime-syntax#diff-common
+    - include: Diff.sublime-syntax#line-ranges
+    - include: Diff.sublime-syntax#deltas
 
   # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
   signature:
     # This is the Git version unless otherwise configured
-    - match: ^(-- )$\r?\n?
+    - match: ^(-- ){{eol}}
       captures:
         1: meta.separator.diff punctuation.definition.separator.diff
       set:
