@@ -144,6 +144,8 @@ contexts:
     - meta_content_scope: meta.block.git-body.diff
     - match: ^(?=---\r?\n)
       set: maybe-stat
+    - match: ^(?=diff --git\b)
+      set: diff
     - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
 
   maybe-stat:
