@@ -46,6 +46,7 @@ contexts:
       push: git-first-line
     - include: diff-generic
 
+  # https://git-scm.com/docs/git-format-patch
   git-first-line:
     - meta_content_scope: comment.line.diff
     - match: '{{commit_hash_full}}'
@@ -235,7 +236,8 @@ contexts:
     - match: ^\\ No newline at end of file
       scope: comment.line.diff
 
-  # TODO: ours/theirs parent diff
+  # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
+  # TODO: multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
   diff-git:
     - match: ^(-- )$\r?\n?
       captures:
@@ -259,24 +261,7 @@ contexts:
             - match: (?=\s|$)
               pop: 1
             - include: path-separators
-    - match: ^(?=new file mode)
-      push:
-        - meta_content_scope: markup.inserted.diff
-        - include: inside-create-delete-mode
-    - match: ^(?=deleted file mode)
-      push:
-        - meta_content_scope: markup.deleted.diff
-        - include: inside-create-delete-mode
-    - match: ^(index) (?:(0{7,40})|({{commit_hash}}))\b(\.\.)(?:(0{7,40})|({{commit_hash}}))\b
-      captures:
-        1: keyword.other.diff
-        2: markup.deleted.diff
-        3: constant.other.hash.git
-        4: punctuation.separator.sequence.diff
-        5: markup.deleted.diff
-        6: constant.other.hash.git
-      push:
-        - include: inside-create-delete-mode
+    - include: diff-git-header-extended
     - match: GIT binary patch
       scope: keyword.other.diff
       push:
@@ -295,6 +280,38 @@ contexts:
         - match: ^(?!(delta|literal|$))
           pop: 1
     - include: diff-common
+
+  # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
+  diff-git-header-extended:
+    # old mode <mode>
+    # new mode <mode>
+    # deleted file mode <mode>
+    - match: ^(?=deleted file mode)
+      push:
+        - meta_content_scope: markup.deleted.diff
+        - include: inside-create-delete-mode
+    # new file mode <mode>
+    - match: ^(?=new file mode)
+      push:
+        - meta_content_scope: markup.inserted.diff
+        - include: inside-create-delete-mode
+    # copy from <path>
+    # copy to <path>
+    # rename from <path>
+    # rename to <path>
+    # similarity index <number>
+    # dissimilarity index <number>
+    # index <hash>..<hash> <mode>
+    - match: ^(index) (?:(0{7,40})|({{commit_hash}}))\b(\.\.)(?:(0{7,40})|({{commit_hash}}))\b
+      captures:
+        1: keyword.other.diff
+        2: markup.deleted.diff
+        3: constant.other.hash.git
+        4: punctuation.separator.sequence.diff
+        5: markup.deleted.diff
+        6: constant.other.hash.git
+      push:
+        - include: inside-create-delete-mode
 
   diff-generic:
     - match: ^\d+(?:(,)\d+)*(?:(a)|(d)|(c))\d+(?:(,)\d+)*$\n?
