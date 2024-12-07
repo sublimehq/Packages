@@ -225,6 +225,21 @@ contexts:
 
   # TODO: ours/theirs parent diff
   diff-git:
+    - match: ^(diff) ((--)git)
+      captures:
+        1: variable.function.diff
+        2: variable.parameter.diff
+        3: punctuation.definition.parameter.diff
+    - match: ^(index) (?:(0{1,40})|(\h{1,40}))\b(\.\.)(?:(0{1,40})|(\h{1,40}))\b
+      captures:
+        1: keyword.other.diff
+        2: markup.deleted.diff
+        3: entity.name.git.diff
+        4: punctuation.separator.sequence.diff
+        5: markup.deleted.diff
+        6: entity.name.git.diff
+      push:
+        - include: inside-create-delete-mode
     - match: GIT binary patch
       scope: keyword.other.diff
       push:
