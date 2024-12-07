@@ -245,6 +245,7 @@ contexts:
 
   diff-header:
     - meta_scope: meta.block.header.diff
+    # Detect & switch context to changed content
     - match: ^(?=@|GIT binary)
       set: diff-content
     # old mode <mode>
@@ -315,8 +316,8 @@ contexts:
           scope: meta.string.diff string.other.raw.diff
           captures:
             1: punctuation.definition.string.begin.diff
-        - match: ^(?!(delta|literal|$))
-          pop: 1
+        - match: ^(?!delta|literal|$)
+          pop: 2
 
   # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
   text-deltas:
