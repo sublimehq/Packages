@@ -56,6 +56,7 @@ contexts:
 
   diff3:
     - include: diff3-normal
+    - include: diff3-edit
 
   main:
     - match: ^(?={{git_first_line}})
@@ -64,7 +65,7 @@ contexts:
     - include: line-ranges
     - include: headers
     - include: deltas
-    - include: diff3
+    - include: diff3-normal
 
 ###[ LEADING TEXT ]############################################################
 
@@ -293,6 +294,36 @@ contexts:
           push: line-changed
         - match: ^
           pop: 1
+
+  # This conflicts with non-diff3 Normal mode, so it's off by default
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
+  diff3-edit:
+    - match: ^(\d+)(a){{eol}}
+      captures:
+        1: meta.diff.range.normal meta.range.normal.diff
+        2: support.function.diff
+      push:
+        - meta_content_scope: meta.block.diff markup.inserted.diff
+        - include: diff3-edit-end
+    - match: ^(\d+)(d){{eol}}
+      captures:
+        1: meta.diff.range.normal meta.range.normal.diff
+        2: support.function.diff
+      push:
+        - meta_content_scope: meta.block.diff markup.deleted.diff
+        - include: diff3-edit-end
+    - match: ^(\d+)(c){{eol}}
+      captures:
+        1: meta.diff.range.normal meta.range.normal.diff
+        2: support.function.diff
+      push:
+        - meta_content_scope: meta.block.diff markup.modified.diff
+        - include: diff3-edit-end
+
+  diff3-edit-end:
+    - match: ^\.$
+      scope: punctuation.section.block.end.diff
+      pop: 1
 
 ###[ COMPONENTS ]##############################################################
 
