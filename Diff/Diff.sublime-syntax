@@ -24,6 +24,9 @@ variables:
 
 scope: source.diff
 contexts:
+
+###[ PROTOTYPES ]##############################################################
+
   pop-immediately:
     - match: ''
       pop: 1
@@ -36,51 +39,105 @@ contexts:
     - match: (?={{eol}})
       pop: 1
 
+  line-ranges:
+    - include: line-ranges-normal
+    - include: line-ranges-context
+    - include: line-ranges-unified
+
+  deltas:
+    - include: deltas-normal
+    - include: deltas-context
+    - include: deltas-unified
+
+  unified:
+    - include: headers-unified
+    - include: line-ranges-unified
+    - include: deltas-unified
+
+  diff3:
+    - include: diff3-normal
+
   main:
     - match: ^(?={{git_first_line}})
       push: Git Diff.sublime-syntax#email-first-line
+    - include: leading-text
     - include: line-ranges
     - include: headers
     - include: deltas
+    - include: diff3
+
+###[ LEADING TEXT ]############################################################
+
+  leading-text:
+    - match: ^(Index)(:)[ \t]*
+      captures:
+        1: meta.mapping.key.diff keyword.other.diff
+        2: punctuation.separator.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
+        - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
+        - include: pop-eol
+        - include: path-separators
+    - match: ^(Prereq)(:)[ \t]*
+      captures:
+        1: meta.mapping.key.diff keyword.other.diff
+        2: punctuation.separator.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - meta_content_scope: meta.mapping.value.diff string.unquoted.diff
+        - include: pop-eol
+        - include: path-separators
+
+###[ HEADERS ]#################################################################
 
   headers:
-    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
-    - match: ^-{3}{{eol}}
-      scope: meta.separator.diff punctuation.separator.block.diff
-
+    - include: headers-context
     - include: headers-unified
-
-    - match: ^(\*{15}|={67}){{eol}}
-      scope: meta.separator.diff
-      captures:
-        1: punctuation.separator.block.diff
-    - match: ^(\*{3})[ ](?!$)
-      captures:
-        1: punctuation.definition.from-file.diff
-      push:
-        - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
-        - include: pop-eol
-        - include: dev-null
-        - include: path-separators
-        - include: date
     - match: ^(={4}) .+(?= - )
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
         1: punctuation.definition.from-file.diff
       push:
-        - match: ' (-) .* (={4}){{eol}}'
-          scope: meta.diff.header.to-file meta.header.to-file.diff
+        - match: '( (-) )(.* (={4})){{eol}}'
           captures:
-            1: punctuation.definition.to-file.diff
-            2: punctuation.definition.to-file.diff
+            1: meta.header.diff
+            2: punctuation.separator.sequence.diff
+            3: meta.diff.header.to-file meta.header.to-file.diff
+            4: punctuation.definition.to-file.diff
           pop: 1
-        - match: ''
-          pop: 1
-    - match: ^Index(:) (.+){{eol}}
-      scope: meta.diff.index meta.index.diff
+        - include: pop-immediately
+    - match: ^(\*{15}|={67}){{eol}}
+      scope: meta.separator.diff
       captures:
-        1: punctuation.separator.key-value.diff
-        2: meta.toc-list.file-name.diff
+        1: punctuation.separator.block.diff
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
+  headers-context:
+    - match: ^(\*{3})[ ](?!$)
+      captures:
+        1: punctuation.definition.from-file.diff
+      push: headers-context-from-file
+
+  headers-context-from-file:
+    - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
+    - match: '{{eol}}'
+      set: maybe-headers-context-to-file
+    - include: dev-null
+    - include: path-separators
+    - include: date
+  maybe-headers-context-to-file:
+    - match: ^(-{3})[ ](?!$)
+      captures:
+        1: punctuation.definition.to-file.diff
+      push: headers-context-to-file
+    - match: ^
+      pop: 1
+  headers-context-to-file:
+    - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
+    - include: pop-eol
+    - include: dev-null
+    - include: path-separators
+    - include: date
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   headers-unified:
@@ -103,46 +160,32 @@ contexts:
         - include: path-separators
         - include: date
 
-  line-ranges:
-    - include: line-ranges-unified
-    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
-    - match: ^\d+(?:(,)\d+)*(?:(a)|(d)|(c))\d+(?:(,)\d+)*{{eol}}
+###[ RANGES ]##################################################################
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
+  line-ranges-normal:
+    - match: ^-{3}{{eol}}
+      scope: meta.separator.diff punctuation.separator.block.diff
+    - match: ^\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}
       scope: meta.diff.range.normal meta.range.normal.diff
       captures:
         1: punctuation.separator.sequence.diff
-        2: markup.inserted.diff
-        3: markup.deleted.diff
-        4: markup.changed.diff
-    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
+        2: support.function.diff
+        3: punctuation.separator.sequence.diff
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
+  line-ranges-context:
     - match: |-
         ^(?x:
           ( -{3})[ ].+[ ]( -{4})  # From range
         | (\*{3})[ ].+[ ](\*{4})  # To range
         ){{eol}}
-      scope: meta.diff.range.context meta.range.context.diff
+      scope: meta.diff.range.context meta.range.context.diff meta.toc-list.line-number.diff
       captures:
-        1: punctuation.definition.range.diff
-        2: punctuation.definition.range.diff
-        3: punctuation.definition.range.diff
-        4: punctuation.definition.range.diff
-    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
-    - match: ^====[1-3]?{{eol}}
-      scope: punctuation.section.block.diff
-    - match: ^([1-3])(:)(\d+(a)|\d+(?:(,)\d+)?(c)){{eol}}
-      scope: meta.mapping.diff
-      captures:
-        1: meta.mapping.key.diff meta.number.integer.decimal.diff constant.numeric.value.diff
-        2: punctuation.separator.key-value.diff
-        3: meta.mapping.value.diff meta.diff.range.normal meta.range.normal.diff
-        4: markup.inserted.diff
-        5: punctuation.separator.sequence.diff
-        6: markup.changed.diff
-      push:
-        - match: ^(?:\t|  )
-          push: line-changed
-        - match: ^
-          pop: 1
-        # - include: pop-immediately
+        1: punctuation.definition.range.begin.diff
+        2: punctuation.definition.range.end.diff
+        3: punctuation.definition.range.begin.diff
+        4: punctuation.definition.range.end.diff
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   line-ranges-unified:
@@ -154,10 +197,7 @@ contexts:
         3: punctuation.definition.range.diff
         4: entity.name.section.diff
 
-  deltas:
-    - include: deltas-normal
-    - include: deltas-context
-    - include: deltas-unified
+###[ DELTAS ]##################################################################
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
   deltas-normal:
@@ -213,6 +253,29 @@ contexts:
   trailing-whitespace:
     - match: '[ \t]*(?=$)'
       scope: meta.whitespace.trailing.diff
+
+###[ DIFF3 ]###################################################################
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
+  diff3-normal:
+    - match: ^====[1-3]?{{eol}}
+      scope: punctuation.section.block.diff
+    - match: ^([1-3])(:)(\d+(a)|\d+(?:(,)\d+)?(c)){{eol}}
+      scope: meta.mapping.diff
+      captures:
+        1: meta.mapping.key.diff meta.number.integer.decimal.diff constant.numeric.value.diff
+        2: punctuation.separator.key-value.diff
+        3: meta.mapping.value.diff meta.diff.range.normal meta.range.normal.diff
+        4: support.function.diff
+        5: punctuation.separator.sequence.diff
+        6: support.function.diff
+      push:
+        - match: ^(?:\t|  )
+          push: line-changed
+        - match: ^
+          pop: 1
+
+###[ COMPONENTS ]##############################################################
 
   dev-null:
     - match: /dev/null\b

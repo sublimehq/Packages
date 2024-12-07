@@ -35,24 +35,25 @@
 \                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
 \                                      ^ - entity.name.section.diff
 
-==== Something - Else ====
+==== From-File - To-File ====
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header
 \^^^^^^^^^^^^^ meta.header.from-file.diff
 \^^^ punctuation.definition.from-file.diff
-\             ^^^^^^^^^^^^ meta.header.to-file.diff
-\              ^ punctuation.definition.to-file.diff
-\                     ^^^^ punctuation.definition.to-file.diff
+\                ^^^^^^^^^^^^ meta.header.to-file.diff
+\              ^ punctuation
+\                        ^^^^ punctuation.definition.to-file.diff
 
 --- Range ----
 \^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
-\ <-           punctuation.definition.range.diff
-\^^            punctuation.definition.range.diff
-\         ^^^^ punctuation.definition.range.diff
+\ <-           punctuation.definition.range.begin.diff
+\^^            punctuation.definition.range.begin.diff
+\         ^^^^ punctuation.definition.range.end.diff
 
 *** Range ****
 \^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
-\ <-           punctuation.definition.range.diff
-\^^            punctuation.definition.range.diff
-\         ^^^^ punctuation.definition.range.diff
+\ <-           punctuation.definition.range.begin.diff
+\^^            punctuation.definition.range.begin.diff
+\         ^^^^ punctuation.definition.range.end.diff
 
 ***************
 \^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
@@ -101,10 +102,11 @@ Plain Text
 \ ^^^^^^^^ markup.changed.diff - meta.whitespace
 \         ^^ markup.changed.diff meta.whitespace.trailing.diff
 
-Index: value
-\^^^^^^^^^^^ meta.diff.index meta.index.diff
+Index: lao
+\^^^^^^^^^^ meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
 \    ^       punctuation.separator.key-value.diff
-\      ^^^^^ meta.toc-list.file-name.diff
+\      ^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
 
 \ No newline at end of file
 \^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
@@ -131,29 +133,57 @@ Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
 \^^ punctuation.definition.from-file
 \       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
+
+\ Only consider `---` to be a "to" if it follows a `***`
+*** lao 2002-02-21 23:30:39.942229878 -0800
 --- tzu	2002-02-21 23:30:50.442260588 -0800
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
 \^^ punctuation.definition.to-file
 \       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
 ***************
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 *** 1,7 ****
+\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^ punctuation.definition.range.begin.diff
+\       ^^^^ punctuation.definition.range.end.diff
 - The Way that can be told of is not the eternal Way;
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+\ <- punctuation.definition.deleted.diff
 - The name that can be named is not the eternal name.
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+\ <- punctuation.definition.deleted.diff
   The Nameless is the origin of Heaven and Earth;
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup
 ! The Named is the mother of all things.
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.changed.diff
+\ <- punctuation.definition.changed.diff
   Therefore let there always be non-being,
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup
     so we may see their subtlety,
   And let there always be being,
 --- 1,6 ----
+\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^ punctuation.definition.range.begin.diff
+\       ^^^^ punctuation.definition.range.end.diff
   The Nameless is the origin of Heaven and Earth;
 ! The named is the mother of all things.
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.changed.diff
+\ <- punctuation.definition.changed.diff
 ! 
+\ <- markup.changed.diff punctuation.definition.changed.diff
   Therefore let there always be non-being,
     so we may see their subtlety,
   And let there always be being,
 ***************
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 *** 9,11 ****
+\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^ punctuation.definition.range.begin.diff
+\        ^^^^ punctuation.definition.range.end.diff
 --- 8,13 ----
+\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^ punctuation.definition.range.begin.diff
+\        ^^^^ punctuation.definition.range.end.diff
   The two are the same,
   But after they are produced,
     they have different names.

@@ -157,7 +157,7 @@ contexts:
     - match: '{{scissors}}'
       scope: support.function.scissors.git
 
-###[ FRONT MATTER ]############################################################
+###[ LEADING TEXT ]############################################################
 
   stat:
     - include: pop-before-diff-header
