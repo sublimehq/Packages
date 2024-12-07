@@ -14,11 +14,41 @@ first_line_match: |-
       |\*\*\*.*\d{4}\s*$
       |\d+(,\d+)* (a|d|c) \d+(,\d+)* $
       |diff\ --git[ ]
+      |From \h{40} Mon Sep 17 00:00:00 2001
       )
+
+variables:
+  git_first_line: (?:From \h{40} Mon Sep 17 00:00:00 2001)
 
 scope: source.diff
 contexts:
+
   main:
+    - match: ^(?={{git_first_line}})
+      push: git-first-line
+    - include: diff
+
+  git-first-line:
+    - meta_content_scope: comment.line.diff
+    - match: \h{40}
+      scope: entity.name.git.diff
+    - match: \n|$
+      set: git-email-header
+
+  git-email-header:
+    - meta_scope: meta.block.git-header.diff
+    - match: ^\b([\w-]+)\b(:)
+      captures:
+        1: keyword.other.diff
+        2: punctuation.separator.mapping.key-value.diff
+      push:
+        - meta_scope: meta.mapping.diff
+        - match: (?=$)
+          pop: 1
+    - match: ^(?=\r?\n)
+      pop: 1
+
+  diff:
     - match: '^((\*{15})|(={67})|(-{3}))$\n?'
       scope: meta.separator.diff
       captures:
