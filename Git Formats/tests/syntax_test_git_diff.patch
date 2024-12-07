@@ -1,4 +1,4 @@
-\ SYNTAX TEST "Packages/Diff/Git Diff.sublime-syntax"
+\ SYNTAX TEST "Packages/Git Formats/Git Diff.sublime-syntax"
 From 8f72bad1baf19a53459661343e21d6491c3908d3 Mon Sep 17 00:00:00 2001
 \ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff
 \    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git

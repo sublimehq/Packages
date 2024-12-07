@@ -71,7 +71,7 @@ contexts:
 
   main:
     - match: ^(?={{git_first_line}})
-      push: Git Diff.sublime-syntax#email-first-line
+      push: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
     - include: leading-text
     - include: line-ranges
     - include: headers

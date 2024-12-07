@@ -6,7 +6,7 @@
 name: Git Diff
 scope: source.diff.git
 version: 2
-extends: Diff.sublime-syntax
+extends: Packages/Diff/Diff.sublime-syntax
 
 file_extensions:
   - diff.eml
@@ -165,13 +165,13 @@ contexts:
       set: [diffs, stat]
     - match: ^{{next_diff_header}}
       set: diffs
-    - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
+    - include: Git Commit Message.sublime-syntax#commit-message
     - match: ^>+
       scope: punctuation.definition.blockquote.git
       push:
         - meta_scope: markup.quote.git
         - include: pop-eol
-        - include: Packages/Git Formats/Git Commit Message.sublime-syntax#commit-message
+        - include: Git Commit Message.sublime-syntax#commit-message
 
   scissors-line:
     - meta_scope: punctuation.section.block.git
