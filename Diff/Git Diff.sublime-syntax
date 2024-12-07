@@ -151,21 +151,24 @@ contexts:
             - include: path-separators
             - match: \.{3}
               scope: keyword.operator.diff
-        - match: \|
-          scope: punctuation.separator.sequence.diff
-        - match: (Bin) (\d+) (->) (\d+) (bytes)
+        - match: |-
+            (?x:
+              (\|)[ ]+
+              (?:
+                (Bin)[ ](\d+)[ ](->)[ ](\d+)[ ](bytes)  # Binary files
+              | (\d+)[ ](\+*)(-*)                       # Text files
+              )
+            )
           captures:
-            1: storage.type.diff
-            2: meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
-            3: keyword.operator.logical.diff
-            4: meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
-            5: constant.numeric.suffix.diff
-        - match: \d+
-          scope: meta.number.integer.decimal.diff constant.numeric.value.diff
-        - match: \++
-          scope: markup.inserted.diff
-        - match: -+
-          scope: markup.deleted.diff
+            1: punctuation.separator.sequence.diff
+            2: storage.type.diff
+            3: meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
+            4: keyword.operator.logical.diff
+            5: meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
+            6: constant.numeric.suffix.diff
+            7: meta.number.integer.decimal.diff constant.numeric.value.diff
+            8: markup.inserted.diff
+            9: markup.deleted.diff
     - match: ^(?= \d+ file)
       push:
         - include: pop-eol
