@@ -106,3 +106,65 @@ Index: value
 #^^^^^^^^^^^ meta.diff.index meta.index.diff
 #    ^ punctuation.separator.key-value.diff
 #      ^^^^^ meta.toc-list.file-name.diff
+
+\ No newline at end of file
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+# <- punctuation.definition.comment
+
+
+Unified Format https://www.gnu.org/software/diffutils/manual/html_node/Example-Unified.html
+--- lao	2002-02-21 23:30:39.942229878 -0800
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
+#^^ punctuation.definition.from-file
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff
++++ tzu	2002-02-21 23:30:50.442260588 -0800
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
+#^^ punctuation.definition.to-file
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff
+@@ -1,7 +1,6 @@
+-The Way that can be told of is not the eternal Way;
+-The name that can be named is not the eternal name.
+ The Nameless is the origin of Heaven and Earth;
+-The Named is the mother of all things.
++The named is the mother of all things.
++
+ Therefore let there always be non-being,
+   so we may see their subtlety,
+ And let there always be being,
+@@ -9,3 +8,6 @@
+ The two are the same,
+ But after they are produced,
+   they have different names.
++They both may be called deep and profound.
++Deeper and more profound,
++The door of all subtleties!
+
+
+Context Format https://www.gnu.org/software/diffutils/manual/html_node/Example-Context.html
+*** lao	2002-02-21 23:30:39.942229878 -0800
+--- tzu	2002-02-21 23:30:50.442260588 -0800
+***************
+*** 1,7 ****
+- The Way that can be told of is not the eternal Way;
+- The name that can be named is not the eternal name.
+  The Nameless is the origin of Heaven and Earth;
+! The Named is the mother of all things.
+  Therefore let there always be non-being,
+    so we may see their subtlety,
+  And let there always be being,
+--- 1,6 ----
+  The Nameless is the origin of Heaven and Earth;
+! The named is the mother of all things.
+! 
+  Therefore let there always be non-being,
+    so we may see their subtlety,
+  And let there always be being,
+***************
+*** 9,11 ****
+--- 8,13 ----
+  The two are the same,
+  But after they are produced,
+    they have different names.
++ They both may be called deep and profound.
++ Deeper and more profound,
++ The door of all subtleties!

@@ -31,10 +31,6 @@ contexts:
     - match: ^(?=diff --git\b)
       pop: 1
 
-  path-separators:
-    - match: /|\\
-      scope: punctuation.separator.sequence.diff
-
   main:
     - match: ^(?={{git_first_line}})
       push: email-first-line

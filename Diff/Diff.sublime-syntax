@@ -49,10 +49,15 @@ contexts:
       scope: meta.separator.diff
       captures:
         1: punctuation.definition.separator.diff
-    - match: ^(\*{3}) .+{{eol}}
-      scope: meta.diff.header.from-file meta.header.from-file.diff
+    - match: ^(\*{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
+      push:
+        - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
+        - include: pop-eol
+        - include: dev-null
+        - include: path-separators
+        - include: date
     - match: ^(={4}) .+(?= - )
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
@@ -74,16 +79,24 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
   headers-unified:
-    - match: ^(-{3}) (?:(/dev/null)|.+){{eol}}
-      scope: meta.diff.header.from-file meta.header.from-file.diff
+    - match: ^(-{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
-        2: constant.language.null.diff
-    - match: ^(\+{3}) (?:(/dev/null)|.+){{eol}}
-      scope: meta.diff.header.to-file meta.header.to-file.diff
+      push:
+        - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
+        - include: pop-eol
+        - include: dev-null
+        - include: path-separators
+        - include: date
+    - match: ^(\+{3})[ ](?!$)
       captures:
         1: punctuation.definition.to-file.diff
-        2: constant.language.null.diff
+      push:
+        - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
+        - include: pop-eol
+        - include: dev-null
+        - include: path-separators
+        - include: date
 
   line-ranges:
     - include: line-ranges-unified
@@ -157,3 +170,29 @@ contexts:
   trailing-whitespace:
     - match: '[ \t]*(?=$)'
       scope: meta.whitespace.trailing.diff
+
+  dev-null:
+    - match: /dev/null\b
+      scope: constant.language.null.diff
+
+  path-separators:
+    - match: /|\\
+      scope: punctuation.separator.sequence.diff
+
+  date:
+    # 2002-02-21 23:30:50.442260588 -0800
+    - match: \b(\d{4})(-)(\d\d)(-)(\d\d) (\d?\d)(:)(\d\d)(:)(\d\d(?:(\.)\d+)?)(?:[ ]([+-]\d{4}))?
+      scope: meta.date.diff
+      captures:
+        1: meta.number.integer.decimal.diff constant.numeric.value.diff
+        2: punctuation.separator.sequence.diff
+        3: meta.number.integer.decimal.diff constant.numeric.value.diff
+        4: punctuation.separator.sequence.diff
+        5: meta.number.integer.decimal.diff constant.numeric.value.diff
+        6: meta.number.integer.decimal.diff constant.numeric.value.diff
+        7: punctuation.separator.sequence.diff
+        8: meta.number.integer.decimal.diff constant.numeric.value.diff
+        9: punctuation.separator.sequence.diff
+        10: meta.number.float.decimal.diff constant.numeric.value.diff
+        11: punctuation.separator.decimal.diff
+        12: storage.modifier.diff
