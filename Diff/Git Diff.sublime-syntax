@@ -86,9 +86,10 @@ contexts:
       push:
         - meta_scope: meta.mapping.diff
         - meta_content_scope: markup.heading.diff
-        - match: (\[)PATCH
+        - match: (\[)(?:(RFC) )?PATCH
           captures:
             1: punctuation.definition.annotation.begin.diff
+            2: storage.modifier.diff
           push:
             - meta_scope: variable.annotation.diff
             - match: \]
