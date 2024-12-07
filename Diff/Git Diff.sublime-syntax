@@ -39,6 +39,10 @@ contexts:
     - match: /|\\
       scope: punctuation.separator.sequence.diff
 
+  deltas:
+    - include: binary-deltas
+    - include: text-deltas
+
   main:
     - match: ^(?={{email_first_line}})
       push: email-first-line
@@ -219,6 +223,7 @@ contexts:
       scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.diff
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
+  # TODO: Full meta block for each file header.
   # TODO: multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
   diffs:
     # Signature (usually Git version)
@@ -247,26 +252,7 @@ contexts:
               pop: 1
             - include: path-separators
     - include: diff-header-extended
-    # Binary delta, encoded in Base85
-    - match: GIT binary patch
-      scope: keyword.other.diff
-      push:
-        - match: ^(delta|literal) (\d+)
-          captures:
-            1: support.function.diff
-            2: meta.number.integer.decimal.diff constant.numeric.value.diff
-        - match: ^(H)cmV\?d00001$
-          scope: constant.language.null.diff
-          captures:
-            1: punctuation.definition.string.begin.diff
-        - match: ^([A-Za-z]){{base85}}{1,66}$
-          scope: meta.string.diff string.other.raw.diff
-          captures:
-            1: punctuation.definition.string.begin.diff
-        - match: ^(?!(delta|literal|$))
-          pop: 1
-    # Text delta
-    - include: Diff.sublime-syntax#diff-common
+    - include: deltas
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   diff-header-extended:
@@ -299,3 +285,28 @@ contexts:
         6: constant.other.hash.git
       push:
         - include: inside-create-delete-mode
+
+  # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
+  binary-deltas:
+    - match: ^GIT binary patch
+      scope: keyword.other.diff
+      push:
+        - match: ^(delta|literal) (\d+)
+          captures:
+            1: support.function.diff
+            2: meta.number.integer.decimal.diff constant.numeric.value.diff
+        # Empty file
+        - match: ^(H)cmV\?d00001$
+          scope: constant.language.null.diff
+          captures:
+            1: punctuation.definition.string.begin.diff
+        - match: ^([A-Za-z]){{base85}}{1,66}$
+          scope: meta.string.diff string.other.raw.diff
+          captures:
+            1: punctuation.definition.string.begin.diff
+        - match: ^(?!(delta|literal|$))
+          pop: 1
+
+  # TODO: Multi-parent diff https://git-scm.com/docs/diff-format#_combined_diff_format
+  text-deltas:
+    - include: Diff.sublime-syntax#diff-common
