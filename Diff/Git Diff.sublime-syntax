@@ -76,8 +76,7 @@ contexts:
       push:
         - meta_scope: meta.mapping.diff
         - include: scope:text.git.mailmap
-        - match: (?=$)
-          pop: 1
+        - include: pop-before-eol
     # Commit headers
     - match: ^(In-Reply-To|References)(:)
       captures:
@@ -87,8 +86,7 @@ contexts:
         - meta_scope: meta.mapping.diff
         - match: '{{hash}}'
           scope: constant.other.hash.git
-        - match: (?=$)
-          pop: 1
+        - include: pop-before-eol
     # Subject header
     - match: ^(Subject)(:)
       captures:
@@ -113,8 +111,7 @@ contexts:
                 1: meta.number.integer.decimal.diff constant.numeric.value.diff
                 2: punctuation.separator.sequence.diff
                 3: meta.number.integer.decimal.diff constant.numeric.value.diff
-        - match: (?=$)
-          pop: 1
+        - include: pop-before-eol
     # Date headers
     - match: ^((?:Author|Committer)?Date)(:)
       captures:
@@ -129,8 +126,7 @@ contexts:
             2: punctuation.separator.sequence.diff
             3: punctuation.separator.sequence.diff
             4: keyword.operator.arithmetic.diff
-        - match: (?=$)
-          pop: 1
+        - include: pop-before-eol
     # Other headers
     - match: ^\b([\w-]+)\b(:)
       captures:
@@ -138,8 +134,7 @@ contexts:
         2: punctuation.separator.mapping.key-value.diff
       push:
         - meta_scope: meta.mapping.diff
-        - match: (?=$)
-          pop: 1
+        - include: pop-before-eol
     # Go to Body
     - match: '{{empty_line}}'
       set: email-body
