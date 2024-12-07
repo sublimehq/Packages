@@ -17,9 +17,9 @@ first_line_match: |-
       )
 
 variables:
-  commit_hash_full: \h{40}
-  commit_hash: \h{7,40}
-  email_first_line: (?:From {{commit_hash_full}} Mon Sep 17 00:00:00 2001)
+  hash40: \h{40}
+  hash: \h{7,40}
+  email_first_line: (?:From {{hash40}} Mon Sep 17 00:00:00 2001)
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
@@ -47,7 +47,7 @@ contexts:
   # https://git-scm.com/docs/git-format-patch#_description
   email-first-line:
     - meta_content_scope: comment.line.diff
-    - match: '{{commit_hash_full}}'
+    - match: '{{hash40}}'
       scope: constant.other.hash.git
     - match: \n|$
       set: email-header
@@ -81,7 +81,7 @@ contexts:
         2: punctuation.separator.mapping.key-value.diff
       push:
         - meta_scope: meta.mapping.diff
-        - match: '{{commit_hash}}'
+        - match: '{{hash}}'
           scope: constant.other.hash.git
         - match: (?=$)
           pop: 1
@@ -287,7 +287,7 @@ contexts:
     # similarity index <number>
     # dissimilarity index <number>
     # index <hash>..<hash> <mode>
-    - match: ^(index) (?:(0{7,40})|({{commit_hash}}))\b(\.\.)(?:(0{7,40})|({{commit_hash}}))\b
+    - match: ^(index) (?:(0{7,40})|({{hash}}))\b(\.\.)(?:(0{7,40})|({{hash}}))\b
       captures:
         1: keyword.other.diff
         2: markup.deleted.diff
