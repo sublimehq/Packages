@@ -281,7 +281,19 @@ contexts:
             1: constant.numeric.value.git
             2: constant.numeric.suffix.git
     # index <hash>..<hash> <mode>
-    - match: ^(index) (?:(0{7,40})|({{hash}}))\b(\.\.)(?:(0{7,40})|({{hash}}))\b
+    - match: |-
+        ^(?x:
+          (index)[ ]
+          (?:
+            (0{7,40})   # Empty hash
+          | ({{hash}})  # File content hash
+          )\b
+          (\.\.)        # Double-dot separator
+          (?:
+            (0{7,40})   # Empty hash
+          | ({{hash}})  # File content hash
+          )\b
+        )
       captures:
         1: keyword.other.diff
         2: markup.deleted.diff
