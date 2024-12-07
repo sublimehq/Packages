@@ -108,6 +108,31 @@ contexts:
         - match: (?=$)
           pop: 1
     - match: ^(?=\r?\n)
+      set: git-maybe-stat
+
+  git-maybe-stat:
+    - match: ---\n
+      scope: punctuation.definition.section.diff
+      set: git-stat
+    - match: (?=\S)
+      pop: 1
+
+  git-stat:
+    - match: ^ (?=([^|]+\s+)\|)
+      push:
+        - match: .+?(?=\s+\|)
+          scope: entity.name.diff
+        - match: \|
+          scope: punctuation.separator.sequence.diff
+        - match: \d+
+          scope: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: \++
+          scope: markup.inserted.diff
+        - match: -+
+          scope: markup.deleted.diff
+        - match: (?=\n|$)
+          pop: 1
+    - match: ^(?=\r?\n)
       pop: 1
 
   diff:
