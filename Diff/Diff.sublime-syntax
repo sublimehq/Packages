@@ -21,6 +21,7 @@ variables:
   git_first_line: (?:From \h{40} Mon Sep 17 00:00:00 2001)
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
+  base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
 
 scope: source.diff
 contexts:
@@ -191,7 +192,6 @@ contexts:
     - match: (?=$)
       pop: 1
 
-
   diff-common:
     - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*$\n?
       scope: meta.diff.range.unified meta.range.unified.diff
@@ -224,8 +224,24 @@ contexts:
       scope: comment.line.diff
 
   # TODO: ours/theirs parent diff
-  # TODO: git-style binary
-  diff-git: []
+  diff-git:
+    - match: GIT binary patch
+      scope: keyword.other.diff
+      push:
+        - match: ^(delta|literal) (\d+)
+          captures:
+            1: support.function.diff
+            2: meta.number.integer.decimal.diff constant.numeric.value.diff
+        - match: ^(H)cmV\?d00001$
+          scope: constant.language.null.diff
+          captures:
+            1: punctuation.definition.string.begin.diff
+        - match: ^([A-Za-z]){{base85}}{1,66}$
+          scope: meta.string.diff string.other.raw.diff
+          captures:
+            1: punctuation.definition.string.begin.diff
+        - match: ^(?!(delta|literal|$))
+          pop: 1
 
   diff-generic:
     - match: ^\d+(?:(,)\d+)*(?:(a)|(d)|(c))\d+(?:(,)\d+)*$\n?
