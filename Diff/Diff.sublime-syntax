@@ -124,6 +124,13 @@ contexts:
           scope: entity.name.diff
         - match: \|
           scope: punctuation.separator.sequence.diff
+        - match: (Bin) (\d+) (->) (\d+) (bytes)
+          captures:
+            1: storage.type.diff
+            2: meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
+            3: keyword.operator.logical.diff
+            4: meta.number.integer.decimal.diff constant.numeric.value.diff
+            5: constant.numeric.suffix.diff
         - match: \d+
           scope: meta.number.integer.decimal.diff constant.numeric.value.diff
         - match: \++
@@ -190,3 +197,5 @@ contexts:
       captures:
         1: punctuation.separator.key-value.diff
         2: meta.toc-list.file-name.diff
+    - match: ^\\ No newline at end of file
+      scope: comment.line.diff
