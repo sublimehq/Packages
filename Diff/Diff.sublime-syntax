@@ -8,18 +8,19 @@ file_extensions:
   - diff
   - patch
 first_line_match: |-
-  (?x)^
-      (===\ modified\ file
-      |==== \s* // .+ \s - \s .+ \s+ ====
-      |Index:[ ]
-      |---\ [^%]
-      |\*\*\*.*\d{4}\s*$
-      |\d+(,\d+)* (a|d|c) \d+(,\d+)* $
-      )
+  ^(?x:
+    ===\ modified\ file
+  | ==== \s* // .+ \s - \s .+ \s+ ====
+  | Index:[ ]
+  | Prereq:[ ]
+  | ---\ [^%]
+  | \*\*\*.*\d{4}\s*$
+  | \d+(,\d+)* [adc] \d+(,\d+)* $
+  )
 
 variables:
   git_first_line: (?:From \h{40} Mon Sep 17 00:00:00 2001)
-  eol: $\r?\n?
+  eol: (?:$\r?\n?)
 
 scope: source.diff
 contexts:

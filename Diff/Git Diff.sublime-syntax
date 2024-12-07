@@ -12,10 +12,10 @@ file_extensions:
   - diff.mbox
   - patch.mbox
 first_line_match: |-
-  (?x)^
-      (diff\ --git[ ]
-      |From \h{40} Mon Sep 17 00:00:00 2001
-      )
+  ^(?x:
+    diff[ ]--git[ ]
+  | From[ ]\h{40}[ ]Mon[ ]Sep[ ]17[ ]00:00:00[ ]2001
+  )
 
 variables:
   hash40: \h{40}
