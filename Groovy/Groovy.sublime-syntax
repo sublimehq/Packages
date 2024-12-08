@@ -198,7 +198,7 @@ contexts:
       scope: keyword.control.exception.groovy
   keyword-operator:
     - match: \bas\b
-      scope: keyword.context.resource.groovy
+      scope: keyword.operator.as.groovy
     - match: \bis\b
       scope: keyword.operator.reflection.groovy
     - match: '\?\:'
