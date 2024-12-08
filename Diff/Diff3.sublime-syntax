@@ -1,0 +1,68 @@
+%YAML 1.2
+---
+# A plain text syntax with merge conflict markers
+# to improve UX if Sublime Text is used as merge tool.
+#
+# The primary task however is to provide a common source
+# of re-usable patterns for merge conflict markers.
+#
+# The `conflicts` context is included by all bundled syntax definitions
+# to help maintaining syntax highlighting when resolving merge conflicts.
+#
+# see: https://www.gnu.org/software/diffutils/manual/diffutils.html
+name: Diff3
+scope: source.diff3
+version: 2
+
+contexts:
+  main:
+    - include: commands
+    - include: conflicts
+    - include: hunks
+
+  commands:
+    - match: ^\s*([123])(:)(\d+)(a)$\n?
+      scope: meta.command.append.diff3
+      captures:
+        1: constant.numeric.file.diff3
+        2: punctuation.separator.colon.diff3
+        3: constant.numeric.line.begin.diff3
+        4: keyword.operator.append.diff3
+    - match: ^\s*([123])(:)(\d+)(?:(,)(\d+))?(c)$\n?
+      scope: meta.command.change.diff3
+      captures:
+        1: constant.numeric.file.diff3
+        2: punctuation.separator.colon.diff3
+        3: constant.numeric.line.begin.diff3
+        4: punctuation.separator.comma.diff3
+        5: constant.numeric.line.end.diff3
+        6: keyword.operator.change.diff3
+
+  conflicts:
+    - match: ^\s*(<{7})(?:[ ]([-/.\w ]+))?$\n?
+      scope: markup.conflict.begin.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+    - match: ^\s*(>{7})(?:[ ]([-/.\w ]+))?$\n?
+      scope: markup.conflict.end.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+    - match: ^\s*(={7}|\|{7})(?:[ ]([-/.\w ]+))?$\n?
+      scope: markup.conflict.separator.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+
+  hunks:
+    - match: ^\s*(={4})([123])$\n?
+      scope: markup.hunk.two-way.diff3
+      captures:
+        1: punctuation.section.hunk.diff3
+        2: constant.numeric.file.diff3
+    - match: ^\s*(={4})$\n?
+      scope: markup.hunk.three-way.diff3
+      captures:
+        1: punctuation.section.hunk.diff3
+        2: constant.numeric.file.diff3
