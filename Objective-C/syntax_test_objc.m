@@ -920,9 +920,9 @@ dec7 = 1234567890uLL;
 /*                  ^ punctuation.terminator - constant */
 
 dec8 = 1'234_567'890s0f;
+/*     ^^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
 /*     ^^^^^ constant.numeric.value.c */
 /*          ^^^^ invalid.illegal.numeric.suffix.c */
-/*               ^^^^^^ meta.number.integer.decimal.c */
 /*               ^^^ constant.numeric.value.c */
 /*                  ^^^ invalid.illegal.numeric.suffix.c */
 /*                     ^ punctuation.terminator - constant */
