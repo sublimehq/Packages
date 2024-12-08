@@ -15,10 +15,10 @@ first_line_match: |-
 
 variables:
   # number digits
-  bin_digit: '[01]'
-  oct_digit: '[0-7]'
-  dec_digit: '\d'
-  hex_digit: '\h'
+  bin_digit: '[01'']'
+  oct_digit: '[0-7'']'
+  dec_digit: '[\d'']'
+  hex_digit: '[\h'']'
 
   # number exponents
   dec_exponent: '(?:[eE][-+]?{{dec_digit}}*)'
