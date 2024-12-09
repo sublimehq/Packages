@@ -1133,6 +1133,7 @@ static const unsigned char image_png[] = {
 dec0 = 0;
 /*     ^ meta.number.integer.decimal.c constant.numeric.value.c */
 /*      ^ punctuation.terminator - constant */
+
 dec1 = 1234567890;
 /*     ^^^^^^^^^^ meta.number.integer.decimal.c constant.numeric.value.c */
 /*               ^ punctuation.terminator - constant */
@@ -1173,12 +1174,18 @@ dec7 = 1234567890uLL;
 /*                  ^ punctuation.terminator - constant */
 
 dec8 = 1'234_567'890s0f;
-/*     ^ meta.number.integer.decimal.c constant.numeric.value.c */
-/*      ^^^^^^^^^ string.quoted.single */
-/*               ^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^ constant.numeric.value.c */
+/*          ^^^^ invalid.illegal.numeric.suffix.c */
 /*               ^^^ constant.numeric.value.c */
 /*                  ^^^ invalid.illegal.numeric.suffix.c */
 /*                     ^ punctuation.terminator - constant */
+
+dec9 = 2'354'202'076LL;
+/*     ^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^^^^^^^^^ constant.numeric.value.c */
+/*                  ^^ constant.numeric.suffix.c */
+/*                    ^ punctuation.terminator - constant */
 
 oct1 = 01234567;
 /*     ^^^^^^^^ meta.number.integer.octal.c */
@@ -1207,12 +1214,18 @@ oct4 = 01234567ulL;
 /*             ^^^ constant.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
-oct2 = 01284967Z0L;
+oct5 = 01284967Z0L;
 /*     ^^^^^^^^^^^ meta.number.integer.octal.c */
 /*     ^ constant.numeric.base.c */
 /*      ^^ constant.numeric.value.c */
 /*        ^^^^^^^^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
+
+oct6 = 014'70;
+/*     ^^^^^^ meta.number.integer.octal.c */
+/*     ^ constant.numeric.base.c */
+/*      ^^^^^ constant.numeric.value.c */
+/*           ^ punctuation.terminator - constant */
 
 hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*     ^^^ meta.number.integer.hexadecimal.c */
@@ -1234,11 +1247,9 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*                            ^^ constant.numeric.base.c */
 /*                              ^ constant.numeric.value.c */
 /*                               ^ constant.numeric.suffix.c */
-/*                                 ^^ meta.number.integer.hexadecimal.c */
+/*                                 ^^^^^^^ meta.number.integer.hexadecimal.c */
 /*                                 ^^ constant.numeric.base.c */
-/*                                   ^^^ string.quoted.single.c */
-/*                                      ^^^^^^ meta.number.integer.decimal.c */
-/*                                      ^^ constant.numeric.value.c */
+/*                                   ^^^^^ constant.numeric.value.c */
 /*                                        ^^^^ invalid.illegal.numeric.suffix.c */
 /*                                            ^ punctuation.terminator - constant */
 
@@ -1254,6 +1265,30 @@ hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*                      ^ punctuation.separator.decimal.c */
 /*                                ^ constant.numeric.suffix.c */
 /*                                 ^ punctuation.terminator - constant */
+
+hex3 = 0xA7'45'8C'38;
+/*     ^^^^^^^^^^^^^ meta.number.integer.hexadecimal.c */
+/*     ^^ constant.numeric.base.c */
+/*       ^^^^^^^^^^^ constant.numeric.value.c */
+/*                  ^ punctuation.terminator - constant */
+
+bin1 = 0b010110;
+/*     ^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^ constant.numeric.value */
+/*             ^ punctuation.terminator - constant */
+
+bin2 = 0B010010;
+/*     ^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^ constant.numeric.value */
+/*             ^ punctuation.terminator - constant */
+
+bin3 = 0b1001'1101'0010'1100;
+/*     ^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^^^^^^^^^^^^^^ constant.numeric.value */
+/*                          ^ punctuation.terminator - constant */
 
 f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
 /*  ^^^ meta.number.float.decimal.c */
