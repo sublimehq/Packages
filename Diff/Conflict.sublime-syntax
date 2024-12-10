@@ -13,6 +13,13 @@ contexts:
   main:
     - include: conflicts
 
+  # Utility context for others to use
+  conflict-markers:
+    - match: ^({{any}})\s*({{identifier}})\s*{{eol}}
+      captures:
+        1: punctuation.section.block.conflict
+        2: entity.name.section.conflict
+
   conflicts:
     - match: ^(?={{begin}})
       push:
