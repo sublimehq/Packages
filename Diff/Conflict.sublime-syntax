@@ -11,26 +11,26 @@ file_extensions:
 
 contexts:
   pop-new-section:
-    - match: ^(?=>{5,}|<{5,}|={5,}|\|{5,})
+    - match: ^(?={{any}})
       pop: 1
 
   main:
     # Old
-    - match: ^(<{5,})\s*(\S.*?)\s*{{eol}}
+    - match: ^({{begin}})\s*({{identifier}})\s*{{eol}}
       captures:
         1: punctuation.section.block.begin.conflict
         2: entity.name.section.conflict
       push: deleted-lines
 
     # Base
-    - match: ^(\|{5,})\s*(\S.*?)\s*{{eol}}
+    - match: ^({{base}})\s*({{identifier}})\s*{{eol}}
       captures:
         1: punctuation.section.block.begin.conflict
         2: entity.name.section.conflict
       push: base-lines
 
     # New
-    - match: ^(={5,})\s*{{eol}}
+    - match: ^({{split}})\s*{{eol}}
       captures:
         1: punctuation.section.block.begin.conflict
       push: new-lines
@@ -38,23 +38,23 @@ contexts:
   deleted-lines:
     - meta_scope: meta.block.conflict
     - meta_content_scope: markup.deleted.conflict
-    - match: ^(?:<{5,}|>{5,})
+    - match: ^(?:{{begin}}|{{end}})
       scope: invalid.illegal.conflict
     - include: pop-new-section
 
   base-lines:
     - meta_scope: meta.block.conflict
     - meta_content_scope: comment.block.conflict
-    - match: ^(?:>{5,}|<{5,})
+    - match: ^(?:{{begin}}|{{end}})
       scope: invalid.illegal.conflict
     - include: pop-new-section
 
   new-lines:
     - meta_scope: meta.block.conflict
     - meta_content_scope: markup.inserted.conflict
-    - match: ^(?:={5,}|<{5,}|\|{5,})
+    - match: ^(?:{{begin}}|{{base}}|{{split}})
       scope: invalid.illegal.conflict
-    - match: ^(>{5,})\s*(\S.*?)\s*{{eol}}
+    - match: ^({{end}})\s*({{identifier}})\s*{{eol}}
       captures:
         1: punctuation.section.block.end.conflict
         2: entity.name.section.conflict
@@ -64,3 +64,11 @@ contexts:
 
 variables:
   eol: (?:$\n?)
+
+  begin: <{5,}
+  end: '>{5,}'
+  split: ={5,}
+  base: \|{5,}
+  any: (?:{{begin}}|{{end}}|{{split}}|{{base}})
+
+  identifier: (?:\S.*?)
