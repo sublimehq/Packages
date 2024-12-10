@@ -368,19 +368,25 @@ contexts:
       push: binary-delta-content
 
   binary-delta-content:
+    # Binary type
     - match: ^(delta|literal) ([0-9]+)
       captures:
         1: support.function.diff
         2: meta.number.integer.decimal.diff constant.numeric.value.diff
+
     # Empty file
     - match: ^(H)cmV\?d00001$
       scope: constant.language.null.diff
       captures:
         1: punctuation.definition.string.begin.diff
+
+    # Base85-encoded binary data
     - match: ^([A-Za-z]){{base85}}{1,66}$
       scope: meta.string.diff string.other.raw.diff
       captures:
         1: punctuation.definition.string.begin.diff
+
+    # Bail if anything else is encountered
     - match: ^(?!delta|literal|$)
       pop: 2
 
@@ -543,7 +549,7 @@ variables:
   hash: '[0-9a-fA-F]{7,64}'
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
-  base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
+  base85: '[0-9a-zA-Z!#$%&()*+\-;<=>?@^_`{|}~]'
   empty_line: ^(?=\n)
   scissors: (?:>8|8<)
   # https://git-scm.com/docs/git-am#_discussion
