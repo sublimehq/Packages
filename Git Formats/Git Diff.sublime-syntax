@@ -159,7 +159,7 @@ contexts:
     # https://git-scm.com/docs/git-mailinfo#Documentation/git-mailinfo.txt---scissors
     - match: ^(?=--[ -]*{{scissors}}(?:{{scissors}}|[ -])*--\s*$)
       set: [email-header, scissors-line]
-    - match: ^(---)\r?\n
+    - match: ^(---)\n
       captures:
         1: punctuation.section.block.diff
       set: [diffs, stat]
@@ -544,7 +544,7 @@ variables:
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
-  empty_line: ^(?=\r?\n)
+  empty_line: ^(?=\n)
   scissors: (?:>8|8<)
   # https://git-scm.com/docs/git-am#_discussion
   next_diff_header: '(?=Index: |diff -)'

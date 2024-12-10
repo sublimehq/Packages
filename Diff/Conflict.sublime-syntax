@@ -63,4 +63,4 @@ contexts:
 
 
 variables:
-  eol: (?:$\r?\n?)
+  eol: (?:$\n?)

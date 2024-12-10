@@ -399,4 +399,4 @@ variables:
     | From [ ] {{hash_full}} [ ]
       Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
     )
-  eol: (?:$\r?\n?)
+  eol: (?:$\n?)
