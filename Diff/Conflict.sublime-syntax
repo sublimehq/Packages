@@ -20,40 +20,46 @@ contexts:
       captures:
         1: punctuation.section.block.begin.conflict
         2: entity.name.section.conflict
-      push:
-        - meta_scope: meta.block.conflict
-        - meta_content_scope: markup.deleted.conflict
-        - match: ^(?:<{5,}|>{5,})
-          scope: invalid.illegal.conflict
-        - include: pop-new-section
+      push: deleted-lines
 
-    # Index
+    # Base
     - match: ^(\|{5,})\s*(\S.*?)\s*{{eol}}
       captures:
         1: punctuation.section.block.begin.conflict
         2: entity.name.section.conflict
-      push:
-        - meta_scope: meta.block.conflict
-        - meta_content_scope: comment.block.conflict
-        - match: ^(?:>{5,}|<{5,})
-          scope: invalid.illegal.conflict
-        - include: pop-new-section
+      push: base-lines
 
     # New
     - match: ^(={5,})\s*{{eol}}
       captures:
         1: punctuation.section.block.begin.conflict
-      push:
-        - meta_scope: meta.block.conflict
-        - meta_content_scope: markup.inserted.conflict
-        - match: ^(?:={5,}|<{5,}|\|{5,})
-          scope: invalid.illegal.conflict
-        - match: ^(>{5,})\s*(\S.*?)\s*{{eol}}
-          captures:
-            1: punctuation.section.block.end.conflict
-            2: entity.name.section.conflict
-          pop: 1
-        - include: pop-new-section
+      push: new-lines
+
+  deleted-lines:
+    - meta_scope: meta.block.conflict
+    - meta_content_scope: markup.deleted.conflict
+    - match: ^(?:<{5,}|>{5,})
+      scope: invalid.illegal.conflict
+    - include: pop-new-section
+
+  base-lines:
+    - meta_scope: meta.block.conflict
+    - meta_content_scope: comment.block.conflict
+    - match: ^(?:>{5,}|<{5,})
+      scope: invalid.illegal.conflict
+    - include: pop-new-section
+
+  new-lines:
+    - meta_scope: meta.block.conflict
+    - meta_content_scope: markup.inserted.conflict
+    - match: ^(?:={5,}|<{5,}|\|{5,})
+      scope: invalid.illegal.conflict
+    - match: ^(>{5,})\s*(\S.*?)\s*{{eol}}
+      captures:
+        1: punctuation.section.block.end.conflict
+        2: entity.name.section.conflict
+      pop: 1
+    - include: pop-new-section
 
 
 variables:

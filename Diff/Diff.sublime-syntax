@@ -117,21 +117,25 @@ contexts:
     - match: ^(-{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
-      push:
-        - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
-        - include: pop-eol
-        - include: dev-null
-        - include: path-separators
-        - include: date
+      push: headers-unified-from-file
     - match: ^(\+{3})[ ](?!$)
       captures:
         1: punctuation.definition.to-file.diff
-      push:
-        - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
-        - include: pop-eol
-        - include: dev-null
-        - include: path-separators
-        - include: date
+      push: headers-unified-to-file
+
+  headers-unified-from-file:
+    - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
+    - include: pop-eol
+    - include: dev-null
+    - include: path-separators
+    - include: date
+
+  headers-unified-to-file:
+    - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
+    - include: pop-eol
+    - include: dev-null
+    - include: path-separators
+    - include: date
 
 ###[ RANGES ]##################################################################
 
@@ -273,11 +277,13 @@ contexts:
         4: support.function.diff
         5: punctuation.separator.sequence.diff
         6: support.function.diff
-      push:
-        - match: ^(?:\t|  )
-          push: line-changed
-        - match: ^
-          pop: 1
+      push: diff3-normal-change
+
+  diff3-normal-change:
+    - match: ^(?:\t|  )
+      push: line-changed
+    - match: ^
+      pop: 1
 
   # This conflicts with non-diff3 Normal mode, so it's off by default
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
