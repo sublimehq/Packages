@@ -41,6 +41,7 @@ contexts:
 
   email-header:
     - meta_scope: meta.block.git-header.diff
+
     # Person headers
     - match: |-
         ^(?x:
@@ -60,6 +61,7 @@ contexts:
         - meta_scope: meta.mapping.diff
         - include: scope:text.git.mailmap
         - include: pop-before-eol
+
     # Commit headers
     - match: ^(In-Reply-To|References)(:)
       captures:
@@ -70,6 +72,7 @@ contexts:
         - match: '{{hash}}'
           scope: constant.other.hash.git
         - include: pop-before-eol
+
     # Subject header
     - match: ^(Subject)(:)
       captures:
@@ -96,6 +99,7 @@ contexts:
                 2: punctuation.separator.sequence.diff
                 3: meta.number.integer.decimal.diff constant.numeric.value.diff
         - include: pop-before-eol
+
     # Date headers
     - match: ^((?:Author|Committer)?Date)(:)
       captures:
@@ -121,6 +125,7 @@ contexts:
             3: punctuation.separator.date.diff
             4: storage.modifier.diff
         - include: pop-before-eol
+
     # Other headers
     - match: ^\b([\w-]+)\b(:)
       captures:
@@ -129,6 +134,7 @@ contexts:
       push:
         - meta_scope: meta.mapping.diff
         - include: pop-before-eol
+
     # Go to Body
     - match: '{{empty_line}}'
       set: email-body
@@ -263,6 +269,7 @@ contexts:
     - match: ^(?=@|GIT binary)
       set: diff-content
     - include: headers-unified
+
     # old mode <mode>
     # new mode <mode>
     # deleted file mode <mode>
@@ -272,12 +279,14 @@ contexts:
         - include: pop-before-eol
         - include: file-modes
         - include: separator-comma
+
     # new file mode <mode>
     - match: ^(?=new file mode)
       push:
         - meta_content_scope: markup.inserted.diff
         - include: pop-before-eol
         - include: file-modes
+
     # mode <mode>,<mode>..<mode> (for combined diff)
     - match: ^mode(?= [106475,.]+)
       scope: keyword.other.diff
@@ -287,6 +296,7 @@ contexts:
         - include: separator-twodot
         # Combined mode can have multiple pre-commits
         - include: separator-comma
+
     # copy from <path>
     # copy to <path>
     # rename from <path>
@@ -295,6 +305,7 @@ contexts:
       push:
         - include: pop-before-eol
         - include: path-separators
+
     # similarity index <number>
     # dissimilarity index <number>
     - match: ^(?:dis)?similarity index
@@ -305,6 +316,7 @@ contexts:
           captures:
             1: constant.numeric.value.git
             2: constant.numeric.suffix.git
+
     # index <hash>..<hash> <mode>
     - match: ^index(?= [0-9a-f,.]+)
       scope: keyword.other.diff

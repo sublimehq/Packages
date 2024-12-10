@@ -26,6 +26,7 @@ contexts:
         - match: ^(?:<{5,}|>{5,})
           scope: invalid.illegal.conflict
         - include: pop-new-section
+
     # Index
     - match: ^(\|{5,})\s*(\S.*?)\s*{{eol}}
       captures:
@@ -37,6 +38,7 @@ contexts:
         - match: ^(?:>{5,}|<{5,})
           scope: invalid.illegal.conflict
         - include: pop-new-section
+
     # New
     - match: ^(={5,})\s*{{eol}}
       captures:
