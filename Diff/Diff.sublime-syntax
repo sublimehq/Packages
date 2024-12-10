@@ -22,40 +22,6 @@ first_line_match: |-
   )
 
 contexts:
-
-###[ PROTOTYPES ]##############################################################
-
-  pop-immediately:
-    - match: ''
-      pop: 1
-
-  pop-eol:
-    - match: '{{eol}}'
-      pop: 1
-
-  pop-before-eol:
-    - match: (?={{eol}})
-      pop: 1
-
-  line-ranges:
-    - include: line-ranges-normal
-    - include: line-ranges-context
-    - include: line-ranges-unified
-
-  deltas:
-    - include: deltas-normal
-    - include: deltas-context
-    - include: deltas-unified
-
-  unified:
-    - include: headers-unified
-    - include: line-ranges-unified
-    - include: deltas-unified
-
-  diff3:
-    - include: diff3-normal
-    - include: diff3-edit
-
   main:
     - match: ^(?={{git_first_line}})
       push: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
@@ -366,6 +332,40 @@ contexts:
         4: punctuation.separator.date.diff
         5: punctuation.separator.decimal.diff
         6: storage.modifier.diff
+
+###[ PROTOTYPES ]##############################################################
+
+  pop-immediately:
+    - match: ''
+      pop: 1
+
+  pop-eol:
+    - match: '{{eol}}'
+      pop: 1
+
+  pop-before-eol:
+    - match: (?={{eol}})
+      pop: 1
+
+  line-ranges:
+    - include: line-ranges-normal
+    - include: line-ranges-context
+    - include: line-ranges-unified
+
+  deltas:
+    - include: deltas-normal
+    - include: deltas-context
+    - include: deltas-unified
+
+  unified:
+    - include: headers-unified
+    - include: line-ranges-unified
+    - include: deltas-unified
+
+  diff3:
+    - include: diff3-normal
+    - include: diff3-edit
+
 
 variables:
   hash64: '[0-9a-fA-F]{64}'

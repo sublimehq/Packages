@@ -24,17 +24,6 @@ first_line_match: |-
   )
 
 contexts:
-
-###[ PROTOTYPES ]##############################################################
-
-  pop-empty-line:
-    - match: '{{empty_line}}'
-      pop: 1
-
-  pop-before-diff-header:
-    - match: ^{{next_diff_header}}
-      pop: 1
-
   main:
     - match: ^(?={{git_first_line}})
       push: email-first-line
@@ -499,6 +488,17 @@ contexts:
   separator-twodot:
     - match: \.\.
       scope: keyword.operator.logical.git
+
+###[ PROTOTYPES ]##############################################################
+
+  pop-empty-line:
+    - match: '{{empty_line}}'
+      pop: 1
+
+  pop-before-diff-header:
+    - match: ^{{next_diff_header}}
+      pop: 1
+
 
 variables:
   hash: '[0-9a-fA-F]{7,64}'
