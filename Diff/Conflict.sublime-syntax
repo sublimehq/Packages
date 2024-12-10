@@ -69,6 +69,8 @@ contexts:
         1: punctuation.section.block.end.conflict
         2: entity.name.section.conflict
       pop: 1
+    # Nested conflicts in ReReRe
+    - include: conflicts
     - include: invalid-conflict-marker
 
   invalid-conflict-marker:
