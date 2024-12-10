@@ -10,7 +10,7 @@ https://www.gnu.org/software/diffutils/manual/diffutils.html#Marking-Conflicts-1
 lines from A
 \^^^^^^^^^^^^ meta.block.conflict markup.deleted.conflict - meta.block meta.block
 =======
-\^^^^^^ meta.block.conflict punctuation.section.block.begin.conflict - meta.block meta.block - markup
+\^^^^^^ meta.block.conflict punctuation.section.block.conflict - meta.block meta.block - markup
 lines from B
 \^^^^^^^^^^^^ meta.block.conflict markup.inserted.conflict
 >>>>>>> B
@@ -26,14 +26,14 @@ context context
 lines from A
 ||||||| B
 \^^^^^^^^^ meta.block.conflict - meta.block meta.block - markup
-\^^^^^^ punctuation.section.block.begin.conflict
+\^^^^^^ punctuation.section.block.conflict
 \      ^ - entity - punctuation
 \       ^ entity.name.section.conflict
 \        ^ - entity
 lines from B
 \^^^^^^^^^^^^ meta.block.conflict comment.block.conflict - meta.block meta.block - markup
 =======
-\^^^^^^ meta.block.conflict punctuation.section.block.begin.conflict - meta.block meta.block - markup
+\^^^^^^ meta.block.conflict punctuation.section.block.conflict - meta.block meta.block - markup
 >
 \ <- meta.block.conflict markup.inserted.conflict - punctuation - invalid
 <
@@ -100,3 +100,29 @@ open an issue
 =======
 ask your question in IRC.
 >>>>>>> branch-a
+
+
+\ https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging
+#! /usr/bin/env ruby
+
+def hello
+<<<<<<< ours
+  puts 'hola world'
+||||||| base
+  puts 'hello world'
+=======
+  puts 'hello mundo'
+>>>>>>> theirs
+end
+
+hello()
+
+
+\ https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html

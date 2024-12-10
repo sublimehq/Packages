@@ -10,56 +10,70 @@ file_extensions:
   - conflict
 
 contexts:
-  pop-new-section:
-    - match: ^(?={{any}})
+  main:
+    - include: conflicts
+
+  conflicts:
+    - match: ^(?={{begin}})
+      push:
+        - conflict
+        - conflict-marker-start
+
+  conflict:
+    - meta_scope: meta.block.conflict
+    - match: ''
       pop: 1
 
-  main:
-    # Old
-    - match: ^({{begin}})\s*({{identifier}})\s*{{eol}}
+  conflict-marker-start:
+    - match: '{{begin}}'
+      scope: punctuation.section.block.begin.conflict
+    - match: (?:({{identifier}})\s*)?{{eol}}
       captures:
-        1: punctuation.section.block.begin.conflict
-        2: entity.name.section.conflict
-      push: deleted-lines
+        1: entity.name.section.conflict
+      set: deleted-lines
 
-    # Base
-    - match: ^({{base}})\s*({{identifier}})\s*{{eol}}
+  base-marker-start:
+    - match: '{{base}}'
+      scope: punctuation.section.block.conflict
+    - match: (?:({{identifier}})\s*)?{{eol}}
       captures:
-        1: punctuation.section.block.begin.conflict
-        2: entity.name.section.conflict
-      push: base-lines
+        1: entity.name.section.conflict
+      set: base-lines
 
-    # New
-    - match: ^({{split}})\s*{{eol}}
+  split-marker-start:
+    - match: '{{split}}'
+      scope: punctuation.section.block.conflict
+    - match: (?:({{identifier}})\s*)?{{eol}}
       captures:
-        1: punctuation.section.block.begin.conflict
-      push: new-lines
+        1: entity.name.section.conflict
+      set: new-lines
 
   deleted-lines:
-    - meta_scope: meta.block.conflict
     - meta_content_scope: markup.deleted.conflict
-    - match: ^(?:{{begin}}|{{end}})
-      scope: invalid.illegal.conflict
-    - include: pop-new-section
+    - match: ^(?={{base}})
+      set: base-marker-start
+    - match: ^(?={{split}})
+      set: split-marker-start
+    - include: invalid-conflict-marker
 
   base-lines:
-    - meta_scope: meta.block.conflict
     - meta_content_scope: comment.block.conflict
-    - match: ^(?:{{begin}}|{{end}})
-      scope: invalid.illegal.conflict
-    - include: pop-new-section
+    - match: ^(?={{split}})
+      set: split-marker-start
+    - include: invalid-conflict-marker
 
   new-lines:
-    - meta_scope: meta.block.conflict
     - meta_content_scope: markup.inserted.conflict
-    - match: ^(?:{{begin}}|{{base}}|{{split}})
-      scope: invalid.illegal.conflict
-    - match: ^({{end}})\s*({{identifier}})\s*{{eol}}
+    - match: ^({{end}})\s*(?:({{identifier}})\s*)?{{eol}}
       captures:
         1: punctuation.section.block.end.conflict
         2: entity.name.section.conflict
       pop: 1
-    - include: pop-new-section
+    - include: invalid-conflict-marker
+
+  invalid-conflict-marker:
+    - match: ^(?:{{any}})
+      scope: invalid.illegal.conflict
 
 
 variables:
