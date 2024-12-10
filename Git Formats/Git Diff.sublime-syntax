@@ -27,6 +27,8 @@ contexts:
   main:
     - match: ^(?={{git_first_line}})
       push: email-first-line
+
+    # If you can't find the magic first line, just highlight diffs.
     - include: diffs
 
 ###[ EMAIL ]###################################################################
@@ -312,6 +314,7 @@ contexts:
         - include: pop-before-eol
         - include: file-modes
 
+    # mode <mode>..<mode>
     # mode <mode>,<mode>..<mode> (for combined diff)
     - match: ^mode(?= [106475,.]+)
       scope: keyword.other.diff
@@ -398,7 +401,9 @@ contexts:
 
   # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
   signature:
-    # This is the Git version unless otherwise configured
+    # This is the Git version unless otherwise configured.  You will notice
+    # that once inside this context, you cannot leave.  That seems to be how
+    # it works for these files.
     - match: ^(-- ){{eol}}
       captures:
         1: meta.separator.diff punctuation.section.block.diff
