@@ -9,9 +9,6 @@ version: 2
 file_extensions:
   - conflict
 
-variables:
-  eol: (?:$\r?\n?)
-
 contexts:
   pop-new-section:
     - match: ^(?=>{5,}|<{5,}|={5,}|\|{5,})
@@ -55,3 +52,7 @@ contexts:
             2: entity.name.section.conflict
           pop: 1
         - include: pop-new-section
+
+
+variables:
+  eol: (?:$\r?\n?)

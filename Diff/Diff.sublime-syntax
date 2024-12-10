@@ -21,19 +21,6 @@ first_line_match: |-
   | \d+(,\d+)* [adc] \d+(,\d+)* $
   )
 
-variables:
-  hash64: '[0-9a-fA-F]{64}'
-  hash40: '[0-9a-fA-F]{40}'
-  hash_full: (?:{{hash40}}|{{hash64}})
-  git_first_line: |-
-    ^(?x:
-      From [ ] \w+@z [ ]
-      Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
-    | From [ ] {{hash_full}} [ ]
-      Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
-    )
-  eol: (?:$\r?\n?)
-
 contexts:
 
 ###[ PROTOTYPES ]##############################################################
@@ -379,3 +366,16 @@ contexts:
         4: punctuation.separator.date.diff
         5: punctuation.separator.decimal.diff
         6: storage.modifier.diff
+
+variables:
+  hash64: '[0-9a-fA-F]{64}'
+  hash40: '[0-9a-fA-F]{40}'
+  hash_full: (?:{{hash40}}|{{hash64}})
+  git_first_line: |-
+    ^(?x:
+      From [ ] \w+@z [ ]
+      Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
+    | From [ ] {{hash_full}} [ ]
+      Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
+    )
+  eol: (?:$\r?\n?)

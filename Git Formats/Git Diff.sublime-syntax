@@ -23,16 +23,6 @@ first_line_match: |-
       Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
   )
 
-variables:
-  hash: '[0-9a-fA-F]{7,64}'
-  day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
-  month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
-  base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
-  empty_line: ^(?=\r?\n)
-  scissors: (?:>8|8<)
-  # https://git-scm.com/docs/git-am#_discussion
-  next_diff_header: '(?=Index: |diff -)'
-
 contexts:
 
 ###[ PROTOTYPES ]##############################################################
@@ -509,3 +499,13 @@ contexts:
   separator-twodot:
     - match: \.\.
       scope: keyword.operator.logical.git
+
+variables:
+  hash: '[0-9a-fA-F]{7,64}'
+  day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
+  month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
+  base85: '[\w!#$%&()*+\-;<=>?@^_`{|}~]'
+  empty_line: ^(?=\r?\n)
+  scissors: (?:>8|8<)
+  # https://git-scm.com/docs/git-am#_discussion
+  next_diff_header: '(?=Index: |diff -)'
