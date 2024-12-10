@@ -71,13 +71,19 @@ contexts:
             4: punctuation.definition.to-file.diff
           pop: 1
         - include: pop-immediately
-    - match: ^(\*{15}|={67}){{eol}}
+
+    # Still not sure what this is, but there's a preexisting unit test
+    - match: ^(={67}){{eol}}
       scope: meta.separator.diff
       captures:
         1: punctuation.separator.block.diff
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
   headers-context:
+    - match: ^(\*{15}){{eol}}
+      scope: meta.separator.diff
+      captures:
+        1: punctuation.separator.block.diff
     - match: ^(\*{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
