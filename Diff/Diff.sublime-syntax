@@ -389,14 +389,14 @@ contexts:
 
 
 variables:
-  hash64: '[0-9a-fA-F]{64}'
-  hash40: '[0-9a-fA-F]{40}'
-  hash_full: (?:{{hash40}}|{{hash64}})
+  git_hash40: '[0-9a-fA-F]{40}'
+  git_hash64: '[0-9a-fA-F]{64}'
+  git_hash_full: (?:{{git_hash64}}|{{git_hash40}})
   git_first_line: |-
     ^(?x:
       From [ ] \w+@z [ ]
       Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
-    | From [ ] {{hash_full}} [ ]
+    | From [ ] {{git_hash_full}} [ ]
       Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
     )
   eol: (?:$\n?)
