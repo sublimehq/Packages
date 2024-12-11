@@ -50,16 +50,11 @@ jobs:
           #   sublime-build: 4169
           #   optional: true
 
-          # latest working dev build
-          - sublime-channel: dev
-            sublime-build: 4183
-            optional: false
-
           # latest dev build
           # https://www.sublimetext.com/dev
-          # - sublime-channel: dev
-          #   sublime-build: latest
-          #   optional: false
+          - sublime-channel: dev
+            sublime-build: latest
+            optional: false
 
     steps:
 
