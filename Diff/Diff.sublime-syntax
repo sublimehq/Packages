@@ -38,20 +38,24 @@ contexts:
       captures:
         1: meta.mapping.key.diff keyword.other.diff
         2: punctuation.separator.key-value.diff
-      push:
-        - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
-        - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
-        - include: pop-eol
-        - include: path-separators
+      push: index-body
     - match: ^(Prereq)(:)[ \t]*
       captures:
         1: meta.mapping.key.diff keyword.other.diff
         2: punctuation.separator.key-value.diff
-      push:
-        - meta_scope: meta.mapping.diff
-        - meta_content_scope: meta.mapping.value.diff string.unquoted.diff
-        - include: pop-eol
-        - include: path-separators
+      push: prereq-body
+
+  index-body: 
+    - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
+    - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
+    - include: pop-eol
+    - include: path-separators
+
+  prereq-body: 
+    - meta_scope: meta.mapping.diff
+    - meta_content_scope: meta.mapping.value.diff string.unquoted.diff
+    - include: pop-eol
+    - include: path-separators
 
 ###[ HEADERS ]#################################################################
 
