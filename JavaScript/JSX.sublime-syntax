@@ -24,7 +24,7 @@ variables:
 contexts:
   expression-begin:
     - meta_prepend: true
-    - include: jsx-tag-hack
+    - include: jsx-tag
 
   jsx-interpolation:
     - match: (?={/\*)
@@ -66,9 +66,6 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.jsx.js
     - include: immediately-pop
-
-  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
-    - include: jsx-tag
 
   jsx-tag:
     - match: <(?=\s*[/>{{jsx_tag_name_start}}])

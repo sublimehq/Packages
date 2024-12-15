@@ -17,15 +17,23 @@ first_line_match: |-
   )
 
 contexts:
-  branch-possible-arrow-function:
-    - meta_prepend: true
-    - include: jsx-tag
 
-  jsx-tag-hack: []
+  ts-old-type-assertion:
+    # old type assertions are replaced by JSX tags
+    - match: <
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta
+        - jsx-tag-begin
+
+  jsx-tag: []  # replaced by `ts-old-type-assertion`
 
   jsx-tag-begin:
     - meta_include_prototype: false
     - meta_scope: meta.tag.js
+    # note: type parameter modifiers indicate generic lambda
+    - match: (?=(?:in|out|const){{identifier_break}})
+      fail: arrow-function
     - match: /
       scope: punctuation.definition.tag.begin.js
       set:
