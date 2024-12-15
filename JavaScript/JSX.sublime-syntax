@@ -183,23 +183,25 @@ contexts:
 
   jsx-body:
     - meta_include_prototype: false
-    - match: '<(?=\s*[/>{{jsx_tag_name_start}}])'
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.tag.js
-
-        - match: '/'
-          scope: punctuation.definition.tag.begin.js
-          set:
-            - jsx-expect-tag-end
-            - jsx-tag-name
-
-        - match: (?=\S)
-          set:
-            - jsx-body
-            - jsx-tag-attributes
-            - jsx-tag-name
-
+    - include: jsx-child-tag
     - include: jsx-html-escapes
     - include: jsx-interpolation
+
+  jsx-child-tag:
+    - match: <(?=\s*[/>{{jsx_tag_name_start}}])
+      scope: punctuation.definition.tag.begin.js
+      set: jsx-child-tag-begin
+
+  jsx-child-tag-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.js
+    - match: /
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-expect-tag-end
+        - jsx-tag-name
+    - match: (?=\S)
+      set:
+        - jsx-body
+        - jsx-tag-attributes
+        - jsx-tag-name

@@ -146,6 +146,19 @@
 //                   ^^^^^^ - meta.tag
 //                         ^^^^^^ meta.tag
 
+    <foo>foo<bar>bar<baz>baz</baz>bar</bar>foo</foo>;
+//  ^^^^^ meta.tag
+//       ^^^ - meta.tag
+//          ^^^^^ meta.tag
+//               ^^^ - meta.tag
+//                  ^^^^^ meta.tag
+//                       ^^^ - meta.tag
+//                          ^^^^^^ meta.tag
+//                                ^^^ - meta.tag
+//                                   ^^^^^^ meta.tag
+//                                         ^^^ - meta.tag
+//                                            ^^^^^^ meta.tag
+
     <foo></foo><bar>
 //  ^^^^^^^^^^^ meta.jsx
 //             ^^^^^ - meta.jsx
