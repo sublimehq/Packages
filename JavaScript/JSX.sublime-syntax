@@ -62,6 +62,54 @@ contexts:
             pop: 1
         - expression
 
+  jsx-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.jsx.js
+    - include: immediately-pop
+
+  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
+    - include: jsx-tag
+
+  jsx-tag:
+    - match: <(?=\s*[/>{{jsx_tag_name_start}}])
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta
+        - jsx-tag-begin
+
+  jsx-tag-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.js
+    - match: /
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta-unmatched-tag
+        - jsx-expect-tag-end
+        - jsx-tag-name
+    - match: (?=\S)
+      set:
+        - jsx-tag-attributes
+        - jsx-tag-name
+
+  jsx-child-tag:
+    - match: <(?=\s*[/>{{jsx_tag_name_start}}])
+      scope: punctuation.definition.tag.begin.js
+      set: jsx-child-tag-begin
+
+  jsx-child-tag-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.js
+    - match: /
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-expect-tag-end
+        - jsx-tag-name
+    - match: (?=\S)
+      set:
+        - jsx-body
+        - jsx-tag-attributes
+        - jsx-tag-name
+
   jsx-expect-tag-end:
     - meta_content_scope: meta.tag.js
     - match: '>{2,}' # ignore invalid punctuation
@@ -69,36 +117,6 @@ contexts:
       scope: meta.tag.js punctuation.definition.tag.end.js
       pop: 1
     - include: else-pop
-
-  jsx-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.jsx.js
-    - include: immediately-pop
-
-  jsx-tag:
-    - match: '<(?=\s*[/>{{jsx_tag_name_start}}])'
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - jsx-meta
-        - jsx-tag-attributes-top
-
-  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
-    - include: jsx-tag
-
-  jsx-tag-attributes-top:
-    - meta_include_prototype: false
-    - meta_scope: meta.tag.js
-    - match: '/'
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - jsx-meta-unmatched-tag
-        - jsx-expect-tag-end
-        - jsx-tag-name
-
-    - match: (?=\S)
-      set:
-        - jsx-tag-attributes
-        - jsx-tag-name
 
   jsx-meta-unmatched-tag:
     - meta_include_prototype: false
@@ -186,22 +204,3 @@ contexts:
     - include: jsx-child-tag
     - include: jsx-html-escapes
     - include: jsx-interpolation
-
-  jsx-child-tag:
-    - match: <(?=\s*[/>{{jsx_tag_name_start}}])
-      scope: punctuation.definition.tag.begin.js
-      set: jsx-child-tag-begin
-
-  jsx-child-tag-begin:
-    - meta_include_prototype: false
-    - meta_scope: meta.tag.js
-    - match: /
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - jsx-expect-tag-end
-        - jsx-tag-name
-    - match: (?=\S)
-      set:
-        - jsx-body
-        - jsx-tag-attributes
-        - jsx-tag-name

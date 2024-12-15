@@ -23,6 +23,21 @@ contexts:
 
   jsx-tag-hack: []
 
+  jsx-tag-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.js
+    - match: /
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta-unmatched-tag
+        - jsx-expect-tag-end
+        - jsx-tag-name
+    - match: (?=\S)
+      set:
+        - jsx-tag-attributes
+        - tsx-tag-check
+        - jsx-tag-name
+
   jsx-tag-name:
     - meta_include_prototype: false
     - match: ''
@@ -36,24 +51,8 @@ contexts:
     - include: ts-generic-type-arguments
     - include: else-pop
 
-  jsx-tag-attributes-top:
-    - meta_include_prototype: false
-    - meta_scope: meta.tag.js
-    - match: '/'
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - jsx-meta-unmatched-tag
-        - jsx-expect-tag-end
-        - jsx-tag-name
-
-    - match: (?=\S)
-      set:
-        - jsx-tag-attributes
-        - tsx-tag-check
-        - jsx-tag-name
-
   tsx-tag-check:
-    - match: 'extends{{jsx_identifier_break}}'
+    - match: extends{{jsx_identifier_break}}
       scope: entity.other.attribute-name.js
       set:
         - meta_include_prototype: false
