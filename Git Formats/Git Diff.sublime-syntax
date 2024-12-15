@@ -176,10 +176,12 @@ contexts:
     - include: Git Commit Message.sublime-syntax#commit-message
     - match: ^>+
       scope: punctuation.definition.blockquote.git
-      push:
-        - meta_scope: markup.quote.git
-        - include: pop-eol
-        - include: Git Commit Message.sublime-syntax#commit-message
+      push: email-quote-body
+
+  email-quote-body: 
+    - meta_scope: markup.quote.git
+    - include: pop-eol
+    - include: Git Commit Message.sublime-syntax#commit-message
 
   scissors-line:
     - meta_scope: punctuation.section.block.git
