@@ -83,13 +83,18 @@ contexts:
     - match: /
       scope: punctuation.definition.tag.begin.js
       set:
-        - jsx-meta-unmatched-tag
-        - jsx-expect-tag-end
+        - jsx-expect-unmatched-tag-end
         - jsx-tag-name
     - match: (?=\S)
       set:
         - jsx-tag-attributes
         - jsx-tag-name
+
+  jsx-expect-unmatched-tag-end:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.unmatched-tag.js
+    - meta_content_scope: meta.tag.js
+    - include: jsx-expect-tag-end
 
   jsx-child-tag:
     - match: <(?=\s*[/>{{jsx_tag_name_start}}])
@@ -117,11 +122,6 @@ contexts:
       scope: meta.tag.js punctuation.definition.tag.end.js
       pop: 1
     - include: else-pop
-
-  jsx-meta-unmatched-tag:
-    - meta_include_prototype: false
-    - meta_scope: invalid.illegal.unmatched-tag.js
-    - include: immediately-pop
 
   jsx-tag-attributes:
     - meta_content_scope: meta.tag.attributes.js

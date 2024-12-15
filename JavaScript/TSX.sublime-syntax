@@ -29,8 +29,7 @@ contexts:
     - match: /
       scope: punctuation.definition.tag.begin.js
       set:
-        - jsx-meta-unmatched-tag
-        - jsx-expect-tag-end
+        - jsx-expect-unmatched-tag-end
         - jsx-tag-name
     - match: (?=\S)
       set:
