@@ -133,16 +133,15 @@ contexts:
   email-header-date-body:
     - meta_scope: meta.mapping.diff
     - match: |-
-        (?x:
-          {{day3}}(,) [ ]  # Day of week
-          [0-3]?[0-9] [ ]  # Day of month
-          {{month3}} [ ]   # Month
-          [0-9]{4} [ ]     # Year
-          [0-9]{2}(:)      # Hour
-          [0-9]{2}(:)      # Minute
-          [0-9]{2}         # Second
-          (?:[ ]([+-][0-9]{4}))? # Optional UTC offset
-        )
+        (?x)
+        {{day3}}(,) [ ]  # Day of week
+        [0-3]?[0-9] [ ]  # Day of month
+        {{month3}} [ ]   # Month
+        [0-9]{4} [ ]     # Year
+        [0-9]{2} (:)     # Hour
+        [0-9]{2} (:)     # Minute
+        [0-9]{2}         # Second
+        (?:[ ]([+-][0-9]{4}))? # Optional UTC offset
       scope: meta.date.diff constant.numeric.value.diff
       captures:
         1: punctuation.separator.date.diff
