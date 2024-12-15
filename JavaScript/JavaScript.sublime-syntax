@@ -1185,7 +1185,7 @@ contexts:
       set:
         - detect-arrow
         - parenthesized-expression
-    - match: (?={{identifier_start}})
+    - match: ''
       set:
         - detect-arrow
         - literal-variable
@@ -2055,13 +2055,14 @@ contexts:
   parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.begin.js
-      set:
-        - meta_scope: meta.group.js
-        - match: \)
-          scope: punctuation.section.group.end.js
-          pop: 1
-        - match: (?=\S)
-          push: expression
+      set: parenthesized-expression-body
+
+  parenthesized-expression-body:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
+    - include: expressions
 
   function-call-arguments:
     - meta_content_scope: meta.function-call.js
