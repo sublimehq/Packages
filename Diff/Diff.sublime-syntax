@@ -66,21 +66,23 @@ contexts:
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
         1: punctuation.definition.from-file.diff
-      push:
-        - match: '( (-) )(.* (={4})){{eol}}'
-          captures:
-            1: meta.header.diff
-            2: punctuation.separator.sequence.diff
-            3: meta.diff.header.to-file meta.header.to-file.diff
-            4: punctuation.definition.to-file.diff
-          pop: 1
-        - include: pop-immediately
+      push: header-body
 
     # Still not sure what this is, but there's a preexisting unit test
     - match: ^(={67}){{eol}}
       scope: meta.separator.diff
       captures:
         1: punctuation.separator.block.diff
+
+  header-body:
+    - match: '( (-) )(.* (={4})){{eol}}'
+      captures:
+        1: meta.header.diff
+        2: punctuation.separator.sequence.diff
+        3: meta.diff.header.to-file meta.header.to-file.diff
+        4: punctuation.definition.to-file.diff
+      pop: 1
+    - include: pop-immediately
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
   headers-context:
