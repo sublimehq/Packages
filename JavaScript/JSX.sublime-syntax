@@ -107,52 +107,43 @@ contexts:
 
   jsx-tag-attributes:
     - meta_content_scope: meta.tag.attributes.js
-
     - match: '>{2,}' # ignore invalid punctuation
     - match: '>'
       scope: meta.tag.js punctuation.definition.tag.end.js
       set: jsx-body
-
     - match: '/'
       scope: meta.tag.js punctuation.definition.tag.end.js
       set: jsx-expect-tag-end
-
-    - include: jsx-interpolation
-
     - match: '{{jsx_identifier}}'
       scope: entity.other.attribute-name.js
-
     - match: '='
       scope: punctuation.separator.key-value.js
-      push: jsx-attribute-value
-
-  jsx-attribute-value:
-    - include: jsx-tag
+    - match: \"
+      scope: punctuation.definition.string.begin.js
+      push: jsx-double-quoted-string-body
+    - match: \'
+      scope: punctuation.definition.string.begin.js
+      push: jsx-single-quoted-string-body
     - include: jsx-interpolation
 
-    - match: "'"
-      scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
-        - match: \'
-          scope: punctuation.definition.string.end.js
-          pop: 1
-        - include: jsx-html-escapes
-    - match: '"'
-      scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
-        - match: \"
-          scope: punctuation.definition.string.end.js
-          pop: 1
-        - include: jsx-html-escapes
+  jsx-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.double.js
+    - match: \"
+      scope: punctuation.definition.string.end.js
+      pop: 1
+    - include: jsx-html-escapes
 
-    - include: else-pop
+  jsx-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.single.js
+    - match: \'
+      scope: punctuation.definition.string.end.js
+      pop: 1
+    - include: jsx-html-escapes
 
   jsx-html-escapes:
-    - match: '(&)#?[[:alnum:]]+(;)'
+    - match: (&)#?[[:alnum:]]+(;)
       scope: constant.character.escape.js
       captures:
         1: punctuation.definition.entity.js
