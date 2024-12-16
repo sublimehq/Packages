@@ -267,13 +267,24 @@ contexts:
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   diffs:
-    - include: signature
     - match: ^(diff) ((--)(?:git|combined|cc))
       captures:
         1: variable.function.diff
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
       push: [diff-header, file-header-continue]
+
+    # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
+    # This is the Git version unless otherwise configured.  You will notice
+    # that once inside this context, you cannot leave.  That seems to be how
+    # it works for these files.
+    - match: ^(-- ){{eol}}
+      captures:
+        1: meta.separator.diff punctuation.section.block.diff
+      set: signature
+
+  signature:
+    - meta_content_scope: comment.block.diff
 
   file-header-continue:
     - meta_scope: meta.toc-list.git
@@ -399,17 +410,6 @@ contexts:
     # Bail if anything else is encountered
     - match: ^(?!delta|literal|$)
       pop: 2
-
-  # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
-  signature:
-    # This is the Git version unless otherwise configured.  You will notice
-    # that once inside this context, you cannot leave.  That seems to be how
-    # it works for these files.
-    - match: ^(-- ){{eol}}
-      captures:
-        1: meta.separator.diff punctuation.section.block.diff
-      set:
-        - meta_content_scope: comment.block.diff
 
 ###[ COMBINED DIFF ]###########################################################
 
