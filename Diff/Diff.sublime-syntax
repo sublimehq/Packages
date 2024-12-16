@@ -5,6 +5,7 @@
 name: Diff
 scope: source.diff
 version: 2
+extends: Diff (Unified).sublime-syntax
 
 file_extensions:
   - diff
@@ -22,26 +23,18 @@ first_line_match: |-
   )
 
 contexts:
-  main:
-    - match: ^(?={{git_first_line}})
-      embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
-      escape: (?!)
-    # Hack for unit tests
-    - include: incomplete-line
-    - match: ^
-      push: diffs
 
   diffs:
-    - include: line-ranges
-    - include: headers
-    - include: deltas
+    - meta_append: true
     - include: diff3-normal
+    # Diff3 Edit conflicts with non-diff3 Normal mode, so it's off by default.
+    # With branching, it could probably be enabled, too.
 
 ###[ HEADERS ]#################################################################
 
   headers:
+    - meta_prepend: true
     - include: headers-context
-    - include: headers-unified
 
     # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
     - match: ^(={67}|={78}|_{67}){{eol}}
@@ -118,39 +111,12 @@ contexts:
     - include: path-separators
     - include: date
 
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-  headers-unified:
-    - match: ^(-{3})[ ](?!$)
-      captures:
-        1: punctuation.definition.from-file.diff
-      push: headers-unified-from-file
-    - match: ^(\+{3})[ ](?!$)
-      captures:
-        1: punctuation.definition.to-file.diff
-      push: headers-unified-to-file
-
-  headers-unified-from-file:
-    - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
-    - include: pop-eol
-    - include: dev-null
-    - include: path-separators
-    - include: date
-    - include: headers-unified-file-comment
-
-  headers-unified-to-file:
-    - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
-    - include: pop-eol
-    - include: dev-null
-    - include: path-separators
-    - include: date
-    - include: headers-unified-file-comment
-
-  headers-unified-file-comment:
-    - match: \s+(\(.+\))(?=$)
-      captures:
-        1: comment.block.diff
-
 ###[ RANGES ]##################################################################
+
+  line-ranges:
+    - meta_prepend: true
+    - include: line-ranges-normal
+    - include: line-ranges-context
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
   line-ranges-normal:
@@ -180,36 +146,12 @@ contexts:
       pop: 1
     - include: line-range-span
 
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-  line-ranges-unified:
-    - match: ^(@@)(?=[^@\n]+@@(?:\s|$))
-      captures:
-        1: punctuation.definition.range.begin.diff
-      push: [hunk-name, inside-line-ranges-unified]
-
-  inside-line-ranges-unified:
-    - meta_scope: meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
-    - include: pop-eol
-    - match: \1
-      scope: punctuation.definition.range.end.diff
-      pop: 1
-    - include: line-range-span
-    - match: '[+-](?=\d)'
-      scope: support.function.diff
-
-  hunk-name:
-    - include: pop-eol
-    - match: '[ \t]+'
-      scope: meta.toc-list.hunk.diff
-    - match: \S.+?(?=\s*{{eol}})
-      scope: meta.toc-list.hunk.diff entity.name.section.diff
-
-  line-range-span:
-    - match: \d+(?:(,)\d+)?
-      captures:
-        1: punctuation.separator.sequence.diff
-
 ###[ DELTAS ]##################################################################
+
+  deltas:
+    - meta_prepend: true
+    - include: deltas-normal
+    - include: deltas-context
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
   deltas-normal:
@@ -233,46 +175,6 @@ contexts:
       scope: punctuation.definition.changed.diff
       push: line-changed
     - include: incomplete-line
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
-  deltas-unified:
-    - match: ^\+
-      scope: punctuation.definition.inserted.diff
-      push: line-inserted
-    - match: ^-
-      scope: punctuation.definition.deleted.diff
-      push: line-deleted
-    - include: incomplete-line
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
-  incomplete-line:
-    - match: ^[\\/]
-      scope: punctuation.definition.comment.begin.diff
-      push: line-ignored
-
-  line-deleted:
-    - meta_scope: markup.deleted.diff
-    - include: pop-eol
-    - include: trailing-whitespace
-
-  line-inserted:
-    - meta_scope: markup.inserted.diff
-    - include: pop-eol
-    - include: trailing-whitespace
-
-  line-changed:
-    - meta_scope: markup.changed.diff
-    - include: pop-eol
-    - include: trailing-whitespace
-
-  line-ignored:
-    - meta_scope: comment.line.diff
-    - include: pop-eol
-    - include: trailing-whitespace
-
-  trailing-whitespace:
-    - match: '[ \t]*(?=$)'
-      scope: meta.whitespace.trailing.diff
 
 ###[ DIFF3 ]###################################################################
 
@@ -298,7 +200,6 @@ contexts:
     - match: ^
       pop: 1
 
-  # This conflicts with non-diff3 Normal mode, so it's off by default
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
   diff3-edit:
     - match: ^(\d+)(a){{eol}}
@@ -329,87 +230,3 @@ contexts:
     - match: ^\.$
       scope: punctuation.section.block.end.diff
       pop: 1
-
-###[ COMPONENTS ]##############################################################
-
-  dev-null:
-    - match: /dev/null\b
-      scope: constant.language.null.diff
-
-  path-separators:
-    - match: /|\\
-      scope: punctuation.separator.sequence.diff
-    - match: \B\.\.(?=/|\\)
-      scope: constant.other.path.parent.diff
-    - match: \B\.(?=/|\\)
-      scope: constant.other.path.self.diff
-
-  date:
-    # 1970-01-01 00:00:00 +0000
-    - match: \b1970(-)01(-)01 0?0(:)00(:)00(?:(\.)0+)?(?:[ ]([+-]?0000|UTC))?
-      scope: meta.date.diff constant.language.null.diff
-      captures:
-        1: punctuation.separator.date.diff
-        2: punctuation.separator.date.diff
-        3: punctuation.separator.date.diff
-        4: punctuation.separator.date.diff
-        5: punctuation.separator.decimal.diff
-        6: storage.modifier.diff
-
-    # 2002-02-21 23:30:50.442260588 -0800
-    - match: \b\d{4}(-)\d\d(-)\d\d \d?\d(:)\d\d(:)\d\d(?:(\.)\d+)?(?:[ ]([+-]?\d{4}))?
-      scope: meta.date.diff meta.number.integer.decimal.diff constant.numeric.value.diff
-      captures:
-        1: punctuation.separator.date.diff
-        2: punctuation.separator.date.diff
-        3: punctuation.separator.date.diff
-        4: punctuation.separator.date.diff
-        5: punctuation.separator.decimal.diff
-        6: storage.modifier.diff
-
-###[ PROTOTYPES ]##############################################################
-
-  pop-immediately:
-    - match: ''
-      pop: 1
-
-  pop-eol:
-    - match: '{{eol}}'
-      pop: 1
-
-  pop-before-eol:
-    - match: (?={{eol}})
-      pop: 1
-
-  line-ranges:
-    - include: line-ranges-normal
-    - include: line-ranges-context
-    - include: line-ranges-unified
-
-  deltas:
-    - include: deltas-normal
-    - include: deltas-context
-    - include: deltas-unified
-
-  unified:
-    - include: headers-unified
-    - include: line-ranges-unified
-    - include: deltas-unified
-
-  diff3:
-    - include: diff3-normal
-    - include: diff3-edit
-
-
-variables:
-  git_hash40: '[0-9a-fA-F]{40}'
-  git_hash64: '[0-9a-fA-F]{64}'
-  git_hash_full: (?:{{git_hash64}}|{{git_hash40}})
-  git_first_line: |-
-    ^(?x:
-      From [ ] \w+@z [ ]
-      Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
-    | From [ ] {{git_hash_full}} [ ]
-      Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
-    )
-  eol: (?:$\n?)
