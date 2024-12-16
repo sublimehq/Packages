@@ -24,7 +24,12 @@ first_line_match: |-
 contexts:
   main:
     - match: ^(?={{git_first_line}})
-      push: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
+      embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
+      escape: (?!)
+    - match: ^
+      push: diffs
+
+  diffs:
     - include: leading-text
     - include: line-ranges
     - include: headers
