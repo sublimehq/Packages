@@ -1,7 +1,7 @@
 \ SYNTAX TEST "Packages/Diff/Diff.sublime-syntax"
 
 --- Path to Original File
-\^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff - source.diff.git
 \ <-                      punctuation.definition.from-file.diff
 \^^                       punctuation.definition.from-file.diff
 

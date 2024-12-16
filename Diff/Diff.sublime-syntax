@@ -26,6 +26,8 @@ contexts:
     - match: ^(?={{git_first_line}})
       embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
       escape: (?!)
+    # Hack for unit tests
+    - include: incomplete-line
     - match: ^
       push: diffs
 
