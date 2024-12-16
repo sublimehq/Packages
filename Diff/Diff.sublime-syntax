@@ -30,56 +30,49 @@ contexts:
       push: diffs
 
   diffs:
-    - include: leading-text
     - include: line-ranges
     - include: headers
     - include: deltas
     - include: diff3-normal
-
-###[ LEADING TEXT ]############################################################
-
-  leading-text:
-    - match: ^(Index)(:)[ \t]*
-      captures:
-        1: meta.mapping.key.diff keyword.other.diff
-        2: punctuation.separator.key-value.diff
-      push: index-body
-    - match: ^(Prereq)(:)[ \t]*
-      captures:
-        1: meta.mapping.key.diff keyword.other.diff
-        2: punctuation.separator.key-value.diff
-      push: prereq-body
-
-  index-body:
-    - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
-    - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
-    - include: pop-eol
-    - include: path-separators
-
-  prereq-body:
-    - meta_scope: meta.mapping.diff
-    - meta_content_scope: meta.mapping.value.diff string.unquoted.diff
-    - include: pop-eol
-    - include: path-separators
 
 ###[ HEADERS ]#################################################################
 
   headers:
     - include: headers-context
     - include: headers-unified
-    - match: ^(={4}) .+(?= - )
-      scope: meta.diff.header.from-file meta.header.from-file.diff
-      captures:
-        1: punctuation.definition.from-file.diff
-      push: header-body
 
-    # Still not sure what this is, but there's a preexisting unit test
-    - match: ^(={67}){{eol}}
+    # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
+    - match: ^(={67}|={78}|_{67}){{eol}}
       scope: meta.separator.diff
       captures:
         1: punctuation.separator.block.diff
 
-  header-body:
+    # File headers from extensions and SVN
+    - match: |-
+        ^(?x:(
+            Added | Copied | Deleted | Index | Modified
+          | Prereq | Property [ ] changes [ ] on
+        ))(:)[ \t]*
+      captures:
+        1: meta.mapping.key.diff keyword.other.diff
+        2: punctuation.separator.key-value.diff
+      push: header-index-file-body
+
+    # Can't find documentation for these "="-formatted headers, but there
+    # are preexisting unit tests.
+    - match: ^(={4}) .+(?= - )
+      scope: meta.diff.header.from-file meta.header.from-file.diff
+      captures:
+        1: punctuation.definition.from-file.diff
+      push: header-4equals-body
+
+  header-index-file-body:
+    - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
+    - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
+    - include: pop-eol
+    - include: path-separators
+
+  header-4equals-body:
     - match: '( (-) )(.* (={4})){{eol}}'
       captures:
         1: meta.header.diff
@@ -140,6 +133,7 @@ contexts:
     - include: dev-null
     - include: path-separators
     - include: date
+    - include: headers-unified-file-comment
 
   headers-unified-to-file:
     - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
@@ -147,6 +141,12 @@ contexts:
     - include: dev-null
     - include: path-separators
     - include: date
+    - include: headers-unified-file-comment
+
+  headers-unified-file-comment:
+    - match: \s+(\(.+\))(?=$)
+      captures:
+        1: comment.block.diff
 
 ###[ RANGES ]##################################################################
 
