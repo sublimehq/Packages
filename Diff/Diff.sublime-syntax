@@ -45,13 +45,13 @@ contexts:
         2: punctuation.separator.key-value.diff
       push: prereq-body
 
-  index-body: 
+  index-body:
     - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
     - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
     - include: pop-eol
     - include: path-separators
 
-  prereq-body: 
+  prereq-body:
     - meta_scope: meta.mapping.diff
     - meta_content_scope: meta.mapping.value.diff string.unquoted.diff
     - include: pop-eol

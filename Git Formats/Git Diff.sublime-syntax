@@ -177,7 +177,7 @@ contexts:
       scope: punctuation.definition.blockquote.git
       push: email-quote-body
 
-  email-quote-body: 
+  email-quote-body:
     - meta_scope: markup.quote.git
     - include: pop-eol
     - include: Git Commit Message.sublime-syntax#commit-message
