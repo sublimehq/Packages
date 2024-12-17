@@ -45,7 +45,15 @@ contexts:
 
   diff-header:
     - meta_prepend: true
-    - include: diff-header-context
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
+    - match: ^(\*{15}){{eol}}
+      scope: meta.separator.diff
+      captures:
+        1: punctuation.separator.block.diff
+    - match: ^(\*{3})[ ](?!$)
+      captures:
+        1: punctuation.definition.from-file.diff
+      push: diff-header-context-from-file
 
     # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
     - match: ^(={67}|={78}|_{67}){{eol}}
@@ -88,17 +96,6 @@ contexts:
       pop: 1
     - include: pop-immediately
 
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
-  diff-header-context:
-    - match: ^(\*{15}){{eol}}
-      scope: meta.separator.diff
-      captures:
-        1: punctuation.separator.block.diff
-    - match: ^(\*{3})[ ](?!$)
-      captures:
-        1: punctuation.definition.from-file.diff
-      push: diff-header-context-from-file
-
   diff-header-context-from-file:
     - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
     - match: '{{eol}}'
@@ -126,11 +123,7 @@ contexts:
 
   line-ranges:
     - meta_prepend: true
-    - include: line-ranges-normal
-    - include: line-ranges-context
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
-  line-ranges-normal:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
     - match: ^-{3}{{eol}}
       scope: meta.separator.diff punctuation.separator.block.diff
     - match: ^\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}
@@ -140,8 +133,7 @@ contexts:
         2: support.function.diff
         3: punctuation.separator.sequence.diff
 
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-  line-ranges-context:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
     - match: ^(-){3}(?= .+ -{4}{{eol}})
       scope: punctuation.definition.range.begin.diff
       push: inside-line-ranges-context
@@ -161,11 +153,7 @@ contexts:
 
   deltas:
     - meta_prepend: true
-    - include: deltas-normal
-    - include: deltas-context
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
-  deltas-normal:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
     - match: ^> ?
       scope: punctuation.definition.inserted.diff
       push: line-inserted
@@ -174,8 +162,7 @@ contexts:
       push: line-deleted
     - include: incomplete-line
 
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-  deltas-context:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
     - match: ^\+ ?
       scope: punctuation.definition.inserted.diff
       push: line-inserted

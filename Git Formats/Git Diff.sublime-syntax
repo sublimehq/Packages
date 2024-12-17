@@ -415,16 +415,22 @@ contexts:
   line-ranges:
     - meta_prepend: true
     # https://git-scm.com/docs/diff-format#_combined_diff_format
-    - include: line-range-combined-2
-    - include: line-range-combined-3
-    - include: line-range-combined-4
-    - include: line-range-combined-5
-
-  line-range-combined-2:
     - match: ^(@@{2})(?=[^@\n]+@@{2}(?:\s|$))
       captures:
         1: punctuation.definition.range.begin.diff
-      push: [deltas-combined-2, hunk-name, inside-line-ranges-combined]
+      push: [deltas-combined-2, hunk-name, inside-diff-line-ranges-combined]
+    - match: ^(@@{3})(?=[^@\n]+@@{3}(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-3, hunk-name, inside-diff-line-ranges-combined]
+    - match: ^(@@{4})(?=[^@\n]+@@{4}(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-4, hunk-name, inside-diff-line-ranges-combined]
+    - match: ^(@@{5})(?=[^@\n]+@@{5}(?:\s|$))
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [deltas-combined-5, hunk-name, inside-diff-line-ranges-combined]
 
   deltas-combined-2:
     - include: pop-empty-line
@@ -442,12 +448,6 @@ contexts:
       scope: punctuation.definition.changed.diff
       push: line-changed
 
-  line-range-combined-3:
-    - match: ^(@@{3})(?=[^@\n]+@@{3}(?:\s|$))
-      captures:
-        1: punctuation.definition.range.begin.diff
-      push: [deltas-combined-3, hunk-name, inside-line-ranges-combined]
-
   deltas-combined-3:
     - include: pop-empty-line
     - match: ^[ ]{3}
@@ -464,12 +464,6 @@ contexts:
       scope: punctuation.definition.changed.diff
       push: line-changed
 
-  line-range-combined-4:
-    - match: ^(@@{4})(?=[^@\n]+@@{4}(?:\s|$))
-      captures:
-        1: punctuation.definition.range.begin.diff
-      push: [deltas-combined-4, hunk-name, inside-line-ranges-combined]
-
   deltas-combined-4:
     - include: pop-empty-line
     - match: ^[ ]{4}
@@ -485,12 +479,6 @@ contexts:
     - match: ^[+-]{4}
       scope: punctuation.definition.changed.diff
       push: line-changed
-
-  line-range-combined-5:
-    - match: ^(@@{5})(?=[^@\n]+@@{5}(?:\s|$))
-      captures:
-        1: punctuation.definition.range.begin.diff
-      push: [deltas-combined-5, hunk-name, inside-line-ranges-combined]
 
   deltas-combined-5:
     - include: pop-empty-line

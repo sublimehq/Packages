@@ -17,10 +17,7 @@ contexts:
 ###[ HEADERS ]#################################################################
 
   diff-header:
-    - include: diff-header-unified
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-  diff-header-unified:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
     - match: ^(-{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
@@ -54,10 +51,7 @@ contexts:
 ###[ RANGES ]##################################################################
 
   line-ranges:
-    - include: line-ranges-unified
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-  line-ranges-unified:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
     - match: ^(@@)(?=[^@\n]+@@(?:\s|$))
       captures:
         1: punctuation.definition.range.begin.diff
@@ -88,10 +82,7 @@ contexts:
 ###[ DELTAS ]##################################################################
 
   deltas:
-    - include: deltas-unified
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
-  deltas-unified:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
     - match: ^\+
       scope: punctuation.definition.inserted.diff
       push: line-inserted
