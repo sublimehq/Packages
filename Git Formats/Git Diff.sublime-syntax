@@ -273,7 +273,7 @@ contexts:
         1: variable.function.diff
         2: variable.parameter.diff
         3: punctuation.definition.parameter.diff
-      push: [diff-header, file-header-continue]
+      push: [diff-header, diff-file-header]
 
     # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
     # This is the Git version unless otherwise configured.  You will notice
@@ -288,7 +288,7 @@ contexts:
   signature:
     - meta_content_scope: comment.block.diff
 
-  file-header-continue:
+  diff-file-header:
     - meta_scope: meta.toc-list.git
     - include: pop-eol
     # TODO: Quoted file names https://git-scm.com/docs/git-config#Documentation/git-config.txt-corequotePath
