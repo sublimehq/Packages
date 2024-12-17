@@ -81,7 +81,7 @@ contexts:
 
 ###[ DELTAS ]##################################################################
 
-  deltas:
+  diff-deltas:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
     - match: ^\+
       scope: punctuation.definition.inserted.diff

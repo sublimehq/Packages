@@ -36,7 +36,7 @@ contexts:
   diffs:
     - include: diff-line-ranges
     - include: diff-header
-    - include: deltas
+    - include: diff-deltas
     - include: diff3-normal
     # Diff3 Edit conflicts with non-diff3 Normal mode, so it's off by default.
     # With branching, it could probably be enabled, too.
@@ -151,7 +151,7 @@ contexts:
 
 ###[ DELTAS ]##################################################################
 
-  deltas:
+  diff-deltas:
     - meta_prepend: true
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
     - match: ^> ?

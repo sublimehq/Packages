@@ -374,20 +374,20 @@ contexts:
     - meta_content_scope: meta.block.delta.diff
     - include: pop-before-diff-header
     - include: diff-line-ranges
-    - include: deltas
+    - include: diff-deltas
 
 ###[ DELTAS ]##################################################################
 
-  deltas:
+  diff-deltas:
     - meta_prepend: true
     - match: ^(?=-- {{eol}})
       pop: 1
     # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
     - match: ^GIT binary patch
       scope: keyword.other.diff
-      push: binary-delta-content
+      push: binary-diff-delta-content
 
-  binary-delta-content:
+  binary-diff-delta-content:
     # Binary type
     - match: ^(delta|literal) ([0-9]+)
       captures:
