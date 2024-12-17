@@ -50,14 +50,14 @@ contexts:
 
 ###[ RANGES ]##################################################################
 
-  line-ranges:
+  diff-line-ranges:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
     - match: ^(@@)(?=[^@\n]+@@(?:\s|$))
       captures:
         1: punctuation.definition.range.begin.diff
-      push: [hunk-name, inside-line-ranges-unified]
+      push: [hunk-name, inside-diff-line-ranges-unified]
 
-  inside-line-ranges-unified:
+  inside-diff-line-ranges-unified:
     - meta_scope: meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
     - include: pop-eol
     - match: \1

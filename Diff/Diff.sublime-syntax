@@ -34,7 +34,7 @@ contexts:
       push: diffs
 
   diffs:
-    - include: line-ranges
+    - include: diff-line-ranges
     - include: diff-header
     - include: deltas
     - include: diff3-normal
@@ -121,7 +121,7 @@ contexts:
 
 ###[ RANGES ]##################################################################
 
-  line-ranges:
+  diff-line-ranges:
     - meta_prepend: true
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
     - match: ^-{3}{{eol}}
@@ -136,12 +136,12 @@ contexts:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
     - match: ^(-){3}(?= .+ -{4}{{eol}})
       scope: punctuation.definition.range.begin.diff
-      push: inside-line-ranges-context
+      push: inside-diff-line-ranges-context
     - match: ^(\*){3}(?= .+ \*{4}{{eol}})
       scope: punctuation.definition.range.begin.diff
-      push: inside-line-ranges-context
+      push: inside-diff-line-ranges-context
 
-  inside-line-ranges-context:
+  inside-diff-line-ranges-context:
     - meta_scope: meta.diff.range.context meta.range.context.diff meta.toc-list.hunk.diff
     - include: pop-eol
     - match: \1{4}

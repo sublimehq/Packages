@@ -373,7 +373,7 @@ contexts:
   diff-content:
     - meta_content_scope: meta.block.delta.diff
     - include: pop-before-diff-header
-    - include: line-ranges
+    - include: diff-line-ranges
     - include: deltas
 
 ###[ DELTAS ]##################################################################
@@ -412,7 +412,7 @@ contexts:
 
 ###[ COMBINED DIFF ]###########################################################
 
-  line-ranges:
+  diff-line-ranges:
     - meta_prepend: true
     # https://git-scm.com/docs/diff-format#_combined_diff_format
     - match: ^(@@{2})(?=[^@\n]+@@{2}(?:\s|$))
@@ -496,9 +496,9 @@ contexts:
       scope: punctuation.definition.changed.diff
       push: line-changed
 
-  inside-line-ranges-combined:
+  inside-diff-line-ranges-combined:
     - meta_scope: meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
-    - include: inside-line-ranges-unified
+    - include: inside-diff-line-ranges-unified
 
 ###[ COMPONENTS ]##############################################################
 
