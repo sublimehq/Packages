@@ -21,14 +21,14 @@ contexts:
 
   diffs:
     - include: line-ranges
-    - include: headers
+    - include: diff-header
     - include: deltas
 
 ###[ HEADERS ]#################################################################
 
-  headers:
-    - include: headers-context
-    - include: headers-unified
+  diff-header:
+    - include: diff-header-context
+    - include: diff-header-unified
 
     # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
     - match: ^(={67}|={78}|_{67}){{eol}}
@@ -45,7 +45,7 @@ contexts:
       captures:
         1: meta.mapping.key.diff keyword.other.diff
         2: punctuation.separator.key-value.diff
-      push: header-index-file-body
+      push: diff-header-index-file-body
 
     # Can't find documentation for these "="-formatted headers, but there
     # are preexisting unit tests.
@@ -53,15 +53,15 @@ contexts:
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
         1: punctuation.definition.from-file.diff
-      push: header-4equals-body
+      push: diff-header-4equals-body
 
-  header-index-file-body:
+  diff-header-index-file-body:
     - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
     - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
     - include: pop-eol
     - include: path-separators
 
-  header-4equals-body:
+  diff-header-4equals-body:
     - match: '( (-) )(.* (={4})){{eol}}'
       captures:
         1: meta.header.diff
@@ -72,7 +72,7 @@ contexts:
     - include: pop-immediately
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
-  headers-context:
+  diff-header-context:
     - match: ^(\*{15}){{eol}}
       scope: meta.separator.diff
       captures:
@@ -80,25 +80,25 @@ contexts:
     - match: ^(\*{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
-      push: headers-context-from-file
+      push: diff-header-context-from-file
 
-  headers-context-from-file:
+  diff-header-context-from-file:
     - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
     - match: '{{eol}}'
-      set: maybe-headers-context-to-file
+      set: maybe-diff-header-context-to-file
     - include: dev-null
     - include: path-separators
     - include: date
 
-  maybe-headers-context-to-file:
+  maybe-diff-header-context-to-file:
     - match: ^(-{3})[ ](?!$)
       captures:
         1: punctuation.definition.to-file.diff
-      push: headers-context-to-file
+      push: diff-header-context-to-file
     - match: ^
       pop: 1
 
-  headers-context-to-file:
+  diff-header-context-to-file:
     - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
     - include: pop-eol
     - include: dev-null
@@ -106,33 +106,33 @@ contexts:
     - include: date
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-  headers-unified:
+  diff-header-unified:
     - match: ^(-{3})[ ](?!$)
       captures:
         1: punctuation.definition.from-file.diff
-      push: headers-unified-from-file
+      push: diff-header-unified-from-file
     - match: ^(\+{3})[ ](?!$)
       captures:
         1: punctuation.definition.to-file.diff
-      push: headers-unified-to-file
+      push: diff-header-unified-to-file
 
-  headers-unified-from-file:
+  diff-header-unified-from-file:
     - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
     - include: pop-eol
     - include: dev-null
     - include: path-separators
     - include: date
-    - include: headers-unified-file-comment
+    - include: diff-header-unified-file-comment
 
-  headers-unified-to-file:
+  diff-header-unified-to-file:
     - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
     - include: pop-eol
     - include: dev-null
     - include: path-separators
     - include: date
-    - include: headers-unified-file-comment
+    - include: diff-header-unified-file-comment
 
-  headers-unified-file-comment:
+  diff-header-unified-file-comment:
     - match: \s+(\(.+\))(?=$)
       captures:
         1: comment.block.diff

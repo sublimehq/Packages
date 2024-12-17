@@ -307,7 +307,7 @@ contexts:
     # Detect & switch context to changed content
     - match: ^(?=@|GIT binary)
       set: diff-content
-    - include: headers-unified
+    - include: diff-header-unified
 
     # old mode <mode>
     # new mode <mode>
