@@ -280,8 +280,9 @@ contexts:
     # that once inside this context, you cannot leave.  That seems to be how
     # it works for these files.
     - match: ^(-- ){{eol}}
+      scope: meta.separator.diff
       captures:
-        1: meta.separator.diff punctuation.section.block.diff
+        1: punctuation.section.block.diff
       set: signature
 
   signature:
