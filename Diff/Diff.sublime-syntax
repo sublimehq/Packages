@@ -102,7 +102,7 @@ contexts:
       set: maybe-diff-header-context-to-file
     - include: dev-null
     - include: path-separators
-    - include: date
+    - include: timestamps
 
   maybe-diff-header-context-to-file:
     - match: ^(-{3})[ ](?!$)
@@ -117,7 +117,7 @@ contexts:
     - include: pop-eol
     - include: dev-null
     - include: path-separators
-    - include: date
+    - include: timestamps
 
 ###[ RANGES ]##################################################################
 
