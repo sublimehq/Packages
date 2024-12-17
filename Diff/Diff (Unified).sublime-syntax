@@ -7,8 +7,6 @@ scope: source.diff.unified
 version: 2
 hidden: true
 
-file_extensions: []
-
 contexts:
   main:
     - match: ^(?={{git_first_line}})

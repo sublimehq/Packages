@@ -6,6 +6,7 @@
 name: Git Diff
 scope: source.diff.git
 version: 2
+
 extends: Packages/Diff/Diff (Unified).sublime-syntax
 
 file_extensions:

@@ -5,6 +5,7 @@
 name: Diff
 scope: source.diff
 version: 2
+
 extends: Diff (Unified).sublime-syntax
 
 file_extensions:
