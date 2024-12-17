@@ -419,16 +419,6 @@ contexts:
     - include: line-range-combined-4
     - include: line-range-combined-5
 
-  inside-line-ranges-combined:
-    - meta_scope: meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
-    - include: pop-eol
-    - match: \1
-      scope: punctuation.definition.range.end.diff
-      pop: 1
-    - include: line-range-span
-    - match: '[+-](?=[0-9])'
-      scope: support.function.diff
-
   line-range-combined-2:
     - match: ^(@@{2})(?=[^@\n]+@@{2}(?:\s|$))
       captures:
@@ -516,6 +506,10 @@ contexts:
     - match: ^[+-]{5}
       scope: punctuation.definition.changed.diff
       push: line-changed
+
+  inside-line-ranges-combined:
+    - meta_scope: meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
+    - include: inside-line-ranges-unified
 
 ###[ COMPONENTS ]##############################################################
 
