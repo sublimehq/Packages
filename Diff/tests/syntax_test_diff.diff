@@ -268,3 +268,70 @@ Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#S
 8c
   so we may see their result.
 .
+
+
+SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
+Index: deleted-file
+\^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^ punctuation.separator.key-value.diff
+\      ^^^^^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+===================================================================
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+--- deleted-file  (revision 3)
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff
+\^^ punctuation.definition.from-file.diff
+\                 ^^^^^^^^^^^^ comment.block.diff
++++ deleted-file  (working copy)
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file meta.header.to-file.diff
+\^^ punctuation.definition.to-file.diff
+\                 ^^^^^^^^^^^^^^ comment.block.diff
+@@ -1 +0,0 @@
+\^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+\^ punctuation.definition.range.begin.diff
+\  ^ support.function.diff
+\     ^ support.function.diff
+\       ^ punctuation.separator.sequence.diff
+\          ^^ punctuation.definition.range.end.diff
+-This file will be deleted.
+\^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+Index: changed-file
+\^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^ punctuation.separator.key-value.diff
+\      ^^^^^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+===================================================================
+--- changed-file  (revision 4)
++++ changed-file  (working copy)
+@@ -1,6 +1,6 @@
+ The letters in a line of text
+ Could make your day much better.
+ But expanded into paragraphs,
+-I'd tell of kangaroos and calves
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
++I'd tell of monkeys and giraffes
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.inserted.diff
+ Until you were all smiles and laughs
+ From my letter made of letters.
+
+Property changes on: changed-file
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^^^^^^^^^^^^^^^ meta.mapping.key.diff keyword.other.diff
+\                  ^ punctuation.separator.key-value.diff
+\                    ^^^^^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+___________________________________________________________________
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+Added: propname
+\^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^ punctuation.separator.key-value.diff
+\      ^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+## -0,0 +1 ##
++propvalue
+\^^^^^^^^^ markup.inserted.diff
+Index: added-file
+===================================================================
+--- added-file  (revision 0)
++++ added-file  (working copy)
+@@ -0,0 +1 @@
++This is an added file.
