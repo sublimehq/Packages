@@ -372,9 +372,8 @@ contexts:
   diff-content:
     - meta_content_scope: meta.block.delta.diff
     - include: pop-before-diff-header
+    - include: line-ranges
     - include: binary-deltas
-    - include: line-ranges-combined
-    - include: line-ranges-unified
     - include: deltas-unified
 
   deltas-unified:
@@ -413,8 +412,9 @@ contexts:
 
 ###[ COMBINED DIFF ]###########################################################
 
-  # https://git-scm.com/docs/diff-format#_combined_diff_format
-  line-ranges-combined:
+  line-ranges:
+    - meta_prepend: true
+    # https://git-scm.com/docs/diff-format#_combined_diff_format
     - include: line-range-combined-2
     - include: line-range-combined-3
     - include: line-range-combined-4
