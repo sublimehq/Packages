@@ -303,11 +303,11 @@ contexts:
         - include: path-separators
 
   diff-header:
+    - meta_prepend: true
     - meta_scope: meta.block.header.diff
     # Detect & switch context to changed content
     - match: ^(?=@|GIT binary)
       set: diff-content
-    - include: diff-header-unified
 
     # old mode <mode>
     # new mode <mode>

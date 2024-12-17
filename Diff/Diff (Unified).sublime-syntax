@@ -27,83 +27,7 @@ contexts:
 ###[ HEADERS ]#################################################################
 
   diff-header:
-    - include: diff-header-context
     - include: diff-header-unified
-
-    # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
-    - match: ^(={67}|={78}|_{67}){{eol}}
-      scope: meta.separator.diff
-      captures:
-        1: punctuation.separator.block.diff
-
-    # File headers from extensions and SVN
-    - match: |-
-        ^(?x:
-          Added | Copied | Deleted | Index | Modified
-        | Prereq | Property [ ] changes [ ] on
-        )(:)[ \t]*
-      captures:
-        1: meta.mapping.key.diff keyword.other.diff
-        2: punctuation.separator.key-value.diff
-      push: diff-header-index-file-body
-
-    # Can't find documentation for these "="-formatted headers, but there
-    # are preexisting unit tests.
-    - match: ^(={4}) .+(?= - )
-      scope: meta.diff.header.from-file meta.header.from-file.diff
-      captures:
-        1: punctuation.definition.from-file.diff
-      push: diff-header-4equals-body
-
-  diff-header-index-file-body:
-    - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
-    - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
-    - include: pop-eol
-    - include: path-separators
-
-  diff-header-4equals-body:
-    - match: '( (-) )(.* (={4})){{eol}}'
-      captures:
-        1: meta.header.diff
-        2: punctuation.separator.sequence.diff
-        3: meta.diff.header.to-file meta.header.to-file.diff
-        4: punctuation.definition.to-file.diff
-      pop: 1
-    - include: pop-immediately
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
-  diff-header-context:
-    - match: ^(\*{15}){{eol}}
-      scope: meta.separator.diff
-      captures:
-        1: punctuation.separator.block.diff
-    - match: ^(\*{3})[ ](?!$)
-      captures:
-        1: punctuation.definition.from-file.diff
-      push: diff-header-context-from-file
-
-  diff-header-context-from-file:
-    - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
-    - match: '{{eol}}'
-      set: maybe-diff-header-context-to-file
-    - include: dev-null
-    - include: path-separators
-    - include: date
-
-  maybe-diff-header-context-to-file:
-    - match: ^(-{3})[ ](?!$)
-      captures:
-        1: punctuation.definition.to-file.diff
-      push: diff-header-context-to-file
-    - match: ^
-      pop: 1
-
-  diff-header-context-to-file:
-    - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
-    - include: pop-eol
-    - include: dev-null
-    - include: path-separators
-    - include: date
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   diff-header-unified:
@@ -141,34 +65,6 @@ contexts:
 
   line-ranges:
     - include: line-ranges-unified
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
-  line-ranges-normal:
-    - match: ^-{3}{{eol}}
-      scope: meta.separator.diff punctuation.separator.block.diff
-    - match: ^\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}
-      scope: meta.diff.range.normal meta.range.normal.diff
-      captures:
-        1: punctuation.separator.sequence.diff
-        2: support.function.diff
-        3: punctuation.separator.sequence.diff
-
-  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-  line-ranges-context:
-    - match: ^(-){3}(?= .+ -{4}{{eol}})
-      scope: punctuation.definition.range.begin.diff
-      push: inside-line-ranges-context
-    - match: ^(\*){3}(?= .+ \*{4}{{eol}})
-      scope: punctuation.definition.range.begin.diff
-      push: inside-line-ranges-context
-
-  inside-line-ranges-context:
-    - meta_scope: meta.diff.range.context meta.range.context.diff meta.toc-list.hunk.diff
-    - include: pop-eol
-    - match: \1{4}
-      scope: punctuation.definition.range.end.diff
-      pop: 1
-    - include: line-range-span
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
   line-ranges-unified:

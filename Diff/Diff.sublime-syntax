@@ -68,7 +68,7 @@ contexts:
     - include: path-separators
 
   diff-header-4equals-body:
-    - match: '( (-) )(.* (={4})){{eol}}'
+    - match: ( (-) )(.* (={4})){{eol}}
       captures:
         1: meta.header.diff
         2: punctuation.separator.sequence.diff
