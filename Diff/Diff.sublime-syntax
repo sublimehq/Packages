@@ -6,7 +6,7 @@ name: Diff
 scope: source.diff
 version: 2
 
-extends: Diff (Unified).sublime-syntax
+extends: Diff (Basic).sublime-syntax
 
 file_extensions:
   - diff
@@ -24,9 +24,19 @@ first_line_match: |-
   )
 
 contexts:
+  main:
+    - match: ^(?={{git_first_line}})
+      embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
+      escape: (?!)
+    # Hack for unit tests
+    - include: incomplete-line
+    - match: ^
+      push: diffs
 
   diffs:
-    - meta_append: true
+    - include: line-ranges
+    - include: diff-header
+    - include: deltas
     - include: diff3-normal
     # Diff3 Edit conflicts with non-diff3 Normal mode, so it's off by default.
     # With branching, it could probably be enabled, too.

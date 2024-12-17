@@ -7,7 +7,7 @@ name: Git Diff
 scope: source.diff.git
 version: 2
 
-extends: Packages/Diff/Diff (Unified).sublime-syntax
+extends: Packages/Diff/Diff (Basic).sublime-syntax
 
 file_extensions:
   - diff.eml

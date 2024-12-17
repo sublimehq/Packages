@@ -1,26 +1,18 @@
 %YAML 1.2
 ---
+# This is the common base syntax for Gnu Diff and Git Diff,
+# which contains contexts, shared by both of them.
+# It is not designed as standalone syntax and therefore does not expose
+# anything when referenced or used directly.
+#
 # https://www.sublimetext.com/docs/syntax.html
 # https://www.gnu.org/software/diffutils/manual/diffutils.html
-name: Unified Diff
-scope: source.diff.unified
+scope: source.diff.basic
 version: 2
 hidden: true
 
 contexts:
-  main:
-    - match: ^(?={{git_first_line}})
-      embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
-      escape: (?!)
-    # Hack for unit tests
-    - include: incomplete-line
-    - match: ^
-      push: diffs
-
-  diffs:
-    - include: line-ranges
-    - include: diff-header
-    - include: deltas
+  main: []
 
 ###[ HEADERS ]#################################################################
 
