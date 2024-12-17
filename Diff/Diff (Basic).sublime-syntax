@@ -47,7 +47,7 @@ contexts:
     - include: diff-header-unified-file-comment
 
   diff-header-unified-file-comment:
-    - match: \s+(\(.+\))(?=$)
+    - match: \s+(\(.+\))$
       captures:
         1: comment.block.diff
 
@@ -127,7 +127,7 @@ contexts:
     - include: trailing-whitespace
 
   trailing-whitespace:
-    - match: '[ \t]*(?=$)'
+    - match: '[ \t]*$'
       scope: meta.whitespace.trailing.diff
 
 ###[ COMPONENTS ]##############################################################
@@ -178,7 +178,7 @@ contexts:
       pop: 1
 
   pop-before-eol:
-    - match: (?={{eol}})
+    - match: $
       pop: 1
 
 variables:
