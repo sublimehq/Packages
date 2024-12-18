@@ -16,6 +16,7 @@ contexts:
           pop: true
         - include: inline
   inline:
+    - include: scope:source.diff3#conflicts  # merge conflict marker
     - match: '^(\s*)((\.\.)\s+raw(::)) html'
       comment: directives.html
       captures:
