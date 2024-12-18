@@ -38,7 +38,7 @@ contexts:
   jsx-interpolation-comment:
     - match: '({)(/\*)'
       captures:
-        1: punctuation.definition.interpolation.begin.js
+        1: punctuation.section.interpolation.begin.js
         2: punctuation.definition.comment.begin.js
       set:
         - meta_include_prototype: false
@@ -46,19 +46,19 @@ contexts:
         - match: '(\*/)(})'
           captures:
             1: punctuation.definition.comment.end.js
-            2: punctuation.definition.interpolation.end.js
+            2: punctuation.section.interpolation.end.js
           pop: 1
         - match: (?=\*/)
           fail: jsx-interpolation-comment
 
   jsx-interpolation-plain:
     - match: '{'
-      scope: punctuation.definition.interpolation.begin.js
+      scope: punctuation.section.interpolation.begin.js
       set:
         - - meta_scope: meta.interpolation.js
           - meta_content_scope: source.js.embedded.jsx
           - match: '}'
-            scope: punctuation.definition.interpolation.end.js
+            scope: punctuation.section.interpolation.end.js
             pop: 1
         - expression
 
