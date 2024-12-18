@@ -597,7 +597,10 @@ contexts:
   dml-statements:
     - meta_append: true
     - include: index-hint-lists
-    - match: \b(?i:insert(\s+(?:ignore\s+)?into)?)\b
+    - match: \b(?i:insert(?:\s+ignore)?(?:\s+into)?)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - match: \b(?i:replace\s+(?:into)?)\b
       scope: keyword.other.dml.sql
       push: expect-table-name
     - match: \b(?i:limit)\b
