@@ -37,6 +37,7 @@ contexts:
     - include: diff-line-ranges
     - include: diff-header
     - include: diff-deltas
+    - include: diff3-edit
     - include: diff3-normal
     # Diff3 Edit conflicts with non-diff3 Normal mode, so it's off by default.
     # With branching, it could probably be enabled, too.
@@ -202,25 +203,31 @@ contexts:
       captures:
         1: meta.diff.range.normal meta.range.normal.diff
         2: support.function.diff
-      push:
-        - meta_content_scope: meta.block.diff markup.inserted.diff
-        - include: diff3-edit-end
+      push: diff3-edit-inserted
 
     - match: ^(\d+)(d){{eol}}
       captures:
         1: meta.diff.range.normal meta.range.normal.diff
         2: support.function.diff
-      push:
-        - meta_content_scope: meta.block.diff markup.deleted.diff
-        - include: diff3-edit-end
+      push: diff3-edit-deleted
 
     - match: ^(\d+)(c){{eol}}
       captures:
         1: meta.diff.range.normal meta.range.normal.diff
         2: support.function.diff
-      push:
-        - meta_content_scope: meta.block.diff markup.modified.diff
-        - include: diff3-edit-end
+      push: diff3-edit-changed
+
+  diff3-edit-inserted:
+    - meta_content_scope: meta.block.diff markup.inserted.diff
+    - include: diff3-edit-end
+
+  diff3-edit-deleted:
+    - meta_content_scope: meta.block.diff markup.deleted.diff
+    - include: diff3-edit-end
+
+  diff3-edit-changed:
+    - meta_content_scope: meta.block.diff markup.changed.diff
+    - include: diff3-edit-end
 
   diff3-edit-end:
     - match: ^\.$

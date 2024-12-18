@@ -262,12 +262,29 @@ Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html
 
 Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
 11a
-
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^ meta.diff.range.normal meta.range.normal.diff
+\ ^ support.function.diff
   -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.diff markup.inserted.diff
 .
+\ <- punctuation.section.block.end.diff
 8c
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^ support.function.diff
   so we may see their result.
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.diff markup.changed.diff
 .
+\ <- punctuation.section.block.end.diff
+24d
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^ meta.diff.range.normal meta.range.normal.diff
+\ ^ support.function.diff
+
+  This is removed content
+\^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.diff markup.deleted.diff
+.
+\ <- punctuation.section.block.end.diff
 
 
 SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
