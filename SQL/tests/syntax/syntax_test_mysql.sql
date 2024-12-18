@@ -4651,3 +4651,35 @@ EXPLAIN ANALYZE FORMAT=TREE SELECT * FROM t3 WHERE pk > 17;
 CREATE USER 'read' IDENTIFIED BY 'toor';
 GRANT SELECT ON * . * TO 'read';
 FLUSH PRIVILEGES;
+
+
+REPLACE INTO test2 VALUES (1, 'Old', '2014-08-20 18:47:00');
+-- ^^^^^^^^^ keyword.other.dml
+--           ^^^^^ meta.table-name
+--                 ^^^^^^ keyword.other
+REPLACE test2 VALUES (1, 'Old', '2014-08-20 18:47:00');
+-- ^^^^ keyword.other.dml
+--      ^^^^^ meta.table-name
+--            ^^^^^^ keyword.other
+
+INSERT IGNORE INTO users_partners (uid,pid) VALUES (1,1);
+-- ^^^^^^^^^^^^^^^ keyword.other.dml
+--                 ^^^^^^^^^^^^^^ meta.table-name
+--                                ^^^^^^^^^ meta.group
+--                                ^ punctuation.section.group.begin
+--                                 ^^^ meta.column-name
+--                                    ^ punctuation.separator.sequence
+--                                     ^^^ meta.column-name
+--                                        ^ punctuation.section.group.end
+--                                          ^^^^^^ keyword.other
+--                                                 ^^^^^ meta.group
+--                                                 ^ punctuation.section.group.begin
+--                                                  ^ meta.number.integer.decimal constant.numeric.value
+--                                                   ^ punctuation.separator.sequence
+--                                                    ^ meta.number.integer.decimal constant.numeric.value
+--                                                     ^ punctuation.section.group.end
+--                                                      ^ punctuation.terminator.statement
+
+INSERT IGNORE users_partners (uid,pid) VALUES (1,1);
+-- ^^^^^^^^^^ keyword.other.dml
+--            ^^^^^^^^^^^^^^ meta.table-name
