@@ -40,6 +40,7 @@ contexts:
     - include: diff-deltas
     - include: diff3-edit
     - include: diff3-normal
+    - include: side-by-side
 
 ###[ HEADERS ]#################################################################
 
@@ -312,6 +313,32 @@ contexts:
   invalid-conflict-marker:
     - match: ^(?:{{conflict_any}})
       scope: invalid.illegal.conflict.diff
+
+###[ SIDE-BY-SIDE ]############################################################
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Side-by-Side
+  side-by-side:
+    - match: ^(.*)   (<)$
+      captures:
+        1: markup.deleted.diff
+        2: punctuation.definition.deleted.diff
+    - match: ^(.*)   (\()$
+      captures:
+        1: comment.line.diff
+        2: punctuation.definition.deleted.diff
+    - match: ^(.*)   ([\\|/])   (.*)$
+      captures:
+        1: markup.changed.diff
+        2: punctuation.definition.changed.diff
+        3: markup.changed.diff
+    - match: '^   {4,}(>)(?:   (.*))?$'
+      captures:
+        1: punctuation.definition.inserted.diff
+        2: markup.inserted.diff
+    - match: '^   {4,}(\))(?:   (.*))?$'
+      captures:
+        1: punctuation.definition.inserted.diff
+        2: comment.line.diff
 
 ###############################################################################
 
