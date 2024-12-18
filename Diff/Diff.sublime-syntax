@@ -36,11 +36,10 @@ contexts:
   diffs:
     - include: diff-line-ranges
     - include: diff-header
+    - include: conflicts
     - include: diff-deltas
     - include: diff3-edit
     - include: diff3-normal
-    # Diff3 Edit conflicts with non-diff3 Normal mode, so it's off by default.
-    # With branching, it could probably be enabled, too.
 
 ###[ HEADERS ]#################################################################
 
@@ -240,3 +239,93 @@ contexts:
     - match: ^\.$
       scope: punctuation.terminator.hunk.diff
       pop: 1
+
+###[ CONFLICTS ]###############################################################
+
+  # Utility context for other files to use
+  conflict-markers:
+    - match: ^({{conflict_any}})\s*({{conflict_identifier}})\s*{{eol}}
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+  conflicts:
+    - match: ^(?={{conflict_begin}})
+      push:
+        - conflict
+        - conflict-marker-start
+
+  conflict:
+    - meta_scope: meta.block.conflict.diff
+    - match: ''
+      pop: 1
+
+  conflict-marker-start:
+    - match: '{{conflict_begin}}'
+      scope: punctuation.section.block.begin.diff
+    - match: (?:({{conflict_identifier}})\s*)?{{eol}}
+      captures:
+        1: entity.name.section.diff
+      set: conflict-deleted-lines
+
+  conflict-base-marker-start:
+    - match: '{{conflict_base}}'
+      scope: punctuation.section.block.diff
+    - match: (?:({{conflict_identifier}})\s*)?{{eol}}
+      captures:
+        1: entity.name.section.diff
+      set: conflict-base-lines
+
+  conflict-split-marker-start:
+    - match: '{{conflict_split}}'
+      scope: punctuation.section.block.diff
+    - match: (?:({{conflict_identifier}})\s*)?{{eol}}
+      captures:
+        1: entity.name.section.diff
+      set: conflict-new-lines
+
+  conflict-deleted-lines:
+    - meta_content_scope: markup.deleted.diff
+    - match: ^(?={{conflict_base}})
+      set: conflict-base-marker-start
+    - match: ^(?={{conflict_split}})
+      set: conflict-split-marker-start
+    - include: invalid-conflict-marker
+
+  conflict-base-lines:
+    - meta_content_scope: comment.block.diff
+    - match: ^(?={{conflict_split}})
+      set: conflict-split-marker-start
+    - include: invalid-conflict-marker
+
+  conflict-new-lines:
+    - meta_content_scope: markup.inserted.diff
+    - match: ^({{conflict_end}})\s*(?:({{conflict_identifier}})\s*)?{{eol}}
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+      pop: 1
+    # Nested conflicts in Git ReReRe
+    - include: conflicts
+    - include: invalid-conflict-marker
+
+  invalid-conflict-marker:
+    - match: ^(?:{{conflict_any}})
+      scope: invalid.illegal.conflict.diff
+
+###############################################################################
+
+variables:
+  conflict_begin: <{5,}
+  conflict_end: '>{5,}'
+  conflict_split: ={5,}
+  conflict_base: \|{5,}
+  conflict_any: |-
+    (?x:
+      {{conflict_begin}}
+    | {{conflict_end}}
+    | {{conflict_split}}
+    | {{conflict_base}}
+    )
+
+  conflict_identifier: (?:\S.*?)

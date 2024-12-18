@@ -403,3 +403,162 @@ Index: added-file
 +++ added-file  (working copy)
 @@ -0,0 +1 @@
 +This is an added file.
+
+
+https://www.gnu.org/software/diffutils/manual/diffutils.html#Marking-Conflicts-1
+<<<<<<< A
+\^^^^^^^^^ meta.block.conflict.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.begin.diff
+\      ^ - entity - punctuation
+\       ^ entity.name.section.diff
+\        ^ - entity
+lines from A
+\^^^^^^^^^^^^ meta.block.conflict.diff markup.deleted.diff - meta.block meta.block
+=======
+\^^^^^^^ meta.block.conflict.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.diff
+lines from B
+\^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff
+>>>>>>> B
+\^^^^^^^^^ meta.block.conflict.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.end.diff
+\      ^ - entity
+\       ^ entity.name.section.diff
+\        ^ - entity
+context context
+\^^^^^^^^^^^^^^^ - meta.block
+
+<<<<<<< A
+lines from A
+||||||| B
+\^^^^^^^^^ meta.block.conflict.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.diff
+\      ^ - entity - punctuation
+\       ^ entity.name.section.diff
+\        ^ - entity
+lines from B
+\^^^^^^^^^^^^ meta.block.conflict.diff comment.block.diff - meta.block meta.block - markup
+=======
+\^^^^^^ meta.block.conflict.diff punctuation.section.block.diff - meta.block meta.block - markup
+>
+\ <- meta.block.conflict.diff markup.inserted.diff - punctuation - invalid
+<
+\ <- meta.block.conflict.diff markup.inserted.diff - punctuation - invalid
+|||||
+\^^^^ meta.block.conflict.diff markup.inserted.diff invalid.illegal.conflict.diff
+lines from C
+\^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff
+>>>>>>> C
+context context
+\ <- - meta.block
+
+<<<<<<< tzu
+=======
+The Way that can be told of is not the eternal Way;
+The name that can be named is not the eternal name.
+>>>>>>> tao
+
+<<<<<<< lao
+||||||| tzu
+They both may be called deep and profound.
+Deeper and more profound,
+The door of all subtleties!
+=======
+
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+>>>>>>> tao
+
+<<<<<<< lao
+=======
+
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+>>>>>>> tao
+
+
+https://www.gnu.org/software/diffutils/manual/diffutils.html#Generating-the-Merged-Output-Directly
+<<<<<<< tzu
+=======
+The Way that can be told of is not the eternal Way;
+The name that can be named is not the eternal name.
+>>>>>>> tao
+The Nameless is the origin of Heaven and Earth;
+The Named is the mother of all things.
+Therefore let there always be non-being,
+  so we may see their subtlety,
+And let there always be being,
+  so we may see their result.
+The two are the same,
+But after they are produced,
+  they have different names.
+<<<<<<< lao
+||||||| tzu
+They both may be called deep and profound.
+Deeper and more profound,
+The door of all subtleties!
+=======
+
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+>>>>>>> tao
+
+If you have questions, please
+<<<<<<< HEAD
+open an issue
+=======
+ask your question in IRC.
+>>>>>>> branch-a
+
+
+\ https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging
+#! /usr/bin/env ruby
+
+def hello
+<<<<<<< ours
+  puts 'hola world'
+||||||| base
+  puts 'hello world'
+=======
+  puts 'hello mundo'
+>>>>>>> theirs
+end
+
+hello()
+
+
+\ https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+
+
+\ https://git-scm.com/docs/rerere.html#_nested_conflicts
+<<<<<<< HEAD
+\^^^^^^^^^^^^ meta.block.conflict.diff
+\^^^^^^ punctuation.section.block.begin.diff
+\       ^^^^ entity.name.section.diff
+111
+\^^ meta.block.conflict.diff markup.deleted.diff
+=======
+\^^^^^^^ meta.block.conflict.diff
+\^^^^^^ punctuation.section.block.diff
+<<<<<<< HEAD
+\^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.diff
+\^^^^^^ punctuation.section.block.begin.diff
+\       ^^^^ entity.name.section.diff
+333
+\^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.diff markup.deleted.diff
+=======
+\^^^^^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict punctuation.section.block.diff
+222
+\^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict markup.inserted.diff
+>>>>>>> branch-2
+\^^^^^^^^^^^^^^^ meta.block.conflict markup.inserted.diff meta.block.conflict.diff
+\^^^^^^ punctuation.section.block.end.diff
+\       ^^^^^^^^ entity.name.section.diff
+>>>>>>> branch-3~
+\^^^^^^^^^^^^^^^^ meta.block.conflict.diff
+\^^^^^^ punctuation.section.block.end.diff
+\       ^^^^^^^^^ entity.name.section.diff
