@@ -91,7 +91,7 @@ contexts:
     - match: ( (-) )(.* (={4})){{eol}}
       captures:
         1: meta.header.diff
-        2: punctuation.separator.sequence.diff
+        2: punctuation.separator.range.diff
         3: meta.diff.header.to-file meta.header.to-file.diff
         4: punctuation.definition.to-file.diff
       pop: 1
@@ -130,9 +130,9 @@ contexts:
     - match: ^\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}
       scope: meta.diff.range.normal meta.range.normal.diff
       captures:
-        1: punctuation.separator.sequence.diff
+        1: punctuation.separator.range.diff
         2: support.function.diff
-        3: punctuation.separator.sequence.diff
+        3: punctuation.separator.range.diff
 
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
     - match: ^(-){3}(?= .+ -{4}{{eol}})
@@ -177,21 +177,25 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
   diff3-normal:
-    - match: ^====[1-3]?{{eol}}
-      scope: punctuation.section.block.diff
-
-    - match: ^([1-3])(:)(\d+(a)|\d+(?:(,)\d+)?(c)){{eol}}
-      scope: meta.mapping.diff
+    - match: ^====([1-3]?){{eol}}
+      scope: meta.hunk.diff punctuation.section.hunk.diff
       captures:
-        1: meta.mapping.key.diff meta.number.integer.decimal.diff constant.numeric.value.diff
-        2: punctuation.separator.key-value.diff
-        3: meta.mapping.value.diff meta.diff.range.normal meta.range.normal.diff
+        1: constant.numeric.from-file.diff
+
+    - match: ^(([1-3])(:)(?:\d+(a)|\d+(?:(,)\d+)?(c))){{eol}}
+      scope: meta.diff.range.normal meta.range.normal.diff
+      captures:
+        1: meta.toc-list.hunk.diff
+        2: constant.numeric.from-file.diff
+        3: punctuation.separator.file.diff
         4: support.function.diff
-        5: punctuation.separator.sequence.diff
+        5: punctuation.separator.range.diff
         6: support.function.diff
       push: diff3-normal-change
 
   diff3-normal-change:
+    - meta_scope: meta.hunk.diff
+    - meta_content_scope: meta.block.diff
     - match: ^(?:\t|  )
       push: line-changed
     - match: ^
@@ -218,18 +222,21 @@ contexts:
       push: diff3-edit-changed
 
   diff3-edit-inserted:
+    - meta_scope: meta.hunk.diff
     - meta_content_scope: meta.block.diff markup.inserted.diff
     - include: diff3-edit-end
 
   diff3-edit-deleted:
+    - meta_scope: meta.hunk.diff
     - meta_content_scope: meta.block.diff markup.deleted.diff
     - include: diff3-edit-end
 
   diff3-edit-changed:
+    - meta_scope: meta.hunk.diff
     - meta_content_scope: meta.block.diff markup.changed.diff
     - include: diff3-edit-end
 
   diff3-edit-end:
     - match: ^\.$
-      scope: punctuation.section.block.end.diff
+      scope: punctuation.terminator.hunk.diff
       pop: 1

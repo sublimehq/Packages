@@ -115,18 +115,38 @@ Index: lao
 
 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
 1,2d0
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^^^^ meta.diff.range.normal meta.range.normal.diff
+\^ punctuation.separator.range.diff
+\  ^ support.function.diff
 < The Way that can be told of is not the eternal Way;
 < The name that can be named is not the eternal name.
 4c2,3
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^^^^ meta.diff.range.normal meta.range.normal.diff
+\^ support.function.diff
+\  ^ punctuation.separator.range.diff
 < The Named is the mother of all things.
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+\^ punctuation.definition.deleted.diff
 ---
+\ <- meta.separator.diff punctuation.separator.block.diff
+\^^ meta.separator.diff punctuation.separator.block.diff
 > The named is the mother of all things.
 > 
 \^ - meta.whitespace
 11a11,13
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^^^^^^^ meta.diff.range.normal meta.range.normal.diff
+\ ^ support.function.diff
+\    ^ punctuation.separator.range.diff
 > They both may be called deep and profound.
 > Deeper and more profound,
 > The door of all subtleties!
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.inserted.diff
+\^ punctuation.definition.inserted.diff
 
 
 Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
@@ -231,12 +251,30 @@ Unified Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 
 Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
 ====2
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ constant.numeric.from-file.diff
 1:1,2c
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
+\^^^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
+\^ punctuation.separator.file.diff
+\  ^ punctuation.separator.range.diff
+\    ^ support.function.diff
+\     ^ - meta.toc-list
 3:1,2c
   The Way that can be told of is not the eternal Way;
   The name that can be named is not the eternal name.
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.changed.diff
 2:0a
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
+\^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
+\^ punctuation.separator.file.diff
+\  ^ support.function.diff
+\   ^ - meta.toc-list
 ====1
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ constant.numeric.from-file.diff
 1:4c
   The Named is the mother of all things.
 2:2,3c
@@ -244,12 +282,22 @@ Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html
   The named is the mother of all things.
   
 ====3
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ constant.numeric.from-file.diff
 1:8c
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
+\^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
+\^ punctuation.separator.file.diff
+\  ^ support.function.diff
+\   ^ - meta.toc-list
 2:7c
     so we may see their outcome.
 3:9c
     so we may see their result.
 ====
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^ meta.hunk.diff punctuation.section.hunk.diff
 1:11a
 2:11,13c
   They both may be called deep and profound.
@@ -258,33 +306,36 @@ Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html
 3:13,14c
   
     -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.changed.diff
 
 
 Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
 11a
-\ <- meta.diff.range.normal meta.range.normal.diff
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff
+\^^^ meta.hunk.diff
 \^ meta.diff.range.normal meta.range.normal.diff
 \ ^ support.function.diff
   -- The Way of Lao-Tzu, tr. Wing-tsit Chan
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.diff markup.inserted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.inserted.diff
 .
-\ <- punctuation.section.block.end.diff
+\ <- meta.hunk.diff punctuation.terminator.hunk.diff
 8c
-\ <- meta.diff.range.normal meta.range.normal.diff
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff
+\^^ meta.hunk.diff
 \^ support.function.diff
   so we may see their result.
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.diff markup.changed.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.changed.diff
 .
-\ <- punctuation.section.block.end.diff
+\ <- meta.hunk.diff punctuation.terminator.hunk.diff
 24d
 \ <- meta.diff.range.normal meta.range.normal.diff
 \^ meta.diff.range.normal meta.range.normal.diff
 \ ^ support.function.diff
 
   This is removed content
-\^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.diff markup.deleted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.deleted.diff
 .
-\ <- punctuation.section.block.end.diff
+\ <- meta.hunk.diff punctuation.terminator.hunk.diff
 
 
 SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
