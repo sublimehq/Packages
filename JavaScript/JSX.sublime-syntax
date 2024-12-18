@@ -36,31 +36,35 @@ contexts:
       push: jsx-interpolation-plain
 
   jsx-interpolation-comment:
-    - match: '({)(/\*)'
+    - match: ({)(/\*)
       captures:
-        1: punctuation.definition.interpolation.begin.js
+        1: punctuation.section.interpolation.begin.js
         2: punctuation.definition.comment.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.interpolation.js comment.block.js
-        - match: '(\*/)(})'
-          captures:
-            1: punctuation.definition.comment.end.js
-            2: punctuation.definition.interpolation.end.js
-          pop: 1
-        - match: (?=\*/)
-          fail: jsx-interpolation-comment
+      set: jsx-interpolation-comment-body
+
+  jsx-interpolation-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.js comment.block.js
+    - match: (\*/)(})
+      captures:
+        1: punctuation.definition.comment.end.js
+        2: punctuation.section.interpolation.end.js
+      pop: 1
+    - match: (?=\*/)
+      fail: jsx-interpolation-comment
 
   jsx-interpolation-plain:
-    - match: '{'
-      scope: punctuation.definition.interpolation.begin.js
-      set:
-        - - meta_scope: meta.interpolation.js
-          - meta_content_scope: source.js.embedded.jsx
-          - match: '}'
-            scope: punctuation.definition.interpolation.end.js
-            pop: 1
-        - expression
+    - match: \{
+      scope: punctuation.section.interpolation.begin.js
+      set: jsx-interpolation-plain-body
+
+  jsx-interpolation-plain-body:
+    - meta_scope: meta.interpolation.js
+    - meta_content_scope: source.js.embedded.jsx
+    - match: \}
+      scope: punctuation.section.interpolation.end.js
+      pop: 1
+    - include: expressions
 
   jsx-expect-tag-end:
     - meta_content_scope: meta.tag.js
