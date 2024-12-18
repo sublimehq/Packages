@@ -160,7 +160,6 @@ contexts:
     - match: ^< ?
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    - include: incomplete-line
 
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
     - match: ^\+ ?
@@ -172,7 +171,6 @@ contexts:
     - match: ^! ?
       scope: punctuation.definition.changed.diff
       push: line-changed
-    - include: incomplete-line
 
 ###[ DIFF3 ]###################################################################
 
