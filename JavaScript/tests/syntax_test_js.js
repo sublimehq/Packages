@@ -83,6 +83,25 @@
 // <- comment.line.other.js punctuation.definition.comment.js
 //^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
 
+<<<<<<< HEAD
+// <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.begin.diff3 - entity - punctuation
+//      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+//          ^ markup.conflict.begin.diff3 - entity - punctuation
+
+=======
+// <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.separator.diff3 - punctuation
+
+>>>>>>> master
+// <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.end.diff3 - entity - punctuation
+//      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+//            ^ markup.conflict.end.diff3 - entity - punctuation
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing

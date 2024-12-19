@@ -21,6 +21,46 @@
 // <-      punctuation.definition.comment.dot
 // ^^^^^^^ comment.line.number-sign.dot
 
+<<<<<<< HEAD
+// <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.begin.diff3 - entity - punctuation
+//      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+//          ^ markup.conflict.begin.diff3 - entity - punctuation
+
+=======
+// <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.separator.diff3 - punctuation
+
+>>>>>>> master
+// <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.end.diff3 - entity - punctuation
+//      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+//            ^ markup.conflict.end.diff3 - entity - punctuation
+
+graph n {
+<<<<<<< HEAD
+// <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.begin.diff3 - entity - punctuation
+//      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+//          ^ markup.conflict.begin.diff3 - entity - punctuation
+
+=======
+// <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.separator.diff3 - punctuation
+
+>>>>>>> master
+// <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+//^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+//     ^ markup.conflict.end.diff3 - entity - punctuation
+//      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+//            ^ markup.conflict.end.diff3 - entity - punctuation
+}
+
 graph n {}
 // <- storage.type.dot
 //    ^ entity.name.graph.dot
