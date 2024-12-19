@@ -75,6 +75,8 @@ contexts:
   email-header-person-body:
     - meta_scope: meta.mapping.diff
     - include: scope:text.git.mailmap
+    # The mailmap include has bad interactions with
+    # pop-before-next-email-header
     - include: pop-before-eol
 
   email-header-commit:
@@ -88,7 +90,7 @@ contexts:
     - meta_scope: meta.mapping.diff
     - match: '{{git_hash}}'
       scope: constant.other.hash.git
-    - include: pop-before-eol
+    - include: pop-before-next-email-header
 
   email-header-subject-line:
     - match: ^(Subject)(:)
@@ -101,7 +103,7 @@ contexts:
     - meta_scope: meta.mapping.diff
     - meta_content_scope: markup.heading.diff
     - include: patch-annotation
-    - include: pop-before-eol
+    - include: pop-before-next-email-header
 
   patch-annotation:
     - match: (\[)(?:(RFC) )?PATCH
@@ -149,7 +151,7 @@ contexts:
         2: punctuation.separator.date.diff
         3: punctuation.separator.date.diff
         4: storage.modifier.diff
-    - include: pop-before-eol
+    - include: pop-before-next-email-header
 
   email-header-generic:
     - match: ^\b([\w-]+)\b(:)
@@ -160,7 +162,7 @@ contexts:
 
   email-header-generic-body:
     - meta_scope: meta.mapping.diff
-    - include: pop-before-eol
+    - include: pop-before-next-email-header
 
   email-body:
     - meta_content_scope: meta.block.git-body.diff
@@ -540,6 +542,11 @@ contexts:
 
   pop-before-diff-header:
     - match: ^{{next_diff_header}}
+      pop: 1
+
+  pop-before-next-email-header:
+    # Hack in `\` to support unit tests
+    - match: ^(?! \S|\\)
       pop: 1
 
 ###############################################################################

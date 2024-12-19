@@ -23,7 +23,7 @@ Date: Tue, 13 Jul 2010 11:42:54 -0700
 \                        ^ punctuation.separator.date.diff
 \                           ^ punctuation.separator.date.diff
 \                               ^^^^^ storage.modifier.diff
-Subject: [PATCH v2 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig diet
+Subject: [PATCH v2 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
 \               ^^ meta.annotation.patch-version.diff storage.modifier.diff
 \                  ^^^ meta.annotation.patch-sequence.diff
@@ -36,6 +36,8 @@ Subject: [PATCH v2 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig di
 \                   ^ punctuation.separator.sequence.diff
 \                    ^ meta.number.integer.decimal.diff constant.numeric.value.diff
 \                     ^ punctuation.definition.annotation.end.diff
+ diet
+\^^^^^ meta.block.git-header.diff meta.mapping.diff markup.heading.diff
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
