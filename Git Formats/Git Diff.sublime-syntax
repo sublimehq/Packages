@@ -524,7 +524,7 @@ contexts:
 
   separator-twodot:
     - match: \.\.
-      scope: keyword.operator.logical.git
+      scope: punctuation.separator.range.git
 
   file-modes:
     - match: \b(?:100)?644\b

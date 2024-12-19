@@ -6,7 +6,7 @@ index fabadb8,cc95eb0..4866510 644
 \     ^^^^^^^ constant.other.hash.git
 \            ^ punctuation.separator.sequence.git
 \             ^^^^^^^ constant.other.hash.git
-\                    ^^ keyword.operator.logical.git
+\                    ^^ punctuation.separator.range.git
 \                      ^^^^^^^ constant.other.hash.git
 \                              ^^^ meta.number.integer.octal.diff constant.numeric.value.diff
 --- a/describe.c
