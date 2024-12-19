@@ -79,9 +79,9 @@ Much better, no?
 \                                   ^ markup.inserted.diff
  app/assets/images/logo.jpeg  | Bin 0 -> 50966 bytes
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.diff
-\   ^ punctuation.separator.sequence.diff
-\          ^ punctuation.separator.sequence.diff
-\                 ^ punctuation.separator.sequence.diff
+\   ^ punctuation.separator.path.diff
+\          ^ punctuation.separator.path.diff
+\                 ^ punctuation.separator.path.diff
 \                             ^ punctuation.separator.sequence.diff
 \                               ^^^ storage.type.diff
 \                                   ^ meta.number.integer.decimal.diff constant.numeric.value.diff markup.deleted.diff
@@ -98,6 +98,17 @@ Much better, no?
 \                              ^ punctuation.definition.diff
 
 diff --git a/Gemfile b/Gemfile
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff meta.toc-list.git
+\^^^ meta.function-call.identifier.git variable.function.diff
+\   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.git
+\    ^^^^^ variable.parameter.diff
+\    ^^ punctuation.definition.parameter.diff
+\          ^ variable.parameter.source.diff
+\           ^^^^^^^^ meta.path.diff entity.name.diff
+\           ^ punctuation.separator.path.diff
+\                    ^ variable.parameter.source.diff
+\                     ^^^^^^^^ meta.path.diff entity.name.diff
+\                     ^ punctuation.separator.path.diff
 index c661619..989efe8 100644
 --- a/Gemfile
 +++ b/Gemfile

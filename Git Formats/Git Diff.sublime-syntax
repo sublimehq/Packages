@@ -268,11 +268,12 @@ contexts:
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   diffs:
-    - match: ^(diff) ((--)(?:git|combined|cc))
+    - match: ^(diff)( ((--)(?:git|combined|cc)))
       captures:
-        1: variable.function.diff
-        2: variable.parameter.diff
-        3: punctuation.definition.parameter.diff
+        1: meta.function-call.identifier.git variable.function.diff
+        2: meta.function-call.arguments.git
+        3: variable.parameter.diff
+        4: punctuation.definition.parameter.diff
       push: [diff-header, diff-file-header]
 
     # https://git-scm.com/docs/git-format-patch#Documentation/git-format-patch.txt---no-signatureltsignaturegt
@@ -290,19 +291,21 @@ contexts:
 
   diff-file-header:
     - meta_scope: meta.toc-list.git
+    - meta_content_scope: meta.function-call.arguments.git
     - include: pop-eol
     # TODO: Quoted file names https://git-scm.com/docs/git-config#Documentation/git-config.txt-corequotePath
-    - match: \b(a|b|ours|theirs)(/)
-      captures:
-        1: constant.language.diff
-        2: punctuation.separator.sequence.diff
-      push:
-        - meta_scope: entity.name.diff
-        - match: \\.
-          scope: constant.character.escape.git
-        - match: (?=\s|$)
-          pop: 1
-        - include: path-separators
+    - match: (?:a|b|ours|theirs)(?=/)
+      scope: variable.parameter.source.diff
+      push: diff-file-header-path
+
+  diff-file-header-path:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.diff entity.name.diff
+    - match: (?=\s|$)
+      pop: 1
+    - match: \\.
+      scope: constant.character.escape.git
+    - include: path-separators
 
   diff-header:
     - meta_prepend: true

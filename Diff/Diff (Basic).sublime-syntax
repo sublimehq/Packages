@@ -129,7 +129,7 @@ contexts:
 
   path-separators:
     - match: /|\\
-      scope: punctuation.separator.sequence.diff
+      scope: punctuation.separator.path.diff
     - match: \B\.\.(?=/|\\)
       scope: constant.other.path.parent.diff
     - match: \B\.(?=/|\\)
