@@ -230,7 +230,7 @@ contexts:
         9: markup.deleted.diff
 
   stat-toc-filename:
-    - meta_content_scope: meta.toc-list.filename.diff entity.name.diff
+    - meta_content_scope: meta.toc-list.filename.diff meta.path.git string.unquoted.git
     - match: (?=[ ]+\|)
       pop: 1
     - include: path-separators
@@ -302,7 +302,7 @@ contexts:
 
   diff-file-header-path:
     - meta_include_prototype: false
-    - meta_content_scope: meta.path.diff entity.name.diff
+    - meta_content_scope: meta.path.diff string.unquoted.git
     - match: (?=\s|$)
       pop: 1
     - match: \\.

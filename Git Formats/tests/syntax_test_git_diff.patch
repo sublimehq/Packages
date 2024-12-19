@@ -75,12 +75,12 @@ Much better, no?
 
 ---
  Gemfile                      |   1 +
-\^^^^^^^ entity.name.diff
+\^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
 \                             ^ punctuation.separator.sequence.diff
 \                                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
 \                                   ^ markup.inserted.diff
  app/assets/images/logo.jpeg  | Bin 0 -> 50966 bytes
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
 \   ^ punctuation.separator.path.diff
 \          ^ punctuation.separator.path.diff
 \                 ^ punctuation.separator.path.diff
@@ -106,10 +106,10 @@ diff --git a/Gemfile b/Gemfile
 \    ^^^^^ variable.parameter.diff
 \    ^^ punctuation.definition.parameter.diff
 \          ^ variable.parameter.source.diff
-\           ^^^^^^^^ meta.path.diff entity.name.diff
+\           ^^^^^^^^ meta.path.diff string.unquoted.git
 \           ^ punctuation.separator.path.diff
 \                    ^ variable.parameter.source.diff
-\                     ^^^^^^^^ meta.path.diff entity.name.diff
+\                     ^^^^^^^^ meta.path.diff string.unquoted.git
 \                     ^ punctuation.separator.path.diff
 index c661619..989efe8 100644
 --- a/Gemfile
