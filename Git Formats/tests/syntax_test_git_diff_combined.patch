@@ -12,9 +12,15 @@ index fabadb8,cc95eb0..4866510 644
 --- a/describe.c
 \^^^^^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.from-file meta.header.from-file.diff
 \^^ punctuation.definition.from-file.diff
+\   ^ variable.parameter.source.diff
+\    ^^^^^^^^^^^ meta.path.diff string.unquoted.git
+\    ^ punctuation.separator.path.diff
 +++ b/describe.c
 \^^^^^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.to-file meta.header.to-file.diff
 \^^ punctuation.definition.to-file.diff
+\   ^ variable.parameter.source.diff
+\    ^^^^^^^^^^^ meta.path.diff string.unquoted.git
+\    ^ punctuation.separator.path.diff
 @@@ -98,20 -98,12 +98,20 @@@
 \ ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
         return (a_date > b_date) ? -1 : (a_date == b_date) ? 0 : 1;

@@ -113,8 +113,28 @@ diff --git a/Gemfile b/Gemfile
 \                     ^ punctuation.separator.path.diff
 index c661619..989efe8 100644
 --- a/Gemfile
+\^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.from-file meta.header.from-file.diff
+\^^ punctuation.definition.from-file.diff
+\   ^ variable.parameter.source.diff
+\    ^^^^^^^^ meta.path.diff string.unquoted.git
+\    ^ punctuation.separator.path.diff
 +++ b/Gemfile
+\^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.to-file meta.header.to-file.diff
+\^^ punctuation.definition.to-file.diff
+\   ^ variable.parameter.source.diff
+\    ^^^^^^^^ meta.path.diff string.unquoted.git
+\    ^ punctuation.separator.path.diff
 @@ -24,6 +24,7 @@ group :development do
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff
+\^^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+\^ punctuation.definition.range.begin.diff
+\  ^ support.function.diff
+\     ^ punctuation.separator.sequence.diff
+\        ^ support.function.diff
+\           ^ punctuation.separator.sequence.diff
+\              ^^ punctuation.definition.range.end.diff
+\                ^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.hunk.diff
+\                 ^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
    gem 'listen', '~> 3.0.5'
    gem 'spring'
    gem 'spring-watcher-listen', '~> 2.0.0'
@@ -124,6 +144,8 @@ index c661619..989efe8 100644
  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 diff --git a/app/assets/images/logo.jpeg b/app/assets/images/logo.jpeg
 new file mode 100644
+\^^^^^^^^^^^^^^^^^^^ meta.block.header.diff markup.inserted.diff
+\             ^^^^^^ meta.number.integer.octal.diff constant.numeric.value.diff
 index 0000000000000000000000000000000000000000..064fa38be3ecd426a3c8977ed43df627c6f6f229
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff
 \^^^^ keyword.other.diff

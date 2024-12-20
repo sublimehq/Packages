@@ -291,10 +291,21 @@ contexts:
   signature:
     - meta_content_scope: comment.block.diff
 
+  diff-header-unified-from-file:
+    - meta_prepend: true
+    - include: diff-file-header-path-start
+
+  diff-header-unified-to-file:
+    - meta_prepend: true
+    - include: diff-file-header-path-start
+
   diff-file-header:
     - meta_scope: meta.toc-list.git
     - meta_content_scope: meta.function-call.arguments.git
     - include: pop-eol
+    - include: diff-file-header-path-start
+
+  diff-file-header-path-start:
     # TODO: Quoted file names https://git-scm.com/docs/git-config#Documentation/git-config.txt-corequotePath
     - match: (?:a|b|ours|theirs)(?=/)
       scope: variable.parameter.source.diff
