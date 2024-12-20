@@ -346,16 +346,22 @@ contexts:
 
     # copy from <path>
     # copy to <path>
+    # move from <path>
+    # move to <path>
     # rename from <path>
     # rename to <path>
-    - match: ^(?:copy|rename) (from|to)
+    - match: ^((?:copy|move|rename) (?:from|to))[ \t]+
+      captures:
+        1: keyword.other.diff
       push:
+        - meta_content_scope: meta.path.git string.unquoted.git
         - include: pop-before-eol
         - include: path-separators
 
     # similarity index <number>
     # dissimilarity index <number>
     - match: ^(?:dis)?similarity index
+      scope: keyword.other.diff
       push:
         - include: pop-before-eol
         - match: (100|[1-9]?[0-9])(%)
