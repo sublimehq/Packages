@@ -1,0 +1,15 @@
+\ SYNTAX TEST "Packages/Git Formats/Git Diff.sublime-syntax"
+From 8f72bad1baf19a53459661343e21d6491c3908d3 Mon Sep 17 00:00:00 2001
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff - source source
+\    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
+From: Tony Luck <tony.luck@intel.com>
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff - source source
+\^^^ keyword.other.diff
+\   ^ punctuation.separator.mapping.key-value.diff
+\     ^^^^^^^^^ meta.reference.user.git
+\               ^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+\               ^ punctuation.definition.reference.email.begin.git
+\                ^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+\                         ^ punctuation.separator.email.git
+\                               ^ punctuation.separator.domain.git
+\                                   ^ punctuation.definition.reference.email.end.git
