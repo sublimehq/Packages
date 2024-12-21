@@ -409,6 +409,10 @@ CONST << 10
 #^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
 #   ^^ - constant.numeric - invalid.illegal - storage.type.numeric
+ 12&.ir
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#  ^^ punctuation.accessor - constant.numeric - invalid.illegal - keyword.operator
+#    ^^ - constant.numeric - invalid.illegal - storage.type.numeric
 
  12.34
 #^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
@@ -978,12 +982,14 @@ module: 'module'
 # ^ punctuation.terminator.statement.ruby
   .
 # ^ punctuation.accessor.dot.ruby
+  &.
+# ^^ punctuation.accessor.dot.ruby
   ::
 # ^^ punctuation.accessor.double-colon.ruby
   <<=
 # ^^^ keyword.operator.assignment.augmented.ruby
   &&=
-# ^^^ keyword.operator.assignment.augmented.ruby
+# ^^^ keyword.operator.assignment.augmented.ruby - punctuation
   ||=
 # ^^^ keyword.operator.assignment.augmented.ruby
   **=
@@ -1037,7 +1043,7 @@ module: 'module'
   <
 # ^ keyword.operator.comparison.ruby
   &&
-# ^^ keyword.operator.logical.ruby
+# ^^ keyword.operator.logical.ruby - punctuation
   ||
 # ^^ keyword.operator.logical.ruby
   !
@@ -1049,7 +1055,7 @@ module: 'module'
   ~
 # ^ keyword.operator.bitwise.ruby
   &
-# ^ keyword.operator.bitwise.ruby
+# ^ keyword.operator.bitwise.ruby - punctuation
   |
 # ^ keyword.operator.bitwise.ruby
   ^
