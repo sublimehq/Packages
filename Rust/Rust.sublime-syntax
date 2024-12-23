@@ -25,7 +25,70 @@ variables:
   dec_literal: '[0-9](?:[0-9_])*'
   float_exponent: '[eE][+-]?[0-9_]*[0-9][0-9_]*'
   type_identifier: '\b(?:[[:upper:]]|_*[[:upper:]][[:alnum:]_]*[[:lower:]][[:alnum:]_]*)\b'
+  # https://doc.rust-lang.org/std/prelude/index.html
+  prelude_types: |-
+    (?x:
+      # std::boxed
+      |Box
+      # std::option
+      |Option|Result
+      # std::string
+      |String
+      # std::vec
+      |Vec
+      # Not in prelude
+      |VecDeque|BTreeMap|BTreeSet|HashMap|HashSet
+      |Rc|Arc|Mutex
+    )
+  prelude_traits: |-
+    (?x:
+      # std::marker
+      Copy|Send|Sized|Sync|Unpin
+      # std::ops
+      |Drop|Fn|FnMut|FnOnce
+      # std::borrow
+      |ToOwned
+      # std::clone
+      |Clone
+      # std::cmp
+      |PartialEq|PartialOrd|Eq|Ord
+      # std::convert
+      |Into|From|AsRef|AsMut|TryFrom|TryInto
+      # std::default
+      |Default
+      # std::iter
+      |Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|FromIterator
+      # std::string
+      |ToString
+    )
+  prelude_enums: |-
+    (?x:
+      # std::option
+      Some|None|Ok|Err
+    )
 
+  # Other frequently used types of the std lib.
+  # https://doc.rust-lang.org/std/index.html#modules
+  std_types: |-
+    (?x:
+      # std::collections
+      VecDeque|LinkedList|BTreeMap|BTreeSet|HashMap|HashSet|BinaryHeap
+      # std::rc
+      |Rc
+      # std::sync
+      |Arc|Barrier|Mutex|Once|OnceLock|LazyLock|RwLock
+      # std::cell
+      |Cell|OnceCell|LazyCell|Ref|RefCell|UnsafeCell
+    )
+  std_traits: |-
+    (?x:
+      # std::ops
+      |(?:Add|BitAnd|BitOr|BitXor|Div|Mul|Rem|Shl|Shr|Sub)(?:Assign)?
+      |Deref|DerefMut|Index|IndexMut
+      |Neg|Not|RangeBounds
+      |ControlFlow
+      # already in prelude: Drop|Fn|FnMut|FnOnce
+    )
 contexts:
   main:
     - include: statements
@@ -607,9 +670,15 @@ contexts:
     - include: stdsimd-type-names
 
   support-type-names:
-    - match: \b(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\b
+    - match: \b{{prelude_types}}\b
       scope: support.type.rust
-    - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
+    - match: \b{{prelude_traits}}\b
+      scope: support.type.rust
+    - match: \b{{prelude_enums}}\b
+      scope: support.type.rust
+    - match: \b{{std_types}}\b
+      scope: support.type.rust
+    - match: \b{{std_traits}}\b
       scope: support.type.rust
 
   stdsimd-type-names:
