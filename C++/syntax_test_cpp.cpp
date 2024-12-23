@@ -3138,3 +3138,46 @@ void test4()
 {
     return;
 }
+
+#define GTY0
+/*      ^^^^ meta.preprocessor.macro.c++ */
+#define GTY1(A)
+/*      ^^^^    entity.name.function.preprocessor */
+/*          ^^^ meta.preprocessor.macro.parameters */
+#define GTY2(A, B)
+/*      ^^^^       entity.name.function.preprocessor */
+/*          ^^^^^^ meta.preprocessor.macro.parameters */
+
+struct GTY0 foo {
+/*<- keyword.declaration.struct.type.c++ */
+/*     ^^^^  meta.assumed-macro */
+/*          ^^^ entity.name.struct.c++ */
+};
+
+struct GTY1(42) bar {
+/*<- keyword.declaration.struct.type.c++ */
+/*     ^^^^ meta.function-call.c++ */
+/*          ^^ constant.numeric.value.c++ */
+/*              ^^^ entity.name.struct.c++ */
+};
+
+enum GTY1("struct") baz {
+/*<- keyword.declaration.enum.type.c++ */
+/*   ^^^^ meta.function-call.c++ */
+/*        ^^^^^^^^ string */
+/*                  ^^^ entity.name.enum.c++ */
+};
+
+union GTY2("union struct", 42) bazz {
+/*<- keyword.declaration.union.type.c++ */
+/*    ^^^^ meta.function-call.c++ */
+/*         ^^^^^^^^^^^^^^ string */
+/*                         ^^ constant.numeric.value.c++ */
+/*                             ^^^^ entity.name.union.c++ */
+};
+
+class GTY2("struct class", 42) bazzz {
+/*<- keyword.declaration.class.c++ */
+/*    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*                             ^^^^^ entity.name.class.c++ */
+};
