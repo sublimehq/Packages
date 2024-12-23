@@ -72,7 +72,7 @@ variables:
   std_types: |-
     (?x:
       # std::collections
-      VecDeque|BTreeMap|BTreeSet|HashMap|HashSet
+      VecDeque|LinkedList|BTreeMap|BTreeSet|HashMap|HashSet|BinaryHeap
       # std::rc
       |Rc
       # std::sync
