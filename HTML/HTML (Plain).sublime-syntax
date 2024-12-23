@@ -150,6 +150,7 @@ contexts:
         1: punctuation.definition.comment.begin.html
         2: invalid.illegal.bad-comments-or-CDATA.html
       push: comment-content
+    - include: git-conflicts
 
   comment-content:
     - meta_scope: comment.block.html
@@ -160,6 +161,25 @@ contexts:
       pop: 1
     - match: <!--(?!-?>)|--!>
       scope: invalid.illegal.bad-comments-or-CDATA.html
+
+  git-conflicts:
+    # Consume git merge conflict markers to
+    # - reduce risk for them to break syntax highlighting
+    # - and add first class support for Sublime Text as git merge tool
+    - match: ^\s*(<{7}) ([-/\w]+)$\n?
+      scope: markup.conflict.begin.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+    - match: ^\s*(>{7}) ([-/\w]+)$\n?
+      scope: markup.conflict.end.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
+        2: entity.name.section.conflict.diff3
+    - match: ^\s*(={7})$\n?
+      scope: markup.conflict.separator.diff3
+      captures:
+        1: punctuation.section.conflict.diff3
 
 ###[ DOCTYPE DECLARATION ]####################################################
 

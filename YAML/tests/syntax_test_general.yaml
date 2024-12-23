@@ -24,3 +24,52 @@
 ...
 #^^ entity.other.document.end
 # <- entity.other.document.end
+
+
+##############################################################################
+## Merge Conflict Marker Tests
+
+<<<<<<< HEAD
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#           ^ markup.conflict.begin.diff3 - entity - punctuation
+
+=======
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation
+
+>>>>>>> master
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#             ^ markup.conflict.end.diff3 - entity - punctuation
+
+context:
+  context:
+    - key: value
+<<<<<<< Updated upstream
+#  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.begin.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+#                       ^ markup.conflict.begin.diff3 - entity - punctuation
+    - upstream: 'value'
+    # <- punctuation.definition.block.sequence.item.yaml
+=======
+#  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.separator.diff3 - punctuation
+    # current tag incoplete
+    - local: 'value'
+    # <- punctuation.definition.block.sequence.item.yaml
+
+>>>>>>> Stashed changes
+#  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+# ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+#      ^ markup.conflict.end.diff3 - entity - punctuation
+#       ^^^^^^^^^^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+#                      ^ markup.conflict.end.diff3 - entity - punctuation
