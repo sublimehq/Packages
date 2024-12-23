@@ -607,7 +607,7 @@ contexts:
     - include: stdsimd-type-names
 
   support-type-names:
-    - match: \b(Vec|Option|Result|BTreeMap|HashMap|Box|Rc|Arc|AsRef|AsMut|Into|From)\b
+    - match: \b(Vec|VecDeque|Option|Result|BTreeMap|BTreeSet|HashMap|HashSet|Box|Rc|Arc|AsRef|AsMut|Into|From)\b
       scope: support.type.rust
     - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
       scope: support.type.rust
