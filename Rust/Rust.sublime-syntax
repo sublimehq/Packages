@@ -25,8 +25,24 @@ variables:
   dec_literal: '[0-9](?:[0-9_])*'
   float_exponent: '[eE][+-]?[0-9_]*[0-9][0-9_]*'
   type_identifier: '\b(?:[[:upper:]]|_*[[:upper:]][[:alnum:]_]*[[:lower:]][[:alnum:]_]*)\b'
-  std_types: (?:Vec|VecDeque|Option|Result|BTreeMap|BTreeSet|HashMap|HashSet|Box|Rc|Arc|AsRef|AsMut|Into|From)
-  std_traits: (?:Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)
+  std_types: |-
+    (?x:
+      Vec|VecDeque
+      |BTreeMap|BTreeSet|HashMap|HashSet
+      |Box|Rc|Arc|
+      |Option|Result
+      |String
+    )
+  std_traits: |-
+    (?x:
+      Copy|Send|Sized|Sync|Drop|Into|From|Default
+      |Fn|FnMut|FnOnce
+      |PartialEq|PartialOrd|Eq|Ord
+      |ToOwned|Clone|AsRef|AsMut
+      |Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator
+      |Some|None|Ok|Err
+      |ToString
+    )
 
 contexts:
   main:
