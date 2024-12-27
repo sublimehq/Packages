@@ -211,3 +211,71 @@ public readonly struct Distance(double dx, double dy)
 ///                                ^^^^ variable.parameter
 ///                                    ^ punctuation.section.parameters.end
 ///                                     ^ punctuation.terminator.statement
+
+
+class SomeClass
+{
+    // https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators#source-generation
+    [GeneratedRegex("abc|def", RegexOptions.IgnoreCase, "en-US")]
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.cs
+/// ^ punctuation.definition.annotation.begin.cs
+///  ^^^^^^^^^^^^^^ variable.annotation.cs
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^ punctuation.definition.string.begin.cs
+///                  ^^^^^^^ meta.string.cs meta.regexp.cs source.regexp meta.mode.basic.regexp
+///                     ^ keyword.operator.alternation.regexp
+///                         ^ punctuation.definition.string.end.cs
+///                          ^ punctuation.separator.argument.cs
+///                            ^^^^^^^^^^^^ variable.other.cs
+///                                        ^ punctuation.accessor.dot.cs
+///                                         ^^^^^^^^^^ variable.other.cs
+///                                                   ^ punctuation.separator.argument.cs
+///                                                     ^^^^^^^ meta.string.cs string.quoted.double.cs
+///                                                     ^ punctuation.definition.string.begin.cs
+///                                                           ^ punctuation.definition.string.end.cs
+///                                                            ^ punctuation.section.group.end.cs
+///                                                             ^ punctuation.definition.annotation.end.cs
+    private static partial Regex AbcOrDefGeneratedRegex();
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+/// ^^^^^^^ storage.modifier.access.cs
+///         ^^^^^^ storage.modifier.cs
+///                ^^^^^^^ storage.modifier.cs
+///                        ^^^^^ support.type.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^ meta.method.cs entity.name.function.cs
+///                                                    ^^ meta.method.parameters.cs
+///                                                    ^ punctuation.section.parameters.begin.cs
+///                                                     ^ punctuation.section.parameters.end.cs
+///                                                      ^ meta.method.cs punctuation.terminator.statement.cs
+
+    [GeneratedRegex(@"^some(?<named_capture>[^/]{1,100})$")]
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.cs
+/// ^ punctuation.definition.annotation.begin.cs
+///  ^^^^^^^^^^^^^^ variable.annotation.cs
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                ^ punctuation.section.group.begin.cs
+///                 ^^ punctuation.definition.string.begin.cs
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.cs meta.regexp.cs source.regexp
+///                   ^^^^^ meta.mode.basic.regexp
+///                   ^ keyword.control.anchor.regexp
+///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.regexp meta.mode.basic.regexp
+///                        ^ punctuation.section.group.begin.regexp
+///                         ^^^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+///                          ^ punctuation.definition.capture-group-name.begin.regexp
+///                           ^^^^^^^^^^^^^ entity.name.capture-group.regexp
+///                                        ^ punctuation.definition.capture-group-name.end.regexp
+///                                         ^^^^ meta.set.regexp
+///                                         ^ punctuation.definition.set.begin.regexp
+///                                          ^ keyword.operator.logical.regexp
+///                                            ^ punctuation.definition.set.end.regexp
+///                                             ^^^^^^^ keyword.operator.quantifier.regexp
+///                                                    ^ punctuation.section.group.end.regexp
+///                                                     ^ meta.mode.basic.regexp keyword.control.anchor.regexp
+///                                                      ^ punctuation.definition.string.end.cs
+///                                                       ^ punctuation.section.group.end.cs
+///                                                        ^ punctuation.definition.annotation.end.cs
+    private static partial Regex SomeRegex();
+
+}
