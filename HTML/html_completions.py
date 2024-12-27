@@ -167,7 +167,7 @@ def get_tag_completions(inside_tag=True):
 
 def get_tag_attributes():
     """
-    Returns a dictionary with attributes accociated to tags
+    Returns a dictionary with attributes associated to tags
     This assumes that all tags can have global attributes as per MDN:
     https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes
     """
