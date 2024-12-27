@@ -4653,7 +4653,7 @@ esac
 # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Globbing-Flags
 ###############################################################################
 
-: (#i)       #  Match case insensitively
+: (#i)       #  Match case-insensitively
 # ^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.mode.glob.shell.zsh

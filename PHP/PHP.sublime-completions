@@ -4124,13 +4124,13 @@
 			"trigger": "eregi()",
 			"contents": "eregi(${1:pattern}, ${2:string})",
 			"kind": "function",
-			"details": "Case insensitive regular expression match"
+			"details": "Case-insensitive regular expression match"
 		},
 		{
 			"trigger": "eregi_replace()",
 			"contents": "eregi_replace(${1:pattern}, ${2:replacement}, ${3:string})",
 			"kind": "function",
-			"details": "Replace regular expression case insensitive"
+			"details": "Replace regular expression case-insensitive"
 		},
 		{
 			"trigger": "error_get_last()",
@@ -11287,13 +11287,13 @@
 			"trigger": "mb_stripos()",
 			"contents": "mb_stripos(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds position of first occurrence of a string within another, case insensitive"
+			"details": "Finds position of first occurrence of a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_stristr()",
 			"contents": "mb_stristr(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds first occurrence of a string within another, case insensitive"
+			"details": "Finds first occurrence of a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_strlen()",
@@ -11317,13 +11317,13 @@
 			"trigger": "mb_strrichr()",
 			"contents": "mb_strrichr(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds the last occurrence of a character in a string within another, case insensitive"
+			"details": "Finds the last occurrence of a character in a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_strripos()",
 			"contents": "mb_strripos(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds position of last occurrence of a string within another, case insensitive"
+			"details": "Finds position of last occurrence of a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_strrpos()",
@@ -12880,7 +12880,7 @@
 			"trigger": "natcasesort()",
 			"contents": "natcasesort(${1:array})",
 			"kind": "function",
-			"details": "Sort an array using a case insensitive \"natural order\" algorithm"
+			"details": "Sort an array using a case-insensitive \"natural order\" algorithm"
 		},
 		{
 			"trigger": "natsort()",
@@ -20591,7 +20591,7 @@
 			"trigger": "spliti()",
 			"contents": "spliti(${1:pattern}, ${2:string})",
 			"kind": "function",
-			"details": "Split string into array by regular expression case insensitive"
+			"details": "Split string into array by regular expression case-insensitive"
 		},
 		{
 			"trigger": "sprintf()",
@@ -20603,7 +20603,7 @@
 			"trigger": "sql_regcase()",
 			"contents": "sql_regcase(${1:string})",
 			"kind": "function",
-			"details": "Make regular expression for case insensitive match"
+			"details": "Make regular expression for case-insensitive match"
 		},
 		{
 			"trigger": "sqlite_close()",
@@ -21714,7 +21714,7 @@
 			"trigger": "strnatcasecmp()",
 			"contents": "strnatcasecmp(${1:str1}, ${2:str2})",
 			"kind": "function",
-			"details": "Case insensitive string comparisons using a \"natural order\" algorithm"
+			"details": "Case-insensitive string comparisons using a \"natural order\" algorithm"
 		},
 		{
 			"trigger": "strnatcmp()",
