@@ -337,7 +337,7 @@ contexts:
     # non-breaking spaces : S<content>
     - match: (S)(<)
       captures:
-        1: entity.name.tag.none-braeking.perl
+        1: entity.name.tag.non-breaking.perl
         2: punctuation.definition.tag.begin.perl
       push:
         - include: comment-pod-format-body

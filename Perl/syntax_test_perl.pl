@@ -67,7 +67,7 @@
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.perl
 #                                           ^ punctuation.definition.tag.end.perl
   S<[ B<-A> ]>
-# ^ entity.name.tag.none-braeking.perl
+# ^ entity.name.tag.non-breaking.perl
 #  ^ punctuation.definition.tag.begin.perl
 #     ^ entity.name.tag.bold.perl
 #      ^ punctuation.definition.tag.begin.perl
