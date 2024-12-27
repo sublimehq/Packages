@@ -6,7 +6,7 @@
  -->
 
      <!--
-      The absense of attributes does not render the tagname invalid
+      The absence of attributes does not render the tagname invalid
       even though this is no valid declaration
      -->
 
@@ -217,7 +217,7 @@
  -->
 
      <!--
-      The absense of attributes does not render the tagname invalid
+      The absence of attributes does not render the tagname invalid
       even though this is no valid declaration
      -->
 
@@ -304,7 +304,7 @@
  -->
 
      <!--
-      The absense of attributes does not render the tagname invalid
+      The absence of attributes does not render the tagname invalid
       even though this is no valid declaration
      -->
 
