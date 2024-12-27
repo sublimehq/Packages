@@ -94,7 +94,7 @@ contexts:
   # Reusable contexts
   #
   # The follow contexts are currently constructed to be reused in the
-  # Objetive-C++ syntax. They are specifically constructed to not push into
+  # Objective-C++ syntax. They are specifically constructed to not push into
   # sub-contexts, which ensures that Objective-C++ code isn't accidentally
   # lexed as plain C++.
   #
