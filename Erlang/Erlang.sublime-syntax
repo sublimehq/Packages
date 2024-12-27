@@ -268,7 +268,7 @@ contexts:
     # https://www.erlang.org/doc/reference_manual/macros.html#flow-control-in-macros
     # Note:
     #   The `-` is scoped as `punctuation.definition` because:
-    #   1. derectives are most likely one-liners (with exceptions!)
+    #   1. directives are most likely one-liners (with exceptions!)
     #   2. the hyphon is compared to the hash-tag in C/C++ preprocessors
     #   3. the `.` is meant to share the scope `punctuation.terminator.clause`
     #      with clauses/functions as it has the same meaning.
