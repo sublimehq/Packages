@@ -123,7 +123,7 @@
             "kind": ["namespace", "h", "Header"]
         },
 
-        // Dynmamic memory management utilities
+        // Dynamic memory management utilities
         {
             // Low-level memory management utilities
             "trigger": "new",
