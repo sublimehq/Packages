@@ -40,7 +40,7 @@ variables:
   # Note: avoid negative lookahead as it is 6-8% slower
   ident_break: (?={{ident_break_char}})
   # a quoted identifier with possibly escaped single quote
-  # preceeded by an arbitrary number of excaped backslashes
+  # preceeded by an arbitrary number of escaped backslashes
   ident_quoted: \'((?:\\\\)*\\\'|[^''])*\'
   # an identifier can be an atom or a variable
   ident_unquoted: '[_A-Za-z]{{ident_char}}*'
