@@ -435,7 +435,7 @@ contexts:
           scope: constant.character.escape.d
         - match: '\S'
           scope: invalid.illegal.unknown-escape.d
-    # Deliminated string with custom identifier
+    # Delimited string with custom identifier
     - match: '(q)(")({{name}})(.*)$'
       captures:
         1: storage.modifier.string.d
@@ -451,7 +451,7 @@ contexts:
             2: punctuation.definition.string.end.d
             3: storage.type.string.d
           pop: true
-    # Nested Deliminated string
+    # Nested Delimited string
     - match: (q)("\[)
       captures:
         1: storage.modifier.string.d
@@ -500,7 +500,7 @@ contexts:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-    # Other deliminated string
+    # Other delimited string
     - match: '(q)(")(.)'
       captures:
         1: storage.modifier.string.d
