@@ -75,7 +75,7 @@ contexts:
 
   attributes-list:
     - meta_content_scope: meta.attributes-list.git.attributes
-    # attriubte list ends with line
+    # attribute list ends with line
     - match: $\n?
       scope: meta.attributes-list.git.attributes
       pop: 1
