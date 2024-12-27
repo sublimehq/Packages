@@ -1596,12 +1596,12 @@
 		},
 		{
 			"trigger": "calcul_hmac()",
-			"contents": "calcul_hmac(${1:clent}, ${2:siretcode}, ${3:price}, ${4:reference}, ${5:validity}, ${6:taxation}, ${7:devise}, ${8:language})",
+			"contents": "calcul_hmac(${1:client}, ${2:siretcode}, ${3:price}, ${4:reference}, ${5:validity}, ${6:taxation}, ${7:devise}, ${8:language})",
 			"kind": "function"
 		},
 		{
 			"trigger": "calculhmac()",
-			"contents": "calculhmac(${1:clent}, ${2:data})",
+			"contents": "calculhmac(${1:client}, ${2:data})",
 			"kind": "function"
 		},
 		{
@@ -14572,7 +14572,7 @@
 		},
 		{
 			"trigger": "nthmac()",
-			"contents": "nthmac(${1:clent}, ${2:data})",
+			"contents": "nthmac(${1:client}, ${2:data})",
 			"kind": "function"
 		},
 		{
@@ -20152,7 +20152,7 @@
 		},
 		{
 			"trigger": "signeurlpaiement()",
-			"contents": "signeurlpaiement(${1:clent}, ${2:data})",
+			"contents": "signeurlpaiement(${1:client}, ${2:data})",
 			"kind": "function"
 		},
 		{
