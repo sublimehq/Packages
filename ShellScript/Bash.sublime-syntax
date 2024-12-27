@@ -898,7 +898,7 @@ contexts:
     # cmd modifier commands are directly followed by simple commands
     - match: '{{modifier_cmds}}'
       scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
-    # shell built-in commands with arbritary arguments
+    # shell built-in commands with arbitrary arguments
     - match: '{{builtin_cmds}}'
       scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
       push:

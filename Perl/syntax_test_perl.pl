@@ -4966,7 +4966,7 @@ _EOD_
 #           ^ punctuation.section.group.end.perl
 #            ^ punctuation.terminator.statement.perl
 
-  ## The function call argument list can contain arbitary arguments
+  ## The function call argument list can contain arbitrary arguments
   ## after the content of the `_EOD_` HEREDOC.
 
   Func(<<_EOD_;
