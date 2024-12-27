@@ -1213,7 +1213,7 @@ contexts:
     - match: \.=?
       scope: keyword.operator.concatenation.perl
       push: expressions-begin
-    # string concation
+    # string repetition
     #  "string" x 10
     - match: \bx{{break}}
       scope: keyword.operator.arithmetic.perl
