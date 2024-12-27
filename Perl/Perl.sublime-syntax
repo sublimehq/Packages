@@ -1063,7 +1063,7 @@ contexts:
 ###[ KEYWORDS ]###############################################################
 
   keywords:
-    # All keywords can be prefixed with the case sensitive `CORE` namespace.
+    # All keywords can be prefixed with the case-sensitive `CORE` namespace.
     # This context makes sure not to highlight the keywords as functions.
     # The `meta.path` is not applied for simplicity reasons.
     - match: \b(CORE)(::)(?={{reserved_words}})

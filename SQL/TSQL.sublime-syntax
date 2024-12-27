@@ -200,7 +200,7 @@ contexts:
   for-xml:
     - match: \b(?i:raw|auto|elements|root|path)\b
       scope: keyword.other.tsql
-    - match: \b(?:XSINIL|XMLSCHEMA)\b # case sensitive?! TODO: need to check
+    - match: \b(?:XSINIL|XMLSCHEMA)\b # case-sensitive?! TODO: need to check
       scope: keyword.other.tsql
     - match: (?=\))
       pop: 1
