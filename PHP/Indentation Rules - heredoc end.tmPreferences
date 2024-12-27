@@ -6,7 +6,7 @@
 	<key>settings</key>
 	<dict>
 		<!--
-			If you are writing codes for PHP less then 7.3, you may want to
+			If you are writing codes for PHP less than 7.3, you may want to
 			uncomment the the following section to ensure that "heredoc ending
 			token must be at BOL".
 		-->
