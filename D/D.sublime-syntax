@@ -440,14 +440,14 @@ contexts:
       captures:
         1: storage.modifier.string.d
         2: punctuation.definition.string.begin.d
-        3: constant.other.delimeter.d
+        3: constant.other.delimiter.d
         4: invalid.illegal.d
       set:
         - meta_include_prototype: false
         - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(^\3)(")({{string_postfix}})'
           captures:
-            1: constant.other.delimeter.d
+            1: constant.other.delimiter.d
             2: punctuation.definition.string.end.d
             3: storage.type.string.d
           pop: true
@@ -505,13 +505,13 @@ contexts:
       captures:
         1: storage.modifier.string.d
         2: punctuation.definition.string.begin.d
-        3: constant.other.delimeter.d
+        3: constant.other.delimiter.d
       set:
         - meta_include_prototype: false
         - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(\3)(?:(")|(.))({{string_postfix}})'
           captures:
-            1: constant.other.delimeter.d
+            1: constant.other.delimiter.d
             2: punctuation.definition.string.end.d
             3: invalid.illegal.d
             4: storage.type.string.d

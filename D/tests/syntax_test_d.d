@@ -142,13 +142,13 @@ auto delimited = q"SQL_1
 //               ^^^^^^^^ meta.string.d string.quoted.double.raw.d
 //               ^ storage.modifier.string.d
 //                ^ punctuation.definition.string.begin.d
-//                 ^^^^^ constant.other.delimeter.d
+//                 ^^^^^ constant.other.delimiter.d
     select foo \n
 //  ^^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 SQL_1";
-// <- meta.string.d string.quoted.double.raw.d constant.other.delimeter.d
+// <- meta.string.d string.quoted.double.raw.d constant.other.delimiter.d
 //^^^^ meta.string.d string.quoted.double.raw.d
-// ^^ constant.other.delimeter.d
+// ^^ constant.other.delimiter.d
 //   ^ punctuation.definition.string.end.d
 //    ^ punctuation.terminator.d
 //    - meta.string.d
@@ -176,8 +176,8 @@ auto delimitedAny = q"/foo(xxx)/";
 //                  ^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 //                  ^ storage.modifier.string.d
 //                   ^ punctuation.definition.string.begin.d
-//                    ^ constant.other.delimeter.d
-//                             ^ constant.other.delimeter.d
+//                    ^ constant.other.delimiter.d
+//                             ^ constant.other.delimiter.d
 //                              ^ punctuation.definition.string.end.d
 auto stringPostfix = ``c + ""w + q"//"d;
 //                     ^ meta.string.d string.quoted.double.raw.backtick.d storage.type.string.d
