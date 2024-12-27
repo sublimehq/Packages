@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: Regular Expressions (Javascript)
+name: Regular Expressions (JavaScript)
 scope: source.regexp.js
 hidden: true
 variables:
