@@ -4446,7 +4446,7 @@ main = do
 --    ^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^ variable.namespace.haskell
---      ^ punctuation.accessor.dot.haskell - keyword - variale
+--      ^ punctuation.accessor.dot.haskell - keyword - variable
 --       ^^^^^ keyword.operator.function.infix.haskell
 --            ^ punctuation.definition.infix.end.haskell - keyword
 
@@ -4462,7 +4462,7 @@ main = do
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^^^^^ variable.namespace.haskell
---          ^ punctuation.accessor.dot.haskell - keyword - variale
+--          ^ punctuation.accessor.dot.haskell - keyword - variable
 --           ^^^^ keyword.operator.function.infix.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
 
@@ -4514,7 +4514,7 @@ main = do
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^^ variable.namespace.haskell
---       ^ punctuation.accessor.dot.haskell - keyword - variale
+--       ^ punctuation.accessor.dot.haskell - keyword - variable
 --        ^^^^^^^ keyword.operator.function.infix.haskell
 --              ^ storage.modifier.unboxed.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
@@ -4525,7 +4525,7 @@ main = do
 --     ^^^^^ variable.namespace.haskell
 --          ^ punctuation.accessor.dot.haskell - variable
 --           ^^ variable.namespace.haskell
---             ^ punctuation.accessor.dot.haskell - keyword - variale
+--             ^ punctuation.accessor.dot.haskell - keyword - variable
 --              ^^^^^^^ keyword.operator.function.infix.haskell
 --                    ^ storage.modifier.unboxed.haskell
 --                     ^ punctuation.definition.infix.end.haskell - keyword

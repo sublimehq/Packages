@@ -801,7 +801,7 @@ A<B<C>> f(std::function<A<B<C>>()> g) {
 }
 int main() {
     std::function<C()> foo1;
-    /*          ^ - variabe.function */
+    /*          ^ - variable.function */
     std::function<B<C>()> foo2;
     /*          ^ - variable.function */
     auto f = [](std::function<A<B<C>>()> g) { return g(); };
