@@ -922,6 +922,11 @@ contexts:
   attribute_in:
     - meta_scope: meta.annotation.cs
     - include: namespace_variables
+    - match: (GeneratedRegex)\s*(\()
+      captures:
+        1: variable.annotation.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      set: [attribute_arguments, arguments, regex_string]
     - match: '({{name}})\s*(\()'
       captures:
         1: variable.annotation.cs
@@ -2440,3 +2445,23 @@ contexts:
     - include: comments_in
     - match: '[\w\s]+|.'
       scope: text.documentation.cs
+
+  regex_string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.cs
+      embed: scope:source.regexp
+      embed_scope: meta.string.cs meta.regexp.cs
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.cs
+      pop: 1
+    - match: '@"'
+      scope: punctuation.definition.string.begin.cs
+      embed: scope:source.regexp
+      embed_scope: meta.string.cs meta.regexp.cs
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.cs
+      pop: 1
+    - match: (?=\S)
+      pop: 1
