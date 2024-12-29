@@ -9757,9 +9757,9 @@ cat << redirection_comes_next > foo.txt
 #                             ^^ meta.redirection.shell meta.redirection.shell - meta.string
 #                               ^^^^^^^ meta.redirection.shell meta.redirection.shell meta.string.glob.shell string.unquoted.shell
 #   ^^ keyword.operator.assignment.redirection.shell
-#     ^ - entiy - keyword
+#     ^ - entity - keyword
 #      ^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.heredoc.shell
-#                            ^ - entiy - keyword
+#                            ^ - entity - keyword
 #                             ^ keyword.operator.assignment.redirection.shell
 #                               ^^^^^^^ - variable.function
 hello
@@ -9775,7 +9775,7 @@ cat <<     FARAWAY
 #          ^^^^^^^ meta.redirection.shell meta.tag.heredoc.begin.shell - meta.string - string
 #                 ^ meta.redirection.shell - meta.tag - meta.string - string
 #   ^^ keyword.operator.assignment.redirection.shell
-#     ^^^^^ - entiy - keyword
+#     ^^^^^ - entity - keyword
 #          ^^^^^^^ entity.name.tag.heredoc.shell
 #                 ^ - entity
 foo
