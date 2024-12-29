@@ -108,6 +108,7 @@ contexts:
     - include: storage-modifiers
     - include: declarations
     - include: for-comprehension
+    - include: if-statement
     - include: keywords
     - include: imports
     - include: strings
@@ -969,29 +970,50 @@ contexts:
     - match: '(?=[^ \t])'
       pop: true
 
+  if-statement:
+    - match: '\bif\b'
+      scope: keyword.control.flow.scala
+      push:
+        - match: '(?=\n)'
+          pop: true
+        - match: '\bthen\b'
+          scope: keyword.control.flow.scala
+        - include: main
+
   for-comprehension:
-    - match: '\b(for)\s*(\{)'
-      captures:
-        1: keyword.control.flow.scala
-        2: punctuation.section.block.begin.scala
+    - match: '\bfor\b'
+      scope: keyword.control.flow.scala
       push:
-        - match: '\}'
-          scope: punctuation.section.block.end.scala
+        - match: '\byield\b'
+          scope: keyword.control.flow.scala
           pop: true
-        - include: for-braces-body
-    - match: '\b(for)\s*(\()'
-      captures:
-        1: keyword.control.flow.scala
-        2: punctuation.section.group.begin.scala
-      push:
-        - match: '\)'
-          scope: punctuation.section.group.end.scala
+        - match: '\('
+          scope: punctuation.section.group.begin.scala
+          set:
+            - match: '\)'
+              scope: punctuation.section.group.end.scala
+              pop: true
+            - include: for-parens-body
+        - match: '\{'
+          scope: punctuation.section.block.begin.scala
+          set:
+            - match: '\}'
+              scope: punctuation.section.block.end.scala
+              pop: true
+            - include: for-braces-body
+        - match: '(?=[)};])'
           pop: true
-        - include: for-parens-body
+        - match: '(?=\S)'
+          set:
+            - match: '\byield\b'
+              scope: keyword.control.flow.scala
+              pop: true
+            - include: for-braces-body
+
   for-braces-body:
     - match: |-
         (?x)
-          ^(?=
+          (?=
             (
                [^<\x{2190}=\{\}/"]
               |<[^\-]
@@ -1024,6 +1046,7 @@ contexts:
     - match: '(?=\))'
       pop: true
     - match: ;
+      scope: punctuation.terminator.scala
       pop: true
     - include: main
 

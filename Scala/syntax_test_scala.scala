@@ -2024,8 +2024,10 @@ for (_<- fu; _← fu; _= fu)
 //  ^ punctuation.section.group.begin.scala
 //   ^ variable.language.underscore.scala
 //    ^^ keyword.operator.assignment.scala
+//         ^ punctuation.terminator.scala
 //           ^ variable.language.underscore.scala
 //            ^ keyword.operator.assignment.scala
+//                ^ punctuation.terminator.scala
 //                  ^ variable.language.underscore.scala
 //                   ^ keyword.operator.assignment.scala
 //                       ^ punctuation.section.group.end.scala
