@@ -71,7 +71,7 @@ variables:
 
   operator_overloads: 'opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r'
 
-  block_statement_loohahead: '(?={)'
+  block_statement_lookahead: '(?={)'
 
   exclamation_mark: '!(?!=|in\b|is\b)'
 
@@ -155,7 +155,7 @@ contexts:
     - include: value-or-declaration-in
 
   block-statement-in:
-    - match: '{{block_statement_loohahead}}'
+    - match: '{{block_statement_lookahead}}'
       push: block-statement
   block-statement:
     - match: '{'
@@ -168,7 +168,7 @@ contexts:
         - include: statement-list-in
     - include: not-whitespace-illegal-pop
   optional-block-statement:
-    - match: '{{block_statement_loohahead}}'
+    - match: '{{block_statement_lookahead}}'
       set: block-statement
     - match: '(?=\S)'
       pop: true
@@ -634,7 +634,7 @@ contexts:
       scope: punctuation.separator.d
       pop: true
     - include: end-of-line
-    - match: '{{block_statement_loohahead}}'
+    - match: '{{block_statement_lookahead}}'
       set: block-statement
     - match: '{{attribute_lookahead}}'
       push: attribute
@@ -1020,7 +1020,7 @@ contexts:
       set:
         - match: '(?=\()'
           set: [function-definition-after-condition, assert-arguments]
-        - match: '{{block_statement_loohahead}}'
+        - match: '{{block_statement_lookahead}}'
           set: [function-definition-after-condition, block-statement]
         - include: not-whitespace-illegal-pop
     - match: '\bout\b'
@@ -1032,7 +1032,7 @@ contexts:
     - match: '=>'
       scope: keyword.declaration.function.d
       set: [expect-end-of-line, value]
-    - match: '{{block_statement_loohahead}}'
+    - match: '{{block_statement_lookahead}}'
       set: block-statement
     - include: expect-end-of-line
   function-out-contract:
@@ -1051,7 +1051,7 @@ contexts:
           scope: punctuation.separator.sequence.d
           set: [function-out-contract-after, value-list]
         - include: not-whitespace-illegal-pop
-    - match: '{{block_statement_loohahead}}'
+    - match: '{{block_statement_lookahead}}'
       set: block-statement
     - include: not-whitespace-illegal-pop
   function-out-contract-after:
@@ -1107,7 +1107,7 @@ contexts:
     - include: not-whitespace-illegal-pop
 
   optional-template-body-block:
-    - match: '{{block_statement_loohahead}}'
+    - match: '{{block_statement_lookahead}}'
       set: block-statement
     - match: '\bif\b'
       scope: keyword.control.conditional.d
