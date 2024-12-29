@@ -183,7 +183,7 @@
         },
         {
             "trigger": "euc_jp",
-            "annotation": "Japaneese",
+            "annotation": "Japanese",
             "contents": "euc_jp",
             "kind": ["variable", "e", "Encoding"]
         },
@@ -219,7 +219,7 @@
         },
         {
             "trigger": "Shift_JIS",
-            "annotation": "Japaneese",
+            "annotation": "Japanese",
             "contents": "Shift_JIS",
             "kind": ["variable", "e", "Encoding"]
         },
