@@ -923,16 +923,20 @@ type Foo >: Bar
 
    { a => ??? }
 //   ^ variable.parameter
+// ^^^^^^^^^^^^ meta.block.scala
 
    { (a, b) => ??? }
-//   ^ punctuation.section.group.begin.scala
+// ^ punctuation.section.block.begin.scala
 //    ^ variable.parameter.scala
 //       ^ variable.parameter.scala
 //        ^ punctuation.section.group.end.scala
+//                 ^ punctuation.section.block.end.scala
 
    { a: Int => ??? }
+// ^ punctuation.section.block.begin.scala
 //   ^ variable.parameter
 //      ^^^ storage.type.primitive.scala
+//                 ^ punctuation.section.block.end.scala
 
    { (a: Int, b: Int) => ??? }
 //    ^ variable.parameter
@@ -967,9 +971,9 @@ type Foo >: Bar
    a => ???
 // ^ variable.parameter
 
-   a: Int => ???
-// ^ variable.parameter
-//    ^^^ storage.type.primitive.scala
+   (a: Int) => ???
+//  ^ variable.parameter
+//     ^^^ storage.type.primitive.scala
 
 {
    case _ if thing =>
@@ -1031,10 +1035,10 @@ foo(())()
 //       ^^^^^^^^^^^^ string.quoted.double
 //       ^^^^^^^^^^^^ - comment
 
-   cb: ((Throwable \/ Unit) => Unit) => 42
-// ^^ variable.parameter
-//                 ^^ support.type.scala
-//                                   ^^ keyword.declaration.function.arrow
+   (cb: ((Throwable \/ Unit) => Unit)) => 42
+//  ^^ variable.parameter
+//                  ^^ support.type.scala
+//                                     ^^ keyword.declaration.function.arrow
 
 def foo(a: A <:< B)
 //           ^^^ support.type.scala
@@ -1256,9 +1260,9 @@ val Stuff(thing, other) = ???
 //        ^^^^^ variable.other.constant.scala
 //               ^^^^^ variable.other.constant.scala
 
-   x: List[Int] => ()
-// ^ variable.parameter.scala
-//              ^^ keyword.declaration.function.arrow.lambda.scala
+   (x: List[Int]) => ()
+//  ^ variable.parameter.scala
+//                ^^ keyword.declaration.function.arrow.lambda.scala
 
 /** private */ class Foo
 //             ^^^^^ keyword.declaration.class.scala
@@ -1409,13 +1413,13 @@ def test
 def foo: Map[Bar]=42
 //                ^^ meta.number.integer.decimal.scala
 
-   x: Foo.Bar => ()
-// ^ variable.parameter.scala
-//            ^^ keyword.declaration.function.arrow.lambda.scala
+   (x: Foo.Bar) => ()
+//  ^ variable.parameter.scala
+//              ^^ keyword.declaration.function.arrow.lambda.scala
 
-   x: Foo#Bar => ()
-// ^ variable.parameter.scala
-//            ^^ keyword.declaration.function.arrow.lambda.scala
+   (x: Foo#Bar) => ()
+//  ^ variable.parameter.scala
+//              ^^ keyword.declaration.function.arrow.lambda.scala
 
     object Stuff {
       case

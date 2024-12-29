@@ -76,6 +76,8 @@ variables:
   # hack to cover up to three levels of nested parentheses
   withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
   withinbrackets: '(?:\[(?:[^\[\]]|\[(?:[^\[\]]|\[[^\[\]]*\])*\])*\])'
+  lambdalookahead: '({{idorunder}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}])'
+  lambdalookaheadtyped: '({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}])'
   # This is the full XML Name production, but should not be used where namespaces
   # are possible. Those locations should use a qualified_name.
   xml_name: '[[:alpha:]:_][[:alnum:]:_.-]*'
@@ -173,6 +175,12 @@ contexts:
         - include: single-type-expression-no-function
 
   ascription:
+    # in Scala 3, this can be either an ascription *or* a section, and we don't know for sure
+    # also, Scala allows this syntax to follow any identifier, so we can't be as precise as the Python mode
+    - match: ':(?=\s*$)'
+      scope: punctuation.section.begin.scala
+    - match: ':(?=\s*{{lambdalookahead}})'
+      scope: punctuation.section.begin.scala
     - match: '{{typeprefix}}'
       captures:
         1: punctuation.ascription.scala
@@ -230,13 +238,31 @@ contexts:
       pop: true
 
   lambdas:
-    # lambda lookahead
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}]))'
+    # lambda lookahead with braces (allows for types)
+    - match: '\{(?=\s*{{lambdalookaheadtyped}})'
+      scope: punctuation.section.block.begin.scala
       push:
+        - meta_scope: meta.block.scala
+        - match: '\}'
+          scope: punctuation.section.block.end.scala
+          pop: true
         - match: '{{rightarrow}}'
           scope: keyword.declaration.function.arrow.lambda.scala
-          pop: true
+          set:
+            - meta_scope: meta.block.scala
+            - match: '\}'
+              scope: punctuation.section.block.end.scala
+              pop: true
+            - include: main
         - include: lambda-declaration
+    # lambda lookahead without braces (disallows types)
+    - match: '(?={{lambdalookahead}})'
+      push: lambda-init
+  lambda-init:
+    - match: '{{rightarrow}}'
+      scope: keyword.declaration.function.arrow.lambda.scala
+      pop: true
+    - include: lambda-declaration
   lambda-declaration-base:
     - match: \(
       scope: punctuation.section.group.begin.scala
