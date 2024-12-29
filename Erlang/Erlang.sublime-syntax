@@ -34,7 +34,7 @@ variables:
   # an identifier can contain lowercase, uppercase, digits, underscore and @
   ident_char: '[_A-Za-z\d@]'
   # the character which identifies the end of an identifier
-  # Note: need the character as embedded positvie lookaheads don't work
+  # Note: need the character as embedded positive lookaheads don't work
   ident_break_char: '[^{{ident_char}}]'
   # end of identifier lookahead
   # Note: avoid negative lookahead as it is 6-8% slower
