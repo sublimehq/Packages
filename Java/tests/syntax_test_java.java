@@ -4640,7 +4640,7 @@ class ReceiverArgTests {
 /******************************************************************************
  * Invalid Class Member Fallback Tests
  *   Things that are not supported by Java but might need to be handled by the
- *   syntax to prevent highligthing from breaking due to incomplete code blocks.
+ *   syntax to prevent highlighting from breaking due to incomplete code blocks.
  *
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
