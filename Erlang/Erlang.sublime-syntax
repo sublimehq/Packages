@@ -269,7 +269,7 @@ contexts:
     # Note:
     #   The `-` is scoped as `punctuation.definition` because:
     #   1. directives are most likely one-liners (with exceptions!)
-    #   2. the hyphon is compared to the hash-tag in C/C++ preprocessors
+    #   2. the hyphen is compared to the hash-tag in C/C++ preprocessors
     #   3. the `.` is meant to share the scope `punctuation.terminator.clause`
     #      with clauses/functions as it has the same meaning.
     - match: (-)\s*(ifdef|ifndef){{ident_break}}
