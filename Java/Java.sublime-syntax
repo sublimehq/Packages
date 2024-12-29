@@ -263,7 +263,7 @@ contexts:
     # fail: looks like a qualified annotation
     - match: (?={{single_dot}})
       fail: annotation-identifier
-    # fail: truncate meta scope immediatelly
+    # fail: truncate meta scope immediately
     - match: (?=\S)
       fail: annotation-unqualified-parameters
 

@@ -163,7 +163,7 @@ contexts:
         - def-function-body
         - def-function-params
         - def-function-name
-    # anonymous functions are immediatelly called
+    # anonymous functions are immediately called
     # hence scoping as meta.function-call meta.function
     - match: (\()\s*(\))
       scope: meta.function-call.shell meta.function.anonymous.parameters.shell
@@ -173,7 +173,7 @@ contexts:
       set: def-anonymous-body
 
   def-anonymous-begin:
-    # anonymous functions are immediatelly called
+    # anonymous functions are immediately called
     # hence scoping as meta.function-call meta.function
     - meta_include_prototype: false
     - meta_scope: meta.function-call.shell meta.function.anonymous.shell

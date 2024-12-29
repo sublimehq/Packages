@@ -886,7 +886,7 @@ contexts:
 
   expr-fun-meta:
     - meta_scope: meta.fun.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   expr-fun-type-decider:
     # function reference (e.g.: FuncName = fun module:name/arity)
@@ -1268,7 +1268,7 @@ contexts:
 
   record-field-access-meta:
     - meta_content_scope: meta.record.field.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   record-field-access-name:
     - include: variable-other-field
@@ -1303,7 +1303,7 @@ contexts:
 
   record-field-identifier-meta:
     - meta_content_scope: meta.field.identifier.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   record-field-identifier:
     - include: variable-anonymous-pop
@@ -1448,7 +1448,7 @@ contexts:
 
   namespace-meta:
     - meta_scope: meta.path.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   namespace-member-other:
    - include: reference-pop
@@ -1456,7 +1456,7 @@ contexts:
    - include: atom-pop
    - include: macro-pop
    - include: variable-other-pop
-   - include: immediatelly-pop
+   - include: immediately-pop
 
   namespace-accessor:
     - match: ':'
@@ -1500,7 +1500,7 @@ contexts:
 
   reference-arity-meta:
     - meta_content_scope: meta.reference.function.arity.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   reference-arity-body:
     - match: \d+
@@ -2134,7 +2134,7 @@ contexts:
     - match: (?=->|when{{ident_break_char}})
       pop: 1
 
-  immediatelly-pop:
+  immediately-pop:
     - match: ''
       pop: 1
 
