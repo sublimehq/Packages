@@ -2497,7 +2497,7 @@
 --             ^^^^ support.constant.prelude.haskell
 --                 ^ punctuation.terminator.statement.haskell
 
-     {- preceeded by statement terminator -}
+     {- preceded by statement terminator -}
      ;method :: Bool -> Bool;
 --   ^ meta.block.haskell - meta.function
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
@@ -2555,7 +2555,7 @@
 --             ^^^^ support.constant.prelude.haskell
 --                 ^ punctuation.terminator.statement.haskell
 
-     {- preceeded by statement terminator -}
+     {- preceded by statement terminator -}
      ;method :: Bool -> Bool;
 --   ^ meta.block.haskell - meta.function
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell

@@ -4555,7 +4555,7 @@ function_call_tests() ->
 %               ^ punctuation.section.arguments.end.erlang
 %                ^ punctuation.separator.expressions.erlang
 
-% match builtin functions without respect of preceeded namespace
+% match builtin functions without respect of preceded namespace
 
     erlang:abs(X),
 %   ^^^^^^^ meta.path.erlang - meta.function-call
@@ -4684,7 +4684,7 @@ function_call_tests() ->
 %                    ^ punctuation.section.arguments.end.erlang
 %                     ^ punctuation.separator.expressions.erlang
 
-% builtins don't need the namespace preceeded
+% builtins don't need the namespace preceded
 
     abs(X),
 %  ^ - meta.function-call - meta.path
