@@ -545,7 +545,7 @@ format var =
 
 ###[ SPRINTF FORMAT ]#########################################################
 
-  "%<index>?<flag>?<width>?[<vector>|<precicion>]<size>?<sequence>
+  "%<index>?<flag>?<width>?[<vector>|<precision>]<size>?<sequence>
 
   # sequences
 
@@ -723,7 +723,7 @@ format var =
 #  ^^^^^ constant.other.placeholder.perl
 #       ^ - constant.other.placeholder
 
-  # precicion
+  # precision
 
   %#.5o
 #^ - constant.other.placeholder
