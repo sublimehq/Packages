@@ -542,7 +542,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
 .RECIPEPREFIX +=
 
 help::
-	@echo "Excutable is $(EXECUTABLE)"
+	@echo "Executable is $(EXECUTABLE)"
 	# <- constant.language
 
 $(warning he:llo)
