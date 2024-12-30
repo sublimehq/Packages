@@ -4934,7 +4934,7 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #   ^ storage.modifier.glob.shell.zsh
 #    ^ punctuation.definition.modifier.end.shell.zsh
 
-: /(f70?) (f=7?0) (f+?70) (f-7${g}3)  # octal acces right specification
+: /(f70?) (f=7?0) (f+?70) (f-7${g}3)  # octal access right specification
 #   ^ storage.modifier.glob.shell.zsh
 #    ^^ meta.number.integer.octal.shell constant.numeric.value.shell
 #      ^ meta.number.integer.octal.shell constant.other.wildcard.questionmark.shell
@@ -4953,7 +4953,7 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #                             ^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
 #                                 ^ meta.number.integer.octal.shell constant.numeric.value.shell
 
-: /(f$mode) (f=$mode) (f+$mode) (f-$mode)  # octal acces right specification
+: /(f$mode) (f=$mode) (f+$mode) (f-$mode)  # octal access right specification
 #   ^ storage.modifier.glob.shell.zsh
 #    ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #            ^ storage.modifier.glob.shell.zsh
