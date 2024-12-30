@@ -456,14 +456,14 @@ contexts:
           set:
             - match: '{{rightarrow}}'
               scope: keyword.declaration.function.arrow.case.scala
-              set: case-body-first
+              pop: true
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
               scope: keyword.declaration.function.arrow.case.scala
-              set: case-body-first
+              pop: true
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
@@ -557,30 +557,6 @@ contexts:
         - match: '(?=\S)'
           pop: true
 
-  case-body-first:
-    - meta_content_scope: meta.block.case.first.scala
-    - match: \{
-      scope: punctuation.section.block.begin.scala
-      set:
-        - meta_scope: meta.block.scala
-        - match: \}
-          scope: punctuation.section.block.end.scala
-          set: case-body-first
-        - include: main
-    - include: case-body
-
-  case-body-non-first:
-    - meta_content_scope: meta.block.case.non-first.scala
-    - match: \{
-      scope: punctuation.section.block.begin.scala
-      set:
-        - meta_scope: meta.block.scala
-        - match: \}
-          scope: punctuation.section.block.end.scala
-          set: case-body-non-first
-        - include: main
-    - include: case-body
-
   # this exists to clear the meta_scope from first or non-first
   case-pattern:
     - match: '\bcase\b'
@@ -592,24 +568,17 @@ contexts:
           set:
             - match: '{{rightarrow}}'
               scope: keyword.declaration.function.arrow.case.scala
-              set: case-body-non-first
+              pop: true
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
               scope: keyword.declaration.function.arrow.case.scala
-              set: case-body-non-first
+              pop: true
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
-
-  case-body:
-    - match: (?=\bcase\b)
-      set: case-pattern
-    - match: (?=\})
-      pop: true
-    - include: main
 
   braces:
     - match: \[
@@ -1164,7 +1133,7 @@ contexts:
           pop: true
         - match: '(?=\S)'
           set:
-            - match: '\byield\b'
+            - match: '\b(?:yield|do)\b'
               scope: keyword.control.flow.scala
               pop: true
             - include: for-braces-body
@@ -1792,6 +1761,10 @@ contexts:
         - include: declarations
     - match: '_\s*\*'
       scope: keyword.operator.varargs.scala
+    # the whitespace covering is required to deal with the very aggressive scope popping for single type exprs
+    - match: '\s*(=>>)\s*'
+      captures:
+        1: keyword.declaration.function.arrow.type-lambda.scala
 
   base-type-expression:
     - include: base-type-expression-no-function
