@@ -468,3 +468,38 @@ x + derives
 
 x + extension
 //  ^^^^^^^^^ - keyword
+
+val x: 1 = 1
+//     ^ constant.numeric.value.scala
+
+val x: 1f = 1f
+//     ^ constant.numeric.value.scala
+//      ^ constant.numeric.suffix.scala
+
+val x: 1d = 1d
+//     ^ constant.numeric.value.scala
+//      ^ constant.numeric.suffix.scala
+
+val x: true = true
+//     ^^^^ constant.language.boolean.true.scala
+
+val x: F[true] = true
+//       ^^^^ constant.language.boolean.true.scala
+//           ^ punctuation.definition.generic.end.scala
+
+val c: 'c' = 'c'
+//     ^^^ constant.character.literal.scala
+
+val str: "hi" = "hi"
+//       ^^^ string.quoted.double.scala
+
+val str: """hi""" = """hi"""
+//       ^^^^^^^^ string.quoted.triple.scala
+
+val i: 0x01 = 0x01
+//     ^^ constant.numeric.base.scala
+//       ^^ constant.numeric.value.scala
+
+type Foo = (true)
+//          ^^^^ constant.language.boolean.true.scala
+//              ^ punctuation.definition.group.end.scala
