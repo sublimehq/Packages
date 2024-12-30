@@ -112,3 +112,9 @@ end while
 
 end for
 //  ^^^ keyword.control.flow.scala
+
+List[?]
+//   ^ variable.language.hole.scala
+Map[? <: AnyRef, ? >: Null]
+//  ^ variable.language.hole.scala
+//               ^ variable.language.hole.scala
