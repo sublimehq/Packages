@@ -313,3 +313,21 @@ type Y =
 
 type Executable[T] = ExecutionContext ?=> T
 //                                    ^^^ keyword.operator.arrow.type-context.scala
+
+opaque type Logarithm = Double
+// <- storage.modifier.other.scala
+//     ^^^^ storage.type.scala
+
+type Foo = A & B
+//           ^ keyword.operator.and.scala
+type Foo = A | B
+//           ^ keyword.operator.or.scala
+
+case a: A | b: B => ()
+//   ^ variable.parameter.scala
+//        ^ keyword.operator.or.scala
+//          ^ variable.parameter.scala
+
+{ x: A | B => () }
+//     ^ keyword.operator.or.scala
+//       ^ support.class.scala

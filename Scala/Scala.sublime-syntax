@@ -17,7 +17,7 @@ first_line_match: |-
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
   # note that this omits conditionally reserved words
-  keywords: '\b(?:abstract|case|catch|class|def|derives|do|end|else|enum|extends|extension|false|final|finally|for|forSome|given|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
+  keywords: '\b(?:abstract|case|catch|class|def|derives|do|end|else|enum|extends|extension|false|final|finally|for|forSome|given|if|implicit|import|lazy|match|new|null|object|opaque|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
 
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
@@ -166,14 +166,14 @@ contexts:
       captures:
         1: punctuation.definition.comment.scala
 
-  ascription-no-function:
+  ascription-no-function-no-or:
     - match: '{{typeprefix}}'
       captures:
         1: punctuation.ascription.scala
       push:
         - match: '(?={{rightarrow}})'
           pop: true
-        - include: single-type-expression-no-function
+        - include: single-type-expression-no-function-no-or
 
   ascription:
     # in Scala 3, this can be either an ascription *or* a section, and we don't know for sure
@@ -1241,7 +1241,7 @@ contexts:
   storage-modifiers:
     - match: '\b(?:private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access.scala
-    - match: \b(?:abstract|final|lazy|sealed|implicit|override|using)\b
+    - match: \b(?:abstract|final|lazy|sealed|implicit|opaque|override|using)\b
       scope: storage.modifier.other.scala
 
   # see http://www.scala-lang.org/docu/files/ScalaReference.pdf part 1.3.5-6 (page 18)
@@ -1663,7 +1663,7 @@ contexts:
     - match: '\bgiven\b'
       scope: keyword.declaration.given.scala
       push:
-        - match: '(?=[,)]|{{rightarrow}}|<-|\x{2190}|=|do\b|yield\b)'
+        - match: '(?=[,)]|{{rightarrow}}|<-|\x{2190}|=|\bdo\b|\byield\b)'
           pop: true
         - include: delimited-type-expression
     - match: '{{varid}}(?:(\.){{varid}})+'
@@ -1713,7 +1713,8 @@ contexts:
       captures:
         1: punctuation.ascription.scala
       push:
-        - match: '(?=[,\)@|])'
+        # leading whitespace on | is required due to the weird matching in type expressions
+        - match: '(?=[,\)@]|\s*\|)'
           pop: true
         - include: delimited-type-expression
     - match: \(
@@ -1725,7 +1726,7 @@ contexts:
         - include: nested-pattern-match
   pattern-match:
     - include: base-pattern-match
-    - include: ascription-no-function
+    - include: ascription-no-function-no-or
     - match: \(
       scope: punctuation.section.group.begin.scala
       push:
@@ -1734,7 +1735,7 @@ contexts:
           pop: true
         - include: nested-pattern-match
 
-  base-type-expression-no-function:
+  base-type-expression-no-function-no-or:
     - match: ;
       scope: punctuation.terminator.scala
       pop: true
@@ -1768,6 +1769,15 @@ contexts:
     - match: '\s*(\?=>)\s*'
       captures:
         1: keyword.operator.arrow.type-context.scala
+    - match: '\s*(&)\s*'
+      captures:
+        1: keyword.operator.and.scala
+
+  base-type-expression-no-function:
+    - include: base-type-expression-no-function-no-or
+    - match: '\s*(\|)\s*'
+      captures:
+        1: keyword.operator.or.scala
 
   base-type-expression:
     - include: base-type-expression-no-function
@@ -1818,6 +1828,40 @@ contexts:
     - include: base-type-expression
 
   # single-type is a type expression with semicolon inference
+  single-type-expression-no-function-no-or:
+    - match: '\btype\b'
+      scope: keyword.other.scala
+    - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      set: single-type-expression-tail-no-function-no-or
+    - match: '\b(?:forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '\b(?:this|super)\b'
+      scope: variable.language.scala
+      set: single-type-expression-tail-no-function-no-or
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: single-type-expression-tail-no-function-no-or
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
+    - match: '{{typeid}}'
+      scope: support.type.scala
+      set: single-type-expression-tail-no-function-no-or
+    - match: (?=@{{plainid}})
+      set: single-type-expression-tail-no-function-no-or
+    - match: \(
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - match: \)
+          scope: punctuation.definition.generic.end.scala
+          set: single-type-expression-tail-no-function-no-or
+        - include: delimited-type-expression
+    - include: base-type-expression-no-function-no-or
+    - match: '(?=.)'    # we can be SUPER aggressive about popping out here
+      pop: true
+
   single-type-expression-no-function:
     - match: '\btype\b'
       scope: keyword.other.scala
@@ -1965,6 +2009,67 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+  single-type-expression-tail-no-function-no-or:
+    - match: (?=@{{plainid}})
+      set:
+        - include: annotation
+        - match: '(?=\S)'
+          set: single-type-expression-tail-no-function-no-or
+    - match: '[\.#]'
+      scope: punctuation.accessor.scala
+      set: single-type-expression-no-function-no-or
+    - match: \[
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - meta_scope: meta.generic.scala
+        - match: \]
+          scope: punctuation.definition.generic.end.scala
+          set: single-type-expression-tail-no-function-no-or
+        - include: delimited-type-expression
+    - match: '\b(with)(?:\s+|\b)'
+      captures:
+        1: keyword.declaration.scala
+      set: single-type-expression-no-function-no-or
+    - match: '\btype\b'
+      scope: invalid.keyword.type.in-tail-position.scala
+    - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      set: single-type-expression-tail-no-function-no-or-type-expectation
+    - match: '\b(?:forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '\b(?:this|super)\b'
+      scope: variable.language.scala
+      set: single-type-expression-tail-no-function-no-or-type-expectation
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: single-type-expression-tail-no-function-no-or-type-expectation
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
+    - match: '(?={{keywords}})'
+      pop: true
+    # we need to explicitly match this one because "|" is a valid type name
+    - match: '(?=\|)'
+      pop: true
+    - match: '{{typeid}}'
+      scope: support.type.scala
+      set: single-type-expression-tail-no-function-no-or-type-expectation
+    - match: '\{'
+      scope: punctuation.definition.block.begin.scala
+      set:
+        - match: \}
+          scope: punctuation.definition.block.end.scala
+          set: single-type-expression-tail-no-function-no-or
+        - include: main
+    - match: '(?=\()'
+      push: try-dispatch
+    - include: base-type-expression-no-function-no-or
+    - match: \n
+      pop: true
+    - match: '(?=\S)'
+      pop: true
+
   single-type-expression-tail:
     - match: (?=@{{alphaplainid}})
       set:
@@ -2037,6 +2142,12 @@ contexts:
     - match: '(?=\S)'
       set: single-type-expression-no-function
 
+  single-type-expression-tail-no-function-no-or-type-expectation:
+    - match: \n
+      set: single-type-expression-tail-no-function-no-or-newline
+    - match: '(?=\S)'
+      set: single-type-expression-no-function-no-or
+
   single-type-expression-tail-type-expectation:
     - match: \n
       set: single-type-expression-tail-newline
@@ -2047,6 +2158,11 @@ contexts:
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: single-type-expression-no-function
+
+  single-type-expression-tail-no-function-no-or-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: single-type-expression-no-function-no-or
 
   single-type-expression-tail-newline:
     - include: decl-newline-double-check
