@@ -403,3 +403,15 @@ type Elem[X] = X match {
 
 }
 // <- punctuation.definition.block.end.scala
+
+trait Greeting(val name: String)
+//                 ^^^^ variable.parameter.scala
+
+class D extends C, Greeting("Bill")
+//                          ^^^^^^ string.quoted.double.scala
+
+class D extends C with Greeting("Bill")
+//                              ^^^^^^ string.quoted.double.scala
+
+trait ImpliedGreeting(using val iname: ImpliedName)
+//                    ^^^^^ storage.modifier.other
