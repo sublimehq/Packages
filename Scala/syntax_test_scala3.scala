@@ -357,3 +357,49 @@ type F = ([A] => List[A] => Seq[A])
 //               ^^^^ support.class.scala
 //                       ^^ keyword.operator.arrow.scala
 //                          ^^^ support.class.scala
+
+type Elem[X] = X match
+//             ^ support.class.scala
+//               ^^^^^ keyword.control.flow.scala
+   case String => Foo
+// ^^^^ keyword.declaration.other.scala
+//      ^^^^^^ support.class.scala
+//             ^^ keyword.declaration.function.arrow.case.scala
+//                ^^^ support.class.scala
+   case Array[t] => t
+// ^^^^ keyword.declaration.other.scala
+//      ^^^^^ support.class.scala
+//           ^ punctuation.definition.generic.begin.scala
+//            ^ support.type.scala
+//             ^ punctuation.definition.generic.end.scala
+//               ^^ keyword.declaration.function.arrow.case.scala
+//                  ^ support.type.scala
+
+case Foo => ()
+//   ^^^ support.constant.scala
+
+type Elem[X] = X match {
+//             ^ support.class.scala
+//               ^^^^^ keyword.control.flow.scala
+//                     ^ punctuation.definition.block.begin.scala
+
+
+   case String => Foo
+// ^^^^ keyword.declaration.other.scala
+//      ^^^^^^ support.class.scala
+//             ^^ keyword.declaration.function.arrow.case.scala
+//                ^^^ support.class.scala
+
+
+   case Array[t] => t
+// ^^^^ keyword.declaration.other.scala
+//      ^^^^^ support.class.scala
+//           ^ punctuation.definition.generic.begin.scala
+//            ^ support.type.scala
+//             ^ punctuation.definition.generic.end.scala
+//               ^^ keyword.declaration.function.arrow.case.scala
+//                  ^ support.type.scala
+
+
+}
+// <- punctuation.definition.block.end.scala

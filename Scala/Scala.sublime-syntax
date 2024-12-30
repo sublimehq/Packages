@@ -161,7 +161,7 @@ contexts:
       scope: constant.character.literal.scala
 
   comments:
-    - match: (//).*$
+    - match: '(//).*\n'
       scope: comment.line.double-slash.scala
       captures:
         1: punctuation.definition.comment.scala
@@ -2122,6 +2122,14 @@ contexts:
     - match: '\b(?:this|super)\b'
       scope: variable.language.scala
       set: single-type-expression-tail-type-expectation
+    - match: '\bmatch\b'
+      scope: keyword.control.flow.scala
+      push:
+        - match: '\n'
+          set: type-match-body
+        - match: '(?=\{)'
+          set: type-match-body
+        - include: type-match-body
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail-type-expectation
@@ -2151,6 +2159,61 @@ contexts:
       pop: true
     - match: '(?=\S)'
       pop: true
+
+  type-match-body:
+    - match: '\{'
+      scope: punctuation.definition.block.begin.scala
+      set: delimited-type-match-body
+    - match: '\n'
+      set: type-match-body-newline
+    - match: '\bcase\b'
+      scope: keyword.declaration.other.scala
+      set:
+        - match: '{{rightarrow}}'
+          scope: keyword.declaration.function.arrow.case.scala
+          set: type-case-rightarrow
+        - include: delimited-type-expression
+    - match: '(?=\S)'
+      pop: true
+
+  type-match-body-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: type-match-body
+
+  delimited-type-match-body:
+    - match: '\}'
+      scope: punctuation.definition.block.end.scala
+      pop: true
+    - match: '\bcase\b'
+      scope: keyword.declaration.other.scala
+      set:
+        - match: '{{rightarrow}}'
+          scope: keyword.declaration.function.arrow.case.scala
+          set: delimited-type-case-rightarrow
+        - include: delimited-type-expression
+
+  type-case-rightarrow:
+    - match: '\n'
+      set: type-case-rightarrow-newline
+    - match: '(?=\bcase\b)'
+      set: type-match-body
+    - include: delimited-type-expression
+
+  type-case-rightarrow-newline:
+    - match: '(?=\bcase\b)'
+      set: type-match-body
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: type-case-rightarrow
+
+  delimited-type-case-rightarrow:
+    - match: '\}'
+      scope: punctuation.definition.block.end.scala
+      pop: true
+    - match: '(?=\bcase\b)'
+      set: delimited-type-match-body
+    - include: delimited-type-expression
 
   # we saw an infix type component, eat a single newline
   single-type-expression-tail-no-function-type-expectation:
