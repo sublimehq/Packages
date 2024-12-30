@@ -17,7 +17,7 @@ first_line_match: |-
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
   # note that this omits conditionally reserved words
-  keywords: '\b(?:abstract|case|catch|class|def|do|end|else|extends|false|final|finally|for|forSome|given|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
+  keywords: '\b(?:abstract|case|catch|class|def|derives|do|end|else|enum|extends|extension|false|final|finally|for|forSome|given|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
 
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
@@ -534,6 +534,28 @@ contexts:
           push: function-parameter-list-contents
         - match: '(?=\S)'
           pop: true
+    - match: '\benum\b'
+      scope: keyword.declaration.enum.scala
+      push:
+        - match: '{{id}}'
+          scope: entity.name.enum.scala
+          set:
+            - match: '\['
+              scope: punctuation.definition.generic.begin.scala
+              push: function-tparams-brackets
+            - match: '\bderives\b'
+              scope: storage.modifier.derives.scala
+              set:
+                - match: '{{id}}'
+                  scope: entity.other.inherited-class.scala
+                - match: ','
+                  scope: punctuation.separator.scala
+                - match: '(?=\S)'
+                  pop: true
+            - match: '(?=\S)'
+              pop: true
+        - match: '(?=\S)'
+          pop: true
 
   case-body-first:
     - meta_content_scope: meta.block.case.first.scala
@@ -686,7 +708,7 @@ contexts:
     - match: '\)'
       scope: punctuation.section.group.end.scala
       pop: true
-    - match: '\busing\b'
+    - match: '\b(?:using|implicit)\b'
       scope: storage.modifier.other.scala
     - match: '({{alphaid}})(?=\s*:)'
       captures:
@@ -712,7 +734,12 @@ contexts:
         - match: '(?=[,)])'
           pop: true
         - include: delimited-type-expression
-    - include: main
+    - match: '='
+      scope: keyword.operator.assignment.scala
+      push:
+        - match: '(?=[,)])'
+          pop: true
+        - include: main
 
   function-parameter-list-newline:
     - include: decl-newline-double-check
@@ -865,7 +892,7 @@ contexts:
         - include: delimited-type-expression
     - match: '\n'
       set: class-inheritance-extends-token-newline
-    - match: (?=\S)
+    - match: '(?=\S)'
       pop: true
 
   class-inheritance-extends-token-newline:
@@ -889,13 +916,16 @@ contexts:
           scope: punctuation.definition.generic.end.scala
           pop: true
         - include: delimited-type-expression
-    - match: (?=\b(?:with|extends)\b)
+    - match: ','
+      scope: punctuation.separator.scala
+      set: class-inheritance-extends-token
+    - match: '(?=\b(?:with|extends)\b)'
       set: class-inheritance-with
-    - match: (?=\{)
+    - match: '(?=\{)'
       set: class-inheritance-early-initializer
     - match: '\n'
       set: class-inheritance-extends-token-after-newline
-    - match: (?=\S)
+    - match: '(?=\S)'
       pop: true
 
   class-inheritance-extends-token-after-newline:

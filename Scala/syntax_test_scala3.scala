@@ -270,3 +270,24 @@ extension (i: Int) def isZero: Boolean = i == 0
 //                 ^^^ keyword.declaration.function.scala
 //                     ^^^^^^ entity.name.function.scala
 //                                     ^ keyword.operator.assignment.scala
+
+enum Tree[T] derives Eq, Ordering, Show:
+// <- keyword.declaration.enum.scala
+//   ^^^^ entity.name.enum.scala
+//       ^ punctuation.definition.generic.begin.scala
+//        ^ support.class.scala
+//         ^ punctuation.definition.generic.end.scala
+//           ^^^^^^^ storage.modifier.derives.scala
+//                   ^^ entity.other.inherited-class.scala
+//                     ^ punctuation.separator.scala
+//                       ^^^^^^^^ entity.other.inherited-class.scala
+//                               ^ punctuation.separator.scala
+//                                 ^^^^ entity.other.inherited-class.scala
+//                                     ^ punctuation.section.begin.scala
+
+class Foo extends Bar, Baz, Bin
+//                ^^^ entity.other.inherited-class.scala
+//                   ^ punctuation.separator.scala
+//                     ^^^ entity.other.inherited-class.scala
+//                        ^ punctuation.separator.scala
+//                          ^^^ entity.other.inherited-class.scala
