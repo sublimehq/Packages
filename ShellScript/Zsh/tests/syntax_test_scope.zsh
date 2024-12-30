@@ -1097,7 +1097,7 @@ function name () echo "$0 called with $*!"
 #              ^ punctuation.section.parameters.end.shell
 #                ^^^^ support.function.shell
 
-time () {  }   # reserved words can not be overwritten by local function definitions
+time () {  }   # reserved words cannot be overwritten by local function definitions
 # <- - meta.function
 #^^^^ - meta.function
 #    ^^ meta.function-call.shell meta.function.anonymous.parameters.shell

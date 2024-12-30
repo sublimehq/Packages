@@ -2992,7 +2992,7 @@ logExit $? $WEIRD
 #          ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                ^ - meta.function-call - meta.interpolation - variable
 
-time () {  }   # reserved words can not be overwritten by local function definitions
+time () {  }   # reserved words cannot be overwritten by local function definitions
 # <- - meta.function
 #^^^^ - meta.function
 #    ^^ meta.function-call.shell meta.function.anonymous.parameters.shell
