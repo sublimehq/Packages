@@ -943,7 +943,7 @@ contexts:
       set: class-inheritance-with
 
   imports:
-    - match: \bimport\b
+    - match: '\b(?:import|export)\b'
       scope: keyword.declaration.import.scala
       push:
         - meta_scope: meta.import.scala
@@ -984,6 +984,8 @@ contexts:
               scope: punctuation.separator.scala
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
+            - match: '\bas\b'
+              scope: keyword.operator.as.scala
             - match: '\bgiven\b'
               scope: storage.modifier.other.scala
               push:

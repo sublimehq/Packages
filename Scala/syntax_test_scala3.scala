@@ -421,3 +421,17 @@ transparent trait S
 
 inline val x = 42
 // <- storage.modifier.other
+
+export foo.Bar
+// <- keyword.declaration.import.scala
+//         ^^^ - support
+
+export foo.{bar as _, *}
+// <- keyword.declaration.import.scala
+//              ^^ keyword.operator.as.scala
+//                    ^ variable.language.wildcard.scala
+
+import foo.{bar as _, *}
+// <- keyword.declaration.import.scala
+//              ^^ keyword.operator.as.scala
+//                    ^ variable.language.wildcard.scala
