@@ -331,3 +331,9 @@ case a: A | b: B => ()
 { x: A | B => () }
 //     ^ keyword.operator.or.scala
 //       ^ support.class.scala
+
+type F = (e: Entry, b: Other) => e.Key
+//        ^ variable.parameter.scala
+//         ^ punctuation.ascription.scala
+//                            ^^ keyword.operator.arrow.scala
+//                               ^ support.type.scala

@@ -1926,16 +1926,42 @@ contexts:
       set: single-type-expression-tail
     - match: (?=@{{plainid}})
       set: single-type-expression-tail
-    - match: \(
+    - match: '(?={{withinparens}}\s*{{rightarrow}})'
+      push:
+        - match: '\('
+          scope: punctuation.definition.group.begin.scala
+          push: dependent-type-parameters
+        - match: '({{rightarrow}})\s*'
+          captures:
+            1: keyword.operator.arrow.scala
+          pop: true
+        - match: '(?=\S)'
+          pop: true
+    - match: '\('
       scope: punctuation.definition.group.begin.scala
       set:
-        - match: \)
+        - match: '\)'
           scope: punctuation.definition.group.end.scala
           set: single-type-expression-tail
         - include: delimited-type-expression
     - include: base-type-expression
     - match: '(?=.)'    # we can be SUPER aggressive about popping out here
       pop: true
+
+  dependent-type-parameters:
+    - match: '\)'
+      scope: punctuation.definition.group.end.scala
+      pop: true
+    - match: '{{id}}'
+      scope: variable.parameter.scala
+    - match: ','
+      scope: punctuation.separator.scala
+    - match: ':'
+      scope: punctuation.ascription.scala
+      set:
+        - match: '(?=[,)])'
+          set: dependent-type-parameters
+        - include: delimited-type-expression
 
   # single-type-expression, but with an allowance for one *leading* newline and whitespace
   single-type-expression-leading-newline:
