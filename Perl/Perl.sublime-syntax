@@ -1716,7 +1716,7 @@ contexts:
     #     b) The `&` coderef parts are removed as they are not supported within
     #        string interpolations.
     #
-    #  2) The interpolation needs to be poped off from after each variable
+    #  2) The interpolation needs to be popped off from after each variable
     #     to ensure to correctly pop off from the owning context if needed.
     #     Otherwise the variable `$/` could break the statement `s//$repl$/g`.
     ###########################################################################
