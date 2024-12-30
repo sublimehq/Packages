@@ -63,3 +63,52 @@ confusion: (x: Int) => 12
 //          ^ variable.parameter.scala
 //           ^ punctuation.ascription.scala
 //             ^^^ storage.type.primitive.scala
+
+foo(x: Int, y => 42)
+//   ^ punctuation.ascription.scala
+//        ^ punctuation.separator.scala
+//          ^ variable.parameter.scala.
+//               ^^ constant.numeric.value.scala
+
+def foo =
+  ()
+end foo
+// <- keyword.control.section.end.scala
+//  ^^^ - support - keyword
+
+object C:
+//      ^ punctuation.section.begin.scala
+end C
+// <- keyword.control.section.end.scala
+//  ^ - support - keyword
+
+
+end this
+//  ^^^^ variable.language.scala
+
+end extension
+//  ^^^^^^^^^ keyword.declaration.extension.scala
+
+end given
+//  ^^^^^ keyword.declaration.given.scala
+
+end new
+//  ^^^ keyword.other.scala
+
+end try
+//  ^^^ keyword.control.exception.scala
+
+end if
+//  ^^ keyword.control.flow.scala
+
+end match
+//  ^^^^^ keyword.control.flow.scala
+
+end val
+//  ^^^ storage.type.stable.scala
+
+end while
+//  ^^^^^ keyword.control.flow.scala
+
+end for
+//  ^^^ keyword.control.flow.scala

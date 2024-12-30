@@ -16,7 +16,8 @@ first_line_match: |-
 
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
-  keywords: '\b(?:abstract|case|catch|class|def|do|else|extends|false|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
+  # note that this omits conditionally reserved words
+  keywords: '\b(?:abstract|case|catch|class|def|do|end|else|extends|false|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
 
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
@@ -466,6 +467,44 @@ contexts:
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
+    - match: '\bend\b'
+      scope: keyword.control.section.end.scala
+      push:
+        - match: '\bextension\b'
+          scope: keyword.declaration.extension.scala
+          pop: true
+        - match: '\bif\b'
+          scope: keyword.control.flow.scala
+          pop: true
+        - match: '\bfor\b'
+          scope: keyword.control.flow.scala
+          pop: true
+        - match: '\bgiven\b'
+          scope: keyword.declaration.given.scala
+          pop: true
+        - match: '\bmatch\b'
+          scope: keyword.control.flow.scala
+          pop: true
+        - match: '\bnew\b'
+          scope: keyword.other.scala
+          pop: true
+        - match: '\bthis\b'
+          scope: variable.language.scala
+          pop: true
+        - match: '\btry\b'
+          scope: keyword.control.exception.scala
+          pop: true
+        - match: '\bval\b'
+          scope: storage.type.stable.scala
+          pop: true
+        - match: '\bwhile\b'
+          scope: keyword.control.flow.scala
+          pop: true
+        # what should we scope this?
+        - match: '{{id}}'
+          pop: true
+        - match: (?=\S)
+          pop: true
 
   case-body-first:
     - meta_content_scope: meta.block.case.first.scala
