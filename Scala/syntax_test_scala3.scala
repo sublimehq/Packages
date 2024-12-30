@@ -118,3 +118,121 @@ List[?]
 Map[? <: AnyRef, ? >: Null]
 //  ^ variable.language.hole.scala
 //               ^ variable.language.hole.scala
+
+given intOrd: Ord[Int] with
+// <- keyword.declaration.given.scala
+//    ^^^^^^ variable.other.constant.scala
+//          ^ punctuation.ascription.scala
+//            ^^^ support.class.scala
+//                ^^^ storage.type.primitive.scala
+//                     ^^^^ keyword.declaration.scala
+
+given listOrd[T](using ord: Ord[T]): Ord[List[T]] with
+// <- keyword.declaration.given.scala
+//    ^^^^^^^ variable.other.constant.scala
+//            ^ support.class.scala
+//               ^^^^^ storage.modifier.other.scala
+//                     ^^^ variable.parameter.scala
+//                          ^^^ support.class.scala
+
+given Ord[Int] with
+// <- keyword.declaration.given.scala
+//    ^^^ support.class.scala
+//        ^^^ storage.type.primitive.scala
+//             ^^^^ keyword.declaration.scala
+
+given [T](using Ord[T]): Ord[List[T]] with
+// <- keyword.declaration.given.scala
+//     ^ support.class.scala
+//        ^^^^^ storage.modifier.other.scala
+//              ^^^ support.class.scala
+//                                    ^^^^ keyword.declaration.scala
+
+given global: ExecutionContext = ForkJoinPool()
+// <- keyword.declaration.given.scala
+//    ^^^^^^ variable.other.constant.scala
+//            ^^^^^^^^^^^^^^^^ support.class.scala
+//                             ^ keyword.operator.assignment.scala
+
+given Position = enclosingTree.position
+// <- keyword.declaration.given.scala
+//    ^^^^^^^^ support.class.scala
+//             ^ keyword.operator.assignment.scala
+
+given (using config: Config): Factory = MemoizingFactory(config)
+// <- keyword.declaration.given.scala
+//     ^^^^^ storage.modifier.other.scala
+//           ^^^^^^ variable.parameter.scala
+//                   ^^^^^^ support.class.scala
+
+for given Context <- applicationContexts do
+//  ^^^^^ keyword.declaration.given.scala
+//        ^^^^^^^ support.class.scala
+//                ^^ keyword.operator.assignment
+
+pair match
+  case (ctx @ given Context, y) => ()
+//            ^^^^^ keyword.declaration.given.scala
+//                  ^^^^^^^ support.class.scala
+
+def max[T](x: T, y: T)(using ord: Ord[T]): T
+//                     ^^^^^ storage.modifier.other.scala
+//                           ^^^ variable.parameter.scala
+//                                ^^^ support.class.scala
+
+max(2, 3)(using intOrd)
+//        ^^^^^ storage.modifier.other.scala
+
+def maximum[T](xs: List[T])(using Ord[T]): T
+//                          ^^^^^ storage.modifier.other.scala
+//                                ^^^ support.class.scala
+
+class GivenIntBox(using val usingParameter: Int)
+//                ^^^^^ storage.modifier.other.scala
+//                      ^^^ storage.type.scala
+//                          ^^^^^^^^^^^^^^ variable.parameter.scala
+
+class GivenIntBox2(using usingParameter: Int)
+//                 ^^^^^ storage.modifier.other.scala
+//                       ^^^^^^^^^^^^^^ variable.parameter.scala
+
+import b.given
+//       ^^^^^ storage.modifier.other.scala
+
+def f(u: Universe)(using ctx: u.Context)(using s: ctx.Symbol, k: ctx.Kind)
+//                                       ^^^^^ storage.modifier.other.scala
+//                                             ^ variable.parameter.scala
+//                                                ^^^ support.type.scala
+//                                                            ^ variable.parameter.scala
+//                                                               ^^^ support.type.scala
+
+given ctx : global.Context with { type Symbol; type Kind }
+//    ^^^ variable.other.constant.scala
+//        ^ punctuation.ascription.scala
+//          ^^^^^^ support.type.scala
+//                                     ^^^^^^ entity.name.type.scala
+
+import foo.*
+//         ^ variable.language.wildcard.scala
+
+import foo.{*, given}
+//          ^ variable.language.wildcard.scala
+//             ^^^^^ storage.modifier.other.scala
+
+import foo.given T
+//               ^ support.class.scala
+import foo.{given A, given B}
+// <- keyword.declaration.import.scala
+//          ^^^^^ storage.modifier.other.scala
+//                ^ support.class.scala
+//                   ^^^^^ storage.modifier.other.scala
+
+import Instances.{im, given Ordering[?]}
+//                          ^^^^^^^^ support.class.scala
+//                                   ^ variable.language.hole.scala
+
+import Instances.given Ordering[?] with Other
+//                     ^^^^^^^^ support.class.scala
+//                              ^ variable.language.hole.scala
+//                                 ^^^^ keyword.declaration.scala
+//                                      ^^^^^ support.class.scala
