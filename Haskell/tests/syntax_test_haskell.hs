@@ -3244,11 +3244,11 @@ main = do
 --  ^^ variable.other.haskell
 
     a#
---  ^ variable.other.haskell - storage.modifer
+--  ^ variable.other.haskell - storage.modifier
 --   ^ variable.other.haskell storage.modifier.unboxed.haskell
 
     a'#
---  ^^ variable.other.haskell - storage.modifer
+--  ^^ variable.other.haskell - storage.modifier
 --    ^ variable.other.haskell storage.modifier.unboxed.haskell
 
     _a'b'c_D'0123456789'
