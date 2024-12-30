@@ -14215,7 +14215,7 @@
 		},
 		{
 			"trigger": "newt_listbox_clear()",
-			"contents": "newt_listbox_clear(${1:listobx})",
+			"contents": "newt_listbox_clear(${1:listbox})",
 			"kind": "function"
 		},
 		{
