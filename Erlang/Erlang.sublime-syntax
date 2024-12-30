@@ -2189,7 +2189,7 @@ contexts:
         - include: illegal-group-body
 
   illegal-group-body:
-    # consume numbers to prevent matching decimal separater as clause-end
+    # consume numbers to prevent matching decimal separator as clause-end
     - match: \d+\.\d*|\.\d+
     - include: clause-end-pop
     - match: \(
