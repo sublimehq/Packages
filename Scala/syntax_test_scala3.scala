@@ -335,5 +335,6 @@ case a: A | b: B => ()
 type F = (e: Entry, b: Other) => e.Key
 //        ^ variable.parameter.scala
 //         ^ punctuation.ascription.scala
+//                ^ punctuation.separator.scala
 //                            ^^ keyword.operator.arrow.scala
 //                               ^ support.type.scala

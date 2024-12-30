@@ -2298,3 +2298,5 @@ completed: F[_ >: A] => B)
 //      ^ entity.name.type.scala
 }
 
+(abc, cba) => ()
+//  ^ punctuation.separator.scala

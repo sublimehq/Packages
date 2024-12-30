@@ -265,15 +265,17 @@ contexts:
       pop: true
     - include: lambda-declaration
   lambda-declaration-base:
-    - match: \(
+    - match: '\('
       scope: punctuation.section.group.begin.scala
       push:
-        - match: \)
+        - match: '\)'
           scope: punctuation.section.group.end.scala
           pop: true
         - include: lambda-declaration-parens
     - match: '{{id}}'
       scope: variable.parameter.scala
+    - match: ','
+      scope: punctuation.separator.scala
     - match: '_'
       scope: variable.language.underscore.scala
   lambda-declaration-parens:
