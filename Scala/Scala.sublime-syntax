@@ -1764,7 +1764,10 @@ contexts:
     # the whitespace covering is required to deal with the very aggressive scope popping for single type exprs
     - match: '\s*(=>>)\s*'
       captures:
-        1: keyword.declaration.function.arrow.type-lambda.scala
+        1: keyword.operator.arrow.type-lambda.scala
+    - match: '\s*(\?=>)\s*'
+      captures:
+        1: keyword.operator.arrow.type-context.scala
 
   base-type-expression:
     - include: base-type-expression-no-function

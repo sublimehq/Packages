@@ -297,16 +297,19 @@ x: [A] =>> Foo[A]
 // ^ punctuation.definition.generic.begin.scala
 //  ^ support.class.scala
 //   ^ punctuation.definition.generic.end.scala
-//     ^^^ keyword.declaration.function.arrow.type-lambda.scala
+//     ^^^ keyword.operator.arrow.type-lambda.scala
 //         ^^^ support.class.scala
 
 x: [A, B[_], C] =>> Foo[A, B, C]
 // ^ punctuation.definition.generic.begin.scala
 //  ^ support.class.scala
 //       ^ variable.language.underscore.scala
-//              ^^^ keyword.declaration.function.arrow.type-lambda.scala
+//              ^^^ keyword.operator.arrow.type-lambda.scala
 //                  ^^^ support.class.scala
 
 type Y =
   [A] =>> Foo
-//    ^^^ keyword.declaration.function.arrow.type-lambda.scala
+//    ^^^ keyword.operator.arrow.type-lambda.scala
+
+type Executable[T] = ExecutionContext ?=> T
+//                                    ^^^ keyword.operator.arrow.type-context.scala
