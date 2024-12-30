@@ -71,7 +71,7 @@ variables:
   typeid: '(?:{{typeplainid}}|`[^`\n]+`)'
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
-  rightarrow: '=>|\x{21D2}'
+  rightarrow: '=>(?!>)|\x{21D2}'
   upperid: '(?:(\b\p{Lu}|\$){{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
@@ -1747,7 +1747,7 @@ contexts:
         - match: \)
           scope: punctuation.definition.group.end.scala
           pop: true
-        - include: delimited-type-expression
+        - include: delimited-type-group-expression
     - match: \[
       scope: punctuation.definition.generic.begin.scala
       push:
@@ -1928,42 +1928,31 @@ contexts:
       set: single-type-expression-tail
     - match: (?=@{{plainid}})
       set: single-type-expression-tail
-    - match: '(?={{withinparens}}\s*{{rightarrow}})'
-      push:
-        - match: '\('
-          scope: punctuation.definition.group.begin.scala
-          push: dependent-type-parameters
-        - match: '({{rightarrow}})\s*'
-          captures:
-            1: keyword.operator.arrow.scala
-          pop: true
-        - match: '(?=\S)'
-          pop: true
+    - match: '\['
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - match: '\]'
+          scope: punctuation.definition.generic.end.scala
+          set: single-type-expression-tail
+        - include: delimited-type-expression
     - match: '\('
       scope: punctuation.definition.group.begin.scala
       set:
         - match: '\)'
           scope: punctuation.definition.group.end.scala
           set: single-type-expression-tail
-        - include: delimited-type-expression
+        - include: delimited-type-group-expression
     - include: base-type-expression
     - match: '(?=.)'    # we can be SUPER aggressive about popping out here
       pop: true
 
-  dependent-type-parameters:
-    - match: '\)'
-      scope: punctuation.definition.group.end.scala
-      pop: true
-    - match: '{{id}}'
-      scope: variable.parameter.scala
-    - match: ','
-      scope: punctuation.separator.scala
+  delimited-type-group-expression:
+    - match: '({{id}})(?=\s*:)'
+      captures:
+        1: variable.parameter.scala
     - match: ':'
       scope: punctuation.ascription.scala
-      set:
-        - match: '(?=[,)])'
-          set: dependent-type-parameters
-        - include: delimited-type-expression
+    - include: delimited-type-expression
 
   # single-type-expression, but with an allowance for one *leading* newline and whitespace
   single-type-expression-leading-newline:

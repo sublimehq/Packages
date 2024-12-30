@@ -338,3 +338,22 @@ type F = (e: Entry, b: Other) => e.Key
 //                ^ punctuation.separator.scala
 //                            ^^ keyword.operator.arrow.scala
 //                               ^ support.type.scala
+
+type F = [A] => List[A] => Seq[A]
+//           ^^ keyword.operator.arrow.scala
+//              ^^^^ support.class.scala
+//                      ^^ keyword.operator.arrow.scala
+//                         ^^^ support.class.scala
+
+type F = ((e: Entry, b: Other) => e.Key)
+//         ^ variable.parameter.scala
+//          ^ punctuation.ascription.scala
+//                 ^ punctuation.separator.scala
+//                             ^^ keyword.operator.arrow.scala
+//                                ^ support.type.scala
+
+type F = ([A] => List[A] => Seq[A])
+//            ^^ keyword.operator.arrow.scala
+//               ^^^^ support.class.scala
+//                       ^^ keyword.operator.arrow.scala
+//                          ^^^ support.class.scala
