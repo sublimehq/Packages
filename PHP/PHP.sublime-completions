@@ -5478,7 +5478,7 @@
 			"trigger": "ftp_login()",
 			"contents": "ftp_login(${1:ftp_stream}, ${2:username}, ${3:password})",
 			"kind": "function",
-			"details": "Logs in to an FTP connection"
+			"details": "Logs in to an FTP server"
 		},
 		{
 			"trigger": "ftp_mdtm()",
