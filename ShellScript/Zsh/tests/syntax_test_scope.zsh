@@ -4756,7 +4756,7 @@ esac
 #   ^ storage.modifier.mode.glob.shell.zsh
 #    ^ punctuation.definition.modifier.end.shell.zsh
 
-: (#qexpr)   #  expr is a a set of glob qualifiers (below)
+: (#qexpr)   #  expr is a set of glob qualifiers (below)
 # ^^^^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.mode.glob.shell.zsh
