@@ -236,3 +236,37 @@ import Instances.given Ordering[?] with Other
 //                              ^ variable.language.hole.scala
 //                                 ^^^^ keyword.declaration.scala
 //                                      ^^^^^ support.class.scala
+
+extension (c: Circle)
+// <- keyword.declaration.extension.scala
+//        ^ punctuation.section.group.begin.scala
+//         ^ variable.parameter.scala
+//            ^^^^^^ support.class.scala
+//                  ^ punctuation.section.group.end.scala
+
+extension [T](xs: List[T])
+// <- keyword.declaration.extension.scala
+//        ^ punctuation.definition.generic.begin.scala
+//         ^ support.class.scala
+//          ^ punctuation.definition.generic.end.scala
+//            ^^ variable.parameter.scala
+//                ^^^^ support.class.scala
+
+extension [T: Numeric](x: T)
+// <- keyword.declaration.extension.scala
+//        ^ punctuation.definition.generic.begin.scala
+//         ^ support.class.scala
+//          ^ keyword.operator.bound.scala
+//            ^^^^^^^ support.class.scala
+//                   ^ punctuation.definition.generic.end.scala
+//                     ^ variable.parameter.scala
+//                        ^ support.class.scala
+
+extension [T](x: T)(using n: Numeric[T])
+//                  ^^^^^ storage.modifier.other.scala
+//                        ^ variable.parameter.scala
+
+extension (i: Int) def isZero: Boolean = i == 0
+//                 ^^^ keyword.declaration.function.scala
+//                     ^^^^^^ entity.name.function.scala
+//                                     ^ keyword.operator.assignment.scala

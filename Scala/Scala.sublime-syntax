@@ -523,6 +523,17 @@ contexts:
           pop: true
         - match: (?=\S)
           pop: true
+    - match: '\bextension\b'
+      scope: keyword.declaration.extension.scala
+      push:
+        - match: '\['
+          scope: punctuation.definition.generic.begin.scala
+          push: function-tparams-brackets
+        - match: '\('
+          scope: punctuation.section.group.begin.scala
+          push: function-parameter-list-contents
+        - match: '(?=\S)'
+          pop: true
 
   case-body-first:
     - meta_content_scope: meta.block.case.first.scala
