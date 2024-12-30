@@ -18650,7 +18650,7 @@
 		},
 		{
 			"trigger": "ps_open_image()",
-			"contents": "ps_open_image(${1:psdoc}, ${2:type}, ${3:source}, ${4:data}, ${5:lenght}, ${6:width}, ${7:height}, ${8:components}, ${9:bpc}, ${10:params})",
+			"contents": "ps_open_image(${1:psdoc}, ${2:type}, ${3:source}, ${4:data}, ${5:length}, ${6:width}, ${7:height}, ${8:components}, ${9:bpc}, ${10:params})",
 			"kind": "function",
 			"details": "Reads an image for later placement"
 		},
