@@ -435,3 +435,36 @@ import foo.{bar as _, *}
 // <- keyword.declaration.import.scala
 //              ^^ keyword.operator.as.scala
 //                    ^ variable.language.wildcard.scala
+
+open class Writer
+// <- storage.modifier.other.scala
+
+val end = 42
+//  ^^^ - keyword
+
+x + end
+//  ^^^ - keyword
+
+val open = 42
+//  ^^^^ - storage
+
+x + open
+//  ^^^^ - storage
+
+x + infix
+//  ^^^^ - storage
+
+x + inline
+//  ^^^^^^ - storage
+
+x + opaque
+//  ^^^^^^ - storage
+
+x + transparent
+//  ^^^^^^^^^^^ - storage
+
+val derives = 42
+//  ^^^^^^^ - storage
+
+x + derives
+//  ^^^^^^^ - storage

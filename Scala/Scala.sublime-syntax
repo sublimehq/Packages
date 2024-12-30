@@ -17,7 +17,7 @@ first_line_match: |-
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
   # note that this omits conditionally reserved words
-  keywords: '\b(?:abstract|case|catch|class|def|derives|do|end|else|enum|extends|extension|false|final|finally|for|forSome|given|if|implicit|import|inline|lazy|match|new|null|object|opaque|override|package|private|protected|return|sealed|super|this|throw|trait|transparent|true|try|type|val|var|while|with|yield)\b'
+  keywords: '\b(?:abstract|case|catch|class|def|do|else|enum|extends|extension|false|final|finally|for|forSome|given|if|implicit|import|inline|lazy|match|new|null|object|opaque|override|package|private|protected|return|sealed|super|this|throw|trait|transparent|true|try|type|val|var|while|with|yield)\b'
 
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
@@ -487,8 +487,9 @@ contexts:
           push: function-parameter-list-contents
         - match: '(?=\S)'
           pop: true
-    - match: '\bend\b'
-      scope: keyword.control.section.end.scala
+    - match: '^\s*(end)\b'
+      captures:
+        1: keyword.control.section.end.scala
       push:
         - match: '\bextension\b'
           scope: keyword.declaration.extension.scala
@@ -1245,7 +1246,10 @@ contexts:
   storage-modifiers:
     - match: '\b(?:private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access.scala
-    - match: '\b(?:abstract|final|lazy|sealed|transparent|inline|implicit|opaque|override|using)\b'
+    - match: '\b(?:abstract|final|lazy|sealed|implicit|override|using)\b'
+      scope: storage.modifier.other.scala
+    #  soft modifiers
+    - match: '\b(?:infix|inline|opaque|open|transparent)\b(?=\s+(?:private|protected|abstract|final|lazy|sealed|implicit|override|def|val|var|type|given|class|trait|object|enum|case\s+class|case\s+object)\b)'
       scope: storage.modifier.other.scala
 
   # see http://www.scala-lang.org/docu/files/ScalaReference.pdf part 1.3.5-6 (page 18)
