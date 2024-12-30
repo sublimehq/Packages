@@ -878,7 +878,7 @@ contexts:
         - match: \.{4,}  # consume any dot sequence longer than 3 chars
         - match: \.{3}
           scope: constant.other.placeholder.text.perl
-        - match: ~{3,}   # consume any tild sequence longer than 2 chars
+        - match: ~{3,}   # consume any tilde sequence longer than 2 chars
         - match: ~{1,2}
           scope: constant.other.placeholder.text.perl
         - match: ([@^])[<|>*]+
