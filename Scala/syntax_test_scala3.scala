@@ -415,3 +415,9 @@ class D extends C with Greeting("Bill")
 
 trait ImpliedGreeting(using val iname: ImpliedName)
 //                    ^^^^^ storage.modifier.other
+
+transparent trait S
+// <- storage.modifier.other
+
+inline val x = 42
+// <- storage.modifier.other
