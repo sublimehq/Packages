@@ -17,7 +17,7 @@ first_line_match: |-
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
   # note that this omits conditionally reserved words
-  keywords: '\b(?:abstract|case|catch|class|def|do|else|enum|extends|extension|false|final|finally|for|forSome|given|if|implicit|import|inline|lazy|match|new|null|object|opaque|override|package|private|protected|return|sealed|super|this|throw|trait|transparent|true|try|type|val|var|while|with|yield)\b'
+  keywords: '\b(?:abstract|case|catch|class|def|do|else|enum|extends|false|final|finally|for|forSome|given|if|implicit|import|inline|lazy|match|new|null|object|opaque|override|package|private|protected|return|sealed|super|this|throw|trait|transparent|true|try|type|val|var|while|with|yield)\b'
 
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
@@ -526,7 +526,7 @@ contexts:
           pop: true
         - match: (?=\S)
           pop: true
-    - match: '\bextension\b'
+    - match: '\bextension\b(?=\s*[(\[])'
       scope: keyword.declaration.extension.scala
       push:
         - match: '\['
@@ -1246,10 +1246,11 @@ contexts:
   storage-modifiers:
     - match: '\b(?:private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access.scala
-    - match: '\b(?:abstract|final|lazy|sealed|implicit|override|using)\b'
+    # we treat inline as a hard modifier because it's too convoluted to treat it softly
+    - match: '\b(?:abstract|final|lazy|sealed|implicit|override|using|inline)\b'
       scope: storage.modifier.other.scala
     #  soft modifiers
-    - match: '\b(?:infix|inline|opaque|open|transparent)\b(?=\s+(?:private|protected|abstract|final|lazy|sealed|implicit|override|def|val|var|type|given|class|trait|object|enum|case\s+class|case\s+object)\b)'
+    - match: '\b(?:infix|opaque|open|transparent)\b(?=\s+(?:private|protected|abstract|final|lazy|sealed|implicit|override|def|val|var|type|given|class|trait|object|enum|case\s+class|case\s+object|inline)\b)'
       scope: storage.modifier.other.scala
 
   # see http://www.scala-lang.org/docu/files/ScalaReference.pdf part 1.3.5-6 (page 18)

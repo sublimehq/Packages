@@ -454,9 +454,6 @@ x + open
 x + infix
 //  ^^^^ - storage
 
-x + inline
-//  ^^^^^^ - storage
-
 x + opaque
 //  ^^^^^^ - storage
 
@@ -468,3 +465,6 @@ val derives = 42
 
 x + derives
 //  ^^^^^^^ - storage
+
+x + extension
+//  ^^^^^^^^^ - keyword
