@@ -1235,7 +1235,7 @@ contexts:
     - meta_scope: entity.other.attribute-name.class.css
     - include: identifier-content
 
-  # Id Selectors
+  # ID Selectors
   # https://drafts.csswg.org/selectors-4/#id-selectors
   selector-ids:
     - match: \#
