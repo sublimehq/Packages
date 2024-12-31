@@ -7886,7 +7886,7 @@ A complex ![image $\ce{H2O}$.](./img/image6.png){#fig:image6 height=12.09cm }
 |                                                                   ^^^^^^^ string.unquoted.markdown
 |                                                                           ^ punctuation.definition.attributes.end.markdown
 
-With codepsan ![`a`b]()
+With codespan ![`a`b]()
 |             ^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^ markup.raw.inline.markdown
@@ -7897,7 +7897,7 @@ With codepsan ![`a`b]()
 |                    ^ punctuation.definition.metadata.begin.markdown
 |                     ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![``a`b``]()
+With codespan ![``a`b``]()
 |             ^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^ markup.raw.inline.markdown
@@ -7908,7 +7908,7 @@ With codepsan ![``a`b``]()
 |                       ^ punctuation.definition.metadata.begin.markdown
 |                        ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![` `]()
+With codespan ![` `]()
 |             ^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^ markup.raw.inline.markdown
@@ -7919,7 +7919,7 @@ With codepsan ![` `]()
 |                   ^ punctuation.definition.metadata.begin.markdown
 |                    ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![`` ` ``]()
+With codespan ![`` ` ``]()
 |             ^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^ markup.raw.inline.markdown
@@ -7930,7 +7930,7 @@ With codepsan ![`` ` ``]()
 |                       ^ punctuation.definition.metadata.begin.markdown
 |                        ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![``` `` ```]()
+With codespan ![``` `` ```]()
 |             ^^^^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^^^^ markup.raw.inline.markdown
@@ -7941,7 +7941,7 @@ With codepsan ![``` `` ```]()
 |                          ^ punctuation.definition.metadata.begin.markdown
 |                           ^ punctuation.definition.metadata.end.markdown
  
-With codepsan ![```` ``` ````]()
+With codespan ![```` ``` ````]()
 |             ^^^^^^^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^^^^^^^ markup.raw.inline.markdown
