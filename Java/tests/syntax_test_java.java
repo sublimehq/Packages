@@ -9486,7 +9486,7 @@ class TypeComparisonExpressionsTests {
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
-  void instanceofAmbigultyTests {
+  void instanceofAmbiguityTests {
 
     a = b instanceof c?1__1:0b11110101;
 //        ^^^^^^^^^^^^ meta.instanceof.java
