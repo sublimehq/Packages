@@ -300,7 +300,7 @@ contexts:
         - meta_scope: meta.trait.rust meta.block.rust
         - include: block-body
 
-  ##[ ARRRIBUTES ]############################################################
+  ##[ ATTRIBUTES ]############################################################
 
   attributes:
     - match: '(#)\s*(!?)\s*(\[)'
