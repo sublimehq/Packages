@@ -4842,7 +4842,7 @@ state
 # ^^^^ variable.function.perl
 #      ^^^^^^^^ meta.string.perl string.quoted.double.perl
 
-  # Patterns an ambigious argument and need parentheses
+  # Patterns an ambiguous argument and need parentheses
   func /pattern/g;
 # ^^^^ variable.function.perl
 #      ^ - punctuation.section.generic.begin

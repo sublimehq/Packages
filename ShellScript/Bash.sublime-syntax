@@ -948,16 +948,16 @@ contexts:
     - include: eoc-pop
 
   cmd-args:
-    - include: cmd-args-end-of-options-then-ambigious
+    - include: cmd-args-end-of-options-then-ambiguous
 
-  cmd-args-end-of-options-then-ambigious:
+  cmd-args-end-of-options-then-ambiguous:
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
-      set: cmd-args-ambigious
+      set: cmd-args-ambiguous
     - include: cmd-args-options
-    - include: cmd-args-ambigious
+    - include: cmd-args-ambiguous
 
-  cmd-args-ambigious:
+  cmd-args-ambiguous:
     - include: cmd-args-end
     - include: cmd-args-values
 
