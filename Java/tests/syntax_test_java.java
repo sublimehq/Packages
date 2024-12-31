@@ -2332,7 +2332,7 @@ Bar             // comment
 //         ^^^^^^^^^^^^^^ entity.name.interface.java
 
 // Note: The extends is actually not allowed here, but the syntax definition does
-//       not yet distiguish between interface types and annotation types
+//       not yet distinguish between interface types and annotation types
 @interface AnnotationType extends
 //<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^^ meta.interface.java
@@ -4339,7 +4339,7 @@ class MethodDeclarationTests {
 class ReceiverArgTests {
 
   // Illegal: Top-level constructors can't contain receiver parameters,
-  //          but the syntax does not destinguish top-level and nested classes
+  //          but the syntax does not distinguish top-level and nested classes
   ReceiverArgTests(ReceiverArgTests this, A this) {}
 //^^^^^^^^^^^^^^^^ meta.function.identifier.java - meta.function meta.function
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.java meta.group.java - meta.function meta.function
@@ -4381,7 +4381,7 @@ class ReceiverArgTests {
 //                                                              ^ punctuation.section.block.end.java
 
   // Illegal: Static methods can't contain receiver parameters,
-  //          but the syntax does not destinguish them.
+  //          but the syntax does not distinguish them.
   static void method(ReceiverArgTests this) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
 //^^^^^^^ meta.function.modifier.java
