@@ -1888,7 +1888,7 @@ contexts:
     - match: =
       scope:
         meta.interpolation.substitution.dosbatch
-        keyword.operator.asignment.dosbatch
+        keyword.operator.assignment.dosbatch
       set: variable-expansion-substitution-replacement
     - match: '[^=%!]+'
       scope: string.unquoted.dosbatch
@@ -1946,7 +1946,7 @@ contexts:
     - match: =
       scope:
         meta.interpolation.substitution.dosbatch
-        keyword.operator.asignment.dosbatch
+        keyword.operator.assignment.dosbatch
       set: variable-delayed-substitution-replacement
     - match: '[^=%!]+'
       scope: string.unquoted.dosbatch

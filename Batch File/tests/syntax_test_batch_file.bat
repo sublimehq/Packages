@@ -3219,14 +3219,14 @@ no continuation
 ::       ^^^ variable.other.readwrite.dosbatch
 ::          ^ punctuation.separator.dosbatch
 ::           ^^^^ string.unquoted.dosbatch
-::               ^ keyword.operator.asignment.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
 ::                ^^^^ string.unquoted.dosbatch
 ::                    ^ punctuation.section.interpolation.end.dosbatch
 ::                      ^ punctuation.section.interpolation.begin.dosbatch
 ::                       ^^^ variable.other.readwrite.dosbatch
 ::                          ^ punctuation.separator.dosbatch
 ::                           ^^^^ string.unquoted.dosbatch
-::                               ^ keyword.operator.asignment.dosbatch
+::                               ^ keyword.operator.assignment.dosbatch
 ::                                ^^^^ string.unquoted.dosbatch
 ::                                    ^ punctuation.section.interpolation.end.dosbatch
 
@@ -3324,7 +3324,7 @@ no continuation
 ::        ^ punctuation.separator.dosbatch
 ::         ^ punctuation.section.interpolation.begin.dosbatch
 ::             ^ punctuation.section.interpolation.end.dosbatch
-::              ^ keyword.operator.asignment.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.section.interpolation.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
@@ -3350,7 +3350,7 @@ no continuation
 ::        ^ punctuation.separator.dosbatch
 ::         ^ punctuation.section.interpolation.begin.dosbatch
 ::             ^ punctuation.section.interpolation.end.dosbatch
-::              ^ keyword.operator.asignment.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.section.interpolation.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
@@ -3927,7 +3927,7 @@ no continuation
 ::       ^ punctuation.section.interpolation.begin.dosbatch
 ::        ^^^^ variable.other.readwrite.dosbatch
 ::            ^ punctuation.separator.dosbatch
-::              ^ keyword.operator.asignment.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
 ::               ^ string.unquoted.dosbatch
 ::                ^ punctuation.section.interpolation.end.dosbatch
 
