@@ -1468,7 +1468,7 @@ function {
 #                   ^^ keyword.operator.arithmetic.shell
 #                      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
-: $(( val = 1 + 2 ))  # aritmetic expansions
+: $(( val = 1 + 2 ))  # arithmetic expansions
 # ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^^ punctuation.section.interpolation.begin.shell
@@ -1479,7 +1479,7 @@ function {
 #               ^ constant.numeric.value.shell
 #                 ^^ punctuation.section.interpolation.end.shell
 
-: ${val:start + 3:len % 5}  # aritmetic evaluation in substitutions
+: ${val:start + 3:len % 5}  # arithmetic evaluation in substitutions
 # ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.arithmetic
 #       ^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.arithmetic.shell
 #                ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.arithmetic
