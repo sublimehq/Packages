@@ -505,7 +505,7 @@ contexts:
         - match: (?=\b(type|val|external|class|module|end)\b)|^\s*$
           pop: true
         - match: '(\?)([a-z][a-zA-Z0-9_]*)\s*(:)'
-          scope: variable.parameter.ameter.optional.ocaml
+          scope: variable.parameter.optional.ocaml
           captures:
             1: punctuation.definition.optional-parameter.ocaml
             2: entity.name.tag.label.optional.ocaml
