@@ -4339,7 +4339,7 @@ class MethodDelcarationTests {
 class ReceiverArgTests {
 
   // Illegal: Top-level constructors can't contain receiver parameters,
-  //          but the syntax does not destinguish top-level and nested classses
+  //          but the syntax does not destinguish top-level and nested classes
   ReceiverArgTests(ReceiverArgTests this, A this) {}
 //^^^^^^^^^^^^^^^^ meta.function.identifier.java - meta.function meta.function
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.java meta.group.java - meta.function meta.function
