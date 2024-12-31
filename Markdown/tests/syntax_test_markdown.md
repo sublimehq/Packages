@@ -4524,7 +4524,7 @@ second line
 
 ## https://custom-tests/block-quotes#emphasis
 
-> Blcok quotes support markup,
+> Block quotes support markup,
 > like *italics*, **bold**, ***bold italic*** and ~~strikethrough~~.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
 |      ^^^^^^^^^ markup.italic.markdown
