@@ -161,7 +161,7 @@ contexts:
       scope: constant.character.literal.scala
 
   comments:
-    - match: '(//).*\n?$'
+    - match: '(//).*$\n?'
       scope: comment.line.double-slash.scala
       captures:
         1: punctuation.definition.comment.scala
