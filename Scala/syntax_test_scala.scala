@@ -2300,3 +2300,12 @@ completed: F[_ >: A] => B)
 
 (abc, cba) => ()
 //  ^ punctuation.separator.scala
+
+class c()
+    extends a()
+    // some comment
+    with foo with bar {
+//  ^^^^ storage.modifier.with.scala
+//       ^^^ entity.other.inherited-class.scala
+//           ^^^^ storage.modifier.with.scala
+//                ^^^ entity.other.inherited-class.scala
