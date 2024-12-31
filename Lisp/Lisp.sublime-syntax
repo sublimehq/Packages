@@ -1359,7 +1359,7 @@ variables:
   break: (?={{break_char}}|$)
   break_char: '[\s()"'',:;|]'
 
-  # caracters
+  # characters
   standard_char: '[0-9A-Za-z!"#$%&''()*+,\-./:;<=>?@\\\[\]^_`{|}~]'
   char_attributes: (?:(?:[[:alnum:]_]+-)+\\?)
 
