@@ -9132,7 +9132,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #                ^ punctuation.section.group.end.shell
 #                  ^^ punctuation.section.compound.end.shell
 
-[[ $foo =~ & ]]       # unquoted ambersands are illegal
+[[ $foo =~ & ]]       # unquoted ampersands are illegal
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #              ^ - meta.conditional
@@ -9140,7 +9140,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^ invalid.illegal.unexpected-token.shell
 #            ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo =~ & ) ]]   # unquoted ambersands are illegal
+[[ ( $foo =~ & ) ]]   # unquoted ampersands are illegal
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
@@ -9151,7 +9151,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #              ^ punctuation.section.group.end.shell
 #                ^^ punctuation.section.compound.end.shell
 
-[[ $foo =~ (&) ]]     # unquoted ambersands allowed in pattern groups
+[[ $foo =~ (&) ]]     # unquoted ampersands allowed in pattern groups
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^ meta.compound.conditional.shell - meta.group
 #          ^^^ meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
@@ -9162,7 +9162,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #            ^ punctuation.section.group.end.regexp.shell
 #              ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo =~ (&) ) ]] # unquoted ambersands allowed in pattern groups
+[[ ( $foo =~ (&) ) ]] # unquoted ampersands allowed in pattern groups
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
@@ -9176,7 +9176,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #                ^ punctuation.section.group.end.shell
 #                  ^^ punctuation.section.compound.end.shell
 
-[[ $foo =~ \& ]]      # escaped ambersands are allowed
+[[ $foo =~ \& ]]      # escaped ampersands are allowed
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #               ^ - meta.conditional
@@ -9184,7 +9184,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^^ constant.character.escape.shell
 #             ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo =~ \& ) ]]  # escaped ambersands are allowed
+[[ ( $foo =~ \& ) ]]  # escaped ampersands are allowed
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
