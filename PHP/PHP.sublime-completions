@@ -13881,7 +13881,7 @@
 			"trigger": "newt_checkbox_get_value()",
 			"contents": "newt_checkbox_get_value(${1:checkbox})",
 			"kind": "function",
-			"details": "Retreives value of checkbox resource"
+			"details": "Retrieves value of checkbox resource"
 		},
 		{
 			"trigger": "newt_checkbox_set_flags()",
