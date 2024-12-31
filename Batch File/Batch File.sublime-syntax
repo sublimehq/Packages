@@ -1098,7 +1098,7 @@ contexts:
     #    b) command terminations via `&` or `|`
     #    and those which don't.
     #
-    # The challange here is to correctly switch contexts to maintain both
+    # The challenge here is to correctly switch contexts to maintain both
     # "quoted" and "grouped" states at the same time.
     #
     # Variables may not contain whitespace nor any kind of operator char.
