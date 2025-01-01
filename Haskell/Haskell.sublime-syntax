@@ -1565,9 +1565,9 @@ contexts:
     - match: (\\)\s*$
       captures:
         1: punctuation.definition.continuation.begin.haskell
-      push: linteral-string-continuation
+      push: literal-string-continuation
 
-  linteral-string-continuation:
+  literal-string-continuation:
     - clear_scopes: 2
     - meta_scope: meta.string.continuation.haskell
     - meta_include_prototype: false

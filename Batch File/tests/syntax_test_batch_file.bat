@@ -114,7 +114,7 @@ not a comment
 :: <- - comment
 :: ^^^^^^^^^^ - comment
 
-::: Test Case : continuation with only litaral caret, no recursive continuation
+::: Test Case : continuation with only literal caret, no recursive continuation
 
 REM Line^
 ^

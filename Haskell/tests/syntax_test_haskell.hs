@@ -4151,7 +4151,7 @@ main = do
 --                                                      ^ punctuation.definition.string.end.haskell
 
 
--- [ NO LITEARL CHARACTERS ]---------------------------------------------------
+-- [ NO LITERAL CHARACTERS ]---------------------------------------------------
 
     '
 --  ^ - meta.string - string
