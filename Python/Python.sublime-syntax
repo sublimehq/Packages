@@ -4055,7 +4055,7 @@ contexts:
       scope: constant.character.escape.unicode.name.python
 
   escaped-raw-quotes:
-    # consume escaped quotes in raw-strings to preven them terminating strings
+    # consume escaped quotes in raw-strings to prevent them terminating strings
     # but don't scope them as escapes as they are treated literal
     - match: \\[\\'"]
 
