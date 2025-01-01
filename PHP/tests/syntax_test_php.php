@@ -2129,11 +2129,11 @@ function bye(): never {
 }
 // <- meta.function.php meta.block.php punctuation.section.block.end.php
 
-function foo(?stinrg ...$args) {}
+function foo(?string_ ...$args) {}
 //           ^ storage.type.nullable
-//            ^^^^^^ support.class
-//                   ^^^ keyword.operator.variadic
-//                      ^^^^^ variable.parameter
+//            ^^^^^^^ support.class
+//                    ^^^ keyword.operator.variadic
+//                       ^^^^^ variable.parameter
 
     // incomplete and therefore invalid code to illustrate reference operator precedence
     function &typedParameterReferences(int & C &$v, bool & $new, ?string | $str) {}
