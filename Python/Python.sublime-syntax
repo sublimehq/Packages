@@ -1942,7 +1942,7 @@ contexts:
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
 
-###[ GENERATORS GROUPS TUBLES ]###############################################
+###[ GENERATORS GROUPS TUPLES ]###############################################
 
   generators-groups-and-tuples:
     - include: empty-tuples
