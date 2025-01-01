@@ -2977,10 +2977,10 @@ contexts:
     - match: '{{id}}'
       scope: support.class.java
       push:
-        - unqualiefied-object-type-end
+        - unqualified-object-type-end
         - maybe-type-argument
 
-  unqualiefied-object-type-end:
+  unqualified-object-type-end:
     - match: (?={{single_dot}})
       fail: object-type
     - include: else-pop3
@@ -3097,10 +3097,10 @@ contexts:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
-        - unqualiefied-inherited-object-type-end
+        - unqualified-inherited-object-type-end
         - maybe-type-argument
 
-  unqualiefied-inherited-object-type-end:
+  unqualified-inherited-object-type-end:
     - match: (?={{single_dot}})
       fail: inherited-object-type
     - include: illegal-array-modifiers
