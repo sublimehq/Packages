@@ -1074,13 +1074,13 @@ bar = "}}" # Comment
 # ^ - constant.other.placeholder
 
 # Incomplete field elements
-"{foo["      # unclosed elemnt index
+"{foo["      # unclosed element index
 #^^^^^ - constant.other.placeholder
-'{foo['      # unclosed elemnt index
+'{foo['      # unclosed element index
 #^^^^^ - constant.other.placeholder
-"{foo[}"     # unclosed elemnt index
+"{foo[}"     # unclosed element index
 #^^^^^^ - constant.other.placeholder
-'{foo[}'     # unclosed elemnt index
+'{foo[}'     # unclosed element index
 #^^^^^^ - constant.other.placeholder
 "{foo[""]}"  # unsupported nested quotes
 #^^^^^^^^^ - constant.other.placeholder
