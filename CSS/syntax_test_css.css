@@ -2282,7 +2282,7 @@
 /*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^^ meta.property-list.css meta.block.css meta.property-value.css constant.language.null.css */
 
-    --custon-prop-name: value;
+    --custom-prop-name: value;
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
 /*  ^^^^^^^^^^^^^^^^^^ meta.property-name.css entity.other.custom-property.css */
 /*                    ^ punctuation.separator.key-value.css */
