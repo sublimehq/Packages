@@ -1584,7 +1584,7 @@ contexts:
       set: maybe-first-case-statement
 
   maybe-first-case-statement:
-    # Disable detentation of first case statement by special indentation rule.
+    # Disable dedentation of first case statement by special indentation rule.
     # see: https://github.com/sublimehq/Packages/issues/3456
     - match: case\b
       scope:
