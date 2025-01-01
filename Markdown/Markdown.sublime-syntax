@@ -142,7 +142,7 @@ variables:
         (`){3,}      #   3 or more backticks
         (?![^`]*`)   #   not followed by any more backticks on the same line
       |              # or
-        (~){3,}      #   3 or more tildas
+        (~){3,}      #   3 or more tildes
       )
     )
   fenced_code_block_language: |-
