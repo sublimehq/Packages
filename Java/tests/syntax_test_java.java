@@ -3488,7 +3488,7 @@ int globalMethodDeclarationTests() {}
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
 
-class MethodDelcarationTests {
+class MethodDeclarationTests {
 
   void
 //^^^^^ meta.function.return-type.java
