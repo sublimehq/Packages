@@ -1632,7 +1632,7 @@ contexts:
         3: punctuation.definition.prefix.end.haskell
 
   infix-operators:
-    # Match all not otherwise matched single quotes as promoition operator
+    # Match all not otherwise matched single quotes as promotion operator
     # Note: Found in real world code but not in specs so far.
     - match: \'
       scope: keyword.operator.haskell
