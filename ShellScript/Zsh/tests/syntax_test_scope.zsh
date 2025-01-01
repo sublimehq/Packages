@@ -2959,7 +2959,7 @@ a\/b/c/d}
 #                ^^ constant.character.escape.shell
 #                  ^ punctuation.section.interpolation.end.shell
 
-: ${foo//[abc[]/x}  # `[` has no meaing within charsets
+: ${foo//[abc[]/x}  # `[` has no meaning within charsets
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.set
 #        ^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.set.regexp.shell
 #              ^^^ meta.interpolation.parameter.shell - meta.string meta.set
@@ -2970,7 +2970,7 @@ a\/b/c/d}
 #              ^ keyword.operator.substitution.shell
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f|o/b|ar}  # `|` has no meaing in patterns or replacement strings
+: ${var//f|o/b|ar}  # `|` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -2978,7 +2978,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f&o/b&ar}  # `&` has no meaing in patterns or replacement strings
+: ${var//f&o/b&ar}  # `&` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -2986,7 +2986,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f>o/b>ar}  # `>` has no meaing in patterns or replacement strings
+: ${var//f>o/b>ar}  # `>` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -2994,7 +2994,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f<o/b<ar}  # `<` has no meaing in patterns or replacement strings
+: ${var//f<o/b<ar}  # `<` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -3002,7 +3002,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f;o/b;ar}  # `;` has no meaing in patterns or replacement strings
+: ${var//f;o/b;ar}  # `;` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
