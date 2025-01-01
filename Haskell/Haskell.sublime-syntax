@@ -1645,16 +1645,16 @@ contexts:
     - match: (?=\`)
       branch_point: infix-quoted-operators
       branch:
-        - infix-quoded-operators-begin
+        - infix-quoted-operators-begin
         - immediately-pop
 
-  infix-quoded-operators-begin:
+  infix-quoted-operators-begin:
     - match: (\`)\s*
       captures:
         1: punctuation.definition.infix.begin.haskell
-      set: infix-quoded-operators-body
+      set: infix-quoted-operators-body
 
-  infix-quoded-operators-body:
+  infix-quoted-operators-body:
     - meta_scope: meta.infix.haskell
     - match: \s*(\`)
       captures:
