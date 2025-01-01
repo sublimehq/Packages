@@ -3142,7 +3142,7 @@ variables:
 
   # 4.2 Shell Built-in Commands
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
-  # Note: Contains thosw, which are not present as dedicated context
+  # Note: Contains thosw, which are not present as dedicated contexts
   builtin_cmds: |-
     (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
     | getopts | hash | help | jobs | kill | logout | printf | pwd | set
