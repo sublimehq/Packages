@@ -164,7 +164,7 @@
 		{
 			"trigger": "title",
 			"kind": "function",
-			"details": "Change terminal window's tilte"
+			"details": "Change terminal window's title"
 		},
 		{
 			"trigger": "type",

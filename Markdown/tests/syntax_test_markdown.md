@@ -1795,7 +1795,7 @@ echo hello, \
 echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 heredoc=<<EOF
-  # Heading ${tilte}
+  # Heading ${title}
 | ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |           ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
 EOF
@@ -1812,7 +1812,7 @@ $ cmd  # no interactive shell marker
    #!/usr/bin/env bash
 |  ^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown comment.line.shebang.shell
    heredoc=<<EOF
-      # Heading ${tilte}
+      # Heading ${title}
 |     ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |               ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
    EOF
@@ -2227,7 +2227,7 @@ echo hello, \
 echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 heredoc=<<EOF
-  # Heading ${tilte}
+  # Heading ${title}
 | ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |           ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
 EOF
@@ -2246,7 +2246,7 @@ $ cmd  # no interactive shell marker
    #!/usr/bin/env zsh
 |  ^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown comment.line.shebang.shell
    heredoc=<<EOF
-      # Heading ${tilte}
+      # Heading ${title}
 |     ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |               ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
    EOF
