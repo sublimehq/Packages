@@ -2597,13 +2597,13 @@ put arg1 arg2
 ::      ^^ keyword.operator.assignment.redirection.dosbatch
 ::         ^^^ constant.language.null.dosbatch
 
-   ECHO <contet.txt and others
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-::      ^^^^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch - string string
+   ECHO <content.txt and others
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch - string string
 
-   ECHO "<contet.txt and others"
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - meta.redirection
+   ECHO "<content.txt and others"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - meta.redirection
 
    dir > f.txt 2>&1 /b
 :: ^^^^^^^^^^^^^^^^^^^ meta.function-call
