@@ -18784,7 +18784,7 @@
 			"trigger": "ps_setlinejoin()",
 			"contents": "ps_setlinejoin(${1:psdoc}, ${2:type})",
 			"kind": "function",
-			"details": "Sets how contected lines are joined"
+			"details": "Sets how connected lines are joined"
 		},
 		{
 			"trigger": "ps_setlinewidth()",
