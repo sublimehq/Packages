@@ -3425,14 +3425,14 @@ class FieldDeclarationTests {
 //                               ^^^^^ variable.other.member.java
 //                                    ^ punctuation.terminator.java
 
-  private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
+  private MyGeneric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
-//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
-//                                              ^^^^^^^^^ meta.generic.java meta.generic.java
-//                                                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
-//                                                         ^^^^^^^^^^^^^^^^^^^ meta.path.java
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
+//                                               ^^^^^^^^^ meta.generic.java meta.generic.java
+//                                                        ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
+//                                                          ^^^^^^^^^^^^^^^^^^^ meta.path.java
       and.fully.Qualified<Generic>> myVariable;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
