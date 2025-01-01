@@ -562,7 +562,7 @@ contexts:
     - include: expressions
 
   single-expression:
-    # A single expression which doesen't consume any stray brackets
+    # A single expression which doesn't consume any stray brackets
     # and is terminated by sequence separators.
     - match: (?=[]),])
       pop: 1
