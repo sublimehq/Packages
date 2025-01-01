@@ -4731,7 +4731,7 @@ no continuation
 ::                                              ^^^^ support.function.builtin.dosbatch
 
    :: even number of quotes in l-value
-   :: quoted value with missing end quotation markd
+   :: quoted value with missing end quotation mark
    set /p today="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -4868,7 +4868,7 @@ no continuation
 ::                                                       ^ - punctuation
 
    :: odd number of quotes in l-value
-   :: quoted value with missing end quotation markd
+   :: quoted value with missing end quotation mark
    set /p today"="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -5292,7 +5292,7 @@ no continuation
 ::                                                ^^^^ support.function.builtin.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
-   :: quoted value with missing end quotation markd
+   :: quoted value with missing end quotation mark
    set /p "today"="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
