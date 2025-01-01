@@ -890,7 +890,7 @@ contexts:
     - include: zsh-modifier-subst-pattern
 
   zsh-modifier-subst-flag:
-    - meta_scope: meta.substituation.shell.zsh
+    - meta_scope: meta.substitution.shell.zsh
     - match: (:)(G)
       captures:
         1: punctuation.separator.sequence.shell.zsh

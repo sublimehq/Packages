@@ -6467,7 +6467,7 @@ a\/b/c/d}
 #    ^ keyword.operator.expansion.shell
 #     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
 
-: ${!#pattern}  # bad substituation
+: ${!#pattern}  # bad substitution
 # ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ keyword.operator.expansion.indirection.shell
 #    ^ keyword.operator.expansion.shell
@@ -10791,7 +10791,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                          ^^^^^^^^ variable.function.shell
 #                                                   ^^ variable.parameter.option.shell
 
-# declare called in command substituations
+# declare called in command substitutions
 
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell

@@ -3636,7 +3636,7 @@ any --arg{1,2,3} ={1,2,3}
 
 : (:s/pa*t?rn/repl) (:s|pattern|repl) (:s;pattern;repl;:G)
 # ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#   ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
+#   ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
 #                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                  ^ - meta.string - meta.modifier
 #   ^ support.function.substitution.shell.zsh
@@ -3646,7 +3646,7 @@ any --arg{1,2,3} ={1,2,3}
 #             ^^^^ meta.string.regexp.shell string.unquoted.shell
 #                 ^ punctuation.definition.modifier.end.shell.zsh
 #                   ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                     ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
+#                     ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
 #                                   ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                    ^ - meta.string - meta.modifier
 #                     ^ support.function.substitution.shell.zsh
@@ -3656,7 +3656,7 @@ any --arg{1,2,3} ={1,2,3}
 #                               ^^^^ meta.string.regexp.shell string.unquoted.shell
 #                                   ^ punctuation.definition.modifier.end.shell.zsh
 #                                     ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                                       ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
+#                                       ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
 #                                                        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                                         ^ - meta.string - meta.modifier
 #                                       ^ support.function.substitution.shell.zsh
@@ -5777,11 +5777,11 @@ ls -ld -- *.*~(lex|parse).[ch](^D^l1)
 # demonstrates how colon modifiers and other qualifiers may be chained together.
 print -rC1 b*.pro(#q:s/pro/shmo/)(#q.:s@builtin@"sh${mi}ltin"@)
 #          ^^^^^^ meta.string.glob.shell string.unquoted.shell
-#                ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substituation
-#                    ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
-#                               ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substituation
-#                                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
-#                                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substituation
+#                ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                    ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                               ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                                              ^ - meta.string - meta.modifier
 
 
