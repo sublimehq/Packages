@@ -2026,7 +2026,7 @@ contexts:
 
   line-continuation-body:
     - meta_include_prototype: false
-    # The first linefeed diretly following a continuation is treated literal.
+    # The first linefeed directly following a continuation is treated literal.
     # Note: Must consume \n to work.
     - match: ^\n
       set: bol-pop
