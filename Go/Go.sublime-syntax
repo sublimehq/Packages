@@ -805,7 +805,7 @@ contexts:
 
   match-string-templates:
     # This context is used for interpolation within quoted or unquoted strings.
-    # Matchs only if closing `}}` is found on same line to avoid false positives.
+    # Matches only if closing `}}` is found on same line to avoid false positives.
     # It clears the `string` scope of the owning context.
     - match: ({{)(-?)(?=.*?}})
       captures:
