@@ -18592,7 +18592,7 @@
 			"trigger": "ps_get_buffer()",
 			"contents": "ps_get_buffer(${1:psdoc})",
 			"kind": "function",
-			"details": "Fetches the full buffer containig the generated PS data"
+			"details": "Fetches the full buffer containing the generated PS data"
 		},
 		{
 			"trigger": "ps_get_parameter()",
