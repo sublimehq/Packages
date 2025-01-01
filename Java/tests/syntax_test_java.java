@@ -1658,7 +1658,7 @@ Bar             // comment
 
 
 /******************************************************************************
- * Eumeration Declaration Tests
+ * Enumeration Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
  *****************************************************************************/
 
