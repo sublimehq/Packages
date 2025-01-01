@@ -3076,7 +3076,7 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       pop: 2
 
-###[ INHERRITED TYPE REFERENCES ]##############################################
+###[ INHERITED TYPE REFERENCES ]###############################################
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-list:
