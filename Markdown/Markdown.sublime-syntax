@@ -540,7 +540,7 @@ contexts:
     - include: block-quote-link-definitions
 
   block-quote-footnote-definitions:
-    # Mardown Extras Footnotes
+    # Markdown Extras Footnotes
     - match: '([ \t]*)(\[)({{footnote_name}})(\])(:)'
       captures:
         2: punctuation.definition.reference.begin.markdown
@@ -2208,7 +2208,7 @@ contexts:
     - include: link-definitions
 
   footnote-definitions:
-    # Mardown Extras Footnotes
+    # Markdown Extras Footnotes
     - match: '([ \t]*)(\[)({{footnote_name}})(\])(:)'
       captures:
         2: punctuation.definition.reference.begin.markdown
