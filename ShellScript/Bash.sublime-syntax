@@ -451,7 +451,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
       set: cmd-declare-variables-with-arithmetic-values
-    # option contains contains A
+    # option contains A
     - match: ([-+])[aAgIlnrtux]*?A[aAgIlnrtux]*?{{opt_break}}
       scope:
         meta.parameter.option.shell
