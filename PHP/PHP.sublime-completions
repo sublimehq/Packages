@@ -16727,7 +16727,7 @@
 			"trigger": "PDF_get_apiname()",
 			"contents": "PDF_get_apiname(${1:pdfdoc})",
 			"kind": "function",
-			"details": "Get name of unsuccessfull API function"
+			"details": "Get name of unsuccessful API function"
 		},
 		{
 			"trigger": "PDF_get_buffer()",
