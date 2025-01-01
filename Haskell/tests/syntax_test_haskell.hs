@@ -2455,7 +2455,7 @@
 
     {- Class Method Declarations -}
     class TyCls a where
-      nethod1 :: a -> Bool
+      method0 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
 --            ^^ punctuation.separator.type.haskell
@@ -2513,7 +2513,7 @@
 
     {- Instance Method Declarations -}
     instance TyCls a where
-      nethod1 :: a -> Bool
+      method0 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
 --            ^^ punctuation.separator.type.haskell
