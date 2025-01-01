@@ -694,7 +694,7 @@ contexts:
         )\b
       scope: storage.type.rust
 
-  specentifier-names:
+  specifier-names:
     - match: '\b(c_[[:lower:][:digit:]_]+|[[:lower:]_][[:lower:][:digit:]_]*_t)\b'
       scope: storage.type.rust
 
