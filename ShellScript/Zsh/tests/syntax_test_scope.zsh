@@ -4150,14 +4150,14 @@ dyn_dir_name() {
 #  ^ keyword.operator.range.shell.zsh
 #   ^ punctuation.definition.range.end.shell.zsh
 
-: <2-> # Matches any number greator or equal 2
+: <2-> # Matches any number greater or equal 2
 # ^^^^ meta.range.shell.zsh
 # ^ punctuation.definition.range.begin.shell.zsh
 #  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #   ^ keyword.operator.range.shell.zsh
 #    ^ punctuation.definition.range.end.shell.zsh
 
-: <-5> # Matches any number greator or equal 2
+: <-5> # Matches any number greater or equal 2
 # ^^^^ meta.range.shell.zsh
 # ^ punctuation.definition.range.begin.shell.zsh
 #  ^ keyword.operator.range.shell.zsh
