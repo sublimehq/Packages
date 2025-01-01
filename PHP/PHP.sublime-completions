@@ -3798,7 +3798,7 @@
 			"trigger": "dio_open()",
 			"contents": "dio_open(${1:filename}, ${2:flags})",
 			"kind": "function",
-			"details": "Opens a file (creating it if necessary) at a lower level than the C library input/ouput stream functions allow"
+			"details": "Opens a file (creating it if necessary) at a lower level than the C library input/output stream functions allow"
 		},
 		{
 			"trigger": "dio_read()",
