@@ -4765,7 +4765,7 @@ no continuation
 ::                                                ^^^^ support.function.builtin.dosbatch
 
    :: even number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p today="enter %date%: not a comment & echo done" ignored
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -4903,7 +4903,7 @@ no continuation
 ::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: odd number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p today"="enter %date%: not a comment & echo done" text
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -5190,7 +5190,7 @@ no continuation
 ::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, even number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p "today="enter %date%: ignored content & echo done" end
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -5322,7 +5322,7 @@ no continuation
 ::                                                  ^^^^ support.function.builtin.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p "today"="enter %date%: not a comment & echo done" text
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
