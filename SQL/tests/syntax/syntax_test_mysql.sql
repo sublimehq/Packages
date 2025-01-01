@@ -1621,19 +1621,19 @@ CREATE
 --         ^ meta.group.partitions.sql - meta.sequence meta.sequence
 --          ^^ meta.group.partitions.sql meta.group.partitions.sql
 --          ^ punctuation.section.group.begin.sql
-                subpartition parition1
+                subpartition partition1
 --              ^^^^^^^^^^^^ keyword.other.ddl.sql
---                           ^^^^^^^^^ entity.name.struct.partition.sql
+--                           ^^^^^^^^^^ entity.name.struct.partition.sql
                     ENGINE engine_name
 --                  ^^^^^^ variable.parameter.sql
                     COMMENT 'comment_text'
 --                  ^^^^^^^ variable.parameter.sql
 --                          ^^^^^^^^^^^^^^ string.quoted.single.sql
 
-              , subpartition parition2
+              , subpartition partition2
 --            ^ punctuation.separator.sequence.sql
 --              ^^^^^^^^^^^^ keyword.other.ddl.sql
---                           ^^^^^^^^^ entity.name.struct.partition.sql
+--                           ^^^^^^^^^^ entity.name.struct.partition.sql
             ),
 --         ^^ meta.group.partitions.sql meta.group.partitions.sql
 --           ^ meta.group.partitions.sql - meta.sequence meta.sequence
