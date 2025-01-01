@@ -2314,7 +2314,7 @@ contexts:
     # until the last non-special identifier (if any).
     # This allows the leaf to be scoped individually.
     - meta_scope: meta.path.python
-    # If a line continuation follows, this may or may not be the last leaf (most likley not though)
+    # If a line continuation follows, this may or may not be the last leaf (most likely not though)
     - match: (?={{identifier}}\s*(\.|\\))
       push: name-content
     - match: (\.)\s*(?={{identifier}}\s*(\.|\\))
