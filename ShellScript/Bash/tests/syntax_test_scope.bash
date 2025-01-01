@@ -8121,11 +8121,11 @@ stash) || true)
 #                           ^ constant.other.wildcard.asterisk.shell
 #                            ^ punctuation.section.group.end.regexp.shell
 
-: ?([[:alpha:]]|[[:digit:]]|[[:unknwn:]])*
+: ?([[:alpha:]]|[[:digit:]]|[[:unknown:]])*
 #^^ meta.function-call.arguments.shell - meta.group
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.regexp.shell
-#                                        ^ meta.function-call.arguments.shell - meta.group
-#                                         ^ - meta.function-call - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.regexp.shell
+#                                         ^ meta.function-call.arguments.shell - meta.group
+#                                          ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
 #  ^ punctuation.section.group.begin.regexp.shell
 #   ^^ punctuation.definition.set.begin.regexp.shell
@@ -8141,11 +8141,11 @@ stash) || true)
 #                        ^^ punctuation.definition.set.end.regexp.shell
 #                          ^ keyword.operator.alternation.regexp.shell
 #                           ^ punctuation.definition.set.begin.regexp.shell
-#                            ^^^^^^^^^ - constant.other.posix-class
-#                                     ^ punctuation.definition.set.end.regexp.shell
-#                                      ^ - punctuation
-#                                       ^ punctuation.section.group.end.regexp.shell
-#                                        ^ constant.other.wildcard.asterisk.shell
+#                            ^^^^^^^^^^ - constant.other.posix-class
+#                                      ^ punctuation.definition.set.end.regexp.shell
+#                                       ^ - punctuation
+#                                        ^ punctuation.section.group.end.regexp.shell
+#                                         ^ constant.other.wildcard.asterisk.shell
 
 : @(foo*)*
 #^^ meta.function-call.arguments.shell - meta.group
