@@ -13750,7 +13750,7 @@
 			"trigger": "ncurses_waddstr()",
 			"contents": "ncurses_waddstr(${1:window}, ${2:str})",
 			"kind": "function",
-			"details": "Outputs text at current postion in window"
+			"details": "Outputs text at current position in window"
 		},
 		{
 			"trigger": "ncurses_wattroff()",
