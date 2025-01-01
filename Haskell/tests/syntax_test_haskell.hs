@@ -1964,7 +1964,7 @@
 
     {- illegal instance declarations -}
 
-    instance C (a,a) where ...    -- a, a is not distict
+    instance C (a,a) where ...    -- a, a is not distinct
 ---               ^ invalid.illegal
 
     instance C (Int,a) where ...  -- no type allowed
