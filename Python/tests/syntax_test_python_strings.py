@@ -656,7 +656,7 @@ raw = RF"""foo\"""" + RF"""foo\'""" + RF"""foo\\"""
 #                                              ^^ storage.type.string
 #                                                    ^^ storage.type.string
 
-# Bytes by defaut support placeholders and character escapes, but not unicode
+# Bytes by default support placeholders and character escapes, but not unicode
 b'This is a \n test, %s no unicode \uDEAD'
 # <- storage.type.string
 #^ string.quoted.single punctuation.definition.string.begin
