@@ -3527,21 +3527,21 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //                                                        ^ punctuation.section.group.end.php
 //                                                         ^ punctuation.terminator.statement.php
 
-$object = new \MyNamespce\ClassName();
+$object = new \MyNamespace\ClassName();
 // <- variable.other.php punctuation.definition.variable.php
 //        ^^^^ meta.instantiation.php - meta.path
-//            ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.path.php
-//                                 ^^ meta.instantiation.php meta.group.php
+//            ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.path.php
+//                                  ^^ meta.instantiation.php meta.group.php
 //^^^^^ variable.other.php
 //      ^ keyword.operator.assignment.php
 //        ^^^ keyword.other.new.php
 //            ^ punctuation.accessor.namespace.php
-//             ^^^^^^^^^^ variable.namespace.php
-//                       ^ punctuation.accessor.namespace.php
-//                        ^^^^^^^^^ support.class.php
-//                                 ^ punctuation.section.group.begin.php
-//                                  ^ punctuation.section.group.end.php
-//                                   ^ punctuation.terminator.statement.php
+//             ^^^^^^^^^^^ variable.namespace.php
+//                        ^ punctuation.accessor.namespace.php
+//                         ^^^^^^^^^ support.class.php
+//                                  ^ punctuation.section.group.begin.php
+//                                   ^ punctuation.section.group.end.php
+//                                    ^ punctuation.terminator.statement.php
 
 // class name should be case-insensitive
 $object = new ArRaYoBjEcT();
