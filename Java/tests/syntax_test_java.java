@@ -7391,7 +7391,7 @@ class TryStatementTests {
 //  ^^^^^^^ keyword.control.exception.finally.java
   }
 
-  void testSimleTryCatchFinally() {
+  void testSimpleTryCatchFinally() {
 
     // ensure not to break highlighting even though braces are missing
     try foo() catch (Exception e) bar(e) finally baz()
