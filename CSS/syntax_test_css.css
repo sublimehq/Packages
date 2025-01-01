@@ -4479,7 +4479,7 @@ img{
 /*               ^ variable.language.parent.css */
 
         /* & is not a string value, but an object in CSS */
-        .foo { &bar { /* is not not .foobar!  */ }
+        .foo { &bar { /* is not .foobar!  */ }
 /*             ^ variable.language.parent.css */
 /*              ^^^ entity.name.tag.other.css*/
 
