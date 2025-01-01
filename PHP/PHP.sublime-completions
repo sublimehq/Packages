@@ -19226,7 +19226,7 @@
 			"trigger": "radius_close()",
 			"contents": "radius_close(${1:radius_handle})",
 			"kind": "function",
-			"details": "Frees all ressources"
+			"details": "Frees all resources"
 		},
 		{
 			"trigger": "radius_config()",
