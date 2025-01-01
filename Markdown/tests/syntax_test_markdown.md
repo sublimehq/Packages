@@ -2184,9 +2184,9 @@ declare type foo = 'bar'
 |^^ meta.code-fence.definition.end.text.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |  ^ meta.code-fence.definition.end.text.markdown-gfm meta.fold.code-fence.end - punctuation
 
-```R%&?! weired language name
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm - meta.fold
-|                            ^ meta.code-fence.definition.begin.text.markdown-gfm meta.fold.code-fence.begin
+```R%&?! weird language name
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm - meta.fold
+|                           ^ meta.code-fence.definition.begin.text.markdown-gfm meta.fold.code-fence.begin
 |^^ punctuation.definition.raw.code-fence.begin.markdown
 |  ^^^^^ constant.other.language-name.markdown
 |        ^^^^^^^^^^^^^^^^^^^^^ - constant
