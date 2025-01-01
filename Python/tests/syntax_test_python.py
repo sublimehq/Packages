@@ -3337,7 +3337,7 @@ foo ^= bar ^= baz
 #                ^ - keyword
 #                 ^^ invalid.deprecated.operator.python
 
-# locical keywords
+# logical keywords
 
   and in is not or
 # ^^^ keyword.operator.logical.python
