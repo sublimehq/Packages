@@ -1,5 +1,24 @@
 -- SYNTAX TEST "Packages/Haskell/Cabal.sublime-syntax"
 
+<<<<<<< HEAD
+-- <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+--^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+--     ^ markup.conflict.begin.diff3 - entity - punctuation
+--      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+--          ^ markup.conflict.begin.diff3 - entity - punctuation
+
+=======
+-- <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+--^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+--     ^ markup.conflict.separator.diff3 - punctuation
+
+>>>>>>> master
+-- <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+--^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+--     ^ markup.conflict.end.diff3 - entity - punctuation
+--      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+--            ^ markup.conflict.end.diff3 - entity - punctuation
+
 cabal-version:   >=2.2
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^^^^ meta.mapping.key.cabal
@@ -229,6 +248,13 @@ data-files:
 --                                                ^^ - meta.path - markup.underline.link - string
 --                                                ^ punctuation.separator.sequence.cabal
 
+<<<<<<< HEAD
+-- <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+--^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+--     ^ markup.conflict.begin.diff3 - entity - punctuation
+--      ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+--          ^ markup.conflict.begin.diff3 - entity - punctuation
+
                  -- templates
                  ../data/template?.../**/styles.html
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
@@ -243,6 +269,28 @@ data-files:
 --                                    ^^ keyword.operator.wildcard.cabal
 --                                      ^ punctuation.separator.path.cabal
 --                                                  ^ - meta.path - markup.underline.link - string
+
+=======
+-- <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+--^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+--     ^ markup.conflict.separator.diff3 - punctuation
+
+                 -- templates
+                 ../data/styles.html
+--              ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
+--              ^ - meta.path - markup.underline.link - string
+--               ^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
+--               ^^ constant.other.path.parent.cabal
+--                 ^ punctuation.separator.path.cabal
+--                      ^ punctuation.separator.path.cabal
+--                                  ^ - meta.path - markup.underline.link - string
+
+>>>>>>> master
+-- <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+--^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+--     ^ markup.conflict.end.diff3 - entity - punctuation
+--      ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+--            ^ markup.conflict.end.diff3 - entity - punctuation
 
 build-depends:  pandoc,
 -- <- meta.mapping.key.cabal entity.name.tag.cabal

@@ -9037,3 +9037,73 @@ Handle incomplete $\sqrt{b$ expressions well.
    |                       ^^ meta.group.brace
    |                         ^ punctuation.definition.math.end - meta.group
    |                          ^ meta.paragraph.list.markdown - markup.math
+
+<!-- SETEXT heading: Merge conflict marker -->
+
+Conflict in SETEXT heading
+<<<<<<< HEAD
+|  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.begin.diff3 - punctuation
+|       ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+|           ^ markup.conflict.begin.diff3 - punctuation
+====
+=======
+|  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.separator.diff3 - punctuation
+==
+>>>>>>> master
+|  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.end.diff3 - entity - punctuation
+|       ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+|             ^ markup.conflict.end.diff3 - entity - punctuation
+
+
+<!-- ATX heading: Merge conflict marker -->
+
+<<<<<<< HEAD
+|  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.begin.diff3 - punctuation
+|       ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+|           ^ markup.conflict.begin.diff3 - punctuation
+# Conflicting in ATX Heading
+=======
+|  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.separator.diff3 - punctuation
+# Conflicting in ATX Heading
+>>>>>>> master
+|  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.end.diff3 - entity - punctuation
+|       ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+|             ^ markup.conflict.end.diff3 - entity - punctuation
+
+
+<!-- paragraph: Merge conflict marker -->
+
+<<<<<<< HEAD
+|  <- markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.begin.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.begin.diff3 - entity - punctuation
+|       ^^^^ markup.conflict.begin.diff3 entity.name.section.conflict.diff3
+|           ^ markup.conflict.begin.diff3 - entity - punctuation
+
+our paragraph
+
+=======
+|  <- markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.separator.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.separator.diff3 - punctuation
+
+their paragraph
+
+>>>>>>> master
+|  <- markup.conflict.end.diff3 punctuation.section.conflict.diff3
+| ^^^^^ markup.conflict.end.diff3 punctuation.section.conflict.diff3
+|      ^ markup.conflict.end.diff3 - entity - punctuation
+|       ^^^^^^ markup.conflict.end.diff3 entity.name.section.conflict.diff3
+|             ^ markup.conflict.end.diff3 - entity - punctuation
