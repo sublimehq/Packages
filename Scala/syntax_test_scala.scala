@@ -1963,9 +1963,9 @@ tail: _ *
 //            ^^ variable.other.constant.scala
       subject,
 //    ^^^^^^^ variable.other.constant.scala
-      Content(tpe, value)) = m
-//            ^^^ variable.other.constant.scala
-//                 ^^^^^ variable.other.constant.scala
+      Content(type_, value)) = m
+//            ^^^^^ variable.other.constant.scala
+//                   ^^^^^ variable.other.constant.scala
 
 {
   case Foo() =>
