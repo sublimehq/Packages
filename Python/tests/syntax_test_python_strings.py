@@ -164,7 +164,7 @@ string = r"""
     # An indented comment.
 #  ^ - comment
 #   ^ comment.line.number-sign.regexp
-### <<This comment>> @includes some &punctutation.
+### <<This comment>> @includes some &punctuation.
 # <- comment.line.number-sign.regexp
 """
 
@@ -180,7 +180,7 @@ string = r'''
     # An indented comment.
 #  ^ - comment
 #   ^ comment.line.number-sign.regexp
-### <<This comment>> @includes some &punctutation.
+### <<This comment>> @includes some &punctuation.
 # <- comment.line.number-sign.regexp
 '''
 

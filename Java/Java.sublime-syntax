@@ -2536,7 +2536,7 @@ contexts:
     - include: operator-ternary-colon
     - include: expression
 
-###[ PUNCTUATIONS ]############################################################
+###[ PUNCTUATION ]#############################################################
 
   punctuations:
     - match: '::'

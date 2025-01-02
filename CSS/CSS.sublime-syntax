@@ -85,7 +85,7 @@ variables:
 
   logical_operators: (?i:and|or|not|only)
 
-  # Block punctuations
+  # Block punctuation
   #  Provides an easy and safe interface for template syntaxes to override
   #  block punctuation patterns to prevent ambiguities with interpolations.
   #  It helps to correctly highlight {{ tag }} { {{prop}}: {{value}} }

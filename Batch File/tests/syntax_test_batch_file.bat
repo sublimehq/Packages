@@ -2954,11 +2954,11 @@ put arg1 arg2
 ::        ^^^^^ - support.function
 
    ECHO "
-::      ^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::       ^ - meta.string - string
 
    ECHO "^
-::      ^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::        ^ - meta.string - string
 
    ECHO "^
@@ -2989,22 +2989,22 @@ put arg1 arg2
 ::                 ^ - meta.command - meta.string - string
 
    ECHO "foo"
-::      ^^^^^ string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^ string.unquoted.dosbatch - constant - punctuation
 ::           ^ - meta.command - meta.string - string
 
    ECHO "foo"bar"baz"
 ::     ^ - meta.string - string
-::      ^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::                   ^ - meta.string - string
 
    ECHO foo"bar>nul && echo baz
 ::     ^ - meta.string - string
-::      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::                             ^ - meta.string - string
 
    ECHO foo"bar">nul && echo baz
 ::     ^ - meta.string - string
-::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::              ^ keyword.operator.assignment.redirection.dosbatch
 ::               ^^^ constant.language.null.dosbatch
 ::                   ^^ keyword.operator.logical.dosbatch
