@@ -263,17 +263,7 @@ contexts:
         - ts-abstract-class
         - expression-statement
 
-  class:
-    - match: class{{identifier_break}}
-      scope: keyword.declaration.class.js
-      set:
-        - class-meta
-        - class-body
-        - ts-class-implements
-        - class-extends
-        - class-name
-
-  ts-class-implements:
+  class-implements:
     - match: implements{{identifier_break}}
       scope: storage.modifier.implements.js
       set: ts-inherited-class-expression-list
