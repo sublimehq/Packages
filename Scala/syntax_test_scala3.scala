@@ -503,3 +503,97 @@ val i: 0x01 = 0x01
 type Foo = (true)
 //          ^^^^ constant.language.boolean.true.scala
 //              ^ punctuation.definition.group.end.scala
+
+enum Color {
+// <- keyword.declaration.enum.scala
+//   ^^^^^ entity.name.enum.scala
+  case Red, Green, Blue
+// ^^^ keyword.declaration.other.scala
+//     ^^^ entity.name.enum.scala
+//        ^ punctuation.separator.scala
+//          ^^^^^ entity.name.enum.scala
+//               ^ punctuation.separator.scala
+//                 ^^^^ entity.name.enum.scala
+}
+
+enum Color:
+// <- keyword.declaration.enum.scala
+//   ^^^^^ entity.name.enum.scala
+  case Red, Green, Blue
+// ^^^ keyword.declaration.other.scala
+//     ^^^ entity.name.enum.scala
+//        ^ punctuation.separator.scala
+//          ^^^^^ entity.name.enum.scala
+//               ^ punctuation.separator.scala
+//                 ^^^^ entity.name.enum.scala
+
+enum Color(val rgb: Int):
+// <- keyword.declaration.enum.scala
+//   ^^^^^ entity.name.enum.scala
+//         ^^^ storage.type.scala
+//             ^^^ variable.parameter.scala
+//                  ^^^ storage.type.primitive.scala
+  case Red   extends Color(0xFF0000)
+// ^^^ keyword.declaration.other.scala
+//     ^^^ entity.name.enum.scala
+//           ^^^^^^^ storage.modifier.extends.scala
+//                   ^^^^^ entity.other.inherited-class.scala
+  case Green extends Color(0x00FF00)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^ entity.name.enum.scala
+//           ^^^^^^^ storage.modifier.extends.scala
+//                   ^^^^^ entity.other.inherited-class.scala
+  case Blue  extends Color(0x0000FF)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^ entity.name.enum.scala
+//           ^^^^^^^ storage.modifier.extends.scala
+//                   ^^^^^ entity.other.inherited-class.scala
+
+enum Planet(mass: Double, radius: Double):
+// <- keyword.declaration.enum.scala
+//   ^^^^^^ entity.name.enum.scala
+//          ^^^^ variable.parameter.scala
+//                        ^^^^^^ variable.parameter.scala
+  private final val G = 6.67300E-11
+// ^^^^^^ storage.modifier.access.scala
+//        ^^^^^ storage.modifier.other.scala
+//              ^^^ storage.type.stable.scala
+//                  ^ variable.other.constant.scala
+  def surfaceGravity = G * mass / (radius * radius)
+// ^^ keyword.declaration.function.scala
+//    ^^^^^^^^^^^^^^ entity.name.function.scala
+
+  case Mercury extends Planet(3.303e+23, 2.4397e6)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+//                     ^^^^^ entity.other.inherited-class.scala
+  case Venus   extends Planet(4.869e+24, 6.0518e6)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+  case Earth   extends Planet(5.976e+24, 6.37814e6)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+  case Mars    extends Planet(6.421e+23, 3.3972e6)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+  case Jupiter extends Planet(1.9e+27,   7.1492e7)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+  case Saturn  extends Planet(5.688e+26, 6.0268e7)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+  case Uranus  extends Planet(8.686e+25, 2.5559e7)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+  case Neptune extends Planet(1.024e+26, 2.4746e7)
+// ^^^ keyword.declaration.other.scala
+//     ^^^^^^^ entity.name.enum.scala
+//             ^^^^^^^ storage.modifier.extends.scala
+end Planet
