@@ -29,7 +29,8 @@
     <string>(?x)
         ^ (.*\*/)? \s* \} .* $      # curly brace dedent
       | ^ (.*\*/)? \s* \) .* $      # parent dedent
-      | ^ \s* end ($|\s+ .* $)          # end token
+      | ^ \s* end ($|\s+ .* $)      # end token
+      | ^ \s* (catch|else|yield) ($|\s+ .* $)     # braceless things (I would prefer to also do while/do but we can't)
     </string>
   </dict>
 </dict>
