@@ -2309,3 +2309,18 @@ class c()
 //       ^^^ entity.other.inherited-class.scala
 //           ^^^^ storage.modifier.with.scala
 //                ^^^ entity.other.inherited-class.scala
+
+trait Foo { abcd: Foo =>
+//          ^^^^ variable.parameter.scala
+//                ^^^ support.class.scala
+//                    ^^ keyword.declaration.function.arrow.lambda.scala
+}
+
+trait Foo { abcd: Foo.type =>
+//          ^^^^ variable.parameter.scala
+//                ^^^ support.class.scala
+//                    ^^^^ keyword.other.scala
+//                         ^^ keyword.declaration.function.arrow.lambda.scala
+}
+
+type Foo = Foo.type

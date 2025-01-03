@@ -926,6 +926,9 @@ contexts:
       set: class-parameter-list-maybe-case
 
   class-pre-inheritance-early-initializer:
+    # class declaration is over, we're doing some sort of self type
+    - match: '(?=\{\s*{{lambdalookaheadtyped}})'
+      pop: true
     - match: \{
       scope: punctuation.section.braces.begin.scala
       push:
