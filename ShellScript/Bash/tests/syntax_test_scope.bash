@@ -2992,7 +2992,7 @@ logExit $? $WEIRD
 #          ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                ^ - meta.function-call - meta.interpolation - variable
 
-time () {  }   # reserved words can not be overwritten by local function definitions
+time () {  }   # reserved words cannot be overwritten by local function definitions
 # <- - meta.function
 #^^^^ - meta.function
 #    ^^ meta.function-call.shell meta.function.anonymous.parameters.shell
@@ -6317,7 +6317,7 @@ a\/b/c/d}
 #                ^^ constant.character.escape.shell
 #                  ^ punctuation.section.interpolation.end.shell
 
-: ${foo//[abc[]/x}  # `[` has no meaing within charsets
+: ${foo//[abc[]/x}  # `[` has no meaning within charsets
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.set
 #        ^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.set.regexp.shell
 #              ^^^ meta.interpolation.parameter.shell - meta.string meta.set
@@ -6328,7 +6328,7 @@ a\/b/c/d}
 #              ^ keyword.operator.substitution.shell
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f|o/b|ar}  # `|` has no meaing in patterns or replacement strings
+: ${var//f|o/b|ar}  # `|` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -6336,7 +6336,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f&o/b&ar}  # `&` has no meaing in patterns or replacement strings
+: ${var//f&o/b&ar}  # `&` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -6344,7 +6344,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f>o/b>ar}  # `>` has no meaing in patterns or replacement strings
+: ${var//f>o/b>ar}  # `>` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -6352,7 +6352,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f<o/b<ar}  # `<` has no meaing in patterns or replacement strings
+: ${var//f<o/b<ar}  # `<` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -6360,7 +6360,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f;o/b;ar}  # `;` has no meaing in patterns or replacement strings
+: ${var//f;o/b;ar}  # `;` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -6467,7 +6467,7 @@ a\/b/c/d}
 #    ^ keyword.operator.expansion.shell
 #     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
 
-: ${!#pattern}  # bad substituation
+: ${!#pattern}  # bad substitution
 # ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #   ^ keyword.operator.expansion.indirection.shell
 #    ^ keyword.operator.expansion.shell
@@ -8121,11 +8121,11 @@ stash) || true)
 #                           ^ constant.other.wildcard.asterisk.shell
 #                            ^ punctuation.section.group.end.regexp.shell
 
-: ?([[:alpha:]]|[[:digit:]]|[[:unknwn:]])*
+: ?([[:alpha:]]|[[:digit:]]|[[:unknown:]])*
 #^^ meta.function-call.arguments.shell - meta.group
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.regexp.shell
-#                                        ^ meta.function-call.arguments.shell - meta.group
-#                                         ^ - meta.function-call - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.regexp.shell
+#                                         ^ meta.function-call.arguments.shell - meta.group
+#                                          ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
 #  ^ punctuation.section.group.begin.regexp.shell
 #   ^^ punctuation.definition.set.begin.regexp.shell
@@ -8141,11 +8141,11 @@ stash) || true)
 #                        ^^ punctuation.definition.set.end.regexp.shell
 #                          ^ keyword.operator.alternation.regexp.shell
 #                           ^ punctuation.definition.set.begin.regexp.shell
-#                            ^^^^^^^^^ - constant.other.posix-class
-#                                     ^ punctuation.definition.set.end.regexp.shell
-#                                      ^ - punctuation
-#                                       ^ punctuation.section.group.end.regexp.shell
-#                                        ^ constant.other.wildcard.asterisk.shell
+#                            ^^^^^^^^^^ - constant.other.posix-class
+#                                      ^ punctuation.definition.set.end.regexp.shell
+#                                       ^ - punctuation
+#                                        ^ punctuation.section.group.end.regexp.shell
+#                                         ^ constant.other.wildcard.asterisk.shell
 
 : @(foo*)*
 #^^ meta.function-call.arguments.shell - meta.group
@@ -9132,7 +9132,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #                ^ punctuation.section.group.end.shell
 #                  ^^ punctuation.section.compound.end.shell
 
-[[ $foo =~ & ]]       # unquoted ambersands are illegal
+[[ $foo =~ & ]]       # unquoted ampersands are illegal
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #              ^ - meta.conditional
@@ -9140,7 +9140,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^ invalid.illegal.unexpected-token.shell
 #            ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo =~ & ) ]]   # unquoted ambersands are illegal
+[[ ( $foo =~ & ) ]]   # unquoted ampersands are illegal
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
@@ -9151,7 +9151,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #              ^ punctuation.section.group.end.shell
 #                ^^ punctuation.section.compound.end.shell
 
-[[ $foo =~ (&) ]]     # unquoted ambersands allowed in pattern groups
+[[ $foo =~ (&) ]]     # unquoted ampersands allowed in pattern groups
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^ meta.compound.conditional.shell - meta.group
 #          ^^^ meta.compound.conditional.shell meta.string.regexp.shell meta.group.regexp.shell string.unquoted.shell
@@ -9162,7 +9162,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #            ^ punctuation.section.group.end.regexp.shell
 #              ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo =~ (&) ) ]] # unquoted ambersands allowed in pattern groups
+[[ ( $foo =~ (&) ) ]] # unquoted ampersands allowed in pattern groups
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
@@ -9176,7 +9176,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #                ^ punctuation.section.group.end.shell
 #                  ^^ punctuation.section.compound.end.shell
 
-[[ $foo =~ \& ]]      # escaped ambersands are allowed
+[[ $foo =~ \& ]]      # escaped ampersands are allowed
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #               ^ - meta.conditional
@@ -9184,7 +9184,7 @@ echo '([^.[:space:]]+)   Class::method()' # colon not scoped as path separator
 #          ^^ constant.character.escape.shell
 #             ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo =~ \& ) ]]  # escaped ambersands are allowed
+[[ ( $foo =~ \& ) ]]  # escaped ampersands are allowed
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
@@ -9757,9 +9757,9 @@ cat << redirection_comes_next > foo.txt
 #                             ^^ meta.redirection.shell meta.redirection.shell - meta.string
 #                               ^^^^^^^ meta.redirection.shell meta.redirection.shell meta.string.glob.shell string.unquoted.shell
 #   ^^ keyword.operator.assignment.redirection.shell
-#     ^ - entiy - keyword
+#     ^ - entity - keyword
 #      ^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.heredoc.shell
-#                            ^ - entiy - keyword
+#                            ^ - entity - keyword
 #                             ^ keyword.operator.assignment.redirection.shell
 #                               ^^^^^^^ - variable.function
 hello
@@ -9775,7 +9775,7 @@ cat <<     FARAWAY
 #          ^^^^^^^ meta.redirection.shell meta.tag.heredoc.begin.shell - meta.string - string
 #                 ^ meta.redirection.shell - meta.tag - meta.string - string
 #   ^^ keyword.operator.assignment.redirection.shell
-#     ^^^^^ - entiy - keyword
+#     ^^^^^ - entity - keyword
 #          ^^^^^^^ entity.name.tag.heredoc.shell
 #                 ^ - entity
 foo
@@ -10791,7 +10791,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                          ^^^^^^^^ variable.function.shell
 #                                                   ^^ variable.parameter.option.shell
 
-# declare called in command substituations
+# declare called in command substitutions
 
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.begin.shell

@@ -3,7 +3,7 @@
 <dict>
 	<!--
 		The meta.function scopes are used
-		to re-override the separate mapping and sequence-sepcific patterns
+		to re-override the separate mapping and sequence-specific patterns
 		defined in `Indentation Rules - Values.tmPreferences`.
 		This relies on a scope selector scoring adjustment in 4173.
 		See also: https://github.com/sublimehq/sublime_text/issues/2152

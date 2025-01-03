@@ -524,7 +524,7 @@ contexts:
 
   zsh-parameter-glob-ranges:
     # This context consumes glob ranges (e.g.: `<1-20>`) within expansions
-    # or scopes `<` literal string otherwise without poping owning context.
+    # or scopes `<` literal string otherwise without popping owning context.
     - match: (?=<)
       branch_point: zsh-parameter-glob-range
       branch:
@@ -625,7 +625,7 @@ contexts:
 
   zsh-group-glob-ranges:
     # This context consumes glob ranges (e.g.: `<1-20>`) in groups or sequences
-    # or scopes `<` invalid illegal otherwise without poping owning context.
+    # or scopes `<` invalid illegal otherwise without popping owning context.
     - match: (?=<)
       branch_point: zsh-group-glob-range
       branch:
@@ -890,7 +890,7 @@ contexts:
     - include: zsh-modifier-subst-pattern
 
   zsh-modifier-subst-flag:
-    - meta_scope: meta.substituation.shell.zsh
+    - meta_scope: meta.substitution.shell.zsh
     - match: (:)(G)
       captures:
         1: punctuation.separator.sequence.shell.zsh

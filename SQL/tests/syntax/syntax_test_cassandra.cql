@@ -353,11 +353,11 @@ ALTER TABLE someentity_by_somefield
 --                      ^ punctuation.terminator.statement
 
 ALTER TABLE someentity_by_somefield
-    DROP unnecessryfield;
---  ^^^^^^^^^^^^^^^^^^^^ meta.statement.alter
+    DROP unnecessaryfield;
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter
 --  ^^^^ keyword.other.ddl
---       ^^^^^^^^^^^^^^^ meta.column-name
---                      ^ punctuation.terminator.statement
+--       ^^^^^^^^^^^^^^^^ meta.column-name
+--                       ^ punctuation.terminator.statement
 
 
 select *

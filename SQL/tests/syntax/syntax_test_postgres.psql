@@ -425,18 +425,18 @@ CREATE TABLE example_table (
 --                                 ^ punctuation.section.group.end - meta.string
 );
 
-ALTER TABLE mytable ADD CONSTRAINT verif_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA'));
+ALTER TABLE mytable ADD CONSTRAINT verify_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA'));
 -- <- meta.statement.alter.sql keyword.other.ddl
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 -- ^^ keyword.other.ddl
 --    ^^^^^ keyword.other.ddl
 --          ^^^^^^^ meta.table-name
 --                  ^^^ keyword.other.ddl
 --                      ^^^^^^^^^^ keyword.other.ddl
---                                 ^^^^^^^^^^ meta.constraint-name
---                                            ^^^^^ keyword.other
---                                                  ^ punctuation.section.group.begin
---                                                   ^^^^ meta.column-name
+--                                 ^^^^^^^^^^^ meta.constraint-name
+--                                             ^^^^^ keyword.other
+--                                                   ^ punctuation.section.group.begin
+--                                                    ^^^^ meta.column-name
 
 
 CREATE TABLE test1 (

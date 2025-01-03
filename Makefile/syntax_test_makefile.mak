@@ -384,7 +384,7 @@ lib: foo.o bar.o lose.o win.o
 	# <- meta.function.body
 	# BIG NOTE: This comment is actually a shell comment, not a makefile
 	# comment. Everything on a recipe line is passed to the shell; even lines
-	# starting with a numbrer sign! It depends on the particular shell if it
+	# starting with a number sign! It depends on the particular shell if it
 	# gets treated as comments, but for all intents and purposes it should.
 
 all: $(SOURCES) $(EXECUTABLE)
@@ -542,7 +542,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
 .RECIPEPREFIX +=
 
 help::
-	@echo "Excutable is $(EXECUTABLE)"
+	@echo "Executable is $(EXECUTABLE)"
 	# <- constant.language
 
 $(warning he:llo)

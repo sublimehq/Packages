@@ -91,7 +91,7 @@
 #                       ^^^^^^ constant.numeric.value.yaml
 #                                  ^^^^^^^^^ - constant
 
-# Note: pyyaml does not handle hexagesimal literals correctly (for linting purposes)
+# Note: pyyaml does not handle hexadecimal literals correctly (for linting purposes)
    1:20, +1:9, -1_234:59:00, ~, 1:60, :60, 1:2 s
 #  ^^^^ meta.number.integer.other.yaml constant.numeric.value.yaml
 #        ^^^^ meta.number.integer.other.yaml

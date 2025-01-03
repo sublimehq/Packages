@@ -1097,7 +1097,7 @@ function name () echo "$0 called with $*!"
 #              ^ punctuation.section.parameters.end.shell
 #                ^^^^ support.function.shell
 
-time () {  }   # reserved words can not be overwritten by local function definitions
+time () {  }   # reserved words cannot be overwritten by local function definitions
 # <- - meta.function
 #^^^^ - meta.function
 #    ^^ meta.function-call.shell meta.function.anonymous.parameters.shell
@@ -1468,7 +1468,7 @@ function {
 #                   ^^ keyword.operator.arithmetic.shell
 #                      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
-: $(( val = 1 + 2 ))  # aritmetic expansions
+: $(( val = 1 + 2 ))  # arithmetic expansions
 # ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^^ punctuation.section.interpolation.begin.shell
@@ -1479,7 +1479,7 @@ function {
 #               ^ constant.numeric.value.shell
 #                 ^^ punctuation.section.interpolation.end.shell
 
-: ${val:start + 3:len % 5}  # aritmetic evaluation in substitutions
+: ${val:start + 3:len % 5}  # arithmetic evaluation in substitutions
 # ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.arithmetic
 #       ^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.arithmetic.shell
 #                ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.arithmetic
@@ -2089,7 +2089,7 @@ ip=10.10.20.14
 #   ^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh - meta.modifier.expansion.shell.zsh meta.string
 #     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
 #                             ^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh - meta.modifier.expansion.shell.zsh meta.string
-#                              ^^^^ meta.interpolation.parameter.shell - meta.modifer
+#                              ^^^^ meta.interpolation.parameter.shell - meta.modifier
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ punctuation.definition.modifier.begin.shell.zsh
@@ -2121,7 +2121,7 @@ ip=10.10.20.14
 : ${(r:expr:)var} ${(r<expr>)var}
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
-#            ^^^^ meta.interpolation.parameter.shell - meta.modifer
+#            ^^^^ meta.interpolation.parameter.shell - meta.modifier
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ punctuation.definition.modifier.begin.shell.zsh
@@ -2134,7 +2134,7 @@ ip=10.10.20.14
 #               ^ punctuation.section.interpolation.end.shell
 #                 ^^ meta.interpolation.parameter.shell - meta.modifier
 #                   ^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
-#                            ^^^^ meta.interpolation.parameter.shell - meta.modifer
+#                            ^^^^ meta.interpolation.parameter.shell - meta.modifier
 #                 ^ punctuation.definition.variable.shell
 #                  ^ punctuation.section.interpolation.begin.shell
 #                   ^ punctuation.definition.modifier.begin.shell.zsh
@@ -2149,7 +2149,7 @@ ip=10.10.20.14
 : ${(r:expr::string1:)var}
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
-#                     ^^^^ meta.interpolation.parameter.shell - meta.modifer
+#                     ^^^^ meta.interpolation.parameter.shell - meta.modifier
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ punctuation.definition.modifier.begin.shell.zsh
@@ -2168,7 +2168,7 @@ ip=10.10.20.14
 : ${(r:expr::string1::string2:)var}
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
-#                              ^^^^ meta.interpolation.parameter.shell - meta.modifer
+#                              ^^^^ meta.interpolation.parameter.shell - meta.modifier
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ punctuation.definition.modifier.begin.shell.zsh
@@ -2959,7 +2959,7 @@ a\/b/c/d}
 #                ^^ constant.character.escape.shell
 #                  ^ punctuation.section.interpolation.end.shell
 
-: ${foo//[abc[]/x}  # `[` has no meaing within charsets
+: ${foo//[abc[]/x}  # `[` has no meaning within charsets
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.set
 #        ^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.set.regexp.shell
 #              ^^^ meta.interpolation.parameter.shell - meta.string meta.set
@@ -2970,7 +2970,7 @@ a\/b/c/d}
 #              ^ keyword.operator.substitution.shell
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f|o/b|ar}  # `|` has no meaing in patterns or replacement strings
+: ${var//f|o/b|ar}  # `|` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -2978,7 +2978,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f&o/b&ar}  # `&` has no meaing in patterns or replacement strings
+: ${var//f&o/b&ar}  # `&` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -2986,7 +2986,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f>o/b>ar}  # `>` has no meaing in patterns or replacement strings
+: ${var//f>o/b>ar}  # `>` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -2994,7 +2994,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f<o/b<ar}  # `<` has no meaing in patterns or replacement strings
+: ${var//f<o/b<ar}  # `<` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -3002,7 +3002,7 @@ a\/b/c/d}
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
 
-: ${var//f;o/b;ar}  # `;` has no meaing in patterns or replacement strings
+: ${var//f;o/b;ar}  # `;` has no meaning in patterns or replacement strings
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.substitution.shell
 #        ^^^ meta.string.regexp.shell string.unquoted.shell - keyword - punctuation
@@ -3636,7 +3636,7 @@ any --arg{1,2,3} ={1,2,3}
 
 : (:s/pa*t?rn/repl) (:s|pattern|repl) (:s;pattern;repl;:G)
 # ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#   ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
+#   ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
 #                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                  ^ - meta.string - meta.modifier
 #   ^ support.function.substitution.shell.zsh
@@ -3646,7 +3646,7 @@ any --arg{1,2,3} ={1,2,3}
 #             ^^^^ meta.string.regexp.shell string.unquoted.shell
 #                 ^ punctuation.definition.modifier.end.shell.zsh
 #                   ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                     ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
+#                     ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
 #                                   ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                    ^ - meta.string - meta.modifier
 #                     ^ support.function.substitution.shell.zsh
@@ -3656,7 +3656,7 @@ any --arg{1,2,3} ={1,2,3}
 #                               ^^^^ meta.string.regexp.shell string.unquoted.shell
 #                                   ^ punctuation.definition.modifier.end.shell.zsh
 #                                     ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                                       ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
+#                                       ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
 #                                                        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                                         ^ - meta.string - meta.modifier
 #                                       ^ support.function.substitution.shell.zsh
@@ -4150,14 +4150,14 @@ dyn_dir_name() {
 #  ^ keyword.operator.range.shell.zsh
 #   ^ punctuation.definition.range.end.shell.zsh
 
-: <2-> # Matches any number greator or equal 2
+: <2-> # Matches any number greater or equal 2
 # ^^^^ meta.range.shell.zsh
 # ^ punctuation.definition.range.begin.shell.zsh
 #  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #   ^ keyword.operator.range.shell.zsh
 #    ^ punctuation.definition.range.end.shell.zsh
 
-: <-5> # Matches any number greator or equal 2
+: <-5> # Matches any number greater or equal 2
 # ^^^^ meta.range.shell.zsh
 # ^ punctuation.definition.range.begin.shell.zsh
 #  ^ keyword.operator.range.shell.zsh
@@ -4653,7 +4653,7 @@ esac
 # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Globbing-Flags
 ###############################################################################
 
-: (#i)       #  Match case insensitively
+: (#i)       #  Match case-insensitively
 # ^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.mode.glob.shell.zsh
@@ -4756,7 +4756,7 @@ esac
 #   ^ storage.modifier.mode.glob.shell.zsh
 #    ^ punctuation.definition.modifier.end.shell.zsh
 
-: (#qexpr)   #  expr is a a set of glob qualifiers (below)
+: (#qexpr)   #  expr is a set of glob qualifiers (below)
 # ^^^^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.mode.glob.shell.zsh
@@ -4934,7 +4934,7 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #   ^ storage.modifier.glob.shell.zsh
 #    ^ punctuation.definition.modifier.end.shell.zsh
 
-: /(f70?) (f=7?0) (f+?70) (f-7${g}3)  # octal acces right specification
+: /(f70?) (f=7?0) (f+?70) (f-7${g}3)  # octal access right specification
 #   ^ storage.modifier.glob.shell.zsh
 #    ^^ meta.number.integer.octal.shell constant.numeric.value.shell
 #      ^ meta.number.integer.octal.shell constant.other.wildcard.questionmark.shell
@@ -4953,7 +4953,7 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #                             ^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell
 #                                 ^ meta.number.integer.octal.shell constant.numeric.value.shell
 
-: /(f$mode) (f=$mode) (f+$mode) (f-$mode)  # octal acces right specification
+: /(f$mode) (f=$mode) (f+$mode) (f-$mode)  # octal access right specification
 #   ^ storage.modifier.glob.shell.zsh
 #    ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #            ^ storage.modifier.glob.shell.zsh
@@ -5777,11 +5777,11 @@ ls -ld -- *.*~(lex|parse).[ch](^D^l1)
 # demonstrates how colon modifiers and other qualifiers may be chained together.
 print -rC1 b*.pro(#q:s/pro/shmo/)(#q.:s@builtin@"sh${mi}ltin"@)
 #          ^^^^^^ meta.string.glob.shell string.unquoted.shell
-#                ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substituation
-#                    ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
-#                               ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substituation
-#                                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substituation.shell.zsh
-#                                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substituation
+#                ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                    ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                               ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                                              ^ - meta.string - meta.modifier
 
 

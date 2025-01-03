@@ -1189,7 +1189,7 @@ contexts:
 
   # f_string, see:
   # http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html#detail
-  # /!\ this implementation may allow incorrect combinaisons
+  # /!\ this implementation may allow incorrect combinations
   f_string:
     - include: escaped
     - include: interpolated-vars-expressions

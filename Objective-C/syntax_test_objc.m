@@ -239,7 +239,7 @@ int f(int x, \
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
-#error "Eplicitly quoted string wrapped, \
+#error "Explicitly quoted string wrapped, \
     ensuring that the string quoting stops at some point \
     "
 #warning This is a short warning

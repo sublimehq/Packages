@@ -69,7 +69,7 @@
             "kind": ["namespace", "h", "Header"]
         },
         {
-            // C-style time/date utilites
+            // C-style time/date utilities
             "trigger": "ctime",
             "contents": "ctime",
             "kind": ["namespace", "h", "Header"]
@@ -123,7 +123,7 @@
             "kind": ["namespace", "h", "Header"]
         },
 
-        // Dynmamic memory management utilities
+        // Dynamic memory management utilities
         {
             // Low-level memory management utilities
             "trigger": "new",

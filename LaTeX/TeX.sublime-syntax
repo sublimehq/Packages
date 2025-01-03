@@ -515,7 +515,7 @@ contexts:
     - include: macro-braces-end
     - include: macro-braces-content
 
-  # within macros, it is possible that only part of some nested struture
+  # within macros, it is possible that only part of some nested structure
   # is present. Don't include any context's here that break if they are
   # only partially matched.
   macro-braces-content:

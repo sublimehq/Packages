@@ -20,7 +20,7 @@ namespace Sublime {
                 default:
                 Console.WriteLine("More than 10");
                 break;
-                // NOTE (continutation)... because they can only unindent one level at a time and here would need 2 levels
+                // NOTE (continuation)... because they can only unindent one level at a time and here would need 2 levels
             }
 
             var myValue = (args.Length > 0) switch { true => int.Parse(args[0]), _ => 4 };

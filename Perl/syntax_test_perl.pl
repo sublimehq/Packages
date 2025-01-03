@@ -67,7 +67,7 @@
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.perl
 #                                           ^ punctuation.definition.tag.end.perl
   S<[ B<-A> ]>
-# ^ entity.name.tag.none-braeking.perl
+# ^ entity.name.tag.non-breaking.perl
 #  ^ punctuation.definition.tag.begin.perl
 #     ^ entity.name.tag.bold.perl
 #      ^ punctuation.definition.tag.begin.perl
@@ -545,7 +545,7 @@ format var =
 
 ###[ SPRINTF FORMAT ]#########################################################
 
-  "%<index>?<flag>?<width>?[<vector>|<precicion>]<size>?<sequence>
+  "%<index>?<flag>?<width>?[<vector>|<precision>]<size>?<sequence>
 
   # sequences
 
@@ -723,7 +723,7 @@ format var =
 #  ^^^^^ constant.other.placeholder.perl
 #       ^ - constant.other.placeholder
 
-  # precicion
+  # precision
 
   %#.5o
 #^ - constant.other.placeholder
@@ -1703,7 +1703,7 @@ EOT-EOT-EOT
 # ^^^^^^^^^^^^^^ meta.function-call.perl
 # ^^ support.function.perl
 #   ^ punctuation.section.generic.begin.perl
-#    ^^^^ meta.string.perl string.unquoted.perl - bariable
+#    ^^^^ meta.string.perl string.unquoted.perl - variable
 #        ^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl - string
 #            ^^ meta.string.perl string.unquoted.perl - variable
 #              ^ punctuation.section.generic.end.perl
@@ -4842,7 +4842,7 @@ state
 # ^^^^ variable.function.perl
 #      ^^^^^^^^ meta.string.perl string.quoted.double.perl
 
-  # Patterns an ambigious argument and need parentheses
+  # Patterns an ambiguous argument and need parentheses
   func /pattern/g;
 # ^^^^ variable.function.perl
 #      ^ - punctuation.section.generic.begin
@@ -4966,7 +4966,7 @@ _EOD_
 #           ^ punctuation.section.group.end.perl
 #            ^ punctuation.terminator.statement.perl
 
-  ## The function call argument list can contain arbitary arguments
+  ## The function call argument list can contain arbitrary arguments
   ## after the content of the `_EOD_` HEREDOC.
 
   Func(<<_EOD_;

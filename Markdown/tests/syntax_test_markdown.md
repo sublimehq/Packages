@@ -1052,11 +1052,11 @@ this must not be bold italic***
 |      ^^^ - entity.name.section
 |       ^^ punctuation.definition.heading.end.markdown
 
-# Headding <u>with</u> tag
+# Heading <u>with</u> tag
 | <- markup.heading.1.markdown punctuation.definition.heading.begin.markdown
-|^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.1.markdown
-|          ^^^ meta.tag
-|                 ^^^^ meta.tag
+|^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.1.markdown
+|         ^^^ meta.tag
+|                ^^^^ meta.tag
 
 # TEST: SETEXT HEADINGS #######################################################
 
@@ -1795,7 +1795,7 @@ echo hello, \
 echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 heredoc=<<EOF
-  # Heading ${tilte}
+  # Heading ${title}
 | ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |           ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
 EOF
@@ -1812,7 +1812,7 @@ $ cmd  # no interactive shell marker
    #!/usr/bin/env bash
 |  ^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown comment.line.shebang.shell
    heredoc=<<EOF
-      # Heading ${tilte}
+      # Heading ${title}
 |     ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |               ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.bash.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
    EOF
@@ -2184,9 +2184,9 @@ declare type foo = 'bar'
 |^^ meta.code-fence.definition.end.text.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |  ^ meta.code-fence.definition.end.text.markdown-gfm meta.fold.code-fence.end - punctuation
 
-```R%&?! weired language name
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm - meta.fold
-|                            ^ meta.code-fence.definition.begin.text.markdown-gfm meta.fold.code-fence.begin
+```R%&?! weird language name
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.text.markdown-gfm - meta.fold
+|                           ^ meta.code-fence.definition.begin.text.markdown-gfm meta.fold.code-fence.begin
 |^^ punctuation.definition.raw.code-fence.begin.markdown
 |  ^^^^^ constant.other.language-name.markdown
 |        ^^^^^^^^^^^^^^^^^^^^^ - constant
@@ -2227,7 +2227,7 @@ echo hello, \
 echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 heredoc=<<EOF
-  # Heading ${tilte}
+  # Heading ${title}
 | ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |           ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
 EOF
@@ -2246,7 +2246,7 @@ $ cmd  # no interactive shell marker
    #!/usr/bin/env zsh
 |  ^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown comment.line.shebang.shell
    heredoc=<<EOF
-      # Heading ${tilte}
+      # Heading ${title}
 |     ^^^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell string.unquoted.heredoc.shell
 |               ^^^^^^^^ markup.raw.code-fence.shell.markdown-gfm source.shell.zsh.embedded.markdown meta.string.heredoc.shell meta.interpolation.parameter.shell 
    EOF
@@ -4524,7 +4524,7 @@ second line
 
 ## https://custom-tests/block-quotes#emphasis
 
-> Blcok quotes support markup,
+> Block quotes support markup,
 > like *italics*, **bold**, ***bold italic*** and ~~strikethrough~~.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote.markdown
 |      ^^^^^^^^^ markup.italic.markdown
@@ -5533,7 +5533,7 @@ global heading
     <p>
     | <- markup.list.unnumbered.markdown meta.disable-markdown meta.tag
     |^^ markup.list.unnumbered.markdown meta.disable-markdown meta.tag
-      *no-markodwn*
+      *no-markdown*
     |^^^^^^^^^^^^^^^ markup.list.unnumbered.markdown meta.disable-markdown - markup.italic
     </p>
     - not a list item
@@ -7886,7 +7886,7 @@ A complex ![image $\ce{H2O}$.](./img/image6.png){#fig:image6 height=12.09cm }
 |                                                                   ^^^^^^^ string.unquoted.markdown
 |                                                                           ^ punctuation.definition.attributes.end.markdown
 
-With codepsan ![`a`b]()
+With codespan ![`a`b]()
 |             ^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^ markup.raw.inline.markdown
@@ -7897,7 +7897,7 @@ With codepsan ![`a`b]()
 |                    ^ punctuation.definition.metadata.begin.markdown
 |                     ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![``a`b``]()
+With codespan ![``a`b``]()
 |             ^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^ markup.raw.inline.markdown
@@ -7908,7 +7908,7 @@ With codepsan ![``a`b``]()
 |                       ^ punctuation.definition.metadata.begin.markdown
 |                        ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![` `]()
+With codespan ![` `]()
 |             ^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^ markup.raw.inline.markdown
@@ -7919,7 +7919,7 @@ With codepsan ![` `]()
 |                   ^ punctuation.definition.metadata.begin.markdown
 |                    ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![`` ` ``]()
+With codespan ![`` ` ``]()
 |             ^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^ markup.raw.inline.markdown
@@ -7930,7 +7930,7 @@ With codepsan ![`` ` ``]()
 |                       ^ punctuation.definition.metadata.begin.markdown
 |                        ^ punctuation.definition.metadata.end.markdown
 
-With codepsan ![``` `` ```]()
+With codespan ![``` `` ```]()
 |             ^^^^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^^^^ markup.raw.inline.markdown
@@ -7941,7 +7941,7 @@ With codepsan ![``` `` ```]()
 |                          ^ punctuation.definition.metadata.begin.markdown
 |                           ^ punctuation.definition.metadata.end.markdown
  
-With codepsan ![```` ``` ````]()
+With codespan ![```` ``` ````]()
 |             ^^^^^^^^^^^^^^^^ meta.image.inline.description.markdown
 |             ^^ punctuation.definition.image.begin.markdown
 |               ^^^^^^^^^^^^^ markup.raw.inline.markdown

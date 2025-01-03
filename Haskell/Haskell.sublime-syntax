@@ -1565,9 +1565,9 @@ contexts:
     - match: (\\)\s*$
       captures:
         1: punctuation.definition.continuation.begin.haskell
-      push: linteral-string-continuation
+      push: literal-string-continuation
 
-  linteral-string-continuation:
+  literal-string-continuation:
     - clear_scopes: 2
     - meta_scope: meta.string.continuation.haskell
     - meta_include_prototype: false
@@ -1632,7 +1632,7 @@ contexts:
         3: punctuation.definition.prefix.end.haskell
 
   infix-operators:
-    # Match all not otherwise matched single quotes as promoition operator
+    # Match all not otherwise matched single quotes as promotion operator
     # Note: Found in real world code but not in specs so far.
     - match: \'
       scope: keyword.operator.haskell
@@ -1645,16 +1645,16 @@ contexts:
     - match: (?=\`)
       branch_point: infix-quoted-operators
       branch:
-        - infix-quoded-operators-begin
+        - infix-quoted-operators-begin
         - immediately-pop
 
-  infix-quoded-operators-begin:
+  infix-quoted-operators-begin:
     - match: (\`)\s*
       captures:
         1: punctuation.definition.infix.begin.haskell
-      set: infix-quoded-operators-body
+      set: infix-quoted-operators-body
 
-  infix-quoded-operators-body:
+  infix-quoted-operators-body:
     - meta_scope: meta.infix.haskell
     - match: \s*(\`)
       captures:

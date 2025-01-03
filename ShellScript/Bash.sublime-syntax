@@ -163,7 +163,7 @@ contexts:
         - def-function-body
         - def-function-params
         - def-function-name
-    # anonymous functions are immediatelly called
+    # anonymous functions are immediately called
     # hence scoping as meta.function-call meta.function
     - match: (\()\s*(\))
       scope: meta.function-call.shell meta.function.anonymous.parameters.shell
@@ -173,7 +173,7 @@ contexts:
       set: def-anonymous-body
 
   def-anonymous-begin:
-    # anonymous functions are immediatelly called
+    # anonymous functions are immediately called
     # hence scoping as meta.function-call meta.function
     - meta_include_prototype: false
     - meta_scope: meta.function-call.shell meta.function.anonymous.shell
@@ -451,7 +451,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
       set: cmd-declare-variables-with-arithmetic-values
-    # option contains contains A
+    # option contains A
     - match: ([-+])[aAgIlnrtux]*?A[aAgIlnrtux]*?{{opt_break}}
       scope:
         meta.parameter.option.shell
@@ -898,7 +898,7 @@ contexts:
     # cmd modifier commands are directly followed by simple commands
     - match: '{{modifier_cmds}}'
       scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
-    # shell built-in commands with arbritary arguments
+    # shell built-in commands with arbitrary arguments
     - match: '{{builtin_cmds}}'
       scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
       push:
@@ -948,16 +948,16 @@ contexts:
     - include: eoc-pop
 
   cmd-args:
-    - include: cmd-args-end-of-options-then-ambigious
+    - include: cmd-args-end-of-options-then-ambiguous
 
-  cmd-args-end-of-options-then-ambigious:
+  cmd-args-end-of-options-then-ambiguous:
     - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
-      set: cmd-args-ambigious
+      set: cmd-args-ambiguous
     - include: cmd-args-options
-    - include: cmd-args-ambigious
+    - include: cmd-args-ambiguous
 
-  cmd-args-ambigious:
+  cmd-args-ambiguous:
     - include: cmd-args-end
     - include: cmd-args-values
 
@@ -1183,14 +1183,14 @@ contexts:
       push: case-clause-plain-pattern-body
 
   case-clause-paren-pattern-body:
-    # patterns enclosed in parentesis may continue on next line without \
+    # patterns enclosed in parenthesis may continue on next line without \
     - meta_include_prototype: false
     - meta_scope: meta.clause.patterns.shell
     - include: comments
     - include: case-clause-pattern-body
 
   case-clause-plain-pattern-body:
-    # patterns not enclosed in parentesis are terminated at eol
+    # patterns not enclosed in parenthesis are terminated at eol
     - meta_include_prototype: false
     - meta_scope: meta.clause.patterns.shell
     - match: $|(?=\s+[#\n])
@@ -3142,7 +3142,7 @@ variables:
 
   # 4.2 Shell Built-in Commands
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
-  # Note: Contains thosw, which are not present as dedicated context
+  # Note: Contains items which are not present as dedicated contexts
   builtin_cmds: |-
     (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
     | getopts | hash | help | jobs | kill | logout | printf | pwd | set

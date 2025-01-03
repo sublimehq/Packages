@@ -283,7 +283,7 @@ contexts:
   commit-subject:
     - meta_scope: meta.commit.git.rebase
     - include: line-end
-    - match: (?=\S)  # subject beginns with first none whitespece
+    - match: (?=\S)  # subject begins with first none whitespace
       set: commit-subject-content
 
   commit-subject-content:

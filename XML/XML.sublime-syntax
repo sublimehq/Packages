@@ -134,7 +134,7 @@ variables:
   # A doctype definition identifier is always followed by one of the
   # characters of `dtd_break`.
   dtd_break: '[''"\[\]()<>\s]'
-  # A valid or invalid doctype declaration identifiere consists of any
+  # A valid or invalid doctype declaration identifier consists of any
   # character but one of `dtd_break`.
   invalid_dtd_name: '[^{{dtd_break}}]+'
   # A qualified doctype declaration identifier consists of a valid

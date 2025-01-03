@@ -1621,19 +1621,19 @@ CREATE
 --         ^ meta.group.partitions.sql - meta.sequence meta.sequence
 --          ^^ meta.group.partitions.sql meta.group.partitions.sql
 --          ^ punctuation.section.group.begin.sql
-                subpartition parition1
+                subpartition partition1
 --              ^^^^^^^^^^^^ keyword.other.ddl.sql
---                           ^^^^^^^^^ entity.name.struct.partition.sql
+--                           ^^^^^^^^^^ entity.name.struct.partition.sql
                     ENGINE engine_name
 --                  ^^^^^^ variable.parameter.sql
                     COMMENT 'comment_text'
 --                  ^^^^^^^ variable.parameter.sql
 --                          ^^^^^^^^^^^^^^ string.quoted.single.sql
 
-              , subpartition parition2
+              , subpartition partition2
 --            ^ punctuation.separator.sequence.sql
 --              ^^^^^^^^^^^^ keyword.other.ddl.sql
---                           ^^^^^^^^^ entity.name.struct.partition.sql
+--                           ^^^^^^^^^^ entity.name.struct.partition.sql
             ),
 --         ^^ meta.group.partitions.sql meta.group.partitions.sql
 --           ^ meta.group.partitions.sql - meta.sequence meta.sequence
@@ -3561,20 +3561,20 @@ GRANT PROXY
 --                      ^^ keyword.other.ddl.sql
 --                         ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
 --                                   ^ punctuation.separator.sequence.sql
-       user2 IDENTIFIED VIA auth USING PASSWORD('passord')
+       user2 IDENTIFIED VIA auth USING PASSWORD('password')
 -- <- meta.statement.grant.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
 --     ^^^^^ meta.username.sql
 --           ^^^^^^^^^^ keyword.other.ddl.sql
 --                      ^^^ keyword.other.ddl.sql
 --                          ^^^^ meta.other-name.sql
 --                               ^^^^^ keyword.other.ddl.sql
---                                     ^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                                     ^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
 --                                     ^^^^^^^^ support.function.sql
---                                             ^^^^^^^^^^^ meta.group.sql
+--                                             ^^^^^^^^^^^^ meta.group.sql
 --                                             ^ punctuation.section.arguments.begin.sql
---                                              ^^^^^^^^^ meta.string.sql string.quoted.single.sql
---                                                       ^ punctuation.section.arguments.end.sql
+--                                              ^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                        ^ punctuation.section.arguments.end.sql
     WITH GRANT OPTION ;
 -- <- meta.statement.grant.sql
 -- ^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql

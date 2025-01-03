@@ -1964,7 +1964,7 @@
 
     {- illegal instance declarations -}
 
-    instance C (a,a) where ...    -- a, a is not distict
+    instance C (a,a) where ...    -- a, a is not distinct
 ---               ^ invalid.illegal
 
     instance C (Int,a) where ...  -- no type allowed
@@ -2455,7 +2455,7 @@
 
     {- Class Method Declarations -}
     class TyCls a where
-      nethod1 :: a -> Bool
+      method0 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
 --            ^^ punctuation.separator.type.haskell
@@ -2497,7 +2497,7 @@
 --             ^^^^ support.constant.prelude.haskell
 --                 ^ punctuation.terminator.statement.haskell
 
-     {- preceeded by statement terminator -}
+     {- preceded by statement terminator -}
      ;method :: Bool -> Bool;
 --   ^ meta.block.haskell - meta.function
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
@@ -2513,7 +2513,7 @@
 
     {- Instance Method Declarations -}
     instance TyCls a where
-      nethod1 :: a -> Bool
+      method0 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
 --            ^^ punctuation.separator.type.haskell
@@ -2555,7 +2555,7 @@
 --             ^^^^ support.constant.prelude.haskell
 --                 ^ punctuation.terminator.statement.haskell
 
-     {- preceeded by statement terminator -}
+     {- preceded by statement terminator -}
      ;method :: Bool -> Bool;
 --   ^ meta.block.haskell - meta.function
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
@@ -3244,11 +3244,11 @@ main = do
 --  ^^ variable.other.haskell
 
     a#
---  ^ variable.other.haskell - storage.modifer
+--  ^ variable.other.haskell - storage.modifier
 --   ^ variable.other.haskell storage.modifier.unboxed.haskell
 
     a'#
---  ^^ variable.other.haskell - storage.modifer
+--  ^^ variable.other.haskell - storage.modifier
 --    ^ variable.other.haskell storage.modifier.unboxed.haskell
 
     _a'b'c_D'0123456789'
@@ -4151,7 +4151,7 @@ main = do
 --                                                      ^ punctuation.definition.string.end.haskell
 
 
--- [ NO LITEARL CHARACTERS ]---------------------------------------------------
+-- [ NO LITERAL CHARACTERS ]---------------------------------------------------
 
     '
 --  ^ - meta.string - string
@@ -4446,7 +4446,7 @@ main = do
 --    ^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^ variable.namespace.haskell
---      ^ punctuation.accessor.dot.haskell - keyword - variale
+--      ^ punctuation.accessor.dot.haskell - keyword - variable
 --       ^^^^^ keyword.operator.function.infix.haskell
 --            ^ punctuation.definition.infix.end.haskell - keyword
 
@@ -4462,7 +4462,7 @@ main = do
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^^^^^ variable.namespace.haskell
---          ^ punctuation.accessor.dot.haskell - keyword - variale
+--          ^ punctuation.accessor.dot.haskell - keyword - variable
 --           ^^^^ keyword.operator.function.infix.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
 
@@ -4514,7 +4514,7 @@ main = do
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^^ variable.namespace.haskell
---       ^ punctuation.accessor.dot.haskell - keyword - variale
+--       ^ punctuation.accessor.dot.haskell - keyword - variable
 --        ^^^^^^^ keyword.operator.function.infix.haskell
 --              ^ storage.modifier.unboxed.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
@@ -4525,7 +4525,7 @@ main = do
 --     ^^^^^ variable.namespace.haskell
 --          ^ punctuation.accessor.dot.haskell - variable
 --           ^^ variable.namespace.haskell
---             ^ punctuation.accessor.dot.haskell - keyword - variale
+--             ^ punctuation.accessor.dot.haskell - keyword - variable
 --              ^^^^^^^ keyword.operator.function.infix.haskell
 --                    ^ storage.modifier.unboxed.haskell
 --                     ^ punctuation.definition.infix.end.haskell - keyword

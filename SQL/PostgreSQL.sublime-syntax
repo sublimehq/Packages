@@ -52,7 +52,7 @@ contexts:
         - single-identifier
     - match: \b(?i:loop)\b
       scope: keyword.control.loop.psql
-    # TODO: priortise variables over columns when not in a select statement etc.
+    # TODO: prioritize variables over columns when not in a select statement etc.
 
   built-in-type:
     - meta_prepend: true

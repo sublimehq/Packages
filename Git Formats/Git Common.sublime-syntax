@@ -171,7 +171,7 @@ contexts:
     # any other directory pattern
     - include: fnmatch-dir-pattern
 
-  # In order to use fnmatch by other syntaxes, it is importand to use
+  # In order to use fnmatch by other syntaxes, it is important to use
   # fnmatch-body as include in a scope, which defines the desired meta
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.

@@ -138,47 +138,47 @@ auto hexString = x"00 ba
 //  ^^^ string.quoted.double.raw.d constant.character.escape.d
 //      ^ string.quoted.double.raw.d invalid.illegal.unknown-escape.d
 //       ^ string.quoted.double.raw.d punctuation.definition.string.end.d
-auto deliminated = q"SQL_1
-//                 ^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                 ^ storage.modifier.string.d
-//                  ^ punctuation.definition.string.begin.d
-//                   ^^^^^ constant.other.delimeter.d
+auto delimited = q"SQL_1
+//               ^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//               ^ storage.modifier.string.d
+//                ^ punctuation.definition.string.begin.d
+//                 ^^^^^ constant.other.delimiter.d
     select foo \n
 //  ^^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 SQL_1";
-// <- meta.string.d string.quoted.double.raw.d constant.other.delimeter.d
+// <- meta.string.d string.quoted.double.raw.d constant.other.delimiter.d
 //^^^^ meta.string.d string.quoted.double.raw.d
-// ^^ constant.other.delimeter.d
+// ^^ constant.other.delimiter.d
 //   ^ punctuation.definition.string.end.d
 //    ^ punctuation.terminator.d
 //    - meta.string.d
-auto deliminatedBad = q"SQL\
-//                         ^ meta.string.d string.quoted.double.raw.d invalid.illegal.d
+auto delimitedBad = q"SQL\
+//                       ^ meta.string.d string.quoted.double.raw.d invalid.illegal.d
 SQL";
-auto deliminatedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
-//                       ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                       ^ storage.modifier.string.d
-//                        ^^ punctuation.definition.string.begin.d
-//                              ^^ punctuation.definition.string.end.d
-//                                   ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                                   ^ storage.modifier.string.d
-//                                    ^^ punctuation.definition.string.begin.d
-//                                          ^^ punctuation.definition.string.end.d
-//                                               ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                                               ^ storage.modifier.string.d
-//                                                ^^ punctuation.definition.string.begin.d
-//                                                      ^^ punctuation.definition.string.end.d
-//                                                           ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                                                           ^ storage.modifier.string.d
-//                                                            ^^ punctuation.definition.string.begin.d
-//                                                                  ^^ punctuation.definition.string.end.d
-auto deliminatedAny = q"/foo(xxx)/";
-//                    ^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                    ^ storage.modifier.string.d
-//                     ^ punctuation.definition.string.begin.d
-//                      ^ constant.other.delimeter.d
-//                               ^ constant.other.delimeter.d
-//                                ^ punctuation.definition.string.end.d
+auto delimitedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
+//                     ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                     ^ storage.modifier.string.d
+//                      ^^ punctuation.definition.string.begin.d
+//                            ^^ punctuation.definition.string.end.d
+//                                 ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                 ^ storage.modifier.string.d
+//                                  ^^ punctuation.definition.string.begin.d
+//                                        ^^ punctuation.definition.string.end.d
+//                                             ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                             ^ storage.modifier.string.d
+//                                              ^^ punctuation.definition.string.begin.d
+//                                                    ^^ punctuation.definition.string.end.d
+//                                                         ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                                         ^ storage.modifier.string.d
+//                                                          ^^ punctuation.definition.string.begin.d
+//                                                                ^^ punctuation.definition.string.end.d
+auto delimitedAny = q"/foo(xxx)/";
+//                  ^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                  ^ storage.modifier.string.d
+//                   ^ punctuation.definition.string.begin.d
+//                    ^ constant.other.delimiter.d
+//                             ^ constant.other.delimiter.d
+//                              ^ punctuation.definition.string.end.d
 auto stringPostfix = ``c + ""w + q"//"d;
 //                     ^ meta.string.d string.quoted.double.raw.backtick.d storage.type.string.d
 //                           ^ meta.string.d string.quoted.double.d storage.type.string.d

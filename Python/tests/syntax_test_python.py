@@ -1808,12 +1808,12 @@ def type_annotations_terminated_by_keyword() -> int if
 # <- - meta.function - meta.type
 #   ^^^^ keyword.control.flow.pass.python
 
-def type_annotations_without_terminator_followd_by_comment() -> int # comment
-#                                                            ^^^ meta.function.return-type.python - meta.type
-#                                                               ^^^ meta.function.return-type.python meta.type.python
-#                                                                  ^^^^^^^^^^^ - meta.function - meta.type
-#                                                            ^^ punctuation.separator.return-type.python
-#                                                               ^^^ support.type.python
+def type_annotations_without_terminator_followed_by_comment() -> int # comment
+#                                                             ^^^ meta.function.return-type.python - meta.type
+#                                                                ^^^ meta.function.return-type.python meta.type.python
+#                                                                   ^^^^^^^^^^^ - meta.function - meta.type
+#                                                             ^^ punctuation.separator.return-type.python
+#                                                                ^^^ support.type.python
     pass
 # <- - meta.function - meta.type
 #   ^^^^ keyword.control.flow.pass.python
@@ -3337,7 +3337,7 @@ foo ^= bar ^= baz
 #                ^ - keyword
 #                 ^^ invalid.deprecated.operator.python
 
-# locical keywords
+# logical keywords
 
   and in is not or
 # ^^^ keyword.operator.logical.python

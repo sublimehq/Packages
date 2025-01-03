@@ -143,7 +143,7 @@ variables:
   script_content_begin: |-
     (?x:
     # whitespace followed by opening html comment begin punctuation,
-    # optionally followed by whitespeace until end of line
+    # optionally followed by whitespace until end of line
       \s*(<!--) (?:\s*\n)?
     # or any other non-whitespace character ahead
     | (?=\s*(?!<!--)\S)

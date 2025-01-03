@@ -30,7 +30,7 @@
 		]
 	},
 	// Move the caret to the next line and leave the terminating semicolon untouched.
-	// This is to not bother with semicolons even though completions end up with the caret directy in front of it.
+	// This is to not bother with semicolons even though completions end up with the caret directly in front of it.
 	{ "keys": ["enter"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Add Line.sublime-macro", "hide_from_menu": true} , "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },

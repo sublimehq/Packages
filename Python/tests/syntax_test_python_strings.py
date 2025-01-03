@@ -164,7 +164,7 @@ string = r"""
     # An indented comment.
 #  ^ - comment
 #   ^ comment.line.number-sign.regexp
-### <<This comment>> @includes some &punctutation.
+### <<This comment>> @includes some &punctuation.
 # <- comment.line.number-sign.regexp
 """
 
@@ -180,7 +180,7 @@ string = r'''
     # An indented comment.
 #  ^ - comment
 #   ^ comment.line.number-sign.regexp
-### <<This comment>> @includes some &punctutation.
+### <<This comment>> @includes some &punctuation.
 # <- comment.line.number-sign.regexp
 '''
 
@@ -656,7 +656,7 @@ raw = RF"""foo\"""" + RF"""foo\'""" + RF"""foo\\"""
 #                                              ^^ storage.type.string
 #                                                    ^^ storage.type.string
 
-# Bytes by defaut support placeholders and character escapes, but not unicode
+# Bytes by default support placeholders and character escapes, but not unicode
 b'This is a \n test, %s no unicode \uDEAD'
 # <- storage.type.string
 #^ string.quoted.single punctuation.definition.string.begin
@@ -1074,13 +1074,13 @@ bar = "}}" # Comment
 # ^ - constant.other.placeholder
 
 # Incomplete field elements
-"{foo["      # unclosed elemnt index
+"{foo["      # unclosed element index
 #^^^^^ - constant.other.placeholder
-'{foo['      # unclosed elemnt index
+'{foo['      # unclosed element index
 #^^^^^ - constant.other.placeholder
-"{foo[}"     # unclosed elemnt index
+"{foo[}"     # unclosed element index
 #^^^^^^ - constant.other.placeholder
-'{foo[}'     # unclosed elemnt index
+'{foo[}'     # unclosed element index
 #^^^^^^ - constant.other.placeholder
 "{foo[""]}"  # unsupported nested quotes
 #^^^^^^^^^ - constant.other.placeholder

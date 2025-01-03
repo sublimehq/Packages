@@ -263,7 +263,7 @@ contexts:
     # fail: looks like a qualified annotation
     - match: (?={{single_dot}})
       fail: annotation-identifier
-    # fail: truncate meta scope immediatelly
+    # fail: truncate meta scope immediately
     - match: (?=\S)
       fail: annotation-unqualified-parameters
 
@@ -342,7 +342,7 @@ contexts:
     #   - locals:  class, variables
     #   - try/for: variables
     #
-    # Member declarations need to be handled differently as constructurs look
+    # Member declarations need to be handled differently as constructors look
     # exactly like function calls. The other two scopes (global, local) are
     # merged here to maintain syntax highlighting whenever possible. That's
     # needed for `incomplete code` scenarios or if contexts are lost due to
@@ -2536,7 +2536,7 @@ contexts:
     - include: operator-ternary-colon
     - include: expression
 
-###[ PUNCTUATIONS ]############################################################
+###[ PUNCTUATION ]#############################################################
 
   punctuations:
     - match: '::'
@@ -2977,10 +2977,10 @@ contexts:
     - match: '{{id}}'
       scope: support.class.java
       push:
-        - unqualiefied-object-type-end
+        - unqualified-object-type-end
         - maybe-type-argument
 
-  unqualiefied-object-type-end:
+  unqualified-object-type-end:
     - match: (?={{single_dot}})
       fail: object-type
     - include: else-pop3
@@ -3076,7 +3076,7 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       pop: 2
 
-###[ INHERRITED TYPE REFERENCES ]##############################################
+###[ INHERITED TYPE REFERENCES ]###############################################
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-list:
@@ -3097,10 +3097,10 @@ contexts:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
-        - unqualiefied-inherited-object-type-end
+        - unqualified-inherited-object-type-end
         - maybe-type-argument
 
-  unqualiefied-inherited-object-type-end:
+  unqualified-inherited-object-type-end:
     - match: (?={{single_dot}})
       fail: inherited-object-type
     - include: illegal-array-modifiers

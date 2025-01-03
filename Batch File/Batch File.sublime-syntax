@@ -1098,7 +1098,7 @@ contexts:
     #    b) command terminations via `&` or `|`
     #    and those which don't.
     #
-    # The challange here is to correctly switch contexts to maintain both
+    # The challenge here is to correctly switch contexts to maintain both
     # "quoted" and "grouped" states at the same time.
     #
     # Variables may not contain whitespace nor any kind of operator char.
@@ -1888,7 +1888,7 @@ contexts:
     - match: =
       scope:
         meta.interpolation.substitution.dosbatch
-        keyword.operator.asignment.dosbatch
+        keyword.operator.assignment.dosbatch
       set: variable-expansion-substitution-replacement
     - match: '[^=%!]+'
       scope: string.unquoted.dosbatch
@@ -1946,7 +1946,7 @@ contexts:
     - match: =
       scope:
         meta.interpolation.substitution.dosbatch
-        keyword.operator.asignment.dosbatch
+        keyword.operator.assignment.dosbatch
       set: variable-delayed-substitution-replacement
     - match: '[^=%!]+'
       scope: string.unquoted.dosbatch
@@ -2026,7 +2026,7 @@ contexts:
 
   line-continuation-body:
     - meta_include_prototype: false
-    # The first linefeed diretly following a continuation is treated literal.
+    # The first linefeed directly following a continuation is treated literal.
     # Note: Must consume \n to work.
     - match: ^\n
       set: bol-pop

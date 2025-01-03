@@ -689,7 +689,7 @@ contexts:
   grant-operations:
     - match: (?=[;)]|\b(?i:grant|to|with)\b)
       pop: 1
-    - include: on-privilidge-level
+    - include: on-privilege-level
     - include: comma-separators
     - include: user-privileges
 
@@ -751,7 +751,7 @@ contexts:
   revoke-privileges:
     - match: (?=[;)]|\b(?i:for|from)\b)
       pop: 1
-    - include: on-privilidge-level
+    - include: on-privilege-level
     - include: comma-separators
     - include: user-privileges
 
@@ -1326,16 +1326,16 @@ contexts:
     - match: \b(?i:(?:grant|admin)\s+option)\b
       scope: constant.language.sql
 
-  on-privilidge-level:
+  on-privilege-level:
     - match: \b(?i:on)\b
       scope: keyword.context.sql
-      set: privilidge-level
+      set: privilege-level
 
-  privilidge-level:
+  privilege-level:
     # object type
     - match: \b(?i:table|function|procedure|package)\b
       scope: storage.type.sql
-    # wildcard privilidge level
+    # wildcard privilege level
     - match: (\*)(?:(\.)(\*))?
       scope: meta.other-name.sql
       captures:
@@ -1343,7 +1343,7 @@ contexts:
         2: punctuation.accessor.dot.sql
         3: constant.other.wildcard.asterisk.sql
       pop: 1
-    # named privilidge level: database, table or method
+    # named privilege level: database, table or method
     - include: expect-other-name
 
 ###[ TABLE NAMES OR SUBQUERIES ]###############################################
@@ -1657,7 +1657,7 @@ contexts:
       captures:
         1: punctuation.section.interpolation.begin.sql
         3: punctuation.section.interpolation.end.sql
-      push: clear-scope-imediately-pop
+      push: clear-scope-immediately-pop
 
 ###[ LIKE EXPRESSIONS ]########################################################
 
@@ -1694,6 +1694,6 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
-  clear-scope-imediately-pop:
+  clear-scope-immediately-pop:
     - clear_scopes: 1
     - include: immediately-pop
