@@ -70,8 +70,8 @@ After you've finished, keep in mind that you're now overriding a default package
   # or
   $ touch dummy && zip empty.zip dummy && zip -d empty.zip dummy && rm dummy
   ```
-  To make your empty packages stand out in directory listings,
-  you can create them using symlinks to this empty zip file,
+  Optionally, to make your empty packages stand out in directory listings,
+  you can create them using symlinks to this empty zip file instead of copying it,
   e.g. `ln -s empty.zip SQL.sublime-package`.
 
 ## Reference
