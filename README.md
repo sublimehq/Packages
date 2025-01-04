@@ -66,7 +66,7 @@ After you've finished, keep in mind that you're now overriding a default package
 
   A quick way to create such an empty zip file is via:
   ```bash
-  $ echo -n "PK\x05\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" > empty.zip
+  $ printf "PK\x05\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" > empty.zip
   # or
   $ touch dummy && zip empty.zip dummy && zip -d empty.zip dummy && rm dummy
   ```
