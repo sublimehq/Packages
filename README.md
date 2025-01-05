@@ -118,6 +118,7 @@ Pull requests should:
 4. Have multiple syntax tests
    and a set of performance measurements (old vs. new)
    when making significant changes.
+5. Be squashed on merge to keep the commit history linear.
 
 ### New Packages
 
