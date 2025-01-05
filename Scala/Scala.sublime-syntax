@@ -709,6 +709,7 @@ contexts:
       pop: true
 
   function-parameter-list-contents:
+    - meta_scope: meta.group.scala
     - match: '\)'
       scope: punctuation.section.group.end.scala
       pop: true
