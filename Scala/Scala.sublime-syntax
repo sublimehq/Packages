@@ -880,6 +880,7 @@ contexts:
     - match: '\('
       scope: punctuation.section.group.begin.scala
       push:
+        - meta_scope: meta.group.scala
         - match: '\)'
           scope: punctuation.section.group.end.scala
           pop: true
