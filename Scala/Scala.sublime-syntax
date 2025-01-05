@@ -2070,6 +2070,7 @@ contexts:
     - match: '\['
       scope: punctuation.definition.generic.begin.scala
       set:
+        - meta_scope: meta.generic.scala
         - match: '\]'
           scope: punctuation.definition.generic.end.scala
           set: single-type-expression-tail
