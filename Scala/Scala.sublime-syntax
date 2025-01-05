@@ -2206,6 +2206,7 @@ contexts:
     - match: '\{'
       scope: punctuation.definition.block.begin.scala
       set:
+        - meta_scope: meta.block.scala
         - match: \}
           scope: punctuation.definition.block.end.scala
           set: single-type-expression-tail-no-function-no-or
