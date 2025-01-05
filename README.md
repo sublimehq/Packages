@@ -20,7 +20,7 @@ To make changes to these packages
 and test them locally,
 fork this repository.
 Then symlink the changed packages
-into your [`Packages`](https://www.sublimetext.com/docs/packages.html) folder.
+into your [`Packages`][packages] folder.
 (Replace `Python` in the following commands
 with the name of the syntax to install.)
 
@@ -121,11 +121,11 @@ Pull requests should:
 
 ### New Packages
 
-Pull requests for new [packages](https://www.sublimetext.com/docs/packages.html)
+Pull requests for new [packages][]
 won't be accepted at this stage,
 as new packages can cause issues for users
 who have a package with the same name
-installed via [Package Control](https://packagecontrol.io/).
+installed via [Package Control][].
 There are some planned changes
 that will address this in the future.
 
@@ -138,3 +138,6 @@ rather than included in the default set of packages.
 
 This repository only contains syntax-definition-focused packages.
 Notably, packages such as `Default` and `Theme - Default` are not included.
+
+[packages]: https://www.sublimetext.com/docs/packages.html
+[Package Control]: https://packagecontrol.io/
