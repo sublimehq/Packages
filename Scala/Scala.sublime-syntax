@@ -1250,7 +1250,7 @@ contexts:
     - match: '\bif\b'
       scope: keyword.control.flow.scala
       push:
-        - match: '(?=\n)'
+        - match: '$'
           pop: true
         - match: '\bthen\b'
           scope: keyword.control.flow.scala
