@@ -7,10 +7,10 @@ against the latest build of Sublime Text
 in the [`dev` channel](https://www.sublimetext.com/dev).
 
 The latest release of Packages shipped with Sublime Text
-should be tagged via git in this repository,
-you can find a list at <https://github.com/sublimehq/Packages/tags>.
+should be tagged via git in this repository.
+You can find a list at <https://github.com/sublimehq/Packages/tags>.
 
-Bugs may exist on older builds,
+Bugs may exist on older builds
 and the format used is **not compatible**
 with builds older than Build 4095.
 
@@ -66,25 +66,25 @@ keep in mind that you're now overriding a default package.
 
 - If you delete/rename files,
   but they still exist in the package version
-  which was shipped with the build of Sublime Text you are using,
+  that was shipped with the build of Sublime Text you are using,
   those original files will still be picked up by Sublime,
   unless you replace the entire shipped package
-  with an installed package by the same name.
+  with an installed package of the same name.
 
   For example, if your build of Sublime has a `syntax_test_sql.sql` file
   inside the root of `<ST Installation Dir>/Packages/SQL.sublime-package`,
   then you symlink the SQL folder
   from this repository to `<ST User Data Dir>/Packages/SQL`,
-  and move that file to a `tests` subfolder,
-  then run all syntax tests,
-  the old syntax test file will still get used
+  move that file to a `tests` subfolder,
+  and then run all syntax tests,
+  the old syntax test file will still get picked up
   in addition to the new one.
 
   To prevent this,
   you can create an empty zip file
   in your `<ST User Data Dir>/Installed Packages` directory like `SQL.sublime-package`
   and that will cause ST to load this one in place of the shipped one.
-  Then you are just overriding an empty package,
+  In the end, you are just overriding an empty package
   instead of merging new files into an existing package.
 
   A quick way to create such an empty zip file is via:
@@ -129,9 +129,9 @@ installed via [Package Control][].
 There are some planned changes
 that will address this in the future.
 
-Complex plugins
-such as auto complete systems and linters
-should generally be in a stand-alone package,
+Complex plugins,
+such as auto complete systems and linters,
+should generally be in a stand-alone package
 rather than included in the default set of packages.
 
 ## Missing Packages
