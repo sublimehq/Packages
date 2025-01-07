@@ -494,7 +494,7 @@ val str: "hi" = "hi"
 //       ^^^ string.quoted.double.scala
 
 val str: """hi""" = """hi"""
-//       ^^^^^^^^ string.quoted.triple.scala
+//       ^^^^^^^^ meta.string.scala string.quoted.double.block.scala
 
 val i: 0x01 = 0x01
 //     ^^ constant.numeric.base.scala
