@@ -1402,7 +1402,7 @@ contexts:
       scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: meta.string.scala string.quoted.double.block.scala
+        - meta_scope: meta.string.scala string.quoted.triple.scala
         - match: '(""")(?!")'
           scope: punctuation.definition.string.end.scala
           pop: true
@@ -1428,7 +1428,7 @@ contexts:
         2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: meta.string.interpolated.scala string.quoted.double.block.scala
+        - meta_scope: meta.string.interpolated.scala string.quoted.triple.scala
         - match: '"""'
           scope: punctuation.definition.string.end.scala
           pop: true
@@ -1439,7 +1439,7 @@ contexts:
         2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: meta.string.interpolated.scala string.quoted.double.block.scala
+        - meta_scope: meta.string.interpolated.scala string.quoted.triple.scala
         - match: '{{unicode_char}}'
           scope: constant.character.escape.scala
         - match: '(""")(?!")'

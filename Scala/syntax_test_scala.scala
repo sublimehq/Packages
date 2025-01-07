@@ -375,7 +375,7 @@ type Foo = Bar[A] forSome { type A }
 //                                    ^^^ punctuation.definition.string.end.scala
 
    """testing"""
-// ^^^^^^^^^^^^^ meta.string.scala string.quoted.double.block.scala
+// ^^^^^^^^^^^^^ meta.string.scala string.quoted.triple.scala
 
    s"testing $a ${42}"
 // ^^^^^^^^^^ meta.string.interpolated.scala string.quoted.double.scala - meta.interpolation
@@ -393,11 +393,11 @@ type Foo = Bar[A] forSome { type A }
 //                   ^ punctuation.definition.string.end.scala
 
    s"""testing $a ${42}"""
-// ^^^^^^^^^^^^ meta.string.interpolated.scala string.quoted.double.block.scala - meta.interpolation
+// ^^^^^^^^^^^^ meta.string.interpolated.scala string.quoted.triple.scala - meta.interpolation
 //             ^^ meta.string.interpolated.scala meta.interpolation.scala - string
-//               ^ meta.string.interpolated.scala string.quoted.double.block.scala - meta.interpolation
+//               ^ meta.string.interpolated.scala string.quoted.triple.scala - meta.interpolation
 //                ^^^^^ meta.string.interpolated.scala meta.interpolation.scala - string
-//                     ^^^ meta.string.interpolated.scala string.quoted.double.block.scala - meta.interpolation
+//                     ^^^ meta.string.interpolated.scala string.quoted.triple.scala - meta.interpolation
 // ^ support.function
 //             ^^ variable.other
 //                ^ punctuation.definition.variable.scala
@@ -629,12 +629,12 @@ type Foo = Bar[A] forSome { type A }
 //      ^^^^^ meta.string.scala string.quoted.double.scala
 
    case """foo""" =>
-//      ^^^^^^^^^ meta.string.scala string.quoted.double.block.scala
+//      ^^^^^^^^^ meta.string.scala string.quoted.triple.scala
 
    case q"""..$foo""" =>
-//      ^^^^^^ meta.string.interpolated.scala string.quoted.double.block.scala
+//      ^^^^^^ meta.string.interpolated.scala string.quoted.triple.scala
 //            ^^^^ meta.string.interpolated.scala meta.interpolation.scala variable.other.scala - string
-//                ^^^ meta.string.interpolated.scala string.quoted.double.block.scala punctuation.definition.string.end.scala
+//                ^^^ meta.string.interpolated.scala string.quoted.triple.scala punctuation.definition.string.end.scala
 
    case <foo/> =>
 //      ^^^^^^ text.xml
