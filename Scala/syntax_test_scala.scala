@@ -367,15 +367,18 @@ type Foo = Bar[A] forSome { type A }
   "bad escaping: \p"
 //               ^ invalid.illegal.lone-escape.scala
 
+   """testing"""
+// ^^^^^^^^^^^^^ meta.string.scala string.quoted.triple.scala
+
   """escaped in triple: \u1221 \125 \n"""
 //^^^ punctuation.definition.string.begin.scala
 //                      ^^^^^^ constant.character.escape.scala
-//                             ^^^ - constant.character.escape.scala
-//                                  ^^ - constant.character.escape.scala
+//                             ^^^^ - constant.character
+//                                  ^^ - constant.character
 //                                    ^^^ punctuation.definition.string.end.scala
 
-   """testing"""
-// ^^^^^^^^^^^^^ meta.string.scala string.quoted.triple.scala
+  """not bad in triple: \p"""
+//                      ^^ - constant.character - invalid
 
    s"testing $a ${42}"
 // ^^^^^^^^^^ meta.string.interpolated.scala string.quoted.double.scala - meta.interpolation
