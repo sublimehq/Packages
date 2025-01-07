@@ -10,10 +10,10 @@ public class InvalidException(string _message) : Exception(_message);
 ///                           ^^^^^^ storage.type.cs
 ///                                  ^^^^^^^^ variable.parameter.cs
 ///                                          ^ punctuation.section.parameters.end.cs
-///                                           ^^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs
+///                                           ^^^^^^^^^^^^ meta.class.cs
 ///                                            ^ punctuation.separator.type.cs
 ///                                              ^^^^^^^^^ entity.other.inherited-class.cs
-///                                                       ^^^^^^^^^^ meta.function-call.cs meta.group.cs
+///                                                       ^^^^^^^^^^ meta.class.constructor.arguments.cs meta.group.cs
 ///                                                       ^ punctuation.section.group.begin.cs
 ///                                                        ^^^^^^^^ variable.other.cs
 ///                                                                ^ punctuation.section.group.end.cs
@@ -30,10 +30,10 @@ public class NotFoundException(string _message) : Exception(_message);
 ///                            ^^^^^^ storage.type.cs
 ///                                   ^^^^^^^^ variable.parameter.cs
 ///                                           ^ punctuation.section.parameters.end.cs
-///                                            ^^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs
+///                                            ^^^^^^^^^^^^ meta.class.cs
 ///                                             ^ punctuation.separator.type.cs
 ///                                               ^^^^^^^^^ entity.other.inherited-class.cs
-///                                                        ^^^^^^^^^^ meta.function-call.cs meta.group.cs
+///                                                        ^^^^^^^^^^ meta.class.constructor.arguments.cs meta.group.cs
 ///                                                        ^ punctuation.section.group.begin.cs
 ///                                                         ^^^^^^^^ variable.other.cs
 ///                                                                 ^ punctuation.section.group.end.cs

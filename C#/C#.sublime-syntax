@@ -553,9 +553,30 @@ contexts:
     - include: type_constraint_common
     - match: '{{name}}'
       scope: entity.other.inherited-class.cs
-      push:
-        - function_call_begin_paren
+      push: inherited_class_arguments
     - include: type
+
+  inherited_class_arguments:
+    - match: (?=\()
+      push: [inside_inherited_class_arguments, arguments, inherited_class_arguments-begin]
+    - match: (?=\S)
+      pop: true
+
+  inherited_class_arguments-begin:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      pop: true
+
+  inside_inherited_class_arguments:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.class.constructor.arguments.cs meta.group.cs
+    - match: \)
+      scope: punctuation.section.group.end.cs
+      pop: true
+    - match: ''
+      pop: true
 
   type_constraint_common:
     - match: (?=\{)
