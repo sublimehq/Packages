@@ -56,3 +56,14 @@ contexts:
         1: punctuation.definition.capture-group-name.begin.regexp
         2: variable.other.backref-and-recursion.regexp
         3: punctuation.definition.capture-group-name.end.regexp
+
+  literals:
+    - include: quantifiers
+    # https://github.com/sublimehq/Packages/issues/314
+    - match: \.
+      scope: keyword.other.any.regexp
+    # no illegal parentheses in concatenated patterns
+    - match: \]
+      scope: punctuation.definition.set.end.regexp
+    - match: \)
+      scope: punctuation.section.group.end.regexp

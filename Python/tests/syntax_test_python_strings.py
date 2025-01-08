@@ -1300,6 +1300,11 @@ match = re.search(r'''(?ix:some text(?-i:hello))(?iLmsux)(?a)foo''', line)
 #                                                        ^^^^ meta.modifier
 #                                                          ^ storage.modifier.mode
 
+match = re.match(r"([^" + charset + r"]*)", line)
+#                  ^ punctuation.section.group.begin.regexp
+#                   ^ punctuation.definition.set.begin.regexp
+#                                     ^ punctuation.definition.set.end.regexp
+#                                       ^ punctuation.section.group.end.regexp
 
 ###############################
 # f-strings
