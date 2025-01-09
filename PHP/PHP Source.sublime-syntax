@@ -6,23 +6,14 @@ scope: source.php
 hidden: true
 version: 2
 
+extends: Packages/SQL/SQL String Indicator.sublime-syntax
+
 variables:
   guarded_identifier: (?!{{reserved}}){{identifier}}
   identifier: '{{identifier_start}}[[:alnum:]_]*'
   identifier_start: '[[:alpha:]_]'
 
   regex_modifier: '[eimsuxADJSUX]*'
-  sql_indicator: |-
-    (?x: \s* (?:
-    # dml statements
-      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
-    # ddl statements
-    | ADD | ALTER | CREATE | DROP
-    # conditional
-    | IF \s+ (?: NOT \s+ )? EXISTS
-    # declaration
-    | DECLARE | WITH | BEGIN
-    ) \s )
 
   # A pattern which terminates an incomplete expression at any point.
   # `\?>` is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )

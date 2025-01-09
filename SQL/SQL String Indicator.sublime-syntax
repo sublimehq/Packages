@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/syntax.html
+scope: source.sql.string
+version: 2
+hidden: true
+variables:
+  sql_indicator: |-
+    (?x: \s* (?:
+    # dml statements
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
+    # ddl statements
+    | ADD | ALTER | CREATE | DROP
+    # conditional
+    | IF \s+ (?: NOT \s+ )? EXISTS
+    # declaration
+    | DECLARE | WITH | BEGIN
+    ) \s )
+
+contexts:
+  main:
+    - meta_append: true

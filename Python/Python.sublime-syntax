@@ -4,6 +4,8 @@ name: Python
 scope: source.python
 version: 2
 
+extends: Packages/SQL/SQL String Indicator.sublime-syntax
+
 file_extensions:
   - py
   - py3
@@ -59,18 +61,6 @@ variables:
 
   # Prefer ranged quantifiers over python interpolation in raw f-strings
   fstring_regexp_interpolation_begin: '\{(?!\d+(?:,\d*)?\})'
-
-  sql_indicator: |-
-    (?x: \s* (?:
-    # dml statements
-      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
-    # ddl statements
-    | ADD | ALTER | CREATE | DROP
-    # conditional
-    | IF \s+ (?: NOT \s+ )? EXISTS
-    # declaration
-    | DECLARE | WITH | BEGIN
-    ) \s )
 
   builtin_exceptions: |-
     (?x:
