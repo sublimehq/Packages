@@ -245,63 +245,54 @@ contexts:
 
   # Utility context for other files to use
   conflict-markers:
-    - match: ^({{conflict_any}})\s*({{conflict_identifier}})\s*{{eol}}
+    - match: ^({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^({{conflict_base}}|{{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
   conflicts:
-    - match: ^(?={{conflict_begin}})
-      push:
-        - conflict
-        - conflict-marker-start
-
-  conflict:
-    - meta_scope: meta.block.conflict.diff
-    - match: ''
-      pop: 1
-
-  conflict-marker-start:
-    - match: '{{conflict_begin}}'
-      scope: punctuation.section.block.begin.diff
-    - match: (?:({{conflict_identifier}})\s*)?{{eol}}
+    - match: ^\s*({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.begin.diff
       captures:
-        1: entity.name.section.diff
-      set: conflict-deleted-lines
-
-  conflict-base-marker-start:
-    - match: '{{conflict_base}}'
-      scope: punctuation.section.block.diff
-    - match: (?:({{conflict_identifier}})\s*)?{{eol}}
-      captures:
-        1: entity.name.section.diff
-      set: conflict-base-lines
-
-  conflict-split-marker-start:
-    - match: '{{conflict_split}}'
-      scope: punctuation.section.block.diff
-    - match: (?:({{conflict_identifier}})\s*)?{{eol}}
-      captures:
-        1: entity.name.section.diff
-      set: conflict-new-lines
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+      push: conflict-deleted-lines
 
   conflict-deleted-lines:
-    - meta_content_scope: markup.deleted.diff
-    - match: ^(?={{conflict_base}})
-      set: conflict-base-marker-start
-    - match: ^(?={{conflict_split}})
-      set: conflict-split-marker-start
-    - include: invalid-conflict-marker
+    - meta_content_scope: meta.block.conflict.diff markup.deleted.diff
+    - match: ^\s*({{conflict_base}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+      set: conflict-base-lines
+    - include: conflict-base-lines
 
   conflict-base-lines:
-    - meta_content_scope: comment.block.diff
-    - match: ^(?={{conflict_split}})
-      set: conflict-split-marker-start
+    - meta_content_scope: meta.block.conflict.diff comment.block.diff
+    - match: ^\s*({{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+      set: conflict-new-lines
     - include: invalid-conflict-marker
 
   conflict-new-lines:
-    - meta_content_scope: markup.inserted.diff
-    - match: ^({{conflict_end}})\s*(?:({{conflict_identifier}})\s*)?{{eol}}
+    - meta_content_scope: meta.block.conflict.diff markup.inserted.diff
+    - match: ^\s*({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}
+      scope: meta.block.conflict.end.diff
       captures:
         1: punctuation.section.block.end.diff
         2: entity.name.section.diff
