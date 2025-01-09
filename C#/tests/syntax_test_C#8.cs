@@ -323,18 +323,18 @@ namespace CommonTests.Attributes;
 [AttributeUsage(AttributeTargets.Method)]
 public class CustomAutoDataAttribute() : AutoDataAttribute(
     () =>
-///^^^^^^ meta.class.constructor.parameters.cs
+///^^^^^^^ meta.class.constructor.arguments.cs meta.group.cs
 /// ^^^^^ meta.function.anonymous.cs meta.group.cs
 /// ^ punctuation.section.group.begin.cs
-///  ^ meta.group.cs punctuation.section.group.end.cs
+///  ^ punctuation.section.group.end.cs
 ///    ^^ keyword.declaration.function.arrow.cs
     {
         var fixture = new Fixture();
         fixture.Customizations.Add(new DateOnlySpecimenBuilder());
         return fixture;
     });
-///^^^ meta.class.constructor.parameters.cs
+///^^^ meta.class.constructor.arguments.cs meta.group.cs
 /// ^ punctuation.section.block.end.cs
-///  ^ punctuation.section.parameters.end.cs
+///  ^ punctuation.section.group.end.cs
 ///   ^ meta.class.cs punctuation.terminator.statement.cs
 
