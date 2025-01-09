@@ -1,4 +1,4 @@
-\ SYNTAX TEST "Packages/Diff/Diff.sublime-syntax"
+\ SYNTAX TEST partial-symbols "Packages/Diff/Diff.sublime-syntax"
 
 --- Path to Original File
 \^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff - source.diff.git
@@ -103,6 +103,7 @@ Plain Text
 \         ^^ markup.changed.diff meta.whitespace.trailing.diff
 
 Index: lao
+\      @@@ local-definition
 \^^^^^^^^^^ meta.diff.index meta.index.diff
 \^^^^ meta.mapping.key.diff keyword.other.diff
 \    ^       punctuation.separator.key-value.diff
@@ -340,6 +341,7 @@ Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#S
 
 SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
 Index: deleted-file
+\      @@@@@@@@@@@@ local-definition
 \^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
 \^^^^ meta.mapping.key.diff keyword.other.diff
 \    ^ punctuation.separator.key-value.diff
@@ -364,6 +366,7 @@ Index: deleted-file
 -This file will be deleted.
 \^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
 Index: changed-file
+\      @@@@@@@@@@@@ local-definition
 \^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
 \^^^^ meta.mapping.key.diff keyword.other.diff
 \    ^ punctuation.separator.key-value.diff
@@ -390,6 +393,7 @@ Property changes on: changed-file
 ___________________________________________________________________
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
 Added: propname
+\      @@@@@@@@ local-definition
 \^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
 \^^^^ meta.mapping.key.diff keyword.other.diff
 \    ^ punctuation.separator.key-value.diff
@@ -398,6 +402,7 @@ Added: propname
 +propvalue
 \^^^^^^^^^ markup.inserted.diff
 Index: added-file
+\      @@@@@@@@@@ local-definition
 ===================================================================
 --- added-file  (revision 0)
 +++ added-file  (working copy)
@@ -407,6 +412,7 @@ Index: added-file
 
 https://www.gnu.org/software/diffutils/manual/diffutils.html#Marking-Conflicts-1
 <<<<<<< A
+\       @ local-definition "Conflict: A"
 \^^^^^^^^^ meta.block.conflict.begin.diff - meta.block meta.block - markup
 \^^^^^^ punctuation.section.block.begin.diff
 \      ^ - entity - punctuation
@@ -429,6 +435,7 @@ context context
 \^^^^^^^^^^^^^^^ - meta.block
 
 <<<<<<< A
+\       @ local-definition "Conflict: A"
 lines from A
 ||||||| B
 \^^^^^^^^^ meta.block.conflict.separator.diff - meta.block meta.block - markup
@@ -453,12 +460,14 @@ context context
 \ <- - meta.block
 
 <<<<<<< tzu
+\       @@@ local-definition "Conflict: tzu"
 =======
 The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 >>>>>>> tao
 
 <<<<<<< lao
+\       @@@ local-definition "Conflict: lao"
 ||||||| tzu
 They both may be called deep and profound.
 Deeper and more profound,
@@ -469,6 +478,7 @@ The door of all subtleties!
 >>>>>>> tao
 
 <<<<<<< lao
+\       @@@ local-definition "Conflict: lao"
 =======
 
   -- The Way of Lao-Tzu, tr. Wing-tsit Chan
@@ -477,6 +487,7 @@ The door of all subtleties!
 
 https://www.gnu.org/software/diffutils/manual/diffutils.html#Generating-the-Merged-Output-Directly
 <<<<<<< tzu
+\       @@@ local-definition "Conflict: tzu"
 =======
 The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
@@ -491,6 +502,7 @@ The two are the same,
 But after they are produced,
   they have different names.
 <<<<<<< lao
+\       @@@ local-definition "Conflict: lao"
 ||||||| tzu
 They both may be called deep and profound.
 Deeper and more profound,
@@ -502,6 +514,7 @@ The door of all subtleties!
 
 If you have questions, please
 <<<<<<< HEAD
+\       @@@@ local-definition "Conflict: HEAD"
 open an issue
 =======
 ask your question in IRC.
@@ -513,6 +526,7 @@ ask your question in IRC.
 
 def hello
 <<<<<<< ours
+\       @@@@ local-definition "Conflict: ours"
   puts 'hola world'
 ||||||| base
   puts 'hello world'
@@ -526,6 +540,7 @@ hello()
 
 \ https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts
 <<<<<<< HEAD:index.html
+\       @@@@@@@@@@@@@@@ local-definition "Conflict: HEAD:index.html"
 <div id="footer">contact : email.support@github.com</div>
 =======
 <div id="footer">
@@ -536,6 +551,7 @@ hello()
 
 \ https://git-scm.com/docs/rerere.html#_nested_conflicts
 <<<<<<< HEAD
+\       @@@@ local-definition "Conflict: HEAD"
 \^^^^^^^^^^^^ meta.block.conflict.begin.diff
 \^^^^^^ punctuation.section.block.begin.diff
 \       ^^^^ entity.name.section.diff
@@ -545,6 +561,7 @@ hello()
 \^^^^^^^ meta.block.conflict.separator.diff
 \^^^^^^ punctuation.section.block.diff
 <<<<<<< HEAD
+\       @@@@ local-definition "Conflict: HEAD"
 \^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.begin.diff
 \^^^^^^ punctuation.section.block.begin.diff
 \       ^^^^ entity.name.section.diff

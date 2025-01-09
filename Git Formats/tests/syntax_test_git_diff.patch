@@ -1,4 +1,4 @@
-\ SYNTAX TEST "Packages/Git Formats/Git Diff.sublime-syntax"
+\ SYNTAX TEST partial-symbols "Packages/Git Formats/Git Diff.sublime-syntax"
 From 8f72bad1baf19a53459661343e21d6491c3908d3 Mon Sep 17 00:00:00 2001
 \ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff
 \    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
@@ -75,11 +75,13 @@ Much better, no?
 
 ---
  Gemfile                      |   1 +
+\@@@@@@@ local-definition
 \^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
 \                             ^ punctuation.separator.sequence.diff
 \                                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
 \                                   ^ markup.inserted.diff
  app/assets/images/logo.jpeg  | Bin 0 -> 50966 bytes
+\@@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
 \   ^ punctuation.separator.path.diff
 \          ^ punctuation.separator.path.diff
@@ -91,6 +93,7 @@ Much better, no?
 \                                        ^^^^^ meta.number.integer.decimal.diff constant.numeric.value.diff markup.inserted.diff
 \                                              ^^^^^ constant.numeric.suffix.diff
  fonts/icomoon.eot            | Bin 55452 -> 56000 bytes
+\@@@@@@@@@@@@@@@@@ local-definition
  3 files changed, 1 insertion(+)
 \^ meta.number.integer.decimal.diff constant.numeric.value.diff
 \               ^ punctuation.separator.sequence.diff
