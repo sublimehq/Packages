@@ -58,10 +58,7 @@ contexts:
         3: punctuation.definition.capture-group-name.end.regexp
 
   literals:
-    - include: quantifiers
-    # https://github.com/sublimehq/Packages/issues/314
-    - match: \.
-      scope: keyword.other.any.regexp
+    - meta_prepend: true
     # no illegal parentheses in concatenated patterns
     - match: \]
       scope: punctuation.definition.set.end.regexp
