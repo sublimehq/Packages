@@ -18,11 +18,11 @@ contexts:
 
   diff-header:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-    - match: ^(-{3})[ ](?!$)
+    - match: '{{bol}}(-{3})[ ](?!$)'
       captures:
         1: punctuation.definition.from-file.diff
       push: diff-header-unified-from-file
-    - match: ^(\+{3})[ ](?!$)
+    - match: '{{bol}}(\+{3})[ ](?!$)'
       captures:
         1: punctuation.definition.to-file.diff
       push: diff-header-unified-to-file
@@ -52,7 +52,7 @@ contexts:
 
   diff-line-ranges:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
-    - match: ^(@@)(?=[^@\n]+@@(?:\s|$))
+    - match: '{{bol}}(@@)(?=[^@\n]+@@(?:\s|$))'
       captures:
         1: punctuation.definition.range.begin.diff
       push: [hunk-name, inside-diff-line-ranges-unified]
@@ -83,17 +83,17 @@ contexts:
 
   diff-deltas:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
-    - match: ^\+
+    - match: '{{bol}}\+'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^-
+    - match: '{{bol}}-'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
     - include: incomplete-line
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
   incomplete-line:
-    - match: ^[\\/]
+    - match: '{{bol}}[\\/]'
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
 
@@ -179,10 +179,12 @@ variables:
   git_hash64: '[0-9a-fA-F]{64}'
   git_hash_full: (?:{{git_hash64}}|{{git_hash40}})
   git_first_line: |-
-    ^(?x:
+    {{bol}}(?x:
       From [ ] \w+@z [ ]
       Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
     | From [ ] {{git_hash_full}} [ ]
       Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
     )
+  # No whitespace at beginning of line, unless overridden
+  bol: ^
   eol: (?:$\n?)

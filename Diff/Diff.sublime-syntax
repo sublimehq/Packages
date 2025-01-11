@@ -25,7 +25,7 @@ first_line_match: |-
 
 contexts:
   main:
-    - match: ^(?={{git_first_line}})
+    - match: (?={{git_first_line}})
       embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
       escape: (?!)
     # Hack for unit tests
@@ -47,24 +47,24 @@ contexts:
   diff-header:
     - meta_prepend: true
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
-    - match: ^(\*{15}){{eol}}
+    - match: '{{bol}}(\*{15}){{eol}}'
       scope: meta.separator.diff
       captures:
         1: punctuation.separator.block.diff
-    - match: ^(\*{3})[ ](?!$)
+    - match: '{{bol}}(\*{3})[ ](?!$)'
       captures:
         1: punctuation.definition.from-file.diff
       push: diff-header-context-from-file
 
     # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
-    - match: ^(={67}|={78}|_{67}){{eol}}
+    - match: '{{bol}}(={67}|={78}|_{67}){{eol}}'
       scope: meta.separator.diff
       captures:
         1: punctuation.separator.block.diff
 
     # File headers from extensions and SVN
     - match: |-
-        ^(?x:(
+        {{bol}}(?x:(
             Added | Copied | Deleted | Index | Modified
           | Prereq | Property [ ] changes [ ] on
         ))(:)[ \t]*
@@ -75,7 +75,7 @@ contexts:
 
     # Can't find documentation for these "="-formatted headers, but there
     # are preexisting unit tests.
-    - match: ^(={4}) .+(?= - )
+    - match: '{{bol}}(={4}) .+(?= - )'
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
         1: punctuation.definition.from-file.diff
@@ -106,7 +106,7 @@ contexts:
     - include: timestamps
 
   maybe-diff-header-context-to-file:
-    - match: ^(-{3})[ ](?!$)
+    - match: '{{bol}}(-{3})[ ](?!$)'
       captures:
         1: punctuation.definition.to-file.diff
       push: diff-header-context-to-file
@@ -125,9 +125,9 @@ contexts:
   diff-line-ranges:
     - meta_prepend: true
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
-    - match: ^-{3}{{eol}}
+    - match: '{{bol}}-{3}{{eol}}'
       scope: meta.separator.diff punctuation.separator.block.diff
-    - match: ^\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}
+    - match: '{{bol}}\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}'
       scope: meta.diff.range.normal meta.range.normal.diff
       captures:
         1: punctuation.separator.range.diff
@@ -135,10 +135,10 @@ contexts:
         3: punctuation.separator.range.diff
 
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-    - match: ^(-){3}(?= .+ -{4}{{eol}})
+    - match: '{{bol}}(-){3}(?= .+ -{4}{{eol}})'
       scope: punctuation.definition.range.begin.diff
       push: inside-diff-line-ranges-context
-    - match: ^(\*){3}(?= .+ \*{4}{{eol}})
+    - match: '{{bol}}(\*){3}(?= .+ \*{4}{{eol}})'
       scope: punctuation.definition.range.begin.diff
       push: inside-diff-line-ranges-context
 
@@ -155,21 +155,21 @@ contexts:
   diff-deltas:
     - meta_prepend: true
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
-    - match: ^> ?
+    - match: '{{bol}}> ?'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^< ?
+    - match: '{{bol}}< ?'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
 
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-    - match: ^\+ ?
+    - match: '{{bol}}\+ ?'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^- ?
+    - match: '{{bol}}- ?'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: ^! ?
+    - match: '{{bol}}! ?'
       scope: punctuation.definition.changed.diff
       push: line-changed
 
@@ -177,12 +177,12 @@ contexts:
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
   diff3-normal:
-    - match: ^====([1-3]?){{eol}}
+    - match: '{{bol}}====([1-3]?){{eol}}'
       scope: meta.hunk.diff punctuation.section.hunk.diff
       captures:
         1: constant.numeric.from-file.diff
 
-    - match: ^(([1-3])(:)(?:\d+(a)|\d+(?:(,)\d+)?(c))){{eol}}
+    - match: '{{bol}}(([1-3])(:)(?:\d+(a)|\d+(?:(,)\d+)?(c))){{eol}}'
       scope: meta.diff.range.normal meta.range.normal.diff
       captures:
         1: meta.toc-list.hunk.diff
@@ -196,26 +196,26 @@ contexts:
   diff3-normal-change:
     - meta_scope: meta.hunk.diff
     - meta_content_scope: meta.block.diff
-    - match: ^(?:\t|  )
+    - match: '{{bol}}(?:\t|  )'
       push: line-changed
-    - match: ^
+    - match: '{{bol}}'
       pop: 1
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
   diff3-edit:
-    - match: ^(\d+)(a){{eol}}
+    - match: '{{bol}}(\d+)(a){{eol}}'
       captures:
         1: meta.diff.range.normal meta.range.normal.diff
         2: support.function.diff
       push: diff3-edit-inserted
 
-    - match: ^(\d+)(d){{eol}}
+    - match: '{{bol}}(\d+)(d){{eol}}'
       captures:
         1: meta.diff.range.normal meta.range.normal.diff
         2: support.function.diff
       push: diff3-edit-deleted
 
-    - match: ^(\d+)(c){{eol}}
+    - match: '{{bol}}(\d+)(c){{eol}}'
       captures:
         1: meta.diff.range.normal meta.range.normal.diff
         2: support.function.diff
@@ -237,7 +237,7 @@ contexts:
     - include: diff3-edit-end
 
   diff3-edit-end:
-    - match: ^\.$
+    - match: '{{bol}}\.$'
       scope: punctuation.terminator.hunk.diff
       pop: 1
 
@@ -245,24 +245,24 @@ contexts:
 
   # Utility context for other files to use
   conflict-markers:
-    - match: ^({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.begin.diff
       captures:
         1: punctuation.section.block.begin.diff
         2: entity.name.section.diff
-    - match: ^({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.end.diff
       captures:
         1: punctuation.section.block.end.diff
         2: entity.name.section.diff
-    - match: ^({{conflict_base}}|{{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_base}}|{{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
   conflicts:
-    - match: ^\s*({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.begin.diff
       captures:
         1: punctuation.section.block.begin.diff
@@ -271,7 +271,7 @@ contexts:
 
   conflict-deleted-lines:
     - meta_content_scope: meta.block.conflict.diff markup.deleted.diff
-    - match: ^\s*({{conflict_base}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_base}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
@@ -281,7 +281,7 @@ contexts:
 
   conflict-base-lines:
     - meta_content_scope: meta.block.conflict.diff comment.block.diff
-    - match: ^\s*({{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
@@ -291,7 +291,7 @@ contexts:
 
   conflict-new-lines:
     - meta_content_scope: meta.block.conflict.diff markup.inserted.diff
-    - match: ^\s*({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}
+    - match: '{{bol}}({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.end.diff
       captures:
         1: punctuation.section.block.end.diff
@@ -302,31 +302,31 @@ contexts:
     - include: invalid-conflict-marker
 
   invalid-conflict-marker:
-    - match: ^(?:{{conflict_any}})
+    - match: '{{bol}}(?:{{conflict_any}})'
       scope: invalid.illegal.conflict.diff
 
 ###[ SIDE-BY-SIDE ]############################################################
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Side-by-Side
   side-by-side:
-    - match: ^(.*)   (<)$
+    - match: '{{bol}}(.*)   (<)$'
       captures:
         1: markup.deleted.diff
         2: punctuation.definition.deleted.diff
-    - match: ^(.*)   (\()$
+    - match: '{{bol}}(.*)   (\()$'
       captures:
         1: comment.line.diff
         2: punctuation.definition.deleted.diff
-    - match: ^(.*)   ([\\|/])   (.*)$
+    - match: '{{bol}}(.*)   ([\\|/])   (.*)$'
       captures:
         1: markup.changed.diff
         2: punctuation.definition.changed.diff
         3: markup.changed.diff
-    - match: '^   {4,}(>)(?:   (.*))?$'
+    - match: '{{bol}}   {4,}(>)(?:   (.*))?$'
       captures:
         1: punctuation.definition.inserted.diff
         2: markup.inserted.diff
-    - match: '^   {4,}(\))(?:   (.*))?$'
+    - match: '{{bol}}   {4,}(\))(?:   (.*))?$'
       captures:
         1: punctuation.definition.inserted.diff
         2: comment.line.diff

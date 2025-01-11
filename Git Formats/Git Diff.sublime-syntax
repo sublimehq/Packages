@@ -26,7 +26,7 @@ first_line_match: |-
 
 contexts:
   main:
-    - match: ^(?={{git_first_line}})
+    - match: (?={{git_first_line}})
       push: email-first-line
 
     # If you can't find the magic first line, just highlight diffs.
@@ -57,7 +57,7 @@ contexts:
 
   email-header-person:
     - match: |-
-        ^(?x:
+        {{bol}}(?x:
           ( From | To | Author | Committer
           | Co-authored-by
           | Signed-off-by
@@ -80,7 +80,7 @@ contexts:
     - include: pop-before-eol
 
   email-header-commit:
-    - match: ^(In-Reply-To|References)(:)
+    - match: '{{bol}}(In-Reply-To|References)(:)'
       captures:
         1: keyword.other.diff
         2: punctuation.separator.mapping.key-value.diff
@@ -93,7 +93,7 @@ contexts:
     - include: pop-before-next-email-header
 
   email-header-subject-line:
-    - match: ^(Subject)(:)
+    - match: '{{bol}}(Subject)(:)'
       captures:
         1: keyword.other.diff
         2: punctuation.separator.mapping.key-value.diff
@@ -127,7 +127,7 @@ contexts:
         3: meta.number.integer.decimal.diff constant.numeric.value.diff
 
   email-header-date:
-    - match: ^((?:Author|Committer)?Date)(:)
+    - match: '{{bol}}((?:Author|Committer)?Date)(:)'
       captures:
         1: keyword.other.diff
         2: punctuation.separator.mapping.key-value.diff
@@ -154,7 +154,7 @@ contexts:
     - include: pop-before-next-email-header
 
   email-header-generic:
-    - match: ^\b([\w-]+)\b(:)
+    - match: '{{bol}}\b([\w-]+)\b(:)'
       captures:
         1: keyword.other.diff
         2: punctuation.separator.mapping.key-value.diff
@@ -167,16 +167,16 @@ contexts:
   email-body:
     - meta_content_scope: meta.block.git-body.diff
     # https://git-scm.com/docs/git-mailinfo#Documentation/git-mailinfo.txt---scissors
-    - match: ^(?=--[ -]*{{scissors}}(?:{{scissors}}|[ -])*--\s*$)
+    - match: '{{bol}}(?=--[ -]*{{scissors}}(?:{{scissors}}|[ -])*--\s*$)'
       set: [email-headers, scissors-line]
-    - match: ^(---)\n
+    - match: '{{bol}}(---)\n'
       captures:
         1: punctuation.section.block.diff
       set: [diffs, stat]
-    - match: ^{{next_diff_header}}
+    - match: '{{bol}}{{next_diff_header}}'
       set: diffs
     - include: Git Commit Message.sublime-syntax#commit-message
-    - match: ^>+
+    - match: '{{bol}}>+'
       scope: punctuation.definition.blockquote.git
       push: email-quote-body
 
@@ -195,13 +195,13 @@ contexts:
 
   stat:
     - include: pop-before-diff-header
-    - match: ^ (?=([^|]+[ ]+)\|)
+    - match: '{{bol}} (?=([^|]+[ ]+)\|)'
       push: stat-toc-line
-    - match: ^(?= [0-9]+ file)
+    - match: '{{bol}}(?= [0-9]+ file)'
       push: stat-shortstat
-    - match: ^ (?=create mode)
+    - match: '{{bol}} (?=create mode)'
       push: stat-create-file
-    - match: ^ (?=delete mode)
+    - match: '{{bol}} (?=delete mode)'
       push: stat-delete-file
     - match: '{{empty_line}}'
       set: diffs
@@ -270,7 +270,7 @@ contexts:
 
   # https://git-scm.com/docs/diff-format#generate_patch_text_with_p
   diffs:
-    - match: ^(diff)( ((--)(?:git|combined|cc)))
+    - match: '{{bol}}(diff)( ((--)(?:git|combined|cc)))'
       captures:
         1: meta.function-call.identifier.git variable.function.diff
         2: meta.function-call.arguments.git
@@ -282,7 +282,7 @@ contexts:
     # This is the Git version unless otherwise configured.  You will notice
     # that once inside this context, you cannot leave.  That seems to be how
     # it works for these files.
-    - match: ^(-- ){{eol}}
+    - match: '{{bol}}(-- ){{eol}}'
       scope: meta.separator.diff
       captures:
         1: punctuation.section.block.diff
@@ -324,13 +324,13 @@ contexts:
     - meta_prepend: true
     - meta_scope: meta.block.header.diff
     # Detect & switch context to changed content
-    - match: ^(?=@|GIT binary)
+    - match: '{{bol}}(?=@|GIT binary)'
       set: diff-content
 
     # old mode <mode>
     # new mode <mode>
     # deleted file mode <mode>
-    - match: ^(?=deleted file mode)
+    - match: '{{bol}}(?=deleted file mode)'
       push:
         - meta_content_scope: markup.deleted.diff
         - include: pop-before-eol
@@ -338,7 +338,7 @@ contexts:
         - include: separator-comma
 
     # new file mode <mode>
-    - match: ^(?=new file mode)
+    - match: '{{bol}}(?=new file mode)'
       push:
         - meta_content_scope: markup.inserted.diff
         - include: pop-before-eol
@@ -346,7 +346,7 @@ contexts:
 
     # mode <mode>..<mode>
     # mode <mode>,<mode>..<mode> (for combined diff)
-    - match: ^mode(?= [106475,.]+)
+    - match: '{{bol}}mode(?= [106475,.]+)'
       scope: keyword.other.diff
       push:
         - include: pop-before-eol
@@ -361,7 +361,7 @@ contexts:
     # move to <path>
     # rename from <path>
     # rename to <path>
-    - match: ^((?:copy|move|rename) (?:from|to))[ \t]+
+    - match: '{{bol}}((?:copy|move|rename) (?:from|to))[ \t]+'
       captures:
         1: keyword.other.diff
       push:
@@ -371,7 +371,7 @@ contexts:
 
     # similarity index <number>
     # dissimilarity index <number>
-    - match: ^(?:dis)?similarity index
+    - match: '{{bol}}(?:dis)?similarity index'
       scope: keyword.other.diff
       push:
         - include: pop-before-eol
@@ -382,7 +382,7 @@ contexts:
             2: constant.numeric.suffix.git
 
     # index <hash>..<hash> <mode>
-    - match: ^index(?= [0-9a-f,.]+)
+    - match: '{{bol}}index(?= [0-9a-f,.]+)'
       scope: keyword.other.diff
       push:
         - include: pop-before-eol
@@ -403,34 +403,34 @@ contexts:
 
   diff-deltas:
     - meta_prepend: true
-    - match: ^(?=-- {{eol}})
+    - match: '{{bol}}(?=-- {{eol}})'
       pop: 1
     # https://github.com/git/git/commit/051308f6e9cebeb76b8fb4f52b7e9e7ce064445c
-    - match: ^GIT binary patch
+    - match: '{{bol}}GIT binary patch'
       scope: keyword.other.diff
       push: binary-diff-delta-content
 
   binary-diff-delta-content:
     # Binary type
-    - match: ^(delta|literal) ([0-9]+)
+    - match: '{{bol}}(delta|literal) ([0-9]+)'
       captures:
         1: support.function.diff
         2: meta.number.integer.decimal.diff constant.numeric.value.diff
 
     # Empty file
-    - match: ^(H)cmV\?d00001$
+    - match: '{{bol}}(H)cmV\?d00001$'
       scope: constant.language.null.diff
       captures:
         1: punctuation.definition.string.begin.diff
 
     # Base85-encoded binary data
-    - match: ^([A-Za-z]){{base85}}{1,66}$
+    - match: '{{bol}}([A-Za-z]){{base85}}{1,66}$'
       scope: meta.string.diff string.other.raw.diff
       captures:
         1: punctuation.definition.string.begin.diff
 
     # Bail if anything else is encountered
-    - match: ^(?!delta|literal|$)
+    - match: '{{bol}}(?!delta|literal|$)'
       pop: 2
 
 ###[ COMBINED DIFF ]###########################################################
@@ -438,84 +438,84 @@ contexts:
   diff-line-ranges:
     - meta_prepend: true
     # https://git-scm.com/docs/diff-format#_combined_diff_format
-    - match: ^(@@{2})(?=[^@\n]+@@{2}(?:\s|$))
+    - match: '{{bol}}(@@{2})(?=[^@\n]+@@{2}(?:\s|$))'
       captures:
         1: punctuation.definition.range.begin.diff
       push: [deltas-combined-2, hunk-name, inside-diff-line-ranges-combined]
-    - match: ^(@@{3})(?=[^@\n]+@@{3}(?:\s|$))
+    - match: '{{bol}}(@@{3})(?=[^@\n]+@@{3}(?:\s|$))'
       captures:
         1: punctuation.definition.range.begin.diff
       push: [deltas-combined-3, hunk-name, inside-diff-line-ranges-combined]
-    - match: ^(@@{4})(?=[^@\n]+@@{4}(?:\s|$))
+    - match: '{{bol}}(@@{4})(?=[^@\n]+@@{4}(?:\s|$))'
       captures:
         1: punctuation.definition.range.begin.diff
       push: [deltas-combined-4, hunk-name, inside-diff-line-ranges-combined]
-    - match: ^(@@{5})(?=[^@\n]+@@{5}(?:\s|$))
+    - match: '{{bol}}(@@{5})(?=[^@\n]+@@{5}(?:\s|$))'
       captures:
         1: punctuation.definition.range.begin.diff
       push: [deltas-combined-5, hunk-name, inside-diff-line-ranges-combined]
 
   deltas-combined-2:
     - include: pop-empty-line
-    - match: ^[ ]{2}
-    - match: ^[+ ]{2}
+    - match: '{{bol}}[ ]{2}'
+    - match: '{{bol}}[+ ]{2}'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^[- ]{2}
+    - match: '{{bol}}[- ]{2}'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: ^[\\/ ]{2}
+    - match: '{{bol}}[\\/ ]{2}'
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
-    - match: ^[+-]{2}
+    - match: '{{bol}}[+-]{2}'
       scope: punctuation.definition.changed.diff
       push: line-changed
 
   deltas-combined-3:
     - include: pop-empty-line
-    - match: ^[ ]{3}
-    - match: ^[+ ]{3}
+    - match: '{{bol}}[ ]{3}'
+    - match: '{{bol}}[+ ]{3}'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^[- ]{3}
+    - match: '{{bol}}[- ]{3}'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: ^[\\/ ]{3}
+    - match: '{{bol}}[\\/ ]{3}'
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
-    - match: ^[+-]{3}
+    - match: '{{bol}}[+-]{3}'
       scope: punctuation.definition.changed.diff
       push: line-changed
 
   deltas-combined-4:
     - include: pop-empty-line
-    - match: ^[ ]{4}
-    - match: ^[+ ]{4}
+    - match: '{{bol}}[ ]{4}'
+    - match: '{{bol}}[+ ]{4}'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^[- ]{4}
+    - match: '{{bol}}[- ]{4}'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: ^[\\/ ]{4}
+    - match: '{{bol}}[\\/ ]{4}'
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
-    - match: ^[+-]{4}
+    - match: '{{bol}}[+-]{4}'
       scope: punctuation.definition.changed.diff
       push: line-changed
 
   deltas-combined-5:
     - include: pop-empty-line
-    - match: ^[ ]{5}
-    - match: ^[+ ]{5}
+    - match: '{{bol}}[ ]{5}'
+    - match: '{{bol}}[+ ]{5}'
       scope: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: ^[- ]{5}
+    - match: '{{bol}}[- ]{5}'
       scope: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: ^[\\/ ]{5}
+    - match: '{{bol}}[\\/ ]{5}'
       scope: punctuation.definition.comment.begin.diff
       push: line-ignored
-    - match: ^[+-]{5}
+    - match: '{{bol}}[+-]{5}'
       scope: punctuation.definition.changed.diff
       push: line-changed
 
@@ -558,12 +558,12 @@ contexts:
       pop: 1
 
   pop-before-diff-header:
-    - match: ^{{next_diff_header}}
+    - match: '{{bol}}{{next_diff_header}}'
       pop: 1
 
   pop-before-next-email-header:
     # Hack in `\` to support unit tests
-    - match: ^(?! \S|\\)
+    - match: '{{bol}}(?! \S|\\)'
       pop: 1
 
 ###############################################################################
@@ -573,7 +573,7 @@ variables:
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[0-9a-zA-Z!#$%&()*+\-;<=>?@^_`{|}~]'
-  empty_line: ^(?=\n)
+  empty_line: '{{bol}}(?=\n)'
   scissors: (?:>8|8<)
   # https://git-scm.com/docs/git-am#_discussion
   next_diff_header: '(?=Index: |diff -)'

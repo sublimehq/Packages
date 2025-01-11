@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+scope: source.diff.embedded.markdown
+version: 2
+hidden: true
+
+extends:
+  - Packages/Diff/Diff.sublime-syntax
+
+variables:
+  bol: ^\s*
