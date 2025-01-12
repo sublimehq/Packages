@@ -639,7 +639,6 @@ contexts:
         ((\\)begin)
         \s* (\{) \s* ( IEEEeqnarray\*? ) \s* (\})
         \s* (\{) \s* ( {{letter}}+ ) \s* (\})
-      # scope: meta.environment.math.block.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
