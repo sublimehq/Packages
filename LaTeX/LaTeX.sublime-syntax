@@ -638,7 +638,7 @@ contexts:
         (?x)
         ((\\)begin)
         \s* (\{) \s* ( IEEEeqnarray\*? ) \s* (\})
-        \s* (\{) \s* ( {{letter}}+ ) \s* (\})
+        (?: \s* (\{) \s* ( {{letter}}+ ) \s* (\}) )?
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
