@@ -634,16 +634,31 @@ contexts:
         4: variable.parameter.function.latex
         5: punctuation.definition.group.brace.end.tex
       push: block-math-begin-end-command-body
+    - match: |-
+        (?x)
+        ((\\)begin)
+        \s* (\{) \s* ( IEEEeqnarray\*? ) \s* (\})
+        (?: \s* (\{) \s* ( {{letter}}+ ) \s* (\}) )?
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.tex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.tex
+        6: punctuation.definition.group.brace.begin.tex
+        7: variable.parameter.function.latex
+        8: punctuation.definition.group.brace.end.tex
+      push: block-math-begin-end-command-body
 
   block-math-begin-end-command-body:
-    - meta_content_scope: meta.environment.math.block.be.latex markup.math.block
+    - meta_content_scope: meta.environment.math.block.latex markup.math.block
     - include: block-math-begin-end-command-end
     - include: math-content
 
   block-math-begin-end-command-end:
     - match: ((\\)end)(\{)\s*(\4)\s*(\})
       captures:
-        1: support.function.end.latex keyword.control.flow.begin.latex
+        1: support.function.end.latex keyword.control.flow.end.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.tex
         4: variable.parameter.function.latex
