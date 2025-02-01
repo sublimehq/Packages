@@ -776,7 +776,7 @@ contexts:
   constraint-requires:
     - match: '\brequires\b'
       scope: storage.modifier.c++
-      set:
+      push:
         - meta_scope: meta.constraint.c++
         - match: (?=\{|{{identifier}}\s*{{identifier}}\(|{{before_tag}})
           pop: true
