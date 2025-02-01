@@ -1329,7 +1329,7 @@ contexts:
       scope: keyword.declaration.union.type.c++
       set: data-structures-union-definition
     - match: '\bconcept\b'
-      scope: keyword.declaration.concept.c++
+      scope: meta.concept.c++ keyword.declaration.concept.c++
       set: data-structures-concept-definition
     - match: '(?=\S)'
       pop: true
