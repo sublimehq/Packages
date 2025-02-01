@@ -1764,6 +1764,7 @@ contexts:
       scope: punctuation.separator.c++
       set: method-definition-trailing-return
     - include: function-specifiers
+    - include: constraint-requires
     - match: '='
       scope: keyword.operator.assignment.c++
     - match: '&'
