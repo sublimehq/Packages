@@ -3139,6 +3139,46 @@ void test4()
     return;
 }
 
+/////////////////////////////////////////////
+// Concepts
+/////////////////////////////////////////////
+
+template <typename T>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+concept has_foo = requires(T t) {
+/* <- meta.concept.c++ keyword.declaration.concept.c++ */
+/*      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ */
+/*      ^^^^^^^ meta.concept.c++ entity.name.concept.c++ */
+/*                ^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+/*                        ^^^^^ meta.function.parameters.c++ */
+/*                              ^ meta.block meta.function.c++ */
+    t.foo();
+/*  ^^^^^^^^ meta.concept.c++ meta.constraint.c++ meta.block.c++ meta.function.c++ */
+} && std::move_constructible<T>;
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+
+template <typename C>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+void foo() requires std::same_as<C, void>
+/* <- storage.type.c */
+/*    ^^^^ meta.function.c++ entity.name.function.c++ */
+/*           ^^^^^^^^ meta.function.c++ meta.constraint.c++ storage.modifier.c++ */
+/*                    ^^^^^^^^^^^^^^^^^^^^^ meta.function.c++ meta.constraint.c++ */
+{
+    return;
+}
+
+template <typename C> requires std::same_as<C, void>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+/*                    ^^^^^^^^ meta.constraint.c++ storage.modifier.c++ */
+/*                             ^^^^^^^^^^^^^^^^^^^^^ meta.constraint.c++ */
+void bar()
+/* <- storage.type.c */
+/*    ^^^^ meta.function.c++ entity.name.function.c++ */
+{
+    return;
+}
+
 #define GTY0
 /*      ^^^^ meta.preprocessor.macro.c++ */
 #define GTY1(A)
