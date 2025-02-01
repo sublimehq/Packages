@@ -3151,9 +3151,9 @@ concept has_foo = requires(T t) {
 /*      ^^^^^^^ meta.concept.c++ entity.name.concept.c++ */
 /*                ^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
 /*                        ^^^^^ meta.function.parameters.c++ */
-/*                              ^ meta.block meta.function.c++ */
+/*                              ^ meta.function.c++  meta.block.c++ */
     t.foo();
-/*  ^^^^^^^^ meta.concept.c++ meta.constraint.c++ meta.block.c++ meta.function.c++ */
+/*  ^^^^^^^^ meta.concept.c++ meta.constraint.c++ meta.function.c++ meta.block.c++ */
 } && std::move_constructible<T>;
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
 
@@ -3161,8 +3161,8 @@ template <typename C>
 /* <- meta.template.c++ keyword.declaration.template.c++ */
 void foo() requires std::same_as<C, void>
 /* <- storage.type.c */
-/*    ^^^^ meta.function.c++ entity.name.function.c++ */
-/*           ^^^^^^^^ meta.function.c++ meta.constraint.c++ storage.modifier.c++ */
+/*   ^^^ meta.function.c++ entity.name.function.c++ */
+/*         ^^^^^^^^ meta.function.c++ meta.constraint.c++ storage.modifier.c++ */
 /*                    ^^^^^^^^^^^^^^^^^^^^^ meta.function.c++ meta.constraint.c++ */
 {
     return;
@@ -3174,7 +3174,7 @@ template <typename C> requires std::same_as<C, void>
 /*                             ^^^^^^^^^^^^^^^^^^^^^ meta.constraint.c++ */
 void bar()
 /* <- storage.type.c */
-/*    ^^^^ meta.function.c++ entity.name.function.c++ */
+/*   ^^^ meta.function.c++ entity.name.function.c++ */
 {
     return;
 }
