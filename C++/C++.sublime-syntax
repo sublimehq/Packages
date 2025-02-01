@@ -778,7 +778,7 @@ contexts:
       scope: storage.modifier.c++
       push:
         - meta_scope: meta.constraint.c++
-        - match: (?=\{|{{identifier}}\s*{{identifier}}\(|{{before_tag}})
+        - match: (?=\{|{{identifier}}\s*{{identifier}}\(|{{before_tag}}|:)
           pop: true
         - include: constraint
 
