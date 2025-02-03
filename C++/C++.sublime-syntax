@@ -61,7 +61,7 @@ variables:
   control_keywords: 'break|case|catch|continue|default|do|else|for|goto|if|_Pragma|switch|throw|try|while|{{coroutine_keywords}}'
   memory_operators: 'new|delete'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
-  before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
+  before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class|concept'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local'
   type_qualifier: 'const|mutable|typename|volatile'
@@ -745,7 +745,10 @@ contexts:
             - meta_content_scope: meta.template.c++
             - match: '>'
               scope: meta.template.c++ punctuation.definition.generic.end.c++
-              pop: true
+              set:
+                - include: constraint-requires
+                - match: (?=\S)
+                  pop: true
             - match: \.{3}
               scope: keyword.operator.variadic.c++
             - match: \b(typename|{{before_tag}})\b
@@ -758,6 +761,26 @@ contexts:
             - match: \b({{before_tag}})\b
               scope: keyword.declaration.c++
             - include: template-common
+
+  requires:
+    - match: \brequires\b
+      scope: keyword.operator.word.c++
+      push: function-definition-params
+
+  constraint:
+    - match: (?=;)
+      pop: true
+    - include: requires
+    - include: expressions-minus-generic-type-function-call
+
+  constraint-requires:
+    - match: '\brequires\b'
+      scope: storage.modifier.c++
+      push:
+        - meta_scope: meta.constraint.c++
+        - match: (?=\{|{{identifier}}\s*{{identifier}}\(|{{before_tag}}|:)
+          pop: true
+        - include: constraint
 
   generic-type:
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*(\(|\{))'
@@ -1248,6 +1271,7 @@ contexts:
       scope: punctuation.separator.c++
       set: function-definition-trailing-return
     - include: function-specifiers
+    - include: constraint-requires
     - match: '='
       scope: keyword.operator.assignment.c++
     - match: '&'
@@ -1268,6 +1292,7 @@ contexts:
     - match: '(?=\{)'
       set: function-definition-body
     - include: function-specifiers
+    - include: constraint-requires
     - include: function-trailing-return-type
 
   function-definition-body:
@@ -1303,6 +1328,9 @@ contexts:
     - match: '\bunion\b'
       scope: keyword.declaration.union.type.c++
       set: data-structures-union-definition
+    - match: '\bconcept\b'
+      scope: meta.concept.c++ keyword.declaration.concept.c++
+      set: data-structures-concept-definition
     - match: '(?=\S)'
       pop: true
 
@@ -1462,6 +1490,17 @@ contexts:
         - include: data-structures-body
     - match: '(?=;)'
       pop: true
+
+  data-structures-concept-definition:
+    - meta_content_scope: meta.concept.c++
+    - include: data-structures-definition-common-begin
+    - match: '({{identifier}})\s+(=)'
+      captures:
+        1: entity.name.concept.c++
+        2: keyword.operator.assignment.c++
+      set:
+        - meta_content_scope: meta.concept.c++ meta.constraint.c++
+        - include: constraint
 
   data-structures-definition-common-begin:
     - include: comments
@@ -1725,6 +1764,7 @@ contexts:
       scope: punctuation.separator.c++
       set: method-definition-trailing-return
     - include: function-specifiers
+    - include: constraint-requires
     - match: '='
       scope: keyword.operator.assignment.c++
     - match: '&'
