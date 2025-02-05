@@ -623,6 +623,15 @@
     elseif false then
 --  ^^^^^^ keyword.control.conditional
 --               ^^^^ keyword.control.conditional
+    elseif a = 0 then
+--         ^ variable.other
+--           ^ invalid.illegal.invalid-operator
+--             ^ constant.numeric.value
+--               ^^^^ keyword.control.conditional
+    elseif a = then
+--         ^ variable.other
+--           ^ keyword.operator.comparison
+--             ^^^^ keyword.control.conditional
     else
 --  ^^^^ keyword.control.conditional
     end
@@ -634,6 +643,7 @@
 
     if a ! = b then end
 --       ^ invalid.illegal.unexpected-character.lua
+--         ^ invalid.illegal.invalid-operator.lua
 --             ^^^^ keyword.control.conditional
 --                  ^^^ keyword.control.end
 
