@@ -27,7 +27,7 @@ variables:
   metamethod: |- # http://lua-users.org/wiki/MetatableEvents
     (?x:__(?:
       # special
-      index|newindex|call|tostring|len|i?pairs|gc
+      index|newindex|call|tostring|len|i?pairs|gc|close
       # math operators
       |unm|add|sub|mul|i?div|mod|pow|concat
       # bitwise operators
@@ -36,7 +36,7 @@ variables:
       |eq|lt|le
     ){{identifier_break}})
   # __metatable and __mode don't use functions
-  metaproperty: (?:__(?:metatable|mode){{identifier_break}})
+  metaproperty: (?:__(?:metatable|mode|name){{identifier_break}})
 
   identifier_start: '[A-Za-z_]'
   identifier_char: '[A-Za-z0-9_]'
