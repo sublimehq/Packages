@@ -82,11 +82,10 @@ Date:   Tue Aug 24 13:44:17 2021 -0400
     [TypeScript] [TSX] Fix arrow function type parameter tests for TSX. (#2987)
 
 diff --git a/JavaScript/TypeScript.sublime-syntax b/JavaScript/TypeScript.sublime-syntax
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
-#                                                                                       ^ - source.shell
-#^^^ source.shell meta.function-call.identifier variable.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git
+#^^^ meta.function-call.identifier variable.function
 #    ^^ punctuation.definition.parameter
-#      ^^^ variable.parameter.option
+#      ^^^ variable.parameter
 index ae1b1061..c1a585d0 100644
 --- a/JavaScript/TypeScript.sublime-syntax
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff meta.diff.header meta.header.from-file
@@ -103,48 +102,82 @@ index ae1b1061..c1a585d0 100644
 -  #     branch:
 -  #       - ts-old-type-assertion
 diff --git a/JavaScript/tests/syntax_test_typescript_not_tsx.ts b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
-#^^^ source.shell meta.function-call.identifier variable.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff meta.toc-list.git
+#^^^ meta.function-call.identifier.git variable.function.diff
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.git
+#    ^^^^^ variable.parameter.diff
+#    ^^ punctuation.definition.parameter.diff
+#          ^ variable.parameter.source.diff
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.diff string.unquoted.git
+#           ^ punctuation.separator.path.diff
+#                      ^ punctuation.separator.path.diff
+#                            ^ punctuation.separator.path.diff
+#                                                               ^ variable.parameter.source.diff
+#                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.diff string.unquoted.git
+#                                                                ^ punctuation.separator.path.diff
+#                                                                           ^ punctuation.separator.path.diff
+#                                                                                 ^ punctuation.separator.path.diff
 index c90bfab4,c90bfab4..e9338c70 100644
-#^^^^ keyword.context.git.log
-#     ^^^^^^^^ constant.other.hash
-#             ^ punctuation.separator.sequence.git.log
-#              ^^^^^^^^ constant.other.hash
-#                      ^^ punctuation.separator.sequence.git.log
-#                        ^^^^^^^^ constant.other.hash
-#                                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.extended.git.log
-mode 012345,676543..701532
-#^^^ keyword.context.git.log
-#    ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-#          ^ punctuation.separator.sequence.git.log
-#           ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-#                 ^^ punctuation.separator.sequence.git.log
-#                   ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-new file mode 012345
-#^^^^^^^^^^^^ keyword.context.git.log
-#             ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-deleted file mode 012345,676543
-#^^^^^^^^^^^^^^^^ keyword.context.git.log
-#                 ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-#                       ^ punctuation.separator.sequence.git.log
-#                        ^^^^^^ meta.number.integer.octal.git constant.numeric.value.git.log
-similarity index 983489374
-#^^^^^^^^^^^^^^^ keyword.context.git.log
-#                ^^^^^^^^^ meta.number.integer.decimal.git constant.numeric.value.git.log
-dissimilarity index 72637263
-#^^^^^^^^^^^^^^^^^^ keyword.context.git.log
-#                   ^^^^^^^^ meta.number.integer.decimal.git constant.numeric.value.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff
+#^^^^ keyword.other.diff
+#     ^^^^^^^^ constant.other.hash.git
+#             ^ punctuation.separator.sequence.git
+#              ^^^^^^^^ constant.other.hash.git
+#                      ^^ punctuation.separator.range.git
+#                        ^^^^^^^^ constant.other.hash.git
+#                                 ^^^^^^ meta.number.integer.octal.diff constant.numeric.value.diff
+mode 100644,100755..755
+#^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff
+#^^^ keyword.other.diff
+#    ^^^^^^ meta.number.integer.octal.diff constant.numeric.value.diff
+#          ^ punctuation.separator.sequence.git
+#           ^^^^^^ meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.executable.diff
+#                 ^^ punctuation.separator.range.git
+#                   ^^^ meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.executable.diff
+new file mode 644
+#^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff markup.inserted.diff
+#             ^^^ meta.number.integer.octal.diff constant.numeric.value.diff
+deleted file mode 644,755
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff markup.deleted.diff
+#                 ^^^ meta.number.integer.octal.diff constant.numeric.value.diff
+#                    ^ punctuation.separator.sequence.git
+#                     ^^^ meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.executable.diff
+similarity index 89%
+#^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff
+#^^^^^^^^^^^^^^^ keyword.other.diff
+#                ^^^ meta.number.integer.decimal.git
+#                ^^ constant.numeric.value.git
+#                  ^ constant.numeric.suffix.git
+dissimilarity index 4%
+#^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff
+#^^^^^^^^^^^^^^^^^^ keyword.other.diff
+#                   ^^ meta.number.integer.decimal.git
+#                   ^ constant.numeric.value.git
+#                    ^ constant.numeric.suffix.git
 copy from JavaScript/tests/syntax_test_typescript_not_tsx.ts
-#^^^^^^^^ keyword.context.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff
+#^^^^^^^^ keyword.other.diff
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.git string.unquoted.git
+#                   ^ punctuation.separator.path.diff
+#                         ^ punctuation.separator.path.diff
 move to JavaScript/tests/syntax_test_typescript_not_tsx.ts
-#^^^^^^ keyword.context.git.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff
+#^^^^^^ keyword.other.diff
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.git string.unquoted.git
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.extended.git.log
+#                 ^ punctuation.separator.path.diff
+#                       ^ punctuation.separator.path.diff
 --- a/JavaScript/tests/syntax_test_typescript_not_tsx.ts
-#<- - meta.diff.header.extended
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.from-file meta.header.from-file.diff
+#^^ punctuation.definition.from-file.diff
+#    ^ punctuation.separator.path.diff
+#               ^ punctuation.separator.path.diff
+#                     ^ punctuation.separator.path.diff
 +++ b/JavaScript/tests/syntax_test_typescript_not_tsx.ts
-#^^ source.diff meta.diff.header meta.header.to-file punctuation.definition.to-file
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.to-file meta.header.to-file.diff
+#^^ punctuation.definition.to-file.diff
+#    ^ punctuation.separator.path.diff
+#               ^ punctuation.separator.path.diff
+#                     ^ punctuation.separator.path.diff
 @@ -25,3 +25,12 @@
  let strLength: number = (<string>someValue).length; // </string>
  //                       ^^^^^^^^ meta.assertion - meta.tag
