@@ -557,7 +557,7 @@ contexts:
 
   support:
     - match: |-
-        (?x:_G|_VERSION){{identifier_break}}
+        (?x:_G|_VERSION|_ENV){{identifier_break}}
       scope: support.constant.builtin.lua
       pop: 1
 
@@ -566,7 +566,7 @@ contexts:
           assert|collectgarbage|dofile|error|getmetatable|ipairs|load|loadfile
           |next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select
           |setmetatable|tonumber|tostring|type|xpcall
-          |require|getfenv|module|setfenv|unpack
+          |require|getfenv|module|setfenv|unpack|warn
         ){{function_call_ahead}}
       scope: meta.function-call.lua support.function.builtin.lua
       pop: 1
