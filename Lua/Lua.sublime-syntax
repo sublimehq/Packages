@@ -152,7 +152,7 @@ contexts:
       set: maybe-line-doc-comment
 
   maybe-line-doc-comment:
-    - match: ^\s*(?=--(?!\[\[))
+    - match: ^\s*(?=--(?!\[(=*)\[))
       set:
         - match: -{2,}
           scope: punctuation.definition.comment.lua
