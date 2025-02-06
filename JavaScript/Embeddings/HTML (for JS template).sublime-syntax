@@ -72,7 +72,7 @@ contexts:
       scope:
         meta.string.html string.quoted.double.html
         punctuation.definition.string.begin.html
-      embed: scope:source.js.js-template
+      embed: scope:source.js.js-template#expressions
       embed_scope: meta.string.html meta.embedded.html source.js.embedded.html
       escape: \"
       escape_captures:
@@ -82,7 +82,7 @@ contexts:
       scope:
         meta.string.html string.quoted.single.html
         punctuation.definition.string.begin.html
-      embed: scope:source.js.js-template
+      embed: scope:source.js.js-template#expressions
       embed_scope: meta.string.html meta.embedded.html source.js.embedded.html
       escape: \'
       escape_captures:
