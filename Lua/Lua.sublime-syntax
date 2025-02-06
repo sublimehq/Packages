@@ -205,13 +205,13 @@ contexts:
 
     - match: local{{identifier_break}}
       scope: storage.modifier.lua
-      push: expression-list
+      push: expression-list-stmt
 
     - match: end{{identifier_break}}
       scope: invalid.illegal.unexpected-end.lua
 
     - match: (?=\S)
-      push: expression
+      push: expression-list-stmt
 
   block-contents:
     - meta_scope: meta.block.lua
@@ -312,7 +312,7 @@ contexts:
           - include: else-pop
 
         - - match: (?==)
-            set: expression-list-end
+            set: expression-list-stmt-end
 
           - match: in{{identifier_break}}
             scope: keyword.control.loop.lua
@@ -320,7 +320,7 @@ contexts:
 
           - include: else-pop
 
-        - expression-list
+        - expression-list-stmt
 
     - match: '::'
       scope: punctuation.definition.label.begin.lua
@@ -373,6 +373,12 @@ contexts:
         - expression-list-end
         - expression-begin
 
+  expression-list-stmt:
+    - match: ''
+      set:
+        - expression-list-stmt-end
+        - expression-begin
+
   expression-end:
     - match: (?=;)
       pop: 1
@@ -404,6 +410,14 @@ contexts:
         - left-angle-is-variable-modifier
         - left-angle-is-less-than
     - include: expression-end
+
+  expression-list-stmt-end:
+    - match: =(?!=)
+      scope: keyword.operator.assignment.lua
+      set:
+        - expression-list-end
+        - expression-begin
+    - include: expression-list-end
 
   expression-begin:
     - match: (?=;)
@@ -457,11 +471,17 @@ contexts:
     - match: \.\.
       scope: keyword.operator.concatenation.lua
       push: expression-begin
-    - match: =
-      scope: keyword.operator.assignment.lua
-      push: expression-begin
     - match: (?:and|or){{identifier_break}}
       scope: keyword.operator.logical.lua
+      push: expression-begin
+
+    # assume that == is being typed
+    - match: =(?=\s*(?:{{reserved_word_statement}}|$))
+      scope: keyword.operator.comparison.lua
+      push: expression-begin
+    # only complain once it is clear that it isn't ==
+    - match: =(?!=)
+      scope: invalid.illegal.invalid-operator.lua
       push: expression-begin
 
   accessor:

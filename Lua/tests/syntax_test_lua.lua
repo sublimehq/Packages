@@ -623,6 +623,15 @@
     elseif false then
 --  ^^^^^^ keyword.control.conditional
 --               ^^^^ keyword.control.conditional
+    elseif a = 0 then
+--         ^ variable.other
+--           ^ invalid.illegal.invalid-operator
+--             ^ constant.numeric.value
+--               ^^^^ keyword.control.conditional
+    elseif a = then
+--         ^ variable.other
+--           ^ keyword.operator.comparison
+--             ^^^^ keyword.control.conditional
     else
 --  ^^^^ keyword.control.conditional
     end
@@ -634,6 +643,7 @@
 
     if a ! = b then end
 --       ^ invalid.illegal.unexpected-character.lua
+--         ^ invalid.illegal.invalid-operator.lua
 --             ^^^^ keyword.control.conditional
 --                  ^^^ keyword.control.end
 
@@ -725,9 +735,26 @@
 --            ^ meta.number.integer.decimal constant.numeric.value
 --             ^ punctuation.separator.comma
 --               ^ variable.other
---                 ^ keyword.operator.assignment
+--                 ^ invalid.illegal.invalid-operator
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
+
+    local a = b = c
+--  ^^^^^ storage.modifier
+--        ^ variable.other
+--          ^ keyword.operator.assignment
+--            ^ variable.other
+--              ^ invalid.illegal.invalid-operator
+--                ^ variable.other
+
+    d, e = f, g
+--  ^ variable.other
+--   ^ punctuation.separator.comma
+--     ^ variable.other
+--       ^ keyword.operator.assignment
+--         ^ variable.other
+--          ^ punctuation.separator.comma
+--            ^ variable.other
 
     local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua
