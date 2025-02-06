@@ -2281,6 +2281,8 @@ contexts:
   maybe_nested_pattern_matching_object:
     - match: (?=\{)
       push: maybe_pattern_matching_object
+    - match: (?=\bvar\b)
+      set: var_declaration_including_tuple
     - match: (?=\S)
       set: line_of_code_in_no_semicolon
 
