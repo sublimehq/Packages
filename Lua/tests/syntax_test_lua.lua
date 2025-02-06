@@ -739,16 +739,22 @@
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
 
-    local a = b = c     d = e
+    local a = b = c
 --  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
 --            ^ variable.other
 --              ^ invalid.illegal.invalid-operator
 --                ^ variable.other
---                      ^ variable.other
---                        ^ keyword.operator.assignment
---                          ^ variable.other
+
+    d, e = f, g
+--  ^ variable.other
+--   ^ punctuation.separator.comma
+--     ^ variable.other
+--       ^ keyword.operator.assignment
+--         ^ variable.other
+--          ^ punctuation.separator.comma
+--            ^ variable.other
 
     local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua

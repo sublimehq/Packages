@@ -211,7 +211,7 @@ contexts:
       scope: invalid.illegal.unexpected-end.lua
 
     - match: (?=\S)
-      push: expression-stmt
+      push: expression-list-stmt
 
   block-contents:
     - meta_scope: meta.block.lua
