@@ -409,7 +409,9 @@ contexts:
   expression-stmt-end:
     - match: =(?!=)
       scope: keyword.operator.assignment.lua
-      push: expression-begin
+      set:
+        - expression-end
+        - expression-begin
     - include: expression-end
 
   expression-list-end:
@@ -426,7 +428,9 @@ contexts:
   expression-list-stmt-end:
     - match: =(?!=)
       scope: keyword.operator.assignment.lua
-      push: expression-begin
+      set:
+        - expression-list-end
+        - expression-begin
     - include: expression-list-end
 
   expression-begin:
