@@ -3,6 +3,9 @@
     _G;
 --  ^^ support.constant.builtin
 
+    _ENV;
+--  ^^^^ support.constant.builtin
+
     _VERSION;
 --  ^^^^^^^^ support.constant.builtin
 
@@ -17,6 +20,9 @@
 
     error();
 --  ^^^^^ support.function.builtin
+
+    warn();
+--  ^^^^ support.function.builtin
 
     getfenv();
 --  ^^^^^^^ support.function.builtin
