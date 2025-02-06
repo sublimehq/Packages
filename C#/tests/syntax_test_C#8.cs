@@ -338,3 +338,26 @@ public class CustomAutoDataAttribute() : AutoDataAttribute(
 ///  ^ punctuation.section.group.end.cs
 ///   ^ meta.class.cs punctuation.terminator.statement.cs
 
+
+
+var payload = JsonConverter.Deserialize<SomeType>(serializedData);
+var for_same_value = (payload is { SomeProperty: var propValue } && propValue == compare);
+/// ^^^^^^^^^^^^^^ variable.other.cs
+///                ^ keyword.operator.assignment.variable.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                  ^ punctuation.section.group.begin.cs
+///                   ^^^^^^^ variable.other.cs
+///                           ^^ keyword.operator.reflection.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
+///                              ^ punctuation.section.block.begin.cs
+///                                ^^^^^^^^^^^^ variable.other.member.cs
+///                                            ^ keyword.operator.assignment.cs
+///                                              ^^^ storage.type.variable.cs
+///                                                  ^^^^^^^^^ variable.other.cs
+///                                                            ^ punctuation.section.block.end.cs
+///                                                              ^^ keyword.operator.cs
+///                                                                 ^^^^^^^^^ variable.other.cs
+///                                                                           ^^ keyword.operator.cs
+///                                                                              ^^^^^^^ variable.other.cs
+///                                                                                     ^ punctuation.section.group.end.cs
+///                                                                                      ^ punctuation.terminator.statement.cs
