@@ -367,12 +367,6 @@ contexts:
         - expression-end
         - expression-begin
 
-  expression-stmt:
-    - match: ''
-      set:
-        - expression-stmt-end
-        - expression-begin
-
   expression-list:
     - match: ''
       set:
@@ -405,14 +399,6 @@ contexts:
       scope: invalid.illegal.unexpected-character.lua
 
     - include: else-pop
-
-  expression-stmt-end:
-    - match: =(?!=)
-      scope: keyword.operator.assignment.lua
-      set:
-        - expression-end
-        - expression-begin
-    - include: expression-end
 
   expression-list-end:
     - match: ','
