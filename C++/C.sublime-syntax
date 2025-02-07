@@ -40,7 +40,7 @@ contexts:
   # Basic Objects
 
   string.escape:
-    - match: \\([abfnrtv\\'\"?]|[eE]|\d{1,3}|x[0-9A-Fa-f]+|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})
+    - match: \\([abfnrtv\\'\"?]|[eE]|[0-7]{1,3}|x[0-9A-Fa-f]+|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})
       scope: constant.character.escape.c
     - match: \\.
       scope: invalid.illegal.unknown-escape.c
