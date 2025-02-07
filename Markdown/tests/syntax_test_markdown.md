@@ -9037,3 +9037,78 @@ Handle incomplete $\sqrt{b$ expressions well.
    |                       ^^ meta.group.brace
    |                         ^ punctuation.definition.math.end - meta.group
    |                          ^ meta.paragraph.list.markdown - markup.math
+
+# TEST: PANDOC FENCED DIVS ####################################################
+
+| Opening div tags must have attributes
+:::
+| <- - punctuation
+|^^ - punctuation
+
+::: class
+| <- meta.block.div.markdown punctuation.section.block.begin.markdown
+|^^^^^^^^ meta.block.div.markdown - meta.block meta.block
+|^^ punctuation.section.block.begin.markdown
+|   ^^^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
+- list
+|^^^^^ meta.block.div.markdown
+|^^^^^ markup.list.unnumbered.markdown
+| ^^^^ meta.paragraph.list.markdown
+- list
+|^^^^^ meta.block.div.markdown
+|^^^^^ markup.list.unnumbered.markdown
+| ^^^^ meta.paragraph.list.markdown
+:::
+| <- meta.block.div.markdown punctuation.section.block.end.markdown
+|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+
+::: {.class #id} :::
+|^^^^^^^^^^^^^^^^^^^ meta.block.div.markdown
+|^^ punctuation.section.block.begin.markdown
+|   ^^^^^^^^^^^^ meta.attributes.markdown
+|   ^ punctuation.definition.attributes.begin.markdown
+|    ^^^^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
+|           ^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
+|              ^ punctuation.definition.attributes.end.markdown
+|                ^^^ punctuation.section.block.markdown
+::: inner
+|^^^^^^^^ meta.block.div.markdown meta.block.div.markdown
+|^^ punctuation.section.block.begin.markdown
+|   ^^^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
+paragraph
+|^^^^^^^^ meta.block.div.markdown meta.block.div.markdown meta.paragraph.markdown
+:::
+|^^ meta.block.div.markdown meta.block.div.markdown punctuation.section.block.end.markdown
+:::
+|^^ meta.block.div.markdown punctuation.section.block.end.markdown - meta.block meta.block
+
+::: block-quote
+> quoted block
+|^^^^^^^^^^^^^ meta.block.div.markdown markup.quote.markdown
+| ^^^^^^^^^^^^ markup.paragraph.markdown
+> > nested quote
+| <- meta.block.div.markdown markup.quote.markdown markup.paragraph.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^ meta.block.div.markdown markup.quote.markdown markup.paragraph.markdown
+| ^ punctuation.definition.blockquote.markdown
+:::
+| <- meta.block.div.markdown punctuation.section.block.end.markdown
+|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+
+::: code-block
+```css
+|^^^^^ meta.block.div.markdown meta.code-fence.definition.begin.css.markdown-gfm
+|^^ punctuation.definition.raw.code-fence.begin.markdown
+|  ^^^ constant.other.language-name.markdown
+```
+:::
+| <- meta.block.div.markdown punctuation.section.block.end.markdown
+|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+
+::: table
+| column | column
+| ---    | ---
+| foo    | bar
+| <- meta.block.div.markdown meta.table.markdown-gfm punctuation.separator.table-cell.markdown
+:::
+| <- meta.block.div.markdown punctuation.section.block.end.markdown
+|^^ meta.block.div.markdown punctuation.section.block.end.markdown
