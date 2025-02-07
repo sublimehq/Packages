@@ -3,6 +3,7 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C
 scope: source.c
+version: 2
 
 file_extensions:
   - c
@@ -13,34 +14,11 @@ first_line_match: |-
     ^ \s* // .*? -\*- .*? \bc\b(?![#+]) .*? -\*-  # editorconfig
   )
 
-variables:
-  identifier: \b[[:alpha:]_][[:alnum:]_]*\b
-  likely_macro: \b[[:upper:]][[:upper:][:digit:]_]+\b
-
-  bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
-  oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
-  dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
-  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
-  double_suffix: '[fFlL]'
-  float_suffix: '[fF]'
-  integer_suffix: '(?:(?:ll|LL)(?!\s*[lL])|(?i)(?:u(?!\w*u)|l(?!\w*l)|i(?!\w*[ij])|j(?!\w*[ij])))+\b'
-  dec_exponent: '(?:[eE][-+]?\d*)'
-  hex_exponent: '(?:[pP][-+]?\d*)'
-
 contexts:
-  # Helpers
-
-  pop-immediately:
-    - match: ""
-      pop: true
-  else-pop:
-    - match: (?=\S)
-      pop: true
-
   # Basic Objects
 
   string.escape:
-    - match: \\([abfnrtv\\'\"?]|[eE]|[0-7]{1,3}|x[0-9A-Fa-f]+|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})
+    - match: \\([abfnrtv\\'\"?]|[eE]|[0-7]{1,3}|x\h+|u\h{4}|U\h{8})
       scope: constant.character.escape.c
     - match: \\.
       scope: invalid.illegal.unknown-escape.c
@@ -55,29 +33,30 @@ contexts:
           (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)?          # length modifier
           (\[[^\]]+\]|[am]s|[diouxXDOUeEfFgGaACcSspn%]) # conversion type
       scope: constant.other.placeholder.c
+  string.double:
+    - meta_scope: string.quoted.double.c
+    - match: \"
+      scope: punctuation.definition.string.end.c
+      pop: 1
+    - include: string.escape
+    - include: string.format
+  string.single:
+    - meta_scope: string.quoted.single.c
+    - match: \'
+      scope: punctuation.definition.string.end.c
+      pop: 1
+    - include: string.escape
   string:
     - match: (L|u8?|U)?(\")
       captures:
         1: storage.type.string.c
         2: punctuation.definition.string.begin.c
-      push:
-        - meta_scope: string.quoted.double.c
-        - include: string.escape
-        - include: string.format
-        - match: \"
-          scope: punctuation.definition.string.end.c
-          pop: true
+      push: string.double
     - match: (L?)(\')
       captures:
         1: storage.type.string.c
         2: punctuation.definition.string.begin.c
-      push:
-        - meta_scope: string.quoted.double.c
-        - include: string.escape
-        - match: \'
-          scope: punctuation.definition.string.end.c
-          pop: true
-
+      push: string.single
   operator.assignment:
     - match: =
       scope: keyword.operator.assignment.c
@@ -90,13 +69,13 @@ contexts:
     - match: \&\&|\|\|
       scope: keyword.operator.logical.c
   operator.bitwise:
-    - match: \&|\||\^|~|<<|>>|>>
+    - match: \&|\||\^|~|<<|>>
       scope: keyword.operator.bitwise.c
   operator.comparison:
     - match: ==|!=|<=|>=|<|>
       scope: keyword.operator.comparison.c
   operator.word:
-    - match: \bsizeof|_Alignof|alignof|offsetof\b
+    - match: \b(?:sizeof|_Alignof|alignof|offsetof)\b
       scope: keyword.operator.word.c
   operator.ternary:
     - match: '\?|\:'
@@ -212,6 +191,9 @@ contexts:
         2: constant.numeric.suffix.c
         3: invalid.illegal.numeric.suffix.c
 
+  constant.malformed:
+    - match: \b(?i:true|false|null|__func__|__cplusplus)\b
+      scope: invalid.illegal.malformed-constant-language.c
   constant:
     - match: \b(true|TRUE)\b
       scope: constant.language.boolean.true.c
@@ -219,18 +201,19 @@ contexts:
       scope: constant.language.boolean.false.c
     - match: \bNULL\b
       scope: constant.language.null.c
-    - match: \b__(func)__\b
+    - match: \b__func__\b
       scope: constant.language.c
     - match: \b(__[a-zA-Z_]+__|__cplusplus)\b
       scope: support.constant.c
     - match: '\bk[A-Z]\w*\b'
       scope: constant.other.variable.mac-classic.c
+    - include: constant.malformed
 
   declspec:
     - meta_scope: meta.group.c
-    - match: \b(allocator|appdomain|deprecated|dllimport|dllexport|empty_bases|hybrid_patchable|jitintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|no_sanitize_address|process|restrict|safebuffers|selectany|thread)\b
+    - match: \b{{declspec_item}}\b
       scope: constant.other.c
-    - match: \b(align|allocate|code_seg|spectre|uuid|deprecated)\s*(\()
+    - match: \b{{declspec_func}}\s*(\()
       captures:
         1: storage.modifier.c
         2: punctuation.section.group.begin.c
@@ -254,9 +237,9 @@ contexts:
     - meta_scope: meta.group.c meta.attribute.c
     # too many attributes, these are the ones commonly used
     - include: punctuation.comma
-    - match: \b(noreturn|pure|const|malloc|cold|hot|deprecated|always_inline|noinline|packed|unused|used|leaf|artificial|flatten|noclone|returns_twice|weak|no_reorder|minsize|externally_visible|constructor|destructor)\b
+    - match: \b{{attribute_item}}\b
       scope: constant.other.c
-    - match: \b(aligned|format|nonnull|section|visibility|alias|ifunc|target|alloc_size|cleanup|warning|error|cold_hot_partitioning|no_sanitize|optimize)\s*(\()
+    - match: \b{{attribute_func}}\s*(\()
       captures:
         1: storage.modifier.c
         2: punctuation.section.group.begin.c
@@ -356,7 +339,7 @@ contexts:
       scope: entity.name.constant.c
       push:
         - match: (?=,|})
-          pop: true
+          pop: 1
         - include: expression
     - include: punctuation.comma
     - match: \}
@@ -368,7 +351,7 @@ contexts:
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.enum.forward-decl.c
-      pop: true
+      pop: 1
     - match: (?:{{identifier}}\s*)*?({{identifier}})?\s*(?:{{likely_macro}}\s*)*(?=\{|$)
       captures:
         1: entity.name.enum.c
@@ -386,7 +369,7 @@ contexts:
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.enum.forward-decl.c
-      pop: true
+      pop: 1
     - match: (?:{{identifier}}\s*)*?({{identifier}})?\s*(?:{{likely_macro}}\s*)*(?=\{|$)
       captures:
         1: entity.name.struct.c
@@ -404,7 +387,7 @@ contexts:
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.enum.forward-decl.c
-      pop: true
+      pop: 1
     - match: (?:{{identifier}}\s*)*?({{identifier}})?\s*(?:{{likely_macro}}\s*)*(?=\{|$)
       captures:
         1: entity.name.union.c
@@ -437,7 +420,7 @@ contexts:
         - match: ({{identifier}})\s*(?=,|\))
           captures:
             1: variable.function.c
-          pop: true
+          pop: 1
     - include: expression
 
   generic:
@@ -482,13 +465,13 @@ contexts:
     - meta_scope: meta.function.c meta.block.c
     - match: \}
       scope: punctuation.section.block.end.c
-      pop: true
+      pop: 1
     - include: expression
     - include: function.label
   function.tail:
     - meta_scope: meta.function.c
     - match: ;
-      pop: true
+      pop: 1
     - match: \{
       scope: punctuation.section.block.begin
       set: function.body
@@ -504,7 +487,7 @@ contexts:
         1: variable.parameter.c
       push:
         - match: (?=[,\)]|$)
-          pop: true
+          pop: 1
         - include: enclosure
 
     - match: ({{identifier}})\b(?=[,\)]|$)
@@ -526,7 +509,7 @@ contexts:
       push:
         - match: ;
           scope: punctuation.terminator.c
-          pop: true
+          pop: 1
         - include: expression
 
   main:
@@ -540,7 +523,7 @@ contexts:
       scope: punctuation.separator.continuation.c
       push:
         - match: ^
-          pop: true
+          pop: 1
 
   # Everything after this comment needs to be rewritten so don't pay too much mind
 
@@ -556,19 +539,18 @@ contexts:
       scope: keyword.control.import.c
       set:
         - match: ^
-          pop: true
+          pop: 1
 
     - match: \belse|endif\b
       scope: keyword.control.import.c
-      pop: true
+      pop: 1
 
     - match: \b(warning|error)\b
       scope: meta.preprocessor.diagnostic.c keyword.control.import.error.c
       set:
         - meta_content_scope: meta.preprocessor.diagnostic.c string.quoted.c
         - include: string
-        - match: $
-          pop: true
+        - include: eol-pop
 
     - match: \binclude(_next)?\b
       scope: meta.preprocessor.include.c keyword.control.import.include.c
@@ -578,28 +560,28 @@ contexts:
           push:
             - meta_scope: string.quoted.c
             - match: ">"
-              pop: true
+              pop: 1
         - match: \"
           push:
             - meta_scope: string.quoted.c
             - match: \"
-              pop: true
+              pop: 1
 
         - match: ^
-          pop: true
+          pop: 1
 
     - match: \bundef|pragma\b
       scope: keyword.control.import.c
       set:
         - meta_content_scope: meta.preprocessor.c
         - match: ^
-          pop: true
+          pop: 1
 
     - match: \bdefine\b
       scope: keyword.control.import.c
       set:
         - match: ^
-          pop: true
+          pop: 1
   preprocessor.comment:
     - match: /\*
       scope: punctuation.definition.comment.c
@@ -609,7 +591,7 @@ contexts:
           scope: punctuation.separator.continuation.c
         - match: \*/
           scope: punctuation.definition.comment.c
-          pop: true
+          pop: 1
     - match: //
       scope: punctuation.definition.comment.c
       push:
@@ -617,7 +599,37 @@ contexts:
         - match: '(\\)$\n'
           captures:
             1: punctuation.separator.continuation.c
-          pop: true
+          pop: 1
         - match: (?=\n)
-          pop: true
+          pop: 1
 
+  # Helpers
+
+  pop-immediately:
+    - match: ""
+      pop: 1
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+  eol-pop:
+    - match: $\n?
+      pop: 1
+
+variables:
+  identifier: \b[[:alpha:]_][[:alnum:]_]*\b
+  likely_macro: \b[:upper:][[:upper:][:digit:]_]+\b
+
+  bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
+  oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
+  dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  double_suffix: '[fFlL]'
+  float_suffix: '[fF]'
+  integer_suffix: '(?:(?:ll|LL)(?!\s*[lL])|(?i)(?:u(?!\w*u)|l(?!\w*l)|i(?!\w*[ij])|j(?!\w*[ij])))+\b'
+  dec_exponent: '(?:[eE][-+]?\d*)'
+  hex_exponent: '(?:[pP][-+]?\d*)'
+
+  declspec_item: '(allocator|appdomain|deprecated|dllimport|dllexport|empty_bases|hybrid_patchable|jitintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|no_sanitize_address|process|restrict|safebuffers|selectany|thread)'
+  declspec_func: '(align|allocate|code_seg|spectre|uuid|deprecated)'
+  attribute_item: '(noreturn|pure|const|malloc|cold|hot|deprecated|always_inline|noinline|packed|unused|used|leaf|artificial|flatten|noclone|returns_twice|weak|no_reorder|minsize|externally_visible|constructor|destructor)'
+  attribute_func: '(aligned|format|nonnull|section|visibility|alias|ifunc|target|alloc_size|cleanup|warning|error|cold_hot_partitioning|no_sanitize|optimize)'
