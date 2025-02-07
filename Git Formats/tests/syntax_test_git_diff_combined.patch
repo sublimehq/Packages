@@ -1,0 +1,56 @@
+\ SYNTAX TEST "Packages/Git Formats/Git Diff.sublime-syntax"
+diff --combined describe.c
+index fabadb8,cc95eb0..4866510 644
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.header.diff
+\^^^^ keyword.other.diff
+\     ^^^^^^^ constant.other.hash.git
+\            ^ punctuation.separator.sequence.git
+\             ^^^^^^^ constant.other.hash.git
+\                    ^^ punctuation.separator.range.git
+\                      ^^^^^^^ constant.other.hash.git
+\                              ^^^ meta.number.integer.octal.diff constant.numeric.value.diff
+--- a/describe.c
+\^^^^^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.from-file meta.header.from-file.diff
+\^^ punctuation.definition.from-file.diff
+\   ^ variable.parameter.source.diff
+\    ^^^^^^^^^^^ meta.path.diff string.unquoted.git
+\    ^ punctuation.separator.path.diff
++++ b/describe.c
+\^^^^^^^^^^^^^^^^ meta.block.header.diff meta.diff.header.to-file meta.header.to-file.diff
+\^^ punctuation.definition.to-file.diff
+\   ^ variable.parameter.source.diff
+\    ^^^^^^^^^^^ meta.path.diff string.unquoted.git
+\    ^ punctuation.separator.path.diff
+@@@ -98,20 -98,12 +98,20 @@@
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff meta.diff.range.combined meta.range.combined.diff meta.toc-list.hunk.diff
+        return (a_date > b_date) ? -1 : (a_date == b_date) ? 0 : 1;
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff - markup
+  }
+  
+- static void describe(char *arg)
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff markup.deleted.diff
+ -static void describe(struct commit *cmit, int last_one)
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff markup.deleted.diff
+++static void describe(char *arg, int last_one)
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff markup.inserted.diff
+  {
+ +      unsigned char sha1[20];
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff markup.inserted.diff
+ +      struct commit *cmit;
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff markup.inserted.diff
+        struct commit_list *list;
+\ <- meta.block.delta.diff - markup
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff - markup
+        static int initialized = 0;
+        struct commit_name *n;
+  
+ +      if (get_sha1(arg, sha1) < 0)
+ +              usage(describe_usage);
+ +      cmit = lookup_commit_reference(sha1);
+ +      if (!cmit)
+ +              usage(describe_usage);
+ +
+        if (!initialized) {
++-              initialized = 1;
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.delta.diff markup.changed.diff
+                for_each_ref(get_name);
