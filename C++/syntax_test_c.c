@@ -1,13 +1,29 @@
 // SYNTAX TEST "Packages/C++/C.sublime-syntax"
 
+// Comment
+
+// My \
+Comment
+
+/* Foo
+   Bar
+   Baz*/
+
+*/
+
 /////////////////////////////////////////////
 // Numbers
 /////////////////////////////////////////////
 
 1234567890
+1'234'567'890
+
 0x123456789abcdef
+0x123'456'789'abc'def
 012345670
+012'345'670
 0b100110
+0b100'110
 
 314lUJ 314uLLj 314iLu 314llI 314F 314f
 3.14f 314.l 3.14L
@@ -29,7 +45,7 @@
 1 > 2 >= 3 == 4 != 5 <= 6 < 7
 !1 ? -2 : ~3
 0 += 1 -= 2 *= 3 /= 4 %= 5 |= 6 &= 7 ^= 8 >>= 9 <<= 10
-sizeof(a) alignof(b) _Alignof(c) offsetof(c)
+sizeof(a) alignof(b) _Alignof(c) offsetof(c) static_assert(d) _Static_assert(d)
 a,b = b.c;
 /////////////////////////////////////////////
 // Strings
@@ -48,6 +64,8 @@ a,b = b.c;
 
 true TRUE false FALSE NULL __func__
 __FILE__ __LINE__ __DATE__ __TIME__ __STDC__ __STDC_VERSION__ __GNUC__ __clang__ __cplusplus
+
+True False Null __CplusPlus
 
 /////////////////////////////////////////////
 // Enclosings
@@ -170,16 +188,46 @@ typedef struct {
 // Attributes and Declspec
 /////////////////////////////////////////////
 
-
 __declspec(align(5)) struct Test {
     int a;
     int b;
     int c;
 };
 void __declspec(dllimport) importedFn() const;
-__declspec(property(get=5, put=10)) void runForever();
+__declspec(property(get=10, put=10)) void runForever();
 
+void on_load() __attribute__((constructor, visibility("hidden"))) {
 
-void on_load() __attribute__((constructor, visibility("hidden"))) {}
+}
 
+/////////////////////////////////////////////
+// Preprocessor
+/////////////////////////////////////////////
 
+#include <stdlib.h>
+#include_next "file.h"
+
+#error Error Message \
+(this is an "error")
+#warning Warning Message \
+(this is a "warning")
+
+#define FOO __declspec(dllimport)
+#define BAR(x, y, ...) enum MyEnum ## x { \
+    kEnumValue1 = y __VA_OPT__(,) \
+    __VA_ARGS__ \
+};
+
+#if FOO
+#ifndef FOO
+#ifdef FOO
+#elif FOO
+#elifdef FOO
+#elifndef FOO
+#else
+#endif
+
+#undef FOO
+#pragma FOO
+
+#embed "file.txt" if_empty(0)
