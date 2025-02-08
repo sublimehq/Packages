@@ -35,6 +35,8 @@ contexts:
       scope: constant.other.placeholder.c
   string.double:
     - meta_scope: string.quoted.double.c
+    - meta_include_prototype: false
+    - include: preprocessor.line-escape
     - match: \"
       scope: punctuation.definition.string.end.c
       pop: 1
