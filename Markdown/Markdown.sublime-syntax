@@ -173,7 +173,7 @@ variables:
   fenced_code_block_escape: ^{{fenced_code_block_end}}
 
   # https://pandoc.org/MANUAL.html#divs-and-spans
-  fenced_div_block: :{3,}
+  fenced_div_block: '[ \t]*(:{3,})'
 
   # https://spec.commonmark.org/0.30/#email-autolink
   email_domain_commonmark: '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?'
@@ -769,6 +769,7 @@ contexts:
 
   list-block-content:
     - include: fenced-code-blocks
+    - include: fenced-div-blocks
     - include: html-blocks
     - include: reference-definitions
     - include: list-block-common
@@ -3520,11 +3521,14 @@ contexts:
 
   fenced-div-blocks:
     # https://pandoc.org/MANUAL.html#divs-and-spans
-    - match: ^[ \t]*({{fenced_div_block}})[ \t]*(?=\S)
+    - match: '{{fenced_div_block}}[ \t]*$\n?'
+      scope: meta.div.markdown
       captures:
-        1: punctuation.section.block.begin.markdown
+        1: punctuation.section.div.end.markdown
+    - match: '{{fenced_div_block}}'
+      captures:
+        1: punctuation.section.div.begin.markdown
       push:
-        - fenced-div-body
         - fenced-div-puncuation
         - fenced-div-attr
 
@@ -3542,19 +3546,11 @@ contexts:
 
   fenced-div-puncuation:
     - meta_include_prototype: false
+    - meta_scope: meta.div.markdown
     - match: ':+'
-      scope: punctuation.section.block.markdown
+      scope: punctuation.section.div.markdown
       pop: 1
     - include: else-pop
-
-  fenced-div-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.block.div.markdown
-    - match: ^[ \t]*(\1)(\s*\n)
-      captures:
-        1: punctuation.section.block.end.markdown
-      pop: 1
-    - include: markdown
 
 ###[ PROTOTYPES ]#############################################################
 

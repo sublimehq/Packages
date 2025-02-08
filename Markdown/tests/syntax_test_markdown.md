@@ -9040,75 +9040,117 @@ Handle incomplete $\sqrt{b$ expressions well.
 
 # TEST: PANDOC FENCED DIVS ####################################################
 
-| Opening div tags must have attributes
-:::
-| <- - punctuation
-|^^ - punctuation
-
 ::: class
-| <- meta.block.div.markdown punctuation.section.block.begin.markdown
-|^^^^^^^^ meta.block.div.markdown - meta.block meta.block
-|^^ punctuation.section.block.begin.markdown
+| <- meta.div.markdown punctuation.section.div.begin.markdown
+|^^^^^^^^ meta.div.markdown
+|^^ punctuation.section.div.begin.markdown
 |   ^^^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
 - list
-|^^^^^ meta.block.div.markdown
 |^^^^^ markup.list.unnumbered.markdown
 | ^^^^ meta.paragraph.list.markdown
 - list
-|^^^^^ meta.block.div.markdown
 |^^^^^ markup.list.unnumbered.markdown
 | ^^^^ meta.paragraph.list.markdown
 :::
-| <- meta.block.div.markdown punctuation.section.block.end.markdown
-|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+| <- meta.div.markdown punctuation.section.div.end.markdown
+|^^ meta.div.markdown punctuation.section.div.end.markdown
+
+---
 
 ::: {.class #id} :::
-|^^^^^^^^^^^^^^^^^^^ meta.block.div.markdown
-|^^ punctuation.section.block.begin.markdown
+|^^^^^^^^^^^^^^^^^^^ meta.div.markdown
+|^^ punctuation.section.div.begin.markdown
 |   ^^^^^^^^^^^^ meta.attributes.markdown
 |   ^ punctuation.definition.attributes.begin.markdown
 |    ^^^^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
 |           ^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
 |              ^ punctuation.definition.attributes.end.markdown
-|                ^^^ punctuation.section.block.markdown
+|                ^^^ punctuation.section.div.markdown
 ::: inner
-|^^^^^^^^ meta.block.div.markdown meta.block.div.markdown
-|^^ punctuation.section.block.begin.markdown
+|^^^^^^^^ meta.div.markdown
+|^^ punctuation.section.div.begin.markdown
 |   ^^^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
 paragraph
-|^^^^^^^^ meta.block.div.markdown meta.block.div.markdown meta.paragraph.markdown
+|^^^^^^^^ meta.paragraph.markdown
 :::
-|^^ meta.block.div.markdown meta.block.div.markdown punctuation.section.block.end.markdown
+|^^ meta.div.markdown punctuation.section.div.end.markdown
+|  ^ meta.div.markdown - punctuation
 :::
-|^^ meta.block.div.markdown punctuation.section.block.end.markdown - meta.block meta.block
+|^^ meta.div.markdown punctuation.section.div.end.markdown
+|  ^ meta.div.markdown - punctuation
+
+---
 
 ::: block-quote
 > quoted block
-|^^^^^^^^^^^^^ meta.block.div.markdown markup.quote.markdown
+|^^^^^^^^^^^^^ markup.quote.markdown
 | ^^^^^^^^^^^^ markup.paragraph.markdown
 > > nested quote
-| <- meta.block.div.markdown markup.quote.markdown markup.paragraph.markdown punctuation.definition.blockquote.markdown
-|^^^^^^^^^^^^^^^ meta.block.div.markdown markup.quote.markdown markup.paragraph.markdown
+| <- markup.quote.markdown markup.paragraph.markdown punctuation.definition.blockquote.markdown
+|^^^^^^^^^^^^^^^ markup.quote.markdown markup.paragraph.markdown
 | ^ punctuation.definition.blockquote.markdown
 :::
-| <- meta.block.div.markdown punctuation.section.block.end.markdown
-|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+| <- meta.div.markdown punctuation.section.div.end.markdown
+|^^ meta.div.markdown punctuation.section.div.end.markdown
+
+---
 
 ::: code-block
 ```css
-|^^^^^ meta.block.div.markdown meta.code-fence.definition.begin.css.markdown-gfm
+|^^^^^ meta.code-fence.definition.begin.css.markdown-gfm
 |^^ punctuation.definition.raw.code-fence.begin.markdown
 |  ^^^ constant.other.language-name.markdown
 ```
 :::
-| <- meta.block.div.markdown punctuation.section.block.end.markdown
-|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+| <- meta.div.markdown punctuation.section.div.end.markdown
+|^^ meta.div.markdown punctuation.section.div.end.markdown
+
+---
 
 ::: table
 | column | column
 | ---    | ---
 | foo    | bar
-| <- meta.block.div.markdown meta.table.markdown-gfm punctuation.separator.table-cell.markdown
+| <- meta.table.markdown-gfm punctuation.separator.table-cell.markdown
 :::
-| <- meta.block.div.markdown punctuation.section.block.end.markdown
-|^^ meta.block.div.markdown punctuation.section.block.end.markdown
+| <- meta.div.markdown punctuation.section.div.end.markdown
+|^^ punctuation.section.div.end.markdown
+
+---
+
+1. ordered list item
+
+   ::: div
+   | <- markup.list.numbered.markdown meta.div.markdown punctuation.section.div.begin.markdown
+   |^^^^^^ markup.list.numbered.markdown meta.div.markdown
+   |^^ punctuation.section.div.begin.markdown
+   |   ^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
+   :::
+   | <- markup.list.numbered.markdown meta.div.markdown punctuation.section.div.end.markdown
+   |^^^ markup.list.numbered.markdown  meta.div.markdown
+   |^^ punctuation.section.div.end.markdown
+
+---
+
+- unordered list item
+
+   ::: div
+   | <- markup.list.unnumbered.markdown meta.div.markdown punctuation.section.div.begin.markdown
+   |^^^^^^ markup.list.unnumbered.markdown meta.div.markdown
+   |^^ punctuation.section.div.begin.markdown
+   |   ^^^ meta.attribute-with-value.markdown entity.other.attribute-name.markdown
+   :::
+   |^^^ markup.list.unnumbered.markdown meta.div.markdown
+   |^^ punctuation.section.div.end.markdown
+
+---
+
+    ::: indendet-code-block
+| <- markup.raw.block.markdown
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block.markdown
+
+    ::: indendet-code-block
+    code
+    :::
+|<- markup.raw.block.markdown
+|^^^^^^^ markup.raw.block.markdown

@@ -25,9 +25,9 @@
             </dict>
             <dict>
                 <key>begin</key>
-                <string>punctuation.section.block.begin.markdown</string>
+                <string>punctuation.section.div.begin.markdown</string>
                 <key>end</key>
-                <string>punctuation.section.block.end.markdown</string>
+                <string>punctuation.section.div.end.markdown</string>
                 <key>excludeTrailingNewlines</key>
                 <false/>
             </dict>
