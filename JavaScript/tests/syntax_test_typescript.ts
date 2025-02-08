@@ -1680,3 +1680,52 @@ type T = Foo | ... 100 more ... | Bar;
 //  ^^^^^^^ meta.function-call
 //     ^^ keyword.operator.type
 //       ^^ meta.function-call.arguments
+
+// instantiations
+
+    new class extends Bar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^^^^^ storage.modifier.extends.js
+//                    ^^^ entity.other.inherited-class.js
+//                        ^^ meta.block.js
+//                        ^ punctuation.section.block.begin.js
+//                         ^ punctuation.section.block.end.js
+
+    new class Foo extends Bar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^ entity.name.class.js
+//                ^^^^^^^ storage.modifier.extends.js
+//                        ^^^ entity.other.inherited-class.js
+//                            ^^ meta.block.js
+//                            ^ punctuation.section.block.begin.js
+//                             ^ punctuation.section.block.end.js
+
+    new class implements IBar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^^^^^^^^ storage.modifier.implements.js
+//                       ^^^^ entity.other.inherited-class.js
+//                            ^^ meta.block.js
+//                            ^ punctuation.section.block.begin.js
+//                             ^ punctuation.section.block.end.js
+
+    new class Foo implements IBar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^ entity.name.class.js
+//                ^^^^^^^^^^ storage.modifier.implements.js
+//                           ^^^^ entity.other.inherited-class.js
+//                                ^^ meta.block.js
+//                                ^ punctuation.section.block.begin.js
+//                                 ^ punctuation.section.block.end.js
+//                                  ^ punctuation.terminator.statement.js

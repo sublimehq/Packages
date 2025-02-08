@@ -1111,6 +1111,16 @@ var instance = new Constructor(param1, param2)
 var obj = new function() {}();
 //            ^^^^^^^^ keyword.declaration.function
 
+var obj = new class extends Foo {}();
+//            ^^^^^ keyword.declaration.class.js
+//                  ^^^^^^^ storage.modifier.extends.js
+//                          ^^^ entity.other.inherited-class.js
+
+var obj = new class implements IFoo {}();
+//            ^^^^^ keyword.declaration.class.js
+//                  ^^^^^^^^^^ invalid.illegal.unexpected-token.js
+//                             ^^^^ - entity.other
+
 var obj2 = new class Foo{}();
 //             ^^^^^ keyword.declaration.class
 
