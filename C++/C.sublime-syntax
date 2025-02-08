@@ -46,6 +46,11 @@ contexts:
       scope: punctuation.definition.string.end.c
       pop: 1
     - include: string.escape
+  string.angled:
+    - meta_scope: string.quoted.other.c
+    - match: \>
+      scope: punctuation.definition.string.end.c
+      pop: 1
   string:
     - match: (L|u8?|U)?(\")
       captures:
@@ -75,7 +80,7 @@ contexts:
     - match: ==|!=|<=|>=|<|>
       scope: keyword.operator.comparison.c
   operator.word:
-    - match: \b(?:sizeof|_Alignof|alignof|offsetof)\b
+    - match: \b(?:sizeof|_Alignof|alignof|offsetof|_Static_assert|static_assert|_Pragma)\b
       scope: keyword.operator.word.c
   operator.ternary:
     - match: '\?|\:'
@@ -118,7 +123,7 @@ contexts:
     # decimal floats
     - match: |-
         (?x:
-          \b(\d+)
+          \b(\d(?:\d|'(?=[^']))*)
           (?:
             ( (\.)
               (?:
@@ -160,7 +165,7 @@ contexts:
         4: constant.numeric.suffix.c
         5: invalid.illegal.numeric.suffix.c
     # binary integer (C23)
-    - match: \b(0[bB])([0-1]*)(?:({{integer_suffix}})|({{bin_suffix}}))?
+    - match: \b(0[bB])([01](?:[01]|'(?=[^']))*)?(?:({{integer_suffix}})|({{bin_suffix}}))?
       scope: meta.number.integer.binary.c
       captures:
         1: constant.numeric.base.c
@@ -168,7 +173,7 @@ contexts:
         3: constant.numeric.suffix.c
         4: invalid.illegal.numeric.suffix.c
     # hexadecimal integer
-    - match: \b(0[xX])(\h*)(?:({{integer_suffix}})|({{hex_suffix}}))?
+    - match: \b(0[xX])(\h(?:\h|'(?=[^']))*)?(?:({{integer_suffix}})|({{hex_suffix}}))?
       scope: meta.number.integer.hexadecimal.c
       captures:
         1: constant.numeric.base.c
@@ -176,7 +181,7 @@ contexts:
         3: constant.numeric.suffix.c
         4: invalid.illegal.numeric.suffix.c
     # octal integer
-    - match: \b(0)([0-7]+)(?:({{integer_suffix}})|({{oct_suffix}}))?
+    - match: \b(0)([0-7](?:[0-7]|'(?=[^']))*)(?:({{integer_suffix}})|({{oct_suffix}}))?
       scope: meta.number.integer.octal.c
       captures:
         1: constant.numeric.base.c
@@ -184,7 +189,7 @@ contexts:
         3: constant.numeric.suffix.c
         4: invalid.illegal.numeric.suffix.c
     # decimal integer
-    - match: \b(\d+)(?:({{integer_suffix}})|({{dec_suffix}}))?
+    - match: \b(\d(?:\d|'(?=[^']))*)(?:({{integer_suffix}})|({{dec_suffix}}))?
       scope: meta.number.integer.decimal.c
       captures:
         1: constant.numeric.value.c
@@ -192,14 +197,14 @@ contexts:
         3: invalid.illegal.numeric.suffix.c
 
   constant.malformed:
-    - match: \b(?i:true|false|null|__func__|__cplusplus)\b
+    - match: \b(?i:true|false|null|nullptr|__cplusplus)\b
       scope: invalid.illegal.malformed-constant-language.c
   constant:
     - match: \b(true|TRUE)\b
       scope: constant.language.boolean.true.c
     - match: \b(false|FALSE)\b
       scope: constant.language.boolean.false.c
-    - match: \bNULL\b
+    - match: \b(NULL|nullptr)\b
       scope: constant.language.null.c
     - match: \b__func__\b
       scope: constant.language.c
@@ -213,7 +218,7 @@ contexts:
     - meta_scope: meta.group.c
     - match: \b{{declspec_item}}\b
       scope: constant.other.c
-    - match: \b{{declspec_func}}\s*(\()
+    - match: \b({{declspec_func}})\s*(\()
       captures:
         1: storage.modifier.c
         2: punctuation.section.group.begin.c
@@ -239,14 +244,14 @@ contexts:
     - include: punctuation.comma
     - match: \b{{attribute_item}}\b
       scope: constant.other.c
-    - match: \b{{attribute_func}}\s*(\()
+    - match: \b({{attribute_func}})\s*(\()
       captures:
         1: storage.modifier.c
         2: punctuation.section.group.begin.c
       push: enclosure.parenthesis
     - match: \)\)
       scope: punctuation.section.group.end.c
-      pop: 2
+      pop: 1
 
   keyword.storage:
     - match: \bauto\b
@@ -334,7 +339,6 @@ contexts:
 
   type.enum-body:
     - meta_content_scope: meta.block.c
-    - meta_include_prototype: false
     - match: \b{{identifier}}\b
       scope: entity.name.constant.c
       push:
@@ -472,6 +476,7 @@ contexts:
     - meta_scope: meta.function.c
     - match: ;
       pop: 1
+    - include: gnu-attribute
     - match: \{
       scope: punctuation.section.block.begin
       set: function.body
@@ -490,7 +495,7 @@ contexts:
           pop: 1
         - include: enclosure
 
-    - match: ({{identifier}})\b(?=[,\)]|$)
+    - match: ({{identifier}})\s*(?=[,\)]|$)
       captures:
         1: variable.parameter.c
     - include: expression
@@ -505,103 +510,151 @@ contexts:
     - match: \b{{identifier}}\b
 
   statement:
-    - match: (?=\S)
-      push:
-        - match: ;
-          scope: punctuation.terminator.c
-          pop: 1
-        - include: expression
+    - match: ;
+      scope: punctuation.terminator.c
+      pop: 1
+    - include: expression
 
   main:
-    - include: preprocessor
     - include: function
-    - include: statement
+    - match: (?=\S)
+      push: statement
 
   prototype:
-    - include: preprocessor.comment
-    - match: \\$
+    - include: comment
+    - include: preprocessor
+
+  preprocessor.line-escape:
+    - match: \\$\n
       scope: punctuation.separator.continuation.c
       push:
         - match: ^
           pop: 1
-
-  # Everything after this comment needs to be rewritten so don't pay too much mind
-
-  preprocessor:
-    - include: preprocessor.comment
-    - match: ^\s*#\s*(?=(if|elif|endif|else|ifndef|ifdef|undef|include(_next)?|define|error|warning|pragma)\b)
-      scope: keyword.control.import.c
-      push: preprocessor.directive
-  preprocessor.directive:
+  preprocessor.include:
     - meta_scope: meta.preprocessor.c
+    - match: \"
+      scope: punctuation.definition.string.begin.c
+      push: string.double
+    - match: \<
+      scope: punctuation.definition.string.begin.c
+      push: string.angled
+    - include: eol-pop
+  preprocessor.diagnostic:
+    - meta_scope: meta.preprocessor.diagnostic.c
+    - meta_content_scope: string.unquoted.c
+    - include: preprocessor.line-escape
+    - include: eol-pop
 
-    - match: \bifndef|ifdef|if|elif\b
-      scope: keyword.control.import.c
-      set:
-        - match: ^
-          pop: 1
-
-    - match: \belse|endif\b
-      scope: keyword.control.import.c
+  preprocessor.define-body:
+    - match: ''
+      set: main
+      with_prototype:
+        - match: \b__VA_ARGS__\b
+          scope: constant.other.c
+        - match: \b__VA_OPT__\b
+          scope: keyword.operator.word.c
+        - match: \#
+          scope: keyword.operator.c
+        - include: preprocessor.line-escape
+  preprocessor.define-params:
+    - include: eol-pop
+    - match: \b{{identifier}}\b
+      scope: variable.parameter.c
+    - include: punctuation.comma
+    - include: operator.variadic
+    - match: \)
+      scope: punctuation.section.group.end.c
+      embed: preprocessor.define-body
+      escape: (?<!\\)\n
+    - include: else-pop
+  preprocessor.define:
+    - include: eol-pop
+    - match: \s*({{identifier}})\s*(\()
+      captures:
+        1: entity.name.macro.c support.macro.c
+        2: punctuation.section.group.begin.c
+      set: preprocessor.define-params
+    - match: \b{{identifier}}\b
+      scope: entity.name.macro.c support.macro.c
+      embed: preprocessor.define-body
+      escape: (?<!\\)\n
+  preprocessor.embed-enclosure:
+    - match: \)
+      scope: punctuation.section.group.end.c
       pop: 1
+    - include: number
+    - include: operator
+    - include: punctuation
+    - include: string
+  preprocessor.embed:
+    - match: \"
+      scope: punctuation.definition.string.begin.c
+      push: string.double
+    - match: \<
+      scope: punctuation.definition.string.begin.c
+      push: string.angled
+    - match: \b(?:limit|prefix|suffix|if_empty)\b
+      scope: keyword.other.c
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      push: preprocessor.embed-enclosure
+    - include: eol-pop
+  preprocessor:
+    - include: preprocessor.line-escape
 
-    - match: \b(warning|error)\b
-      scope: meta.preprocessor.diagnostic.c keyword.control.import.error.c
-      set:
-        - meta_content_scope: meta.preprocessor.diagnostic.c string.quoted.c
-        - include: string
+    - match: ^\s*#\s*((?:el)?if(?:n?def)?|undef|pragma)\b
+      scope: keyword.control.import.c
+      push:
+        - meta_scope: meta.preprocessor.c
         - include: eol-pop
 
-    - match: \binclude(_next)?\b
-      scope: meta.preprocessor.include.c keyword.control.import.include.c
-      set:
-        - meta_content_scope: meta.preprocessor.include.c
-        - match: <
-          push:
-            - meta_scope: string.quoted.c
-            - match: ">"
-              pop: 1
-        - match: \"
-          push:
-            - meta_scope: string.quoted.c
-            - match: \"
-              pop: 1
-
-        - match: ^
-          pop: 1
-
-    - match: \bundef|pragma\b
+    - match: ^\s*#\s*(else|endif)\b
       scope: keyword.control.import.c
-      set:
-        - meta_content_scope: meta.preprocessor.c
-        - match: ^
-          pop: 1
 
-    - match: \bdefine\b
+    - match: ^\s*#\s*(include|include_next)\b
       scope: keyword.control.import.c
-      set:
-        - match: ^
-          pop: 1
-  preprocessor.comment:
-    - match: /\*
-      scope: punctuation.definition.comment.c
+      push: preprocessor.include
+
+    - match: ^\s*#\s*(embed)\b
+      scope: keyword.control.import.c
+      push: preprocessor.embed
+
+    - match: ^\s*#\s*(define)\b
+      scope: keyword.control.import.c
+      push: preprocessor.define
+
+    - match: ^\s*#\s*(undef)\b
+      scope: keyword.control.import.c
       push:
-        - meta_scope: comment.block.c
-        - match: '\\$\n'
-          scope: punctuation.separator.continuation.c
-        - match: \*/
-          scope: punctuation.definition.comment.c
-          pop: 1
+        - meta_scope: meta.preprocessor.c
+        - include: eol-pop
+
+    - match: ^\s*#\s*(error)\b
+      scope: keyword.control.import.error.c
+      push: preprocessor.diagnostic
+
+    - match: ^\s*#\s*(warning)\b
+      scope: keyword.control.import.warning.c
+      push: preprocessor.diagnostic
+
+  comment:
     - match: //
       scope: punctuation.definition.comment.c
       push:
         - meta_scope: comment.line.double-slash.c
-        - match: '(\\)$\n'
-          captures:
-            1: punctuation.separator.continuation.c
+        - include: preprocessor.line-escape
+        - include: eol-pop
+
+    - match: /\*
+      scope: punctuation.definition.comment.c
+      push:
+        - meta_scope: comment.block.c
+        - include: preprocessor.line-escape
+        - match: \*/
+          scope: punctuation.definition.comment.c
           pop: 1
-        - match: (?=\n)
-          pop: 1
+    - match: \*/
+      scope: invalid.illegal.stray-comment-end.c
 
   # Helpers
 
@@ -613,6 +666,9 @@ contexts:
       pop: 1
   eol-pop:
     - match: $\n?
+      pop: 1
+  consume-pop:
+    - match: .
       pop: 1
 
 variables:
@@ -629,7 +685,7 @@ variables:
   dec_exponent: '(?:[eE][-+]?\d*)'
   hex_exponent: '(?:[pP][-+]?\d*)'
 
-  declspec_item: '(allocator|appdomain|deprecated|dllimport|dllexport|empty_bases|hybrid_patchable|jitintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|no_sanitize_address|process|restrict|safebuffers|selectany|thread)'
-  declspec_func: '(align|allocate|code_seg|spectre|uuid|deprecated)'
-  attribute_item: '(noreturn|pure|const|malloc|cold|hot|deprecated|always_inline|noinline|packed|unused|used|leaf|artificial|flatten|noclone|returns_twice|weak|no_reorder|minsize|externally_visible|constructor|destructor)'
-  attribute_func: '(aligned|format|nonnull|section|visibility|alias|ifunc|target|alloc_size|cleanup|warning|error|cold_hot_partitioning|no_sanitize|optimize)'
+  declspec_item: '(?:allocator|appdomain|deprecated|dllimport|dllexport|empty_bases|hybrid_patchable|jitintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|no_sanitize_address|process|restrict|safebuffers|selectany|thread)'
+  declspec_func: '(?:align|allocate|code_seg|spectre|uuid|deprecated)'
+  attribute_item: '(?:noreturn|pure|const|malloc|cold|hot|deprecated|always_inline|noinline|packed|unused|used|leaf|artificial|flatten|noclone|returns_twice|weak|no_reorder|minsize|externally_visible|constructor|destructor)'
+
