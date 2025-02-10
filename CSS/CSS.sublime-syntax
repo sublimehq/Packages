@@ -3298,6 +3298,7 @@ contexts:
     - meta_scope: meta.line-names.css meta.brackets.css
     - include: brackets-end
     - include: line-names
+    - include: quoted-strings
     - include: terminator-pop
 
   line-names:
