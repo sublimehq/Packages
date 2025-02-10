@@ -184,6 +184,8 @@ typedef struct {
     myCustomType* a;
 } b;
 
+typedef void(*func)(int param, int, char param2);
+
 /////////////////////////////////////////////
 // Attributes and Declspec
 /////////////////////////////////////////////
@@ -197,6 +199,11 @@ void __declspec(dllimport) importedFn() const;
 __declspec(property(get=10, put=10)) void runForever();
 
 void on_load() __attribute__((constructor, visibility("hidden"))) {
+
+}
+
+int a =
+int main(int argc, char const* argv[]) {
 
 }
 
