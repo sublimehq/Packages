@@ -2766,6 +2766,18 @@
 /*                                                 ^^ meta.selector.css meta.function-call.arguments.css meta.group.css - meta.brackets */
 /*                                                   ^ meta.selector.css - meta.group */
 
+ul:has(> li), a[ng-click='post()'] { ul:has(> li), a[ng-click='post()'] { color: color(w(var()) s(var()) () )); } }
+/* <- meta.selector.css entity.name.tag.html.css */
+/*^^^^^^^^^^^^^ meta.selector.css - meta.attribute-selector */
+/*             ^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css meta.brackets.css */
+/*                                ^ meta.selector.css - meta.attribute-selector - meta.property-list */
+/*                                 ^^ meta.property-list.css meta.block.css - meta.selector */
+/*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.selector.css */
+/*                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-list.css meta.block.css */
+/*                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.css */
+/*                                                                                                               ^^ meta.property-list.css meta.block.css - meta.property-list meta.property-list - meta.block meta.block */
+/*                                                                                                                 ^ - meta.property-list - meta.block */
+
    *.test-universal-selector {}
 /* ^ constant.other.wildcard.asterisk.css */
 
