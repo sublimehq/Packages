@@ -205,13 +205,13 @@ contexts:
 
     - match: local{{identifier_break}}
       scope: storage.modifier.lua
-      push: expression-list
+      push: local-variable-list
 
     - match: end{{identifier_break}}
       scope: invalid.illegal.unexpected-end.lua
 
     - match: (?=\S)
-      push: expression
+      push: expression-list
 
   block-contents:
     - meta_scope: meta.block.lua
@@ -361,6 +361,67 @@ contexts:
       set: if-block
     - include: statements
 
+  local-variable-list:
+    - match: ''
+      set:
+        - local-variable-list-end
+        - local-variable-list-begin
+
+  local-variable-list-end:
+    - match: (?=function{{identifier_break}})
+      set: expression
+
+    - match: =(?!=)
+      scope: keyword.operator.assignment.lua
+      set: expression-list
+
+    - match: ','
+      scope: punctuation.separator.comma.lua
+      push: local-variable-list-begin
+
+    - match: '<'
+      scope: punctuation.definition.modifier.begin.lua
+      push:
+        - variable-modifier-end
+        - variable-modifier-body
+
+    # end of expression. This will be the next statement
+    - match: (?=;|::|{{identifier_char}})
+      pop: 1
+
+    # Safety match for unexpected characters so we don't confuse the syntax by exiting contexts too early
+    - match: '\S'
+      scope: invalid.illegal.unexpected-character.lua
+      push: local-variable-list-begin
+
+  variable-modifier-end:
+    - meta_scope: meta.modifier.lua
+
+    - match: '(>)(=)'
+      captures:
+        1: meta.modifier.lua punctuation.definition.modifier.end.lua invalid.illegal.missing-space.lua
+        2: keyword.operator.assignment.lua invalid.illegal.missing-space.lua
+      pop: 2
+      push: expression-list
+
+    - match: '>'
+      scope: punctuation.definition.modifier.end.lua
+      pop: 1
+
+    - include: else-pop
+
+  variable-modifier-body:
+    - match: (?:const|close){{identifier_break}}
+      scope: storage.modifier.lua
+      pop: 1
+
+    - include: variable
+    - include: else-pop
+
+  local-variable-list-begin:
+    - include: variable
+    - include: else-pop
+
   expression:
     - match: ''
       set:
@@ -391,6 +452,7 @@ contexts:
     # Safety match for unexpected characters so we don't confuse the syntax by exiting contexts too early
     - match: '[^{{trailing_expression_char}}{{identifier_char}}\s]'
       scope: invalid.illegal.unexpected-character.lua
+      push: expression-begin
 
     - include: else-pop
 
@@ -398,11 +460,6 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.lua
       push: expression-begin
-    - match: (?=<(?![<=]))
-      branch_point: left-angle
-      branch:
-        - left-angle-is-variable-modifier
-        - left-angle-is-less-than
     - include: expression-end
 
   expression-begin:
@@ -420,26 +477,6 @@ contexts:
     - include: function-literal
 
     - include: else-pop
-
-  left-angle-is-less-than:
-    - match: '<'
-      scope: keyword.operator.comparison.lua
-      pop: 1
-
-  left-angle-is-variable-modifier:
-    - match: '<'
-      scope: punctuation.definition.modifier.begin.lua
-      set: variable-modifier-body
-
-  variable-modifier-body:
-    - meta_scope: meta.modifier.lua
-    - match: '>'
-      scope: punctuation.definition.modifier.end.lua
-      pop: 1
-    - match: (?:const|close){{identifier_break}}
-      scope: storage.modifier.lua
-    - match: (?=\S)
-      fail: left-angle
 
   infix-operator:
     - match: (?:[=<>~]=)
