@@ -696,9 +696,6 @@ contexts:
   eol-pop:
     - match: $\n?
       pop: 1
-  consume-pop:
-    - match: .
-      pop: 1
 
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b
