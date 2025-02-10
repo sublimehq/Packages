@@ -577,3 +577,7 @@ variables:
   scissors: (?:>8|8<)
   # https://git-scm.com/docs/git-am#_discussion
   next_diff_header: '(?=Index: |diff -)'
+  git_first_line: |-
+    {{bol}}(?x:
+      From [ ] [\w.-]+(?:@[\w.-]+)? [ ] {{day3}} [ ] {{month3}} .+
+    )
