@@ -1,4 +1,4 @@
-/* SYNTAX TEST "Packages/User/NewC.sublime-syntax" */
+/* SYNTAX TEST "Packages/C++/C.sublime-syntax" */
 
     // Comment
 /*  ^^^^^^^^^^ comment.line.double-slash.c */
