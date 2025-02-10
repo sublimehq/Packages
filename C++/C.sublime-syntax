@@ -339,6 +339,19 @@ contexts:
       scope: punctuation.section.block.begin
       push: enclosure.block
 
+  type.typedef:
+    - match: \(\s*(\*)({{identifier}})\s*\)\s*(\()
+      captures:
+        1: keyword.operator.c
+        2: entity.name.type.typedef.c
+        3: punctuation.section.group.begin.c
+      push: [function.params, pop-immediately]
+
+    - match: ({{identifier}})\s*(?=;)
+      captures:
+        1: entity.name.type.typedef.c
+      pop: 1
+    - include: expression
   type.enum-body:
     - meta_content_scope: meta.block.c
     - match: \b{{identifier}}\b
@@ -406,6 +419,9 @@ contexts:
     - match: (?=\S)
       fail: union
   type:
+    - match: \btypedef\b
+      scope: keyword.declaration.type.c
+      push: type.typedef
     - match: \benum\b
       scope: keyword.declaration.enum.c
       branch_point: enum
@@ -445,12 +461,22 @@ contexts:
     - include: constant
 
   expression.call:
-    - match: \b({{identifier}})\s*(\()
+    - match: \b(?:({{std_funcs}}))\s*(\()
+      captures:
+        1: variable.function.c support.function.std.c
+        2: punctuation.section.group.begin.c
+      push: enclosure.parenthesis
+    - match: \b(?:({{identifier}}))\s*(\()
       captures:
         1: variable.function.c
         2: punctuation.section.group.begin.c
       push: enclosure.parenthesis
   expression:
+    # most likely function definition
+    - match: (?=^\s*{{identifier}}\s+{{identifier}}\s*\()
+      push:
+        - include: function
+        - include: else-pop
     - include: number
     - include: string
     - include: type
@@ -488,8 +514,9 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.c
       set: function.tail
+    - include: keyword
 
-    - match: ({{identifier}})(?=\[)
+    - match: (?<![\(,\s])\s*({{identifier}})\s*(?=\[)
       captures:
         1: variable.parameter.c
       push:
@@ -497,7 +524,7 @@ contexts:
           pop: 1
         - include: enclosure
 
-    - match: ({{identifier}})\s*(?=[,\)]|$)
+    - match: (?<![\(,\s])\s*({{identifier}})\s*(?=[,\)]|$)
       captures:
         1: variable.parameter.c
     - include: expression
