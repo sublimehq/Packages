@@ -72,7 +72,7 @@ contexts:
     - match: ^\s*(@property)
       captures:
         1: keyword.other.objc
-      push: property
+      push: [statement, property]
     - match: ^\s*(@(?:synthesize|dynamic))
       captures:
         1: keyword.other.objc
@@ -87,7 +87,7 @@ contexts:
       scope: punctuation.section.group.begin.objc
       push: property.attrs
     - match: (?=\S)
-      set: statement
+      pop: 1
   property.attrs:
     - match: \b([sg]etter)\s*(=)\s*({{identifier}})\b
       captures:

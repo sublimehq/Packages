@@ -200,13 +200,16 @@ contexts:
       captures:
         1: entity.name.function.c
         2: punctuation.section.group.begin.c
-      push: function.params
+      push: [function.tail, function.params]
     - match: \b{{identifier}}\b
   function.params:
     - meta_content_scope: meta.function.parameters.c meta.group.c
     - match: \)
       scope: punctuation.section.group.end.c
-      set: function.tail
+      pop: 1
+    - match: \}|\] # Fallback
+      scope: invalid.illegal.stray-bracket-end.c
+      pop: 2
     - include: keyword
 
     - match: (?<![\(,\s])\s*({{identifier}})\s*(?=\[)
@@ -268,7 +271,7 @@ contexts:
         1: keyword.operator.c
         2: entity.name.type.typedef.c
         3: punctuation.section.group.begin.c
-      push: [function.params, pop-immediately]
+      set: function.params
 
     - match: ({{identifier}})\s*(?=;)
       captures:
@@ -358,17 +361,26 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end
       pop: 1
+    - match: \}|\] # Fallback
+      scope: invalid.illegal.stray-bracket-end.c
+      pop: 1
   enclosure.brackets:
     - meta_scope: meta.brackets.square.c
     - include: expression
     - match: \]
       scope: punctuation.section.brackets.end
       pop: 1
+    - match: \)|\} # Fallback
+      scope: invalid.illegal.stray-bracket-end.c
+      pop: 1
   enclosure.block:
     - meta_scope: meta.block.c
     - include: expression
     - match: \}
       scope: punctuation.section.block.end
+      pop: 1
+    - match: \)|\] # Fallback
+      scope: invalid.illegal.stray-bracket-end.c
       pop: 1
 
   generic:
@@ -504,7 +516,7 @@ contexts:
     # decimal floats
     - match: |-
         (?x:
-          \b(\d(?:\d|'(?=[^']))*)
+          \b(\d[\d']*)
           (?:
             ( (\.)
               (?:
@@ -546,7 +558,7 @@ contexts:
         4: constant.numeric.suffix.c
         5: invalid.illegal.numeric.suffix.c
     # binary integer (C23)
-    - match: \b(0[bB])([01](?:[01]|'(?=[^']))*)?(?:({{integer_suffix}})|({{bin_suffix}}))?
+    - match: \b(0[bB])(['01]*)?(?:({{integer_suffix}})|({{bin_suffix}}))?
       scope: meta.number.integer.binary.c
       captures:
         1: constant.numeric.base.c
@@ -554,7 +566,7 @@ contexts:
         3: constant.numeric.suffix.c
         4: invalid.illegal.numeric.suffix.c
     # hexadecimal integer
-    - match: \b(0[xX])(\h(?:\h|'(?=[^']))*)?(?:({{integer_suffix}})|({{hex_suffix}}))?
+    - match: \b(0[xX])(['\h]*)?(?:({{integer_suffix}})|({{hex_suffix}}))?
       scope: meta.number.integer.hexadecimal.c
       captures:
         1: constant.numeric.base.c
@@ -562,7 +574,7 @@ contexts:
         3: constant.numeric.suffix.c
         4: invalid.illegal.numeric.suffix.c
     # octal integer
-    - match: \b(0)([0-7](?:[0-7]|'(?=[^']))*)(?:({{integer_suffix}})|({{oct_suffix}}))?
+    - match: \b(0)([0-7][0-7']*)(?:({{integer_suffix}})|({{oct_suffix}}))?
       scope: meta.number.integer.octal.c
       captures:
         1: constant.numeric.base.c
@@ -570,7 +582,7 @@ contexts:
         3: constant.numeric.suffix.c
         4: invalid.illegal.numeric.suffix.c
     # decimal integer
-    - match: \b(\d(?:\d|'(?=[^']))*)(?:({{integer_suffix}})|({{dec_suffix}}))?
+    - match: \b(\d[\d']*)(?:({{integer_suffix}})|({{dec_suffix}}))?
       scope: meta.number.integer.decimal.c
       captures:
         1: constant.numeric.value.c
