@@ -191,7 +191,7 @@ contexts:
 
   keyword.storage:
     - meta_prepend: true
-    - match: (?:\b(?:__nonnull|nonnull|nullable|IBOutlet|IBInspectable)\b|@(?:private|public|protected|package|optional|required))
+    - match: (?:\b(?:__nonnull|nonnull|nullable|IBOutlet|IBInspectable|__block|__weak|__strong|__autoreleasing)\b|@(?:private|public|protected|package|optional|required))
       scope: storage.modifier.objc
   keyword:
     - meta_prepend: true
