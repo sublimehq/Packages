@@ -608,13 +608,14 @@ contexts:
     - match: \b(const|volatile|restrict|_Atomic|register|static|inline|extern|register|thread_local|_Thread_local|_Noreturn|noreturn|_Alignas)\b
       scope: storage.modifier.c
 
+    - match: \b(__declspec)(\()\b
+      captures:
+        1: storage.modifier.c
+        2: scope: punctuation.section.group.begin.c
+      push: declspec
     - match: \b__declspec\b
       scope: storage.modifier.c
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.c
-          push: declspec
-    # __attribute__ alone will already be storage.modifier.c from constant
+
     - match: \b(__attribute__)\s*(\(\()
       captures:
         1: storage.modifier.c
@@ -670,7 +671,7 @@ contexts:
     - include: expression
     - match: \)
       scope: punctuation.section.group.end.c
-      pop: 2
+      pop: 1
 
   gnu-attribute:
     - meta_scope: meta.group.c meta.attribute.c
