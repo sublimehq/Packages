@@ -47,14 +47,7 @@ contexts:
     - include: else-pop
   interface.subclass:
     - clear_scopes: 1
-    - match: \<
-      scope: punctuation.section.scope.begin.objc
-      push:
-        - include: expression-identifiers
-        - meta_scope: meta.protocol-list.objc
-        - match: \>
-          scope: punctuation.section.scope.end.objc
-          pop: 1
+    - include: protocol-list
     - match: ':'
       scope: punctuation.separator.objc
     - include: expression-identifiers
@@ -114,9 +107,15 @@ contexts:
         2: punctuation.separator.arguments.objc
         3: punctuation.section.group.begin.objc
       push: [selector.param, enclosure.parenthesis]
-    - match: \b({{identifier}})\s*(?<!\(|__attribute__)\b
+    - match: \b({{identifier}})\s*(\:)
       captures:
         1: entity.name.function.method.objc
+        2: punctuation.separator.arguments.objc
+
+    - include: expression-identifiers
+
+    - match: \b{{identifier}}\b
+      scope: entity.name.function.method.objc
     - match: ;
       scope: punctuation.terminator.objc
       pop: 1
@@ -129,6 +128,16 @@ contexts:
     - match: \b{{identifier}}\b
       scope: variable.parameter.objc
       pop: 1
+
+  protocol-list:
+    - match: \<(?=({{identifier}}|,|\s)*\>)
+      scope: punctuation.section.scope.begin.objc
+      push:
+        - include: expression-identifiers
+        - meta_scope: meta.protocol-list.objc
+        - match: \>
+          scope: punctuation.section.scope.end.objc
+          pop: 1
 
   gnu-attribute:
     - meta_append: true
@@ -186,12 +195,16 @@ contexts:
 
   keyword.control:
     - meta_prepend: true
-    - match: \@(try|catch|finally|throw|autoreleasepool|import|synchronized)\b
+    - match: \@(autoreleasepool|import|synchronized)\b
       scope: keyword.control.objc
+    - match: \@(try|catch|finally|throw)\b
+      scope: keyword.control.exception.objc
 
   keyword.storage:
     - meta_prepend: true
-    - match: (?:\b(?:__nonnull|nonnull|nullable|IBOutlet|IBInspectable|__block|__weak|__strong|__autoreleasing)\b|@(?:private|public|protected|package|optional|required))
+    - match: \b(nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(unused|nonnull|block|weak|strong|autoreleasing|bridge))\b
+      scope: storage.modifier.objc
+    - match: \@(private|public|protected|package|optional|required)\b
       scope: storage.modifier.objc
   keyword:
     - meta_prepend: true
@@ -207,7 +220,7 @@ contexts:
 
   type:
     - meta_prepend: true
-    - match: \(\s*(\^)({{identifier}})\s*\)\s*(\()
+    - match: \(\s*(\^)({{identifier}})?\s*\)\s*(\()
       captures:
         1: keyword.operator.objc
         2: entity.name.type.typedef.objc
@@ -220,6 +233,22 @@ contexts:
         1: keyword.declaration.class.objc
         2: entity.name.type.class.objc
 
+  expression:
+    - meta_prepend: true
+    - match: (\^)\s*(?=\()
+      captures:
+        1: keyword.operator.bitwise.objc
+      branch_point: block-fn
+      branch: [block-fn, pop-immediately]
+    - match: '(@catch)\s*(\()'
+      captures:
+        1: keyword.control.exception.objc
+        2: punctuation.section.group.begin.objc
+      push: function.params
+    - match: (?=\b(self)\s*(\.))
+      push: self-access
+    - include: protocol-list
+
   block-fn:
     - match: \(
       scope: punctuation.section.group.begin.objc
@@ -229,13 +258,15 @@ contexts:
       set: enclosure.block
     - match: (?=\S)
       fail: block-fn
-  expression:
-    - meta_prepend: true
-    - match: (\^)\s*(?=\()
+  self-access:
+    - match: \b(self)\b
       captures:
-        1: keyword.operator.bitwise.objc
-      branch_point: block-fn
-      branch: [block-fn, pop-immediately]
+        1: variable.language.objc
+    - match: \s*(\.)\s*({{identifier}})
+      captures:
+        1: keyword.operator.accessor.objc
+        2: variable.other.readwrite.member.objc
+    - include: pop-immediately
 
   message.func:
     - match: '\b({{identifier}})\s*(:)'
@@ -251,6 +282,8 @@ contexts:
   message:
     - meta_scope: meta.bracketed.objc
 
+    - match: (?=\b(self)\s*(\.))
+      push: self-access
     - include: type
     - include: keyword
     - include: constant
@@ -259,10 +292,10 @@ contexts:
     - include: expression.call
     - include: enclosure
 
-    - match: (?<=[\)\]\}\w])\s*(?={{identifier}}\s*:)
+    - match: (?={{identifier}}\s*:)
       set: message.func
 
-    - match: (?<=[\)\]\}\w])\s*({{identifier}})\s*(\])
+    - match: ({{identifier}})\s*(\])
       captures:
         1: entity.name.function.method.objc
         2: punctuation.section.brackets.end.objc
@@ -273,7 +306,7 @@ contexts:
       fail: message
   enclosure:
     - meta_prepend: true
-    - match: \[
+    - match: \[(?!\s*{{identifier}}:)
       scope: punctuation.section.brackets.begin
       branch_point: message
       branch: [message, enclosure.brackets]

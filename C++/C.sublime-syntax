@@ -210,19 +210,29 @@ contexts:
     - match: \}|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c
       pop: 2
-    - include: keyword
+    - match: ; # Fallback
+      scope: invalid.illegal.unexpected-terminator.c
+      pop: 2
 
-    - match: (?<![\(,\s])\s*({{identifier}})\s*(?=\[)
-      captures:
-        1: variable.parameter.c
+    - match: (?={{identifier}}\s*(?![\[,\)]|$))
       push:
-        - match: (?=[,\)]|$)
-          pop: 1
-        - include: enclosure
-
-    - match: (?<![\(,\s])\s*({{identifier}})\s*(?=[,\)]|$)
+        - match: \s
+          set: function.params.name
+        - include: expression-identifiers
+    - include: expression
+  function.params.name:
+    - match: (?=[\]\}\);]) # Fallback
+      pop: 1
+    - include: expression-identifiers
+    - match: ({{identifier}})\s*(\[)
       captures:
         1: variable.parameter.c
+        2: punctuation.section.brackets.begin
+      set: enclosure.brackets
+    - match: ({{identifier}})\s*(?=[,\)]|$)
+      captures:
+        1: variable.parameter.c
+      pop: 1
     - include: expression
   function.tail:
     - meta_scope: meta.function.c
@@ -276,6 +286,8 @@ contexts:
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.type.typedef.c
+      pop: 1
+    - match: ; # Fallback
       pop: 1
     - include: expression
   type.enum:
