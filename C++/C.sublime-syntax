@@ -104,7 +104,7 @@ contexts:
     - include: eol-pop
   preprocessor.define:
     - include: eol-pop
-    - match: \s*({{identifier}})\s*(\()
+    - match: \s*({{identifier}})(\()
       captures:
         1: entity.name.macro.c support.macro.c
         2: punctuation.section.group.begin.c
