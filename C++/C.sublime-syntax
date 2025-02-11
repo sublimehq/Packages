@@ -611,7 +611,7 @@ contexts:
     - match: \b(__declspec)(\()\b
       captures:
         1: storage.modifier.c
-        2: scope: punctuation.section.group.begin.c
+        2: punctuation.section.group.begin.c
       push: declspec
     - match: \b__declspec\b
       scope: storage.modifier.c
