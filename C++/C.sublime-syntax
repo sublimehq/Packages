@@ -182,7 +182,7 @@ contexts:
     - include: operator
     - include: punctuation
     - include: generic
-    - include: expression.call
+    - include: call
     - include: enclosure
   expression.try-function:
     - include: keyword.control
@@ -193,32 +193,35 @@ contexts:
         - include: else-pop
     - match: (?=\S)
       fail: try-function
-  expression.try-call:
-    - match: ({{std_funcs}})\s*$
-      captures:
-        1: variable.function.c support.function.std.c
-    - match: ({{identifier}})\s*$
-      captures:
-        1: variable.function.c
-    - match: \(
-      scope: punctuation.section.group.begin.c
-      set: enclosure.parenthesis
-    - match: (?=\S)
-      scope: invalid.illegal.bad
-  expression.call:
-    - match: \b(?:({{std_funcs}}))\s*(\()
+
+  call:
+    - match: \b({{std_funcs}})\s*(\()
       captures:
         1: variable.function.c support.function.std.c
         2: punctuation.section.group.begin.c
       push: enclosure.parenthesis
-    - match: \b(?:({{identifier}}))\s*(\()
+    - match: \b({{identifier}})\s*(\()
       captures:
         1: variable.function.c
         2: punctuation.section.group.begin.c
       push: enclosure.parenthesis
     - match: \b(?={{identifier}}\s*$)
-      branch_point: try-call
-      branch: [expression.try-call, pop-immediately]
+      branch_point: not-call
+      branch: [call.not-call, call.multi-line]
+  call.not-call:
+    - include: expression-identifiers
+    - match: (?=\()
+      fail: not-call
+
+    - match: '{{identifier}}\b'
+    - include: else-pop
+  call.multi-line:
+    - match: '{{std_funcs}}'
+      scope: variable.function.c support.function.std.c
+      push: enclosure
+    - match: '{{identifier}}'
+      scope: variable.function.c
+      push: enclosure
 
   function:
     - include: expression-identifiers
@@ -319,7 +322,7 @@ contexts:
     - include: expression
   type.enum:
     - meta_scope: meta.enum.c
-    - include: expression.call
+    - include: call
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.enum.forward-decl.c
@@ -349,7 +352,7 @@ contexts:
       pop: 1
   type.struct:
     - meta_scope: meta.struct.c
-    - include: expression.call
+    - include: call
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.enum.forward-decl.c
@@ -367,7 +370,7 @@ contexts:
       fail: struct
   type.union:
     - meta_scope: meta.union.c
-    - include: expression.call
+    - include: call
     - match: ({{identifier}})\s*(?=;)
       captures:
         1: entity.name.enum.forward-decl.c

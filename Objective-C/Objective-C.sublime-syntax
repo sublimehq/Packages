@@ -312,7 +312,7 @@ contexts:
     - include: constant
     - include: operator.accessor
     - include: operator.pointer
-    - include: expression.call
+    - include: call
     - include: enclosure
 
     - match: (?={{identifier}}\s*:)
