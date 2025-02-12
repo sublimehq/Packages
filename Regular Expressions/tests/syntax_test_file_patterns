@@ -1,0 +1,225 @@
+# SYNTAX TEST "Packages/Regular Expressions/File Pattern.sublime-syntax"
+
+#####################
+### Path Patterns ###
+#####################
+
+*folder/
+# <- meta.path.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^^^^^ meta.path.file-pattern
+#      ^ punctuation.separator.path.file-pattern
+#       ^ - meta.path
+
+*/folder
+# <- meta.path.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^^^^^ meta.path.file-pattern
+#^ punctuation.separator.path.file-pattern
+#       ^ - meta.path
+
+/*/folder
+# <- meta.path.file-pattern punctuation.separator.path.file-pattern
+#^^^^^^^^ meta.path.file-pattern
+#^ constant.other.wildcard.asterisk.file-pattern
+# ^ punctuation.separator.path.file-pattern
+
+/path * with * space
+# <- meta.path.file-pattern punctuation.separator.path.file-pattern
+#^^^^^^^^^^^^^^^^^^^ meta.path.file-pattern
+#     ^ constant.other.wildcard.asterisk.file-pattern
+#            ^ constant.other.wildcard.asterisk.file-pattern
+
+path * with * /space
+# <- meta.path.file-pattern
+#^^^^^^^^^^^^^^^^^^^ meta.path.file-pattern
+#    ^ constant.other.wildcard.asterisk.file-pattern
+#           ^ constant.other.wildcard.asterisk.file-pattern
+#             ^ punctuation.separator.path.file-pattern
+
+folder[with brackets]/*
+# <- meta.path.file-pattern
+#^^^^^^^^^^^^^^^^^^^^^^ meta.path.file-pattern - invalid
+#                    ^ punctuation.separator.path.file-pattern
+#                     ^ constant.other.wildcard.asterisk.file-pattern
+
+//*
+# <- meta.path.file-pattern constant.other.path.project-root.file-pattern
+#^^ meta.path.file-pattern
+#^ constant.other.path.project-root.file-pattern
+# ^ constant.other.wildcard.asterisk.file-pattern
+
+
+src/**/foo.java
+#   ^^ invalid.illegal
+
+-node_modules/
+# <- keyword.operator.logical.file-pattern - meta.path
+#^^^^^^^^^^^^^ meta.path.file-pattern
+
+-*/
+# <- keyword.operator.logical.file-pattern - meta.path
+#^^ meta.path.file-pattern
+#^ constant.other.wildcard.asterisk.file-pattern
+# ^ punctuation.separator.path.file-pattern
+
+-//*
+# <- keyword.operator.logical.file-pattern - meta.path
+#^^^ meta.path.file-pattern
+#^^ constant.other.path.project-root.file-pattern
+#  ^ constant.other.wildcard.asterisk.file-pattern
+
+-"path,pattern/"
+# <- keyword.operator.logical.file-pattern
+#^^^^^^^^^^^^^^^ meta.path.file-pattern
+#^ punctuation.definition.path.begin.file-pattern
+#     ^ - punctuation
+#             ^ punctuation.separator.path.file-pattern
+#              ^ punctuation.definition.path.end.file-pattern
+
+"//path,with?comma*/"
+# <- meta.path.file-pattern punctuation.definition.path.begin.file-pattern
+#^^^^^^^^^^^^^^^^^^^^ meta.path.file-pattern
+#^^ constant.other.path.project-root.file-pattern
+#      ^ - punctuation
+#           ^ constant.other.wildcard.questionmark.file-pattern
+#                 ^ constant.other.wildcard.asterisk.file-pattern
+#                  ^ punctuation.separator.path.file-pattern
+#                   ^ punctuation.definition.path.end.file-pattern
+
+
+#####################
+### File Patterns ###
+#####################
+
+*.py
+#^^^^ - meta.path
+# <- meta.file.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^ meta.file.file-pattern
+#   ^ - meta.file
+
+*.cs, *.py
+#^^^^^^^^^^ - meta.path
+# <- meta.file.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^ meta.file.file-pattern
+#   ^^ - meta.file
+#     ^^^^ meta.file.file-pattern
+#         ^ - meta.file
+#   ^ punctuation.separator.sequence.file-pattern
+#     ^ constant.other.wildcard.asterisk.file-pattern
+
+*.cs, -.aspx.cs
+#^^^^^^^^^^^^^^^ - meta.path
+# <- meta.file.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^ meta.file.file-pattern
+#   ^^^ - meta.file
+#      ^^^^^^^^ meta.file.file-pattern
+#              ^ - meta.file
+#   ^ punctuation.separator.sequence.file-pattern
+#     ^ keyword.operator.logical.file-pattern
+
+*.cs,-*.aspx.cs
+#^^^^^^^^^^^^^^^ - meta.path
+# <- meta.file.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^ meta.file.file-pattern
+#   ^^ - meta.file
+#     ^^^^^^^^^ meta.file.file-pattern
+#              ^ - meta.file
+#   ^ punctuation.separator.sequence.file-pattern
+#    ^ keyword.operator.logical.file-pattern
+#     ^ constant.other.wildcard.asterisk.file-pattern
+
+-foo, --bar, ssh-agent
+# <- keyword.operator.logical.file-pattern
+#     ^ keyword.operator.logical.file-pattern
+#      ^^^^ meta.file.file-pattern
+#               ^ - keyword
+
+node_modules
+# <- meta.file.file-pattern
+#^^^^^^^^^^^ meta.file.file-pattern
+#           ^ - meta.file
+
+*node_modules
+# <- meta.file.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^^^^^^^^^^ meta.file.file-pattern
+#            ^ - meta.file
+
+node?modules
+# <- meta.file.file-pattern
+#^^^^^^^^^^^ meta.file.file-pattern
+#   ^ constant.other.wildcard.questionmark.file-pattern
+#           ^ - meta.file
+
+"node?modules,*.py"
+# <- meta.file.file-pattern punctuation.definition.file.begin.file-pattern
+#^^^^^^^^^^^^^^^^^^ meta.file.file-pattern
+#                  ^ - meta.file
+#    ^ constant.other.wildcard.questionmark.file-pattern
+#            ^ - punctuation
+#             ^ constant.other.wildcard.asterisk.file-pattern
+#                 ^ punctuation.definition.file.end.file-pattern
+
+
+######################
+### Mixed Patterns ###
+######################
+
+*/bar.py,dir/,*.py
+# <- meta.path.file-pattern constant.other.wildcard.asterisk.file-pattern
+#^^^^^^^ meta.path.file-pattern
+#       ^ - meta.file - meta.path
+#        ^^^^ meta.path.file-pattern
+#            ^ - meta.file - meta.path
+#             ^^^^ meta.file.file-pattern
+#                 ^ - meta.file - meta.path
+#^ punctuation.separator.path.file-pattern
+#       ^ punctuation.separator.sequence.file-pattern
+#           ^ punctuation.separator.path.file-pattern
+#            ^ punctuation.separator.sequence.file-pattern
+#             ^ constant.other.wildcard.asterisk.file-pattern
+
+node_modules,-//ngx/node_modules
+# <- meta.file.file-pattern
+#^^^^^^^^^^^ meta.file.file-pattern
+#           ^ punctuation.separator.sequence.file-pattern
+#            ^ keyword.operator.logical.file-pattern - meta.path - meta.file
+#             ^^^^^^^^^^^^^^^^^^ meta.path.file-pattern
+#             ^^ constant.other.path.project-root.file-pattern
+#                  ^ punctuation.separator.path.file-pattern
+
+"fil?,*.py","//p?th*,name"
+# <- meta.file.file-pattern punctuation.definition.file.begin.file-pattern
+#^^^^^^^^^^ meta.file.file-pattern
+#           ^^^^^^^^^^^^^^ meta.path.file-pattern
+#   ^ constant.other.wildcard.questionmark.file-pattern
+#    ^ - punctuation
+#     ^ constant.other.wildcard.asterisk.file-pattern
+#         ^ punctuation.definition.file.end.file-pattern
+#          ^ punctuation.separator.sequence.file-pattern
+#           ^ punctuation.definition.path.begin.file-pattern
+#            ^^ constant.other.path.project-root.file-pattern
+#               ^ constant.other.wildcard.questionmark.file-pattern
+#                  ^ constant.other.wildcard.asterisk.file-pattern
+#                   ^ - punctuation
+#                        ^ punctuation.definition.path.end.file-pattern
+
+
+#######################
+### Filter Patterns ###
+#######################
+
+<current file>
+#^^^^^^^^^^^^^ support.constant.file-pattern
+
+<open files>
+#^^^^^^^^^^^ support.constant.file-pattern
+
+<open folders>
+#^^^^^^^^^^^^^ support.constant.file-pattern
+
+<project filters>
+#^^^^^^^^^^^^^^^^ support.constant.file-pattern
+
+- <project filters>
+# <- keyword.operator.logical.file-pattern
+#^ - keyword - support
+# ^^^^^^^^^^^^^^^^^ support.constant.file-pattern

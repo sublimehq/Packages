@@ -1,0 +1,8 @@
+<snippet>
+<content><![CDATA[${TM_TEMPLATE_START}range ${1:pipeline}${TM_TEMPLATE_END}
+$0
+${TM_TEMPLATE_START}end${TM_TEMPLATE_END}]]></content>
+<tabTrigger>trangeend</tabTrigger>
+<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.yaml.go | source.go string) - source.go.template</scope>
+<description>{{range ...}}...{{end}}</description>
+</snippet>

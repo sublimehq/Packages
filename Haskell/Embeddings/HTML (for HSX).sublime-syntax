@@ -1,0 +1,56 @@
+%YAML 1.2
+---
+# HSX (Haskell Source with XML) allows literal XML syntax in Haskell source code.
+# - https://hackage.haskell.org/package/hsx
+#
+# Note:
+# This package uses HTML instead as it is what other editors seem to use.
+# It's probably the most common use case for Haskell Web Devs.
+scope: text.html.embedded.haskell
+version: 2
+hidden: true
+
+extends: Packages/HTML/HTML.sublime-syntax
+
+variables:
+
+  tag_name_start: (?:[A-Za-z{])
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: haskell-interpolations
+
+  cdata-content:
+    - meta_prepend: true
+    - include: haskell-string-interpolations
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: haskell-string-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: haskell-string-interpolations
+
+  haskell-string-interpolations:
+    - meta_include_prototype: false
+    - match: (?=\{)
+      push: haskell-string-interpolation-body
+
+  haskell-string-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: haskell-interpolations
+    - include: immediately-pop
+
+  haskell-interpolations:
+    - meta_include_prototype: false
+    - match: \{
+      scope: meta.interpolation.haskell punctuation.section.interpolation.begin.haskell
+      embed: Packages/Haskell/Haskell.sublime-syntax
+      embed_scope: meta.interpolation.haskell source.haskell.embedded.html
+      escape: \}
+      escape_captures:
+        0: meta.interpolation.haskell punctuation.section.interpolation.end.haskell

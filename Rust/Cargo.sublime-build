@@ -1,6 +1,6 @@
 {
     "cmd": ["cargo", "build"],
-    "file_regex": "(?|, ([^,<\n]*\\.[A-z]{2}):([0-9]+)|[ \t]*-->[ \t]*([^<\n]*):([0-9]+):([0-9]+))",
+    "file_regex": "^\\s+-->\\s+([^:]+):(\\d+):(\\d+)$",
     "syntax": "Packages/Rust/Cargo.sublime-syntax",
     "keyfiles": ["Cargo.toml"],
     "working_dir": "${folder:${project_path:${file_path}}}",
@@ -12,8 +12,18 @@
             "name": "Run"
         },
         {
+            "cmd": ["cargo", "run", "--message-format", "short"],
+            "file_regex": "^([^:]*):([0-9]*):([0-9]*):\\s*(.*)",
+            "name": "Run (Short)"
+        },
+        {
             "cmd": ["cargo", "test"],
             "name": "Test"
+        },
+        {
+            "cmd": ["cargo", "test", "--message-format", "short"],
+            "file_regex": "^([^:]*):([0-9]*):([0-9]*):\\s*(.*)",
+            "name": "Test (Short)"
         },
         {
             "cmd": ["cargo", "bench"],
@@ -22,6 +32,24 @@
         {
             "cmd": ["cargo", "clean"],
             "name": "Clean"
-        }
+        },
+        {
+            "cmd": ["cargo", "clippy"],
+            "name": "Clippy"
+        },
+        {
+            "cmd": ["cargo", "clippy", "--message-format", "short"],
+            "file_regex": "^([^:]*):([0-9]*):([0-9]*):\\s*(.*)",
+            "name": "Clippy (Short)"
+        },
+        {
+            "cmd": ["cargo", "check", "--all-targets"],
+            "name": "Check"
+        },
+        {
+            "cmd": ["cargo", "check", "--all-targets", "--message-format", "short"],
+            "file_regex": "^([^:]*):([0-9]*):([0-9]*):\\s*(.*)",
+            "name": "Check (Short)"
+        },
     ]
 }

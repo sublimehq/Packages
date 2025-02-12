@@ -140,9 +140,20 @@ puts <<-HTML; # comment
   </script>
   <style>
   .class[att=#{@ruby_sel}] {
-#            ^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby source.css.embedded.html meta.selector.css meta.interpolation.ruby
-    font-family: #{@ruby_font};
-#                ^^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby source.css.embedded.html meta.property-list.css meta.property-value.css meta.interpolation.ruby
+# ^^^^^^^^^^^ meta.selector.css - meta.interpolation
+#            ^^^^^^^^^^^^ meta.selector.css meta.interpolation.ruby
+#                        ^^ meta.selector.css
+
+;   font-family: "#{@ruby_font}";
+#                ^^^^^^^^^^^^^^^ meta.property-value.css meta.string.css
+#                ^ string.quoted.double.css punctuation.definition.string.begin.css
+#                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+#                              ^ string.quoted.double.css punctuation.definition.string.end.css
+
+;   #{@prop_name}: #{@prop_value};
+#   ^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.interpolation.ruby
+#                ^ punctuation.separator.key-value.css
+#                  ^^^^^^^^^^^^^^ meta.property-value.css meta.interpolation.ruby
   }
   </style>
   <body class="#@var" style="color: #@color" onclick="run(#@what)">
@@ -173,10 +184,20 @@ def CssHeredoc()
 #          ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 
   .class[att=#{@ruby_sel}] {
-#            ^^^^^^^^^^^^ meta.string.heredoc.ruby source.css.embedded.ruby meta.selector.css meta.interpolation.ruby
+# ^^^^^^^^^^^ meta.selector.css - meta.interpolation
+#            ^^^^^^^^^^^^ meta.selector.css meta.interpolation.ruby
+#                        ^^ meta.selector.css
 
-    font-family: #{@ruby_font};
-#                ^^^^^^^^^^^^^ meta.string.heredoc.ruby source.css.embedded.ruby meta.property-list.css meta.property-value.css meta.interpolation.ruby
+;   font-family: "#{@ruby_font}";
+#                ^^^^^^^^^^^^^^^ meta.property-value.css meta.string.css
+#                ^ string.quoted.double.css punctuation.definition.string.begin.css
+#                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+#                              ^ string.quoted.double.css punctuation.definition.string.end.css
+
+;   #{@prop_name}: #{@prop_value};
+#   ^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.interpolation.ruby
+#                ^ punctuation.separator.key-value.css
+#                  ^^^^^^^^^^^^^^ meta.property-value.css meta.interpolation.ruby
   }
   CSS
 # ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
@@ -388,6 +409,10 @@ CONST << 10
 #^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
 #   ^^ - constant.numeric - invalid.illegal - storage.type.numeric
+ 12&.ir
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#  ^^ punctuation.accessor - constant.numeric - invalid.illegal - keyword.operator
+#    ^^ - constant.numeric - invalid.illegal - storage.type.numeric
 
  12.34
 #^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
@@ -957,12 +982,14 @@ module: 'module'
 # ^ punctuation.terminator.statement.ruby
   .
 # ^ punctuation.accessor.dot.ruby
+  &.
+# ^^ punctuation.accessor.dot.ruby
   ::
 # ^^ punctuation.accessor.double-colon.ruby
   <<=
 # ^^^ keyword.operator.assignment.augmented.ruby
   &&=
-# ^^^ keyword.operator.assignment.augmented.ruby
+# ^^^ keyword.operator.assignment.augmented.ruby - punctuation
   ||=
 # ^^^ keyword.operator.assignment.augmented.ruby
   **=
@@ -1016,7 +1043,7 @@ module: 'module'
   <
 # ^ keyword.operator.comparison.ruby
   &&
-# ^^ keyword.operator.logical.ruby
+# ^^ keyword.operator.logical.ruby - punctuation
   ||
 # ^^ keyword.operator.logical.ruby
   !
@@ -1028,7 +1055,7 @@ module: 'module'
   ~
 # ^ keyword.operator.bitwise.ruby
   &
-# ^ keyword.operator.bitwise.ruby
+# ^ keyword.operator.bitwise.ruby - punctuation
   |
 # ^ keyword.operator.bitwise.ruby
   ^
@@ -1236,9 +1263,9 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language.boolean
+#                             ^^^^ constant.language.boolean.true
 #                                 ^ punctuation.separator.ruby
-#                                      ^^^^^ constant.language.boolean.ruby
+#                                      ^^^^^ constant.language.boolean.false.ruby
   end
 
   def multiline_args(a, # a comment

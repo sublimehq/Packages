@@ -21,13 +21,17 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 //                ^ variable.other.readwrite
 //                        ^ keyword.control.import-export
 //                                     ^ variable.other.readwrite
-//                                             ^ constant.other.js
+//                                             ^ constant.other.wildcard.asterisk
 //                                                             ^ keyword.control.import-export
 
 import 'module';
 // ^^^^^^^^^^^^^ meta.import
 
+import foo from 'bar' assert // incomplete!
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+
 import foo from 'bar' assert { type: "json" };
+// <- meta.import.js keyword.control.import-export.js
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 //^^^^ keyword.control.import-export.js
 //     ^^^ variable.other.readwrite.js
@@ -46,6 +50,10 @@ import foo from 'bar' assert { type: "json" };
 //                                          ^ punctuation.section.mapping.end.js
 //                                           ^ punctuation.terminator.statement.js
 
+
+import foo from 'bar' assert { type: "json" };
+//                    ^^^^^^ meta.import keyword.control.import-export
+
 // Better highlighting while typing.
 import
 import;
@@ -54,16 +62,17 @@ import;
 import;/**/
 //     ^ - meta.import
 
-export { name1, name2 as name3, name4 as '+', name5 as "+" };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+export { name1, name2 as name3, name4 as '+', 'name5' as "+" };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //            ^ punctuation.separator.comma
 //                    ^^ keyword.control.import-export
 //                                    ^^ keyword.control.import-export
 //                                       ^^^ meta.string string.quoted.single
-//                                                  ^^ keyword.control.import-export
-//                                                     ^^^ meta.string string.quoted.double
+//                                            ^^^^^^^ meta.string string.quoted.single
+//                                                    ^^ keyword.control.import-export
+//                                                       ^^^ meta.string string.quoted.double
 
 export let name1, name2;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -110,7 +119,14 @@ export class Foo {};
 //     ^^^^^^^^^^^^ meta.class
 //                 ^ punctuation.terminator.statement.empty
 
+export default
+// <- meta.export.js keyword.control.import-export.js
+//^^^^^^^^^^^^^ meta.export.js
+//^^^^ keyword.control.import-export.js
+//     ^^^^^^^ keyword.control.import-export.js
+
 export default expression;
+// <- meta.export.js keyword.control.import-export.js
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^ keyword.control.import-export
@@ -156,10 +172,16 @@ export { name1 as default };
 //             ^ keyword.control.import-export
 //                ^ keyword.control.import-export
 
+export * from // incomplete, missing source!
+//^^^^^^^^^^^^ meta.export.js
+//^^^^ keyword.control.import-export.js
+//     ^ constant.other.wildcard.asterisk.js
+//       ^^^^ keyword.control.import-export.js
+
 export * from "./othermod";
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
-//     ^ constant.other
+//     ^ constant.other.wildcard.asterisk
 //       ^ keyword.control.import-export
 
 export { name1, name2 } from "./othermod";
@@ -209,17 +231,26 @@ export { member as
 let from;
 //  ^^^^ variable.other.readwrite.js
 
+import from from // incomplete, missing source!
+// <- meta.import.js keyword.control.import-export.js
+//     ^^^^ variable.other.readwrite.js
+
 import from from "./othermod";
+// <- meta.import.js keyword.control.import-export.js
 //     ^^^^ variable.other.readwrite.js
 
 import { from } from "./othermod";
 //       ^^^^ variable.other.readwrite.js
 
-export from from "./othermod";
-//     ^^^^ variable.other.readwrite.js
-
-export { from } from "./othermod";
-//       ^^^^ variable.other.readwrite.js
+export {} from "./othermod" with {};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^ meta.block
+//        ^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^ meta.string string.quoted.double
+//                          ^^^^ keyword.control.import-export
+//                               ^^ meta.mapping
+//                                 ^ punctuation.terminator.statement
 
 export default$
 //     ^^^^^^^^ - keyword

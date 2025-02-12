@@ -1,0 +1,6 @@
+{
+	// Ensure not to modify ignore-revisions files if set to `true` in
+	// User/Preferences.sublime-settings as everything but a SHA-1 per line
+	// will error out on versions older than Git 2.20, *including newlines*
+	"ensure_newline_at_eof_on_save": false,
+}

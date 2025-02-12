@@ -19,10 +19,12 @@ variables:
   jsx_identifier_break: (?!{{jsx_identifier_part}})
   jsx_identifier: '{{identifier_start}}{{jsx_identifier_part}}*{{jsx_identifier_break}}'
 
+  jsx_tag_name_start: '{{identifier_start}}'
+
 contexts:
   expression-begin:
     - meta_prepend: true
-    - include: jsx-tag-hack
+    - include: jsx-tag
 
   jsx-interpolation:
     - match: (?={/\*)
@@ -34,38 +36,35 @@ contexts:
       push: jsx-interpolation-plain
 
   jsx-interpolation-comment:
-    - match: '({)(/\*)'
+    - match: ({)(/\*)
       captures:
-        1: punctuation.definition.interpolation.begin.js
+        1: punctuation.section.interpolation.begin.js
         2: punctuation.definition.comment.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.interpolation.js comment.block.js
-        - match: '(\*/)(})'
-          captures:
-            1: punctuation.definition.comment.end.js
-            2: punctuation.definition.interpolation.end.js
-          pop: 1
-        - match: (?=\*/)
-          fail: jsx-interpolation-comment
+      set: jsx-interpolation-comment-body
+
+  jsx-interpolation-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.js comment.block.js
+    - match: (\*/)(})
+      captures:
+        1: punctuation.definition.comment.end.js
+        2: punctuation.section.interpolation.end.js
+      pop: 1
+    - match: (?=\*/)
+      fail: jsx-interpolation-comment
 
   jsx-interpolation-plain:
-    - match: '{'
-      scope: punctuation.definition.interpolation.begin.js
-      set:
-        - - meta_scope: meta.interpolation.js
-          - meta_content_scope: source.js.embedded.jsx
-          - match: '}'
-            scope: punctuation.definition.interpolation.end.js
-            pop: 1
-        - expression
+    - match: \{
+      scope: punctuation.section.interpolation.begin.js
+      set: jsx-interpolation-plain-body
 
-  jsx-expect-tag-end:
-    - meta_content_scope: meta.tag.js
-    - match: '>'
-      scope: meta.tag.js punctuation.definition.tag.end.js
+  jsx-interpolation-plain-body:
+    - meta_scope: meta.interpolation.js
+    - meta_content_scope: source.js.embedded.jsx
+    - match: \}
+      scope: punctuation.section.interpolation.end.js
       pop: 1
-    - include: else-pop
+    - include: expressions
 
   jsx-meta:
     - meta_include_prototype: false
@@ -73,81 +72,97 @@ contexts:
     - include: immediately-pop
 
   jsx-tag:
-    - match: '<'
+    - match: <(?=\s*[/>{{jsx_tag_name_start}}])
       scope: punctuation.definition.tag.begin.js
       set:
         - jsx-meta
-        - jsx-tag-attributes-top
+        - jsx-tag-begin
 
-  jsx-tag-hack: # Ugly hack so that TSX can un-include this in expression-begin
-    - include: jsx-tag
-
-  jsx-tag-attributes-top:
+  jsx-tag-begin:
+    - meta_include_prototype: false
     - meta_scope: meta.tag.js
-    - match: '/'
+    - match: /
       scope: punctuation.definition.tag.begin.js
       set:
-        - jsx-meta-unmatched-tag
-        - jsx-expect-tag-end
+        - jsx-expect-unmatched-tag-end
         - jsx-tag-name
-
     - match: (?=\S)
       set:
         - jsx-tag-attributes
         - jsx-tag-name
 
-  jsx-meta-unmatched-tag:
+  jsx-expect-unmatched-tag-end:
     - meta_include_prototype: false
     - meta_scope: invalid.illegal.unmatched-tag.js
-    - include: immediately-pop
+    - meta_content_scope: meta.tag.js
+    - include: jsx-expect-tag-end
 
-  jsx-tag-attributes:
-    - meta_scope: meta.tag.attributes.js
+  jsx-child-tag:
+    - match: <(?=\s*[/>{{jsx_tag_name_start}}])
+      scope: punctuation.definition.tag.begin.js
+      set: jsx-child-tag-begin
 
+  jsx-child-tag-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.js
+    - match: /
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-expect-tag-end
+        - jsx-tag-name
+    - match: (?=\S)
+      set:
+        - jsx-body
+        - jsx-tag-attributes
+        - jsx-tag-name
+
+  jsx-expect-tag-end:
+    - meta_content_scope: meta.tag.js
+    - match: '>{2,}' # ignore invalid punctuation
     - match: '>'
-      scope: punctuation.definition.tag.end.js
-      set: jsx-body
-
-    - match: '/'
-      scope: punctuation.definition.tag.end.js
-      set: jsx-expect-tag-end
-
-    - include: jsx-interpolation
-
-    - match: '{{jsx_identifier}}'
-      scope: entity.other.attribute-name.js
-
-    - match: '='
-      scope: punctuation.separator.key-value.js
-      push: jsx-attribute-value
-
-  jsx-attribute-value:
-    - include: jsx-tag
-    - include: jsx-interpolation
-
-    - match: "'"
-      scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
-        - match: \'
-          scope: punctuation.definition.string.end.js
-          pop: 1
-        - include: jsx-html-escapes
-    - match: '"'
-      scope: punctuation.definition.string.begin.js
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
-        - match: \"
-          scope: punctuation.definition.string.end.js
-          pop: 1
-        - include: jsx-html-escapes
-
+      scope: meta.tag.js punctuation.definition.tag.end.js
+      pop: 1
     - include: else-pop
 
+  jsx-tag-attributes:
+    - meta_content_scope: meta.tag.attributes.js
+    - match: '>{2,}' # ignore invalid punctuation
+    - match: '>'
+      scope: meta.tag.js punctuation.definition.tag.end.js
+      set: jsx-body
+    - match: '/'
+      scope: meta.tag.js punctuation.definition.tag.end.js
+      set: jsx-expect-tag-end
+    - match: '{{jsx_identifier}}'
+      scope: entity.other.attribute-name.js
+    - match: '='
+      scope: punctuation.separator.key-value.js
+    - match: \"
+      scope: punctuation.definition.string.begin.js
+      push: jsx-double-quoted-string-body
+    - match: \'
+      scope: punctuation.definition.string.begin.js
+      push: jsx-single-quoted-string-body
+    - include: jsx-interpolation
+
+  jsx-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.double.js
+    - match: \"
+      scope: punctuation.definition.string.end.js
+      pop: 1
+    - include: jsx-html-escapes
+
+  jsx-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.quoted.single.js
+    - match: \'
+      scope: punctuation.definition.string.end.js
+      pop: 1
+    - include: jsx-html-escapes
+
   jsx-html-escapes:
-    - match: '(&)#?[[:alnum:]]+(;)'
+    - match: (&)#?[[:alnum:]]+(;)
       scope: constant.character.escape.js
       captures:
         1: punctuation.definition.entity.js
@@ -175,7 +190,7 @@ contexts:
 
   jsx-tag-name-component:
     - match: '{{jsx_identifier}}'
-      scope: entity.name.tag.js
+      scope: entity.name.tag.component.js
       pop: 1
     - include: else-pop
 
@@ -187,23 +202,6 @@ contexts:
 
   jsx-body:
     - meta_include_prototype: false
-
-    - match: '<'
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - meta_scope: meta.tag.js
-
-        - match: '/'
-          scope: punctuation.definition.tag.begin.js
-          set:
-            - jsx-expect-tag-end
-            - jsx-tag-name
-
-        - match: (?=\S)
-          set:
-            - jsx-body
-            - jsx-tag-attributes
-            - jsx-tag-name
-
+    - include: jsx-child-tag
     - include: jsx-html-escapes
     - include: jsx-interpolation

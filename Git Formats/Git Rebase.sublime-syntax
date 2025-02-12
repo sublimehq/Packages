@@ -6,7 +6,7 @@ name: Git Rebase Todo
 scope: text.git.rebase
 version: 2
 
-file_extensions:
+hidden_file_extensions:
   - git-rebase-todo
 
 first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
@@ -24,7 +24,7 @@ contexts:
     - include: branch-commands
     - include: commit-commands
 
-##[ COMMENTS ]#########################################################
+###[ COMMENTS ]################################################################
 
   comments:
     - match: '{{comment_char}}'
@@ -209,7 +209,7 @@ contexts:
         4: constant.other.hash.git.rebase
       pop: 1
 
-##[ COMMANDS ]#########################################################
+###[ COMMANDS ]################################################################
 
   branch-commands:
     - match: ^\s*(l|label)\s+(\S+)
@@ -283,7 +283,7 @@ contexts:
   commit-subject:
     - meta_scope: meta.commit.git.rebase
     - include: line-end
-    - match: (?=\S)  # subject beginns with first none whitespece
+    - match: (?=\S)  # subject begins with first none whitespace
       set: commit-subject-content
 
   commit-subject-content:
@@ -309,7 +309,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.git.rebase
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
 
   line-end:
     - match: $\n?

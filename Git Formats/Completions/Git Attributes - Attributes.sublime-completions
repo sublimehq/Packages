@@ -66,5 +66,35 @@
             "contents": "whitespace",
             "kind": ["keyword", "a", "Attribute"]
         },
+        {
+            "trigger": "working-tree-encoding",
+            "contents": "working-tree-encoding",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "linguist-detectable",
+            "contents": "linguist-detectable",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "linguist-documentation",
+            "contents": "linguist-documentation",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "linguist-generated",
+            "contents": "linguist-generated",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "linguist-language",
+            "contents": "linguist-language",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "linguist-vendored",
+            "contents": "linguist-vendored",
+            "kind": ["keyword", "a", "Attribute"]
+        },
     ]
 }

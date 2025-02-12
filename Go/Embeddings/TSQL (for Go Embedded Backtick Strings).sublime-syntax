@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+name: T-SQL inside Go backtick string
+scope: source.tsql.go-embedded-backtick-string
+version: 2
+hidden: true
+
+extends: Packages/SQL/TSQL.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-text-content
+
+  string-escape:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content
+
+  string-interpolation:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content

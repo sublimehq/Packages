@@ -24,6 +24,10 @@ first_line_match: |-
   | ^ \s* <\?php\b                          # php tag
   )
 
+variables:
+
+  tag_name_start: (?:[A-Za-z]|<\?)
+
 ##############################################################################
 
 contexts:
@@ -68,7 +72,6 @@ contexts:
 
   cdata-content:
     - meta_prepend: true
-    - meta_include_prototype: false
     - include: php-interpolations
 
   script-javascript-content:
@@ -96,6 +99,33 @@ contexts:
         1: source.js.embedded.html
         2: comment.block.html punctuation.definition.comment.end.html
         3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  script-json-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.php
+      embed_scope: meta.tag.sgml.cdata.html source.json.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.php
+      embed_scope: source.json.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.json.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.json.embedded.html
         4: comment.block.html punctuation.definition.comment.end.html
 
   style-css-content:
@@ -126,53 +156,71 @@ contexts:
         4: comment.block.html punctuation.definition.comment.end.html
 
   tag-event-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope: string.quoted.double.html punctuation.definition.string.begin.html
-      set: tag-event-attribute-value-double-quoted-content
+      set: tag-event-attribute-value-double-quoted-body
     - match: \'
       scope: string.quoted.single.html punctuation.definition.string.begin.html
-      set: tag-event-attribute-value-single-quoted-content
+      set: tag-event-attribute-value-single-quoted-body
     - include: else-pop
 
-  tag-event-attribute-value-double-quoted-content:
+  tag-event-attribute-value-double-quoted-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.html
     - meta_content_scope: meta.interpolation.html source.js.embedded.html
     - match: \"
       scope: string.quoted.double.html punctuation.definition.string.end.html
       pop: 1
+    - include: tag-event-attribute-value-double-quoted-content
+
+  tag-event-attribute-value-double-quoted-content:
     - include: scope:source.js.embedded.string.quoted.double.php
 
-  tag-event-attribute-value-single-quoted-content:
+  tag-event-attribute-value-single-quoted-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.html
     - meta_content_scope: meta.interpolation.html source.js.embedded.html
     - match: \'
       scope: string.quoted.single.html punctuation.definition.string.end.html
       pop: 1
+    - include: tag-event-attribute-value-single-quoted-content
+
+  tag-event-attribute-value-single-quoted-content:
     - include: scope:source.js.embedded.string.quoted.single.php
 
   tag-style-attribute-value:
+    - meta_include_prototype: false
     - match: \"
       scope: string.quoted.double.html punctuation.definition.string.begin.html
-      set: tag-style-attribute-value-double-quoted-content
+      set: tag-style-attribute-value-double-quoted-body
     - match: \'
       scope: string.quoted.single.html punctuation.definition.string.begin.html
-      set: tag-style-attribute-value-single-quoted-content
+      set: tag-style-attribute-value-single-quoted-body
     - include: else-pop
 
-  tag-style-attribute-value-double-quoted-content:
+  tag-style-attribute-value-double-quoted-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.html
     - meta_content_scope: meta.interpolation.html source.css.embedded.html
     - match: \"
       scope: string.quoted.double.html punctuation.definition.string.end.html
       pop: 1
+    - include: tag-style-attribute-value-double-quoted-content
+
+  tag-style-attribute-value-double-quoted-content:
     - include: scope:source.css.embedded.string.quoted.double.php
 
-  tag-style-attribute-value-single-quoted-content:
+  tag-style-attribute-value-single-quoted-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.html
     - meta_content_scope: meta.interpolation.html source.css.embedded.html
     - match: \'
       scope: string.quoted.single.html punctuation.definition.string.end.html
       pop: 1
+    - include: tag-style-attribute-value-single-quoted-content
+
+  tag-style-attribute-value-single-quoted-content:
     - include: scope:source.css.embedded.string.quoted.single.php
 
   tag-attribute-value-content:

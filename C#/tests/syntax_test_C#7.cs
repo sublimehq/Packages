@@ -7,6 +7,12 @@ class Foo {
 ///^^^^^^^^ meta.class
 ///       ^ meta.class.body
 
+    public readonly double value;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^^^^ storage.type
+///                        ^^^^^ variable.other.member
+
     void Main(string[] args) {
 /// ^^^^ storage.type
 ///      ^^^^^^^^^^^^^^^^^^^^^ meta.method
@@ -669,6 +675,14 @@ public readonly struct S
     }
 }
 
+public readonly partial struct MyStruct
+/// ^^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^^ storage.modifier
+///                     ^^^^^^ keyword.declaration.struct
+///                            ^^^^^^^^ entity.name.struct
+{}
+
 // "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be
 // accessed inside the current assembly.
 class BaseClass           { private protected void Foo() {} }
@@ -713,7 +727,7 @@ Assert.Equal(43, bytes[1]);
 bytes[2] = 44; // throws IndexOutOfRangeException
 
 public readonly ref struct Span<T>
-///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
+///             ^^^^^^^^^^^^^^^^^^^ meta.struct
 ///  ^ storage.modifier.access
 ///    ^^^^^^^^ storage.modifier
 ///             ^^^ storage.modifier

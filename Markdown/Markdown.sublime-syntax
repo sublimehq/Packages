@@ -56,55 +56,58 @@ variables:
 
   backticks: |-
     (?x:
-      (`{4})(?![\s`])(?:[^`]+(?=`)|(?!`{4})`+(?!`))+(`{4})(?!`)  # 4 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 4 backticks, or at least one non backtick character) at least once, followed by exactly 4 backticks
-    | (`{3})(?![\s`])(?:[^`]+(?=`)|(?!`{3})`+(?!`))+(`{3})(?!`)  # 3 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 3 backticks, or at least one non backtick character) at least once, followed by exactly 3 backticks
-    | (`{2})(?![\s`])(?:[^`]+(?=`)|(?!`{2})`+(?!`))+(`{2})(?!`)  # 2 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 2 backticks, or at least one non backtick character) at least once, followed by exactly 2 backticks
-    | (`{1})(?![\s`])(?:[^`]+(?=`)|(?!`{1})`+(?!`))+(`{1})(?!`)  # 1 backtick,  followed by at least one non whitespace, non backtick character, followed by (                          at least one non backtick character) at least once, followed by exactly 1 backtick
+      (`{4})[^`](?:[^`]|(?!`{4})`+[^`])*(`{4})(?!`)  # 4 backticks, followed by at least one non backtick character, followed by (less than 4 backticks, or at least one non backtick character) at least once, followed by exactly 4 backticks
+    | (`{3})[^`](?:[^`]|(?!`{3})`+[^`])*(`{3})(?!`)  # 3 backticks, followed by at least one non backtick character, followed by (less than 3 backticks, or at least one non backtick character) at least once, followed by exactly 3 backticks
+    | (`{2})[^`](?:[^`]|(?!`{2})`+[^`])*(`{2})(?!`)  # 2 backticks, followed by at least one non backtick character, followed by (less than 2 backticks, or at least one non backtick character) at least once, followed by exactly 2 backticks
+    | (`{1})[^`](?:[^`]|(?!`{1})`+[^`])*(`{1})(?!`)  # 1 backtick,  followed by at least one non backtick character, followed by (                          at least one non backtick character) at least once, followed by exactly 1 backtick
     )
   escapes: \\[-+*/!"#$%&'(),.:;<=>?@\[\\\]^_`{|}~]
 
   balance_square_brackets: |-
     (?x:
       (?:
-        (?:{{escapes}})+                  # escape characters
-      | [^\[\]`\\]+(?=[\[\]`\\]|$)        # anything that isn't a square bracket or a backtick or the start of an escape character
+        \\.                               # maybe escaped character (be lazy)
+      | [^\[\]`]                          # anything that isn't a square bracket or backtick
       | {{backticks}}                     # inline code
-      | \[(?:                             # nested square brackets (one level deep)
-          [^\[\]`]+(?=[\[\]`])            #  anything that isn't a square bracket or a backtick
-          {{backticks}}?                  #  balanced backticks
-        )*\]                              #  closing square bracket
+      | \[ (?:                            # nested square brackets (one level deep)
+          \\.                             #  maybe escaped character (be lazy)
+        | [^\[\]`]                        #  anything that isn't a square bracket or backtick
+        | {{backticks}}                   #  inline code
+        )* \]                             #  closing square bracket
       )+
     )
   balance_square_brackets_and_emphasis: |-
     (?x:
       (?:
-        (?:{{escapes}})+                  # escape characters
-      | [^\[\]`\\_*]+(?=[\[\]`\\_*]|$)    # anything that isn't a square bracket, a backtick, the start of an escape character, or an emphasis character
+        \\.                               # maybe escaped character (be lazy)
+      | [^\[\]`_*]                        # anything that isn't a square bracket, backtick or emphasis
       | {{backticks}}                     # inline code
-      | \[(?:                             # nested square brackets (one level deep)
-          [^\[\]`]+(?=[\[\]`])            #  anything that isn't a square bracket or a backtick
-          {{backticks}}?                  #  balanced backticks
-        )*\]                              #  closing square bracket
+      | \[ (?:                            # nested square brackets (one level deep)
+          \\.                             #  maybe escaped character (be lazy)
+        | [^\[\]`_*]                      #  anything that isn't a square bracket, backtick or emphasis
+        | {{backticks}}                   #  inline code
+        )* \]                             #  closing square bracket
       )+                                  # at least one character
     )
   balance_square_brackets_pipes_and_emphasis: |-
     (?x:
       (?:
-        (?:{{escapes}})+                  # escape characters
-      | [^\[\]`\\_*|]+(?=[\[\]`\\_*|]|$)  # anything that isn't a square bracket, a backtick, the start of an escape character, or an emphasis character
+        \\.                               # maybe escaped character (be lazy)
+      | [^\[\]`_*|]                       # anything that isn't a square bracket, backtick or emphasis or table cell separator
       | {{backticks}}                     # inline code
-      | \[(?:                             # nested square brackets (one level deep)
-          [^\[\]`]+(?=[\[\]`])            #  anything that isn't a square bracket or a backtick
-          {{backticks}}?                  #  balanced backticks
-        )*\]                              #  closing square bracket
+      | \[ (?:                            # nested square brackets (one level deep)
+          \\.                             #  maybe escaped character (be lazy)
+        | [^\[\]`_*|]                     #  anything that isn't a square bracket, backtick or emphasis or table cell separator
+        | {{backticks}}                   #  inline code
+        )* \]                             #  closing square bracket
       )+                                  # at least one character
     )
   balanced_emphasis: |-
     (?x:
-      \*  (?!\*){{balance_square_brackets_and_emphasis}}+\*  (?!\*)
-    | \*\*      {{balance_square_brackets_and_emphasis}}+\*\*
-    | _   (?!_) {{balance_square_brackets_and_emphasis}}+_   (?!_)
-    | __        {{balance_square_brackets_and_emphasis}}+__
+      \*  (?!\*){{balance_square_brackets_and_emphasis}}\*  (?!\*)
+    | \*\*      {{balance_square_brackets_and_emphasis}}\*\*
+    | _   (?!_) {{balance_square_brackets_and_emphasis}}_   (?!_)
+    | __        {{balance_square_brackets_and_emphasis}}__
     )
 
   table_cell: |-
@@ -126,6 +129,12 @@ variables:
     | (?! \s*\-\s+ | \s+\|){{table_cell}}\|(?!\s+$)
     )
 
+  table_codespan_content: |-
+    (?x:
+      [^`|]             # first or only char must not be a backtick or pipe.
+      (?:[^|]*?[^`|])?   # none must be a pipe, the last additionally must not be a backtick
+    )
+
   fenced_code_block_start: |-
     (?x:
       ([ \t]*)
@@ -133,25 +142,24 @@ variables:
         (`){3,}      #   3 or more backticks
         (?![^`]*`)   #   not followed by any more backticks on the same line
       |              # or
-        (~){3,}      #   3 or more tildas
+        (~){3,}      #   3 or more tildes
       )
-      \s*            # allow for whitespace between code block start and info string
     )
   fenced_code_block_language: |-
     (?x:             # first word of an infostring is used as language specifier
+      \s*            # allow for whitespace between code block start and info string
       (
         [[:alpha:]]  # starts with a letter to make sure not to hit any attribute annotation
-        [^`\s]*      # optionally followed by any nonwhitespace character (except backticks)
+        [^\s:;`]*    # optionally followed by any nonwhitespace character (except backticks)
       )
     )
   fenced_code_block_trailing_infostring_characters: |-
     (?x:
-      (
-        \s*          # any whitespace, or ..
-      |
-        \s[^`]*      # any characters (except backticks), separated by whitespace ...
-      )
-      $\n?           # ... until EOL
+      (?:
+        (?: \s+ | (?=[:;]) ) # separated by colon, semicolon or whitespace ...
+        ([^`]+?)             # any characters (except backticks)
+      )?
+      (\s*$\n?)              # ... until EOL (fold begin marker)
     )
   fenced_code_block_end: |-
     (?x:
@@ -160,7 +168,7 @@ variables:
         \2           # the backtick/tilde combination that opened the code fence
         (?:\3|\4)*   # plus optional additional closing characters
       )
-      \s*$           # any amount of whitespace until EOL
+      (\s*$\n?)      # any amount of whitespace until EOL (fold end marker)
     )
   fenced_code_block_escape: ^{{fenced_code_block_end}}
 
@@ -312,25 +320,25 @@ contexts:
     - match: (---)\s*(?i:(json)\s*)\n
       captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.begin.frontmatter.markdown
+        1: punctuation.section.frontmatter.begin.markdown
         2: constant.other.language-name.markdown
       embed: scope:source.json
       embed_scope: meta.frontmatter.markdown source.json.embedded.markdown
       escape: ^(---|\.{3})\s*\n # pandoc requires the remainder of the line to be blank
       escape_captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.end.frontmatter.markdown
+        1: punctuation.section.frontmatter.end.markdown
     - match: (---)\s*(?i:(yaml|yml)\s*)?\n
       captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.begin.frontmatter.markdown
+        1: punctuation.section.frontmatter.begin.markdown
         2: constant.other.language-name.markdown
       embed: scope:source.yaml
       embed_scope: meta.frontmatter.markdown source.yaml.embedded.markdown
       escape: ^(---|\.{3})\s*\n  # pandoc requires the remainder of the line to be blank
       escape_captures:
         0: meta.frontmatter.markdown
-        1: punctuation.section.block.end.frontmatter.markdown
+        1: punctuation.section.frontmatter.end.markdown
 
   markdown:
     - include: indented-code-blocks
@@ -355,6 +363,51 @@ contexts:
 
   block-quotes:
     # https://spec.commonmark.org/0.30/#block-quotes
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!CAUTION(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.caution.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-caution-meta
+        - block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!WARNING(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.warning.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-warning-meta
+        - block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!IMPORTANT(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.important.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-important-meta
+        - block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!NOTE(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.note.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-note-meta
+        - block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!TIP(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.tip.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-tip-meta
+        - block-quote-body
     - match: '[ \t]{,3}(>)[ ]?'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -362,6 +415,31 @@ contexts:
         - block-quote-meta
         - block-quote-body
         - block-quote-punctuation-body
+
+  block-quote-caution-meta:
+    - meta_include_prototype: false
+    - meta_scope: markup.quote.alert.caution.markdown
+    - include: immediately-pop
+
+  block-quote-warning-meta:
+    - meta_include_prototype: false
+    - meta_scope: markup.quote.alert.warning.markdown
+    - include: immediately-pop
+
+  block-quote-important-meta:
+    - meta_include_prototype: false
+    - meta_scope: markup.quote.alert.important.markdown
+    - include: immediately-pop
+
+  block-quote-note-meta:
+    - meta_include_prototype: false
+    - meta_scope: markup.quote.alert.note.markdown
+    - include: immediately-pop
+
+  block-quote-tip-meta:
+    - meta_include_prototype: false
+    - meta_scope: markup.quote.alert.tip.markdown
+    - include: immediately-pop
 
   block-quote-meta:
     - meta_include_prototype: false
@@ -428,11 +506,12 @@ contexts:
          (?x)
           {{fenced_code_block_start}}
           {{fenced_code_block_language}}?
-          .*$\n?       # all characters until EOL
+          .*?(\s*$\n?)   # all characters until EOL
       captures:
         0: meta.code-fence.definition.begin.text.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: meta.fold.code-fence.begin.markdown
       push: block-quote-fenced-code-block-body
 
   block-quote-fenced-code-block-body:
@@ -450,6 +529,7 @@ contexts:
       captures:
         0: meta.code-fence.definition.end.text.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
       pop: 1
 
 ###[ CONTAINER BLOCKS: BLOCK QUOTES > REFERENCE DEFINITIONS ]#################
@@ -460,7 +540,7 @@ contexts:
     - include: block-quote-link-definitions
 
   block-quote-footnote-definitions:
-    # Mardown Extras Footnotes
+    # Markdown Extras Footnotes
     - match: '([ \t]*)(\[)({{footnote_name}})(\])(:)'
       captures:
         2: punctuation.definition.reference.begin.markdown
@@ -555,14 +635,14 @@ contexts:
         4: markup.checkbox.begin.markdown-gfm punctuation.definition.checkbox.begin.markdown-gfm
         5: markup.checkbox.mark.markdown-gfm
         6: markup.checkbox.end.markdown-gfm punctuation.definition.checkbox.end.markdown-gfm
-      set: block-quote-unordered-list-block-body
+      push: block-quote-unordered-list-block-body
     - match: ([ \t]*)(\d{1,9}([.)]))(\s)
       captures:
         1: markup.list.numbered.markdown
         2: markup.list.numbered.bullet.markdown
         3: punctuation.definition.list_item.markdown
         4: markup.list.numbered.markdown
-      set: block-quote-ordered-list-block-body
+      push: block-quote-ordered-list-block-body
 
   block-quote-ordered-list-block-body:
     - meta_content_scope: markup.list.numbered.markdown
@@ -621,7 +701,7 @@ contexts:
 
   block-quote-paragraph:
     - match: '[ \t]*(?=\S)'
-      set: block-quote-paragraph-body
+      push: block-quote-paragraph-body
 
   block-quote-paragraph-body:
     - meta_scope: markup.paragraph.markdown
@@ -708,6 +788,51 @@ contexts:
         4: markup.list.numbered.markdown
 
   list-block-quotes:
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!CAUTION(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.caution.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-caution-meta
+        - list-block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!WARNING(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.warning.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-warning-meta
+        - list-block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!IMPORTANT(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.important.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-important-meta
+        - list-block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!NOTE(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.note.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-note-meta
+        - list-block-quote-body
+    - match: '[ \t]{,3}(>)[ ]?[ \t]{,3}((\[)!TIP(\]))'
+      captures:
+        1: punctuation.definition.blockquote.markdown
+        2: markup.heading.alert.tip.markdown
+        3: punctuation.definition.heading.begin.markdown
+        4: punctuation.definition.heading.end.markdown
+      push:
+        - block-quote-tip-meta
+        - list-block-quote-body
     - match: '[ \t]*(>)[ ]?'
       captures:
         1: punctuation.definition.blockquote.markdown
@@ -734,7 +859,7 @@ contexts:
 
   list-block-quote-paragraph:
     - match: '[ \t]*(?=\S)'
-      set: list-block-quote-paragraph-body
+      push: list-block-quote-paragraph-body
 
   list-block-quote-paragraph-body:
     - meta_scope: markup.paragraph.markdown
@@ -868,6 +993,7 @@ contexts:
     - include: images
     - include: literals
     - include: links
+    - include: markups
 
 ###[ LEAF BLOCKS: SETEXT HEADINGS OR PARAGRAPH ]##############################
 
@@ -946,8 +1072,13 @@ contexts:
 
   indented-code-blocks:
     # https://spec.commonmark.org/0.30/#indented-code-blocks
-    - match: '{{indented_code_block}}.*$\n?'
-      scope: markup.raw.block.markdown
+    - match: '{{indented_code_block}}'
+      push: indented-code-block-body
+
+  indented-code-block-body:
+    - meta_scope: markup.raw.block.markdown
+    - match: \n
+      pop: 1
 
 ###[ LEAF BLOCKS: FENCED CODE BLOCKS ]########################################
 
@@ -983,6 +1114,7 @@ contexts:
     - include: fenced-jsonc
     - include: fenced-jspx
     - include: fenced-jsx
+    - include: fenced-latex
     - include: fenced-lisp
     - include: fenced-lua
     - include: fenced-makefile
@@ -999,7 +1131,6 @@ contexts:
     - include: fenced-rust
     - include: fenced-scala
     - include: fenced-shell
-    - include: fenced-shell-script
     - include: fenced-sql
     - include: fenced-tsx
     - include: fenced-typescript
@@ -1010,12 +1141,14 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:actionscript|as))
+          (?i:\s*(actionscript|as))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.actionscript.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.actionscript.2
       embed_scope:
         markup.raw.code-fence.actionscript.markdown-gfm
@@ -1024,17 +1157,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.actionscript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-applescript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:applescript|osascript))
+          (?i:\s*(applescript|osascript|scpt))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.applescript.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.applescript
       embed_scope:
         markup.raw.code-fence.applescript.markdown-gfm
@@ -1043,17 +1179,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.applescript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-clojure:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:clojure|clj))
+          (?i:\s*(clojure|clj))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.clojure.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.clojure
       embed_scope:
         markup.raw.code-fence.clojure.markdown-gfm
@@ -1062,17 +1201,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.clojure.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-c:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:c|h))
+          (?i:\s*(c|h))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.c.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.c
       embed_scope:
         markup.raw.code-fence.c.markdown-gfm
@@ -1081,17 +1223,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.c.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-cpp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:c\+\+|cc|cpp|cxx|h\+\+|hpp|hxx))
+          (?i:\s*(c\+\+|cc|cpp|cxx|h\+\+|hpp|hxx))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.c++.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.c++
       embed_scope:
         markup.raw.code-fence.c++.markdown-gfm
@@ -1100,17 +1245,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.c++.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-csharp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:csharp|c\#|cs))
+          (?i:\s*(csharp|c\#|cs))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.csharp.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.cs
       embed_scope:
         markup.raw.code-fence.csharp.markdown-gfm
@@ -1119,17 +1267,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.csharp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-css:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:css))
+          (?i:\s*(css))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.css.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.css
       embed_scope:
         markup.raw.code-fence.css.markdown-gfm
@@ -1138,17 +1289,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.css.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-diff:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:diff|patch))
+          (?i:\s*(u?diff|patch))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.diff.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.diff
       embed_scope:
         markup.raw.code-fence.diff.markdown-gfm
@@ -1157,17 +1311,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.diff.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-dosbatch:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:bat|cmd|dos))
+          (?i:\s*(bat(?:ch(?:file)?)?|cmd|(?:dos|win)batch))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.dosbatch.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.dosbatch
       embed_scope:
         markup.raw.code-fence.dosbatch.markdown-gfm
@@ -1176,17 +1333,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.dosbatch.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-erlang:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:erlang|escript))
+          (?i:\s*(erl(?:ang)?|escript))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.erlang.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.erlang
       embed_scope:
         markup.raw.code-fence.erlang.markdown-gfm
@@ -1195,17 +1355,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.erlang.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-graphviz:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:graphviz))
+          (?i:\s*(dot|graphviz|gv))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.graphviz.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.dot
       embed_scope:
         markup.raw.code-fence.graphviz.markdown-gfm
@@ -1214,17 +1377,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.graphviz.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-golang:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:go(?:lang)?))
+          (?i:\s*(go(?:lang)?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.go.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.go
       embed_scope:
         markup.raw.code-fence.go.markdown-gfm
@@ -1233,17 +1399,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.go.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-haskell:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:haskell))
+          (?i:\s*(haskell|hsc?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.haskell.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.haskell
       embed_scope:
         markup.raw.code-fence.haskell.markdown-gfm
@@ -1252,17 +1421,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.haskell.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-html-php:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:html\+php))
+          (?i:\s*(html\+php|phtml))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.html-php.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:embedding.php
       embed_scope:
         markup.raw.code-fence.html-php.markdown-gfm
@@ -1271,17 +1443,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.html-php.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-html:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:html))
+          (?i:\s*(x?html))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.html.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:text.html.basic
       embed_scope:
         markup.raw.code-fence.html.markdown-gfm
@@ -1290,17 +1465,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.html.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-java:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:java))
+          (?i:\s*(java))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.java.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.java
       embed_scope:
         markup.raw.code-fence.java.markdown-gfm
@@ -1309,17 +1487,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.java.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-javascript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:javascript|js))
+          (?i:\s*(javascript|js|node))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.javascript.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.js
       embed_scope:
         markup.raw.code-fence.javascript.markdown-gfm
@@ -1328,17 +1509,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.javascript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-jsonc:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:jsonc?))
+          (?i:\s*(jsonc?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.json.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.json
       embed_scope:
         markup.raw.code-fence.json.markdown-gfm
@@ -1347,17 +1531,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.json.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-jspx:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:jspx?))
+          (?i:\s*(jspx?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.jsp.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:text.html.jsp
       embed_scope:
         markup.raw.code-fence.jsp.markdown-gfm
@@ -1366,17 +1553,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.jsp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-jsx:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:jsx))
+          (?i:\s*(jsx))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.jsx.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.jsx
       embed_scope:
         markup.raw.code-fence.jsx.markdown-gfm
@@ -1385,17 +1575,42 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.jsx.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
+
+  fenced-latex:
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          (?i:\s*(latex|tex))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.latex.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
+      embed: scope:text.tex.latex
+      embed_scope:
+        markup.raw.code-fence.latex.markdown-gfm
+        text.tex.latex
+      escape: '{{fenced_code_block_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.latex.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-lisp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:lisp))
+          (?i:\s*(lisp))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.lisp.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.lisp
       embed_scope:
         markup.raw.code-fence.lisp.markdown-gfm
@@ -1404,17 +1619,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.lisp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-lua:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:lua))
+          (?i:\s*(lua))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.lua.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.lua
       embed_scope:
         markup.raw.code-fence.lua.markdown-gfm
@@ -1423,17 +1641,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.lua.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-makefile:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:makefile))
+          (?i:\s*(make(?:file)?|mf))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.makefile.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.makefile
       embed_scope:
         markup.raw.code-fence.makefile.markdown-gfm
@@ -1442,17 +1663,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.makefile.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-matlab:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:matlab))
+          (?i:\s*(matlab))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.matlab.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.matlab
       embed_scope:
         markup.raw.code-fence.matlab.markdown-gfm
@@ -1461,17 +1685,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.matlab.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-objc:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:objc|obj-c|objectivec|objective-c))
+          (?i:\s*(objc|obj-c|objectivec|objective-c))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.objc.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.objc
       embed_scope:
         markup.raw.code-fence.objc.markdown-gfm
@@ -1480,17 +1707,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.objc.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-objcpp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:objc\+\+|obj-c\+\+|objectivec\+\+|objective-c\+\+))
+          (?i:\s*(objc\+\+|obj-c\+\+|objectivec\+\+|objective-c\+\+))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.objc++.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.objc++
       embed_scope:
         markup.raw.code-fence.objc++.markdown-gfm
@@ -1499,17 +1729,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.objc++.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-ocaml:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:ocaml))
+          (?i:\s*(ocaml))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.ocaml.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.ocaml
       embed_scope:
         markup.raw.code-fence.ocaml.markdown-gfm
@@ -1518,17 +1751,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.ocaml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-perl:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:perl))
+          (?i:\s*(perl5?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.perl.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.perl
       embed_scope:
         markup.raw.code-fence.perl.markdown-gfm
@@ -1537,17 +1773,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.perl.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-php:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:php|inc))
+          (?i:\s*(php|inc))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.php.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.php
       embed_scope:
         markup.raw.code-fence.php.markdown-gfm
@@ -1556,17 +1795,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.php.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-python:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:python|py))
+          (?i:\s*(python3?|py))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.python.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.python
       embed_scope:
         markup.raw.code-fence.python.markdown-gfm
@@ -1575,17 +1817,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.python.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-regexp:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:regexp?))
+          (?i:\s*(regexp?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.regexp.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.regexp
       embed_scope:
         markup.raw.code-fence.regexp.markdown-gfm
@@ -1594,17 +1839,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.regexp.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-rscript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:rscript|r|splus))
+          (?i:\s*(rscript|r|splus))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.r.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.r
       embed_scope:
         markup.raw.code-fence.r.markdown-gfm
@@ -1613,17 +1861,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.r.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-ruby:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:ruby|rb|rbx))
+          (?i:\s*(ruby|rb|rbx))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.ruby.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.ruby
       embed_scope:
         markup.raw.code-fence.ruby.markdown-gfm
@@ -1632,17 +1883,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.ruby.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-rust:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:rust|rs))
+          (?i:\s*(rust|rs))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.rust.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.rust
       embed_scope:
         markup.raw.code-fence.rust.markdown-gfm
@@ -1651,17 +1905,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.rust.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-scala:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:scala))
+          (?i:\s*(scala))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.scala.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.scala
       embed_scope:
         markup.raw.code-fence.scala.markdown-gfm
@@ -1670,55 +1927,62 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.scala.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-shell:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:console|shell))
+          (?i:\s*(console|bash|shell(?:-script)?|sh))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.shell.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
-      embed: scope:source.shell.interactive.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
+      embed: scope:source.shell.bash.embedded.markdown
       embed_scope:
         markup.raw.code-fence.shell.markdown-gfm
-        source.shell.interactive.markdown
+        source.shell.bash.embedded.markdown
       escape: '{{fenced_code_block_escape}}'
       escape_captures:
         0: meta.code-fence.definition.end.shell.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
-
-  fenced-shell-script:
+        2: meta.fold.code-fence.end.markdown
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:shell-script|sh|bash|zsh))
+          (?i:\s*(zsh))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
-        0: meta.code-fence.definition.begin.shell-script.markdown-gfm
+        0: meta.code-fence.definition.begin.shell.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
-      embed: scope:source.shell.bash
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
+      embed: scope:source.shell.zsh.embedded.markdown
       embed_scope:
-        markup.raw.code-fence.shell-script.markdown-gfm
-        source.shell.bash
+        markup.raw.code-fence.shell.markdown-gfm
+        source.shell.zsh.embedded.markdown
       escape: '{{fenced_code_block_escape}}'
       escape_captures:
-        0: meta.code-fence.definition.end.shell-script.markdown-gfm
+        0: meta.code-fence.definition.end.shell.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-sql:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:sql))
+          (?i:\s*(sql))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.sql.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.sql
       embed_scope:
         markup.raw.code-fence.sql.markdown-gfm
@@ -1727,17 +1991,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.sql.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-tsx:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:tsx))
+          (?i:\s*(tsx))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.tsx.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.tsx
       embed_scope:
         markup.raw.code-fence.tsx.markdown-gfm
@@ -1746,17 +2013,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.tsx.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-typescript:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:typescript|ts))
+          (?i:\s*(typescript|ts(?:node)?))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.typescript.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.ts
       embed_scope:
         markup.raw.code-fence.typescript.markdown-gfm
@@ -1765,17 +2035,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.typescript.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-xml:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:atom|plist|svg|xjb|xml|xsd|xsl))
+          (?i:\s*(atom|plist|svg|xjb|xml|xsd|xsl))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.xml.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:text.xml
       embed_scope:
         markup.raw.code-fence.xml.markdown-gfm
@@ -1784,17 +2057,20 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.xml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-yaml:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:yaml|yml))
+          (?i:\s*(yaml|yml))
           {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.yaml.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: comment.line.infostring.markdown
+        7: meta.fold.code-fence.begin.markdown
       embed: scope:source.yaml
       embed_scope:
         markup.raw.code-fence.yaml.markdown-gfm
@@ -1803,17 +2079,19 @@ contexts:
       escape_captures:
         0: meta.code-fence.definition.end.yaml.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
 
   fenced-raw:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
           {{fenced_code_block_language}}?
-          .*$\n?       # all characters until EOL
+          .*?(\s*$\n?)   # all characters until EOL
       captures:
         0: meta.code-fence.definition.begin.text.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
+        6: meta.fold.code-fence.begin.markdown
       push: fenced-raw-content
 
   fenced-raw-content:
@@ -1822,6 +2100,7 @@ contexts:
       captures:
         0: meta.code-fence.definition.end.text.markdown-gfm
         1: punctuation.definition.raw.code-fence.end.markdown
+        2: meta.fold.code-fence.end.markdown
       pop: 1
 
 ###[ LEAF BLOCKS: HTML BLOCKS ]###############################################
@@ -1929,7 +2208,7 @@ contexts:
     - include: link-definitions
 
   footnote-definitions:
-    # Mardown Extras Footnotes
+    # Markdown Extras Footnotes
     - match: '([ \t]*)(\[)({{footnote_name}})(\])(:)'
       captures:
         2: punctuation.definition.reference.begin.markdown
@@ -1986,24 +2265,43 @@ contexts:
         3: punctuation.definition.reference.end.markdown
         4: punctuation.separator.key-value.markdown
       push:
-        - link-def-end
+        - link-def-meta
+        - link-def-attr
         - link-def-title
         - link-def-url
 
-  link-def-end:
+  link-def-meta:
     - meta_include_prototype: false
     - meta_scope: meta.link.reference.def.markdown
     - include: immediately-pop
+
+  link-def-attr:
+    - match: \{
+      scope: punctuation.definition.attributes.begin.markdown
+      set: link-def-attr-body
+    - match: ^(?!\s*{)|(?=\S)
+      pop: 1
+
+  link-def-attr-body:
+    - meta_scope: meta.attributes.markdown
+    - include: tag-attributes
 
   link-def-title:
     - match: ^(?!\s*["'(])
       pop: 1
     - match: (?=["'(])
       set:
-        - expect-eol
+        - expect-attr-or-eol
         - link-title
+    - match: (?=\{)
+      pop: 1
     - match: \S.+
       scope: invalid.illegal.expected-eol.markdown
+
+  expect-attr-or-eol:
+    - match: (?=\{)
+      pop: 1
+    - include: expect-eol
 
   link-def-url:
     - match: <
@@ -2074,13 +2372,49 @@ contexts:
   table-cell-content:
     - match: (?={{balanced_emphasis}})
       push: table-cell-emphasis
-    - match: (?!{{backticks}})`+
-      scope: invalid.deprecated.unescaped-backticks.markdown
+    - include: table-cell-code-spans
     - include: table-cell-separators
     - include: images
-    - include: literals
+    - include: critics
+    - include: math-inline
+    - include: escapes
     - include: links
     - include: markups
+
+  table-cell-code-spans:
+    # code-spans quoted with up to 6 backticks are supported
+    # to avoid usage of slower Oniguruma features
+    - match: (`{6}){{table_codespan_content}}(`{6})(?!`)
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+    - match: (`{5}){{table_codespan_content}}(`{5})(?!`)
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+    - match: (`{4}){{table_codespan_content}}(`{4})(?!`)
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+    - match: (`{3}){{table_codespan_content}}(`{3})(?!`)
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+    - match: (`{2}){{table_codespan_content}}(`{2})(?!`)
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+    - match: (`{1}){{table_codespan_content}}(`{1})(?!`)
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+    - match: \`+  # consume remainders
 
   table-cell-emphasis:
     - include: emphasis
@@ -2769,6 +3103,7 @@ contexts:
       scope: invalid.illegal.attribute-name.markdown
 
   tag-attr-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.markdown
     - include: immediately-pop
 
@@ -2830,7 +3165,7 @@ contexts:
         3: punctuation.separator.path.markdown
         4: punctuation.separator.path.markdown
         5: punctuation.definition.link.end.markdown
-    # Github Flavoured Markdown
+    # GitHub Flavoured Markdown
     - match: '[\w.+-]+(@)[\w-]+(?:\.(?:(?![._-][\W])[\w_-])+)+(?![_-])'
       captures:
         0: meta.link.email.markdown markup.underline.link.markdown
@@ -2844,8 +3179,9 @@ contexts:
       push:
         - autolink-inet-angled-content
         - link-url-scheme-separator
-    # Github Flavoured Markdown
+    # GitHub Flavoured Markdown
     # After a valid domain, zero or more non-space non-< characters may follow
+    # https://github.github.com/gfm/#autolinks-extension-
     - match: (?:(?:https|http|ftp)(://)|www\.)[\w-]+
       captures:
         1: punctuation.separator.path.markdown
@@ -2874,14 +3210,15 @@ contexts:
     # 3. Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not
     #    be considered part of the autolink, though they may be included in the
     #    interior # of the link
-    - match: (?=(?:\)|(?:{{html_entity}})*)[?!.,:*_~]*[\s<])
+    #    Note: contains some empirical (undocumented) punctuation such as ;, ', "
+    - match: (?=(?:\)|(?:{{html_entity}})*)[?!.,:;*_~'"]*[\s<])
       pop: 1
     - include: autolink-inet-common
 
   autolink-inet-group:
     - match: \)
       pop: 1
-    - match: (?=(?:{{html_entity}})*[?!.,:*_~]*[\s<])
+    - match: (?=(?:{{html_entity}})*[?!.,:;*_~'"]*[\s<])
       pop: 1
     - include: autolink-inet-common
 

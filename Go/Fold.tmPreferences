@@ -9,6 +9,14 @@
     <array>
       <dict>
         <key>begin</key>
+        <string>punctuation.definition.string.begin</string>
+        <key>end</key>
+        <string>punctuation.definition.string.end</string>
+        <key>excludeTrailingNewlines</key>
+        <false/>
+      </dict>
+      <dict>
+        <key>begin</key>
         <string>punctuation.section.braces.begin</string>
         <key>end</key>
         <string>punctuation.section.braces.end</string>
@@ -18,6 +26,8 @@
         <string>punctuation.definition.comment.begin.go</string>
         <key>end</key>
         <string>punctuation.definition.comment.end.go</string>
+        <key>excludeTrailingNewlines</key>
+        <false/>
       </dict>
     </array>
   </dict>

@@ -1,0 +1,321 @@
+{
+    "scope": "source.shell.bash meta.interpolation.parameter variable, source.shell.bash meta.arithmetic",
+    "completions": [
+        {
+            "trigger": "BASH",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASHOPTS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASHPID",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_ALIASES",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_ARGC",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_ARGV",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_ARGV0",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_CMDS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_COMMAND",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_COMPAT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_ENV",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_EXECUTION_STRING",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_LINENO",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_LOADABLES_PATH",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_REMATCH",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_SOURCE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_SUBSHELL",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_VERSINFO",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_VERSION",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "BASH_XTRACEFD",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "CHILD_MAX",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMPREPLY",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_CWORD",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_KEY",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_LINE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_POINT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_TYPE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_WORDBREAKS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COMP_WORDS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "COPROC",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "DIRSTACK",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "EPOCHREALTIME",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "EPOCHSECONDS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "EXECIGNORE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "FIGNORE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "FUNCNAME",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "GLOBIGNORE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "GROUPS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HISTCONTROL",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HISTFILESIZE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HISTIGNORE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HISTTIMEFORMAT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HOSTFILE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HOSTNAME",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "HOSTTYPE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "IGNOREEOF",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "INPUTRC",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "INSIDE_EMACS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "MAILPATH",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "MAPFILE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "OPTERR",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "PIPESTATUS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "POSIXLY_CORRECT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "PROMPT_COMMAND",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "PROMPT_DIRTRIM",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "PS0",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "READLINE_ARGUMENT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "READLINE_LINE",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "READLINE_MARK",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "READLINE_POINT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "SHELLOPTS",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "SRANDOM",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        {
+            "trigger": "TIMEFORMAT",
+            "kind": "variable",
+            "details": "bash built-in variable",
+        },
+        
+    ]
+}

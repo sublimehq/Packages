@@ -8,6 +8,8 @@ extends: JavaScript.sublime-syntax
 
 file_extensions:
   - ts
+  - mts
+  - cts
 
 first_line_match: |-
   (?xi:
@@ -18,12 +20,10 @@ first_line_match: |-
 variables:
   shebang_lang: \bts-node(?:-script)?\b
 
-  dot_accessor: (?:[?!]?\.)
   possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 
-  function_call_lookahead: >-
+  function_call_after_lookahead: >-
     (?x:(?=
-      {{identifier_name}}
       \s*
       (?:
         <
@@ -31,7 +31,8 @@ variables:
         >
         \s*
       )?
-      (?:{{dot_accessor}})?
+      (?: \! \s* )*
+      (?: \?\. \s*)?
       \(
     ))
 
@@ -46,7 +47,7 @@ variables:
       (?:=>|:)
     )
 
-  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override){{identifier_break}})
+  modifier: (?:(?:static|readonly|private|public|protected|abstract|declare|override|accessor){{identifier_break}})
 
 contexts:
   main:
@@ -70,13 +71,20 @@ contexts:
     - include: comments
     - include: else-pop
 
-  export-extended:
+  export-body:
     - meta_prepend: true
+
     - match: as{{identifier_break}}
       scope: storage.modifier.js
       set:
         - expect-semicolon
         - ts-export-as-namespace
+
+    - match: (?=type{{identifier_break}})
+      branch_point: ts-export-type-from
+      branch:
+        - ts-export-type-from
+        - ts-type-declaration
 
   ts-export-as-namespace:
     - match: namespace{{identifier_break}}
@@ -86,70 +94,31 @@ contexts:
         - ts-namespace-name
     - include: else-pop
 
-  branch-possible-arrow-function:
-    - meta_prepend: true
-    - match: (?=\()
-      set:
-        - detect-arrow
-        - ts-detect-parenthesized-arrow-return-type
-        - parenthesized-expression
-
-    - match: \<
-      scope: punctuation.definition.assertion.begin.js
-      set:
-        - ts-old-type-assertion-check
-        - ts-old-type-assertion-end
-        - ts-type-expression-end
-        - ts-type-expression-end-no-line-terminator
-        - ts-type-expression-begin
-
-  ts-detect-parenthesized-arrow-return-type:
-    - match: (?=:)
-      pop: 1
-      branch_point: ts-arrow-function-return-type
-      branch:
-        - ts-detect-arrow-function-return-type
-        - immediately-pop
-    - include: else-pop
-
-  ts-detect-arrow-function-return-type:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - ts-detect-arrow-after-return-type
-        - ts-type-annotation
-
-  ts-detect-arrow-after-return-type:
-    - match: (?==>)
-      fail: arrow-function
-    - match: (?=\S)
-      fail: ts-arrow-function-return-type
-
-  async-arrow-function:
-    - match: async{{identifier_break}}
-      scope: keyword.declaration.async.js
-      set:
-        - function-meta
-        - arrow-function-expect-body
-        - arrow-function-expect-arrow-or-fail-async
-        - ts-type-annotation
-        - arrow-function-expect-parameters
-        - ts-type-parameter-list
-
-  arrow-function-declaration:
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - function-meta
-        - arrow-function-expect-body
-        - arrow-function-expect-arrow
-        - ts-type-annotation
-        - arrow-function-expect-parameters
-        - ts-type-parameter-list
-
-  ts-import-type:
+  ts-export-type-from:
     - match: type{{identifier_break}}
       scope: keyword.control.import-export.js
+      set:
+        - match: (?=\{|\*)
+          set:
+            - expect-semicolon
+            - import-export-from
+            - import-export-item
+        - match: (?=\S)
+          fail: ts-export-type-from
+
+  ts-import-type:
+    - match: (?=type{{identifier_break}})
+      pop: 1
+      branch_point: ts-import-type
+      branch:
+        - - match: type{{identifier_break}}
+            scope: keyword.control.import-export.js
+            set:
+              - match: (?=,|from{{identifier_break}})
+                fail: ts-import-type
+              - include: else-pop
+        - immediately-pop
+
     - include: else-pop
 
   import-statement:
@@ -158,33 +127,20 @@ contexts:
       set:
         - import-meta
         - expect-semicolon
-        - import-assert
+        - import-export-assert
         - import-string-or-items
         - ts-import-type
         - import-check-branch
 
-  import-brace:
+  import-export-brace:
     - meta_prepend: true
     - match: type{{identifier_break}}
-      scope: keyword.control.import-export.ts
-
-  export-brace:
-    - meta_prepend: true
-    - match: type{{identifier_break}}
-      scope: keyword.control.import-export.ts
-
-  property-access:
-    - meta_prepend: true
-    - match: \!\.
-      scope: punctuation.accessor.js
+      scope: keyword.control.import-export.js
+    - match: (?={{identifier_start}}|'|")
       push:
-        - match: '(?={{identifier_name}}\s*(?:\.\?)?\()'
-          set:
-            - call-method-meta
-            - function-call-arguments
-            - call-path
-            - object-property
-        - include: object-property
+        - import-export-alias
+        - import-export-name
+        - ts-import-type
 
   ts-type-declaration:
     - match: type{{identifier_break}}
@@ -225,7 +181,7 @@ contexts:
       set:
         - ts-meta-module
         - block
-        - literal-string
+        - ts-module-name
     - include: declaration
     - match: (?={{identifier_start}})
       pop: 1
@@ -236,6 +192,40 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.module.js
     - include: immediately-pop
+
+  ts-module-name:
+    - match: \"
+      scope: punctuation.definition.quoted.begin.js
+      set: ts-double-quoted-module-name-content
+    - match: \'
+      scope: punctuation.definition.quoted.begin.js
+      set: ts-single-quoted-module-name-content
+    - match: '{{non_reserved_identifier}}'
+      scope: entity.name.module.js
+      pop: 1
+    - include: else-pop
+
+  ts-double-quoted-module-name-content:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.module.js
+    - match: \"
+      scope: punctuation.definition.quoted.end.js
+      pop: 1
+    - match: \n
+      scope: invalid.illegal.newline.js
+      pop: 1
+    - include: string-content
+
+  ts-single-quoted-module-name-content:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.module.js
+    - match: \'
+      scope: punctuation.definition.quoted.end.js
+      pop: 1
+    - match: \n
+      scope: invalid.illegal.newline.js
+      pop: 1
+    - include: string-content
 
   ts-abstract-class:
     - match: abstract{{identifier_break}}
@@ -334,7 +324,7 @@ contexts:
     - include: immediately-pop
 
   ts-interface-name:
-    - match: '{{identifier_name}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.interface.js
       pop: 1
     - include: else-pop
@@ -348,73 +338,85 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: 1
         - include: ts-type-members
+    - include: else-pop
 
   ts-type-members:
     - match: '[,;]'
       scope: punctuation.separator.js
 
+    - match: (?=\S)
+      push:
+        - ts-type-annotation
+        - function-declaration-expect-parameters
+        - ts-type-parameter-list
+        - ts-type-annotation-optional
+        - ts-type-annotation-modifier
+        - ts-type-member-name
+        - ts-type-element-modifiers
+
+  ts-type-element-modifiers:
     - match: '\+|-'
       scope: storage.modifier.js
-
     - match: (?={{modifier}})
-      push: class-element-modifiers
+      branch_point: ts-type-member-modifier
+      branch:
+        - ts-type-member-modifier
+        - immediately-pop-2
+    - include: else-pop
 
-    - match: (?=[<(])
-      push:
-        - ts-type-annotation
-        - function-declaration-expect-parameters
-        - ts-type-parameter-list
-
-    - match: \[
-      scope: punctuation.section.brackets.begin.js
-      push:
-        - - include: immediately-pop
-        -  ts-type-annotation
-        -  ts-type-annotation-optional
-        - - match: '\+|-'
-            scope: storage.modifier.js
-            pop: 1
-          - include: else-pop
-        - - meta_scope: meta.brackets.js
-          - match: \]
-            scope: punctuation.section.brackets.end.js
-            pop: 1
-          - match: '{{identifier_name}}'
-            scope: variable.other.readwrite.js
-            push:
-              - match: in{{identifier_break}}
-                scope: keyword.operator.type.js
-                set:
-                  - ts-type-expression-end
-                  - ts-type-expression-end-no-line-terminator
-                  - ts-type-expression-begin
-              - include: ts-type-annotation
-
-    - match: new{{identifier_break}}
-      scope: keyword.operator.new.js
-      push:
-        - ts-type-annotation
-        - function-declaration-expect-parameters
-        - ts-type-parameter-list
-
-    - match: (?={{identifier_start}}|['"]|\d)
-      push:
-        - - match: (?=[<(])
-            set:
-              - ts-type-annotation
-              - function-declaration-expect-parameters
-              - ts-type-parameter-list
-          - match: (?=\S)
-            set: ts-type-annotation
-        - ts-type-annotation-optional
-        - ts-type-member-name
+  ts-type-member-modifier:
+    - match: '{{modifier}}'
+      scope: storage.modifier.js
+      set:
+        - match: (?={{identifier_start}}|[-+*''"\[\d])
+          pop: 1
+        - match: (?=\S)
+          fail: ts-type-member-modifier
 
   ts-type-member-name:
+    - match: new{{identifier_break}}
+      scope: keyword.operator.new.js
+      pop: 1
+
     - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       pop: 1
     - include: literal-string
     - include: literal-number
+
+    - match: \[
+      scope: punctuation.section.brackets.begin.js
+      set:
+        - - meta_scope: meta.brackets.js
+          - match: \]
+            scope: punctuation.section.brackets.end.js
+            pop: 1
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+        - ts-mapped-or-indexed-member
+
+    - include: else-pop
+
+  ts-mapped-or-indexed-member:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+      branch_point: ts-mapped-or-indexed-member
+      branch:
+        - - match: '{{identifier_name}}'
+            scope: variable.other.readwrite.js
+            set:
+              - match: in{{identifier_break}}
+                scope: keyword.operator.type.js
+                pop: 1
+              - match: ':'
+                scope: punctuation.separator.type.js
+                pop: 1
+              - match: (?=\S)
+                fail: ts-mapped-or-indexed-member
+          - include: else-pop
+        - immediately-pop
 
   ts-enum:
     - match: enum{{identifier_break}}
@@ -456,7 +458,7 @@ contexts:
     - include: immediately-pop
 
   ts-type-alias-name:
-    - match: '{{identifier_name}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.type.js
       pop: 1
     - include: else-pop
@@ -475,7 +477,7 @@ contexts:
       scope: keyword.declaration.js
       set:
         - ts-namespace-meta
-        - block
+        - ts-namespace-body
         - ts-namespace-name-end
         - ts-namespace-name
 
@@ -484,14 +486,18 @@ contexts:
     - meta_scope: meta.namespace.js
     - include: immediately-pop
 
+  ts-namespace-body:
+    - include: block
+    - include: else-pop
+
   ts-namespace-name-end:
     - match: \.
-      scope: punctuation.accessor.dot.ts
+      scope: punctuation.accessor.dot.js
       push: ts-namespace-name
     - include: else-pop
 
   ts-namespace-name:
-    - match: '{{identifier_name}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.namespace.js
       pop: 1
     - include: else-pop
@@ -550,6 +556,10 @@ contexts:
     - include: else-pop
 
   ts-type-parameter-list-head:
+    - match: const{{identifier_break}}
+      scope: storage.modifier.const.js
+    - match: (?:in|out){{identifier_break}}
+      scope: storage.modifier.variance.js
     - match: '{{identifier_name}}'
       scope: variable.parameter.generic.js
       set:
@@ -586,14 +596,8 @@ contexts:
 
   function-parameter-binding-list:
     - meta_prepend: true
-
     - include: decorator
-
     - include: function-parameter-modifiers
-
-    - match: this{{identifier_break}}
-      scope: variable.language.this.js
-      push: ts-type-annotation
 
   function-parameter-modifiers:
     - match: (?={{modifier}})
@@ -611,16 +615,24 @@ contexts:
         - match: (?=\S)
           fail: function-parameter-modifier
 
+  function-parameter-binding-pattern:
+    - meta_prepend: true
+    - match: this{{identifier_break}}
+      scope: variable.language.this.js
+      pop: 1
+
   class-field:
     - meta_include_prototype: false
     - match: ''
       set:
+        - expect-semicolon
         - initializer
         - ts-type-annotation
         - ts-type-annotation-optional
         - ts-type-annotation-definite
         - class-field-check
         - field-name
+        - class-element-modifiers
 
   class-field-check:
     - match: (?=[(<])
@@ -638,15 +650,114 @@ contexts:
         - ts-type-parameter-list
         - method-name
         - method-declaration-expect-asterisk
+        - method-declaration-prefix
+        - class-element-modifiers
+
+  decorator-expression-end:
+    - meta_prepend: true
+    - include: ts-function-type-arguments-or-less-than
+    - include: ts-non-null-assertion
+
+  left-expression-end:
+    - meta_prepend: true
+    - match: '{{function_call_after_lookahead}}'
+      push: function-call-arguments
+    - include: ts-non-null-assertion
 
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
     - include: ts-function-type-arguments-or-less-than
 
-  decorator-expression-end:
-    - meta_prepend: true
-    - include: ts-function-type-arguments-or-less-than
+  async-arrow-function:
+    - match: async{{identifier_break}}
+      scope: keyword.declaration.async.js
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - arrow-function-expect-arrow-or-fail-async
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+        - ts-type-parameter-list
+
+  arrow-function-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - arrow-function-expect-arrow
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+        - ts-type-parameter-list
+
+  branch-possible-arrow-function:
+    - meta_include_prototype: false
+    - include: ts-old-type-assertion
+    - include: ts-parenthesized-expression
+    - match: ''
+      set:
+        - detect-arrow
+        - literal-variable
+
+  ts-old-type-assertion:
+    - match: \<
+      scope: punctuation.definition.assertion.begin.js
+      set:
+        - ts-old-type-assertion-check
+        - ts-old-type-assertion-body
+
+  ts-old-type-assertion-body:
+    - meta_scope: meta.assertion.js
+    - match: \>
+      scope: punctuation.definition.assertion.end.js
+      pop: 1
+    - match: (?=\S) # Cover ts-type-parameter-list-head
+      push:
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
+  ts-old-type-assertion-check:
+    - include: ts-parenthesized-expression
+    - include: else-pop
+
+  ts-parenthesized-expression:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - ts-detect-arrow
+        - ts-parenthesized-expression-body
+
+  ts-parenthesized-expression-body:
+    - meta_scope: meta.group.js
+    # Bail early when we see what looks like a type annotation.
+    - match: '\??:'
+      fail: arrow-function
+    - include: parenthesized-expression-body
+
+  ts-detect-arrow:
+    - match: (?=:)
+      branch_point: ts-detect-arrow
+      branch:
+        - ts-detect-arrow-return-type
+        - immediately-pop-2
+    - include: detect-arrow
+
+  ts-detect-arrow-return-type:
+    - meta_include_prototype: false
+    - match: ':'
+      set:
+        - ts-detect-arrow-after-return-type
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
+  ts-detect-arrow-after-return-type:
+    - match: (?==>)
+      fail: arrow-function
+    - match: (?=\S)
+      fail: ts-detect-arrow
 
   ts-function-type-arguments-or-less-than:
     - match: (?=<(?![<=]))
@@ -684,24 +795,11 @@ contexts:
       scope: keyword.operator.comparison.js
       set: expression-begin
 
-  ts-old-type-assertion-end:
-    - meta_scope: meta.assertion.js
-    - match: \>
-      scope: punctuation.definition.assertion.end.js
-      pop: 1
-
-  ts-old-type-assertion-check:
-    - match: (?=\()
-      set:
-        - detect-arrow
-        - ts-detect-parenthesized-arrow-return-type
-        - parenthesized-expression
-    - include: else-pop
-
-  ts-type-assertion:
-    - match: '!(?![.=])'
+  ts-non-null-assertion:
+    - match: '!(?!=)'
       scope: keyword.operator.type.js
 
+  ts-type-assertion:
     - match: as{{identifier_break}}
       scope: keyword.operator.type.js
       push:
@@ -714,6 +812,14 @@ contexts:
             - ts-type-expression-end
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
+
+    - match: satisfies{{identifier_break}}
+      scope: keyword.operator.type.js
+      push:
+        - ts-type-meta
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
 
   ts-type-annotation:
     - match: ':'
@@ -734,6 +840,12 @@ contexts:
   ts-type-annotation-definite:
     - match: \!
       scope: storage.modifier.definite.js
+      pop: 1
+    - include: else-pop
+
+  ts-type-annotation-modifier:
+    - match: '\+|-'
+      scope: storage.modifier.js
       pop: 1
     - include: else-pop
 
@@ -765,7 +877,9 @@ contexts:
       push:
         - match: '{{identifier_name}}'
           scope: support.class.js
-          set: ts-type-expression-end-no-line-terminator
+          set:
+            - ts-type-expression-end-no-line-terminator
+            - ts-optional-generic-type-arguments
 
     - match: extends{{identifier_break}}
       scope: keyword.operator.type.extends.js
@@ -817,8 +931,6 @@ contexts:
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
 
-    - include: ts-generic-type-arguments
-
     - include: else-pop
 
   ts-generic-type-arguments:
@@ -837,6 +949,11 @@ contexts:
             - ts-type-expression-begin
 
   ts-type-expression-begin:
+    # Placeholder in LSP output. This should never occur in actual TypeScript code.
+    - match: '\.\.\. \d+ more \.\.\.'
+      scope: comment.other.ts
+      pop: true
+
     - match: keyof{{identifier_break}}
       scope: keyword.operator.type.js
     - match: typeof{{identifier_break}}
@@ -874,20 +991,8 @@ contexts:
     - include: ts-type-special
     - include: ts-type-primitive
     - include: ts-type-basic
-
-    - match: (?=\<)
-      set:
-        - ts-type-function
-        - ts-generic-function-type-check
-        - ts-type-parameter-list
-
-    - match: (?=\()
-      pop: 1
-      branch_point: ts-function-type
-      branch:
-        - ts-type-function
-        - ts-type-parenthesized
-
+    - include: ts-type-generic-function
+    - include: ts-type-function-or-group
     - include: literal-string
     - include: literal-number
     - include: ts-type-template-string
@@ -896,12 +1001,6 @@ contexts:
       scope: keyword.operator.arithmetic.js
 
     - include: else-pop
-
-  ts-generic-function-type-check:
-    - match: (?=\()
-      pop: 1
-    - match: (?=\S)
-      pop: 2
 
   ts-type-tuple:
     - match: \[
@@ -912,14 +1011,43 @@ contexts:
           scope: punctuation.section.sequence.end.js
           pop: 1
         - include: comma-separator
-        - match: \.\.\.
-          scope: keyword.operator.spread.js
         - match: (?=\S)
           push:
             - ts-type-annotation-optional
             - ts-type-expression-end
             - ts-type-expression-end-no-line-terminator
             - ts-type-expression-begin
+            - ts-type-tuple-spread
+            - ts-type-tuple-possible-member-label
+
+  ts-type-tuple-possible-member-label:
+    - match: ''
+      branch_point: ts-type-tuple-member-label
+      branch:
+        - ts-type-tuple-member-label
+        - immediately-pop
+      pop: 1
+
+  ts-type-tuple-member-label:
+    - match: '{{identifier_name}}'
+      scope: variable.other.member.js
+      set:
+        - ts-type-tuple-member-label-separator
+        - ts-type-annotation-optional
+    - include: else-pop
+
+  ts-type-tuple-member-label-separator:
+    - match: ':'
+      scope: punctuation.separator.type.js
+      pop: 1
+    - match: (?=\S)
+      fail: ts-type-tuple-member-label
+
+  ts-type-tuple-spread:
+    - match: \.\.\.
+      scope: keyword.operator.spread.js
+      pop: 1
+    - include: else-pop
 
   ts-type-object:
     - match: \{
@@ -949,6 +1077,12 @@ contexts:
     - match: 'boolean{{identifier_break}}'
       scope: 'support.type.primitive.boolean.js'
       pop: 1
+    - match: 'true{{identifier_break}}'
+      scope: 'support.type.primitive.boolean.true.js'
+      pop: 1
+    - match: 'false{{identifier_break}}'
+      scope: 'support.type.primitive.boolean.false.js'
+      pop: 1
     - match: 'number{{identifier_break}}'
       scope: 'support.type.primitive.number.js'
       pop: 1
@@ -974,7 +1108,13 @@ contexts:
   ts-type-basic:
     - match: '{{identifier_name}}'
       scope: support.class.js
+      set: ts-optional-generic-type-arguments
+
+  ts-optional-generic-type-arguments:
+    - match: $
       pop: 1
+    - include: ts-generic-type-arguments
+    - include: else-pop
 
   ts-type-template-string:
     - match: '`'
@@ -1001,46 +1141,74 @@ contexts:
               - ts-type-expression-begin
         - include: string-content
 
-  ts-type-parenthesized:
+  ts-type-generic-function:
+    - match: (?=\<)
+      set:
+        - ts-type-generic-function-parameter-list
+        - ts-type-parameter-list
+
+  ts-type-generic-function-parameter-list:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
-        - - meta_scope: meta.group.js
-          - match: \)
-            scope: punctuation.section.group.end.js
-            pop: 1
-          - match: (?=\S)
-            fail: ts-function-type
+        - ts-type-generic-function-body
+        - ts-type-function-parameter-list-body
+    - include: else-pop
+
+  ts-type-generic-function-body:
+    - include: ts-type-function-arrow
+    - include: else-pop
+
+  ts-type-function-or-group:
+    - match: (?=\()
+      pop: 1
+      branch_point: ts-function-type
+      branch:
+        - ts-type-function-parameter-list
+        - ts-type-group
+
+  ts-type-function-parameter-list:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - ts-type-function-body
+        - ts-type-function-parameter-list-body
+
+  ts-type-function-parameter-list-body:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
+    - include: function-parameter-binding-list
+
+  ts-type-function-body:
+    - include: ts-type-function-arrow
+    - match: (?=\S)
+      fail: ts-function-type
+
+  ts-type-function-arrow:
+    - match: =>
+      scope: keyword.declaration.function.js
+      set:
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
 
-  ts-type-function:
+  ts-type-group:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
-        - meta_scope: meta.group.js
-        - match: \)
-          scope: punctuation.section.group.end.js
-          set:
-            - match: =>
-              scope: keyword.declaration.function.js
-              set:
-                - ts-type-expression-end
-                - ts-type-expression-end-no-line-terminator
-                - ts-type-expression-begin
-            - match: (?=\S)
-              fail: ts-function-type
-        - include: comma-separator
-        - match: '\.\.\.'
-          scope: keyword.operator.spread.js
-        - match: '{{identifier_name}}'
-          scope: variable.parameter.js
-          push:
-            - ts-type-annotation
-            - ts-type-annotation-optional
-        - match: (?=\S)
-          fail: ts-function-type
+        - ts-type-group-end
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
+
+  ts-type-group-end:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
+    - include: else-pop
 
   object-literal-contents:
     - meta_prepend: true
@@ -1064,3 +1232,81 @@ contexts:
           pop: 1
         - match: (?=\S)
           fail: ts-object-literal-element-modifier
+
+  function-call-arguments:
+    - meta_prepend: true
+    - include: ts-non-null-assertion
+
+  literal-string-template-begin:
+    # Notes:
+    #  Consume trailing whitespace after opening punctuation
+    #  and leading whitespace in front of closing punctuation
+    #  to maintain JavaScript indentation rules until embedded
+    #  code really begins/ends. It's required for embedded code
+    #  to be indented using global JavaScript indentation rules.
+    - match: (css)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.css.ts-template
+      embed_scope: meta.string.template.js source.css.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (html)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:text.html.ts-template
+      embed_scope: meta.string.template.js text.html.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (js)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.js.ts-template
+      embed_scope: meta.string.template.js source.js.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (json)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.json.ts-template
+      embed_scope: meta.string.template.js source.json.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (sql|SQL)\s*((\`){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.sql.ts-template
+      embed_scope: meta.string.template.js source.sql.embedded.js
+      escape: '{{leading_wspace}}?(\`)'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+    - match: (?:({{identifier_name}})\s*)?(\`)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
+      set: literal-string-template-content
+    - include: immediately-pop

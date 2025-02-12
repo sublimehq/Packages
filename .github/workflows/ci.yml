@@ -1,11 +1,15 @@
 name: ci
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
     branches:
-      - '*'
-    tags-ignore:
-      - '*'
+      - 'master'
+      - 'develop/**'
     paths:
       - '**/syntax_test_*'
       - '**/*.hidden-tmLanguage'
@@ -13,8 +17,11 @@ on:
       - '**/*.tmLanguage'
       - '**/*.tmPreferences'
       - '.github/workflows/ci.yml'
-  pull_request:
+  push:
     branches:
+      - 'master'
+      - 'develop/**'
+    tags-ignore:
       - '*'
     paths:
       - '**/syntax_test_*'
@@ -27,7 +34,7 @@ on:
 
 jobs:
   run_syntax_tests:
-    name: Test on ${{ matrix.sublime-channel }} Build
+    name: Test on ${{ matrix.sublime-channel }} build
     runs-on: ubuntu-latest
     timeout-minutes: 15 # default is 6 hours!
     continue-on-error: ${{ matrix.optional }}
@@ -39,33 +46,35 @@ jobs:
 
           # latest stable build
           # https://www.sublimetext.com/download
-          - sublime-channel: stable
-            sublime-build: 4126
-            optional: true
+          # - sublime-channel: stable
+          #   sublime-build: 4169
+          #   optional: true
 
           # latest dev build
           # https://www.sublimetext.com/dev
           - sublime-channel: dev
-            sublime-build: 4141
+            sublime-build: latest
             optional: false
 
     steps:
 
       # https://github.com/actions/checkout
-      - name: Git checkout
-        uses: actions/checkout@v3
+      - name: Checkout Packages
+        uses: actions/checkout@v4
+        with:
+          path: st_syntax_tests/Data/Packages
 
-      - name: Get binary for Build ${{ matrix.sublime-build }} (${{ matrix.sublime-channel }})
+      - name: Get binary for ${{ matrix.sublime-channel }} build ${{ matrix.sublime-build }}
         run: |
-          wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.sublime-build }}_x64.tar.xz
+          if [[ "${{ matrix.sublime-build }}" == "latest" ]]; then
+            wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/latest/dev/linux/x64/syntax_tests
+          else
+            wget -O st_syntax_tests.tar.xz https://download.sublimetext.com/st_syntax_tests_build_${{ matrix.sublime-build }}_x64.tar.xz
+          fi
           tar xf st_syntax_tests.tar.xz
-          mv st_syntax_tests/* ./
-          rm -R st_syntax_tests st_syntax_tests.tar.xz
-
-      - name: 'Move root dirs into "Data/Packages/" subdir'
-        run: |
-          mkdir -p Data/Packages/
-          find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ ';'
+          rm st_syntax_tests.tar.xz
 
       - name: Run syntax tests
-        run: ./syntax_tests
+        run: |
+          cd st_syntax_tests
+          ./syntax_tests

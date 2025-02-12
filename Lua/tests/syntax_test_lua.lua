@@ -87,6 +87,14 @@
 -- no more doc comment after empty line
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line.documentation
 
+--- Another doc comment
+    --[=[ block comments after should work with an equals
+--  ^^^^^ comment.block punctuation.definition.comment.begin
+    commented
+--  ^^^^^^^^^ comment.block
+    ]=]
+--  ^^^ comment.block punctuation.definition.comment.end
+
 -----------------
 --^^^^^^^^^^^^^^^ comment.line.documentation.lua punctuation.definition.comment.lua
 -- This will also do.
@@ -146,10 +154,10 @@
 --CONSTANTS
 
     true;
---  ^^^^ constant.language.boolean.lua
+--  ^^^^ constant.language.boolean.true
 
     false;
---  ^^^^^ constant.language.boolean.lua
+--  ^^^^^ constant.language.boolean.false
 
     nil;
 --  ^^^ constant.language.null
@@ -342,7 +350,7 @@
 
     not true;
 --  ^^^ keyword.operator.logical
---      ^^^^ constant.language.boolean.lua
+--      ^^^^ constant.language.boolean.true
 
     2 + 2 - 2 * 2 / 2 // 2 % 2 ^ 2;
 --    ^ keyword.operator.arithmetic
@@ -490,7 +498,7 @@
     foo[return] foo[false]
 --      ^^^^^^ invalid.unexpected-keyword.lua
 --            ^ - meta.brackets
---                  ^^^^^ constant.language.boolean.lua
+--                  ^^^^^ constant.language.boolean.false
 
     some.return
 --       ^^^^^^ invalid.unexpected-keyword.lua
@@ -648,7 +656,7 @@
 --      ^^^ invalid.illegal.unexpected-end
     until true;
 --  ^^^^^ keyword.control.loop
---        ^^^^ constant.language.boolean.lua
+--        ^^^^ constant.language.boolean.true
 
     for x = 1, y, z do end
 --  ^^^ keyword.control.loop

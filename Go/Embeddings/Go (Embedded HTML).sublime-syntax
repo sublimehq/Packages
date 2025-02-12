@@ -1,0 +1,19 @@
+%YAML 1.2
+---
+name: Go (Embedded HTML)
+scope: source.go.embedded-backtick-string.html
+version: 2
+hidden: true
+
+extends: Packages/Go/Embeddings/Go (Embedded Backtick String).sublime-syntax
+
+contexts:
+  match-raw-string:
+    # replaces Go.sublime-syntax#match-raw-string
+    - match: '`'
+      scope: meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
+      embed: scope:text.html.go-embedded-backtick-string
+      embed_scope: meta.string.go meta.embedded.go text.html.embedded.go
+      escape: '`'
+      escape_captures:
+        0: meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go

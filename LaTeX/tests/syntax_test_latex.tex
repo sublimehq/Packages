@@ -1,0 +1,1128 @@
+% SYNTAX TEST "Packages/LaTeX/LaTeX.sublime-syntax"
+
+% <- text.tex.latex
+
+\documentclass[12pt]{article}
+% <- meta.preamble.documentclass.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.documentclass.latex - meta.preamble.documentclass meta.preamble.documentclass
+%             ^^^^^^ meta.group.bracket.latex
+%                   ^^^^^^^^^ meta.group.brace.tex
+%^^^^^^^^^^^^^ keyword.control.preamble.latex
+%             ^ punctuation.definition.group.bracket.begin.latex
+%                  ^ punctuation.definition.group.bracket.end.latex
+%                   ^ punctuation.definition.group.brace.begin.tex
+%                    ^^^^^^^ support.class.latex
+%                           ^ punctuation.definition.group.brace.end.tex
+
+\usepackage[args]{mypackage, anotherpackage}
+% <- meta.preamble.usepackage.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.usepackage.latex - meta.preamble.usepackage meta.preamble.usepackage
+%          ^^^^^^ meta.group.bracket.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%^^^^^^^^^^ keyword.control.preamble.latex
+%          ^ punctuation.definition.group.bracket.begin.latex
+%           ^^^^
+%               ^ punctuation.definition.group.bracket.end.latex
+%                ^ punctuation.definition.group.brace.begin.tex
+%                 ^^^^^^^^^ support.class.latex
+%                            ^^^^^^^^^^^^^^ support.class.latex
+%                                          ^ punctuation.definition.group.brace.end.tex
+
+\usepackage[pdftex,
+            %plainpages={false},
+%               ^ comment.line
+            bookmarks=true,
+%               ^ variable.parameter
+            unicode=true,
+            bookmarksnumbered={true},
+            % pagebackref=true,
+            breaklinks=true,
+            pdfstartview={FitBH}]{hyperref}
+%                                     ^ support.class.latex
+
+% line comment
+% <- comment.line.percentage.tex
+
+\newcommand{\foo}{\baz}
+%^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^ meta.function.latex
+%          ^^^^^^ meta.function.identifier.latex
+%                ^^^^^^ meta.function.body
+%^^^^^^^^^^ keyword.declaration.function.latex
+%          ^ punctuation.definition.group.brace.begin
+%           ^^^^ entity.name.newcommand.latex
+%           ^ punctuation.definition.backslash.latex
+%               ^ punctuation.definition.group.brace.end
+%                ^ punctuation.definition.group.brace.begin
+%                 ^^^^ support.function.general.latex
+%                 ^ punctuation.definition.backslash.latex
+%                     ^ punctuation.definition.group.brace.end
+
+\newcommand{\foo}[1]{\baz #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^ meta.function.latex
+%          ^^^^^^ meta.function.identifier.latex
+%                ^^^ meta.function.parameters.latex
+%                   ^^^^^^^^^ meta.function.body
+%^^^^^^^^^^ keyword.declaration.function.latex
+%           ^^^^ entity.name.newcommand.latex
+%                 ^ constant.numeric.value.latex
+%                    ^^^^ support.function.general.latex
+%                         ^ punctuation.definition.placeholder.tex
+%                         ^^ variable.parameter.tex
+%                          ^ meta.number.integer.decimal constant.numeric.value.tex
+
+\newcommand{\foo}[2][default]{\baz #1 #2}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^ meta.function.latex
+%          ^^^^^^ meta.function.identifier.latex
+%                ^^^ meta.function.parameters.latex
+%                   ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                            ^^^^^^^^^^^^ meta.function.body
+%^^^^^^^^^^ keyword.declaration.function.latex
+%           ^^^^ entity.name.newcommand.latex
+%                 ^ constant.numeric.value.latex
+%                             ^^^^ support.function.general.latex
+
+\renewcommand{\foo}[1]{\baz #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^ meta.function.latex
+%            ^^^^^^ meta.function.identifier.latex
+%                  ^^^ meta.function.parameters.latex
+%                     ^^^^^^^^^ meta.function.body
+%^^^^^^^^^^^^ keyword.declaration.function.latex
+%             ^^^^ entity.name.newcommand.latex
+%                      ^^^^ support.function.general.latex
+
+  \providecommand{\f@o}[2][default]{\baz #1 #2}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+% ^^^^^^^^^^^^^^^ meta.function.latex
+%                ^^^^^^ meta.function.identifier.latex
+%                      ^^^ meta.function.parameters.latex
+%                         ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                                  ^^^^^^^^^^^^ meta.function.body
+% ^^^^^^^^^^^^^^^ keyword.declaration.function.latex
+% ^ punctuation.definition.backslash.latex
+%                 ^^^^ entity.name.newcommand.latex
+%                       ^ constant.numeric.value.latex
+%                                   ^^^^ support.function.general.latex
+
+\newcommand\foo{\baz}
+%^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^ meta.function.latex
+%          ^^^^ meta.function.identifier.latex
+%              ^^^^^^ meta.function.body
+%^^^^^^^^^^ keyword.declaration.function.latex
+%          ^^^^ entity.name.newcommand.latex
+%               ^^^ support.function.general.latex
+
+\newcommand{ \foo }{\baz}
+%^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^ meta.function.latex
+%          ^^^^^^^^ meta.function.identifier.latex
+%                  ^^^^^^ meta.function.body
+%            ^^^^ entity.name.newcommand.latex
+%                   ^^^^ support.function.general.latex
+
+\newcommand* {\foo }{\baz}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^ meta.function.latex
+%            ^^^^^^^ meta.function.identifier.latex
+%                   ^^^^^^ meta.function.body
+%             ^^^^ entity.name.newcommand.latex
+%                      ^ support.function.general.latex
+
+\newcommand \foo {\baz}
+%^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^ meta.function.latex
+%           ^^^^ meta.function.identifier.latex
+%               ^ meta.function.latex
+%                ^^^^^^ meta.function.body
+%           ^^^^ entity.name.newcommand.latex
+%                 ^^^^ support.function.general.latex
+
+\newcommand \foo % some comment here
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^ meta.function.latex
+%           ^^^^ meta.function.identifier.latex
+%               ^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%           ^^^^ entity.name.newcommand.latex
+ {\baz}
+%^^^^^^ - meta.function meta.function
+% <- meta.function.latex
+%^^^^^^ meta.function.body
+%      ^ - meta.function
+% ^^^^ support.function.general.latex
+
+% note: with an actual empty line in-between, this is a new paragraph
+\newcommand \foo
+
+ {\baz}
+%^^^^^^ - meta.function
+
+
+\newcommand \baz [1] [def] {\textbf{#1}}
+%^^^^^^^^^^^ meta.function.latex
+%^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%           ^^^^ meta.function.identifier.latex entity.name.newcommand.latex
+%           ^ punctuation.definition.backslash.latex
+%               ^ meta.function.latex
+%                ^^^ meta.function.parameters.latex
+%                ^ punctuation.definition.group.bracket.begin.latex
+%                 ^ meta.number.integer.decimal.latex constant.numeric.value.latex
+%                  ^ punctuation.definition.group.bracket.end.latex
+%                   ^ meta.function.latex
+%                    ^^^^^ meta.function.parameters.default-value.latex
+%                    ^ punctuation.definition.group.bracket.begin.latex
+%                        ^ punctuation.definition.group.bracket.end.latex
+%                         ^ meta.function.latex
+%                          ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                          ^ punctuation.definition.group.brace.begin.tex
+%                           ^^^^^^^ support.function.general.latex
+%                           ^ punctuation.definition.backslash.latex
+%                                  ^^^^ meta.group.brace.tex
+%                                  ^ punctuation.definition.group.brace.begin.tex
+%                                   ^^ variable.parameter.tex
+%                                   ^ punctuation.definition.placeholder.tex
+%                                    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
+%                                      ^ punctuation.definition.group.brace.end.tex
+
+% This example checks that we can split over multiple lines, including with comments
+\newcommand\baz %
+%  ^ meta.function.latex
+%          ^^^^ entity.name.newcommand.latex
+  [
+   1]
+%  ^ constant.numeric.value.latex
+ [difi % other
+%^^^^^ meta.function.parameters.default-value.latex
+%      ^^^^^^^^ meta.function.parameters.default-value.latex comment.line.percentage.tex
+  cu{]}t] {\textbf{#1}}
+% ^^^^^^^ meta.function.parameters.default-value.latex
+%         ^^^^^^^^^^^^^ meta.function.body
+
+% The argument count can also be based on another macro. Check that we accept this
+\def\one{1}
+\newcommand{\weirder}[\one] [default] {this is #1 arg}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^ meta.function.latex
+%          ^^^^^^^^^^ meta.function.identifier.latex
+%                    ^^^^^^ meta.function.parameters.latex
+%                          ^ meta.function.latex
+%                           ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                                    ^ meta.function.latex
+%                                     ^^^^^^^^^^^^^^^^ meta.function.body
+
+% newcommand entirely without braces
+\newcommand\cmd\src
+%^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%          ^^^^ meta.function.identifier.latex entity.name.newcommand.latex
+%              ^^^^ meta.function.body support.function.general.latex
+
+\DeclareMathOperator{\op } {op}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^^ meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
+%^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                   ^^^^^^ meta.function.identifier.latex
+%                         ^ meta.function.latex
+%                          ^^^^ meta.function.body
+%                    ^^^ entity.name.newcommand.latex
+%                           ^^ text.tex.latex
+
+\DeclareMathOperator* \op {op}
+%   ^ meta.function.latex support.function.declare-math-operator.latex
+%                     ^^^ entity.name.newcommand.latex
+%                           ^ text.tex.latex
+
+% Here, we check that opening an environment within a command definition does not
+% break subsequent highlighting
+\newcommand{\open}{\begin{equation}}
+  \alpha
+% ^^^^^^ support.function.general.latex
+
+\newcommand\"{quote}
+%^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
+%          ^^ meta.function.identifier.latex entity.name.newcommand.latex
+%            ^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.backslash.latex
+%            ^ punctuation.definition.group.brace.begin.tex
+%                  ^ punctuation.definition.group.brace.end.tex
+
+\newcommandprefix
+%^^^^^^^^^^^^^^^^ support.function.general.latex
+
+\newcolumntype{x}{>{$}c<{$}}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
+% ^ support.function.newcolumntype.latex
+%                 ^ support.function.insert-before-column.latex
+%                   ^ meta.function.before-column-decl.latex
+%                     ^ meta.function.newcolumntype.latex keyword.other.column-type.latex
+%                      ^ support.function.insert-after-column.latex
+%                        ^ meta.function.after-column-decl.latex
+
+\begin{document}
+% ^ support.function.begin.latex keyword.control.flow.begin.latex
+%        ^ variable.parameter.function.latex
+
+
+% TEX INTERNAL COMMANDS
+\\
+% <- constant.character.newline.latex
+
+\\[1.5ex]
+% <- constant.character.newline.latex
+% ^ punctuation.definition.group.bracket.begin.newline.latex
+%  ^^^ constant.numeric.newline.latex
+%     ^^ keyword.other.newline.latex
+%       ^ punctuation.definition.group.bracket.begin.newline.latex
+
+
+% SECTION COMMANDS
+
+\part{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%     ^ entity.name.section.latex
+\chapter{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%        ^ entity.name.section.latex
+\section{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%        ^ entity.name.section.latex
+\subsection{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%           ^ entity.name.section.latex
+\subsubsection{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%              ^ entity.name.section.latex
+\paragraph{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%          ^ entity.name.section.latex
+\subparagraph{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%             ^ entity.name.section.latex
+
+
+% REF/LABEL/CITE COMMANDS
+
+\label{sec:name}
+% ^ meta.function.label.latex
+% ^ support.function.label.latex
+%        ^ entity.name
+
+\ref{sec:name}
+% ^ meta.function.reference.latex
+% ^ support.function.reference.latex keyword.other.reference.latex
+%        ^ constant.other.reference
+
+\cite{my:bib:key}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex keyword.other.cite.latex
+%        ^ constant.other.citation
+
+
+\cite[\command]{my:bib:key}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%           ^ support.function
+%
+
+\parencite[Proposition~1]{Ref}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%          ^ meta.group.bracket.latex
+%                          ^ constant.other.citation.latex
+
+\parencites[Proposition~1]{Firstref}[p.~2]{SecondRef}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%           ^ meta.group.bracket.latex
+%                          ^ constant.other.citation.latex
+%                                     ^ meta.group.bracket.latex
+%                                          ^ constant.other.citation.latex
+
+\Citeauthor*[]{ref}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%          ^ support.function.cite.latex
+%           ^ meta.group.bracket.latex
+%              ^ constant.other.citation.latex
+
+
+% URL COMMAND
+
+\url{https://www.sublimetext.com/}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
+% ^ support.function.url.latex
+%    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
+
+\href{https://www.sublimetext.com/}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
+% ^ support.function.url.latex
+%     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
+
+\path{$HOME/path/to/file}
+% ^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
+% ^ support.function.url.latex
+%     ^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
+
+
+% INCLUDE COMMANDS
+
+\include{path/to/file}
+% ^ meta.function.include.latex
+% ^ keyword.control.include.latex
+
+\includeonly{path/to/file.tex}
+% ^ meta.function.include.latex
+% ^ keyword.control.include.latex
+
+\input{path/to/file.tex}
+% ^ meta.function.input.tex
+% ^ keyword.control.input.tex
+
+\includecommand{...}
+% ^^^^^^^^^^ support.function.general.latex
+
+\inputminted{py}{path/to/file.py}
+% ^^^^^^^^^^ support.function.general.latex
+
+
+% MARKUP COMMANDS
+
+\textnormal{text}
+%^^^^^^^^^^^^^^^^ meta.function.textnormal.latex
+%^^^^^^^^^^ support.function.textnormal.latex
+%          ^ punctuation.definition.group.brace.begin.tex
+%               ^ punctuation.definition.group.brace.end.tex
+
+\textrm{text}
+%^^^^^^^^^^^^ meta.function.textrm.latex
+%^^^^^^ support.function.textrm.latex
+%      ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\textsf{text}
+%^^^^^^^^^^^^ meta.function.textsf.latex
+%^^^^^^ support.function.textsf.latex
+%      ^ punctuation.definition.group.brace.begin.tex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\emph{text}
+%^^^^^^^^^^ meta.function.emph.latex
+%^^^^ support.function.emph.latex
+%    ^ punctuation.definition.group.brace.begin.tex - markup
+%     ^^^^ markup.italic.latex
+%         ^ punctuation.definition.group.brace.end.tex - markup
+
+\emph{text \emph{nested} emph}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.emph.latex
+%^^^^ support.function.emph.latex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^ markup.italic.latex
+%          ^^^^^^^^^^^^^ meta.function.emph.latex - markup
+%          ^^^^^ support.function.emph.latex
+%          ^ punctuation.definition.backslash.latex
+%               ^ punctuation.definition.group.brace.begin.tex
+%                      ^ punctuation.definition.group.brace.end.tex
+%                       ^^^^^ markup.italic.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+
+\textbf{a}
+%^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%      ^ punctuation.definition.group.brace.begin.tex
+%       ^ markup.bold.latex
+%        ^ punctuation.definition.group.brace.end.tex
+
+\textbf{text}
+%^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^ markup.bold.latex
+%           ^ punctuation.definition.group.brace.end.tex - markup
+
+\textbf{text \command and text}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%       ^^^^ markup.bold.latex
+%            ^^^^^^^^ support.function.general.latex - markup
+%                     ^^^^^^^^ markup.bold.latex
+
+
+\textit{text@"special"}
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%^^^^^^ support.function.textit.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^^^^^^^^ markup.italic.latex
+%                     ^ punctuation.definition.group.brace.end.tex - markup
+
+\texttt{text 123}
+%^^^^^^^^^^^^^^^^ meta.function.texttt.latex
+%^^^^^^ support.function.texttt.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^^ markup.raw.inline.latex
+%               ^ punctuation.definition.group.brace.end.tex - markup
+
+\textsc{smallcaps}
+%^^^^^^^^^^^^^^^^^ meta.function.textsc.latex
+%^^^^^^ support.function.textsc.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^^^ markup.raw.inline.latex
+%                ^ punctuation.definition.group.brace.end.tex - markup
+
+\textup{upright}
+%^^^^^^^^^^^^^^^ meta.function.textup.latex
+%^^^^^^ support.function.textup.latex
+%       ^^^^^^^ - markup
+
+\textlf{upright}
+%^^^^^^^^^^^^^^^ meta.function.textlf.latex
+%^^^^^^ support.function.textlf.latex
+%       ^^^^^^^ - markup
+
+\textmd{upright}
+%^^^^^^^^^^^^^^^ meta.function.textmd.latex
+%^^^^^^ support.function.textmd.latex
+%       ^^^^^^^ - markup
+
+%% combinations
+
+\textbf{text \textrm{roman font}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%       ^^^^^ markup.bold.latex
+%            ^^^^^^^^^^^^^^^^^^^ meta.function.textrm.latex
+%            ^^^^^^^ support.function.textrm.latex
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{\textit{text} just bold \textsl{slanted}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%       ^^^^^^^^^^^^^ meta.function.textit.latex
+%                               ^^^^^^^^^^^^^^^^ meta.function.textsl.latex
+%^^^^^^ support.function.textbf.latex - markup
+%       ^^^^^^^ support.function.textit.latex - markup
+%                               ^^^^^^^ support.function.textsl.latex - markup
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^ punctuation.definition.backslash.latex - markup
+%               ^^^^ markup.bold.latex markup.italic.latex
+%                    ^^^^^^^^^^^ markup.bold.latex
+%                                       ^^^^^^^ markup.bold.latex markup.italic.latex
+%              ^ punctuation.definition.group.brace.begin.tex - markup
+%                   ^ punctuation.definition.group.brace.end.tex - markup
+%                               ^ punctuation.definition.backslash.latex - markup
+%                                      ^ punctuation.definition.group.brace.begin.tex - markup
+%                                              ^ punctuation.definition.group.brace.end.tex - markup
+%                                               ^ punctuation.definition.group.brace.end.tex - markup
+
+
+\textbf{bold \textnormal{not bold}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%            ^^^^^^^^^^^ support.function.textnormal.latex
+%       ^^^^^ markup.bold.latex
+%            ^^^^^^^^^^^^^^^^^^^^^ meta.function.textnormal.latex - markup
+
+
+\textbf{bold \textsf{still bold}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%            ^^^^^^^ support.function.textsf.latex
+%       ^^^^^ markup.bold.latex
+%            ^^^^^^^^^^^^^^^^^^^ meta.function.textsf.latex
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{bold \textup{still bold}}
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{bold \textmd{not bold}}
+%                    ^^^^^^^^ - markup.bold.latex
+
+\textbf{bold \textlf{not bold}}
+%                    ^^^^^^^^ - markup.bold.latex
+
+\textbf{bold \textbf{still bold}}
+%                    ^^^^^^^^^^ markup.bold.latex
+
+\textbf{bold \texttt{not bold}}
+%                    ^^^^^^^^ markup.raw.inline.latex
+
+\textbf{bold \textsc{not bold}}
+%                    ^^^^^^^^ markup.raw.inline.latex
+
+\textbf{bold \emph{and italic}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex - markup
+%       ^^^^^ markup.bold.latex
+%            ^^^^^ support.function.emph.latex - markup
+%            ^^^^^^^^^^^^^^^^^ meta.function.emph.latex
+%                  ^^^^^^^^^^ markup.bold.latex markup.italic.latex
+
+\textbf{text {in braces} still bold}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textbf.latex
+%             ^^^^^^^^^ markup.bold.latex
+%                        ^^^^^^^^^^ markup.bold.latex
+
+\textit{italic \textbf{bold} italic}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%^^^^^^ support.function.textit.latex - markup
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^^^ markup.italic.latex
+%              ^^^^^^^^^^^^^ meta.function.textbf.latex
+%              ^^^^^^^ support.function.textbf.latex - markup
+%              ^ punctuation.definition.backslash.latex - markup
+%                     ^ punctuation.definition.group.brace.begin.tex - markup
+%                      ^^^^ markup.bold.latex markup.italic.latex
+%                          ^ punctuation.definition.group.brace.end.tex - markup
+%                           ^^^^^^^ markup.italic.latex
+%                                  ^ punctuation.definition.group.brace.end.tex - markup
+
+\textit{italic \textup{upright}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%^^^^^^ support.function.textit.latex
+%       ^^^^^^^ markup.italic.latex
+%              ^^^^^^^^^^^^^^^^ meta.function.textup.latex
+%              ^^^^^^^ support.function.textup.latex
+%                      ^^^^^^^ - markup
+
+\textsl{text \textbf{bold} slanted}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textsl.latex
+%^^^^^^ support.function.textsl.latex
+%      ^ punctuation.definition.group.brace.begin.tex - markup
+%       ^^^^^ markup.italic.latex
+%                    ^^^^ markup.bold.latex markup.italic.latex
+%                        ^ punctuation.definition.group.brace.end.tex - markup
+%                         ^^^^^^^^ markup.italic.latex - markup.bold
+%                                 ^ punctuation.definition.group.brace.end.tex - markup
+
+\textit{italic \textmd{upright}}
+%                      ^^^^^^^ markup.italic.latex
+
+\textit{italic \emph{upright}}
+%                    ^^^^^^^ - markup.italic.latex
+
+\textit{italic \textsf{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textlf{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textrm{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textsl{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textsl{italic \textit{italic}}
+%                      ^^^^^^ markup.italic.latex
+
+\textit{italic \textsc{upright}}
+%                      ^^^^^^^ markup.raw.inline.latex
+
+\textsl{italic \texttt{upright}}
+%                      ^^^^^^^ markup.raw.inline.latex
+
+\textit{italic \textnormal{upright}}
+%              ^^^^^^^^^^^^^^^^^^^^ meta.function.textnormal.latex
+%              ^^^^^^^^^^^ support.function.textnormal.latex
+%                          ^^^^^^^ - markup
+
+\textit{text {in braces} still italic}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.textit.latex
+%             ^^^^^^^^^ markup.italic.latex
+%                        ^^^^^^^^^^^^ markup.italic.latex
+
+\underline{text}
+%^^^^^^^^^^^^^^^ meta.function.underline.latex
+%^^^^^^^^^ support.function.text.latex
+%         ^ punctuation.definition.group.brace.begin.tex - markup
+%          ^^^^ markup.underline.other.latex
+%              ^ punctuation.definition.group.brace.end.tex - markup
+
+
+% Check math in markup
+\textbf{bold $normal math$}
+%            ^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex - markup.bold.latex
+%            ^ string.other.math.tex punctuation.definition.string.begin.tex
+%                        ^ string.other.math.tex punctuation.definition.string.end.tex
+
+\textbf{bold %with comment}
+%            ^^^^^^^^^^^^^^ comment.line.percentage.tex -markup.bold.latex
+}
+
+\textit{italics~with~nbsp}
+%              ^ constant.character.space.tex -markup.italic.latex
+%                   ^ constant.character.space.tex -markup.italic.latex
+
+% check that incomplete code does not break too much
+\textbf no braces here
+%^^^^^^^ meta.function.textbf.latex
+%^^^^^^ support.function.textbf.latex
+%       ^^^^^^^^^^^^^^^ - meta.function
+
+% FOOTNOTE COMMANDS
+
+\footnote{This is a basic footnote}
+% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+
+\footnote [ 5 ] {This is a footnote with a specific reference mark}
+% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%         ^ punctuation.definition.group.bracket.begin.latex
+%         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
+%             ^ punctuation.definition.group.bracket.end.latex
+%               ^ punctuation.definition.group.brace.begin
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+%                                                                 ^ punctuation.definition.group.brace.end
+
+\footnotetext{Footnote text without creating a mark}
+% ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+
+\footnotemark
+% ^^^^^^^^^^^ support.function.footnote.latex
+
+\footnotemark  [ 1   ]
+% ^^^^^^^^^^^ support.function.footnote.latex
+%              ^ punctuation.definition.group.bracket.begin.latex
+%              ^^^^^^^ meta.group.bracket.latex
+%                    ^ punctuation.definition.group.bracket.end.latex
+
+% LIST ENVIRONMENTS
+
+\begin{itemize}
+\item first item
+% <- meta.environment.list.itemize.latex
+\end{itemize}
+
+\begin{enumerate}
+\item first item
+% <- meta.environment.list.enumerate.latex
+\end{enumerate}
+
+\begin{description}
+\item[item] description of item
+% <- meta.environment.list.description.latex
+\end{description}
+
+\begin{list}{(\arabic{listcounter})}{\usecounter{listcounter}}
+\item first item
+% <- meta.environment.list.list.latex
+\end{list}
+
+% VERBATIM
+
+\command{}
+% ^ support.function.general.latex
+\verb|\command{}|
+%      ^ markup.raw.verb.latex
+%      ^ meta.environment.verbatim.verb.latex
+%      ^ - support.function.general.latex
+\verb+\command{}+
+%      ^ markup.raw.verb.latex
+%      ^ meta.environment.verbatim.verb.latex
+%      ^ - support.function.general.latex
+\verb|foo % bar|
+% ^^^^^^^^^^^^^^ meta.environment.verbatim.verb.latex
+%         ^^^^^ - comment
+
+% <- - meta.environment.verbatim.verb.latex
+
+\begin{verbatim}
+% ^ support.function.begin.latex keyword.control.flow.begin.latex
+%        ^ variable.parameter.function.latex
+The \emph{verbatim} environment sets everything in verbatim.
+% <- meta.environment.verbatim.verbatim.latex
+% ^ markup.raw.verbatim.latex
+%         ^ - markup.italic.emph.latex
+\command{}
+% ^ - support.function.general.latex
+% This is not a comment
+% <- - comment.line.percentage.tex
+\end{verbatim}
+
+
+% COMMANDS INSIDE ARGUMENTS
+
+\makebox[\linewidth]{...}
+% ^ support.function.box.latex
+%         ^ support.function.general.latex
+
+\includegraphics[width=0.33\textwidth, angle=30]{test.png}
+% ^ support.function.includegraphics.latex
+%                           ^ support.function.general.latex
+
+% Nested optional arguments
+\includegraphics[width={\foo[argument]{bar}}]{test.png}
+% ^ support.function.includegraphics.latex
+%                        ^ meta.group.bracket.latex
+%                          ^ support.function.general.latex
+%                               ^ meta.group.bracket.latex
+%                                     ^ punctuation.definition.group.brace.begin
+%                                        ^ meta.group.brace.tex
+%                                         ^ punctuation.definition.group.brace.end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Check we have always a shared environment
+
+ $f(x) = x^2$
+%^ string.other.math.tex punctuation.definition.string.begin.tex
+%^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
+% ^^^^^^^^^^ markup.math.inline - string
+%           ^ punctuation.definition.string.end.tex - markup.math.inline
+
+ $\verb!$! \alpha$
+%^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+% ^^^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex markup.math.inline
+%       ^ markup.raw.verb.latex
+%          ^^^^^^ keyword.other.math.greek.tex
+%                ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.end.tex
+
+ $$f(x) = x^2$$
+%^^ string.other.math.tex punctuation.definition.string.begin.tex
+%^^^^^^^^^^^^^^ meta.environment.math.block.dollar.tex
+%  ^^^^^^^^^^ markup.math.block - string
+%            ^^ string.other.math.tex punctuation.definition.string.end.tex - markup.math.block
+
+ \(f(x) = x^2\)
+%^^^^^^^^^^^^^^ meta.environment.math.inline.paren.latex
+%  ^^^^^^^^^^ markup.math.inline - string
+%^^ string.other.math.latex punctuation.definition.string.begin.latex
+%            ^^ string.other.math.latex punctuation.definition.string.end.latex - markup.math.inline
+
+
+ \[
+%^^ string.other.math.latex punctuation.definition.string.begin.latex
+  f(x) = x^2 \text{ $f$ is a function}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.math.block.bracket.latex markup.math.block
+% ^^^^^^^^^^ - string 
+ \]
+%^^ meta.environment.math.block.bracket.latex punctuation.definition.string.end.latex - markup.math.inline
+%  ^ - meta.environment.math
+
+\ensuremath{f(x) = x^2}
+% <- meta.function.ensuremath.latex support.function.ensuremath.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.ensuremath.latex - meta.function meta.function - meta.group
+%          ^^^^^^^^^^^^ meta.function.ensuremath.latex meta.group.brace.tex - meta.function meta.function
+%          ^ - meta.environment.math - markup.math
+%           ^^^^^^^^^^ meta.environment.math.inline.ensuremath.latex markup.math.inline
+%                     ^ - meta.environment.math - markup.math
+%^^^^^^^^^^ support.function.ensuremath.latex
+%          ^ punctuation.definition.group.brace.begin.tex
+%                     ^ punctuation.definition.group.brace.end.tex
+
+\ensuremath % 
+%^^^^^^^^^^^^^ meta.function.ensuremath.latex - meta.function meta.function
+%^^^^^^^^^^ support.function.ensuremath.latex
+%           ^^ comment.line.percentage.tex
+     {x^2}{normal text}
+%^^^^^^^^^ meta.function.ensuremath.latex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^ meta.environment.math.inline.ensuremath.latex markup.math.inline
+%        ^ punctuation.definition.group.brace.end.tex
+%         ^^^^^^^^^^^^^ - meta.function.ensuremath.latex
+
+\ensuremaths{5}
+%            ^ - meta.function.ensuremath.latex
+
+\begin{equation}
+% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^ variable.parameter.function.latex
+%              ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{equation}
+% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
+
+\begin{equation*}
+% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^ variable.parameter.function.latex
+%               ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{equation*}
+% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+
+\begin{IEEEeqnarray}
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^^^^ variable.parameter.function.latex
+%                  ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{IEEEeqnarray}
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^^^^ variable.parameter.function.latex
+%                ^ punctuation.definition.group.brace.end.tex
+
+\begin{IEEEeqnarray}{c}
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^^^^ variable.parameter.function.latex
+%                  ^ punctuation.definition.group.brace.end.tex
+%                   ^ punctuation.definition.group.brace.begin.tex
+%                    ^ variable.parameter.function.latex
+%                     ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{IEEEeqnarray}
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^^^^ variable.parameter.function.latex
+%                ^ punctuation.definition.group.brace.end.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Boxes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mbox{text}{text}
+%       ^ meta.function.box.latex
+%             ^ -meta.function.box.latex
+\parbox{text}{text}{text}
+%       ^ meta.function.box.latex
+%             ^ meta.function.box.latex
+%                    ^ -meta.function.box.latex
+
+\makebox   \break
+%        ^ meta.function.box.latex
+%           ^ -meta.function.box.latex
+
+% PACKAGE: comment
+% The comment package can be used to write block comment
+% using an environment.
+
+\begin{comment}
+% ^ support.function.begin.latex keyword.control.flow.begin.latex
+%      ^ variable.parameter.function.latex
+This environment can be used to write
+% <- comment.block.environment.comment.latex
+block comments.
+% <- comment.block.environment.comment.latex
+\end{comment}
+
+
+\comment
+% <- comment.block.command.comment.latex
+% ^ punctuation.definition.comment.start.latex
+This block comment can be done with
+% <- comment.block.command.comment.latex
+opening and closing commands.
+% <- comment.block.command.comment.latex
+\endcomment
+% <- comment.block.command.comment.latex
+% ^ punctuation.definition.comment.end.latex
+
+
+% PACKAGE: listings
+% The listings package is used to highlight source code.
+% Supported languages:
+% - python
+% - java
+
+\begin{lstlisting} % python
+def my_function():
+    pass
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.pass.python
+\end{lstlisting}
+
+\begin{lstlisting}[frame=single,
+                   language=python] %python
+def my_function():
+    pass
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.pass.python
+\end{lstlisting}
+
+\begin{lstlisting} %java
+class MyClass() {
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.java.latex
+% <- source.java.embedded
+% ^ keyword.declaration.class.java
+}
+\end{lstlisting}
+
+\lstinline{var x = 15;}
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex - meta.environment meta.environment
+%         ^^^^^^^^^^^^^ meta.group.brace.tex
+%         ^ punctuation.definition.group.brace.begin
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                     ^ punctuation.definition.group.brace.end
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
+\lstinline|var x = 15;|
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex - meta.environment meta.environment
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
+
+% PACKAGE: minted
+% The minted package is used to highlight source code using
+% the Pygments library.
+
+\begin{minted}[linenos=true]{python}
+def my_function():
+    pass
+% <- meta.environment.verbatim.minted.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.pass.python
+\end{minted}
+
+
+\mint{python}{import this}
+%             ^ meta.environment.verbatim.minted.latex
+%             ^ meta.environment.embedded.python.latex
+%             ^ source.python.embedded
+%             ^ keyword.control.import.python
+
+% instead of embedding the code into { and } it is also possible
+% to use an arbitrary character
+\mint{python}|import this|
+%             ^ meta.environment.verbatim.minted.latex
+%             ^ source.python.embedded
+
+
+\mintinline{python}{print(x ** 2)}
+%                    ^ meta.environment.verbatim.minted.latex
+%                    ^ meta.environment.embedded.python.latex
+%                    ^ source.python.embedded
+%                    ^ support.function.builtin.python
+
+\mintinline{python}+print(x ** 2)+
+%                    ^ source.python.embedded
+
+
+% PACKAGE: array
+% The array package extends array and tabular environments
+% and allows for macros in format specifications
+
+\begin{tabular}
+% <- -meta.environment.tabular.latex
+\end{tabular}
+
+\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
+%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex
+%                  ^ keyword.operator.inter-column-line.latex
+%                     ^ support.function.inter-column-nospace.latex
+
+\hline
+
+a & b
+% <- meta.environment.tabular.latex
+
+\hline
+
+\end{tabular}
+% ^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
+%     ^ variable.parameter.function.latex
+
+
+\begin{tabular}{*{3}{>{$}c<{$}}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
+%               ^ support.function.insert-repeated.latex
+%                ^^^ meta.function.insert-repeated-count.latex
+%                 ^ constant.numeric.array-count.latex
+%                    ^ support.function.insert-before-column.latex
+%                   ^^^^^^^^^^^ meta.function.insert-repeated-content.latex
+%                         ^ support.function.insert-after-column.latex
+    a & b & c \\\hline
+    1 & 2 & 3
+\end{tabular}
+
+
+% issue 1280
+
+\begin{tabular}{p{2.6cm} | p{6.0cm} }
+%               ^^^^^^^^^^^^^^^^^^^ meta.environment.tabular meta.function.column-spec
+%               ^ support.function.parbox-column
+%                        ^ keyword.operator.inter-column-line
+%                          ^ support.function.parbox-column
+%                                  ^ meta.environment.tabular meta.function.column-spec
+\end{tabular}
+
+% issue 2238
+
+% \usepackage{dcolumn}
+\begin{tabular}{c|D{\%}{\cdot}{-1}}
+%              ^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex - comment
+%                   ^^ constant.character.escape.tex
+%                       ^^^^^ support.function.general.latex
+\end{tabular}
+
+\AnyDeclarationCommand{\eq}{\begin{equation}}
+
+% <- - meta.environment.math
+
+\wrapcommand{$}
+
+% <- - meta.environment.math
+
+\wrapcommand{\[}
+
+% <- - meta.environment.math
+
+$f(x) = \} {} y$
+% ^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
+
+$\alpha \cdot \beta \leq \cos( 5 )$
+%^ punctuation.definition.backslash.tex
+%^^^^^^ keyword.other.math.greek.tex
+%       ^ punctuation.definition.backslash.tex
+%       ^^^^^ keyword.other.math.binary-operator.tex
+%                   ^^^^ keyword.other.math.relation.tex
+%
+$s \gets \sum_{\imath = 0}^10 \langle \hat{x}, x \rangle$
+%  ^^^^^ keyword.other.math.arrow.tex
+%        ^^^^ keyword.other.math.large-operator.tex
+%              ^^^^^^ keyword.other.math.symbol.tex
+%                             ^^^^^^^ keyword.other.math.delimiter.tex
+%                                     ^^^^ keyword.other.math.accent.tex
+%                                                ^^^^^^^ keyword.other.math.delimiter.tex
+
+$$
+  \begin{foo}
+% ^^^^^^ keyword.control.flow.begin.latex
+  \end{foo}
+% ^^^^ keyword.control.flow.end.latex
+$$
+
+\end{document}
+% ^ support.function.end.latex keyword.control.flow.end.latex
+%        ^ variable.parameter.function.latex

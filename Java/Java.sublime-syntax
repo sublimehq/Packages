@@ -152,13 +152,17 @@ contexts:
     - include: labeled-statements
 
   expressions:
+    - include: instantiations
+    - include: lambdas
+    - include: constant-expressions
+
+  constant-expressions:
     - include: groups
     - include: literals
     - include: punctuations
-    - include: lambdas
     - include: operators
-    - include: instantiations
-    - include: primitive-types
+    - include: type-comparisons
+    - include: primitive-maybe-class-literals
     - include: var-types
     - include: array-modifiers
     - include: storage-modifiers
@@ -180,7 +184,7 @@ contexts:
       scope:
         comment.block.documentation.java
         punctuation.definition.comment.begin.java
-      embed: Packages/Java/JavaDoc.sublime-syntax#javadoc
+      embed: Packages/Java/Embeddings/JavaDoc.sublime-syntax#javadoc
       embed_scope: comment.block.documentation.java
       escape: \*+/
       escape_captures:
@@ -259,7 +263,7 @@ contexts:
     # fail: looks like a qualified annotation
     - match: (?={{single_dot}})
       fail: annotation-identifier
-    # fail: truncate meta scope immediatelly
+    # fail: truncate meta scope immediately
     - match: (?=\S)
       fail: annotation-unqualified-parameters
 
@@ -338,7 +342,7 @@ contexts:
     #   - locals:  class, variables
     #   - try/for: variables
     #
-    # Member declarations need to be handled differently as constructurs look
+    # Member declarations need to be handled differently as constructors look
     # exactly like function calls. The other two scopes (global, local) are
     # merged here to maintain syntax highlighting whenever possible. That's
     # needed for `incomplete code` scenarios or if contexts are lost due to
@@ -559,11 +563,18 @@ contexts:
     - include: immediately-pop
 
   import-modifier:
+    - match: module{{break}}
+      scope: keyword.declaration.module.java
+      set: import-module
     - match: static{{break}}
       scope: storage.modifier.java
       set: import-static
     - match: (?=\S)
       set: type-import
+
+  import-module:
+    - include: entity-module
+    - include: else-pop
 
   import-static:
     - match: (?=\S)
@@ -571,7 +582,7 @@ contexts:
 
   import-wildcard:
     - match: \*
-      scope: variable.language.wildcard.asterisk.java
+      scope: constant.other.wildcard.asterisk.java
       pop: 2
       set: import-expect-terminator
 
@@ -731,7 +742,7 @@ contexts:
       scope: meta.constant.identifier.java entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
-    - include: else-pop
+    - include: annotation-else-pop
 
   enum-constant-arguments:
     - meta_content_scope: meta.constant.identifier.java
@@ -981,11 +992,9 @@ contexts:
   field-type-modifier:
     - clear_scopes: 1
     - meta_scope: meta.field.type.java
-    - include: array-modifiers
-    - include: annotations
     - match: (?=[{(]|{{declaration_keywords}}{{break}})
       fail: class-members
-    - include: else-pop
+    - include: maybe-only-array-modifiers
 
   field-identifier-list:
     - match: ','
@@ -1204,6 +1213,9 @@ contexts:
     - include: else-pop
 
   variable-declaration-identifier:
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+      pop: 1
     - match: '{{uppercase_id}}'
       scope: constant.other.java
       pop: 1
@@ -1296,10 +1308,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
     - match: case{{break}}
       scope: keyword.control.conditional.case.java
-      branch_point: case-label
-      branch:
-        - case-label-constant
-        - case-label-expression
+      push: case-label
     - match: default{{break}}
       scope: keyword.control.conditional.default.java
       push: case-default-end
@@ -1322,9 +1331,19 @@ contexts:
       pop: 1
     - include: else-pop
 
-  case-label-constant:
+  case-label:
+    - meta_include_prototype: false
     - meta_scope: meta.statement.conditional.case.java
     - match: (?=\S)
+      branch_point: case-label
+      branch:
+        - case-label-constant
+        - case-label-pattern
+        - case-label-expression
+
+  case-label-constant:
+    - meta_include_prototype: false
+    - match: ''
       set:
         - case-label-constant-end
         - case-label-constant-identifier
@@ -1336,26 +1355,50 @@ contexts:
     - include: case-label-fail
 
   case-label-constant-end:
+    - clear_scopes: 1
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
-    - match: (?=[;{}]|(?:{{keywords}}|{{storage_types}}|{{storage_modifiers}}){{break}})
+    - include: case-label-fail
+
+  case-label-pattern:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - case-label-pattern-end
+        - case-label-pattern-identifier
+        - type-pattern-type
+
+  case-label-pattern-identifier:
+    # prevent `when` from being scoped variable or constant
+    - match: (?=when{{break}})
       pop: 1
+    - include: variable-declaration-maybe-identifier
+
+  case-label-pattern-end:
+    - clear_scopes: 1
+    - meta_content_scope: meta.statement.conditional.case.label.java
+    - match: when{{break}}
+      scope: meta.statement.conditional.case.label.java keyword.control.conditional.when.java
+      pop: 1
+      push: case-label-expression
+    - include: case-label-end
     - include: case-label-fail
 
   case-label-expression:
-    - meta_scope: meta.statement.conditional.case.java
-    - match: (?=\S)
-      set: case-label-expression-body
-
-  case-label-expression-body:
+    - clear_scopes: 1
     - meta_content_scope: meta.statement.conditional.case.label.java
     - include: case-label-end
-    - include: expression
+    - include: constant-expressions
 
   case-label-end:
+    - match: ','
+      scope: meta.statement.conditional.case.java punctuation.separator.comma.java
+      pop: 1
     - match: ':|->'
       scope: meta.statement.conditional.case.java punctuation.separator.expressions.java
-      pop: 1
+      pop: 2
+    - match: (?=[;{}]|(?:{{keywords}}|{{storage_modifiers}}){{break}})
+      pop: 2
 
   case-label-fail:
     - match: (?=\S)
@@ -1574,6 +1617,9 @@ contexts:
       push:
         - maybe-illegal-array-modifiers
         - catch-parameter-type
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+      pop: 1
     - match: '{{identifier}}'
       scope: variable.other.java
       pop: 1
@@ -1931,7 +1977,7 @@ contexts:
 
   receiver-unqualified-type:
     - match: '{{identifier}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
         - receiver-unqualified-type-end
         - maybe-array-modifiers
@@ -1949,7 +1995,7 @@ contexts:
   receiver-qualified-type:
     - meta_scope: meta.path.java
     - match: '{{identifier}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
         - receiver-qualified-type-end
         - qualified-object-type-arguments
@@ -1999,7 +2045,7 @@ contexts:
   receiver-qualified-identifier-path:
     - meta_scope: meta.path.java
     - match: '{{id}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
         - receiver-qualified-identifier-accessor
         - maybe-type-argument
@@ -2053,12 +2099,78 @@ contexts:
     - include: else-pop
 
   parameter-identifier:
+    - match: _{{break}}
+      scope: variable.language.anonymous.java
+      pop: 1
     - match: '{{identifier}}'
       scope: variable.parameter.java
       set: maybe-only-array-modifiers
     - match: '{{variables}}{{break}}'
       scope: invalid.illegal.identifier.java
       set: maybe-only-array-modifiers
+
+###[ TYPE PATTERNS ]###########################################################
+
+  type-comparisons:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
+    - match: instanceof{{break}}
+      scope: keyword.other.storage.instanceof.java
+      push:
+        - type-comparison-meta
+        - type-pattern
+
+  type-comparison-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.instanceof.java
+    - include: immediately-pop
+
+  type-pattern:
+    # https://openjdk.org/jeps/405
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - type-pattern-group-end
+        - type-pattern
+    - match: (?=\S)
+      set:
+        - variable-declaration-maybe-identifier
+        - type-pattern-type
+
+  type-pattern-group-end:
+    - meta_scope: meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      pop: 1
+    - include: else-pop
+
+  type-pattern-type:
+    - include: primitive-maybe-class-literal
+    - include: var-type
+    - match: (?={{identifier}})
+      set:
+        - record-structure-pattern
+        - maybe-only-array-modifiers
+        - object-type
+    - include: annotations
+    - include: maybe-type-argument
+
+  record-structure-pattern:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - record-structure-pattern-body
+        - type-pattern
+    - include: else-pop
+
+  record-structure-pattern-body:
+    - meta_scope: meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push: type-pattern
+    - include: expression-terminator
 
 ###[ VARIABLES ]###############################################################
 
@@ -2081,6 +2193,11 @@ contexts:
 
   method-call-identifier:
     - meta_include_prototype: false
+    - match: _{{break}}
+      scope:
+        meta.function-call.identifier.java
+        variable.language.anonymous.java
+      set: method-call-arguments
     - match: '{{id}}'
       scope:
         meta.function-call.identifier.java
@@ -2102,6 +2219,11 @@ contexts:
 
   lambda-parameter:
     - meta_include_prototype: false
+    - match: _{{break}}
+      scope:
+        meta.function.anonymous.parameters.java
+        variable.language.anonymous.java
+      set: lambda-parameter-end
     - match: '{{id}}'
       scope:
         meta.function.anonymous.parameters.java
@@ -2114,6 +2236,8 @@ contexts:
     - include: else-pop
 
   variable-namespace:
+    - match: _{{break}}
+      fail: variables
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
       push: variable-namespace-accessor
@@ -2126,7 +2250,7 @@ contexts:
       scope: punctuation.accessor.dot.java
       set:
         - match: '{{classcase_id}}'
-          scope: storage.type.class.java
+          scope: support.class.java
           set:
             - variable-namespace-meta
             - maybe-object-type-child
@@ -2143,6 +2267,11 @@ contexts:
 
   variable-other:
     - meta_include_prototype: false
+    - match: _{{break}}
+      scope:
+        meta.variable.identifier.java
+        variable.language.anonymous.java
+      set: variable-other-end
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
@@ -2158,6 +2287,8 @@ contexts:
 
   variable-qualifier:
     - meta_include_prototype: false
+    - match: _{{break}}
+      fail: variables
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
@@ -2215,8 +2346,6 @@ contexts:
 
   literal-variables:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
-    - match: _{{break}}
-      scope: variable.language.anonymous.java
     - match: super{{break}}
       scope: variable.language.super.java
     - match: this{{break}}
@@ -2224,16 +2353,21 @@ contexts:
 
   literal-constants:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.java
+    - match: false{{break}}
+      scope: constant.language.boolean.false.java
+    - match: true{{break}}
+      scope: constant.language.boolean.true.java
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
       scope: constant.language.null.java
 
   literal-constant:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.java
+    - match: false{{break}}
+      scope: constant.language.boolean.false.java
+      pop: 1
+    - match: true{{break}}
+      scope: constant.language.boolean.true.java
       pop: 1
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
     - match: null{{break}}
@@ -2369,8 +2503,6 @@ contexts:
       scope: constant.character.escape.octal.java
     - match: '{{escape_other}}'
       scope: constant.character.escape.other.java
-    - match: \\.
-      scope: invalid.illegal.escape.java
 
 ###[ OPERATORS ]###############################################################
 
@@ -2394,12 +2526,6 @@ contexts:
     - match: '\?'
       scope: keyword.operator.ternary.java
       push: ternary-expression
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
-    - match: instanceof{{break}}
-      scope: keyword.other.storage.instanceof.java
-      push:
-        - maybe-only-array-modifiers
-        - cast-expression-type
 
   operator-ternary-colon:
     - match: ':'
@@ -2410,7 +2536,7 @@ contexts:
     - include: operator-ternary-colon
     - include: expression
 
-###[ PUNCTUATIONS ]############################################################
+###[ PUNCTUATION ]#############################################################
 
   punctuations:
     - match: '::'
@@ -2506,7 +2632,7 @@ contexts:
 
   qualified-constant-class:
     - match: '{{identifier}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       set:
         - qualified-constant-class-accessor
         - maybe-type-argument
@@ -2560,7 +2686,7 @@ contexts:
 
   static-import-class:
     - match: '{{identifier}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       set:
         - static-import-class-accessor
         - maybe-type-argument
@@ -2618,7 +2744,7 @@ contexts:
 
   type-import-class:
     - match: '{{identifier}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       set:
         - type-import-class-accessor
         - maybe-type-argument
@@ -2792,7 +2918,7 @@ contexts:
   object-types:
     # Popular JDK classes, generic type variable
     - match: (?:UUID|UR[LI]|\p{Lu}){{break}}
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
         - maybe-object-type-child
         - maybe-array-modifiers
@@ -2802,7 +2928,7 @@ contexts:
       scope: constant.other.java
     # Classes
     - match: '{{classcase_id}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
         - maybe-object-type-child
         - maybe-array-modifiers
@@ -2820,7 +2946,7 @@ contexts:
       scope: constant.other.java
       pop: 1
     - match: '{{classcase_id}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       set:
         - maybe-object-type-child
         - maybe-array-modifiers
@@ -2849,12 +2975,12 @@ contexts:
 
   unqualified-object-type:
     - match: '{{id}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
-        - unqualiefied-object-type-end
+        - unqualified-object-type-end
         - maybe-type-argument
 
-  unqualiefied-object-type-end:
+  unqualified-object-type-end:
     - match: (?={{single_dot}})
       fail: object-type
     - include: else-pop3
@@ -2883,7 +3009,7 @@ contexts:
 
   qualified-object-type-class:
     - match: '{{identifier}}'
-      scope: storage.type.class.java
+      scope: support.class.java
       push:
         - qualified-object-type-end
         - qualified-object-type-arguments
@@ -2950,7 +3076,7 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       pop: 2
 
-###[ INHERRITED TYPE REFERENCES ]##############################################
+###[ INHERITED TYPE REFERENCES ]###############################################
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-list:
@@ -2971,10 +3097,10 @@ contexts:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
-        - unqualiefied-inherited-object-type-end
+        - unqualified-inherited-object-type-end
         - maybe-type-argument
 
-  unqualiefied-inherited-object-type-end:
+  unqualified-inherited-object-type-end:
     - match: (?={{single_dot}})
       fail: inherited-object-type
     - include: illegal-array-modifiers
@@ -3038,7 +3164,7 @@ contexts:
 
   type-argument-reference:
     - match: \?
-      scope: variable.language.wildcard.java
+      scope: constant.other.wildcard.questionmark.java
       set: type-argument-bounds
     - include: maybe-reference-type
 
@@ -3123,10 +3249,32 @@ contexts:
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
-  primitive-types:
+  primitive-maybe-class-literals:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
-      push: maybe-array-modifiers
+      push: maybe-only-class-literal
+
+  primitive-maybe-class-literal:
+    - match: '{{storage_types}}{{break}}'
+      scope: storage.type.primitive.java
+      set: maybe-only-class-literal
+
+  maybe-only-class-literal:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.8.2
+    - match: '{{single_dot}}'
+      scope: punctuation.accessor.dot.java
+      set: maybe-class-literal
+    - include: array-modifiers
+    - include: annotation-else-pop
+
+  maybe-class-literal:
+    - match: class{{break}}
+      scope: variable.language.class.java
+      pop: 1
+    - match: '{{id}}'
+      scope: invalid.illegal.unexpected-member.java
+      set: maybe-only-class-literal
+    - include: else-pop
 
   primitive-type:
     - match: '{{storage_types}}{{break}}'
@@ -3149,9 +3297,8 @@ contexts:
 
   maybe-only-array-modifiers:
     - include: array-modifiers
-    - include: annotations
     - include: illegal-members
-    - include: else-pop
+    - include: annotation-else-pop
 
   array-modifiers:
     - match: \[\s*\]

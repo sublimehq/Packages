@@ -9,6 +9,10 @@ extends: Packages/CSS/CSS.sublime-syntax
 file_extensions:
   - css.php
 
+variables:
+
+    ident_start: (?:{{nmstart}}|<\?)
+
 contexts:
 
   prototype:

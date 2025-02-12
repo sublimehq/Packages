@@ -1,0 +1,6 @@
+<snippet>
+<content><![CDATA[${TM_TEMPLATE_START}with ${1:pipeline}${TM_TEMPLATE_END}]]></content>
+<tabTrigger>twith</tabTrigger>
+<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.yaml.go | source.go string) - source.go.template</scope>
+<description>{{with ...}}</description>
+</snippet>

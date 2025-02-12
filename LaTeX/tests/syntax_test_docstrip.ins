@@ -1,0 +1,89 @@
+% SYNTAX TEST "Packages/LaTeX/DocStrip.sublime-syntax"
+
+\input docstrip.tex
+%^^^^^ meta.function.input.tex keyword.control.input.tex
+
+
+\keepsilent
+%^^^^^^^^^^ constant.language.tex.docstrip
+
+
+\usedir{tex/latex/somewhere}
+%^^^^^^ support.function.tex.docstrip
+
+
+
+\preamble
+%^^^^^^^^ keyword.context.block.tex.docstrip
+This is a generated file.
+
+This file may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either
+version 1.3 of this license or (at your option) any later
+version. The latest version of this license is in:
+http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of
+LaTeX version 2005/12/01 or later.
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.verbatim.tex
+\endpreamble
+%^^^^^^^^^^^ keyword.context.block.tex.docstrip
+
+\declarepostamble
+%^^^^^^^^^^^^^^^^ keyword.context.block.tex.docstrip
+some text to copy
+%^^^^^^^^^^^^^^^^^ markup.raw.verbatim.tex
+\endpostamble
+%^^^^^^^^^^^^ keyword.context.block.tex.docstrip
+
+\askforoverwritefalse
+%^^^^^^^^^^^^^^^^^^^^ constant.language.tex.docstrip
+
+\askforoverwritetrue
+%^^^^^^^^^^^^^^^^^^^ constant.language.tex.docstrip
+
+\nopreamble
+%^^^^^^^^^^ constant.language.tex.docstrip
+
+\usepostamble
+%^^^^^^^^^^^^ constant.language.tex.docstrip
+
+\askonceonly
+%^^^^^^^^^^^ constant.language.tex.docstrip
+
+\showprogress
+%^^^^^^^^^^^^ constant.language.tex.docstrip
+
+
+\batchinput{other.docstrip}
+%^^^^^^^^^^ meta.function.input.tex keyword.control.input.tex
+
+\let\MetaPrefix \DoubleperCent \perCent
+%   ^^^^^^^^^^^ constant.language.tex.docstrip
+%               ^^^^^^^^^^^^^^ constant.language.tex.docstrip
+%                              ^^^^^^^^ constant.language.tex.docstrip
+%   ^ punctuation.definition.backslash.tex
+%               ^ punctuation.definition.backslash.tex
+
+
+\ifToplevel{Conditional code executed}
+%^^^^^^^^^^ keyword.control.conditional.tex.docstrip
+
+\generate{\file{target.sty}{\from{source.dtx}{pattern}}}
+%^^^^^^^^ keyword.tex.docstrip
+%         ^^^^^ keyword.tex.docstrip
+%               ^^^^^^^^^^ meta.path.tex.docstrip
+%                           ^^^^^ keyword.tex.docstrip
+%                                 ^^^^^^^^^^ meta.path.tex.docstrip
+
+
+% Old but still supported syntax:
+\generateFile{README.txt}{t}{\from{test.dtx}{README}}
+%^^^^^^^^^^^^ keyword.tex.docstrip
+%             ^^^^^^^^^^ meta.path.tex.docstrip
+%                            ^^^^^ keyword.tex.docstrip
+%                                  ^^^^^^^^ meta.path.tex.docstrip
+
+\Msg{* "example" package is now generated}
+%^^^ support.function.tex.docstrip
+\endbatchfile
+%^^^^^^^^^^^^ keyword.control.tex

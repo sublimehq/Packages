@@ -1,1 +1,10 @@
+# MacOS specific ignores
 .DS_Store
+
+# excluded packages
+/Default/
+/User/
+
+# python cache files
+__pycache__/
+*.pyc

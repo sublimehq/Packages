@@ -38,7 +38,8 @@
 // Test highlighting/scope with struct field attributes
 // https://github.com/rust-lang/sublime-rust/issues/120
 pub struct Claim {
-//  ^^^^^^^^ meta.struct
+//  ^^^^^^^^^^^^^^^ meta.struct.rust
+//  ^^^^^^ keyword.declaration.struct.rust
     pub claim_id: String,
 //  ^^^ storage.modifier
     pub patient_id: String,
@@ -64,11 +65,17 @@ enum E {
 //  ^^^^^^^^^^^^^^^^^^^ meta.enum meta.annotation
 //    ^^^^^ variable.annotation
     A(i32),
-//    ^^^ meta.enum meta.struct meta.group storage.type
+//  ^^^^^^^^ meta.block.rust meta.enum.rust
+//    ^^^ storage.type
+    BadInt(#[from] ParseIntError),
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.rust meta.enum.rust
+//         ^^^^^^^ meta.annotation
+
 }
 
 // Generic parameters.
 unsafe impl<#[may_dangle] T: ?Sized> Drop for Box<T> { }
+//     ^^^^ keyword.declaration.impl
 //          ^^^^^^^^^^^^^ meta.annotation
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.impl meta.generic
 
@@ -115,7 +122,7 @@ unsafe impl<#[may_dangle] T: ?Sized> Drop for Box<T> { }
         true,
 //      ^^^^ constant.language
         struct,
-//      ^^^^^^ storage.type.struct
+//      ^^^^^^ keyword.declaration.struct
         1 + 1,
 //      ^ constant.numeric.integer.decimal
 //        ^ keyword.operator.arithmetic
@@ -139,4 +146,16 @@ unsafe impl<#[may_dangle] T: ?Sized> Drop for Box<T> { }
 #[rustfmt::skip]
 //^^^^^^^^^^^^^^ meta.annotation
 //^^^^^^^^^^^^^ meta.path
+//       ^^ punctuation.accessor
 //         ^^^^ variable.annotation
+
+
+#[rustfmt::skip(rust::fmt::skip())]
+//             ^^^^^^^^^^^^^^^^^^^ meta.annotation meta.annotation.parameters meta.group
+//              ^^^^^^^^^^^^^^^ meta.path
+//                  ^^ punctuation.accessor
+//                       ^^ punctuation.accessor
+//                         ^^^^^^ meta.function-call
+//                         ^^^^ variable.function
+//                             ^ meta.group meta.group punctuation.section.group.begin
+//                              ^ meta.group meta.group punctuation.section.group.end

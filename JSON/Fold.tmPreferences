@@ -14,12 +14,16 @@
                 <string>punctuation.section.sequence.begin</string>
                 <key>end</key>
                 <string>punctuation.section.sequence.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
             </dict>
             <dict>
                 <key>begin</key>
                 <string>punctuation.section.mapping.begin</string>
                 <key>end</key>
                 <string>punctuation.section.mapping.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
             </dict>
         </array>
     </dict>

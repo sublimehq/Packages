@@ -1,5 +1,86 @@
 /* SYNTAX TEST "Packages/C++/C++.sublime-syntax" */
 
+// =Banner=
+/*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
+
+// = Banner =
+/* ^^^^^^^^^^^ comment.line.banner.c */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.line.c */
+/*         ^^^ - meta.toc-list  */
+
+// Comment //
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*        ^^ comment.line.double-slash.c punctuation.definition.comment.c */
+
+//! Comment
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+
+/// Comment ///
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+ /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
+
+//// Comment ////  
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*  ^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*          ^^^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*               ^^ comment.line.double-slash.c - punctuation */
+
+/* =Banner= */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*  ^^^^^^ meta.toc-list.banner.block.c  */
+/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+/* = Banner = */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.block.c  */
+/*         ^^^^^ - meta.toc-list  */
+/*            ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+   /*****/
+/* ^^^^^^^ comment.block.empty.c punctuation.definition.comment.c */
+
+   /**
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /***
+/* ^^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!****
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c - punctuation */
+
+   /*!****/
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c punctuation.definition.comment.end.c */
+
+   /*!
+    * docstring
+    **/
+/*  ^^^ comment.block.documentation.c */
+
+    */
+/*  ^^ invalid.illegal.stray-comment-end.c */
+
+    **/
+/*  ^^^ invalid.illegal.stray-comment-end.c */
+
 Task<int> natural_numbers()
 {
   int n = 0;
@@ -168,14 +249,12 @@ some_namespace::some_function(int a_parameter, double another_parameter) {
 #endif
 
 #if 0000000
-/*
-    ^^^^^^^ meta.number constant.numeric.value
+/*  ^^^^^^^ meta.number constant.numeric.value
 */
 #endif
 
 #if 0090
-/*
-    ^^^^ meta.number constant.numeric.value
+/*  ^^^^ meta.number constant.numeric.value
 */
 #endif
 
@@ -381,14 +460,41 @@ bool b;
 char ch;
 /* <- storage.type */
 
-char16_t ch16;
-/* <- storage.type */
+size_t size_t_var;
+/* <- support.type.stddef */
 
-char32_t ch32;
-/* <- storage.type */
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
 
-wchar_t wch;
-/* <- storage.type */
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
 
 unsigned int ui;
 /* <- storage.type */
@@ -708,7 +814,7 @@ A<B<C>> f(std::function<A<B<C>>()> g) {
 }
 int main() {
     std::function<C()> foo1;
-    /*          ^ - variabe.function */
+    /*          ^ - variable.function */
     std::function<B<C>()> foo2;
     /*          ^ - variable.function */
     auto f = [](std::function<A<B<C>>()> g) { return g(); };
@@ -2441,6 +2547,23 @@ MyEnum MACRO1
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
+int bar(int, int const *, int const * const);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+/*     ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
+/*                                          ^ punctuation.terminator */
+/*      ^^^ storage.type */
+/*         ^ punctuation.separator */
+/*           ^^^ storage.type */
+/*               ^^^^^ storage.modifier */
+/*                     ^ keyword.operator */
+/*                      ^ punctuation.separator */
+/*                        ^^^ storage.type */
+/*                            ^^^^^ storage.modifier */
+/*                                  ^ keyword.operator */
+/*                                    ^^^^^ storage.modifier */
+
 int foo(int val, float val2[], bool val3 = false)
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
@@ -2813,7 +2936,7 @@ void sayHi()
 
 /**
       *
-/*    ^ comment.block.c punctuation.definition.comment.c */
+/*    ^ comment.block.documentation.c punctuation.definition.comment.c */
 
 /////////////////////////////////////////////
 // Modules
@@ -3015,3 +3138,86 @@ void test4()
 {
     return;
 }
+
+/////////////////////////////////////////////
+// Concepts
+/////////////////////////////////////////////
+
+template <typename T>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+concept has_foo = requires(T t) {
+/* <- meta.concept.c++ keyword.declaration.concept.c++ */
+/*      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ */
+/*      ^^^^^^^ meta.concept.c++ entity.name.concept.c++ */
+/*                ^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+/*                        ^^^^^ meta.function.parameters.c++ */
+/*                              ^ meta.function.c++  meta.block.c++ */
+    t.foo();
+/*  ^^^^^^^^ meta.concept.c++ meta.constraint.c++ meta.function.c++ meta.block.c++ */
+} && std::move_constructible<T>;
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+
+template <typename C>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+void foo() requires std::same_as<C, void>
+/* <- storage.type.c */
+/*   ^^^ meta.function.c++ entity.name.function.c++ */
+/*         ^^^^^^^^ meta.function.c++ meta.constraint.c++ storage.modifier.c++ */
+/*                    ^^^^^^^^^^^^^^^^^^^^^ meta.function.c++ meta.constraint.c++ */
+{
+    return;
+}
+
+template <typename C> requires std::same_as<C, void>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+/*                    ^^^^^^^^ meta.constraint.c++ storage.modifier.c++ */
+/*                             ^^^^^^^^^^^^^^^^^^^^^ meta.constraint.c++ */
+void bar()
+/* <- storage.type.c */
+/*   ^^^ meta.function.c++ entity.name.function.c++ */
+{
+    return;
+}
+
+#define GTY0
+/*      ^^^^ meta.preprocessor.macro.c++ */
+#define GTY1(A)
+/*      ^^^^    entity.name.function.preprocessor */
+/*          ^^^ meta.preprocessor.macro.parameters */
+#define GTY2(A, B)
+/*      ^^^^       entity.name.function.preprocessor */
+/*          ^^^^^^ meta.preprocessor.macro.parameters */
+
+struct GTY0 foo {
+/*<- keyword.declaration.struct.type.c++ */
+/*     ^^^^  meta.assumed-macro */
+/*          ^^^ entity.name.struct.c++ */
+};
+
+struct GTY1(42) bar {
+/*<- keyword.declaration.struct.type.c++ */
+/*     ^^^^ meta.function-call.c++ */
+/*          ^^ constant.numeric.value.c++ */
+/*              ^^^ entity.name.struct.c++ */
+};
+
+enum GTY1("struct") baz {
+/*<- keyword.declaration.enum.type.c++ */
+/*   ^^^^ meta.function-call.c++ */
+/*        ^^^^^^^^ string */
+/*                  ^^^ entity.name.enum.c++ */
+};
+
+union GTY2("union struct", 42) bazz {
+/*<- keyword.declaration.union.type.c++ */
+/*    ^^^^ meta.function-call.c++ */
+/*         ^^^^^^^^^^^^^^ string */
+/*                         ^^ constant.numeric.value.c++ */
+/*                             ^^^^ entity.name.union.c++ */
+};
+
+class GTY2("struct class", 42) bazzz {
+/*<- keyword.declaration.class.c++ */
+/*    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*                             ^^^^^ entity.name.class.c++ */
+};

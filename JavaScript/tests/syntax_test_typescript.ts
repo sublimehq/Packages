@@ -1,102 +1,102 @@
 // SYNTAX TEST "Packages/JavaScript/TypeScript.sublime-syntax"
 
 // comment
-// <- comment.line.double-slash.js punctuation.definition.comment.js
-//^^^^^^^^^ comment.line.double-slash.js
+// <- comment.line.double-slash punctuation.definition.comment
+//^^^^^^^^^ comment.line.double-slash
 
 // comment //
-// <- comment.line.double-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^^^ comment.line.double-slash.js
-//         ^^ punctuation.definition.comment.js
+// <- comment.line.double-slash punctuation.definition.comment
+//^^^^^^^^^^^^ comment.line.double-slash
+//         ^^ punctuation.definition.comment
 
 /// comment
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^ comment.line.triple-slash.js
+// <- comment.line.triple-slash punctuation.definition.comment
+//^^^^^^^^^^ comment.line.triple-slash
 
 /// comment ///
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^ comment.line.triple-slash.js
-//          ^^^ punctuation.definition.comment.js
+// <- comment.line.triple-slash punctuation.definition.comment
+//^^^^^^^^^^^^^^ comment.line.triple-slash
+//          ^^^ punctuation.definition.comment
 
 /////////////////////////////////////////////////////////////////
-// <- comment.line.other.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
-//                                                               ^ comment.line.other.js - punctuation
+// <- comment.line.other punctuation.definition.comment
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other punctuation.definition.comment
+//                                                               ^ comment.line.other - punctuation
 
 /* */
-// <- comment.block.js punctuation.definition.comment.begin.js
-//^^^ comment.block.js
+// <- comment.block punctuation.definition.comment.begin
+//^^^ comment.block
 //   ^ - comment
 
     /**/ /***/
 // ^ - comment
-//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
+//  ^^^^ comment.block.empty punctuation.definition.comment
 //      ^ - comment
-//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
+//       ^^^^^ comment.block.empty punctuation.definition.comment
 //            ^ - comment
 
     /** @todo **/
-//  ^^^^^^^^^^^^^ comment.block.documentation.js
-//  ^^^ punctuation.definition.comment.begin.js
-//      ^^^^^ entity.other.attribute-name.documentation.js
-//            ^^^ punctuation.definition.comment.end.js
+//  ^^^^^^^^^^^^^ comment.block.documentation
+//  ^^^ punctuation.definition.comment.begin
+//      ^^^^^ entity.other.attribute-name.documentation
+//            ^^^ punctuation.definition.comment.end
 
     /**
 // ^ - comment
-//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
-//     ^ comment.block.documentation.js - punctuation
+//  ^^^ comment.block.documentation punctuation.definition.comment.begin
+//     ^ comment.block.documentation - punctuation
      * @todo test it
-//   ^ comment.block.documentation.js punctuation.definition.comment.js
-//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
-//     ^^^^^ entity.other.attribute-name.documentation.js
+//   ^ comment.block.documentation punctuation.definition.comment
+//    ^^^^^^^^^^^^^^^ comment.block.documentation
+//     ^^^^^ entity.other.attribute-name.documentation
      **/
-//^^^ comment.block.documentation.js - punctuation
-//   ^^^ comment.block.documentation.js
+//^^^ comment.block.documentation - punctuation
+//   ^^^ comment.block.documentation
 //      ^ - comment
 
     /*** @todo ***/
-//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
-//  ^^^^ punctuation.definition.comment.begin.js
-//       ^^^^^ entity.other.attribute-name.documentation.js
-//             ^^^^ punctuation.definition.comment.end.js
+//  ^^^^^^^^^^^^^^^ comment.block.documentation
+//  ^^^^ punctuation.definition.comment.begin
+//       ^^^^^ entity.other.attribute-name.documentation
+//             ^^^^ punctuation.definition.comment.end
 
     /***
 // ^ - comment
-//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
-//      ^ comment.block.documentation.js - punctuation
+//  ^^^^ comment.block.documentation punctuation.definition.comment.begin
+//      ^ comment.block.documentation - punctuation
      * @todo test it
-//   ^ comment.block.documentation.js punctuation.definition.comment.js
-//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
-//     ^^^^^ entity.other.attribute-name.documentation.js
+//   ^ comment.block.documentation punctuation.definition.comment
+//    ^^^^^^^^^^^^^^^ comment.block.documentation
+//     ^^^^^ entity.other.attribute-name.documentation
      ***/
-//^^^ comment.block.documentation.js - punctuation
-//   ^^^^ comment.block.documentation.js
+//^^^ comment.block.documentation - punctuation
+//   ^^^^ comment.block.documentation
 //       ^ - comment
 
 /// <reference no-default-lib="true"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^ comment.line.triple-slash.js punctuation.definition.comment.js
-// ^ comment.line.triple-slash.js - meta.preprocessor
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
-//                                    ^ comment.line.triple-slash.js - meta.preprocessor
+// <- comment.line.triple-slash punctuation.definition.comment
+//^ comment.line.triple-slash punctuation.definition.comment
+// ^ comment.line.triple-slash - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash meta.preprocessor.directive meta.tag.xml
+//                                    ^ comment.line.triple-slash - meta.preprocessor
 
 /// <foo bar="baz"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^ comment.line.triple-slash.js punctuation.definition.comment.js
-// ^ comment.line.triple-slash.js - meta.preprocessor
-//  ^^^^^^^^^^^^^^^^ comment.line.triple-slash.js meta.preprocessor.directive.js meta.tag.xml
-//                  ^ comment.line.triple-slash.js - meta.preprocessor
+// <- comment.line.triple-slash punctuation.definition.comment
+//^ comment.line.triple-slash punctuation.definition.comment
+// ^ comment.line.triple-slash - meta.preprocessor
+//  ^^^^^^^^^^^^^^^^ comment.line.triple-slash meta.preprocessor.directive meta.tag.xml
+//                  ^ comment.line.triple-slash - meta.preprocessor
 
 //// <foo bar="baz"/>
-// <- comment.line.other.js punctuation.definition.comment.js
-//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
+// <- comment.line.other punctuation.definition.comment
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other - meta.preprocessor
 
 import foo;
 
 /// <normal comment="after first statement"/>
-// <- comment.line.triple-slash.js punctuation.definition.comment.js
-//^ comment.line.triple-slash.js punctuation.definition.comment.js
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - punctuation - meta.preprocessor
+// <- comment.line.triple-slash punctuation.definition.comment
+//^ comment.line.triple-slash punctuation.definition.comment
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash - punctuation - meta.preprocessor
 
 
 /* Import/Export */
@@ -108,6 +108,14 @@ import foo;
 //              ^ variable.other.readwrite
 //                ^^^^ keyword.control.import-export
 //                     ^^^^^^^^^^^ meta.string string.quoted.single
+
+    import type from 'somewhere';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ variable.other.readwrite
+//              ^^^^ keyword.control.import-export
+//                   ^^^^^^^^^^^ meta.string string.quoted.single
+//                              ^ punctuation.terminator.statement
 
     import type { U, V } from 'somewhere';
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
@@ -125,7 +133,7 @@ import foo;
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^ meta.block
 //         ^ punctuation.section.block.begin
-//           ^^^^ keyword.control.import-export.ts
+//           ^^^^ keyword.control.import-export
 //                ^ variable.other.readwrite
 //                  ^ punctuation.section.block.end
 //                    ^^^^ keyword.control.import-export
@@ -135,10 +143,37 @@ import foo;
 //                                    ^ punctuation.terminator.statement
 
     export type T = any;
-//  ^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^ meta.type-alias
-//                     ^ punctuation.terminator.statement.empty - meta.export
+//                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    export type { T } from 'somewhere';
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ keyword.control.import-export
+//              ^^^^^ meta.block
+//              ^ punctuation.section.block.begin
+//                ^ variable.other.readwrite
+//                  ^ punctuation.section.block.end
+//                    ^^^^ keyword.control.import-export
+//                         ^^^^^^^^^^^ meta.string string.quoted.single
+//                         ^ punctuation.definition.string.begin
+//                                   ^ punctuation.definition.string.end
+//                                    ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    export type * as T from 'somewhere';
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//  ^^^^^^ keyword.control.import-export
+//         ^^^^ keyword.control.import-export
+//              ^ constant.other
+//                ^^ keyword.control.import-export
+//                   ^ variable.other.readwrite
+//                     ^^^^ keyword.control.import-export
+//                          ^^^^^^^^^^^ meta.string string.quoted.single
+//                          ^ punctuation.definition.string.begin
+//                                    ^ punctuation.definition.string.end
+//                                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
 
     export interface Foo {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -187,7 +222,7 @@ import foo;
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^ meta.block
 //         ^ punctuation.section.block.begin
-//           ^^^^ keyword.control.import-export.ts
+//           ^^^^ keyword.control.import-export
 //                ^ variable.other.readwrite
 //                  ^^ keyword.control.import-export
 //                     ^ variable.other.readwrite
@@ -270,7 +305,7 @@ import foo;
         y = 2,
 //      ^ variable.other.readwrite
 //        ^ keyword.operator.assignment
-//          ^ meta.number.integer.decimal.js constant.numeric.value.js
+//          ^ meta.number.integer.decimal constant.numeric.value
 //           ^ punctuation.separator.comma
 
         'FOO'
@@ -344,6 +379,25 @@ import foo;
 //                     ^ keyword.operator.assignment
 //                       ^^^ meta.type-alias support.type.any
 
+    // ensure fixed deadlock caused by incomplete/invalid type expressions
+    // https://github.com/sublimehq/Packages/issues/3598
+    type x = {
+        bar: (cb: (
+//^^^^^^^^^^^^^^^^^^ meta.type-alias meta.mapping
+//     ^^^^^^ - meta.group
+//           ^^^ meta.type meta.group
+//              ^^ - meta.group
+//      ^^^ variable.other.readwrite
+//         ^ punctuation.separator.type
+//           ^ punctuation.section.group.begin
+//            ^^ support.class
+//                ^ punctuation.section.group.begin
+    };
+//  ^ meta.type-alias meta.mapping
+//   ^ - meta.type-alias - meta.mapping
+//  ^ punctuation.section.mapping.end
+//   ^ punctuation.terminator.statement.empty
+
     class Foo {
         foo: any = 42;
 //      ^^^ variable.other.readwrite
@@ -389,6 +443,10 @@ import foo;
 //      ^^^^^^^^ storage.modifier
 //               ^^^^^^^^ meta.function
 //               ^^^ entity.name.function
+
+        accessor foo;
+//      ^^^^^^^^ storage.modifier
+//               ^^^ variable.other.readwrite
 
         readonly;
 //      ^^^^^^^^ variable.other.readwrite
@@ -530,6 +588,19 @@ import foo;
 //                ^^^ entity.name.namespace
 //                    ^^ meta.block punctuation.section.block
 
+// Don't break highlighting while typing
+interface
+class Foo {}
+// <- meta.class keyword.declaration.class
+
+type
+class Foo {}
+// <- meta.class keyword.declaration.class
+
+namespace
+class Foo {}
+// <- meta.class keyword.declaration.class
+
 /* Annotations */
 
 var x: any = 42;
@@ -621,6 +692,12 @@ function f<T, U>() {}
 //          ^ punctuation.separator.comma
 //            ^ variable.parameter.generic
 
+function f<const T>() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^^^^^^^ meta.generic
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+
 function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ punctuation.separator.type
@@ -697,12 +774,17 @@ x as boolean;
 //^^ keyword.operator.type
 //   ^^^^^^^ meta.type support.type.primitive.boolean
 
+x satisfies boolean;
+//^^^^^^^^^ keyword.operator.type
+//          ^^^^^^^ meta.type support.type.primitive.boolean
+
 x as const;
 //^^ keyword.operator.type
 //   ^^^^^ storage.modifier.const
 
     foo!.bar;
-//     ^^ punctuation.accessor
+//     ^ keyword.operator.type - punctuation.accessor
+//      ^ punctuation.accessor
 
     x ! ;
 //  ^ variable.other.readwrite
@@ -722,6 +804,10 @@ let x: unknown;
 
 let x: boolean;
 //     ^^^^^^^ support.type.primitive.boolean
+let x: true;
+//     ^^^^ support.type.primitive.boolean.true
+let x: false;
+//     ^^^^^ support.type.primitive.boolean.false
 let x: number;
 //     ^^^^^^ support.type.primitive.number
 let x: string;
@@ -774,7 +860,7 @@ let x: any [ "foo" | 'bar' ];
 let x: any [ 0 ];
 //         ^^^^^ meta.type meta.brackets
 //         ^ punctuation.section.brackets.begin
-//           ^ meta.number.integer.decimal.js constant.numeric.value.js
+//           ^ meta.number.integer.decimal constant.numeric.value
 //             ^ punctuation.section.brackets.end
 
 let x: any [
@@ -819,6 +905,37 @@ let x: [ any , any ? , ... any [] ];
 //                         ^^^ support.type.any
 //                             ^^ storage.modifier.array
 //                                ^ punctuation.section.sequence.end
+
+let x: [ first: any, rest: ...any ];
+//^ keyword.declaration
+//  ^ meta.binding.name variable.other.readwrite
+//   ^ punctuation.separator.type
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
+//     ^ punctuation.section.sequence.begin
+//       ^^^^^ variable.other.member
+//            ^ punctuation.separator.type
+//              ^^^ support.type.any
+//                 ^ punctuation.separator.comma
+//                   ^^^^ variable.other.member
+//                       ^ punctuation.separator.type
+//                         ^^^ keyword.operator.spread
+//                            ^^^ support.type.any
+//                                ^ punctuation.section.sequence.end
+//                                 ^ punctuation.terminator.statement
+
+let x: [
+    typeof
+//  ^^^^^ variable.other.member
+    ?
+//  ^ storage.modifier.optional
+    :
+//  ^ punctuation.separator.type
+    ...
+//  ^^^ keyword.operator.spread
+    any
+//  ^^^ support.type.any
+];
 
 let x: any & any;
 //     ^^^^^^^^^ meta.type
@@ -903,6 +1020,12 @@ let x: {
 //               ^^^ support.type.any
 //                   ^ punctuation.separator
 
+    readonly: any;
+//  ^^^^^^^^ variable.other.readwrite - storage.modifier
+//          ^ punctuation.separator.type
+//            ^^^ support.type.any
+//               ^ punctuation.separator
+
     ( foo : any ) : any ;
 //  ^ punctuation.section.group.begin
 //    ^^^ meta.binding.name variable.parameter.function
@@ -954,6 +1077,14 @@ let x: {
 //                     ^ punctuation.separator.type
 //                       ^^^ support.type.any
 //                           ^ punctuation.separator
+
+    a ? () : any ;
+//  ^ variable.other.readwrite
+//    ^ storage.modifier.optional
+//      ^^ meta.function.parameters
+//         ^ punctuation.separator.type
+//           ^^^ support.type.any
+//               ^ punctuation.separator
 
     new ( foo : any ) : any ;
 //      ^ punctuation.section.group.begin
@@ -1048,6 +1179,23 @@ let x: {
 //                                          ^ punctuation.section.brackets.end
 //                                            ^ punctuation.separator
 
+        private +readonly x;
+//      ^^^^^^^ storage.modifier
+//              ^^^^^^^^^ storage.modifier
+//                        ^ variable.other.readwrite
+
+        [Symbol.iterator](): any;
+//      ^^^^^^^^^^^^^^^^^ meta.brackets
+//      ^ punctuation.section.brackets.begin
+//       ^^^^^^ support.class
+//             ^ punctuation.accessor
+//              ^^^^^^^^ support.class
+//                      ^ punctuation.section.brackets.end
+//                       ^^ meta.function.parameters
+//                         ^ punctuation.separator.type
+//                           ^^^ support.type.any
+//                              ^ punctuation.separator
+
     }
 //  ^ meta.type punctuation.section.mapping.end
 
@@ -1063,22 +1211,102 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
 
-let x: ( ... foo : any ) => any;
-//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
-//     ^^^^^^^^^^^^^^^^^ meta.group
+let x: ( ... foo ? : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^ keyword.operator.spread
 //           ^^^ variable.parameter
-//               ^ punctuation.separator.type
-//                 ^^^ support.type.any
+//               ^ storage.modifier.optional
+//                 ^ punctuation.separator.type
+//                   ^^^ support.type.any
+
+let x: ({ foo }: any) => any;
+//    ^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//      ^^^^^^^ meta.binding.destructuring.mapping
+//      ^ punctuation.section.mapping.begin
+//        ^^^ meta.mapping.key meta.binding.name variable.parameter.function
+//            ^ punctuation.section.mapping.end
+//             ^ punctuation.separator.type
+//               ^^^ support.type.any
+//                  ^ punctuation.section.group.end
+//                    ^^ keyword.declaration.function
+//                       ^^^ support.type.any
+//                          ^ punctuation.terminator.statement
+
+let x: (this: any) => any;
+//    ^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^ meta.group
+//      ^^^^ variable.language.this
+//          ^ punctuation.separator.type
+//            ^^^ support.type.any
+//                 ^^ keyword.declaration.function
+//                    ^^^ support.type.any
+//                       ^ punctuation.terminator.statement
 
 let x: < T > ( ... foo : any ) => any;
 //     ^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
 //       ^ variable.parameter.generic
+//         ^ punctuation.definition.generic.end
 //           ^^^^^^^^^^^^^^^^^ meta.group
+//           ^ punctuation.section.group.begin
 //             ^^^ keyword.operator.spread
 //                 ^^^ variable.parameter
 //                     ^ punctuation.separator.type
 //                       ^^^ support.type.any
+//                           ^ punctuation.section.group.end
+//                             ^^ keyword.declaration.function
+//                                ^^^ support.type.any
+
+let x: < const T > ( ... foo : any ) => any;
+//     ^^^^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//       ^^^^^ storage.modifier.const
+//             ^ variable.parameter.generic
+//               ^ punctuation.definition.generic.end
+//                 ^^^^^^^^^^^^^^^^^ meta.group
+//                 ^ punctuation.section.group.begin
+//                   ^^^ keyword.operator.spread
+//                       ^^^ variable.parameter
+//                           ^ punctuation.separator.type
+//                             ^^^ support.type.any
+//                                 ^ punctuation.section.group.end
+//                                   ^^ keyword.declaration.function
+//                                      ^^^ support.type.any
+
+let x: < in T > ( ... foo : any ) => any;
+//     ^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//       ^^ storage.modifier.variance
+//          ^ variable.parameter.generic
+//            ^ punctuation.definition.generic.end
+//              ^^^^^^^^^^^^^^^^^ meta.group
+//              ^ punctuation.section.group.begin
+//                ^^^ keyword.operator.spread
+//                    ^^^ variable.parameter
+//                        ^ punctuation.separator.type
+//                          ^^^ support.type.any
+//                              ^ punctuation.section.group.end
+//                                ^^ keyword.declaration.function
+//                                   ^^^ support.type.any
+
+let x: < out T > ( ... foo : any ) => any;
+//     ^^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//       ^^^ storage.modifier.variance
+//           ^ variable.parameter.generic
+//             ^ punctuation.definition.generic.end
+//               ^^^^^^^^^^^^^^^^^ meta.group
+//               ^ punctuation.section.group.begin
+//                 ^^^ keyword.operator.spread
+//                     ^^^ variable.parameter
+//                         ^ punctuation.separator.type
+//                           ^^^ support.type.any
+//                               ^ punctuation.section.group.end
+//                                 ^^ keyword.declaration.function
+//                                    ^^^ support.type.any
 
 let x: () => T
     U
@@ -1154,6 +1382,48 @@ let x: import ( "foo" ) . Bar ;
 //                      ^ punctuation.accessor
 //                        ^^^ support.class
 
+let x: T.U;
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^ punctuation.terminator.statement
+
+let x: T.U[];
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^^ storage.modifier.array
+//          ^ punctuation.terminator.statement
+
+let x: T.U<V>[];
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+//        ^^^ meta.generic
+//           ^^ storage.modifier.array
+//             ^ punctuation.terminator.statement
+
+let x: T.U
+//    ^^^^ meta.type
+//     ^ support.class
+//      ^ punctuation.accessor
+//       ^ support.class
+[];
+//<- meta.sequence - meta.type
+
+    foo != bar
+//  ^^^ variable.other.readwrite
+//      ^^ keyword.operator.comparison
+//         ^^^ variable.other.readwrite
+
+    foo < bar
+//  ^^^ variable.other.readwrite
+//      ^ keyword.operator.comparison
+//        ^^^ variable.other.readwrite
+
     foo < bar > ();
 //  ^^^ variable.function
 //      ^^^^^^^ meta.generic
@@ -1161,12 +1431,6 @@ let x: import ( "foo" ) . Bar ;
 //        ^^^ support.class
 //            ^ punctuation.definition.generic.end
 //              ^^ meta.group
-
-    foo < bar
-//  ^^^ variable.other.readwrite
-//      ^ keyword.operator.comparison
-//        ^^^ variable.other.readwrite
-    ;
 
     new Foo<bar>;
 //  ^^^ keyword.operator.word.new
@@ -1206,8 +1470,79 @@ const f = <T,>(): U => {};
 //                ^ support.class
 //                  ^^ keyword.declaration.function.arrow
 
-    a != b;
-//    ^^ keyword.operator.comparison
+const f = <T, U = V<any>>() => {};
+//        ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//        ^^^^^^^^^^^^^^^ meta.generic
+//                       ^^ meta.function.parameters
+//                         ^^^^^^ meta.function
+//                          ^^ keyword.declaration.function.arrow
+//                             ^^ meta.block
+
+const f = <const T>() => foo;
+//        ^^^^^^^^^ meta.function meta.generic - meta.function meta.function
+//                 ^^ meta.function.parameters - meta.function meta.function
+//                   ^^^^^^^ meta.function - meta.function meta.function
+//        ^ punctuation.definition.generic.begin
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+//                ^ punctuation.definition.generic.end
+//                 ^ punctuation.section.group.begin
+//                  ^ punctuation.section.group.end
+//                    ^^ keyword.declaration.function.arrow
+//                       ^^^ meta.block variable.other.readwrite
+//                          ^ punctuation.terminator.statement
+
+const f = <const T>(a: T,): T => foo;
+//        ^^^^^^^^^ meta.function meta.generic - meta.function meta.function
+//                 ^^^^^^^ meta.function.parameters - meta.function meta.function
+//                        ^ meta.function - meta.type - meta.function meta.function
+//                         ^^^ meta.function meta.type - meta.function meta.function
+//                            ^^^^^^ meta.function - meta.type - meta.function meta.function
+//        ^ punctuation.definition.generic.begin
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+//                ^ punctuation.definition.generic.end
+//                 ^ punctuation.section.group.begin
+//                  ^ variable.parameter.function
+//                   ^ punctuation.separator.type
+//                    ^^ meta.type
+//                     ^ support.class
+//                      ^ punctuation.separator.parameter.function
+//                       ^ punctuation.section.group.end
+//                        ^ punctuation.separator.type
+//                          ^ support.class
+//                            ^^ keyword.declaration.function.arrow
+//                               ^^^ meta.block variable.other.readwrite
+//                                  ^ punctuation.terminator.statement
+
+const f = <const T extends Foo, X extends Bar>(a: T,): X => foo;
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.js meta.generic.js
+//                                            ^^^^^^^ meta.function.parameters - meta.function meta.function
+//                                                   ^ meta.function - meta.type - meta.function meta.function
+//                                                    ^^^ meta.function meta.type - meta.function meta.function
+//                                                       ^^^^^^ meta.function - meta.type - meta.function meta.function
+//        ^ punctuation.definition.generic.begin
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+//                 ^^^^^^^ storage.modifier.extends
+//                         ^^^ support.class
+//                            ^ punctuation.separator.comma
+//                              ^ variable.parameter.generic
+//                                ^^^^^^^ storage.modifier.extends
+//                                        ^^^ support.class
+//                                           ^ punctuation.definition.generic.end
+//                                            ^ punctuation.section.group.begin
+//                                             ^ meta.binding.name variable.parameter.function
+//                                              ^ punctuation.separator.type
+//                                               ^^ meta.type
+//                                                ^ support.class
+//                                                 ^ punctuation.separator.parameter.function
+//                                                  ^ punctuation.section.group.end
+//                                                   ^ punctuation.separator.type
+//                                                     ^ support.class
+//                                                       ^^ keyword.declaration.function.arrow
+//                                                          ^^^ meta.block variable.other.readwrite
+//                                                             ^ punctuation.terminator.statement
 
 const x = {
     readonly: true,
@@ -1305,3 +1640,43 @@ const f = (x): (y) => 42 => z;
 //                       ^^ keyword.declaration.function.arrow
 //                          ^ meta.block variable.other.readwrite
 //                           ^ punctuation.terminator.statement
+
+try {} catch (e: any) {}
+//     ^^^^^^^^^^^^^^^^^ meta.catch
+//     ^^^^^ keyword.control.exception.catch
+//           ^^^^^^^^ meta.group
+//            ^ variable.other.readwrite
+//             ^ punctuation.separator.type
+//              ^^^^ meta.type
+//               ^^^ support.type.any
+//                    ^^ meta.block
+
+type T<in out U> = V;
+//    ^^^^^^^^^^ meta.generic
+//    ^ punctuation.definition.generic.begin
+//     ^^ storage.modifier.variance
+//        ^^^ storage.modifier.variance
+//            ^ variable.parameter.generic
+//             ^ punctuation.definition.generic.end
+
+type T = Foo | ... 100 more ... | Bar;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-alias
+//       ^^^ support.class
+//           ^ keyword.operator.type.union
+//             ^^^^^^^^^^^^^^^^ comment.other.ts
+//                              ^ keyword.operator.type.union
+//                                ^^^ support.class
+//                                   ^ punctuation.terminator.statement.empty
+
+    x as number < 3;
+//  ^ variable.other.readwrite
+//    ^^ keyword.operator.type
+//       ^^^^^^ meta.type support.type.primitive.number
+//              ^ keyword.operator.comparison
+//                ^ meta.number.integer.decimal constant.numeric.value
+//                 ^ punctuation.terminator.statement
+
+    foo!!()
+//  ^^^^^^^ meta.function-call
+//     ^^ keyword.operator.type
+//       ^^ meta.function-call.arguments

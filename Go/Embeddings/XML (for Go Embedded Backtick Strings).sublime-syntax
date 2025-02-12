@@ -1,0 +1,27 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: XML inside Go backtick string
+scope: text.xml.go-embedded-backtick-string
+version: 2
+hidden: true
+
+extends: Packages/XML/XML.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-text-content
+
+  cdata-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content
+
+  comment-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content
+
+  string-common-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content

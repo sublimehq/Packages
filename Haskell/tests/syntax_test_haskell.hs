@@ -1964,7 +1964,7 @@
 
     {- illegal instance declarations -}
 
-    instance C (a,a) where ...    -- a, a is not distict
+    instance C (a,a) where ...    -- a, a is not distinct
 ---               ^ invalid.illegal
 
     instance C (Int,a) where ...  -- no type allowed
@@ -2455,7 +2455,7 @@
 
     {- Class Method Declarations -}
     class TyCls a where
-      nethod1 :: a -> Bool
+      method0 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
 --            ^^ punctuation.separator.type.haskell
@@ -2497,7 +2497,7 @@
 --             ^^^^ support.constant.prelude.haskell
 --                 ^ punctuation.terminator.statement.haskell
 
-     {- preceeded by statement terminator -}
+     {- preceded by statement terminator -}
      ;method :: Bool -> Bool;
 --   ^ meta.block.haskell - meta.function
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
@@ -2513,7 +2513,7 @@
 
     {- Instance Method Declarations -}
     instance TyCls a where
-      nethod1 :: a -> Bool
+      method0 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
 --            ^^ punctuation.separator.type.haskell
@@ -2555,7 +2555,7 @@
 --             ^^^^ support.constant.prelude.haskell
 --                 ^ punctuation.terminator.statement.haskell
 
-     {- preceeded by statement terminator -}
+     {- preceded by statement terminator -}
      ;method :: Bool -> Bool;
 --   ^ meta.block.haskell - meta.function
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
@@ -3097,6 +3097,125 @@ main = do
 --      ^^^ punctuation.section.quoted.begin.haskell
 --                      ^^^ punctuation.section.quoted.end.haskell
 
+    {- HSX Tests -}
+    html = [hsx|
+--         ^^^^^^ meta.quoted.quasi.haskell
+--         ^ punctuation.section.quoted.begin.haskell
+--          ^^^ variable.function.quasi-quoter.haskell
+--             ^ punctuation.section.quoted.haskell
+--              ^ text.html.embedded.haskell
+        <html>
+        <head>
+        <style data-id={
+--      ^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--      ^^^^^^^ meta.tag - meta.attribute-with-value
+--             ^^^^^^^^ meta.tag meta.attribute-with-value.html - meta.string - meta.interpolation
+--                     ^^ meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--      ^ punctuation.definition.tag.begin.html
+--       ^^^^^ entity.name.tag.style.html
+--             ^^^^^^^ entity.other.attribute-name.html
+--                    ^ punctuation.separator.key-value.html
+--                     ^ punctuation.section.interpolation.begin.haskell
+            -- This is Haskell
+            show "my-id"
+--      ^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell source.haskell.embedded.html
+--          ^^^^ support.function.prelude.haskell
+--               ^^^^^^^ meta.string.haskell string.quoted.double.haskell
+        }>
+--     ^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag
+--        ^ meta.quoted.quasi.haskell text.html.embedded.haskell - meta.tag
+--     ^^ meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--      ^ punctuation.section.interpolation.end.haskell
+--       ^ punctuation.definition.tag.end.html
+
+            p {
+--            ^^ source.css.embedded.html meta.property-list.css meta.block.css
+--            ^ punctuation.section.block.begin.css
+;               font-family: Helvetica;
+--              ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css
+            }
+--          ^ source.css.embedded.html meta.property-list.css meta.block.css punctuation.section.block.end.css
+        </style>
+--      ^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag
+
+        <script data-id={
+--      ^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--      ^^^^^^^^ meta.tag - meta.attribute-with-value
+--              ^^^^^^^^ meta.tag meta.attribute-with-value.html - meta.string - meta.interpolation
+--                      ^^ meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--      ^ punctuation.definition.tag.begin.html
+--       ^^^^^^ entity.name.tag.script.html
+--              ^^^^^^^ entity.other.attribute-name.html
+--                     ^ punctuation.separator.key-value.html
+--                      ^ punctuation.section.interpolation.begin.haskell
+            -- This is Haskell
+            show "my-id"
+--      ^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag meta.attribute-with-value.html meta.string.html meta.interpolation.haskell source.haskell.embedded.html
+--          ^^^^ support.function.prelude.haskell
+--               ^^^^^^^ meta.string.haskell string.quoted.double.haskell
+        }>
+            function test() { console.log("js"); }
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell source.js.embedded.html
+--          ^^^^^^^^ keyword.declaration.function.js
+--                   ^^^^ entity.name.function.js
+--                          ^^^^^^^^^^^^^^^^^^^^^^ meta.function.js meta.block.js
+--                          ^ punctuation.section.block.begin.js
+--                                               ^ punctuation.section.block.end.js
+        </script>
+--      ^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell meta.tag
+
+        <p><a href="{pathTo NewPostAction}">title</a></p>
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline meta.attribute-with-value.href.html meta.string.html
+--                 ^ string.quoted.double.html punctuation.definition.string.begin.html
+--                  ^ meta.interpolation.haskell punctuation.section.interpolation.begin.haskell
+--                   ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.haskell source.haskell.embedded.html
+--                                       ^ meta.interpolation.haskell punctuation.section.interpolation.end.haskell
+--                                        ^ string.quoted.double.html punctuation.definition.string.end.html
+
+        <my-{tag} {attr}={value}/>
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+--      ^ meta.tag.other.html punctuation.definition.tag.begin.html
+--       ^^^ entity.name.tag.other.html - meta.interpolation
+--          ^^^^^ entity.name.tag.other.html meta.interpolation.haskell
+--          ^ punctuation.section.interpolation.begin.haskell
+--           ^^^ variable.other.haskell
+--              ^ punctuation.section.interpolation.end.haskell
+--                ^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.haskell
+--                ^ punctuation.section.interpolation.begin.haskell
+--                 ^^^^ variable.other.haskell
+--                     ^ punctuation.section.interpolation.end.haskell
+--                      ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+--                       ^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--                       ^ punctuation.section.interpolation.begin.haskell
+--                        ^^^^^ variable.other.haskell
+--                             ^ punctuation.section.interpolation.end.haskell
+--                              ^^ punctuation.definition.tag.end.html
+
+        <{tag} {attr}={value}/>
+--      ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+--      ^ meta.tag.other.html punctuation.definition.tag.begin.html
+--       ^^^^^ entity.name.tag.other.html meta.interpolation.haskell
+--       ^ punctuation.section.interpolation.begin.haskell
+--        ^^^ variable.other.haskell
+--           ^ punctuation.section.interpolation.end.haskell
+--             ^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.haskell
+--             ^ punctuation.section.interpolation.begin.haskell
+--              ^^^^ variable.other.haskell
+--                  ^ punctuation.section.interpolation.end.haskell
+--                   ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+--                    ^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.haskell
+--                    ^ punctuation.section.interpolation.begin.haskell
+--                     ^^^^^ variable.other.haskell
+--                          ^ punctuation.section.interpolation.end.haskell
+--                           ^^ punctuation.definition.tag.end.html
+
+    |]
+-- ^ meta.quoted.quasi.haskell text.html.embedded.haskell
+--  ^^ meta.quoted.quasi.haskell punctuation.section.quoted.end.haskell - text.html
+--    ^ - meta.quote
+
+
 -- [ IDENTS ] -----------------------------------------------------------------
 
     _
@@ -3125,11 +3244,11 @@ main = do
 --  ^^ variable.other.haskell
 
     a#
---  ^ variable.other.haskell - storage.modifer
+--  ^ variable.other.haskell - storage.modifier
 --   ^ variable.other.haskell storage.modifier.unboxed.haskell
 
     a'#
---  ^^ variable.other.haskell - storage.modifer
+--  ^^ variable.other.haskell - storage.modifier
 --    ^ variable.other.haskell storage.modifier.unboxed.haskell
 
     _a'b'c_D'0123456789'
@@ -4032,7 +4151,7 @@ main = do
 --                                                      ^ punctuation.definition.string.end.haskell
 
 
--- [ NO LITEARL CHARACTERS ]---------------------------------------------------
+-- [ NO LITERAL CHARACTERS ]---------------------------------------------------
 
     '
 --  ^ - meta.string - string
@@ -4327,7 +4446,7 @@ main = do
 --    ^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^ variable.namespace.haskell
---      ^ punctuation.accessor.dot.haskell - keyword - variale
+--      ^ punctuation.accessor.dot.haskell - keyword - variable
 --       ^^^^^ keyword.operator.function.infix.haskell
 --            ^ punctuation.definition.infix.end.haskell - keyword
 
@@ -4343,7 +4462,7 @@ main = do
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^^^^^ variable.namespace.haskell
---          ^ punctuation.accessor.dot.haskell - keyword - variale
+--          ^ punctuation.accessor.dot.haskell - keyword - variable
 --           ^^^^ keyword.operator.function.infix.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
 
@@ -4395,7 +4514,7 @@ main = do
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
 --     ^^ variable.namespace.haskell
---       ^ punctuation.accessor.dot.haskell - keyword - variale
+--       ^ punctuation.accessor.dot.haskell - keyword - variable
 --        ^^^^^^^ keyword.operator.function.infix.haskell
 --              ^ storage.modifier.unboxed.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
@@ -4406,7 +4525,7 @@ main = do
 --     ^^^^^ variable.namespace.haskell
 --          ^ punctuation.accessor.dot.haskell - variable
 --           ^^ variable.namespace.haskell
---             ^ punctuation.accessor.dot.haskell - keyword - variale
+--             ^ punctuation.accessor.dot.haskell - keyword - variable
 --              ^^^^^^^ keyword.operator.function.infix.haskell
 --                    ^ storage.modifier.unboxed.haskell
 --                     ^ punctuation.definition.infix.end.haskell - keyword

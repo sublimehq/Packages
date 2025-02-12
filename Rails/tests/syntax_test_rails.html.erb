@@ -39,11 +39,11 @@
     <!--
 #  ^^^^^ - meta.tag - source
 #   ^^^^ comment.block.html punctuation.definition.comment.begin.html
-#       ^ source.js.embedded.html - meta.tag - comment
+#       ^ - comment - source
     var i = 0;
 #  ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
     -->
-# ^^ source.js.embedded.html - meta.tag - comment
+# ^^ - comment - source - meta.tag
 #   ^^^^ - source - meta.tag
 #   ^^^ comment.block.html punctuation.definition.comment.end.html
     var i = 0;
@@ -51,6 +51,27 @@
   </script>
 # ^^^^^^^^^ meta.tag - source
 
+  <script type="application/ld+json">
+      {
+          <% key %>: <%.Site.Color%>,
+      |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+      |   ^^^^^^^^^ meta.mapping.json meta.interpolation.rails
+      |            ^^ meta.mapping.json - meta.interpolation
+      |              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.rails
+      |                             ^ meta.mapping.json - meta.interpolation
+
+          "<% key %>": "<%.Site.Color%>",
+      |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+      |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+      |    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.rails - string
+      |             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+      |              ^^ meta.mapping.json - meta.interpolation
+      |                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+      |                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.rails - string
+      |                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+      |                                 ^ meta.mapping.json - meta.interpolation
+      }
+  </script>
 
   <p>Normal HTML</p>
 # ^^^ meta.tag
@@ -124,13 +145,13 @@
 #                                     ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation - source
 
 <a onclick="run(<% @ruby %>, 'var<% @ruby %>e')" style="font: <% @ruby_font %>, 'font_<% @name %>';">text</a>
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html meta.attribute-with-value.event.html meta.string.html
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.event.html meta.string.html
 #           ^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
 #               ^^^^^^^^^^^ meta.interpolation.html meta.embedded.rails
 #                          ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
 #                                ^^^^^^^^^^^ meta.interpolation.html meta.string.js meta.interpolation.rails meta.embedded.rails
 #                                           ^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
-#                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html meta.attribute-with-value.style.html meta.string.html
+#                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.style.html meta.string.html
 #                                                       ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
 #                                                             ^^^^^^^^^^^^^^^^ meta.interpolation.html meta.embedded.rails
 #                                                                             ^^^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
@@ -155,3 +176,45 @@
 #                                                                                              ^^ punctuation.section.embedded.end.rails
 #                                                                                                ^ string.quoted.single.css
 #                                                                                                 ^ punctuation.terminator.rule.css
+
+<![CDATA[Text with <% @ruby %> interpolation.]]>
+#        ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+#                  ^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.interpolation.rails meta.embedded.rails - string
+#                             ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+
+  <my-<%=$tag%> <%=$attr%>=<%=$value%>/>
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+# ^ meta.tag.other.html punctuation.definition.tag.begin.html
+#  ^^^ entity.name.tag.other.html - meta.interpolation
+#     ^^^^^^^^^ entity.name.tag.other.html meta.embedded.rails
+#     ^^^ punctuation.section.embedded.begin.rails
+#        ^^^^ variable.other.readwrite.global.ruby
+#            ^^ punctuation.section.embedded.end.rails
+#               ^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.rails
+#               ^^^ punctuation.section.embedded.begin.rails
+#                  ^^^^^ variable.other.readwrite.global.ruby
+#                       ^^ punctuation.section.embedded.end.rails
+#                         ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+#                          ^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.rails
+#                          ^^^ punctuation.section.embedded.begin.rails
+#                             ^^^^^^ variable.other.readwrite.global.ruby
+#                                   ^^ punctuation.section.embedded.end.rails
+#                                     ^^ punctuation.definition.tag.end.html
+
+  <<%=$tag%> <%=$attr%>=<%=$value%>/>
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+# ^ meta.tag.other.html punctuation.definition.tag.begin.html
+#  ^^^^^^^^ entity.name.tag.other.html meta.embedded.rails
+#  ^^^ punctuation.section.embedded.begin.rails
+#     ^^^^ variable.other.readwrite.global.ruby
+#         ^^ punctuation.section.embedded.end.rails
+#            ^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.rails
+#            ^^^ punctuation.section.embedded.begin.rails
+#               ^^^^^ variable.other.readwrite.global.ruby
+#                    ^^ punctuation.section.embedded.end.rails
+#                      ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+#                       ^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.rails
+#                       ^^^ punctuation.section.embedded.begin.rails
+#                          ^^^^^^ variable.other.readwrite.global.ruby
+#                                ^^ punctuation.section.embedded.end.rails
+#                                  ^^ punctuation.definition.tag.end.html

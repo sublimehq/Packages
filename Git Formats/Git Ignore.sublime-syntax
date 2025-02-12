@@ -10,9 +10,11 @@ scope: text.git.ignore
 version: 2
 
 file_extensions:
-  - exclude               # .git/info/exclude
   - gitignore             # *.gitignore
+
+hidden_file_extensions:
   - .gitignore            # ~/.gitignore
+  - exclude               # .git/info/exclude
   - sparse-checkout       # .git/info/sparse-checkout
 
 contexts:
@@ -27,5 +29,5 @@ contexts:
     - meta_scope: string.unquoted.git.ignore entity.name.pattern.git.ignore
     - match: $
       pop: 1
-    - include: Git Common.sublime-syntax#fnmatch-body
+    - include: Git Common.sublime-syntax#fnmatch-unquoted-body
 

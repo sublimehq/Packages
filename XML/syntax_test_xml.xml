@@ -6,7 +6,7 @@
  -->
 
      <!--
-      The absense of attributes does not render the tagname invalid
+      The absence of attributes does not render the tagname invalid
       even though this is no valid declaration
      -->
 
@@ -217,7 +217,7 @@
  -->
 
      <!--
-      The absense of attributes does not render the tagname invalid
+      The absence of attributes does not render the tagname invalid
       even though this is no valid declaration
      -->
 
@@ -304,7 +304,7 @@
  -->
 
      <!--
-      The absense of attributes does not render the tagname invalid
+      The absence of attributes does not render the tagname invalid
       even though this is no valid declaration
      -->
 
@@ -573,23 +573,23 @@
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^ punctuation.definition.entity
 
-    <!ENTITY % entiy-name
+    <!ENTITY % entity-name
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
-##  ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
 ##  ^^ punctuation.definition.tag.begin
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^ punctuation.definition.entity
-##             ^^^^^^^^^^ variable.other.entity
+##             ^^^^^^^^^^^ variable.other.entity
 
-    <!ENTITY % entiy-name<!ENTITY
+    <!ENTITY % entity-name<!ENTITY
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
-##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
 ##  ^^ punctuation.definition.tag.begin
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^ punctuation.definition.entity
-##             ^^^^^^^^^^ variable.other.entity
-##                       ^^ punctuation.definition.tag.begin
-##                         ^^^^^^ keyword.declaration.entity
+##             ^^^^^^^^^^^ variable.other.entity
+##                        ^^ punctuation.definition.tag.begin
+##                          ^^^^^^ keyword.declaration.entity
 
     <!ENTITY % n$=?me<!ENTITY
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
@@ -609,39 +609,39 @@
 ##           ^ punctuation.definition.entity
 ##             ^^^^^^ variable.other.entity
 
-    <!ENTITY % enity-name PUBLIC
+    <!ENTITY % entity-name PUBLIC
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
-##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
 ##  ^^ punctuation.definition.tag.begin
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^ punctuation.definition.entity
-##             ^^^^^^^^^^ variable.other.entity
-##                        ^^^^^^ storage.type.external-content
+##             ^^^^^^^^^^^ variable.other.entity
+##                         ^^^^^^ storage.type.external-content
 
-    <!ENTITY % enity-name PUBLIC "URL
+    <!ENTITY % entity-name PUBLIC "URL
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
-##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
 ##  ^^ punctuation.definition.tag.begin
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^ punctuation.definition.entity
-##             ^^^^^^^^^^ variable.other.entity
-##                        ^^^^^^ storage.type.external-content
-##                               ^^^^^ meta.string string.quoted.double
+##             ^^^^^^^^^^^ variable.other.entity
+##                         ^^^^^^ storage.type.external-content
+##                                ^^^^^ meta.string string.quoted.double
 
-    <!ENTITY % enity-name PUBLIC "URL" "uri" NDATA jpeg>
+    <!ENTITY % entity-name PUBLIC "URL" "uri" NDATA jpeg>
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
-##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
-##                                                      ^ - meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##                                                       ^ - meta.tag.sgml.entity
 ##  ^^ punctuation.definition.tag.begin
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^ punctuation.definition.entity
-##             ^^^^^^^^^^ variable.other.entity
-##                        ^^^^^^ storage.type.external-content
-##                               ^^^^^ meta.string string.quoted.double
-##                                     ^^^^^ meta.string string.quoted.double
-##                                           ^^^^^ storage.type.ndata
-##                                                 ^^^^ meta.string string.unquoted
-##                                                     ^ punctuation.definition.tag.end
+##             ^^^^^^^^^^^ variable.other.entity
+##                         ^^^^^^ storage.type.external-content
+##                                ^^^^^ meta.string string.quoted.double
+##                                      ^^^^^ meta.string string.quoted.double
+##                                            ^^^^^ storage.type.ndata
+##                                                  ^^^^ meta.string string.unquoted
+##                                                      ^ punctuation.definition.tag.end
 
 
 <!--
@@ -740,7 +740,7 @@
 ##     ^^^^^^^ keyword.declaration.element
 ##            ^ - keyword - variable
 ##             ^^^^^^^^^ variable.other.element
-##                       ^ punctuation.definition.group.begin
+##                       ^ punctuation.section.group.begin
 ##                        ^^^^^^^ constant.other.placeholder
 ##                               ^ punctuation.separator
 ##                                ^^^ meta.string string.unquoted
@@ -753,7 +753,7 @@
 ##                                          ^^^^^ variable.parameter
 ##                                              ^ punctuation.terminator.parameter
 ##                                               ^ punctuation.separator
-##                                                ^ punctuation.definition.group.begin
+##                                                ^ punctuation.section.group.begin
 ##                                                 ^ punctuation.definition.entity
 ##                                                 ^^^^^ constant.character.entity.named
 ##                                                     ^ punctuation.terminator.entity
@@ -765,9 +765,9 @@
 ##                                                             ^^^ punctuation.definition.entity
 ##                                                             ^^^^^^ constant.character.entity.hexadecimal
 ##                                                                  ^ punctuation.terminator.entity
-##                                                                   ^ punctuation.definition.group.end
+##                                                                   ^ punctuation.section.group.end
 ##                                                                    ^ keyword.operator
-##                                                                     ^ punctuation.definition.group.end
+##                                                                     ^ punctuation.section.group.end
 ##                                                                      ^ keyword.operator
 ##                                                                       ^ punctuation.definition.tag.end
 

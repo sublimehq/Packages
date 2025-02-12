@@ -3,6 +3,26 @@
 // https://devblogs.microsoft.com/dotnet/take-c-8-0-for-a-spin/
 // https://devblogs.microsoft.com/dotnet/building-c-8-0/
 
+using var resp = await client.GetAsync(new Uri($"http://localhost:5000/events?start={start}&end={end}"));
+/// <- keyword.control.using.cs
+///   ^^^ storage.type.variable.cs
+///       ^^^^ variable.other.cs
+///            ^ keyword.operator.assignment.cs
+///              ^^^^^ keyword.control.other.cs
+///                    ^^^^^^ variable.other.cs
+///                          ^ punctuation.accessor.dot.cs
+///                           ^^^^^^^^ meta.function-call.cs variable.function.cs
+///                                   ^ meta.function-call.cs meta.group.cs punctuation.section.group.begin.cs
+///                                    ^^^^^^^ meta.function-call.cs meta.group.cs meta.instance.cs - meta.group meta.group
+///                                    ^^^ keyword.operator.new.cs
+///                                        ^^^ support.type.cs
+///                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs meta.group.cs meta.instance.cs meta.group.cs
+///                                           ^ punctuation.section.group.begin.cs
+///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+///                                                                                                   ^ punctuation.section.group.end.cs
+///                                                                                                    ^ meta.function-call.cs meta.group.cs punctuation.section.group.end.cs
+///                                                                                                     ^ punctuation.terminator.statement.cs
+
 List<int> numbers = null;
 int? i = null;
 
@@ -294,3 +314,50 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///                                            ^ punctuation.section.group.end
 ///                                             ^ punctuation.terminator.statement
     }
+
+using AutoFixture;
+using AutoFixture.Xunit2;
+
+namespace CommonTests.Attributes;
+
+[AttributeUsage(AttributeTargets.Method)]
+public class CustomAutoDataAttribute() : AutoDataAttribute(
+    () =>
+///^^^^^^^ meta.class.constructor.arguments.cs meta.group.cs
+/// ^^^^^ meta.function.anonymous.cs meta.group.cs
+/// ^ punctuation.section.group.begin.cs
+///  ^ punctuation.section.group.end.cs
+///    ^^ keyword.declaration.function.arrow.cs
+    {
+        var fixture = new Fixture();
+        fixture.Customizations.Add(new DateOnlySpecimenBuilder());
+        return fixture;
+    });
+///^^^ meta.class.constructor.arguments.cs meta.group.cs
+/// ^ punctuation.section.block.end.cs
+///  ^ punctuation.section.group.end.cs
+///   ^ meta.class.cs punctuation.terminator.statement.cs
+
+
+
+var payload = JsonConverter.Deserialize<SomeType>(serializedData);
+var for_same_value = (payload is { SomeProperty: var propValue } && propValue == compare);
+/// ^^^^^^^^^^^^^^ variable.other.cs
+///                ^ keyword.operator.assignment.variable.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
+///                  ^ punctuation.section.group.begin.cs
+///                   ^^^^^^^ variable.other.cs
+///                           ^^ keyword.operator.reflection.cs
+///                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instance.property-subpattern.cs meta.class.body.anonymous.cs meta.block.cs
+///                              ^ punctuation.section.block.begin.cs
+///                                ^^^^^^^^^^^^ variable.other.member.cs
+///                                            ^ keyword.operator.assignment.cs
+///                                              ^^^ storage.type.variable.cs
+///                                                  ^^^^^^^^^ variable.other.cs
+///                                                            ^ punctuation.section.block.end.cs
+///                                                              ^^ keyword.operator.cs
+///                                                                 ^^^^^^^^^ variable.other.cs
+///                                                                           ^^ keyword.operator.cs
+///                                                                              ^^^^^^^ variable.other.cs
+///                                                                                     ^ punctuation.section.group.end.cs
+///                                                                                      ^ punctuation.terminator.statement.cs

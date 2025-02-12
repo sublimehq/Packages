@@ -13,7 +13,7 @@ contexts:
     - match: ^\s*(?=\S)
       set: commit-subject
 
-##[ COMMENTS ]#########################################################
+###[ COMMENTS ]################################################################
 
   comments:
     - match: ^{{comment_char}}
@@ -35,7 +35,7 @@ contexts:
     - meta_scope: comment.line.git.commit
     - include: comment-content
 
-##[ COMMIT MESSAGE ]###################################################
+###[ COMMIT MESSAGE ]##########################################################
 
   commit-subject:
     # first none empty none comment line is commit subject

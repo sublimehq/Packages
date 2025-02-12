@@ -1,7 +1,7 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 union Union {
-//^^^ meta.union storage.type.union
+//^^^ meta.union keyword.declaration.union
 //^^^^^^^^^^^ meta.union
 //    ^^^^^ entity.name.union
 //          ^ meta.block punctuation.section.block.begin
@@ -15,7 +15,7 @@ union Union {
 pub union Foo<'a, Y: Baz>
 // <- storage.modifier
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.union
-//  ^^^^^ meta.union storage.type.union
+//  ^^^^^ meta.union keyword.declaration.union
 //        ^^^ meta.union meta.generic entity.name.union
 //           ^ meta.union meta.generic meta.generic punctuation.definition.generic.begin
 //            ^^ meta.union meta.generic meta.generic storage.modifier.lifetime
@@ -35,6 +35,18 @@ pub union Foo<'a, Y: Baz>
 // that we don't accidentally interpret it as a keyword.
 fn union() {}
 // ^^^^^ meta.function entity.name.function
+
+(Scopes::Character.union(Scopes::Unit).union(Scopes::Legion), "add_legion_history", Unchecked)
+//                ^ meta.group punctuation.accessor.dot
+//                 ^^^^^ variable.function - storage.type.union
+//                      ^ punctuation.section.group.begin
+//                       ^^^^^^ storage.type.rust
+//                             ^^ punctuation.accessor
+//                               ^^^^ storage.type.rust
+//                                   ^ punctuation.section.group.end
+//                                    ^ punctuation.accessor.dot
+//                                     ^^^^^ variable.function - storage.type.union
+
 
 union /*comment*/ U {}
 //    ^^^^^^^^^^^ meta.union comment.block

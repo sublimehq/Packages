@@ -1,0 +1,6 @@
+<snippet>
+<content><![CDATA[${TM_TEMPLATE_START}block "${1:name}"${TM_TEMPLATE_END}]]></content>
+<tabTrigger>tblock</tabTrigger>
+<scope>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.yaml.go | source.go string) - source.go.template</scope>
+<description>{{block "name"}}</description>
+</snippet>

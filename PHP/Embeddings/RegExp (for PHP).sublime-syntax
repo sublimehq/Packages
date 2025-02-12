@@ -117,8 +117,8 @@ contexts:
     - include: character-class
 
   character-class:
-    # 3~4 backslashes = matches actualy 1 backslash
-    # 1~2 backslashes = esacpe the next character
+    # 3~4 backslashes = matches actually 1 backslash
+    # 1~2 backslashes = escape the next character
     # ref: http://php.net/manual/en/regexp.reference.escape.php
     - match: \\{1,2}(\\{2}|[^wWsSdDhH\\])
       scope: constant.character.escape.backslash.regexp

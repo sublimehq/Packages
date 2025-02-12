@@ -1,0 +1,37 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: Markdown (Go)
+scope: text.html.markdown.go
+version: 2
+
+extends: Packages/Markdown/Markdown.sublime-syntax
+
+file_extensions:
+  - gomd
+  - go.md
+  - hugo
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-text-templates
+
+  markdown:
+    - meta_prepend: true
+    - meta_include_prototype: false
+
+  indented-markdown:
+    - meta_prepend: true
+    - meta_include_prototype: false
+
+  ordered-list-block:
+    - meta_prepend: true
+    - meta_include_prototype: false
+
+  unordered-list-block:
+    - meta_prepend: true
+    - meta_include_prototype: false
+
+  html-content:
+    - include: scope:text.html.go#html

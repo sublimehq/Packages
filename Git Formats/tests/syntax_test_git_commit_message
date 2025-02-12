@@ -47,7 +47,7 @@ Issue repo-with/many-hyphen_and_underscores#1 closed yet.
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.reference.issue.git
 #              ^ punctuation.separator.reference.issue.git
 #                                          ^ punctuation.definition.reference.issue.git
-Issue -user-/-repo-#230 starting and ending with hyphons.
+Issue -user-/-repo-#230 starting and ending with hyphens.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #     ^^^^^^^^^^^^^^^^^ constant.other.reference.issue.git

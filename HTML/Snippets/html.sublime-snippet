@@ -11,6 +11,17 @@ $0
 </body>
 </html>]]></content>
 	<tabTrigger>html</tabTrigger>
-	<scope>text.html - (meta.tag | meta.character.less-than) - source.php</scope>
+	<scope>
+		text.html
+		- text.html meta.tag
+		- text.html meta.character.less-than
+		- text.html meta.embedded
+		- text.html meta.interpolation
+		- text.html meta.string
+		- text.html source
+		- text.html comment
+		- text.html string
+		- (text.html.markdown - markup.raw.code-fence text.html)
+	</scope>
 	<description>html</description>
 </snippet>

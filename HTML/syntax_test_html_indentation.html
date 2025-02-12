@@ -6,9 +6,49 @@
     <meta charset="utf-8" />
     <title>Page Title Here</title>
     <!-- this comment's
-        indentation should
-        be unchanged
+         indentation should
+         be unchanged
     -->
+    <script>
+        var i = 0;
+        function foo() {
+            return i;
+        }
+    </script>
+    <!-- this comment's
+    indentation should
+    be unchanged -->
+    <script>
+        <!--
+        var i = 0;
+        function foo() {
+            return i;
+        }
+        -->
+    </script>
+    <script> <!--
+        var i = 0;
+        function foo() {
+            return i;
+        }
+    --> </script>
+    <style>
+        p {
+            font-family: Helvetica;
+        }
+    </style>
+    <style>
+        <!--
+        p {
+            font-family: Helvetica;
+        }
+        -->
+    </style>
+    <style> <!--
+        p {
+            font-family: Helvetica;
+        }
+    --> </style>
 </head>
 <body>
 
@@ -20,6 +60,16 @@
     </div>
 
     <script type="text/javascript" src="/some_script.js"></script>
+
+    <script type="text/json">
+        {
+            "dict": {
+                "list": [
+                    "value"
+                ]
+            }
+        }
+    </script>
 
     <!-- Curly braces -->
     foo {

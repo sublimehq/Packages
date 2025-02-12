@@ -102,6 +102,32 @@
 
     This is my form
 
+%ol
+  %li
+/ ^^^ meta.tag.haml
+    lorem,
+/  ^^^^^^^^ - punctuation
+
+  %li
+    lorem,
+  %li
+/ ^^^ meta.tag.haml
+    ipsum.
+/  ^^^^^^^^ - punctuation
+
+  %li
+    ipsum.
+  %li
+/ ^^^ meta.tag.haml
+    lorem|
+/  ^^^^^^ - punctuation
+/        ^ punctuation.separator.continuation.haml
+
+  %li
+    lorem|
+  %li
+/ ^^^ meta.tag.haml
+
 = render 'form' # comment
 / <- meta.embedded.haml
 /^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml source.ruby.rails.embedded.haml
@@ -109,6 +135,21 @@
 /        ^^^^^^ meta.string.ruby string.quoted.single.ruby
 /               ^^^^^^^^^ comment.line.number-sign.ruby
 /               ^ punctuation.definition.comment.ruby
+
+.row
+  = f.text_field :hello,
+                 { value:       myobj.mymethod,
+/                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml source.ruby.rails.embedded.haml
+/                                             ^ punctuation.separator.sequence.haml
+
+.row
+  = f.text_field :hello,
+                 { value:       myobj.mymethod,
+                   class:       'clazz',
+/                  ^^^^^^^^^^^^^^^^^^^^^ meta.line.ruby.haml meta.embedded.haml source.ruby.rails.embedded.haml
+/                  ^^^^^^ constant.other.symbol.ruby
+/                               ^^^^^^^ meta.string.ruby string.quoted.single.ruby
+/                                      ^ punctuation.separator.sequence.haml
 
 %title
   = @title
@@ -194,7 +235,8 @@
 
 %p{:class => "myclass", |
    # :id => "myid"} My paragraph |
-/  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml comment.line.number-sign.ruby
+/  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.braces.haml comment.line.number-sign.ruby
+/                                ^^ meta.tag.attributes.haml meta.braces.haml - comment
 /                 ^ - punctuation
 /                                ^ punctuation.separator.continuation.haml
 
@@ -389,7 +431,7 @@
     / <- meta.filter.haml meta.embedded.haml source.css.embedded.haml
     / <- meta.selector.css entity.name.tag.html.css
     /  ^ meta.property-list.css meta.block.css punctuation.section.block.begin.css
-        color: red;
+    ;   color: red;
     /   ^^^^^ support.type.property-name.css
     /        ^ punctuation.separator.key-value.css
     /          ^^^ support.constant.color.w3c.standard.css
@@ -426,6 +468,27 @@
     / <- meta.function.js keyword.declaration.function.js
     /^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.js.embedded.haml
 
+:json
+    {
+        #{ @key }: #{ @SiteColor },
+    /  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.json.embedded.haml
+    /   ^^^^^^^^^ meta.mapping.json meta.interpolation.haml
+    /            ^^ meta.mapping.json - meta.interpolation
+    /              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.haml
+    /                             ^ meta.mapping.json - meta.interpolation
+
+        "#{ @key }": "#{ @SiteColor }",
+    /  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.filter.haml meta.embedded.haml source.json.embedded.haml
+    /   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+    /    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.haml - string
+    /             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+    /              ^^ meta.mapping.json - meta.interpolation
+    /                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+    /                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.haml - string
+    /                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+    /                                 ^ meta.mapping.json - meta.interpolation
+    }
+
 :markdown
 / <- meta.filter.definition.haml punctuation.definition.filter.haml
 /^^^^^^^^ meta.filter.definition.haml constant.other.language-name.markdown.haml
@@ -452,6 +515,11 @@
   /      ^^ punctuation.section.interpolation.begin.haml
   /        ^^^^^ source.ruby.rails.embedded.haml variable.other.readwrite.instance.ruby
   /             ^ punctuation.section.interpolation.end.haml
+
+  <![CDATA[Text with #{@ruby} interpolation.]]>
+  /        ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+  /                  ^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.interpolation.haml - string
+  /                          ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
 
   <style  lang="#{@style_type}"> p { font-family: #{@font_name}; }
 /               ^^^^^^^^^^^^^^ meta.string.html meta.interpolation.haml

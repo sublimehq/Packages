@@ -98,8 +98,9 @@ string long_interpolation = $@"
 
 string unclosed_interpolation = $"inner {
 ///                                     ^ punctuation.section.interpolation.begin.cs
-///                                      ^ invalid.illegal.unclosed-string.cs
-
+///                                      ^ - invalid.illegal.unclosed-string.cs
+5}"
+;
 /// <- - string
 
 string unclosed_interpolation = $"inner {2}

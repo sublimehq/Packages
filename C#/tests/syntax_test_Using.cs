@@ -59,6 +59,9 @@ class Foo {
 ///                                              ^ storage.type
 ///                                                   ^ variable.parameter
     {
+        usingFoo = 0;
+///     ^^^^^^^^ variable.other.cs - keyword
+
         using (Font font3 = new Font("Arial", 10.0f))
 ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///     ^ keyword.control.using
@@ -94,7 +97,7 @@ class Foo {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.end
     }
 
-    public void dcsrmm(double[] val, int offsetval, int[] indx, int offsetindx, int[] pntrb, int offsetpntrb, double[] b, int offsetb, int ldb, double beta, double[] c, int offsetc, int ldc)
+    public void dcsrmm(double[] val, int offsetval, int[] idx, int offsetidx, int[] pntrb, int offsetpntrb, double[] b, int offsetb, int ldb, double beta, double[] c, int offsetc, int ldc)
     {
         fixed (Double* bp = &b[offsetb])
 ///      ^ keyword.control.other.fixed
@@ -119,7 +122,7 @@ class Foo {
 ///                                          ^ punctuation.separator.variables
 ///                                                                              ^ punctuation.section.group.end
         {
-            cblas_dcsrmm(valp, indxp, pntrbp, bp, ldb, beta, cp, ldc);
+            cblas_dcsrmm(valp, idxp, pntrbp, bp, ldb, beta, cp, ldc);
         }
     }
 }

@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: CSS (Go)
+scope: source.css.go
+version: 2
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+file_extensions:
+  - gocss
+  - go.css
+
+variables:
+
+    ident_start: (?:{{nmstart}}|{{)
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-text-templates
+
+  strings-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates

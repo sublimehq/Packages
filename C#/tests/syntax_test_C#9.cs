@@ -302,7 +302,7 @@ if (e is not Customer) { }
 
 public record A(int Num);
 ///    ^^^^^^^^ meta.class.record
-///            ^^^^^^^^^ meta.class.record.parameters
+///            ^^^^^^^^^ meta.class.constructor.parameters
 ///                     ^ - meta.class
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
@@ -313,7 +313,7 @@ public record A(int Num);
 ///                     ^ punctuation.terminator.statement
 public record B<T>(T Num)<NoGeneric>;
 ///    ^^^^^^^^^^^ meta.class.record
-///               ^^^^^^^ meta.class.record.parameters
+///               ^^^^^^^ meta.class.constructor.parameters
 ///                      ^^^^^^^^^^^ meta.class.record - meta.generic
 ///                                 ^ - meta.class
 ///    ^^^^^^ keyword.declaration.class.record
@@ -327,7 +327,7 @@ public record B<T>(T Num)<NoGeneric>;
 ///                                 ^ punctuation.terminator.statement
 public record C<TNum> (TNum Num) where TNum : class;
 ///    ^^^^^^^^^^^^^^^ meta.class.record.cs
-///                   ^^^^^^^^^^ meta.class.record.parameters.cs
+///                   ^^^^^^^^^^ meta.class.constructor.parameters.cs
 ///                             ^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
 ///                                                ^ - meta.class
 ///    ^^^^^^ keyword.declaration.class.record
@@ -346,7 +346,7 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///                                                ^ punctuation.terminator.statement
 public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4; }
 ///    ^^^^^^^^^^^^^^^ meta.class.record.cs
-///                   ^^^^^^^^^^ meta.class.record.parameters.cs
+///                   ^^^^^^^^^^ meta.class.constructor.parameters.cs
 ///                             ^^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
 ///                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record.body.cs meta.block.cs
 ///    ^^^^^^ keyword.declaration.class.record
@@ -385,7 +385,7 @@ public record Person(
 ///                                                          ^ punctuation.separator.parameter.function
     [property: JsonPropertyName("lastName")]string LastName);
 /// ^ punctuation.definition.annotation.begin
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.record.parameters meta.annotation
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.constructor.parameters meta.annotation
 ///                                         ^^^^^^ storage.type
 ///                                                ^^^^^^^^ variable.parameter
 ///                                                        ^ punctuation.section.parameters.end
@@ -395,9 +395,9 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///^^^^ - meta.class
 ///    ^^^^^^^^^^^^^^ meta.class - meta.class.body
 ///                  ^^^^^^^^^ meta.class.body meta.block
-///                           ^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record - meta.class.record.parameters
-///                                               ^^^^^^^^^^ meta.class.body meta.block meta.class.record.parameters
-///                                                         ^ meta.class.body meta.block meta.class.record - meta.class.record.parameters
+///                           ^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record - meta.class.constructor.parameters
+///                                               ^^^^^^^^^^ meta.class.body meta.block meta.class.constructor.parameters
+///                                                         ^ meta.class.body meta.block meta.class.record - meta.class.constructor.parameters
 ///                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.class.record.body meta.block
 ///                                                                                        ^^ meta.class.body meta.block - meta.class meta.class
 ///                                                                                          ^ - meta.class
@@ -411,7 +411,7 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///                                           ^ punctuation.definition.generic.begin
 ///                                            ^ support.type
 ///                                             ^ punctuation.definition.generic.end
-///                                               ^ meta.class.record.parameters punctuation.section.parameters.begin
+///                                               ^ meta.class.constructor.parameters punctuation.section.parameters.begin
 ///                                                ^^^ storage.type
 ///                                                    ^^^^ variable.parameter
 ///                                                        ^ punctuation.section.parameters.end
@@ -422,3 +422,21 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///                                                                             ^^^^ variable.other.member
 ///                                                                                       ^ punctuation.section.block.end
 ///                                                                                         ^ punctuation.section.block.end
+
+using ServiceProvider sp = services.BuildServiceProvider();
+/// ^ keyword.control.using
+///   ^^^^^^^^^^^^^^^ support.type
+///                   ^^ variable.other
+///                      ^ keyword.operator.assignment
+///                        ^^^^^^^^ variable.other
+///                                ^ punctuation.accessor.dot
+///                                 ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+///                                 ^^^^^^^^^^^^^^^^^^^^ variable.function
+///                                                     ^ punctuation.section.group.begin - invalid
+///                                                      ^ punctuation.section.group.end - invalid
+using IDisposable sub = pageContentObservable.Subscribe(Console.WriteLine);
+/// ^ keyword.control.using
+///   ^^^^^^^^^^^ support.type
+///               ^^^ variable.other
+///                   ^ keyword.operator.assignment
+///                     ^^^^^^^^^^^^^^^^^^^^^ variable.other

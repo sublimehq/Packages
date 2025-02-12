@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+scope: source.json.embedded.haml
+version: 2
+hidden: true
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HAML.sublime-syntax#interpolations
+
+  string-prototype:
+    - meta_prepend: true
+    - include: HAML.sublime-syntax#string-interpolations

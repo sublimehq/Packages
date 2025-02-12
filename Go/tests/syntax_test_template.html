@@ -1,0 +1,226 @@
+| SYNTAX TEST "Packages/Go/HTML (Go).sublime-syntax"
+
+<!-- Base Templates -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ block "title" . }} {{ .Site.Title }} {{ end }}</title>
+|          ^^^^^^^^^^^^^^^^^^^^^ text.html meta.interpolation.go
+|                                ^^^^^^^^^^^^^^^^^ text.html meta.interpolation.go
+|                                                  ^^^^^^^^^ text.html meta.interpolation.go
+    <script>
+        window.themeUseOpenapi = {
+            css: {{ $urlOpenapi }},
+        |        ^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.mapping.js meta.interpolation.go
+        |        ^^ punctuation.section.interpolation.begin.go
+        |          ^^^^^^^^^^^^^ source.go.template
+        |           ^^^^^^^^^^^ variable.other.template.go
+        |                       ^^ punctuation.section.interpolation.end.go
+        |                         ^ punctuation.separator.comma.js
+            assetsBuster: {{ cond (not .Site.Params.disableAssetsBusting) now.Unix 0 }}
+        |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.mapping.js meta.interpolation.go
+        |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.go
+        |                 ^^ punctuation.section.interpolation.begin.go
+        |                    ^^^^ variable.function.go
+        |                                                                            ^^ punctuation.section.interpolation.end.go
+        };
+        | <- source.js.embedded.html meta.mapping.js punctuation.section.mapping.end.js
+    </script>
+
+    <script type="application/ld+json">
+        {
+            {{ key }}: {{.Site.Color}},
+        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        |   ^^^^^^^^^ meta.mapping.json meta.interpolation.go
+        |            ^^ meta.mapping.json - meta.interpolation
+        |              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.go
+        |                             ^ meta.mapping.json - meta.interpolation
+
+            "{{ key }}": "{{.Site.Color}}",
+        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+        |    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.go - string
+        |             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+        |              ^^ meta.mapping.json - meta.interpolation
+        |                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+        |                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.go - string
+        |                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+        |                                 ^ meta.mapping.json - meta.interpolation
+        }
+    </script>
+
+    <style>
+        .class {
+           color: {{ .Site.Color }};
+        |         ^^^^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.go
+        |         ^^ punctuation.section.interpolation.begin.go - source.go.template
+        |           ^^^^^^^^^^^^^ source.go.template
+        |            ^ punctuation.accessor.dot.go
+        |             ^^^^ variable.other.member.go
+        |                 ^ punctuation.accessor.dot.go
+        |                  ^^^^^ variable.other.member.go
+        |                        ^^ punctuation.section.interpolation.end.go - source.go.template
+        |                          ^ punctuation.terminator.rule.css
+        }
+
+        {{ $tag }} > .{{ $cls }} #{{ $id }} { {{$prop_name}}: {{ $value }} }
+        | <- meta.selector.css meta.interpolation.go punctuation.section.interpolation.begin.go
+        | ^^^^^^^^ meta.selector.css meta.interpolation.go
+        |         ^^^^ meta.selector.css - meta.interpolation
+        |             ^^^^^^^^^^ meta.selector.css meta.interpolation.go
+        |                       ^^ meta.selector.css - meta.interpolation
+        |                         ^^^^^^^^^ meta.selector.css meta.interpolation.go
+        |                                  ^ meta.selector.css - meta.interpolation
+        |                                   ^^ meta.property-list.css meta.block.css - meta.property-name - meta.interpolation
+        |                                     ^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css support.type.property-name.css meta.interpolation.go
+        |                                                   ^ meta.property-list.css meta.block.css - meta.property-name - meta.property-value - meta.interpolation
+        |                                                    ^ meta.property-list.css meta.block.css meta.property-value.css - meta.interpolation
+        |                                                     ^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.go
+        |                                                                 ^ meta.property-list.css meta.block.css meta.property-value.css - meta.interpolation
+        |                                                                  ^ meta.property-list.css meta.block.css - meta.property-value - meta.interpolation
+    </style>
+  </head>
+
+  <body>
+
+    {{/*
+|  ^ - meta.interpolation
+|   ^^ meta.interpolation.go punctuation.section.interpolation.begin.go
+|     ^^ meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.begin.go
+      Spread a key-value map into the "env" list
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.go source.go.template comment.block.go
+    */}}
+|   ^^ meta.interpolation.go source.go.template comment.block.go punctuation.definition.comment.end.go
+|     ^^ meta.interpolation.go punctuation.section.interpolation.end.go
+|       ^ - meta.interpolation
+
+    {{ block "main" . }}
+|   ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.go
+|   ^^ punctuation.section.interpolation.begin.go
+|      ^^^^^ keyword.control.context.go
+|            ^^^^^^ meta.string.go string.quoted.double.go
+|                   ^ variable.language.template.go
+|                     ^^ punctuation.section.interpolation.end.go
+
+    {{ end }}
+|   ^^^^^^^^^ meta.interpolation.go
+|   ^^ punctuation.section.interpolation.begin.go
+|      ^^^ keyword.control.context.go
+|          ^^ punctuation.section.interpolation.end.go
+
+    <hr style="color: {{.Site.Color}}"/>
+|   ^^^^ meta.tag - meta.attribute-with-value
+|       ^^^^^^ meta.tag meta.attribute-with-value.style.html - meta.string
+|             ^^^^^^^^ meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+|                     ^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.style.html meta.string.html meta.embedded.html source.css.embedded.html meta.property-value.css meta.interpolation.go
+|                                    ^ meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+|                                     ^^ meta.tag - meta.attribute-with-value
+|                     ^^ punctuation.section.interpolation.begin.go - source.go.template
+|                       ^^^^^^^^^^^ source.go.template
+|                                  ^^ punctuation.section.interpolation.end.go - source.go.template
+
+    <my-{{.tag}} {{.attr}}={{.value}}/>
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+|   ^ meta.tag.other.html punctuation.definition.tag.begin.html
+|    ^^^ entity.name.tag.other.html - meta.interpolation
+|       ^^^^^^^ entity.name.tag.other.html meta.interpolation.go
+|       ^^ punctuation.section.interpolation.begin.go
+|         ^ punctuation.accessor.dot.go
+|          ^^^ variable.other.member.go
+|             ^^ punctuation.section.interpolation.end.go
+|                ^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.go
+|                ^^ punctuation.section.interpolation.begin.go
+|                  ^ punctuation.accessor.dot.go
+|                   ^^^^ variable.other.member.go
+|                       ^^ punctuation.section.interpolation.end.go
+|                         ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+|                          ^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.go
+|                          ^^ punctuation.section.interpolation.begin.go
+|                            ^ punctuation.accessor.dot.go
+|                             ^^^^^ variable.other.member.go
+|                                  ^^ punctuation.section.interpolation.end.go
+|                                    ^^ punctuation.definition.tag.end.html
+
+    <{{.tag}} {{.attr}}={{.value}}/>
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+|   ^ meta.tag.other.html punctuation.definition.tag.begin.html
+|    ^^^^^^^ entity.name.tag.other.html meta.interpolation.go
+|    ^^ punctuation.section.interpolation.begin.go
+|      ^ punctuation.accessor.dot.go
+|       ^^^ variable.other.member.go
+|          ^^ punctuation.section.interpolation.end.go
+|             ^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.interpolation.go
+|             ^^ punctuation.section.interpolation.begin.go
+|               ^ punctuation.accessor.dot.go
+|                ^^^^ variable.other.member.go
+|                    ^^ punctuation.section.interpolation.end.go
+|                      ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+|                       ^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.interpolation.go
+|                       ^^ punctuation.section.interpolation.begin.go
+|                         ^ punctuation.accessor.dot.go
+|                          ^^^^^ variable.other.member.go
+|                               ^^ punctuation.section.interpolation.end.go
+|                                 ^^ punctuation.definition.tag.end.html
+</html>
+
+<!-- Page Templates -->
+
+{{ define "main" }}
+| <- meta.interpolation.go punctuation.section.interpolation.begin.go
+|^^^^^^^^^^^^^^^^^^ meta.interpolation.go
+|  ^^^^^^ keyword.control.context.go
+|         ^^^^^^ meta.string.go string.quoted.double.go
+
+  <h1>Posts</h1>
+| ^^^^ meta.tag
+|          ^^^^^ meta.tag
+
+  {{ range .Pages }}
+| ^^^^^^^^^^^^^^^^^^ meta.interpolation.go
+| ^^ punctuation.section.interpolation.begin.go
+|    ^^^^^ keyword.control.loop.range.go
+|          ^ punctuation.accessor.dot.go
+|           ^^^^^ variable.other.member.go
+|                 ^^ punctuation.section.interpolation.end.go
+    <article>
+|   ^^^^^^^^^ meta.tag
+
+      <h2>{{ .Title }}</h2>
+|     ^^^^ meta.tag
+|         ^^^^^^^^^^^^ meta.interpolation.go
+|                     ^^^^^ meta.tag
+      {{ .Content }}
+|     ^^^^^^^^^^^^^^ meta.interpolation.go
+|     ^^ punctuation.section.interpolation.begin.go
+|                 ^^ punctuation.section.interpolation.end.go
+
+    </article>
+|   ^^^^^^^^^^ meta.tag
+
+  {{ end }}
+| ^^^^^^^^^ meta.interpolation.go
+| ^^ punctuation.section.interpolation.begin.go
+|    ^^^ keyword.control.context.go
+|        ^^ punctuation.section.interpolation.end.go
+
+{{ end }}
+| <- meta.interpolation.go punctuation.section.interpolation.begin.go
+|^^^^^^^^ meta.interpolation.go
+|^ punctuation.section.interpolation.begin.go
+|  ^^^ keyword.control.context.go
+|      ^^ punctuation.section.interpolation.end.go
+
+{{return .Param}}
+| <- meta.interpolation.go punctuation.section.interpolation.begin.go
+|^^^^^^^^^^^^^^^^ meta.interpolation.go
+| ^^^^^^ variable.function.go
+|        ^ punctuation.accessor.dot.go
+|         ^^^^^ variable.other.member.go
+|              ^^ punctuation.section.interpolation.end.go
+
+<img src="https://{{server}}/*">
+|        ^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.href.html meta.string.html - comment
+|        ^^^^^^^^^ string.quoted.double.html
+|                 ^^^^^^^^^^ meta.interpolation.go - string
+|                           ^^^ string.quoted.double.html

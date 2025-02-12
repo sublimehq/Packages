@@ -32,6 +32,11 @@ call_func(|c| 1 + 2 + c);
 //        ^^^^^^^^^^^^^ meta.function.closure
 //        ^^^ meta.function.parameters
 
+call_func_2nd_param(0, |c| 1 + 2 + c, 3);
+//                     ^^^^^^^^^^^^^ meta.function.closure
+//                                  ^^^ - meta.function.closure
+//                     ^^^ meta.function.parameters
+
 fn lambdas() {
     let c = |foo,
 //          ^ meta.function.closure meta.function.parameters punctuation.section.parameters.begin
@@ -158,7 +163,7 @@ let x = |a: i32, b: Foo, c: Option<i32>, d: extern "C" fn (), e: *const u8| {};
 //          ^^^ storage.type
 //               ^ variable.parameter
 //                       ^ variable.parameter
-//                          ^^^^^^ meta.generic support.type
+//                          ^^^^^^ support.type
 //                                 ^^^ meta.generic storage.type
 //                                       ^ variable.parameter
 //                                          ^^^^^^ keyword.other

@@ -49,7 +49,7 @@ classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass
 %                                 ^ punctuation.separator.sequence.matlab
 %                                   ^^^^^^^^^ variable.parameter.attribute.matlab
 %                                             ^ keyword.operator.assignment.matlab
-%                                               ^^^^ constant.language.matlab
+%                                               ^^^^ constant.language.boolean.true.matlab
 %                                                   ^ punctuation.section.parens.end.matlab
 %                                                      ^^^^^^^^^^ comment.line.percentage.matlab
       PropName
@@ -65,7 +65,7 @@ classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass
 %           ^^^^^^ variable.parameter.attribute.matlab
 %                 ^ punctuation.section.parens.end.matlab
 %                    ^^^^^^^^^^ comment.line.percentage.matlab
-      function funcionName(obj)
+      function functionName(obj)
          functionName@SuperClass1(obj)
 %                    ^ punctuation.accessor.at.matlab - keyword.operator
       end
@@ -279,7 +279,7 @@ end
 %^^ meta.function.matlab keyword.declaration.function.end.matlab
 %  ^ - meta.function
 
-function [one, two, three] = myFunction(x)  % funtion with more than one output
+function [one, two, three] = myFunction(x)  % function with more than one output
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
 %                                      ^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
@@ -482,8 +482,8 @@ end
 % Built-in constants
 
   true; false
-% ^^^^ constant.language.matlab
-%       ^^^^^ constant.language.matlab
+% ^^^^ constant.language.boolean.true.matlab
+%       ^^^^^ constant.language.boolean.false.matlab
   Inf; NaN
 % ^^^ constant.language.matlab
 %      ^^^ constant.language.matlab
@@ -793,10 +793,10 @@ l = {l.n}';
    "string with missing closing quote mark
 %                                         ^ invalid.illegal.unclosed-string.matlab
    true'
-%  ^^^^ constant.language.matlab
+%  ^^^^ constant.language.boolean.true.matlab
 %      ^ keyword.operator.transpose.matlab
    true.'
-%  ^^^^ constant.language.matlab
+%  ^^^^ constant.language.boolean.true.matlab
 %      ^^ keyword.operator.transpose.matlab
 
 % If a built-in function is followed by a transpose operator, we assume that the
@@ -1040,3 +1040,12 @@ X = inf(n)
 
 X = nan(n)
 %   ^^^ support.function.builtin.matlab
+
+
+%---------------------------------------------
+% Pop function context if another function appears at the start of a line
+
+function myFunction(x)
+
+function notNestedFunction(x)
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function

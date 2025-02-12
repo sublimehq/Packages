@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[repeat ${1:expr}; do
+	${0:# statements}
+done]]></content>
+	<tabTrigger>repeat</tabTrigger>
+	<scope>source.shell.zsh</scope>
+	<description>repeat … done</description>
+</snippet>

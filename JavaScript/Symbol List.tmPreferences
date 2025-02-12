@@ -3,14 +3,19 @@
 <dict>
 	<key>scope</key>
 	<string>
-		entity.name.interface.js
+		entity.name.interface.js,
+		entity.name.module.js
 	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<string>1</string>
+		<key>symbolTransformation</key>
+		<string>s/^["']|["']$//g;</string>
 		<key>showInIndexedSymbolList</key>
 		<string>1</string>
+		<key>symbolIndexTransformation</key>
+		<string>s/^["']|["']$//g;</string>
 	</dict>
 </dict>
 </plist>

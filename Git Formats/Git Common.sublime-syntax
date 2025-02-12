@@ -22,7 +22,7 @@ contexts:
   main:
     - include: references
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
 
   # Trailing slashes can be used to break up long lines. '\' is only legal at
   # the end of a line, or in an escape such as '\"'. Anywhere else it will cause
@@ -47,7 +47,7 @@ contexts:
       scope: invalid.illegal.unexpected.eol.git
       pop: 1
 
-##[ COMMENTS ]#########################################################
+###[ COMMENTS ]################################################################
 
   comments:
     # comment which may start in the middle of a line
@@ -63,7 +63,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.git
 
-##[ REFERENCES ]#######################################################
+###[ REFERENCES ]##############################################################
 
   references:
     # all github references
@@ -125,7 +125,7 @@ contexts:
     - match: '>'
       scope: punctuation.definition.reference.email.end.git
       pop: 1
-    - match: (?=\s)
+    - match: (?=[\s{{comment_char}}])
       pop: 1
 
   username:
@@ -153,7 +153,7 @@ contexts:
         [\w\d\-~:/#@$*+=]                                        # allowed end chars
       scope: markup.underline.link.git
 
-##[ FNMATCH ]##########################################################
+###[ FNMATCH ]#################################################################
 
   # The first characters of a path pattern may have special meaning and
   # must therefore be treated differently. This scope finally pops off
@@ -162,7 +162,7 @@ contexts:
     # windows drive letter and separator
     - match: '[A-Za-z](:)(?=/)'
       captures:
-        1: punctuation.separator.drive.fnmatch.git
+        1: punctuation.separator.path.fnmatch.git
       pop: 1
     # homedir tilde operator
     - match: ~(?=/)
@@ -171,37 +171,43 @@ contexts:
     # any other directory pattern
     - include: fnmatch-dir-pattern
 
-  # In order to use fnmatch by other syntaxes, it is importand to use
+  # In order to use fnmatch by other syntaxes, it is important to use
   # fnmatch-body as include in a scope, which defines the desired meta
   # and the required bail-out scopes as they might be different and
   # therefore are not part of the following section.
-  fnmatch-body:
+  fnmatch-quoted-body:
     - include: fnmatch-char-classes
+    - include: fnmatch-quoted-file-extensions
+    - include: fnmatch-common
+
+  fnmatch-unquoted-body:
+    - include: fnmatch-char-classes
+    - include: fnmatch-unquoted-file-extensions
     - include: fnmatch-common
 
   fnmatch-common:
     - match: '/'          # path separators
       scope: punctuation.separator.path.fnmatch.git
       push: fnmatch-dir-pattern
-    - match: \.(?!.*[./]) # the last dot not followed by path sep
-      scope: punctuation.separator.path.extension.fnmatch.git
-    - match: '[*?]'       # unescapable operators
-      scope: keyword.operator.path.asterisk.fnmatch.git
-    - match: '\\[^$*?]'   # backslash escapes nearly everything
-      scope: constant.character.escape.path.fnmatch.git
     - match: \$\w+
       scope: variable.language.environment.other.fnmatch.git
+    - match: '\*'         # unescapable operators
+      scope: constant.other.wildcard.asterisk.fnmatch.git
+    - match: '\?'         # unescapable operators
+      scope: constant.other.wildcard.questionmark.fnmatch.git
+    - match: '\\[^$*?]'   # backslash escapes nearly everything
+      scope: constant.character.escape.path.fnmatch.git
     - match: ':'          # drive separators
-      scope: invalid.illegal.separator.drive.fnmatch.git
+      scope: invalid.illegal.separator.path.fnmatch.git
     - match: '\\(?=\s)'   # single backslash is invalid
       scope: invalid.illegal.escape.path.fnmatch.git
 
   fnmatch-dir-pattern:
     - match: \.\.(?=/)
-      scope: constant.language.path.parent.fnmatch.git
+      scope: constant.other.path.parent.fnmatch.git
       pop: 1
     - match: \.(?=/)
-      scope: constant.language.path.self.fnmatch.git
+      scope: constant.other.path.self.fnmatch.git
       pop: 1
     - match: ''
       pop: 1
@@ -239,7 +245,15 @@ contexts:
     - match: \S
       scope: constant.character.char-class.fnmatch.git
 
-##[ PRETTY FORMATS ]###################################################
+  fnmatch-quoted-file-extensions:
+    - match: \.(?![^./"]*[./]) # the last dot not followed by path sep
+      scope: punctuation.separator.path.fnmatch.git
+
+  fnmatch-unquoted-file-extensions:
+    - match: \.(?!(?:\\\s|\S)*[./]) # the last dot not followed by path sep
+      scope: punctuation.separator.path.fnmatch.git
+
+###[ PRETTY FORMATS ]##########################################################
 
   # https://git-scm.com/docs/pretty-formats
 

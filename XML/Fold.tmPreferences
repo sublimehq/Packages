@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>text.xml, text.xml.dtd, text.xml.xsl</string>
+    <key>settings</key>
+    <dict>
+        <key>indentationFoldingEnabled</key>
+        <true/>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <!-- Comments -->
+                <key>begin</key>
+                <string>comment.block punctuation.definition.comment.begin</string>
+                <key>end</key>
+                <string>comment.block punctuation.definition.comment.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!-- Strings -->
+                <key>begin</key>
+                <string>punctuation.definition.string.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.string.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!-- Brackets -->
+                <key>begin</key>
+                <string>punctuation.section.brackets.begin</string>
+                <key>end</key>
+                <string>punctuation.section.brackets.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!-- Groups -->
+                <key>begin</key>
+                <string>punctuation.section.group.begin</string>
+                <key>end</key>
+                <string>punctuation.section.group.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!-- CDATA -->
+                <key>begin</key>
+                <string>meta.tag.sgml.cdata punctuation.definition.tag.begin.content</string>
+                <key>end</key>
+                <string>meta.tag.sgml.cdata punctuation.definition.tag</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!-- DTD tag attributes -->
+                <key>begin</key>
+                <string>meta.tag.sgml keyword.declaration</string>
+                <key>end</key>
+                <string>meta.tag.sgml punctuation.definition.tag</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!--
+                XML preprocessor tag attributes
+
+                Preprocessor tags are always self-closing. Thus trailing newlines are
+                included to avoid closing punctuation to keep on a single line when folded.
+                -->
+                <key>begin</key>
+                <string>meta.tag.preprocessor entity.name.tag</string>
+                <key>end</key>
+                <string>meta.tag.preprocessor punctuation.definition.tag</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <!--
+                XML tag attributes
+
+                Exclude trailing newlines, so attributes and child tags
+                can always be folded/unfolded via fold buttons individually.
+
+                Note: Works only if closing punctuation is already on a separate line.
+                -->
+                <key>begin</key>
+                <string>meta.tag entity.name.tag.localname</string>
+                <key>end</key>
+                <string>meta.tag punctuation.definition.tag</string>
+                <key>excludeTrailingNewlines</key>
+                <true/>
+            </dict>
+            <dict>
+                <!-- Content between XML opening and closing tags -->
+                <key>begin</key>
+                <string>meta.tag punctuation.definition.tag.end.opening</string>
+                <key>end</key>
+                <string>meta.tag punctuation.definition.tag.begin.closing</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

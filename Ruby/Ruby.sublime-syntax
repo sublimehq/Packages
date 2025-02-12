@@ -184,7 +184,7 @@ contexts:
       pop: true
 
   name-parts:
-    - match: ({{identifier}})?(?:(::)|(\.))
+    - match: ({{identifier}})?(?:(::)|(&?\.))
       captures:
         1: support.other.namespace.ruby
         2: punctuation.accessor.double-colon.ruby
@@ -210,8 +210,10 @@ contexts:
     - match: '\b(nil)\b(?![?!])'
       scope: constant.language.null.ruby
       push: after-constant
-    - match: '\b(true|false)\b(?![?!])'
-      scope: constant.language.boolean.ruby
+    - match: '\bfalse\b(?![?!])'
+      scope: constant.language.boolean.false.ruby
+    - match: '\btrue\b(?![?!])'
+      scope: constant.language.boolean.true.ruby
       push: after-constant
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
@@ -542,7 +544,7 @@ contexts:
       push: after-keyword
     # other functions
     - match: \b(?:BEGIN|END)\b(?![?!])
-      scope: entity.name.function.prepocessor.ruby
+      scope: entity.name.function.preprocessor.ruby
     - match: \b(?:defined|block_given)\?
       scope: support.function.builtin.ruby
       push: after-keyword
@@ -570,7 +572,7 @@ contexts:
     - match: '!+|&&|\|\|'
       scope: keyword.operator.logical.ruby
       push: after-operator
-    - match: '[~&|^]'
+    - match: '(?:[~|^]|&(?!\.))'
       scope: keyword.operator.bitwise.ruby
       push: after-operator
     - match: \?
@@ -624,7 +626,7 @@ contexts:
         - match: ''
           set: after-identifier
     # This consumes attribute access so we don't need a lookbehind for .
-    - match: \.(?={{identifier}}{{method_punctuation}})
+    - match: '&?\.(?={{identifier}}{{method_punctuation}})'
       scope: punctuation.accessor.dot.ruby
       push:
         - include: well-known-methods
@@ -635,7 +637,7 @@ contexts:
     - match: '{{identifier}}{{method_punctuation}}'
     # This consumes module/class accessor so we don't need a lookbehind for ::
       push: after-identifier
-    - match: \.
+    - match: '&?\.'
       scope: punctuation.accessor.dot.ruby
     - match: '::'
       scope: punctuation.accessor.double-colon.ruby

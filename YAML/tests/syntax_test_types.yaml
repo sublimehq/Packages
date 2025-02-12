@@ -22,15 +22,15 @@
 ## http://yaml.org/type/bool.html
 
 - [yes, no, true, false, No, y, ON, off, Off, ~, oFF, nO, false true]
-#  ^^^                                                               constant.language.boolean
-#       ^^                                                           constant.language.boolean
-#           ^^^^                                                     constant.language.boolean
-#                 ^^^^^                                              constant.language.boolean
-#                        ^^                                          constant.language.boolean
-#                            ^                                       constant.language.boolean
-#                               ^^                                   constant.language.boolean
-#                                   ^^^                              constant.language.boolean
-#                                        ^^^                         constant.language.boolean
+#  ^^^                                                               constant.language.boolean.true
+#       ^^                                                           constant.language.boolean.false
+#           ^^^^                                                     constant.language.boolean.true
+#                 ^^^^^                                              constant.language.boolean.false
+#                        ^^                                          constant.language.boolean.false
+#                            ^                                       constant.language.boolean.true
+#                               ^^                                   constant.language.boolean.true
+#                                   ^^^                              constant.language.boolean.false
+#                                        ^^^                         constant.language.boolean.false
 #                                                ^^^^^^^^^^^^^^^^^^^ - constant
 
 
@@ -91,7 +91,7 @@
 #                       ^^^^^^ constant.numeric.value.yaml
 #                                  ^^^^^^^^^ - constant
 
-# Note: pyyaml does not handle hexagesimal literals correctly (for linting purposes)
+# Note: pyyaml does not handle hexadecimal literals correctly (for linting purposes)
    1:20, +1:9, -1_234:59:00, ~, 1:60, :60, 1:2 s
 #  ^^^^ meta.number.integer.other.yaml constant.numeric.value.yaml
 #        ^^^^ meta.number.integer.other.yaml
@@ -202,9 +202,9 @@
 ## In a mapping
 
 true: false
-#^^^        constant.language.boolean
+#^^^        constant.language.boolean.true
 #   ^       punctuation.separator.key-value.mapping
-#     ^^^^^ constant.language.boolean
+#     ^^^^^ constant.language.boolean.false
 3.e-3: 3.e+3
 #^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
 #^ punctuation.separator.decimal.yaml
@@ -222,4 +222,4 @@ true: false
 #                   ^ punctuation.separator.date.yaml
 y: n
 # <- -constant
-#  ^ constant.language.boolean.yaml
+#  ^ constant.language.boolean.false.yaml

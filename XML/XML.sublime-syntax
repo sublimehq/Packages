@@ -64,9 +64,11 @@ file_extensions:
 hidden_file_extensions:
   - sublime-snippet
   - tmLanguage
+  - hidden-tmLanguage
   - tmPreferences
   - tmSnippet
   - tmTheme
+  - hidden-tmTheme
   - csproj
   - fsproj
   - sqlproj
@@ -75,6 +77,7 @@ hidden_file_extensions:
   - vcxproj
   - dae
   - props
+  - drawio
   - targets
 
 first_line_match: |-
@@ -131,7 +134,7 @@ variables:
   # A doctype definition identifier is always followed by one of the
   # characters of `dtd_break`.
   dtd_break: '[''"\[\]()<>\s]'
-  # A valid or invalid doctype declaration identifiere consists of any
+  # A valid or invalid doctype declaration identifier consists of any
   # character but one of `dtd_break`.
   invalid_dtd_name: '[^{{dtd_break}}]+'
   # A qualified doctype declaration identifier consists of a valid
@@ -154,11 +157,15 @@ contexts:
 ###[ CDATA ]##################################################################
 
   cdata:
+    # Notes:
+    #
+    # `content` sub-scope is used for folding.
+    # Changing it might cause folding to break!
     - match: (<!\[)(CDATA)(\[)
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.declaration.cdata.xml
-        3: punctuation.definition.tag.begin.xml
+        3: punctuation.definition.tag.begin.content.xml
       push: cdata-content
 
   cdata-content:
@@ -292,7 +299,7 @@ contexts:
       scope: constant.other.xml
       pop: 1
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       set: dtd-element-parens
     - include: dtd-constants
     - include: dtd-content-quoted
@@ -300,10 +307,10 @@ contexts:
   dtd-element-parens:
     - meta_scope: meta.group.xml
     - match: \)
-      scope: punctuation.definition.group.end.xml
+      scope: punctuation.section.group.end.xml
       set: dtd-element-operator
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       push: dtd-element-parens
     - match: '[*?+]'
       scope: keyword.operator.xml
@@ -351,16 +358,16 @@ contexts:
 
   dtd-attlist-parens:
     - match: \(
-      scope: punctuation.definition.group.begin.xml
+      scope: punctuation.section.group.begin.xml
       push: dtd-attlist-parens-content
 
   dtd-attlist-parens-content:
     - meta_scope: meta.group.enumerated.xml
     - match: \)
-      scope: punctuation.definition.group.end.xml
+      scope: punctuation.section.group.end.xml
       pop: 1
     - match: \|
-      scope: punctuation.separator.logical.xml
+      scope: punctuation.separator.xml
     - include: dtd-constants
     - include: entity
     - include: should-be-entity
@@ -550,10 +557,15 @@ contexts:
 ###[ XML TAGS ]###############################################################
 
   tag:
+    # Notes:
+    #
+    # `opening`, `closing` and `self-closing` sub-scopes are used for folding.
+    # Changing them might cause folding to break!
+
     # end-tag without attribute support
     - match: (</){{qualified_tag_name}}
       captures:
-        1: punctuation.definition.tag.begin.xml
+        1: punctuation.definition.tag.begin.closing.xml
         2: entity.name.tag.namespace.xml
         3: invalid.illegal.bad-tag-name.xml
         4: entity.name.tag.xml punctuation.separator.namespace.xml
@@ -563,7 +575,7 @@ contexts:
     # opening maybe self-closing tag with optional attributes
     - match: (<){{qualified_tag_name}}
       captures:
-        1: punctuation.definition.tag.begin.xml
+        1: punctuation.definition.tag.begin.opening.xml
         2: entity.name.tag.namespace.xml
         3: invalid.illegal.bad-tag-name.xml
         4: entity.name.tag.xml punctuation.separator.namespace.xml
@@ -573,8 +585,11 @@ contexts:
 
   begin-tag-content:
     - meta_scope: meta.tag.xml
-    - match: /?>
-      scope: punctuation.definition.tag.end.xml
+    - match: />
+      scope: punctuation.definition.tag.end.self-closing.xml
+      pop: 1
+    - match: '>'
+      scope: punctuation.definition.tag.end.opening.xml
       pop: 1
     - match: \?>
       scope: invalid.illegal.bad-tag-end.xml
@@ -585,7 +600,7 @@ contexts:
   end-tag-content:
     - meta_scope: meta.tag.xml
     - match: '>'
-      scope: punctuation.definition.tag.end.xml
+      scope: punctuation.definition.tag.end.closing.xml
       pop: 1
     - include: tag-end-missing-pop
     - match: '[/\?]>'

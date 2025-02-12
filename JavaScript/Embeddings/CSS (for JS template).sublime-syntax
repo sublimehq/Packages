@@ -1,0 +1,34 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+# highlight tagged template strings
+scope: source.css.js-template
+version: 2
+hidden: true
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+variables:
+
+    ident_start: (?:{{nmstart}}|\${)
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.js#text-interpolations
+
+  strings-content:
+    - meta_prepend: true
+    - include: scope:source.js#string-interpolations
+
+  main:
+    # support properties in top-level context
+    - meta_include_prototype: false
+    - include: comments
+    - include: property-lists
+    - include: properties-or-selectors
+    - include: at-rules
+    - include: rule-terminators
+    - include: illegal-commas
+    - include: illegal-groups

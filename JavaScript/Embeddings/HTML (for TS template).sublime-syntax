@@ -1,0 +1,122 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+# highlight tagged template strings
+scope: text.html.ts-template
+version: 2
+hidden: true
+
+extends: Packages/HTML/HTML.sublime-syntax
+
+variables:
+
+  tag_name_start: (?:[A-Za-z]|\${)
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.ts#text-interpolations
+
+  cdata-content:
+    - meta_prepend: true
+    - include: scope:source.ts#string-interpolations
+
+  script-javascript-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.ts-template
+      embed_scope: source.js.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  script-json-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.ts-template
+      embed_scope: source.json.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.json.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.json.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  style-css-content:
+    - meta_include_prototype: false
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.ts-template
+      embed_scope: source.css.embedded.html
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  tag-event-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.js.ts-template#expressions
+      embed_scope: meta.string.html meta.embedded.html source.js.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html
+           punctuation.definition.string.end.html
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.js.ts-template#expressions
+      embed_scope: meta.string.html meta.embedded.html source.js.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html
+           punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-style-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.css.ts-template#rule-list-body
+      embed_scope: meta.string.html meta.embedded.html source.css.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html
+           punctuation.definition.string.end.html
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.css.ts-template#rule-list-body
+      embed_scope: meta.string.html meta.embedded.html source.css.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html
+           punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - include: scope:source.js#string-interpolations
+
+  strings-common-content:
+    - meta_prepend: true
+    - include: scope:source.js#string-interpolations

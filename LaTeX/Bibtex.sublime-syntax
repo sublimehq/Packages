@@ -1,11 +1,10 @@
 %YAML 1.2
 ---
+# Grammar based on description from
+# http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html#comment
 name: BibTeX
 scope: text.bibtex
-comment: |
-  Grammar based on description from http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html#comment
-
-      TODO: Does not support @preamble
+version: 2
 
 file_extensions:
   - bib
@@ -16,138 +15,280 @@ first_line_match: |-
   )
 
 variables:
-  var: '\b[a-zA-Z]\w*'
+  ident: '[[:alpha:]][[:alnum:]]*\b'
+  var: '[[:alpha:]]\w*\b'
 
 contexts:
   main:
-    - match: "@Comment"
-      scope: punctuation.definition.comment.bibtex
-      push:
-        - meta_scope: comment.line.at-sign.bibtex
-        - match: $\n?
-          pop: true
-    - match: '((@)[Ss]tring)\s*(\{)\s*({{var}})'
+    - include: bibtex
+
+  bibtex:
+    - include: line-comments
+    - include: comments
+    - include: declarations
+    - include: preambles
+    - include: entries
+
+###[ COMMENTS ]#################################################################
+
+  line-comments:
+    - match: \%
+      scope: punctuation.definition.comment.tex
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_scope: comment.line.percentage.tex
+    - match: $\n?
+      pop: 1
+
+  comments:
+    - match: (@)(?i:comment)\b
+      scope: keyword.declaration.comment.bibtex
       captures:
-        1: keyword.other.string-constant.bibtex
-        2: punctuation.definition.keyword.bibtex
-        3: punctuation.section.string-constant.begin.bibtex
-        4: entity.name.constant.bibtex
-      push:
-        - meta_scope: meta.string-constant.braces.bibtex
-        - match: '\}'
-          scope: punctuation.section.string-constant.end.bibtex
-          pop: true
-        - include: string_content
-        - include: variables
-        - include: operators
-    - match: '((@)[Ss]tring)\s*(\()\s*({{var}})'
+        1: punctuation.definition.keyword.bibtex
+      push: comment-args
+
+  comment-args:
+    - meta_scope: comment.line.at-sign.bibtex
+    - match: $\n?
+      pop: 1
+
+###[ DECLARATIONS ]#############################################################
+
+  declarations:
+    - match: (@)(?i:string)\b
+      scope: meta.declaration.bibtex keyword.declaration.constant.bibtex
       captures:
-        1: keyword.other.string-constant.bibtex
-        2: punctuation.definition.keyword.bibtex
-        3: punctuation.section.string-constant.begin.bibtex
-        4: entity.name.constant.bibtex
-      push:
-        - meta_scope: meta.string-constant.parenthesis.bibtex
-        - match: \)
-          scope: punctuation.section.string-constant.end.bibtex
-          pop: true
-        - include: string_content
-        - include: variables
-        - include: operators
-    - match: '((@)[a-zA-Z]+)\s*(\{)\s*([^\s,]*)'
+        1: punctuation.definition.keyword.bibtex
+      push: declaration-args
+
+  declaration-args:
+    - meta_content_scope: meta.declaration.bibtex
+    - match: \{
+      scope: punctuation.section.braces.begin.bibtex
+      set:
+        - declaration-brace-body
+        - declaration-assignment
+        - declaration-name
+    - match: \(
+      scope: punctuation.section.parens.begin.bibtex
+      set:
+        - declaration-paren-body
+        - declaration-assignment
+        - declaration-name
+    - include: else-pop
+
+  declaration-name:
+    - match: '{{var}}'
+      scope: entity.name.constant.bibtex
+      pop: 1
+    - include: else-pop
+
+  declaration-assignment:
+    - match: =
+      scope: keyword.operator.assignment.bibtex
+      pop: 1
+    - include: else-pop
+
+  declaration-brace-body:
+    - meta_scope: meta.declaration.arguments.bibtex meta.braces.bibtex
+    - match: \}
+      scope: punctuation.section.braces.end.bibtex
+      pop: 1
+    - include: operators
+    - include: strings
+    - include: variables
+
+  declaration-paren-body:
+    - meta_scope: meta.declaration.arguments.bibtex meta.parens.bibtex
+    - match: \)
+      scope: punctuation.section.parens.end.bibtex
+      pop: 1
+    - include: operators
+    - include: strings
+    - include: variables
+
+###[ ENTRIES ]##################################################################
+
+  entries:
+    - match: (@){{ident}}
+      scope: meta.entry.bibtex keyword.declaration.entry.bibtex
       captures:
-        1: keyword.other.entry-type.bibtex
-        2: punctuation.definition.keyword.bibtex
-        3: punctuation.section.entry.begin.bibtex
-        4: entity.name.type.entry-key.bibtex
-      push:
-        - meta_scope: meta.entry.braces.bibtex
-        - meta_content_scope: meta.mapping.bibtex
-        - match: '\}'
-          scope: punctuation.section.entry.end.bibtex
-          pop: true
-        - match: '([a-zA-Z]+)(\s*(=)\s*)'
-          captures:
-            1: meta.mapping.key.bibtex string.unquoted.key.bibtex
-            2: meta.mapping.bibtex
-            3: punctuation.separator.key-value.bibtex
-          push:
-            - clear_scopes: 1
-            - meta_content_scope: meta.mapping.value.bibtex
-            - match: "(?=[,}])"
-              pop: true
-            - include: string_content
-            - include: integer
-            - include: variables
-            - include: operators
-        - match: \,
-          scope: punctuation.separator.sequence.bibtex
-    - match: '((@)[a-zA-Z]+)\s*(\()\s*([^\s,]*)'
+        1: punctuation.definition.keyword.bibtex
+      push: entry-args
+
+  entry-args:
+    - meta_content_scope: meta.entry.bibtex
+    - match: \{
+      scope: punctuation.section.braces.begin.bibtex
+      set: brace-entry-name
+    - match: \(
+      scope: punctuation.section.parens.begin.bibtex
+      set: paren-entry-name
+    - include: else-pop
+
+  brace-entry-name:
+    - meta_scope: meta.entry.arguments.bibtex meta.braces.bibtex
+    - match: '[^\s,}]+'
+      scope: entity.name.type.entry-key.bibtex
+      push: brace-mapping-body
+    - match: (?=\S)
+      push: brace-mapping-body
+
+  brace-mapping-body:
+    - meta_content_scope: meta.mapping.bibtex
+    - match: \}
+      scope: punctuation.section.braces.end.bibtex
+      pop: 2
+    - match: ({{ident}})(\s*(=)\s*)
       captures:
-        1: keyword.other.entry-type.bibtex
-        2: punctuation.definition.keyword.bibtex
-        3: punctuation.section.entry.begin.bibtex
-        4: entity.name.type.entry-key.bibtex
-      push:
-        - meta_scope: meta.entry.parenthesis.bibtex
-        - meta_content_scope: meta.mapping.bibtex
-        - match: \)
-          scope: punctuation.section.entry.end.bibtex
-          pop: true
-        - match: '([a-zA-Z]+)(\s*(=)\s*)'
-          captures:
-            1: meta.mapping.key.bibtex string.unquoted.key.bibtex
-            2: meta.mapping.bibtex
-            3: punctuation.separator.key-value.bibtex
-          push:
-            - clear_scopes: 1
-            - meta_content_scope: meta.mapping.value.bibtex
-            - match: "(?=[,)])"
-              pop: true
-            - include: string_content
-            - include: integer
-            - include: variables
-            - include: operators
-        - match: \,
-          scope: punctuation.separator.sequence.bibtex
-    - match: '[^@\n]'
-      push:
-        - meta_scope: comment.block.bibtex
-        - match: (?=@)
-          pop: true
-  integer:
+        1: meta.mapping.key.bibtex string.unquoted.key.bibtex
+        2: meta.mapping.bibtex
+        3: punctuation.separator.key-value.bibtex
+      push: brace-mapping-value
+    - include: line-comments
+    - include: separators
+
+  brace-mapping-value:
+    - clear_scopes: 1
+    - meta_content_scope: meta.mapping.value.bibtex
+    - match: (?=[,}])
+      pop: 1
+    - include: numbers
+    - include: operators
+    - include: strings
+    - include: variables
+
+  paren-entry-name:
+    - meta_scope: meta.entry.arguments.bibtex meta.parens.bibtex
+    - match: '[^\s,)]+'
+      scope: entity.name.type.entry-key.bibtex
+      push: paren-mapping-body
+    - match: (?=\S)
+      push: paren-mapping-body
+
+  paren-mapping-body:
+    - meta_content_scope: meta.mapping.bibtex
+    - match: \)
+      scope: punctuation.section.parens.end.bibtex
+      pop: 2
+    - match: ({{ident}})(\s*(=)\s*)
+      captures:
+        1: meta.mapping.key.bibtex string.unquoted.key.bibtex
+        2: meta.mapping.bibtex
+        3: punctuation.separator.key-value.bibtex
+      push: paren-mapping-value
+    - include: line-comments
+    - include: separators
+
+  paren-mapping-value:
+    - clear_scopes: 1
+    - meta_content_scope: meta.mapping.value.bibtex
+    - match: (?=[,)])
+      pop: 1
+    - include: numbers
+    - include: operators
+    - include: strings
+    - include: variables
+
+###[ PREAMBLES ]################################################################
+
+  preambles:
+    - match: (@)(?i:preamble)\b
+      scope: meta.preamble.bibtex keyword.declaration.preamble.bibtex
+      captures:
+        1: punctuation.definition.keyword.bibtex
+      push: preamble-args
+
+  preamble-args:
+    - meta_content_scope: meta.preamble.bibtex
+    - match: \{
+      scope: punctuation.section.braces.begin.bibtex
+      set: preamble-brace-body
+    - match: \(
+      scope: punctuation.section.parens.begin.bibtex
+      set: preamble-paren-body
+    - include: else-pop
+
+  preamble-brace-body:
+    - meta_scope: meta.preamble.arguments.bibtex meta.braces.bibtex
+    - match: \}
+      scope: punctuation.section.braces.end.bibtex
+      pop: 1
+    - include: operators
+    - include: strings
+    - include: variables
+
+  preamble-paren-body:
+    - meta_scope: meta.preamble.arguments.bibtex meta.parens.bibtex
+    - match: \)
+      scope: punctuation.section.parens.end.bibtex
+      pop: 1
+    - include: operators
+    - include: strings
+    - include: variables
+
+###[ LITERALS ]#################################################################
+
+  numbers:
     - match: \d+
       scope: meta.number.integer.decimal.bibtex constant.numeric.value.bibtex
-  variables:
-    - match: '{{var}}'
-      scope: variable.other.constant.bibtex
+
+  strings:
+    - match: \{
+      scope: punctuation.definition.string.begin.bibtex
+      push: brace-quoted-string-body
+    - match: \"
+      scope: punctuation.definition.string.begin.bibtex
+      push: double-quoted-string-body
+
+  brace-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.bibtex string.quoted.other.bibtex
+    - match: \}
+      scope: punctuation.definition.string.end.bibtex
+      pop: 1
+    - match: \@
+      scope: invalid.illegal.at-sign.bibtex
+    - include: nested-braces
+
+  double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.bibtex string.quoted.double.bibtex
+    - match: \"
+      scope: punctuation.definition.string.end.bibtex
+      pop: 1
+    - match: \\['"]
+      scope: constant.character.escape.bibtex
+    - include: nested-braces
+
+  nested-braces:
+    - match: \{
+      push: nested-brace-body
+
+  nested-brace-body:
+    - match: \}
+      pop: 1
+    - include: nested-braces
+
+###[ OPERATORS ]################################################################
+
   operators:
     - match: \#
       scope: keyword.operator.concatenation.bibtex
-  nested_braces:
-    - match: '\{'
-      scope: punctuation.definition.group.begin.bibtex
-      push:
-        - match: '\}'
-          scope: punctuation.definition.group.end.bibtex
-          pop: true
-        - include: nested_braces
-  string_content:
-    - match: '"'
-      scope: punctuation.definition.string.begin.bibtex
-      push:
-        - meta_scope: string.quoted.double.bibtex
-        - match: '"'
-          scope: punctuation.definition.string.end.bibtex
-          pop: true
-        - include: nested_braces
-    - match: '\{'
-      scope: punctuation.definition.string.begin.bibtex
-      push:
-        - meta_scope: string.quoted.other.braces.bibtex
-        - match: '\}'
-          scope: punctuation.definition.string.end.bibtex
-          pop: true
-        - match: "@"
-          scope: invalid.illegal.at-sign.bibtex
-        - include: nested_braces
+
+  separators:
+    - match: ','
+      scope: punctuation.separator.sequence.bibtex
+
+###[ VARIABLES ]################################################################
+
+  variables:
+    - match: '{{var}}'
+      scope: variable.other.constant.bibtex
+
+###[ PROTOTYPES ]###############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
