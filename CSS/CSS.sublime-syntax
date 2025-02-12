@@ -15,8 +15,8 @@ variables:
   # https://www.w3.org/TR/css3-selectors/#lex
   unicode: \\\h{1,6}[ \t\n\f]?
   escape: (?:{{unicode}}|\\[^\n\f\h])
-  nmstart: (?:[_[:alpha:][^\x{0}-\x{127}]]|{{escape}})
-  nmchar: (?:[-_[:alnum:][^\x{0}-\x{127}]]|{{escape}})
+  nmstart: (?:[_A-Za-z[^\x{0}-\x{127}]]|{{escape}})
+  nmchar: (?:[-_0-9A-Za-z[^\x{0}-\x{127}]]|{{escape}})
 
   # Identifier Break
   # The proper pattern would be (?!{{nmchar}}), but its impact on performance
@@ -25,7 +25,7 @@ variables:
   # 2. Breaks are ascii characters other than denoted by {{nmchar}}.
   # 3. Assume unicode or escape character if backslash is matched, instead of
   #    matching (?!{{escape}}) which also effects performance negative.
-  break: (?=[[^-_[:alnum:]\\]&&[\x{0}-\x{127}]]|\Z)
+  break: (?=[[^-_0-9A-Za-z\\]&&[\x{0}-\x{127}]]|\Z)
 
   # Interpolateable Identifiers
   ident_begin: (?=--|-?{{ident_start}})
@@ -96,7 +96,7 @@ variables:
   property_or_selector_begin: (?={{ident_begin}}|{{selector_start}})
   property_end: (?=[;@)}])
 
-  selector_start: '[[:alpha:].:#&*\[{{combinator_char}}]'
+  selector_start: '[A-Za-z.:#&*\[{{combinator_char}}]'
   selector_end: (?=[;@(){}])
 
   keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
@@ -125,7 +125,7 @@ variables:
 
   # Foreign Tags
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
-  tag_name_begin: (?=[[:alpha:]])
+  tag_name_begin: (?=[A-Za-z])
   tag_name_break: (?!{{tag_name_char}})
   # tags may consist of any char valid in html but not being of special meaning in CSS
   tag_name_char: '[^ \t\n\f.:#&*</:;(){}\[\]{{combinator_char}}]'
@@ -1266,6 +1266,8 @@ contexts:
     - meta_scope: entity.name.tag.other.css
     - match: '{{tag_name_break}}'
       pop: 1
+    # consume escape sequences and possibly following whitespace
+    - match: '{{escape}}'
 
   selector-variables:
     - match: \&
@@ -3005,11 +3007,10 @@ contexts:
     - include: identifier-content
 
   identifier-content:
-    # also pop parent context
     - match: '{{break}}'
       pop: 1
-    # consume unicode escapes and possibly following whitespace
-    - match: '{{unicode}}'
+    # consume escape sequences and possibly following whitespace
+    - match: '{{escape}}'
 
 ###[ CONSTANTS ]###############################################################
 

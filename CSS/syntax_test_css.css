@@ -147,6 +147,16 @@
 /*           ^ punctuation.section.block.begin.css */
 /*            ^ punctuation.section.block.end.css */
 
+    h\74 ml {}
+/*  ^^^^^^^^ meta.selector.css */
+/*  ^^^^^^^ entity.name.tag.other.css */
+
+    ns\:name .ns\:name #ns\:name {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*  ^^^^^^^^ entity.name.tag.other.css */
+/*           ^^^^^^^^^ entity.other.attribute-name.class.css*/
+/*                     ^^^^^^^^^ entity.other.attribute-name.id.css */
+
     @123
 /*  ^^^^^ - meta.at-rule - constant - keyword - punctuation */
 
