@@ -55,20 +55,17 @@ contexts:
   interface.struct:
     - match: \{
       scope: punctuation.section.block.begin.objc
-      push: enclosure.block
+      set: enclosure.block
     - include: else-pop
   interface.body:
-    - match: ^\s*(@end)
-      captures:
-        1: keyword.declaration.interface.end.objc
+    - match: \@end
+      scope: keyword.declaration.interface.end.objc
       pop: 1
-    - match: ^\s*(@property)
-      captures:
-        1: keyword.other.objc
+    - match: \@property
+      scope: keyword.other.objc
       push: [statement, property]
-    - match: ^\s*(@(?:synthesize|dynamic))
-      captures:
-        1: keyword.other.objc
+    - match: \@(?:synthesize|dynamic)
+      scope: keyword.other.objc
       push: statement
 
     - match: (?:\+|\-)\s*(?=\()
@@ -130,108 +127,16 @@ contexts:
       pop: 1
 
   protocol-list:
-    - match: \<(?=({{identifier}}|,|\s)*\>)
+    - match: \<(?=({{identifier}}|,|\s|\*)*\>)
       scope: punctuation.section.scope.begin.objc
       push:
         - include: expression-identifiers
+        - include: punctuation.comma
+        - include: operator.pointer
         - meta_scope: meta.protocol-list.objc
         - match: \>
           scope: punctuation.section.scope.end.objc
           pop: 1
-
-  gnu-attribute:
-    - meta_append: true
-    - match: \b(objc_direct)\b
-      scope: constant.other.objc
-    - match: \b(swift_name)\s*(\()
-      captures:
-        1: storage.modifier.c
-        2: punctuation.section.group.begin.c
-      push: enclosure.parenthesis
-
-  preprocessor:
-    - meta_prepend: true
-    - match: ^\s*#\s*(import)\b
-      scope: keyword.control.import.objc
-      push: preprocessor.include
-
-  string:
-    - meta_prepend: true
-    - match: \@\"
-      scope: punctuation.definition.string.begin.c
-      push: string.double-ns
-  string.double-ns:
-    - meta_scope: string.quoted.double.objc
-    - include: string.double
-    - match: '%@'
-      scope: constant.other.placeholder.objc
-
-  keyword.type:
-    - meta_append: true
-    - match: \b(?:BOOL|Class|SEL|IMP|id|instancetype|IBAction)\b
-      scope: storage.type.objc
-    - match: \@(?:interface|class|implementation|protocol|end)\b
-      scope: keyword.declaration.objc
-    - match: '(?=\bNS\w+\b)'
-      push: ns-identifiers
-
-  selector-obj:
-    - meta_scope: meta.selector.objc
-    - meta_content_scope: meta.selector.method-name.objc
-    - match: \)
-      scope: punctuation.section.group.end.objc
-      pop: 1
-    - match: .
-      scope: support.function.objc
-  operator.word:
-    - meta_append: true
-    - match: '@(encode|available)'
-      scope: keyword.operator.word.objc
-    - match: '(@selector)\b(\()?'
-      captures:
-        1: keyword.operator.word.objc
-        2: punctuation.section.group.begin.objc
-      push: selector-obj
-
-  keyword.control:
-    - meta_prepend: true
-    - match: \@(autoreleasepool|import|synchronized)\b
-      scope: keyword.control.objc
-    - match: \@(try|catch|finally|throw)\b
-      scope: keyword.control.exception.objc
-
-  keyword.storage:
-    - meta_prepend: true
-    - match: \b(nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(unused|nonnull|block|weak|strong|autoreleasing|bridge))\b
-      scope: storage.modifier.objc
-    - match: \@(private|public|protected|package|optional|required)\b
-      scope: storage.modifier.objc
-  keyword:
-    - meta_prepend: true
-    - match: \b(self|super)\b
-      scope: variable.language.objc
-
-  constant:
-    - meta_append: true
-    - match: \b(nil|Nil)\b
-      scope: constant.language.null.objc
-    - match: (\b|\@)(YES|NO|true|false)\b
-      scope: constant.language.boolean.objc
-
-  type:
-    - meta_prepend: true
-    - match: \(\s*(\^)({{identifier}})?\s*\)\s*(\()
-      captures:
-        1: keyword.operator.objc
-        2: entity.name.type.typedef.objc
-        3: punctuation.section.group.begin.objc
-      push: [function.params, pop-immediately]
-    - match: \@(?=\d)
-      scope: constant.numeric.objc
-    - match: (\@class)\s*({{identifier}})
-      captures:
-        1: keyword.declaration.class.objc
-        2: entity.name.type.class.objc
 
   expression:
     - meta_prepend: true
@@ -258,6 +163,7 @@ contexts:
       set: enclosure.block
     - match: (?=\S)
       fail: block-fn
+
   self-access:
     - match: \b(self)\b
       captures:
@@ -268,17 +174,133 @@ contexts:
         2: variable.other.readwrite.member.objc
     - include: pop-immediately
 
-  message.func:
-    - match: '\b({{identifier}})\s*(:)'
-      captures:
-        1: entity.name.function.method.objc
-        2: punctuation.separator.arguments.objc
+  preprocessor:
+    - meta_prepend: true
+    - match: ^\s*#\s*(import)\b
+      scope: keyword.control.import.objc
+      push: preprocessor.include
 
+  string:
+    - meta_prepend: true
+    - match: \@\"
+      scope: punctuation.definition.string.begin.c
+      push: string.double-ns
+    - match: \@\'
+      scope: punctuation.definition.string.begin.c
+      push: string.single
+  string.double-ns:
+    - meta_scope: string.quoted.double.objc
+    - include: string.double
+    - match: '%@'
+      scope: constant.other.placeholder.objc
+
+  available:
+    - match: \b(iOS|macOS|watchOS|tvOS|visionOS)\b
+      scope: support.constant.platform.objc
+    - match: \b(\d[\d\.]+)\b
+      captures:
+        1: constant.numeric.version.objc
+    - include: expression
+    - match: \)
+      scope: punctuation.section.group.end.objc
+      pop: 1
+
+  selector-obj:
+    - meta_scope: meta.selector.objc
+    - meta_content_scope: meta.selector.method-name.objc
+    - match: \)
+      scope: punctuation.section.group.end.objc
+      pop: 1
+    - match: .
+      scope: support.function.objc
+
+  keyword:
+    - meta_prepend: true
+    - match: \b(self|super)\b
+      scope: variable.language.objc
+    - match: \@(property|synthesize|dynamic)\b
+      scope: keyword.other.objc
+    - match: '(@available)\b(\()'
+      captures:
+        1: keyword.operator.word.objc
+        2: punctuation.section.group.begin.objc
+      push: available
+    - match: '(@selector)\b(\()'
+      captures:
+        1: keyword.operator.word.objc
+        2: punctuation.section.group.begin.objc
+      push: selector-obj
+    - match: '@(selector|encode|available)'
+      scope: keyword.operator.word.objc
+  keyword.control:
+    - meta_prepend: true
+    - match: \@(autoreleasepool|import|synchronized)\b
+      scope: keyword.control.objc
+    - match: \@(try|catch|finally|throw)\b
+      scope: keyword.control.exception.objc
+  keyword.storage:
+    - meta_prepend: true
+    - match: \b(nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(unused|nonnull|block|weak|strong|autoreleasing|bridge|covariant|contravariant))\b
+      scope: storage.modifier.objc
+    - match: \@(private|public|protected|package|optional|required)\b
+      scope: storage.modifier.objc
+  keyword.type:
+    - meta_append: true
+    - match: \b(?:BOOL|Class|SEL|IMP|id|instancetype|IBAction)\b
+      scope: storage.type.objc
+    - match: \@(?:interface|class|implementation|protocol|end)\b
+      scope: keyword.declaration.objc
+    - match: '(?=\bNS\w+\b)'
+      push: ns-identifiers
+
+  gnu-attribute:
+    - meta_append: true
+    - match: \b(objc_(direct|designated_initializer|root_class|requires_super|subclassing_restricted|precise_lifetime|))\b
+      scope: constant.other.objc
+    - match: \b(swift_name|objc_runtime_name)\s*(\()
+      captures:
+        1: storage.modifier.c
+        2: punctuation.section.group.begin.c
+      push: enclosure.parenthesis
+
+  constant:
+    - meta_append: true
+    - match: \b(nil|Nil)\b
+      scope: constant.language.null.objc
+    - match: (\b|\@)(YES|NO|true|false)\b
+      scope: constant.language.boolean.objc
+
+  type:
+    - meta_prepend: true
+    - match: \(\s*(\^)({{identifier}})?\s*\)\s*(\()
+      captures:
+        1: keyword.operator.objc
+        2: entity.name.type.typedef.objc
+        3: punctuation.section.group.begin.objc
+      push: [function.params, pop-immediately]
+    - match: \@(?=\d)
+      scope: constant.numeric.objc
+    - match: (\@class)\s*({{identifier}})
+      captures:
+        1: keyword.declaration.class.objc
+        2: entity.name.type.class.objc
+
+  enclosure:
+    - meta_prepend: true
+    - match: \[(?!\s*{{identifier}}\s*[:\]])
+      scope: punctuation.section.brackets.begin
+      branch_point: message
+      branch: [message, enclosure.brackets]
+    - match: '@\{'
+      scope: punctuation.section.mapping.begin
+      push: enclosure.mapping
+  enclosure.mapping:
+    - meta_scope: meta.mapping.objc
+    - match: \}
+      scope: punctuation.section.mapping.end
+      pop: 1
     - include: expression
 
-    - match: \]
-      scope: punctuation.section.brackets.end.objc
-      pop: 1
   message:
     - meta_scope: meta.bracketed.objc
 
@@ -304,21 +326,18 @@ contexts:
     - match: '\b({{identifier}})\b'
     - match: (?=\S)
       fail: message
-  enclosure:
-    - meta_prepend: true
-    - match: \[(?!\s*{{identifier}}:)
-      scope: punctuation.section.brackets.begin
-      branch_point: message
-      branch: [message, enclosure.brackets]
-    - match: '@\{'
-      scope: punctuation.section.mapping.begin
-      push: enclosure.mapping
-  enclosure.mapping:
-    - meta_scope: meta.mapping.objc
-    - match: \}
-      scope: punctuation.section.mapping.end
-      pop: 1
+  message.func:
+    - meta_scope: meta.bracketed.objc
+    - match: '\b({{identifier}})\s*(:)'
+      captures:
+        1: entity.name.function.method.objc
+        2: punctuation.separator.arguments.objc
+
     - include: expression
+
+    - match: \]
+      scope: punctuation.section.brackets.end.objc
+      pop: 1
 
   ns-identifiers:
     - match: (\s*)\b(NS(Rect(ToCGRect|FromCGRect)|MakeCollectable|S(tringFromProtocol|ize(ToCGSize|FromCGSize))|Draw(NinePartImage|ThreePartImage)|P(oint(ToCGPoint|FromCGPoint)|rotocolFromString)|EventMaskFromType|Value))\b
