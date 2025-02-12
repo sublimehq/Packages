@@ -1,0 +1,132 @@
+{
+    "scope": "source.as",
+    "completions":
+    [
+        {
+            "trigger": "break",
+            "contents": "break;",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "break statement"
+        },
+        {
+            "trigger": "case",
+            "contents": "case ${1:one}:\n\t${2:statement(s);}\ndefault:\n\t${3:statement(s);}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "case statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} extends ${2:superCLass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} extends ${2:superCLass} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} implements ${2:interfaceName1, interfaceName2} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "continue",
+            "contents": "continue;",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "continue statement"
+        },
+        {
+            "trigger": "default",
+            "contents": "case ${1:one}:\n\t${2:statement(s);}\ndefault:\n\t${3:statement(s);}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "default statement"
+        },
+        {
+            "trigger": "delete",
+            "contents": "delete ${1:object};",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "delete statement"
+        },
+        {
+            "trigger": "delete",
+            "contents": "delete ${1:object.property};",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "delete statement"
+        },
+        {
+            "trigger": "do",
+            "contents": "do {\n\t${1:statement(s);}\n}\nwhile (${2:condition});",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "do...while statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} extends ${2:superCLass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} extends ${2:superCLass} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} implements ${2:interfaceName1, interfaceName2} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "else",
+            "contents": "if (${1:condition}) {\n\t${2:statement(s);}\n} else {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "else statement"
+        },
+        {
+            "trigger": "elseif",
+            "contents": "if (${1:condition}) {\n\t${2:statement(s);}\n} else if (${3:condition}) {\n\t${0:statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "else if statement"
+        },
+        {
+            "trigger": "extends",
+            "contents": "extends ${1:superClass}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "extends statement"
+        }
+    ]
+}
