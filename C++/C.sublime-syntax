@@ -218,7 +218,7 @@ contexts:
       push:
         - match: \s
           set: function.params.name
-        - include: expression-identifiers
+        - include: expression
     - include: expression
   function.params.name:
     - match: (?=[\]\}\);]) # Fallback
@@ -441,12 +441,14 @@ contexts:
     - include: string.format
   string.single:
     - meta_scope: string.quoted.single.c
+    - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.end.c
       pop: 1
     - include: string.escape
   string.angled:
     - meta_scope: string.quoted.other.c
+    - meta_include_prototype: false
     - match: \>
       scope: punctuation.definition.string.end.c
       pop: 1
