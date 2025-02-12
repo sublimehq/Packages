@@ -4683,3 +4683,131 @@ INSERT IGNORE INTO users_partners (uid,pid) VALUES (1,1);
 INSERT IGNORE users_partners (uid,pid) VALUES (1,1);
 -- ^^^^^^^^^^ keyword.other.dml
 --            ^^^^^^^^^^^^^^ meta.table-name
+
+DELIMITER $$
+-- ^^^^^^ keyword.other.sql
+--        ^^ punctuation.terminator.mysql
+
+CREATE DEFINER=`root`@`%` FUNCTION `RandString`(length SMALLINT(3), initial_seed INT)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^ variable.parameter.definer.sql
+--            ^ keyword.operator.assignment.sql
+--             ^^^^^^^^^^ meta.username.sql
+--             ^ punctuation.definition.identifier.begin.sql
+--                  ^ punctuation.definition.identifier.end.sql
+--                   ^ punctuation.accessor.at.sql
+--                    ^ punctuation.definition.identifier.begin.sql
+--                     ^ constant.other.wildcard.percent.sql
+--                      ^ punctuation.definition.identifier.end.sql
+--                        ^^^^^^^^^^^^^^^^^^^^^ meta.function.sql
+--                        ^^^^^^^^ keyword.other.ddl.sql
+--                                 ^^^^^^^^^^^^ entity.name.function.sql
+--                                 ^ punctuation.definition.identifier.begin.sql
+--                                            ^ punctuation.definition.identifier.end.sql
+--                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.sql meta.group.sql
+--                                             ^ punctuation.section.group.begin.sql
+--                                              ^^^^^^ variable.parameter.sql
+--                                                     ^^^^^^^^^^^ storage.type.sql
+--                                                             ^^^ meta.parens.sql
+--                                                             ^ punctuation.definition.parens.begin.sql
+--                                                              ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                               ^ punctuation.definition.parens.end.sql
+--                                                                ^ punctuation.separator.sequence.sql
+--                                                                  ^^^^^^^^^^^^ variable.parameter.sql
+--                                                                               ^^^ storage.type.sql
+--                                                                                  ^ punctuation.section.group.end.sql
+    RETURNS varchar(100) CHARSET UTF8MB4
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^^^ storage.type.sql
+--                 ^^^^^ meta.parens.sql
+--                 ^ punctuation.definition.parens.begin.sql
+--                  ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                     ^ punctuation.definition.parens.end.sql
+--                       ^^^^^^^ storage.modifier.mysql
+--                               ^^^^^^^ constant.language.mysql
+    CONTAINS SQL
+--  ^^^^^^^^^^^^ storage.modifier.sql
+    DETERMINISTIC
+--  ^^^^^^^^^^^^^ storage.modifier.sql
+BEGIN
+    SET @returnStr = '';
+    SET @allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+    SET @i = 0;
+    
+    SET @seed := initial_seed;
+--  ^^^^ meta.statement.set.sql
+--  ^^^ keyword.other.dml.sql
+--      ^^^^^ variable.other.sql
+--      ^ punctuation.definition.variable.sql
+--            ^^ keyword.operator.assignment.mysql
+--                           ^ punctuation.terminator.statement.sql
+
+    WHILE (@i < length) DO
+--  ^^^^^ keyword.control.loop.sql
+--        ^^^^^^^^^^^^^ meta.group.sql
+--        ^ punctuation.section.group.begin.sql
+--         ^^ variable.other.sql
+--         ^ punctuation.definition.variable.sql
+--            ^ keyword.operator.comparison.sql
+--                    ^ punctuation.section.group.end.sql
+--                      ^^ keyword.control.loop.sql
+        SET @returnStr = CONCAT(@returnStr, substring(@allowedChars, FLOOR(RAND(@seed) * LENGTH(@allowedChars) + 1), 1));
+        SET @i = @i + 1;
+        SET @seed = round(rand(@seed)*4294967296);
+    END WHILE;
+
+    RETURN @returnStr;
+END
+$$
+-- <- punctuation.terminator.mysql
+DELIMITER ;
+
+
+-- https://dev.mysql.com/doc/refman/8.4/en/set-variable.html
+SET GLOBAL max_connections = 1000;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+-- <- keyword.other.dml.sql
+--  ^^^^^^ storage.modifier.mysql
+--         ^^^^^^^^^^^^^^^ variable.other
+--                         ^ keyword.operator.assignment
+--                           ^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                               ^ punctuation.terminator.statement.sql
+SET @@GLOBAL.max_connections = 1000;
+--  ^^^^^^^^ variable.language
+--  ^^ punctuation.definition.variable
+--          ^^^^^^^^^^^^^^^^ - meta.column-name
+--          ^ punctuation.accessor.dot
+--           ^^^^^^^^^^^^^^^ variable.other
+--                           ^ keyword.operator.assignment
+--                             ^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                 ^ punctuation.terminator.statement.sql
+
+SET SESSION sql_mode = 'TRADITIONAL';
+SET LOCAL sql_mode = 'TRADITIONAL';
+SET @@SESSION.sql_mode = 'TRADITIONAL';
+SET @@LOCAL.sql_mode = 'TRADITIONAL';
+SET @@sql_mode = 'TRADITIONAL';
+SET sql_mode = 'TRADITIONAL';
+
+SET PERSIST max_connections = 1000;
+SET @@PERSIST.max_connections = 1000;
+
+SET PERSIST_ONLY back_log = 100;
+SET @@PERSIST_ONLY.back_log = 100;
+
+SET @@SESSION.max_join_size = DEFAULT;
+SET @@SESSION.max_join_size = @@GLOBAL.max_join_size;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.sql
+-- <- keyword.other.dml.sql
+--  ^^^^^^^^^ variable.language.mysql
+--  ^^ punctuation.definition.variable.mysql
+--           ^ punctuation.accessor.dot.mysql
+--            ^^^^^^^^^^^^^ variable.other
+--                          ^ keyword.operator.assignment.sql
+--                            ^^^^^^^^ variable.language.sql
+--                            ^^ punctuation.definition.variable.sql
+--                                    ^ punctuation.accessor.dot.sql
+--                                     ^^^^^^^^^^^^^ variable.other.member.mysql
+--                                                  ^ punctuation.terminator.statement.sql
