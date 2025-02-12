@@ -1266,6 +1266,8 @@ contexts:
     - meta_scope: entity.name.tag.other.css
     - match: '{{tag_name_break}}'
       pop: 1
+    # consume escape sequences and possibly following whitespace
+    - match: '{{escape}}'
 
   selector-variables:
     - match: \&
@@ -3005,11 +3007,10 @@ contexts:
     - include: identifier-content
 
   identifier-content:
-    # also pop parent context
     - match: '{{break}}'
       pop: 1
-    # consume unicode escapes and possibly following whitespace
-    - match: '{{unicode}}'
+    # consume escape sequences and possibly following whitespace
+    - match: '{{escape}}'
 
 ###[ CONSTANTS ]###############################################################
 
