@@ -565,7 +565,7 @@
 //  ^^^^^^ storage.modifier.c 
 //         ^^^^^^ storage.modifier.c 
 //                ^^^ storage.type.c 
-//                   ^ keyword.operator.arithmetic.c 
+//                   ^ keyword.operator.c 
     test(
 //  ^^^^ entity.name.function.c 
 //      ^ punctuation.section.group.begin.c 
@@ -1402,7 +1402,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //         ^^^^^^^^^^^ meta.protocol-list.objc
 //         ^ punctuation.section.scope.begin.objc
 //          ^^^^^^^^ support.class.cocoa.objc
-//                  ^ keyword.operator.arithmetic.c
+//                  ^ keyword.operator.c
 //                   ^ punctuation.section.scope.end.objc
 //                    ^ keyword.operator.arithmetic.c
 //                        ^ keyword.operator.assignment.c

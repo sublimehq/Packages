@@ -24,7 +24,7 @@ contexts:
     - include: comment
     - include: preprocessor
 
-  ###[PREPROCESSOR]###
+###[ PREPROCESSOR ]############################################################
 
   comment:
     - match: //
@@ -157,7 +157,7 @@ contexts:
     - include: punctuation
     - include: string
 
-  ###[TOP LEVEL]###
+###[ TOP LEVEL ]############################################################
 
   statement:
     - match: ;
@@ -257,7 +257,7 @@ contexts:
     - include: keyword
     - include: constant
 
-  ###[SIMPLE STRUCTURES]###
+###[ SIMPLE STRUCTURES ]############################################################
 
   type:
     - match: \btypedef\b
@@ -417,7 +417,7 @@ contexts:
         1: entity.name.label.c
         2: punctuation.separator.c
 
-  ###[BASIC OBJECTS]###
+###[ BASIC OBJECTS ]############################################################
 
   string:
     - match: (L|u8?|U)?(\")
@@ -514,7 +514,7 @@ contexts:
       scope: punctuation.accessor.c
   operator.pointer:
     - match: \&|\*
-      scope: keyword.operator.arithmetic.c
+      scope: keyword.operator.c
 
   punctuation:
     - include: punctuation.comma
@@ -714,7 +714,7 @@ contexts:
       scope: punctuation.section.group.end.c
       pop: 1
 
-  ###[HELPERS]###
+###[ HELPERS ]############################################################
 
   pop-immediately:
     - match: ""

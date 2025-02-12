@@ -565,7 +565,7 @@
 //  ^^^^^^ storage.modifier.c 
 //         ^^^^^^ storage.modifier.c 
 //                ^^^ storage.type.c 
-//                   ^ keyword.operator.arithmetic.c 
+//                   ^ keyword.operator.c 
     test(
 //  ^^^^ entity.name.function.c 
 //      ^ punctuation.section.group.begin.c 

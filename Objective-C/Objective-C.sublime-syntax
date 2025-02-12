@@ -76,9 +76,11 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.objc
       push: property.attrs
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
   property.attrs:
+    - match: \)
+      scope: punctuation.section.group.end.objc
+      pop: 1
     - match: \b([sg]etter)\s*(=)\s*({{identifier}})\b
       captures:
         1: storage.modifier.objc
@@ -88,13 +90,10 @@ contexts:
       scope: storage.modifier.objc
     - include: punctuation.comma
     - include: operator
-    - match: \)
-      scope: punctuation.section.group.end.objc
-      pop: 1
 
   selector.return:
     - match: \(
-      scope: punctuation.section.group.begin
+      scope: punctuation.section.group.begin.objc
       set: enclosure.parenthesis
   selector:
     - meta_scope: meta.function.objc
@@ -183,10 +182,10 @@ contexts:
   string:
     - meta_prepend: true
     - match: \@\"
-      scope: punctuation.definition.string.begin.c
+      scope: punctuation.definition.string.begin.objc
       push: string.double-ns
     - match: \@\'
-      scope: punctuation.definition.string.begin.c
+      scope: punctuation.definition.string.begin.objc
       push: string.single
   string.double-ns:
     - meta_scope: string.quoted.double.objc
@@ -259,16 +258,18 @@ contexts:
       scope: constant.other.objc
     - match: \b(swift_name|objc_runtime_name)\s*(\()
       captures:
-        1: storage.modifier.c
-        2: punctuation.section.group.begin.c
+        1: storage.modifier.objc
+        2: punctuation.section.group.begin.objc
       push: enclosure.parenthesis
 
   constant:
     - meta_append: true
     - match: \b(nil|Nil)\b
       scope: constant.language.null.objc
-    - match: (\b|\@)(YES|NO|true|false)\b
-      scope: constant.language.boolean.objc
+    - match: (\b|\@)(YES|true)\b
+      scope: constant.language.boolean.true.objc
+    - match: (\b|\@)(|NO|false)\b
+      scope: constant.language.boolean.false.objc
 
   type:
     - meta_prepend: true
@@ -369,5 +370,4 @@ contexts:
     # Catch-all
     - match: \bN\w+\b
       pop: 1
-    - match: ''
-      pop: 1
+    - include: pop-immediately
