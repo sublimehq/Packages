@@ -193,6 +193,18 @@ contexts:
         - include: else-pop
     - match: (?=\S)
       fail: try-function
+  expression.try-call:
+    - match: ({{std_funcs}})\s*$
+      captures:
+        1: variable.function.c support.function.std.c
+    - match: ({{identifier}})\s*$
+      captures:
+        1: variable.function.c
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      set: enclosure.parenthesis
+    - match: (?=\S)
+      scope: invalid.illegal.bad
   expression.call:
     - match: \b(?:({{std_funcs}}))\s*(\()
       captures:
@@ -204,6 +216,9 @@ contexts:
         1: variable.function.c
         2: punctuation.section.group.begin.c
       push: enclosure.parenthesis
+    - match: \b(?={{identifier}}\s*$)
+      branch_point: try-call
+      branch: [expression.try-call, pop-immediately]
 
   function:
     - include: expression-identifiers
