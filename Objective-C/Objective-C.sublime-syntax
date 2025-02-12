@@ -263,12 +263,12 @@ contexts:
       push: enclosure.parenthesis
 
   constant:
-    - meta_append: true
+    - meta_prepend: true
     - match: \b(nil|Nil)\b
       scope: constant.language.null.objc
-    - match: (\b|\@)(YES|true)\b
+    - match: ((@|\b)YES|@true)\b
       scope: constant.language.boolean.true.objc
-    - match: (\b|\@)(|NO|false)\b
+    - match: ((@|\b)NO|@false)\b
       scope: constant.language.boolean.false.objc
 
   type:

@@ -1211,8 +1211,8 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //                           ^^^^^^^^^^^^^ storage.modifier.c
 //                                        ^^ punctuation.section.group.begin.c
 //                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c
-//                                          ^^^^^^^^^^^^^^^^^ storage.modifier.c
-//                                                           ^ punctuation.section.group.begin.c
+//                                          ^^^^^^^^^^^^^^^^^ storage.modifier.objc
+//                                                           ^ punctuation.section.group.begin.objc
 //                                                            ^^^^^^^^^^ string.quoted.double.c
 //                                                            ^ punctuation.definition.string.begin.c
 //                                                                     ^ punctuation.definition.string.end.c
@@ -1223,7 +1223,6 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //                                                                                    ^^^^^^^^^^^^ meta.protocol-list.objc
 //                                                                                    ^ punctuation.section.scope.begin.objc
 //                                                                                               ^ punctuation.section.scope.end.objc
-
 {
     @public int a;
 //^^^^^^^^^^^^^^^^ meta.interface-or-protocol.objc meta.scope.interface.objc meta.block.c
@@ -1353,13 +1352,13 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //           ^^^^^^^^ support.class.cocoa.objc
 //                   ^ keyword.operator.arithmetic.c
 //                       ^ keyword.operator.assignment.c
-//                         ^^^^^^^^^^ meta.bracketed.objc
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.bracketed.objc
 //                         ^ punctuation.section.brackets.begin
 //                          ^^^^^^^^ support.class.cocoa.objc
 //                                   ^^^^^^^^^^^^^^^^ entity.name.function.method.objc
 //                                                   ^ punctuation.separator.arguments.objc
 //                                                    ^^^^^^^^^^^^^^^^^^^ string.quoted.double.objc
-//                                                    ^^ punctuation.definition.string.begin.c
+//                                                    ^^ punctuation.definition.string.begin.objc
 //                                                                    ^^ constant.other.placeholder.objc
 //                                                                      ^ punctuation.definition.string.end.c
 //                                                                       ^ punctuation.separator.c
@@ -1376,7 +1375,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //                 ^ keyword.operator.arithmetic.c
 //                     ^ keyword.operator.assignment.c
 //                       ^^^^ string.quoted.single.c
-//                       ^^ punctuation.definition.string.begin.c
+//                       ^^ punctuation.definition.string.begin.objc
 //                          ^ punctuation.definition.string.end.c
 //                           ^ punctuation.terminator.c
     __autoreleasing NSView* a = [[NSView alloc] init];
@@ -1470,7 +1469,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //                        ^ punctuation.section.group.end
 //                         ^^^^^^^ constant.other.variable.mac-classic.c
 //                                 ^ keyword.operator.ternary.c
-//                                   ^^^^ constant.language.boolean.objc
+//                                   ^^^^ constant.language.boolean.true.objc
     };
 //^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c
 //^^^ meta.mapping.objc
@@ -1533,7 +1532,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c meta.block.c meta.bracketed.objc
 //          ^^^^ entity.name.function.method.objc
 //              ^ punctuation.separator.arguments.objc
-//                ^^^ constant.language.boolean.objc
+//                ^^^ constant.language.boolean.false.objc
         ];
 //^^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c meta.block.c
 //^^^^^^^ meta.bracketed.objc
@@ -1596,9 +1595,9 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //                           ^ keyword.operator.arithmetic.c
 //                              ^ punctuation.section.group.end
 //                                ^ keyword.operator.ternary.c
-//                                  ^^^^^ constant.language.boolean.objc
+//                                  ^^^^^ constant.language.boolean.true.objc
 //                                        ^ keyword.operator.ternary.c
-//                                          ^^^^^^ constant.language.boolean.objc
+//                                          ^^^^^^ constant.language.boolean.false.objc
 //                                                ^ punctuation.section.brackets.end.objc
 //                                                 ^ punctuation.terminator.c
         } @catch(NSException* exc) {
@@ -1616,7 +1615,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
             return NO;
 //^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c meta.block.c meta.block.c
 //          ^^^^^^ keyword.control.flow.return.c
-//                 ^^ constant.language.boolean.objc
+//                 ^^ constant.language.boolean.false.objc
 //                   ^ punctuation.terminator.c
         } @finally {
 //^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c meta.block.c
@@ -1627,7 +1626,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
             return YES;
 //^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c meta.block.c meta.block.c
 //          ^^^^^^ keyword.control.flow.return.c
-//                 ^^^ constant.language.boolean.objc
+//                 ^^^ constant.language.boolean.true.objc
 //                    ^ punctuation.terminator.c
         }
 //^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c meta.block.c meta.block.c
