@@ -548,6 +548,21 @@
 //                           ^ punctuation.definition.string.end.c 
 //                            ^ punctuation.section.group.end 
 //                             ^ punctuation.terminator.c 
+        
+        printf
+//^^^^^^^^^^^^ meta.function.c meta.block.c
+//      ^^^^^^ variable.function.c
+            (1, 2, 3);
+//^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//          ^^^^^^^^^ meta.group.c
+//          ^ punctuation.section.group.begin.c
+//           ^ meta.number.integer.decimal.c constant.numeric.value.c
+//            ^ punctuation.separator.c
+//              ^ meta.number.integer.decimal.c constant.numeric.value.c
+//               ^ punctuation.separator.c
+//                 ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                  ^ punctuation.section.group.end
+//                   ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c 
 //  ^ punctuation.section.block.end.c 
