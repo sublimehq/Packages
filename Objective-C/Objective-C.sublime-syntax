@@ -175,7 +175,7 @@ contexts:
 
   preprocessor:
     - meta_prepend: true
-    - match: ^\s*#\s*(import)\b
+    - match: '{{dir_start}}(import)\b'
       scope: keyword.control.import.objc
       push: preprocessor.include
 
@@ -317,6 +317,9 @@ contexts:
 
     - match: (?={{identifier}}\s*:)
       set: message.func
+
+    - match: \]
+      fail: message
 
     - match: ({{identifier}})\s*(\])
       captures:

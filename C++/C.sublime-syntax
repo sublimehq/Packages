@@ -47,39 +47,35 @@ contexts:
 
   preprocessor:
     - include: preprocessor.line-escape
+    - include: comment
 
     - match: ^\s*#\s*((?:el)?if(?:n?def)?|undef|pragma)\b
       scope: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
+        - include: comment
         - include: eol-pop
 
-    - match: ^\s*#\s*(else|endif)\b
+    - match: '{{dir_start}}(else|endif)\b'
       scope: keyword.control.import.c
 
-    - match: ^\s*#\s*(include|include_next)\b
+    - match: '{{dir_start}}(include|include_next)\b'
       scope: keyword.control.import.c
       push: preprocessor.include
 
-    - match: ^\s*#\s*(embed)\b
+    - match: '{{dir_start}}(embed)\b'
       scope: keyword.control.import.c
       push: preprocessor.embed
 
-    - match: ^\s*#\s*(define)\b
+    - match: '{{dir_start}}(define)\b'
       scope: keyword.control.import.c
       push: preprocessor.define
 
-    - match: ^\s*#\s*(undef)\b
-      scope: keyword.control.import.c
-      push:
-        - meta_scope: meta.preprocessor.c
-        - include: eol-pop
-
-    - match: ^\s*#\s*(error)\b
+    - match: '{{dir_start}}(error)\b'
       scope: keyword.control.import.error.c
       push: preprocessor.diagnostic
 
-    - match: ^\s*#\s*(warning)\b
+    - match: '{{dir_start}}(warning)\b'
       scope: keyword.control.import.warning.c
       push: preprocessor.diagnostic
   preprocessor.line-escape:
@@ -218,10 +214,11 @@ contexts:
   call.multi-line:
     - match: '{{std_funcs}}'
       scope: variable.function.c support.function.std.c
-      push: enclosure
     - match: '{{identifier}}'
       scope: variable.function.c
-      push: enclosure
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      set: enclosure.parenthesis
 
   function:
     - include: expression-identifiers
@@ -776,3 +773,5 @@ variables:
   attribute_func: '(?:aligned|format|nonnull|section|visibility|alias|ifunc|target|alloc_size|cleanup|warning|error|cold_hot_partitioning|no_sanitize|optimize)'
 
   std_funcs: '(?:assert|(?:exp(?:2|m1)|log(?:10|2|1p)|cbrt|hypot|erfc?|[lt]gamma|ceil|floor|trunc|l{0,2}round|f(?:absmod|max|min|dim)|c(?:abs|real|imag|arg|onj|proj|)|c?(?:exp|log|pow|sqrt|a?(?:sin|cos|tan)h?))[fl]?|abs|l{0,2}div|is(?:finite|inf|nan|normal|greater(?:equal)?|less(?:equal|greater)?|unordered|alnum|alpha|lower|upper|x?digit|cntrl|graph|space|blank|print|punct)(?:set|long)jmp|jmp_buf|signal|raise|va_(?:list|start|arg|copy|end)|std(?:in|out|err)|setv?buf|re(?:wind|move|name)|tmp(?:nam|file)(?:_s)?|f(?:(?:re)?open(?:_s)?|close|flush|wide|read|write|tell|getpos|seek|setpos|error)|gets_s|f?(?:get|put)?(?:c|s|char)|v?f?s?w?scanf(?:s|sn)?w?printf(?:_s)?|abort|(?:(?:at_)?quick_|at)?exit|_Exit|unreachable|system|getenv(?:_s)?|to(?:lower|upper)|ato(?:f|i|l|ll)|str(?:to(?:u?ll?|f|l?d)|from[dfl]|(?:n?cpy|cat|nlen|tok|error(?:len)?)(?:_s)?|xfrm|n?dup|n?cmp|coll|r?chr|c?spn|pbrk|str|len)|mem(?:chr|cmp|set(?:_explicit|_s)?|(?:move|cpy)(?:_s)?|ccpy)|thrd_(?:create|equal|current|sleep|yield|exit|detach|join|success|timedout|busy|nomem|error)|(?:diff|mk|strf)?time|clock|timespec_get(?:res)?|(?:as)?ctime(?:_s)?|(?:gm|local)time(?:_[rs])?)'
+
+  dir_start: ^\s*#\s*
