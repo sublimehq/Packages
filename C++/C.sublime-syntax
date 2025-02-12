@@ -166,11 +166,14 @@ contexts:
     - include: expression
 
   expression:
-    # most likely function definition
-    - match: (?=^\s*{{identifier}}\s+{{identifier}}\s*\()
-      push:
-        - include: function
-        - include: else-pop
+    # priority issues with matching ^\s*{{identifier}}
+    - match: ^\s+
+      branch_point: try-function
+      branch: [expression.try-function, pop-immediately]
+    - include: keyword.control-flow
+    - include: keyword.control
+    - match: (?=^{{identifier}}\s+{{identifier}}\s*\()
+      set: function
     - include: number
     - include: string
     - include: type
@@ -181,6 +184,15 @@ contexts:
     - include: generic
     - include: expression.call
     - include: enclosure
+  expression.try-function:
+    - include: keyword.control
+    - include: keyword.control-flow
+    - match: (?={{identifier}}\s+{{identifier}}\s*\()
+      set:
+        - include: function
+        - include: else-pop
+    - match: (?=\S)
+      fail: try-function
   expression.call:
     - match: \b(?:({{std_funcs}}))\s*(\()
       captures:
