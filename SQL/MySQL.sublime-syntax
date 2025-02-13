@@ -677,9 +677,9 @@ contexts:
     - include: pop-on-top-level-reserved-word
 
   variable-member:
+    - meta_include_prototype: false
     - meta_content_scope: variable.other.member.mysql
-    - match: ''
-      pop: 1
+    - include: immediately-pop          
 
 ###[ GRANT STATEMENTS ]########################################################
 
