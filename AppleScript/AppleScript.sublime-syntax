@@ -556,15 +556,7 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.applescript
-    - match: '"'
-      scope: punctuation.definition.string.applescript
-      push:
-        - meta_scope: string.quoted.double.applescript
-        - match: '"'
-          scope: punctuation.definition.string.applescript
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.applescript
+    - include: strings
     - match: (\|)[^|\n]*(\|)
       scope: meta.identifier.applescript
       captures:
@@ -756,6 +748,18 @@ contexts:
       scope: constant.other.miscellaneous.applescript
     - match: \b(?i:text\s+item\s+delimiters|print\s+(length|depth))\b
       scope: variable.language.applescript
+
+  strings:
+    - match: '"'
+      scope: punctuation.definition.string.begin.applescript
+      push:
+        - meta_scope: string.quoted.double.applescript
+        - match: '"'
+          scope: punctuation.definition.string.end.applescript
+          pop: 1
+        - match: \\.
+          scope: constant.character.escape.applescript
+
 
 ###[ PROTOTYPE ]###############################################################
 
