@@ -626,7 +626,7 @@ variables:
             | ctiv(?:e(?:State(?:Handler)?|Handler)|ateHandler)
             | utoH(?:ideScrollBar|eight)
             )
-          )?
+          )
         | paratorBefore
         | ek
         | lect(?:
@@ -757,7 +757,7 @@ variables:
         | validate
         | finity
         | LocalInternetCache
-        )?
+        )
       | con(?:F(?:ield|unction))?
       | t(?:e(?:ratorScrolled|m(?:s|RollO(?:ut|ver)|ClassName))|alic)
       | d3
@@ -798,7 +798,7 @@ variables:
           stroy(?:ChildAt|Object)
         | code
         | fault(?:PushButton(?:Enabled)?|KeydownHandler)
-        | l(?:ta(?:Packet(?:Changed)?)?|ete(?:PopUp|All)?)
+        | l(?:ta(?:Packet(?:Changed)?)?|ete(?:PopUp|All))
         | blocking
         )
       | a(?:shBoardSave|yNames|ta(?:Provider)?|rkshadow)
@@ -853,7 +853,7 @@ variables:
       | ace
       | romCharCode
       )
-    | w(?:i(?:th|dth)|ordWrap|atch|riteAccess)
+    | w(?:idth|ordWrap|atch|riteAccess)
     | l(?:
         i(?:st(?:Owner)?|ne(?:Style|To))
       | o(?:
@@ -942,7 +942,7 @@ variables:
             | ultilineMode
             | e(?:ssage|nu(?:ItemAt|EnabledAt|At))
             | aximum(?:Size)?
-          )
+            )
           | B(?:ytes(?:Total|Loaded)|ounds|utton(?:s|Width)|eginIndex|a(?:ndwidthLimit|ckground))
           | S(?:
               howAsDisabled
@@ -1033,7 +1033,7 @@ variables:
             | llItems
             | gent
             )
-          )?
+          )
         )
       | lobal(?:StyleFormat|ToLocal)?
       | ain
