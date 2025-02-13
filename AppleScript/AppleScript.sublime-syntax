@@ -118,40 +118,24 @@ contexts:
     - match: ^\s*(considering)\b
       push:
         - meta_scope: meta.block.considering.applescript
+        - meta_content_scope: meta.array.attributes.considering.applescript
         - match: ^\s*(end(?:\s+considering)?)(?=\s*(--.*?)?$)
-          pop: true
-        - match: (?<=considering)
-          push:
-            - meta_scope: meta.array.attributes.considering.applescript
-            - include: line-continuations
-            - include: pop-eol
-            - include: attributes.considering-ignoring
-        - match: (?<=ignoring)
-          push:
-            - meta_scope: meta.array.attributes.ignoring.applescript
-            - include: line-continuations
-            - include: pop-eol
-            - include: attributes.considering-ignoring
+          pop: 1
+        - include: line-continuations
+        - include: pop-eol
+        - include: attributes.considering-ignoring
         - match: \bbut\b
           scope: keyword.control.but.applescript
         - include: main
     - match: ^\s*(ignoring)\b
       push:
         - meta_scope: meta.block.ignoring.applescript
+        - meta_content_scope: meta.array.attributes.ignoring.applescript
         - match: ^\s*(end(?:\s+ignoring)?)(?=\s*(--.*?)?$)
-          pop: true
-        - match: (?<=considering)
-          push:
-            - meta_scope: meta.array.attributes.considering.applescript
-            - include: line-continuations
-            - include: pop-eol
-            - include: attributes.considering-ignoring
-        - match: (?<=ignoring)
-          push:
-            - meta_scope: meta.array.attributes.ignoring.applescript
-            - include: line-continuations
-            - include: pop-eol
-            - include: attributes.considering-ignoring
+          pop: 1
+        - include: line-continuations
+        - include: pop-eol
+        - include: attributes.considering-ignoring
         - match: \bbut\b
           scope: keyword.control.but.applescript
         - include: main
