@@ -219,6 +219,8 @@ contexts:
     - include: valid-operators
 
   invalid-operators:
+    - match: '<>'
+      scope: invalid.deprecated.keyword-operator-inequality.actionscript
     - match: \b(?:and|not|or)\b
       scope: invalid.deprecated.keyword-operator-logical.actionscript
     - match: \b(?:le|lt|ge|gt)\b

@@ -141,9 +141,150 @@
 
 ///[ OPERATORS ]///////////////////////////////////////////////////////////////
 
+///[ OPERATORS / INVALID OPERATORS ]///////////////////////////////////////////
 
 
-    // operators
+
+    <>
+//  ^^ invalid.deprecated.keyword-operator-inequality
+
+
+    and
+//  ^^^ invalid.deprecated.keyword-operator-logical
+    not
+//  ^^^ invalid.deprecated.keyword-operator-logical
+    or
+//  ^^ invalid.deprecated.keyword-operator-logical
+
+    le
+//  ^^ invalid.deprecated.keyword-operator-relational
+    lt
+//  ^^ invalid.deprecated.keyword-operator-relational
+    ge
+//  ^^ invalid.deprecated.keyword-operator-relational
+    gt
+//  ^^ invalid.deprecated.keyword-operator-relational
+
+
+    eq
+//  ^^ invalid.deprecated.keyword-operator-comparison
+    ne
+//  ^^ invalid.deprecated.keyword-operator-comparison
+
+
+    add
+//  ^^^ invalid.deprecated.keyword-operator-arithmetic
+
+
+
+///[ OPERATORS / VALID OPERATORS ]/////////////////////////////////////////////
+
+
+
+    <<<=
+//  ^^^^ keyword.operator.assignment.augmented.bitwise.shift.left.unsigned
+    <<=
+//  ^^^ keyword.operator.assignment.augmented.bitwise.shift.left.signed
+    >>>=
+//  ^^^^ keyword.operator.assignment.augmented.bitwise.shift.right.unsigned
+    >>=
+//  ^^^ keyword.operator.assignment.augmented.bitwise.shift.right.signed
+
+
+    <<<
+//  ^^^ keyword.operator.bitwise.shift.left.unsigned
+    <<
+//  ^^ keyword.operator.bitwise.shift.left.signed
+    >>>
+//  ^^^ keyword.operator.bitwise.shift.right.unsigned
+    >>
+//  ^^ keyword.operator.bitwise.shift.right.signed
+
+
+    <=
+//  ^^ keyword.operator.relational.less-equal
+    >=
+//  ^^ keyword.operator.relational.greater-equal
+    <
+//  ^ keyword.operator.relational.less
+    >
+//  ^ keyword.operator.relational.greater
+
+
+    ++
+//  ^^ keyword.operator.arithmetic.increment
+    --
+//  ^^ keyword.operator.arithmetic.decrement
+
+
+    %
+//  ^ keyword.operator.arithmetic
+    *
+//  ^ keyword.operator.arithmetic
+    +
+//  ^ keyword.operator.arithmetic
+    /
+//  ^ keyword.operator.arithmetic
+    -
+//  ^ keyword.operator.arithmetic
+
+
+    &&
+//  ^^ keyword.operator.logical.and
+    ||
+//  ^^ keyword.operator.logical.or
+    !
+//  ^ keyword.operator.logical.not
+
+
+    ~=
+//  ^^ keyword.operator.assignment.augmented.bitwise.not
+    ^=
+//  ^^ keyword.operator.assignment.augmented.bitwise.xor
+    &=
+//  ^^ keyword.operator.assignment.augmented.bitwise.and
+    |=
+//  ^^ keyword.operator.assignment.augmented.bitwise.or
+
+
+    ~
+//  ^ keyword.operator.bitwise.not
+    ^
+//  ^ keyword.operator.bitwise.xor
+    &
+//  ^ keyword.operator.bitwise.and
+    |
+//  ^ keyword.operator.bitwise.or
+
+
+    ===
+//  ^^^ keyword.operator.comparison.equal.value.strict
+    ==
+//  ^^ keyword.operator.comparison.equal.value
+    !==
+//  ^^^ keyword.operator.comparison.not-equal.value.strict
+    !=
+//  ^^ keyword.operator.comparison.not-equal.value
+
+
+    %=
+//  ^^ keyword.operator.assignment.augmented
+    *=
+//  ^^ keyword.operator.assignment.augmented
+    +=
+//  ^^ keyword.operator.assignment.augmented
+    /=
+//  ^^ keyword.operator.assignment.augmented
+    -=
+//  ^^ keyword.operator.assignment.augmented
+
+
+    =
+//  ^ keyword.operator.assignment
+
+
+    instanceof
+//  ^^^^^^^^^^ keyword.operator
 
 
 
