@@ -126,16 +126,24 @@
 
 
     var intZero:Number = 0;
+//                       ^ meta.number constant.numeric
     var intNine:Number = 9;
+//                       ^ meta.number constant.numeric
 
     var intNegZero:Number = -0;
+//                           ^ meta.number constant.numeric
     var intNegNine:Number = -9;
+//                           ^ meta.number constant.numeric
 
     var floatZero:Number = 0.0;
+//                         ^^^ meta.number constant.numeric
     var floatNine:Number = 9.0;
+//                         ^^^ meta.number constant.numeric
 
     var floatNegZero:Number = -0.0;
+//                             ^^^ meta.number constant.numeric
     var floatNegNine:Number = -9.0;
+//                             ^^^ meta.number constant.numeric
 
 
 
