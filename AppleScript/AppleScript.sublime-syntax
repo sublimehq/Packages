@@ -111,6 +111,8 @@ contexts:
     - include: blocks.repeat
     - include: blocks.statement
     - include: blocks.other
+    - match: \bprint\b
+      scope: keyword.other.print.applescript
 
   blocks.other:
     - match: ^\s*(considering)\b
