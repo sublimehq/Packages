@@ -728,7 +728,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.applescript
       push:
-        - meta_scope: string.quoted.double.applescript
+        - meta_scope: meta.string.applescript string.quoted.double.applescript
         - match: '"'
           scope: punctuation.definition.string.end.applescript
           pop: 1

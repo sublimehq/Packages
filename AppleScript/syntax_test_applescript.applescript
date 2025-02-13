@@ -34,14 +34,14 @@ tell application "Microsoft Word" to quit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^^^^ string.quoted.double.applescript
+#                ^^^^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                               ^ punctuation.definition.string.end.applescript
 #                                 ^^ keyword.operator.reference.applescript
 
 quit application "Microsoft Word"
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^^^^ string.quoted.double.applescript
+#                ^^^^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                               ^ punctuation.definition.string.end.applescript
 
@@ -49,7 +49,7 @@ tell application "QuarkXPress"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^ string.quoted.double.applescript
+#                ^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                            ^ punctuation.definition.string.end.applescript
   tell document 1
@@ -71,7 +71,7 @@ tell application "QuarkXPress"
 #           ^^^^ support.function.built-in.property.applescript
 #                ^ constant.numeric.applescript
 #                  ^^ keyword.operator.reference.applescript
-#                     ^^^^^^^ string.quoted.double.applescript
+#                     ^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                     ^ punctuation.definition.string.begin.applescript
 #                           ^ punctuation.definition.string.end.applescript
       end tell
@@ -91,11 +91,11 @@ pixel 7 of row 3 of TIFF image "my bitmap"
 #       ^^ keyword.other.applescript
 #              ^ constant.numeric.applescript
 #                ^^ keyword.other.applescript
-#                              ^^^^^^^^^^^ string.quoted.double.applescript
+#                              ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                              ^ punctuation.definition.string.begin.applescript
 #                                        ^ punctuation.definition.string.end.applescript
 TIFF image "my bitmap"'s 3rd row's 7th pixel
-#          ^^^^^^^^^^^ string.quoted.double.applescript
+#          ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #          ^ punctuation.definition.string.begin.applescript
 #                    ^ punctuation.definition.string.end.applescript
 #                        ^ constant.numeric.applescript
@@ -103,17 +103,17 @@ TIFF image "my bitmap"'s 3rd row's 7th pixel
 
 display dialog "Hello, world!"
 #^^^^^^^^^^^^^ support.function.built-in.command.applescript
-#              ^^^^^^^^^^^^^^^ string.quoted.double.applescript
+#              ^^^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #              ^ punctuation.definition.string.begin.applescript
 #                            ^ punctuation.definition.string.end.applescript
 display alert "Hello, world!"
 #^^^^^^^^^^^^ support.function.built-in.command.applescript
-#             ^^^^^^^^^^^^^^^ string.quoted.double.applescript
+#             ^^^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #             ^ punctuation.definition.string.begin.applescript
 #                           ^ punctuation.definition.string.end.applescript
 say "Hello, world!"
 #^^ support.function.built-in.command.applescript
-#   ^^^^^^^^^^^^^^^ string.quoted.double.applescript
+#   ^^^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #   ^ punctuation.definition.string.begin.applescript
 #                 ^ punctuation.definition.string.end.applescript
 
@@ -121,7 +121,7 @@ tell application "Finder"
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^ string.quoted.double.applescript
+#                ^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                       ^ punctuation.definition.string.end.applescript
     -- Set variables
