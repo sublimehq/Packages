@@ -123,14 +123,14 @@ contexts:
         - match: (?<=considering)
           push:
             - meta_scope: meta.array.attributes.considering.applescript
-            - match: (?<!¬)$
-              pop: true
+            - include: line-continuations
+            - include: pop-eol
             - include: attributes.considering-ignoring
         - match: (?<=ignoring)
           push:
             - meta_scope: meta.array.attributes.ignoring.applescript
-            - match: (?<!¬)$
-              pop: true
+            - include: line-continuations
+            - include: pop-eol
             - include: attributes.considering-ignoring
         - match: \bbut\b
           scope: keyword.control.but.applescript
@@ -143,14 +143,14 @@ contexts:
         - match: (?<=considering)
           push:
             - meta_scope: meta.array.attributes.considering.applescript
-            - match: (?<!¬)$
-              pop: true
+            - include: line-continuations
+            - include: pop-eol
             - include: attributes.considering-ignoring
         - match: (?<=ignoring)
           push:
             - meta_scope: meta.array.attributes.ignoring.applescript
-            - match: (?<!¬)$
-              pop: true
+            - include: line-continuations
+            - include: pop-eol
             - include: attributes.considering-ignoring
         - match: \bbut\b
           scope: keyword.control.but.applescript
@@ -185,8 +185,8 @@ contexts:
             1: keyword.control.exception.on-error.applescript
           push:
             - meta_scope: meta.property.error.applescript
-            - match: (?<!¬)$
-              pop: true
+            - include: line-continuations
+            - include: pop-eol
             - match: \b(?i:number|partial|from|to)\b
               scope: keyword.control.exception.modifier.applescript
             - include: inline
@@ -291,8 +291,8 @@ contexts:
         2: variable.other.property.applescript
       push:
         - meta_scope: meta.statement.property.applescript
-        - match: (?<!¬)$
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - match: ':'
           scope: punctuation.separator.key-value.property.applescript
         - include: inline
@@ -303,15 +303,15 @@ contexts:
         3: keyword.control.def.set.applescript
       push:
         - meta_scope: meta.statement.set.applescript
-        - match: (?<!¬)$
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - include: inline
     - match: \blocal\b
       scope: keyword.control.def.local.applescript
       push:
         - meta_scope: meta.statement.local.applescript
-        - match: (?<!¬)$
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - match: ','
           scope: punctuation.separator.variables.local.applescript
         - match: \b\w+
@@ -322,8 +322,8 @@ contexts:
         1: keyword.control.def.global.applescript
       push:
         - meta_scope: meta.statement.global.applescript
-        - match: (?<!¬)$
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - match: ','
           scope: punctuation.separator.variables.global.applescript
         - match: \b\w+
@@ -333,8 +333,8 @@ contexts:
       scope: keyword.control.exception.error.applescript
       push:
         - meta_scope: meta.statement.error.applescript
-        - match: (?<!¬)$
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - match: \b(number|partial|from|to)\b
           scope: keyword.control.exception.modifier.applescript
         - include: inline
@@ -343,8 +343,8 @@ contexts:
         1: keyword.control.if.applescript
       push:
         - meta_scope: meta.statement.if-then.applescript
-        - match: (?<!¬)$
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - include: inline
 
   blocks.tell:
@@ -448,10 +448,8 @@ contexts:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.generic.applescript
-        - match: (?<!¬)$
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
+        - include: line-continuations
+        - include: pop-eol
         - include: main
 
   built-in:
@@ -495,8 +493,7 @@ contexts:
       scope: keyword.other.applescript
 
   built-in.punctuation:
-    - match: ¬
-      scope: punctuation.separator.continuation.line.applescript
+    - include: line-continuations
     # the : in property assignments
     - match: ':'
       scope: punctuation.separator.key-value.property.applescript
@@ -767,6 +764,10 @@ contexts:
 
 
 ###[ PROTOTYPE ]###############################################################
+
+  line-continuations:
+    - match: ¬\n?
+      scope: punctuation.separator.continuation.line.applescript
 
   pop-eol:
     - match: \n?$
