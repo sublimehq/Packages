@@ -1,6 +1,8 @@
+//  Packages/ActionScript/ActionScript.sublime-build
+
 {
     "cmd": [
-        "mxmlc", 
+        "mxmlc",
         "${file}",
         "-library-path+=${project_path}/libs",
         "-output", "${project_path}/bin/${project_base_name}.swf",
