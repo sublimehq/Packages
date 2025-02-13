@@ -680,9 +680,8 @@ contexts:
         - meta_scope: comment.line.number-sign.applescript
         - include: pop-eol
 
-    - match: (--).*$\n?
-      captures:
-        1: punctuation.definition.comment.begin.applescript
+    - match: --
+      scope: punctuation.definition.comment.begin.applescript
       push:
         - meta_scope: comment.line.double-dash.applescript
         - include: pop-eol
