@@ -463,30 +463,35 @@ contexts:
   built-in.keyword:
     - match: (&|\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
-    - match: (=|≠|>|<|≥|>=|≤|<=)
-      scope: keyword.operator.comparison.applescript
-    - match: |-
-        (?ix)\b
-          (and|or|div|mod|as|not
-          |(a\s+)?(ref(\s+to)?|reference\s+to)
-          |equal(s|\s+to)|contains?|comes\s+(after|before)|(start|begin|end)s?\s+with
-          )
-        \b
-      scope: keyword.operator.word.applescript
+    - match: \b(?i:div|mod)\b
+      scope: keyword.operator.arithmetic.applescript
 
-    # In double quotes so we can use a single quote in the keywords.
+    - match: \b(?i:and|or|not)\b
+      scope: keyword.operator.logical.applescript
+
+    - match: (?:=|≠|>|<|≥|>=|≤|<=)
+      scope: keyword.operator.comparison.applescript
+    - match: (?:equal(?:s|\s+to)|contains?|comes\s+(after|before)|(start|begin|end)s?\s+with)
+      scope: keyword.operator.comparison.applescript
     - match: |-
         (?ix)\b
           (is(n't|\s+not)?(\s+(equal(\s+to)?|(less|greater)\s+than(\s+or\s+equal(\s+to)?)?|in|contained\s+by))?
           |does(n't|\s+not)\s+(equal|come\s+(before|after)|contain)
           )
         \b
-      scope: keyword.operator.word.applescript
+      scope: keyword.operator.comparison.applescript
+    - match: |-
+        (?ix)\b
+          (as|(a\s+)?(ref(\s+to)?|reference\s+to)
+          )
+        \b
+      scope: keyword.operator.reference.applescript
+
     - match: \b(?i:some|every|whose|where|that|id|index|\d+(st|nd|rd|th)|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|last|front|back|middle|named|beginning|end|from|to|thr(u|ough)|before|(front|back|beginning|end)\s+of|after|behind|in\s+(front|back|beginning|end)\s+of)\b
       scope: keyword.operator.reference.applescript
     - match: \b(?i:continue|return|exit(\s+repeat)?)\b
       scope: keyword.control.loop.applescript
-    - match: \b(?i:about|above|after|against|and|apart\s+from|around|as|aside\s+from|at|back|before|beginning|behind|below|beneath|beside|between|but|by|considering|contain|contains|contains|copy|div|does|eighth|else|end|equal|equals|error|every|false|fifth|first|for|fourth|from|front|get|given|global|if|ignoring|in|instead\s+of|into|is|it|its|last|local|me|middle|mod|my|ninth|not|of|on|onto|or|out\s+of|over|prop|property|put|ref|reference|repeat|returning|script|second|set|seventh|since|sixth|some|tell|tenth|that|the|then|third|through|thru|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
+    - match: \b(?i:about|above|after|against|apart\s+from|around|aside\s+from|at|back|before|beginning|behind|below|beneath|beside|between|but|by|considering|copy|does|else|end|error|every|false|for|from|front|get|given|global|if|ignoring|instead\s+of|into|is|it|its|last|local|me|middle|mod|my|not|of|on|onto|or|out\s+of|over|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|thru|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
       scope: keyword.other.applescript
 
   built-in.punctuation:
