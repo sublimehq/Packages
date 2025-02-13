@@ -532,16 +532,6 @@ contexts:
         - match: ','
           scope: punctuation.separator.array.applescript
         - include: inline
-    - match: (?:(?<=application )|(?<=app ))(")
-      captures:
-        1: punctuation.definition.string.begin.applescript
-      push:
-        - meta_scope: string.quoted.double.application-name.applescript
-        - match: '"'
-          scope: punctuation.definition.string.end.applescript
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.applescript
     - include: strings
     - match: (\|)[^|\n]*(\|)
       scope: meta.identifier.applescript

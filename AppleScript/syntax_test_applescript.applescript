@@ -20,7 +20,7 @@ tell application "Microsoft Word"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                               ^ punctuation.definition.string.end.applescript
   quit
@@ -34,14 +34,14 @@ tell application "Microsoft Word" to quit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                               ^ punctuation.definition.string.end.applescript
 #                                 ^^ keyword.operator.reference.applescript
 
 quit application "Microsoft Word"
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                               ^ punctuation.definition.string.end.applescript
 
@@ -49,7 +49,7 @@ tell application "QuarkXPress"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^^^^^^^^^^^^^ string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                            ^ punctuation.definition.string.end.applescript
   tell document 1
@@ -121,7 +121,7 @@ tell application "Finder"
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^^^^^^^^ string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                       ^ punctuation.definition.string.end.applescript
     -- Set variables
@@ -294,7 +294,7 @@ tell application "Safari" to activate
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^^^^^^^^ string.quoted.double.applescript
 #                ^ punctuation.definition.string.begin.applescript
 #                       ^ punctuation.definition.string.end.applescript
 #                         ^^ keyword.operator.reference.applescript
