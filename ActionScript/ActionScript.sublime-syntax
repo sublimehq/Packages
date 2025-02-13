@@ -619,9 +619,9 @@ variables:
       )
     | ye(?:sLabel|ar)
     | n(?:
-        o(?:t|de(?:Name|Close|Type|Open|Value)|Label)
+        o(?:de(?:Name|Close|Type|Open|Value)|Label)
       | u(?:llValue|mChild(?:S(?:creens|lides)|ren|Forms))
-      | e(?:w(?:Item|line|Value|LocationDialog)|xt(?:S(?:cene|ibling|lide)|TabIndex|Value|Frame)?)?
+      | e(?:w(?:Item|line|Value|LocationDialog)|xt(?:S(?:cene|ibling|lide)|TabIndex|Value|Frame)?)
       | ame(?:s)?
       )
     | c(?:
@@ -739,7 +739,7 @@ variables:
       | verLayChildren
       | kLabel
       | ldValue
-      | r(?:d)?
+      | rd
       )
     | d(?:
         i(?:s(?:connect|play(?:Normal|ed(?:Month|Year)|Full)|able(?:Shader|d(?:Ranges|Days)|CloseBox|Events))|rection)
@@ -780,7 +780,6 @@ variables:
       | n(?:code(?:r)?|ter(?:Frame)?|dFill|able(?:Shader|d|CloseBox|Events))
       | dit(?:able|Field|LocationDialog)
       | v(?:ent|al(?:uate)?)
-      | q
       | x(?:tended|p|ec(?:ute)?|actSettings)
       | m(?:phasized(?:StyleDeclaration)?|bedFonts)
       )
@@ -807,20 +806,18 @@ variables:
       )
     | w(?:i(?:th|dth)|ordWrap|atch|riteAccess)
     | l(?:
-        t
-      | i(?:st(?:Owner)?|ne(?:Style|To))
+        i(?:st(?:Owner)?|ne(?:Style|To))
       | o(?:
           c(?:k|a(?:t(?:ion|eByld)|l(?:ToGlobal|FileReadDisable)))
         | opback
         | ad(?:Movie(?:Num)?|S(?:crollContent|ound)|ed|Variables(?:Num)?|Application)?
         | g(?:Changes)?
         )
-      | e(?:ngth|ft(?:Margin)?|ading)?
+      | e(?:ngth|ft(?:Margin)?|ading)
       | a(?:st(?:Slide|Child|Index(?:Of)?)?|nguage|b(?:el(?:Placement|F(?:ield|unction))?|leField))
       )
     | a(?:
         s(?:scociate(?:Controller|Display)|in|pectRatio|function)
-      | nd
       | c(?:ceptConnection|tiv(?:ityLevel|ePlayControl)|os)
       | t(?:t(?:ach(?:Movie|Sound|Video|Audio)|ributes)|an(?:2)?)
       | dd(?:
@@ -840,7 +837,7 @@ variables:
         | FieldInfo
         | Listener
         | Animation
-        )?
+        )
       | uto(?:Size|Play|KeyNav|Load)
       | pp(?:endChild|ly(?:Changes|Updates)?)
       | vHardwareDisable
@@ -884,8 +881,7 @@ variables:
       | a(?:ndom|te|dioDot)
       )
     | g(?:
-        t
-      | oto(?:Slide|NextSlide|PreviousSlide|FirstSlide|LastSlide|And(?:Stop|Play))
+        oto(?:Slide|NextSlide|PreviousSlide|FirstSlide|LastSlide|And(?:Stop|Play))
       | e(?:
           nre
         | t(?:
@@ -989,7 +985,7 @@ variables:
             | gent
             )
           )?
-        )?
+        )
       | lobal(?:StyleFormat|ToLocal)?
       | ain
       | roupName
