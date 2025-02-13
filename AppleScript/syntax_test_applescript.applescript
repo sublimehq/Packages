@@ -17,7 +17,9 @@ tell application "Microsoft Word"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
 #^^^ keyword.control.tell.applescript
 #    ^^^^^^^^^^^ support.class.built-in.applescript
-#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript
+#                ^ punctuation.definition.string.begin.applescript
+#                               ^ punctuation.definition.string.end.applescript
   quit
 #^^^^^ meta.block.tell.application.generic.applescript
 # ^^^^ support.function.standard-suite.applescript
