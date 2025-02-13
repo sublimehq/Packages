@@ -1,17 +1,17 @@
 %YAML 1.2
 ---
+# https://homepage.cs.uiowa.edu/~slonnegr/flash/ActionScript2Reference.pdf
 # https://www.sublimetext.com/docs/syntax.html
 name: ActionScript 2.0
 scope: source.actionscript
 version: 2
 
 file_extensions:
-  - as              # ActionScript 2.0
-                    # https://homepage.cs.uiowa.edu/~slonnegr/flash/ActionScript2Reference.pdf
+  - as
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \baction-?script\b .*? -\*-                           # editorconfig
+    ^ \s* // .*? -\*- .*? \baction-?script\b .*? -\*-   # editorconfig
   )
 
 ###[ CONTEXTS ]################################################################
