@@ -139,6 +139,49 @@
 
 
 
+///[ KEYWORDS ]////////////////////////////////////////////////////////////////
+
+
+
+    case
+//  ^^^^ keyword.control.conditional.case
+    default
+//  ^^^^^^^ keyword.control.conditional.default
+    else if
+//  ^^^^^^^ keyword.control.conditional.elseif
+    else
+//  ^^^^ keyword.control.conditional.else
+    if
+//  ^^ keyword.control.conditional.if
+    switch
+//  ^^^^^^ keyword.control.conditional.switch
+
+    try
+//  ^^^ keyword.control.exception.try
+    catch
+//  ^^^^^ keyword.control.exception.catch
+    finally
+//  ^^^^^^^ keyword.control.exception.finally
+
+    break
+//  ^^^^^ keyword.control.flow.break
+    throw
+//  ^^^^^ keyword.control.flow.throw
+    return
+//  ^^^^^^ keyword.control.flow.return
+
+    import
+//  ^^^^^^ keyword.control.import
+
+    do
+//  ^^ keyword.control.loop.do-while
+    for
+//  ^^^ keyword.control.loop.for
+    while
+//  ^^^^^ keyword.control.loop.while
+
+
+
 ///[ OPERATORS ]///////////////////////////////////////////////////////////////
 
 ///[ OPERATORS / INVALID OPERATORS ]///////////////////////////////////////////
