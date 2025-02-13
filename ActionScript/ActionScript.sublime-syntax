@@ -692,7 +692,7 @@ variables:
       | u(?:stomItems|ePoint(?:s)?|r(?:veTo|Value|rent(?:Slide|ChildSlide|Item|F(?:ocused(?:S(?:creen|lide)|Form)|ps))))
       | e(?:il|ll(?:Renderer|Press|Edit|Focus(?:In|Out)))
       | l(?:i(?:ck|ents)|o(?:se(?:Button|Pane)?|ne(?:Node)?)|ear(?:S(?:haredObjects|treams)|Timeout|Interval)?)
-      | a(?:ncelLabel|tch|p(?:tion|abilities)|l(?:cFields|l(?:e(?:e|r))?))
+      | a(?:ncelLabel|p(?:tion|abilities)|l(?:cFields|l(?:e(?:e|r))?))
       | reate(?:
           GatewayConnection
         | Menu
@@ -706,7 +706,7 @@ variables:
         )
       )
     | t(?:
-        h(?:is|row)
+        his
       | ype(?:of|Name)?
       | i(?:tle(?:StyleDeclaration)?|me(?:out)?)
       | o(?:talTime|String|olTipText|p|UpperCase|ggle(?:HighQuality)?|Lo(?:caleString|werCase))
@@ -729,7 +729,7 @@ variables:
           )?
         )
       | a(?:n|rget(?:Path)?|b(?:Stops|Children|Index|Enabled|leName))
-      | r(?:y|igger|ac(?:e|k(?:AsMenu)?))
+      | r(?:igger|ac(?:e|k(?:AsMenu)?))
       )
     | i(?:
         s(?:
@@ -797,7 +797,7 @@ variables:
       | e(?:
           stroy(?:ChildAt|Object)
         | code
-        | fault(?:PushButton(?:Enabled)?|KeydownHandler)?
+        | fault(?:PushButton(?:Enabled)?|KeydownHandler)
         | l(?:ta(?:Packet(?:Changed)?)?|ete(?:PopUp|All)?)
         | blocking
         )
@@ -845,7 +845,7 @@ variables:
     | q(?:sort|uality)
     | f(?:
         scommand
-      | i(?:n(?:d(?:Text|First|Last)?|ally)|eldInfo|lter(?:ed|Func)?|rst(?:Slide|Child|DayOfWeek|VisibleNode)?)
+      | i(?:nd(?:Text|First|Last)?|eldInfo|lter(?:ed|Func)?|rst(?:Slide|Child|DayOfWeek|VisibleNode)?)
       | o(?:nt|cus(?:In|edCell|Out|Enabled)|r(?:egroundDisabled|mat(?:ter)?))
       | unctionName
       | ps

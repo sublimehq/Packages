@@ -180,7 +180,40 @@
     while
 //  ^^^^^ keyword.control.loop.while
 
-
+    continue
+//  ^^^^^^^^ keyword.control
+    delete
+//  ^^^^^^ keyword.control
+    dynamic
+//  ^^^^^^^ keyword.control
+    extends
+//  ^^^^^^^ keyword.control
+    get
+//  ^^^ keyword.control
+    implements
+//  ^^^^^^^^^^ keyword.control
+    in
+//  ^^ keyword.control
+    interface
+//  ^^^^^^^^^ keyword.control
+    intrinsic
+//  ^^^^^^^^^ keyword.control
+    new
+//  ^^^ keyword.control
+    private
+//  ^^^^^^^ keyword.control
+    public
+//  ^^^^^^ keyword.control
+    set
+//  ^^^ keyword.control
+    static
+//  ^^^^^^ keyword.control
+    super
+//  ^^^^^ keyword.control
+    var
+//  ^^^ keyword.control
+    with
+//  ^^^^ keyword.control
 
 ///[ OPERATORS ]///////////////////////////////////////////////////////////////
 
