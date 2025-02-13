@@ -215,9 +215,20 @@ contexts:
 ###[ OPERATORS ]###############################################################
 
   operators:
-    - match: \b(?:instanceof)\b
-      scope: keyword.operator.actionscript
+    - include: invalid-operators
+    - include: valid-operators
 
+  invalid-operators:
+    - match: \b(?:and|not|or)\b
+      scope: invalid.deprecated.keyword-operator-logical.actionscript
+    - match: \b(?:le|lt|ge|gt)\b
+      scope: invalid.deprecated.keyword-operator-relational.actionscript
+    - match: \b(?:eq|ne)\b
+      scope: invalid.deprecated.keyword-operator-comparison.actionscript
+    - match: \b(?:add)\b
+      scope: invalid.deprecated.keyword-operator-arithmetic.actionscript
+
+  valid-operators:
     - include: operators-assignment-augmented-bitwise-shift
     - include: operators-bitwise-shift
     - include: operators-relational
@@ -228,7 +239,8 @@ contexts:
     - include: operators-comparison
     - include: operators-assignment
 
-    - include: invalid-operators
+    - match: \b(?:instanceof)\b
+      scope: keyword.operator.actionscript
 
   operators-assignment-augmented-bitwise-shift:
     - match: '<<<='
@@ -311,16 +323,6 @@ contexts:
       scope: keyword.operator.assignment.augmented.actionscript
     - match: '='
       scope: keyword.operator.assignment.actionscript
-
-  invalid-operators:
-    - match: \b(?:and|not|or)\b
-      scope: invalid.deprecated.keyword-operator-logical.actionscript
-    - match: \b(?:le|lt|ge|gt)\b
-      scope: invalid.deprecated.keyword-operator-relational.actionscript
-    - match: \b(?:eq|ne)\b
-      scope: invalid.deprecated.keyword-operator-comparison.actionscript
-    - match: \b(?:add)\b
-      scope: invalid.deprecated.keyword-operator-arithmetic.actionscript
 
 ###[ TYPES ]###################################################################
 
