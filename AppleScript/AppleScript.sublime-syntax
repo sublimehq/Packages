@@ -705,31 +705,30 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
-    - match: ^\s*(#).*$\n?
-      scope: comment.line.number-sign.applescript
+    - match: ^\s*(#)
       captures:
-        1: punctuation.definition.comment.applescript
-    - match: (--).*$\n?
-      scope: comment.line.double-dash.applescript
-      captures:
-        1: punctuation.definition.comment.applescript
-    - match: \(\*
-      scope: punctuation.definition.comment.applescript
+        1: punctuation.definition.comment.begin.applescript
       push:
-        - meta_scope: comment.block.applescript
-        - match: \*\)
-          scope: punctuation.definition.comment.applescript
-          pop: true
-        - include: comments.nested
+        - meta_scope: comment.line.number-sign.applescript
+        - include: pop-eol
+
+    - match: (--).*$\n?
+      captures:
+        1: punctuation.definition.comment.begin.applescript
+      push:
+        - meta_scope: comment.line.double-dash.applescript
+        - include: pop-eol
+
+    - include: comments.nested
 
   comments.nested:
     - match: \(\*
-      scope: punctuation.definition.comment.applescript
+      scope: punctuation.definition.comment.begin.applescript
       push:
         - meta_scope: comment.block.applescript
         - match: \*\)
-          scope: punctuation.definition.comment.applescript
-          pop: true
+          scope: punctuation.definition.comment.end.applescript
+          pop: 1
         - include: comments.nested
 
 ###[ LITERALS ]################################################################
@@ -757,6 +756,12 @@ contexts:
       scope: constant.other.miscellaneous.applescript
     - match: \b(?i:text\s+item\s+delimiters|print\s+(length|depth))\b
       scope: variable.language.applescript
+
+###[ PROTOTYPE ]###############################################################
+
+  pop-eol:
+    - match: \n?$
+      pop: 1
 
 ###############################################################################
 
