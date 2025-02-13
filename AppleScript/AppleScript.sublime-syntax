@@ -46,11 +46,11 @@ contexts:
     # For now, we can leave it like this though, as it sorta works.
     - match: |-
         ^(?x)
-          \s*(to|on)\s+ 					# "on" or "to"
-          (\w+)							# function name
-          (\()							# opening paren
-            ((?:[\s,:\{\}]*(?:\w+)?)*)	# parameters
-          (\))							# closing paren
+          \s*(to|on)\s+      # "on" or "to"
+          (\w+)              # function name
+          (\()               # opening paren
+            ((?:[\s,:\{\}]*(?:\w+)?)*)  # parameters
+          (\))               # closing paren
 
       captures:
         1: keyword.control.function.applescript
@@ -69,11 +69,11 @@ contexts:
     # TODO: match `given` parameters
     - match: |-
         ^(?x)
-          \s*(to|on)\s+ 					# "on" or "to"
-          (\w+)							# function name
+          \s*(to|on)\s+      # "on" or "to"
+          (\w+)              # function name
           (?:\s+
-            (of|in)\s+					# "of" or "in"
-            (\w+)						# direct parameter
+            (of|in)\s+       # "of" or "in"
+            (\w+)            # direct parameter
           )?
           (?=\s+(above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\b)
       captures:
@@ -94,9 +94,9 @@ contexts:
         - include: main
     - match: |-
         ^(?x)
-          \s*(to|on)\s+ 					# "on" or "to"
-          (\w+)							# function name
-          (?=\s*(--.*?)?$)				# nothing else
+          \s*(to|on)\s+           # "on" or "to"
+          (\w+)                   # function name
+          (?=\s*(--.*?)?$)        # nothing else
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -500,11 +500,11 @@ contexts:
       scope: support.class.built-in.applescript
     - match: |-
         (?ix)\b
-          (	(cubic\s+(centi)?|square\s+(kilo)?|centi|kilo)met(er|re)s
-          |	square\s+(yards|feet|miles)|cubic\s+(yards|feet|inches)|miles|inches
-          |	lit(re|er)s|gallons|quarts
-          |	(kilo)?grams|ounces|pounds
-          |	degrees\s+(Celsius|Fahrenheit|Kelvin)
+          (  (cubic\s+(centi)?|square\s+(kilo)?|centi|kilo)met(er|re)s
+          |  square\s+(yards|feet|miles)|cubic\s+(yards|feet|inches)|miles|inches
+          |  lit(re|er)s|gallons|quarts
+          |  (kilo)?grams|ounces|pounds
+          |  degrees\s+(Celsius|Fahrenheit|Kelvin)
           )
         \b
       scope: support.class.built-in.unit.applescript
