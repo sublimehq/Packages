@@ -458,27 +458,6 @@ contexts:
     - include: built-in.support
     - include: built-in.punctuation
 
-  built-in.constant:
-    # yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
-    - match: \b(?i:true|false|yes|no)\b
-      scope: constant.language.boolean.applescript
-    - match: \b(?i:null|missing\s+value)\b
-      scope: constant.language.null.applescript
-    - match: '-?\b\d+((\.(\d+\b)?)?(?i:e\+?\d*\b)?|\b)'
-      scope: constant.numeric.applescript
-    - match: \b(?i:space|tab|return|linefeed|quote)\b
-      scope: constant.other.text.applescript
-    - match: \b(?i:all\s+(caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(sub|super)script|underline)\b
-      scope: constant.other.styles.applescript
-    - match: \b(?i:Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\b
-      scope: constant.other.time.month.applescript
-    - match: \b(?i:Mon(day)?|Tue(sday)?|Wed(nesday)?|Thu(rsday)?|Fri(day)?|Sat(urday)?|Sun(day)?)\b
-      scope: constant.other.time.weekday.applescript
-    - match: '\b(?i:AppleScript|pi|result|version|current\s+application|its?|m[ey])\b'
-      scope: constant.other.miscellaneous.applescript
-    - match: \b(?i:text\s+item\s+delimiters|print\s+(length|depth))\b
-      scope: variable.language.applescript
-
   built-in.keyword:
     - match: (&|\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
@@ -543,34 +522,6 @@ contexts:
       scope: support.class.built-in.unit.applescript
     - match: \b(?i:seconds|minutes|hours|days)\b
       scope: support.class.built-in.time.applescript
-
-  comments:
-    - match: ^\s*(#).*$\n?
-      scope: comment.line.number-sign.applescript
-      captures:
-        1: punctuation.definition.comment.applescript
-    - match: (--).*$\n?
-      scope: comment.line.double-dash.applescript
-      captures:
-        1: punctuation.definition.comment.applescript
-    - match: \(\*
-      scope: punctuation.definition.comment.applescript
-      push:
-        - meta_scope: comment.block.applescript
-        - match: \*\)
-          scope: punctuation.definition.comment.applescript
-          pop: true
-        - include: comments.nested
-
-  comments.nested:
-    - match: \(\*
-      scope: punctuation.definition.comment.applescript
-      push:
-        - meta_scope: comment.block.applescript
-        - match: \*\)
-          scope: punctuation.definition.comment.applescript
-          pop: true
-        - include: comments.nested
 
   data-structures:
     # We cannot necessarily distinguish "records" from "arrays", and so this could be either.
@@ -747,3 +698,66 @@ contexts:
       scope: support.class.textmate.applescript
     - match: \b(get url|insert|reload bundles)\b
       scope: support.function.textmate.applescript
+
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    - match: ^\s*(#).*$\n?
+      scope: comment.line.number-sign.applescript
+      captures:
+        1: punctuation.definition.comment.applescript
+    - match: (--).*$\n?
+      scope: comment.line.double-dash.applescript
+      captures:
+        1: punctuation.definition.comment.applescript
+    - match: \(\*
+      scope: punctuation.definition.comment.applescript
+      push:
+        - meta_scope: comment.block.applescript
+        - match: \*\)
+          scope: punctuation.definition.comment.applescript
+          pop: true
+        - include: comments.nested
+
+  comments.nested:
+    - match: \(\*
+      scope: punctuation.definition.comment.applescript
+      push:
+        - meta_scope: comment.block.applescript
+        - match: \*\)
+          scope: punctuation.definition.comment.applescript
+          pop: true
+        - include: comments.nested
+
+###[ LITERALS ]################################################################
+
+  built-in.constant:
+    - match: \b(?i:null|missing\s+value)\b
+      scope: constant.language.null.applescript
+    # yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
+    - match: \b(?i:true|yes)\b
+      scope: constant.language.boolean.true.applescript
+    - match: \b(?i:false|no)\b
+      scope: constant.language.boolean.false.applescript
+
+    - match: '-?\b\d+((\.(\d+\b)?)?(?i:e\+?\d*\b)?|\b)'
+      scope: constant.numeric.applescript
+    - match: \b(?i:space|tab|return|linefeed|quote)\b
+      scope: constant.other.text.applescript
+    - match: \b(?i:all\s+(caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(sub|super)script|underline)\b
+      scope: constant.other.styles.applescript
+    - match: '{{month}}'
+      scope: constant.other.time.month.applescript
+    - match: '{{day_of_week}}'
+      scope: constant.other.time.weekday.applescript
+    - match: \b(?i:AppleScript|pi|result|version|current\s+application|its?|m[ey])\b
+      scope: constant.other.miscellaneous.applescript
+    - match: \b(?i:text\s+item\s+delimiters|print\s+(length|depth))\b
+      scope: variable.language.applescript
+
+###############################################################################
+
+variables:
+  month: \b(?i:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b
+  day_of_week: \b(?i:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?)\b
