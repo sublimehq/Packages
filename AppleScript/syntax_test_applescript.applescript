@@ -1,47 +1,149 @@
 # SYNTAX TEST "AppleScript.sublime-syntax"
 
 print page 1
-# 
+#          ^ constant.numeric.applescript
 
 print document 2
+#              ^ constant.numeric.applescript
 
 print pages 1 thru 5 of document 2
+#           ^ constant.numeric.applescript
+#             ^^^^ keyword.operator.reference.applescript
+#                  ^ constant.numeric.applescript
+#                    ^^ keyword.other.applescript
+#                                ^ constant.numeric.applescript
 
 tell application "Microsoft Word"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
+#^^^ keyword.control.tell.applescript
+#    ^^^^^^^^^^^ support.class.built-in.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
   quit
+#^^^^^ meta.block.tell.application.generic.applescript
+# ^^^^ support.function.standard-suite.applescript
 end tell
+#^^^^^^^ meta.block.tell.application.generic.applescript keyword.control.tell.applescript
 
 
 tell application "Microsoft Word" to quit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.generic.applescript
+#^^^ keyword.control.tell.applescript
+#    ^^^^^^^^^^^ support.class.built-in.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
+#                                 ^^ keyword.operator.reference.applescript
 
 quit application "Microsoft Word"
+#    ^^^^^^^^^^^ support.class.built-in.applescript
+#                ^^^^^^^^^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
 
 tell application "QuarkXPress"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
+#^^^ keyword.control.tell.applescript
+#    ^^^^^^^^^^^ support.class.built-in.applescript
+#                ^^^^^^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
   tell document 1
+#^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript
+# ^^^^ keyword.control.tell.applescript
+#               ^ constant.numeric.applescript
     tell page 2
+#^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
+#   ^^^^ keyword.control.tell.applescript
+#             ^ constant.numeric.applescript
       tell text box 1
+#^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
+#     ^^^^ keyword.control.tell.applescript
+#          ^^^^ support.class.built-in.applescript
+#                   ^ constant.numeric.applescript
         set word 5 to "Apple"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
+#       ^^^ keyword.other.applescript
+#           ^^^^ support.function.built-in.property.applescript
+#                ^ constant.numeric.applescript
+#                  ^^ keyword.operator.reference.applescript
+#                     ^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
       end tell
+#^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
+#     ^^^^^^^^ keyword.control.tell.applescript
     end tell
+#^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
+#   ^^^^^^^^ keyword.control.tell.applescript
   end tell
+#^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript
+# ^^^^^^^^ keyword.control.tell.applescript
 end tell
+#^^^^^^^ meta.block.tell.application.generic.applescript keyword.control.tell.applescript
 
 pixel 7 of row 3 of TIFF image "my bitmap"
+#     ^ constant.numeric.applescript
+#       ^^ keyword.other.applescript
+#              ^ constant.numeric.applescript
+#                ^^ keyword.other.applescript
+#                              ^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
 TIFF image "my bitmap"'s 3rd row's 7th pixel
+#          ^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                        ^^^^^^^^^^^ constant.numeric.applescript
 
 display dialog "Hello, world!"
+#^^^^^^^^^^^^^ support.function.built-in.command.applescript
+#              ^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
 display alert "Hello, world!"
+#^^^^^^^^^^^^ support.function.built-in.command.applescript
+#             ^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
 say "Hello, world!"
+#^^ support.function.built-in.command.applescript
+#   ^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
 
 tell application "Finder"
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript
+#^^^ keyword.control.tell.applescript
+#    ^^^^^^^^^^^ support.class.built-in.applescript
+#                ^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
     -- Set variables
+#^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript
+#   ^^^^^^^^^^^^^^^^ comment.line.double-dash.applescript
+#   ^^ punctuation.definition.comment.applescript
     set the1 to text returned of (display dialog "1st" default answer "Number here" buttons {"Continue"} default button 1)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.applescript
+#   ^^^ keyword.control.def.set.applescript
+#       ^^^^ variable.other.readwrite.set.applescript
+#            ^^ keyword.control.def.set.applescript
+#               ^^^^ support.class.built-in.applescript
+#                             ^^ keyword.other.applescript
+#                                ^ punctuation.section.group.applescript
+#                                 ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
+#                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                                                           ^^^^^^^^^^^^ meta.array.applescript
+#                                                                                           ^ punctuation.section.array.begin.applescript
+#                                                                                            ^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                                                                      ^ punctuation.section.array.end.applescript
+#                                                                                                                       ^ constant.numeric.applescript
+#                                                                                                                        ^ punctuation.section.group.applescript
     set the2 to text returned of (display dialog "2nd" default answer "Number here" buttons {"Continue"} default button 1)
     try
         set the1 to the1 as integer
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript meta.block.try.applescript
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.applescript
+#       ^^^ keyword.control.def.set.applescript
+#           ^^^^ variable.other.readwrite.set.applescript
+#                ^^ keyword.control.def.set.applescript
+#                        ^^ keyword.operator.word.applescript
+#                           ^^^^^^^ support.class.built-in.applescript
         set the2 to the2 as integer
     on error
+#^^^^^^^^^^^ meta.block.tell.application.finder.applescript meta.block.try.applescript meta.property.error.applescript
+#   ^^^^^^^^ keyword.control.exception.on-error.applescript
         display dialog "You may only input numbers into a calculator." with title "ERROR" buttons {"OK"} default button 1
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript meta.block.try.applescript
+#       ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
+#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                                      ^^^^ keyword.other.applescript
+#                                                                                 ^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                                                                 ^^^^^^ meta.array.applescript
+#                                                                                                 ^ punctuation.section.array.begin.applescript
+#                                                                                                  ^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                                                                      ^ punctuation.section.array.end.applescript
+#                                                                                                                       ^ constant.numeric.applescript
         return
     end try
 
@@ -74,6 +176,12 @@ end tell
 
 tell application "Finder"
     set passAns to "app123"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.finder.applescript
+#   ^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.applescript
+#   ^^^ keyword.control.def.set.applescript
+#       ^^^^^^^ variable.other.readwrite.set.applescript
+#               ^^ keyword.control.def.set.applescript
+#                  ^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
     set userAns to "John"
     if the text returned of (display dialog "Username" default answer "") is userAns then
         display dialog "Correct" buttons {"Continue"} default button 1
@@ -87,14 +195,32 @@ tell application "Finder"
     end if
 end tell
 
-- create an integer variable called variable1
+-- create an integer variable called variable1
 set variable1 to 1
+#^^^^^^^^^^^^^^^^^ meta.statement.set.applescript
+#^^ keyword.control.def.set.applescript
+#   ^^^^^^^^^ variable.other.readwrite.set.applescript
+#             ^^ keyword.control.def.set.applescript
+#                ^ constant.numeric.applescript
 
 -- create a text variable called variable2
 set variable2 to "Hello" 
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.applescript
+#^^ keyword.control.def.set.applescript
+#   ^^^^^^^^^ variable.other.readwrite.set.applescript
+#             ^^ keyword.control.def.set.applescript
+#                ^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
 
 -- create a list variable called variable3
 copy {17, "doubleday"} to variable3 
+#^^^ keyword.other.applescript
+#    ^^^^^^^^^^^^^^^^^ meta.array.applescript
+#    ^ punctuation.section.array.begin.applescript
+#     ^^ constant.numeric.applescript
+#       ^ punctuation.separator.array.applescript
+#         ^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                    ^ punctuation.section.array.end.applescript
+#                      ^^ keyword.operator.reference.applescript
 
 -- copy the list items of variable3 into separate variables variable4 and variable5
 set {variable4, variable5} to variable3 
@@ -109,11 +235,23 @@ tell application "Finder"
 end tell
 
 on myHandler()
+#^^^^^^^^^^^^^ meta.function.positional.applescript
+#^ keyword.control.function.applescript
+#  ^^^^^^^^^ entity.name.function.handler.applescript
+#           ^^ punctuation.definition.parameters.applescript
     --commands
 end myHandler
+#^^^^^^^^^^^^ meta.function.positional.applescript
+#^^ keyword.control.function.applescript
 
 -- Simple form
 tell application "Safari" to activate
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.generic.applescript
+#^^^ keyword.control.tell.applescript
+#    ^^^^^^^^^^^ support.class.built-in.applescript
+#                ^^^^^^^^ string.quoted.double.application-name.applescript punctuation.definition.string.applescript
+#                         ^^ keyword.operator.reference.applescript
+#                            ^^^^^^^^ support.function.built-in.command.applescript
 
 -- Compound
 tell application "MyApp"
@@ -121,6 +259,9 @@ tell application "MyApp"
 end tell
 
 script scriptName
+#^^^^^^^^^^^^^^^^ meta.block.script.applescript
+#^^^^^ keyword.control.script.applescript
+#      ^^^^^^^^^^ entity.name.type.script-object.applescript
      -- commands and handlers specific to the script
 end script
 
@@ -134,16 +275,41 @@ end repeat
 
 set x to 5
 repeat while x > 0
+#^^^^^^^^^^^^^^^^^ meta.block.repeat.while.applescript
+#^^^^^ keyword.control.repeat.applescript
+#      ^^^^^ keyword.control.while.applescript
+#              ^ keyword.operator.comparison.applescript
+#                ^ constant.numeric.applescript
      set x to x - 1
+#^^^^^^^^^^^^^^^^^^ meta.block.repeat.while.applescript
+#    ^^^^^^^^^^^^^^ meta.statement.set.applescript
+#    ^^^ keyword.control.def.set.applescript
+#        ^ variable.other.readwrite.set.applescript
+#          ^^ keyword.control.def.set.applescript
+#               ^ keyword.operator.arithmetic.applescript
+#                 ^ constant.numeric.applescript
 end repeat
 
 set x to 5
 repeat until x ≤ 0
+#^^^^^^^^^^^^^^^^^ meta.block.repeat.until.applescript
+#^^^^^ keyword.control.repeat.applescript
+#      ^^^^^ keyword.control.until.applescript
+#              ^ keyword.operator.comparison.applescript
+#                ^ constant.numeric.applescript
      set x to x - 1
 end repeat
 
 -- repeat the block 2000 times, i gets all values from 1 to 2000
 repeat with i from 1 to 2000
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.repeat.with.applescript
+#^^^^^ keyword.control.repeat.applescript
+#      ^^^^ keyword.control.until.applescript
+#           ^ variable.parameter.loop.applescript
+#             ^^^^ keyword.control.modifier.range.applescript
+#                  ^ constant.numeric.applescript
+#                    ^^ keyword.control.modifier.range.applescript
+#                       ^^^^ constant.numeric.applescript
      -- commands to be repeated
 end repeat
 
@@ -154,6 +320,23 @@ end repeat
 
 set total to 0
 repeat with loopVariable in {1, 2, 3, 4, 5}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.repeat.with.applescript
+#^^^^^ keyword.control.repeat.applescript
+#      ^^^^ keyword.control.until.applescript
+#           ^^^^^^^^^^^^ variable.parameter.loop.applescript
+#                        ^^ keyword.control.modifier.list.applescript
+#                           ^^^^^^^^^^^^^^^ meta.array.applescript
+#                           ^ punctuation.section.array.begin.applescript
+#                            ^ constant.numeric.applescript
+#                             ^ punctuation.separator.array.applescript
+#                               ^ constant.numeric.applescript
+#                                ^ punctuation.separator.array.applescript
+#                                  ^ constant.numeric.applescript
+#                                   ^ punctuation.separator.array.applescript
+#                                     ^ constant.numeric.applescript
+#                                      ^ punctuation.separator.array.applescript
+#                                        ^ constant.numeric.applescript
+#                                         ^ punctuation.section.array.end.applescript
     set total to total + loopVariable
 end repeat
 
@@ -162,25 +345,57 @@ on myFunction(parameters...)
 end myFunction
 
 on adding folder items to thisFolder after receiving theseItems
+#^ keyword.other.applescript
+#  ^^^^^^^^^^^^^^^^^^^^^^ support.function.standardadditions.folder-actions.applescript
+#                                    ^^^^^ keyword.operator.reference.applescript
      -- commands to apply to the folder or items    
 end adding folder items to
 
 on rock around the clock
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.function.prepositional.applescript
+#^ keyword.control.function.applescript
+#  ^^^^ entity.name.function.handler.applescript
+#              ^^^ keyword.control.preposition.applescript
     display dialog (clock as string)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.prepositional.applescript
+#   ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
+#                  ^ punctuation.section.group.applescript
+#                         ^^ keyword.operator.word.applescript
+#                            ^^^^^^ support.class.built-in.applescript
+#                                  ^ punctuation.section.group.applescript
 end rock
 -- called with:
 rock around the current date
+#    ^^^^^^^^^^ keyword.other.applescript
+#               ^^^^^^^^^^^^ support.function.built-in.command.applescript
 
 to check for yourNumber from bottom thru top
     if bottom ≤ yourNumber and yourNumber ≤ top then
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.prepositional.applescript meta.block.if.applescript
+#   ^^ keyword.control.if.applescript
+#             ^ keyword.operator.comparison.applescript
+#                          ^^^ keyword.operator.word.applescript
+#                                         ^ keyword.operator.comparison.applescript
+#                                               ^^^^ keyword.control.then.applescript
         display dialog "Congratulations! You scored."
     end if
 end check
 --called with:
 check for 8 from 7 thru 10
+#     ^^^ keyword.other.applescript
+#         ^ constant.numeric.applescript
+#           ^^^^ keyword.operator.reference.applescript
+#                ^ constant.numeric.applescript
+#                  ^^^^ keyword.operator.reference.applescript
+#                       ^^ constant.numeric.applescript
 
 on open theItems
      repeat with thisItem in theItems
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.repeat.with.applescript
+#    ^^^^^^ keyword.control.repeat.applescript
+#           ^^^^ keyword.control.until.applescript
+#                ^^^^^^^^ variable.parameter.loop.applescript
+#                         ^^ keyword.control.modifier.list.applescript
          tell application "Finder" to update thisItem
      end repeat 
 end open
@@ -196,12 +411,21 @@ on quit
 end quit
 
 --This is a line comment
+#^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.applescript
+#^ punctuation.definition.comment.applescript
 # So is this! (in later versions)
+#^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.applescript
+#^ punctuation.definition.comment.applescript
+
 
 (* This is a
+#^^^^^^^^^^^ comment.block.applescript
+#^ punctuation.definition.comment.applescript
 multiple
 line
 comment *)
+#^^^^^^^^^ comment.block.applescript
+#       ^^ punctuation.definition.comment.applescript
 
 -- Dialog
 set dialogReply to display dialog "Dialog Text"
@@ -216,7 +440,22 @@ set dialogReply to display dialog "Dialog Text"
 
 -- Choose from list
 set chosenListItem to choose from list {"A", "B", "3"}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.set.applescript
+#^^ keyword.control.def.set.applescript
+#   ^^^^^^^^^^^^^^ variable.other.readwrite.set.applescript
+#                  ^^ keyword.control.def.set.applescript
+#                     ^^^^^^^^^^^^^^^^ support.function.built-in.command.applescript
+#                                      ^^^^^^^^^^^^^^^ meta.array.applescript
+#                                      ^ punctuation.section.array.begin.applescript
+#                                       ^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                          ^ punctuation.separator.array.applescript
+#                                            ^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                               ^ punctuation.separator.array.applescript
+#                                                 ^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                    ^ punctuation.section.array.end.applescript
     with title "List Title"
+#   ^^^^ keyword.other.applescript
+#              ^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
     with prompt "Prompt Text"
     default items "B"
     OK button name "Looks Good!"
@@ -233,6 +472,14 @@ set resultAlertReply to display alert "Alert Text"
     giving up after 2
 
 display alert "Hello, world!" buttons {"Rudely decline", "Happily accept"}
+#^^^^^^^^^^^^ support.function.built-in.command.applescript
+#             ^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.array.applescript
+#                                     ^ punctuation.section.array.begin.applescript
+#                                      ^^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                      ^ punctuation.separator.array.applescript
+#                                                        ^^^^^^^^^^^^^^^^ string.quoted.double.applescript punctuation.definition.string.applescript
+#                                                                        ^ punctuation.section.array.end.applescript
 set theAnswer to button returned of the result
 if theAnswer is "Happily accept" then
     beep 5
