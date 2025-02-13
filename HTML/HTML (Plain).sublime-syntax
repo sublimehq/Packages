@@ -258,7 +258,7 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   tag-html:
-    - match: </?(?=[A-Za-z])
+    - match: </?(?={{tag_name_start}})
       scope: punctuation.definition.tag.begin.html
       push:
         - tag-html-content
