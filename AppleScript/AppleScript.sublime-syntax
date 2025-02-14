@@ -15,9 +15,23 @@ first_line_match: |-
   )
 
 contexts:
+  prototype:
+    - include: comments
+
   main:
+    - include: statements
+
+  statements:
+    - match: \bprint\b
+      scope: keyword.other.print.applescript
     - include: blocks
-    - include: inline
+    - include: expressions
+
+  expressions:
+    - include: line-continuations
+    - include: literals
+    - include: operators
+    - include: identifiers
 
   attributes.considering-ignoring:
     - match: ','
@@ -112,8 +126,6 @@ contexts:
     - include: blocks.repeat
     - include: blocks.statement
     - include: blocks.other
-    - match: \bprint\b
-      scope: keyword.other.print.applescript
 
   blocks.other:
     - match: ^\s*(considering)\b
@@ -437,11 +449,14 @@ contexts:
         - include: main
 
   built-in:
-    - include: built-in.keyword
+    - include: operators
     - include: built-in.support
-    - include: built-in.punctuation
+    # - include: built-in.punctuation
+    - match: '[()]'
+      scope: punctuation.section.group.applescript
 
-  built-in.keyword:
+
+  operators:
     - match: (?:&|\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
     - match: \b(?i:div|mod)\b
@@ -480,14 +495,14 @@ contexts:
     - match: \b(?i:{{prepositions}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
       scope: keyword.other.applescript
 
-  built-in.punctuation:
-    - include: line-continuations
-    # the : in property assignments
-    - match: ':'
-      scope: punctuation.separator.key-value.property.applescript
-    # the parentheses in groups
-    - match: '[()]'
-      scope: punctuation.section.group.applescript
+  # built-in.punctuation:
+  #   # - include: line-continuations
+  #   # # the : in property assignments
+  #   # - match: ':'
+  #   #   scope: punctuation.separator.key-value.property.applescript
+  #   # the parentheses in groups
+  #   - match: '[()]'
+  #     scope: punctuation.section.group.applescript
 
   built-in.support:
     - match: \b(?i:POSIX\s+path|frontmost|id|name|running|version|days?|weekdays?|months?|years?|time|date\s+string|time\s+string|length|rest|reverse|items?|contents|quoted\s+form|characters?|paragraphs?|words?)\b
@@ -523,37 +538,6 @@ contexts:
     - match: \b(?i:seconds|minutes|hours|days)\b
       scope: support.class.built-in.time.applescript
 
-  data-structures:
-    - match: (\|)[^|\n]*(\|)
-      scope: meta.identifier.applescript
-      captures:
-        1: punctuation.definition.identifier.applescript
-        2: punctuation.definition.identifier.applescript
-    - match: '(«)(data) (utxt|utf8)([[:xdigit:]]*)(»)(?:\s+(as)\s+(?i:Unicode\s+text))?'
-      scope: constant.other.data.utxt.applescript
-      captures:
-        1: punctuation.definition.data.applescript
-        2: support.class.built-in.applescript
-        3: storage.type.utxt.applescript
-        4: string.unquoted.data.applescript
-        5: punctuation.definition.data.applescript
-        6: keyword.operator.applescript
-        7: support.class.built-in.applescript
-    - match: («)(\w+)\b(?=\s)
-      captures:
-        1: punctuation.definition.data.applescript
-        2: support.class.built-in.applescript
-      push:
-        - meta_scope: constant.other.data.raw.applescript
-        - match: »
-          scope: punctuation.definition.data.applescript
-          pop: true
-    - match: («)[^»]*(»)
-      scope: invalid.illegal.data.applescript
-      captures:
-        1: punctuation.definition.data.applescript
-        2: punctuation.definition.data.applescript
-
   finder:
     - match: \b(item|container|(computer|disk|trash)-object|disk|folder|((alias|application|document|internet location) )?file|clipping|package)s?\b
       scope: support.class.finder.items.applescript
@@ -569,9 +553,9 @@ contexts:
       scope: support.variable.finder.applescript
 
   inline:
-    - include: comments
+    # - include: comments
     - include: literals
-    - include: data-structures
+    # - include: data-structures
     - include: built-in
     - include: standardadditions
 
@@ -662,6 +646,21 @@ contexts:
       scope: support.function.textmate.applescript
 
 
+  identifiers:
+    - match: '\b{{identifier}}\b'
+      scope: variable.other.readwrite.applescript
+    - match: \|
+      scope: punctuation.definition.variable.begin.applescript
+      push:
+        - meta_include_prototype: false
+        - meta_scope: variable.other.readwrite.applescript
+        - match: \|\|
+          scope: constant.character.escape.applescript
+        - match: \|
+          scope: punctuation.definition.variable.end.applescript
+          pop: 1
+
+
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -701,6 +700,7 @@ contexts:
     - include: text-constants
     - match: \b(?i:AppleScript|result|version|current\s+application|its?|m[ey])\b
       scope: constant.other.miscellaneous.applescript
+    - include: raw-bytes
 
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW14
   booleans:
@@ -759,6 +759,32 @@ contexts:
           pop: 1
         - match: \\.
           scope: constant.character.escape.applescript
+
+  raw-bytes:
+    - match: '(«)(data) (utxt|utf8)([[:xdigit:]]*)(»)(?:\s+(as)\s+(?i:Unicode\s+text))?'
+      scope: constant.other.data.utxt.applescript
+      captures:
+        1: punctuation.definition.data.applescript
+        2: support.class.built-in.applescript
+        3: storage.type.utxt.applescript
+        4: string.unquoted.data.applescript
+        5: punctuation.definition.data.applescript
+        6: keyword.operator.applescript
+        7: support.class.built-in.applescript
+    - match: («)(\w+)\b(?=\s)
+      captures:
+        1: punctuation.definition.data.applescript
+        2: support.class.built-in.applescript
+      push:
+        - meta_scope: constant.other.data.raw.applescript
+        - match: »
+          scope: punctuation.definition.data.applescript
+          pop: true
+    - match: («)[^»]*(»)
+      scope: invalid.illegal.data.applescript
+      captures:
+        1: punctuation.definition.data.applescript
+        2: punctuation.definition.data.applescript
 
 ###[ RECORDS AND LISTS ]#######################################################
 
