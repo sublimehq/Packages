@@ -4,6 +4,6 @@
 };
 ]]></content>
 	<tabTrigger>proto</tabTrigger>
-	<scope>source.js</scope>
+	<scope>source.js, source.ts, source.jsx, source.tsx</scope>
 	<description>Prototype</description>
 </snippet>
