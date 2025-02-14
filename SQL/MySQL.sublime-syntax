@@ -679,7 +679,7 @@ contexts:
   variable-member:
     - meta_include_prototype: false
     - meta_content_scope: variable.other.member.mysql
-    - include: immediately-pop          
+    - include: immediately-pop
 
 ###[ GRANT STATEMENTS ]########################################################
 
