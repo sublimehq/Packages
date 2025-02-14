@@ -32,7 +32,8 @@ contexts:
     - include: literals
     - include: records-and-lists
     - include: operators
-    - include: built-in
+    - include: built-in.support
+    - include: groups
     - include: standardadditions
     - include: identifiers
 
@@ -451,14 +452,6 @@ contexts:
         - include: pop-eol
         - include: main
 
-  built-in:
-    - include: operators
-    - include: built-in.support
-    # - include: built-in.punctuation
-    - match: '[()]'
-      scope: punctuation.section.group.applescript
-
-
   operators:
     - match: (?:&|\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
@@ -498,14 +491,15 @@ contexts:
     - match: \b(?i:{{prepositions}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
       scope: keyword.other.applescript
 
-  # built-in.punctuation:
-  #   # - include: line-continuations
-  #   # # the : in property assignments
-  #   # - match: ':'
-  #   #   scope: punctuation.separator.key-value.property.applescript
-  #   # the parentheses in groups
-  #   - match: '[()]'
-  #     scope: punctuation.section.group.applescript
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.applescript
+      push:
+        - meta_scope: meta.group.applescript
+        - match: \)
+          scope: punctuation.section.group.end.applescript
+          pop: 1
+        - include: expressions
 
   built-in.support:
     - match: \b(?i:POSIX\s+path|frontmost|id|name|running|version|days?|weekdays?|months?|years?|time|date\s+string|time\s+string|length|rest|reverse|items?|contents|quoted\s+form|characters?|paragraphs?|words?)\b
@@ -554,13 +548,6 @@ contexts:
       scope: support.constant.finder.applescript
     - match: \b(visible)\b
       scope: support.variable.finder.applescript
-
-  # inline:
-  #   # - include: comments
-  #   - include: literals
-  #   # - include: data-structures
-  #   - include: built-in
-  #   - include: standardadditions
 
   itunes:
     - match: \b(artwork|application|encoder|EQ preset|item|source|visual|(EQ |browser )?window|((audio CD|device|shared|URL|file) )?track|playlist window|((audio CD|device|radio tuner|library|folder|user) )?playlist)s?\b
@@ -650,7 +637,7 @@ contexts:
 
 
   identifiers:
-    - match: '\b{{identifier}}\b'
+    - match: \b{{identifier}}\b
       scope: variable.other.readwrite.applescript
     - match: \|
       scope: punctuation.definition.variable.begin.applescript

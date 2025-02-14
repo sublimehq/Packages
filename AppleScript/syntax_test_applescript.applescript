@@ -208,7 +208,8 @@ tell application "Finder"
 #               ^^^^ support.class.built-in.applescript
 #                    ^^^^^^^^ variable.other.readwrite.applescript
 #                             ^^ keyword.other.applescript
-#                                ^ punctuation.section.group.applescript
+#                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.applescript
+#                                ^ punctuation.section.group.begin.applescript
 #                                 ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
 #                                                ^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                ^ punctuation.definition.string.begin.applescript
@@ -217,13 +218,16 @@ tell application "Finder"
 #                                                                     ^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                                     ^ punctuation.definition.string.begin.applescript
 #                                                                                 ^ punctuation.definition.string.end.applescript
+#                                                                                   ^^^^^^^ variable.other.readwrite.applescript
 #                                                                                           ^^^^^^^^^^^^ meta.array.applescript
 #                                                                                           ^ punctuation.section.array.begin.applescript
-#                                                                                            ^^^^^^^^^^ string.quoted.double.applescript
+#                                                                                            ^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                                                            ^ punctuation.definition.string.begin.applescript
 #                                                                                                     ^ punctuation.definition.string.end.applescript
 #                                                                                                      ^ punctuation.section.array.end.applescript
-#                                                                                                                        ^ punctuation.section.group.applescript
+#                                                                                                        ^^^^^^^^^^^^^^ variable.other.readwrite.applescript
+#                                                                                                                       ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#                                                                                                                        ^ punctuation.section.group.end.applescript
     set the2 to text returned of (display dialog "2nd" default answer "Number here" buttons {"Continue"} default button 1)
     try
         set the1 to the1 as integer
@@ -480,10 +484,12 @@ on rock around the clock
     display dialog (clock as string)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.prepositional.applescript
 #   ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
-#                  ^ punctuation.section.group.applescript
+#                  ^^^^^^^^^^^^^^^^^ meta.group.applescript
+#                  ^ punctuation.section.group.begin.applescript
+#                   ^^^^^ variable.other.readwrite.applescript
 #                         ^^ keyword.operator.reference.applescript
 #                            ^^^^^^ support.class.built-in.applescript
-#                                  ^ punctuation.section.group.applescript
+#                                  ^ punctuation.section.group.end.applescript
 end rock
 -- called with:
 rock around the current date
