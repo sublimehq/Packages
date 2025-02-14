@@ -29,9 +29,9 @@ contexts:
 
   expressions:
     - include: line-continuations
-    - include: literals
     - include: records-and-lists
     - include: operators
+    - include: literals
     - include: built-in.support
     - include: groups
     - include: standardadditions

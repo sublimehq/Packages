@@ -166,11 +166,14 @@ pixel 7 of row 3 of TIFF image "my bitmap"
 #                              ^ punctuation.definition.string.begin.applescript
 #                                        ^ punctuation.definition.string.end.applescript
 TIFF image "my bitmap"'s 3rd row's 7th pixel
+#^^^^^^^^^ variable.other.readwrite.applescript
 #          ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #          ^ punctuation.definition.string.begin.applescript
 #                    ^ punctuation.definition.string.end.applescript
-#                        ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
-#                                  ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#                        ^^^ keyword.operator.reference.applescript
+#                            ^^^ variable.other.readwrite.applescript
+#                                  ^^^ keyword.operator.reference.applescript
+#                                      ^^^^^ variable.other.readwrite.applescript
 
 display dialog "Hello, world!"
 #^^^^^^^^^^^^^ support.function.built-in.command.applescript
@@ -225,7 +228,8 @@ tell application "Finder"
 #                                                                                            ^ punctuation.definition.string.begin.applescript
 #                                                                                                     ^ punctuation.definition.string.end.applescript
 #                                                                                                      ^ punctuation.section.array.end.applescript
-#                                                                                                        ^^^^^^^^^^^^^^ variable.other.readwrite.applescript
+#                                                                                                        ^^^^^^^ variable.other.readwrite.applescript
+#                                                                                                                ^^^^^^ variable.other.readwrite.applescript
 #                                                                                                                       ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                                                                                                                        ^ punctuation.section.group.end.applescript
     set the2 to text returned of (display dialog "2nd" default answer "Number here" buttons {"Continue"} default button 1)
