@@ -31,6 +31,8 @@ contexts:
     - include: line-continuations
     - include: literals
     - include: operators
+    - include: built-in
+    - include: standardadditions
     - include: identifiers
 
   attributes.considering-ignoring:
@@ -186,7 +188,7 @@ contexts:
             - include: pop-eol
             - match: \b(?i:number|partial|from|to)\b
               scope: keyword.control.exception.modifier.applescript
-            - include: inline
+            - include: expressions
         - include: main
     - match: ^\s*(using\s+terms\s+from)\b
       captures:
@@ -292,7 +294,7 @@ contexts:
         - include: pop-eol
         - match: ':'
           scope: punctuation.separator.key-value.property.applescript
-        - include: inline
+        - include: expressions
     - match: \b(set)\s+(\w+)\s+(to)\b
       captures:
         1: keyword.control.def.set.applescript
@@ -302,7 +304,7 @@ contexts:
         - meta_scope: meta.statement.set.applescript
         - include: line-continuations
         - include: pop-eol
-        - include: inline
+        - include: expressions
     - match: \blocal\b
       scope: keyword.control.def.local.applescript
       push:
@@ -313,7 +315,7 @@ contexts:
           scope: punctuation.separator.variables.local.applescript
         - match: \b\w+
           scope: variable.other.readwrite.local.applescript
-        - include: inline
+        - include: expressions
     - match: \bglobal\b
       scope: keyword.control.def.global.applescript
       push:
@@ -324,7 +326,7 @@ contexts:
           scope: punctuation.separator.variables.global.applescript
         - match: \b\w+
           scope: variable.other.readwrite.global.applescript
-        - include: inline
+        - include: expressions
     - match: \berror\b
       scope: keyword.control.exception.error.applescript
       push:
@@ -333,7 +335,7 @@ contexts:
         - include: pop-eol
         - match: \b(number|partial|from|to)\b
           scope: keyword.control.exception.modifier.applescript
-        - include: inline
+        - include: expressions
     - match: \b(if)\b(?=.*\bthen\b(?!\s*(--.*?)?$))
       captures:
         1: keyword.control.if.applescript
@@ -341,7 +343,7 @@ contexts:
         - meta_scope: meta.statement.if-then.applescript
         - include: line-continuations
         - include: pop-eol
-        - include: inline
+        - include: expressions
 
   blocks.tell:
     # tell Textmate
@@ -552,12 +554,12 @@ contexts:
     - match: \b(visible)\b
       scope: support.variable.finder.applescript
 
-  inline:
-    # - include: comments
-    - include: literals
-    # - include: data-structures
-    - include: built-in
-    - include: standardadditions
+  # inline:
+  #   # - include: comments
+  #   - include: literals
+  #   # - include: data-structures
+  #   - include: built-in
+  #   - include: standardadditions
 
   itunes:
     - match: \b(artwork|application|encoder|EQ preset|item|source|visual|(EQ |browser )?window|((audio CD|device|shared|URL|file) )?track|playlist window|((audio CD|device|radio tuner|library|folder|user) )?playlist)s?\b
