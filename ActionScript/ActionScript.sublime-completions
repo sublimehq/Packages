@@ -18,14 +18,14 @@
         },
         {
             "trigger": "class",
-            "contents": "class ${1:className} extends ${2:superCLass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
+            "contents": "class ${1:className} extends ${2:superClass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
             "annotation": "statement",
             "kind": ["snippet", "s", "Snippet"],
             "details": "class statement"
         },
         {
             "trigger": "class",
-            "contents": "class ${1:className} extends ${2:superCLass} {\n\t${0:// statement(s);}\n}",
+            "contents": "class ${1:className} extends ${2:superClass} {\n\t${0:// statement(s);}\n}",
             "annotation": "statement",
             "kind": ["snippet", "s", "Snippet"],
             "details": "class statement"
@@ -81,14 +81,14 @@
         },
         {
             "trigger": "dynamic",
-            "contents": "dynamic class ${1:className} extends ${2:superCLass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
+            "contents": "dynamic class ${1:className} extends ${2:superClass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
             "annotation": "statement",
             "kind": ["snippet", "s", "Snippet"],
             "details": "dynamic class statement"
         },
         {
             "trigger": "dynamic",
-            "contents": "dynamic class ${1:className} extends ${2:superCLass} {\n\t${0:// statement(s);}\n}",
+            "contents": "dynamic class ${1:className} extends ${2:superClass} {\n\t${0:// statement(s);}\n}",
             "annotation": "statement",
             "kind": ["snippet", "s", "Snippet"],
             "details": "dynamic class statement"
