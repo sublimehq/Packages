@@ -18,7 +18,7 @@ variables:
     (?xi: continue | exit | return )
 
   loop_keywords: |-
-    (?xi: loop | end\s+(?: loop | repeat | while ) | repeat | while )
+    (?xi: loop | end\s+(?: loop | repeat | while ) | repeat | while | do )
 
   other_keywords: |-
     (?xi: close | cursor | declare | deallocate | delimiter | execute | fetch
@@ -628,6 +628,15 @@ contexts:
     - meta_prepend: true
     - include: set-password
     - include: set-role
+    - match: \b(?i:global|session|local|persist|persist_only)\b
+      scope: storage.modifier.mysql
+      set: set-other-assignment
+    - match: ((@@)(?i:global|session|local|persist|persist_only))(\.)
+      captures:
+        1: variable.language.mysql
+        2: punctuation.definition.variable.mysql
+        3: punctuation.accessor.dot.mysql
+      set: set-other-assignment
 
   set-password:
     # https://mariadb.com/kb/en/set-password
@@ -653,6 +662,11 @@ contexts:
     - include: expect-user-name
 
   set-other-assignment:
+    - match: (?=\b\w+\s*:?=)
+      scope: punctuation.accessor.dot.mysql
+      push:
+        - variable-member
+        - single-identifier
     - match: =
       scope: keyword.operator.assignment.sql
       set: set-other-value
@@ -661,6 +675,11 @@ contexts:
   set-other-value:
     - include: expressions
     - include: pop-on-top-level-reserved-word
+
+  variable-member:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.member.mysql
+    - include: immediately-pop
 
 ###[ GRANT STATEMENTS ]########################################################
 
@@ -886,9 +905,22 @@ contexts:
       scope: keyword.other.dml.sql
     - include: like-expressions
 
+
+###[ OPERATORS ]###############################################################
+
+  statement-terminators:
+    - meta_append: true
+    - match: '\$\$'
+      scope: punctuation.terminator.mysql
+
+  assignment-operators:
+    - meta_append: true
+    - match: ':='
+      scope: keyword.operator.assignment.mysql
+
   assignment-operators-constants:
     - include: assignment-operators
-    - match: \b(?i:utf8|utf8mb3|tree|traditional|json)\b
+    - match: \b(?i:utf8|utf8mb\d|tree|traditional|json)\b
       scope: string.unquoted.mysql
 
 ###[ ALGORITHM EXPRESSIONS ]###################################################
@@ -1492,6 +1524,16 @@ contexts:
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.modifier.sql
       pop: 1
+    - match: \b(?i:charset)\b
+      scope: storage.modifier.mysql
+      push: charset
+
+  charset:
+    - match: \w+
+      scope: constant.language.mysql
+      pop: 1
+    - match: (?=\S)
+      pop: 1
 
 ###[ IDENTIFIERS ]#############################################################
 
@@ -1597,6 +1639,9 @@ contexts:
       scope: variable.language.sql
       captures:
         1: punctuation.definition.variable.sql
+      push:
+        - variable-member
+        - maybe-identifier-accessor
     - match: (@){{simple_identifier}}\b
       scope: variable.other.sql
       captures:
