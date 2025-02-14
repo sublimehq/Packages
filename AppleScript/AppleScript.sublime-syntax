@@ -437,7 +437,6 @@ contexts:
         - include: main
 
   built-in:
-    - include: literals
     - include: built-in.keyword
     - include: built-in.support
     - include: built-in.punctuation
@@ -525,27 +524,6 @@ contexts:
       scope: support.class.built-in.time.applescript
 
   data-structures:
-    # We cannot necessarily distinguish "records" from "arrays", and so this could be either.
-    - match: \{
-      scope: punctuation.section.array.begin.applescript
-      push:
-        - meta_scope: meta.array.applescript
-        - match: \}
-          scope: punctuation.section.array.end.applescript
-          pop: true
-        - match: (\w+|((\|)[^|\n]*(\|)))\s*(:)
-          captures:
-            1: constant.other.key.applescript
-            2: meta.identifier.applescript
-            3: punctuation.definition.identifier.applescript
-            4: punctuation.definition.identifier.applescript
-            5: punctuation.separator.key-value.applescript
-        - match: ':'
-          scope: punctuation.separator.key-value.applescript
-        - match: ','
-          scope: punctuation.separator.array.applescript
-        - include: inline
-    - include: strings
     - match: (\|)[^|\n]*(\|)
       scope: meta.identifier.applescript
       captures:
@@ -592,6 +570,7 @@ contexts:
 
   inline:
     - include: comments
+    - include: literals
     - include: data-structures
     - include: built-in
     - include: standardadditions
@@ -717,6 +696,7 @@ contexts:
     - include: booleans-lenient
     - include: nulls
     - include: numbers
+    - include: strings
     - include: time-units
     - include: text-constants
     - match: \b(?i:AppleScript|result|version|current\s+application|its?|m[ey])\b
@@ -780,9 +760,108 @@ contexts:
         - match: \\.
           scope: constant.character.escape.applescript
 
+###[ RECORDS AND LISTS ]#######################################################
+
+  records-and-lists:
+    - match: (?=\{)
+      branch_point: records-and-lists
+      branch:
+        - maybe-list
+        - maybe-record
+
+  maybe-record:
+    - match: \{
+      scope: punctuation.section.mapping.begin.applescript
+      set: record-next
+
+  record-next:
+    - match: (?=\S)
+      set: record-body
+    - match: ^(?!\s*([#*]|$))
+      set: record-body
+
+  record-end:
+    - match: \}
+      scope: meta.mapping.applescript punctuation.section.mapping.end.applescript
+      pop: 1
+
+  record-separator:
+    - match: ','
+      scope: punctuation.separator.sequence.applescript
+
+  record-body:
+    - meta_content_scope: meta.mapping.applescript
+    - include: record-end
+    - include: comments
+    - include: illegal-commas
+    - match: ':'
+      scope: meta.mapping.applescript punctuation.separator.key-value.applescript
+      set: record-value
+    - match: (?=\S)
+      set: record-key-body
+
+  record-key-body:
+    - meta_scope: meta.mapping.key.applescript
+    - match: (?=\s*[,:}])
+      set: record-body
+
+  record-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.applescript
+    - include: record-end
+    - include: record-separator
+    - match: (?=\S)
+      set: record-value-body
+
+  record-value-body:
+    - meta_content_scope: meta.mapping.value.applescript
+    - match: (?=\s*[,}])
+      set: after-record-value
+
+  after-record-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.applescript
+    - include: record-end
+    - include: record-separator
+
+  maybe-list:
+    - match: \{
+      scope: punctuation.section.list.begin.applescript
+      set:
+        - maybe-list-body
+
+  maybe-list-body:
+    - meta_scope: meta.list.applescript
+    - match: (?=,)
+      set: list-body
+    - match: (?=:)
+      fail: records-and-lists
+    - include: list-body
+
+  list-body:
+    - meta_scope: meta.list.applescript
+    - match: \}
+      scope: punctuation.section.list.end.applescript
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.list.applescript
+    - include: illegal-colons
+
+  illegal-colons:
+    - match: ':'
+      scope: invalid.illegal.unexpected-colon.applescript
+
+  illegal-commas:
+    - match: ','
+      scope: invalid.illegal.unexpected-comma.applescript
+
+  illegal-stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray.applescript
 
 ###[ PROTOTYPE ]###############################################################
 
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW9
   line-continuations:
     - match: ¬\n?
       scope: punctuation.separator.continuation.line.applescript
@@ -794,6 +873,8 @@ contexts:
 ###############################################################################
 
 variables:
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW4
+  identifier: (?i:[a-z][a-z0-9_]*)
   months: |-
     \b(?xi:
       Jan(?:uary)? | Feb(?:ruary)? | Mar(?:ch)?
