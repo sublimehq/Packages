@@ -166,7 +166,7 @@ pixel 7 of row 3 of TIFF image "my bitmap"
 #                              ^ punctuation.definition.string.begin.applescript
 #                                        ^ punctuation.definition.string.end.applescript
 TIFF image "my bitmap"'s 3rd row's 7th pixel
-#^^^^^^^^^ variable.other.readwrite.applescript
+#^^^ variable.other.readwrite.applescript
 #          ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #          ^ punctuation.definition.string.begin.applescript
 #                    ^ punctuation.definition.string.end.applescript
@@ -217,7 +217,7 @@ tell application "Finder"
 #                                                ^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                ^ punctuation.definition.string.begin.applescript
 #                                                    ^ punctuation.definition.string.end.applescript
-#                                                      ^^^^^^^^^^^^^^ variable.other.readwrite.applescript
+#                                                      ^^^^^^^ variable.other.readwrite.applescript
 #                                                                     ^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                                     ^ punctuation.definition.string.begin.applescript
 #                                                                                 ^ punctuation.definition.string.end.applescript
