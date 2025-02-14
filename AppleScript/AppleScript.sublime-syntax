@@ -75,7 +75,7 @@ contexts:
             (of|in)\s+       # "of" or "in"
             (\w+)            # direct parameter
           )?
-          (?=\s+(above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\b)
+          (?=\s+{{prepositions}})
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -87,7 +87,7 @@ contexts:
           captures:
             1: keyword.control.function.applescript
           pop: true
-        - match: \b(?i:above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\s+(\w+)\b
+        - match: \b({{prepositions}})\s+(\w+)\b
           captures:
             1: keyword.control.preposition.applescript
             2: variable.parameter.handler.applescript
@@ -469,11 +469,11 @@ contexts:
         \b
       scope: keyword.operator.reference.applescript
 
-    - match: \b(?i:some|every|whose|where|that|id|index|\d+(st|nd|rd|th)|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|last|front|back|middle|named|beginning|end|from|to|thr(u|ough)|before|(front|back|beginning|end)\s+of|after|behind|in\s+(front|back|beginning|end)\s+of)\b
+    - match: \b(?i:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinals}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
       scope: keyword.operator.reference.applescript
-    - match: \b(?i:continue|return|exit(\s+repeat)?)\b
+    - match: \b(?i:continue|return|exit(?:\s+repeat)?)\b
       scope: keyword.control.loop.applescript
-    - match: \b(?i:about|above|after|against|apart\s+from|around|aside\s+from|at|back|before|beginning|behind|below|beneath|beside|between|but|by|considering|copy|does|else|end|error|every|false|for|from|front|get|given|global|if|ignoring|instead\s+of|into|is|it|its|last|local|me|middle|mod|my|not|of|on|onto|or|out\s+of|over|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|thru|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
+    - match: \b(?i:{{prepositions}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
       scope: keyword.other.applescript
 
   built-in.punctuation:
@@ -751,3 +751,14 @@ contexts:
 variables:
   month: \b(?i:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b
   day_of_week: \b(?i:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?)\b
+  ordinals: |-
+    \b(?x:
+      first | second | third | fourth | fifth
+    | sixth | seventh | eighth | ninth | tenth
+    )\b
+  prepositions: |-
+    \b(?xi:
+      above | against | apart\s+from | around | aside\s+from | at | below
+    | beneath | beside | between | by | for | from | instead\s+of | into | on
+    | onto | out\s+of | over | thru | under
+    )\b
