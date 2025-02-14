@@ -817,6 +817,7 @@ contexts:
   record-separator:
     - match: ','
       scope: punctuation.separator.sequence.applescript
+      set: record-body
 
   record-body:
     - meta_content_scope: meta.mapping.applescript
@@ -833,6 +834,8 @@ contexts:
     - meta_scope: meta.mapping.key.applescript
     - match: (?=\s*[,:}])
       set: record-body
+    - include: literals
+    - include: identifiers
 
   record-value:
     - meta_include_prototype: false
@@ -846,6 +849,7 @@ contexts:
     - meta_content_scope: meta.mapping.value.applescript
     - match: (?=\s*[,}])
       set: after-record-value
+    - include: expressions
 
   after-record-value:
     - meta_include_prototype: false
@@ -875,6 +879,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.list.applescript
     - include: illegal-colons
+    - include: expressions
 
   illegal-colons:
     - match: ':'
