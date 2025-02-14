@@ -437,7 +437,7 @@ contexts:
         - include: main
 
   built-in:
-    - include: built-in.constant
+    - include: literals
     - include: built-in.keyword
     - include: built-in.support
     - include: built-in.punctuation
@@ -700,30 +700,62 @@ contexts:
 
 ###[ LITERALS ]################################################################
 
-  built-in.constant:
-    - match: \b(?i:null|missing\s+value)\b
-      scope: constant.language.null.applescript
-    # yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
-    - match: \b(?i:true|yes)\b
+  literals:
+    - include: booleans-lenient
+    - include: nulls
+    - include: numbers
+    - include: time-units
+    - include: text-constants
+    - match: \b(?i:AppleScript|result|version|current\s+application|its?|m[ey])\b
+      scope: constant.other.miscellaneous.applescript
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW14
+  booleans:
+    - match: \b(?i:true)\b
       scope: constant.language.boolean.true.applescript
-    - match: \b(?i:false|no)\b
+    - match: \b(?i:false)\b
       scope: constant.language.boolean.false.applescript
 
-    - match: '-?\b\d+((\.(\d+\b)?)?(?i:e\+?\d*\b)?|\b)'
-      scope: constant.numeric.applescript
+  booleans-lenient:
+    # yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
+    - match: \b(?i:yes)\b
+      scope: constant.language.boolean.true.applescript
+    - match: \b(?i:no)\b
+      scope: constant.language.boolean.false.applescript
+    - include: booleans
+
+  nulls:
+    - match: \b(?i:null|missing\s+value)\b
+      scope: constant.language.null.applescript
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW12
+  numbers:
+    - match: (-?\b\d+(\.)\d*)([eE][+-]?\d+\b)?
+      scope: meta.number.float.decimal.applescript
+      captures:
+        1: constant.numeric.value.applescript
+        2: punctuation.separator.decimal.applescript
+        3: constant.numeric.suffix.applescript
+    - match: -?\b\d+
+      scope: meta.number.integer.decimal.applescript constant.numeric.value.applescript
+    - match: \b(?i:pi)\b
+      scope: meta.number.float.decimal.applescript constant.language.applescript
+
+  time-units:
+    - match: '{{months}}'
+      scope: constant.other.time.month.applescript
+    - match: '{{weekdays}}'
+      scope: constant.other.time.weekday.applescript
+
+  text-constants:
     - match: \b(?i:space|tab|return|linefeed|quote)\b
       scope: constant.other.text.applescript
-    - match: \b(?i:all\s+(caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(sub|super)script|underline)\b
+    - match: \b(?i:all\s+(?:caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(?:sub|super)script|underline)\b
       scope: constant.other.styles.applescript
-    - match: '{{month}}'
-      scope: constant.other.time.month.applescript
-    - match: '{{day_of_week}}'
-      scope: constant.other.time.weekday.applescript
-    - match: \b(?i:AppleScript|pi|result|version|current\s+application|its?|m[ey])\b
-      scope: constant.other.miscellaneous.applescript
-    - match: \b(?i:text\s+item\s+delimiters|print\s+(length|depth))\b
+    - match: \b(?i:text\s+item\s+delimiters|print\s+(?:length|depth))\b
       scope: variable.language.applescript
 
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW26
   strings:
     - match: '"'
       scope: punctuation.definition.string.begin.applescript
@@ -749,8 +781,18 @@ contexts:
 ###############################################################################
 
 variables:
-  month: \b(?i:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b
-  day_of_week: \b(?i:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?)\b
+  months: |-
+    \b(?xi:
+      Jan(?:uary)? | Feb(?:ruary)? | Mar(?:ch)?
+    | Apr(?:il)? | May | June?
+    | July? | Aug(?:ust)? | Sep(?:tember)?
+    | Oct(?:ober)? | Nov(?:ember)? | Dec(?:ember)?
+    )\b
+  weekdays: |-
+    \b(?xi:
+      Mon(?:day)? | Tue(?:sday)? | Wed(?:nesday)? | Thu(?:rsday)?
+    | Fri(?:day)? | Sat(?:urday)? | Sun(?:day)?
+    )\b
   ordinals: |-
     \b(?x:
       first | second | third | fourth | fifth
