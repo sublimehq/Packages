@@ -87,10 +87,11 @@ contexts:
           captures:
             1: keyword.control.function.applescript
           pop: true
-        - match: \b({{prepositions}})\s+(\w+)\b
+        - match: \b({{prepositions}})(?:\s+(the|an?))?\s+(\w+)\b
           captures:
             1: keyword.control.preposition.applescript
-            2: variable.parameter.handler.applescript
+            2: keyword.other.applescript
+            3: variable.parameter.handler.applescript
         - include: main
     - match: |-
         ^(?x)

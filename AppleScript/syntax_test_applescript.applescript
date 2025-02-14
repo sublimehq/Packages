@@ -400,7 +400,9 @@ on rock around the clock
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.function.prepositional.applescript
 #^ keyword.control.function.applescript
 #  ^^^^ entity.name.function.handler.applescript
-#              ^^^ keyword.control.preposition.applescript
+#       ^^^^^^ keyword.control.preposition.applescript
+#              ^^^ keyword.other.applescript
+#                  ^^^^^ variable.parameter.handler.applescript
     display dialog (clock as string)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.prepositional.applescript
 #   ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
