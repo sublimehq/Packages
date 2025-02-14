@@ -301,9 +301,8 @@ contexts:
         - match: \b\w+
           scope: variable.other.readwrite.local.applescript
         - include: inline
-    - match: \b(global)\b
-      captures:
-        1: keyword.control.def.global.applescript
+    - match: \bglobal\b
+      scope: keyword.control.def.global.applescript
       push:
         - meta_scope: meta.statement.global.applescript
         - include: line-continuations
@@ -443,7 +442,7 @@ contexts:
     - include: built-in.punctuation
 
   built-in.keyword:
-    - match: (&|\*|\+|-|/|÷|\^)
+    - match: (?:&|\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
     - match: \b(?i:div|mod)\b
       scope: keyword.operator.arithmetic.applescript
@@ -451,22 +450,27 @@ contexts:
     - match: \b(?i:and|or|not)\b
       scope: keyword.operator.logical.applescript
 
-    - match: (?:=|≠|>|<|≥|>=|≤|<=)
+    - match: (?:=|≠|>=|<=|≥|>|≤|<)
       scope: keyword.operator.comparison.applescript
-    - match: (?:equal(?:s|\s+to)|contains?|comes\s+(after|before)|(start|begin|end)s?\s+with)
-      scope: keyword.operator.comparison.applescript
-    - match: |-
-        (?ix)\b
-          (is(n't|\s+not)?(\s+(equal(\s+to)?|(less|greater)\s+than(\s+or\s+equal(\s+to)?)?|in|contained\s+by))?
-          |does(n't|\s+not)\s+(equal|come\s+(before|after)|contain)
-          )
-        \b
+    - match: (?:equal(?:s|\s+to)|contains?|comes\s+(?:after|before)|(?:start|begin|end)s?\s+with)
       scope: keyword.operator.comparison.applescript
     - match: |-
-        (?ix)\b
-          (as|(a\s+)?(ref(\s+to)?|reference\s+to)
-          )
-        \b
+        \b(?ix:
+        # is / isn't
+          is (?: n't |\s+ not )? (?:\s+
+          (?: equal (?:\s+ to)?
+          | (?: less | greater )\s+ than (?:\s+ or \s+ equal (?:\s+ to )?)?
+          | in | contained \s+ by
+          ))?
+        # does / doesn't
+        | does (?: n't |\s+ not ) \s+
+          (?: equal | come \s+ (?: before | after ) | contain )
+        )\b
+      scope: keyword.operator.comparison.applescript
+    - match: |-
+        \b(?ix:
+          as | (?:a \s+)? (?: ref (?:\s+ to)? | reference \s+ to )
+        )\b
       scope: keyword.operator.reference.applescript
 
     - match: \b(?i:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinals}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
@@ -499,13 +503,21 @@ contexts:
     - match: \b(?i:app(lication)?|boolean|character|constant|date|event|file(\s+specification)?|handler|integer|item|keystroke|linked\s+list|list|machine|number|picture|preposition|POSIX\s+file|real|record|reference(\s+form)?|RGB\s+color|script|sound|text\s+item|type\s+class|vector|writing\s+code(\s+info)?|zone|((international|styled(\s+(Clipboard|Unicode))?|Unicode)\s+)?text|((C|encoded|Pascal)\s+)?string)s?\b
       scope: support.class.built-in.applescript
     - match: |-
-        (?ix)\b
-          (  (cubic\s+(centi)?|square\s+(kilo)?|centi|kilo)met(er|re)s
-          |  square\s+(yards|feet|miles)|cubic\s+(yards|feet|inches)|miles|inches
-          |  lit(re|er)s|gallons|quarts
-          |  (kilo)?grams|ounces|pounds
-          |  degrees\s+(Celsius|Fahrenheit|Kelvin)
+        \b(?ix:
+          # Optional length dimensions
+          (?:(?: cubic | square ) \s+)?
+          # Length
+          (?:
+            (?: centi | kilo)? (?: meters | metres )
+          | (?: inches | feet | yards | miles )
           )
+        # Volume
+        | liters | litres | gallons | quarts
+        # Mass / weight
+        | (?:kilo)?grams | ounces | pounds
+        # Temperature
+        | degrees \s+ (?: Celsius | Fahrenheit | Kelvin )
+        )
         \b
       scope: support.class.built-in.unit.applescript
     - match: \b(?i:seconds|minutes|hours|days)\b
