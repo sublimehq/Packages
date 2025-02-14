@@ -61,6 +61,16 @@
 #                 ^ punctuation.definition.string.end.applescript
 #                  ^ meta.mapping.applescript punctuation.section.mapping.end.applescript
 
+foo
+#^^ variable.other.readwrite.applescript
+|bar|
+#^^^^ variable.other.readwrite.applescript
+#   ^ punctuation.definition.variable.end.applescript
+|ba||z|
+#^^^^^^ variable.other.readwrite.applescript
+#  ^^ constant.character.escape.applescript
+#     ^ punctuation.definition.variable.end.applescript
+
 print page 1
 #^^^^ keyword.other.print.applescript
 #          ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
