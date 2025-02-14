@@ -2,19 +2,19 @@
 
 print page 1
 #^^^^ keyword.other.print.applescript
-#          ^ constant.numeric.applescript
+#          ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 
 print document 2
 #^^^^ keyword.other.print.applescript
-#              ^ constant.numeric.applescript
+#              ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 
 print pages 1 thru 5 of document 2
 #^^^^ keyword.other.print.applescript
-#           ^ constant.numeric.applescript
+#           ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #             ^^^^ keyword.operator.reference.applescript
-#                  ^ constant.numeric.applescript
+#                  ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                    ^^ keyword.other.applescript
-#                                ^ constant.numeric.applescript
+#                                ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 
 tell application "Microsoft Word"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript
@@ -55,21 +55,21 @@ tell application "QuarkXPress"
   tell document 1
 #^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript
 # ^^^^ keyword.control.tell.applescript
-#               ^ constant.numeric.applescript
+#               ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
     tell page 2
 #^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
 #   ^^^^ keyword.control.tell.applescript
-#             ^ constant.numeric.applescript
+#             ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
       tell text box 1
 #^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
 #     ^^^^ keyword.control.tell.applescript
 #          ^^^^ support.class.built-in.applescript
-#                   ^ constant.numeric.applescript
+#                   ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
         set word 5 to "Apple"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.tell.application.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript meta.block.tell.generic.applescript
 #       ^^^ keyword.other.applescript
 #           ^^^^ support.function.built-in.property.applescript
-#                ^ constant.numeric.applescript
+#                ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                  ^^ keyword.operator.reference.applescript
 #                     ^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                     ^ punctuation.definition.string.begin.applescript
@@ -87,9 +87,9 @@ end tell
 #^^^^^^^ meta.block.tell.application.generic.applescript keyword.control.tell.applescript
 
 pixel 7 of row 3 of TIFF image "my bitmap"
-#     ^ constant.numeric.applescript
+#     ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #       ^^ keyword.other.applescript
-#              ^ constant.numeric.applescript
+#              ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                ^^ keyword.other.applescript
 #                              ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                              ^ punctuation.definition.string.begin.applescript
@@ -98,8 +98,8 @@ TIFF image "my bitmap"'s 3rd row's 7th pixel
 #          ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #          ^ punctuation.definition.string.begin.applescript
 #                    ^ punctuation.definition.string.end.applescript
-#                        ^ constant.numeric.applescript
-#                                  ^ constant.numeric.applescript
+#                        ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#                                  ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 
 display dialog "Hello, world!"
 #^^^^^^^^^^^^^ support.function.built-in.command.applescript
@@ -150,7 +150,6 @@ tell application "Finder"
 #                                                                                            ^ punctuation.definition.string.begin.applescript
 #                                                                                                     ^ punctuation.definition.string.end.applescript
 #                                                                                                      ^ punctuation.section.array.end.applescript
-#                                                                                                                       ^ constant.numeric.applescript
 #                                                                                                                        ^ punctuation.section.group.applescript
     set the2 to text returned of (display dialog "2nd" default answer "Number here" buttons {"Continue"} default button 1)
     try
@@ -182,7 +181,6 @@ tell application "Finder"
 #                                                                                                  ^ punctuation.definition.string.begin.applescript
 #                                                                                                     ^ punctuation.definition.string.end.applescript
 #                                                                                                      ^ punctuation.section.array.end.applescript
-#                                                                                                                       ^ constant.numeric.applescript
         return
     end try
 
@@ -242,7 +240,7 @@ set variable1 to 1
 #^^ keyword.control.def.set.applescript
 #   ^^^^^^^^^ variable.other.readwrite.set.applescript
 #             ^^ keyword.control.def.set.applescript
-#                ^ constant.numeric.applescript
+#                ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 
 -- create a text variable called variable2
 set variable2 to "Hello" 
@@ -259,9 +257,9 @@ copy {17, "doubleday"} to variable3
 #^^^ keyword.other.applescript
 #    ^^^^^^^^^^^^^^^^^ meta.array.applescript
 #    ^ punctuation.section.array.begin.applescript
-#     ^^ constant.numeric.applescript
+#     ^^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #       ^ punctuation.separator.array.applescript
-#         ^^^^^^^^^^^ string.quoted.double.applescript
+#         ^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #         ^ punctuation.definition.string.begin.applescript
 #                   ^ punctuation.definition.string.end.applescript
 #                    ^ punctuation.section.array.end.applescript
@@ -326,7 +324,7 @@ repeat while x > 0
 #^^^^^ keyword.control.repeat.applescript
 #      ^^^^^ keyword.control.while.applescript
 #              ^ keyword.operator.comparison.applescript
-#                ^ constant.numeric.applescript
+#                ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
      set x to x - 1
 #^^^^^^^^^^^^^^^^^^ meta.block.repeat.while.applescript
 #    ^^^^^^^^^^^^^^ meta.statement.set.applescript
@@ -334,7 +332,7 @@ repeat while x > 0
 #        ^ variable.other.readwrite.set.applescript
 #          ^^ keyword.control.def.set.applescript
 #               ^ keyword.operator.arithmetic.applescript
-#                 ^ constant.numeric.applescript
+#                 ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 end repeat
 
 set x to 5
@@ -343,7 +341,7 @@ repeat until x ≤ 0
 #^^^^^ keyword.control.repeat.applescript
 #      ^^^^^ keyword.control.until.applescript
 #              ^ keyword.operator.comparison.applescript
-#                ^ constant.numeric.applescript
+#                ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
      set x to x - 1
 end repeat
 
@@ -354,9 +352,9 @@ repeat with i from 1 to 2000
 #      ^^^^ keyword.control.until.applescript
 #           ^ variable.parameter.loop.applescript
 #             ^^^^ keyword.control.modifier.range.applescript
-#                  ^ constant.numeric.applescript
+#                  ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                    ^^ keyword.control.modifier.range.applescript
-#                       ^^^^ constant.numeric.applescript
+#                       ^^^^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
      -- commands to be repeated
 end repeat
 
@@ -374,15 +372,15 @@ repeat with loopVariable in {1, 2, 3, 4, 5}
 #                        ^^ keyword.control.modifier.list.applescript
 #                           ^^^^^^^^^^^^^^^ meta.array.applescript
 #                           ^ punctuation.section.array.begin.applescript
-#                            ^ constant.numeric.applescript
+#                            ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                             ^ punctuation.separator.array.applescript
-#                               ^ constant.numeric.applescript
+#                               ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                                ^ punctuation.separator.array.applescript
-#                                  ^ constant.numeric.applescript
+#                                  ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                                   ^ punctuation.separator.array.applescript
-#                                     ^ constant.numeric.applescript
+#                                     ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                                      ^ punctuation.separator.array.applescript
-#                                        ^ constant.numeric.applescript
+#                                        ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                                         ^ punctuation.section.array.end.applescript
     set total to total + loopVariable
 end repeat
@@ -432,11 +430,11 @@ end check
 --called with:
 check for 8 from 7 thru 10
 #     ^^^ keyword.other.applescript
-#         ^ constant.numeric.applescript
+#         ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #           ^^^^ keyword.operator.reference.applescript
-#                ^ constant.numeric.applescript
+#                ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #                  ^^^^ keyword.operator.reference.applescript
-#                       ^^ constant.numeric.applescript
+#                       ^^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
 
 on open theItems
      repeat with thisItem in theItems
