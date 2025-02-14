@@ -859,12 +859,12 @@ contexts:
 
   maybe-list:
     - match: \{
-      scope: punctuation.section.list.begin.applescript
+      scope: punctuation.section.array.begin.applescript
       set:
         - maybe-list-body
 
   maybe-list-body:
-    - meta_scope: meta.list.applescript
+    - meta_scope: meta.array.applescript
     - match: (?=,)
       set: list-body
     - match: (?=:)
@@ -872,12 +872,12 @@ contexts:
     - include: list-body
 
   list-body:
-    - meta_scope: meta.list.applescript
+    - meta_scope: meta.array.applescript
     - match: \}
-      scope: punctuation.section.list.end.applescript
+      scope: punctuation.section.array.end.applescript
       pop: 1
     - match: ','
-      scope: punctuation.separator.list.applescript
+      scope: punctuation.separator.array.applescript
     - include: illegal-colons
     - include: expressions
 

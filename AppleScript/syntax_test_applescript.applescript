@@ -19,15 +19,15 @@
 #   ^ punctuation.definition.string.end.applescript
 
 {1, "two", 3}
-#^^^^^^^^^^^^ meta.list.applescript
+#^^^^^^^^^^^^ meta.array.applescript
 #^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
-# ^ punctuation.separator.list.applescript
+# ^ punctuation.separator.array.applescript
 #   ^^^^^ meta.string.applescript string.quoted.double.applescript
 #   ^ punctuation.definition.string.begin.applescript
 #       ^ punctuation.definition.string.end.applescript
-#        ^ punctuation.separator.list.applescript
+#        ^ punctuation.separator.array.applescript
 #          ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
-#           ^ punctuation.section.list.end.applescript
+#           ^ punctuation.section.array.end.applescript
 {1: "one", "two": 2}
 #^ meta.mapping.key.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
 # ^^ meta.mapping.applescript
@@ -196,13 +196,15 @@ tell application "Finder"
 #       ^^^^ variable.other.readwrite.set.applescript
 #            ^^ keyword.control.def.set.applescript
 #               ^^^^ support.class.built-in.applescript
+#                    ^^^^^^^^ variable.other.readwrite.applescript
 #                             ^^ keyword.other.applescript
 #                                ^ punctuation.section.group.applescript
 #                                 ^^^^^^^^^^^^^^ support.function.built-in.command.applescript
-#                                                ^^^^^ string.quoted.double.applescript
+#                                                ^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                ^ punctuation.definition.string.begin.applescript
 #                                                    ^ punctuation.definition.string.end.applescript
-#                                                                     ^^^^^^^^^^^^^ string.quoted.double.applescript
+#                                                      ^^^^^^^^^^^^^^ variable.other.readwrite.applescript
+#                                                                     ^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #                                                                     ^ punctuation.definition.string.begin.applescript
 #                                                                                 ^ punctuation.definition.string.end.applescript
 #                                                                                           ^^^^^^^^^^^^ meta.array.applescript
@@ -325,6 +327,7 @@ copy {17, "doubleday"} to variable3
 #                   ^ punctuation.definition.string.end.applescript
 #                    ^ punctuation.section.array.end.applescript
 #                      ^^ keyword.operator.reference.applescript
+#                         ^^^^^^^^^ variable.other.readwrite.applescript
 
 -- copy the list items of variable3 into separate variables variable4 and variable5
 set {variable4, variable5} to variable3 
@@ -591,7 +594,7 @@ set resultAlertReply to display alert "Alert Text"
 
 display alert "Hello, world!" buttons {"Rudely decline", "Happily accept"}
 #^^^^^^^^^^^^ support.function.built-in.command.applescript
-#             ^^^^^^^^^^^^^^^ string.quoted.double.applescript
+#             ^^^^^^^^^^^^^^^ meta.string.applescript string.quoted.double.applescript
 #             ^ punctuation.definition.string.begin.applescript
 #                           ^ punctuation.definition.string.end.applescript
 #                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.array.applescript
