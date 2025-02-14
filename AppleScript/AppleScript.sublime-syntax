@@ -30,6 +30,7 @@ contexts:
   expressions:
     - include: line-continuations
     - include: literals
+    - include: records-and-lists
     - include: operators
     - include: built-in
     - include: standardadditions

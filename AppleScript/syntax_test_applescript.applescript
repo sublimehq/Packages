@@ -1,5 +1,28 @@
 # SYNTAX TEST "AppleScript.sublime-syntax"
 
+10
+#^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+1.
+#^ meta.number.float.decimal.applescript constant.numeric.value.applescript
+#^ punctuation.separator.decimal.applescript
+1.E+9
+#^^^^ meta.number.float.decimal.applescript
+#^ constant.numeric.value.applescript
+#^ punctuation.separator.decimal.applescript
+# ^^^ constant.numeric.suffix.applescript
+1e+9
+-1.4e9
+#^^^^^ meta.number.float.decimal.applescript
+#^^^ constant.numeric.value.applescript
+# ^ punctuation.separator.decimal.applescript
+#   ^^ constant.numeric.suffix.applescript
+
+"foo"
+#^^^^ meta.string.applescript string.quoted.double.applescript
+#   ^ punctuation.definition.string.end.applescript
+
+{1, 2, 3}
+
 print page 1
 #^^^^ keyword.other.print.applescript
 #          ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
