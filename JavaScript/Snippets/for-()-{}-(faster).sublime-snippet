@@ -3,6 +3,6 @@
 	${100:${1:Things}[${20:i}]}$0
 }]]></content>
 	<tabTrigger>for</tabTrigger>
-	<scope>source.js</scope>
+	<scope>source.js, source.ts, source.jsx, source.tsx</scope>
 	<description>for (…) {…} (Improved Native For-Loop)</description>
 </snippet>
