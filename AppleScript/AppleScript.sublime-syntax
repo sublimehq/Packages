@@ -690,7 +690,7 @@ contexts:
     - include: text-constants
     - match: \b(?i:AppleScript|result|version|current\s+application|its?|m[ey])\b
       scope: constant.other.miscellaneous.applescript
-    - include: raw-bytes
+    - include: raw-codes
 
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW14
   booleans:
@@ -755,31 +755,48 @@ contexts:
         - match: \\.
           scope: constant.character.escape.applescript
 
-  raw-bytes:
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW5
+  raw-codes:
     - match: '(«)(data) (utxt|utf8)([[:xdigit:]]*)(»)(?:\s+(as)\s+(?i:Unicode\s+text))?'
       scope: constant.other.data.utxt.applescript
       captures:
-        1: punctuation.definition.data.applescript
+        1: punctuation.definition.data.begin.applescript
         2: support.class.built-in.applescript
         3: storage.type.utxt.applescript
         4: string.unquoted.data.applescript
-        5: punctuation.definition.data.applescript
+        5: punctuation.definition.data.end.applescript
         6: keyword.operator.applescript
         7: support.class.built-in.applescript
     - match: («)(\w+)\b(?=\s)
       captures:
-        1: punctuation.definition.data.applescript
+        1: punctuation.definition.data.begin.applescript
         2: support.class.built-in.applescript
       push:
         - meta_scope: constant.other.data.raw.applescript
         - match: »
-          scope: punctuation.definition.data.applescript
-          pop: true
+          scope: punctuation.definition.data.end.applescript
+          pop: 1
+        - include: pop-eol
+    - match: (《)(\w+)\b(?=\s)
+      captures:
+        1: punctuation.definition.data.begin.applescript
+        2: support.class.built-in.applescript
+      push:
+        - meta_scope: constant.other.data.raw.applescript
+        - match: 》
+          scope: punctuation.definition.data.end.applescript
+          pop: 1
+        - include: pop-eol
     - match: («)[^»]*(»)
       scope: invalid.illegal.data.applescript
       captures:
-        1: punctuation.definition.data.applescript
-        2: punctuation.definition.data.applescript
+        1: punctuation.definition.data.begin.applescript
+        2: punctuation.definition.data.end.applescript
+    - match: (《)[^》]*(》)
+      scope: invalid.illegal.data.applescript
+      captures:
+        1: punctuation.definition.data.begin.applescript
+        2: punctuation.definition.data.end.applescript
 
 ###[ RECORDS AND LISTS ]#######################################################
 

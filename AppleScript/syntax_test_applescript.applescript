@@ -84,6 +84,17 @@
 #      ^^ constant.character.escape.applescript
 #         ^ punctuation.definition.variable.end.applescript
 
+    «event sysodlog»
+#   ^^^^^^^^^^^^^^^^ constant.other.data.raw.applescript
+#   ^ punctuation.definition.data.begin.applescript
+#    ^^^^^ support.class.built-in.applescript
+#                  ^ punctuation.definition.data.end.applescript
+    《event sysodlog》
+#   ^^^^^^^^^^^^^^^^ constant.other.data.raw.applescript
+#   ^ punctuation.definition.data.begin.applescript
+#    ^^^^^ support.class.built-in.applescript
+#                  ^ punctuation.definition.data.end.applescript
+
 print page 1
 #^^^^ keyword.other.print.applescript
 #          ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
