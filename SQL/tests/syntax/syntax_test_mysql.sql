@@ -4868,3 +4868,54 @@ UNLOCK TABLES;
 show open tables where in_use>0;
 show processlist;
 SHOW ENGINE INNODB STATUS;
+
+CREATE TABLE jokes
+  (a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  joke TEXT NOT NULL);
+LOAD DATA INFILE '/tmp/jokes.txt' INTO TABLE jokes
+  FIELDS TERMINATED BY ''
+  LINES TERMINATED BY '\n%%\n' (joke);
+
+LOAD DATA INFILE 'file.txt'
+  INTO TABLE t1
+    (column1, @dummy, column2, @dummy, column3);
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--  ^ punctuation.section.group.begin.sql
+--   ^^^^^^^ meta.column-name.sql
+--          ^ punctuation.separator.sequence.sql
+--            ^^^^^^ variable.other.sql
+--            ^ punctuation.definition.variable.sql
+--                  ^ punctuation.separator.sequence.sql
+--                    ^^^^^^^ meta.column-name.sql
+--                           ^ punctuation.separator.sequence.sql
+--                             ^^^^^^ variable.other.sql
+--                             ^ punctuation.definition.variable.sql
+--                                   ^ punctuation.separator.sequence.sql
+--                                     ^^^^^^^ meta.column-name.sql
+--                                            ^ punctuation.section.group.end.sql
+--                                             ^ punctuation.terminator.statement.sql
+
+LOAD DATA INFILE 'file.txt'
+  INTO TABLE t1
+  (column1, @var1)
+    SET column2 = @var1/100;
+--  ^^^^ meta.statement.set.sql
+--  ^^^ keyword.other.dml.sql
+--      ^^^^^^^ meta.column-name.sql
+--              ^ keyword.operator.comparison.sql
+--                ^^^^^ variable.other.sql
+--                ^ punctuation.definition.variable.sql
+--                     ^ keyword.operator.arithmetic.sql
+--                      ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                         ^ punctuation.terminator.statement.sql
+
+LOAD DATA INFILE 'file.txt'
+  INTO TABLE t1
+  (column1, column2)
+    SET column3 = CURRENT_TIMESTAMP;
+--  ^^^^ meta.statement.set.sql
+--  ^^^ keyword.other.dml.sql
+--      ^^^^^^^ meta.column-name.sql
+--              ^ keyword.operator.comparison.sql
+--                ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
+--                                 ^ punctuation.terminator.statement.sql

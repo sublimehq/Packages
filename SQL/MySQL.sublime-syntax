@@ -653,8 +653,9 @@ contexts:
       scope: keyword.other.dml.mysql
       push: single-string
     - include: numbers
-    - match: (?=;)
-      pop: 1
+    - include: pop-on-top-level-reserved-word
+    - match: (?=\()
+      set: column-name-list
 
   meta-filepath:
     - meta_content_scope: meta.filepath.mysql
