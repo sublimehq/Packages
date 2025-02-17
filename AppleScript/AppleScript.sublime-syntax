@@ -725,7 +725,11 @@ contexts:
     - include: strings
     - include: time-units
     - include: text-constants
-    - match: \b(?i:AppleScript|result|version|current\s+application|its?|m[ey])\b
+    - match: \b(?:it|me|result|current\s+application)\b
+      scope: variable.language.applescript
+    - match: \b(?:its|my)\b
+      scope: storage.modifier.applescript
+    - match: \b(?i:AppleScript|result|version)\b
       scope: constant.other.miscellaneous.applescript
     - include: raw-codes
 
