@@ -1,75 +1,88 @@
-# SYNTAX TEST "AppleScript.sublime-syntax"
+# SYNTAX TEST "Packages/AppleScript/AppleScript.sublime-syntax"
 
-10
-#^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
-1.
-#^ meta.number.float.decimal.applescript constant.numeric.value.applescript
-#^ punctuation.separator.decimal.applescript
-1.E+9
-#^^^^ meta.number.float.decimal.applescript constant.numeric.value.applescript
-#^ punctuation.separator.decimal.applescript
-1e+9
-#^^^ meta.number.float.decimal.applescript constant.numeric.value.applescript
--1.4e9
-#^^^^^ meta.number.float.decimal.applescript constant.numeric.value.applescript
-# ^ punctuation.separator.decimal.applescript
+    10
+#   ^^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+    1.
+#   ^^ meta.number.float.decimal.applescript constant.numeric.value.applescript
+#    ^ punctuation.separator.decimal.applescript
+    1.E+9
+#   ^^^^^ meta.number.float.decimal.applescript
+#   ^^ constant.numeric.value.applescript
+#    ^ punctuation.separator.decimal.applescript
+#     ^^^ constant.numeric.value.exponent.applescript
+    1e+9
+#   ^^^^ meta.number.float.decimal.applescript
+#   ^ constant.numeric.value.applescript
+#    ^^^ constant.numeric.value.exponent.applescript
+    -1.4e9
+#   ^ keyword.operator.arithmetic.applescript
+#    ^^^^^ meta.number.float.decimal.applescript
+#    ^^^ constant.numeric.value.applescript
+#     ^ punctuation.separator.decimal.applescript
+#       ^^ constant.numeric.value.exponent.applescript
 
-"foo"
-#^^^^ meta.string.applescript string.quoted.double.applescript
-#   ^ punctuation.definition.string.end.applescript
-
-{1, "two", 3}
-#^^^^^^^^^^^^ meta.array.applescript
-#^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
-# ^ punctuation.separator.array.applescript
+    "foo"
 #   ^^^^^ meta.string.applescript string.quoted.double.applescript
 #   ^ punctuation.definition.string.begin.applescript
 #       ^ punctuation.definition.string.end.applescript
-#        ^ punctuation.separator.array.applescript
-#          ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
-#           ^ punctuation.section.array.end.applescript
-{1: "one", "two": 2}
-#^ meta.mapping.key.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
-# ^^ meta.mapping.applescript
-# ^ meta.mapping.applescript punctuation.separator.key-value.applescript
-#   ^^^^^ meta.mapping.value.applescript meta.string.applescript string.quoted.double.applescript
-#   ^ punctuation.definition.string.begin.applescript
-#       ^ punctuation.definition.string.end.applescript
-#        ^^ meta.mapping.applescript
-#        ^ punctuation.separator.sequence.applescript
-#          ^^^^^ meta.mapping.key.applescript meta.string.applescript string.quoted.double.applescript
-#          ^ punctuation.definition.string.begin.applescript
-#              ^ punctuation.definition.string.end.applescript
-#               ^^ meta.mapping.applescript
-#               ^ meta.mapping.applescript punctuation.separator.key-value.applescript
-#                 ^ meta.mapping.value.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
-#                  ^ meta.mapping.applescript punctuation.section.mapping.end.applescript
-{"one": 1, 2: "two"}
-#^^^^^ meta.mapping.key.applescript meta.string.applescript string.quoted.double.applescript
-#^ punctuation.definition.string.begin.applescript
-#    ^ punctuation.definition.string.end.applescript
+
+    {1, "two", 3}
+#   ^^^^^^^^^^^^^ meta.array.applescript
+#   ^ punctuation.section.array.begin.applescript
+#    ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#     ^ punctuation.separator.array.applescript
+#       ^^^^^ meta.string.applescript string.quoted.double.applescript
+#       ^ punctuation.definition.string.begin.applescript
+#           ^ punctuation.definition.string.end.applescript
+#            ^ punctuation.separator.array.applescript
+#              ^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#               ^ punctuation.section.array.end.applescript
+    {1: "one", "two": 2}
+#   ^ punctuation.section.mapping.begin.applescript
+#    ^ meta.mapping.key.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
 #     ^^ meta.mapping.applescript
 #     ^ meta.mapping.applescript punctuation.separator.key-value.applescript
-#       ^ meta.mapping.value.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
-#        ^^ meta.mapping.applescript
-#        ^ punctuation.separator.sequence.applescript
-#          ^ meta.mapping.key.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
-#           ^^ meta.mapping.applescript
-#           ^ meta.mapping.applescript punctuation.separator.key-value.applescript
-#             ^^^^^ meta.mapping.value.applescript meta.string.applescript string.quoted.double.applescript
-#             ^ punctuation.definition.string.begin.applescript
-#                 ^ punctuation.definition.string.end.applescript
-#                  ^ meta.mapping.applescript punctuation.section.mapping.end.applescript
+#       ^^^^^ meta.mapping.value.applescript meta.string.applescript string.quoted.double.applescript
+#       ^ punctuation.definition.string.begin.applescript
+#           ^ punctuation.definition.string.end.applescript
+#            ^^ meta.mapping.applescript
+#            ^ punctuation.separator.sequence.applescript
+#              ^^^^^ meta.mapping.key.applescript meta.string.applescript string.quoted.double.applescript
+#              ^ punctuation.definition.string.begin.applescript
+#                  ^ punctuation.definition.string.end.applescript
+#                   ^^ meta.mapping.applescript
+#                   ^ meta.mapping.applescript punctuation.separator.key-value.applescript
+#                     ^ meta.mapping.value.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#                      ^ meta.mapping.applescript punctuation.section.mapping.end.applescript
+    {"one": 1, 2: "two"}
+#   ^ punctuation.section.mapping.begin.applescript
+#    ^^^^^ meta.mapping.key.applescript meta.string.applescript string.quoted.double.applescript
+#    ^ punctuation.definition.string.begin.applescript
+#        ^ punctuation.definition.string.end.applescript
+#         ^^ meta.mapping.applescript
+#         ^ meta.mapping.applescript punctuation.separator.key-value.applescript
+#           ^ meta.mapping.value.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#            ^^ meta.mapping.applescript
+#            ^ punctuation.separator.sequence.applescript
+#              ^ meta.mapping.key.applescript meta.number.integer.decimal.applescript constant.numeric.value.applescript
+#               ^^ meta.mapping.applescript
+#               ^ meta.mapping.applescript punctuation.separator.key-value.applescript
+#                 ^^^^^ meta.mapping.value.applescript meta.string.applescript string.quoted.double.applescript
+#                 ^ punctuation.definition.string.begin.applescript
+#                     ^ punctuation.definition.string.end.applescript
+#                      ^ meta.mapping.applescript punctuation.section.mapping.end.applescript
 
-foo
-#^^ variable.other.readwrite.applescript
-|bar|
-#^^^^ variable.other.readwrite.applescript
-#   ^ punctuation.definition.variable.end.applescript
-|ba||z|
-#^^^^^^ variable.other.readwrite.applescript
-#  ^^ constant.character.escape.applescript
-#     ^ punctuation.definition.variable.end.applescript
+    foo
+#   ^^^ variable.other.readwrite.applescript
+    |bar|
+#   ^^^^^ variable.other.readwrite.applescript
+#   ^ punctuation.definition.variable.begin.applescript
+#       ^ punctuation.definition.variable.end.applescript
+    |ba||z|
+#   ^^^^^^^ variable.other.readwrite.applescript
+#   ^ punctuation.definition.variable.begin.applescript
+#      ^^ constant.character.escape.applescript
+#         ^ punctuation.definition.variable.end.applescript
 
 print page 1
 #^^^^ keyword.other.print.applescript
