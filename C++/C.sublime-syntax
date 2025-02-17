@@ -49,7 +49,7 @@ contexts:
     - include: preprocessor.line-escape
     - include: comment
 
-    - match: ^\s*#\s*((?:el)?if(?:n?def)?|undef|pragma)\b
+    - match: '{{dir_start}}((?:el)?if(?:n?def)?|undef|pragma)\b'
       scope: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
@@ -78,6 +78,9 @@ contexts:
     - match: '{{dir_start}}(warning)\b'
       scope: keyword.control.import.warning.c
       push: preprocessor.diagnostic
+
+    - match: '{{dir_start}}(?!\s*{{identifier}})'
+      scope: keyword.control.c
   preprocessor.line-escape:
     - match: \\$\n
       scope: punctuation.separator.continuation.c
@@ -212,9 +215,9 @@ contexts:
     - match: '{{identifier}}\b'
     - include: else-pop
   call.multi-line:
-    - match: '{{std_funcs}}'
-      scope: variable.function.c support.function.std.c
-    - match: '{{identifier}}'
+    - match: '\b{{std_funcs}}\b'
+      scope: support.function.std.c
+    - match: '\b{{identifier}}\b'
       scope: variable.function.c
     - match: \(
       scope: punctuation.section.group.begin.c
@@ -752,6 +755,9 @@ contexts:
   eol-pop:
     - match: $\n?
       pop: 1
+  pop-twice:
+    - match: ""
+      pop: 2
 
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b
