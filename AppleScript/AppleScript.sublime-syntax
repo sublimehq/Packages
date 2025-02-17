@@ -502,17 +502,50 @@ contexts:
         - include: expressions
 
   built-in.support:
-    - match: \b(?i:POSIX\s+path|frontmost|id|name|running|version|days?|weekdays?|months?|years?|time|date\s+string|time\s+string|length|rest|reverse|items?|contents|quoted\s+form|characters?|paragraphs?|words?)\b
+    - match: |-
+        \b(?xi:
+          frontmost | id | name | running | version | days? | weekdays?
+        | months? | years? | time | date \s+ string | time \s+ string | length
+        | rest | reverse | items? | contents | quoted \s+ form | characters?
+        | paragraphs? | words?
+        )\b
       scope: support.function.built-in.property.applescript
-    - match: \b(?i:activate|log|clipboard\s+info|set\s+the\s+clipboard\s+to|the\s+clipboard|info\s+for|list\s+(disks|folder)|mount\s+volume|path\s+to(\s+resource)?|close\s+access|get\s+eof|open\s+for\s+access|read|set\s+eof|write|open\s+location|current\s+date|do\s+shell\s+script|get\s+volume\s+settings|random\s+number|round|set\s+volume|system\s+(attribute|info)|time\s+to\s+GMT|load\s+script|run\s+script|scripting\s+components|store\s+script|copy|count|get|launch|run|set|ASCII\s+(character|number)|localized\s+string|offset|summarize|beep|choose\s+(application|color|file(\s+name)?|folder|from\s+list|remote\s+application|URL)|delay|display\s+(alert|dialog)|say)\b
+    - match: |-
+        \b(?xi:
+          activate | log | clipboard \s+ info | set \s+ the \s+ clipboard \s+ to
+        | the \s+ clipboard | info \s+ for | list \s+ (?: disks | folder )
+        | mount \s+ volume | path \s+ to (?:\s+ resource )?
+        | close \s+ access | get \s+ eof | open \s+ for \s+ access | read
+        | set \s+ eof | write | open \s+ location | current \s+ date
+        | do \s+ shell \s+ script | get \s+ volume \s+ settings
+        | random \s+ number | round | set \s+ volume
+        | system \s+ (?: attribute | info ) | time \s+ to \s+ GMT
+        | load \s+ script | run \s+ script | scripting \s+ components
+        | store \s+ script | copy | count | get | launch | run | set
+        | ASCII \s+ (?: character | number ) | localized \s+ string | offset
+        | summarize | beep | choose \s+(?: application | color | file (?:\s+ name)?
+          | folder | from \s+ list | remote \s+ application | URL )
+        | delay | display \s+(?: alert | dialog ) | say
+        )\b
       scope: support.function.built-in.command.applescript
     - match: \b(?i:get|run)\b
       scope: support.function.built-in.applescript
-    - match: \b(?i:anything|data|text|upper\s+case|propert(y|ies))\b
+    - match: \b(?i:anything|data|text|upper\s+case|propert(?:y|ies))\b
       scope: support.class.built-in.applescript
-    - match: \b(?i:alias|class)(es)?\b
+    - match: \b(?i:alias|class)(?:es)?\b
       scope: support.class.built-in.applescript
-    - match: \b(?i:app(lication)?|boolean|character|constant|date|event|file(\s+specification)?|handler|integer|item|keystroke|linked\s+list|list|machine|number|picture|preposition|POSIX\s+file|real|record|reference(\s+form)?|RGB\s+color|script|sound|text\s+item|type\s+class|vector|writing\s+code(\s+info)?|zone|((international|styled(\s+(Clipboard|Unicode))?|Unicode)\s+)?text|((C|encoded|Pascal)\s+)?string)s?\b
+    - match: |-
+        \b(?xi:
+          app (?:lication)? | boolean | character | constant | date | event
+        | file (?:\s+ specification )? | handler | integer | item | keystroke
+        | linked \s+ list | list | machine | number | picture | preposition
+        | POSIX \s+ file | real | record | reference (?:\s+ form )?
+        | RGB \s+ color | script | sound | text \s+ item | type \s+ class
+        | vector | writing \s+ code (?:\s+ info )? | zone
+        | (?:(?: international | styled (?:\s+ (?: Clipboard | Unicode ))?
+          | Unicode )\s+)? text
+        | (?:(?: C | encoded | Pascal )\s+)? string
+        )s?\b
       scope: support.class.built-in.applescript
     - match: |-
         \b(?ix:
