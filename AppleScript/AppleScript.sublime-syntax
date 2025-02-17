@@ -681,6 +681,8 @@ contexts:
         - meta_scope: variable.other.readwrite.applescript
         - match: \|\|
           scope: constant.character.escape.applescript
+        - match: \\.
+          scope: constant.character.escape.applescript
         - match: \|
           scope: punctuation.definition.variable.end.applescript
           pop: 1
