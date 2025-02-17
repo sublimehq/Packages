@@ -4811,3 +4811,60 @@ SET @@SESSION.max_join_size = @@GLOBAL.max_join_size;
 --                                    ^ punctuation.accessor.dot.sql
 --                                     ^^^^^^^^^^^^^ variable.other.member.mysql
 --                                                  ^ punctuation.terminator.statement.sql
+
+LOCK TABLES `some_table` WRITE;
+
+SET AUTOCOMMIT=0;
+SET foreign_key_checks = 0;
+
+-- https://dev.mysql.com/doc/refman/8.4/en/load-data.html
+LOAD DATA /*LOCAL*/ INFILE "/var/lib/mysql-files/some_pipe_delimited_file.txt"
+-- ^^^^^^ keyword.other.dml.mysql
+--        ^^^^^^^^^ comment.block.sql
+--        ^^ punctuation.definition.comment.begin.sql
+--               ^^ punctuation.definition.comment.end.sql
+--                  ^^^^^^ keyword.other.dml.mysql
+--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.filepath.mysql
+--                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
+--                         ^ punctuation.definition.string.begin.sql
+--                                                                           ^ punctuation.definition.string.end.sql
+IGNORE
+-- ^^^ storage.modifier.mysql
+    INTO TABLE some_table
+--  ^^^^^^^^^^ keyword.other.dml.mysql
+--             ^^^^^^^^^^ meta.table-name.sql
+COLUMNS TERMINATED BY '|'
+-- ^^^^ storage.modifier.mysql
+--      ^^^^^^^^^^^^^ keyword.other.dml.mysql
+--                    ^^^ meta.string.sql string.quoted.single.sql
+--                    ^ punctuation.definition.string.begin.sql
+--                      ^ punctuation.definition.string.end.sql
+OPTIONALLY ENCLOSED BY '"'
+-- ^^^^^^^^^^^^^^^^^^^ keyword.other.dml.mysql
+--                     ^^^ meta.string.sql string.quoted.single.sql
+--                     ^ punctuation.definition.string.begin.sql
+--                       ^ punctuation.definition.string.end.sql
+ESCAPED BY '"'
+-- ^^^^^^^ keyword.other.dml.mysql
+--         ^^^ meta.string.sql string.quoted.single.sql
+--         ^ punctuation.definition.string.begin.sql
+--           ^ punctuation.definition.string.end.sql
+LINES TERMINATED BY '\n'
+-- ^^ storage.modifier.mysql
+--    ^^^^^^^^^^^^^ keyword.other.dml.mysql
+--                  ^^^^ meta.string.sql string.quoted.single.sql
+--                  ^ punctuation.definition.string.begin.sql
+--                   ^^ constant.character.escape.sql
+--                     ^ punctuation.definition.string.end.sql
+IGNORE 1 LINES;
+-- ^^^ storage.modifier.mysql
+--     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--       ^^^^^ storage.modifier.mysql
+--            ^ punctuation.terminator.statement.sql
+
+COMMIT;
+UNLOCK TABLES;
+
+show open tables where in_use>0;
+show processlist;
+SHOW ENGINE INNODB STATUS;

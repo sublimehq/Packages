@@ -607,6 +607,9 @@ contexts:
       scope: keyword.other.dml.sql
     - match: \b(?i:on\s+duplicate\s+key)\b
       scope: keyword.other.dml.sql
+    - match: \b(?i:load\s+data)\b
+      scope: keyword.other.dml.mysql
+      push: dml-load-data
 
   join-expressions:
     # https://mariadb.com/kb/en/join-syntax
@@ -621,6 +624,45 @@ contexts:
     - match: \b(?i:using)\b
       scope: keyword.other.dml.sql
       set: maybe-column-name-list
+
+###[ DML LOAD STATEMENTS ]#####################################################
+  dml-load-data:
+    - match: \b(?i:low_priority|concurrent|local)\b
+      scope: storage.modifier.mysql
+    - match: \b(?i:infile)\b
+      scope: keyword.other.dml.mysql
+      set:
+        - dml-load-data-after-infile
+        - meta-filepath
+        - single-string
+
+  dml-load-data-after-infile:
+    - match: \b(?i:ignore|replace)\b
+      scope: storage.modifier.mysql
+    - match: \b(?i:into\s+table)\b
+      scope: keyword.other.dml.mysql
+      push:
+        - maybe-partition
+        - expect-table-name
+    - match: \b(?i:character\s+set)\b
+      scope: storage.modifier.mysql
+      push: charset
+    - match: \b(?i:fields|columns|lines)\b
+      scope: storage.modifier.mysql
+    - match: \b(?i:(optionally\s+)?(?:terminated|enclosed|escaped|starting)\s+by)\b
+      scope: keyword.other.dml.mysql
+      push: single-string
+    - include: numbers
+    - match: (?=;)
+      pop: 1
+
+  meta-filepath:
+    - meta_content_scope: meta.filepath.mysql
+    - include: immediately-pop
+
+  single-string:
+    - include: strings
+    - include: else-pop
 
 ###[ DML SET STATEMENTS ]######################################################
 
