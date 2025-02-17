@@ -57,19 +57,21 @@ contexts:
           fail: try-template
 
   call:
-    - match: \b({{std_funcs}})\s*(\()
-      captures:
-        1: variable.function.c support.function.std.c
-        2: punctuation.section.group.begin.c
-      push: enclosure.parenthesis
-    - match: \b({{identifier}})\s*(\()
-      captures:
-        1: variable.function.c
-        2: punctuation.section.group.begin.c
-      push: enclosure.parenthesis
-    - match: \b(?={{identifier}}\s*($|<))
-      branch_point: not-call
-      branch: [call.not-call, call.multi-line]
+    - meta_prepend: true
+    - match: \b(?={{identifier}}\s*<)
+      branch_point: template-call
+      branch: [call.template-call, qualified-ident]
+  call.template-call:
+    - match: \b{{identifier}}\b
+      scope: entity.name.function.cpp
+      set: call.template-call.body
+  call.template-call.body:
+    - include: template
+    - match: \(
+      scope: punctuation.section.group.begin.cpp
+      set: enclosure.parenthesis
+    - match: (?=\S)
+      fail: template-call
   call.multi-line:
     - meta_prepend: true
     - include: template
@@ -80,7 +82,7 @@ contexts:
     - include: template
 
   type:
-    - meta_append: true
+    - meta_prepend: true
     - match: \bnamespace\b
       scope: keyword.declaration.namesace.cpp
       branch_point: namespace
@@ -93,6 +95,9 @@ contexts:
     - match: \busing\b
       scope: keyword.declaration.cpp
       push: type.using
+    - match: \bclass\b
+      scope: keyword.declaration.cpp
+      push: class
   type.namespace:
     - meta_scope: meta.namespace.cpp
     - match: (?={{qualified}})
@@ -118,6 +123,76 @@ contexts:
       push: qualified-ident
     - include: else-pop
 
+  class:
+    - match: ({{identifier}})(?=\s*;)
+      scope: entity.name.class.forward-declare.cpp
+      pop: 1
+    - match: (?={{identifier}})
+      set: [class.body-start, class.inherit, class.final, class.name, class.likely-macro]
+  class.likely-macro:
+    - match: '{{likely_macro}}'
+    - include: else-pop
+  class.name:
+    - match: ({{identifier}})
+      scope: entity.name.class.cpp
+      set:
+        - include: qualified-ident
+        - include: else-pop
+    - include: else-pop
+  class.final:
+    - match: \bfinal(?!\s*;)\b
+      scope: storage.modifier.cpp
+    - include: else-pop
+  class.inherit:
+    - match: ':'
+      scope: punctuation.separator.inheritance.cpp
+      push: class.inherit.body
+    - include: else-pop
+  class.inherit.body:
+    - include: keyword.storage
+    - include: punctuation.comma
+    - match: (?={{qualified}})
+      push:
+        - meta_scope: entity.other.inherited-class.cpp
+        - include: qualified-ident
+    - include: else-pop
+  class.body-start:
+    - match: \{
+      scope: punctuation.section.block.begin.cpp
+      set: class.body
+    - include: else-pop
+  class.body:
+    - meta_scope: meta.block.cpp meta.class.cpp
+    - include: expression-identifiers
+    - match: ({{identifier}})\s*(\()
+      captures:
+        1: entity.name.function.constructor.cpp
+        2: punctuation.section.group.begin.c
+      push: [constructor.tail, function.params]
+    - match: (\~{{identifier}})\s*(\()
+      captures:
+        1: entity.name.function.destructor.cpp
+        2: punctuation.section.group.begin.c
+      push: [function.tail, function.params]
+    - include: function
+    - include: expression
+    #- include: enclosure.block
+
+  constructor.tail:
+    - match: ':'
+      scope: punctuation.separator.initializer-list.begin.cpp
+      push: constructor.initializer-list
+    - include: function.tail
+  constructor.initializer-list:
+    - meta_scope: meta.method.constructor.initializer-list.cpp
+    - match: \b{{identifier}}\b
+      scope: variable.other.readwrite.member.cpp
+    - include: template
+    - match: \(
+      scope: punctuation.section.group.begin.c
+      set: enclosure.parenthesis
+    - include: else-pop
+
   qualified-ident:
     - match: (::)
       scope: punctuation.separator.qualifier.cpp
@@ -129,7 +204,8 @@ contexts:
       scope: punctuation.separator.qualifier.cpp
       pop: 1
     - include: template
-    - include: else-pop
+    - match: (?=\S)
+      pop: 2
 
   template:
     - match: (?=<([^<]|$))
@@ -172,6 +248,8 @@ contexts:
       scope: keyword.declaration.type.cpp
   keyword.storage:
     - meta_prepend: true
+    - match: '\b(private|protected|public):'
+      scope: storage.modifier.cpp
     - match: \b(const(expr|eval|init)|explicit|mutable|private|protected|public|virtual)\b
       scope: storage.modifier.cpp
   keyword.control:
