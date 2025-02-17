@@ -453,10 +453,12 @@ contexts:
         - include: main
 
   operators:
-    - match: (?:&|\*|\+|-|/|÷|\^)
+    - match: (?:\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
     - match: \b(?i:div|mod)\b
       scope: keyword.operator.arithmetic.applescript
+    - match: \&
+      scope: keyword.operator.concatenation.applescript
 
     - match: \b(?i:and|or|not)\b
       scope: keyword.operator.logical.applescript
