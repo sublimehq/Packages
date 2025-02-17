@@ -626,6 +626,7 @@ contexts:
       set: maybe-column-name-list
 
 ###[ DML LOAD STATEMENTS ]#####################################################
+
   dml-load-data:
     - match: \b(?i:low_priority|concurrent|local)\b
       scope: storage.modifier.mysql
