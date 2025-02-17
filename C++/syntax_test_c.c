@@ -965,7 +965,7 @@
 //                                       ^ punctuation.section.group.begin.c 
 //                                        ^^^^^^^^ meta.function.c 
 //                                        ^ punctuation.section.group.end.c 
-//                                          ^^^^^ constant.other.c 
+//                                          ^^^^^ storage.modifier.c 
     __declspec(property(get=10, put=10)) void runForever();
 //  ^^^^^^^^^^ storage.modifier.c 
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c 
@@ -1127,7 +1127,8 @@
     #pragma FOO
 //^^^^^^^^^^^^^ meta.preprocessor.c 
 //^^^^^^^^^ keyword.control.import.c 
-
+    #
+//  ^ keyword.control.c
     #embed "file.txt" if_empty(0)
 //^^^^^^^^ keyword.control.import.c 
 //         ^^^^^^^^^^ string.quoted.double.c 

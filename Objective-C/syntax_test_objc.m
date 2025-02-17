@@ -548,6 +548,21 @@
 //                           ^ punctuation.definition.string.end.c 
 //                            ^ punctuation.section.group.end 
 //                             ^ punctuation.terminator.c 
+        
+        printf
+//^^^^^^^^^^^^ meta.function.c meta.block.c
+//      ^^^^^^ variable.function.c
+            (1, 2, 3);
+//^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//          ^^^^^^^^^ meta.group.c
+//          ^ punctuation.section.group.begin.c
+//           ^ meta.number.integer.decimal.c constant.numeric.value.c
+//            ^ punctuation.separator.c
+//              ^ meta.number.integer.decimal.c constant.numeric.value.c
+//               ^ punctuation.separator.c
+//                 ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                  ^ punctuation.section.group.end
+//                   ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c 
 //  ^ punctuation.section.block.end.c 
@@ -950,7 +965,7 @@
 //                                       ^ punctuation.section.group.begin.c 
 //                                        ^^^^^^^^ meta.function.c 
 //                                        ^ punctuation.section.group.end.c 
-//                                          ^^^^^ constant.other.c 
+//                                          ^^^^^ storage.modifier.c 
     __declspec(property(get=10, put=10)) void runForever();
 //  ^^^^^^^^^^ storage.modifier.c 
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c 
@@ -1112,7 +1127,8 @@
     #pragma FOO
 //^^^^^^^^^^^^^ meta.preprocessor.c 
 //^^^^^^^^^ keyword.control.import.c 
-
+    #
+//  ^ keyword.control.c
     #embed "file.txt" if_empty(0)
 //^^^^^^^^ keyword.control.import.c 
 //         ^^^^^^^^^^ string.quoted.double.c 

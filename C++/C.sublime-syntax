@@ -246,7 +246,7 @@ contexts:
 
     - match: (?={{identifier}}\s*(?![\[,\)]|$))
       push:
-        - match: \s
+        - match: \b
           set: function.params.name
         - include: expression
     - include: expression
@@ -268,7 +268,6 @@ contexts:
     - meta_scope: meta.function.c
     - match: ;
       pop: 1
-    - include: gnu-attribute
     - match: \{
       scope: punctuation.section.block.begin
       set: function.body
@@ -761,7 +760,7 @@ contexts:
 
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b
-  likely_macro: \b[:upper:][[:upper:][:digit:]_]+\b
+  likely_macro: \b[[:upper:]][[:upper:][:digit:]_]+\b
 
   bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
