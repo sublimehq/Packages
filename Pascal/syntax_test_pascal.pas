@@ -77,6 +77,35 @@
 //^^^^ meta.number.float.decimal.pascal constant.numeric.value.pascal
 //  ^ punctuation.separator.decimal.pascal
 
+  t1 := t2;
+//   ^^ keyword.operator.assignment.pascal
+//        ^ punctuation.terminator.pascal
+
+  t1 := t2 + 1 - 2 * 3 / 4 % 5;
+//   ^^ keyword.operator.assignment.pascal
+//         ^ keyword.operator.arithmetic.pascal
+//           ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//             ^ keyword.operator.arithmetic.pascal
+//               ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//                 ^ keyword.operator.arithmetic.pascal
+//                   ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//                     ^ keyword.operator.arithmetic.pascal
+//                       ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//                         ^ keyword.operator.arithmetic.pascal
+//                           ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//                            ^ punctuation.terminator.pascal
+
+  true and true xor false not false or true
+//^^^^ constant.language.boolean.true.pascal
+//     ^^^ keyword.operator.logical.pascal
+//         ^^^^ constant.language.boolean.true.pascal
+//              ^^^ keyword.operator.logical.pascal
+//                  ^^^^^ constant.language.boolean.false.pascal
+//                        ^^^ keyword.operator.logical.pascal
+//                            ^^^^^ constant.language.boolean.false.pascal
+//                                  ^^ keyword.operator.logical.pascal
+//                                     ^^^^ constant.language.boolean.true.pascal
+
 // comment
 procedure foo;
 // ^ meta.function.pascal keyword.declaration.function
