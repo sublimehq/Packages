@@ -172,7 +172,9 @@ contexts:
     - include: keyword.control-flow
     - include: keyword.control
     - match: (?=^{{identifier}}\s+{{identifier}}\s*\()
-      set: function
+      push:
+        - include: function
+        - include: else-pop
     - include: number
     - include: string
     - include: type

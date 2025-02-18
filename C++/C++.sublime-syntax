@@ -30,9 +30,16 @@ first_line_match: |-
 
 contexts:
   function:
+    - match: \b(operator)\s*([<>=+\-*/%&|^!]=?|[+\-&|<>]{2}|<<=|>>=|<=>|~|->\*?|\(\)|\[\])\s*(\()
+      captures:
+        1: keyword.operator.c++
+        2: entity.name.function.c++
+        3: punctuation.section.group.begin.c++
+      push: [function.tail, function.params]
+
     - include: expression-identifiers
     - include: operator.pointer
-    - match: ({{identifier}})\s*(\()
+    - match: (~?{{identifier}})\s*(\()
       captures:
         1: entity.name.function.c++
         2: punctuation.section.group.begin.c++
@@ -86,11 +93,40 @@ contexts:
       pop: 1
     - include: expression
 
+  function.tail:
+    - meta_prepend: true
+    - match: \b(override|final|noexcept)\b
+      scope: storage.modifier.c++
+    - match: ':'
+      scope: punctuation.separator.initializer-list.begin.c++
+      push: constructor.initializer-list
+  constructor.initializer-list:
+    - meta_scope: meta.method.constructor.initializer-list.c++
+    - match: \b{{identifier}}\b
+      scope: variable.other.readwrite.member.c++
+      push: constructor.initializer-list.body
+    - include: punctuation.comma
+    - include: else-pop
+  constructor.initializer-list.body:
+    - include: template
+    - match: \(
+      scope: punctuation.section.group.begin.c++
+      set: enclosure.parenthesis
+    - match: \{
+      scope: punctuation.section.block.begin.c++
+      set: enclosure.block
+    - include: else-pop
+
   call:
     - meta_prepend: true
     - match: \b(?={{identifier}}\s*<)
       branch_point: template-call
       branch: [call.template-call, qualified-ident]
+    - match: (~{{identifier}})\s*(\()
+      captures:
+        1: variable.function.c
+        2: punctuation.section.group.begin.c
+      push: enclosure.parenthesis
   call.template-call:
     - match: \b{{identifier}}\b
       scope: entity.name.function.c++
@@ -144,6 +180,9 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.c++
       push: [pop-twice, enclosure.block]
+    - match: =
+      scope: keyword.operator.assignment.c++
+      pop: 1
     - match: (?=\S)
       fail: namespace
   type.using:
@@ -222,9 +261,12 @@ contexts:
   class.name.body:
     - match: ({{identifier}})
       scope: entity.name.class.c++
-      push:
+      set:
         - include: template
-        - include: else-pop
+        - match: (::)
+          fail: class-name
+        - match: (?=\S)
+          pop: 2
     - match: (::)
       fail: class-name
     - include: else-pop
@@ -253,52 +295,28 @@ contexts:
     - include: else-pop
   class.body:
     - meta_scope: meta.block.c++ meta.class.c++
-    - include: expression-identifiers
-    - match: ({{identifier}})\s*(\()
-      captures:
-        1: entity.name.function.constructor.c++
-        2: punctuation.section.group.begin.c++
-      push: [constructor.tail, function.params]
-    - match: (\~{{identifier}})\s*(\()
-      captures:
-        1: entity.name.function.destructor.c++
-        2: punctuation.section.group.begin.c++
-      push: [function.tail, function.params]
     - include: function
     - include: expression
     - include: enclosure.block
 
-  constructor.tail:
-    - match: ':'
-      scope: punctuation.separator.initializer-list.begin.c++
-      push: constructor.initializer-list
-    - include: function.tail
-  constructor.initializer-list:
-    - meta_scope: meta.method.constructor.initializer-list.c++
-    - match: \b{{identifier}}\b
-      scope: variable.other.readwrite.member.c++
-    - include: template
-    - match: \(
-      scope: punctuation.section.group.begin.c++
-      set: enclosure.parenthesis
-    - include: else-pop
-
   qualified-ident:
+    - match: \btypename\b
+      scope: storage.modifier.c++
     - match: (::)
-      scope: punctuation.separator.qualifier.c++
+      scope: punctuation.accessor.double-colon.c++
     - match: '{{identifier}}'
       push: qualified-ident.body
     - include: else-pop
   qualified-ident.body:
     - match: (::)
-      scope: punctuation.separator.qualifier.c++
+      scope: punctuation.accessor.double-colon.c++
       pop: 1
     - include: template
     - match: (?=\S)
       pop: 2
 
   template:
-    - match: (?=<([^<]|$))
+    - match: (?=<([^<=]|$))
       branch_point: template
       branch: [try-template, template.fail]
   try-template:
@@ -328,7 +346,7 @@ contexts:
 
   keyword:
     - meta_append: true
-    - match: \b(export|friend|operator|noexcept)\b
+    - match: \b(export|friend|operator)\b
       scope: keyword.other.c++
   keyword.type:
     - meta_prepend: true
@@ -338,9 +356,9 @@ contexts:
       scope: keyword.declaration.type.c++
   keyword.storage:
     - meta_prepend: true
-    - match: '\b(private|protected|public):'
+    - match: '\b(private|protected|public)\s*:'
       scope: storage.modifier.c++
-    - match: \b(const(expr|eval|init)|explicit|mutable|private|protected|public|virtual|typename)\b
+    - match: \b(const(expr|eval|init)|explicit|mutable|private|protected|public|virtual|typename|alignas)\b
       scope: storage.modifier.c++
   keyword.control:
     - meta_prepend: true
@@ -360,21 +378,20 @@ contexts:
       scope: variable.language.c++
     - match: \bm_[[:alpha:]_$][[:alnum:]_$]*\b
       scope: variable.other.readwrite.member.c++
-    - match: \bs_[[:alpha:]_$][[:alnum:]_$]*\b
-      scope: support.constant.c++
 
   punctuation:
     - meta_prepend: true
     - include: punctuation.qualifier
   punctuation.qualifier:
     - match: (::)
-      scope: punctuation.separator.qualifier.c++
+      scope: punctuation.accessor.double-colon.c++
 
   keyword.operator: # needs precedence over the < comparison
     - meta_prepend: true
     - include: template
   operator.bitwise:
-    - meta_append: true
+    - match: \&|\||\^|~(?!{{identifier}}\s*\()|<<|>>
+      scope: keyword.operator.bitwise.c
     - match: \b(bit(and|or)|compl)\b
       scope: keyword.operator.bitwise.c++
     - match: \bxor(_eq)\b
@@ -385,12 +402,16 @@ contexts:
       scope: keyword.operator.logical.c++
   operator.word:
     - meta_prepend: true
-    - match: \b((const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid)\b
+    - match: \b((const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid|noexcept)\b
       scope: keyword.operator.word.c++
   operator.variadic:
     - meta_prepend: true
     - match: '{{identifier}}\.\.\.'
       scope: variable.other.member.c++
+  operator.comparison:
+    - meta_prepend: true
+    - match: <=>
+      scope: keyword.operator.comparison.c++
 
   string:
     - meta_prepend: true
