@@ -318,6 +318,8 @@ contexts:
       pop: 1
     - match: ; # Fallback
       pop: 1
+    - match: (?=\)) # Macro fallback
+      pop: 1
     - include: expression
   type.enum:
     - meta_scope: meta.enum.c
