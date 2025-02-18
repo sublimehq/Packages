@@ -15,6 +15,68 @@
   nil
 //^^^ constant.language.null.pascal
 
+  "double string \" with escape"
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.pascal
+//^ punctuation.definition.string.begin.pascal
+//               ^^ constant.character.escape.pascal
+//                             ^ punctuation.definition.string.end.pascal
+
+  'single string '' with escape'
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//^ punctuation.definition.string.begin.pascal
+//               ^^ constant.character.escape.apostrophe.pascal
+//                             ^ punctuation.definition.string.end.pascal
+
+  0xdeadbeef
+//^^^^^^^^^^ meta.number.integer.hexadecimal.pascal
+//^^ constant.numeric.base.pascal
+//  ^^^^^^^^ constant.numeric.value.pascal
+
+  10f
+//^^^ meta.number.float.decimal.pascal
+//^^ constant.numeric.value.pascal
+//  ^ constant.numeric.suffix.pascal
+
+  10
+//^^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+
+  10ul
+//^^^^ meta.number.integer.decimal.pascal
+//^^ constant.numeric.value.pascal
+//  ^^ constant.numeric.suffix.pascal
+
+  10.ul
+//^^^^^ meta.number.integer.decimal.pascal
+//^^^ constant.numeric.value.pascal
+//  ^ punctuation.separator.decimal.pascal
+//   ^^ constant.numeric.suffix.pascal
+
+  10.0ul
+//^^^^^^ meta.number.integer.decimal.pascal
+//^^^^ constant.numeric.value.pascal
+//  ^ punctuation.separator.decimal.pascal
+//    ^^ constant.numeric.suffix.pascal
+
+  10.
+//^^^ meta.number.float.decimal.pascal constant.numeric.value.pascal
+//  ^ punctuation.separator.decimal.pascal
+
+  10.f
+//^^^^ meta.number.float.decimal.pascal
+//^^^ constant.numeric.value.pascal
+//  ^ punctuation.separator.decimal.pascal
+//   ^ constant.numeric.suffix.pascal
+
+  10.0f
+//^^^^^ meta.number.float.decimal.pascal
+//^^^^ constant.numeric.value.pascal
+//  ^ punctuation.separator.decimal.pascal
+//    ^ constant.numeric.suffix.pascal
+
+  10.0
+//^^^^ meta.number.float.decimal.pascal constant.numeric.value.pascal
+//  ^ punctuation.separator.decimal.pascal
+
 // comment
 procedure foo;
 // ^ meta.function.pascal keyword.declaration.function

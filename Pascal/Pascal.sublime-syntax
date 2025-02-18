@@ -262,36 +262,36 @@ contexts:
       captures:
         1: constant.numeric.value.pascal
         2: constant.numeric.suffix.pascal
-    - match: \b(?i:([0-9]+)(u?l?l?))\b
-      scope: meta.number.integer.decimal.pascal
-      captures:
-        1: constant.numeric.value.pascal
-        2: constant.numeric.suffix.pascal
     - match: |-
         \b(?xi:
-          [0-9]+\.             # float without int cast
-          (\B|(?:[0-9]*)
-            (?:e[+-]?[0-9]+)?
-            (?!l|ull)
-            (f)?\b
-          )
-        )
-      scope: meta.number.float.decimal.pascal
-      captures:
-        1: constant.numeric.value.pascal
-        2: constant.numeric.suffix.pascal
-    - match: |-
-        \b(?xi:
-          (
-            [0-9]+\.(?:[0-9]*)  # coerced int
-            (?:e[+-]?[0-9]+)?
-          )
-          (l|ull)
+          ([0-9]+(?:(\.)[0-9]*)?)  # coerced int
+          (e[+-]?[0-9]+)?
+          (l|ull?)
         )\b
       scope: meta.number.integer.decimal.pascal
       captures:
         1: constant.numeric.value.pascal
+        2: punctuation.separator.decimal.pascal
+        3: constant.numeric.value.exponent.pascal
+        4: constant.numeric.suffix.pascal
+    - match: \b(?i:([0-9]+)(u?l?l?)(?!\.))\b
+      scope: meta.number.integer.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
         2: constant.numeric.suffix.pascal
+    - match: |-
+        \b(?xi:
+          ([0-9]+(?:(\.)[0-9]*)?)        # float without int cast
+          (e[+-]?[0-9]+)?
+          (?!l|ull)
+          (f)?
+        )
+      scope: meta.number.float.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: punctuation.separator.decimal.pascal
+        3: constant.numeric.value.exponent.pascal
+        4: constant.numeric.suffix.pascal
 
   strings:
     # Double quoted strings are an extension and (generally) support C-style escape sequences.
