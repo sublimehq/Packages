@@ -251,7 +251,18 @@ contexts:
     - match: \b(?:nil)\b
       scope: constant.language.null.pascal
 
+  # https://www.freepascal.org/docs-html/ref/refse6.html
   numerics:
+    - match: (%)([01]+)
+      scope: meta.number.integer.binary.pascal
+      captures:
+        1: constant.numeric.base.pascal
+        2: constant.numeric.value.pascal
+    - match: (&)([0-7]+)
+      scope: meta.number.integer.octal.pascal
+      captures:
+        1: constant.numeric.base.pascal
+        2: constant.numeric.value.pascal
     - match: \b(?i:(0x)(\h+))\b
       scope: meta.number.integer.hexadecimal.pascal
       captures:

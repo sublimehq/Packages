@@ -66,6 +66,16 @@
 //^^ constant.numeric.base.pascal
 //  ^^^^^^^^ constant.numeric.value.pascal
 
+  &16
+//^^^ meta.number.integer.octal.pascal
+//^ constant.numeric.base.pascal
+// ^^ constant.numeric.value.pascal
+
+  %10001
+//^^^^^^ meta.number.integer.binary.pascal
+//^ constant.numeric.base.pascal
+// ^^^^^ constant.numeric.value.pascal
+
   10f
 //^^^ meta.number.float.decimal.pascal
 //^^ constant.numeric.value.pascal
