@@ -16,6 +16,8 @@ first_line_match: |-
 
 
 contexts:
+  prototype:
+    - include: comments
 
   main:
     - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
@@ -32,22 +34,6 @@ contexts:
       scope: storage.modifier.pascal
     - match: '{{keyword}}|{{reserved_word}}|{{modifier}}'
       scope: keyword.control.pascal
-
-  statements:
-    - include: comments
-    - include: blocks
-    - include: keywords
-    - include: numerics
-    - include: constants
-    - include: operators
-    - include: strings
-    - include: flow
-    # - match: '({{identifier_real}})(\.)'
-
-    # - include: function-call-no-arg
-    - include: function-call
-    - match: ;
-      scope: punctuation.terminator.pascal
 
   # function-call-no-arg:
   #   - match: '({{identifier}})(;)'
@@ -249,7 +235,16 @@ contexts:
     - match: \^
       scope: keyword.operator.pointer.pascal
 
+  identifiers:
+    - match: '{{identifier}}'
+    - match: '&{{reserved_word}}'
+
 ###[ LITERALS ]################################################################
+
+  literals:
+    - include: constants
+    - include: numerics
+    - include: strings
 
   constants:
     - match: \b(?:true)\b
@@ -384,9 +379,33 @@ contexts:
 
 ###[ PROTOTYPE ]###############################################################
 
+  expressions:
+    - include: literals
+    - include: operators
+    - include: keywords
+    - include: terminator
+
+  statements:
+    - include: blocks
+    - include: literals
+    - include: flow
+    - include: expressions
+    # - match: '({{identifier}})(\.)'
+    # - include: function-call-no-arg
+    - include: function-call
+
   comma-separator:
     - match: ','
       scope: punctuation.separator.sequence.pascal
+
+  terminator:
+    - match: ;
+      scope: punctuation.terminator.pascal
+
+  pop-terminator:
+    - match: ;
+      scope: punctuation.terminator.pascal
+      pop: 1
 
   pop-eol:
     - match: $\n?
