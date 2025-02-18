@@ -45,11 +45,56 @@ variables:
   # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
   reserved_word: |-
     (?x:
-      break|case|catch|class|const|continue|debugger|default|delete|do|else|
-      export|extends|finally|for|function|if|import|in|instanceof|new|return|
-      super|switch|this|throw|try|typeof|var|void|while|with|yield|
-      enum|
-      null|true|false
+      # standard mode
+        break
+      | case
+      | catch
+      | class
+      | const
+      | continue
+      | debugger
+      | default
+      | delete
+      | do
+      | else
+      | export
+      | extends
+      | false
+      | finally
+      | for
+      | function
+      | if
+      | import
+      | in
+      | instanceof
+      | new
+      | null
+      | return
+      | super
+      | switch
+      | this
+      | throw
+      | true
+      | try
+      | typeof
+      | var
+      | void
+      | while
+      | with
+      # strict mode
+      # | let  # currently allowed as variable
+      | static
+      | yield
+      # async code
+      | await
+      # future reserved words
+      | enum
+      | implements
+      | interface
+      | package
+      | private
+      | protected
+      | public
     ){{identifier_break}}
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier_name}})
@@ -1586,6 +1631,7 @@ contexts:
       set:
         - class-meta
         - class-body
+        - class-implements
         - class-extends
         - class-name
 
@@ -1643,6 +1689,12 @@ contexts:
       set:
         - inherited-class-expression-end
         - inherited-class-expression-begin
+    - include: else-pop
+
+  class-implements:
+    - match: implements{{identifier_break}}
+      scope: invalid.illegal.unexpected-token.js
+      pop: 1
     - include: else-pop
 
   inherited-class-name:
