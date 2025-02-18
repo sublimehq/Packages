@@ -9,6 +9,20 @@ extends: Packages/HTML/HTML.sublime-syntax
 
 file_extensions:
   - asp
+  - asa
+
+variables:
+
+  jscript_lang: |-
+    (?ix: js | jscript )
+
+  vbscript_lang: |-
+    (?xi: vb | vbscript )
+
+  vbscript_mime_type: |-
+    (?xi: (?: (?:application|text) / )? vbscript )
+
+  tag_name_start: (?:[A-Za-z]|<%)
 
 contexts:
 
@@ -18,6 +32,64 @@ contexts:
     - meta_prepend: true
     - include: asp-tags
 
+  cdata-content:
+    - meta_prepend: true
+    - include: asp-interpolations
+
+  tag-event-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.js.embedded.asp
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.js.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html
+           punctuation.definition.string.end.html
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.js.embedded.asp
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.js.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html
+           punctuation.definition.string.end.html
+    - include: else-pop
+
+  tag-style-attribute-value:
+    - match: \"
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.css.embedded.asp#rule-list-body
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.css.embedded.html
+      escape: \"
+      escape_captures:
+        0: meta.string.html string.quoted.double.html
+           punctuation.definition.string.end.html
+    - match: \'
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
+      embed: scope:source.css.embedded.asp#rule-list-body
+      embed_scope:
+        meta.string.html meta.interpolation.html
+        source.css.embedded.html
+      escape: \'
+      escape_captures:
+        0: meta.string.html string.quoted.single.html
+           punctuation.definition.string.end.html
+    - include: else-pop
+
   tag-attribute-value-content:
     - meta_prepend: true
     - include: asp-interpolations
@@ -26,16 +98,180 @@ contexts:
     - meta_prepend: true
     - include: asp-interpolations
 
+###[ SCRIPT TAGS ]############################################################
+
+  script-common:
+    - meta_prepend: true
+    - include: script-lang-attribute
+
+  script-lang-attribute:
+    - match: (?i:lang(?:uage)?){{attribute_name_break}}
+      scope: meta.attribute-with-value.lang.html entity.other.attribute-name.html
+      set: script-lang-attribute-assignment
+
+  script-lang-attribute-assignment:
+    - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.lang.html
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: script-lang-attribute-value
+    - match: (?=\S)
+      set: script-vbscript
+
+  script-lang-attribute-value:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.lang.html
+    - include: script-lang-decider
+
+  script-lang-decider:
+    - match: (?={{jscript_lang}}{{unquoted_attribute_break}}|'{{jscript_lang}}'|"{{jscript_lang}}")
+      set:
+        - script-javascript
+        - tag-lang-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?={{vbscript_lang}}{{unquoted_attribute_break}}|'{{vbscript_lang}}'|"{{vbscript_lang}}")
+      set:
+        - script-vbscript
+        - tag-lang-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=>|''|"")
+      set:
+        - script-vbscript
+        - tag-lang-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=\S)
+      set:
+        - script-other
+        - tag-lang-attribute-meta
+        - tag-generic-attribute-value
+
+  tag-lang-attribute-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute-with-value.lang.html
+    - include: immediately-pop
+
+  script-type-decider:
+    - meta_prepend: true
+    - match: (?={{vbscript_mime_type}}{{unquoted_attribute_break}}|'{{vbscript_mime_type}}'|"{{vbscript_mime_type}}")
+      set:
+        - script-vbscript
+        - tag-type-attribute-meta
+        - tag-generic-attribute-value
+
+  script-javascript-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.embedded.asp
+      embed_scope: meta.tag.sgml.cdata.html source.js.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.js.embedded.asp
+      embed_scope: source.js.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.js.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.js.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  script-json-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.embedded.asp
+      embed_scope: meta.tag.sgml.cdata.html source.json.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.json.embedded.asp
+      embed_scope: source.json.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.json.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.json.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+  script-vbscript:
+    - meta_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set: script-vbscript-content
+
+  script-vbscript-content:
+    - meta_include_prototype: false
+    - match: '{{script_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.asp
+      embed_scope: source.asp.embedded.html
+      escape: '{{script_content_end}}'
+      escape_captures:
+        1: source.asp.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.asp.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
+###[ STYLE TAGS ]#############################################################
+
+  style-css-content:
+    - meta_include_prototype: false
+    - match: \s*((<!\[)(CDATA)(\[))
+      captures:
+        1: meta.tag.sgml.cdata.html
+        2: punctuation.definition.tag.begin.html
+        3: keyword.declaration.cdata.html
+        4: punctuation.definition.tag.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.embedded.asp
+      embed_scope: meta.tag.sgml.cdata.html source.css.embedded.html
+      escape: \]\]>
+      escape_captures:
+        0: meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+    - match: '{{style_content_begin}}'
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+      pop: 1  # make sure to match only once
+      embed: scope:source.css.embedded.asp
+      embed_scope: source.css.embedded.html
+      escape: '{{style_content_end}}'
+      escape_captures:
+        1: source.css.embedded.html
+        2: comment.block.html punctuation.definition.comment.end.html
+        3: source.css.embedded.html
+        4: comment.block.html punctuation.definition.comment.end.html
+
 ###[ ASP TAGS ]###############################################################
 
   asp-tags:
     - match: <%
-      scope: punctuation.section.embedded.begin.asp
+      scope: meta.embedded.asp punctuation.section.embedded.begin.asp
       push: asp-tag-content
 
   asp-interpolations:
     - match: <%
-      scope: punctuation.section.embedded.begin.asp
+      scope: meta.embedded.asp punctuation.section.embedded.begin.asp
       push: [asp-tag-clear-scope, asp-tag-content]
 
   asp-tag-clear-scope:
@@ -44,6 +280,7 @@ contexts:
     - include: immediately-pop
 
   asp-tag-content:
+    - meta_content_scope: meta.embedded.asp
     - match: \@ # https://msdn.microsoft.com/en-us/library/ms525579%28v=vs.90%29.aspx
       set: asp-directive
     - match: =
@@ -53,6 +290,7 @@ contexts:
       set: asp-statements
 
   asp-directive:
+    - meta_scope: meta.embedded.asp
     - match: \@?\s*\b((?i:ENABLESESSIONSTATE|LANGUAGE|LCID|TRANSACTION))\b
       captures:
         1: constant.language.processing-directive.asp
@@ -66,12 +304,14 @@ contexts:
     - include: asp-end
 
   asp-expression:
+    - meta_scope: meta.embedded.asp
     - meta_content_scope: source.asp.embedded.html
     - include: asp-end
     - include: Packages/ASP/ASP.sublime-syntax#expression
       apply_prototype: true
 
   asp-statements:
+    - meta_scope: meta.embedded.asp
     - meta_content_scope: source.asp.embedded.html
     - include: asp-end
     - include: Packages/ASP/ASP.sublime-syntax

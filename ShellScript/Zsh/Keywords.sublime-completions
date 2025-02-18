@@ -1,0 +1,25 @@
+{
+	"scope": "source.shell.zsh meta.function-call.identifier - source.shell.zsh meta.function.identifier meta.interpolation",
+	"completions": [
+		{
+			"trigger": "always",
+			"kind": "keyword",
+			"details": "zsh",
+		},
+		{
+			"trigger": "foreach",
+			"kind": "keyword",
+			"details": "zsh",
+		},
+		{
+			"trigger": "repeat",
+			"kind": "keyword",
+			"details": "zsh",
+		},
+		{
+			"trigger": "end",
+			"kind": "keyword",
+			"details": "zsh",
+		},
+	],
+}

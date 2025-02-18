@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<!--
+	Template begin and end punctuation to wrap snippets into,
+	when expanding within plain HTML, Markdown, CSS, JavaScript or Go strings.
+
+	These variables are used to share snippets across
+	plain text and template source code and to be able to adjust
+	whether templates are wrapped with whitespace.
+	 -->
+	<key>scope</key>
+	<string>(text.html.go | text.html.markdown.go | source.css.go | source.js.go | source.json.go | source.yaml.go | source.go string) - source.go.template</string>
+	<key>settings</key>
+	<dict>
+		<key>shellVariables</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>TM_TEMPLATE_START</string>
+				<key>value</key>
+				<string><![CDATA[{{ ]]></string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>TM_TEMPLATE_END</string>
+				<key>value</key>
+				<string><![CDATA[ }}]]></string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

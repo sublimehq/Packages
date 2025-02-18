@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		source.shell,
+		source.shell meta.clause.body
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^ \s* (?: [])}] | (?: elif | else | esac | fi | done | do | in | then )\b )
+		]]></string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^
+			(?:
+			  \s* (?:
+			  # beginning of condition branch, also indent condition
+			    else\b
+			  | (?: if | elif )\b(?! .*? \b(?: else | fi | then )\b )
+			  # beginning of loop, also indent condition
+			  | (?: for | select | until | while ) \s* (?: \#.* | \\ )? $
+			  )
+			# beginning of indented code block
+			| .*  (?: [({\[] | \b(?: do | in | then )\b ) \s* (?: \#.* | \\ )? $
+			)
+		]]></string>
+		<key>bracketIndentNextLinePattern</key>
+		<string></string>
+		<key>disableIndentNextLinePattern</key>
+		<string><![CDATA[^\s*[{(]\s*$]]></string>
+		<key>indentParens</key>
+		<false/>
+		<key>indentSquareBrackets</key>
+		<false/>
+		<key>preserveIndent</key>
+		<false/>
+	</dict>
+</dict>
+</plist>

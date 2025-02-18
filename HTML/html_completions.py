@@ -18,6 +18,20 @@ KIND_TAG_MARKUP = (sublime.KIND_ID_MARKUP, 't', 'Tag')
 ENABLE_TIMING = False
 
 
+boolean_attributes = {
+    'async', 'autofocus', 'autoplay', 'checked', 'contenteditable', 'controls',
+    'default', 'defer', 'disabled', 'formNoValidate', 'frameborder', 'hidden',
+    'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate',
+    'open', 'readonly', 'required', 'reversed', 'scoped', 'selected',
+    'typemustmatch'
+}
+
+void_elements = {
+    'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta',
+    'param', 'source', 'track', 'wbr'
+}
+
+
 def timing(func):
     @wraps(func)
     def wrap(*args, **kw):
@@ -94,8 +108,8 @@ def get_tag_completions(inside_tag=True):
         'li', 'label', 'legend', 'main', 'map', 'mark', 'meter',
         'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup',
         'option', 'output', 'p', 'picture', 'pre', 'q', 'rb', 'rp',
-        'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'select', 'shadow',
-        'small', 'span', 'strong', 'sub', 'summary', 'sup',
+        'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'script', 'select', 'shadow',
+        'small', 'span', 'strong', 'style', 'sub', 'summary', 'sup',
         'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th',
         'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul', 'var',
         'video'
@@ -115,10 +129,8 @@ def get_tag_completions(inside_tag=True):
         ('meta', 'meta ${1:charset=\"utf-8\"}>'),
         ('param', 'param name=\"$1\" value=\"$2\">'),
         ('progress', 'progress value=\"$1\" max=\"$2\">'),
-        ('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
-        ('slot', 'slot name=name=\"$1\">$0</slot>'),
+        ('slot', 'slot name=\"$1\">$0</slot>'),
         ('source', 'source src=\"$1\" type=\"$2\">'),
-        ('style', 'style type=\"${1:text/css}\">$0</style>'),
         ('track', 'track kind=\"$1\" src=\"$2\">'),
         ('wbr', 'wbr>'),
         ('video', 'video src=\"$1\">$0</video>')
@@ -155,7 +167,7 @@ def get_tag_completions(inside_tag=True):
 
 def get_tag_attributes():
     """
-    Returns a dictionary with attributes accociated to tags
+    Returns a dictionary with attributes associated to tags
     This assumes that all tags can have global attributes as per MDN:
     https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes
     """
@@ -253,9 +265,9 @@ def get_tag_attributes():
             'srcdoc', 'width'
         ],
         'img': [
-            'align', 'alt', 'border', 'crossorigin', 'height', 'hspace',
-            'ismap', 'longdesc', 'name', 'sizes', 'src', 'srcset', 'usemap',
-            'vspace', 'width'
+            'align', 'alt', 'border', 'crossorigin', 'decoding', 'fetchpriority',
+            'height', 'hspace', 'ismap', 'loading', 'longdesc', 'name',
+            'referrerpolicy', 'sizes', 'src', 'srcset', 'usemap', 'vspace', 'width'
         ],
         'input': [
             'accept', 'align', 'alt', 'autocomplete', 'autofocus', 'autosave',
@@ -368,19 +380,19 @@ def get_tag_attributes():
     # Assume that global attributes are common to all HTML elements
     global_attributes = (
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir',
-        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
+        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate',
 
         # event handler attributes
-        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick',
-        'onblur', 'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange',
-        'onclick', 'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick',
+        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
+        'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange', 'onclick',
+        'onclose', 'oncontextmenu', 'oncopy', 'oncuechange', 'ondblclick',
         'ondrag', 'ondragend', 'ondragenter', 'ondragexit', 'ondragleave',
-        'ondragover', 'ondragstart', 'ondrop', 'ondurationchange',
-        'onemptied', 'onended', 'onerror', 'onfocus', 'oninput', 'oninvalid',
-        'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onloadeddata',
-        'onloadedmetadata', 'onloadstart', 'onmousedown', 'onmouseenter',
-        'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover',
-        'onmouseup', 'onmousewheel', 'onpause', 'onplay', 'onplaying',
+        'ondragover', 'ondragstart', 'ondrop', 'ondurationchange', 'onemptied',
+        'onended', 'onerror', 'onfocus', 'onfocusin', 'onfocusout', 'oninput',
+        'oninvalid', 'onkeydown', 'onkeypress', 'onkeyup', 'onload',
+        'onloadeddata', 'onloadedmetadata', 'onloadstart', 'onmousedown',
+        'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover',
+        'onmouseup', 'onmousewheel', 'onpaste', 'onpause', 'onplay', 'onplaying',
         'onprogress', 'onratechange', 'onreset', 'onresize', 'onscroll',
         'onseeked', 'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled',
         'onsubmit', 'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange',
@@ -457,28 +469,30 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return None
 
         pt = locations[0] - len(prefix) - 1
-        ch = view.substr(sublime.Region(pt, pt + 1))
+        ch = view.substr(pt)
 
         if ch == '&':
             return self.entity_completions
 
         if ch == '<':
-            # If the caret is in front of `>` complete only tag names.
+            # If the caret is within tag, complete only tag names.
             # see: https://github.com/sublimehq/sublime_text/issues/3508
-            ch = view.substr(sublime.Region(locations[0], locations[0] + 1))
-            if ch == '>':
+            if match_selector("meta.tag"):
                 return self.tag_name_completions
             return self.tag_completions
 
-        # Note: Exclude opening punctuation to enable appreviations
+        # Note: Exclude opening punctuation to enable abbreviations
         #       if the caret is located directly in front of a html tag.
-        if match_selector("text.html meta.tag - punctuation.definition.tag.begin"):
+        if match_selector("text.html meta.tag - meta.string - punctuation.definition.tag.begin"):
             if ch in ' \f\n\t':
                 return self.attribute_completions(view, locations[0], prefix)
             return None
 
-        # Expand tag and attribute appreviations
-        return self.expand_tag_attributes(view, locations) or self.tag_abbreviations
+        if match_selector("text.html - meta.tag, text.html punctuation.definition.tag.begin"):
+            # Expand tag and attribute abbreviations
+            return self.expand_tag_attributes(view, locations) or self.tag_abbreviations
+
+        return None
 
     def expand_tag_attributes(self, view, locations):
         """
@@ -522,7 +536,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         expr = expr[::-1]
 
         attr = 'class' if op == '.' else 'id'
-        snippet = f'<{tag} {attr}=\"{arg}\">$0</{tag}>'
+        snippet = f'<{tag} {attr}=\"{arg}\">' if tag in void_elements else f'<{tag} {attr}=\"{arg}\">$0</{tag}>'
 
         return sublime.CompletionList(
             [
@@ -588,7 +602,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             [
                 sublime.CompletionItem(
                     trigger=attr,
-                    completion=f'{attr}="$1"{suffix}',
+                    completion=f'{attr}{suffix}' if attr in boolean_attributes else f'{attr}="$1"{suffix}',
                     completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                     kind=KIND_ATTRIBUTE_SNIPPET
                 )

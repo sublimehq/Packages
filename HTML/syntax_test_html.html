@@ -30,6 +30,50 @@
     <head>
         <title>Test HTML</title>
 
+        <script> var i = 0; </script>
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                  ^^^^^^^^^ meta.tag - source
+
+        <script> var i = 0; --> </script>
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                  ^^^^ - meta.tag - source
+        ##                  ^^^ comment.block.html punctuation.definition.comment.end.html
+        ##                      ^^^^^^^^^ meta.tag - source
+
+        <script> <!-- var i = 0; </script>
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^ - meta.tag - source
+        ##           ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                       ^^^^^^^^^ meta.tag - source
+        ##       ^^^^ punctuation.definition.comment.begin.html
+
+        <script> <!-- var i = 0; --> </script>
+        ## ^^^^^ meta.tag - source
+        ##      ^^^^^ - meta.tag - source
+        ##       ^^^^ punctuation.definition.comment.begin.html
+        ##           ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+        ##                       ^^^^ - meta.tag - source
+        ##                       ^^^ comment.block.html punctuation.definition.comment.end.html
+        ##                           ^^^^^^^^^ meta.tag - source
+
+        <script>
+            <!--
+        ## ^^^^^ - meta.tag - source
+        ##  ^^^^ comment.block.html punctuation.definition.comment.begin.html
+        ##      ^ - source.js.embedded - meta.tag - comment
+            var i = 0;
+        ## ^^^^^^^^^^^^ source.js.embedded.html - meta.tag
+            -->
+        ##^^ - source - meta.tag - comment
+        ##  ^^^^ - source - meta.tag
+        ##  ^^^ comment.block.html punctuation.definition.comment.end.html
+            var i = 0;
+        ## ^^^^^^^^^^^^ - source
+        </script>
+        ## ^^^^^^ meta.tag - source
+
         <script> <!--
         ## ^^^^^ meta.tag.script.begin.html
         ## ^ entity.name.tag.script - source.js.embedded.html
@@ -48,10 +92,18 @@
         ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
         ##           ^ - meta.tag
 
+        <script type="text/babel">var foo</script>
+        ## ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
+        ##                        ^^^^^^^ source.js.embedded.html
+        ##                               ^^^^^^^^^ meta.tag.script.end.html
+
         <script type="text/javascript"> <!--
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
-        ## ^ entity.name.tag.script - source.js.embedded.html
-        ##            ^ string.quoted.double.html - source.js.embedded.html
+        ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
+        ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value - source
+        ##                            ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
+        ##                             ^^^^^^ - meta.tag  - source
+        ## ^ entity.name.tag.script
+        ##            ^ string.quoted.double.html
         ##                              ^^^^ comment.block.html punctuation.definition.comment.begin.html
             var foo = 100;
             var baz = function() {
@@ -62,37 +114,132 @@
             ## ^^^ source.js.embedded.html meta.group.js keyword.operator
         --> </script>
         ## <- comment.block.html punctuation.definition.comment.end.html
+        ##  ^^^^^^^^^ meta.tag.script.end.html - source
         ##    ^^^^^^ entity.name.tag.script.html
-        ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
         ##           ^ - meta.tag
+
+        <script
+        type
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ></script>
+
+        <script
+        type
+        =
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ></script>
 
         <script
         type
         =
         application/jAvAsCrIpT>
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
             var foo = 100;
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
+## <- - source.js.embedded
+##^^^^^^ - source.js.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
+
+        <script type=application/json>
+            {
+        ##  ^ source.json.embedded.html meta.mapping.json punctuation.section.mapping.begin.json
+                "key": "value",
+        ##      ^^^^^ source.json.embedded.html meta.mapping.key.json
+        ##             ^^^^^^^ source.json.embedded.html meta.mapping.value.json
+            }
+        ##  ^ source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
+        </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
+
+        <script type="application/ld+json">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
+
+        <script type="application/f̱oo+json">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.json
+        </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
+
+        <script type="application/ld+json;charset=utf-8">
+            { "@id": {"key": "value" } }
+        ##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
+
+        <script type="whatever+json">
+            <![CDATA[
+                {
+        ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.begin.json
+                    "key": "value",
+        ##          ^^^^^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.key.json
+        ##                 ^^^^^^^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.value.json
+                }
+        ##      ^ meta.tag.sgml.cdata.html source.json.embedded.html meta.mapping.json punctuation.section.mapping.end.json
+            ]]>
+        </script>
+## <- - source.json.embedded
+##^^^^^^ - source.json.embedded
+##      ^^^^^^^^^ meta.tag.script.end.html
 
         <script type = "text/html"> <!--
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
+        ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##      ^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##                        ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ## ^ entity.name.tag.script - text.html.embedded.html
         ##             ^ string.quoted.double.html - text.html.embedded.html
         ##                          ^^^^ comment.block.html punctuation
             comment -->
-        ##  ^^^^^^^^^^^ text.html.embedded.html comment.block.html
+        ##  ^^^^^^^^^^^ comment.block.html
             <div></div>
-        ##  ^^^^^^^^^^^ text.html.basic text.html.embedded meta.tag.block.any
+        ##  ^^^^^^^^^^^ text.html.basic meta.tag.block.any
             <script type=text/javascript>
-        ##  ^ text.html.basic text.html.embedded.html - source.js.embedded.html
+        ##  ^ text.html.basic - source.js.embedded.html
                 function test() {}
-        ##  ^ text.html.basic text.html.embedded.html source.js.embedded.html - source.js source.js
+        ##  ^ text.html.basic source.js.embedded.html - source.js source.js
             </script>
-        ##  ^^^^^^^^^ text.html.basic text.html.embedded.html meta.tag.script.end
+        ##  ^^^^^^^^^ text.html.basic meta.tag.script.end
         </script>
-##     ^ text.html.basic text.html.embedded.html
-##      ^^^^^^^^^ text.html.basic - text.html.embedded.html meta.tag.script.end
-##               ^ text.html.basic - text.html.embedded.html
+##     ^ text.html.basic - meta.tag
+##      ^^^^^^^^^ text.html.basic meta.tag.script.end
+##               ^ text.html.basic - meta.tag
+
+        </script>
+##     ^ text.html.basic - meta.tag
+##      ^^^^^^^^^ text.html.basic meta.tag.script.end
+##               ^ text.html.basic - meta.tag
+
+        <script type = "text/html;charset=utf-8,foo=bar">
+            <div></div>
+        ##  ^^^^^^^^^^^ text.html.basic meta.tag.block.any
+        </script>
+
+        <script>
+            <!-- i = 0;
+##      ^^^^^^^^ - source
+##          ^^^^ punctuation.definition.comment.begin.html
+##              ^^^^^^^ source.js.embedded.html
+            -->
+##      ^^^^^^^^ - source
+##          ^^^ comment.block.html punctuation.definition.comment.end.html
+        </script>
+
+        <script>
+
+## <- source.js.embedded.html
+## ^^^^^^^^^^^^^ source.js.embedded.html
+        </script>
 
         <script>42</script >
 ##      ^^^^^^^^ meta.tag.script.begin
@@ -111,23 +258,144 @@
         >
         ## <- meta.tag.script.end.html punctuation.definition.tag.end.html
 
+        <!-- XHTML: wrap scripts in CDATA -->
+        <script><![CDATA[var i = 0;]]></script>
+        ## ^^^^^ meta.tag.script.begin.html - source
+        ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##                            ^^^^^^^^^ meta.tag.script.end.html
+        ##      ^^^ punctuation.definition.tag.begin.html
+        ##         ^^^^^ keyword.declaration.cdata.html
+        ##              ^ punctuation.definition.tag.begin.html
+        ##               ^^^^^^^^^^ source.js.embedded.html
+        ##                         ^^^ punctuation.definition.tag.end.html
+
+        <script>
+            <![CDATA[
+        ## ^ - meta.tag - punctuation - source
+        ##  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##  ^^^ punctuation.definition.tag.begin.html
+        ##     ^^^^^ keyword.declaration.cdata.html
+        ##          ^ punctuation.definition.tag.begin.html
+                var i = 0;
+        ##      ^^^^^^^^^^ meta.tag.sgml.cdata.html source.js.embedded.html
+            ]]>
+        ## ^ meta.tag.sgml.cdata.html source.js.embedded.html
+        ##  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+        ##     ^ - meta.tag - punctuation - source
+        </script>
+
+        <script type="text/html">
+            <![CDATA[
+        ## ^ - meta.tag - punctuation - source
+        ##  ^^^^^^^^^ meta.tag.sgml.cdata.html - meta.string
+        ##           ^ meta.tag.sgml.cdata.html meta.string.html
+        ##  ^^^ punctuation.definition.tag.begin.html
+        ##     ^^^^^ keyword.declaration.cdata.html
+        ##          ^ punctuation.definition.tag.begin.html - string
+        ##           ^ string.unquoted.cdata.html
+                var i = 0;
+        ##    ^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
+            ]]>
+        ## ^ meta.tag.sgml.cdata.html string.unquoted.cdata.html
+        ##  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+        ##     ^ - meta.tag - punctuation - source
+        </script>
+
+        <script />
+        ##        ^ - source.js.embedded.html
+        ## ^ meta.tag.script entity.name.tag.script
+
+        <style type="text/css"> h1 {} </style>
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##                     ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                            ^^^^^^^^ meta.tag - comment - source
+
+        <style type="text/css"> <!-- h1 {} </style>
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##                     ^ - meta.tag - comment - source
+        ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+        ##                          ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                                 ^^^^^^^^ meta.tag - comment - source
+
+        <style type="text/css"> h1 {} --> </style>
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+        ##                     ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                            ^^^ comment.block.html punctuation.definition.comment.end.html - source
+        ##                               ^ - meta.tag - comment - source
+        ##                                ^^^^^^^^ meta.tag - comment - source
+
+        <style type="text/css"> <!-- h1 {} --> </style>
+        ##^^^^^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##     ^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##                    ^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##                     ^ - meta.tag - comment - source
+        ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+        ##                          ^^^^^^^ source.css.embedded.html - meta.tag - comment
+        ##                                 ^^^ comment.block.html punctuation.definition.comment.end.html - source
+        ##                                    ^ - meta.tag - comment - source
+        ##                                     ^^^^^^^^ meta.tag - meta.tag meta.tag - comment - source
+
+        <style type  =  "text/css"> <!-- h1 {} --> </style>
+        ##^^^^^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##     ^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##                        ^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
+        ##                         ^ - meta.tag - comment - source
+        ##                          ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+        ##                              ^^^^^^^ source.css.embedded.html
+        ##                                     ^^^ comment.block.html punctuation.definition.comment.end.html - source
+        ##                                        ^ - meta.tag - comment - source
+        ##                                         ^^^^^^^^ meta.tag - meta.tag meta.tag - comment - source
+
+        <style>
+
+## <- source.css.embedded.html
+## ^^^^^^^^^^^^^ source.css.embedded.html
+        </style>
+## <- - source.css.embedded
+##^^^^^^ - source.css.embedded
+##      ^^^^^^^^ meta.tag.style.end.html
+
+        <style type="text/css">
+            <!--
+        ## ^ - meta.tag - comment - source
+        ##  ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+        ##      ^ - comment - source
+                h1 {}
+        ##     ^^^^^^^ source.css.embedded.html
+            -->
+        ## ^ - comment - source
+        ##  ^^^ comment.block.html punctuation.definition.comment.end.html - source
+        ##     ^ - meta.tag - comment - source
+        </style>
+        ## ^^^^^ meta.tag - comment - source
+
         <style type="text/css"> <!--
-        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
-        ## ^ entity.name.tag.style.html
-        ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
-        ##      ^ entity.other.attribute-name
-        ##                     ^ - meta.tag
-        ##                      ^^^^ - comment
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html - source.css
+        ##                     ^^^^^^ - meta.tag - source.css
+        ## ^^^ entity.name.tag.style.html
+        ##    ^ - entity
+        ##     ^^^^ entity.other.attribute-name
+        ##         ^ punctuation.separator.key-value.html
+        ##          ^^^^^^^^^^ meta.string.html string.quoted.double.html
+        ##                    ^ punctuation.definition.tag.end.html
+        ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html
             h2 {
-            ## <- entity.name.tag.html.css
 ## <- source.css.embedded.html - source.css source.css
-                font-family: "Arial";
-                ##             ^ string.quoted.double.css
+        ##  ^^ entity.name.tag.html.css
+        ##     ^ punctuation.section.block.begin.css
+        ;      font-family: "Arial";
+        ##     ^^^^^^^^^^^ meta.property-name.css support.type.property-name.css
+        ##                ^ punctuation.separator.key-value.css
+        ##                  ^^^^^^^ meta.property-value.css meta.string.css string.quoted.double.css
+        ##                         ^ punctuation.terminator.rule.css
             }
         --> </style>
-        ## <- - comment
-        ##  ^^^^^^^^ meta.tag.style.end.html - source.css.embedded.html
+        ## <- comment.block.html punctuation.definition.comment.end.html
+        ## ^ - source.css - meta.tag - comment
+        ##  ^^^^^^^^ meta.tag.style.end.html - source.css
+        ##  ^^ punctuation.definition.tag.begin.html
         ##    ^^^^^ entity.name.tag.style.html
+        ##         ^ punctuation.definition.tag.end.html
         ##          ^ - meta.tag
 
         <style
@@ -141,19 +409,52 @@
         <style
         type
         =
-        text/csss>
+        text/css_>
             div {}
         ##  ^^^^^^ - source.css
         </style
         ##^^^^^ meta.tag.style.end.html entity.name.tag.style.html
         >
         ## <- meta.tag.style.end.html punctuation.definition.tag.end.html
+
+        <!-- XHTML: wrap style in CDATA -->
+        <style><![CDATA[h1 {}]]></style>
+        ## ^^^^ meta.tag.style.begin.html - source
+        ##     ^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##                      ^^^^^^^^ meta.tag.style.end.html
+        ##     ^^^ punctuation.definition.tag.begin.html
+        ##        ^^^^^ keyword.declaration.cdata.html
+        ##             ^ punctuation.definition.tag.begin.html
+        ##              ^^^^^ source.css.embedded.html
+        ##                   ^^^ punctuation.definition.tag.end.html
+        ##                      ^^ punctuation.definition.tag.begin.html
+        ##                        ^^^^^ entity.name.tag.style.html
+        ##                             ^ punctuation.definition.tag.end.html
+
+        <style>
+            <![CDATA[
+        ## ^ - meta.tag - punctuation - source
+        ##  ^^^^^^^^^^ meta.tag.sgml.cdata.html
+        ##  ^^^ punctuation.definition.tag.begin.html
+        ##     ^^^^^ keyword.declaration.cdata.html
+        ##          ^ punctuation.definition.tag.begin.html
+                h1 {}
+        ##     ^^^^^^^ meta.tag.sgml.cdata.html source.css.embedded.html
+            ]]>
+        ## ^ meta.tag.sgml.cdata.html source.css.embedded.html
+        ##  ^^^ meta.tag.sgml.cdata.html punctuation.definition.tag.end.html
+        ##     ^ - meta.tag - punctuation - source
+        </style>
+
+        </style>
+        ##^^^^^^ meta.tag.style.end.html
+        ##^^^^^ entity.name.tag.style.html
+        ##     ^ punctuation.definition.tag.end.html
+
         <style />
         ##       ^ - source.css.embedded.html
         ## ^ meta.tag.style entity.name.tag.style
-        <script />
-        ##        ^ - source.js.embedded.html
-        ## ^ meta.tag.script entity.name.tag.script
+
     </head>
     <body>
 
@@ -161,24 +462,26 @@
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata
 ##   ^^^ punctuation.definition.tag.begin
 ##      ^^^^^ keyword.declaration.cdata
-##           ^ punctuation.definition.tag.begin
-##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
-##                                          ^ - string.unquoted.cdata
+##           ^ punctuation.definition.tag.begin - string
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.html string.unquoted.cdata
+##                                          ^ - string
 ##                                          ^^^ punctuation.definition.tag.end
      <![CDATA[
-##   ^^^^^^^^^^ meta.tag.sgml.cdata
-##   ^^^ punctuation.definition.tag.begin
-##      ^^^^^ keyword.declaration.cdata
-##           ^ punctuation.definition.tag.begin
+##  ^ - meta.tag - punctuation - source
+##   ^^^^^^^^^ meta.tag.sgml.cdata.html - meta.string
+##            ^ meta.tag.sgml.cdata.html meta.string.html
+##   ^^^ punctuation.definition.tag.begin.html
+##      ^^^^^ keyword.declaration.cdata.html
+##           ^ punctuation.definition.tag.begin.html - string
+##            ^ string.unquoted.cdata.html
         <!DOCTYPE catalog plist "dtd">
-##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.html string.unquoted.cdata
     ]]>
-##  ^ - string.unquoted.cdata
-##  ^^^ punctuation.definition.tag.end
+##  ^^^ punctuation.definition.tag.end - meta.string - string
 
      <![CDATA[
         <![CDATA[ unparsed! ]]>
-##      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^^^^^^^^^^^^^^^^^^ meta.string.html string.unquoted.cdata
 ##      ^^^ - punctuation.definition.tag.begin
 ##         ^^^^^ - keyword.declaration.cdata
 ##              ^ - punctuation.definition.tag.begin
@@ -209,6 +512,14 @@
 ##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
 ##          ^^ invalid.illegal.bad-comments-or-CDATA
 ##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
+
+        <!-- 1st comment -- >
+##                       ^^^^ - punctuation
+        <p>Is a comment</p>
+##      ^^^^^^^^^^^^^^^^^^^ comment.block
+        <!-- 2nd comment -->
+##      ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                       ^^^ punctuation.definition.comment.end.html
 
         <script type=html/text/>
         ##     ^ - meta.attribute-with-value
@@ -592,6 +903,18 @@ class="foo"></div>
         ##                                           ^ - punctuation.definition.tag.end.html
         ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
 
+        <slot name=""></slot>
+        ## <- meta.tag.block.any.html punctuation.definition.tag.begin.html
+        ##^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
+        ##^^^ entity.name.tag.block.any.html
+        ##    ^^^^ meta.attribute-with-value.html entity.other.attribute-name.html
+        ##        ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+        ##         ^^ meta.attribute-with-value.html meta.string.html string.quoted.double.html
+        ##           ^ punctuation.definition.tag.end.html
+        ##            ^^ punctuation.definition.tag.begin.html
+        ##              ^^^^ entity.name.tag.block.any.html
+        ##                  ^ punctuation.definition.tag.end.html
+
         <body·other attrib=1/>
         ## ^^^^^^^^ entity.name.tag.other.html
         ##          ^^^^^^ entity.other.attribute-name.html
@@ -616,30 +939,55 @@ class="foo"></div>
         ##                      ^ punctuation.definition.tag.end.html
 
         <form-custom-tag><div-custom-tag><span-custom-tag></span-custom-tag></div-custom-tag></form-custom-tag>
-        ##^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                ^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.custom.html
+        ##^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                ^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                ^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.custom.html - invalid
+        ##^^^^^^^^^^^^^^^^ meta.tag.other.html - invalid
         ##              ^^ punctuation.definition.tag.end.html
-        ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
+        ##                ^ - meta.tag.other.html - punctuation.definition.tag.end.html
 
         <body-custom·tag₡name/>
-        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html - invalid
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
 
         <body.tag-custom.name/>
-        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html - invalid
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
+
+        <svg:p d=M232.233,220/>
+        ## ^^^ entity.name.tag.other.html - invalid
+        ##     ^ entity.other.attribute-name.html
+        ##      ^ punctuation.separator.key-value.html
+        ##       ^^^^^^^^^^^^ meta.string.html string.unquoted.html
+        ##                   ^^ punctuation.definition.tag.end.html
 
         <INVALID-custom-TAG></INVALID-CUSTOM-TAG>
-        ## ^^^^^ invalid.illegal.custom-tag-name.html
-        ##       ^^^^^^ - invalid.illegal.custom-tag-name.html
-        ##              ^^^ invalid.illegal.custom-tag-name.html
-        ##                    ^^^^^^^ invalid.illegal.custom-tag-name.html
-        ##                            ^^^^^^ invalid.illegal.custom-tag-name.html
-        ##                                   ^^^ invalid.illegal.custom-tag-name.html
+        ## ^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                    ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+
+        <body:tag-other.name/>
+        ## ^^^^^^^^^^^^^^^^^ entity.name.tag.other.html - invalid
+
+        <A{{template}} {{attr}}={{value}} />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+        ## ^^^^^^^^^^^ entity.name.tag.other.html
+        ##             ^^^^^^^^ entity.other.attribute-name.html
+        ##                     ^ punctuation.separator.key-value.html
+        ##                      ^^^^^^^^^ meta.string.html string.unquoted.html
+        ##                                ^^ punctuation.definition.tag.end.html
+
+        <!-- Note: Templating syntaxes must handle the following cases on their own! -->
+
+        <{{template}} {{attr}}={{value}} />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+
+        <[[template]] [[attr]]=[[value]] />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+
+        <<?php echo $tagname ?> attr="<? echo value ?>" />
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
 
         <form name="formName" type="post">
         ## ^ entity.name.tag.block.form.html
@@ -652,7 +1000,7 @@ class="foo"></div>
             <input id="inputId" type="text" value="value">
             ## ^ entity.name.tag.inline.form.html
             ##                   ^ entity.other.attribute-name.html
-            <textarea name="texareaName"></textarea>
+            <textarea name="textareaName"></textarea>
             ## ^ entity.name.tag.inline.form.html
         </form>
 

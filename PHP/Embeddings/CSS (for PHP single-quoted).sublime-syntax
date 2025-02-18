@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+scope: source.css.embedded.string.quoted.single.php
+version: 2
+hidden: true
+
+extends: Packages/PHP/CSS (PHP).sublime-syntax
+
+contexts:
+  main:
+    - include: rule-list-body
+
+  quoted-strings:
+    - meta_prepend: true
+    - match: (?=')
+      pop: 1
+
+  quoted-string:
+    - meta_prepend: true
+    - match: (?=')
+      pop: 1
+
+  quoted-urls:
+    - meta_prepend: true
+    - match: (?=')
+      pop: 1

@@ -1,0 +1,25 @@
+{
+	"scope": "text.html.asp meta.tag.script meta.attribute-with-value.lang",
+	"completions": [
+		{
+			"trigger": "js",
+			"kind": ["type", "t", "Language Type"],
+			"details": "JavaScript"
+		},
+		{
+			"trigger": "jscript",
+			"kind": ["type", "t", "Language Type"],
+			"details": "JavaScript"
+		},
+		{
+			"trigger": "vb",
+			"kind": ["type", "t", "Language Type"],
+			"details": "VisualBasicScript"
+		},
+		{
+			"trigger": "vbscript",
+			"kind": ["type", "t", "Language Type"],
+			"details": "VisualBasicScript"
+		}
+	]
+}

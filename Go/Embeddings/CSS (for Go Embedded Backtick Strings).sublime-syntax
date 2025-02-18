@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: CSS inside Go backtick string
+scope: source.css.go-embedded-backtick-string
+version: 2
+hidden: true
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+variables:
+
+    ident_start: (?:{{nmstart}}|{{)
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-text-content
+
+  string-content:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-string-content

@@ -1,10 +1,14 @@
-#! SYNTAX TEST "Packages/D/D.sublime-syntax"
-#! <- comment.line.number-sign.d punctuation.definition.comment.number-sign.d
- #! <- comment.line.number-sign.d punctuation.definition.comment.number-sign.d
-#!^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.d
+#! SYNTAX TEST "Packages/D/D.sublime-syntax" dmd
+#! <- comment.line.shebang.d punctuation.definition.comment.d
+ #! <- comment.line.shebang.d punctuation.definition.comment.d
+#!^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.shebang.d
+#!                                           ^^^ constant.language.shebang.d
 ;
 // foo
 #! ^^^ comment.line.double-slash.d
 
 #! foo
-#! ^^^ comment.line.number-sign.d
+#! <- invalid.illegal.d
+ #! <- keyword.operator.logical.d dmd
+#! ^^^ meta.path.d variable.other.d
+

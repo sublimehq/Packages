@@ -1,0 +1,58 @@
+# SYNTAX TEST "Git Link.sublime-syntax"
+# <- text.git.link comment.line punctuation.definition.comment
+gitdir: c:/data/sublime/packages/.git
+#^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
+#     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
+#      ^ - string.unquoted.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
+#        ^ punctuation.separator.path.git
+#         ^ punctuation.separator.path.git
+#              ^ punctuation.separator.path.git
+#                               ^ punctuation.separator.path.git
+#                                    ^ - string.unquoted.git
+gitdir: c:\data\sublime\packages\.git
+#^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
+#     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
+#      ^ - string.unquoted.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
+#        ^ punctuation.separator.path.git
+#         ^ punctuation.separator.path.git
+#              ^ punctuation.separator.path.git
+#                                    ^ - string.unquoted.git
+gitdir: ~/../sub..li~me/./packages/.git
+#^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
+#     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
+# <- keyword.other.gitdir.git.link
+#^^^^^ keyword.other.gitdir.git.link
+#     ^ punctuation.separator.key-value.git.link
+#      ^ - string.unquoted.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git
+#                                      ^ - string.unquoted.git
+#       ^ variable.language.environment.home.git
+#        ^ punctuation.separator.path.git
+#         ^^ constant.other.path.parent.git
+#           ^ punctuation.separator.path.git
+#               ^^ - constant.other.path.parent.git
+#                   ^ - variable.language.environment.home.git
+#                      ^ punctuation.separator.path.git
+#                       ^ constant.other.path.self.git
+#                        ^ punctuation.separator.path.git
+#                                  ^ - constant.other.path.self.git
+gitdir invalid : ../data/s?bl*me/packages/.git
+#^^^^^^^^^^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
+#              ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.link - meta.mapping.key.git.link
+# <- keyword.other.gitdir.git.link
+#^^^^^ keyword.other.gitdir.git.link
+#      ^^^^^^^ invalid.illegal.separator-expected.git.link
+#              ^ punctuation.separator.key-value.git.link
+#                ^^ constant.other.path.parent.git
+#                  ^ punctuation.separator.path.git
+#                       ^ punctuation.separator.path.git
+#                         ^ invalid.illegal.path.git
+#                            ^ invalid.illegal.path.git
+#                               ^ punctuation.separator.path.git
+#                                        ^ punctuation.separator.path.git

@@ -1,36 +1,142 @@
 // SYNTAX TEST "Packages/JavaScript/JSX.sublime-syntax"
 
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^ comment.line.double-slash.js
+
+// comment //
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^ comment.line.double-slash.js
+//         ^^ punctuation.definition.comment.js
+
+/// comment
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^ comment.line.triple-slash.js
+
+/// comment ///
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^ comment.line.triple-slash.js
+//          ^^^ punctuation.definition.comment.js
+
+/////////////////////////////////////////////////////////////////
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
+//                                                               ^ comment.line.other.js - punctuation
+
+/* */
+// <- comment.block.js punctuation.definition.comment.begin.js
+//^^^ comment.block.js
+//   ^ - comment
+
+    /**/ /***/
+// ^ - comment
+//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
+//      ^ - comment
+//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
+//            ^ - comment
+
+    /** @todo **/
+//  ^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^ punctuation.definition.comment.begin.js
+//      ^^^^^ entity.other.attribute-name.documentation.js
+//            ^^^ punctuation.definition.comment.end.js
+
+    /**
+// ^ - comment
+//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//     ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     **/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^ comment.block.documentation.js
+//      ^ - comment
+
+    /*** @todo ***/
+//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^^ punctuation.definition.comment.begin.js
+//       ^^^^^ entity.other.attribute-name.documentation.js
+//             ^^^^ punctuation.definition.comment.end.js
+
+    /***
+// ^ - comment
+//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//      ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     ***/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^^ comment.block.documentation.js
+//       ^ - comment
+
+//// <foo bar="baz"/>
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
+
     <foo />;
-//  ^^^^^^^ meta.jsx meta.tag
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^ meta.jsx meta.tag - meta.tag.attributes
 //  ^ punctuation.definition.tag.begin
-//   ^^^ meta.tag.name entity.name.tag
+//   ^^^ entity.name.tag.native
 //       ^^ punctuation.definition.tag.end
+
+    <foo attr= />;
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^^^^^ meta.jsx meta.tag.attributes
+//             ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^^^ entity.other.attribute-name
+//           ^ punctuation.separator.key-value
+//             ^^ punctuation.definition.tag.end
+
+    <foo attr="val" />;
+//  ^ meta.jsx meta.tag
+//   ^^^^ meta.jsx meta.tag.name
+//       ^^^^^^^^^^^ meta.jsx meta.tag.attributes
+//                  ^^ meta.jsx meta.tag - meta.tag.attributes
+//  ^ punctuation.definition.tag.begin
+//   ^^^ entity.name.tag.native
+//       ^^^^ entity.other.attribute-name
+//           ^ punctuation.separator.key-value
+//            ^^^^^ string.quoted.double
+//                  ^^ punctuation.definition.tag.end
 
     <foo>Hello!</foo>;
 //  ^^^^^^^^^^^^^^^^^ meta.jsx
 //  ^^^^^ meta.tag
 //  ^ punctuation.definition.tag.begin
-//   ^^^ meta.tag.name entity.name.tag
+//   ^^^ meta.tag.name entity.name.tag.native
 //      ^ punctuation.definition.tag.end
 //       ^^^^^^ - meta.tag
 //             ^^^^^^ meta.tag
 //             ^^ punctuation.definition.tag.begin
-//               ^^^ meta.tag.name entity.name.tag
+//               ^^^ meta.tag.name entity.name.tag.native
 //                  ^ punctuation.definition.tag.end
 
     <foo.bar.baz>Hello!</foo.bar.baz>;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
 //  ^^^^^^^^^^^^^ meta.tag
-//   ^^^^^^^^^^^ meta.tag.name
+//   ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
+//   ^^^ entity.name.tag.component
 //      ^ punctuation.accessor
+//       ^^^ entity.name.tag.component
 //          ^ punctuation.accessor
-//           ^^^ entity.name.tag
+//           ^^^ entity.name.tag.component
 //               ^^^^^^ - meta.tag
 //                     ^^^^^^^^^^^^^^ meta.tag
-//                       ^^^^^^^^^^^ meta.tag.name
+//                       ^^^^^^^^^^^ meta.tag.name - entity.name.tag.native
+//                       ^^^ entity.name.tag.component
 //                          ^ punctuation.accessor
+//                           ^^^ entity.name.tag.component
 //                              ^ punctuation.accessor
-//                               ^^^ entity.name.tag
+//                               ^^^ entity.name.tag.component
 
     <foo>Hello!<bar/>World!</foo>;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.jsx
@@ -40,12 +146,25 @@
 //                   ^^^^^^ - meta.tag
 //                         ^^^^^^ meta.tag
 
+    <foo>foo<bar>bar<baz>baz</baz>bar</bar>foo</foo>;
+//  ^^^^^ meta.tag
+//       ^^^ - meta.tag
+//          ^^^^^ meta.tag
+//               ^^^ - meta.tag
+//                  ^^^^^ meta.tag
+//                       ^^^ - meta.tag
+//                          ^^^^^^ meta.tag
+//                                ^^^ - meta.tag
+//                                   ^^^^^^ meta.tag
+//                                         ^^^ - meta.tag
+//                                            ^^^^^^ meta.tag
+
     <foo></foo><bar>
 //  ^^^^^^^^^^^ meta.jsx
 //             ^^^^^ - meta.jsx
-//             ^ keyword.operator.relational
+//             ^ keyword.operator.comparison
 //              ^^^ variable
-//                 ^ keyword.operator.relational
+//                 ^ keyword.operator.comparison
 0;
 
     <>Hello!</>;
@@ -61,9 +180,9 @@
     <foo></foo>
     <bar>
 //  ^^^^^ - meta.jsx
-//  ^ keyword.operator.relational
+//  ^ keyword.operator.comparison
 //   ^^^ variable
-//      ^ keyword.operator.relational
+//      ^ keyword.operator.comparison
 0;
 
     </foo>;
@@ -71,32 +190,46 @@
 
 <foo
     bar
-//  ^^^ meta.jsx meta.tag entity.other.attribute-name
+//  ^^^ meta.jsx meta.tag.attributes entity.other.attribute-name
 
     =
 //  ^ punctuation.separator.key-value
 
     'test'
-//  ^^^^^^ string.quoted.single
+//  ^^^^^^ meta.string.js string.quoted.single
+
+    baz 'test'
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
+//  ^^^ entity.other.attribute-name
+//      ^^^^^^ meta.string.js string.quoted.single
+//      ^ punctuation.definition.string.begin
+//           ^ punctuation.definition.string.end
 
     baz='test'
-//  ^^^^^^^^^^ meta.jsx meta.tag
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
 //  ^^^ entity.other.attribute-name
 //     ^ punctuation.separator.key-value
-//      ^^^^^^ string.quoted.single
+//      ^^^^^^ meta.string.js string.quoted.single
+//      ^ punctuation.definition.string.begin
+//           ^ punctuation.definition.string.end
+
+    baz "test"
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
+//  ^^^ entity.other.attribute-name
+//      ^^^^^^ meta.string.js string.quoted.double
 //      ^ punctuation.definition.string.begin
 //           ^ punctuation.definition.string.end
 
     baz="test"
-//  ^^^^^^^^^^ meta.jsx meta.tag
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
 //  ^^^ entity.other.attribute-name
 //     ^ punctuation.separator.key-value
-//      ^^^^^^ string.quoted.double
+//      ^^^^^^ meta.string.js string.quoted.double
 //      ^ punctuation.definition.string.begin
 //           ^ punctuation.definition.string.end
 
     baz="\n"
-//      ^^^^ string.quoted.double - constant.character.escape
+//      ^^^^ meta.string.js string.quoted.double - constant.character.escape
 
     baz="&nbsp;&nbsp"
 //       ^^^^^^ constant.character.escape
@@ -106,19 +239,24 @@
 
     baz={xyzzy}
 //      ^^^^^^^ meta.interpolation
-//      ^ punctuation.definition.interpolation.begin
+//      ^ punctuation.section.interpolation.begin
 //       ^^^^^ source.js.embedded.jsx variable.other.readwrite
-//            ^ punctuation.definition.interpolation.end
+//            ^ punctuation.section.interpolation.end
 
     baz={{ xyzzy:42 }}
 //      ^^^^^^^^^^^^^^ meta.interpolation
-//      ^ punctuation.definition.interpolation.begin
+//      ^ punctuation.section.interpolation.begin
 //       ^^^^^^^^^^^^ source.js.embedded.jsx meta.mapping
 //         ^^^^^ meta.mapping.key
 //              ^ punctuation.separator.key-value
 //               ^^ meta.number.integer.decimal.js constant.numeric.value.js
-//                   ^ punctuation.definition.interpolation.end
+//                   ^ punctuation.section.interpolation.end
 
+    {attr}name={value}
+//  ^^^^^^ meta.interpolation
+//        ^^^^ entity.other.attribute-name
+//            ^ punctuation.separator.key-value
+//             ^^^^^^^ meta.interpolation
 
     {...attrs}
 //  ^^^^^^^^^^ meta.interpolation
@@ -134,7 +272,7 @@
 //        ^^^^^ meta.mapping.key
 //             ^ punctuation.separator.key-value
 //              ^^ meta.number.integer.decimal.js constant.numeric.value.js
-//                  ^ punctuation.definition.interpolation.end
+//                  ^ punctuation.section.interpolation.end
 
     // baz
 //  ^^^^^^ comment.line.double-slash
@@ -172,16 +310,34 @@
 //     ^^^^^ meta.mapping.key
 //          ^ punctuation.separator.key-value
 //           ^^ meta.number.integer.decimal.js constant.numeric.value.js
-//               ^ punctuation.definition.interpolation.end
+//               ^ punctuation.section.interpolation.end
 
     {//}
-//  ^ punctuation.definition.interpolation.begin
+//  ^ punctuation.section.interpolation.begin
 //   ^^^ comment.line.double-slash
 //   ^^ punctuation.definition.comment
 //     ^ - punctuation
     }
-//  ^ punctuation.definition.interpolation.end
+//  ^ punctuation.section.interpolation.end
+
+    {/* foo */}
+//  ^^^^^^^^^^^ meta.jsx meta.interpolation comment.block - source.embedded
+//  ^ punctuation.section.interpolation.begin
+//   ^^ punctuation.definition.comment.begin
+//          ^^ punctuation.definition.comment.end
+//            ^ punctuation.section.interpolation.end
+
+    {/* foo */ bar}
+//  ^^^^^^^^^^^^^^^ meta.jsx meta.interpolation
+//   ^^^^^^^^^^^^^ source.js.embedded
+//  ^ punctuation.section.interpolation.begin - comment
+//   ^^ punctuation.definition.comment.begin
+//          ^^ punctuation.definition.comment.end
+//            ^^^^^ - comment
+//             ^^^ meta.jsx meta.interpolation variable.other.readwrite
+//                ^ punctuation.section.interpolation.end
+
 </foo>;
 
-    <class />;
-//   ^^^^^ entity.name.tag
+    <Class />;
+//   ^^^^^ entity.name.tag.component - entity.name.tag.native

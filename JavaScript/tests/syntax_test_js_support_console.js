@@ -4,21 +4,19 @@
 //  ^^^^^^^ support.type.object.console
 
     console.log();
-//  ^^^^^^^^^^^^^ meta.function-call.method
 //  ^^^^^^^ support.type.object.console
 //         ^ punctuation.accessor
+//          ^^^^^ meta.function-call
 //          ^^^ support.function.console
 //             ^^ meta.group
 
     console.log;
-//  ^^^^^^^^^^^ - meta.function-call
-//  ^^^^^^^ support.type.object.console
+//  ^^^^^^^ support.type.object.console - meta.function-call
 //         ^ punctuation.accessor
 //          ^^^ support.function.console
 
     console.log.toString();
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.method - meta.function-call meta.function-call
-//  ^^^^^^^ support.type.object.console
+//  ^^^^^^^ support.type.object.console - meta.function-call
 //         ^ punctuation.accessor
 //          ^^^ support.function.console
 

@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: JSON (Go)
+scope: source.json.go
+version: 2
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-text-templates
+
+  string-prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-string-templates

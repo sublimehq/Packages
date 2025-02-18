@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: OCamlyacc
+scope: source.ocamlyacc
+
 file_extensions:
   - mly
-scope: source.ocamlyacc
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \(\* .*? -\*- .*? \bocamlyacc\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - match: '(%{)\s*$'
@@ -35,8 +42,8 @@ contexts:
           pop: true
         - include: comments
         - include: rules
-    - include: scope:source.ocaml
     - include: comments
+    - include: scope:source.ocaml
     - match: (’|‘|“|”)
       scope: invalid.illegal.unrecognized-character.ocaml
   comments:

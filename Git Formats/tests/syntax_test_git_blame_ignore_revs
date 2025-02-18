@@ -1,0 +1,51 @@
+# SYNTAX TEST "Git Blame Ignore Revisions.sublime-syntax"
+# <- text.git.blame.ignorerevs comment.line.git.blame.ignorerevs punctuation.definition.comment.git.blame.ignorerevs
+
+# Standalone comment
+# <- comment.line.git.blame.ignorerevs punctuation.definition.comment.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
+
+# Convert CRLF to LF in source files
+# <- comment.line.git.blame.ignorerevs punctuation.definition.comment.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
+1e142ae87ead6c3cc0684842957b482cc9061c9d ;( :^) #
+# <- constant.other.hash.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.blame.ignorerevs
+#                                       ^ - constant - invalid
+#                                        ^^ invalid.illegal.stray-character.git.blame.ignorerevs
+#                                           ^^^ invalid.illegal.stray-character.git.blame.ignorerevs
+#                                              ^ - comment - invalid
+#                                               ^^ comment.line.git.blame.ignorerevs
+#                                               ^ punctuation.definition.comment.git.blame.ignorerevs
+
+# Trim trailing whitespace in README
+# <- comment.line.git.blame.ignorerevs punctuation.definition.comment.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
+9ed036cf8c7b6d6866fbafadb7954ebcffa6d22c # TODO: rewrite history
+# <- constant.other.hash.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.blame.ignorerevs
+#                                       ^ - constant - comment
+#                                        ^ punctuation.definition.comment.git.blame.ignorerevs
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
+
+the-best-thing-we've-ever-done 3897d1b4465ae8f45c62b2da88cf90033764226c 13 # Hi
+# <- invalid.illegal.stray-character.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.stray-character.git.blame.ignorerevs
+#                             ^ - constant - invalid
+#                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.blame.ignorerevs
+#                                                                      ^ - constant - invalid
+#                                                                       ^^ invalid.illegal.stray-character.git.blame.ignorerevs
+#                                                                         ^ - constant - invalid
+#                                                                          ^ punctuation.definition.comment.git.blame.ignorerevs
+#                                                                          ^^^^^ comment.line.git.blame.ignorerevs
+
+# Migrate to black
+# <- comment.line.git.blame.ignorerevs punctuation.definition.comment.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs
+264b2c9c72691c5937b80e84e061c52dd2d8861a 950d9a0751d79b92d78ea44344ce3e3c5b3948f9## 1 per line please
+# <- constant.other.hash.git.blame.ignorerevs
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.blame.ignorerevs
+#                                       ^ - constant - invalid
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.stray-character.git.blame.ignorerevs
+#                                                                                ^^ punctuation.definition.comment.git.blame.ignorerevs
+#                                                                                ^^^^^^^^^^^^^^^^^^^^^ comment.line.git.blame.ignorerevs

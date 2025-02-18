@@ -1,7 +1,7 @@
 <snippet>
-	<content><![CDATA[\\begin{enumerate}
+	<content><![CDATA[\begin{enumerate}
 	\item $0
-\\end{enumerate}]]></content>
+\end{enumerate}]]></content>
 	<tabTrigger>enum</tabTrigger>
 	<scope>text.tex.latex</scope>
 	<description>Enumerate</description>

@@ -1,0 +1,97 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.texlive.info/CTAN/macros/latex/base/docstrip.pdf
+name: TeX (DocStrip)
+scope: source.tex.docstrip
+version: 2
+
+extends: Packages/LaTeX/TeX.sublime-syntax
+
+file_extensions:
+  - ins
+
+contexts:
+  main:
+    - meta_prepend: true
+    - include: docstrip-preamble
+    - include: docstrip-config
+    - include: docstrip-user-io
+    - include: docstrip-keywords
+    - include: docstrip-constants
+
+  controls:
+    - meta_append: true
+    - match: (\\)endbatchfile{{endcs}}
+      scope: keyword.control.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)(?:batch)?input{{endcs}}
+      scope: meta.function.input.tex keyword.control.input.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+    - match: (\\)ifToplevel{{endcs}}
+      scope: keyword.control.conditional.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  docstrip-preamble:
+    - match: (\\)(?:declare)?(?:pre|post)amble{{endcs}}
+      scope: keyword.context.block.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: docstrip-preamble-content
+
+  docstrip-preamble-content:
+    - meta_include_prototype: false
+    - meta_content_scope: markup.raw.verbatim.tex
+    - match: (\\)end(?:pre|post)amble{{endcs}}
+      scope: keyword.context.block.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+      pop: 1
+
+  docstrip-keywords:
+    - match: (\\)(?:file|from|generateFile){{endcs}}
+      scope: keyword.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+      push: docstrip-file-argument
+    - match: (\\)(?:generate|needed){{endcs}}
+      scope: keyword.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  docstrip-file-argument:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      set: docstrip-file-argument-path
+    - include: else-pop
+    - include: paragraph-pop
+
+  docstrip-file-argument-path:
+    - meta_content_scope: meta.path.tex.docstrip
+    - include: macro-braces-body
+
+  docstrip-config:
+    - match: (\\)(?:usedir|showdirectory|BaseDirectory|DeclareDir|UseTDS|maxfiles|maxoutfiles){{endcs}}
+      scope: support.function.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+
+  docstrip-user-io:
+     - match: (\\)(?:Msg|Ask){{endcs}}
+       scope: support.function.tex.docstrip
+       captures:
+         1: punctuation.definition.backslash.tex
+
+  docstrip-constants:
+    - match: (\\)(?:askforoverwrite(?:true|false)|askonceonly|(?:use|no)(?:pre|post)amble|showprogress|keepsilent){{endcs}}
+      scope: constant.language.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex
+
+    - match: (\\)(?:(?:Double)?perCent|MetaPrefix|empty){{endcs}}
+      scope: constant.language.tex.docstrip
+      captures:
+        1: punctuation.definition.backslash.tex

@@ -7,11 +7,15 @@
 # Examples: https://github.com/alexkaratarakis/gitattributes
 
 name: Git Attributes
-file_extensions:
-  - attributes                # .git/info/attributes
-  - gitattributes             # *.gitattributes
-  - .gitattributes            # ~/.gitattributes
 scope: text.git.attributes
+version: 2
+
+file_extensions:
+  - gitattributes             # *.gitattributes
+
+hidden_file_extensions:
+  - .gitattributes            # ~/.gitattributes
+  - attributes                # .git/info/attributes
 
 contexts:
 
@@ -20,7 +24,7 @@ contexts:
     - include: macro
     - include: pattern
 
-##[ MACROS ]###########################################################
+###[ MACROS ]##################################################################
 
   macro:
     - match: (\[)([^-!]\S*)(\])
@@ -31,7 +35,7 @@ contexts:
         3: punctuation.definition.brackets.end.git.attributes
       push: attributes-list
 
-##[ PATH PATTERN ]#####################################################
+###[ PATH PATTERN ]############################################################
 
   pattern:
     # ignore whitespace at the beginning of a line
@@ -53,45 +57,69 @@ contexts:
     - meta_scope: string.quoted.double.git.attributes
     - meta_content_scope: entity.name.pattern.git.attributes
     - include: string-end
-    - include: Git Common.sublime-syntax#fnmatch-body
+    - include: Git Common.sublime-syntax#fnmatch-quoted-body
 
   pattern-content-unquoted:
     - meta_scope: string.unquoted.git.attributes
     - meta_content_scope: entity.name.pattern.git.attributes
     - match: (?=\s)
-      pop: true
-    - include: Git Common.sublime-syntax#fnmatch-body
+      pop: 1
+    - include: Git Common.sublime-syntax#fnmatch-unquoted-body
 
   pattern-attributes:
+    - meta_include_prototype: false
     - match: ''
       set: attributes-list
 
-##[ ATTRIBUTES LIST ]##################################################
+###[ ATTRIBUTES LIST ]#########################################################
 
   attributes-list:
     - meta_content_scope: meta.attributes-list.git.attributes
-    # attriubte list ends with line
+    # attribute list ends with line
     - match: $\n?
       scope: meta.attributes-list.git.attributes
-      pop: true
+      pop: 1
     # set/unset operators
     - match: '[-!](?=\w)'
       scope: keyword.operator.logical.git.attributes
-    # known attributes
+    # known attributes (builtin)
+    - match: (?=conflict-marker-size\b)
+      push: [meta-conflict-marker-size, attribute-key]
+    - match: (?=delta\b)
+      push: [meta-delta, attribute-key]
     - match: (?=diff\b)
       push: [meta-diff, attribute-key]
     - match: (?=encoding\b)
       push: [meta-encoding, attribute-key]
     - match: (?=eol\b)
       push: [meta-eol, attribute-key]
+    - match: (?=export-ignore\b)
+      push: [meta-export-ignore, attribute-key]
+    - match: (?=export-subst\b)
+      push: [meta-export-subst, attribute-key]
     - match: (?=filter\b)
       push: [meta-filter, attribute-key]
+    - match: (?=ident\b)
+      push: [meta-ident, attribute-key]
     - match: (?=merge\b)
       push: [meta-merge, attribute-key]
     - match: (?=text\b)
       push: [meta-text, attribute-key]
     - match: (?=whitespace\b)
       push: [meta-whitespace, attribute-key]
+    - match: (?=working-tree-encoding\b)
+      push: [meta-working-tree-encoding, attribute-key]
+    # known attributes (linguist)
+    - match: (?=linguist-detectable\b)
+      push: [meta-linguist-detectable, attribute-key]
+    - match: (?=linguist-documentation\b)
+      push: [meta-linguist-documentation, attribute-key]
+    - match: (?=linguist-generated\b)
+      push: [meta-linguist-generated, attribute-key]
+    - match: (?=linguist-language\b)
+      push: [meta-linguist-language, attribute-key]
+    - match: (?=linguist-vendored\b)
+      push: [meta-linguist-vendored, attribute-key]
     # unknown/other attribute
     - match: (?=\w)
       push: [meta-other, attribute-key]
@@ -102,109 +130,179 @@ contexts:
     - match: \S+
       scope: invalid.illegal.attribute-name.git.attributes
 
+  meta-conflict-marker-size:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.conflict-marker-size.git.attributes
+    - include: immediately-pop
+
+  meta-delta:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.delta.git.attributes
+    - include: immediately-pop
+
   meta-diff:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.diff.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-encoding:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.encoding.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-eol:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.eol.git.attributes
-    - include: else-pop
+    - include: immediately-pop
+
+  meta-export-ignore:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.export-ignore.git.attributes
+    - include: immediately-pop
+
+  meta-export-subst:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.export-subst.git.attributes
+    - include: immediately-pop
 
   meta-filter:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.filter.git.attributes
-    - include: else-pop
+    - include: immediately-pop
+
+  meta-ident:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.ident.git.attributes
+    - include: immediately-pop
 
   meta-merge:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.merge.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-text:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.text.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   meta-whitespace:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.builtin.whitespace.git.attributes
-    - include: else-pop
+    - include: immediately-pop
+
+  meta-working-tree-encoding:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.builtin.working-tree-encoding.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-detectable:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-detectable.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-documentation:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-documentation.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-generated:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-generated.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-language:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-language.git.attributes
+    - include: immediately-pop
+
+  meta-linguist-vendored:
+    - meta_include_prototype: false
+    - meta_scope: meta.attribute.linguist.linguist-vendored.git.attributes
+    - include: immediately-pop
 
   meta-other:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute.other.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
-##[ ATTRIBUTE KEY VALUE ]##############################################
+###[ ATTRIBUTE KEY VALUE ]#####################################################
 
   attribute-key:
     - match: \w+[-\w]*\b
       scope: meta.mapping.key.git.attributes variable.language.attribute.git.attributes
       set: attribute-maybe-value-list
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-maybe-value-list:
     - meta_content_scope: meta.mapping.git.attributes
     - match: =(?=\S)
-      scope: punctuation.separator.mapping.key-value.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.key-value.git.attributes
       set: [attribute-value-list, attribute-value-content]
     - match: =
-      scope: punctuation.separator.mapping.key-value.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.key-value.git.attributes
       set: attribute-value-expected
     - include: attribute-separator
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-value-list:
     - meta_content_scope: meta.mapping.value.git.attributes
     - include: attribute-separator
     - match: ',(?=\S)'
-      scope: punctuation.separator.mapping.values.git.attributes
+      scope: punctuation.separator.sequence.git.attributes
       push: attribute-value-content
     - match: ','
-      scope: punctuation.separator.mapping.values.git.attributes
+      scope: meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
       set: attribute-value-expected
     - match: \S
       scope: invalid.illegal.value.git.attributes
-    - include: else-pop
+    - include: immediately-pop
 
   attribute-value-content:
     # double quoted value
     - match: \"
       scope: punctuation.definition.string.begin.git.attributes
-      set:
-        - meta_scope: string.quoted.double.git.attributes
-        - include: string-end
-        - match: \\[\\\"\'fnrst]
-          scope: constant.character.escape.git.attributes
+      set: string-content
     # unquoted value is everything except , and whitespace
     - match: '[^,\s]*'
-      scope: string.unquoted.git.attributes
-      pop: true
-    - include: else-pop
+      scope: meta.string.git.attributes string.unquoted.git.attributes
+      pop: 1
+    - include: immediately-pop
 
   attribute-value-expected:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
-      scope: meta.mapping.expect-value.git.attributes punctuation.separator.mapping.pair.git.attributes
-      pop: true
+      scope:
+        meta.mapping.expect-value.git.attributes
+        punctuation.separator.sequence.git.attributes
+      pop: 1
 
   attribute-separator:
     # Attributes are separated by whitespace
     # One whitespace after each attribute/value is captured as separator
     - match: \s
-      scope: meta.mapping.git.attributes punctuation.separator.mapping.pair.git.attributes
-      pop: true
+      scope:
+        meta.mapping.git.attributes
+        punctuation.separator.sequence.git.attributes
+      pop: 1
 
-##[ PROTOTYPES ]#######################################################
+###[ PROTOTYPES ]##############################################################
+
+  string-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.git.attributes string.quoted.double.git.attributes
+    - include: string-end
+    - match: \\[\\\"\'fnrst]
+      scope: constant.character.escape.git.attributes
 
   string-end:
     - match: \"
       scope: punctuation.definition.string.end.git.attributes
-      pop: true
-    - match: $\n?
+      pop: 1
+    - match: \n
       scope: invalid.illegal.unexpected.eol.git.attributes
-      pop: true
+      pop: 1
 
-  else-pop:
+  immediately-pop:
     - match: ''
-      pop: true
+      pop: 1

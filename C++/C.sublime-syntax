@@ -2,20 +2,23 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: C
+scope: source.c
+
 file_extensions:
   - c
   - h
-first_line_match: "-[*]-( Mode:)? C -[*]-"
-scope: source.c
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \bc\b(?![#+]) .*? -\*-  # editorconfig
+  )
 
 variables:
   # number digits
-  bin_digit: '[01]'
-  oct_digit: '[0-7]'
-  dec_digit: '\d'
-  hex_digit: '\h'
-
-  dec_digits: '{{dec_digit}}+'
+  bin_digit: '[01'']'
+  oct_digit: '[0-7'']'
+  dec_digit: '[\d'']'
+  hex_digit: '[\h'']'
 
   # number exponents
   dec_exponent: '(?:[eE][-+]?{{dec_digit}}*)'
@@ -26,24 +29,36 @@ variables:
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
   hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
-  double_suffix: '[fFlL]'
-  float_suffix: '[fF]'
-  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
+  double_suffix: 'df|DF|dd|DD|dl|DL|[fFlL]'
+  integer_suffix: 'u?wb|[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
-  basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
+  basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|_Decimal(32|64|128)|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
   microsoft_types: '__int8|__int16|__int32|__int64'
   windows_types: 'APIENTRY|ATOM|BOOL|BOOLEAN|BYTE|CALLBACK|CCHAR|CHAR|COLORREF|CONST|DWORD|DWORDLONG|DWORD_PTR|DWORD32|DWORD64|FLOAT|HACCEL|HALF_PTR|HANDLE|HBITMAP|HBRUSH|HCOLORSPACE|HCONV|HCONVLIST|HCURSOR|HDC|HDDEDATA|HDESK|HDROP|HDWP|HENHMETAFILE|HFILE|HFONT|HGDIOBJ|HGLOBAL|HHOOK|HICON|HINSTANCE|HKEY|HKL|HLOCAL|HMENU|HMETAFILE|HMODULE|HMONITOR|HPALETTE|HPEN|HRESULT|HRGN|HRSRC|HSZ|HWINSTA|HWND|INT|INT_PTR|INT8|INT16|INT32|INT64|LANGID|LCID|LCTYPE|LGRPID|LONG|LONGLONG|LONG_PTR|LONG32|LONG64|LPARAM|LPBOOL|LPBYTE|LPCOLORREF|LPCSTR|LPCTSTR|LPCVOID|LPCWSTR|LPDWORD|LPHANDLE|LPINT|LPLONG|LPSTR|LPTSTR|LPVOID|LPWORD|LPWSTR|LRESULT|PBOOL|PBOOLEAN|PBYTE|PCHAR|PCSTR|PCTSTR|PCWSTR|PDWORD|PDWORDLONG|PDWORD_PTR|PDWORD32|PDWORD64|PFLOAT|PHALF_PTR|PHANDLE|PHKEY|PINT|PINT_PTR|PINT8|PINT16|PINT32|PINT64|PLCID|PLONG|PLONGLONG|PLONG_PTR|PLONG32|PLONG64|POINTER_32|POINTER_64|POINTER_SIGNED|POINTER_UNSIGNED|PSHORT|PSIZE_T|PSSIZE_T|PSTR|PTBYTE|PTCHAR|PTSTR|PUCHAR|PUHALF_PTR|PUINT|PUINT_PTR|PUINT8|PUINT16|PUINT32|PUINT64|PULONG|PULONGLONG|PULONG_PTR|PULONG32|PULONG64|PUSHORT|PVOID|PWCHAR|PWORD|PWSTR|QWORD|SC_HANDLE|SC_LOCK|SERVICE_STATUS_HANDLE|SHORT|SIZE_T|SSIZE_T|TBYTE|TCHAR|UCHAR|UHALF_PTR|UINT|UINT_PTR|UINT8|UINT16|UINT32|UINT64|ULONG|ULONGLONG|ULONG_PTR|ULONG32|ULONG64|UNICODE_STRING|USHORT|USN|VOID|WCHAR|WINAPI|WORD|WPARAM'
+  complex: 'complex|imaginary'
+  fenv: 'fenv_t|fexcept_t'
+  setjmp: 'jmp_buf'
+  signal: 'sig_atomic_t'
+  stdarg: 'va_list'
+  stdatomic: 'atomic_(bool|char|schar|uchar|short|ushort|int|uint|long|ulong|llong|ullong|char8_t|char16_t|char32_t|wchar_t|int_least8_t|uint_least8_t|int_least16_t|uint_least16_t|int_least32_t|uint_least32_t|int_least64_t|uint_least64_t|int_fast8_t|uint_fast8_t|int_fast16_t|uint_fast16_t|int_fast32_t|uint_fast32_t|int_fast64_t|uint_fast64_t|intptr_t|uintptr_t|size_t|ptrdiff_t|intmax_t|uintmax_t|flag)|memory_order'
   stdint: 'int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t'
+  stdio: 'FILE|fpos_t'
+  stdlib: 'div_t|ldiv_t|lldiv_t|imaxdiv_t'
+  stddef: 'size_t|ptrdiff_t|max_align_t|nullptr_t'
+  time: 'time_t|clock_t'
+  threads: 'thrd_t|thrd_start_t|mtx_t|cnd_t|tss_t|tss_dtor_t|once_flag'
+  wchar: 'wchar_t|wint_t|wctrans_t|wctype_t'
+  uchar: 'mbstate_t|char8_t|char16_t|char32_t'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
-  storage_classes: 'static|extern|register|{{declspec}}'
-  type_qualifier: 'const|volatile'
-  compiler_directive: 'inline|restrict|__restrict__|__restrict'
+  storage_classes: 'static|extern|register|thread_local|_Thread_local|constexpr|{{declspec}}'
+  type_qualifier: 'const|volatile|_Atomic'
+  compiler_directive: 'inline|restrict|__restrict__|__restrict|_Noreturn|noreturn'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|typeof|typeof_unqual|_Atomic|_BitInt|sizeof|alignof|_Alignof|alignas|_Alignas|static_assert|_Static_assert|__declspec|__attribute__'
 
 contexts:
   main:
@@ -60,35 +75,82 @@ contexts:
   #############################################################################
 
   comments:
-    - match: ^/\* =(\s*.*?)\s*= \*/$\n?
-      scope: comment.block.c
+    - include: block-comments
+    - include: line-comments
+
+  block-comments:
+    - match: ^(/\*) =\s*(.*?)\s*= (\*/)$\n?
+      scope: comment.block.banner.c
       captures:
-        1: meta.toc-list.banner.block.c
+        1: punctuation.definition.comment.begin.c
+        2: meta.toc-list.banner.block.c
+        3: punctuation.definition.comment.end.c
+    # empty block comments
+    - match: /\*\*+/
+      scope: comment.block.empty.c punctuation.definition.comment.c
+    # documentation block comments
+    - match: (?:/\*!|/\*{2,})
+      scope: punctuation.definition.comment.begin.c
+      push: block-comment-documentation-body
+    # normal block comments
     - match: /\*
-      scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.block.c
-        - match: \*/
-          scope: punctuation.definition.comment.c
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.c
-    - match: \*/(?!\*)
+      scope: punctuation.definition.comment.begin.c
+      push: block-comment-body
+    # stray block comment end
+    - match: \*+/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
-    - match: ^// =(\s*.*?)\s*=\s*$\n?
+
+  block-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.c
+    - match: \*+/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+    - match: ^\s*(\*)(?!\**/)
+      captures:
+        1: punctuation.definition.comment.c
+
+  block-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.c
+    - match: \*/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+    - match: ^\s*(\*)(?!\**/)
+      captures:
+        1: punctuation.definition.comment.c
+
+  line-comments:
+    - match: ^(//) =\s*(.*?)\s*=\s*$\n?
       scope: comment.line.banner.c
       captures:
-        1: meta.toc-list.banner.line.c
-    - match: //
+        1: punctuation.definition.comment.c
+        2: meta.toc-list.banner.line.c
+    - match: //(?:!|/(?!/))
       scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.line.double-slash.c
-        - match: '(\\)$\n'
-          captures:
-            1: punctuation.separator.continuation.c
-        - match: \n
-          pop: true
+      push: line-comment-documentation-body
+    - match: //+
+      scope: punctuation.definition.comment.c
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.c
+    - include: line-comment-end
+
+  line-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.documentation.c
+    - include: line-comment-end
+
+  line-comment-end:
+    - match: (?:(//+)\s*)?$\n?
+      captures:
+        1: punctuation.definition.comment.c
+      pop: 1
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.c
 
   strings:
     - match: '(L|u8|u|U)?(")'
@@ -125,13 +187,13 @@ contexts:
   string_placeholder:
     - match: |-
         (?x)%
-          (\d+\$)?                                      # field (argument #)
-          [#0\- +']*                                    # flags
-          [,;:_]?                                       # separator character (AltiVec)
-          ((-?\d+)|\*(-?\d+\$)?)?                       # minimum field width
-          (\.((-?\d+)|\*(-?\d+\$)?)?)?                  # precision
-          (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)?          # length modifier
-          (\[[^\]]+\]|[am]s|[diouxXDOUeEfFgGaACcSspn%]) # conversion type
+          (\d+\$)?                                              # field (argument #)
+          [#0\- +']*                                            # flags
+          [,;:_]?                                               # separator character (AltiVec)
+          ((-?\d+)|\*(-?\d+\$)?)?                               # minimum field width
+          (\.((-?\d+)|\*(-?\d+\$)?)?)?                          # precision
+          (hh|h|ll|l|j|t|z|q|L|H|D|DD|vh|vl|v|hv|hl|wf?[0-9]+)? # length modifier
+          (\[[^\]]+\]|[am]s|[diouxXbDOUeEfFgGaACcSspn%])        # conversion type
       scope: constant.other.placeholder.c
 
   keywords:
@@ -145,7 +207,7 @@ contexts:
       scope: keyword.control.flow.return.c
     - match: \b({{control_keywords}})\b
       scope: keyword.control.c
-    - match: \bsizeof\b
+    - match: \b(sizeof|alignof|_Alignof|static_assert|_Static_assert)\b
       scope: keyword.operator.word.c
 
   modifiers:
@@ -159,7 +221,13 @@ contexts:
       scope: variable.other.readwrite.static.mac-classic.c
 
   constants:
-    - match: \b(__func__|NULL|true|false|TRUE|FALSE)\b
+    - match: \b(false|FALSE)\b
+      scope: constant.language.boolean.false.c
+    - match: \b(true|TRUE)\b
+      scope: constant.language.boolean.true.c
+    - match: \b(nullptr|NULL)\b
+      scope: constant.language.null.c
+    - match: \b__func__\b
       scope: constant.language.c
     - match: \b(__FILE__|__FUNCTION__|__LINE__)\b
       scope: support.constant.c
@@ -178,67 +246,106 @@ contexts:
       scope: keyword.declaration.c
     - match: \b({{basic_types}})\b
       scope: storage.type.c
-    - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t|ptrdiff_t)\b
+    - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|ssize_t|useconds_t|suseconds_t)\b
       scope: support.type.sys-types.c
     - match: \b(pthread_attr_t|pthread_cond_t|pthread_condattr_t|pthread_mutex_t|pthread_mutexattr_t|pthread_once_t|pthread_rwlock_t|pthread_rwlockattr_t|pthread_t|pthread_key_t)\b
       scope: support.type.pthread.c
+    - match: \b({{complex}})\b
+      scope: support.type.complex.c
+    - match: \b({{fenv}})\b
+      scope: support.type.fenv.c
+    - match: \b({{setjmp}})\b
+      scope: support.type.setjmp.c
+    - match: \b({{signal}})\b
+      scope: support.type.signal.c
+    - match: \b({{stdarg}})\b
+      scope: support.type.stdarg.c
+    - match: \b({{stdatomic}})\b
+      scope: support.type.stdatomic.c
     - match: \b({{stdint}})\b
       scope: support.type.stdint.c
+    - match: \b({{stdio}})\b
+      scope: support.type.stdio.c
+    - match: \b({{stdlib}})\b
+      scope: support.type.stdlib.c
+    - match: \b({{stddef}})\b
+      scope: support.type.stddef.c
+    - match: \b({{wchar}})\b
+      scope: support.type.wchar.c
+    - match: \b({{uchar}})\b
+      scope: support.type.uchar.c
+    - match: \b({{time}})\b
+      scope: support.type.time.c
+    - match: \b({{threads}})\b
+      scope: support.type.threads.c
     - match: '\b({{microsoft_types}})\b'
       scope: support.type.microsoft.c
     - match: '\b({{windows_types}})\b'
       scope: support.type.windows.c
     - match: \b(AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b
       scope: support.type.mac-classic.c
+    - include: types-parens
+
+  types-parens:
+    - match: '\b(typeof|__typeof|__typeof__|typeof_unqual|alignas|_Alignas|_Atomic|_BitInt)\b\s*(\()'
+      captures:
+        1: keyword.declaration.type.c
+        2: meta.group.c punctuation.section.group.begin.c
+      push:
+        - meta_content_scope: meta.group.c
+        - match: '\)'
+          scope: meta.group.c punctuation.section.group.end.c
+          pop: true
+        - include: expressions
 
   numbers:
     # https://en.cppreference.com/w/c/language/floating_constant
 
     # decimal floats
     - match: |-
-        (?x:
-          \b({{dec_digits}})
+        (?x)
+        (
+          \b{{dec_digit}}+
           (?:
-            ( (\.)
-              (?:
-                # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                {{dec_digit}}+ {{dec_exponent}}?
-                # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | {{dec_exponent}}
-                # 1., 1.f, 1.L # but not `..`
-                | (?!\.)
-              )
-              # 1e1 1e1f 1e1L
-              | {{dec_exponent}}
-            ) ({{double_suffix}})?
-            # 1f
-            | ({{float_suffix}})
-          ) ({{dec_suffix}})?
-          # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
+          # 1., 1.f, 1.L, 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
+            (\.) (?: {{dec_digit}}+ | (?!\.) ) {{dec_exponent}}?
+          # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
+          | {{dec_exponent}}
+          )
+        # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
+        |  (\.) {{dec_digit}}+ {{dec_exponent}}?
         )
+        (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
       scope: meta.number.float.decimal.c
       captures:
         1: constant.numeric.value.c
-        2: constant.numeric.value.c
+        2: punctuation.separator.decimal.c
         3: punctuation.separator.decimal.c
         4: constant.numeric.suffix.c
-        5: constant.numeric.suffix.c
-        6: invalid.illegal.numeric.suffix.c
-        7: constant.numeric.value.c
-        8: punctuation.separator.decimal.c
-        9: constant.numeric.suffix.c
-        10: invalid.illegal.numeric.suffix.c
+        5: invalid.illegal.numeric.suffix.c
 
     # hexadecimal float (C99)
-    - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})(?:([fFlL]\b)|({{dec_suffix}}))?
+    - match: |-
+        (?x)
+        \b(0[xX])
+        (
+          (?:
+            # 0xfp1, 0xf.p1, 0xfp1f, 0xf.p1f
+            {{hex_digit}}+ (\.)?
+            # 0x.fp1, 0xf.fp1, 0x.fp1f, 0xf.fp1f
+            | {{hex_digit}}* (\.) {{hex_digit}}+
+          )
+          {{hex_exponent}}
+        )
+        (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
       scope: meta.number.float.hexadecimal.c
       captures:
         1: constant.numeric.base.c
         2: constant.numeric.value.c
         3: punctuation.separator.decimal.c
-        4: constant.numeric.suffix.c
-        5: invalid.illegal.numeric.suffix.c
+        4: punctuation.separator.decimal.c
+        5: constant.numeric.suffix.c
+        6: invalid.illegal.numeric.suffix.c
 
     # https://en.cppreference.com/w/c/language/integer_constant
 
@@ -270,7 +377,7 @@ contexts:
         4: invalid.illegal.numeric.suffix.c
 
     # decimal integer
-    - match: \b({{dec_digits}})(?:({{integer_suffix}})|({{dec_suffix}}))?
+    - match: \b({{dec_digit}}+)(?:({{integer_suffix}})|({{dec_suffix}}))?
       scope: meta.number.integer.decimal.c
       captures:
         1: constant.numeric.value.c
@@ -443,6 +550,7 @@ contexts:
 
   global-type:
     - include: comments
+    - include: types-parens
     - match: \*
       scope: keyword.operator.c
     - match: |-
@@ -518,8 +626,8 @@ contexts:
             - match : \)
               scope: punctuation.section.group.end.c
               set: function-definition-continue
-            - match: '\bvoid\b'
-              scope: storage.type.c
+            - include: modifiers
+            - include: types
             - match: '{{identifier}}(?=\s*(\[|,|\)))'
               scope: variable.parameter.c
             - include: expressions
@@ -548,7 +656,7 @@ contexts:
         - match: '\}'
           scope: meta.function.c meta.block.c punctuation.section.block.end.c
           pop: true
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - match: '(?=({{before_tag}})([^(;]+$|.*\{))'
           push: data-structures
@@ -629,7 +737,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.c meta.block.c punctuation.section.block.end.c
           pop: true
-        - include: data-structures-body
+        - include: data-structures-body-enum
 
   data-structures-union-definition:
     - meta_scope: meta.union.c
@@ -682,12 +790,28 @@ contexts:
       push: data-structures
     - include: expressions
 
+  data-structures-body-enum:
+    - include: comments
+    - include: preprocessor-data-structures
+    - match: '(?={{before_tag}})'
+      push: data-structures
+    - match: '{{identifier}}'
+      scope: entity.name.constant.c
+      push: constant-value
+    - match: ','
+      scope: punctuation.separator.c
+
+  constant-value:
+    - match: (?=[,;}])
+      pop: true
+    - include: expressions
+
   block:
     - match: '\{'
       scope: punctuation.section.block.begin.c
       push:
         - meta_scope: meta.block.c
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - match: '\}'
           scope: punctuation.section.block.end.c
@@ -766,7 +890,7 @@ contexts:
           scope: constant.other.c
 
   keywords-parens:
-    - match: '\b(sizeof)\b\s*(\()'
+    - match: '\b(sizeof|alignof|_Alignof|static_assert|_Static_assert)\b\s*(\()'
       captures:
         1: keyword.operator.word.c
         2: meta.group.c punctuation.section.group.begin.c
@@ -785,9 +909,8 @@ contexts:
           captures:
             1: entity.name.type.typedef.c
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: keyword.declaration.struct.c
+        - match: '(?=\b({{before_tag}})\b)'
+          push: data-structures
         - include: expressions
 
   function-call:
@@ -813,7 +936,7 @@ contexts:
     - include: preprocessor-rule-disabled-data-structures
 
   preprocessor-rule-disabled-data-structures:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
@@ -838,25 +961,28 @@ contexts:
               pop: true
             - include: preprocessor-disabled
 
+  preprocessor-if-true:
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      pop: true
+    - match: ^\s*(#\s*else)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.else.c
+      push:
+        - meta_content_scope: comment.block.preprocessor.else-branch.c
+        - match: (?=^\s*#\s*endif\b)
+          pop: true
+        - include: preprocessor-disabled
+
   preprocessor-rule-enabled-data-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -883,7 +1009,7 @@ contexts:
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
@@ -910,24 +1036,13 @@ contexts:
             - include: preprocessor-disabled
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -946,11 +1061,11 @@ contexts:
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
-        # Enter a new scope where all elif/else branches have their
-        # contexts popped by a subsequent elif/else/endif. This ensures that
-        # preprocessor branches don't push multiple meta.block scopes on
-        # the stack, thus messing up the "global" context's detection of
-        # functions.
+        # Enter a new scope where all elif/elifdef/elifndef/else branches have
+        # their contexts popped by a subsequent elif/elifdef/elifndef/else/endif.
+        # This ensures that preprocessor branches don't push multiple meta.block
+        # scopes on the stack, thus messing up the "global" context's detection
+        # of functions.
         - match: $\n
           set: preprocessor-if-branch-global
 
@@ -962,7 +1077,7 @@ contexts:
       captures:
         1: meta.preprocessor.c keyword.control.import.c
       pop: true
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \{
       scope: punctuation.section.block.begin.c
@@ -977,7 +1092,7 @@ contexts:
       captures:
         1: meta.preprocessor.c keyword.control.import.c
       set: preprocessor-block-finish-global
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \}
       scope: punctuation.section.block.end.c
@@ -1015,7 +1130,7 @@ contexts:
   ## Preprocessor for statements
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*((#if)\s+(0))\b
+    - match: ^\s*((#if)\s+(0+))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
@@ -1041,24 +1156,13 @@ contexts:
             - include: preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*((#if)\s+(0*1))\b
+    - match: ^\s*((#if)\s+(0*[1-9]+[\d]*))\b
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
         3: meta.number.integer.decimal.c constant.numeric.value.c
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.else.c
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.c
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-disabled
+        - include: preprocessor-if-true
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -1076,11 +1180,11 @@ contexts:
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
-        # Enter a new scope where all elif/else branches have their
-        # contexts popped by a subsequent elif/else/endif. This ensures that
-        # preprocessor branches don't push multiple meta.block scopes on
-        # the stack, thus messing up the "global" context's detection of
-        # functions.
+        # Enter a new scope where all elif/elifdef/elifndef/else branches have
+        # their contexts popped by a subsequent elif/elifdef/elifndef/else/endif.
+        # This ensures that preprocessor branches don't push multiple meta.block
+        # scopes on the stack, thus messing up the "global" context's detection
+        # of functions.
         - match: $\n
           set: preprocessor-if-branch-statements
 
@@ -1092,7 +1196,7 @@ contexts:
       captures:
         1: meta.preprocessor.c keyword.control.import.c
       pop: true
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \{
       scope: punctuation.section.block.begin.c
@@ -1116,7 +1220,7 @@ contexts:
     - match : \)
       scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
       set: preprocessor-if-branch-statements
-    - match: ^\s*(#\s*(?:elif|else))\b
+    - match: ^\s*(#\s*(?:elif|elifdef|elifndef|else))\b
       captures:
         1: meta.preprocessor.c keyword.control.import.c
       set: preprocessor-if-branch-statements
@@ -1139,7 +1243,7 @@ contexts:
       captures:
         1: meta.preprocessor.c keyword.control.import.c
       set: preprocessor-block-finish-statements
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \}
       scope: punctuation.section.block.end.c
@@ -1182,7 +1286,7 @@ contexts:
         - match: '\{'
           scope: punctuation.section.block.begin.c
           pop: true
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - include: statements
 
@@ -1286,7 +1390,7 @@ contexts:
         - include: expressions
 
   preprocessor-other:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else|line|pragma|undef))\b
       captures:
         1: keyword.control.import.c
       push:
@@ -1310,7 +1414,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c
-    - match: ^\s*(#\s*(?:include|include_next|import))\b
+    - match: ^\s*(#\s*(?:include|include_next|embed|import))\b
       captures:
         1: keyword.control.import.include.c
       push:

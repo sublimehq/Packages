@@ -40,6 +40,17 @@
 #    ^^^^^^^^^^^^^ entity.name.section.r
 #                 ^^^^^^ comment.line.number-sign.r - entity
 
+######
+# <- comment.line.number-sign.r punctuation.definition.comment.r - entity
+#^^^^^ comment.line.number-sign.r punctuation.definition.comment.r - entity
+#     ^ comment.line.number-sign.r - entity - punctuation
+
+# # ####
+# <- comment.line.number-sign.r punctuation.definition.comment.r - entity
+#^ comment.line.number-sign.r - entity - punctuation
+# ^ comment.line.number-sign.r entity.name.section.r
+#  ^^^^^^ comment.line.number-sign.r - entity - punctuation
+
 # no section ###
 # ^^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
 
@@ -73,11 +84,11 @@ month.name
 month.abb
 # <- support.constant.misc.r
 TRUE
-# <- constant.language.r
+# <- constant.language.boolean.true.r
 FALSE
-# <- constant.language.r
+# <- constant.language.boolean.false.r
 NULL
-# <- constant.language.r
+# <- constant.language.null.r
 NA
 # <- constant.language.r
 NA_integer_
@@ -251,21 +262,22 @@ NaN
 #          ^ keyword.operator.arithmetic.r
 #            ^ keyword.operator.arithmetic.r
 
-  <<- <- = -> ->>
+  <<- <- = -> ->> |>
 # ^^^ keyword.operator.assignment.r
 #     ^^ keyword.operator.assignment.r
 #        ^ keyword.operator.assignment.r
 #          ^^ keyword.operator.assignment.r
 #             ^^^ keyword.operator.assignment.r
+#                 ^^ keyword.operator.assignment.redirection.r
 
   == != <= >= <> < > && & || | !
-# ^^ keyword.operator.logical.r
-#    ^^ keyword.operator.logical.r
-#       ^^ keyword.operator.logical.r
-#          ^^ keyword.operator.logical.r
-#             ^^ keyword.operator.logical.r
-#                ^ keyword.operator.logical.r
-#                  ^ keyword.operator.logical.r
+# ^^ keyword.operator.comparison.r
+#    ^^ keyword.operator.comparison.r
+#       ^^ keyword.operator.comparison.r
+#          ^^ keyword.operator.comparison.r
+#             ^^ keyword.operator.comparison.r
+#                ^ keyword.operator.comparison.r
+#                  ^ keyword.operator.comparison.r
 #                    ^^ keyword.operator.logical.r
 #                       ^ keyword.operator.logical.r
 #                         ^^ keyword.operator.logical.r
@@ -506,7 +518,7 @@ foo[[bar[1]]] #
 # issue #1120
 sum(x == 1)
 #   ^^^^^^ - variable.parameter.r
-#     ^^ keyword.operator.logical.r
+#     ^^ keyword.operator.comparison.r
 
 function(
   x = 1, # this should be comment

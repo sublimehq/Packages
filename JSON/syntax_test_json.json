@@ -1,11 +1,43 @@
 // SYNTAX TEST "Packages/JSON/JSON.sublime-syntax"
 
+    /* comment */
+//  ^^^^^^^^^^^^^ comment.block.json
+//  ^^ punctuation.definition.comment.begin.json
+//             ^^ punctuation.definition.comment.end.json
+
+  /**
+      *
+  //  ^ comment.block.documentation.json punctuation.definition.comment.json
+  */
+// <- comment.block.documentation.json
+//^^ comment.block.documentation.json punctuation.definition.comment.end.json
+
+/**/
+// <- comment.block.empty.json punctuation.definition.comment.json
+//^^ comment.block.empty.json punctuation.definition.comment.json
+
+/********/
+// <- comment.block.empty.json punctuation.definition.comment.json
+//^^^^^^^^ comment.block.empty.json punctuation.definition.comment.json
+
+/**************
+// <- comment.block.documentation.json punctuation.definition.comment.begin.json
+//^^^^^^^^^^^^^ comment.block.documentation.json punctuation.definition.comment.begin.json
+**************/
+// <- comment.block.documentation.json punctuation.definition.comment.end.json
+//^^^^^^^^^^^^^ comment.block.documentation.json punctuation.definition.comment.end.json
+
 {
 // <- meta.mapping.json punctuation.section.mapping.begin.json
   "bool": false,
 //^^^^^^ meta.mapping.key.json
 //^^^^^^^^^^^^^^ - meta.mapping meta.mapping
-//        ^^^^^ constant.language.json
+//        ^^^^^ constant.language.boolean.false.json
+
+  "null": null,
+//^^^^^^ meta.mapping.key.json
+//^^^^^^^^^^^^^ - meta.mapping meta.mapping
+//        ^^^^ constant.language.null.json
 
   "dict": { "key": "value" }
 //        ^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping - meta.mapping meta.mapping meta.mapping
@@ -18,18 +50,21 @@
 //                        ^^ meta.mapping.value.json meta.mapping.json
 
 , ,
-// <- punctuation.separator.mapping.pair.json
+// <- punctuation.separator.sequence.json
 //^ invalid.illegal.expected-mapping-key.json
 
   "sep": {},
-//     ^ punctuation.separator.mapping.key-value.json
+//     ^ punctuation.separator.key-value.json
 
   "array": [ /**/ ],
 //         ^^^^^^^^ meta.mapping.value.json meta.sequence.json
 //         ^   punctuation.section.sequence.begin.json
-//           ^^^^ comment.block.json
+//           ^^^^ comment.block.empty.json punctuation.definition.comment.json
 //                ^ punctuation.section.sequence.end.json
 
+  "dict": {"foo":,},
+//               ^ invalid.illegal.expected-mapping-value.json
+//                ^ punctuation.section.mapping.end.json
   "dict": {"foo": },
 //               ^ invalid.illegal.expected-mapping-value.json
 //                ^ punctuation.section.mapping.end.json
@@ -47,16 +82,18 @@
     "foo": "bar"
     // comment
 // ^ - invalid
-//  ^^^^^^^^^^ comment.line.double-slash.js
+//  ^^^^^^^^^^ comment.line.double-slash.json
     ,
-//  ^ punctuation.separator.mapping.pair.json
+//  ^ punctuation.separator.sequence.json
     "foo": "bar"
     /* comment */
 // ^ - invalid
 //  ^^^^^^^^^^^^^ comment.block.json
+//  ^^ punctuation.definition.comment.begin.json
+//             ^^ punctuation.definition.comment.end.json
   },
 //^ punctuation.section.mapping.end.json
-// ^ punctuation.separator.mapping.pair.json
+// ^ punctuation.separator.sequence.json
 
   "string": "string",
 //          ^        punctuation.definition.string.begin.json
@@ -75,7 +112,7 @@
   "E": 20e10,
 //     ^^^^^ meta.number.float.decimal.json constant.numeric.value.json
 //^^^ meta.mapping.key.json string.quoted.double.json
-//   ^ punctuation.separator.mapping.key-value.json - meta.mapping.key
+//   ^ punctuation.separator.key-value.json - meta.mapping.key
 
   "escape": "\n",
 //           ^^ constant.character.escape.json
@@ -91,8 +128,8 @@
 // <- - string
 
 /**/: "test",
-// ^ meta.mapping.json comment.block.json
-//  ^ punctuation.separator.mapping.key-value.json - comment
+// ^ meta.mapping.json comment.block.empty.json
+//  ^ punctuation.separator.key-value.json - comment
 //    ^^^^^^ meta.mapping.value.json string.quoted.double.json
 
   "array2":
@@ -111,8 +148,4 @@
   "ke//y": "value"
 //^^^^^^^ meta.mapping.key.json string.quoted.double.json - comment
 
-/**
-    *
-//  ^ meta.mapping.json comment.block.documentation.json punctuation.definition.comment.json
-*/
 }

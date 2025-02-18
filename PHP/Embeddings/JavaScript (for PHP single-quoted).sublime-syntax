@@ -1,0 +1,25 @@
+%YAML 1.2
+---
+scope: source.js.embedded.string.quoted.single.php
+version: 2
+hidden: true
+
+extends: Packages/PHP/JavaScript (PHP).sublime-syntax
+
+contexts:
+  main:
+    - include: expressions
+
+  field-name:
+    - meta_prepend: true
+    - match: (?=')
+      pop: 1
+
+  method-name:
+    - meta_prepend: true
+    - match: (?=')
+      pop: 1
+
+  literal-single-quoted-string:
+    - match: (?=')
+      pop: 1

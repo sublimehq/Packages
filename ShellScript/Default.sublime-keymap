@@ -3,27 +3,39 @@
     // Command Interpolation
     //
 
-    // Auto-pair backticks: `|`
+    // Auto-pair backticks: | -> `|`
     { "keys": ["`"], "command": "insert_snippet", "args": {"contents": "`${0:$SELECTION}`"}, "context":
         [
             { "key": "setting.auto_match_enabled", "operand": true },
             { "key": "selector", "operand": "source.shell - meta.interpolation.command" },
             { "key": "preceding_text", "operator": "not_regex_contains", "operand": "`$", "match_all": true },
-            { "key": "following_text", "operator": "not_regex_contains", "operand": "^`", "match_all": true }
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|,|;|'|\"|\\||&|<|>|$)", "match_all": true }
         ]
     },
-    // Remove backticks when backspace is pressed
+    // Move over existing backtick |` -> `|
+    {
+        "keys": ["`"],
+        "command": "move",
+        "args": {"by": "characters", "forward": true},
+        "context": [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.shell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
+        ]
+    },
+    // Remove backticks when backspace is pressed `|` -> |
     { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
         [
             { "key": "setting.auto_match_enabled", "operand": true },
-            { "key": "selector", "operand": "source.shell  meta.interpolation.command" },
+            { "key": "selector", "operand": "source.shell" },
             { "key": "selection_empty", "operand": true, "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "`$", "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
         ]
     },
 
-    // Auto-pair parentheses: $(|)
+    // Auto-pair parentheses: $| -> $(|)
     { "keys": ["("], "command": "insert_snippet", "args": {"contents": "($0)"}, "context":
         [
             { "key": "setting.auto_match_enabled", "operand": true },
@@ -57,7 +69,7 @@
     // Parameter Interpolation
     //
 
-    // Auto-pair braces: ${|}
+    // Auto-pair braces: $| -> ${|}
     { "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
         [
             { "key": "setting.auto_match_enabled", "operand": true },

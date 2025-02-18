@@ -1,0 +1,21 @@
+{
+	"scope": "source.dosbatch meta.command.setlocal - comment - keyword",
+	"completions": [
+		{
+			"trigger": "EnableDelayedExpansion",
+			"kind": ["variable", "p", "Parameter"]
+		},
+		{
+			"trigger": "DisableDelayedExpansion",
+			"kind": ["variable", "p", "Parameter"]
+		},
+		{
+			"trigger": "EnableExtensions",
+			"kind": ["variable", "p", "Parameter"]
+		},
+		{
+			"trigger": "DisableExtensions",
+			"kind": ["variable", "p", "Parameter"]
+		},
+	]
+}

@@ -3,6 +3,6 @@
 
 ${2:main = ${3:putStrLn "Hello World"}}]]></content>
 	<tabTrigger>mod</tabTrigger>
-	<scope>source.haskell</scope>
+	<scope>source.haskell - comment - string - meta.block - meta.declaration</scope>
 	<description>Module</description>
 </snippet>

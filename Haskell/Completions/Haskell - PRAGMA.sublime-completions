@@ -1,0 +1,140 @@
+{
+	"scope": "meta.preprocessor.pragma.directive.haskell",
+	"completions": [
+		{
+			"trigger": "LANGUAGE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OPTIONS",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OPTIONS_GHC",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OPTIONS_HADDOCK",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INCLUDE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "WARNING",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "DEPRECATED",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "COMPLETE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "MINIMAL",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "UNPACK",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "NOUNPACK",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SOURCE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OVERLAPPING",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OVERLAPPABLE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OVERLAPS",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INCOHERENT",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "NOINLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INLINABLE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "CONLIKE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "LINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "COLUMN",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "RULES",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE INLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE NOINLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE instance",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		}
+	]
+}

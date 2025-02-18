@@ -1,0 +1,307 @@
+%YAML 1.2
+---
+name: Regular Expression (Basic)
+scope: source.regexp.basic
+version: 2
+hidden: true
+
+variables:
+  # escapes
+  char_class: \\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(?:L&|[A-Z][a-z]?)))
+  char_escape: \\.
+  known_char_escape: \\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)
+  invalid_char_escape: \\[xcCM]
+
+  # modifiers
+  activate_x_mode: (?:\?[ims]*x[ixms]*(?:-[ims]+)?)
+  deactivate_x_mode: (?:\?[ims]*-[ims]*x[imxs]*)
+  other_modifiers: (?:\?(?:[ixms]*-)?[ixms]+)
+
+  # quantifiers
+  character_quantifier: '[?*+]'
+  lazy_or_possessive: '[?+]?'
+  ranged_quantifier: \{\d+(?:,\d*)?\}
+
+contexts:
+  main:
+    - include: unexpected-quantifiers
+    - match: ''
+      push: base-literal
+
+  main-extended:
+    - include: unexpected-quantifiers
+    - match: ''
+      push: base-literal-extended
+
+  # This is the default context
+  base-literal:
+    - meta_scope: meta.mode.basic.regexp
+    - include: xmode-on
+    - include: base
+    - include: literals
+
+  # This is the extended context
+  #
+  # The "-extended" prefixed contexts are necessary
+  # to keep the extended mode enabled in subgroups
+  # and disable it properly when it is unset (and in sets).
+  # Switching happens in the "group-start*" contexts.
+  base-literal-extended:
+    - meta_scope: meta.mode.extended.regexp
+    - include: xmode-off
+    - include: base-extended
+    - include: literals
+
+  base:
+    - include: modifiers
+    - include: group-comments
+    - include: groups
+    - include: base-common
+
+  base-extended:
+    - include: modifiers
+    - include: group-comments
+    - include: groups-extended
+    - include: extended-patterns # <- this is where the contexts differ
+    - include: base-common
+
+  base-common:
+    - include: character-classes
+    - include: anchors
+    - include: backrefs
+    - include: switches
+    - include: escaped-chars
+    - include: charsets
+    - include: operators
+
+  extended-patterns:
+    - include: line-comments
+    - match: \s+
+      scope: meta.ignored-whitespace.regexp
+
+  line-comments:
+    - match: \#+
+      scope: punctuation.definition.comment.regexp
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_scope: comment.line.number-sign.regexp
+    - match: \n # does not close on `)`!
+      pop: 1
+
+  group-comments:
+    - match: \(\?#
+      scope: punctuation.definition.comment.begin.regexp
+      push: group-comment-body
+
+  group-comment-body:
+    - meta_scope: comment.block.group.regexp
+    - match: \)
+      scope: punctuation.definition.comment.end.regexp
+      pop: 1
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.regexp
+      push: [group-body, maybe-unexpected-quantifiers, group-start]
+
+  groups-extended:
+    - match: \(
+      scope: punctuation.section.group.begin.regexp
+      push: [group-body-extended, maybe-unexpected-quantifiers, group-start]
+
+  group-start:
+    - meta_include_prototype: false
+    - match: \?(<[=!]|[>=:!])
+      scope: constant.other.assertion.regexp
+      pop: 1
+    # Groups which activate 'x' mode
+    - match: '{{activate_x_mode}}:'
+      scope: storage.modifier.mode.regexp
+      pop: 3
+      set: [group-body-extended, maybe-unexpected-quantifiers]
+    # Groups which deactivate 'x' mode
+    - match: '{{deactivate_x_mode}}:'
+      scope: storage.modifier.mode.regexp
+      pop: 3
+      set: [group-body, maybe-unexpected-quantifiers]
+    # Other modifiers
+    - match: '{{other_modifiers}}:'
+      scope: storage.modifier.mode.regexp
+      pop: 1
+    - match: ''
+      pop: 1
+
+  group-body:
+    - clear_scopes: 1
+    - meta_scope: meta.group.regexp meta.mode.basic.regexp
+    - include: group-end
+    - include: group-xmode-on
+    - include: base
+    - include: literals
+
+  group-body-extended:
+    - clear_scopes: 1
+    - meta_scope: meta.group.regexp meta.mode.extended.regexp
+    - include: group-end
+    - include: group-xmode-off
+    - include: base-extended
+    - include: literals
+
+  group-end:
+    - match: \)
+      scope: punctuation.section.group.end.regexp
+      pop: 1
+
+  group-xmode-on:
+    # Activates 'x' mode
+    - match: (?=\({{activate_x_mode}}\))
+      set: [group-body-extended, xmode-modifier]
+
+  group-xmode-off:
+    # Deactivates 'x' mode
+    - match: (?=\({{deactivate_x_mode}}\))
+      set: [group-body, xmode-modifier]
+
+  xmode-on:
+    # Activates 'x' mode
+    - match: (?=\({{activate_x_mode}}\))
+      set: [base-literal-extended, xmode-modifier]
+
+  xmode-off:
+    # Deactivates 'x' mode
+    - match: (?=\({{deactivate_x_mode}}\))
+      set: [base-literal, xmode-modifier]
+
+  xmode-modifier:
+    - meta_include_prototype: false
+    - match: (\()([^)]+)(\))
+      captures:
+        0: meta.modifier.regexp
+        1: punctuation.definition.modifier.begin.regexp
+        2: storage.modifier.mode.regexp
+        3: punctuation.definition.modifier.end.regexp
+      set: maybe-unexpected-quantifiers
+
+  modifiers:
+    - match: (\()({{other_modifiers}})(\))
+      captures:
+        0: meta.modifier.regexp
+        1: punctuation.definition.modifier.begin.regexp
+        2: storage.modifier.mode.regexp
+        3: punctuation.definition.modifier.end.regexp
+      push: maybe-unexpected-quantifiers
+
+  charsets:
+    - match: (\[)(\^?)\]?
+      captures:
+        1: punctuation.definition.set.begin.regexp
+        2: keyword.operator.logical.regexp
+      push: charset-body
+
+  charset-body:
+    - meta_scope: meta.set.regexp
+    - match: \]
+      scope: punctuation.definition.set.end.regexp
+      pop: 1
+    - include: charset-ranges
+    - include: character-classes
+    - include: escaped-chars
+
+  charset-ranges:
+    - match: (?=({{known_char_escape}}|{{char_escape}}|(?!\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))
+      push: [charset-range-end, charset-range-begin]
+
+  charset-range-begin:
+    - meta_include_prototype: false
+    - match: '-'
+      scope: punctuation.separator.sequence.regexp
+      pop: 1
+    - include: escaped-chars
+
+  charset-range-end:
+    - meta_include_prototype: false
+    - meta_scope: constant.other.range.regexp
+    - include: escaped-char
+    - match: .
+      pop: 1
+
+  character-classes:
+    - match: '{{char_class}}'
+      scope: keyword.control.character-class.regexp
+
+  escaped-chars:
+    - match: '{{known_char_escape}}'
+      scope: constant.character.escape.regexp
+    - match: '{{invalid_char_escape}}'
+      scope: invalid.illegal.character.escape.regexp
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.regexp
+
+  escaped-char:
+    - match: '{{known_char_escape}}'
+      scope: constant.character.escape.regexp
+      pop: 1
+    - match: '{{invalid_char_escape}}'
+      scope: invalid.illegal.character.escape.regexp
+      pop: 1
+    - match: '{{char_escape}}'
+      scope: constant.character.escape.regexp
+      pop: 1
+
+  anchors:
+    - match: \\[bBAZzG]|[\^$]
+      scope: keyword.control.anchor.regexp
+      push: maybe-unexpected-quantifiers
+
+  backrefs:
+    - match: \\([1-9]\d*)
+      scope: keyword.other.backref-and-recursion.regexp
+      captures:
+        1: variable.other.backref-and-recursion.regexp
+
+  switches:
+    - match: \\K
+      scope: keyword.control.regexp
+      push: maybe-unexpected-quantifiers
+    - match: \\Q
+      scope: keyword.control.regexp
+      push: literal-until-backslash-e
+
+  literal-until-backslash-e:
+    - meta_content_scope: meta.literal.regexp
+    - match: \\E
+      scope: keyword.control.regexp
+      pop: 1
+
+  quantifiers:
+    - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
+      scope: keyword.operator.quantifier.regexp
+      push: maybe-unexpected-quantifiers
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: keyword.operator.quantifier.regexp
+      push: maybe-unexpected-quantifiers
+
+  maybe-unexpected-quantifiers:
+    - meta_include_prototype: false
+    - include: unexpected-quantifiers
+    - match: ''
+      pop: 1
+
+  unexpected-quantifiers:
+    - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
+      scope: invalid.illegal.unexpected-quantifier.regexp
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: invalid.illegal.unexpected-quantifier.regexp
+
+  operators:
+    - match: \|
+      scope: keyword.operator.alternation.regexp
+      push: maybe-unexpected-quantifiers
+
+  literals:
+    - include: quantifiers
+    - match: \.
+      scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
+    - match: \)
+      scope: invalid.illegal.unmatched-brace.regexp

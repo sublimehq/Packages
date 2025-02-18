@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: JSON (Rails)
+scope: source.json.rails
+version: 2
+
+extends: Packages/JSON/JSON.sublime-syntax
+
+file_extensions:
+  - json.erb
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  string-prototype:
+    - meta_prepend: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations

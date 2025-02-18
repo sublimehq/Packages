@@ -6,6 +6,7 @@
 		source.php entity.name.function,
 		source.php support.function.magic,
 		source.php entity.name.class,
+		source.php entity.name.constant,
 		source.php entity.name.interface,
 		source.php entity.name.trait
 	</string>

@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+scope: text.html.markdown.embedded.haml
+version: 2
+hidden: true
+
+extends: Packages/Markdown/Markdown.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: HAML.sublime-syntax#interpolations
+
+  main:
+    - include: indented-markdown
+
+  html-content:
+    - include: HTML (for HAML).sublime-syntax#html

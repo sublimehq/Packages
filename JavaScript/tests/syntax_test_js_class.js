@@ -11,6 +11,7 @@ class MyClass extends TheirClass {
 //  ^ variable.other.readwrite
 //    ^ keyword.operator.assignment
 //      ^^ constant.numeric
+//        ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
 
     'y' = 42;
 //  ^^^ meta.string string.quoted.single
@@ -31,11 +32,19 @@ class MyClass extends TheirClass {
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
+    [w]
+    get other() {}
+//  ^^^ storage.type.accessor.js
+
     #v = 42;
 //  ^ punctuation.definition.variable
 //   ^ variable.other.readwrite
 //     ^ keyword.operator.assignment
 //       ^^ constant.numeric
+
+    #u
+    get other() {}
+//  ^^^ storage.type.accessor.js
 
     f = a => b;
 //  ^ entity.name.function variable.other.readwrite
@@ -97,6 +106,39 @@ class MyClass extends TheirClass {
 //         ^ entity.name.function variable.other.readwrite
 //             ^^^^^^^^^^^^^ meta.function
 
+    static {
+//  ^^^^^^ storage.modifier
+//         ^ meta.block punctuation.section.block.begin
+        this.#foo = 42;
+//      ^^^^ variable.language.this
+//          ^ punctuation.accessor
+//           ^ punctuation.definition.variable
+//            ^^^ meta.property.object
+//                ^ keyword.operator.assignment
+//                  ^^ meta.number.integer.decimal constant.numeric.value
+    }
+//  ^ meta.block punctuation.section.block.end
+
+    static = 42;
+//  ^^^^^^ variable.other.readwrite
+
+    static static = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^^^^ variable.other.readwrite
+
+    static() {}
+//  ^^^^^^^^^^^ meta.function
+//  ^^^^^^ entity.name.function
+
+    static static() {}
+//  ^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^ storage.modifier.js
+//         ^^^^^^ entity.name.function
+
+    accessor foo;
+//  ^^^^^^^^ storage.modifier
+//           ^^^ variable.other.readwrite
+
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
 //  ^^ meta.class meta.block meta.function
@@ -110,7 +152,8 @@ class MyClass extends TheirClass {
         for (const param of this.#data.get('value')) {}
 //                               ^ punctuation.definition.variable
 //                                ^^^^ meta.property.object
-    }
+    };
+//   ^ punctuation.terminator.statement.empty.js
 
     #privateMethod() {}
 //  ^^^^^^^^^^^^^^^^^^^ meta.function
@@ -135,7 +178,14 @@ class MyClass extends TheirClass {
         return this._foo;
     }
 
+    get *foo()
+//  ^^^^^^^^ meta.function
+//  ^^^ storage.type.accessor
+//      ^ keyword.generator.asterisk
+//       ^^^ entity.name.function
+
     static foo(baz) {
+//  ^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^ storage.modifier
 //         ^^^^^^^^^^ meta.function
     //     ^^^ entity.name.function
@@ -218,8 +268,28 @@ class MyClass extends TheirClass {
 //  ^^^^^ keyword.declaration.async
 //        ^ keyword.generator.asterisk
 
+    static *foo() {}
+//  ^^^^^^ storage.modifier
+//         ^ keyword.generator.asterisk
+//          ^^^ entity.name.function
+
     static async foo() {}
+//  ^^^^^^ storage.modifier
 //         ^^^^^ keyword.declaration.async
+
+    async() {}
+//  ^^^^^^^^^^ meta.function
+//  ^^^^^ entity.name.function
+//       ^^ meta.function.parameters
+//       ^ punctuation.section.group.begin
+//        ^ punctuation.section.group.end
+//          ^^ meta.block
+//          ^ punctuation.section.block.begin
+//           ^ punctuation.section.block.end
+
+    static async() {}
+//  ^^^^^^ storage.modifier
+//         ^^^^^ entity.name.function
 }
 // <- meta.block punctuation.section.block.end
 

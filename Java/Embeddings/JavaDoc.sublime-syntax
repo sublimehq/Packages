@@ -1,0 +1,307 @@
+%YAML 1.2
+---
+###############################################################################
+# Notes:
+#
+#   The comment block is part of Java Syntax and thus scoped
+#   `comment.block.documentation.java`.
+#
+#   The comment's content followed by the first `*` of each line contains the
+#   JavaDoc content itself.
+#
+#   JavaDoc is pure HTML with some specific JavaDoc Tags being supported for
+#   easier authoring. A JavaDoc may contain:
+#
+#     - HTML tags            : <tag>content</tag>  :  meta.tag.html
+#     - JavaDoc Inline Tags  : {@tag content}      :  meta.tag.inline.javadoc
+#     - JavaDoc Block Tags   : @tag content        :  meta.tag.block.javadoc
+#
+#   While `HTML Tags` and `JavaDoc Inline Tags` are supported everywhere,
+#   `JavaDoc Block Tags` form the block tag section following the description
+#   section. Each tag terminates a former block tag's content (if one) and
+#   starts a new block section. Only the first token after `*` is matched as
+#   `JavaDoc Block Tag`.
+#
+# References:
+#
+#   https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentation
+#   https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentationcomments
+#   http://www.sublimetext.com/docs/syntax.html
+#
+###############################################################################
+
+name: JavaDoc
+scope: text.html.javadoc
+version: 2
+hidden: true
+
+extends: Packages/HTML/HTML (Plain).sublime-syntax
+
+###############################################################################
+
+variables:
+  id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
+
+###############################################################################
+
+contexts:
+
+  # The main context can be included directly by a 3rd-party syntax.
+  #
+  # Example:
+  #
+  #   - include: scope:text.html.javadoc
+  #
+  main:
+    - match: /\*\*+
+      scope:
+        comment.block.documentation.java
+        punctuation.definition.comment.begin.java
+      embed: javadoc
+      embed_scope: comment.block.documentation.java
+      escape: \*+/
+      escape_captures:
+        0: comment.block.documentation.java
+           punctuation.definition.comment.end.java
+
+  # The javadoc context can be used to embed JavaDoc content.
+  #
+  # Example:
+  #
+  #   - match: /\*\*+
+  #     scope:
+  #       comment.block.documentation.java
+  #       punctuation.definition.comment.begin.java
+  #     embed: scope:text.html.javadoc#javadoc
+  #     embed_scope: comment.block.documentation.java
+  #     escape: \*+/
+  #     escape_captures:
+  #       0: comment.block.documentation.java
+  #          punctuation.definition.comment.end.java
+  #
+  javadoc:
+    - match: ''
+      set: [javadoc-body, javadoc-block-tag]
+
+  javadoc-body:
+    - match: ^\s*(\*)?\s*
+      captures:
+        1: punctuation.definition.comment.java
+      push: javadoc-block-tag
+    - include: javadoc-inline-formatting
+
+  javadoc-asterisk:
+    - match: ^(?:\s*(\*)\s?)?
+      captures:
+        1: punctuation.definition.comment.java
+      pop: 1
+
+###[ JAVADOC BLOCK TAGS ]######################################################
+
+  javadoc-block-tag:
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
+    - match: \@param\b
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-param-args
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
+    - match: \@see\b
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-reference
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
+    - match: \@(throws|exception)\b
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-reference
+    - match: \@(uses|provides)\b
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-reference
+    - match: \@(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
+      set: javadoc-block-tag-common
+    - match: (?=\S)|$
+      pop: 1
+
+  javadoc-block-tag-common:
+    - include: javadoc-block-tag-terminator
+    - include: javadoc-inline-formatting
+
+  javadoc-block-tag-param-args:
+    - include: javadoc-block-tag-terminator
+    - match: \S+
+      scope: variable.parameter.javadoc
+      pop: 1
+
+  javadoc-block-tag-reference:
+    - include: javadoc-block-tag-terminator
+    - include: javadoc-reference
+
+  javadoc-block-tag-terminator:
+    - match: (?=^\s*\*?\s*@)
+      pop: 1
+    - match: ^\s*(\*)\s*
+      captures:
+        1: punctuation.definition.comment.java
+
+###[ JAVADOC INLINE TAGS ]#####################################################
+
+  javadoc-inline-formatting:
+    - include: javadoc-inline-tags
+    - include: javadoc-html-tags
+
+  javadoc-inline-tags:
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#code
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#literal
+    - match: ({)(@(?:code|literal))(?:\s+|(?=\}))
+      captures:
+        1: punctuation.definition.tag.begin.javadoc
+        2: entity.name.tag.documentation.javadoc
+      push: javadoc-inline-tag-raw
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#link
+    - match: ({)(@link(?:plain)?)\b
+      captures:
+        1: punctuation.definition.tag.begin.javadoc
+        2: entity.name.tag.documentation.javadoc
+      push:
+        - javadoc-inline-tag-common
+        - javadoc-inline-tag-label
+        - javadoc-inline-tag-reference
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#value
+    - match: ({)(@value)\b
+      captures:
+        1: punctuation.definition.tag.begin.javadoc
+        2: entity.name.tag.documentation.javadoc
+      push:
+        - javadoc-inline-tag-common
+        - javadoc-inline-tag-reference
+    # http://openjdk.java.net/jeps/225
+    # https://bugs.openjdk.java.net/browse/JDK-8178725
+    - match: ({)(@(?:index|extLink))\b
+      captures:
+        1: punctuation.definition.tag.begin.javadoc
+        2: entity.name.tag.documentation.javadoc
+      push: javadoc-inline-tag-common
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#inheritDoc
+    - match: ({)(@inheritDoc)(})
+      scope: meta.tag.inline.javadoc
+      captures:
+        1: punctuation.definition.tag.begin.javadoc
+        2: entity.name.tag.documentation.javadoc
+        3: punctuation.definition.tag.end.javadoc
+
+  javadoc-inline-tag-end:
+    - match: \}
+      scope: punctuation.definition.tag.end.javadoc
+      pop: 1
+
+  javadoc-inline-tag-common:
+    - meta_scope: meta.tag.inline.javadoc
+    - include: javadoc-inline-tag-end
+    - include: javadoc-inline-tag-continuation-1
+
+  javadoc-inline-tag-continuation-1:
+    # Leading asterisk (*) characters on each line are discarded;
+    # Blanks preceding the initial asterisk (*) characters are also discarded.
+    - match: $
+      push:
+        - clear_scopes: 1  # clear `meta.tag.inline`
+        - include: javadoc-inline-tag-continuation-body
+
+  javadoc-inline-tag-continuation-2:
+    # Leading asterisk (*) characters on each line are discarded;
+    # Blanks preceding the initial asterisk (*) characters are also discarded.
+    - match: $
+      push:
+        - clear_scopes: 2  # clear `meta.tag.inline markup.[raw|reference]`
+        - include: javadoc-inline-tag-continuation-body
+
+  javadoc-inline-tag-continuation-body:
+    - match: (?=\})
+      pop: 1
+    - include: javadoc-asterisk
+
+  javadoc-inline-tag-raw:
+    - meta_scope: meta.tag.inline.javadoc
+    - meta_content_scope: markup.raw.javadoc
+    - include: javadoc-inline-tag-end
+    - include: javadoc-inline-tag-raw-braces
+
+  javadoc-inline-tag-raw-braces:
+    - match: \{
+      push:
+        - match: \}
+          pop: 1
+        - include: javadoc-inline-tag-raw-braces
+    - include: javadoc-inline-tag-continuation-2
+
+  javadoc-inline-tag-label:
+    - match: \s*
+      set:
+        - meta_content_scope: meta.label.javadoc
+        - match: (?=\})
+          pop: 1
+        - include: javadoc-inline-tag-continuation-2
+        - include: javadoc-html-tags
+
+  javadoc-inline-tag-reference:
+    - include: javadoc-inline-tag-continuation-1
+    - include: javadoc-reference
+
+  javadoc-reference:
+    # url
+    - match: \w+://\S+
+      scope: markup.underline.link.javadoc
+    # class reference
+    - match: (?:{{id}}\.)*{{id}}(?:#{{id}})?|#{{id}}
+      scope: markup.underline.link.javadoc
+      set:
+        - match: \(
+          set:
+            - meta_scope: markup.underline.link.javadoc
+            - match: \)
+              pop: 1
+            - include: javadoc-inline-tag-continuation-2
+        - include: immediately-pop
+    - include: else-pop
+
+###[ JAVADOC HTML TAGS ]#######################################################
+
+  javadoc-html-tags:
+    - include: comment
+    - include: cdata
+    - include: tag
+    - include: entities
+
+  tag-attributes:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 1
+        - include: javadoc-asterisk
+
+  tag-generic-attribute-assignment:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 2
+        - include: javadoc-asterisk
+
+  tag-generic-attribute-value:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 2
+        - include: javadoc-asterisk
+
+  tag-attribute-value-content:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 4
+        - include: javadoc-asterisk

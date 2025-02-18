@@ -1,0 +1,118 @@
+{
+	"scope": "source.haskell - comment - string",
+	"completions":
+	[
+		{
+			"trigger": "case",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "class",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "default",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "deriving",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "do",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "else",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "family",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "forall",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "foreign",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "if",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "import",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "in",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "infix",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "infixl",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "infixr",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "instance",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "let",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "mdo",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "module",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "newtype",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "of",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "proc",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "rec",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "signature",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "then",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "type",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "via",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "where",
+			"kind": "keyword"
+		}
+	]
+}

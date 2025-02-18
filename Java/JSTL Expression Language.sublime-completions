@@ -1,0 +1,144 @@
+{
+	"scope": "meta.embedded.expression.jstl",
+	"completions": [
+
+		// Operators
+
+		{
+			"trigger": "and",
+			"annotation": "logical",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "empty",
+			"annotation": "logical",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "not",
+			"annotation": "logical",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "or",
+			"annotation": "logical",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "eq",
+			"annotation": "comparison",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "le",
+			"annotation": "comparison",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "lt",
+			"annotation": "comparison",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "ge",
+			"annotation": "comparison",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "gt",
+			"annotation": "comparison",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "ne",
+			"annotation": "comparison",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "div",
+			"annotation": "arithmetic",
+			"kind": ["keyword","k", "Operator"],
+		},
+		{
+			"trigger": "mod",
+			"annotation": "arithmetic",
+			"kind": ["keyword","k", "Operator"],
+		},
+
+		// Built-In Constants
+
+		{
+			"trigger": "false",
+			"annotation": "built-in",
+			"kind": ["variable", "c", "Constant"]
+		},
+		{
+			"trigger": "null",
+			"annotation": "built-in",
+			"kind": ["variable", "c", "Constant"]
+		},
+		{
+			"trigger": "true",
+			"annotation": "built-in",
+			"kind": ["variable", "c", "Constant"]
+		},
+
+		// Built-in Objects
+
+		{
+			"trigger": "cookie",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "header",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "headerValues",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "initParam",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "param",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "paramValues",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "pageContext",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "applicationScope",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "pageScope",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "requestScope",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+		{
+			"trigger": "sessionScope",
+			"annotation": "built-in",
+			"kind": ["variable", "o", "Object"]
+		},
+	]
+}

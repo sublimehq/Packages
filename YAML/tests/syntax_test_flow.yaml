@@ -23,13 +23,13 @@
 # http://yaml.org/spec/1.2/spec.html#style/flow/double-quoted
 
 "flow string"
-#^^^^^^^^^^^^ string.quoted.double
+#^^^^^^^^^^^^ string.quoted.double - invalid
 #           ^ punctuation.definition.string.end
 # <- string.quoted.double punctuation.definition.string.begin
 
 "flow string
  more string"
-#^^^^^^^^^^^^ string.quoted.double
+#^^^^^^^^^^^^ string.quoted.double - invalid
 #           ^ punctuation.definition.string.end
 
 "\" \0 \\ \x1b \u12c4 \U1234F678"
@@ -59,19 +59,27 @@
 "string\
 continuation"
 
+"string"illegal
+# <- meta.string.yaml string.quoted.double.yaml - invalid
+#^^^^^^^ meta.string.yaml string.quoted.double.yaml - invalid
+#       ^^^^^^^ invalid.illegal.unexpected.yaml
+
+unquoted"string"
+# <- meta.string.yaml string.unquoted.plain.out.yaml
+#^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - invalid
 
 ##############################################################################
 ## Single-quoted
 # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
 
 'flow string'
-#^^^^^^^^^^^^ string.quoted.single
+#^^^^^^^^^^^^ string.quoted.single - invalid
 #           ^ punctuation.definition.string.end
 # <- string.quoted.single punctuation.definition.string.begin
 
 'flow string
  more string'
-#^^^^^^^^^^^^ string.quoted.single
+#^^^^^^^^^^^^ string.quoted.single - invalid
 #           ^ punctuation.definition.string.end
 # <- string.quoted.single
 
@@ -80,79 +88,165 @@ continuation"
 # ^^ constant.character.escape
 #   ^ -constant
 
+'string'illegal
+# <- meta.string.yaml string.quoted.single.yaml - invalid
+#^^^^^^^ meta.string.yaml string.quoted.single.yaml - invalid
+#       ^^^^^^^ invalid.illegal.unexpected.yaml
+
+unquoted'string'
+# <- meta.string.yaml string.unquoted.plain.out.yaml
+#^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - invalid
 
 ##############################################################################
 ## Flow-sequence
 # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
 
 [a, b, c,
-# <- meta.flow-sequence punctuation.definition.sequence.begin
+# <- meta.sequence.flow punctuation.definition.sequence.begin
 #^        string.unquoted.plain.in
 # ^       punctuation.separator.sequence
 #    ^    punctuation.separator.sequence
 *alias]
 #^^^^^ variable.other.alias
-#     ^ meta.flow-sequence punctuation.definition.sequence.end
+#     ^ meta.sequence.flow punctuation.definition.sequence.end
 
 [a: b, c,'d', e: f, g:h]
-#^                      meta.flow-pair.key string.unquoted.plain.in entity.name.tag
-# ^                     meta.flow-pair punctuation.separator.key-value.mapping -meta.flow-pair.value
-#   ^                   meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.flow.yaml
+#^                      meta.mapping.key string.unquoted.plain.in
+# ^                     meta.mapping punctuation.separator.key-value.mapping -meta.mapping.value
+#   ^                   meta.mapping.value string.unquoted.plain.in
 #      ^                string.unquoted.plain.in
 #       ^               punctuation.separator.sequence
 #        ^^^            string.quoted.single
-#             ^         string.unquoted.plain.in entity.name.tag
+#             ^         meta.mapping.key string.unquoted.plain.in
 #              ^        punctuation.separator.key-value.mapping
 #                 ^     punctuation.separator.sequence
 #                   ^^^ string.unquoted.plain.in - entity.name.tag
 
+[ "str"err, 'str'err, "str"err ]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.flow.yaml
+# ^^^^^ meta.string.yaml string.quoted.double.yaml
+#      ^^^ invalid.illegal.unexpected.yaml
+#         ^ punctuation.separator.sequence.yaml
+#           ^^^^^ meta.string.yaml string.quoted.single.yaml
+#                ^^^ invalid.illegal.unexpected.yaml
+#                   ^ punctuation.separator.sequence.yaml
+#                     ^^^^^ meta.string.yaml string.quoted.double.yaml
+#                          ^^^ invalid.illegal.unexpected.yaml
+#                              ^ punctuation.definition.sequence.end.yaml
+
+# mapping keys are not matched
+[ "k"err: "v"err, "k"err : "v"err ]
+# <- meta.sequence.flow.yaml punctuation.definition.sequence.begin.yaml
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.flow.yaml
+# ^^^ meta.string.yaml string.quoted.double.yaml
+#    ^^^ invalid.illegal.unexpected.yaml
+#       ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#         ^^^ meta.mapping.value.yaml meta.string.yaml string.quoted.double.yaml
+#            ^^^ meta.mapping.value.yaml invalid.illegal.unexpected.yaml
+#               ^ punctuation.separator.sequence.yaml
+#                 ^^^ meta.string.yaml string.quoted.double.yaml
+#                    ^^^ invalid.illegal.unexpected.yaml
+#                       ^ - invalid
+#                        ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#                          ^^^ meta.mapping.value.yaml meta.string.yaml string.quoted.double.yaml
+#                             ^^^ meta.mapping.value.yaml invalid.illegal.unexpected.yaml
+#                                ^ meta.mapping.value.yaml - invalid
+#                                 ^ punctuation.definition.sequence.end.yaml
 
 ##############################################################################
 ## Flow-mapping
 # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
 
 {a: b, :c: :d,
-#^             meta.flow-pair.key string.unquoted.plain.in entity.name.tag
-# ^            meta.flow-pair punctuation.separator.key-value.mapping
-#   ^          meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
-#    ^         punctuation.separator.mapping
-#      ^^      string.unquoted.plain.in entity.name.tag
-#        ^     punctuation.separator.key-value.mapping
-#          ^^  string.unquoted.plain.in, -entity.name.tag
-#            ^ punctuation.separator.mapping
-# <- meta.flow-mapping punctuation.definition.mapping.begin
-*alias, e : f }
-#^^^^^          variable.other.alias
-#     ^         punctuation.separator.mapping
-#       ^       string.unquoted.plain.in entity.name.tag
-#        ^      -string
-#         ^     punctuation.separator.key-value.mapping
-#           ^   string.unquoted.plain.in, -entity.name.tag
-#             ^ meta.flow-mapping punctuation.definition.mapping.end
+#^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#^ meta.mapping.key.yaml string.unquoted.plain.in.yaml
+# ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#   ^ meta.mapping.value string.unquoted.plain.in -entity.name.tag
+#    ^ meta.mapping.yaml punctuation.separator.sequence
+#      ^^ meta.mapping.key.yaml string.unquoted.plain.in
+#        ^ meta.mapping.yaml punctuation.separator.key-value.mapping
+#          ^^ meta.mapping.value.yaml string.unquoted.plain.in
+#            ^ punctuation.separator.sequence
+# <- meta.mapping.yaml punctuation.definition.mapping.begin
+*alias, true : false }
+#^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#^^^^^ variable.other.alias
+#     ^ punctuation.separator.sequence
+#       ^^^^ meta.mapping.key.yaml constant.language.boolean.true.yaml - string
+#            ^     punctuation.separator.key-value.mapping
+#              ^^^^^ meta.mapping.value.yaml constant.language.boolean.false.yaml
+#                    ^ meta.mapping.yaml punctuation.definition.mapping.end
+
+ { 1: 2 }
+#^^^^^^^^ meta.mapping - meta.mapping meta.mapping - string
+#  ^ meta.mapping.key.yaml constant.numeric
+#   ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#    ^^^ meta.mapping.value.yaml
+#     ^ constant.numeric
+
+{ "key": "value", 'key': 0 }
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.yaml
+# <- source.yaml meta.mapping.yaml punctuation.definition.mapping.begin.yaml
+#^ meta.mapping.yaml
+# ^^^^^ meta.mapping.key string.quoted.double.yaml
+#      ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#       ^^^^^^^^ meta.mapping.value.yaml
+#        ^^^^^^^ string.quoted.double.yaml
+#               ^^ meta.mapping.yaml
+#               ^ punctuation.separator.sequence.yaml
+#                 ^^^^^ meta.mapping.key.yaml string.quoted.single.yaml
+#                      ^ punctuation.separator.key-value.mapping.yaml
+#                       ^^^ meta.mapping.value.yaml
+#                        ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
+#                          ^ meta.mapping.yaml punctuation.definition.mapping.end.yaml
+
+{ "k"err: "v"err, 'k'err: 'v'err }
+# <- meta.mapping.yaml punctuation.definition.mapping.begin.yaml
+#^^^^^^^^ meta.mapping.yaml
+#        ^^^^^^^ meta.mapping.value.yaml
+#               ^^^^^^^^^ meta.mapping.yaml
+#                        ^^^^^^^^ meta.mapping.value.yaml
+#                                ^ meta.mapping.yaml
+# ^^^ meta.string.yaml string.quoted.double.yaml
+#    ^^^ invalid.illegal.unexpected.yaml - string
+#       ^ punctuation.separator.key-value.mapping.yaml
+#         ^^^ meta.string.yaml string.quoted.double.yaml
+#            ^^^ invalid.illegal.unexpected.yaml - string
+#               ^ punctuation.separator.sequence.yaml
+#                 ^^^ meta.string.yaml string.quoted.single.yaml
+#                    ^^^ invalid.illegal.unexpected.yaml - string
+#                       ^ punctuation.separator.key-value.mapping.yaml
+#                         ^^^ meta.string.yaml string.quoted.single.yaml
+#                            ^^^ invalid.illegal.unexpected.yaml - string
+#                                ^ punctuation.definition.mapping.end.yaml
 
 {? !!str 'key' : !!str value,
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.flow-pair.explicit
-#               ^^^^^^^^^^^^  meta.flow-pair.value
-#                           ^ punctuation.separator.mapping -meta.flow-pair
-#^                            punctuation.definition.key-value.begin
-#  ^^^^^                      storage
-#        ^^^^^                string
-#        ^                    punctuation
-#            ^                punctuation
-#              ^              punctuation.separator.key-value.mapping
-#                ^^^^^        storage
-#                      ^^^^^  string
- ? !!str foo : :bar
-#^ punctuation.definition.key-value.begin
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#               ^^^^^^^^^^^^ meta.mapping.value
+#                           ^ punctuation.separator.sequence - meta.mapping.value
+#^ punctuation.definition.key.begin.yaml
+#^^^^^^^^^^^^^^ meta.mapping.key.yaml
 #  ^^^^^ storage
-#        ^^^ string entity.name.tag
-#            ^ punctuation.separator.key-value.mapping -string
-#              ^ string.unquoted.plain.in
+#        ^^^^^ string
+#        ^ punctuation
+#            ^ punctuation
+#              ^ meta.mapping.yaml punctuation.separator.key-value.mapping
+#                ^^^^^ storage
+#                      ^^^^^ string
+ ? !!str foo : :bar
+#^^^^^^^^^^^^ meta.mapping.key.yaml
+#^ punctuation.definition.key.begin.yaml
+#  ^^^^^ storage
+#        ^^^ string.unquoted.plain.in.yaml
+#            ^ meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+#              ^^^^ meta.mapping.value.yaml string.unquoted.plain.in.yaml
 }
 
+# TODO catch `!!set` and set meta.set scope
 !!set {this, is, a, set}
 #  ^ storage
-#      ^ string -entity
-#            ^ string -entity
-#                ^ string -entity
-#                   ^ string -entity
+#      ^ string - meta.mapping.key
+#            ^ string - meta.mapping.key
+#                ^ string - meta.mapping.key
+#                   ^ string - meta.mapping.key

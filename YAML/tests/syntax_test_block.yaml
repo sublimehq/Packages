@@ -13,17 +13,73 @@
 - |
 # ^ keyword.control.flow.block-scalar.literal
 
-- >
-# ^ keyword.control.flow.block-scalar.folded
-
-- >1
+- |-
 # ^ keyword.control.flow.block-scalar
-#  ^ constant.numeric.indentation-indicator
+#  ^ storage.modifier.chomping-indicator.yaml
 
 - |1-
 # ^ keyword.control.flow.block-scalar
 #  ^ constant.numeric.indentation-indicator
 #   ^ storage.modifier.chomping-indicator
+
+- |-1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- |+
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator.yaml
+
+- |1+
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ storage.modifier.chomping-indicator
+
+- |+1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- |1
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+
+- >
+# ^ keyword.control.flow.block-scalar.folded
+
+- >-
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator.yaml
+
+- >1-
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ storage.modifier.chomping-indicator
+
+- >-1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- >+
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator.yaml
+
+- >1+
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ storage.modifier.chomping-indicator
+
+- >+1
+# ^ keyword.control.flow.block-scalar
+#  ^ storage.modifier.chomping-indicator
+#   ^ constant.numeric.indentation-indicator
+
+- >1
+# ^ keyword.control.flow.block-scalar
+#  ^ constant.numeric.indentation-indicator
+
 
 # Headers and content ################
 - |
@@ -83,11 +139,11 @@ plain
 # http://yaml.org/spec/1.2/spec.html#style/block/mapping
 
 key: value
-#^^        string.unquoted.plain.out entity.name.tag
+#^^        meta.mapping.key string.unquoted.plain.out
 #  ^       punctuation.separator.key-value.mapping, -entity
 #    ^^^^^ string.unquoted.plain.out
 key#  :  value
-#^^^           string.unquoted.plain.out entity.name.tag
+#^^^           meta.mapping.key string.unquoted.plain.out
 #   ^          -string
 #     ^        punctuation.separator.key-value.mapping
 #        ^^^^^ string.unquoted.plain.out
@@ -95,38 +151,111 @@ key#  :  value
 # <- punctuation.separator.key-value.mapping
 
 _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
-#^^^^^^^^^                         entity.name.tag
-#           ^^^^^^^^^^^^^^^^^^^^   -entity.name.tag
+#^^^^^^^^^                         meta.mapping.key
+#           ^^^^^^^^^^^^^^^^^^^^   -meta.mapping.key
 #                                ^ comment
 
 key on line one:
-#^^^^^^^^^^^^^^ entity.name.tag
+#^^^^^^^^^^^^^^ meta.mapping.key string.unquoted.plain
   value on line two
+# ^^^^^^^^^^^^^^^^^ string.unquoted.plain.out - meta.mapping.key
+
+
+"quoted key": value
+#^^^^^^^^^^^ meta.mapping.key string.quoted.double
+#          ^ punctuation.definition.string.end
 
 ? explicit key # Empty value
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
 # ^^^^^^^^^^^^               string.unquoted.plain.out
 #              ^^^^^^^^^^^^^ comment
-# <- meta.block-mapping punctuation.definition.key-value.begin
+# <- meta.mapping punctuation.definition.key-value.begin
 
 ? |
   block key
-# ^^^^^^^^^ meta.block-mapping string.unquoted.block
-# ^^^^^^^^^ -meta.block-mapping meta.block-mapping
+# ^^^^^^^^^ meta.mapping string.unquoted.block
+# ^^^^^^^^^ -meta.mapping meta.mapping
 : - one # Explicit compact
-# <- meta.block-mapping punctuation.separator.key-value.mapping
+# <- meta.mapping punctuation.separator.key-value.mapping
   - two: :three # block value
 # ^ punctuation.definition.block.sequence
-#   ^^^ string.unquoted.plain.out entity.name.tag
+#   ^^^ meta.mapping.key string.unquoted.plain.out
 #      ^ punctuation.separator.key-value.mapping
 #        ^^^^^^ string.unquoted.plain.out
 
+# the entire first line is the key (as a mapping with one entry)
 ? a key : not a value
-#       ^ meta.block-mapping invalid.illegal.expected-newline
+# ^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+#       ^ meta.mapping.key meta.mapping punctuation.separator.key-value.mapping
+:
+# <- meta.mapping punctuation.separator.key-value.mapping - meta.mapping meta.mapping
 
 scalar
-# <- -meta.block-mapping
+# <- -meta.mapping
+
+ ?not a key
+#^^^^^^^^^^ - meta.mapping
+
+# the entire first line is the key (as a mapping with one entry)
+? a key : not a value
+# ^^^^^^^^^^^^^^^^^^^ meta.mapping.key
+#       ^ meta.mapping.key meta.mapping punctuation.separator.key-value.mapping
+  still explicit key
+# ^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml meta.string.yaml string.unquoted.plain.out.yaml
+
+- scalar
+# <- punctuation.definition.block.sequence.item.yaml
+# ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
 
 x:
   - #1
 #   ^^ comment.line
+
+##############################################################################
+## Sets
+# https://yaml.org/type/set.html
+
+key: !!set
+#    ^^^^^ meta.property.yaml storage.type.tag-handle.yaml
+  ? value1
+# ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+#  ^^^^^^^^ meta.mapping.key.yaml
+#   ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+  ? value2
+# ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+#  ^^^^^^^^ meta.mapping.key.yaml
+#   ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+    continued set value
+#  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
+#   ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+    ? value3
+#   ^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+#    ^^^^^^^^ meta.mapping.key.yaml
+#     ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+      continued set value
+#    ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+ ? value3
+#^ meta.mapping.yaml punctuation.definition.key-value.begin.yaml
+# ^^^^^^^^ meta.mapping.key.yaml
+#  ^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+      continued set value
+#    ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.yaml
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+
+ not a set value
+#^^^^^^^^^^^^^^^ meta.string.yaml string.unquoted.plain.out.yaml - meta.mapping
+
+key: !!set
+  ? value1
+mapping-after-set:
+# <- meta.mapping.key.yaml meta.string.yaml string.unquoted.plain.out.yaml
+  - item1
+# ^ punctuation.definition.block.sequence.item.yaml
+#   ^^^^^ meta.string.yaml string.unquoted.plain.out.yaml
+  - item2
+# ^ punctuation.definition.block.sequence.item.yaml
+#   ^^^^^ meta.string.yaml string.unquoted.plain.out.yaml

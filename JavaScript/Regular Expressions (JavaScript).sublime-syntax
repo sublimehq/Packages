@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: Regular Expressions (Javascript)
+name: Regular Expressions (JavaScript)
 scope: source.regexp.js
 hidden: true
 variables:
@@ -54,7 +54,7 @@ contexts:
         - meta_scope: constant.other.character-class.set.regexp
         - match: '\]'
           scope: punctuation.definition.character-class.end.regexp
-          pop: true
+          pop: 1
         - match: |-
             (?x)
             (?:
@@ -90,7 +90,7 @@ contexts:
         - meta_scope: meta.group.assertion.regexp
         - match: \)
           scope: punctuation.definition.group.end.regexp
-          pop: true
+          pop: 1
         - include: main
 
   group-definition:
@@ -106,7 +106,7 @@ contexts:
         - meta_scope: meta.group.regexp
         - match: \)
           scope: punctuation.definition.group.end.regexp
-          pop: true
+          pop: 1
         - include: main
 
   operator:

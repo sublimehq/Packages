@@ -8,6 +8,6 @@
 <% end %>
 ]]></content>
 	<tabTrigger>for</tabTrigger>
-	<scope>text.html.ruby</scope>
+	<scope>text.html.rails</scope>
 	<description>for loop in rhtml</description>
 </snippet>

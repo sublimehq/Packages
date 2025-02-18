@@ -2,11 +2,17 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Graphviz (DOT)
-file_extensions:
-  - dot
-  - DOT
-  - gv
 scope: source.dot
+
+file_extensions:
+  - gv
+  - dot
+
+first_line_match: |-
+  (?xi:
+    ^ \s* // .*? -\*- .*? \b(dot|graphviz)\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - include: expressions
@@ -54,17 +60,16 @@ contexts:
   embedded-html:
     - match: '<'
       scope: punctuation.section.embedded.begin.dot
-      push:
-        - meta_content_scope: source.dot.embedded.html
-        - match: '((>)?\s*)(>)'
-          captures:
-            1: source.dot.embedded.html
-            2: meta.tag punctuation.definition.tag.end.html
-            3: punctuation.section.embedded.end.dot
-          pop: true
-        - match: ''
-          embed: scope:text.html.basic
-          escape: (?=>\s*>)
+      push: embedded-html-body
+
+  embedded-html-body:
+    - meta_scope: meta.embedded.html.dot
+    - meta_content_scope: text.html.embedded.dot
+    - match: '>'
+      scope: punctuation.section.embedded.end.dot
+      pop: true
+    - include: scope:text.html.plain#html
+      apply_prototype: true
 
   braces:
     - match: \{

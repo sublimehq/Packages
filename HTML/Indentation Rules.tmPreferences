@@ -12,8 +12,9 @@
 			  ^[^<>]*+ </ (?!html[\t\n\f /<>])[^\t\n\f /<>]+ [^>]* >
 			| ^[\t\n\f ]*+
 			(
-				# closing comment punctuation, optionally preceded by an end "comment selector"
-				  (<!\[ .*? \])?-->
+				# the beginning of the line followed by closing HTML comment
+				# and </script> or </style> tag
+				  --> [\t\n\f ]* </ (?: script | style )[\t\n\f /<>]
 				# closing directive/section punctuation
 				| [?%]>
 				# closing curly brace
@@ -26,9 +27,9 @@
 			^.* (
 				# a valid non-self-closing HTML tag that doesn't close itself on the same line
 				<(?!
-					  !--      # no comment
-					| [?%]     # no preprocessor section like PHP/ASP
-					| !DOCTYPE # no document type
+					  !--           # no comment
+					| [?%]          # no preprocessor section like PHP/ASP
+					| (?i:!doctype) # no document type
 					| (?i:area|base|br|col|frame|hr|html|img|input|link|meta|param)[\t\n\f /<>]
 				)(?:
 					# tag name
@@ -38,18 +39,16 @@
 					# not closing in the same line
 					(?! .* </\k<html_tag>)
 				)
-				# comments that don't close themselves on the same line
-				| <!--(?!.*?-->)
 				# directives that don't close themselves on the same line
 				| <\?(?!.*?\?>)
 				# sections that don't close themselves on the same line
 				| <\%(?!.*?\%>)
-				# open curly braces that don't have close braces or string punctuation after them
-				| \{(?![}"'])
+				# open curly braces at the end of a line with comments allowed
+				| \{(?=\s*(?:<!--.*)?$)
 			)
 		]]></string>
 		<key>bracketIndentNextLinePattern</key>
-		<string><![CDATA[<!DOCTYPE(?!.*>)]]></string>
+		<string><![CDATA[<(?i:!doctype)(?!.*>)]]></string>
 	</dict>
 </dict>
 </plist>

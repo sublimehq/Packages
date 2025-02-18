@@ -1,0 +1,177 @@
+# SYNTAX TEST "Git Ignore.sublime-syntax"
+# <- text.git comment.line punctuation.definition.comment
+
+  !~/.fo?d[a-a]r/*.dub
+# <- - meta - string
+# ^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ keyword.operator.logical.path.fnmatch.git
+#  ^ variable.language.environment.home.fnmatch.git
+#   ^ punctuation.separator.path.fnmatch.git
+#    ^ - constant
+#       ^ constant.other.wildcard.questionmark.fnmatch.git
+#               ^ punctuation.separator.path.fnmatch.git
+#                ^ constant.other.wildcard.asterisk.fnmatch.git
+#                 ^ punctuation.separator.path.fnmatch.git
+
+  ~/../f..o\'ld\"er/fo\*l\?der/fol../der
+#^ - entity.name.pattern
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.pattern
+# ^ variable.language.environment.home.fnmatch.git
+#   ^^ constant.other.path.parent.fnmatch.git
+#       ^^ - constant.other.path.parent.fnmatch.git
+#          ^^ constant.character.escape.path.fnmatch.git
+#              ^^ constant.character.escape.path.fnmatch.git
+#                     ^ - constant.character.escape.path.fnmatch.git - punctuation.separator.path.fnmatch.git
+#                      ^ constant.other.wildcard.asterisk.fnmatch.git
+#                        ^ - constant.character.escape.path.fnmatch.git - punctuation.separator.path.fnmatch.git
+#                         ^ constant.other.wildcard.questionmark.fnmatch.git
+#                                 ^^ - constant.other.path.parent.fnmatch.git
+#                                       ^ - entity.name.pattern
+
+# NO HOME pattern
+  ~fname~1.~e*
+# ^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ - variable.language.environment.home.fnmatch.git
+#       ^ - variable.language.environment.home.fnmatch.git
+#         ^ punctuation.separator.path.fnmatch.git
+#          ^ - variable.language.environment.home.fnmatch.git
+#            ^ constant.other.wildcard.asterisk.fnmatch.git
+  ~..fname
+# ^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ - variable.language.environment.home.fnmatch.git
+#  ^^ - constant.other.path.parent.fnmatch.git
+  ~../fname
+# ^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ - variable.language.environment.home.fnmatch.git
+#  ^^ - constant.other.path.parent.fnmatch.git
+#    ^ punctuation.separator.path.fnmatch.git
+
+# PARENT DIR TESTS
+  ../..fname../../
+# ^^^^^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^^ constant.other.path.parent.fnmatch.git
+#   ^ punctuation.separator.path.fnmatch.git
+#    ^^ - constant.other.path.parent.fnmatch.git
+#           ^^ - constant.other.path.parent.fnmatch.git
+#             ^ punctuation.separator.path.fnmatch.git
+#              ^^ constant.other.path.parent.fnmatch.git
+#                ^ punctuation.separator.path.fnmatch.git
+  ..fname../..
+# ^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+#        ^^ - constant.other.path.parent.fnmatch.git
+#           ^^ - constant.other.path.parent.fnmatch.git
+
+# DRIVE SEPARATOR TESTS
+  c:/fo:lder:/
+# ^^^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+#  ^ punctuation.separator.path.fnmatch.git
+#   ^ punctuation.separator.path.fnmatch.git
+#      ^ invalid.illegal.separator.path.fnmatch.git
+#           ^ invalid.illegal.separator.path.fnmatch.git
+#            ^ punctuation.separator.path.fnmatch.git
+  cd:/folder
+# ^^^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+#   ^ invalid.illegal.separator.path.fnmatch.git
+#    ^ punctuation.separator.path.fnmatch.git
+  :/folder
+# ^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
+# ^ invalid.illegal.separator.path.fnmatch.git
+#  ^ punctuation.separator.path.fnmatch.git
+
+
+# CARACTER CLASS TESTS
+  [
+# ^ meta.char-class.fnmatch.git keyword.control.char-class.begin.fnmatch.git
+  ]
+# ^ string.unquoted.git - keyword.control.char-class
+  [][]]
+# ^^^^ meta.char-class.fnmatch.git
+#     ^ - meta.char-class.fnmatch.git
+# ^ keyword.control.char-class.begin.fnmatch.git
+#  ^^ constant.character.char-class.fnmatch.git
+#    ^ keyword.control.char-class.end.fnmatch.git
+#     ^ string.unquoted.git - keyword.control.char-class
+  [^[\]] [^[[] [^]\[] [^]]] [^^][^!]
+# ^^^^^^ meta.char-class.fnmatch.git
+#       ^ - meta.char-class.fnmatch.git
+#        ^^^^^ meta.char-class.fnmatch.git
+#             ^ - meta.char-class.fnmatch.git
+#              ^^^^^^ meta.char-class.fnmatch.git
+#                    ^ - meta.char-class.fnmatch.git
+#                     ^^^^ meta.char-class.fnmatch.git
+#                         ^^ - meta.char-class.fnmatch.git
+#                           ^^^^^^^^ meta.char-class.fnmatch.git
+# ^ keyword.control.char-class.begin.fnmatch.git
+#  ^ keyword.operator.logical.fnmatch.git
+#   ^ constant.character.char-class.fnmatch.git - keyword.control.char-class.begin.fnmatch.git
+#    ^^ constant.character.escape.char-class - keyword.control.char-class.end.fnmatch.git
+#      ^ keyword.control.char-class.end.fnmatch.git
+#        ^ keyword.control.char-class.begin.fnmatch.git
+#         ^ keyword.operator.logical.fnmatch.git
+#          ^^ constant.character.char-class.fnmatch.git - keyword.control.char-class.begin.fnmatch.git
+#            ^ keyword.control.char-class.end.fnmatch.git
+#              ^ keyword.control.char-class.begin.fnmatch.git
+#               ^ keyword.operator.logical.fnmatch.git
+#                ^^^ constant.character.char-class.fnmatch.git - keyword.control.char-class.end.fnmatch.git
+#                   ^ keyword.control.char-class.end.fnmatch.git
+#                     ^ keyword.control.char-class.begin.fnmatch.git
+#                      ^ keyword.operator.logical.fnmatch.git
+#                       ^ constant.character.char-class.fnmatch.git - keyword.control.char-class.end.fnmatch.git
+#                        ^ keyword.control.char-class.end.fnmatch.git
+#                         ^ string.unquoted.git - keyword.control.char-class
+#                           ^ keyword.control.char-class.begin.fnmatch.git
+#                            ^ keyword.operator.logical.fnmatch.git
+#                             ^ constant.character.char-class.fnmatch.git - keyword.operator
+#                              ^ keyword.control.char-class.end.fnmatch.git
+#                               ^ keyword.control.char-class.begin.fnmatch.git
+#                                ^ keyword.operator.logical.fnmatch.git
+#                                 ^ constant.character.char-class.fnmatch.git - keyword.operator
+#                                  ^ keyword.control.char-class.end.fnmatch.git
+  [![\]] [![[] [!]\[] [!]]] [!!][!^]
+# ^^^^^^ meta.char-class.fnmatch.git
+#       ^ - meta.char-class.fnmatch.git
+#        ^^^^^ meta.char-class.fnmatch.git
+#             ^ - meta.char-class.fnmatch.git
+#              ^^^^^^ meta.char-class.fnmatch.git
+#                    ^ - meta.char-class.fnmatch.git
+#                     ^^^^ meta.char-class.fnmatch.git
+#                         ^^ - meta.char-class.fnmatch.git
+#                           ^^^^^^^^ meta.char-class.fnmatch.git
+# ^ keyword.control.char-class.begin.fnmatch.git
+#  ^ keyword.operator.logical.fnmatch.git
+#   ^ constant.character.char-class.fnmatch.git - keyword.control.char-class.begin.fnmatch.git
+#    ^^ constant.character.escape.char-class - keyword.control.char-class.end.fnmatch.git
+#      ^ keyword.control.char-class.end.fnmatch.git
+#        ^ keyword.control.char-class.begin.fnmatch.git
+#         ^ keyword.operator.logical.fnmatch.git
+#          ^^ constant.character.char-class.fnmatch.git - keyword.control.char-class.begin.fnmatch.git
+#            ^ keyword.control.char-class.end.fnmatch.git
+#              ^ keyword.control.char-class.begin.fnmatch.git
+#               ^ keyword.operator.logical.fnmatch.git
+#                ^^^ constant.character.char-class.fnmatch.git - keyword.control.char-class.end.fnmatch.git
+#                   ^ keyword.control.char-class.end.fnmatch.git
+#                     ^ keyword.control.char-class.begin.fnmatch.git
+#                      ^ keyword.operator.logical.fnmatch.git
+#                       ^ constant.character.char-class.fnmatch.git - keyword.control.char-class.end.fnmatch.git
+#                        ^ keyword.control.char-class.end.fnmatch.git
+#                         ^ string.unquoted.git - keyword.control.char-class
+#                           ^ keyword.control.char-class.begin.fnmatch.git
+#                            ^ keyword.operator.logical.fnmatch.git
+#                             ^ constant.character.char-class.fnmatch.git - keyword.operator
+#                              ^ keyword.control.char-class.end.fnmatch.git
+#                               ^ keyword.control.char-class.begin.fnmatch.git
+#                                ^ keyword.operator.logical.fnmatch.git
+#                                 ^ constant.character.char-class.fnmatch.git - keyword.operator
+#                                  ^ keyword.control.char-class.end.fnmatch.git
+# The only escape is \]. All other \ are expanded to \\ by fnmatch.
+  [0123456789abcde-z \t\n\\\"\'./()'-:,.;<>~!@#$%&*|+=\[\]{}`~?]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.char-class.fnmatch.git
+# ^ keyword.control.char-class.begin.fnmatch.git
+#  ^^^^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.git
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.git
+#                                                 ^ invalid.illegal.unexpected.char-class.fnmatch.git
+#                                                  ^^^^^ constant.character.char-class.fnmatch.git
+#                                                       ^^ constant.character.escape.char-class.fnmatch.git
+#                                                         ^^^^ constant.character.char-class.fnmatch.git
+#                                                             ^ invalid.illegal.unexpected.char-class.fnmatch.git
+#                                                              ^ keyword.control.char-class.end.fnmatch.git

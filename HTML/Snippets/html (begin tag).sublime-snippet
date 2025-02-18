@@ -3,6 +3,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>$1</title>
 </head>
 <body>
@@ -10,6 +11,9 @@ $0
 </body>
 </html>]]></content>
 	<tabTrigger>html</tabTrigger>
-	<scope>text.html entity.name.tag, text.html meta.character.less-than</scope>
+	<scope>
+		(text.html entity.name.tag, text.html meta.character.less-than)
+		- (text.html.markdown - markup.raw.code-fence text.html)
+	</scope>
 	<description>html</description>
 </snippet>

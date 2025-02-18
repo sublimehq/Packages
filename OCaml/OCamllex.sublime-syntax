@@ -2,9 +2,16 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: OCamllex
+scope: source.ocamllex
+
 file_extensions:
   - mll
-scope: source.ocamllex
+
+first_line_match: |-
+  (?xi:
+    ^ \s* \(\* .*? -\*- .*? \bocamllex\b .*? -\*-  # editorconfig
+  )
+
 contexts:
   main:
     - match: '^\s*({)'

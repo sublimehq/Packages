@@ -5,16 +5,16 @@
 using System;
 ///<- keyword.control.import
 ///    ^ meta.path
-///         ^ punctuation.terminator.cs
+///         ^ punctuation.terminator.statement.cs
 
 namespace HelloWorld
-///^^^^^^^^^^^^^^^^^ meta.namespace
-///<- storage.type.namespace
+///^^^^^^^^^^^^^^^^^ meta.namespace - meta.path
+///<- keyword.declaration.namespace
 ///        ^ entity.name.namespace
 {
 ///<- meta.namespace meta.block punctuation.section.block.begin
     class Hello
-/// ^ storage.type.class
+/// ^ keyword.declaration.class
 ///       ^ entity.name.class
     {
 /// ^ punctuation.section.block.begin

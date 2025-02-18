@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.java</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			# line beginning with whitespace or block comments
+			^ (.*\*/)? \s*
+			(?:
+			# dedent closing brackets
+			  [])}]
+			# detent `case ... :`
+			| case(?![\w$])
+			# detent `default:`
+			| default(?![\w$])
+			)
+		]]></string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			# line beginning with whitespace or block comments
+			^ (.*\*/)? \s*
+			(?:
+			# indent after opening brackets (may be followed by whitespace or comments)
+			  .* [\[({] (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			# indent after `case ... :`
+			| case(?![\w$])
+			# indent after `default:`
+			| default(?![\w$])
+			)
+		]]></string>
+		<key>bracketIndentNextLinePattern</key>
+		<string><![CDATA[(?x)
+			# line beginning with whitespace or block comments
+			^ (.*\*/)? (?<comment_or_whitespace> (?: \s* (?<block_comment> /\*.*\*/ ) )* \s* )
+			(?:
+			# indent after:
+			# - `else`
+			  else
+			# indent after:
+			# - `else if (...)`
+			# - `if (...)`
+			# - `for (...)`
+			# - `while (...)`
+			| (?: (?: else \g<comment_or_whitespace> )? if | for | while )
+			  # followed by whitespace or block comments [optional]
+			  \g<comment_or_whitespace>
+			  # top-level balanced parentheses
+			  (?<group>
+			  	\( (?:
+				# nested balanced parentheses
+				  \g<group>
+				# double quoted string with ignored escaped quotation marks
+				| \".*(?<![^\\]\\)(?<![\\]{3})\"
+				# single quoted character with ignored escaped quotation marks
+				| \'.*(?<![^\\]\\)\'
+				# block comment
+				| \g<block_comment>
+				# anything but closing parenthesis
+				| [^)]
+				)* \)
+			  )
+			)
+			# followed by whitespace or block comments [optional]
+			\g<comment_or_whitespace>
+			# followed by line comment [optional]
+			(?: //.* )? $
+		]]></string>
+		<key>preserveIndent</key>
+		<false/>
+		<key>unIndentedLinePattern</key>
+		<string><![CDATA[(?x)
+			# standalone begin or end of block comments
+			#   ST doesn't apply `Indentation Rules - Comments`, because
+			#   comment scope doesn't cover the whole line. So they need
+			#   to be excluded from indentation engine here.
+			^\s* (?: // | /\*(?!.*\*/) | \*+/ )
+		]]></string>
+	</dict>
+</dict>
+</plist>

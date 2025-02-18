@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.lisp</string>
+    <key>settings</key>
+    <dict>
+        <key>indentationFoldingEnabled</key>
+        <false/>
+        <key>foldScopes</key>
+        <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.comment.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.comment.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.string.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.string.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.parens.begin</string>
+                <key>end</key>
+                <string>punctuation.section.parens.end</string>
+                <key>excludeTrailingNewlines</key>
+                <false/>
+            </dict>
+        </array>
+    </dict>
+</dict>
+</plist>

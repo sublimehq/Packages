@@ -7,19 +7,19 @@
 
 using System;
 #pragma warning disable warning-list
-// ^ keyword.other.preprocessor
-//       ^ keyword.other.preprocessor
+/// ^ keyword.other.preprocessor
+///       ^ keyword.other.preprocessor
 #pragma warning restore warning-list
 #pragma checksum "file.cs" "{3673e4ca-6098-4ec1-890f-8fceb2a794a2}" "{012345678AB}" // New checksum
-//       ^ keyword.other.preprocessor
-//                 ^ stirng.quoted.double
-//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+///       ^ keyword.other.preprocessor
+///                 ^ string.quoted.double
+///                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric.value
 
 #region
-/// ^^ meta.preprocessor keyword.other.preprocessor
+/// ^^ meta.preprocessor.region keyword.other.preprocessor meta.fold.begin
 #region MyClass definition
-/// ^^ meta.preprocessor keyword.other.preprocessor
-///     ^^ meta.preprocessor entity.name.section
+/// ^^ meta.preprocessor.region keyword.other.preprocessor - meta.fold
+///     ^^ meta.preprocessor.region entity.name.section meta.fold.begin
 public class MyClass
 {
     static void Main()
@@ -64,7 +64,31 @@ public class MyClass
     }
 }
 #endregion a / b
-// ^^ storage.type.section
-//         ^^^^^ variable.other.section
+/// ^^ keyword.other.preprocessor
+///        ^^^^^ variable.other.section
+///             ^ meta.preprocessor.region meta.fold.end
 #endregion
-// ^^ storage.type.section
+/// ^^ keyword.other.preprocessor
+///       ^ meta.preprocessor.region meta.fold.end
+
+#nullable enable
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable disable
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable restore
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable enable annotations
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+///              ^^ meta.preprocessor keyword.other.preprocessor
+
+#nullable disable warnings
+/// ^^ meta.preprocessor keyword.other.preprocessor
+///       ^^ meta.preprocessor keyword.other.preprocessor
+///               ^^ meta.preprocessor keyword.other.preprocessor

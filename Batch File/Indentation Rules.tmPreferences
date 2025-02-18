@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.dosbatch - comment</string>
+    <key>settings</key>
+    <dict>
+        <key>decreaseIndentPattern</key>
+        <string><![CDATA[(?x)
+            # dedent closing parenthesis
+            ^ \s* \)
+        ]]></string>
+        <key>increaseIndentPattern</key>
+        <string><![CDATA[(?x)
+            # indent lines after those finalized by opening parenthesis
+            ^ .* \( \s* $
+        ]]></string>
+    </dict>
+</dict>
+</plist>

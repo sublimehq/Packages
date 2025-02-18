@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+scope: source.js.interpolated.php
+version: 2
+hidden: true
+
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
+
+  string-content:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-escapes
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations

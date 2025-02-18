@@ -70,27 +70,32 @@
 Plain Text
 #^^^^^^^^^ source.diff
 
-+ Addition
-# <-       punctuation.definition.inserted.diff
-# ^^^^^^^^ markup.inserted.diff
++ Addition  
+# <- markup.inserted.diff punctuation.definition.inserted.diff
+# ^^^^^^^^ markup.inserted.diff - meta.whitespace
+#         ^^ markup.inserted.diff meta.whitespace.trailing.diff
 
-> Addition
-# <-       punctuation.definition.inserted.diff
-# ^^^^^^^^ markup.inserted.diff
+> Addition  
+# <- markup.inserted.diff punctuation.definition.inserted.diff
+# ^^^^^^^^ markup.inserted.diff - meta.whitespace
+#         ^^ markup.inserted.diff meta.whitespace.trailing.diff
 
-- Deletion
-# <-       punctuation.definition.deleted.diff
-# ^^^^^^^^ markup.deleted.diff
+- Deletion  
+# <- markup.deleted.diff punctuation.definition.deleted.diff
+# ^^^^^^^^ markup.deleted.diff - meta.whitespace
+#         ^^ markup.deleted.diff meta.whitespace.trailing.diff
 
-< Deletion
-# <-       punctuation.definition.deleted.diff
-# ^^^^^^^^ markup.deleted.diff
+< Deletion  
+# <- markup.deleted.diff punctuation.definition.deleted.diff
+# ^^^^^^^^ markup.deleted.diff - meta.whitespace
+#         ^^ markup.deleted.diff meta.whitespace.trailing.diff
 
-! Modified
-# <-       punctuation.definition.changed.diff
-# ^^^^^^^^ markup.changed.diff
+! Modified  
+# <- markup.changed.diff punctuation.definition.changed.diff
+# ^^^^^^^^ markup.changed.diff - meta.whitespace
+#         ^^ markup.changed.diff meta.whitespace.trailing.diff
 
 Index: value
 #^^^^^^^^^^^ meta.diff.index meta.index.diff
-#    ^       punctuation.separator.key-value.diff
+#    ^ punctuation.separator.key-value.diff
 #      ^^^^^ meta.toc-list.file-name.diff

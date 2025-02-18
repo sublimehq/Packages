@@ -1,10 +1,8 @@
 {
-	"scope": "source.php - variable.other.php - source.php meta.embedded.html",
-
+	"scope": "source.php - string - comment - variable.other.php - meta.embedded.html - punctuation.section.embedded.begin.php",
 	"completions":
 	[
 		"php",
-
 		{
 			"trigger": "abs()",
 			"contents": "abs(${1:number})",
@@ -531,10 +529,28 @@
 			"details": "Computes the intersection of arrays using a callback function on the keys for comparison"
 		},
 		{
+			"trigger": "array_is_list()",
+			"contents": "array_is_list(${1:array})",
+			"kind": "function",
+			"details": "Checks if the given array is a list"
+		},
+		{
 			"trigger": "array_key_exists()",
 			"contents": "array_key_exists(${1:key}, ${2:array})",
 			"kind": "function",
 			"details": "Checks if the given key or index exists in the array"
+		},
+		{
+			"trigger": "array_key_first()",
+			"contents": "array_key_first(${1:array})",
+			"kind": "function",
+			"details": "Gets the first key of an array"
+		},
+		{
+			"trigger": "array_key_last()",
+			"contents": "array_key_last(${1:array})",
+			"kind": "function",
+			"details": "Gets the last key of an array"
 		},
 		{
 			"trigger": "array_keys()",
@@ -1580,12 +1596,12 @@
 		},
 		{
 			"trigger": "calcul_hmac()",
-			"contents": "calcul_hmac(${1:clent}, ${2:siretcode}, ${3:price}, ${4:reference}, ${5:validity}, ${6:taxation}, ${7:devise}, ${8:language})",
+			"contents": "calcul_hmac(${1:client}, ${2:siretcode}, ${3:price}, ${4:reference}, ${5:validity}, ${6:taxation}, ${7:devise}, ${8:language})",
 			"kind": "function"
 		},
 		{
 			"trigger": "calculhmac()",
-			"contents": "calculhmac(${1:clent}, ${2:data})",
+			"contents": "calculhmac(${1:client}, ${2:data})",
 			"kind": "function"
 		},
 		{
@@ -1709,6 +1725,12 @@
 			"details": "Return the parent classes of the given class"
 		},
 		{
+			"trigger": "class_uses()",
+			"contents": "class_uses(${1:object_or_class})",
+			"kind": "function",
+			"details": "Return the traits used by the given class"
+		},
+		{
 			"trigger": "classkit_import()",
 			"contents": "classkit_import(${1:filename})",
 			"kind": "function",
@@ -1749,6 +1771,18 @@
 			"contents": "clearstatcache()",
 			"kind": "function",
 			"details": "Clears file status cache"
+		},
+		{
+			"trigger": "cli_get_process_title()",
+			"contents": "cli_get_process_title()",
+			"kind": "function",
+			"details": "Returns the current process title"
+		},
+		{
+			"trigger": "cli_set_process_title()",
+			"contents": "cli_set_process_title()",
+			"kind": "function",
+			"details": "Sets the process title"
 		},
 		{
 			"trigger": "closedir()",
@@ -3764,7 +3798,7 @@
 			"trigger": "dio_open()",
 			"contents": "dio_open(${1:filename}, ${2:flags})",
 			"kind": "function",
-			"details": "Opens a file (creating it if necessary) at a lower level than the C library input/ouput stream functions allow"
+			"details": "Opens a file (creating it if necessary) at a lower level than the C library input/output stream functions allow"
 		},
 		{
 			"trigger": "dio_read()",
@@ -4069,6 +4103,12 @@
 			"details": "Set the internal pointer of an array to its last element"
 		},
 		{
+			"trigger": "enum_exists()",
+			"contents": "enum_exists(${1:enum_name})",
+			"kind": "function",
+			"details": "Checks if the enum has been defined"
+		},
+		{
 			"trigger": "ereg()",
 			"contents": "ereg(${1:pattern}, ${2:string})",
 			"kind": "function",
@@ -4084,13 +4124,13 @@
 			"trigger": "eregi()",
 			"contents": "eregi(${1:pattern}, ${2:string})",
 			"kind": "function",
-			"details": "Case insensitive regular expression match"
+			"details": "Case-insensitive regular expression match"
 		},
 		{
 			"trigger": "eregi_replace()",
 			"contents": "eregi_replace(${1:pattern}, ${2:replacement}, ${3:string})",
 			"kind": "function",
-			"details": "Replace regular expression case insensitive"
+			"details": "Replace regular expression case-insensitive"
 		},
 		{
 			"trigger": "error_get_last()",
@@ -4782,6 +4822,12 @@
 			"details": "Closes an open file pointer"
 		},
 		{
+			"trigger": "fdatasync()",
+			"contents": "fdatasync(${1:handle})",
+			"kind": "function",
+			"details": "Flushes the output to a file"
+		},
+		{
 			"trigger": "fdf_add_doc_javascript()",
 			"contents": "fdf_add_doc_javascript(${1:fdf_document}, ${2:script_name}, ${3:script_code})",
 			"kind": "function",
@@ -5339,6 +5385,12 @@
 			"details": "Gets information about a file using an open file pointer"
 		},
 		{
+			"trigger": "fsync()",
+			"contents": "fsync(${1:handle})",
+			"kind": "function",
+			"details": "Flushes the output to a file"
+		},
+		{
 			"trigger": "ftell()",
 			"contents": "ftell(${1:handle})",
 			"kind": "function",
@@ -5426,7 +5478,7 @@
 			"trigger": "ftp_login()",
 			"contents": "ftp_login(${1:ftp_stream}, ${2:username}, ${3:password})",
 			"kind": "function",
-			"details": "Logs in to an FTP connection"
+			"details": "Logs in to an FTP server"
 		},
 		{
 			"trigger": "ftp_mdtm()",
@@ -5613,6 +5665,18 @@
 			"contents": "gc_enabled()",
 			"kind": "function",
 			"details": "Returns status of the circular reference collector"
+		},
+		{
+			"trigger": "gc_mem_caches()",
+			"contents": "gc_mem_caches()",
+			"kind": "function",
+			"details": "Reclaims memory used by the Zend Engine memory manager"
+		},
+		{
+			"trigger": "gc_status()",
+			"contents": "gc_status()",
+			"kind": "function",
+			"details": "Gets information about the garbage collector"
 		},
 		{
 			"trigger": "gd_info()",
@@ -9955,6 +10019,12 @@
 			"details": "Returns the last error occurred"
 		},
 		{
+			"trigger": "json_validate()",
+			"contents": "json_validate(${1:json})",
+			"kind": "function",
+			"details": "Validates if the string contains a valid json."
+		},
+		{
 			"trigger": "judy_type()",
 			"contents": "judy_type(${1:array})",
 			"kind": "function",
@@ -11196,6 +11266,12 @@
 			"details": "Split multibyte string using regular expression"
 		},
 		{
+			"trigger": "mb_str_pad()",
+			"contents": "mb_str_pad(${1:string}, ${2:length}, string ${3:pad_string})",
+			"kind": "function",
+			"details": "Pad a string to a certain length with another string"
+		},
+		{
 			"trigger": "mb_strcut()",
 			"contents": "mb_strcut(${1:str}, ${2:start})",
 			"kind": "function",
@@ -11211,13 +11287,13 @@
 			"trigger": "mb_stripos()",
 			"contents": "mb_stripos(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds position of first occurrence of a string within another, case insensitive"
+			"details": "Finds position of first occurrence of a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_stristr()",
 			"contents": "mb_stristr(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds first occurrence of a string within another, case insensitive"
+			"details": "Finds first occurrence of a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_strlen()",
@@ -11241,13 +11317,13 @@
 			"trigger": "mb_strrichr()",
 			"contents": "mb_strrichr(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds the last occurrence of a character in a string within another, case insensitive"
+			"details": "Finds the last occurrence of a character in a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_strripos()",
 			"contents": "mb_strripos(${1:haystack}, ${2:needle})",
 			"kind": "function",
-			"details": "Finds position of last occurrence of a string within another, case insensitive"
+			"details": "Finds position of last occurrence of a string within another, case-insensitive"
 		},
 		{
 			"trigger": "mb_strrpos()",
@@ -12804,7 +12880,7 @@
 			"trigger": "natcasesort()",
 			"contents": "natcasesort(${1:array})",
 			"kind": "function",
-			"details": "Sort an array using a case insensitive \"natural order\" algorithm"
+			"details": "Sort an array using a case-insensitive \"natural order\" algorithm"
 		},
 		{
 			"trigger": "natsort()",
@@ -13674,7 +13750,7 @@
 			"trigger": "ncurses_waddstr()",
 			"contents": "ncurses_waddstr(${1:window}, ${2:str})",
 			"kind": "function",
-			"details": "Outputs text at current postion in window"
+			"details": "Outputs text at current position in window"
 		},
 		{
 			"trigger": "ncurses_wattroff()",
@@ -13805,7 +13881,7 @@
 			"trigger": "newt_checkbox_get_value()",
 			"contents": "newt_checkbox_get_value(${1:checkbox})",
 			"kind": "function",
-			"details": "Retreives value of checkox resource"
+			"details": "Retrieves value of checkbox resource"
 		},
 		{
 			"trigger": "newt_checkbox_set_flags()",
@@ -14139,7 +14215,7 @@
 		},
 		{
 			"trigger": "newt_listbox_clear()",
-			"contents": "newt_listbox_clear(${1:listobx})",
+			"contents": "newt_listbox_clear(${1:listbox})",
 			"kind": "function"
 		},
 		{
@@ -14496,7 +14572,7 @@
 		},
 		{
 			"trigger": "nthmac()",
-			"contents": "nthmac(${1:clent}, ${2:data})",
+			"contents": "nthmac(${1:client}, ${2:data})",
 			"kind": "function"
 		},
 		{
@@ -16096,6 +16172,12 @@
 			"details": "Set an alarm clock for delivery of a signal"
 		},
 		{
+			"trigger": "pcntl_async_signals()",
+			"contents": "pcntl_async_signals(${1:on})",
+			"kind": "function",
+			"details": "Enable/disable asynchronous signal handling or return the old setting"
+		},
+		{
 			"trigger": "pcntl_exec()",
 			"contents": "pcntl_exec(${1:path})",
 			"kind": "function",
@@ -16645,7 +16727,7 @@
 			"trigger": "PDF_get_apiname()",
 			"contents": "PDF_get_apiname(${1:pdfdoc})",
 			"kind": "function",
-			"details": "Get name of unsuccessfull API function"
+			"details": "Get name of unsuccessful API function"
 		},
 		{
 			"trigger": "PDF_get_buffer()",
@@ -18510,7 +18592,7 @@
 			"trigger": "ps_get_buffer()",
 			"contents": "ps_get_buffer(${1:psdoc})",
 			"kind": "function",
-			"details": "Fetches the full buffer containig the generated PS data"
+			"details": "Fetches the full buffer containing the generated PS data"
 		},
 		{
 			"trigger": "ps_get_parameter()",
@@ -18568,7 +18650,7 @@
 		},
 		{
 			"trigger": "ps_open_image()",
-			"contents": "ps_open_image(${1:psdoc}, ${2:type}, ${3:source}, ${4:data}, ${5:lenght}, ${6:width}, ${7:height}, ${8:components}, ${9:bpc}, ${10:params})",
+			"contents": "ps_open_image(${1:psdoc}, ${2:type}, ${3:source}, ${4:data}, ${5:length}, ${6:width}, ${7:height}, ${8:components}, ${9:bpc}, ${10:params})",
 			"kind": "function",
 			"details": "Reads an image for later placement"
 		},
@@ -18702,7 +18784,7 @@
 			"trigger": "ps_setlinejoin()",
 			"contents": "ps_setlinejoin(${1:psdoc}, ${2:type})",
 			"kind": "function",
-			"details": "Sets how contected lines are joined"
+			"details": "Sets how connected lines are joined"
 		},
 		{
 			"trigger": "ps_setlinewidth()",
@@ -19144,7 +19226,7 @@
 			"trigger": "radius_close()",
 			"contents": "radius_close(${1:radius_handle})",
 			"kind": "function",
-			"details": "Frees all ressources"
+			"details": "Frees all resources"
 		},
 		{
 			"trigger": "radius_config()",
@@ -20070,7 +20152,7 @@
 		},
 		{
 			"trigger": "signeurlpaiement()",
-			"contents": "signeurlpaiement(${1:clent}, ${2:data})",
+			"contents": "signeurlpaiement(${1:client}, ${2:data})",
 			"kind": "function"
 		},
 		{
@@ -20509,7 +20591,7 @@
 			"trigger": "spliti()",
 			"contents": "spliti(${1:pattern}, ${2:string})",
 			"kind": "function",
-			"details": "Split string into array by regular expression case insensitive"
+			"details": "Split string into array by regular expression case-insensitive"
 		},
 		{
 			"trigger": "sprintf()",
@@ -20521,7 +20603,7 @@
 			"trigger": "sql_regcase()",
 			"contents": "sql_regcase(${1:string})",
 			"kind": "function",
-			"details": "Make regular expression for case insensitive match"
+			"details": "Make regular expression for case-insensitive match"
 		},
 		{
 			"trigger": "sqlite_close()",
@@ -21632,7 +21714,7 @@
 			"trigger": "strnatcasecmp()",
 			"contents": "strnatcasecmp(${1:str1}, ${2:str2})",
 			"kind": "function",
-			"details": "Case insensitive string comparisons using a \"natural order\" algorithm"
+			"details": "Case-insensitive string comparisons using a \"natural order\" algorithm"
 		},
 		{
 			"trigger": "strnatcmp()",

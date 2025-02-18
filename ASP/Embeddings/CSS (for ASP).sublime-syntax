@@ -1,0 +1,36 @@
+%YAML 1.2
+---
+###############################################################################
+# This intermediate syntax is used by `HTML (ASP).sublime-syntax`
+#
+# It powers VBScript highlighting within ASP tags in embedded CSS.
+#
+#   <style>
+#     <%! ... %>
+#     <%= ... %>
+#     <%  ... %>
+#   </style>
+#
+# The primary task is to add `asp-tags` context to CSS's
+# prototype to match all the <% %> tags.
+###############################################################################
+
+scope: source.css.embedded.asp
+version: 2
+hidden: true
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+variables:
+
+    ident_start: (?:{{nmstart}}|<%)
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HTML (ASP).sublime-syntax#asp-tags
+
+  string-content:
+    - meta_prepend: true
+    - include: HTML (ASP).sublime-syntax#asp-interpolations

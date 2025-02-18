@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+# https://www.jetbrains.com/help/go/using-language-injections.html#use-language-injection-comments
+name: Go (Embedded Backtick String)
+scope: source.go.embedded-backtick-string
+version: 2
+hidden: true
+
+extends: Packages/Go/Go.sublime-syntax
+
+contexts:
+
+  match-comment-magic-language-injection-inner:
+    - meta_include_prototype: false
+    - meta_content_scope: comment.line.double-slash.go
+    # TODO: support prefix and suffix
+    - match: '{{newline}}'
+      scope: comment.line.double-slash.go
+      set:
+        - match-any-root
+        - consume-comments-at-beginning-of-line
+
+  consume-comments-at-beginning-of-line:
+    # Comments are included here via `prototype`.
+    # Pop context off stack, if line starts with anything else.
+    - match: ^(?!\s*/[/*])
+      pop: true
+
+  match-any-root:
+    - include: pop-on-eol
+    - include: match-any

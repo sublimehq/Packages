@@ -60,7 +60,7 @@
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)
 		^ \s* \b(if|while|else|elseif|foreach)\b [^;]* $
-		| ^ \s* \b(for)\b .* $
+		| ^ \s* \b(for)\b .* [^;]\s*$
 		</string>
 	</dict>
 </dict>

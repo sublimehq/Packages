@@ -1,0 +1,88 @@
+[
+    //
+    // BLOCK COMMENTS
+    //
+
+    // Expand {-|-} to {- | -} when space is pressed
+    { "keys": [" "], "command": "insert_snippet", "args": {"contents": " $0 "}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^-}", "match_all": true }
+        ]
+    },
+    // Collapse {- | -} to {-|-} when backspace is pressed
+    { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-\\s$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^\\s-}", "match_all": true }
+        ]
+    },
+    // Collapse {-|-} to {|} when backspace is pressed
+    { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^-}", "match_all": true }
+        ]
+    },
+
+    //
+    // PREPROCESSOR PRAGMA
+    //
+
+    // Auto-pair hash tags: {-# | #-}
+    { "keys": ["#"], "command": "insert_snippet", "args": {"contents": "# $0 #"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^-}", "match_all": true }
+        ]
+    },
+    { "keys": ["#"], "command": "insert_snippet", "args": {"contents": "# ${0:$SELECTION} #"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell comment.block" },
+            { "key": "selection_empty", "operand": false, "match_all": true }
+        ]
+    },
+    // Expand {-#|#-} to {-# | #-} when space is pressed
+    { "keys": [" "], "command": "insert_snippet", "args": {"contents": " $0 "}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-#$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^#-}", "match_all": true }
+        ]
+    },
+    // Collapse {-# | #-} to {-#|#-} when backspace is pressed
+    { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-#\\s$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^\\s#-}", "match_all": true }
+        ]
+    },
+    // Collapse {-#|#-} to {-|-} when backspace is pressed
+    { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operand": true },
+            { "key": "selector", "operand": "source.haskell" },
+            { "key": "selection_empty", "operand": true, "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "{-#$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^#-}", "match_all": true }
+        ]
+    }
+]

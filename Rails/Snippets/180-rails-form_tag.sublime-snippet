@@ -3,6 +3,6 @@
 	$0
 ${TM_RAILS_TEMPLATE_END_RUBY_BLOCK}]]></content>
 	<tabTrigger>ft</tabTrigger>
-	<scope>text.html.ruby, text.haml</scope>
+	<scope>text.html.rails, text.haml</scope>
 	<description>form_tag</description>
 </snippet>

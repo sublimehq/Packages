@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.js, source.jsx, source.ts, source.tsx</string>
+	<string>source.js, source.jsx, source.ts, source.tsx, meta.jsx meta.tag.name, meta.jsx meta.tag.attributes</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>

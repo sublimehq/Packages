@@ -2,11 +2,22 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: R
+scope: source.r
+
 file_extensions:
   - R
-  - r
-  - Rprofile
-scope: source.r
+
+hidden_file_extensions:
+  - .Renviron
+  - .Rprofile
+  - Renviron.site
+  - Rprofile.site
+
+first_line_match: |-
+  (?xi:
+    ^ \#! .* \br\b                        # shebang
+  | ^ \s* \# .*? -\*- .*? \br\b .*? -\*-  # editorconfig
+  )
 
 variables:
   exponent: (?:[eE][-+]?\d+)
@@ -31,7 +42,7 @@ contexts:
     - include: general-variables
 
   codesection:
-    - match: ^\s*((\#+)\s*(.+?)\s*(?:-{4,}|={4,}|#{4,})[ \t]*$\n?)
+    - match: ^\s*((\#+)\s+(.+?)\s+(?:-{4,}|={4,}|#{4,})[ \t]*$\n?)
       captures:
         1: comment.line.number-sign.r
         2: punctuation.definition.comment.r
@@ -48,7 +59,13 @@ contexts:
   constants:
     - match: \b(pi|letters|LETTERS|month\.abb|month\.name)\b
       scope: support.constant.misc.r
-    - match: \b(TRUE|FALSE|NULL|NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
+    - match: \bFALSE\b
+      scope: constant.language.boolean.false.r
+    - match: \bTRUE\b
+      scope: constant.language.boolean.true.r
+    - match: \bNULL\b
+      scope: constant.language.null.r
+    - match: \b(NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
       scope: constant.language.r
     # complex imaginary
     - match: \b(0[xX])(\h+)(?:(i)|(I))\b
@@ -150,7 +167,11 @@ contexts:
       scope: keyword.operator.arithmetic.r
     - match: (<-|->)
       scope: keyword.operator.assignment.r
-    - match: (==|!=|<=|>=|<>|&&|\|\|)
+    - match: \|>
+      scope: keyword.operator.assignment.redirection.r
+    - match: (==|!=|<>|<=?|>=?)
+      scope: keyword.operator.comparison.r
+    - match: (&&?|\|\|?)
       scope: keyword.operator.logical.r
     - match: :=
       scope: keyword.operator.other.r
@@ -159,7 +180,7 @@ contexts:
       scope: keyword.operator.arithmetic.r
     - match: =
       scope: keyword.operator.assignment.r
-    - match: '[!&|<>]'
+    - match: '!'
       scope: keyword.operator.logical.r
     - match: '[:~@]'
       scope: keyword.other.r

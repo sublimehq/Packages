@@ -1,0 +1,176 @@
+# SYNTAX TEST "Git Commit Message.sublime-syntax"
+# <- text.git.commit-message comment.line punctuation.definition.comment
+Add git package # no comment (#403)
+# <- meta.subject.git.commit markup.heading.subject.git.commit - meta.expect-subject
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
+#               ^^^^^^^^^^^^^^^^^^^ - comment
+#                             ^ punctuation.definition.reference.issue.git
+#                             ^^^^ meta.reference.issue.git constant.other.reference.issue.git
+-
+# <- invalid.illegal.empty-line-expected.git.commit
+The message can contain # which is no comment start
+# <- meta.message.git.commit - meta.subject - meta.expect-subject
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
+  @user-name
+# ^ punctuation.definition.reference.username
+# ^^^^^^^^^^ meta.reference.username entity.name.reference.username
+Thanks to @username <name@mail-host.domain>.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#         ^ punctuation.definition.reference.username.git
+#         ^^^^^^^^^ entity.name.reference.username.git
+#                  ^ - string.unquoted.reference.username.git
+#                   ^ punctuation.definition.reference.email.begin.git
+#                    ^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                        ^ punctuation.separator.email.git
+#                                  ^ punctuation.separator.domain.git
+#                                         ^ punctuation.definition.reference.email.end.git
+This is a <tag> name <tag.name>
+#         ^^^^^ - meta.reference - entity
+#                    ^^^^^^^^^^ - meta.reference - entity
+These are no C#, C#7, C#10 issues.
+#            ^^^^^^^^^^^^^ - constant
+This is a valid u/r#1 issue.
+#               ^^^^^ meta.reference.issue.git constant.other.reference.issue.git
+#                ^ punctuation.separator.reference.issue.git
+#                  ^ punctuation.definition.reference.issue.git
+Issue user/repo#230 is not closed yet.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#     ^^^^^^^^^^^^^ constant.other.reference.issue.git
+#         ^ punctuation.separator.reference.issue.git
+#              ^ punctuation.definition.reference.issue.git
+#                          ^^^^^^ - keyword.other.resolved-issue.git
+Issue repo-with/many-hyphen_and_underscores#1 closed yet.
+# <- meta.message.git.commit
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.reference.issue.git
+#              ^ punctuation.separator.reference.issue.git
+#                                          ^ punctuation.definition.reference.issue.git
+Issue -user-/-repo-#230 starting and ending with hyphens.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#     ^^^^^^^^^^^^^^^^^ constant.other.reference.issue.git
+#           ^ punctuation.separator.reference.issue.git
+#                  ^ punctuation.definition.reference.issue.git
+Issue user#230 is not resolved yet.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#     ^^^^^^^^ constant.other.reference.issue.git
+#         ^ punctuation.definition.reference.issue.git
+#                     ^^^^^^^^ - keyword.other.resolved-issue.git
+Issue #230 is not fixed yet.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#     ^^^^ constant.other.reference.issue.git
+#     ^ punctuation.definition.reference.issue.git
+#                 ^^^^^ - keyword.other.resolved-issue.git
+This commit closes #230 # without comment.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#           ^^^^^^^^^^^ meta.reference.issue.git
+#           ^^^^^^ keyword.other.resolved-issue.git
+#                  ^ punctuation.definition.reference.issue.git
+#                  ^^^^ constant.other.reference.issue.git
+#                       ^^^^^^^^^^^^^^^^^^^ - comment
+fix #203
+# <- meta.message.git.commit meta.reference.issue.git keyword.other.resolved-issue.git
+#^^^^^^^ meta.message.git.commit
+#^^^^^^^ meta.reference.issue.git
+#^^ keyword.other.resolved-issue.git
+#   ^ punctuation.definition.reference.issue.git
+#   ^^^^ constant.other.reference.issue.git
+fixes #203
+# <- meta.message.git.commit meta.reference.issue.git keyword.other.resolved-issue.git
+#^^^^^^^^^ meta.message.git.commit
+#^^^^^^^^^ meta.reference.issue.git
+#^^^^ keyword.other.resolved-issue.git
+#     ^ punctuation.definition.reference.issue.git
+#     ^^^^ constant.other.reference.issue.git
+fixed #203
+# <- meta.message.git.commit meta.reference.issue.git keyword.other.resolved-issue.git
+#^^^^^^^^^ meta.message.git.commit
+#^^^^^^^^^ meta.reference.issue.git
+#^^^^ keyword.other.resolved-issue.git
+#     ^ punctuation.definition.reference.issue.git
+#     ^^^^ constant.other.reference.issue.git
+Fix: #203
+# <- meta.message.git.commit meta.reference.issue.git keyword.other.resolved-issue.git
+#^^^^^^^^ meta.message.git.commit
+#^^^^^^^^ meta.reference.issue.git
+#^^ keyword.other.resolved-issue.git
+#  ^ punctuation.separator.key-value.resolved-issue.git
+#    ^ punctuation.definition.reference.issue.git
+#    ^^^^ constant.other.reference.issue.git
+#
+  see: https://github.com/sublimehq
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit markup.underline.link.git
+
+  Change-Id: I3b3613e336397febf02cd8e5c14c53d493343e93
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+# ^^^^^^^^^ keyword.other.trailer.git.commit
+#          ^ punctuation.separator.key-value.git.commit
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.change-id.git.commit
+  Co-authored-by: username <user.name@domain.com>
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                          ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+# ^^^^^^^^^^^^^^ keyword.other.trailer.git.commit
+#               ^ punctuation.separator.key-value.git.commit
+#                          ^ punctuation.definition.reference.email.begin.git
+#                           ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                               ^ - punctuation.separator.email.git
+#                                    ^ punctuation.separator.email.git
+#                                           ^ punctuation.separator.domain.git
+#                                               ^ punctuation.definition.reference.email.end.git
+  Reviewed-by: username <user.name@domain.com>
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                       ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+# ^^^^^^^^^^^ keyword.other.trailer.git.commit
+#            ^ punctuation.separator.key-value.git.commit
+#                       ^ punctuation.definition.reference.email.begin.git
+#                        ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                            ^ - punctuation.separator.email.git
+#                                 ^ punctuation.separator.email.git
+#                                        ^ punctuation.separator.domain.git
+#                                            ^ punctuation.definition.reference.email.end.git
+  Signed-off-by: username <user.name@domain.com>
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                         ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+# ^^^^^^^^^^^^^ keyword.other.trailer.git.commit
+#              ^ punctuation.separator.key-value.git.commit
+#                         ^ punctuation.definition.reference.email.begin.git
+#                          ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                              ^ - punctuation.separator.email.git
+#                                   ^ punctuation.separator.email.git
+#                                          ^ punctuation.separator.domain.git
+#                                              ^ punctuation.definition.reference.email.end.git
+  See-also: 21dde213 subject
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+# ^^^^^^^^ keyword.other.trailer.git.commit
+#         ^ punctuation.separator.key-value.git.commit
+#           ^^^^^^^^ constant.other.hash.git
+
+  -No-trailer-by: value
+# ^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  No_railer-by: value
+# ^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  No.railer-by: value
+# ^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  No-Tℜailer-by: value
+# ^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit - keyword - punctuation
+
+  This commit references a hash: 21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                ^^^^^^^^ constant.other.hash.git
+  This commit does not references a hash: user@21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                         ^^^^^^^^^^^^^ constant.other.hash.git
+#                                             ^ punctuation.separator.reference.commit.git
+  This commit references a hash on a different repo: test/repo@21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                                    ^^^^^^^^^^^^^^^^^^ constant.other.hash.git
+#                                                        ^ punctuation.separator.reference.commit.git
+#                                                             ^ punctuation.separator.reference.commit.git

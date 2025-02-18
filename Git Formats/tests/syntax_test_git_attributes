@@ -1,0 +1,213 @@
+# SYNTAX TEST "Git Attributes.sublime-syntax"
+# <- comment.line.git punctuation.definition.comment.git
+
+# valid macro definition
+[macro-name] binary -diff !merge filter=none working-tree-encoding="utf-16le-bom"
+# <- meta.brackets.git.attributes punctuation.definition.brackets.begin.git.attributes
+#^^^^^^^^^^ meta.brackets.git.attributes entity.name.macro.git.attributes
+#          ^ meta.brackets.git.attributes punctuation.definition.brackets.end.git.attributes - meta.attributes-list.git.attributes
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.brackets.git.attributes
+#            ^^^^^^ variable.language.attribute.git.attributes
+#                   ^ keyword.operator.logical.git.attributes
+#                    ^^^^ variable.language.attribute.git.attributes
+#                         ^ keyword.operator.logical.git.attributes
+#                          ^^^^^ variable.language.attribute.git.attributes
+#                                ^^^^^^ variable.language.attribute.git.attributes
+#                                      ^ punctuation.separator.key-value.git.attributes
+#                                       ^^^^ string.unquoted.git.attributes
+#                                            ^^^^^^^^^^^^^^^^^^^^^ variable.language.attribute.git.attributes
+#                                                                 ^ punctuation.separator.key-value.git.attributes
+#                                                                  ^^^^^^^^^^^^^^  string.quoted.double.git.attributes
+#                                                                  ^ punctuation.definition.string.begin.git.attributes
+#                                                                               ^ punctuation.definition.string.end.git.attributes
+[macro\tws]attr
+# <- meta.brackets.git.attributes punctuation.definition.brackets.begin.git.attributes
+#^^^^^^^^^ meta.brackets.git.attributes entity.name.macro.git.attributes
+#         ^ meta.brackets.git.attributes punctuation.definition.brackets.end.git.attributes - meta.attributes-list.git.attributes
+#          ^^^^^ meta.attributes-list.git.attributes - meta.brackets.git.attributes
+#          ^^^^ variable.language.attribute.git.attributes
+
+# invalid whitespace in macro name is handled as an invalid pattern
+[macro ] attr
+# <- invalid.illegal.operator.git.attributes - meta.attributes-list.git.attributes
+#^^^^^ string.unquoted.git.attributes - meta.attributes-list.git.attributes
+#     ^^^^^^^^ meta.attributes-list.git.attributes - meta.pattern
+#      ^ invalid.illegal.attribute-name.git.attributes
+#        ^^^^ variable.language.attribute.git.attributes
+[ macro ] attr
+# <- invalid.illegal.operator.git.attributes - meta.attributes-list.git.attributes
+#^^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.pattern
+# ^^^^^ variable.language.attribute.git.attributes
+#       ^ invalid.illegal.attribute-name.git.attributes
+#         ^^^^variable.language.attribute.git.attributes
+[macro name ] attr
+# <- invalid.illegal.operator.git.attributes - meta.attributes-list.git.attributes
+#^^^^^ string.unquoted.git.attributes - meta.attributes-list.git.attributes
+#     ^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.pattern
+#      ^^^^ variable.language.attribute.git.attributes
+#           ^ invalid.illegal.attribute-name.git.attributes
+#             ^^^^ variable.language.attribute.git.attributes
+
+# escaped '[' is handled as pattern for file name starting with '['
+\[macro\tws] attr
+# <- string.unquoted.git.attributes
+#^^^^^^^^^^^ string.unquoted.git.attributes
+#           ^^^^^^ meta.attributes-list.git.attributes
+#            ^^^^ variable.language.attribute.git.attributes
+\[macro\tws]attr !attr
+# <- string.unquoted.git.attributes entity.name.pattern.git.attributes
+#^^^^^^^^^^^^^^^ string.unquoted.git.attributes entity.name.pattern.git.attributes - meta.attributes-list.git.attributes
+#               ^^^^^^^ meta.attributes-list.git.attributes - meta.pattern
+#                ^ keyword.operator.logical.git.attributes
+#                 ^^^^ variable.language.attribute.git.attributes
+
+# quoted patterns
+"[mac ro\tws]" attr="^0123456789abcde \t\n\\\"\'./()'-:,.;<>~!@#$%&*|+=[]{}`~?" attr2="qu ot1""invalid"
+# <- string.quoted.double.git.attributes punctuation.definition.string.begin.git.attributes - entity.name.pattern.git
+#^^^^^^^^^^^^^ string.quoted.double.git.attributes - meta.attributes-list.git.attributes
+#^^^^^^^^^^^^ entity.name.pattern.git.attributes
+#            ^ punctuation.definition.string.end.git.attributes - entity.name.pattern.git
+#             ^^^^^^ meta.attributes-list.git.attributes
+#              ^^^^ variable.language.attribute.git.attributes
+#                  ^ punctuation.separator.key-value.git.attributes
+#                   ^ punctuation.definition.string.begin.git.attributes
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.git.attributes
+#                                     ^^^^^^^^^^ constant.character.escape.git.attributes
+#                                                                             ^ punctuation.definition.string.end.git.attributes
+#                                                                               ^^^^^ variable.language.attribute.git.attributes
+#                                                                                    ^ punctuation.separator.key-value.git.attributes
+#                                                                                     ^^^^^^^^ string.quoted.double.git.attributes
+#                                                                                             ^^^^^^^^^ invalid.illegal.value.git.attributes
+
+# No space needed after quotation mark
+"De?f\"a[Uu]lt ([Ww]indows)"encoding=utf-8
+# <- string.quoted.double.git.attributes punctuation.definition.string.begin.git.attributes - entity.name.pattern.git
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.git.attributes
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.pattern.git
+#  ^ constant.other.wildcard.questionmark.fnmatch.git
+#    ^^ constant.character.escape.path.fnmatch.git
+#       ^^^^ meta.char-class.fnmatch.git
+#       ^ keyword.control.char-class.begin.fnmatch.git
+#        ^^ constant.character.char-class.fnmatch.git
+#          ^ keyword.control.char-class.end.fnmatch.git
+#               ^ keyword.control.char-class.begin.fnmatch.git
+#                ^^ constant.character.char-class.fnmatch.git
+#                  ^ keyword.control.char-class.end.fnmatch.git
+#                          ^ punctuation.definition.string.end.git.attributes
+#                           ^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes
+#                           ^^^^^^^^^^^^^^^ meta.attribute
+#                           ^^^^^^^^ meta.mapping.key.git.attributes variable.language.attribute.git.attributes
+#                                   ^ punctuation.separator.key-value.git.attributes
+#                                    ^^^^^ meta.mapping.value.git.attributes string.unquoted.git.attributes
+#                                         ^ meta.attribute meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
+
+# set binary content
+/path/*.pb?proj binary -text !indent eol=crlf attr=val1,-val2,!val3 !attr2 # no-comment
+# <- string.unquoted.git.attributes punctuation.separator.path.fnmatch.git
+#^^^^^^^^^^^^^^ - meta.attributes-list.git.attributes
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes - meta.pattern
+#^^^^^^^^^^^^^^ string.unquoted.git.attributes
+#    ^ punctuation.separator.path.fnmatch.git
+#     ^ constant.other.wildcard.asterisk.fnmatch.git
+#      ^ punctuation.separator.path.fnmatch.git
+#         ^ constant.other.wildcard.questionmark.fnmatch.git
+#              ^ - variable.language.attribute - keyword.operator.logical
+#               ^^^^^^ variable.language.attribute.git.attributes
+#                     ^ - variable.language.attribute - keyword.operator.logical
+#                      ^ keyword.operator.logical.git.attributes
+#                       ^^^^ variable.language.attribute.git.attributes
+#                           ^ - variable.language.attribute - keyword.operator.logical
+#                            ^ keyword.operator.logical.git.attributes
+#                             ^^^^^^ variable.language.attribute.git.attributes
+#                                   ^ - variable.language.attribute - keyword.operator.logical
+#                                    ^^^ variable.language.attribute.git.attributes
+#                                       ^ punctuation.separator.key-value.git.attributes
+#                                        ^^^^ string.unquoted.git.attributes
+#                                            ^ - variable.language.attribute - keyword.operator.logical
+#                                             ^^^^ variable.language.attribute.git.attributes
+#                                                 ^ punctuation.separator.key-value.git.attributes
+#                                                  ^^^^ string.unquoted.git.attributes
+#                                                      ^ punctuation.separator.sequence.git.attributes
+#                                                       ^^^^^ string.unquoted.git.attributes
+#                                                            ^ punctuation.separator.sequence.git.attributes
+#                                                             ^^^^^ string.unquoted.git.attributes
+#                                                                  ^ - variable.language.attribute - keyword.operator.logical
+#                                                                   ^ keyword.operator.logical.git.attributes
+#                                                                    ^^^^^ variable.language.attribute.git.attributes
+#                                                                          ^ invalid.illegal.attribute-name.git.attributes
+#                                                                            ^^^^^^^^^^ variable.language.attribute.git.attributes
+
+# check operator usage
+\!*.jpg!text !attr1=!value !attr2 ! attr3 = no_val !!attr
+# <- string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+#^^^^^^^^^^^ string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+#            ^ keyword.operator.logical.git.attributes - invalid.illegal.operator - string.unquoted
+#                   ^ string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+#                          ^ keyword.operator.logical.git.attributes - invalid.illegal.operator - string.unquoted
+#                                 ^ invalid.illegal.attribute-name.git.attributes
+#                                         ^ invalid.illegal.attribute-name.git.attributes
+#                                                  ^^^^^^ invalid.illegal.attribute-name.git.attributes
+\-*.jpg-text -attr1=-value -attr2 - attr3 = no_val --attr
+# <- string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+#^^^^^^^^^^^ string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+#            ^ keyword.operator.logical.git.attributes - invalid.illegal.operator - string.unquoted
+#                   ^ string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+#                          ^ keyword.operator.logical.git.attributes - invalid.illegal.operator - string.unquoted
+#                                 ^ invalid.illegal.attribute-name.git.attributes
+#                                         ^ invalid.illegal.attribute-name.git.attributes
+#                                           ^^^^^^ variable.language.attribute.git.attributes - string
+#                                                  ^^^^^^ invalid.illegal.attribute-name.git.attributes
+!*.jpg!text
+# <- invalid.illegal.operator.git.attributes - string.unquoted - keyword.operator.logical
+#     ^ string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+-*.jpg-text
+# <- invalid.illegal.operator.git.attributes - string.unquoted - keyword.operator.logical
+#     ^ string.unquoted.git.attributes - invalid.illegal.operator - keyword.operator.logical
+- *.jpg-text attr
+# ^^^^^^^^^^^^^^^^ meta.attributes-list.git.attributes
+# <- invalid.illegal.operator.git.attributes
+# ^^^^^^^^^^ invalid.illegal.attribute-name.git.attributes
+#            ^^^^ variable.language.attribute.git.attributes - invalid
+- pattern attr
+# <- invalid.illegal.operator.git.attributes - string.unquoted - keyword.operator.logical
+# ^^^^^^^^^^^^^ meta.attributes-list.git.attributes
+# ^^^^^^^ variable.language.attribute.git.attributes - string.unquoted
+#         ^^^^ variable.language.attribute.git.attributes
+
+# TEST: `meta.mapping.expect-value` at end of line
+pattern attr=
+# <- string.unquoted.git entity.name.pattern.git
+#^^^^^^ string.unquoted.git entity.name.pattern.git
+#      ^^^^^^^ meta.attributes-list.git
+#      ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git
+#       ^^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
+#           ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
+#           ^ punctuation.separator.key-value.git
+#            ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
+
+# TEST: `meta.mapping.expect-value` at end of line
+pattern attr= no_value attr=value, eol=lf,
+# <- string.unquoted.git entity.name.pattern.git
+#^^^^^^ string.unquoted.git entity.name.pattern.git
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes-list.git
+#      ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git
+#       ^^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
+#           ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
+#           ^ punctuation.separator.key-value.git
+#            ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
+#             ^^^^^^^^ meta.attribute.other.git meta.mapping.key.git variable.language.attribute.git - meta.mapping.expect-value.git
+#                     ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git
+#                      ^^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
+#                          ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
+#                          ^ punctuation.separator.key-value.git
+#                           ^^^^^ string.unquoted.git.attributes
+#                           ^^^^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
+#                                ^ meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
+#                                 ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git
+#                                  ^^^ meta.mapping.key.git - meta.mapping.git - meta.mapping.value.git
+#                                     ^ meta.mapping.git - meta.mapping.key.git - meta.mapping.value.git - meta.mapping.expect-value.git
+#                                     ^ punctuation.separator.key-value.git
+#                                      ^^ string.unquoted.git.attributes
+#                                      ^^ meta.mapping.value.git - meta.mapping.key.git - meta.mapping.git - meta.mapping.expect-value.git
+#                                        ^ meta.mapping.git.attributes punctuation.separator.sequence.git.attributes
+#                                         ^ meta.mapping.expect-value.git - meta.mapping.key.git - meta.mapping.git

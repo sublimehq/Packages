@@ -5,6 +5,6 @@ ${TM_RAILS_TEMPLATE_START_RUBY_INLINE}form_for @${2:$1} do |f|${TM_RAILS_TEMPLAT
 	$0
 ${TM_RAILS_TEMPLATE_END_RUBY_BLOCK}]]></content>
 	<tabTrigger>ffe</tabTrigger>
-	<scope>text.html.ruby, text.haml</scope>
+	<scope>text.html.rails, text.haml</scope>
 	<description>form_for with errors</description>
 </snippet>

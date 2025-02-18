@@ -133,24 +133,105 @@ puts <<-HTML; # comment
 #       ^^^^ entity.name.tag.ruby
 #           ^ punctuation.terminator.statement.ruby - meta.string
 #             ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
-  <body>
-# ^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure
+  <script>
+    let me = #{@ruby_null};
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby source.js.embedded.html
+#            ^^^^^^^^^^^^^ meta.interpolation.ruby
+  </script>
+  <style>
+  .class[att=#{@ruby_sel}] {
+# ^^^^^^^^^^^ meta.selector.css - meta.interpolation
+#            ^^^^^^^^^^^^ meta.selector.css meta.interpolation.ruby
+#                        ^^ meta.selector.css
+
+;   font-family: "#{@ruby_font}";
+#                ^^^^^^^^^^^^^^^ meta.property-value.css meta.string.css
+#                ^ string.quoted.double.css punctuation.definition.string.begin.css
+#                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+#                              ^ string.quoted.double.css punctuation.definition.string.end.css
+
+;   #{@prop_name}: #{@prop_value};
+#   ^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.interpolation.ruby
+#                ^ punctuation.separator.key-value.css
+#                  ^^^^^^^^^^^^^^ meta.property-value.css meta.interpolation.ruby
+  }
+  </style>
+  <body class="#@var" style="color: #@color" onclick="run(#@what)">
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby text.html.embedded meta.tag.structure
+#              ^^^^^ meta.string.html meta.interpolation.ruby variable.other.readwrite.instance.ruby - string
+#                                   ^^^^^^^ meta.string.html meta.interpolation.ruby variable.other.readwrite.instance.ruby - string
+#                                                         ^^^^^^ meta.string.html meta.interpolation.ruby variable.other.readwrite.instance.ruby - string
     #{ sym } #@var
-#  ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#  ^ meta.string.heredoc.ruby text.html.embedded - meta.interpolation
 #   ^^^^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby
-#           ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#           ^ meta.string.heredoc.ruby text.html.embedded - meta.interpolation
 #            ^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby variable.other.readwrite.instance.ruby
-#                 ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#                 ^ meta.string.heredoc.ruby text.html.embedded - meta.interpolation
 #   ^^ punctuation.section.interpolation.begin.ruby
 #     ^^^^^ source.ruby.embedded.ruby
 #          ^ punctuation.section.interpolation.end.ruby
 #            ^^ punctuation.definition.variable.ruby
 #            ^^^^^ variable.other.readwrite.instance.ruby
   </body>
-# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure.any.html
+# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded meta.tag.structure.any.html
   HTML
 # ^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #     ^ - meta.string - string.unquoted
+
+def CssHeredoc()
+  css = <<-CSS
+#       ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#          ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+  .class[att=#{@ruby_sel}] {
+# ^^^^^^^^^^^ meta.selector.css - meta.interpolation
+#            ^^^^^^^^^^^^ meta.selector.css meta.interpolation.ruby
+#                        ^^ meta.selector.css
+
+;   font-family: "#{@ruby_font}";
+#                ^^^^^^^^^^^^^^^ meta.property-value.css meta.string.css
+#                ^ string.quoted.double.css punctuation.definition.string.begin.css
+#                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+#                              ^ string.quoted.double.css punctuation.definition.string.end.css
+
+;   #{@prop_name}: #{@prop_value};
+#   ^^^^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.interpolation.ruby
+#                ^ punctuation.separator.key-value.css
+#                  ^^^^^^^^^^^^^^ meta.property-value.css meta.interpolation.ruby
+  }
+  CSS
+# ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+end
+
+def InterpolatedJavaScriptHeredoc()
+  js = <<-JS
+#      ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#         ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+    let me = #{@ruby_null};
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js.embedded
+#            ^^^^^^^^^^^^^ meta.interpolation.ruby
+    function test() { var local = #{@ruby_init}; }
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js.embedded
+#                                 ^^^^^^^^^^^^^ meta.interpolation.ruby
+  JS
+# ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+end
+
+def LiteralJavaScriptHeredoc()
+  js = <<-'JS'
+#      ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#          ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+    let me = #{@ruby_null};
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js
+#            ^^^^^^^^^^^^^ - meta.interpolation
+    function test() { var local = #{@ruby_init}; }
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.js
+#                                 ^^^^^^^^^^^^^ - meta.interpolation
+  JS
+# ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+end
 
 class_eval <<-RUBY, __FILE__, __LINE__ + 1
   def #{sym}(*args, &block)
@@ -171,8 +252,9 @@ puts <<-SH; # comment
 #       ^^ entity.name.tag.ruby
 #         ^ punctuation.terminator.statement.ruby - meta.string - string
 #           ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
-  git log
-# ^^^^^^^ meta.string.heredoc.ruby source.shell.embedded.ruby
+  $( git log #@var )
+# ^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.shell.embedded meta.function-call meta.interpolation.command.shell
+#            ^^^^^ meta.interpolation.ruby variable.other.readwrite.instance.ruby
   SH
 # ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #   ^ - meta.string - string.unquoted
@@ -204,6 +286,24 @@ SQL
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
+foo <<-BAR
+#   ^^^^^^ meta.string.heredoc.ruby
+#   ^^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
+  ba'z
+#^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+BAR
+# <- meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
+foo <<~BAR
+#   ^^^^^^ meta.string.heredoc.ruby
+#   ^^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
+  ba'z
+#^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+BAR
+# <- meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+
 foo, bar = <<BAR, 2
 #^^^^^^^^^^^^^^^^^^ source.ruby
 #          ^^ meta.string.heredoc.ruby - meta.tag
@@ -216,6 +316,56 @@ foo, bar = <<BAR, 2
 BAR
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
+
+bar<<string
+#  ^^ keyword.operator.assignment.augmented.ruby
+#    ^^^^^^^ - meta.tag - entity.name
+bar <<string
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^ - meta.tag - entity.name
+bar << string
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^ - meta.tag - entity.name
+bar <<'string'
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^^ - meta.tag - entity.name
+bar << 'string'
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+bar <<"string"
+#   ^^ keyword.operator.assignment.augmented.ruby
+#     ^^^^^^^^ - meta.tag - entity.name
+bar << "string"
+#   ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+foo.bar <<"string"
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^^^^^ - meta.tag - entity.name
+Foo.bar <<"string"
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^^^^^ - meta.tag - entity.name
+foo::bar <<"string"
+#        ^^ keyword.operator.assignment.augmented.ruby
+#          ^^^^^^^^ - meta.tag - entity.name
+foo? <<"string"
+#    ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+foo! <<"string"
+#    ^^ keyword.operator.assignment.augmented.ruby
+#      ^^^^^^^^ - meta.tag - entity.name
+1<<bit
+# <- meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#^^ keyword.operator.assignment.augmented.ruby
+1 << bit
+# <- meta.number.integer.decimal.ruby constant.numeric.value.ruby
+# ^^ keyword.operator.assignment.augmented.ruby
+@war<<bit
+#   ^^ keyword.operator.assignment.augmented.ruby
+CONST << 10
+#^^^^ variable.other.constant.ruby
+#     ^^ keyword.operator.assignment.augmented.ruby
+#        ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+
 
 ##################
 # Numbers
@@ -259,6 +409,10 @@ BAR
 #^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
 #   ^^ - constant.numeric - invalid.illegal - storage.type.numeric
+ 12&.ir
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#  ^^ punctuation.accessor - constant.numeric - invalid.illegal - keyword.operator
+#    ^^ - constant.numeric - invalid.illegal - storage.type.numeric
 
  12.34
 #^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
@@ -573,14 +727,19 @@ UpperCamelCase = 3
 # ^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 UPPER_SNAKE_CASE = 4
 # ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
+UPPER_SNAKE_CASE ||= 5
+# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 A, B, C = 0
 # <- entity.name.constant
 #  ^ entity.name.constant
 #     ^ entity.name.constant
 
 Symbol === :foo
-# ^^^^ variable.other.constant.ruby -meta.constant.ruby
-#          ^^^^
+# <- support.class.ruby
+#^^^^^ support.class.ruby
+#      ^^^ keyword.operator.comparison.ruby
+#          ^^^^ constant.other.symbol.ruby
+#          ^ punctuation.definition.constant.ruby
 
   :'foo #{ } #@bar baz'
 # ^^^^^^^^^^^^^^^^^^^^^ meta.constant.ruby - meta.interpolation
@@ -747,7 +906,7 @@ Symbol === :foo
 #       ^ punctuation.definition.constant.ruby
 #       ^^ constant.character.ruby
 #         ^ - constant
-#          ^ keyword.operator.conditional.ruby
+#          ^ keyword.operator.ternary.ruby
 #           ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
@@ -823,12 +982,14 @@ module: 'module'
 # ^ punctuation.terminator.statement.ruby
   .
 # ^ punctuation.accessor.dot.ruby
+  &.
+# ^^ punctuation.accessor.dot.ruby
   ::
 # ^^ punctuation.accessor.double-colon.ruby
   <<=
 # ^^^ keyword.operator.assignment.augmented.ruby
   &&=
-# ^^^ keyword.operator.assignment.augmented.ruby
+# ^^^ keyword.operator.assignment.augmented.ruby - punctuation
   ||=
 # ^^^ keyword.operator.assignment.augmented.ruby
   **=
@@ -882,19 +1043,19 @@ module: 'module'
   <
 # ^ keyword.operator.comparison.ruby
   &&
-# ^^ keyword.operator.logical.ruby
+# ^^ keyword.operator.logical.ruby - punctuation
   ||
 # ^^ keyword.operator.logical.ruby
   !
 # ^ keyword.operator.logical.ruby
   ?
-# ^ keyword.operator.conditional.ruby
+# ^ keyword.operator.ternary.ruby
   :
-# ^ keyword.operator.conditional.ruby
+# ^ keyword.operator.ternary.ruby
   ~
 # ^ keyword.operator.bitwise.ruby
   &
-# ^ keyword.operator.bitwise.ruby
+# ^ keyword.operator.bitwise.ruby - punctuation
   |
 # ^ keyword.operator.bitwise.ruby
   ^
@@ -994,6 +1155,26 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                         ^ punctuation.separator.inheritance
 #                           ^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                   ^^ punctuation.accessor.double-colon
+  class <<obj
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^ - string
+  end
+# ^^^ keyword.control.block.end.ruby
+
+  class <<self
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#         ^^^^ variable.language.ruby
+  end
+# ^^^ keyword.control.block.end.ruby
+
+  class << self
+# ^^^^^ keyword.declaration.class.ruby
+#       ^^ keyword.operator.assignment.augmented.ruby
+#          ^^^^ variable.language.ruby
+  end
+# ^^^ keyword.control.block.end.ruby
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -1074,15 +1255,17 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                  ^^^^^ variable.parameter
   end
 
-  def keyword_args a: nil, b: true
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                  ^^^^^^^^^^^^^^^ meta.function.parameters
+  def keyword_args a: nil, b: true, c: false
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                   ^^^^^ meta.function.parameters.default-value
 #                   ^ punctuation.separator
-#                     ^^^ constant.language
+#                     ^^^ constant.language.null
 #                        ^ punctuation.separator
 #                           ^ punctuation.separator
-#                             ^^^^ constant.language
+#                             ^^^^ constant.language.boolean.true
+#                                 ^ punctuation.separator.ruby
+#                                      ^^^^^ constant.language.boolean.false.ruby
   end
 
   def multiline_args(a, # a comment
@@ -1111,8 +1294,40 @@ def my_function
 #   ^^^^^^^^^^^ entity.name.function
 end
 
-f = MyModule::MyClass.new
+
+f = MyConstant
+#   ^^^^^^^^^^ support.class.ruby
+
+f = MYCONSTANT
+#   ^^^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::
+#   ^^^^^^^^ support.class.ruby
 #           ^^ punctuation.accessor.double-colon
+
+f = MyModule::MyClass
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+
+f = MyModule::CONSTANT
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^^ variable.other.constant.ruby
+
+f = MyModule::MyClass.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ support.class.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
+
+f = MyModule::MYCLASS.new
+#   ^^^^^^^^ support.class.ruby
+#           ^^ punctuation.accessor.double-colon
+#             ^^^^^^^ variable.other.constant.ruby
+#                    ^ punctuation.accessor.dot.ruby
+#                     ^^^ keyword.other.special-method.ruby
 
 def f.my_instance_method
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -1128,7 +1343,6 @@ class MyClass
 # ^ keyword.other.special-method.ruby
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
-
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
@@ -1207,36 +1421,36 @@ method? 1
 #     ^ - keyword.operator
 
 (methodname)?foobar : baz
-#           ^ keyword.operator.conditional
-#                   ^ keyword.operator.conditional
+#           ^ keyword.operator.ternary
+#                   ^ keyword.operator.ternary
 
 methodname ?foo : baz
-#          ^ keyword.operator.conditional
-#               ^ keyword.operator.conditional
+#          ^ keyword.operator.ternary
+#               ^ keyword.operator.ternary
 
 puts 1 ?1 : 2
-#      ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
 #       ^ constant.numeric
-#         ^ keyword.operator.conditional
+#         ^ keyword.operator.ternary
 
 puts 1 ?12 : 2
-#      ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
 #       ^^ constant.numeric
-#          ^ keyword.operator.conditional
+#          ^ keyword.operator.ternary
 
 puts ?1
 #    ^^ constant.character.ruby
 
 puts 1 ? foo:bar
-#      ^ keyword.operator.conditional
-#           ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
+#           ^ keyword.operator.ternary
 #        ^^^ - constant.other.symbol
 
 puts 1 ? foo::baz:bar
-#      ^ keyword.operator.conditional
+#      ^ keyword.operator.ternary
 #           ^^ punctuation.accessor.double-colon
 #             ^^^ - constant.other.symbol
-#                ^ keyword.operator.conditional
+#                ^ keyword.operator.ternary
 
 puts foo: bar
 #    ^^^^ constant.other.symbol
@@ -1290,8 +1504,18 @@ a = /?foo*baz/m
 #   ^^^^^^^^^^^ string.regexp
 
 a = /=foo/m
-#   ^^ keyword.operator.assignment.augmented.ruby
-#   ^^^^^^^ - string.regexp
+#   ^^^^^^^ string.regexp
+
+# issue #2703
+a = /(bot\ is\ not\ a\ member\ of\ the\ (super)?group\ chat)|
+     (bot\ can't\ send\ messages\ to\ bots)/x
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+
+a = (File.size().to_f / 1024).ceil.to_s.reverse.scan(/\d/)
+#                     ^ keyword.operator.arithmetic.ruby
+#                                                    ^^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+#                                                    ^ punctuation.definition.string.begin.ruby
+#                                                       ^ punctuation.definition.string.end.ruby
 
 begin
 # <- keyword.control.block.begin

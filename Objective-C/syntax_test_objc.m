@@ -1,5 +1,86 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C.sublime-syntax" */
 
+// =Banner=
+/*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
+
+// = Banner =
+/* ^^^^^^^^^^^ comment.line.banner.c */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.line.c */
+/*         ^^^ - meta.toc-list  */
+
+// Comment //
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*        ^^ comment.line.double-slash.c punctuation.definition.comment.c */
+
+//! Comment
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+
+/// Comment ///
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+ /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
+
+//// Comment ////  
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*  ^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*          ^^^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*               ^^ comment.line.double-slash.c - punctuation */
+
+/* =Banner= */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*  ^^^^^^ meta.toc-list.banner.block.c  */
+/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+/* = Banner = */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.block.c  */
+/*         ^^^^^ - meta.toc-list  */
+/*            ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+   /*****/
+/* ^^^^^^^ comment.block.empty.c punctuation.definition.comment.c */
+
+   /**
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /***
+/* ^^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!****
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c - punctuation */
+
+   /*!****/
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c punctuation.definition.comment.end.c */
+
+   /*!
+    * docstring
+    **/
+/*  ^^^ comment.block.documentation.c */
+
+    */
+/*  ^^ invalid.illegal.stray-comment-end.c */
+
+    **/
+/*  ^^^ invalid.illegal.stray-comment-end.c */
+
 int main(){
     int a=5,b=0;
     while(a-->0)++b;
@@ -10,6 +91,10 @@ int main(){
 }
 
 enum Foo { kFoo, kBar };
+/* <- keyword.declaration */
+/*   ^ entity.name.enum */
+/*         ^ entity.name.constant.objc */
+/*               ^ entity.name.constant.objc */
 #define FOO Foo
 enum FOO do_the_foo(void);
 /*       ^ entity.name.function */
@@ -20,6 +105,35 @@ enum TheEnum { kFoo, kBar };
 static enum APIC_CAPABILITY apic_capabilities(void) { return kFoo; };
 /*                          ^ entity.name.function */
 /*                                            ^ storage.type */
+
+enum { kFoo, kBar };
+/* <- keyword.declaration */
+/*     ^ entity.name.constant.objc */
+/*           ^ entity.name.constant.objc */
+
+enum { kFoo = FOO, kBar = BAR };
+/* <- keyword.declaration */
+/*     ^^^^ entity.name.constant.objc */
+/*          ^ keyword.operator.assignment.c */
+/*            ^^^ - entity.name.constant */
+/*               ^ punctuation.separator.objc */
+/*                 ^^^^ entity.name.constant.objc */
+/*                      ^ keyword.operator.assignment.c */
+/*                        ^^^ - entity.name.constant */
+
+typedef enum state { DEAD, ALIVE } State;
+/* <- keyword.declaration
+/*           ^ entity.name.enum */
+/*                   ^ entity.name.constant.objc */
+/*                         ^ entity.name.constant.objc */
+
+enum {
+    FOO,
+/*  ^^^ entity.name.constant.objc */
+/*     ^ punctuation.separator.objc */
+    BAR
+/*  ^^^ entity.name.constant.objc */
+};
 
 struct __declspec(dllimport) X {};
 /*     ^ storage.modifier */
@@ -125,7 +239,7 @@ int f(int x, \
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
-#error "Eplicitly quoted string wrapped, \
+#error "Explicitly quoted string wrapped, \
     ensuring that the string quoting stops at some point \
     "
 #warning This is a short warning
@@ -144,6 +258,42 @@ int f(int x, \
 bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
+
+size_t size_t_var;
+/* <- support.type.stddef */
+
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
+
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
 
 FOOBAR
 hello() {
@@ -286,9 +436,18 @@ typedef int myint;
 
 typedef struct mystruct {
 /* <- keyword.declaration */
-/*             ^ - entity */
+/*      ^ keyword.declaration.struct.objc */
+/*             ^ entity.name.struct.objc */
 } mystruct;
 /* ^ entity.name.type */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.objc */
+/*      ^^^^^^ keyword.declaration.struct.objc */
+/*             ^^^^^^^^^^^ entity.name.struct.objc */
+/*                         ^ punctuation.section.block.begin.objc */
+/*                          ^ punctuation.section.block.end.objc */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.objc */
 
 /////////////////////////////////////////////
 // Data structures and return values
@@ -374,6 +533,23 @@ struct UI_MenuBoxData
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
+int bar(int, int const *, int const * const);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+/*     ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
+/*                                          ^ punctuation.terminator */
+/*      ^^^ storage.type */
+/*         ^ punctuation.separator */
+/*           ^^^ storage.type */
+/*               ^^^^^ storage.modifier */
+/*                     ^ keyword.operator */
+/*                      ^ punctuation.separator */
+/*                        ^^^ storage.type */
+/*                            ^^^^^ storage.modifier */
+/*                                  ^ keyword.operator */
+/*                                    ^^^^^ storage.modifier */
+
 int foo(int val, float val2[])
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
@@ -411,9 +587,17 @@ int foo(int val, float val2[])
 
     if (val == -1) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
-#else
+#elifdef BAR
  /* <- keyword.control.import */
     if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#elifndef BAZ
+ /* <- keyword.control.import */
+    if (val == -3) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#else
+ /* <- keyword.control.import */
+    if (val == -4) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
  /* <- keyword.control.import */
@@ -622,6 +806,10 @@ func_call(foo
 /*                           ^ punctuation.separator.objc           */
 /*                             ^ keyword.other.property.attribute.  */
 /*                                  ^ punctuation.section.scope.end */
+- (NSString*)formatWithPattern:(NSString*)pattern __attribute__((swift_name("format(pattern:)")));
+/*                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.objc*/
+/*                                                ^^^^^^^^^^^^^ storage.modifier.objc*/
+/*                                                                          ^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */
@@ -674,6 +862,11 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*                   ^ punctuation.definition.string.end */
 #endif
 
+static const unsigned char image_png[] = {
+#embed <image.png>
+/* <- keyword.control.import.include */
+};
+
 #include<iostream>
 /* <- keyword.control.import.include */
 /*      ^ punctuation.definition.string.begin */
@@ -692,9 +885,8 @@ dec1 = 1234567890;
 /*               ^ punctuation.terminator - constant */
 
 dec2 = 1234567890f;
-/*     ^^^^^^^^^^^ meta.number.float.decimal.c */
 /*     ^^^^^^^^^^ constant.numeric.value.c */
-/*               ^ constant.numeric.suffix.c */
+/*               ^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
 dec3 = 1234567890L;
@@ -728,9 +920,9 @@ dec7 = 1234567890uLL;
 /*                  ^ punctuation.terminator - constant */
 
 dec8 = 1'234_567'890s0f;
-/*     ^ meta.number.integer.decimal.c constant.numeric.value.c */
-/*      ^^^^^^^^^ string.quoted.single */
-/*               ^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^ constant.numeric.value.c */
+/*          ^^^^ invalid.illegal.numeric.suffix.c */
 /*               ^^^ constant.numeric.value.c */
 /*                  ^^^ invalid.illegal.numeric.suffix.c */
 /*                     ^ punctuation.terminator - constant */
@@ -789,11 +981,9 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*                            ^^ constant.numeric.base.c */
 /*                              ^ constant.numeric.value.c */
 /*                               ^ constant.numeric.suffix.c */
-/*                                 ^^ meta.number.integer.hexadecimal.c */
+/*                                 ^^^^^^^ meta.number.integer.hexadecimal.c */
 /*                                 ^^ constant.numeric.base.c */
-/*                                   ^^^ string.quoted.single.c */
-/*                                      ^^^^^^ meta.number.integer.decimal.c */
-/*                                      ^^ constant.numeric.value.c */
+/*                                   ^^^^^ constant.numeric.value.c */
 /*                                        ^^^^ invalid.illegal.numeric.suffix.c */
 /*                                            ^ punctuation.terminator - constant */
 

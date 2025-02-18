@@ -1,5 +1,86 @@
 /* SYNTAX TEST "Packages/C++/C++.sublime-syntax" */
 
+// =Banner=
+/*  ^^^^^^ comment.line.banner.c meta.toc-list.banner.line.c */
+
+// = Banner =
+/* ^^^^^^^^^^^ comment.line.banner.c */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.line.c */
+/*         ^^^ - meta.toc-list  */
+
+// Comment //
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*        ^^ comment.line.double-slash.c punctuation.definition.comment.c */
+
+//! Comment
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+
+/// Comment ///
+/* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /* <- comment.line.documentation.c punctuation.definition.comment.c */
+  /* <- comment.line.documentation.c punctuation.definition.comment.c */
+ /*^^^^^^^^^ comment.line.documentation.c - punctuation */
+ /*         ^^^ comment.line.documentation.c punctuation.definition.comment.c */
+
+//// Comment ////  
+/* <- comment.line.double-slash.c punctuation.definition.comment.c */
+ /* <- comment.line.double-slash.c punctuation.definition.comment.c */
+/*^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*  ^^^^^^^^^ comment.line.double-slash.c - punctuation */
+ /*          ^^^^ comment.line.double-slash.c punctuation.definition.comment.c */
+/*               ^^ comment.line.double-slash.c - punctuation */
+
+/* =Banner= */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*  ^^^^^^ meta.toc-list.banner.block.c  */
+/*          ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+/* = Banner = */
+/* <- comment.block.banner.c punctuation.definition.comment.begin.c */
+/*^^^^^^^^^^^^ comment.block.banner.c - punctuation */
+/*^^^ - meta.toc-list  */
+/*   ^^^^^^ meta.toc-list.banner.block.c  */
+/*         ^^^^^ - meta.toc-list  */
+/*            ^^ comment.block.banner.c punctuation.definition.comment.end.c */
+
+   /*****/
+/* ^^^^^^^ comment.block.empty.c punctuation.definition.comment.c */
+
+   /**
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /***
+/* ^^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+
+   /*!****
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c - punctuation */
+
+   /*!****/
+/* ^^^ comment.block.documentation.c punctuation.definition.comment.begin.c */
+/*    ^^^^^ comment.block.documentation.c punctuation.definition.comment.end.c */
+
+   /*!
+    * docstring
+    **/
+/*  ^^^ comment.block.documentation.c */
+
+    */
+/*  ^^ invalid.illegal.stray-comment-end.c */
+
+    **/
+/*  ^^^ invalid.illegal.stray-comment-end.c */
+
 Task<int> natural_numbers()
 {
   int n = 0;
@@ -167,6 +248,16 @@ some_namespace::some_function(int a_parameter, double another_parameter) {
 /* <- - keyword.control */
 #endif
 
+#if 0000000
+/*  ^^^^^^^ meta.number constant.numeric.value
+*/
+#endif
+
+#if 0090
+/*  ^^^^ meta.number constant.numeric.value
+*/
+#endif
+
 FOO()
 /* <- meta.assumed-macro variable.function.assumed-macro */
 FOO
@@ -269,10 +360,10 @@ char str1[] = "abc";
 /*             ^ string.quoted.double */
 /*                ^ punctuation.definition.string.end */
 
-char str2[] = u8"abc";
-/*            ^ storage.type.string */
-/*              ^ punctuation.definition.string.begin */
-/*               ^ string.quoted.double */
+char8_t str2[] = u8"abc";
+/*               ^ storage.type.string */
+/*                 ^ punctuation.definition.string.begin */
+/*                  ^ string.quoted.double */
 
 char16_t str3[] = u"abc";
 /*                ^ storage.type.string */
@@ -312,13 +403,16 @@ char str8[] = "\x0a|\x41|\xA|\x000065";
 /*                       ^^^ constant.character.escape */
 /*                           ^^^^^^^^ constant.character.escape */
 
-char16_t str9[] = u"\u0063";
+char8_t str9[] = u8"\u0063";
 /*                  ^^^^^^ constant.character.escape */
 
-char32_t str10[] = U"\U00000063";
+char16_t str10[] = u"\u0063";
+/*                   ^^^^^^ constant.character.escape */
+
+char32_t str11[] = U"\U00000063";
 /*                   ^^^^^^^^^^ constant.character.escape */
 
-char str11[] = "\q";
+char str12[] = "\q";
 /*              ^^ invalid.illegal.unknown-escape */
 
 scanf("%ms %as %*[, ]", &buf);
@@ -366,14 +460,41 @@ bool b;
 char ch;
 /* <- storage.type */
 
-char16_t ch16;
-/* <- storage.type */
+size_t size_t_var;
+/* <- support.type.stddef */
 
-char32_t ch32;
-/* <- storage.type */
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
 
-wchar_t wch;
-/* <- storage.type */
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
 
 unsigned int ui;
 /* <- storage.type */
@@ -411,6 +532,14 @@ typedef struct Books {
    int book_id;
 } Book;
 /*^ entity.name.type */
+
+typedef struct MyStructure {} MyStructure_t;
+/* <- keyword.declaration.type.c++ */
+/*      ^^^^^^ keyword.declaration.struct.type.c++ */
+/*             ^^^^^^^^^^^ entity.name.struct.c++ */
+/*                         ^ punctuation.section.block.begin.c++ */
+/*                          ^ punctuation.section.block.end.c++ */
+/*                            ^^^^^^^^^^^^^ entity.name.type.typedef.c++ */
 
 using Alias = Foo;
 /* <- keyword.control */
@@ -463,28 +592,28 @@ typedef struct Books Book;
 
 template class MyStack<int, 6>;
 /* <- keyword.declaration.template */
-/*                    ^ punctuation.section.generic */
+/*                    ^ punctuation.definition.generic */
 /*                     ^ storage.type */
 /*                          ^ meta.number */
-/*                           ^ punctuation.section.generic */
+/*                           ^ punctuation.definition.generic */
 
 template<class typeId, int N> class tupleTmpl;
 /* <- keyword.declaration.template */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */
-/*      ^ punctuation.section.generic.begin */
+/*      ^ punctuation.definition.generic.begin */
 /*       ^^^^^ keyword.declaration.c++ */
 /*                      ^ storage.type */
-/*                          ^ punctuation.section.generic.end */
+/*                          ^ punctuation.definition.generic.end */
 
 template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /* <- keyword.declaration.template */
-/*      ^ punctuation.section.generic.begin */
+/*      ^ punctuation.definition.generic.begin */
 /*       ^^^^^^^^ keyword.declaration */
-/*                         ^ punctuation.section.generic.begin */
-/*                           ^ punctuation.section.generic.end */
+/*                         ^ punctuation.definition.generic.begin */
+/*                           ^ punctuation.definition.generic.end */
 /*                            ^ punctuation.separator */
 /*                                      ^^^ keyword.operator.variadic */
-/*                                              ^ punctuation.section.generic.end */
+/*                                              ^ punctuation.definition.generic.end */
 
 template<typename T...> void SomeClass<T...>::function();
 /*                                      ^^^ keyword.operator.variadic */
@@ -499,8 +628,8 @@ template<typename Foo> inline struct Foo* baz()
 template<typename A, typename B>
 void classname<A, B>::methodName() {
 /*   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*            ^ punctuation.section.generic.begin */
-/*                 ^ punctuation.section.generic.end */
+/*            ^ punctuation.definition.generic.begin */
+/*                 ^ punctuation.definition.generic.end */
 /*                  ^^ punctuation.accessor */
 /*                    ^^^^^^^^^^ entity.name.function */
 }
@@ -509,8 +638,8 @@ template<typename C>
 void funcName<C>() {
 /*   ^^^^^^^^^^^^^^^ meta.function */
 /*   ^^^^^^^^ entity.name.function */
-/*           ^ punctuation.section.generic.begin */
-/*             ^ punctuation.section.generic.end */
+/*           ^ punctuation.definition.generic.begin */
+/*             ^ punctuation.definition.generic.end */
 }
 bool A::operator<(const A& a) { return false; }
 /* ^ storage.type */
@@ -519,8 +648,8 @@ bool A::operator<(const A& a) { return false; }
 /*               ^ meta.function.parameters punctuation.section.group.begin */
 template <class T> bool A<T>::operator<(const A& a) { return false; }
 /*     ^ keyword.declaration.template */
-/*       ^ punctuation.section.generic.begin */
-/*               ^ punctuation.section.generic.end */
+/*       ^ punctuation.definition.generic.begin */
+/*               ^ punctuation.definition.generic.end */
 /*                      ^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                            ^^^^^^^^^ entity.name.function */
 /*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
@@ -559,10 +688,10 @@ bool A<T>::operator   <=>    (const A& other) { return false; }
 
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
-/*                   ^ punctuation.section.generic.begin */
-/*                               ^ punctuation.section.generic.begin */
-/*                                   ^ punctuation.section.generic.end */
-/*                                     ^ punctuation.section.generic.end */
+/*                   ^ punctuation.definition.generic.begin */
+/*                               ^ punctuation.definition.generic.begin */
+/*                                   ^ punctuation.definition.generic.end */
+/*                                     ^ punctuation.definition.generic.end */
 
 template <typename T = float, int a = 3, bool b = true>
                   /* ^ meta.template keyword.operator                               */
@@ -625,7 +754,7 @@ X<C> xc; // OK in C++14 after CWG 150
 template
 /* <- meta.template keyword.declaration.template */
 <
-/* <- meta.template punctuation.section.generic.begin */
+/* <- meta.template punctuation.definition.generic.begin */
     class T,
     class U = T
 >
@@ -637,14 +766,14 @@ class B
 // template declarations spanning multiple lines
 template
 <
-/* <- meta.template punctuation.section.generic.begin */
+/* <- meta.template punctuation.definition.generic.begin */
     std::size_t Count = f()
 /*     ^^ meta.template punctuation.accessor                             */
 /*                    ^ meta.template keyword.operator                   */
 /*                      ^ meta.template variable.function                */
 /*                       ^^ meta.template meta.function-call punctuation */
 >
-/* <- meta.template punctuation.section.generic.end */
+/* <- meta.template punctuation.definition.generic.end */
 class fixed_array : private std::array<int, Count> {};
 
 template <class T>
@@ -671,13 +800,13 @@ struct C {};
 A<B<C>> f(std::function<A<B<C>>()> g) {
     /*   ^ punctuation.section.group.begin */
     /*       ^^ punctuation.accessor */
-    /*                 ^ punctuation.section.generic.begin */
-    /*                   ^ punctuation.section.generic.begin */
-    /*                     ^ punctuation.section.generic.begin */
-    /*                       ^^ punctuation.section.generic.end */
+    /*                 ^ punctuation.definition.generic.begin */
+    /*                   ^ punctuation.definition.generic.begin */
+    /*                     ^ punctuation.definition.generic.begin */
+    /*                       ^^ punctuation.definition.generic.end */
     /*                         ^ punctuation.section.group.begin */
     /*                          ^ punctuation.section.group.end */
-    /*                           ^ punctuation.section.generic.end */
+    /*                           ^ punctuation.definition.generic.end */
     /*                             ^ variable.parameter */
     /*                              ^ punctuation.section.group.end */
     /*                                ^ punctuation.section.block.begin */
@@ -685,19 +814,19 @@ A<B<C>> f(std::function<A<B<C>>()> g) {
 }
 int main() {
     std::function<C()> foo1;
-    /*          ^ - variabe.function */
+    /*          ^ - variable.function */
     std::function<B<C>()> foo2;
     /*          ^ - variable.function */
     auto f = [](std::function<A<B<C>>()> g) { return g(); };
     /*         ^ punctuation.section.group.begin */
     /*             ^^ punctuation.accessor */
-    /*                       ^ punctuation.section.generic.begin */
-    /*                         ^ punctuation.section.generic.begin */
-    /*                           ^ punctuation.section.generic.begin */
-    /*                             ^^ punctuation.section.generic.end */
+    /*                       ^ punctuation.definition.generic.begin */
+    /*                         ^ punctuation.definition.generic.begin */
+    /*                           ^ punctuation.definition.generic.begin */
+    /*                             ^^ punctuation.definition.generic.end */
     /*                               ^ punctuation.section.group.begin */
     /*                                ^ punctuation.section.group.end */
-    /*                                 ^ punctuation.section.generic.end */
+    /*                                 ^ punctuation.definition.generic.end */
     /*                                    ^ punctuation.section.group.end */
     /*                                      ^ punctuation.section.block.begin */
     /*                                                    ^ punctuation.section.block.end */
@@ -754,8 +883,8 @@ void f()
     /*     ^ punctuation.accessor */
     /*            ^^^ meta.method-call variable.function */
     /*               ^ meta.method-call - variable.function */
-    /*                ^ meta.method-call punctuation.section.generic.begin */
-    /*                  ^ meta.method-call punctuation.section.generic.end */
+    /*                ^ meta.method-call punctuation.definition.generic.begin */
+    /*                  ^ meta.method-call punctuation.definition.generic.end */
     /*                   ^ meta.method-call - punctuation - comment.block */
     /*                    ^^^^ meta.method-call comment.block */
     /*                        ^ meta.method-call - comment.block - punctuation */
@@ -781,7 +910,7 @@ struct A { int foo; };
 int main() {
     A a, b;
     a.foo = a.foo < 0 ? 1 : 2;
-    /*            ^ - punctuation.section.generic */
+    /*            ^ - punctuation.definition.generic */
     a.operator<(b);
     /*^^^^^^^^^^^^ meta.method-call */
     /*^^^^^^^^^ variable.function.member */
@@ -845,6 +974,12 @@ const int XYZ = 2;
 /* <- storage.modifier */
 
 constexpr int ABC = 3 + 5;
+/* <- storage.modifier */
+
+consteval int f() { return 42; }
+/* <- storage.modifier */
+
+constinit const int i = f();
 /* <- storage.modifier */
 
 thread_local int x;
@@ -947,9 +1082,9 @@ int x = sizeof(char);
 
 const_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
-/*        ^ punctuation.section.generic.begin */
+/*        ^ punctuation.definition.generic.begin */
 /*         ^ storage.type */
-/*            ^ punctuation.section.generic.end */
+/*            ^ punctuation.definition.generic.end */
 
 dynamic_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
@@ -1609,7 +1744,7 @@ gener<int> func_returning_generic(int a);
 /*         ^ entity.name.function */
 
 std::vector<std::uint8_t> func_returning_path_generic(int a);
-/*         ^ punctuation.section.generic */
+/*         ^ punctuation.definition.generic */
 /*                        ^ entity.name.function */
 
 void f()
@@ -1747,12 +1882,12 @@ public :
 /*                                        ^ punctuation.separator */
 /*                                                          ^ variable.parameter */
 /*                                                           ^ punctuation.section.group.end */
-/*           ^ punctuation.section.generic.begin */
+/*           ^ punctuation.definition.generic.begin */
 /*            ^ storage.type */
-/*                 ^ punctuation.section.generic.end */
-/*                               ^ punctuation.section.generic.begin */
+/*                 ^ punctuation.definition.generic.end */
+/*                               ^ punctuation.definition.generic.begin */
 /*                                ^ storage.type */
-/*                                     ^ punctuation.section.generic.end */
+/*                                     ^ punctuation.definition.generic.end */
 protected:
 /* <- storage.modifier */
 private:
@@ -1791,8 +1926,8 @@ private:
     void func<A>(){}
 /*       ^^^^^^^^^^^ meta.method */
 /*       ^^^^ entity.name.function */
-/*           ^ punctuation.section.generic.begin */
-/*             ^ punctuation.section.generic.end */
+/*           ^ punctuation.definition.generic.begin */
+/*             ^ punctuation.definition.generic.end */
 /*              ^^ meta.method.parameters meta.group */
 /*              ^ punctuation.section.group.begin */
 /*               ^ punctuation.section.group.end */
@@ -1889,11 +2024,11 @@ class DerivedClass : public ::BaseClass // Comment
 template<typename A>
 class class1<A> : class2<A>
 /*    ^^^^^^ entity.name.class */
-/*          ^ punctuation.section.generic */
-/*            ^ punctuation.section.generic */
+/*          ^ punctuation.definition.generic */
+/*            ^ punctuation.definition.generic */
 /*                ^^^^^^ entity.other.inherited-class */
-/*                      ^ punctuation.section.generic */
-/*                        ^ punctuation.section.generic */
+/*                      ^ punctuation.definition.generic */
+/*                        ^ punctuation.definition.generic */
 {}
 
 class FooBar {
@@ -1974,19 +2109,35 @@ private:
     std::shared_future<std::vector<myns::mysubns::MyDataType>>
 /*  ^ - entity.name.function */
 /*     ^^ punctuation.accessor */
-/*                    ^ punctuation.section.generic.begin */
+/*                    ^ punctuation.definition.generic.begin */
 /*                        ^^ punctuation.accessor */
-/*                                ^ punctuation.section.generic.begin */
+/*                                ^ punctuation.definition.generic.begin */
 /*                                     ^^ punctuation.accessor */
     and_now_method_name2();
 /*  ^ entity.name.function */
+
+    enum {
+        FOO,
+    /*  ^^^ entity.name.constant.c++ */
+    /*     ^ punctuation.separator.c++ */
+        BAR
+    /*  ^^^ entity.name.constant.c++ */
+    };
 
     enum
 /*  ^^^^ meta.enum keyword.declaration */
     {
 /*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
-        B = 20 / 5
+/*      ^ entity.name.constant.c++ */
+/*           ^ punctuation.separator.c++ */
+        B = 20 / 5,
+/*      ^ entity.name.constant.c++ */
+/*                ^ punctuation.separator.c++ */
+        C = FOO
+/*      ^ entity.name.constant.c++ */
+/*        ^ keyword.operator.assignment.c */
+/*          ^^^^ - entity.name */
     }
 /*  ^ meta.enum punctuation.section.block.end */
 /*   ^ - meta.enum */
@@ -2182,6 +2333,7 @@ enum baz {
 /*   ^^^ entity.name.enum */
 /*       ^ meta.block punctuation.section.block.begin */
     FOO = 1,
+/*  ^^^ entity.name.constant.c++ */
 /*      ^ keyword.operator.assignment */
 /*        ^ meta.number */
     BAR = 2,
@@ -2238,12 +2390,34 @@ enum class qux : std::uint8_t
 /* <- meta.block punctuation.section.block.begin */
     FOO = 1,
     BAR = 2,
+/*  ^^^ entity.name.constant.c++ */
 /*      ^ keyword.operator.assignment */
 /*        ^ meta.number */
     BAZ = 3
 }
 /* <- meta.enum meta.block punctuation.section.block.end */
  /* <- - meta.enum meta.block */
+
+typedef enum class funky
+/*^^^^^ keyword.declaration */
+/*                 ^^^^^ entity.name.enum */
+{
+    BAZ = 3
+/*  ^^^ entity.name.constant.c++ */
+/*      ^ keyword.operator.assignment */
+/*        ^ meta.number */
+} Funky;
+
+typedef enum
+/*^^^^^ keyword.declaration */
+{
+    FOO = 1,
+    BAR = 2,
+    BAZ = 3
+/*  ^^^ entity.name.constant.c++ */
+/*      ^ keyword.operator.assignment */
+/*        ^ meta.number */
+} Fun;
 
 enum LineEnding : uint32_t;
 /*^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
@@ -2336,6 +2510,8 @@ enum class Namespace::MyEnum
 /*                    ^^^^^^ entity.name.enum */
 /*                  ^^ punctuation.accessor */
 {
+    BAR = 1,
+/*  ^^^ entity.name.constant.c++ */
 };
 
 class Namespace::
@@ -2370,6 +2546,23 @@ MyEnum MACRO1
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
+
+int bar(int, int const *, int const * const);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+/*     ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
+/*                                          ^ punctuation.terminator */
+/*      ^^^ storage.type */
+/*         ^ punctuation.separator */
+/*           ^^^ storage.type */
+/*               ^^^^^ storage.modifier */
+/*                     ^ keyword.operator */
+/*                      ^ punctuation.separator */
+/*                        ^^^ storage.type */
+/*                            ^^^^^ storage.modifier */
+/*                                  ^ keyword.operator */
+/*                                    ^^^^^ storage.modifier */
 
 int foo(int val, float val2[], bool val3 = false)
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
@@ -2664,23 +2857,23 @@ void sayHi()
     foobaz<int>();
 /*  ^^^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.section.generic.begin */
-/*            ^ punctuation.section.generic.end */
+/*        ^ punctuation.definition.generic.begin */
+/*            ^ punctuation.definition.generic.end */
 /*             ^^ meta.group */
 
     foobaz<>();
 /*  ^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.section.generic.begin */
-/*         ^ punctuation.section.generic.end */
+/*        ^ punctuation.definition.generic.begin */
+/*         ^ punctuation.definition.generic.end */
 /*          ^^ meta.group */
 
     foobaz<0>();
 /*  ^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.section.generic.begin */
+/*        ^ punctuation.definition.generic.begin */
 /*         ^ meta.number */
-/*          ^ punctuation.section.generic.end */
+/*          ^ punctuation.definition.generic.end */
 /*           ^^ meta.group */
 
     ::myns::foo<int>();
@@ -2743,4 +2936,288 @@ void sayHi()
 
 /**
       *
-/*    ^ comment.block.c punctuation.definition.comment.c */
+/*    ^ comment.block.documentation.c punctuation.definition.comment.c */
+
+/////////////////////////////////////////////
+// Modules
+/////////////////////////////////////////////
+
+export module AA;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^ entity.name.module.c++ */
+/*              ^ punctuation.terminator.c++ */
+
+export  module  A.B;
+/* <- keyword.control.c++ */
+/*      ^^^^^^ keyword.control.c++ */
+/*              ^^^ entity.name.module.c++ */
+
+export module A.BB.C.D;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^^^^^^ entity.name.module.c++ */
+
+export   module   ABC:DE;
+/* <- keyword.control.c++ */
+/*       ^^^^^^ keyword.control.c++ */
+/*                ^^^ entity.name.module.c++ */
+/*                   ^  punctuation.accessor.c++ */
+/*                    ^^ entity.name.partition.other */
+
+module ABC;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^ entity.name.module.c++ */
+/*        ^ punctuation.terminator.c++ */
+
+module :private;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^^^ entity.name.partition.private */
+
+import A;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ entity.name.module.c++ */
+
+import  :B;
+/* <- meta.module.c++ keyword.control.c++ */
+/*      ^  punctuation.accessor.c++ */
+/*       ^ entity.name.partition.other */
+
+import   "ABC";
+/* <- meta.module.c++ keyword.control.c++ */
+/*        ^^^ meta.module.import.c++ string.quoted.double.import.c++ */
+/*       ^ punctuation.definition.string.begin.c++ */
+/*           ^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.c++ */
+
+import   <ABC>;
+/* <- meta.module.c++ keyword.control.c++ */
+/*        ^^^ meta.module.import.c++ string.quoted.other.lt-gt.import.c++ */
+/*       ^ punctuation.definition.string.begin */
+/*           ^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.c++ */
+
+import "ABC/BCD.h";
+/* <- meta.module.c++ keyword.control.c++ */
+/*      ^^^^^^^^^ meta.module.import.c++ string.quoted.double.import.c++ */
+/*     ^ punctuation.definition.string.begin.c++ */
+/*               ^ punctuation.definition.string.end */
+/*                ^ punctuation.terminator.c++ */
+
+// Doesn't break grammar when missing semi-colon.
+export module ABC:d
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^ entity.name.partition.other */
+
+// Doesn't break grammar when missing semi-colon.
+export import ABC:d
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^ entity.name.partition.other */
+
+module .test.module;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ entity.name.module.c++ */
+/*                 ^ punctuation.terminator.c++ */
+
+import .test.module;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ entity.name.module.c++ */
+/*                 ^ punctuation.terminator.c++ */
+
+module test : part1:part2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^ entity.name.module.c++ */
+/*          ^  punctuation.accessor.c++ */
+/*            ^^^^^ entity.name.partition.other */
+/*                 ^ invalid.illegal.unexpected-character.c++ */
+/*                  ^^^^^ - entity.name.partition.other */
+/*                       ^ punctuation.terminator.c++ */
+
+module abc.def.:part1:part2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^^^^ entity.name.module.c++ */
+/*            ^ invalid.illegal.unexpected-character.c++ */
+/*             ^  punctuation.accessor.c++ */
+/*              ^^^^^ entity.name.partition.other */
+/*                   ^ invalid.illegal.unexpected-character.c++ */
+/*                    ^^^^^ - entity.name.partition.other */
+/*                         ^ punctuation.terminator.c++ */
+
+module test.
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^^ entity.name.module.c++ */
+/*         ^ - invalid.illegal.unexpected-character.c++ */
+
+module test. ;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^^^^ entity.name.module.c++ */
+/*         ^^ invalid.illegal.unexpected-character.c++ */
+/*           ^ punctuation.terminator.c++ */
+
+import :part1:part2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^ entity.name.partition.other */
+/*           ^ invalid.illegal.unexpected-character.c++ */
+/*            ^^^^^^ - entity.name.partition.other */
+/*                 ^ punctuation.terminator.c++ */
+
+module :private:test2;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^  punctuation.accessor.c++ */
+/*      ^^^^^^^ entity.name.partition.private */
+/*             ^ invalid.illegal.unexpected-character.c++ */
+/*              ^^^^^^ - entity.name.partition.other */
+/*                   ^ punctuation.terminator.c++ */
+
+import .test.module; import ABD;
+/* <- meta.module.c++ keyword.control.c++ */
+/*     ^ invalid.illegal.unexpected-character.c++ */
+/*      ^^^^^^^^^^^ source.c++ */
+/*                 ^ punctuation.terminator.c++ */
+/*                   ^^^^^^ meta.module.c++ keyword.control.c++ */
+/*                          ^^^ entity.name.module.c++ */
+/*                             ^ punctuation.terminator.c++ */
+
+export module ABC:test1:test2; import DEF;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^^^^^ entity.name.partition.other */
+/*                     ^ invalid.illegal.unexpected-character.c++ */
+/*                      ^^^^^^ - entity.name.partition.other */
+/*                           ^ punctuation.terminator.c++ */
+/*                             ^^^^^^ meta.module.c++ keyword.control.c++ */
+/*                                    ^^^ entity.name.module.c++ */
+/*                                       ^ punctuation.terminator.c++ */
+
+export module ABC:test1:test2 import DEF;
+/* <- keyword.control.c++ */
+/*     ^^^^^^ keyword.control.c++ */
+/*            ^^^ entity.name.module.c++ */
+/*               ^  punctuation.accessor.c++ */
+/*                ^^^^^ entity.name.partition.other */
+/*                     ^ invalid.illegal.unexpected-character.c++ */
+/*                      ^^^^^ - entity.name.partition.other */
+/*                            ^^^^^^ meta.module.c++ keyword.control.c++ */
+/*                                   ^^^ entity.name.module.c++ */
+/*                                      ^ punctuation.terminator.c++ */
+
+export {
+/* <- keyword.control.c++ */
+/*     ^ meta.block.c++ punctuation.section.block.begin.c++ */
+    void test();
+/*  ^^^^ meta.block.c++ storage.type.c */
+/*       ^^^^ meta.block.c++ meta.function.c++ entity.name.function.c++ */
+    void test2();
+/*  ^^^^ meta.block.c++ storage.type.c */
+/*       ^^^^^ meta.block.c++ meta.function.c++ entity.name.function.c++ */
+}
+/* <- meta.block.c++ punctuation.section.block.end.c++ */
+
+export void test3();
+/* <- keyword.control.c++ */
+/*     ^^^^ storage.type.c */
+/*          ^^^^^ meta.function.c++ entity.name.function.c++ */
+
+export
+/* <- keyword.control.c++ */
+template <typename T>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+void test4()
+{
+    return;
+}
+
+/////////////////////////////////////////////
+// Concepts
+/////////////////////////////////////////////
+
+template <typename T>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+concept has_foo = requires(T t) {
+/* <- meta.concept.c++ keyword.declaration.concept.c++ */
+/*      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ */
+/*      ^^^^^^^ meta.concept.c++ entity.name.concept.c++ */
+/*                ^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+/*                        ^^^^^ meta.function.parameters.c++ */
+/*                              ^ meta.function.c++  meta.block.c++ */
+    t.foo();
+/*  ^^^^^^^^ meta.concept.c++ meta.constraint.c++ meta.function.c++ meta.block.c++ */
+} && std::move_constructible<T>;
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++ meta.constraint.c++ */
+
+template <typename C>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+void foo() requires std::same_as<C, void>
+/* <- storage.type.c */
+/*   ^^^ meta.function.c++ entity.name.function.c++ */
+/*         ^^^^^^^^ meta.function.c++ meta.constraint.c++ storage.modifier.c++ */
+/*                    ^^^^^^^^^^^^^^^^^^^^^ meta.function.c++ meta.constraint.c++ */
+{
+    return;
+}
+
+template <typename C> requires std::same_as<C, void>
+/* <- meta.template.c++ keyword.declaration.template.c++ */
+/*                    ^^^^^^^^ meta.constraint.c++ storage.modifier.c++ */
+/*                             ^^^^^^^^^^^^^^^^^^^^^ meta.constraint.c++ */
+void bar()
+/* <- storage.type.c */
+/*   ^^^ meta.function.c++ entity.name.function.c++ */
+{
+    return;
+}
+
+#define GTY0
+/*      ^^^^ meta.preprocessor.macro.c++ */
+#define GTY1(A)
+/*      ^^^^    entity.name.function.preprocessor */
+/*          ^^^ meta.preprocessor.macro.parameters */
+#define GTY2(A, B)
+/*      ^^^^       entity.name.function.preprocessor */
+/*          ^^^^^^ meta.preprocessor.macro.parameters */
+
+struct GTY0 foo {
+/*<- keyword.declaration.struct.type.c++ */
+/*     ^^^^  meta.assumed-macro */
+/*          ^^^ entity.name.struct.c++ */
+};
+
+struct GTY1(42) bar {
+/*<- keyword.declaration.struct.type.c++ */
+/*     ^^^^ meta.function-call.c++ */
+/*          ^^ constant.numeric.value.c++ */
+/*              ^^^ entity.name.struct.c++ */
+};
+
+enum GTY1("struct") baz {
+/*<- keyword.declaration.enum.type.c++ */
+/*   ^^^^ meta.function-call.c++ */
+/*        ^^^^^^^^ string */
+/*                  ^^^ entity.name.enum.c++ */
+};
+
+union GTY2("union struct", 42) bazz {
+/*<- keyword.declaration.union.type.c++ */
+/*    ^^^^ meta.function-call.c++ */
+/*         ^^^^^^^^^^^^^^ string */
+/*                         ^^ constant.numeric.value.c++ */
+/*                             ^^^^ entity.name.union.c++ */
+};
+
+class GTY2("struct class", 42) bazzz {
+/*<- keyword.declaration.class.c++ */
+/*    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*                             ^^^^^ entity.name.class.c++ */
+};

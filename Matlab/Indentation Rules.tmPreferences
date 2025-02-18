@@ -5,16 +5,14 @@
 	<string>source.matlab</string>
 	<key>settings</key>
 	<dict>
-		<key>decreaseIndentPattern</key>
-		<string>^\s*\b(end\w*|catch|else|elseif|case|otherwise)\b</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)^\s*
 		\b(
 		classdef|properties|events|methods|enumeration
-		|function
+		|function|arguments
 		|if|else|elseif
 		|switch|case|otherwise
-		|for|while
+		|for|while|parfor
 		|try|catch
 		|unwind_protect
 		)\b

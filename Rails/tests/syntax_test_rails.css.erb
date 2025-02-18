@@ -1,0 +1,57 @@
+/* SYNTAX TEST "Packages/Rails/CSS (Rails).sublime-syntax" */
+
+h1 {
+    color: <% @ruby %>;
+/*         ^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.embedded.rails */
+/*         ^^ punctuation.section.embedded.begin.rails */
+/*           ^^^^^^^ source.ruby.rails.embedded.rails */
+/*                  ^^ punctuation.section.embedded.end.rails */
+/*                    ^ punctuation.terminator.rule.css */
+
+    <% font %>: "Na <% @me %>";
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*  ^^^^^^^^^^ meta.property-name.css support.type.property-name.css meta.embedded.rails */
+/*            ^ - meta.embedded */
+/*              ^^^^ meta.property-value.css meta.string.css - meta.interpolation */
+/*                  ^^^^^^^^^ meta.property-value.css meta.string.css meta.interpolation.rails meta.embedded.rails */
+/*                           ^ meta.property-value.css meta.string.css - meta.interpolation */
+/*  ^^ punctuation.section.embedded.begin.rails */
+/*          ^^ punctuation.section.embedded.end.rails */
+/*            ^ punctuation.separator.key-value.css */
+/*              ^^^^ string.quoted.double.css */
+/*                  ^^ punctuation.section.embedded.begin.rails */
+/*                    ^^^^^ source.ruby.rails.embedded.rails */
+/*                         ^^ punctuation.section.embedded.end.rails */
+/*                           ^ string.quoted.double.css punctuation.definition.string.end.css */
+}
+
+.my-<%=@selector%>--class { my-<%=@attr%>--prop: a-<%=@value%>-const; }
+/* <- meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css */
+/*^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css - meta.property-list - meta.block */
+/*                        ^^ meta.property-list.css meta.block.css - meta.selector - meta.property-name */
+/*                          ^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css */
+/*                                             ^ meta.property-list.css meta.block.css - meta.selector - meta.property-name - meta.property-value */
+/*                                              ^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css */
+/*                                                                  ^^^ meta.property-list.css meta.block.css - meta.selector - meta.property-name - meta.property-value */
+/*^^ entity.other.attribute-name.class.css - meta.embedded */
+/*  ^^^^^^^^^^^^^^ entity.other.attribute-name.class.css meta.embedded.rails */
+/*  ^^^ punctuation.section.embedded.begin.rails */
+/*     ^^^^^^^^^ source.ruby.rails.embedded.rails */
+/*              ^^ punctuation.section.embedded.end.rails */
+/*                ^^^^^^^ entity.other.attribute-name.class.css - meta.embedded */
+/*                        ^ punctuation.section.block.begin.css */
+/*                          ^^^ support.type.property-name.css - meta.embedded */
+/*                             ^^^^^^^^^^ support.type.property-name.css meta.embedded.rails */
+/*                             ^^^ punctuation.section.embedded.begin.rails */
+/*                                ^^^^ source.ruby.rails.embedded.rails */
+/*                                     ^^ punctuation.section.embedded.end.rails */
+/*                                       ^^^^^^ support.type.property-name.css - meta.embedded */
+/*                                             ^ punctuation.separator.key-value.css */
+/*                                               ^^ support.constant.property-value.css - meta.embedded */
+/*                                                 ^^^^^^^^^^^ support.constant.property-value.css meta.embedded.rails */
+/*                                                 ^^^ punctuation.section.embedded.begin.rails */
+/*                                                    ^^^^^^ source.ruby.rails.embedded.rails */
+/*                                                          ^^ punctuation.section.embedded.end.rails */
+/*                                                            ^^^^^^ support.constant.property-value.css - meta.embedded */
+/*                                                                  ^ punctuation.terminator.rule.css */
+/*                                                                    ^ punctuation.section.block.end.css */

@@ -1,0 +1,28 @@
+%YAML 1.2
+---
+scope: source.ruby.rails.embedded.haml
+hidden: true
+
+extends: Packages/Rails/Ruby (Rails).sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: HAML.sublime-syntax#pipe-continuations
+
+  comments:
+    - meta_prepend: true
+    - match: \#+
+      scope: punctuation.definition.comment.ruby
+      push: comment-body
+
+  comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.ruby
+    # support continuations, but escape afterwards
+    - match: ^
+      pop: 1
+    # pipe continuation no longer belongs to comment
+    - match: (?=\|\s*$)
+      pop: 1

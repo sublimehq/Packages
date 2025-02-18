@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.java meta.namespace.package.identifier &amp; (meta.path, entity.name.namespace)</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\/\*.*?\*\///g;  # remove block comments
+			s/\/\/[^\n]*\n//g; # remove line comments
+			s/\s+//g;          # remove whitespace
+		</string>
+	</dict>
+</dict>
+</plist>

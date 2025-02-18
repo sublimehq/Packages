@@ -1,0 +1,428 @@
+% SYNTAX TEST "Packages/LaTeX/LaTeX.sublime-syntax"
+
+% <- text.tex.latex
+
+\NewDocumentCommand{\noparams}{}{content}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^^ meta.function.parameters.latex
+%                               ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                                        ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                   ^ punctuation.definition.backslash.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                              ^ punctuation.definition.group.brace.end.tex
+%                               ^ punctuation.definition.group.brace.begin.tex
+%                                       ^ punctuation.definition.group.brace.end.tex
+
+\NewDocumentCommand{\mandatory}{m}{content #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^ meta.function.parameters.latex
+%                                 ^^^^^^^^^^^^ meta.function.body meta.group.brace
+%                                             ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                   ^ punctuation.definition.backslash.latex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                               ^ storage.type.latex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ punctuation.definition.group.brace.begin.tex
+%                                          ^^ variable.parameter.tex
+%                                            ^ punctuation.definition.group.brace.end.tex
+
+\NewDocumentCommand\nobrace{o}{content}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^ meta.function.identifier.latex
+%                          ^^^ meta.function.parameters.latex
+%                             ^^^^^^^^^ meta.function.body
+%                                      ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^ entity.name.newcommand.latex
+%                           ^ storage.type.latex
+
+\NewDocumentCommand{\many@args}{o +m s !v}{content}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^^^^^ meta.function.parameters.latex
+%                                         ^^^^^^^^^ meta.function.body
+%                                                  ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                               ^ storage.type.latex
+%                                 ^ storage.modifier.latex
+%                                  ^ storage.type.latex
+%                                    ^ storage.type.latex
+%                                      ^ storage.modifier.latex
+%                                       ^ storage.type.latex
+
+\NewDocumentCommand{\delimone}{d{a}{b}}{arg #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^^^^^^^^^ meta.function.parameters.latex - meta.function.latex
+%                                      ^^^^^^^^ meta.function.body - meta.function.parameters.latex
+%                                              ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                              ^ storage.type.latex
+%                                ^ constant.character.latex constant.other.token.latex
+%                                   ^ constant.character.latex constant.other.token.latex
+
+\ProvideDocumentCommand{\delimtwo}{d\start \end} {arg #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                      ^^^^^^^^^^^ meta.function.identifier.latex
+%                                 ^^^^^^^^^^^^^^ meta.function.parameters.latex - meta.function.latex
+%                                               ^ meta.function.latex
+%                                                ^^^^^^^^ meta.function.body - meta.function.parameters.latex
+%                                                        ^ - meta.function
+%^^^^^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                       ^^^^^^^^^ entity.name.newcommand.latex
+%                                  ^ storage.type.latex
+%                                   ^^^^^^ constant.other.token.latex
+%                                           ^^^ constant.other.token.latex
+
+\DeclareDocumentCommand{\delimthree}%
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                      ^^^^^^^^^^^^^ meta.function.identifier.latex
+%                       ^^^^^^^^^^^ entity.name.newcommand.latex
+{d()}{arg #1}
+%^^^^ meta.function.parameters.latex  - meta.function.latex
+%^ storage.type.latex
+% ^^ constant.character.latex constant.other.token.latex
+%    ^^^^^^^^ meta.function.body - meta.function.parameters.latex
+
+
+% TODO should the backslashes be part of constant.other.token.latex here?
+\RenewDocumentCommand{\delimfour}%
+ {r\{\}}{body}
+%^^^^^^^ meta.function.parameters.latex - meta.function.latex
+% ^ storage.type.latex
+%  ^^^^ constant.other.token.latex
+%  ^ punctuation.definition.backslash.latex
+%    ^ punctuation.definition.backslash.latex
+
+
+% This is wrong, because the default value is missing.
+% We are making sure that the scoping is somewhat reasonable nonetheless.
+\NewDocumentCommand{\delimfive}{D{a}{b}}{arg #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^^^^ meta.function.parameters.latex - meta.function.latex
+%                                       ^^^^^^^^ meta.function.body -meta.function.latex
+%                                               ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                               ^ storage.type.latex
+%                                 ^ constant.character.latex constant.other.token.latex
+%                                    ^ constant.character.latex constant.other.token.latex
+
+\NewDocumentCommand{\delimsix}{R(){a complicated{default} \test{value}}}{arg #1}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^^^^ meta.function.parameters.latex - meta.function.latex
+%                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex - meta.function.parameters.latex
+%                                                                      ^ meta.function.parameters.latex
+%                                                                       ^^^^^^^^ meta.function.body meta.group.brace
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                              ^ storage.type.latex
+%                               ^^ constant.character.latex constant.other.token.latex
+%                                                                      ^ punctuation.definition.group.brace.end.tex
+
+
+\NewDocumentCommand{\optional}{O{default}}{function body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^^ meta.function.parameters.latex
+%                               ^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.tex
+%                                        ^ meta.function.parameters.latex punctuation.definition.group.brace.end.tex
+%                                         ^^^^^^^^^^^^^^^ meta.function.body
+%                                                        ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                              ^ storage.type.latex
+
+% Check that default values can include paragraph breaks
+\NewDocumentCommand{\optionaltwo}{O{default
+%                                ^^ meta.function.parameters.latex
+%                                  ^^^^^^^^ meta.function.parameters.default-value.latex
+
+with paragraph}}{function body}
+%              ^ meta.function.parameters.latex
+%^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex
+%               ^^^^^^^^^^^^^^^ meta.function.body
+
+\NewDocumentCommand{\optional}{Ov}{function body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^^ meta.function.parameters.latex
+%                               ^ meta.function.parameters.default-value.latex
+%                                ^ meta.function.parameters.latex
+%                                 ^^^^^^^^^^^^^^^ meta.function.body
+%                                                ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                              ^ storage.type.latex
+
+\NewDocumentCommand{\optional}{O\{}{function body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^ meta.function.identifier.latex
+%                             ^ meta.function.parameters.latex
+%                               ^^ meta.function.parameters.default-value.latex
+%                                 ^ meta.function.parameters.latex
+%                                  ^^^^^^^^^^^^^^^ meta.function.body
+%                                                 ^ - meta.function
+%^^^^^^^^^^^^^^^^^^ storage.modifier.newcommand.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^^^ entity.name.newcommand.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                              ^ storage.type.latex
+%                                ^ - punctuation.definition.group
+%                                 ^ punctuation.definition.group.brace.end.tex
+%                                  ^ punctuation.definition.group.brace.begin.tex
+%                                                ^ punctuation.definition.group.brace.end.tex
+
+\NewDocumentCommand{\optional}{O\value m}{function body}
+%                             ^^ meta.function.parameters.latex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                              ^ storage.type.latex
+%                               ^^^^^^ meta.function.parameters.default-value.latex support.function.latex
+%                               ^ punctuation.definition.backslash.latex
+%                                     ^^^ meta.function.parameters.latex
+%                                      ^ storage.type.latex
+%                                       ^ punctuation.definition.group.brace.end.tex
+
+\NewDocumentCommand{\optional}{O{#1: \year \parskip1em }}{function body}
+%                              ^ storage.type.latex
+%                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.default-value.latex meta.group.brace.tex
+%                               ^ punctuation.definition.group.brace.begin.tex
+%                                ^^ variable.parameter.tex
+%                                ^ punctuation.definition.placeholder.tex
+%                                 ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                    ^^^^^ support.function.tex
+%                                          ^^^^^^^^ support.function.tex
+%                                    ^ punctuation.definition.backslash.tex
+%                                          ^ punctuation.definition.backslash.tex
+%                                                  ^^^ meta.number.integer.decimal.tex
+%                                                  ^ constant.numeric.value.tex
+%                                                   ^^ constant.numeric.suffix.tex
+
+
+% A "token" argument
+\NewExpandableDocumentCommand{\withtoken}{t\test}{function body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                            ^^^^^^^^^^^^ meta.function.identifier.latex
+%                                        ^^^^^^^^ meta.function.parameters.latex
+%                                                ^^^^^^^^^^^^^^^ meta.function.body
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.modifier.newcommand.latex
+%                             ^^^^^^^^^^ entity.name.newcommand.latex
+%                                         ^ storage.type.latex
+%                                          ^^^^^ constant.other.token.latex
+
+
+% embellishments
+\NewDocumentCommand{\embellish}{e\test}{body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^^^ meta.function.parameters.latex
+%                                      ^^^^^^ meta.function.body
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                               ^ storage.type.latex
+%                                ^^^^^ constant.other.token.latex
+
+\NewDocumentCommand{\embellish}{e{\test}}{body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^^^^^ meta.function.parameters.latex
+%                                        ^^^^^^ meta.function.body
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                               ^ storage.type.latex
+%                                 ^^^^^ constant.other.token.latex
+
+
+\NewDocumentCommand{\embellish}{e{_^}}{body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^^ meta.function.parameters.latex
+%                                     ^^^^^^ meta.function.body
+%^^^^^^^^^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                               ^ storage.type.latex
+%                                 ^^ constant.character.latex constant.other.token.latex
+
+\NewDocumentCommand{\embellish}{E{_^}{default}}{body}
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^ meta.function.parameters.latex
+%                                    ^^^^^^^^^ meta.function.parameters.default-value.latex
+%                                             ^ meta.function.parameters.latex
+%                                              ^^^^^^ meta.function.body
+%                                                    ^ - meta.function
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                                 ^^ constant.character.latex constant.other.token.latex
+
+\NewDocumentCommand{\MyMacro}{e{\up \down}}{up: #1 down: #2}
+%                             ^ storage.type.latex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                               ^^^ constant.other.token.latex
+%                                   ^^^^^ constant.other.token.latex
+%                               ^ punctuation.definition.backslash.latex
+%                                   ^ punctuation.definition.backslash.latex
+%                                        ^^ punctuation.definition.group.brace.end.tex
+%                                          ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+
+% Argument processors: example from
+% https://www.nic.funet.fi/pub/TeX/CTAN/macros/latex/contrib/l3packages/xparse.pdf
+\NewDocumentCommand \foo { O{,} >{\SplitList{#1}} m } { \foobar{#2} }
+%                        ^^^   meta.function.parameters.latex
+%                           ^^^ meta.function.parameters.default-value.latex meta.group.brace.tex
+%                              ^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.latex
+%                                                    ^ meta.function.latex
+%                                                     ^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                        ^ punctuation.definition.group.brace.begin.tex
+%                          ^ storage.type.latex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                               ^ storage.modifier.latex
+%                                ^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%                                ^ punctuation.definition.group.brace.begin.tex
+%                                 ^^^^^^^^^^ support.function.general.latex
+%                                 ^ punctuation.definition.backslash.latex
+%                                           ^^^^ meta.group.brace.tex
+%                                           ^ punctuation.definition.group.brace.begin.tex
+%                                            ^^ variable.parameter.tex
+%                                            ^ punctuation.definition.placeholder.tex
+%                                             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                              ^ punctuation.definition.group.brace.end.tex
+%                                               ^ punctuation.definition.group.brace.end.tex
+%                                                 ^ storage.type.latex
+%                                                   ^ punctuation.definition.group.brace.end.tex
+
+
+
+% Now for some broken and incomplete examples
+\NewDocumentCommand{\incomplete}
+
+other stuff
+% ^^^^^^^^^^ - meta.function
+
+\NewDocumentCommand{\incompletearg}{m
+
+other stuff
+% ^^^^^^^^^^ - meta.function
+
+\NewDocumentCommand{\incompleteoptional}{O
+
+other stuff
+%<- - meta.function
+
+\NewDocumentCommand{\optional}{O}{sdfsdf}
+%                                ^^^^^^^^ - meta.function.parameters
+
+% missing token
+\NewDocumentCommand {\conjugate} { t } {(#1,#2,#3)}
+%                                ^^^^^ meta.function.parameters
+%                                     ^^^^^^^^^^^^^ - meta.function.parameters
+
+
+% This is not a valid command, but we still want to make sure we get reasonable
+% highlighting, e.g. scoping of all braces, grouping etc.
+\NewDocumentCommand{\broken}{m{default}}{body}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^ meta.function.identifier.latex
+%                           ^^^^^^^^^^^^ meta.function.parameters.latex
+%                             ^^^^^^^^^ meta.group.brace.tex
+%                                       ^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^ entity.name.newcommand.latex
+%                   ^ punctuation.definition.backslash.latex
+%                          ^ punctuation.definition.group.brace.end.tex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                            ^ storage.type.latex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
+%                                      ^ punctuation.definition.group.brace.end.tex
+%                                       ^ punctuation.definition.group.brace.begin.tex
+%                                            ^ punctuation.definition.group.brace.end.tex
+
+% \other is not allowed here, but we try to get decent highlighting. We should
+% not mark this as an error, in case the xparse syntax gets extended at some
+% point
+\NewDocumentCommand{\embellish}{e\test\other @}{content (#1)}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+%^^^^^^^^^^^^^^^^^^ meta.function.latex
+%                  ^^^^^^^^^^^^ meta.function.identifier.latex
+%                              ^^^^^^^^^^^^^^^^ meta.function.parameters.latex
+%                                              ^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                                                            ^ - meta.function
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^^^^ entity.name.newcommand.latex
+%                   ^ punctuation.definition.backslash.latex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                               ^ storage.type.latex
+%                                ^^^^^ constant.other.token.latex
+%                                ^ punctuation.definition.backslash.latex
+%                                     ^^^^^^ support.function.general.latex
+%                                     ^ punctuation.definition.backslash.latex
+%                                             ^ punctuation.definition.group.brace.end.tex
+%                                              ^ punctuation.definition.group.brace.begin.tex
+%                                                        ^^ variable.parameter.tex
+%                                                        ^ punctuation.definition.placeholder.tex
+%                                                         ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                                           ^ punctuation.definition.group.brace.end.tex
+
+
+% Currently unsupported syntax versions:
+% These are very rare, so at this point we have opted for reduced complexity
+% of the syntax highlighting, with the cost that some syntactially valid patterns
+% get suboptimal highlighting.
+
+\NewDocumentCommand{\braces}{{m}}{content}
+%                           ^^^^^ meta.function.parameters.latex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                            ^^^ meta.group.brace.tex
+%                            ^ punctuation.definition.group.brace.begin.tex
+%                              ^ punctuation.definition.group.brace.end.tex
+%                               ^ punctuation.definition.group.brace.end.tex
+%                                ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
+\NewDocumentCommand{\braces}{m {O}{value} m}{content}
+%                           ^^^^^^^^^^^^^^^^ meta.function.parameters.latex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                            ^ storage.type.latex
+%                              ^^^^^^^^^^ meta.group.brace.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ punctuation.definition.group.brace.begin.tex
+%                                       ^ punctuation.definition.group.brace.end.tex
+%                                         ^ storage.type.latex
+%                                          ^ punctuation.definition.group.brace.end.tex
+%                                           ^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%                                           ^ punctuation.definition.group.brace.begin.tex
+%                                                   ^ punctuation.definition.group.brace.end.tex

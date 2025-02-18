@@ -1,19 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
+	<!--
+		The meta.function scopes are used
+		to re-override the separate mapping and sequence-specific patterns
+		defined in `Indentation Rules - Values.tmPreferences`.
+		This relies on a scope selector scoring adjustment in 4173.
+		See also: https://github.com/sublimehq/sublime_text/issues/2152
+	-->
 	<key>scope</key>
-	<string>source.js, source.ts, source.jsx, source.tsx</string>
+	<string>
+		source.js - source.js meta.string,
+		source.js meta.function - source.js meta.string,
+		source.jsx - source.jsx meta.string,
+		source.jsx meta.function - source.jsx meta.string,
+		source.ts - source.ts meta.string,
+		source.ts meta.function - source.ts meta.string,
+		source.tsx - source.tsx meta.string,
+		source.tsx meta.function - source.tsx meta.string
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^(.*\*/)?\s*\}.*$</string>
+		<string><![CDATA[(?x)
+			# line beginning with whitespace
+			^ (.*\*/)? \s*
+			(?:
+			# dedent closing braces
+			  \}
+			# dedent closing brackets
+			| \]
+			# dedent closing tagged templates
+			| `
+			# detent `case ... :`
+			| case\b.*:
+			# detent `default:`
+			| default\s*:
+			# detent JSX final tag
+			| </ (?!html[\t\n\f /<>])[^\t\n\f /<>]+ [^>]* >
+			)
+		]]></string>
+
 		<key>increaseIndentPattern</key>
-		<string>^.*\{[^}"']*$</string>
+		<string><![CDATA[(?x)
+			# line beginning with whitespace or block comments
+			^ (.*\*/)? \s*
+			(?:
+			# indent after opening braces (may be followed by whitespace or comments)
+			# but exclude lines such as `extern "C" {`
+			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			# indent after opening tagged template: e.g.: "css`"
+			# see: Indentation Rules - Template Strings.tmPreferences
+			# indent after `case ... :`
+			| case\b.*:
+			# indent after `default:`
+			| default\s*:
+			)
+		]]></string>
+
 		<key>bracketIndentNextLinePattern</key>
-		<string>(?x)
-		^ \s* \b(if|while|else)\b [^;]* $
-		| ^ \s* \b(for)\b .* $
-		</string>
+		<string><![CDATA[(?x)
+			# line beginning with whitespace or block comments
+			^ (.*\*/)? (?<comment_or_whitespace> (?: \s* (?<block_comment> /\*.*\*/ ) )* \s* )
+			(?:
+			# indent after:
+			# - `else`
+			  else
+			# indent after:
+			# - `else if (...)`
+			# - `if (...)`
+			# - `while (...)`
+			| (?: (?: else \g<comment_or_whitespace> )? if | while )
+			  \b
+			  # before a ;
+			  [^;]*
+			# indent after `for`
+			| for\b .*
+			)
+			$
+		]]></string>
+
+		<key>unIndentedLinePattern</key>
+		<string><![CDATA[(?x)
+			^\s*
+			(?:
+			# standalone begin or end of block comments
+			#   ST doesn't apply `Indentation Rules - Comments`, because
+			#   comment scope doesn't cover the whole line. So they need
+			#   to be excluded from indentation engine here.
+			  // | /\*(?!.*\*/) | .*\*/
+			)
+		]]></string>
+
 	</dict>
 </dict>
 </plist>

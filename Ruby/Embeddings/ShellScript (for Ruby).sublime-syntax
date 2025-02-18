@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+scope: source.shell.embedded.ruby
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Bash.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: Ruby.sublime-syntax#escaped-char
+    - include: Ruby.sublime-syntax#embedded-ruby

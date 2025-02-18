@@ -146,3 +146,98 @@
 (*  ^^^^^^^^^^^^ meta.number.float.decimal.ocaml *)
 (*  ^^^^^^^^^^^^ constant.numeric.value.ocaml *)
 (*     ^ punctuation.separator.decimal *)
+
+    "string"
+(*  ^^^^^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*  ^ punctuation.definition.string.begin.ocaml *)
+(*         ^ punctuation.definition.string.end.ocaml *)
+
+    "string\""
+(*  ^^^^^^^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*  ^ punctuation.definition.string.begin.ocaml *)
+(*         ^^ constant.character.escape.ocaml *)
+(*           ^ punctuation.definition.string.end.ocaml *)
+
+    "string\\"
+(*  ^^^^^^^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*  ^ punctuation.definition.string.begin.ocaml *)
+(*         ^^ constant.character.escape.ocaml *)
+(*           ^ punctuation.definition.string.end.ocaml *)
+
+    "string\
+(*         ^ punctuation.separator.continuation.line.ocaml *)
+    m"
+(* <- meta.string.ocaml string.quoted.double.ocaml *)
+(*^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*   ^ punctuation.definition.string.end.ocaml *)
+
+    "\b \n \r \t \' \" \\ \a"
+(*  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*  ^ punctuation.definition.string.begin.ocaml *)
+(*   ^^ constant.character.escape.ocaml *)
+(*     ^ - constant.character.escape *)
+(*      ^^ constant.character.escape.ocaml *)
+(*        ^ - constant.character.escape *)
+(*         ^^ constant.character.escape.ocaml *)
+(*           ^ - constant.character.escape *)
+(*            ^^ constant.character.escape.ocaml *)
+(*              ^ - constant.character.escape *)
+(*               ^^ constant.character.escape.ocaml *)
+(*                 ^ - constant.character.escape *)
+(*                  ^^ constant.character.escape.ocaml *)
+(*                    ^ - constant.character.escape *)
+(*                     ^^ constant.character.escape.ocaml *)
+(*                       ^ - constant.character.escape *)
+(*                        ^^ invalid.illegal.character.escape *)
+(*                          ^ punctuation.definition.string.end.ocaml *)
+
+    "\x \x1 \xAF \xAFG \xAG"
+(*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*   ^^ invalid.illegal.character.escape *)
+(*     ^ - constant.character.escape *)
+(*      ^^ invalid.illegal.character.escape *)
+(*         ^ - constant.character.escape *)
+(*          ^^^^ constant.character.escape.hexadecimal.ocaml *)
+(*              ^ - constant.character.escape *)
+(*               ^^^^ constant.character.escape.hexadecimal.ocaml *)
+(*                    ^ - constant.character.escape *)
+(*                     ^^ invalid.illegal.character.escape *)
+
+    "\0 \01 \012 \123 \234 \345"
+(*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.ocaml string.quoted.double.ocaml *)
+(*   ^^ invalid.illegal.character.escape *)
+(*     ^ - constant.character.escape *)
+(*      ^^ invalid.illegal.character.escape *)
+(*         ^ - constant.character.escape *)
+(*          ^^^^ constant.character.escape.decimal.ocaml *)
+(*              ^ - constant.character.escape *)
+(*               ^^^^ constant.character.escape.decimal.ocaml *)
+(*                   ^ - constant.character.escape *)
+(*                    ^^^^ constant.character.escape.decimal.ocaml *)
+(*                        ^ - constant.character.escape *)
+(*                         ^^ constant.character.escape.regexp.ocaml *)
+(*                           ^^^ - constant.character.escape *)
+
+    {}|
+(*  ^^^ - meta.string - string *)
+
+    {||}
+(*  ^^^^ meta.string.ocaml string.quoted.other.ocaml *)
+(*  ^^ punctuation.definition.string.begin.ocaml *)
+(*    ^^ punctuation.definition.string.end.ocaml *)
+
+    {|}|}
+(*  ^^^^^ meta.string.ocaml string.quoted.other.ocaml *)
+(*  ^^ punctuation.definition.string.begin.ocaml *)
+(*     ^^ punctuation.definition.string.end.ocaml *)
+
+    {|string|}
+(*  ^^^^^^^^^^ meta.string.ocaml string.quoted.other.ocaml *)
+(*  ^^ punctuation.definition.string.begin.ocaml *)
+(*          ^^ punctuation.definition.string.end.ocaml *)
+
+    {quot|string \ " |quot}
+(*  ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.ocaml string.quoted.other.ocaml *)
+(*  ^^^^^^ punctuation.definition.string.begin.ocaml *)
+(*        ^^^^^^^^^^^ - constant.character.escape - invalid *)
+(*                   ^^^^^^ punctuation.definition.string.end.ocaml *)

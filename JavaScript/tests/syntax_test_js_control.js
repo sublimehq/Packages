@@ -1,56 +1,178 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
-if (true)
-// <- keyword.control.conditional.if
-{
-    bar()
-}
+    if ( true ) { } ;
+//  ^^^^^^^^^^^^^^^ meta.conditional
+//  ^^ keyword.control.conditional.if
+//     ^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//       ^^^^ constant.language.boolean.true
+//            ^ punctuation.section.group.end
+//              ^^^ meta.block
+//              ^ punctuation.section.block.begin
+//                ^ punctuation.section.block.end
+//                 ^ - meta.conditional
+//                  ^ punctuation.terminator.statement.empty
 
-if (Infinity > qux) {
-// <- meta.conditional.js keyword.control.conditional.if
-// ^^^^^^^^^^^^^^^ meta.conditional
-//  ^^^^^^^^ constant.language.infinity
-    a;
-//  ^ meta.conditional meta.block
-}
-// <- meta.conditional meta.block
+    if ( true ) null ;
+//  ^^^^^^^^^^^^^^^^^^ meta.conditional
+//  ^^ keyword.control.conditional.if
+//     ^^^^^^^^ meta.group
+//     ^ punctuation.section.group.begin
+//       ^^^^ constant.language.boolean.true
+//            ^ punctuation.section.group.end
+//              ^^^^ constant.language.null
+//                   ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+//                    ^ - meta.conditional
 
-if (foo bar)
-    baz = "test"
+    if (true) {}/**/
+//              ^^^^ - meta.conditional
 
-if(false){}/**/
-//         ^ - meta.conditional
+    if (true) ;
+//  ^^^^^^^^^^ meta.conditional
+//            ^ punctuation.terminator.statement.empty
 
-do {
-// <- meta.do-while keyword.control.loop.do-while
-// ^ meta.block
-    qux += 1
-//  ^^^^^^^^ meta.do-while meta.block
-} while(qux < 20);
-// <- meta.block
-// ^^^^^^^^^^^^^^ meta.do-while - meta.block
-// ^^^^ keyword.control.loop.while
-//      ^^^^^^^^ meta.group
+    if (true) ;
+    else { } ;
+//  ^^^^^^^^ meta.conditional
+//  ^^^^ keyword.control.conditional.else
+//       ^^^ meta.block
+//       ^ punctuation.section.block.begin
+//         ^ punctuation.section.block.end
+//          ^ - meta.conditional
+//           ^ punctuation.terminator.statement.empty
 
-do // Incomplete statement
-    42;
-//  ^^ constant.numeric - meta.do-while
+    else if (true) { } ;
+//  ^^^^^^^^^^^^^^^^^^ meta.conditional
+//  ^^^^^^^ keyword.control.conditional.elseif
+//          ^^^^^^ meta.group
+//          ^ punctuation.section.group.begin
+//           ^^^^ constant.language.boolean.true
+//               ^ punctuation.section.group.end
+//                 ^^^ meta.block
+//                 ^ punctuation.section.block.begin
+//                   ^ punctuation.section.block.end
+//                    ^^^ - meta.conditional
+//                     ^ punctuation.terminator.statement.empty
 
-do {} while (false)/**/
-// <- meta.do-while keyword.control.loop.do-while
-//^^^^^^^^^^^^^^^^^ meta.do-while.js
-//                 ^^ - meta.do-while
-//    ^^^^^ keyword.control.loop.while.js
+    do { } while ( true ) ;
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.do-while
+//  ^^ keyword.control.loop.do-while
+//     ^^^ meta.block
+//     ^ punctuation.section.block.begin
+//       ^ punctuation.section.block.end
+//         ^^^^^ keyword.control.loop.while
+//               ^^^^^^^^ meta.group
+//               ^ punctuation.section.group.begin
+//                 ^^^^ constant.language.boolean.true
+//                      ^ punctuation.section.group.end
+//                       ^ - meta.do-while
+//                        ^ punctuation.terminator.statement.empty
 
-for (var i = 0; i < 10; i++) {
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//   ^^^^^^^^^^^^^^^^^^^^^^ meta.group
-//   ^^^ storage.type.js
-//                           ^ meta.block
-    i += 1;
-//  ^^^^^^^ meta.for meta.block
-}
-// <- meta.block
+    do 42 ; while ( true ) ;
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.do-while
+//  ^^ keyword.control.loop.do-while
+//     ^^ meta.number.integer.decimal constant.numeric.value
+//        ^ punctuation.terminator.statement
+//          ^^^^^ keyword.control.loop.while
+//                ^^^^^^^^ meta.group
+//                ^ punctuation.section.group.begin
+//                  ^^^^ constant.language.boolean.true
+//                       ^ punctuation.section.group.end
+//                         ^ punctuation.terminator.statement.empty
+
+    do {} while (false)/**/
+//                     ^ - meta.do-while
+
+    for (var i = 0; i < 10; i++) { } ;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group
+//       ^^^ keyword.declaration
+//           ^ meta.binding.name variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^ meta.number.integer.decimal constant.numeric.value
+//                ^ punctuation.separator.expression
+//                  ^ variable.other.readwrite
+//                    ^ keyword.operator.comparison
+//                      ^^ meta.number.integer.decimal constant.numeric.value
+//                        ^ punctuation.separator.expression
+//                          ^ variable.other.readwrite
+//                           ^^ keyword.operator.arithmetic
+//                             ^ punctuation.section.group
+//                               ^^^ meta.block
+//                               ^ punctuation.section.block.begin
+//                                 ^ punctuation.section.block.end
+//                                  ^ - meta.for
+//                                   ^ punctuation.terminator.statement.empty
+
+    for ( var i = 0 ; i < 10 ; i++ ) { } ;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group
+//        ^^^ keyword.declaration
+//            ^ meta.binding.name variable.other.readwrite
+//              ^ keyword.operator.assignment
+//                ^ meta.number.integer.decimal constant.numeric.value
+//                  ^ punctuation.separator.expression
+//                    ^ variable.other.readwrite
+//                      ^ keyword.operator.comparison
+//                        ^^ meta.number.integer.decimal constant.numeric.value
+//                           ^ punctuation.separator.expression
+//                             ^ variable.other.readwrite
+//                              ^^ keyword.operator.arithmetic
+//                                 ^ punctuation.section.group
+//                                   ^^^ meta.block
+//                                   ^ punctuation.section.block.begin
+//                                     ^ punctuation.section.block.end
+//                                      ^ - meta.for
+//                                       ^ punctuation.terminator.statement.empty
+
+    for ( 
+//  ^^^^ meta.for - meta.group
+//      ^^^ meta.for meta.group
+//  ^^^ keyword.control.loop.for
+//      ^ punctuation.section.group.begin
+        var i = 0 ; 
+//     ^^^^^^^^^^^^^ meta.for meta.group
+//      ^^^ keyword.declaration
+//          ^ meta.binding.name variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^ meta.number.integer.decimal constant.numeric.value
+//                ^ punctuation.separator.expression
+
+        i < 10 ; 
+//     ^^^^^^^^^^ meta.for meta.group
+//      ^ variable.other.readwrite
+//        ^ keyword.operator.comparison
+//          ^^ meta.number.integer.decimal constant.numeric.value
+//             ^ punctuation.separator.expression
+        i++ 
+//     ^^^^^ meta.for meta.group
+//      ^ variable.other.readwrite
+//       ^^ keyword.operator.arithmetic
+    ) { } ;
+//^^^ meta.for meta.group
+//   ^ meta.for - meta.block - meta.group
+//    ^^^ meta.for meta.block
+//  ^ punctuation.section.group
+//    ^^^ meta.block
+//    ^ punctuation.section.block.begin
+//      ^ punctuation.section.block.end
+//       ^ - meta.for
+//        ^ punctuation.terminator.statement.empty
+
+    for (;;) 42;
+//  ^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^ meta.group
+//      ^ punctuation.section.group
+//       ^^ punctuation.separator.expression
+//         ^ punctuation.section.group
+//           ^^ meta.number.integer.decimal constant.numeric.value
+//             ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+//              ^ - meta.for
 
     for (; x in list;) {}
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.for
@@ -60,14 +182,15 @@ for (var i = 0; i < 10; i++) {
 //           ^^ keyword.operator
 //                  ^ punctuation.separator.expression
 
-    for (a[x in list];;) {}
-//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+    for (a[x in list];;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^ meta.group
 //        ^^^^^^^^^^^ meta.brackets
 //           ^^ keyword.operator
 //                   ^ punctuation.separator.expression
 //                    ^ punctuation.separator.expression
+//                     ^ invalid.illegal.unexpected-token
 
     for (;function () {}/a/g;) {}
 //                      ^ keyword.operator
@@ -76,14 +199,14 @@ for (var i = 0; i < 10; i++) {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
-//       ^^^^^ storage.type
+//       ^^^^^ keyword.declaration
 //               ^^ keyword.operator.word
 
     for (const x of list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
-//       ^^^^^ storage.type
+//       ^^^^^ keyword.declaration
 //               ^^ keyword.operator.word
 
     for (x in list) {}
@@ -92,15 +215,157 @@ for (var i = 0; i < 10; i++) {
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
+    for (a in b, c ? d: e, f(g());) {};
+//  ^^^^ meta.for - meta.group
+//      ^^^^^^^^^^^^^^^^^^^ meta.for meta.group - meta.function-call
+//                         ^^^^^^ meta.for meta.group meta.function-call
+//                               ^^ meta.for meta.group - meta.function-call
+//                                 ^ meta.for - meta.block - meta.group
+//                                  ^^ meta.for meta.block
+//  ^^^ keyword.control.loop.for
+//      ^ punctuation.section.group.begin
+//       ^ variable.other.readwrite
+//         ^^ keyword.operator.word
+//            ^ variable.other.readwrite
+//             ^ keyword.operator.comma
+//               ^ variable.other.readwrite
+//                 ^ keyword.operator.ternary
+//                   ^ variable.other.readwrite
+//                    ^ keyword.operator.ternary
+//                      ^ variable.other.readwrite
+//                       ^ keyword.operator.comma
+//                         ^ variable.function
+//                          ^ punctuation.section.group.begin
+//                           ^ variable.function
+//                            ^ punctuation.section.group.begin
+//                             ^^ punctuation.section.group.end
+//                               ^ invalid.illegal.unexpected-token
+//                                ^ punctuation.section.group.end
+//                                  ^ punctuation.section.block.begin
+//                                   ^ punctuation.section.block.end
+
     for (x of list) {}
 //  ^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
+    for (x.y.z of list) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//       ^ variable.other.readwrite
+//        ^ punctuation.accessor
+//         ^ meta.property.object
+//          ^ punctuation.accessor
+//           ^ meta.property.object
+//             ^^ keyword.operator.word
+//                ^^^^ variable.other.readwrite
+//                    ^ punctuation.section.group.end
+//                      ^^ meta.block
+
     for await (const x of list) {}
 //  ^^^ keyword.control.loop.for
 //      ^^^^^ keyword.control.flow.await
+
+    for ( using x of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.declaration
+//              ^ meta.binding.name variable.other.readwrite
+//                ^^ keyword.operator.word
+//                   ^^^^ variable.other.readwrite
+//                        ^ punctuation.section.group.end
+//                          ^^ meta.block
+
+    for ( await using x of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.declaration
+//              ^^^^^ keyword.declaration
+//        ^^^^^ keyword.declaration
+//              ^^^^^ keyword.declaration
+//                    ^ meta.binding.name variable.other.readwrite
+//                      ^^ keyword.operator.word
+//                         ^^^^ variable.other.readwrite
+//                              ^ punctuation.section.group.end
+//                                ^^ meta.block
+
+    for ( await using of of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.declaration
+//              ^^^^^ keyword.declaration
+//                    ^^ meta.binding.name variable.other.readwrite
+//                       ^^ keyword.operator.word
+//                          ^^^^ variable.other.readwrite
+//                               ^ punctuation.section.group.end
+//                                 ^^ meta.block
+//                                 ^ punctuation.section.block.begin
+//                                  ^ punctuation.section.block.end
+
+    for ( using of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ variable.other.readwrite
+//              ^^ keyword.operator.word
+//                 ^^^^ variable.other.readwrite
+//                      ^ punctuation.section.group.end
+//                        ^^ meta.block
+
+    for ( using [x] of list ) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ variable.other.readwrite
+//              ^^^ meta.brackets
+//              ^ punctuation.section.brackets.begin
+//               ^ variable.other.readwrite
+//                ^ punctuation.section.brackets.end
+//                  ^^ keyword.operator.word
+//                     ^^^^ variable.other.readwrite
+//                          ^ punctuation.section.group.end
+//                            ^^ meta.block
+
+    for ( await using ;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.control.flow.await
+//              ^^^^^ variable.other.readwrite
+//                    ^^ punctuation.separator.expression
+//                      ^ punctuation.section.group.end
+//                        ^^ meta.block
+//                        ^ punctuation.section.block.begin
+//                         ^ punctuation.section.block.end
+
+    for ( await using instanceof x ;;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//      ^ punctuation.section.group.begin
+//        ^^^^^ keyword.control.flow.await
+//              ^^^^^ variable.other.readwrite
+//                    ^^^^^^^^^^ keyword.operator
+//                               ^ variable.other.readwrite
+//                                 ^^ punctuation.separator.expression
+//                                   ^ punctuation.section.group.end
+//                                     ^^ meta.block
+
+    for (var in list) (i = 0 ; i < 10; i++)
+//  ^^^^^^^^^^^^^^^^^^ meta.for.js
+//                    ^^^^^^^^^^^^^^^^^^^^^ meta.group.js - meta.for
 
 for
     42;
@@ -192,6 +457,16 @@ while (true)
 }
 // <- meta.block
 
+    while (true) 42 ;
+//  ^^^^^^^^^^^^^ meta.while
+//  ^^^^^ keyword.control.loop.while
+//        ^^^^^^ meta.group
+//        ^ punctuation.section.group.begin
+//         ^^^^ constant.language.boolean.true
+//             ^ punctuation.section.group.end
+//               ^^ meta.number.integer.decimal constant.numeric.value
+//                  ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
 while // Incomplete statement
     42;
 //  ^^ constant.numeric - meta.while
@@ -204,7 +479,7 @@ with (undefined) {
 //^^^^^^^^^^ meta.with
 //    ^^^^^^^^^ constant.language.undefined
     return;
-//  ^^^^^^ meta.with.js meta.block.js keyword.control.flow.return
+//  ^^^^^^ meta.with meta.block keyword.control.flow.return
 }
 
 with // Incomplete statement
@@ -215,7 +490,7 @@ with(false){}/**/
 //           ^ - meta.with
 
 switch ($foo) {
-// <- meta.switch.js keyword.control.conditional.switch
+// <- meta.switch keyword.control.conditional.switch
 // ^^^^^^^^^^^^ meta.switch
 //^^^^ keyword.control.conditional.switch
 //      ^^^^ meta.group
@@ -261,7 +536,8 @@ try {
 // <- meta.block
 //^^^^^^^^^^^^ meta.catch
 //^^^^^ keyword.control.exception.catch
-//       ^ meta.group
+//      ^^^ meta.group
+//       ^ meta.binding.name variable.other.readwrite
 //          ^ meta.block
     foobar = 0
 //  ^^^^^^^^^^ meta.catch meta.block
@@ -288,6 +564,3 @@ catch{}/**/
 //     ^ - meta.catch
 finally{}/**/
 //       ^ - meta.finally
-
-if (true) {};
-// <- keyword.control.conditional

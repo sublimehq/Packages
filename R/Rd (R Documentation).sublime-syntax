@@ -10,7 +10,7 @@ contexts:
     - include: scope:text.tex.latex#comments
 
   main:
-    - include: rd-stucture
+    - include: rd-structure
     - include: r-code
     - include: latex-equations
     - include: scope:text.tex.latex#plain-tex
@@ -116,7 +116,7 @@ contexts:
         - match: \\%
         - include: scope:source.r
 
-  rd-stucture:
+  rd-structure:
     - match: '((\\)name)(\{)'
       captures:
         1: keyword.other.section.rd
