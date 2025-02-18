@@ -150,6 +150,14 @@
 //                                  ^^ keyword.operator.logical.pascal
 //                                     ^^^^ constant.language.boolean.true.pascal
 
+  Label
+//^^^^^ keyword.declaration.pascal
+    123,
+//  ^^^ entity.name.label.pascal
+//     ^ punctuation.separator.sequence.pascal
+    abc;
+//  ^^^ entity.name.label.pascal
+//     ^ punctuation.terminator.pascal
 // comment
 procedure foo;
 // ^ meta.function.pascal keyword.declaration.function

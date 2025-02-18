@@ -92,6 +92,14 @@ contexts:
       scope: keyword.control.flow.break.pascal
     - match: \b(?i:goto)\b
       scope: keyword.control.flow.goto.pascal
+    # https://www.freepascal.org/docs-html/ref/refse7.html
+    - match: \b(?i:label)\b
+      scope: keyword.declaration.pascal
+      push:
+        - include: pop-terminator
+        - include: comma-separator
+        - match: '{{identifier}}|[0-9]+'
+          scope: entity.name.label.pascal
 
   functions:
     - match: \b(function|procedure)\s+({{identifier}})
@@ -366,6 +374,10 @@ contexts:
         - include: comments-block
 
 ###[ PROTOTYPE ]###############################################################
+
+  comma-separator:
+    - match: ','
+      scope: punctuation.separator.sequence.pascal
 
   pop-eol:
     - match: $\n?
