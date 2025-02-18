@@ -1,14 +1,12 @@
 // SYNTAX TEST "Packages/Pascal/Pascal.sublime-syntax"
 
   // double slash comment
-// <- punctuation.whitespace.comment.leading.pascal
-  // <- punctuation.definition.comment.pascal
-  // ^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.pascal.two
+//^^ punctuation.definition.comment.begin.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.pascal
 
   -- double dash comment
-// <- punctuation.whitespace.comment.leading.pascal
-  // <- punctuation.definition.comment.pascal
-  // ^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.pascal.one
+//^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.pascal
+//^^ punctuation.definition.comment.begin.pascal
 
 // comment
 procedure foo;

@@ -14,17 +14,8 @@ first_line_match: |-
     ^ \s* // .*? -\*- .*? \bpas(cal)?\b .*? -\*-  # editorconfig
   )
 
-variables:
-  identifier: (?:\w+(?:\.\w+)*)
-  identifier_real: (?i:[a-z][a-z0-9]*)
 
 contexts:
-  else-pop:
-    - match: (?=\S)
-      pop: true
-  immediately-pop:
-    - match: ''
-      pop: true
 
   main:
     - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
@@ -317,35 +308,50 @@ contexts:
           scope: punctuation.definition.string.end.pascal
           pop: true
 
+###[ COMMENTS ]################################################################
+
   comments:
-    - match: (^[ \t]+)?(--)
-      captures:
-        1: punctuation.whitespace.comment.leading.pascal
-        2: punctuation.definition.comment.pascal
+    - match: --
+      scope: punctuation.definition.comment.begin.pascal
       push:
-        - meta_scope: comment.line.double-dash.pascal.one
-        - match: \n
-          pop: true
-    - match: (^[ \t]+)?(//)
-      captures:
-        1: punctuation.whitespace.comment.leading.pascal
-        2: punctuation.definition.comment.pascal
+        - meta_scope: comment.line.double-dash.pascal
+        - include: pop-eol
+    - match: //
+      scope: punctuation.definition.comment.begin.pascal
       push:
-        - meta_scope: comment.line.double-slash.pascal.two
-        - match: \n
-          pop: true
+        - meta_scope: comment.line.double-slash.pascal
+        - include: pop-eol
     - match: \(\*
-      scope: punctuation.definition.comment.pascal
+      scope: punctuation.definition.comment.begin.pascal
       push:
-        - meta_scope: comment.block.pascal.one
+        - meta_scope: comment.block.pascal
         - match: \*\)
-          captures:
-            0: punctuation.definition.comment.pascal
-          pop: true
+          scope: punctuation.definition.comment.end.pascal
+          pop: 1
     - match: '{'
-      scope: punctuation.definition.comment.pascal
+      scope: punctuation.definition.comment.begin.pascal
       push:
-        - meta_scope: comment.block.pascal.two
+        - meta_scope: comment.block.pascal
         - match: '}'
-          scope: punctuation.definition.comment.pascal
-          pop: true
+          scope: punctuation.definition.comment.end.pascal
+          pop: 1
+
+###[ PROTOTYPE ]###############################################################
+
+  pop-eol:
+    - match: $\n?
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: true
+
+  immediately-pop:
+    - match: ''
+      pop: true
+
+###############################################################################
+
+variables:
+  identifier: (?:\w+(?:\.\w+)*)
+  identifier_real: (?i:[a-z][a-z0-9]*)
