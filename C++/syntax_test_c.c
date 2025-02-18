@@ -1040,13 +1040,13 @@
 /////////////////////////////////////////////
 
     #include <stdlib.h>
-//^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.c 
+//^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.include.c 
 //^^^^^^^^^^ keyword.control.import.c 
 //           ^^^^^^^^^^ string.quoted.other.c 
 //           ^ punctuation.definition.string.begin.c 
 //                    ^ punctuation.definition.string.end.c 
     #include_next "file.h"
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.include.c 
 //^^^^^^^^^^^^^^^ keyword.control.import.c 
 //                ^^^^^^^^ string.quoted.double.c 
 //                ^ punctuation.definition.string.begin.c 

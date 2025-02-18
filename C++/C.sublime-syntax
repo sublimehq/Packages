@@ -88,7 +88,7 @@ contexts:
         - match: ^
           pop: 1
   preprocessor.include:
-    - meta_scope: meta.preprocessor.c
+    - meta_scope: meta.preprocessor.include.c
     - match: \"
       scope: punctuation.definition.string.begin.c
       push: string.double
@@ -244,7 +244,7 @@ contexts:
       scope: invalid.illegal.unexpected-terminator.c
       pop: 2
 
-    - match: (?={{identifier}}\s*(?![\[,\)]|$))
+    - match: (?={{identifier}}\s*(?!\s*[\[,\)]|$))
       push:
         - match: \b
           set: function.params.name
@@ -257,7 +257,7 @@ contexts:
     - match: ({{identifier}})\s*(\[)
       captures:
         1: variable.parameter.c
-        2: punctuation.section.brackets.begin
+        2: punctuation.section.brackets.begin.c
       set: enclosure.brackets
     - match: ({{identifier}})\s*(?=[,\)]|$)
       captures:
