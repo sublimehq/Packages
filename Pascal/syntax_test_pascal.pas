@@ -174,18 +174,18 @@
     abc;
 //  ^^^ entity.name.label.pascal
 //     ^ punctuation.terminator.pascal
-// comment
-procedure foo;
-// ^ meta.function.pascal keyword.declaration.function
-begin
-	// comment
-end;
-// <- keyword.control.pascal
 
--- comment
-procedure bar;
-// ^ meta.function.pascal keyword.declaration.function
-begin
-	-- comment
-end;
-// <- keyword.control.pascal
+  // comment
+  procedure foo;
+//^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^^^ entity.name.function.pascal
+//             ^ punctuation.terminator.pascal
+  begin
+//^^^^^ meta.function.pascal
+//^^^^^ keyword.context.block.begin.pascal
+    // comment
+  end;
+//^^^^ meta.function.pascal
+//^^^ keyword.context.block.end.pascal
+//   ^ punctuation.terminator.pascal
