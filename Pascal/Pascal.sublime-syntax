@@ -297,22 +297,26 @@ contexts:
     # Double quoted strings are an extension and (generally) support C-style escape sequences.
     - match: '"'
       scope: punctuation.definition.string.begin.pascal
-      push:
-        - meta_scope: string.quoted.double.pascal
-        - match: '"'
-          scope: punctuation.definition.string.end.pascal
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.pascal
+      push: string-double-body
     - match: "'"
       scope: punctuation.definition.string.begin.pascal
-      push:
-        - meta_scope: string.quoted.single.pascal
-        - match: "''"
-          scope: constant.character.escape.apostrophe.pascal
-        - match: "'"
-          scope: punctuation.definition.string.end.pascal
-          pop: true
+      push: string-single-body
+
+  string-double-body:
+    - meta_scope: string.quoted.double.pascal
+    - match: '"'
+      scope: punctuation.definition.string.end.pascal
+      pop: 1
+    - match: \\.
+      scope: constant.character.escape.pascal
+
+  string-single-body:
+    - meta_scope: string.quoted.single.pascal
+    - match: "''"
+      scope: constant.character.escape.apostrophe.pascal
+    - match: "'"
+      scope: punctuation.definition.string.end.pascal
+      pop: 1
 
 ###[ COMMENTS ]################################################################
 
