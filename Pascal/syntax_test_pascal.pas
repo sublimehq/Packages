@@ -8,6 +8,40 @@
 //^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.pascal
 //^^ punctuation.definition.comment.begin.pascal
 
+  { Comment 1 (* comment 2 *) }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.pascal
+//^ punctuation.definition.comment.begin.pascal
+//            ^^^^^^^^^^^^^^^ comment.block.pascal
+//            ^^ punctuation.definition.comment.begin.pascal
+//                         ^^ punctuation.definition.comment.end.pascal
+//                            ^ punctuation.definition.comment.end.pascal
+
+  (* Comment 1 { comment 2 } *)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.pascal
+//^^ punctuation.definition.comment.begin.pascal
+//             ^^^^^^^^^^^^^ comment.block.pascal
+//             ^ punctuation.definition.comment.begin.pascal
+//                         ^ punctuation.definition.comment.end.pascal
+//                           ^^ punctuation.definition.comment.end.pascal
+
+  { comment 1 // Comment 2 }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.pascal
+//^ punctuation.definition.comment.begin.pascal
+//                         ^ punctuation.definition.comment.end.pascal
+
+  (* comment 1 // Comment 2 *)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.pascal
+//^^ punctuation.definition.comment.begin.pascal
+//                          ^^ punctuation.definition.comment.end.pascal
+
+  // comment 1 (* comment 2 *)
+//^^ punctuation.definition.comment.begin.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.pascal
+
+  // comment 1 { comment 2 }
+//^^ punctuation.definition.comment.begin.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.pascal
+
   true
 //^^^^ constant.language.boolean.true.pascal
   false

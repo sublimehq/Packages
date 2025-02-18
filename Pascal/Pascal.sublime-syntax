@@ -321,6 +321,10 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
+    - include: comments-line
+    - include: comments-block
+
+  comments-line:
     - match: --
       scope: punctuation.definition.comment.begin.pascal
       push:
@@ -331,6 +335,8 @@ contexts:
       push:
         - meta_scope: comment.line.double-slash.pascal
         - include: pop-eol
+
+  comments-block:
     - match: \(\*
       scope: punctuation.definition.comment.begin.pascal
       push:
@@ -338,6 +344,7 @@ contexts:
         - match: \*\)
           scope: punctuation.definition.comment.end.pascal
           pop: 1
+        - include: comments-block
     - match: '{'
       scope: punctuation.definition.comment.begin.pascal
       push:
@@ -345,6 +352,7 @@ contexts:
         - match: '}'
           scope: punctuation.definition.comment.end.pascal
           pop: 1
+        - include: comments-block
 
 ###[ PROTOTYPE ]###############################################################
 
