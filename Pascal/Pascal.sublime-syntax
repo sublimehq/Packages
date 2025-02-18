@@ -50,14 +50,14 @@ contexts:
       scope: punctuation.terminator.pascal
 
   # function-call-no-arg:
-  #   - match: '({{identifier_real}})(;)'
+  #   - match: '({{identifier}})(;)'
   #     captures:
   #       1: meta.function-call.pascal
   #          variable.function.pascal
   #       2: punctuation.terminator.pascal
 
   function-call:
-    - match: '({{identifier_real}})(\()'
+    - match: '({{identifier}})(\()'
       captures:
         1: meta.function-call.pascal
            variable.function.pascal
@@ -403,5 +403,5 @@ contexts:
 ###############################################################################
 
 variables:
-  identifier: (?:\w+(?:\.\w+)*)
-  identifier_real: (?i:[a-z][a-z0-9]*)
+  # https://www.freepascal.org/docs-html/ref/refse4.html
+  identifier: (?i:[_a-z][_a-z0-9]{0,126})
