@@ -175,6 +175,23 @@
 //  ^^^ entity.name.label.pascal
 //     ^ punctuation.terminator.pascal
 
+// Hint directives
+  Const
+    AConst = 12 deprecated;
+
+  var
+    p : integer platform;
+
+  Function Something : Integer; experimental;
+
+  begin
+    Something:=P+AConst;
+  end;
+
+  begin
+    Something;
+  end.
+
   // comment
   procedure foo;
 //^^^^^^^^^^^^^^ meta.function.pascal
