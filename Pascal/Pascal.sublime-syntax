@@ -320,8 +320,13 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.pascal
       push: string-single-body
+    - match: (#)[0-9]{1,5}
+      scope: constant.character.pascal
+      captures:
+        1: punctuation.definition.string.begin.pascal
 
   string-double-body:
+    - meta_include_prototype: false
     - meta_scope: string.quoted.double.pascal
     - match: '"'
       scope: punctuation.definition.string.end.pascal
@@ -330,12 +335,16 @@ contexts:
       scope: constant.character.escape.pascal
 
   string-single-body:
+    - meta_include_prototype: false
     - meta_scope: string.quoted.single.pascal
     - match: "''"
       scope: constant.character.escape.apostrophe.pascal
     - match: "'"
       scope: punctuation.definition.string.end.pascal
       pop: 1
+    - match: \n
+      scope: invalid.illegal.unterminated-string.pascal
+
 
 ###[ COMMENTS ]################################################################
 

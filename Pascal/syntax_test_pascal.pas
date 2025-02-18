@@ -61,6 +61,22 @@
 //               ^^ constant.character.escape.apostrophe.pascal
 //                             ^ punctuation.definition.string.end.pascal
 
+  'the string starts here  
+//^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//^ punctuation.definition.string.begin.pascal
+  and continues here'
+
+  'the string starts here'#13#10'   and continues here'
+//^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//^ punctuation.definition.string.begin.pascal
+//                       ^ punctuation.definition.string.end.pascal
+//                        ^^^^^^ constant.character.pascal
+//                        ^ punctuation.definition.string.begin.pascal
+//                           ^ punctuation.definition.string.begin.pascal
+//                              ^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//                              ^ punctuation.definition.string.begin.pascal
+//                                                    ^ punctuation.definition.string.end.pascal
+
   0xdeadbeef
 //^^^^^^^^^^ meta.number.integer.hexadecimal.pascal
 //^^ constant.numeric.base.pascal
