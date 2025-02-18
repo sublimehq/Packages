@@ -30,7 +30,7 @@ contexts:
   keywords:
     - match: \b(?i:published|public|protected|private|strict\s+private)\b
       scope: storage.modifier.pascal
-    - match: \b(?i:(absolute|abstract|all|and_then|array|as|asm|attribute|begin|bindable|case|class|const|destructor|div|do|do|else|end|except|export|exports|external|far|file|finalization|finally|for|forward|goto|if|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|object|of|only|operator|or_else|otherwise|packed|pow|program|property|qualified|record|repeat|resident|restricted|segment|set|then|to|try|type|unit|until|uses|value|var|view|virtual|while|with))\b
+    - match: '{{keyword}}|{{reserved_word}}|{{modifier}}'
       scope: keyword.control.pascal
 
   statements:
@@ -405,3 +405,67 @@ contexts:
 variables:
   # https://www.freepascal.org/docs-html/ref/refse4.html
   identifier: (?i:[_a-z][_a-z0-9]{0,126})
+  keyword: |-
+    \b(?xi:
+      absolute | abstract | all | and_then | array | as | asm | attribute
+    | begin | bindable
+    | case | class | const
+    | destructor | div | do | do
+    | else | end | except | export | exports | external
+    | far | file | finalization | finally | for | forward
+    | goto
+    | if | implementation | import | in | inherited | initialization
+    | interface | interrupt | is
+    | label | library
+    | mod | module
+    | name | near
+    | object | of | only | operator | or_else | otherwise
+    | packed | pow | program | property
+    | qualified
+    | record | repeat | resident | restricted
+    | segment | set
+    | then | to | try | type
+    | unit | until | uses
+    | value | var | view | virtual
+    | while | with
+    )\b
+  reserved_word: |-
+    \b(?xi:
+      # Turbo Pascal
+      absolute | and | array | asm | begin | case | const | constructor
+    | destructor | div | do | downto | else | end | file | for | function | goto
+    | if | implementation | in | inherited | inline | interface | label | mod
+    | nil | not | object | of | operator | or | packed | procedure | program
+    | record | reintroduce | repeat | self | set | shl | shr | string | then | to
+    | type | unit | until | uses | var | while | with | xor
+      # Object Pascal additions
+      as | class | dispinterface | except | exports | finalization | finally
+    | initialization | inline | is | library | on | out | packed | property
+    | raise | resourcestring | threadvar | try
+    )\b
+  modifier: |-
+    \b(?xi:
+      absolute | abstract | alias | assembler
+    | bitpacked | break
+    | cdecl | continue | cppdecl | cvar
+    | default | deprecated | dynamic
+    | enumerator | experimental | export | external
+    | far | far16 | forward
+    | generic
+    | helper
+    | implements | index | interrupt | iocheck
+    | local
+    | message
+    | name
+    | near | nodefault | noreturn | nostackframe
+    | oldfpccall | otherwise | overload | override
+    | pascal | platform | private | protected | public | published
+    | read | register | reintroduce | result
+    | safecall | saveregisters | softfloat | specialize | static | stdcall
+    | stored | strict
+    | unaligned | unimplemented
+    | varargs | virtual
+    | winapi | write
+    )\b
+  hint_directive: \b(?i:deprecated|experimental|platform|unimplemented)\b
+
