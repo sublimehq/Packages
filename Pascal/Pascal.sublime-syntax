@@ -241,9 +241,15 @@ contexts:
     - match: \^
       scope: keyword.operator.pointer.pascal
 
+###[ LITERALS ]################################################################
+
   constants:
-    - match: \b(?i:true|false|nil)\b
-      scope: constant.language.pascal
+    - match: \b(?:true)\b
+      scope: constant.language.boolean.true.pascal
+    - match: \b(?:false)\b
+      scope: constant.language.boolean.false.pascal
+    - match: \b(?:nil)\b
+      scope: constant.language.null.pascal
 
   numerics:
     - match: \b(?i:(0x)(\h+))\b
