@@ -222,18 +222,23 @@ contexts:
     - match: '{{identifier}}'
       scope: support.type.pascal
 
+  # https://www.freepascal.org/docs-html/ref/refse88.html
   operators:
     - match: ':='
       scope: keyword.operator.assignment.pascal
     - match: \b(?i:and|or|xor|not)\b
       scope: keyword.operator.logical.pascal
-    - match: \+|-|\*|/|%
+    - match: \+|-|\*\*|\*|/|%|\b(?i:div|mod)\b
       scope: keyword.operator.arithmetic.pascal
-    - match: '!|&|\||~|<<|>>|shl|shr'
+    - match: '!|&|\||~|<<|>>|\b(?i:shl|shr)\b'
       scope: keyword.operator.bitwise.pascal
     - match: =|<>|>=?|<=?
       scope: keyword.operator.comparison.pascal
-    - match: \^
+    - match: \b(?i:is|as)\b
+      scope: keyword.operator.comparison.pascal
+    - match: \b(?i:include|exclude|in)\b|><
+      scope: keyword.operator.set.pascal
+    - match: '[@^]'
       scope: keyword.operator.pointer.pascal
 
   identifiers:
