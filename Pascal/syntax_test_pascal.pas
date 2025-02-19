@@ -56,24 +56,25 @@
 //^^^ constant.language.null.pascal
 
   "double string \" with escape"
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.double.pascal
 //^ punctuation.definition.string.begin.pascal
 //               ^^ constant.character.escape.pascal
 //                             ^ punctuation.definition.string.end.pascal
 
   'single string '' with escape'
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
 //^ punctuation.definition.string.begin.pascal
 //               ^^ constant.character.escape.apostrophe.pascal
 //                             ^ punctuation.definition.string.end.pascal
 
   'the string starts here  
-//^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
 //^ punctuation.definition.string.begin.pascal
+//                         ^ invalid.illegal.unterminated-string.pascal
   and continues here'
 
   'the string starts here'#13#10'   and continues here'
-//^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.pascal
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
 //^ punctuation.definition.string.begin.pascal
 //                       ^ punctuation.definition.string.end.pascal
 //                        ^^^^^^ constant.character.pascal

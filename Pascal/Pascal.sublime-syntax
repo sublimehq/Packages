@@ -322,7 +322,7 @@ contexts:
 
   string-double-body:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.pascal
+    - meta_scope: meta.string.pascal string.quoted.double.pascal
     - match: '"'
       scope: punctuation.definition.string.end.pascal
       pop: 1
@@ -331,7 +331,7 @@ contexts:
 
   string-single-body:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.single.pascal
+    - meta_scope: meta.string.pascal string.quoted.single.pascal
     - match: "''"
       scope: constant.character.escape.apostrophe.pascal
     - match: "'"
