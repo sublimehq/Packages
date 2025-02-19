@@ -211,31 +211,7 @@ contexts:
     - include: else-pop
 
   function-variables:
-    - match: \b(?i:var)\b
-      scope: keyword.declaration.pascal
-      push:
-        - match: (?=\b(?i:begin)\b)
-          pop: 1
-        - match: (?={{identifier}}\s*[^ \t\w:,])
-          pop: 1
-        - match: '{{identifier}}'
-          scope: variable.other.readwrite.pascal
-          push:
-            - include: comma-separator
-            - include: identifiers-as-vars
-            - match: ':'
-              scope: punctuation.separator.type.pascal
-              set:
-                - include: types
-                - include: types-for-anything
-                - match: ;
-                  scope: punctuation.terminator.pascal
-                  pop: 1
-                - match: =
-                  scope: keyword.operator.assignment.pascal
-                  set:
-                    - include: literals
-            - include: else-pop
+    - include: var-definitions
     - include: else-pop
 
   function-body:
