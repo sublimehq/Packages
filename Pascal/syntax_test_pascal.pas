@@ -194,7 +194,14 @@
 //                        ^ punctuation.terminator.pascal
 
   var
+//^^^ meta.block.pascal keyword.declaration.variable.pascal
     p : integer platform;
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.block.pascal
+//  ^ variable.other.readwrite.pascal
+//    ^ punctuation.separator.annotation.pascal
+//      ^^^^^^^ support.type.primitive.pascal
+//              ^^^^^^^^ variable.annotation.pascal
+//                      ^ punctuation.terminator.pascal
 
   Function Something : Integer; experimental;
 

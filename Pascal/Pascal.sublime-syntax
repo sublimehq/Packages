@@ -87,17 +87,38 @@ contexts:
 
   constant-definitions-body:
     - meta_scope: meta.block.pascal
+    - include: constant-and-var-definition-contents
+    - match: '='
+      scope: keyword.operator.assignment.pascal
+    - match: '&{{reserved_word}}'
+      scope: variable.other.constant.pascal
+    - match: '{{identifier}}'
+      scope: variable.other.constant.pascal
+
+  var-definitions:
+    - match: \b(?i:var)\b
+      scope: keyword.declaration.variable.pascal
+      push: var-definitions-body
+
+  var-definitions-body:
+    - meta_scope: meta.block.pascal
+    - include: constant-and-var-definition-contents
+    - match: '&{{reserved_word}}'
+      scope: variable.other.readwrite.pascal
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.pascal
+
+  constant-and-var-definition-contents:
     - include: pop-terminator
     - include: comma-separator
     - match: ':'
       scope: punctuation.separator.annotation.pascal
     - include: types
     - include: hint-directives
-    - match: '='
-      scope: keyword.operator.assignment.pascal
     - include: literals
-    - match: '{{identifier}}'
-      scope: variable.other.constant.pascal
+    - match: '{{reserved_word}}'
+      scope: invalid.illegal.pascal
+      pop: 1
 
   flow:
     - match: \b(?i:continue)\b
@@ -420,6 +441,7 @@ contexts:
 
   statements:
     - include: constant-definitions
+    - include: var-definitions
     - include: blocks
     - include: literals
     - include: flow
