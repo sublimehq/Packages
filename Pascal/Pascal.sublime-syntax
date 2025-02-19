@@ -145,6 +145,9 @@ contexts:
 
   expect-type:
     - include: types
+    - match: (?={{hint_directive}})
+      pop: 1
+    - include: types-for-anything
     - include: else-pop
 
   maybe-hint-directive:
@@ -154,81 +157,72 @@ contexts:
 ###[ FUNCTIONS ]###############################################################
 
   functions:
-    - match: \b(function|procedure)\s+({{identifier}})
+    - match: \b(?i:(function|procedure))\s+({{identifier}})
       captures:
         1: keyword.declaration.function.pascal
         2: entity.name.function.pascal
-      push: [function-body, function-variables, function-params]
+      push:
+        - function-body
+        - function-variables
+        - maybe-hint-directive
+        - maybe-type-marker
+        - function-params
 
   constructors:
-    - match: \b(constructor)\s+({{identifier}})
+    - match: \b(?i:(constructor))\s+({{identifier}})
       captures:
         1: keyword.declaration.function.pascal
         2: entity.name.function.constructor.pascal
-      push: [function-body, function-variables, function-params]
+      push:
+        - function-body
+        - function-variables
+        - maybe-hint-directive
+        - maybe-type-marker
+        - function-params
 
   function-params:
     - match: \(
       scope: punctuation.section.parameters.begin.pascal
-      push:
-        - meta_scope: meta.function.parameters.pascal
-        - match: \)
-          scope: punctuation.section.parameters.end.pascal
-          pop: true
-        - match: (?:\b(var|const)\s+)?({{identifier}})
-          captures:
-            1: keyword.declaration.pascal
-            2: variable.parameter.pascal
-          push:
-            - match: ','
-              scope: punctuation.separator.pascal
-            - match: '{{identifier}}'
-              scope: variable.parameter.pascal
-            - match: ':'
-              scope: punctuation.separator.type.pascal
-              set:
-                - include: types
-                - include: types-for-anything
-                - include: function-pop-param
-                - match: =
-                  scope: keyword.operator.assignment.pascal
-                  set:
-                    - include: constants
-                    - include: function-pop-param
-    - match: ':'
-      scope: punctuation.separator.type.pascal
-      push:
-        - include: types
-        - include: types-for-anything
-        - include: else-pop
-    - match: ;
-      scope: punctuation.terminator.pascal
-      pop: true
+      push: function-param-body
+    - include: terminator
     - include: else-pop
 
-  function-pop-param:
-    - match: (?=\))
-      pop: true
-    - match: ;
-      scope: punctuation.separator.sequence.pascal
-      pop: true
+  function-param-body:
+    - meta_scope: meta.function.parameters.pascal
+    - match: \)
+      scope: punctuation.section.parameters.end.pascal
+      pop: 1
+    - include: comma-separator
+    - match: \b(?i:(var|const)\s+)?({{identifier}})
+      captures:
+        1: keyword.declaration.pascal
+        2: variable.parameter.pascal
+      push:
+        - maybe-hint-directive
+        - maybe-type-marker
+        - function-param
+
+  function-param:
+    - match: =
+      scope: keyword.operator.assignment.pascal
+      push:
+        - include: literals
+        - include: else-pop
+    - include: else-pop
 
   function-variables:
     - match: \b(?i:var)\b
       scope: keyword.declaration.pascal
       push:
-        - include: comments
         - match: (?=\b(?i:begin)\b)
-          pop: true
+          pop: 1
         - match: (?={{identifier}}\s*[^ \t\w:,])
-          pop: true
+          pop: 1
         - match: '{{identifier}}'
           scope: variable.other.readwrite.pascal
           push:
-            - match: ','
-              scope: punctuation.separator.pascal
-            - match: '{{identifier}}'
-              scope: variable.other.readwrite.pascal
+            - include: comma-separator
+            - include: identifiers-as-vars
             - match: ':'
               scope: punctuation.separator.type.pascal
               set:
@@ -236,28 +230,18 @@ contexts:
                 - include: types-for-anything
                 - match: ;
                   scope: punctuation.terminator.pascal
-                  pop: true
+                  pop: 1
                 - match: =
                   scope: keyword.operator.assignment.pascal
                   set:
-                    - match: ;
-                      scope: punctuation.terminator.pascal
-                      pop: true
-                    - include: constants
+                    - include: literals
             - include: else-pop
     - include: else-pop
 
   function-body:
     - meta_scope: meta.function.pascal
-    - match: \b(?i:begin)\b
-      scope: keyword.context.block.begin.pascal
-      push:
-        - match: \b((?i:end))\b(;)?
-          captures:
-            1: keyword.context.block.end.pascal
-            2: punctuation.terminator.pascal
-          pop: true
-        - include: statements
+    - include: pop-terminator
+    - include: blocks
     - include: else-pop
 
 ###[ MISC ]####################################################################
@@ -308,9 +292,11 @@ contexts:
     - match: '[@^]'
       scope: keyword.operator.pointer.pascal
 
-  identifiers:
+  identifiers-as-vars:
     - match: '{{identifier}}'
+      scope: variable.other.readwrite.pascal
     - match: '&{{reserved_word}}'
+      scope: variable.other.readwrite.pascal
 
 ###[ LITERALS ]################################################################
 

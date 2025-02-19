@@ -204,10 +204,44 @@
 //                      ^ punctuation.terminator.pascal
 
   Function Something : Integer; experimental;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^ keyword.declaration.function.pascal
+//         ^^^^^^^^^ entity.name.function.pascal
+//                   ^ punctuation.separator.annotation.pascal
+//                     ^^^^^^^ support.type.primitive.pascal
+//                            ^ punctuation.terminator.pascal
+//                              ^^^^^^^^^^^^ variable.annotation.pascal
+//                                          ^ punctuation.terminator.pascal
 
   begin
+//^^^^^ meta.block.pascal keyword.context.block.begin.pascal
     Something:=P+AConst;
+//^^^^^^^^^^^^^^^^^^^^^^ meta.block.pascal
+//           ^^ keyword.operator.assignment.pascal
+//              ^ keyword.operator.arithmetic.pascal
+//                     ^ punctuation.terminator.pascal
   end;
+//^^^^ meta.block.pascal
+//^^^ keyword.context.block.end.pascal
+//   ^ punctuation.terminator.pascal
+
+  Function SomethingElse
+//^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^ keyword.declaration.function.pascal
+//         ^^^^^^^^^^^^^ entity.name.function.pascal
+
+  begin
+//^^^^^ meta.function.pascal
+//^^^^^ keyword.context.block.begin.pascal
+    Something:=P+AConst;
+//^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//           ^^ keyword.operator.assignment.pascal
+//              ^ keyword.operator.arithmetic.pascal
+//                     ^ punctuation.terminator.pascal
+  end;
+//^^^^ meta.function.pascal
+//^^^ keyword.context.block.end.pascal
+//   ^ punctuation.terminator.pascal
 
   begin
     Something;
@@ -227,3 +261,92 @@
 //^^^^ meta.function.pascal
 //^^^ keyword.context.block.end.pascal
 //   ^ punctuation.terminator.pascal
+
+// https://www.freepascal.org/docs-html/ref/refse97.html
+  Unit testforward;
+  interface
+  Procedure First (n : longint);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^^^^^ entity.name.function.pascal
+//                ^^^^^^^^^^^^^ meta.function.parameters.pascal
+//                ^ punctuation.section.parameters.begin.pascal
+//                 ^ variable.parameter.pascal
+//                   ^ punctuation.separator.annotation.pascal
+//                     ^^^^^^^ support.type.primitive.pascal
+//                            ^ punctuation.section.parameters.end.pascal
+//                             ^ punctuation.terminator.pascal
+  Procedure Second;
+//^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^^^^^^ entity.name.function.pascal
+//                ^ punctuation.terminator.pascal
+  implementation
+//^^^^^^^^^^^^^^ keyword.control.pascal
+  Procedure First (n : longint); forward;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^^^^^ entity.name.function.pascal
+//                ^^^^^^^^^^^^^ meta.function.parameters.pascal
+//                ^ punctuation.section.parameters.begin.pascal
+//                 ^ variable.parameter.pascal
+//                   ^ punctuation.separator.annotation.pascal
+//                     ^^^^^^^ support.type.primitive.pascal
+//                            ^ punctuation.section.parameters.end.pascal
+//                             ^ punctuation.terminator.pascal
+//                               ^^^^^^^ keyword.control.pascal
+//                                      ^ punctuation.terminator.pascal
+  Procedure Second;
+//^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^^^^^^ entity.name.function.pascal
+//                ^ punctuation.terminator.pascal
+  begin
+//^^^^^ meta.function.pascal
+//^^^^^ keyword.context.block.begin.pascal
+    WriteLn ('In second. Calling first...');
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
+//           ^ punctuation.definition.string.begin.pascal
+//                                       ^ punctuation.definition.string.end.pascal
+//                                         ^ punctuation.terminator.pascal
+    First (1);
+//^^^^^^^^^^^^ meta.function.pascal
+//         ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//           ^ punctuation.terminator.pascal
+  end;
+//^^^^ meta.function.pascal
+//^^^ keyword.context.block.end.pascal
+//   ^ punctuation.terminator.pascal
+  Procedure First (n : longint);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^^^^^ entity.name.function.pascal
+//                ^^^^^^^^^^^^^ meta.function.parameters.pascal
+//                ^ punctuation.section.parameters.begin.pascal
+//                 ^ variable.parameter.pascal
+//                   ^ punctuation.separator.annotation.pascal
+//                     ^^^^^^^ support.type.primitive.pascal
+//                            ^ punctuation.section.parameters.end.pascal
+//                             ^ punctuation.terminator.pascal
+  begin
+//^^^^^ meta.function.pascal
+//^^^^^ keyword.context.block.begin.pascal
+    WriteLn ('First received : ',n);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
+//  ^^^^^^^^ meta.function-call.pascal
+//  ^^^^^^^ variable.function.pascal
+//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.pascal
+//          ^ punctuation.section.arguments.begin.pascal
+//           ^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
+//           ^ punctuation.definition.string.begin.pascal
+//                             ^ punctuation.definition.string.end.pascal
+//                              ^ punctuation.separator.sequence.pascal
+//                                ^ punctuation.section.arguments.end.pascal
+//                                 ^ punctuation.terminator.pascal
+  end;
+//^^^^ meta.function.pascal
+//^^^ keyword.context.block.end.pascal
+//   ^ punctuation.terminator.pascal
+  end.
+//^^^ keyword.control.pascal
