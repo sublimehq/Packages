@@ -564,7 +564,6 @@ contexts:
   types:
     # matches stray identifiers as a types because a type is expected
     - include: comments
-    - include: impl-types
     - include: return-type
     - match: '&'
       scope: keyword.operator.rust
@@ -590,6 +589,7 @@ contexts:
         - include: pattern-param
     - include: dyn-types
     - include: lifetime
+    - include: impl-trait
     - match: (?={{identifier}}::)
       push: type-path
     - match: (?=::)
@@ -710,15 +710,6 @@ contexts:
     - match: '\b(?:r#)?_*{{type_identifier}}'
       scope: storage.type.rust
 
-  impl-types:
-    - match: '\bimpl\b'
-      scope: storage.type.impl.rust
-      push:
-        - include: comments
-        - include: impl-generic
-        - match: '(?=\S)'
-          pop: true
-
   dyn-types:
     - match: '\bdyn\b(?=\s*(?:\(|{{lifetime}}|{{identifier}}))'
       scope: storage.type.trait.rust
@@ -802,6 +793,31 @@ contexts:
       scope: punctuation.accessor.double-colon.rust
     - match: '[-+%/*]'
       scope: keyword.operator.arithmetic.rust
+
+  impl-trait:
+    - match: '\bimpl\b'
+      scope: storage.type.impl.rust
+      push:
+        - match: '\buse\b'
+          scope: keyword.other.rust
+          push:
+            - match: '<'
+              scope: punctuation.definition.generic.begin.rust
+              set:
+                - match: '>'
+                  scope: punctuation.definition.generic.end.rust
+                  pop: true
+                - include: lifetime
+                - match: ','
+                  scope: punctuation.separator.rust
+                - match: \b(Self)\b
+                  scope: keyword.other.rust
+                - match: '{{identifier}}'
+                - match: '(?=\S)'
+                  pop: true
+        - include: types
+        - match: '(?=\S)'
+          pop: true
 
   ##[ STRUCTS ]###############################################################
 
