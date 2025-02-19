@@ -215,13 +215,12 @@ contexts:
     - match: \b(?i:var)\b
       scope: keyword.declaration.pascal
       push: function-variables
+    - include: terminator
     - include: else-pop
 
   function-variables:
     - match: (?=\b(?i:begin)\b)
       pop: 1
-    # - match: (?={{identifier}}\s*[^ \t\w:,])
-    #   pop: 1
     - match: '{{identifier}}'
       scope: variable.other.readwrite.pascal
       push: [maybe-function-variable-assigment, maybe-type-marker]

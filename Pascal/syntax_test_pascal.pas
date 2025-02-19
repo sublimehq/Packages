@@ -406,3 +406,52 @@ begin
     Exit;
   end;
 end;
+
+  function PackRects(w, h: Integer; var Rects: TBPRectArray): Integer;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^ keyword.declaration.function.pascal
+//         ^^^^^^^^^ entity.name.function.pascal
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.pascal
+//                  ^ punctuation.section.parameters.begin.pascal
+//                   ^ variable.parameter.pascal
+//                    ^ punctuation.separator.parameters.pascal
+//                      ^ variable.parameter.pascal
+//                       ^ punctuation.separator.annotation.pascal
+//                         ^^^^^^^ support.type.primitive.pascal
+//                                ^ punctuation.separator.parameters.pascal
+//                                  ^^^ keyword.declaration.pascal
+//                                      ^^^^^ variable.parameter.pascal
+//                                           ^ punctuation.separator.annotation.pascal
+//                                             ^^^^^^^^^^^^ support.type.pascal
+//                                                         ^ punctuation.section.parameters.end.pascal
+//                                                          ^ punctuation.separator.annotation.pascal
+//                                                            ^^^^^^^ support.type.primitive.pascal
+//                                                                   ^ punctuation.terminator.pascal
+  var
+//^^^ meta.function.pascal
+//^^^ keyword.declaration.pascal
+    bp: TBinPack;
+//^^^^^^^^^^^^^^^ meta.function.pascal
+//  ^^ variable.other.readwrite.pascal
+//    ^ punctuation.separator.annotation.pascal
+//      ^^^^^^^^ support.type.pascal
+//              ^ punctuation.terminator.pascal
+    i, j: Integer;
+//^^^^^^^^^^^^^^^^ meta.function.pascal
+//  ^ variable.other.readwrite.pascal
+//   ^ punctuation.separator.sequence.pascal
+//     ^ variable.other.readwrite.pascal
+//      ^ punctuation.separator.annotation.pascal
+//        ^^^^^^^ support.type.primitive.pascal
+//               ^ punctuation.terminator.pascal
+    Rect: TBPRect;
+    BestRect: TBPRect;
+    BestIndex: Integer;
+    BestScore1: Integer;
+    BestScore2: Integer;
+    Score1: Integer;
+    Score2: Integer;
+  begin
+    BestRect := Default(TBPRect);
+    Rect.x := 0;
+  end;
