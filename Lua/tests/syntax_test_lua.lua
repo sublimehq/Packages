@@ -729,6 +729,22 @@
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
 
+    a, b = c, d
+--  ^ variable.other
+--   ^ punctuation.separator.comma
+--     ^ variable.other
+--       ^ keyword.operator.assignment
+--         ^ variable.other
+--          ^ punctuation.separator.comma
+--            ^ variable.other
+
+    globals_no_modifiers < const > 7
+--  ^^^^^^^^^^^^^^^^^^^^ variable.other.lua
+--                       ^ keyword.operator.comparison.lua
+--                         ^^^^^ variable.other.lua
+--                               ^ keyword.operator.comparison.lua
+--                                 ^ constant.numeric.value.lua
+
     local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua
 --        ^ variable.other.lua
@@ -754,10 +770,32 @@
 --                   ^^^ keyword.operator.logical.lua
 --                         ^^ keyword.operator.comparison.lua
 
+    local a + b, this <cont>>, that <close>= 4
+--          ^ invalid.illegal.unexpected-character.lua
+--            ^ variable.other.lua
+--                    ^^^^^^ meta.modifier.lua
+--                    ^ punctuation.definition.modifier.begin.lua
+--                     ^^^^ variable.other.lua
+--                         ^ punctuation.definition.modifier.end.lua
+--                          ^ invalid.illegal.unexpected-character.lua
+--                                  ^^^^^^^ meta.modifier.lua
+--                                  ^ punctuation.definition.modifier.begin.lua
+--                                        ^ punctuation.definition.modifier.end.lua
+--                                        ^^ invalid.illegal.missing-space.lua
+--                                           ^ constant.numeric.value.lua
+
+-- unclosed things exit the local declaration
+    local unclosed <tes testing()
+--                  ^^^ variable.other.lua
+--                      ^^^^^^^ meta.function-call.lua variable.function.lua
+
+    local another testing()
+--                ^^^^^^^ meta.function-call.lua variable.function.lua
+
     local text <const = "Hello, World";
 --  ^^^^^ storage.modifier.lua
 --        ^^^^ variable.other.lua
---              ^^^^^ - storage.modifier.lua
+--              ^^^^^ storage.modifier.lua
 --                    ^ keyword.operator.assignment.lua - meta.modifier
 --                      ^ punctuation.definition.string.begin.lua - meta.modifier
 --                       ^^^^^^^^^^^^ meta.string.lua string.quoted.double.lua
