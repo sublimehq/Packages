@@ -95,6 +95,11 @@ contexts:
     - meta_prepend: true
     - include: rename-statements
     - include: show-statements
+    - match: \b(?i:table)\b
+      scope: keyword.context.mysql
+      push:
+        - table-name
+        - single-identifier
 
 ###[ COMMENTS ]################################################################
 
@@ -603,6 +608,7 @@ contexts:
     - match: \b(?i:replace\s+(?:into)?)\b
       scope: keyword.other.dml.sql
       push: expect-table-name
+    - include: into
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.sql
     - match: \b(?i:on\s+duplicate\s+key)\b
@@ -645,6 +651,9 @@ contexts:
       push:
         - maybe-partition
         - expect-table-name
+    - include: import-export-file-params
+
+  import-export-file-params:
     - match: \b(?i:character\s+set)\b
       scope: storage.modifier.mysql
       push: charset
@@ -896,13 +905,28 @@ contexts:
     - match: \b(?i:format)\b
       scope: variable.parameter.explain.sql
     - include: assignment-operators-constants
-    - match: \b(?i:into)\b
-      scope: keyword.other.dml.sql
-      push: expect-table-name
+    - include: into
     - match: \b(?i:for\s+schema)\b
       scope: keyword.other.dml.sql
       push: expect-other-name
     - include: else-pop
+
+  into:
+    - match: \b(?i:into\s+outfile)\b
+      scope: keyword.other.dml.sql
+      push:
+        - import-export-file-params
+        - meta-filepath
+        - single-string
+    - match: \b(?i:into)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - include: values
+
+  values:
+    - match: \b(?i:values|row)\b
+      scope: keyword.other.ddl.sql
+      push: maybe-group
 
 ###[ OTHER STATEMENTS ]########################################################
 
@@ -941,6 +965,11 @@ contexts:
 
   expressions:
     - meta_prepend: true
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.mysql
+      push:
+        - expect-type
+        - single-identifier
     - match: \b{{other_keywords}}\b
       scope: keyword.other.sql
     - match: \b(?i:concatenate|convert|lower|substring|translate|trim|upper)\b
@@ -1134,8 +1163,7 @@ contexts:
         - expect-partition-creation-name
         - maybe-partition
     # partition parameters
-    - match: \b(?i:values)\b
-      scope: keyword.other.ddl.sql
+    - include: values
     - match: \b(?i:in|less\s+than)\b
       scope: keyword.operator.logical.sql
       push: maybe-group
@@ -1465,8 +1493,9 @@ contexts:
     - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: 1
+      set: maybe-table-alias
     - include: comma-separators
+    - include: values
     - include: expect-table-references
 
   expect-table-references:
