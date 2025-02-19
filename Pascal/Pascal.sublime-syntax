@@ -26,8 +26,6 @@ contexts:
       captures:
         1: keyword.declaration.function.pascal
         2: entity.name.function.pascal
-    - include: functions
-    - include: constructors
     - include: statements
 
   keywords:
@@ -79,6 +77,24 @@ contexts:
             2: punctuation.terminator.pascal
           pop: true
         - include: statements
+
+  flow:
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.pascal
+    - match: \b(?i:break)\b
+      scope: keyword.control.flow.break.pascal
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.pascal
+    # https://www.freepascal.org/docs-html/ref/refse7.html
+    - match: \b(?i:label)\b
+      scope: keyword.declaration.pascal
+      push:
+        - include: pop-terminator
+        - include: comma-separator
+        - match: '{{identifier}}|[0-9]+'
+          scope: entity.name.label.pascal
+
+###[ DEFINITIONS ]#############################################################
 
   constant-definitions:
     - match: \b(?i:const)\b
@@ -133,21 +149,7 @@ contexts:
     - include: hint-directives
     - include: else-pop
 
-  flow:
-    - match: \b(?i:continue)\b
-      scope: keyword.control.flow.continue.pascal
-    - match: \b(?i:break)\b
-      scope: keyword.control.flow.break.pascal
-    - match: \b(?i:goto)\b
-      scope: keyword.control.flow.goto.pascal
-    # https://www.freepascal.org/docs-html/ref/refse7.html
-    - match: \b(?i:label)\b
-      scope: keyword.declaration.pascal
-      push:
-        - include: pop-terminator
-        - include: comma-separator
-        - match: '{{identifier}}|[0-9]+'
-          scope: entity.name.label.pascal
+###[ FUNCTIONS ]###############################################################
 
   functions:
     - match: \b(function|procedure)\s+({{identifier}})
@@ -255,6 +257,8 @@ contexts:
           pop: true
         - include: statements
     - include: else-pop
+
+###[ MISC ]####################################################################
 
   types:
     - match: \b(?i:boolean|real|character|char|string)\b
@@ -453,6 +457,8 @@ contexts:
     - include: terminator
 
   statements:
+    - include: functions
+    - include: constructors
     - include: constant-definitions
     - include: var-definitions
     - include: blocks
