@@ -33,6 +33,8 @@ contexts:
   keywords:
     - match: \b(?i:published|public|protected|private|strict\s+private)\b
       scope: storage.modifier.pascal
+    - match: '{{hint_directive}}'
+      scope: variable.annotation.pascal
     - match: '{{keyword}}|{{reserved_word}}|{{modifier}}'
       scope: keyword.control.pascal
 
