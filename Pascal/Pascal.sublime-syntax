@@ -31,12 +31,18 @@ contexts:
     - include: statements
 
   keywords:
-    - match: \b(?i:published|public|protected|private|strict\s+private)\b
-      scope: storage.modifier.pascal
-    - match: '{{hint_directive}}'
-      scope: variable.annotation.pascal
+    - include: access-modifiers
+    - include: hint-directives
     - match: '{{keyword}}|{{reserved_word}}|{{modifier}}'
       scope: keyword.control.pascal
+
+  access-modifiers:
+    - match: \b(?i:published|public|protected|private|strict\s+private)\b
+      scope: storage.modifier.pascal
+
+  hint-directives:
+    - match: '{{hint_directive}}'
+      scope: variable.annotation.pascal
 
   # function-call-no-arg:
   #   - match: '({{identifier}})(;)'
@@ -73,6 +79,25 @@ contexts:
             2: punctuation.terminator.pascal
           pop: true
         - include: statements
+
+  constant-definitions:
+    - match: \b(?i:const)\b
+      scope: keyword.declaration.constant.pascal
+      push: constant-definitions-body
+
+  constant-definitions-body:
+    - meta_scope: meta.block.pascal
+    - include: pop-terminator
+    - include: comma-separator
+    - match: ':'
+      scope: punctuation.separator.annotation.pascal
+    - include: types
+    - include: hint-directives
+    - match: '='
+      scope: keyword.operator.assignment.pascal
+    - include: literals
+    - match: '{{identifier}}'
+      scope: variable.other.constant.pascal
 
   flow:
     - match: \b(?i:continue)\b
@@ -394,6 +419,7 @@ contexts:
     - include: terminator
 
   statements:
+    - include: constant-definitions
     - include: blocks
     - include: literals
     - include: flow
@@ -456,20 +482,22 @@ variables:
     | value | var | view | virtual
     | while | with
     )\b
+  # https://www.freepascal.org/docs-html/ref/refse3.html
   reserved_word: |-
     \b(?xi:
-      # Turbo Pascal
+    # Turbo Pascal
       absolute | and | array | asm | begin | case | const | constructor
     | destructor | div | do | downto | else | end | file | for | function | goto
     | if | implementation | in | inherited | inline | interface | label | mod
     | nil | not | object | of | operator | or | packed | procedure | program
     | record | reintroduce | repeat | self | set | shl | shr | string | then | to
     | type | unit | until | uses | var | while | with | xor
-      # Object Pascal additions
+    # Object Pascal additions
       as | class | dispinterface | except | exports | finalization | finally
     | initialization | inline | is | library | on | out | packed | property
     | raise | resourcestring | threadvar | try
     )\b
+  # https://www.freepascal.org/docs-html/ref/refsu3.html
   modifier: |-
     \b(?xi:
       absolute | abstract | alias | assembler

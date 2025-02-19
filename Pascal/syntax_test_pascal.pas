@@ -184,7 +184,14 @@
 
 // Hint directives
   Const
+//^^^^^ meta.block.pascal keyword.declaration.constant.pascal
     AConst = 12 deprecated;
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.pascal
+//  ^^^^^^ variable.other.constant.pascal
+//         ^ keyword.operator.assignment.pascal
+//           ^^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//              ^^^^^^^^^^ variable.annotation.pascal
+//                        ^ punctuation.terminator.pascal
 
   var
     p : integer platform;
