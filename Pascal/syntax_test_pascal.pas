@@ -351,7 +351,25 @@
   end.
 //^^^ keyword.control.pascal
 
-procedure CommandBind(Args: array of AnsiString; Sender: Byte);
+procedure CommandBind(f, Args: array of AnsiString; Sender: Byte);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^ keyword.declaration.function.pascal
+//        ^^^^^^^^^^^ entity.name.function.pascal
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.pascal
+//                   ^ punctuation.section.parameters.begin.pascal
+//                    ^ variable.parameter.pascal
+//                     ^ punctuation.separator.parameters.pascal
+//                       ^^^^ variable.parameter.pascal
+//                           ^ punctuation.separator.annotation.pascal
+//                             ^^^^^ support.type.pascal
+//                                   ^^ keyword.other.pascal
+//                                      ^^^^^^^^^^ support.type.pascal
+//                                                ^ punctuation.separator.parameters.pascal
+//                                                  ^^^^^^ variable.parameter.pascal
+//                                                        ^ punctuation.separator.annotation.pascal
+//                                                          ^^^^ support.type.primitive.pascal
+//                                                              ^ punctuation.section.parameters.end.pascal
+//                                                               ^ punctuation.terminator.pascal
 var
   BindKeyName: AnsiString;
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal

@@ -192,7 +192,8 @@ contexts:
     - match: \)
       scope: punctuation.section.parameters.end.pascal
       pop: 1
-    - include: comma-separator
+    - match: '[,;]'
+      scope: punctuation.separator.parameters.pascal
     - match: \b(?i:(var|const)\s+)?({{identifier}})
       captures:
         1: keyword.declaration.pascal
