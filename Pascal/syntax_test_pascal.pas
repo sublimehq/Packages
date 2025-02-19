@@ -48,6 +48,12 @@
 //^^^^^ constant.language.boolean.false.pascal
   nil
 //^^^ constant.language.null.pascal
+  trUe
+//^^^^ constant.language.boolean.true.pascal
+  faLse
+//^^^^^ constant.language.boolean.false.pascal
+  nIl
+//^^^ constant.language.null.pascal
 
   "double string \" with escape"
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.pascal

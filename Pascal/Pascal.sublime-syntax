@@ -247,11 +247,11 @@ contexts:
     - include: strings
 
   constants:
-    - match: \b(?:true)\b
+    - match: \b(?i:true)\b
       scope: constant.language.boolean.true.pascal
-    - match: \b(?:false)\b
+    - match: \b(?i:false)\b
       scope: constant.language.boolean.false.pascal
-    - match: \b(?:nil)\b
+    - match: \b(?i:nil)\b
       scope: constant.language.null.pascal
 
   # https://www.freepascal.org/docs-html/ref/refse6.html
