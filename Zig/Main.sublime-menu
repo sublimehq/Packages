@@ -1,0 +1,70 @@
+[
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "Zig",
+                        "children":
+                        [
+                            {
+                                "caption": "Settings - Syntax Specific",
+                                "command": "edit_settings",
+                                "args":
+                                {
+                                    "base_file": "${packages}/Zig/Zig.sublime-settings",
+                                    "default": "{\n\t$0\n}"
+                                }
+                            },
+                            {
+                                "caption": "Documentation",
+                                "children":
+                                [
+                                    {
+                                        "caption": "Website",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://ziglang.org/"
+                                        }
+                                    },
+                                    { "caption": "-" },
+                                    {
+                                        "caption": "Documentation",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://ziglang.org/documentation/master/"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Documentation - Grammar overview",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://ziglang.org/documentation/master/#Grammar"
+                                        }
+                                    },
+                                    { "caption": "-" },
+                                    {
+                                        "caption": "GitHub repository",
+                                        "command": "open_url",
+                                        "args":
+                                        {
+                                            "url": "https://github.com/ziglang/zig/"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
