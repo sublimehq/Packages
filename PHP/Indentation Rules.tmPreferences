@@ -19,7 +19,7 @@
 			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing: curly brace, square bracket or paren
 			|                                                                                 # OR
 			    \s* (<\?(php)?\s+)?                                                           # an optional PHP open tag
-			    (else(\s*if)?\b.*:\s*($|//|/\*|\?>)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
+			    (else(\s*if)?\b.*:\s*($|//|/\*|\?>)|(end(if|for(each)?|switch|while))\b)   	  # followed by an keyword that ends a control flow block
 			)
 		]]></string>
 
@@ -46,16 +46,13 @@
 			| # OR
 			^\s* (<\?(php)?\s+)?                                                                # the beginning of the line followed by any amount of whitespace and an optional PHP open tag
 			(   (?:
-			        (?:else)?if\s*\g<balanced_paren>|else                                       # PHP "if" related statements
+			        (?:else\s*)?if\s*\g<balanced_paren>|else                                    # PHP "if" related statements
 			    )\s*:(?!.*\bendif\b)                                                            # followed by a colon, not followed by an "endif" anywhere on the line
 			    |
 			    (?<php_control_word>foreach|for|switch|while)\s*\g<balanced_paren>              # PHP control keywords, followed by balanced parens
 			    \s*:(?!.*\bend\k<php_control_word>\b)                                           # followed by a colon, and where the control structures don't end themselves on the same line
 			)
 		]]></string>
-
-		<key>indentNextLinePattern</key>
-		<string><![CDATA[^(?!.*(#|//|\*/|<\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|<\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)]]></string>
 
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)
