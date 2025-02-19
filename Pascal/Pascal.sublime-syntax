@@ -163,7 +163,7 @@ contexts:
         2: entity.name.function.pascal
       push:
         - function-body
-        - function-variables
+        - maybe-function-variables
         - maybe-hint-directive
         - maybe-type-marker
         - function-params
@@ -175,7 +175,7 @@ contexts:
         2: entity.name.function.constructor.pascal
       push:
         - function-body
-        - function-variables
+        - maybe-function-variables
         - maybe-hint-directive
         - maybe-type-marker
         - function-params
@@ -210,32 +210,30 @@ contexts:
         - include: else-pop
     - include: else-pop
 
-  function-variables:
+  maybe-function-variables:
     - match: \b(?i:var)\b
       scope: keyword.declaration.pascal
+      push: function-variables
+    - include: else-pop
+
+  function-variables:
+    - match: (?=\b(?i:begin)\b)
+      pop: 1
+    # - match: (?={{identifier}}\s*[^ \t\w:,])
+    #   pop: 1
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.pascal
+      push: [maybe-function-variable-assigment, maybe-type-marker]
+    - include: comma-separator
+    - include: terminator
+    - include: else-pop
+
+  maybe-function-variable-assigment:
+    - match: =
+      scope: keyword.operator.assignment.pascal
       push:
-        - match: (?=\b(?i:begin)\b)
-          pop: 1
-        - match: (?={{identifier}}\s*[^ \t\w:,])
-          pop: 1
-        - match: '{{identifier}}'
-          scope: variable.other.readwrite.pascal
-          push:
-            - include: comma-separator
-            - include: identifiers-as-vars
-            - match: ':'
-              scope: punctuation.separator.type.pascal
-              set:
-                - include: types
-                - include: types-for-anything
-                - match: ;
-                  scope: punctuation.terminator.pascal
-                  pop: 1
-                - match: =
-                  scope: keyword.operator.assignment.pascal
-                  set:
-                    - include: literals
-            - include: else-pop
+        - include: literals
+        - include: else-pop
     - include: else-pop
 
   function-body:

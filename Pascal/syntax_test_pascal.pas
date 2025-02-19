@@ -350,3 +350,41 @@
 //   ^ punctuation.terminator.pascal
   end.
 //^^^ keyword.control.pascal
+
+procedure CommandBind(Args: array of AnsiString; Sender: Byte);
+var
+  BindKeyName: AnsiString;
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^^^ variable.other.readwrite.pascal
+//           ^ punctuation.separator.annotation.pascal
+//             ^^^^^^^^^^ support.type.pascal
+//                       ^ punctuation.terminator.pascal
+  CommandString: AnsiString;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^^^^^ variable.other.readwrite.pascal
+//             ^ punctuation.separator.annotation.pascal
+//               ^^^^^^^^^^ support.type.pascal
+//                         ^ punctuation.terminator.pascal
+  Modifier: Word;
+//^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^ variable.other.readwrite.pascal
+//        ^ punctuation.separator.annotation.pascal
+//          ^^^^ support.type.primitive.pascal
+//              ^ punctuation.terminator.pascal
+begin
+//^^^ meta.function.pascal meta.block.pascal keyword.context.block.begin.pascal
+  if Length(Args) < 3 then
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
+//^^ keyword.control.pascal
+//   ^^^^^^ meta.function-call.pascal variable.function.pascal
+//         ^^^^^^ meta.function-call.arguments.pascal
+//         ^ punctuation.section.arguments.begin.pascal
+//              ^ punctuation.section.arguments.end.pascal
+//                ^ keyword.operator.comparison.pascal
+//                  ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//                    ^^^^ keyword.control.pascal
+  begin
+    MainConsole.Console('Usage: bind "key" "command"', GAME_MESSAGE_COLOR);
+    Exit;
+  end;
+end;
