@@ -4650,6 +4650,19 @@ EXPLAIN ANALYZE FORMAT=TREE SELECT * FROM t3 WHERE pk > 17;
 
 CREATE USER 'read' IDENTIFIED BY 'toor';
 GRANT SELECT ON * . * TO 'read';
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^ constant.language.sql
+--           ^^ keyword.context.sql
+--              ^^^^^ meta.other-name.sql
+--              ^ constant.other.wildcard.asterisk.sql
+--                ^ punctuation.accessor.dot.sql
+--                  ^ constant.other.wildcard.asterisk.sql
+--                    ^^ keyword.context.sql
+--                       ^^^^^^ meta.username.sql
+--                       ^ punctuation.definition.identifier.begin.sql
+--                            ^ punctuation.definition.identifier.end.sql
+--                             ^ punctuation.terminator.statement.sql
 FLUSH PRIVILEGES;
 
 
@@ -4866,8 +4879,24 @@ COMMIT;
 UNLOCK TABLES;
 
 show open tables where in_use>0;
+-- ^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^^^^^ constant.language.mysql
+--               ^^^^^ keyword.other.dml.sql
+--                     ^^^^^^ meta.column-name.sql
+--                           ^ keyword.operator.comparison.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^ punctuation.terminator.statement.sql
 show processlist;
+-- ^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^^^^^ constant.language.mysql
+--              ^ punctuation.terminator.statement.sql
 SHOW ENGINE INNODB STATUS;
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^^^^^^^^^^^^^^ constant.language.mysql
+--                       ^ punctuation.terminator.statement.sql
 
 CREATE TABLE jokes
   (a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -4932,7 +4961,24 @@ CREATE TEMPORARY TABLE temporary_table LIKE target_table;
 --                                                      ^ punctuation.terminator.statement.sql
 
 SHOW INDEX FROM temporary_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^ meta.index.sql
+--   ^^^^^ keyword.other.dml.mysql
+--         ^^^^ keyword.other.mysql
+--              ^^^^^^^^^^^^^^^ meta.table-name.sql
+--                             ^ punctuation.terminator.statement.sql
 DROP INDEX `PRIMARY` ON temporary_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.index.sql
+--   ^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^ meta.index-name.sql
+--         ^ punctuation.definition.identifier.begin.sql
+--                 ^ punctuation.definition.identifier.end.sql
+--                   ^^ keyword.other.sql
+--                      ^^^^^^^^^^^^^^^ meta.table-name.sql
+--                                     ^ punctuation.terminator.statement.sql
 DROP INDEX `some_other_index` ON temporary_table;
 
 LOAD DATA INFILE 'your_file.csv'

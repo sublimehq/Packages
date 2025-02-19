@@ -856,6 +856,13 @@ contexts:
     - include: show-create
     - include: show-grants
     - include: show-columns
+    - include: show-index
+    - match: \b(?i:processlist)\b
+      scope: constant.language.mysql
+    - match: \b(?i:engine\s+innodb\s+status)\b
+      scope: constant.language.mysql
+    - match: \b(?i:open\s+tables)\b
+      scope: constant.language.mysql
     - include: else-pop
 
   show-create:
@@ -900,6 +907,11 @@ contexts:
     - match: \b(?i:from|in)\b
       scope: keyword.other.mysql
       set: expect-table-name
+
+  show-index:
+    - match: \b(?i:index)\b
+      scope: keyword.other.dml.mysql
+      push: drop-index-args
 
   explain-parameters:
     - match: \b(?i:format)\b
@@ -1440,7 +1452,7 @@ contexts:
     - match: \b(?i:table|function|procedure|package)\b
       scope: storage.type.sql
     # wildcard privilege level
-    - match: (\*)(?:(\.)(\*))?
+    - match: (\*)\s*(?:(\.)\s*(\*))?
       scope: meta.other-name.sql
       captures:
         1: constant.other.wildcard.asterisk.sql
