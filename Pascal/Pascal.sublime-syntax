@@ -3,6 +3,7 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Pascal
 scope: source.pascal
+version: 2
 
 file_extensions:
   - pas
