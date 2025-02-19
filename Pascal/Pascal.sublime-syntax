@@ -90,6 +90,7 @@ contexts:
     - include: constant-and-var-definition-contents
     - match: '='
       scope: keyword.operator.assignment.pascal
+    - include: hint-directives
     - match: '&{{reserved_word}}'
       scope: variable.other.constant.pascal
     - match: '{{identifier}}'
@@ -105,20 +106,32 @@ contexts:
     - include: constant-and-var-definition-contents
     - match: '&{{reserved_word}}'
       scope: variable.other.readwrite.pascal
+      push: [maybe-hint-directive, maybe-type-marker]
     - match: '{{identifier}}'
       scope: variable.other.readwrite.pascal
+      push: [maybe-hint-directive, maybe-type-marker]
 
   constant-and-var-definition-contents:
     - include: pop-terminator
     - include: comma-separator
-    - match: ':'
-      scope: punctuation.separator.annotation.pascal
-    - include: types
-    - include: hint-directives
     - include: literals
     - match: '{{reserved_word}}'
       scope: invalid.illegal.pascal
       pop: 1
+
+  maybe-type-marker:
+    - match: ':'
+      scope: punctuation.separator.annotation.pascal
+      set: expect-type
+    - include: else-pop
+
+  expect-type:
+    - include: types
+    - include: else-pop
+
+  maybe-hint-directive:
+    - include: hint-directives
+    - include: else-pop
 
   flow:
     - match: \b(?i:continue)\b
