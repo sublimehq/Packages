@@ -95,11 +95,15 @@ contexts:
     - meta_prepend: true
     - include: rename-statements
     - include: show-statements
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.mysql
+      push:
+        - expect-type
+        - variable-meta
+        - single-identifier
     - match: \b(?i:table)\b
       scope: keyword.context.mysql
-      push:
-        - table-name
-        - single-identifier
+      push: expect-table-name
 
 ###[ COMMENTS ]################################################################
 
@@ -729,6 +733,11 @@ contexts:
     - include: expressions
     - include: pop-on-top-level-reserved-word
 
+  variable-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.mysql
+    - include: immediately-pop
+
   variable-member:
     - meta_include_prototype: false
     - meta_content_scope: variable.other.member.mysql
@@ -977,11 +986,6 @@ contexts:
 
   expressions:
     - meta_prepend: true
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.mysql
-      push:
-        - expect-type
-        - single-identifier
     - match: \b{{other_keywords}}\b
       scope: keyword.other.sql
     - match: \b(?i:concatenate|convert|lower|substring|translate|trim|upper)\b

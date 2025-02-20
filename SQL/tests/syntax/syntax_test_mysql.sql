@@ -774,12 +774,15 @@ BEGIN
     DECLARE @var INT = 0;
 --  ^^^^^^^ keyword.declaration.mysql
 --          ^^^^ variable.other.sql
+--          ^ punctuation.definition.variable.sql
 --               ^^^ storage.type
 --                   ^ keyword.operator.assignment.sql
 --                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                      ^ punctuation.terminator.statement.sql
 
     DECLARE r ROW (c1 INT, c2 VARCHAR(10));
+--  ^^^^^^^ keyword.declaration.mysql
+--          ^ variable.other.mysql
 --            ^^^ storage.type.sql
 --                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
 --                ^ punctuation.section.group.begin.sql
@@ -5068,6 +5071,7 @@ SELECT * FROM (VALUES ROW(1,2,3),ROW(4,5,6),ROW(7,8,9)) AS t
 TABLE employees ORDER BY lname LIMIT 1000
 -- ^^ keyword.context.mysql
 --    ^^^^^^^^^ meta.table-name.sql
+-- ^^^ - meta.table-name
 --              ^^^^^^^^ keyword.other.dml.sql
 --                       ^^^^^ meta.column-name.sql
 --                             ^^^^^ keyword.other.dml.sql
