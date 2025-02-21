@@ -95,6 +95,15 @@ contexts:
     - meta_prepend: true
     - include: rename-statements
     - include: show-statements
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.mysql
+      push:
+        - expect-type
+        - variable-meta
+        - single-identifier
+    - match: \b(?i:table)\b
+      scope: keyword.context.mysql
+      push: expect-table-name
 
 ###[ COMMENTS ]################################################################
 
@@ -603,6 +612,7 @@ contexts:
     - match: \b(?i:replace\s+(?:into)?)\b
       scope: keyword.other.dml.sql
       push: expect-table-name
+    - include: into
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.sql
     - match: \b(?i:on\s+duplicate\s+key)\b
@@ -645,6 +655,9 @@ contexts:
       push:
         - maybe-partition
         - expect-table-name
+    - include: import-export-file-params
+
+  import-export-file-params:
     - match: \b(?i:character\s+set)\b
       scope: storage.modifier.mysql
       push: charset
@@ -719,6 +732,11 @@ contexts:
   set-other-value:
     - include: expressions
     - include: pop-on-top-level-reserved-word
+
+  variable-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.mysql
+    - include: immediately-pop
 
   variable-member:
     - meta_include_prototype: false
@@ -847,6 +865,13 @@ contexts:
     - include: show-create
     - include: show-grants
     - include: show-columns
+    - include: show-index
+    - match: \b(?i:processlist)\b
+      scope: constant.language.mysql
+    - match: \b(?i:engine\s+innodb\s+status)\b
+      scope: constant.language.mysql
+    - match: \b(?i:open\s+tables)\b
+      scope: constant.language.mysql
     - include: else-pop
 
   show-create:
@@ -892,17 +917,37 @@ contexts:
       scope: keyword.other.mysql
       set: expect-table-name
 
+  show-index:
+    - match: \b(?i:index)\b
+      scope: keyword.other.dml.mysql
+      push: drop-index-args
+
   explain-parameters:
     - match: \b(?i:format)\b
       scope: variable.parameter.explain.sql
     - include: assignment-operators-constants
-    - match: \b(?i:into)\b
-      scope: keyword.other.dml.sql
-      push: expect-table-name
+    - include: into
     - match: \b(?i:for\s+schema)\b
       scope: keyword.other.dml.sql
       push: expect-other-name
     - include: else-pop
+
+  into:
+    - match: \b(?i:into\s+outfile)\b
+      scope: keyword.other.dml.sql
+      push:
+        - import-export-file-params
+        - meta-filepath
+        - single-string
+    - match: \b(?i:into)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - include: values
+
+  values:
+    - match: \b(?i:values|row)\b
+      scope: keyword.other.ddl.sql
+      push: maybe-group
 
 ###[ OTHER STATEMENTS ]########################################################
 
@@ -1134,8 +1179,7 @@ contexts:
         - expect-partition-creation-name
         - maybe-partition
     # partition parameters
-    - match: \b(?i:values)\b
-      scope: keyword.other.ddl.sql
+    - include: values
     - match: \b(?i:in|less\s+than)\b
       scope: keyword.operator.logical.sql
       push: maybe-group
@@ -1412,7 +1456,7 @@ contexts:
     - match: \b(?i:table|function|procedure|package)\b
       scope: storage.type.sql
     # wildcard privilege level
-    - match: (\*)(?:(\.)(\*))?
+    - match: (\*)\s*(?:(\.)\s*(\*))?
       scope: meta.other-name.sql
       captures:
         1: constant.other.wildcard.asterisk.sql
@@ -1465,8 +1509,9 @@ contexts:
     - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: 1
+      set: maybe-table-alias
     - include: comma-separators
+    - include: values
     - include: expect-table-references
 
   expect-table-references:

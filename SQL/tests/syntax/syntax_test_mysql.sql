@@ -772,14 +772,17 @@ CREATE PROCEDURE
 BEGIN
 
     DECLARE @var INT = 0;
---  ^^^^^^^ keyword.other.sql
+--  ^^^^^^^ keyword.declaration.mysql
 --          ^^^^ variable.other.sql
+--          ^ punctuation.definition.variable.sql
 --               ^^^ storage.type
 --                   ^ keyword.operator.assignment.sql
 --                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                      ^ punctuation.terminator.statement.sql
 
     DECLARE r ROW (c1 INT, c2 VARCHAR(10));
+--  ^^^^^^^ keyword.declaration.mysql
+--          ^ variable.other.mysql
 --            ^^^ storage.type.sql
 --                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
 --                ^ punctuation.section.group.begin.sql
@@ -4650,6 +4653,19 @@ EXPLAIN ANALYZE FORMAT=TREE SELECT * FROM t3 WHERE pk > 17;
 
 CREATE USER 'read' IDENTIFIED BY 'toor';
 GRANT SELECT ON * . * TO 'read';
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.grant.sql
+-- ^^ keyword.other.authorization.sql
+--    ^^^^^^ constant.language.sql
+--           ^^ keyword.context.sql
+--              ^^^^^ meta.other-name.sql
+--              ^ constant.other.wildcard.asterisk.sql
+--                ^ punctuation.accessor.dot.sql
+--                  ^ constant.other.wildcard.asterisk.sql
+--                    ^^ keyword.context.sql
+--                       ^^^^^^ meta.username.sql
+--                       ^ punctuation.definition.identifier.begin.sql
+--                            ^ punctuation.definition.identifier.end.sql
+--                             ^ punctuation.terminator.statement.sql
 FLUSH PRIVILEGES;
 
 
@@ -4866,8 +4882,24 @@ COMMIT;
 UNLOCK TABLES;
 
 show open tables where in_use>0;
+-- ^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^^^^^ constant.language.mysql
+--               ^^^^^ keyword.other.dml.sql
+--                     ^^^^^^ meta.column-name.sql
+--                           ^ keyword.operator.comparison.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^ punctuation.terminator.statement.sql
 show processlist;
+-- ^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^^^^^ constant.language.mysql
+--              ^ punctuation.terminator.statement.sql
 SHOW ENGINE INNODB STATUS;
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^^^^^^^^^^^^^^^ constant.language.mysql
+--                       ^ punctuation.terminator.statement.sql
 
 CREATE TABLE jokes
   (a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -4919,3 +4951,212 @@ LOAD DATA INFILE 'file.txt'
 --              ^ keyword.operator.comparison.sql
 --                ^^^^^^^^^^^^^^^^^ meta.function-call.sql support.function.scalar.sql
 --                                 ^ punctuation.terminator.statement.sql
+
+CREATE TEMPORARY TABLE temporary_table LIKE target_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table.sql
+--     ^^^^^^^^^
+--               ^^^^^ keyword.other.ddl.sql
+--                     ^^^^^^^^^^^^^^^ entity.name.struct.table.sql
+--                                     ^^^^ keyword.other.sql
+--                                          ^^^^^^^^^^^^ meta.table-name.sql
+--                                                      ^ punctuation.terminator.statement.sql
+
+SHOW INDEX FROM temporary_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^^ meta.index.sql
+--   ^^^^^ keyword.other.dml.mysql
+--         ^^^^ keyword.other.mysql
+--              ^^^^^^^^^^^^^^^ meta.table-name.sql
+--                             ^ punctuation.terminator.statement.sql
+DROP INDEX `PRIMARY` ON temporary_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.index.sql
+--   ^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^ meta.index-name.sql
+--         ^ punctuation.definition.identifier.begin.sql
+--                 ^ punctuation.definition.identifier.end.sql
+--                   ^^ keyword.other.sql
+--                      ^^^^^^^^^^^^^^^ meta.table-name.sql
+--                                     ^ punctuation.terminator.statement.sql
+DROP INDEX `some_other_index` ON temporary_table;
+
+LOAD DATA INFILE 'your_file.csv'
+INTO TABLE temporary_table
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+(field1, field2);
+
+SHOW COLUMNS FROM target_table;
+INSERT INTO target_table
+SELECT * FROM temporary_table
+ON DUPLICATE KEY UPDATE field1 = VALUES(field1), field2 = VALUES(field2);
+
+DROP TEMPORARY TABLE temporary_table;
+
+-- ----------------------
+SELECT a,b,a+b INTO OUTFILE '/tmp/result.txt'
+-- ^^^ keyword.other.dml.sql
+--     ^ meta.column-name.sql
+--      ^ punctuation.separator.sequence.sql
+--       ^ meta.column-name.sql
+--        ^ punctuation.separator.sequence.sql
+--         ^ meta.column-name.sql
+--          ^ keyword.operator.arithmetic.sql
+--           ^ meta.column-name.sql
+--             ^^^^^^^^^^^^ keyword.other.dml.sql
+--                         ^^^^^^^^^^^^^^^^^^ meta.filepath.mysql
+--                          ^^^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                          ^ punctuation.definition.string.begin.sql
+--                                          ^ punctuation.definition.string.end.sql
+  FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+-- ^^^^^ storage.modifier.mysql
+--       ^^^^^^^^^^^^^ keyword.other.dml.mysql
+--                     ^^^ meta.string.sql string.quoted.single.sql
+--                     ^ punctuation.definition.string.begin.sql
+--                       ^ punctuation.definition.string.end.sql
+--                         ^^^^^^^^^^^^^^^^^^^^^^ keyword.other.dml.mysql
+--                                                ^^^ meta.string.sql string.quoted.single.sql
+--                                                ^ punctuation.definition.string.begin.sql
+--                                                  ^ punctuation.definition.string.end.sql
+  LINES TERMINATED BY '\n'
+  FROM test_table;
+-- ^^^ keyword.other.dml.sql
+--     ^^^^^^^^^^ meta.table-name.sql
+--               ^ punctuation.terminator.statement.sql
+
+SELECT * FROM (VALUES ROW(1,2,3),ROW(4,5,6),ROW(7,8,9)) AS t
+-- ^^^ keyword.other.dml.sql
+--     ^ constant.other.wildcard.asterisk.sql
+--       ^^^^ keyword.other.dml.sql
+--            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--            ^ punctuation.section.group.begin.sql
+--             ^^^^^^ keyword.other.ddl.sql
+--                    ^^^ keyword.other.ddl.sql
+--                       ^^^^^^^ meta.group.sql
+--                       ^ punctuation.section.group.begin.sql
+--                        ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                         ^ punctuation.separator.sequence.sql
+--                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                           ^ punctuation.separator.sequence.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^ punctuation.section.group.end.sql
+--                              ^ punctuation.separator.sequence.sql
+--                               ^^^ keyword.other.ddl.sql
+--                                  ^^^^^^^ meta.group.sql
+--                                  ^ punctuation.section.group.begin.sql
+--                                   ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                    ^ punctuation.separator.sequence.sql
+--                                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                      ^ punctuation.separator.sequence.sql
+--                                       ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                        ^ punctuation.section.group.end.sql
+--                                         ^ punctuation.separator.sequence.sql
+--                                          ^^^ keyword.other.ddl.sql
+--                                             ^^^^^^^ meta.group.sql
+--                                             ^ punctuation.section.group.begin.sql
+--                                              ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                               ^ punctuation.separator.sequence.sql
+--                                                ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                 ^ punctuation.separator.sequence.sql
+--                                                  ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                   ^ punctuation.section.group.end.sql
+--                                                    ^ punctuation.section.group.end.sql
+--                                                      ^^ keyword.operator.assignment.alias.sql
+--                                                         ^ meta.alias.table.sql
+    INTO OUTFILE '/tmp/select-values.txt';
+
+TABLE employees ORDER BY lname LIMIT 1000
+-- ^^ keyword.context.mysql
+-- ^^^ - meta.table-name
+--    ^^^^^^^^^ meta.table-name.sql
+--             ^ - meta.table-name
+--              ^^^^^^^^ keyword.other.dml.sql
+--                       ^^^^^ meta.column-name.sql
+--                             ^^^^^ keyword.other.dml.sql
+--                                   ^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+    INTO OUTFILE '/tmp/employee_data_1.txt'
+    FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n';
+--  ^^^^^ storage.modifier.mysql
+--        ^^^^^^^^^^^^^ keyword.other.dml.mysql
+--                      ^^^^ meta.string.sql string.quoted.single.sql
+--                      ^ punctuation.definition.string.begin.sql
+--                       ^^ constant.character.escape.sql
+--                         ^ punctuation.definition.string.end.sql
+--                          ^ punctuation.terminator.statement.sql
+
+SELECT id, data INTO @x, @y FROM test.t1 LIMIT 1;
+
+TABLE employees ORDER BY lname DESC LIMIT 1
+    INTO @id, @fname, @lname, @hired, @separated, @job_code, @store_id;
+
+SELECT * FROM (VALUES ROW(2,4,8)) AS t INTO @x,@y,@z;
+-- ^^^ keyword.other.dml.sql
+--     ^ constant.other.wildcard.asterisk.sql
+--       ^^^^ keyword.other.dml.sql
+--            ^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--            ^ punctuation.section.group.begin.sql
+--             ^^^^^^ keyword.other.ddl.sql
+--                    ^^^ keyword.other.ddl.sql
+--                       ^^^^^^^ meta.group.sql
+--                       ^ punctuation.section.group.begin.sql
+--                        ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                         ^ punctuation.separator.sequence.sql
+--                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                           ^ punctuation.separator.sequence.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^ punctuation.section.group.end.sql
+--                              ^ punctuation.section.group.end.sql
+--                                ^^ keyword.operator.assignment.alias.sql
+--                                   ^ meta.alias.table.sql
+--                                     ^^^^ keyword.other.dml.sql
+--                                          ^^ variable.other.sql
+--                                          ^ punctuation.definition.variable.sql
+--                                            ^ punctuation.separator.sequence.sql
+--                                             ^^ variable.other.sql
+--                                             ^ punctuation.definition.variable.sql
+--                                               ^ punctuation.separator.sequence.sql
+--                                                ^^ variable.other.sql
+--                                                ^ punctuation.definition.variable.sql
+--                                                  ^ punctuation.terminator.statement.sql
+
+SELECT * FROM (VALUES ROW(2,4,8)) AS t(a,b,c) INTO @x,@y,@z;
+-- ^^^ keyword.other.dml.sql
+--     ^ constant.other.wildcard.asterisk.sql
+--       ^^^^ keyword.other.dml.sql
+--            ^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--            ^ punctuation.section.group.begin.sql
+--             ^^^^^^ keyword.other.ddl.sql
+--                    ^^^ keyword.other.ddl.sql
+--                       ^^^^^^^ meta.group.sql
+--                       ^ punctuation.section.group.begin.sql
+--                        ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                         ^ punctuation.separator.sequence.sql
+--                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                           ^ punctuation.separator.sequence.sql
+--                            ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                             ^ punctuation.section.group.end.sql
+--                              ^ punctuation.section.group.end.sql
+--                                ^^ keyword.operator.assignment.alias.sql
+--                                   ^ meta.alias.table.sql
+--                                    ^^^^^^^ meta.group.sql
+--                                    ^ punctuation.section.group.begin.sql
+--                                     ^ meta.column-name.sql
+--                                      ^ punctuation.separator.sequence.sql
+--                                       ^ meta.column-name.sql
+--                                        ^ punctuation.separator.sequence.sql
+--                                         ^ meta.column-name.sql
+--                                          ^ punctuation.section.group.end.sql
+--                                            ^^^^ keyword.other.dml.sql
+--                                                 ^^ variable.other.sql
+--                                                 ^ punctuation.definition.variable.sql
+--                                                   ^ punctuation.separator.sequence.sql
+--                                                    ^^ variable.other.sql
+--                                                    ^ punctuation.definition.variable.sql
+--                                                      ^ punctuation.separator.sequence.sql
+--                                                       ^^ variable.other.sql
+--                                                       ^ punctuation.definition.variable.sql
+--                                                         ^ punctuation.terminator.statement.sql
