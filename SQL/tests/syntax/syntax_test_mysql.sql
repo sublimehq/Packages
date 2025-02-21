@@ -5070,8 +5070,9 @@ SELECT * FROM (VALUES ROW(1,2,3),ROW(4,5,6),ROW(7,8,9)) AS t
 
 TABLE employees ORDER BY lname LIMIT 1000
 -- ^^ keyword.context.mysql
---    ^^^^^^^^^ meta.table-name.sql
 -- ^^^ - meta.table-name
+--    ^^^^^^^^^ meta.table-name.sql
+--             ^ - meta.table-name
 --              ^^^^^^^^ keyword.other.dml.sql
 --                       ^^^^^ meta.column-name.sql
 --                             ^^^^^ keyword.other.dml.sql
