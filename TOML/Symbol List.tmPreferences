@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>entity.name.section</string>
+    <key>settings</key>
+    <dict>
+        <key>showInSymbolList</key>
+        <integer>1</integer>
+        <key>symbolTransformation</key>
+        <string>
+            s/^[ \t]+|[ \t]+$//g;   # trim leading and trailing whitespace
+            s/[ \t]*\.[ \t]*/\./g;  # trim whitespace between name parts
+        </string>
+    </dict>
+</dict>
+</plist>
