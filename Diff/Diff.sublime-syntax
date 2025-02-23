@@ -307,10 +307,11 @@ contexts:
 ###############################################################################
 
 variables:
-  conflict_begin: <{7}
-  conflict_end: '>{7}'
-  conflict_split: ={7}
-  conflict_base: \|{7}
+  conflict_marker_size: '{7}'
+  conflict_begin: <{{conflict_marker_size}}
+  conflict_end: '>{{conflict_marker_size}}'
+  conflict_split: ={{conflict_marker_size}}
+  conflict_base: \|{{conflict_marker_size}}
   conflict_any: |-
     (?x:
       {{conflict_begin}}
