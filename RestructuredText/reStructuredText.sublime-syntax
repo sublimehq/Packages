@@ -196,3 +196,4 @@ contexts:
         - meta_scope: comment.line.double-dot.restructuredtext
         - match: '^(?!\1\s+)(?=\s*\S+)'
           pop: true
+    - include: scope:source.diff#conflict-markers  # merge conflict marker

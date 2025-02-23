@@ -122,6 +122,7 @@ contexts:
         - meta_scope: comment.line.number-sign.ruby
         - match: \n
           pop: true
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   class:
     # Defining a class method
@@ -2151,6 +2152,7 @@ contexts:
     - meta_scope: meta.string.heredoc.ruby
     - meta_content_scope: string.unquoted.heredoc.ruby
     - include: indented-heredoc-end
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
     - include: interpolated-ruby
     - include: escaped-char
 
@@ -2158,11 +2160,13 @@ contexts:
     - meta_scope: meta.string.heredoc.ruby
     - meta_content_scope: string.unquoted.heredoc.ruby
     - include: indented-heredoc-end
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   heredoc-plain-unindented-interpolated:
     - meta_scope: meta.string.heredoc.ruby
     - meta_content_scope: string.unquoted.heredoc.ruby
     - include: unindented-heredoc-end
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
     - include: interpolated-ruby
     - include: escaped-char
 
@@ -2170,6 +2174,7 @@ contexts:
     - meta_scope: meta.string.heredoc.ruby
     - meta_content_scope: string.unquoted.heredoc.ruby
     - include: unindented-heredoc-end
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   heredoc-shell:
     - match: (<<[-~])(["`]?)({{heredoc_type_shell}})(["`]?)

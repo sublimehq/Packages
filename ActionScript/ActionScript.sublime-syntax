@@ -36,6 +36,7 @@ contexts:
   comments:
     - include: line-comments
     - include: block-comments
+    - include: scope:source.diff#conflict-markers
 
 ###[ COMMENTS / LINE COMMENTS ]################################################
 

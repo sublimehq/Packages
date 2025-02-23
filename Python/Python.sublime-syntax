@@ -376,6 +376,7 @@ contexts:
       push:
         - comment-body
         - type-hint
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
@@ -4165,7 +4166,8 @@ contexts:
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string
-  string-prototype: []
+  string-prototype:
+    - include: scope:source.diff#conflict-markers
 
 ###[ PROTOTYPES ]#############################################################
 

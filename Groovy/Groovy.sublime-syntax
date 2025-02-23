@@ -54,6 +54,9 @@ contexts:
         1: keyword.other.import.groovy
         2: storage.type.import.groovy
     - include: groovy
+
+
+
   class-object:
     - match: |-
         (?x)
@@ -114,6 +117,7 @@ contexts:
     - match: //
       scope: punctuation.definition.comment.groovy
       push: inside-line-comment
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
   inside-line-comment:
     - meta_scope: comment.line.double-slash.groovy
     - match: $\n?

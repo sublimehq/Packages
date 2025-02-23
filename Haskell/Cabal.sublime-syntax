@@ -82,6 +82,7 @@ contexts:
       scope: comment.line.double-dash.cabal
       captures:
         1: punctuation.definition.comment.cabal
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
 ###[ SECTIONS ]################################################################
 

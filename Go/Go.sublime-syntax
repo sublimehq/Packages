@@ -181,6 +181,7 @@ contexts:
     - include: match-comment-magic
     - include: match-comment-line
     - include: match-comment-general
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   match-comment-magic:
     - include: match-comment-magic-general

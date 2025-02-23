@@ -96,7 +96,8 @@ contexts:
           pop: true
         - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
           scope: comment.block.string.constant.character.escape.ocaml
-  match-patterns:
+    - include: scope:source.diff#conflict-markers  # merge conflict marker  match-patterns:
+  declaration-matches:
     - match: (\()
       captures:
         1: punctuation.definition.sub-pattern.begin.ocamllex

@@ -97,6 +97,7 @@ contexts:
   prototype:
     - include: comments
     - include: block-comments
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   main:
     - include: main-pre-lambdas

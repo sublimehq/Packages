@@ -195,6 +195,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.d
     - include: nested-comment
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
   nested-comment:
     - match: /\+(\+(?!/))?
       scope: punctuation.definition.comment.d

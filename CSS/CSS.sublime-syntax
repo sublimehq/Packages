@@ -387,6 +387,7 @@ contexts:
     - match: /\*+
       scope: punctuation.definition.comment.begin.css
       push: block-comment-body
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   block-comment-body:
     - meta_scope: comment.block.css
@@ -396,6 +397,7 @@ contexts:
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.css
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
 ###[ AT RULES ]################################################################
 
@@ -1323,9 +1325,11 @@ contexts:
       set: attribute-selector-unquoted-value-content
 
   attribute-selector-unquoted-value-content:
+    - meta_include_prototype: false
     - meta_scope: meta.string.css string.unquoted.css
     - match: (?=[\s\]])
       pop: 1
+    - include: string-content
 
   attribute-selector-flag:
     - match: \b[iI]{{break}}

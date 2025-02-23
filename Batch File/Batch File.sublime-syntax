@@ -173,6 +173,7 @@ contexts:
     - match: '{{label_comment}}'
       scope: punctuation.definition.comment.dosbatch
       push: comment-body
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   comment-body:
     - meta_scope: comment.line.colon.dosbatch

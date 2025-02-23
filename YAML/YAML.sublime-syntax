@@ -304,6 +304,7 @@ contexts:
         (?: ^ [ \t]* | [ \t]+ )
         (?=\#)
       push: comment-begin
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   comment-begin:
     - meta_include_prototype: false

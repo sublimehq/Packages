@@ -21,6 +21,22 @@ This is not a comment
  These are still part of the comment if they're indented.
 .. <- comment.line.double-dot.restructuredtext
 
+
+<<<<<<< HEAD
+.. <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+..^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+..     ^ meta.block.conflict.begin.diff - entity - punctuation
+..      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+..          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+>>>>>>> master
+.. <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+..^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+..     ^ meta.block.conflict.end.diff - entity - punctuation
+..      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+..            ^ meta.block.conflict.end.diff - entity - punctuation
+
+
 Some text
 .. <- meta.paragraph.restructuredtext
 

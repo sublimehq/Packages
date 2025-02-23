@@ -543,6 +543,8 @@ contexts:
             0: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
+
   comments.nested:
     - match: \(\*
       captures:
@@ -554,6 +556,8 @@ contexts:
             0: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
+
   data-structures:
     - match: '(\{)'
       comment: We cannot necessarily distinguish "records" from "arrays", and so this could be either.

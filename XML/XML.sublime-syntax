@@ -144,6 +144,8 @@ variables:
 ##############################################################################
 
 contexts:
+  prototype:
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   main:
     - include: preprocessor
@@ -175,6 +177,7 @@ contexts:
     - match: ']]>'
       scope: punctuation.definition.tag.end.xml
       pop: 1
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
 ###[ COMMENT ]################################################################
 
@@ -191,6 +194,7 @@ contexts:
       pop: 1
     - match: -{2,}
       scope: invalid.illegal.double-hyphen-within-comment.xml
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
 ###[ DOCTYPE DECLARATION ]####################################################
 
@@ -719,6 +723,7 @@ contexts:
     - include: string-common-content
 
   string-common-content:
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
     - include: tag-end-missing-pop
     - include: entity
     - include: should-be-entity
