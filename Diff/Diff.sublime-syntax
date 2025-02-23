@@ -244,24 +244,24 @@ contexts:
 
   # Utility context for other files to use
   conflict-markers:
-    - match: '{{bol}}({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_begin}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.begin.diff
       captures:
         1: punctuation.section.block.begin.diff
         2: entity.name.section.diff
-    - match: '{{bol}}({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_end}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.end.diff
       captures:
         1: punctuation.section.block.end.diff
         2: entity.name.section.diff
-    - match: '{{bol}}({{conflict_base}}|{{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_base}}|{{conflict_split}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
   conflicts:
-    - match: '{{bol}}({{conflict_begin}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_begin}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.begin.diff
       captures:
         1: punctuation.section.block.begin.diff
@@ -270,7 +270,7 @@ contexts:
 
   conflict-deleted-lines:
     - meta_content_scope: meta.block.conflict.diff markup.deleted.diff
-    - match: '{{bol}}({{conflict_base}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_base}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
@@ -280,7 +280,7 @@ contexts:
 
   conflict-base-lines:
     - meta_content_scope: meta.block.conflict.diff comment.block.diff
-    - match: '{{bol}}({{conflict_split}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_split}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.separator.diff
       captures:
         1: punctuation.section.block.diff
@@ -290,7 +290,7 @@ contexts:
 
   conflict-new-lines:
     - meta_content_scope: meta.block.conflict.diff markup.inserted.diff
-    - match: '{{bol}}({{conflict_end}})(?:\s*({{conflict_identifier}}))?{{eol}}'
+    - match: '{{bol}}({{conflict_end}})(?:\s+({{conflict_identifier}}))?{{eol}}'
       scope: meta.block.conflict.end.diff
       captures:
         1: punctuation.section.block.end.diff
@@ -307,10 +307,10 @@ contexts:
 ###############################################################################
 
 variables:
-  conflict_begin: <{5,}
-  conflict_end: '>{5,}'
-  conflict_split: ={5,}
-  conflict_base: \|{5,}
+  conflict_begin: <{7}
+  conflict_end: '>{7}'
+  conflict_split: ={7}
+  conflict_base: \|{7}
   conflict_any: |-
     (?x:
       {{conflict_begin}}
