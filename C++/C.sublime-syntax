@@ -451,10 +451,11 @@ contexts:
   dot-access:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.member.c
-      set:
-        - match: \(
-          fail: dot-access
-        - include: else-pop
+      set: dot-access.body
+  dot-access.body:
+    - match: \(
+      fail: dot-access
+    - include: else-pop
 
 ###[ BASIC OBJECTS ]############################################################
 
@@ -509,6 +510,7 @@ contexts:
       scope: constant.other.placeholder.c
 
   operator:
+    - include: operator.variadic
     - include: operator.accessor
     - include: operator.assignment
     - include: operator.arithmetic
@@ -517,7 +519,6 @@ contexts:
     - include: operator.comparison
     - include: operator.word
     - include: operator.ternary
-    - include: operator.variadic
     - include: operator.increment-decrement
   operator.assignment:
     - match: =

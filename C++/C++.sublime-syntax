@@ -104,6 +104,14 @@ contexts:
     - match: ':'
       scope: punctuation.separator.initializer-list.begin.c++
       push: constructor.initializer-list
+    - match: \-\>
+      scope: keyword.operator.arrow.c++
+      push: function.tail.return
+  function.tail.return:
+    - meta_scope: meta.function.return-type.c++
+    - match: (?={)
+      pop: 1
+    - include: expression
   constructor.initializer-list:
     - meta_scope: meta.method.constructor.initializer-list.c++
     - match: \b{{identifier}}\b
@@ -154,6 +162,7 @@ contexts:
     - meta_prepend: true
     - include: template
     - include: module
+    - include: type
     - match: \+\s*(\[)
       captures:
         1: punctuation.section.brackets.begin.c++
@@ -166,6 +175,9 @@ contexts:
     - match: \b(import)\s*(?=<)
       scope: keyword.other.import.c++
       push: string.angled
+    - match: \bimport\b
+      scope: keyword.other.import.c++
+      push: module.name
   module.name:
     - meta_content_scope: entity.name.module.c++
     - match: '{{identifier}}'
@@ -186,7 +198,7 @@ contexts:
     - match: \busing\b
       scope: keyword.declaration.c++
       push: type.using
-    - match: \bclass\b
+    - match: \b(class|struct)\b
       scope: keyword.declaration.c++
       push: class
     - match: \btemplate\b
@@ -201,7 +213,7 @@ contexts:
         - include: else-pop
     - match: \{
       scope: punctuation.section.block.begin.c++
-      push: [pop-twice, enclosure.block]
+      push: [pop-twice, enclosure.outer-block]
     - match: =
       scope: keyword.operator.assignment.c++
       pop: 1
@@ -275,22 +287,36 @@ contexts:
         1: punctuation.section.brackets.end.c++
         2: punctuation.section.group.begin.c++
       set: [lambda.try-not, enclosure.parenthesis]
-
+  enclosure.outer-block:
+    - meta_scope: meta.block.c++
+    - match: \}
+      scope: punctuation.section.block.end.c++
+      pop: 1
+    - include: main
   lambda.try-not:
     - include: expression-identifiers
+    - match: \-\>
+      fail: lambda
     - match: \{
       fail: lambda
     - include: else-pop
   lambda:
     - meta_scope: meta.lambda.c++
-    - match: ""
-      set: [function.params, lambda.template, lambda.captures]
+    - match: '[&=](?=\s*[,\]])'
+      scope: storage.modifier.capture.c++
+    - match: (?=\S)
+      set: [function.tail, function.params, lambda.template, lambda.captures]
   lambda.captures:
     - match: '{{identifier}}'
       scope: entity.other.lambda-capture.c++ variable.parameter.c++
     - match: \]
       scope: punctuation.section.brackets.end.c++
       pop: 1
+    - match: (?=\=)
+      push:
+        - match: (?=[,\]])
+          pop: 1
+        - include: expression
     - include: expression
   lambda.template:
     - match: (?=\<)
@@ -359,9 +385,9 @@ contexts:
     - include: else-pop
   class.body:
     - meta_scope: meta.block.c++ meta.class.c++
-    - include: function
-    - include: expression
-    - include: enclosure.block
+    #- include: function
+    #- include: expression
+    - include: enclosure.outer-block
 
   qualified-ident:
     - match: \btypename\b
@@ -407,6 +433,11 @@ contexts:
       captures:
         1: entity.name.label.c++
         2: punctuation.separator.c++
+
+  dot-access.body:
+    - meta_prepend: true
+    - match: \<
+      fail: dot-access
 
   keyword:
     - meta_append: true
