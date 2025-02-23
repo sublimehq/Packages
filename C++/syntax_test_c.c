@@ -260,10 +260,11 @@
 //                                                                              ^ punctuation.section.group.begin 
 //                                                                                ^ punctuation.section.group.end 
     a,b = b.c;
-//   ^ punctuation.separator.c 
-//      ^ keyword.operator.assignment.c 
-//         ^ punctuation.accessor.c 
-//           ^ punctuation.terminator.c 
+//   ^ punctuation.separator.c
+//      ^ keyword.operator.assignment.c
+//         ^ punctuation.accessor.dot.c++
+//          ^ variable.other.readwrite.member.c
+//           ^ punctuation.terminator.c
 
 /////////////////////////////////////////////
 // Strings
@@ -877,12 +878,14 @@
 //      ^^^^^ keyword.declaration.union.c 
 //                     ^ punctuation.terminator.c 
         myunion.s2.f = 20;
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c 
-//             ^ punctuation.accessor.c 
-//                ^ punctuation.accessor.c 
-//                   ^ keyword.operator.assignment.c 
-//                     ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                       ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//             ^ punctuation.accessor.dot.c++
+//              ^^ variable.other.readwrite.member.c
+//                ^ punctuation.accessor.dot.c++
+//                 ^ variable.other.readwrite.member.c
+//                   ^ keyword.operator.assignment.c
+//                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//                       ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c 
 //  ^ punctuation.section.block.end.c 

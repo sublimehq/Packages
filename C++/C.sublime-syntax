@@ -448,6 +448,14 @@ contexts:
         1: entity.name.label.c
         2: punctuation.separator.c
 
+  dot-access:
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.member.c
+      set:
+        - match: \(
+          fail: dot-access
+        - include: else-pop
+
 ###[ BASIC OBJECTS ]############################################################
 
   string:
@@ -541,6 +549,10 @@ contexts:
     - match: \+\+|--
       scope: keyword.operator.arithmetic.c
   operator.accessor:
+    - match: (\.|\-\>)(?=\s*{{identifier}})
+      scope: punctuation.accessor.dot.c++
+      branch_point: dot-access
+      branch: [dot-access, pop-immediately]
     - match: \.|\-\>
       scope: punctuation.accessor.c
   operator.pointer:

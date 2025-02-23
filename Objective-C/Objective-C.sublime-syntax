@@ -151,8 +151,6 @@ contexts:
         1: keyword.control.exception.objc
         2: punctuation.section.group.begin.objc
       push: function.params
-    - match: (?=\b(self)\s*(\.))
-      push: self-access
     - include: protocol-list
 
   block-fn:
@@ -170,16 +168,6 @@ contexts:
       set: enclosure.block
     - match: (?=\S)
       fail: block-fn
-
-  self-access:
-    - match: \b(self)\b
-      captures:
-        1: variable.language.objc
-    - match: \s*(\.)\s*({{identifier}})
-      captures:
-        1: keyword.operator.accessor.objc
-        2: variable.other.readwrite.member.objc
-    - include: pop-immediately
 
   preprocessor:
     - meta_prepend: true
@@ -313,8 +301,6 @@ contexts:
   message:
     - meta_scope: meta.bracketed.objc
 
-    - match: (?=\b(self)\s*(\.))
-      push: self-access
     - include: type
     - include: keyword
     - include: constant

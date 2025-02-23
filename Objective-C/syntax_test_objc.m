@@ -260,10 +260,11 @@
 //                                                                              ^ punctuation.section.group.begin 
 //                                                                                ^ punctuation.section.group.end 
     a,b = b.c;
-//   ^ punctuation.separator.c 
-//      ^ keyword.operator.assignment.c 
-//         ^ punctuation.accessor.c 
-//           ^ punctuation.terminator.c 
+//   ^ punctuation.separator.c
+//      ^ keyword.operator.assignment.c
+//         ^ punctuation.accessor.dot.c++
+//          ^ variable.other.readwrite.member.c
+//           ^ punctuation.terminator.c
 
 /////////////////////////////////////////////
 // Strings
@@ -877,12 +878,14 @@
 //      ^^^^^ keyword.declaration.union.c 
 //                     ^ punctuation.terminator.c 
         myunion.s2.f = 20;
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c 
-//             ^ punctuation.accessor.c 
-//                ^ punctuation.accessor.c 
-//                   ^ keyword.operator.assignment.c 
-//                     ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                       ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//             ^ punctuation.accessor.dot.c++
+//              ^^ variable.other.readwrite.member.c
+//                ^ punctuation.accessor.dot.c++
+//                 ^ variable.other.readwrite.member.c
+//                   ^ keyword.operator.assignment.c
+//                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//                       ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c 
 //  ^ punctuation.section.block.end.c 
@@ -1561,26 +1564,26 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
     return [NSClassFromString([NSString stringWithUTF8String:self.j.UTF8String]) someSelector:^(__contravariant NSObject* a, __covariant int const* b) {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.scope.implementation.objc meta.block.c
 //  ^^^^^^ keyword.control.flow.return.c
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.bracketed.objc
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.bracketed.objc
 //         ^ punctuation.section.brackets.begin
 //          ^^^^^^^^^^^^^^^^^ support.function.cocoa.objc
 //                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c
 //                           ^ punctuation.section.group.begin
-//                            ^^^^^^^^^^ meta.bracketed.objc
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.bracketed.objc
 //                            ^ punctuation.section.brackets.begin
 //                             ^^^^^^^^ support.class.cocoa.objc
 //                                      ^^^^^^^^^^^^^^^^^^^^ entity.name.function.method.objc
 //                                                          ^ punctuation.separator.arguments.objc
 //                                                           ^^^^ variable.language.objc
-//                                                               ^ keyword.operator.accessor.objc
-//                                                                ^ variable.other.readwrite.member.objc
-//                                                                 ^ keyword.operator.accessor.objc
-//                                                                  ^^^^^^^^^^ variable.other.readwrite.member.objc
+//                                                               ^ punctuation.accessor.dot.c++
+//                                                                ^ variable.other.readwrite.member.c
+//                                                                 ^ punctuation.accessor.dot.c++
+//                                                                  ^^^^^^^^^^ variable.other.readwrite.member.c
 //                                                                            ^ punctuation.section.brackets.end.objc
 //                                                                             ^ punctuation.section.group.end
 //                                                                               ^^^^^^^^^^^^ entity.name.function.method.objc
 //                                                                                           ^ punctuation.separator.arguments.objc
-//                                                                                            ^ keyword.operator.bitwise.objc
+//                                                                                            ^ meta.function.block.objc keyword.operator.bitwise.objc
 //                                                                                             ^ punctuation.section.group.begin.objc
 //                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.c meta.group.c
 //                                                                                              ^^^^^^^^^^^^^^^ storage.modifier.objc
