@@ -318,9 +318,7 @@ contexts:
       captures:
         1: entity.name.type.typedef.c
       pop: 1
-    - match: ; # Fallback
-      pop: 1
-    - match: (?=\)) # Macro fallback
+    - match: (?=\)|;) # Fallback
       pop: 1
     - include: expression
   type.enum:
