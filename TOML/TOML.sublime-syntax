@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # https://toml.io/en/
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 name: TOML
 scope: source.toml
 version: 2
