@@ -75,9 +75,10 @@ contexts:
   property:
     - match: \(
       scope: punctuation.section.group.begin.objc
-      push: property.attrs
+      set: property.attrs
     - include: else-pop
   property.attrs:
+    - meta_scope: meta.group.objc
     - match: \)
       scope: punctuation.section.group.end.objc
       pop: 1
@@ -128,14 +129,15 @@ contexts:
   protocol-list:
     - match: \<(?=({{identifier}}|,|\s|\*)*\>)
       scope: punctuation.section.scope.begin.objc
-      push:
-        - include: expression-identifiers
-        - include: punctuation.comma
-        - include: operator.pointer
-        - meta_scope: meta.protocol-list.objc
-        - match: \>
-          scope: punctuation.section.scope.end.objc
-          pop: 1
+      push: protocol-list.body
+  protocol-list.body:
+    - meta_scope: meta.protocol-list.objc
+    - include: expression-identifiers
+    - include: punctuation.comma
+    - include: operator.pointer
+    - match: \>
+      scope: punctuation.section.scope.end.objc
+      pop: 1
 
   expression:
     - meta_prepend: true
@@ -154,9 +156,15 @@ contexts:
     - include: protocol-list
 
   block-fn:
+    - meta_scope: meta.function.block.objc
+    - match: ''
+      set: [block-fn.body, block-fn.params]
+  block-fn.params:
     - match: \(
       scope: punctuation.section.group.begin.objc
-      push: function.params
+      set: function.params
+    - include: else-pop
+  block-fn.body:
     - match: \{
       scope: punctuation.section.block.begin.objc
       set: enclosure.block
@@ -194,7 +202,7 @@ contexts:
       scope: constant.other.placeholder.objc
 
   available:
-    - match: \b(iOS|macOS|watchOS|tvOS|visionOS)\b
+    - match: \b(?:iOS|macOS|watchOS|tvOS|visionOS)\b
       scope: support.constant.platform.objc
     - match: \b(\d[\d\.]+)\b
       captures:
@@ -210,36 +218,36 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.objc
       pop: 1
-    - match: .
+    - match: '[^)]+'
       scope: support.function.objc
 
   keyword:
     - meta_prepend: true
-    - match: \b(self|super)\b
+    - match: \b(?:self|super)\b
       scope: variable.language.objc
-    - match: \@(property|synthesize|dynamic)\b
+    - match: \@(?:property|synthesize|dynamic)\b
       scope: keyword.other.objc
-    - match: '(@available)\b(\()'
+    - match: '(@available)\s*(\()'
       captures:
         1: keyword.operator.word.objc
         2: punctuation.section.group.begin.objc
       push: available
-    - match: '(@selector)\b(\()'
+    - match: '(@selector)\s*(\()'
       captures:
         1: keyword.operator.word.objc
         2: punctuation.section.group.begin.objc
       push: selector-obj
-    - match: '@(selector|encode|available)'
+    - match: '@(?:selector|encode|available)'
       scope: keyword.operator.word.objc
   keyword.control:
     - meta_prepend: true
-    - match: \@(autoreleasepool|import|synchronized)\b
+    - match: \@(?:autoreleasepool|import|synchronized)\b
       scope: keyword.control.objc
-    - match: \@(try|catch|finally|throw)\b
+    - match: \@(?:try|catch|finally|throw)\b
       scope: keyword.control.exception.objc
   keyword.storage:
     - meta_prepend: true
-    - match: \b(nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(unused|nonnull|block|weak|strong|autoreleasing|bridge|covariant|contravariant))\b
+    - match: \b(?:nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(?:unused|nonnull|block|weak|strong|autoreleasing|bridge|covariant|contravariant))\b
       scope: storage.modifier.objc
     - match: \@(private|public|protected|package|optional|required)\b
       scope: storage.modifier.objc
@@ -249,7 +257,7 @@ contexts:
       scope: storage.type.objc
     - match: \@(?:interface|class|implementation|protocol|end)\b
       scope: keyword.declaration.objc
-    - match: '(?=\bNS\w+\b)'
+    - match: '(?=\bNS)'
       push: ns-identifiers
 
   gnu-attribute:
