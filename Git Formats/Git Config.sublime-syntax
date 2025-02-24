@@ -17,7 +17,7 @@ hidden_file_extensions:
 first_line_match: ^\[core\]  # .git/config files always start with [core]
 
 variables:
-  variable_name: '[a-zA-Z][\w-]*'
+  key_name: '[a-zA-Z][\w-]*'
   zero_to_255: 25[0-5]|2[0-4][0-9]|1\d\d|[1-9][0-9]|[0-9]
 
 contexts:
@@ -115,10 +115,10 @@ contexts:
   # changed = red
   # untracked = bold green
   key-color-pair:
-    - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
+    - match: ^(\s*)({{key_name}})(\s*(=)\s*)
       captures:
         1: meta.mapping.git.config
-        2: meta.mapping.key.git.config variable.other.readwrite.git.config
+        2: meta.mapping.key.git.config string.unquoted.git.config
         3: meta.mapping.git.config
         4: punctuation.separator.key-value.git.config
       push:
@@ -129,10 +129,10 @@ contexts:
 
   # key = val
   key-value-pair:
-    - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
+    - match: ^(\s*)({{key_name}})(\s*(=)\s*)
       captures:
         1: meta.mapping.git.config
-        2: meta.mapping.key.git.config variable.other.readwrite.git.config
+        2: meta.mapping.key.git.config string.unquoted.git.config
         3: meta.mapping.git.config
         4: punctuation.separator.key-value.git.config
       push:
