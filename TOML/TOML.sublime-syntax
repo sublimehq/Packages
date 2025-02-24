@@ -85,7 +85,7 @@ contexts:
 
   table-key-body:
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: (?={{ws}}(?:$|[#=]))
+    - match: $|(?={{ws}}[=#])
       pop: 1
     - include: name-content
 
@@ -163,6 +163,8 @@ contexts:
     - match: \]
       scope: punctuation.section.sequence.end.toml
       pop: 2
+    - match: (?=\})
+      pop: 2
     - match: ','
       scope: punctuation.separator.sequence.toml
     - include: comments
@@ -181,6 +183,8 @@ contexts:
     - match: \}
       scope: punctuation.section.mapping.end.toml
       pop: 2
+    - match: (?=\])
+      pop: 2
     - match: ','
       scope: punctuation.separator.sequence.toml
     - match: '='
@@ -195,7 +199,7 @@ contexts:
   inline-table-key-body:
     - clear_scopes: 1
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: (?={{ws}}[#=}])
+    - match: (?={{ws}}[=#\]\}])
       pop: 1
     - include: name-content
 

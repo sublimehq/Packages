@@ -218,6 +218,12 @@ array = [ true#comment ]
 ]
 # <- meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
 
+array = { [ }  # handle incomplete arrays
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^ meta.mapping.value.toml meta.mapping.toml - meta.sequence
+#            ^ - meta.mapping
+
 ### [ INLINE TABLES ]##########################################################
 
 table = {}
@@ -375,6 +381,46 @@ key = { key#comment }
 #          ^ punctuation.definition.comment.toml
 }
 # <- meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
+
+table = { [ { ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#              ^^ meta.mapping.value.toml meta.mapping.toml
+#                ^ - meta.mapping
+
+table = { [ { key ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.key.toml
+#                ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                 ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#                  ^^ meta.mapping.value.toml meta.mapping.toml
+#                    ^ - meta.mapping
+
+table = { [ { key = ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.key.toml
+#                ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                   ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#                    ^^ meta.mapping.value.toml meta.mapping.toml
+#                      ^ - meta.mapping
+
+table = { [ { key = 'value' ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.key.toml
+#                ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                   ^^^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.value.toml meta.string.toml
+#                          ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                           ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#                            ^^ meta.mapping.value.toml meta.mapping.toml
+#                              ^ - meta.mapping
 
 ### [ BOOLEANS ]###############################################################
 
