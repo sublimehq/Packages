@@ -96,6 +96,7 @@ contexts:
           pop: true
         - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
           scope: comment.block.string.constant.character.escape.ocaml
+        - include: scope:source.diff#conflict-markers  # merge conflict marker  match-patterns:
     - include: scope:source.diff#conflict-markers  # merge conflict marker  match-patterns:
   declaration-matches:
     - match: (\()
@@ -153,3 +154,4 @@ contexts:
           scope: constant.character.regexp.escape.ocaml
         - match: '\\(?!(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]|[\|\(\)1-9$^.*+?\[\]]|$[ \t]*))(?:.)'
           scope: invalid.illegal.character.string.escape
+        - include: scope:source.diff#conflict-markers  # merge conflict marker  match-patterns:
