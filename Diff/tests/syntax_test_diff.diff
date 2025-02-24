@@ -452,7 +452,7 @@ lines from B
 <
 \ <- meta.block.conflict.diff markup.inserted.diff - punctuation - invalid
 |||||
-\^^^^ meta.block.conflict.diff markup.inserted.diff invalid.illegal.conflict.diff
+\^^^^ meta.block.conflict.diff markup.inserted.diff - punctuation.section
 lines from C
 \^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff
 >>>>>>> C
@@ -580,6 +580,63 @@ hello()
 \^^^^^^ punctuation.section.block.end.diff
 \       ^^^^^^^^^ entity.name.section.diff
 
+\ illegal separators due to positions \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<<<<<<< theirs
+>>>>>>> ours
+\ <- meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+======= 
+\ <- meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+=======a
+\ <- meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+=======
+\ <- meta.block.conflict.separator.diff punctuation.section.block.diff
+\^^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+=======
+\ <- meta.block.conflict.diff markup.inserted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.inserted.diff invalid.illegal.conflict.diff
+>>>>>>> ours
+\<- meta.block.conflict.end.diff punctuation.section.block.end.diff
+\^^^^^^^^^^^^ meta.block.conflict.end.diff
+
+\ not a conflict marker \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<<<<<<<deleted
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^ markup.deleted.diff
+
+>>>>>>>added
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^ markup.inserted.diff
+
+<<<<<< deleted
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^ markup.deleted.diff
+
+|||||
+\ <- - meta.block.conflict - punctuation
+\^^^^ - meta.block.conflict - punctuation
+
+>>>>>> added
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^ markup.inserted.diff
+
+<<<<<<<< deleted
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^^^ markup.deleted.diff
+
+|||||||||
+\ <- - meta.block.conflict - punctuation
+\^^^^^^^^ - meta.block.conflict - punctuation
+
+>>>>>>>> added
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^^^ markup.inserted.diff
+
+\ side-by-side diffs \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 \ https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Side-by-Side
 The Way that can be told of is n   <
