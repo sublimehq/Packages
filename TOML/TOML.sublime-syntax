@@ -19,7 +19,7 @@ file_extensions:
 contexts:
   main:
     - include: comments
-    - include: sections
+    - include: table-headers
     - include: keys
     - include: values
 
@@ -36,39 +36,39 @@ contexts:
     - match: $\n?
       pop: 1
 
-###[ SECTIONS ]################################################################
+###[ TABLES ]##################################################################
 
-  sections:
+  table-headers:
     # https://toml.io/en/v1.0.0#array-of-tables
     - match: '{{ws}}(\[\[)'
       scope: meta.section.toml
       captures:
         1: meta.brackets.toml punctuation.section.brackets.begin.toml
-      push: array-section-body
+      push: array-table-header-body
     # https://toml.io/en/v1.0.0#table
     - match: '{{ws}}(\[)'
       scope: meta.section.toml
       captures:
         1: meta.brackets.toml punctuation.section.brackets.begin.toml
-      push: table-section-body
+      push: table-header-body
 
-  array-section-body:
+  array-table-header-body:
     - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
     - match: \]\]
       scope: meta.brackets.toml punctuation.section.brackets.end.toml
-      set: section-end
+      set: table-header-end
     - include: name-content
     - include: illegal-eol-pop
 
-  table-section-body:
+  table-header-body:
     - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
     - match: \]
       scope: meta.brackets.toml punctuation.section.brackets.end.toml
-      set: section-end
+      set: table-header-end
     - include: name-content
     - include: illegal-eol-pop
 
-  section-end:
+  table-header-end:
     # scope whole line to improve UX with background color applied
     - meta_scope: meta.section.toml
     - match: $\n?
