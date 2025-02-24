@@ -20,7 +20,7 @@ contexts:
   main:
     - include: comments
     - include: table-headers
-    - include: keys
+    - include: table-keys
     - include: table-values
 
 ###[ COMMENTS ]################################################################
@@ -78,12 +78,12 @@ contexts:
 
 ###[ KEYS ]####################################################################
 
-  keys:
+  table-keys:
     # https://toml.io/en/v1.0.0#keys
     - match: '{{key_begin}}'
-      push: key-body
+      push: table-key-body
 
-  key-body:
+  table-key-body:
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
     - match: (?={{ws}}(?:$|[#=]))
       pop: 1
