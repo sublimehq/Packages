@@ -40,29 +40,41 @@ contexts:
 
   sections:
     # https://toml.io/en/v1.0.0#array-of-tables
-    - match: \[\[
-      scope: meta.section.toml punctuation.definition.section.begin.toml
-      push: array-section-name-body
+    - match: '{{ws}}(\[\[)'
+      scope: meta.section.toml
+      captures:
+        1: meta.brackets.toml punctuation.section.brackets.begin.toml
+      push: array-section-body
     # https://toml.io/en/v1.0.0#table
-    - match: \[
-      scope: meta.section.toml punctuation.definition.section.begin.toml
-      push: single-section-name-body
+    - match: '{{ws}}(\[)'
+      scope: meta.section.toml
+      captures:
+        1: meta.brackets.toml punctuation.section.brackets.begin.toml
+      push: table-section-body
 
-  array-section-name-body:
-    - meta_content_scope: meta.section.toml entity.name.section.toml
+  array-section-body:
+    - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
     - match: \]\]
-      scope: meta.section.toml punctuation.definition.section.end.toml
-      set: expect-eol
+      scope: meta.brackets.toml punctuation.section.brackets.end.toml
+      set: section-end
     - include: name-content
     - include: illegal-eol-pop
 
-  single-section-name-body:
-    - meta_content_scope: meta.section.toml entity.name.section.toml
+  table-section-body:
+    - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
     - match: \]
-      scope: meta.section.toml punctuation.definition.section.end.toml
-      set: expect-eol
+      scope: meta.brackets.toml punctuation.section.brackets.end.toml
+      set: section-end
     - include: name-content
     - include: illegal-eol-pop
+
+  section-end:
+    # scope whole line to improve UX with background color applied
+    - meta_scope: meta.section.toml
+    - match: $\n?
+      pop: 1
+    - include: comments
+    - include: illegal-tokens
 
 ###[ KEYS ]####################################################################
 
@@ -73,7 +85,7 @@ contexts:
 
   key-body:
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: (?=[ \t]*(?:$|[#=]))
+    - match: (?={{ws}}(?:$|[#=]))
       pop: 1
     - include: name-content
 
@@ -110,7 +122,7 @@ contexts:
 ###[ VALUES ]##################################################################
 
   values:
-    - match: '[ \t]*(=)[ \t]*'
+    - match: '{{ws}}(=){{ws}}'
       scope: meta.mapping.toml
       captures:
          1: punctuation.separator.key-value.toml
@@ -183,7 +195,7 @@ contexts:
   mapping-key-body:
     - clear_scopes: 1
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: (?=[ \t]*[#=}])
+    - match: (?={{ws}}[#=}])
       pop: 1
     - include: name-content
 
@@ -348,22 +360,27 @@ contexts:
       pop: 1
 
   eol-pop:
-    - match: $|(?=[ \t]*#)
+    - match: $|(?={{ws}}#)
       pop: 1
 
   expect-eol:
     - include: eol-pop
-    - match: '[^#\s]+'
-      scope: invalid.illegal.unexpected-token.toml
+    - include: illegal-tokens
 
   illegal-eol-pop:
     - match: $\n?
       scope: invalid.illegal.unexpected-eol.toml
       pop: 1
 
+  illegal-tokens:
+    - match: '[^#\s]+'
+      scope: invalid.illegal.unexpected-token.toml
+
 ###############################################################################
 
 variables:
+  ws: '[ \t]*'
+
   # maybe quoted identifiers
   key_begin: (?=["'0-9A-Za-z_-])
 

@@ -3,55 +3,62 @@
 ### [ TABLES ]#################################################################
 
 [table-name] illegal # comment
-# <- meta.section.toml punctuation.definition.section.begin.toml
-#^^^^^^^^^^^ meta.section.toml
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml
+#^^^^^^^^^^^ meta.brackets.toml
 #^^^^^^^^^^ entity.name.section.toml
-#          ^ punctuation.definition.section.end.toml
+#          ^ punctuation.section.brackets.end.toml
 #           ^ - invalid
 #            ^^^^^^^ invalid.illegal.unexpected-token.toml
 #                    ^^^^^^^^^ comment.line.number-sign.toml
 #                    ^ punctuation.definition.comment.toml
 
 [table.name] illegal # comment
-# <- meta.section.toml punctuation.definition.section.begin.toml
-#^^^^^^^^^^^ meta.section.toml
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml
+#^^^^^^^^^^^ meta.brackets.toml
 #^^^^^^^^^^ entity.name.section.toml
 #     ^ punctuation.accessor.toml
-#          ^ punctuation.definition.section.end.toml
+#          ^ punctuation.section.brackets.end.toml
 #           ^ - invalid
 #            ^^^^^^^ invalid.illegal.unexpected-token.toml
 #                    ^^^^^^^^^ comment.line.number-sign.toml
 #                    ^ punctuation.definition.comment.toml
 
 [table."doted.name"] illegal # comment
-#^^^^^^^^^^^^^^^^^^^ meta.section.toml
+#^^^^^^^^^^^^^^^^^^^ meta.section.toml meta.brackets.toml
+#                   ^^^^^^^^^^^^^^^^^^^ meta.section.toml - meta.brackets
 #^^^^^^^^^^^^^^^^^^ entity.name.section.toml
 #     ^ punctuation.accessor.toml
 #      ^ punctuation.definition.quoted.begin.toml
 #            ^ - punctuation
 #                 ^ punctuation.definition.quoted.end.toml
-#                  ^ punctuation.definition.section.end.toml
+#                  ^ punctuation.section.brackets.end.toml
 #                   ^ - invalid
 #                    ^^^^^^^ invalid.illegal.unexpected-token.toml
 #                            ^^^^^^^^^ comment.line.number-sign.toml
 #                            ^ punctuation.definition.comment.toml
 
-[ key . subkey . "sub.subkey" ]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.toml - string
-#     ^ punctuation.accessor.toml
-#              ^ punctuation.accessor.toml
-#                ^ punctuation.definition.quoted.begin.toml
-#                           ^ punctuation.definition.quoted.end.toml
-#                             ^ punctuation.definition.section.end.toml
+  [ key . subkey . "sub.subkey" ]
+# <- meta.section.toml - meta.brackets
+#^ meta.section.toml - meta.brackets
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml meta.brackets.toml
+#                                ^ meta.section.toml - meta.brackets
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.toml
+#       ^ punctuation.accessor.toml
+#                ^ punctuation.accessor.toml
+#                  ^ punctuation.definition.quoted.begin.toml
+#                             ^ punctuation.definition.quoted.end.toml
+#                               ^ punctuation.section.brackets.end.toml
 
 [[array.section.name]] illegal # comment
-#^^^^^^^^^^^^^^^^^^^^^ meta.section.toml
-#^ punctuation.definition.section.begin.toml
+#^^^^^^^^^^^^^^^^^^^^^ meta.section.toml meta.brackets.toml
+#                     ^^^^^^^^^^^^^^^^^^^ meta.section.toml - meta.brackets
+#^ punctuation.section.brackets.begin.toml
 # ^^^^^^^^^^^^^^^^^^ entity.name.section.toml
 #      ^ punctuation.accessor.toml
 #              ^ punctuation.accessor.toml
-#                   ^^ punctuation.definition.section.end.toml
+#                   ^^ punctuation.section.brackets.end.toml
 #                     ^ - invalid
 #                      ^^^^^^^ invalid.illegal.unexpected-token.toml
 #                              ^^^^^^^^^ comment.line.number-sign.toml
