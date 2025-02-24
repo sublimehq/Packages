@@ -16,15 +16,16 @@
 #        ^^^^^^^^^^^^^^^^^^ meta.section - meta.brackets
 #          ^ punctuation.definition.comment
 #          ^^^^^^^^^^^^^^^^ comment.line
-[section "subsection"]
-# <- meta.section meta.brackets punctuation.definition.brackets.begin
-#^^^^^^^^^^^^^^^^^^^^^ meta.section meta.brackets
-#                     ^ meta.section - meta.brackets
-#^^^^^^^ entity.name
-#        ^^^^^^^^^^^^ string.quoted.double
-#        ^ punctuation.definition.string.begin
-#                   ^ punctuation.definition.string.end
-#                    ^ punctuation.definition.brackets.end
+    [section "subsection"]
+# <- meta.section - meta.brackets
+#^^^ meta.section - meta.brackets
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.section meta.brackets
+#                         ^ meta.section - meta.brackets
+#    ^^^^^^^ entity.name
+#            ^^^^^^^^^^^^ string.quoted.double
+#            ^ punctuation.definition.string.begin
+#                       ^ punctuation.definition.string.end
+#                        ^ punctuation.definition.brackets.end
 [section \"subsection"]
 # <- meta.section meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^^^^^^^^^^^^^^^^ meta.section meta.brackets

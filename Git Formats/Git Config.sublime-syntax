@@ -33,17 +33,17 @@ contexts:
     # Note that this does not match [color] (without the subsection). This is
     # because [color] doesn't actually take color values.
     - match: ^\s*(?=\[\s*color\s+\")
-      push: [key-color-pair, section-header]
+      push: [key-color-pair, section-header-meta, section-header]
     # section-other matches all sections except [color "subsection"].
     - match: ^\s*(?=\[)
-      push: [key-value-pair, section-header]
+      push: [key-value-pair, section-header-meta, section-header]
 
 ###[ SECTION HEADERS ]#########################################################
 
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.git.config
-      set: [section-header-meta, section-header-end, section-name]
+      set: [section-header-end, section-name]
 
   section-header-meta:
     - meta_scope: meta.section.git.config
