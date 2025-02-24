@@ -18,10 +18,15 @@ file_extensions:
 
 contexts:
   main:
+    - include: toml
+
+  toml:
+    - meta_content_scope: meta.mapping.toml
     - include: comments
-    - include: table-headers
+    - include: table-header
     - include: table-keys
     - include: table-values
+    - include: illegal-tokens
 
 ###[ COMMENTS ]################################################################
 
@@ -38,19 +43,19 @@ contexts:
 
 ###[ TABLES ]##################################################################
 
-  table-headers:
+  table-header:
     # https://toml.io/en/v1.0.0#array-of-tables
     - match: '{{ws}}(\[\[)'
       scope: meta.section.toml
       captures:
         1: meta.brackets.toml punctuation.section.brackets.begin.toml
-      push: array-table-header-body
+      set: array-table-header-body
     # https://toml.io/en/v1.0.0#table
     - match: '{{ws}}(\[)'
       scope: meta.section.toml
       captures:
         1: meta.brackets.toml punctuation.section.brackets.begin.toml
-      push: table-header-body
+      set: table-header-body
 
   array-table-header-body:
     - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
@@ -72,7 +77,7 @@ contexts:
     # scope whole line to improve UX with background color applied
     - meta_scope: meta.section.toml
     - match: $\n?
-      pop: 1
+      set: toml
     - include: comments
     - include: illegal-tokens
 
@@ -84,9 +89,9 @@ contexts:
       push: table-key-body
 
   table-key-body:
+    - clear_scopes: 1
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: $|(?={{ws}}[=#])
-      pop: 1
+    - include: eol-pop
     - include: name-content
 
   name-content:
@@ -122,21 +127,19 @@ contexts:
 ###[ VALUES ]##################################################################
 
   table-values:
-    - match: '{{ws}}(=){{ws}}'
-      scope: meta.mapping.toml
-      captures:
-         1: punctuation.separator.key-value.toml
-      push: [table-value-meta, value]
-    - match: (?=\S)
-      push: [table-value-meta, value]
+    - match: =
+      scope: punctuation.separator.key-value.toml
+      push: [expect-eol, table-value]
 
-  table-value-meta:
-    - meta_content_scope: meta.mapping.value.toml
-    - include: expect-eol
-
-  values:
+  table-value:
     - match: (?=\S)
-      push: value
+      set: table-value-body
+    - include: eol-pop
+
+  table-value-body:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.toml
+    - include: value
 
   value:
     - include: array
@@ -168,7 +171,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.toml
     - include: comments
-    - include: values
+    - match: (?=\S)
+      push: value
 
 ###[ INLINE TABLES ]###########################################################
 
@@ -190,30 +194,13 @@ contexts:
       pop: 2
     - match: ','
       scope: punctuation.separator.sequence.toml
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.toml
-      push: inline-table-value
-    - match: '{{key_begin}}'
-      push: inline-table-key-body
+      push: table-value
+    - include: table-keys
+    # fallback if nothing else matches
     - match: (?=\S)
-      push: inline-table-value-body
-
-  inline-table-key-body:
-    - clear_scopes: 1
-    - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: $|(?={{ws}}[=#\]\}])
-      pop: 1
-    - include: name-content
-
-  inline-table-value:
-    - match: (?=\S)
-      set: inline-table-value-body
-    - include: eol-pop
-
-  inline-table-value-body:
-    - clear_scopes: 1
-    - meta_scope: meta.mapping.value.toml
-    - include: value
+      push: table-value-body
 
 ###[ CONSTANT VALUES ]#########################################################
 
@@ -371,7 +358,7 @@ contexts:
       pop: 1
 
   eol-pop:
-    - match: $|(?={{ws}}#)
+    - match: $|(?={{ws}}[#=,\]\}])
       pop: 1
 
   expect-eol:
