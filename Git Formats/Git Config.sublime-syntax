@@ -42,7 +42,7 @@ contexts:
 
   section-header:
     - match: \[
-      scope: punctuation.definition.brackets.begin.git.config
+      scope: punctuation.section.brackets.begin.git.config
       set: [section-header-end, section-name]
 
   section-header-meta:
@@ -55,7 +55,7 @@ contexts:
   section-header-end:
     - meta_scope: meta.brackets.git.config
     - match: \]
-      scope: punctuation.definition.brackets.end.git.config
+      scope: punctuation.section.brackets.end.git.config
       pop: 1
     - include: illegal-line-end-pop
     - match: \S
