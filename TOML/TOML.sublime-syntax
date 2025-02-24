@@ -136,7 +136,7 @@ contexts:
 
   value:
     - include: array
-    - include: mapping
+    - include: inline-table
     - include: boolean
     - include: datetime
     - include: number
@@ -167,13 +167,13 @@ contexts:
 
 ###[ INLINE TABLES ]###########################################################
 
-  mapping:
+  inline-table:
     # https://toml.io/en/v1.0.0#inline-table
     - match: \{
       scope: punctuation.section.mapping.begin.toml
-      push: mapping-body
+      push: inline-table-body
 
-  mapping-body:
+  inline-table-body:
     - meta_scope: meta.mapping.toml
     - match: \}
       scope: punctuation.section.mapping.end.toml
@@ -182,24 +182,26 @@ contexts:
       scope: punctuation.separator.sequence.toml
     - match: '='
       scope: punctuation.separator.key-value.toml
-      push:
-        # value can start on next line
-        - match: (?=\S)
-          set: mapping-value-body
+      push: inline-table-value
     - match: '{{key_begin}}'
-      push: mapping-key-body
+      push: inline-table-key-body
     - include: comments
     - match: (?=\S)
-      push: mapping-value-body
+      push: inline-table-value-body
 
-  mapping-key-body:
+  inline-table-key-body:
     - clear_scopes: 1
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
     - match: (?={{ws}}[#=}])
       pop: 1
     - include: name-content
 
-  mapping-value-body:
+  inline-table-value:
+    # value can start on next line
+    - match: (?=\S)
+      set: inline-table-value-body
+
+  inline-table-value-body:
     - clear_scopes: 1
     - meta_scope: meta.mapping.value.toml
     - include: value
