@@ -46,7 +46,7 @@ contexts:
       set: [section-header-meta, section-header-end, section-name]
 
   section-header-meta:
-    - meta_scope: meta.section.header.git.config
+    - meta_scope: meta.section.git.config
     - match: $\n?
       pop: 1
     - match: \S
@@ -115,7 +115,6 @@ contexts:
   # changed = red
   # untracked = bold green
   key-color-pair:
-    - meta_scope: meta.section.body.git.config
     - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
         1: meta.mapping.git.config
@@ -130,7 +129,6 @@ contexts:
 
   # key = val
   key-value-pair:
-    - meta_scope: meta.section.body.git.config
     - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
         1: meta.mapping.git.config
