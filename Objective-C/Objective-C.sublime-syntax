@@ -153,6 +153,11 @@ contexts:
       push: function.params
     - include: protocol-list
 
+  call.not-call:
+    - meta_prepend: true
+    - match: '(?={{identifier}}\s*:)'
+      pop: 1
+
   block-fn:
     - meta_scope: meta.function.block.objc
     - match: ''
@@ -284,10 +289,7 @@ contexts:
 
   enclosure:
     - meta_prepend: true
-    - match: \[(?!\s*{{identifier}}\s*[:\]])
-      scope: punctuation.section.brackets.begin
-      branch_point: message
-      branch: [message, enclosure.brackets]
+    - include: message-enclosure
     - match: '@\{'
       scope: punctuation.section.mapping.begin
       push: enclosure.mapping
@@ -297,6 +299,12 @@ contexts:
       scope: punctuation.section.mapping.end
       pop: 1
     - include: expression
+
+  message-enclosure: # for ObjC++
+    - match: \[(?!\s*{{identifier}}\s*[:\]])
+      scope: punctuation.section.brackets.begin
+      branch_point: message
+      branch: [message, enclosure.brackets]
 
   message:
     - meta_scope: meta.bracketed.objc

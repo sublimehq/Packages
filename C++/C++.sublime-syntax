@@ -274,10 +274,7 @@ contexts:
 
   enclosure:
     - meta_prepend: true
-    - match: \[
-      branch_point: lambda
-      scope: punctuation.section.brackets.begin.c++
-      branch: [enclosure.brackets, lambda]
+    - include: lambda-enclosure
   enclosure.brackets:
     - meta_prepend: true
     - match: (\])\s*(<)
@@ -293,6 +290,13 @@ contexts:
       scope: punctuation.section.block.end.c++
       pop: 1
     - include: main
+
+  lambda-enclosure: # for ObjC++
+    - match: \[
+      branch_point: lambda
+      scope: punctuation.section.brackets.begin.c++
+      branch: [enclosure.brackets, lambda]
+
   lambda.try-not:
     - include: expression-identifiers
     - match: \-\>
@@ -525,5 +529,5 @@ contexts:
     - match: \b{{identifier}}\b
     - include: pop-immediately
 variables:
-  identifier: (\b|(?=\$))[[:alpha:]_$][[:alnum:]_$]*(\b|\$)
+  identifier: (?:\b|(?=\$))[[:alpha:]_$][[:alnum:]_$]*(?:\b|\$)
   qualified: (?:::\s*)?(?:{{identifier}}(?:\s*:{0,2}\s*)?)+
