@@ -255,6 +255,12 @@ contexts:
   function.params.name:
     - match: (?=[\]\}\);]) # Fallback
       pop: 1
+    - match: '{{fn_pointer}}'
+      captures:
+        1: keyword.operator.c
+        2: variable.parameter.c
+        3: punctuation.section.group.begin.c
+      set: function.params
     - include: expression-identifiers
     - match: ({{identifier}})\s*(\[)
       captures:
@@ -306,8 +312,14 @@ contexts:
       scope: keyword.declaration.union.c
       branch_point: union
       branch: [type.union, pop-immediately]
+
+    - match: '{{fn_pointer}}'
+      captures:
+        1: keyword.operator.c
+        3: punctuation.section.group.begin.c
+      set: function.params
   type.typedef:
-    - match: \(\s*(\*)({{identifier}})\s*\)\s*(\()
+    - match: '{{fn_pointer}}'
       captures:
         1: keyword.operator.c
         2: entity.name.type.typedef.c
@@ -776,6 +788,7 @@ contexts:
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b
   likely_macro: \b[[:upper:]][[:upper:][:digit:]_]+\b
+  fn_pointer: \(\s*(\*)({{identifier}})\s*\)\s*(\()
 
   bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'

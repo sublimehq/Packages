@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string><![CDATA[(source.objc | source.objc++) & meta.function.selector]]></string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+
+		<key>symbolTransformation</key>
+		<string>
+			s/([-+])\s*.+?(?=\w+\s*:)/$1/;
+			s/:[^:]+?\)\w+\s+(\w+)/:$1/g;
+			s/\:[^:]+\;/:/;
+		</string>
+	</dict>
+</dict>
+</plist>

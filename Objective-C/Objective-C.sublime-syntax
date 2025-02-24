@@ -97,7 +97,7 @@ contexts:
       scope: punctuation.section.group.begin.objc
       set: enclosure.parenthesis
   selector:
-    - meta_scope: meta.function.objc
+    - meta_scope: meta.function.selector.objc
     - match: '\b({{identifier}})\s*(\:)\s*(\()'
       captures:
         1: entity.name.function.method.objc
@@ -274,12 +274,6 @@ contexts:
 
   type:
     - meta_prepend: true
-    - match: \(\s*(\^)({{identifier}})?\s*\)\s*(\()
-      captures:
-        1: keyword.operator.objc
-        2: entity.name.type.typedef.objc
-        3: punctuation.section.group.begin.objc
-      push: [function.params, pop-immediately]
     - match: \@(?=\d)
       scope: constant.numeric.objc
     - match: (\@class)\s*({{identifier}})
@@ -376,3 +370,6 @@ contexts:
     - match: \bN\w+\b
       pop: 1
     - include: pop-immediately
+
+variables:
+  fn_pointer: \(\s*(\*|\^)({{identifier}})\s*\)\s*(\()
