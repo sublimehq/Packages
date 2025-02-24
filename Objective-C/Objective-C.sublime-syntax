@@ -22,31 +22,52 @@ contexts:
     - include: implementation
 
   implementation:
-    - match: ^\s*(@implementation)\s*({{identifier}})\b
+    - match: ^\s*(@implementation)\b
       captures:
-        1: meta.implementation.objc keyword.declaration.class.objc
-        2: meta.implementation.objc entity.name.type.objc
-      push: [implementation.meta, interface.body]
-  implementation.meta:
-    - meta_scope: meta.implementation.objc meta.scope.implementation.objc
-    - include: pop-immediately
+        1: keyword.declaration.class.objc
+      push: implementation.start
+  implementation.start:
+    - meta_scope: meta.implementation.objc
+    - match: '{{identifier}}'
+      scope: entity.name.type.objc
+      push: [pop-twice, interface.body]
+    - include: else-pop
 
   interface:
-    - match: ^\s*(@interface|@protocol)\s*({{identifier}})\b
+    - match: ^\s*(@interface)\b
       captures:
-        1: meta.interface-or-protocol.objc keyword.declaration.class.objc
-        2: meta.interface-or-protocol.objc entity.name.type.objc
-      push: [interface.meta, interface.body, interface.struct, interface.subclass, interface.category]
+        1: keyword.declaration.class.objc
+      push:
+        - meta_scope: meta.interface.objc
+        - include: interface.start
+    - match: ^\s*(@protocol)\b
+      captures:
+        1: keyword.declaration.class.objc
+      push:
+        - meta_scope: meta.protocol.objc
+        - include: interface.start
+
+  interface.start:
+    - match: '{{identifier}}'
+      scope: entity.name.type.objc
+      push:
+        - pop-twice
+        - interface.body
+        - interface.struct
+        - interface.subclass
+        - interface.category
+    - include: else-pop
   interface.meta:
     - meta_scope: meta.interface-or-protocol.objc meta.scope.interface.objc
     - include: pop-immediately
   interface.category:
-    - clear_scopes: 1
     - match: \(
-      push: enclosure.parenthesis
+      scope: meta.group.objc punctuation.section.group.begin.objc
+      set:
+        - meta_content_scope: meta.group.objc entity.name.type.category.objc
+        - include: enclosure.parenthesis
     - include: else-pop
   interface.subclass:
-    - clear_scopes: 1
     - include: protocol-list
     - match: ':'
       scope: punctuation.separator.objc
@@ -54,7 +75,7 @@ contexts:
     - include: else-pop
   interface.struct:
     - match: \{
-      scope: punctuation.section.block.begin.objc
+      scope: meta.block.objc punctuation.section.block.begin.objc
       set: enclosure.block
     - include: else-pop
   interface.body:
@@ -94,7 +115,7 @@ contexts:
 
   selector.return:
     - match: \(
-      scope: punctuation.section.group.begin.objc
+      scope: meta.group.objc punctuation.section.group.begin.objc
       set: enclosure.parenthesis
   selector:
     - meta_scope: meta.function.selector.objc
@@ -102,7 +123,7 @@ contexts:
       captures:
         1: entity.name.function.method.objc
         2: punctuation.separator.arguments.objc
-        3: punctuation.section.group.begin.objc
+        3: meta.group.objc punctuation.section.group.begin.objc
       push: [selector.param, enclosure.parenthesis]
     - match: \b({{identifier}})\s*(\:)
       captures:
@@ -117,7 +138,7 @@ contexts:
       scope: punctuation.terminator.objc
       pop: 1
     - match: \{
-      scope: punctuation.section.block.begin.objc
+      scope: meta.block.objc punctuation.section.block.begin.objc
       set: enclosure.block
     - include: operator.variadic
     - include: expression
@@ -169,7 +190,7 @@ contexts:
     - include: else-pop
   block-fn.body:
     - match: \{
-      scope: punctuation.section.block.begin.objc
+      scope: meta.block.objc punctuation.section.block.begin.objc
       set: enclosure.block
     - match: (?=\S)
       fail: block-fn
@@ -194,22 +215,24 @@ contexts:
     - match: '%@'
       scope: constant.other.placeholder.objc
 
-  available:
+  available.body:
+    - meta_scope: meta.available.objc
+    - meta_content_scope: meta.group.objc
+    - match: \)
+      scope: meta.group.objc punctuation.section.group.end.objc
+      pop: 1
     - match: \b(?:iOS|macOS|watchOS|tvOS|visionOS)\b
       scope: support.constant.platform.objc
     - match: \b(\d[\d\.]+)\b
       captures:
         1: constant.numeric.version.objc
     - include: expression
-    - match: \)
-      scope: punctuation.section.group.end.objc
-      pop: 1
 
   selector-obj:
     - meta_scope: meta.selector.objc
-    - meta_content_scope: meta.selector.method-name.objc
+    - meta_content_scope: meta.group.objc meta.selector.method-name.objc
     - match: \)
-      scope: punctuation.section.group.end.objc
+      scope: meta.group.objc punctuation.section.group.end.objc
       pop: 1
     - match: '[^)]+'
       scope: support.function.objc
@@ -223,14 +246,14 @@ contexts:
     - match: '(@available)\s*(\()'
       captures:
         1: keyword.operator.word.objc
-        2: punctuation.section.group.begin.objc
-      push: available
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push: available.body
     - match: '(@selector)\s*(\()'
       captures:
         1: keyword.operator.word.objc
-        2: punctuation.section.group.begin.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
       push: selector-obj
-    - match: '@(?:selector|encode|available)'
+    - match: '@(?:selector|encode|defs|available)'
       scope: keyword.operator.word.objc
   keyword.control:
     - meta_prepend: true
@@ -260,7 +283,7 @@ contexts:
     - match: \b(swift_name|objc_runtime_name)\s*(\()
       captures:
         1: storage.modifier.objc
-        2: punctuation.section.group.begin.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
       push: enclosure.parenthesis
 
   constant:
@@ -296,7 +319,7 @@ contexts:
 
   message-enclosure: # for ObjC++
     - match: \[(?!\s*{{identifier}}\s*[:\]])
-      scope: punctuation.section.brackets.begin
+      scope: meta.brackets.square.objc punctuation.section.brackets.begin
       branch_point: message
       branch: [message, enclosure.brackets]
 

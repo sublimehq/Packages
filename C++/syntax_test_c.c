@@ -486,38 +486,37 @@
 /////////////////////////////////////////////
 
     test(5, 10, 15, 20);
-//  ^^^^^^^^^^^^^^^^^^^ meta.group.c 
-//  ^^^^ variable.function.c 
-//      ^ punctuation.section.group.begin.c 
-//       ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//        ^ punctuation.separator.c 
-//          ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//            ^ punctuation.separator.c 
-//              ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                ^ punctuation.separator.c 
-//                  ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                    ^ punctuation.section.group.end 
-//                     ^ punctuation.terminator.c 
+//  ^^^^ variable.function.c
+//      ^^^^^^^^^^^^^^^ meta.group.c
+//      ^ punctuation.section.group.begin.c
+//       ^ meta.number.integer.decimal.c constant.numeric.value.c
+//        ^ punctuation.separator.c
+//          ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//            ^ punctuation.separator.c
+//              ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//                ^ punctuation.separator.c
+//                  ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//                    ^ punctuation.section.group.end.c
+//                     ^ punctuation.terminator.c
     int v = h(f(5) - g(6));
-//  ^^^ storage.type.c 
-//        ^ keyword.operator.assignment.c 
-//          ^^^^^^^^^^^^^^ meta.group.c 
-//          ^ variable.function.c 
-//           ^ punctuation.section.group.begin.c 
-//            ^^^^ meta.group.c 
-//            ^ variable.function.c 
-//             ^ punctuation.section.group.begin.c 
-//              ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//               ^ punctuation.section.group.end 
-//                 ^ keyword.operator.arithmetic.c 
-//                   ^^^^ meta.group.c 
-//                   ^ variable.function.c 
-//                    ^ punctuation.section.group.begin.c 
-//                     ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                      ^ punctuation.section.group.end 
-//                       ^ punctuation.section.group.end 
-//                        ^ punctuation.terminator.c 
-
+//  ^^^ storage.type.c
+//        ^ keyword.operator.assignment.c
+//          ^ variable.function.c
+//           ^^^^^^^^^^^^^ meta.group.c
+//           ^ punctuation.section.group.begin.c
+//            ^ variable.function.c
+//             ^^^ meta.group.c
+//             ^ punctuation.section.group.begin.c
+//              ^ meta.number.integer.decimal.c constant.numeric.value.c
+//               ^ punctuation.section.group.end.c
+//                 ^ keyword.operator.arithmetic.c
+//                   ^ variable.function.c
+//                    ^^^ meta.group.c
+//                    ^ punctuation.section.group.begin.c
+//                     ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                      ^ punctuation.section.group.end.c
+//                       ^ punctuation.section.group.end.c
+//                        ^ punctuation.terminator.c
 
     int main(int argc, char const* argv[]) {
 //  ^^^ storage.type.c 
@@ -538,17 +537,17 @@
 //                                       ^ punctuation.section.group.end.c 
 //                                         ^ meta.function.c meta.block.c punctuation.section.block.begin 
         int out = in("abcdefg");
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c 
-//      ^^^ storage.type.c 
-//              ^ keyword.operator.assignment.c 
-//                ^^^^^^^^^^^^^ meta.group.c 
-//                ^^ variable.function.c 
-//                  ^ punctuation.section.group.begin.c 
-//                   ^^^^^^^^^ string.quoted.double.c 
-//                   ^ punctuation.definition.string.begin.c 
-//                           ^ punctuation.definition.string.end.c 
-//                            ^ punctuation.section.group.end 
-//                             ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//      ^^^ storage.type.c
+//              ^ keyword.operator.assignment.c
+//                ^^ variable.function.c
+//                  ^^^^^^^^^^^ meta.group.c
+//                  ^ punctuation.section.group.begin.c
+//                   ^^^^^^^^^ string.quoted.double.c
+//                   ^ punctuation.definition.string.begin.c
+//                           ^ punctuation.definition.string.end.c
+//                            ^ punctuation.section.group.end.c
+//                             ^ punctuation.terminator.c
         
         printf
 //^^^^^^^^^^^^ meta.function.c meta.block.c
@@ -569,13 +568,13 @@
 //  ^ punctuation.section.block.end.c 
 
     int b = main(argc);
-//  ^^^ storage.type.c 
-//        ^ keyword.operator.assignment.c 
-//          ^^^^^^^^^^ meta.group.c 
-//          ^^^^ variable.function.c 
-//              ^ punctuation.section.group.begin.c 
-//                   ^ punctuation.section.group.end 
-//                    ^ punctuation.terminator.c 
+//  ^^^ storage.type.c
+//        ^ keyword.operator.assignment.c
+//          ^^^^ variable.function.c
+//              ^^^^^^ meta.group.c
+//              ^ punctuation.section.group.begin.c
+//                   ^ punctuation.section.group.end.c
+//                    ^ punctuation.terminator.c
 
     static extern int*
 //  ^^^^^^ storage.modifier.c 
@@ -790,7 +789,7 @@
 //                 ^^^^^^ keyword.declaration.struct.c 
 //                        ^ entity.name.struct.c 
     {
-//  ^ meta.block.c meta.struct.c punctuation.section.block.begin.c 
+//  ^ meta.struct.c meta.block.c punctuation.section.block.begin.c
         int a1;
 //^^^^^^^^^^^^^ meta.block.c 
 //      ^^^ storage.type.c 
@@ -816,10 +815,10 @@
 //                   ^ punctuation.terminator.c 
 
     union MACRO myUnion {
-//  ^^^^^^^^^^^^^^^^^^^^ meta.union.c 
-//  ^^^^^ keyword.declaration.union.c 
-//              ^^^^^^^ entity.name.union.c 
-//                      ^ meta.block.c meta.union.c punctuation.section.block.begin.c 
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.union.c
+//  ^^^^^ keyword.declaration.union.c
+//              ^^^^^^^ entity.name.union.c
+//                      ^ meta.block.c punctuation.section.block.begin.c
         struct A {
 //^^^^^^^^^^^^^^^^ meta.block.c 
 //      ^^^^^^^^^ meta.struct.c 
@@ -891,10 +890,10 @@
 //  ^ punctuation.section.block.end.c 
 
     typedef struct {
-//  ^^^^^^^ keyword.declaration.type.c 
-//          ^^^^^^^ meta.struct.c 
-//          ^^^^^^ keyword.declaration.struct.c 
-//                 ^ meta.block.c meta.struct.c punctuation.section.block.begin.c 
+//  ^^^^^^^ keyword.declaration.type.c
+//          ^^^^^^^^ meta.struct.c
+//          ^^^^^^ keyword.declaration.struct.c
+//                 ^ meta.block.c punctuation.section.block.begin.c
         myCustomType* a;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.block.c 
 //                  ^ keyword.operator.arithmetic.c 
@@ -927,19 +926,19 @@
 /////////////////////////////////////////////
 
     __declspec(align(5)) struct Test {
-//  ^^^^^^^^^^ storage.modifier.c 
-//            ^^^^^^^^^^ meta.group.c 
-//            ^ punctuation.section.group.begin.c 
-//             ^^^^^^^^ meta.group.c 
-//             ^^^^^ storage.modifier.c 
-//                  ^ punctuation.section.group.begin.c 
-//                   ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                    ^ punctuation.section.group.end 
-//                     ^ punctuation.section.group.end.c 
-//                       ^^^^^^^^^^^^ meta.struct.c 
-//                       ^^^^^^ keyword.declaration.struct.c 
-//                              ^^^^ entity.name.struct.c 
-//                                   ^ meta.block.c meta.struct.c punctuation.section.block.begin.c 
+//  ^^^^^^^^^^^^^^^^^^^^ meta.group.c
+//  ^^^^^^^^^^ storage.modifier.c
+//            ^ punctuation.section.group.begin.c
+//             ^^^^^ storage.modifier.c
+//                  ^^^ meta.group.c
+//                  ^ punctuation.section.group.begin.c
+//                   ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                    ^ punctuation.section.group.end.c
+//                     ^ punctuation.section.group.end.c
+//                       ^^^^^^^^^^^^^ meta.struct.c
+//                       ^^^^^^ keyword.declaration.struct.c
+//                              ^^^^ entity.name.struct.c
+//                                   ^ meta.block.c punctuation.section.block.begin.c
         int a;
 //^^^^^^^^^^^^ meta.block.c 
 //      ^^^ storage.type.c 

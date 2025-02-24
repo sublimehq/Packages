@@ -199,12 +199,12 @@ contexts:
     - match: \b({{std_funcs}})\s*(\()
       captures:
         1: variable.function.c support.function.std.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
     - match: \b({{identifier}})\s*(\()
       captures:
         1: variable.function.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
     - match: \b(?={{identifier}}\s*$)
       branch_point: not-call
@@ -222,7 +222,7 @@ contexts:
     - match: '\b{{identifier}}\b'
       scope: variable.function.c
     - match: \(
-      scope: punctuation.section.group.begin.c
+      scope: meta.group.c punctuation.section.group.begin.c
       set: enclosure.parenthesis
 
   function:
@@ -265,7 +265,7 @@ contexts:
     - match: ({{identifier}})\s*(\[)
       captures:
         1: variable.parameter.c
-        2: punctuation.section.brackets.begin.c
+        2: meta.brackets.square.c punctuation.section.brackets.begin.c
       set: enclosure.brackets
     - match: ({{identifier}})\s*(?=[,\)]|$)
       captures:
@@ -375,7 +375,7 @@ contexts:
         1: entity.name.struct.c
       set:
         - match: \{
-          scope: meta.struct.c punctuation.section.block.begin.c
+          scope: meta.struct.c meta.block.c punctuation.section.block.begin.c
           set: enclosure.block
         - match: (?=\S)
           fail: struct
@@ -393,7 +393,7 @@ contexts:
         1: entity.name.union.c
       set:
         - match: \{
-          scope: meta.union.c punctuation.section.block.begin.c
+          scope: meta.union.c meta.block.c punctuation.section.block.begin.c
           set: enclosure.block
         - match: (?=\S)
           fail: union
@@ -402,37 +402,37 @@ contexts:
 
   enclosure:
     - match: \(
-      scope: punctuation.section.group.begin
+      scope: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
     - match: \[
-      scope: punctuation.section.brackets.begin
+      scope: meta.brackets.square.c punctuation.section.brackets.begin.c
       push: enclosure.brackets
     - match: \{
-      scope: punctuation.section.block.begin
+      scope: meta.block.c punctuation.section.block.begin.c
       push: enclosure.block
   enclosure.parenthesis:
-    - meta_scope: meta.group.c
+    - meta_content_scope: meta.group.c
     - include: expression
     - match: \)
-      scope: punctuation.section.group.end
+      scope: meta.group.c punctuation.section.group.end.c
       pop: 1
     - match: \}|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c
       pop: 1
   enclosure.brackets:
-    - meta_scope: meta.brackets.square.c
+    - meta_content_scope: meta.brackets.square.c
     - include: expression
     - match: \]
-      scope: punctuation.section.brackets.end
+      scope: meta.brackets.square.c punctuation.section.brackets.end.c
       pop: 1
     - match: \)|\} # Fallback
       scope: invalid.illegal.stray-bracket-end.c
       pop: 1
   enclosure.block:
-    - meta_scope: meta.block.c
+    - meta_content_scope: meta.block.c
     - include: expression
     - match: \}
-      scope: punctuation.section.block.end
+      scope: meta.block.c punctuation.section.block.end.c
       pop: 1
     - match: \)|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c
@@ -738,7 +738,7 @@ contexts:
     - match: \b({{declspec_func}})\s*(\()
       captures:
         1: storage.modifier.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
 
     - match: \b(property)\s*(\()
@@ -746,6 +746,7 @@ contexts:
         1: storage.modifier.c
         2: punctuation.section.group.begin.c
       push:
+        - meta_content_scope: meta.group.c
         - match: \b(get|put)\b
           scope: variable.parameter.c
         - include: enclosure.parenthesis
@@ -764,7 +765,7 @@ contexts:
     - match: \b({{attribute_func}})\s*(\()
       captures:
         1: storage.modifier.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
     - match: \)\)
       scope: punctuation.section.group.end.c

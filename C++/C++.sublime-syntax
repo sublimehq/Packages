@@ -38,7 +38,7 @@ contexts:
       captures:
         1: keyword.operator.c++
         2: entity.name.function.c++
-        3: punctuation.section.group.begin.c++
+        3: meta.group.c++ punctuation.section.group.begin.c++
       push: [function.tail, function.params]
 
     - include: expression-identifiers
@@ -46,7 +46,7 @@ contexts:
     - match: (~?{{identifier}})\s*(\()
       captures:
         1: entity.name.function.c++
-        2: punctuation.section.group.begin.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
       push: [function.tail, function.params]
     - match: (?={{identifier}}\s*<)
       branch_point: try-template
@@ -59,7 +59,7 @@ contexts:
   function.try-template.body:
         - include: template
         - match: \(
-          scope: punctuation.section.group.begin.c++
+          scope: meta.group.c++ punctuation.section.group.begin.c++
           push: [pop-twice, function.tail, function.params]
         - match: (?=\S)
           fail: try-template
@@ -89,7 +89,7 @@ contexts:
     - match: ({{identifier}})\s*(\[)
       captures:
         1: variable.parameter.c++
-        2: punctuation.section.brackets.begin.c++
+        2: meta.brackets.square.c++ punctuation.section.brackets.begin.c++
       set: enclosure.brackets
     - match: ({{identifier}})\s*(?=[,\)=]|$)
       captures:
@@ -122,10 +122,10 @@ contexts:
   constructor.initializer-list.body:
     - include: template
     - match: \(
-      scope: punctuation.section.group.begin.c++
+      scope: meta.group.c++ punctuation.section.group.begin.c++
       set: enclosure.parenthesis
     - match: \{
-      scope: punctuation.section.block.begin.c++
+      scope: meta.block.c++ punctuation.section.block.begin.c++
       set: enclosure.block
     - include: else-pop
 
@@ -146,7 +146,7 @@ contexts:
   call.template-call.body:
     - include: template
     - match: \(
-      scope: punctuation.section.group.begin.c++
+      scope: meta.group.c++ punctuation.section.group.begin.c++
       set: enclosure.parenthesis
     - match: (?=\S)
       fail: template-call
@@ -165,7 +165,7 @@ contexts:
     - include: type
     - match: \+\s*(\[)
       captures:
-        1: punctuation.section.brackets.begin.c++
+        1: meta.brackets.square.c++ punctuation.section.brackets.begin.c++
       push: lambda
 
   module:
@@ -212,7 +212,7 @@ contexts:
         - include: qualified-ident
         - include: else-pop
     - match: \{
-      scope: punctuation.section.block.begin.c++
+      scope: meta.block.c++ punctuation.section.block.begin.c++
       push: [pop-twice, enclosure.outer-block]
     - match: =
       scope: keyword.operator.assignment.c++
@@ -264,7 +264,7 @@ contexts:
     - match: ({{identifier}})\s*(\[)
       captures:
         1: variable.parameter.type.c++
-        2: punctuation.section.brackets.begin.c++
+        2: meta.brackets.square.c++ punctuation.section.brackets.begin.c++
       set: enclosure.brackets
     - match: ({{identifier}})\s*(?=[,\>=]|$)
       captures:
@@ -282,19 +282,19 @@ contexts:
     - match: (\])\s*(\()
       captures:
         1: punctuation.section.brackets.end.c++
-        2: punctuation.section.group.begin.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
       set: [lambda.try-not, enclosure.parenthesis]
   enclosure.outer-block:
-    - meta_scope: meta.block.c++
+    - meta_content_scope: meta.block.c++
     - match: \}
-      scope: punctuation.section.block.end.c++
+      scope: meta.block.c++ punctuation.section.block.end.c++
       pop: 1
     - include: main
 
   lambda-enclosure: # for ObjC++
     - match: \[
       branch_point: lambda
-      scope: punctuation.section.brackets.begin.c++
+      scope: meta.brackets.square.c++ punctuation.section.brackets.begin.c++
       branch: [enclosure.brackets, lambda]
 
   lambda.try-not:
@@ -326,7 +326,7 @@ contexts:
     - match: (?=\<)
       push: type.template
     - match: \(
-      scope: punctuation.section.group.begin.c++
+      scope: meta.group.c++ punctuation.section.group.begin.c++
       pop: 1
     - include: expression-identifiers
     - match: \{
@@ -343,7 +343,7 @@ contexts:
     - match: '({{identifier}})\s*(\()'
       captures:
         1: variable.function.c++
-        2: punctuation.section.group.begin.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
       push: enclosure.parenthesis
     - include: else-pop
   class.name:
@@ -384,13 +384,11 @@ contexts:
   class.body-start:
     - meta_scope: meta.class.c++
     - match: \{
-      scope: punctuation.section.block.begin.c++
+      scope: meta.block.c++ punctuation.section.block.begin.c++
       set: class.body
     - include: else-pop
   class.body:
     - meta_scope: meta.block.c++ meta.class.c++
-    #- include: function
-    #- include: expression
     - include: enclosure.outer-block
 
   qualified-ident:
@@ -464,7 +462,7 @@ contexts:
     - match: '\b(catch)\s*(\()'
       captures:
         1: keyword.control.exception.c++
-        2: punctuation.section.group.begin.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
       push: function.params
     - match: \b(try|catch|finally|throw)\b
       scope: keyword.control.exception.c++
