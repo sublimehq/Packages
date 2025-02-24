@@ -21,7 +21,7 @@ contexts:
     - include: comments
     - include: table-headers
     - include: keys
-    - include: values
+    - include: table-values
 
 ###[ COMMENTS ]################################################################
 
@@ -121,18 +121,22 @@ contexts:
 
 ###[ VALUES ]##################################################################
 
-  values:
+  table-values:
     - match: '{{ws}}(=){{ws}}'
       scope: meta.mapping.toml
       captures:
          1: punctuation.separator.key-value.toml
-      push: [value-meta, value]
+      push: [table-value-meta, value]
     - match: (?=\S)
-      push: [value-meta, value]
+      push: [table-value-meta, value]
 
-  value-meta:
+  table-value-meta:
     - meta_content_scope: meta.mapping.value.toml
     - include: expect-eol
+
+  values:
+    - match: (?=\S)
+      push: value
 
   value:
     - include: array
@@ -162,8 +166,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.toml
     - include: comments
-    - match: (?=\S)
-      push: value
+    - include: values
 
 ###[ INLINE TABLES ]###########################################################
 
