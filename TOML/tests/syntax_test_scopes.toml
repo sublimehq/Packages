@@ -81,6 +81,11 @@
 #              ^^^ invalid.illegal.toml
 #                      ^ invalid.illegal.toml
 
+  key#comment
+# ^^^ meta.mapping.key.toml entity.name.key.toml
+#    ^^^^^^^^ comment.line.number-sign.toml
+#    ^ punctuation.definition.comment.toml
+
 ### [ QUOTED KEYS ]############################################################
 
   "127.0.0.1"
@@ -193,6 +198,18 @@ array = [ 10,, true, "str", [0, 0b1, ["a", 'b']] ]
 #                                              ^ meta.mapping.value.toml meta.sequence.array.toml meta.sequence.array.toml
 #                                               ^^ meta.mapping.value.toml meta.sequence.array.toml
 #                                                 ^ - meta.mapping - meta.sequence
+
+array = [ true#comment ]
+#^^^^ meta.mapping.key.toml entity.name.key.toml
+#    ^^^ meta.mapping.toml
+#     ^ punctuation.separator.key-value.toml
+#       ^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+#       ^ punctuation.section.sequence.begin.toml
+#         ^^^^ constant.language.boolean.true.toml
+#             ^^^^^^^^^^ comment.line.number-sign.toml
+#             ^ punctuation.definition.comment.toml
+]
+# <- meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
 
 ### [ INLINE TABLES ]##########################################################
 
@@ -339,6 +356,18 @@ points = [ { x = 1, y = 2, z = 3 },
 #                               ^^ meta.mapping.toml
 #                                ^ punctuation.section.mapping.end.toml
 #                                  ^ punctuation.section.sequence.end.toml
+
+key = { key#comment }
+#^ meta.mapping.key.toml entity.name.key.toml
+#  ^^^ meta.mapping.toml
+#     ^^^^^^^^^^^^^^^ meta.mapping.value.toml
+#     ^^ meta.mapping.toml
+#     ^ punctuation.section.mapping.begin.toml
+#       ^^^ meta.mapping.key.toml entity.name.key.toml
+#          ^^^^^^^^^^ meta.mapping.toml comment.line.number-sign.toml
+#          ^ punctuation.definition.comment.toml
+}
+# <- meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
 
 ### [ BOOLEANS ]###############################################################
 

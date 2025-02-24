@@ -348,7 +348,7 @@ contexts:
       pop: 1
 
   eol-pop:
-    - match: $|(?=\s+#)
+    - match: $|(?=[ \t]*#)
       pop: 1
 
   expect-eol:
