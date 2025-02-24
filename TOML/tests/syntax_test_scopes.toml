@@ -224,6 +224,12 @@ array = { [ }  # handle incomplete arrays
 #           ^ meta.mapping.value.toml meta.mapping.toml - meta.sequence
 #            ^ - meta.mapping
 
+array = [ { x = 1, y = 2, z = 3 },
+          { x = 2, y = 4, z = 8 } ]
+#^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+#         ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.mapping
+#                                ^^ meta.mapping.value.toml meta.sequence.array.toml
+
 ### [ INLINE TABLES ]##########################################################
 
 table = {}
@@ -300,87 +306,38 @@ table = { key = { key = "value", key = 5 } }
 #                                         ^^ meta.mapping.value.toml meta.mapping.toml - meta.mapping meta.mapping meta.mapping
 #                                           ^ - meta.mapping
 
-table = {
+table = {  # inline tables are terminated by eol
+#       ^^^ meta.mapping.value.toml meta.mapping.toml
+#       ^ punctuation.section.mapping.begin.toml
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.toml - meta.mapping
+}
+# <- invalid.illegal.unexpected-token.toml
+
+table = { key#comment }
+#^^^^ meta.mapping.key.toml entity.name.key.toml
+#    ^^^ meta.mapping.toml - meta.mapping meta.mapping
 #       ^^ meta.mapping.value.toml meta.mapping.toml
-#       ^ meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.begin.toml
-  key = {
-#^^^^^^^^ meta.mapping.value.toml
-#^ meta.mapping.toml
-# ^^^ meta.mapping.value.toml meta.mapping.key.toml entity.name.key.toml
-#    ^^^ meta.mapping.toml
-#     ^ punctuation.separator.key-value.toml
-#       ^ meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.begin.toml
-    array
-#^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
-#   ^^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.key.toml entity.name.key.toml
-    =
-#^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
-#   ^ punctuation.separator.key-value.toml
-    [
-#^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
-#   ^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
-#   ^ punctuation.section.sequence.begin.toml
-      "foo"
-#     ^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.string.toml string.quoted.double.toml
-      ,
-#     ^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml punctuation.separator.sequence.toml
-      'bar'
-#     ^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.string.toml string.quoted.single.toml
-      ,
-#     ^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml punctuation.separator.sequence.toml
-      '''
-#     ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.begin.toml
-      baz
-#     ^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.string.toml string.quoted.single.block.toml
-      '''
-#     ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.end.toml
-    ]
-#^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
-#   ^ punctuation.section.sequence.end.toml
-  }
-#^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
-# ^ punctuation.section.mapping.end.toml
-#  ^ meta.mapping.value.toml meta.mapping.toml
+#       ^ punctuation.section.mapping.begin.toml
+#         ^^^ meta.mapping.value.toml meta.mapping.key.toml entity.name.key.toml
+#            ^^^^^^^^^^^ comment.line.number-sign.toml - meta.mapping
+#            ^ punctuation.definition.comment.toml
 }
-# <- meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
-#^ - meta.mapping
+# <- invalid.illegal.unexpected-token.toml
 
-points = [ { x = 1, y = 2, z = 3 },
-           { x = 2, y = 4, z = 8 } ]
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
-#          ^^ meta.mapping.toml
-#          ^ punctuation.section.mapping.begin.toml
-#            ^ meta.mapping.key.toml entity.name.key.toml
-#             ^^^ meta.mapping.toml
-#              ^ punctuation.separator.key-value.toml
-#                ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
-#                 ^^ meta.mapping.toml
-#                 ^ punctuation.separator.sequence.toml
-#                   ^ meta.mapping.key.toml entity.name.key.toml
-#                    ^^^ meta.mapping.toml
-#                     ^ punctuation.separator.key-value.toml
-#                       ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
-#                        ^^ meta.mapping.toml
-#                        ^ punctuation.separator.sequence.toml
-#                          ^ meta.mapping.key.toml entity.name.key.toml
-#                           ^^^ meta.mapping.toml
-#                            ^ punctuation.separator.key-value.toml
-#                              ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
-#                               ^^ meta.mapping.toml
-#                                ^ punctuation.section.mapping.end.toml
-#                                  ^ punctuation.section.sequence.end.toml
+table = { key =
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^^ meta.mapping.value.toml meta.mapping.key.toml entity.name.key.toml
+#            ^^^ meta.mapping.value.toml meta.mapping.toml
+#             ^ punctuation.separator.key-value.toml
+#              ^ invalid.illegal.unexpected-eol.toml
 
-key = { key#comment }
-#^ meta.mapping.key.toml entity.name.key.toml
-#  ^^^ meta.mapping.toml
-#     ^^^^^^^^^^^^^^^ meta.mapping.value.toml
-#     ^^ meta.mapping.toml
-#     ^ punctuation.section.mapping.begin.toml
-#       ^^^ meta.mapping.key.toml entity.name.key.toml
-#          ^^^^^^^^^^ meta.mapping.toml comment.line.number-sign.toml
-#          ^ punctuation.definition.comment.toml
-}
-# <- meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
+table = { key = false
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^^ meta.mapping.value.toml meta.mapping.key.toml entity.name.key.toml
+#            ^^^ meta.mapping.value.toml meta.mapping.toml
+#             ^ punctuation.separator.key-value.toml
+#               ^^^^^ meta.mapping.value.toml meta.mapping.value.toml constant.language.boolean.false.toml
+#                    ^ meta.mapping.value.toml meta.mapping.toml invalid.illegal.unexpected-eol.toml
 
 table = { [ { ] }  # handle incomplete tables
 #       ^^ meta.mapping.value.toml meta.mapping

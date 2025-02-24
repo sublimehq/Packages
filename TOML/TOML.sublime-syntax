@@ -183,7 +183,10 @@ contexts:
     - match: \}
       scope: punctuation.section.mapping.end.toml
       pop: 2
-    - match: (?=\])
+    - match: $\n?
+      scope: invalid.illegal.unexpected-eol.toml
+      pop: 2
+    - match: (?=[#\]])
       pop: 2
     - match: ','
       scope: punctuation.separator.sequence.toml
@@ -192,21 +195,20 @@ contexts:
       push: inline-table-value
     - match: '{{key_begin}}'
       push: inline-table-key-body
-    - include: comments
     - match: (?=\S)
       push: inline-table-value-body
 
   inline-table-key-body:
     - clear_scopes: 1
     - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - match: (?={{ws}}[=#\]\}])
+    - match: $|(?={{ws}}[=#\]\}])
       pop: 1
     - include: name-content
 
   inline-table-value:
-    # value can start on next line
     - match: (?=\S)
       set: inline-table-value-body
+    - include: eol-pop
 
   inline-table-value-body:
     - clear_scopes: 1
