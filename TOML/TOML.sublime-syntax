@@ -127,7 +127,7 @@ contexts:
     - include: mapping
     - include: boolean
     - include: datetime
-    - include: numbers
+    - include: number
     - include: basic-multiline-string
     - include: basic-string
     - include: literal-multiline-string
@@ -233,7 +233,7 @@ contexts:
         3: punctuation.separator.decimal.toml
       pop: 1
 
-  numbers:
+  number:
     # https://toml.io/en/v1.0.0#float
     - match: ([-+])?(inf|nan){{ident_break}}
       scope: meta.number.float.other.toml
