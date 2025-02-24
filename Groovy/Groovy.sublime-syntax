@@ -54,9 +54,6 @@ contexts:
         1: keyword.other.import.groovy
         2: storage.type.import.groovy
     - include: groovy
-
-
-
   class-object:
     - match: |-
         (?x)
