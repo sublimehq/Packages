@@ -300,6 +300,7 @@ contexts:
     - include: constant
 
 ###[ SIMPLE STRUCTURES ]############################################################
+
   enum-def: # for C++ to override
     - match: \benum\b
       scope: keyword.declaration.enum.c
@@ -411,6 +412,9 @@ contexts:
     - match: \(
       scope: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
+    - match: \[\[
+      scope: meta.brackets.square.c punctuation.section.brackts.begin.c
+      push: enclosure.attribute
     - match: \[
       scope: meta.brackets.square.c punctuation.section.brackets.begin.c
       push: enclosure.brackets
@@ -443,6 +447,18 @@ contexts:
       pop: 1
     - match: \)|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c
+      pop: 1
+  enclosure.attribute:
+    - meta_scope: meta.brackets.square.c meta.annotation.c
+    - match: \b({{attribute_func}})\s*(\()
+      captures:
+        1: storage.modifier.c
+        2: meta.group.c punctuation.section.group.begin.c
+      push: enclosure.parenthesis
+    - match: \b{{attribute_item}}\b
+      scope: constant.other.c
+    - match: \]\]
+      scope: punctuation.section.brackets.end.c
       pop: 1
 
   generic:
@@ -764,15 +780,14 @@ contexts:
 
   gnu-attribute:
     - meta_scope: meta.group.c meta.attribute.c
-    # too many attributes, these are the ones commonly used
     - include: punctuation.comma
-    - match: \b{{attribute_item}}\b
-      scope: constant.other.c
-    - match: \b({{attribute_func}})\s*(\()
+    - match: \b({{gnu_attribute_func}})\s*(\()
       captures:
         1: storage.modifier.c
         2: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
+    - match: \b{{gnu_attribute_item}}\b
+      scope: constant.other.c
     - match: \)\)
       scope: punctuation.section.group.end.c
       pop: 1
@@ -809,8 +824,10 @@ variables:
 
   declspec_item: '(?:allocator|appdomain|deprecated|dllimport|dllexport|empty_bases|hybrid_patchable|jitintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|no_sanitize_address|process|restrict|safebuffers|selectany|thread)'
   declspec_func: '(?:align|allocate|code_seg|spectre|uuid|deprecated)'
-  attribute_item: '(?:noreturn|pure|const|malloc|cold|hot|deprecated|always_inline|noinline|packed|unused|used|leaf|artificial|flatten|noclone|returns_twice|weak|no_reorder|minsize|externally_visible|constructor|destructor)'
-  attribute_func: '(?:aligned|format|nonnull|section|visibility|alias|ifunc|target|alloc_size|cleanup|warning|error|cold_hot_partitioning|no_sanitize|optimize)'
+  gnu_attribute_item: '(?:noreturn|pure|const|malloc|cold|hot|deprecated|always_inline|noinline|packed|unused|used|leaf|artificial|flatten|noclone|returns_twice|weak|no_reorder|minsize|externally_visible|constructor|destructor)'
+  gnu_attribute_func: '(?:aligned|format|nonnull|section|visibility|alias|ifunc|target|alloc_size|cleanup|warning|error|cold_hot_partitioning|no_sanitize|optimize)'
+  attribute_item: '(?:(?:gnu|clang)::{{gnu_attribute_item}}|deprecated|fallthrough|nodiscard|maybe_unused|noreturn|unsequenced|reproducible)'
+  attribute_func: '(?:(?:gnu|clang)::{{gnu_attribute_func}}|deprecated|nodiscard)'
 
   std_funcs: '(?:assert|(?:exp(?:2|m1)|log(?:10|2|1p)|cbrt|hypot|erfc?|[lt]gamma|ceil|floor|trunc|l{0,2}round|f(?:absmod|max|min|dim)|c(?:abs|real|imag|arg|onj|proj|)|c?(?:exp|log|pow|sqrt|a?(?:sin|cos|tan)h?))[fl]?|abs|l{0,2}div|is(?:finite|inf|nan|normal|greater(?:equal)?|less(?:equal|greater)?|unordered|alnum|alpha|lower|upper|x?digit|cntrl|graph|space|blank|print|punct)(?:set|long)jmp|jmp_buf|signal|raise|va_(?:list|start|arg|copy|end)|std(?:in|out|err)|setv?buf|re(?:wind|move|name)|tmp(?:nam|file)(?:_s)?|f(?:(?:re)?open(?:_s)?|close|flush|wide|read|write|tell|getpos|seek|setpos|error)|gets_s|f?(?:get|put)?(?:c|s|char)|v?f?s?w?scanf(?:s|sn)?w?printf(?:_s)?|abort|(?:(?:at_)?quick_|at)?exit|_Exit|unreachable|system|getenv(?:_s)?|to(?:lower|upper)|ato(?:f|i|l|ll)|str(?:to(?:u?ll?|f|l?d)|from[dfl]|(?:n?cpy|cat|nlen|tok|error(?:len)?)(?:_s)?|xfrm|n?dup|n?cmp|coll|r?chr|c?spn|pbrk|str|len)|mem(?:chr|cmp|set(?:_explicit|_s)?|(?:move|cpy)(?:_s)?|ccpy)|thrd_(?:create|equal|current|sleep|yield|exit|detach|join|success|timedout|busy|nomem|error)|(?:diff|mk|strf)?time|clock|timespec_get(?:res)?|(?:as)?ctime(?:_s)?|(?:gm|local)time(?:_[rs])?)'
 

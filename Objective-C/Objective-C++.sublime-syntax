@@ -26,10 +26,9 @@ contexts:
       branch_point: message
       branch: [pre-message, pre-lambda]
 
-  pre-message:
-    - match: \[
-      scope: punctuation.section.brackets.begin.objc++
-      set: message
   pre-lambda:
+    - match: \[\[
+      scope: meta.brackts.square.objc++ punctuation.section.brackets.begin.objc++
+      set: enclosure.attribute
     - include: lambda-enclosure
     - include: pop-immediately

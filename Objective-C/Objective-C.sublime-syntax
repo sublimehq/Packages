@@ -323,11 +323,14 @@ contexts:
     - include: expression
 
   message-enclosure: # for ObjC++
-    - match: \[(?!\s*{{identifier}}\s*[:\]])
-      scope: meta.brackets.square.objc punctuation.section.brackets.begin
+    - match: (?=\[(?!\s*{{identifier}}\s*[:\]]))
       branch_point: message
-      branch: [message, enclosure.brackets]
+      branch: [pre-message, not-message]
 
+  pre-message:
+    - match: \[
+      scope: meta.brackets.square.objc punctuation.section.brackets.begin
+      set: message
   message:
     - meta_scope: meta.bracketed.objc
 
@@ -366,6 +369,14 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.objc
       pop: 1
+
+  not-message:
+    - match: \[\[
+      scope: meta.brackets.square.objc punctuation.section.brackts.begin.objc
+      set: enclosure.attribute
+    - match: \[
+      scope: meta.brackets.square.objc punctuation.section.brackets.begin.objc
+      set: enclosure.brackets
 
   ns-identifiers:
     - match: (\s*)\b(NS(Rect(ToCGRect|FromCGRect)|MakeCollectable|S(tringFromProtocol|ize(ToCGSize|FromCGSize))|Draw(NinePartImage|ThreePartImage)|P(oint(ToCGPoint|FromCGPoint)|rotocolFromString)|EventMaskFromType|Value))\b

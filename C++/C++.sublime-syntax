@@ -346,7 +346,7 @@ contexts:
     - include: main
 
   lambda-enclosure: # for ObjC++
-    - match: \[
+    - match: \[(?!\[)
       branch_point: lambda
       scope: meta.brackets.square.c++ punctuation.section.brackets.begin.c++
       branch: [enclosure.brackets, lambda]
@@ -599,3 +599,5 @@ contexts:
 variables:
   identifier: (?:\b|(?=\$))[[:alpha:]_$][[:alnum:]_$]*(?:\b|\$)
   qualified: (?:::\s*)?(?:{{identifier}}(?:\s*:{0,2}\s*)?)+
+  attribute_item: '(?:(?:gnu|clang)::{{gnu_attribute_item}}|deprecated|noreturn|likely|unlikely|no_unique_address|fallthrough|nodiscard|maybe_unused|noreturn|unsequenced|reproducible)'
+  attribute_func: '(?:(?:gnu|clang)::{{gnu_attribute_func}}|deprecated|nodiscard|assume)'
