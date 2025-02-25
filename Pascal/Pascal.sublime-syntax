@@ -166,7 +166,7 @@ contexts:
         - maybe-function-variables
         - maybe-hint-directive
         - maybe-type-marker
-        - function-params
+        - function-parameters
 
   constructors:
     - match: \b(?i:(constructor))\s+({{identifier}})
@@ -178,16 +178,16 @@ contexts:
         - maybe-function-variables
         - maybe-hint-directive
         - maybe-type-marker
-        - function-params
+        - function-parameters
 
-  function-params:
+  function-parameters:
     - match: \(
       scope: punctuation.section.parameters.begin.pascal
-      push: function-param-body
+      push: function-parameters-body
     - include: terminator
     - include: else-pop
 
-  function-param-body:
+  function-parameters-body:
     - meta_scope: meta.function.parameters.pascal
     - match: \)
       scope: punctuation.section.parameters.end.pascal
@@ -201,9 +201,9 @@ contexts:
       push:
         - maybe-hint-directive
         - maybe-type-marker
-        - function-param
+        - function-parameter-assignment
 
-  function-param:
+  function-parameter-assignment:
     - match: =
       scope: keyword.operator.assignment.pascal
       push:
@@ -223,17 +223,9 @@ contexts:
       pop: 1
     - match: '{{identifier}}'
       scope: variable.other.readwrite.pascal
-      push: [maybe-function-variable-assigment, maybe-type-marker]
+      push: [function-parameter-assignment, maybe-type-marker]
     - include: comma-separator
     - include: terminator
-    - include: else-pop
-
-  maybe-function-variable-assigment:
-    - match: =
-      scope: keyword.operator.assignment.pascal
-      push:
-        - include: literals
-        - include: else-pop
     - include: else-pop
 
   function-body:
