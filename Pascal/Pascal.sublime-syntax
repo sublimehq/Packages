@@ -21,11 +21,6 @@ contexts:
     - include: comments
 
   main:
-    - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
-      scope: meta.function.prototype.pascal
-      captures:
-        1: keyword.declaration.function.pascal
-        2: entity.name.function.pascal
     - include: statements
 
   keywords:
@@ -165,6 +160,7 @@ contexts:
         - function-body
         - maybe-function-variables
         - maybe-hint-directive
+        - maybe-function-attributes
         - maybe-type-marker
         - function-parameters
 
@@ -177,6 +173,7 @@ contexts:
         - function-body
         - maybe-function-variables
         - maybe-hint-directive
+        - maybe-function-attributes
         - maybe-type-marker
         - function-parameters
 
@@ -210,6 +207,25 @@ contexts:
         - include: literals
         - include: else-pop
     - include: else-pop
+
+  maybe-function-attributes:
+    - match: \b(?i:(attribute))\s*(\()
+      captures:
+        1: keyword.other.pascal
+        2: punctuation.section.parameters.begin.pascal
+      push: function-attribute
+    - match: \b(?i:forward|external)\b
+      scope: keyword.control.pascal
+    - include: terminator
+    - include: else-pop
+
+  function-attribute:
+    - match: \)
+      scope: punctuation.section.parameters.end.pascal
+      pop: 1
+    - include: comma-separator
+    - match: '\b(?xi: static | register | volatile | const | external | name | ignorable | inline | iocritical | size )\b'
+      scope: variable.annotation.pascal
 
   maybe-function-variables:
     - match: \b(?i:var)\b

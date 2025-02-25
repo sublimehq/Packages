@@ -457,3 +457,47 @@ end;
     BestRect := Default(TBPRect);
     Rect.x := 0;
   end;
+
+
+  // https://www.gnu-pascal.org/gpc/attribute.html#attribute
+  program AttributeDemo;
+
+  { Demo for `iocritical' attribute. }
+
+  { Program will abort with a runtime error! }
+
+  {$I-}
+  procedure p; attribute (iocritical);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^ keyword.declaration.function.pascal
+//          ^ entity.name.function.pascal
+//           ^ punctuation.terminator.pascal
+//             ^^^^^^^^^ keyword.other.pascal
+//                       ^ punctuation.section.parameters.begin.pascal
+//                        ^^^^^^^^^^ variable.annotation.pascal
+//                                  ^ punctuation.section.parameters.end.pascal
+//                                   ^ punctuation.terminator.pascal
+  var t: Text;
+  begin
+//^^^^^ meta.function.pascal
+//^^^^^ meta.block.pascal keyword.context.block.begin.pascal
+    Reset (t)  { Will not cause a runtime error here because I/O
+                 checking is off, but leave InOutRes set. }
+  end;
+  {$I+}
+
+  begin
+
+    p;
+    { Since `p' was declared `iocritical', and I/O checking is now on,
+      InOutRes is checked immediately after the call to p, and a
+      runtime error raised. }
+
+    { So this statement is never reached. }
+    InOutRes := 0;
+
+    { Neither this one, which would be reached without the
+      `iocritical' attribute. }
+    WriteLn ('never gets here')
+
+  end.
