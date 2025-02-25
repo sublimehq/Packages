@@ -1,0 +1,14 @@
+*                           text=auto
+
+*.sublime-build             linguist-language=JSON-with-Comments
+*.sublime-color-scheme      linguist-language=JSON-with-Comments
+*.hidden-color-scheme       linguist-language=JSON-with-Comments
+*.sublime-commands          linguist-language=JSON-with-Comments
+*.sublime-completions       linguist-language=JSON-with-Comments
+*.sublime-keymap            linguist-language=JSON-with-Comments
+*.sublime-macro             linguist-language=JSON-with-Comments
+*.sublime-mousemap          linguist-language=JSON-with-Comments
+*.sublime-menu              linguist-language=JSON-with-Comments
+*.sublime-settings          linguist-language=JSON-with-Comments
+*.sublime-snippet           linguist-language=XML-Property-List
+*.hidden-tmLanguage         linguist-language=XML-Property-List

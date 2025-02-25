@@ -1,10 +1,20 @@
-# MacOS specific ignores
+# OS specific ignores
+
 .DS_Store
+Thumbs.db
+[Dd]esktop.ini
 
 # excluded packages
+
 /Default/
 /User/
 
-# python cache files
+# Python / TextMate cache files
+
 __pycache__/
-*.pyc
+*.py[cod]
+*.cache
+
+# Sublime Text / Project workspace files
+
+*.sublime-workspace
