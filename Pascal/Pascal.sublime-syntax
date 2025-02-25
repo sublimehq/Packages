@@ -37,12 +37,11 @@ contexts:
     - match: '{{hint_directive}}'
       scope: variable.annotation.pascal
 
-  # function-call-no-arg:
-  #   - match: '({{identifier}})(;)'
-  #     captures:
-  #       1: meta.function-call.pascal
-  #          variable.function.pascal
-  #       2: punctuation.terminator.pascal
+  function-call-no-arg:
+    - match: ({{identifier}})\s*(;)
+      captures:
+        1: meta.function-call.pascal variable.function.pascal
+        2: punctuation.terminator.pascal
 
   function-call:
     - match: (({{identifier}})\s*)(\()
@@ -304,11 +303,35 @@ contexts:
     - match: '[@^]'
       scope: keyword.operator.pointer.pascal
 
+  assignment:
+    - match: '({{identifier}})\s*(:=)'
+      captures:
+        1: variable.other.readwrite.pascal
+        2: keyword.operator.assignment.pascal
+      push:
+        - include: pop-terminator
+        - include: expressions
+    - match: '(&{{reserved_word}})\s*(:=)'
+      captures:
+        1: variable.other.readwrite.pascal
+        2: keyword.operator.assignment.pascal
+      push:
+        - include: pop-terminator
+        - include: expressions
+
   identifiers-as-vars:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.pascal
+      push: maybe-accessor
     - match: '&{{reserved_word}}'
       scope: variable.other.readwrite.pascal
+      push: maybe-accessor
+
+  maybe-accessor:
+    - match: \.
+      scope: punctuation.accessor.dot.pascal
+      pop: 1
+    - include: else-pop
 
 ###[ LITERALS ]################################################################
 
@@ -463,6 +486,8 @@ contexts:
     - include: operators
     - include: keywords
     - include: terminator
+    - include: function-call
+    - include: identifiers-as-vars
 
   statements:
     - include: functions
@@ -472,10 +497,9 @@ contexts:
     - include: blocks
     - include: literals
     - include: flow
+    - include: assignment
+    - include: function-call-no-arg
     - include: expressions
-    # - match: '({{identifier}})(\.)'
-    # - include: function-call-no-arg
-    - include: function-call
 
   comma-separator:
     - match: ','

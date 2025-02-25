@@ -219,6 +219,7 @@
 //^^^^^ meta.block.pascal keyword.context.block.begin.pascal
     Something:=P+AConst;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.block.pascal
+//  ^^^^^^^^^ variable.other.readwrite.pascal
 //           ^^ keyword.operator.assignment.pascal
 //              ^ keyword.operator.arithmetic.pascal
 //                     ^ punctuation.terminator.pascal
@@ -236,9 +237,12 @@
 //^^^^^ meta.function.pascal
 //^^^^^ keyword.context.block.begin.pascal
     Something:=P+AConst;
-//^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
+//  ^^^^^^^^^ variable.other.readwrite.pascal
 //           ^^ keyword.operator.assignment.pascal
+//             ^ variable.other.readwrite.pascal
 //              ^ keyword.operator.arithmetic.pascal
+//               ^^^^^^ variable.other.readwrite.pascal
 //                     ^ punctuation.terminator.pascal
   end;
 //^^^^ meta.function.pascal
@@ -247,6 +251,9 @@
 
   begin
     Something;
+//^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
+//  ^^^^^^^^^ meta.function-call.pascal variable.function.pascal
+//           ^ punctuation.terminator.pascal
   end.
 
   // comment
@@ -495,6 +502,11 @@ end;
 
     { So this statement is never reached. }
     InOutRes := 0;
+//^^^^^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
+//  ^^^^^^^^ variable.other.readwrite.pascal
+//           ^^ keyword.operator.assignment.pascal
+//              ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
+//               ^ punctuation.terminator.pascal
 
     { Neither this one, which would be reached without the
       `iocritical' attribute. }
