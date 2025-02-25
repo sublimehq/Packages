@@ -130,8 +130,10 @@ contexts:
     # ------------------------ >8 ------------------------
     - match: '{{comment_char}} -{24} >8 -{24}\s*\n'
       scope: comment.line.git.commit markup.bold.commit
-      set:
-        - meta_content_scope: meta.dropped.git.commit
-        - include: comments
-        - match: ^(?=diff --git)
-          set: [Packages/Diff/Diff.sublime-syntax]
+      set: dropped-content-body
+
+  dropped-content-body:
+    - meta_content_scope: meta.dropped.git.commit
+    - include: comments
+    - match: ^(?=diff --git)
+      set: Git Diff.sublime-syntax
