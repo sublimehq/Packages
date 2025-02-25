@@ -62,15 +62,27 @@ contexts:
     - match: \]\]
       scope: meta.brackets.toml punctuation.section.brackets.end.toml
       set: table-header-end
-    - include: name-content
-    - include: illegal-eol-pop
+    - include: table-header-content
 
   table-header-body:
     - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
     - match: \]
       scope: meta.brackets.toml punctuation.section.brackets.end.toml
       set: table-header-end
-    - include: name-content
+    - include: table-header-content
+
+  table-header-content:
+    - match: \.
+      scope: punctuation.accessor.dot.toml
+    - match: \"
+      scope: punctuation.definition.string.begin.toml
+      push: double-quoted-table-name-body
+    - match: \'
+      scope: punctuation.definition.string.begin.toml
+      push: single-quoted-table-name-body
+    - include: name-prototype
+    - match: '[^ \t0-9A-Za-z_-]'
+      scope: invalid.illegal.toml
     - include: illegal-eol-pop
 
   table-header-end:
@@ -81,48 +93,73 @@ contexts:
     - include: comments
     - include: illegal-tokens
 
-###[ KEYS ]####################################################################
-
-  table-keys:
-    # https://toml.io/en/v1.0.0#keys
-    - match: '{{key_begin}}'
-      push: table-key-body
-
-  table-key-body:
-    - clear_scopes: 1
-    - meta_scope: meta.mapping.key.toml entity.name.key.toml
-    - include: eol-pop
-    - include: name-content
-
-  name-content:
-    - match: \.
-      scope: punctuation.accessor.toml
+  double-quoted-table-name-body:
     - match: \"
-      scope: punctuation.definition.quoted.begin.toml
-      push: double-quoted-name-body
-    - match: \'
-      scope: punctuation.definition.quoted.begin.toml
-      push: single-quoted-name-body
-    - include: name-prototype
-    - match: '[^ \t0-9A-Za-z_-]'
-      scope: invalid.illegal.toml
-
-  double-quoted-name-body:
-    - match: \"
-      scope: punctuation.definition.quoted.end.toml
+      scope: punctuation.definition.string.end.toml
       pop: 1
     - include: illegal-eol-pop
     - include: string-escapes
     - include: name-prototype
 
-  single-quoted-name-body:
+  single-quoted-table-name-body:
     - match: \'
-      scope: punctuation.definition.quoted.end.toml
+      scope: punctuation.definition.string.end.toml
       pop: 1
     - include: illegal-eol-pop
     - include: name-prototype
 
   name-prototype: []
+
+###[ KEYS ]####################################################################
+
+  table-keys:
+    - match: \"
+      scope: punctuation.definition.string.begin.toml
+      push:
+        - table-key-accessor
+        - double-quoted-table-key-body
+    - match: \'
+      scope: punctuation.definition.string.begin.toml
+      push:
+        - table-key-accessor
+        - single-quoted-table-key-body
+    - match: '{{ident_begin}}'
+      push:
+        - table-key-accessor
+        - unquoted-table-key-body
+
+  double-quoted-table-key-body:
+    - meta_scope: meta.string.toml string.quoted.double.toml
+    - match: \"
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: illegal-eol-pop
+    - include: string-escapes
+    - include: string-prototype
+
+  single-quoted-table-key-body:
+    - meta_scope: meta.string.toml string.quoted.single.toml
+    - match: \'
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: illegal-eol-pop
+    - include: string-prototype
+
+  unquoted-table-key-body:
+    - meta_scope: meta.string.toml string.unquoted.toml
+    - include: string-prototype
+    - match: '{{ident_break}}'
+      pop: 1
+    - include: illegal-eol-pop
+
+  table-key-accessor:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.key.toml
+    - match: '{{ws}}(\.){{ws}}'
+      captures:
+        1: punctuation.accessor.dot.toml
+      pop: 1
+    - include: immediately-pop
 
 ###[ VALUES ]##################################################################
 
@@ -378,9 +415,6 @@ contexts:
 
 variables:
   ws: '[ \t]*'
-
-  # maybe quoted identifiers
-  key_begin: (?=["'0-9A-Za-z_-])
 
   # identifier
   ident_begin: (?={{ident_char}})
