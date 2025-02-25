@@ -25,12 +25,14 @@ contexts:
     - match: ^\s*(@implementation)\b
       captures:
         1: keyword.declaration.class.objc
-      push: implementation.start
-  implementation.start:
+      push: implementation-start
+  implementation-start:
     - meta_scope: meta.implementation.objc
     - match: '{{identifier}}'
       scope: entity.name.type.objc
-      push: [pop-twice, interface.body]
+      push:
+        - pop-twice
+        - interface-body
     - include: else-pop
 
   interface:
@@ -39,66 +41,67 @@ contexts:
         1: keyword.declaration.class.objc
       push:
         - meta_scope: meta.interface.objc
-        - include: interface.start
+        - include: interface-start
     - match: ^\s*(@protocol)\b
       captures:
         1: keyword.declaration.class.objc
       push:
         - meta_scope: meta.protocol.objc
-        - include: interface.start
+        - include: interface-start
 
-  interface.start:
+  interface-start:
     - match: '{{identifier}}'
       scope: entity.name.type.objc
       push:
         - pop-twice
-        - interface.body
-        - interface.struct
-        - interface.subclass
-        - interface.category
+        - interface-body
+        - interface-struct
+        - interface-subclass
+        - interface-category
     - include: else-pop
-  interface.meta:
-    - meta_scope: meta.interface-or-protocol.objc meta.scope.interface.objc
-    - include: pop-immediately
-  interface.category:
+  interface-category:
     - match: \(
       scope: meta.group.objc punctuation.section.group.begin.objc
       set:
         - meta_content_scope: meta.group.objc entity.name.type.category.objc
         - include: enclosure.parenthesis
     - include: else-pop
-  interface.subclass:
+  interface-subclass:
     - include: protocol-list
     - match: ':'
       scope: punctuation.separator.objc
     - include: expression-identifiers
     - include: else-pop
-  interface.struct:
+  interface-struct:
     - match: \{
       scope: meta.block.objc punctuation.section.block.begin.objc
       set: enclosure.block
     - include: else-pop
-  interface.body:
+  interface-body:
     - match: \@end
       scope: keyword.declaration.interface.end.objc
       pop: 1
     - match: \@property
       scope: keyword.other.objc
-      push: [statement, property]
+      push:
+        - statement
+        - property
     - match: \@(?:synthesize|dynamic)
       scope: keyword.other.objc
       push: statement
 
     - match: (?:\+|\-)\s*(?=\()
-      push: [selector, selector.return]
+      push:
+        - selector
+        - selector-return
     - include: expression
 
   property:
     - match: \(
       scope: punctuation.section.group.begin.objc
-      set: property.attrs
+      set: property-attrs
     - include: else-pop
-  property.attrs:
+  property-attrs:
     - meta_scope: meta.group.objc
     - match: \)
       scope: punctuation.section.group.end.objc
@@ -113,10 +116,6 @@ contexts:
     - include: punctuation.comma
     - include: operator
 
-  selector.return:
-    - match: \(
-      scope: meta.group.objc punctuation.section.group.begin.objc
-      set: enclosure.parenthesis
   selector:
     - meta_scope: meta.function.selector.objc
     - match: '\b({{identifier}})\s*(\:)\s*(\()'
@@ -124,7 +123,9 @@ contexts:
         1: entity.name.function.method.objc
         2: punctuation.separator.arguments.objc
         3: meta.group.objc punctuation.section.group.begin.objc
-      push: [selector.param, enclosure.parenthesis]
+      push:
+        - selector-param
+        - enclosure.parenthesis
     - match: \b({{identifier}})\s*(\:)
       captures:
         1: entity.name.function.method.objc
@@ -142,7 +143,11 @@ contexts:
       set: enclosure.block
     - include: operator.variadic
     - include: expression
-  selector.param:
+  selector-return:
+    - match: \(
+      scope: meta.group.objc punctuation.section.group.begin.objc
+      set: enclosure.parenthesis
+  selector-param:
     - match: \b{{identifier}}\b
       scope: variable.parameter.objc
       pop: 1
@@ -150,8 +155,8 @@ contexts:
   protocol-list:
     - match: \<(?=({{identifier}}|,|\s|\*)*\>)
       scope: punctuation.section.scope.begin.objc
-      push: protocol-list.body
-  protocol-list.body:
+      push: protocol-list-body
+  protocol-list-body:
     - meta_scope: meta.protocol-list.objc
     - include: expression-identifiers
     - include: punctuation.comma
@@ -165,35 +170,37 @@ contexts:
     - match: (\^)\s*(?=\()
       captures:
         1: keyword.operator.bitwise.objc
-      branch_point: block-fn
-      branch: [block-fn, pop-immediately]
+      branch_point: block
+      branch: [block, pop-immediately]
     - match: '(@catch)\s*(\()'
       captures:
         1: keyword.control.exception.objc
         2: punctuation.section.group.begin.objc
-      push: function.params
+      push: function-params
     - include: protocol-list
 
-  call.not-call:
+  call-try-not:
     - meta_prepend: true
     - match: '(?={{identifier}}\s*:)'
       pop: 1
 
-  block-fn:
+  block:
     - meta_scope: meta.function.block.objc
     - match: ''
-      set: [block-fn.body, block-fn.params]
-  block-fn.params:
+      set:
+        - block-body
+        - block-params
+  block-params:
     - match: \(
       scope: punctuation.section.group.begin.objc
-      set: function.params
+      set: function-params
     - include: else-pop
-  block-fn.body:
+  block-body:
     - match: \{
       scope: meta.block.objc punctuation.section.block.begin.objc
       set: enclosure.block
     - match: (?=\S)
-      fail: block-fn
+      fail: block
 
   preprocessor:
     - meta_prepend: true
@@ -215,28 +222,6 @@ contexts:
     - match: '%@'
       scope: constant.other.placeholder.objc
 
-  available.body:
-    - meta_scope: meta.available.objc
-    - meta_content_scope: meta.group.objc
-    - match: \)
-      scope: meta.group.objc punctuation.section.group.end.objc
-      pop: 1
-    - match: \b(?:iOS|macOS|watchOS|tvOS|visionOS)\b
-      scope: support.constant.platform.objc
-    - match: \b(\d[\d\.]+)\b
-      captures:
-        1: constant.numeric.version.objc
-    - include: expression
-
-  selector-obj:
-    - meta_scope: meta.selector.objc
-    - meta_content_scope: meta.group.objc meta.selector.method-name.objc
-    - match: \)
-      scope: meta.group.objc punctuation.section.group.end.objc
-      pop: 1
-    - match: '[^)]+'
-      scope: support.function.objc
-
   keyword:
     - meta_prepend: true
     - match: \b(?:self|super)\b
@@ -247,12 +232,12 @@ contexts:
       captures:
         1: keyword.operator.word.objc
         2: meta.group.objc punctuation.section.group.begin.objc
-      push: available.body
+      push: keyword.available
     - match: '(@selector)\s*(\()'
       captures:
         1: keyword.operator.word.objc
         2: meta.group.objc punctuation.section.group.begin.objc
-      push: selector-obj
+      push: keyword.selector
     - match: '@(?:selector|encode|defs|available)'
       scope: keyword.operator.word.objc
   keyword.control:
@@ -275,6 +260,26 @@ contexts:
       scope: keyword.declaration.objc
     - match: '(?=\bNS)'
       push: ns-identifiers
+  keyword.available:
+    - meta_scope: meta.available.objc
+    - meta_content_scope: meta.group.objc
+    - match: \)
+      scope: meta.group.objc punctuation.section.group.end.objc
+      pop: 1
+    - match: \b(?:iOS|macOS|watchOS|tvOS|visionOS)\b
+      scope: support.constant.platform.objc
+    - match: \b(\d[\d\.]+)\b
+      captures:
+        1: constant.numeric.version.objc
+    - include: expression
+  keyword.selector:
+    - meta_scope: meta.selector.objc
+    - meta_content_scope: meta.group.objc meta.selector.method-name.objc
+    - match: \)
+      scope: meta.group.objc punctuation.section.group.end.objc
+      pop: 1
+    - match: '[^)]+'
+      scope: support.function.objc
 
   gnu-attribute:
     - meta_append: true
@@ -335,7 +340,7 @@ contexts:
     - include: enclosure
 
     - match: (?={{identifier}}\s*:)
-      set: message.func
+      set: message-func
 
     - match: \]
       fail: message
@@ -349,7 +354,7 @@ contexts:
     - match: '\b({{identifier}})\b'
     - match: (?=\S)
       fail: message
-  message.func:
+  message-func:
     - meta_scope: meta.bracketed.objc
     - match: '\b({{identifier}})\s*(:)'
       captures:

@@ -17,8 +17,7 @@ first_line_match: |-
   )
 
 contexts:
-  message-enclosure:
-    - match: ""
+  message-enclosure: []
   enclosure:
     - meta_prepend: true
     - match: (?=\[(?!\s*{{identifier}}\s*[:\]]))

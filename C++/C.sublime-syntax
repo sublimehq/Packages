@@ -29,21 +29,22 @@ contexts:
   comment:
     - match: //
       scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.line.double-slash.c
-        - include: preprocessor.line-escape
-        - include: eol-pop
-
+      push: comment.line
     - match: /\*
       scope: punctuation.definition.comment.c
-      push:
-        - meta_scope: comment.block.c
-        - include: preprocessor.line-escape
-        - match: \*/
-          scope: punctuation.definition.comment.c
-          pop: 1
+      push: comment.block
     - match: \*/
       scope: invalid.illegal.stray-comment-end.c
+  comment.line:
+    - meta_scope: comment.line.double-slash.c
+    - include: preprocessor.line-escape
+    - include: eol-pop
+  comment.block:
+    - meta_scope: comment.block.c
+    - include: preprocessor.line-escape
+    - match: \*/
+      scope: punctuation.definition.comment.c
+      pop: 1
 
   preprocessor:
     - include: preprocessor.line-escape
@@ -95,6 +96,7 @@ contexts:
     - match: \<
       scope: punctuation.definition.string.begin.c
       push: string.angled
+    - include: comment
     - include: eol-pop
   preprocessor.diagnostic:
     - meta_scope: meta.preprocessor.diagnostic.c
@@ -148,6 +150,7 @@ contexts:
       push: preprocessor.embed-enclosure
     - include: eol-pop
   preprocessor.embed-enclosure:
+    - meta_scope: meta.group.c
     - match: \)
       scope: punctuation.section.group.end.c
       pop: 1
@@ -168,7 +171,7 @@ contexts:
     # priority issues with matching ^\s*{{identifier}}
     - match: ^\s+
       branch_point: try-function
-      branch: [expression.try-function, pop-immediately]
+      branch: [try-function, pop-immediately]
     - include: keyword.control-flow
     - include: keyword.control
     - match: (?=^{{identifier}}\s+{{identifier}}\s*\()
@@ -185,7 +188,8 @@ contexts:
     - include: generic
     - include: call
     - include: enclosure
-  expression.try-function:
+
+  try-function:
     - include: keyword.control
     - include: keyword.control-flow
     - match: (?={{identifier}}\s+{{identifier}}\s*\()
@@ -208,15 +212,14 @@ contexts:
       push: enclosure.parenthesis
     - match: \b(?={{identifier}}\s*$)
       branch_point: not-call
-      branch: [call.not-call, call.multi-line]
-  call.not-call:
+      branch: [call-try-not, call-multi-line]
+  call-try-not:
     - include: expression-identifiers
     - match: (?=\()
       fail: not-call
-
     - match: '{{identifier}}\b'
     - include: else-pop
-  call.multi-line:
+  call-multi-line:
     - match: '\b{{std_funcs}}\b'
       scope: support.function.std.c
     - match: '\b{{identifier}}\b'
@@ -232,9 +235,11 @@ contexts:
       captures:
         1: entity.name.function.c
         2: punctuation.section.group.begin.c
-      push: [function.tail, function.params]
+      push:
+        - function-tail
+        - function-params
     - match: \b{{identifier}}\b
-  function.params:
+  function-params:
     - meta_content_scope: meta.function.parameters.c meta.group.c
     - match: \)
       scope: punctuation.section.group.end.c
@@ -249,10 +254,10 @@ contexts:
     - match: (?={{identifier}}\s*(?!\s*[\[,\)]|$))
       push:
         - match: \b
-          set: function.params.name
+          set: function-params-name
         - include: expression
     - include: expression
-  function.params.name:
+  function-params-name:
     - match: (?=[\]\}\);]) # Fallback
       pop: 1
     - match: '{{fn_pointer}}'
@@ -260,7 +265,7 @@ contexts:
         1: keyword.operator.c
         2: variable.parameter.c
         3: punctuation.section.group.begin.c
-      set: function.params
+      set: function-params
     - include: expression-identifiers
     - match: ({{identifier}})\s*(\[)
       captures:
@@ -272,15 +277,15 @@ contexts:
         1: variable.parameter.c
       pop: 1
     - include: expression
-  function.tail:
+  function-tail:
     - meta_scope: meta.function.c
     - match: ;
       pop: 1
     - match: \{
       scope: punctuation.section.block.begin
-      set: function.body
+      set: function-body
     - include: expression
-  function.body:
+  function-body:
     - meta_scope: meta.function.c meta.block.c
     - match: \}
       scope: punctuation.section.block.end.c
@@ -319,14 +324,14 @@ contexts:
       captures:
         1: keyword.operator.c
         3: punctuation.section.group.begin.c
-      set: function.params
+      set: function-params
   type.typedef:
     - match: '{{fn_pointer}}'
       captures:
         1: keyword.operator.c
         2: entity.name.type.typedef.c
         3: punctuation.section.group.begin.c
-      set: function.params
+      set: function-params
 
     - match: ({{identifier}})\s*(?=;)
       captures:
@@ -445,8 +450,8 @@ contexts:
       captures:
         1: keyword.declaration.c
         2: punctuation.section.group.begin.c
-      push: generic.body
-  generic.body:
+      push: generic-body
+  generic-body:
     - match: ':'
       scope: keyword.operator.c
       push:
@@ -462,13 +467,13 @@ contexts:
         1: entity.name.label.c
         2: punctuation.separator.c
 
-  dot-access:
+  access:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.member.c
-      set: dot-access.body
-  dot-access.body:
+      set: access-not-fn
+  access-not-fn:
     - match: \(
-      fail: dot-access
+      fail: access
     - include: else-pop
 
 ###[ BASIC OBJECTS ]############################################################
@@ -491,27 +496,27 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.c
       pop: 1
-    - include: string.escape
-    - include: string.format
+    - include: string-escape
+    - include: string-format
   string.single:
     - meta_scope: string.quoted.single.c
     - meta_include_prototype: false
     - match: \'
       scope: punctuation.definition.string.end.c
       pop: 1
-    - include: string.escape
+    - include: string-escape
   string.angled:
     - meta_scope: string.quoted.other.c
     - meta_include_prototype: false
     - match: \>
       scope: punctuation.definition.string.end.c
       pop: 1
-  string.escape:
+  string-escape:
     - match: \\([abfnrtv\\'\"?]|[eE]|[0-7]{1,3}|x\h+|u\h{4}|U\h{8})
       scope: constant.character.escape.c
     - match: \\.
       scope: invalid.illegal.unknown-escape.c
-  string.format:
+  string-format:
     - match: |-
         (?x)%
           (\d+\$)?                                      # field (argument #)
@@ -566,8 +571,8 @@ contexts:
   operator.accessor:
     - match: (\.|\-\>)(?=\s*{{identifier}})
       scope: punctuation.accessor.dot.c++
-      branch_point: dot-access
-      branch: [dot-access, pop-immediately]
+      branch_point: access
+      branch: [access, pop-immediately]
     - match: \.|\-\>
       scope: punctuation.accessor.c
   operator.pointer:
@@ -742,21 +747,20 @@ contexts:
         1: storage.modifier.c
         2: meta.group.c punctuation.section.group.begin.c
       push: enclosure.parenthesis
-
     - match: \b(property)\s*(\()
       captures:
         1: storage.modifier.c
         2: punctuation.section.group.begin.c
-      push:
-        - meta_content_scope: meta.group.c
-        - match: \b(get|put)\b
-          scope: variable.parameter.c
-        - include: enclosure.parenthesis
-
+      push: declspec-proprty
     - include: expression
     - match: \)
       scope: punctuation.section.group.end.c
       pop: 1
+  declspec-proprty:
+    - meta_content_scope: meta.group.c
+    - match: \b(get|put)\b
+      scope: variable.parameter.c
+    - include: enclosure.parenthesis
 
   gnu-attribute:
     - meta_scope: meta.group.c meta.attribute.c
