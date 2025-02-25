@@ -252,7 +252,10 @@ contexts:
         1: storage.type.string.r
         2: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.double.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.double.r
         - match: \)(\3)"
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -262,7 +265,10 @@ contexts:
         1: storage.type.string.r
         2: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.double.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.double.r
         - match: \}(\3)"
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -272,7 +278,10 @@ contexts:
         1: storage.type.string.r
         2: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.double.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.double.r
         - match: \](\3)"
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -282,7 +291,10 @@ contexts:
         1: storage.type.string.r
         2: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.single.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.single.r
         - match: \)(\3)'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -292,7 +304,10 @@ contexts:
         1: storage.type.string.r
         2: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.single.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.single.r
         - match: \}(\3)'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -302,7 +317,10 @@ contexts:
         1: storage.type.string.r
         2: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.single.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.single.r
         - match: \](\3)'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -310,9 +328,11 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.double.r
-        - match: \\.
-          scope: constant.character.escape.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.double.r
+        - include: double-quoted-string-escapes
         - match: '"'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -320,12 +340,91 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.r
       push:
-        - meta_scope: string.quoted.single.r
-        - match: \\.
-          scope: constant.character.escape.r
+        - meta_include_prototype: false
+        - meta_scope: >-
+            meta.string.r
+            string.quoted.single.r
+        - include: single-quoted-string-escapes
         - match: "'"
           scope: punctuation.definition.string.end.r
           pop: 1
+
+  single-quoted-string-escapes:
+    - meta_include_prototype: false
+    - match: (\\)\'
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - include: string-escapes
+
+  double-quoted-string-escapes:
+    - meta_include_prototype: false
+    - match: (\\)\"
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - include: string-escapes
+
+  string-escapes:
+    - meta_include_prototype: false
+    - include: invalid-string-escapes
+    - include: valid-string-escapes
+
+  invalid-string-escapes:
+    - meta_include_prototype: false
+    - match: '(\\)0'                                        # null character
+      scope: invalid.illegal.constant-character-escape.r
+
+  valid-string-escapes:
+    - meta_include_prototype: false
+    - match: '(\\)\\'                                       # backslash
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)n'                                        # newline
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)r'                                        # carriage return
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)t'                                        # horizontal tab
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)b'                                        # backspace
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)a'                                        # bell
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)f'                                        # form feed
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)v'                                        # vertical tab
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)[0-7]{1,3}'
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)x\h{1,2}'
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)u\{?\h{1,4}\}?'
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
+    - match: '(\\)U\{?\h{1,8}\}?'
+      scope: constant.character.escape.r
+      captures:
+        1: punctuation.definition.string.escape.r
 
 ###[ SECTIONS ]################################################################
 
