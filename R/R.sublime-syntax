@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+# https://cran.r-project.org/doc/manuals/r-release/R-lang.html
 # http://www.sublimetext.com/docs/syntax.html
 
 name: R
@@ -24,10 +25,11 @@ first_line_match: |-
 ###[ CONTEXTS ]################################################################
 
 contexts:
-  main:
-    - include: roxygen
-    - include: codesection
+  prototype:
     - include: comments
+
+  main:
+    - include: codesection
     - include: constants
     - include: accessor
     - include: operators
@@ -44,6 +46,7 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   codesection:
+    - meta_include_prototype: false
     - match: ^\s*((\#+)\s+(.+?)\s+(?:-{4,}|={4,}|#{4,})[ \t]*$\n?)
       captures:
         1: comment.line.number-sign.r
@@ -51,23 +54,29 @@ contexts:
         3: entity.name.section.r
 
   comments:
-    - match: \#+
+    - include: roxygen
+    - include: line-comments
+
+  line-comments:
+    - match: \#+(?!.*(?:-{4,}|={4,}|#{4,})\s*$\n?)
       scope: punctuation.definition.comment.r
       push:
         - meta_scope: comment.line.number-sign.r
         - include: eol-pop
 
   roxygen:
-    - match: (#')\s*
+    - match: (#')\s*(?!.*(?:-{4,}|={4,}|#{4,})\s*$\n?)
       captures:
         1: punctuation.definition.comment.r
       push: [roxygen-content, roxygen-keyword]
 
   roxygen-content:
+    - meta_include_prototype: false
     - meta_scope: comment.line.documentation.r
     - include: eol-pop
 
   roxygen-keyword:
+    - meta_include_prototype: false
     - match: (@param)\s*({{var}})
       captures:
         1: keyword.other.r
@@ -77,6 +86,8 @@ contexts:
     - include: immediately-pop
 
 ###[ CONSTANTS ]###############################################################
+
+  # https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Constants-2
 
   constants:
     - match: \b(pi|letters|LETTERS|month\.abb|month\.name)\b
@@ -184,6 +195,8 @@ contexts:
         - include: immediately-pop
 
   operators:
+    # https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Operators-1
+
     # NOTE: sorted by length to ensure not to break ligatures
 
     # operators with 3+ characters
@@ -357,6 +370,8 @@ contexts:
 
 ###[ FUNCTIONS ]###############################################################
 
+  # https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Functions-1
+
   function-declarations:
     - match: (({{var}})\s*)((<<?-|=)\s*)(?=function\s*\()
       captures:
@@ -381,7 +396,6 @@ contexts:
             - match: \)
               scope: punctuation.section.parameters.end.r
               pop: 1
-            - include: comments
             - match: '{{var}}'
               scope: variable.parameter.r
             - match: '(?==)'
