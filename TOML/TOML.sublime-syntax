@@ -117,33 +117,16 @@ contexts:
       scope: punctuation.definition.string.begin.toml
       push:
         - table-key-accessor
-        - double-quoted-table-key-body
+        - basic-string-body
     - match: \'
       scope: punctuation.definition.string.begin.toml
       push:
         - table-key-accessor
-        - single-quoted-table-key-body
+        - literal-string-body
     - match: '{{ident_begin}}'
       push:
         - table-key-accessor
         - unquoted-table-key-body
-
-  double-quoted-table-key-body:
-    - meta_scope: meta.string.toml string.quoted.double.toml
-    - match: \"
-      scope: punctuation.definition.string.end.toml
-      pop: 1
-    - include: illegal-eol-pop
-    - include: string-escapes
-    - include: string-prototype
-
-  single-quoted-table-key-body:
-    - meta_scope: meta.string.toml string.quoted.single.toml
-    - match: \'
-      scope: punctuation.definition.string.end.toml
-      pop: 1
-    - include: illegal-eol-pop
-    - include: string-prototype
 
   unquoted-table-key-body:
     - meta_scope: meta.string.toml string.unquoted.toml
@@ -166,17 +149,20 @@ contexts:
   table-values:
     - match: =
       scope: punctuation.separator.key-value.toml
-      push: [expect-eol, table-value]
+      push: table-value
+    # fallback if nothing else matches
+    - match: (?=\S)
+      push: [table-value-meta, value]
 
   table-value:
     - match: (?=\S)
-      set: table-value-body
+      set: [table-value-meta, value]
     - include: eol-pop
 
-  table-value-body:
+  table-value-meta:
     - clear_scopes: 1
     - meta_scope: meta.mapping.value.toml
-    - include: value
+    - include: expect-eol
 
   value:
     - include: array
@@ -196,15 +182,15 @@ contexts:
     # https://toml.io/en/v1.0.0#array
     - match: \[
       scope: punctuation.section.sequence.begin.toml
-      push: array-body
+      set: array-body
 
   array-body:
     - meta_scope: meta.sequence.array.toml
     - match: \]
       scope: punctuation.section.sequence.end.toml
-      pop: 2
+      pop: 1
     - match: (?=\})
-      pop: 2
+      pop: 1
     - match: ','
       scope: punctuation.separator.sequence.toml
     - include: comments
@@ -217,27 +203,20 @@ contexts:
     # https://toml.io/en/v1.0.0#inline-table
     - match: \{
       scope: punctuation.section.mapping.begin.toml
-      push: inline-table-body
+      set: inline-table-body
 
   inline-table-body:
     - meta_scope: meta.mapping.toml
     - match: \}
       scope: punctuation.section.mapping.end.toml
-      pop: 2
-    - match: $\n?
-      scope: invalid.illegal.unexpected-eol.toml
-      pop: 2
+      pop: 1
     - match: (?=[#\]])
-      pop: 2
+      pop: 1
     - match: ','
       scope: punctuation.separator.sequence.toml
-    - match: =
-      scope: punctuation.separator.key-value.toml
-      push: table-value
     - include: table-keys
-    # fallback if nothing else matches
-    - match: (?=\S)
-      push: table-value-body
+    - include: table-values
+    - include: illegal-eol-pop
 
 ###[ CONSTANT VALUES ]#########################################################
 
@@ -326,26 +305,26 @@ contexts:
   basic-multiline-string:
     - match: '"""'
       scope: punctuation.definition.string.begin.toml
-      push: basic-multiline-string-body
+      set: basic-multiline-string-body
 
   basic-multiline-string-body:
     - meta_scope: meta.string.toml string.quoted.double.block.toml
     - match: '"""'
       scope: punctuation.definition.string.end.toml
-      pop: 2
+      pop: 1
     - include: string-escapes
     - include: string-prototype
 
   basic-string:
     - match: \"
       scope: punctuation.definition.string.begin.toml
-      push: basic-string-body
+      set: basic-string-body
 
   basic-string-body:
     - meta_scope: meta.string.toml string.quoted.double.toml
     - match: \"
       scope: punctuation.definition.string.end.toml
-      pop: 2
+      pop: 1
     - include: illegal-eol-pop
     - include: string-escapes
     - include: string-prototype
@@ -353,25 +332,25 @@ contexts:
   literal-multiline-string:
     - match: "'''"
       scope: punctuation.definition.string.begin.toml
-      push: literal-multiline-string-body
+      set: literal-multiline-string-body
 
   literal-multiline-string-body:
     - meta_scope: meta.string.toml string.quoted.single.block.toml
     - match: "'''"
       scope: punctuation.definition.string.end.toml
-      pop: 2
+      pop: 1
     - include: string-prototype
 
   literal-string:
     - match: \'
       scope: punctuation.definition.string.begin.toml
-      push: literal-string-body
+      set: literal-string-body
 
   literal-string-body:
     - meta_scope: meta.string.toml string.quoted.single.toml
     - match: \'
       scope: punctuation.definition.string.end.toml
-      pop: 2
+      pop: 1
     - include: illegal-eol-pop
     - include: string-prototype
 

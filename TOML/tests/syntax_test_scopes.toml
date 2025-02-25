@@ -80,7 +80,7 @@
 
   key\b\t\n\f\r\\\u1234\U12345678
 # ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.toml invalid.illegal.unexpected-token.toml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token.toml
 
   key#comment
 # ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
