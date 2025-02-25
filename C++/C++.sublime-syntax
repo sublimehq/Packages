@@ -32,6 +32,7 @@ contexts:
   main:
     - meta_prepend: true
     - include: module
+    - include: requires-fn
 
   function:
     - match: \b(operator)\s*([<>=+\-*/%&|^!]=?|[+\-&|<>]{2}|<<=|>>=|<=>|~|->\*?|\(\)|\[\])\s*(\()
@@ -104,11 +105,21 @@ contexts:
     - match: ':'
       scope: punctuation.separator.initializer-list.begin.c++
       push: constructor.initializer-list
+    - match: \brequires\b
+      scope: storage.modifier.c++
+      push: function.tail.requires
     - match: \-\>
       scope: keyword.operator.arrow.c++
       push: function.tail.return
   function.tail.return:
     - meta_scope: meta.function.return-type.c++
+    - match: (?=\brequires\b)
+      pop: 1
+    - match: (?={)
+      pop: 1
+    - include: expression
+  function.tail.requires:
+    - meta_scope: meta.function.requires.c++
     - match: (?={)
       pop: 1
     - include: expression
@@ -163,6 +174,7 @@ contexts:
     - include: template
     - include: module
     - include: type
+    - include: requires-fn
     - match: \+\s*(\[)
       captures:
         1: meta.brackets.square.c++ punctuation.section.brackets.begin.c++
@@ -204,6 +216,9 @@ contexts:
     - match: \btemplate\b
       scope: keyword.declaration.c++
       push: type.template
+    - match: \bconcept\b
+      scope: keyword.declaration.c++
+      push: type.concept
   type.namespace:
     - meta_scope: meta.namespace.c++
     - match: (?={{qualified}})
@@ -235,7 +250,7 @@ contexts:
     - meta_scope: meta.template.c++
     - match: \<
       scope: punctuation.definition.generic.begin.c++
-      push: type.template.body
+      push: [type.template.requires, type.template.body]
     - include: else-pop
   type.template.body:
     - match: \>
@@ -255,6 +270,11 @@ contexts:
     - match: \b(typename|class)\b
       scope: keyword.declaration.type.c++
     - include: expression
+  type.template.requires:
+    - match: \brequires\b
+      scope: storage.modifier.c++
+      pop: 1
+    - include: else-pop
   type.template.name:
     - match: (?=[\]\}\);]) # Fallback
       pop: 1
@@ -271,6 +291,33 @@ contexts:
         1: variable.parameter.type.c++
       pop: 1
     - include: expression
+  type.concept:
+    - meta_scope: meta.concept.c++
+    - match: '{{identifier}}'
+      scope: entity.name.concept.c++
+      push: type.concept.body
+    - include: else-pop
+  type.concept.body:
+    - include: requires-fn
+    - include: expression
+    - match: (?=;|\)|\]|\})
+      pop: 1
+
+  enum-def:
+    - match: \b(enum)(?:\s*(class))?\b
+      captures:
+        1: keyword.declaration.enum.c
+        2: keyword.declaration.class.c++
+      branch_point: enum
+      branch: [type.enum, pop-immediately]
+
+
+  requires-fn:
+    - match: \b(requires)\s*(\()\b
+      captures:
+        1: keyword.operator.word.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
+      push: function.params
 
   enclosure:
     - meta_prepend: true
@@ -499,7 +546,7 @@ contexts:
       scope: keyword.operator.logical.c++
   operator.word:
     - meta_prepend: true
-    - match: \b((const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid|noexcept)\b
+    - match: \b((const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid|noexcept|requires)\b
       scope: keyword.operator.word.c++
   operator.comparison:
     - meta_prepend: true

@@ -295,15 +295,17 @@ contexts:
     - include: constant
 
 ###[ SIMPLE STRUCTURES ]############################################################
+  enum-def: # for C++ to override
+    - match: \benum\b
+      scope: keyword.declaration.enum.c
+      branch_point: enum
+      branch: [type.enum, pop-immediately]
 
   type:
     - match: \btypedef\b
       scope: keyword.declaration.type.c
       push: type.typedef
-    - match: \benum\b
-      scope: keyword.declaration.enum.c
-      branch_point: enum
-      branch: [type.enum, pop-immediately]
+    - include: enum-def
     - match: \bstruct\b
       scope: keyword.declaration.struct.c
       branch_point: struct
