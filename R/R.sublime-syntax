@@ -41,16 +41,6 @@ contexts:
     - include: function-calls
     - include: general-variables
 
-###[ PROTOTYPES ]##############################################################
-
-  eol-pop:
-    - match: '$\n?'
-      pop: 1
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
 ###[ COMMENTS ]################################################################
 
   codesection:
@@ -474,6 +464,16 @@ contexts:
       captures:
         1: support.function.r
       push: function-call-arguments
+
+###[ PROTOTYPES ]##############################################################
+
+  eol-pop:
+    - match: '$\n?'
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
 
 ###[ VARIABLES ]###############################################################
 
