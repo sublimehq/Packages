@@ -4,7 +4,9 @@
 name: Objective-C++
 scope: source.objc++
 version: 2
-extends: [Packages/Objective-C/Objective-C.sublime-syntax, Packages/C++/C++.sublime-syntax]
+extends:
+  - Packages/Objective-C/Objective-C.sublime-syntax
+  - Packages/C++/C++.sublime-syntax
 
 file_extensions:
   - mm
