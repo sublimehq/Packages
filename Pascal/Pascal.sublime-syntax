@@ -63,7 +63,7 @@ contexts:
           scope: >-
             meta.function-call.arguments.pascal
             punctuation.section.arguments.end.pascal
-          pop: true
+          pop: 1
         - match: ','
           scope: punctuation.separator.sequence.pascal
         - include: statements
@@ -77,7 +77,7 @@ contexts:
           captures:
             1: keyword.context.block.end.pascal
             2: punctuation.terminator.pascal
-          pop: true
+          pop: 1
         - include: statements
 
   flow:
@@ -473,11 +473,11 @@ contexts:
 
   else-pop:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   immediately-pop:
     - match: ''
-      pop: true
+      pop: 1
 
 ###############################################################################
 
