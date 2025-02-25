@@ -311,29 +311,34 @@ contexts:
 
   # https://www.freepascal.org/docs-html/ref/refse6.html
   numerics:
+    # Binary
     - match: (%)([01]+)
       scope: meta.number.integer.binary.pascal
       captures:
         1: constant.numeric.base.pascal
         2: constant.numeric.value.pascal
+    # Octal
     - match: (&)([0-7]+)
       scope: meta.number.integer.octal.pascal
       captures:
         1: constant.numeric.base.pascal
         2: constant.numeric.value.pascal
+    # Hexadecimal
     - match: \b(?i:(0x)(\h+))\b
       scope: meta.number.integer.hexadecimal.pascal
       captures:
         1: constant.numeric.base.pascal
         2: constant.numeric.value.pascal
+    # Decimal integer coerced to float
     - match: \b(?i:([0-9]+)(f))\b
       scope: meta.number.float.decimal.pascal
       captures:
         1: constant.numeric.value.pascal
         2: constant.numeric.suffix.pascal
+    # Decimal float coerced to integer
     - match: |-
         \b(?xi:
-          ([0-9]+(?:(\.)[0-9]*)?)  # coerced int
+          ([0-9]+(?:(\.)[0-9]*)?)
           (e[+-]?[0-9]+)?
           (l|ull?)
         )\b
@@ -343,16 +348,18 @@ contexts:
         2: punctuation.separator.decimal.pascal
         3: constant.numeric.value.exponent.pascal
         4: constant.numeric.suffix.pascal
+    # Decimal integer (normal)
     - match: \b(?i:([0-9]+)(u?l?l?)(?!\.))\b
       scope: meta.number.integer.decimal.pascal
       captures:
         1: constant.numeric.value.pascal
         2: constant.numeric.suffix.pascal
+    # Decimal float (normal)
     - match: |-
         \b(?xi:
-          ([0-9]+(?:(\.)[0-9]*)?)        # float without int cast
+          ([0-9]+(?:(\.)[0-9]*)?)
           (e[+-]?[0-9]+)?
-          (?!l|ull)
+          (?!l|ull?)
           (f)?
         )
       scope: meta.number.float.decimal.pascal
