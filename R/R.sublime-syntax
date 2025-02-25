@@ -46,7 +46,6 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   codesection:
-    - meta_include_prototype: false
     - match: ^\s*((\#+)\s+(.+?)\s+(?:-{4,}|={4,}|#{4,})[ \t]*$\n?)
       captures:
         1: comment.line.number-sign.r
@@ -60,9 +59,12 @@ contexts:
   line-comments:
     - match: \#+(?!.*(?:-{4,}|={4,}|#{4,})\s*$\n?)
       scope: punctuation.definition.comment.r
-      push:
-        - meta_scope: comment.line.number-sign.r
-        - include: eol-pop
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.r
+    - include: eol-pop
 
   roxygen:
     - match: (#')\s*(?!.*(?:-{4,}|={4,}|#{4,})\s*$\n?)
@@ -187,6 +189,7 @@ contexts:
       scope: keyword.operator.word.r
 
   accessor:
+    - meta_include_prototype: false
     - match: '\$'
       scope: keyword.accessor.dollar.r
       push:
@@ -253,9 +256,7 @@ contexts:
         2: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.double.r
+        - meta_scope: meta.string.r string.quoted.double.r
         - match: \)(\3)"
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -266,9 +267,7 @@ contexts:
         2: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.double.r
+        - meta_scope: meta.string.r string.quoted.double.r
         - match: \}(\3)"
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -279,9 +278,7 @@ contexts:
         2: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.double.r
+        - meta_scope: meta.string.r string.quoted.double.r
         - match: \](\3)"
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -292,9 +289,7 @@ contexts:
         2: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.single.r
+        - meta_scope: meta.string.r string.quoted.single.r
         - match: \)(\3)'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -305,9 +300,7 @@ contexts:
         2: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.single.r
+        - meta_scope: meta.string.r string.quoted.single.r
         - match: \}(\3)'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -318,9 +311,7 @@ contexts:
         2: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.single.r
+        - meta_scope: meta.string.r string.quoted.single.r
         - match: \](\3)'
           scope: punctuation.definition.string.end.r
           pop: 1
@@ -329,9 +320,7 @@ contexts:
       scope: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.double.r
+        - meta_scope: meta.string.r string.quoted.double.r
         - include: double-quoted-string-escapes
         - match: '"'
           scope: punctuation.definition.string.end.r
@@ -341,90 +330,35 @@ contexts:
       scope: punctuation.definition.string.begin.r
       push:
         - meta_include_prototype: false
-        - meta_scope: >-
-            meta.string.r
-            string.quoted.single.r
+        - meta_scope: meta.string.r string.quoted.single.r
         - include: single-quoted-string-escapes
         - match: "'"
           scope: punctuation.definition.string.end.r
           pop: 1
 
   single-quoted-string-escapes:
-    - meta_include_prototype: false
-    - match: (\\)\'
+    - match: \\\'
       scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
     - include: string-escapes
 
   double-quoted-string-escapes:
-    - meta_include_prototype: false
-    - match: (\\)\"
+    - match: \\\"
       scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
     - include: string-escapes
 
   string-escapes:
-    - meta_include_prototype: false
-    - include: invalid-string-escapes
-    - include: valid-string-escapes
-
-  invalid-string-escapes:
-    - meta_include_prototype: false
-    - match: '(\\)0'                                        # null character
+    - match: '\\[\\nrtbafv]'
+      scope: constant.character.escape.r
+    - match: '\\[0-7]{1,3}'
+      scope: constant.character.escape.octal.r
+    - match: '\\x\h{1,2}'
+      scope: constant.character.escape.hex.r
+    - match: '\\u\{?\h{1,4}\}?'
+      scope: constant.character.escape.unicode.16bit.r
+    - match: '\\U\{?\h{1,8}\}?'
+      scope: constant.character.escape.unicode.32bit.r
+    - match: '\\0'
       scope: invalid.illegal.constant-character-escape.r
-
-  valid-string-escapes:
-    - meta_include_prototype: false
-    - match: '(\\)\\'                                       # backslash
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)n'                                        # newline
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)r'                                        # carriage return
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)t'                                        # horizontal tab
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)b'                                        # backspace
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)a'                                        # bell
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)f'                                        # form feed
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)v'                                        # vertical tab
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)[0-7]{1,3}'
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)x\h{1,2}'
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)u\{?\h{1,4}\}?'
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
-    - match: '(\\)U\{?\h{1,8}\}?'
-      scope: constant.character.escape.r
-      captures:
-        1: punctuation.definition.string.escape.r
 
 ###[ SECTIONS ]################################################################
 
