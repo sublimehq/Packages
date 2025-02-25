@@ -1349,6 +1349,7 @@ contexts:
   comments:
     - include: line-comments
     - include: block-comments
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   line-comments:
     - match: //[!/]

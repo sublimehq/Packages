@@ -377,6 +377,7 @@ contexts:
     - match: \#
       scope: punctuation.definition.comment.makefile
       push: comment-body
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   comment:
     - match: \#

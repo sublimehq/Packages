@@ -226,6 +226,7 @@ contexts:
     - match: \^
       scope: keyword.operator.macro.clojure
       push: pop-expr
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   pop-dispatch-expr:
     - match: (?=\s)

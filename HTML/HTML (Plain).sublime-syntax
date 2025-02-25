@@ -141,6 +141,7 @@ contexts:
     - match: ']]>'
       scope: punctuation.definition.tag.end.html
       pop: 1
+    - include: scope:source.diff#conflict-markers
 
 ###[ COMMENT ]################################################################
 
@@ -150,6 +151,7 @@ contexts:
         1: punctuation.definition.comment.begin.html
         2: invalid.illegal.bad-comments-or-CDATA.html
       push: comment-content
+    - include: scope:source.diff#conflict-markers
 
   comment-content:
     - meta_scope: comment.block.html
@@ -160,6 +162,7 @@ contexts:
       pop: 1
     - match: <!--(?!-?>)|--!>
       scope: invalid.illegal.bad-comments-or-CDATA.html
+
 
 ###[ DOCTYPE DECLARATION ]####################################################
 
@@ -222,6 +225,7 @@ contexts:
       pop: 1
     - include: tag-generic-attribute
     - include: strings
+    - include: scope:source.diff#conflict-markers
 
 ###[ TAGS ]###################################################################
 
@@ -278,6 +282,7 @@ contexts:
 ###[ ATTRIBUTES ]#############################################################
 
   tag-attributes:
+    - include: scope:source.diff#conflict-markers
     - include: tag-generic-attribute
 
   tag-attribute-value-content:

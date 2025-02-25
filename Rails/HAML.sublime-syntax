@@ -52,6 +52,7 @@ contexts:
         2: meta.brackets.haml
         3: punctuation.section.brackets.begin.haml
         4: punctuation.section.brackets.end.haml
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   comment-body:
     - meta_include_prototype: false
