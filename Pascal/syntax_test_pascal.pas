@@ -72,6 +72,8 @@
 //^ punctuation.definition.string.begin.pascal
 //                         ^ invalid.illegal.unterminated-string.pascal
   and continues here'
+//                  ^ meta.string.pascal string.quoted.single.pascal punctuation.definition.string.begin.pascal
+//                   ^ invalid.illegal.unterminated-string.pascal
 
   'the string starts here'#13#10'   and continues here'
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
