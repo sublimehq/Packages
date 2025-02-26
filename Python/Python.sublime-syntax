@@ -797,8 +797,13 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.inheritance.python
+    # expression-in-a-group (without qualified-name)
+    - include: line-continuations
+    - include: illegal-assignment-expressions
+    - include: lambda-in-groups
+    - include: expressions-common
     - include: illegal-name
-    - include: constants
+    # specific "qualified-name" patterns
     - match: ({{identifier}})\s*({{assignment_operator}})
       captures:
         1: variable.parameter.class-inheritance.python
@@ -807,7 +812,6 @@ contexts:
       push: qualified-base-class-name
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.python
-    - include: expression-in-a-group
 
   qualified-base-class-name:
     - meta_scope: meta.path.python
