@@ -823,7 +823,7 @@ contexts:
     - include: lifetime
     - match: ','
       scope: punctuation.separator.rust
-    - match: \b(Self)\b
+    - match: '\bSelf\b'
       scope: keyword.other.rust
     - include: all-generic-type-names
     - match: '(?=\S)'
