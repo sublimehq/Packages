@@ -804,6 +804,7 @@ contexts:
             - match: '<'
               scope: punctuation.definition.generic.begin.rust
               set:
+                - meta_scope: meta.generic.rust
                 - match: '>'
                   scope: punctuation.definition.generic.end.rust
                   pop: true
