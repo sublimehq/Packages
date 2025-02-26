@@ -640,6 +640,7 @@ contexts:
       scope: punctuation.accessor.rust
       set: [type-path-second, path-after-accessor]
     - include: type-names
+    - include: generic-identifier-names
     - include: else-pop
 
   type-path-second:
@@ -813,7 +814,7 @@ contexts:
                   scope: punctuation.separator.rust
                 - match: \b(Self)\b
                   scope: keyword.other.rust
-                - match: '{{identifier}}'
+                - include: all-generic-type-names
                 - match: '(?=\S)'
                   pop: true
         - include: types

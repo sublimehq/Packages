@@ -480,6 +480,7 @@ fn impl_trait_use<'a, foo>() -> impl Trait1 + use<'a, Self, foo> {}
 //                                                  ^ punctuation.separator
 //                                                    ^^^^ keyword.other
 //                                                        ^ punctuation.separator
+//                                                          ^^^ storage.type.rust
 //                                                             ^ punctuation.definition.generic.end
 
 fn impl_trait_return1<'a, 'b>() -> impl Trait<&'a u8, Ty = impl Sized + 'b> {}
@@ -501,6 +502,7 @@ fn impl_trait_return1<'a, 'b>() -> impl Trait<&'a u8, Ty = impl Sized + 'b> {}
 fn impl_trait_return2() -> impl Debug + 'a {}
 //                      ^^^^^^^^^^^^^^^^^^ meta.function meta.function.return-type
 //                         ^^^^ storage.type.impl
+//                              ^^^^^ storage.type.rust
 //                                    ^ keyword.operator
 //                                      ^^ storage.modifier.lifetime
 
@@ -526,14 +528,20 @@ fn impl_trait_with_plus() -> impl Iterator<Item = hir::GenericParam<'hir>> + Cap
 //                           ^^^^ storage.type.impl
 //                                ^^^^^^^^ support.type
 //                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic - meta.generic meta.generic
+//                                         ^^^^ storage.type.rust
 //                                              ^ keyword.operator
+//                                                ^^^ variable.other.rust
+//                                                   ^^ punctuation.accessor.rust
+//                                                     ^^^^^^^^^^^^ storage.type.rust
 //                                                                 ^^^^^^ meta.generic meta.generic
 //                                                                  ^^^^ storage.modifier.lifetime
 //                                                                       ^ meta.generic - meta.generic meta.generic
 //                                                                         ^ keyword.operator
+//                                                                           ^^^^^^^^ storage.type.rust
 //                                                                                   ^^^^ meta.generic
 //                                                                                    ^^ storage.modifier.lifetime
 //                                                                                        ^ keyword.operator
+//                                                                                          ^^^^^^^^ storage.type.rust
 //                                                                                                  ^^^^ meta.generic
 //                                                                                                   ^^ storage.modifier.lifetime
 
