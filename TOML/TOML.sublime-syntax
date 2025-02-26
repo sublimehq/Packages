@@ -129,6 +129,7 @@ contexts:
         - unquoted-table-key-body
 
   unquoted-table-key-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.toml string.unquoted.toml
     - include: string-prototype
     - match: '{{ident_break}}'
@@ -155,12 +156,14 @@ contexts:
       push: [table-value-meta, value]
 
   table-value:
+    - meta_include_prototype: false
     - match: (?=\S)
       set: [table-value-meta, value]
     - include: eol-pop
 
   table-value-meta:
     - clear_scopes: 1
+    - meta_include_prototype: false
     - meta_scope: meta.mapping.value.toml
     - include: expect-eol
 
@@ -308,6 +311,7 @@ contexts:
       set: basic-multiline-string-body
 
   basic-multiline-string-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.toml string.quoted.double.block.toml
     - match: '"""'
       scope: punctuation.definition.string.end.toml
@@ -321,6 +325,7 @@ contexts:
       set: basic-string-body
 
   basic-string-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.toml string.quoted.double.toml
     - match: \"
       scope: punctuation.definition.string.end.toml
@@ -335,6 +340,7 @@ contexts:
       set: literal-multiline-string-body
 
   literal-multiline-string-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.toml string.quoted.single.block.toml
     - match: "'''"
       scope: punctuation.definition.string.end.toml
@@ -347,6 +353,7 @@ contexts:
       set: literal-string-body
 
   literal-string-body:
+    - meta_include_prototype: false
     - meta_scope: meta.string.toml string.quoted.single.toml
     - match: \'
       scope: punctuation.definition.string.end.toml
