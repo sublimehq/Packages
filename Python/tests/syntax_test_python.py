@@ -2188,6 +2188,39 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                                                 ^ invalid.illegal.assignment.python
 #                                                  ^^^^^ constant.language.boolean.false.python
 
+class MyClass(func(var, arg=var), module.func(var, arg=var)):
+#     ^^^^^^^ meta.class.python
+#            ^ meta.class.inheritance.python - meta.function-call
+#             ^^^^ meta.class.inheritance.python meta.function-call.identifier.python
+#                 ^^^^^^^^^^^^^^ meta.class.inheritance.python meta.function-call.arguments.python
+#                               ^^^^^^^^^ meta.class.inheritance.python - meta.function-call
+#                                        ^^^^ meta.class.inheritance.python meta.function-call.identifier.python
+#                                            ^^^^^^^^^^^^^^ meta.class.inheritance.python meta.function-call.arguments.python
+#                                                          ^ meta.class.inheritance.python
+#                                                           ^ meta.class.python
+#     ^^^^^^^ entity.name.class.python
+#            ^ punctuation.section.inheritance.begin.python
+#             ^^^^ variable.function.python
+#                 ^ punctuation.section.arguments.begin.python
+#                  ^^^ meta.generic-name.python
+#                     ^ punctuation.separator.arguments.python
+#                       ^^^ variable.parameter.python
+#                          ^ keyword.operator.assignment.python
+#                           ^^^ meta.generic-name.python
+#                              ^ punctuation.section.arguments.end.python
+#                               ^ punctuation.separator.inheritance.python
+#                                 ^^^^^^ meta.path.python meta.generic-name.python
+#                                       ^ meta.path.python punctuation.accessor.dot.python
+#                                        ^^^^ meta.path.python variable.function.python
+#                                            ^ punctuation.section.arguments.begin.python
+#                                             ^^^ meta.generic-name.python
+#                                                ^ punctuation.separator.arguments.python
+#                                                  ^^^ variable.parameter.python
+#                                                     ^ keyword.operator.assignment.python
+#                                                      ^^^ meta.generic-name.python
+#                                                         ^ punctuation.section.arguments.end.python
+#                                                          ^ punctuation.section.inheritance.end.python
+#                                                           ^ punctuation.section.class.begin.python
 
 class MyClass:
     def foo():
