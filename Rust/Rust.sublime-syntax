@@ -798,28 +798,36 @@ contexts:
   impl-trait:
     - match: '\bimpl\b'
       scope: storage.type.impl.rust
-      push:
-        - match: '\buse\b'
-          scope: keyword.other.rust
-          push:
-            - match: '<'
-              scope: punctuation.definition.generic.begin.rust
-              set:
-                - meta_scope: meta.generic.rust
-                - match: '>'
-                  scope: punctuation.definition.generic.end.rust
-                  pop: true
-                - include: lifetime
-                - match: ','
-                  scope: punctuation.separator.rust
-                - match: \b(Self)\b
-                  scope: keyword.other.rust
-                - include: all-generic-type-names
-                - match: '(?=\S)'
-                  pop: true
-        - include: types
-        - match: '(?=\S)'
-          pop: true
+      push: impl-trait-types
+
+  impl-trait-types:
+    - match: '\buse\b'
+      scope: keyword.other.rust
+      push: impl-trait-use
+    - include: types
+    - match: '(?=\S)'
+      pop: true
+
+  impl-trait-use:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.rust
+      set: impl-trait-use-generic-body
+    - match: '(?=\S)'
+      pop: true
+
+  impl-trait-use-generic-body:
+    - meta_scope: meta.generic.rust
+    - match: '>'
+      scope: punctuation.definition.generic.end.rust
+      pop: true
+    - include: lifetime
+    - match: ','
+      scope: punctuation.separator.rust
+    - match: \b(Self)\b
+      scope: keyword.other.rust
+    - include: all-generic-type-names
+    - match: '(?=\S)'
+      pop: true
 
   ##[ STRUCTS ]###############################################################
 

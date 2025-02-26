@@ -545,3 +545,12 @@ fn impl_trait_with_plus() -> impl Iterator<Item = hir::GenericParam<'hir>> + Cap
 //                                                                                                  ^^^^ meta.generic
 //                                                                                                   ^^ storage.modifier.lifetime
 
+fn impl_trait() -> impl Type use < {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.rust
+//              ^^^^^^^^^^^^^^^^^^^ meta.function.return-type.rust
+//                 ^^^^ storage.type.impl.rust
+//                      ^^^^ storage.type.rust
+//                           ^^^ keyword.other.rust
+//                               ^^ meta.generic.rust
+//                               ^ punctuation.definition.generic.begin.rust
+//                                 ^^ meta.block.rust
