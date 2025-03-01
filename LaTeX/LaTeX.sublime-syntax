@@ -49,7 +49,7 @@ contexts:
     - include: text-decorators
     - include: verb
 
-###[ COMMANDS ]#################################################################
+###[ COMMANDS ]################################################################
 
   general-commands:
     - include: environments
@@ -467,40 +467,50 @@ contexts:
         - include: brace-group-end
         - include: macro-variables
 
+###[ SECTION COMMANDS ]########################################################
+
   sections:
     - match: |-
         (?x)
-        (
-          (\\)
-          (?:
-            (?:sub){0,2}section
-            | (?:sub)?paragraph
-            | chapter|part|addpart
-            | addchap|addsec|minisec
-          )
-          (?:\*)?
-        )
+        (\\)
         (?:
-          (\[)([^\[]*?)(\])               # optional Title
-        )?
-        (\{)
+          (?:sub){0,2}section
+        | (?:sub)?paragraph
+        | chapter | part | addpart
+        | addchap | addsec | minisec
+        )
+        (?: \* | {{endcs}} )
+      scope: support.function.section.latex
       captures:
-        1: support.function.section.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: entity.name.section.latex
-        5: punctuation.definition.group.brace.end.tex
-        6: punctuation.definition.group.brace.begin.tex
-      push:
-        - meta_scope: meta.section.latex
-        - meta_content_scope: entity.name.section.latex
-        - include: brace-group-body
+        1: punctuation.definition.backslash.latex
+      push: section-args
+
+  section-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.section.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: section-name-body
+    - include: optional-arguments # optional Title
+
+  section-name-body:
+    - meta_scope: meta.group.brace.tex
+    - meta_content_scope: entity.name.section.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - include: expressions
 
   structure:
-    - match: ((\\)(?:frontmatter|mainmatter|backmatter|appendix|printindex))\b
+    - match: (\\)(?:frontmatter|mainmatter|backmatter|appendix|printindex){{endcs}}
+      scope: keyword.control.latex
       captures:
-        1: keyword.control.latex
-        2: punctuation.definition.backslash.latex
+        1: punctuation.definition.backslash.latex
+      push: structure-args
+
+  structure-args:
+    - meta_scope: meta.function.structure.latex
+    - include: optional-arguments
 
 ###[ LIST ENVIRONMENT ]########################################################
 

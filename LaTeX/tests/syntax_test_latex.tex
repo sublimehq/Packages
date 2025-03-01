@@ -343,38 +343,82 @@ $$
 %     ^^ keyword.other.newline.latex
 %       ^ punctuation.definition.group.bracket.begin.newline.latex
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SECTION COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \part{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%     ^ entity.name.section.latex
+% <- meta.section.latex support.function.section.latex punctuation.definition.backslash.latex
+%^^^^ meta.section.latex support.function.section.latex
+%    ^^^^^^ meta.section.latex meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^ entity.name.section.latex
+%         ^ punctuation.definition.group.brace.end.tex
 \chapter{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%        ^ entity.name.section.latex
-\section{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%        ^ entity.name.section.latex
+% <- meta.section.latex support.function.section.latex punctuation.definition.backslash.latex
+%^^^^^^^ meta.section.latex support.function.section.latex
+%       ^^^^^^ meta.section.latex meta.group.brace.tex
+%       ^ punctuation.definition.group.brace.begin.tex
+%        ^^^^ entity.name.section.latex
+%            ^ punctuation.definition.group.brace.end.tex
+\section[title]{name}
+% <- meta.section.latex support.function.section.latex punctuation.definition.backslash.latex
+%^^^^^^^ meta.section.latex support.function.section.latex
+%       ^^^^^^^ meta.section.latex meta.group.bracket.latex
+%              ^^^^^^ meta.section.latex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%               ^^^^ entity.name.section.latex
+%                   ^ punctuation.definition.group.brace.end.tex
 \subsection{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%           ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^^ support.function.section.latex
+%          ^^^^^^ meta.group.brace.tex
+%          ^ punctuation.definition.group.brace.begin.tex
+%           ^^^^ entity.name.section.latex
+%               ^ punctuation.definition.group.brace.end.tex
 \subsubsection{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%              ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^^^^^ support.function.section.latex
+%             ^^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^^ entity.name.section.latex
+%                  ^ punctuation.definition.group.brace.end.tex
 \paragraph{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%          ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^ support.function.section.latex
+%         ^^^^^^ meta.group.brace.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%          ^^^^ entity.name.section.latex
+%              ^ punctuation.definition.group.brace.end.tex
 \subparagraph{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%             ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^^^^ support.function.section.latex
+%            ^^^^^^ meta.group.brace.tex
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^ entity.name.section.latex
+%                 ^ punctuation.definition.group.brace.end.tex
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% STRUCTURE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter[arg=value]
+% <- meta.function.structure.latex keyword.control.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.structure.latex
+%^^^^^^^^^^^ keyword.control.latex
+%           ^^^^^^^^^^^ meta.group.bracket.latex
+%           ^ punctuation.definition.group.bracket.begin.latex
+%            ^^^ variable.parameter.latex
+%               ^ keyword.operator.assignment.latex
+%                     ^ punctuation.definition.group.bracket.end.latex
+
+\mainmatter
+% <- meta.function.structure.latex keyword.control.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.structure.latex keyword.control.latex
+
+\backmatter
+% <- meta.function.structure.latex keyword.control.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.structure.latex keyword.control.latex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CITE COMMANDS
