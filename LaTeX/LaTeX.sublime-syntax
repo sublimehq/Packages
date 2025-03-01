@@ -40,7 +40,6 @@ contexts:
     - include: pkg-listings-cmds
     - include: pkg-minted-cmds
     # latex
-    - include: graphics
     - include: includes
     - include: preamble
     - include: url
@@ -420,52 +419,115 @@ contexts:
     - meta_scope: meta.function.box.latex
     - include: immediately-pop
 
-  preamble:
-    - match: (\\)documentclass\b
-      scope: meta.preamble.documentclass.latex keyword.control.preamble.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-      push:
-        - meta_content_scope: meta.preamble.documentclass.latex
-        - include: general-optional-arguments
-        - match: \{
-          scope: punctuation.definition.group.brace.begin.tex
-          set:
-            - meta_scope: meta.preamble.documentclass.latex meta.group.brace.tex
-            - include: brace-group-end
-            - include: macro-variables
-            - match: '[A-Za-z[:digit:]-]'
-              scope: support.class.latex
-        - include: immediately-pop
+###[ PREAMBLE COMMANDS ]#######################################################
 
-    - match: (\\)usepackage\b
-      scope: meta.preamble.usepackage.latex keyword.control.preamble.latex
+  preamble:
+    - match: (\\)documentclass{{endcs}}
+      scope: keyword.control.preamble.latex
       captures:
         1: punctuation.definition.backslash.latex
-      push:
-        - meta_content_scope: meta.preamble.usepackage.latex
-        - include: general-optional-arguments
-        - match: \{
-          scope: punctuation.definition.group.brace.begin.tex
-          set:
-            - meta_scope: meta.preamble.usepackage.latex meta.group.brace.tex
-            - include: brace-group-end
-            - include: macro-variables
-            - match: '[A-Za-z[:digit:]-]*'
-              scope: support.class.latex
-        - include: immediately-pop
+      push: document-class-args
+    - match: (\\)usepackage{{endcs}}
+      scope: keyword.control.import.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push: usepackage-args
+
+  document-class-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.preamble.documentclass.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: document-class-args-body
+    - include: optional-arguments
+
+  document-class-args-body:
+    - meta_scope: meta.group.braces.tex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: ','
+      scope: punctuation.separator.sequence.latex
+    - match: '[0-9A-Za-z-]+'
+      scope: support.class.latex
+    - include: macro-variables
+
+  usepackage-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.preamble.usepackage.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: usepackage-args-body
+    - include: optional-arguments
+
+  usepackage-args-body:
+    - meta_scope: meta.group.braces.tex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: ','
+      scope: punctuation.separator.sequence.latex
+    - match: '[0-9A-Za-z-]+'
+      scope: support.class.latex
+    - include: macro-variables
+
+###[ INCLUDE COMMANDS ]########################################################
 
   includes:
-    - match: ((\\)(?:include|includeonly))(\{)
-      scope: meta.function.include.latex
+    - match: (\\)includegraphics{{endcs}}
+      scope: support.function.includegraphics.latex
       captures:
-        1: keyword.control.include.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
+        1: punctuation.definition.backslash.latex
+      push: includegraphics-args
+    - match: (\\)include(?:only)?{{endcs}}
+      scope: support.function.include.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push: include-args
+
+  includegraphics-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.includegraphics.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: includegraphics-args-body
+    - include: optional-arguments
+
+  includegraphics-args-body:
+    - meta_scope: meta.group.braces.tex
+    - meta_content_scope: markup.underline.link.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: ','
+      scope: punctuation.separator.sequence.latex
       push:
-        - meta_scope: meta.include.latex
-        - include: brace-group-end
-        - include: macro-variables
+        - clear_scopes: 1
+        - meta_include_prototype: false
+        - include: immediately-pop
+    - include: macro-variables
+
+  include-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.include.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: include-args-body
+    - include: optional-arguments
+
+  include-args-body:
+    - meta_scope: meta.group.braces.tex
+    - meta_content_scope: markup.underline.link.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: ','
+      scope: punctuation.separator.sequence.latex
+      push:
+        - clear_scopes: 1
+        - meta_include_prototype: false
+        - include: immediately-pop
+    - include: macro-variables
 
 ###[ SECTION COMMANDS ]########################################################
 
@@ -750,21 +812,6 @@ contexts:
       pop: 1
 
 ###[ OTHER ]###################################################################
-
-  graphics:
-    - match: ((\\)includegraphics)\b
-      captures:
-        1: support.function.includegraphics.latex
-        2: punctuation.definition.backslash.latex
-      push:
-        - includegraphics-meta
-        - argument
-        - optional-arguments
-
-  includegraphics-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.includegraphics.latex
-    - include: immediately-pop
 
   url:
     - match: ((\\)(?:url|href|path))(\{)([^}]*)(\})

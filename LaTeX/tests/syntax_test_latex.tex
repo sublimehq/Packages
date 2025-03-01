@@ -26,7 +26,7 @@
 % <- meta.preamble.documentclass.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.documentclass.latex - meta.preamble.documentclass meta.preamble.documentclass
 %             ^^^^^^ meta.group.bracket.latex
-%                   ^^^^^^^^^ meta.group.brace.tex
+%                   ^^^^^^^^^ meta.group.braces.tex
 %^^^^^^^^^^^^^ keyword.control.preamble.latex
 %             ^ punctuation.definition.group.bracket.begin.latex
 %                  ^ punctuation.definition.group.bracket.end.latex
@@ -35,11 +35,11 @@
 %                           ^ punctuation.definition.group.brace.end.tex
 
 \usepackage[args]{mypackage, anotherpackage}
-% <- meta.preamble.usepackage.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.usepackage.latex - meta.preamble.usepackage meta.preamble.usepackage
+% <- meta.preamble.usepackage.latex keyword.control.import.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.usepackage.latex - meta.preamble meta.preamble
 %          ^^^^^^ meta.group.bracket.latex
-%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
-%^^^^^^^^^^ keyword.control.preamble.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.braces.tex
+%^^^^^^^^^^ keyword.control.import.latex
 %          ^ punctuation.definition.group.bracket.begin.latex
 %           ^^^^
 %               ^ punctuation.definition.group.bracket.end.latex
@@ -412,6 +412,33 @@ $$
 %^^^^^^^^^^ meta.function.structure.latex keyword.control.latex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INCLUDE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{path/to/file}
+%^^^^^^^^^^^^^^^^^^^^^ meta.function.include.latex
+%^^^^^^^ support.function.include.latex
+%       ^^^^^^^^^^^^^^ meta.group.braces.tex
+%       ^ punctuation.definition.group.brace.begin.tex
+%        ^^^^^^^^^^^^ markup.underline.link.latex
+%                    ^ punctuation.definition.group.brace.end.tex
+
+\includeonly{path/to/file.tex}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.include.latex
+%^^^^^^^^^^^ support.function.include.latex
+%           ^^^^^^^^^^^^^^^^^^ meta.group.braces.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%            ^^^^^^^^^^^^^^^^ markup.underline.link.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+
+\input{path/to/file.tex}
+% ^ meta.function.input.tex
+% ^ keyword.control.input.tex
+
+\includecommand{...}
+% ^^^^^^^^^^ support.function.general.latex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CITE COMMANDS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -538,8 +565,9 @@ $$
 %    ^^^^^^^^ constant.other.reference.latex
 %            ^ punctuation.definition.group.brace.end.tex
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % URL COMMAND
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \url{https://www.sublimetext.com/}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
@@ -556,26 +584,9 @@ $$
 % ^ support.function.url.latex
 %     ^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
 
-
-% INCLUDE COMMANDS
-
-\include{path/to/file}
-% ^ meta.function.include.latex
-% ^ keyword.control.include.latex
-
-\includeonly{path/to/file.tex}
-% ^ meta.function.include.latex
-% ^ keyword.control.include.latex
-
-\input{path/to/file.tex}
-% ^ meta.function.input.tex
-% ^ keyword.control.input.tex
-
-\includecommand{...}
-% ^^^^^^^^^^ support.function.general.latex
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MARKUP COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \textnormal{text}
 %^^^^^^^^^^^^^^^^ meta.function.textnormal.latex
