@@ -40,14 +40,13 @@ contexts:
     - include: pkg-listings
     - include: pkg-minted
     # latex
-    - include: footnote
     - include: graphics
     - include: includes
     - include: preamble
+    - include: url
     - include: references
     - include: structure
     - include: text-decorators
-    - include: url
     - include: verb
 
 ###[ BLOCKS ]##################################################################
@@ -1116,108 +1115,124 @@ contexts:
     - meta_scope: meta.function.emph.latex
     - include: immediately-pop
 
-  footnote:
-    - match: ((\\)footnote(?:text)?)\b
-      captures:
-        1: support.function.footnote.latex
-        2: punctuation.definition.backslash.latex
-      push:
-        - meta_scope: meta.function.footnote.latex
-        - include: general-optional-arguments
-        - match: \{
-          scope: punctuation.definition.group.brace.begin.tex
-          set:
-            - meta_scope: meta.function.footnote.latex meta.group.brace.tex
-            - meta_content_scope: markup.italic.footnote.latex
-            - include: brace-group-body
-        - match: (?=\S)
-          pop: 1
-    - match: |-
-        (?x)
-        ((\\)footnotemark)\b
-      captures:
-        1: support.function.footnote.latex
-        2: punctuation.definition.backslash.latex
-      push: optional-arguments
+###[ REFERENCE COMMANDS ]######################################################
 
   references:
     - match: |-
         (?x)
         (\\)
         (?:
-          # biblatex commands
-          #   http://mirrors.ibiblio.org/CTAN/macros/latex/exptl/biblatex/doc/biblatex.pdf section 3.8
-          # commands with multicite variant
-            (?:[aA]uto|foot|[pP]aren|[sS]mart|super|[tT]ext)cites?
-          | [Cc]ites?
-          | footcitetexts?
-          # text commands
-          | [cC]ite(?:author)
-          | cite(?:title|year|date)
-          | citeurl
-          # special
-          | (?:[aA]|no|full|footfull)cites?
-          | [vV]olcites?
-          | (?:[pPfFsStTaA]|ft)volcites?
-          | (?:[pPf]?n|N)otecite
-          # non-biblatex
-          | [aA]cite
-          | [cC]ite(?:t|p|alt|alp|text|yearpar)
-        )\b
+        # biblatex commands
+        #   http://mirrors.ibiblio.org/CTAN/macros/latex/exptl/biblatex/doc/biblatex.pdf section 3.8
+        # commands with multicite variant
+          (?:[aA]uto|foot|[pP]aren|[sS]mart|super|[tT]ext)cites?
+        | [Cc]ites?
+        | footcitetexts?
+        # text commands
+        | [cC]ite(?:author)
+        | cite(?:title|year|date)
+        | citeurl
+        # special
+        | (?:[aA]|no|full|footfull)cites?
+        | [vV]olcites?
+        | (?:[pPfFsStTaA]|ft)volcites?
+        | (?:[pPf]?n|N)otecite
+        # non-biblatex
+        | [aA]cite
+        | [cC]ite(?:t|p|alt|alp|text|yearpar)
+        ){{endcs}}
         # For simplicity with using \b, we match a star for all variants
         \*?
-      scope: support.function.cite.latex keyword.other.cite.latex
+      scope: support.function.cite.latex
       captures:
         1: punctuation.definition.backslash.latex
-      push:
-        - meta_scope: meta.function.citation.latex
-        - include: general-optional-arguments
-        - match: \{
-          scope: punctuation.definition.group.brace.begin.tex
-          # Some commands, e.g. \parencites, allow multiple [][]{} argument sequences,
-          # so we `push` instead of `set`.
-          push:
-            - meta_scope: meta.group.brace.tex
-            - match: '[a-zA-Z0-9\.:/*!^_-]+'
-              scope: constant.other.citation.latex
-            - include: brace-group-end
-            - include: macro-variables
-        - match: ''
-          pop: 1
-    - match: |-
-        (?x)
-        (
-          (\\)
-          (?:eq|c?page|[vV]|auto|name|[cC])?ref
-          \*?
-        )\b
+      push: cite-args
+    - match: ((\\)footnote(?:mark|text)?){{endcs}}
       captures:
-        1: support.function.reference.latex keyword.other.reference.latex
+        1: support.function.footnote.latex
         2: punctuation.definition.backslash.latex
-      push:
-        - meta_scope: meta.function.reference.latex
-        - include: general-optional-arguments
-        - match: \{
-          scope: punctuation.definition.group.brace.begin.tex
-          set:
-            - meta_scope: meta.function.reference.latex meta.group.brace.tex
-            - match: '[a-zA-Z0-9\.:/*!^_-]+'
-              scope: constant.other.reference.latex
-            - include: brace-group-end
-            - include: macro-variables
-        - match: ''
-          pop: 1
-    - match: ((\\)label)(\{)
+      push: footnote-args
+    - match: (\\){{labels}}
+      scope: support.function.label.latex
       captures:
-        1: support.function.label.latex storage.type.label.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
+        1: punctuation.definition.backslash.latex
+      push: label-args
+    - match: (\\){{references}}
+      scope: support.function.reference.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push: ref-args
+
+  cite-args:
+    - meta_scope: meta.function.citation.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: cite-args-body
+    - include: optional-arguments
+
+  cite-args-body:
+    - meta_scope: meta.group.brace.tex
+    - meta_content_scope: constant.other.citation.latex
+    # more arguments following
+    - match: \}(?=\s*[\[\{])
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 1
+    # terminate command without leaking `meta.function` scope
+    # to whitespace after closing brace.
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - match: ','
+      scope: punctuation.separator.sequence.latex
       push:
-        - meta_scope: meta.function.label.latex
-        - match: '[a-zA-Z0-9\.:/*!^_-]+'
-          scope: entity.name.label.latex
-        - include: brace-group-end
-        - include: macro-variables
+        - clear_scopes: 1
+        - meta_include_prototype: false
+        - include: immediately-pop
+    - include: macro-variables
+
+  footnote-args:
+    - meta_scope: meta.function.footnote.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: footnote-args-body
+    - include: optional-arguments
+
+  footnote-args-body:
+    - meta_scope: meta.group.brace.tex
+    - meta_content_scope: markup.italic.footnote.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+
+  label-args:
+    - meta_scope: meta.function.label.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: label-args-body
+    - include: optional-arguments
+
+  label-args-body:
+    - meta_scope: meta.group.brace.tex
+    - meta_content_scope: entity.name.label.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - include: macro-variables
+
+  ref-args:
+    - meta_scope: meta.function.reference.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: ref-args-body
+    - include: optional-arguments
+
+  ref-args-body:
+    - meta_scope: meta.group.brace.tex
+    - meta_content_scope: constant.other.reference.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+    - include: macro-variables
 
   begin-end-commands:
     - match: ((\\)begin)(\{)\s*(\w*)\*?\s*(\})
@@ -2151,4 +2166,138 @@ contexts:
 ###############################################################################
 
 variables:
+
+  # Label commands according to TexStudio's cwl files
+  # required for goto definition and symbol lists
+  labels: |-
+    (?x:
+      addxref
+    | algocfconts
+    | AMClabel
+    | Anotelabel
+    | assume
+    | asternote
+    | asternotesuperscript
+    | asternotetext
+    | beschlussthema
+    | besluitonderwerp
+    | Bnotelabel
+    | chaplabel
+    | CheckListDefaultLabel
+    | Cnotelabel
+    | compdlabel
+    | conclude
+    | culabel
+    | decisiontheme
+    | derivalabel
+    | derivlabel
+    | Dnotelabel
+    | edlabel
+    | edmakelabel
+    | Enotelabel
+    | eqlabel
+    | figlabel
+    | figureconts
+    | floatconts
+    | fltditem
+    | fnlabel
+    | folionolabel
+    | folionolabelwithstyles
+    | ftblabel
+    | GDaffilitem
+    | glsxtr
+    | Glsxtr
+    | glsxtrnewnumber
+    | glsxtrnewsymbol
+    | glsxtrpl
+    | Glsxtrpl
+    | glsxtrsetglossarylabel
+    | HistLabel
+    | inlinelabel
+    | introduce
+    | itemLabel
+    | label
+    | labelflow
+    | labelflowidn
+    | labelOP
+    | lb
+    | lba
+    | lbb
+    | lbp
+    | lbpa
+    | lbpb
+    | lbpc
+    | lbpd
+    | lbpsep
+    | lbu
+    | lbusep
+    | lbz
+    | linelabel
+    | lnl
+    | longnewglossaryentry
+    | longprovideglossaryentry
+    | makepoemlabel
+    | minilab
+    | mtoclabel
+    | namedLabel
+    | nblabel
+    | nbVlabel
+    | NDAL
+    | NDDL
+    | newabbr
+    | newabbreviation
+    | newacronym
+    | newentry
+    | newglosentrymath
+    | newglossaryentry
+    | newleipzig
+    | newnum
+    | newpmemlabel
+    | newsym
+    | newterm
+    | nllabel
+    | nocompdlabel
+    | noderivalabel
+    | noderivlabel
+    | oldlabel
+    | partlabel
+    | pglabel
+    | plabel
+    | pmemlabel
+    | poemlinelabel
+    | pplabel
+    | proseaccidental
+    | proselinelabel
+    | prosetsaccidental
+    | provideglossaryentry
+    | recordExerciseLabel
+    | RecordProperties
+    | renewleipzig
+    | safelabel
+    | SE
+    | seclabel
+    | sentencelabel
+    | skilldef
+    | slabel
+    | sreflabel
+    | step
+    | STEZA
+    | synchrolabel
+    | tablabel
+    | tableconts
+    | TE
+    | TEZA
+    | thlabel
+    | tracklabel
+    | zctarget
+    | zlabel
+    | zsavepos
+    | zsaveposx
+    | zsaveposy
+    )(?:\*|{{endcs}})
+
+  # lazy pattern to match well known reference commands
+  # required for goto definition and symbol lists
+  references: '{{letter}}*refs?(?:\*|{{endcs}})'
+
   simpletext: '[^\\{}%$~&#_^]*'

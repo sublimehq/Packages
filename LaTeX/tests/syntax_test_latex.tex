@@ -376,52 +376,132 @@ $$
 %             ^ entity.name.section.latex
 
 
-% REF/LABEL/CITE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CITE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\label{sec:name}
-% ^ meta.function.label.latex
-% ^ support.function.label.latex
-%        ^ entity.name
-
-\ref{sec:name}
-% ^ meta.function.reference.latex
-% ^ support.function.reference.latex keyword.other.reference.latex
-%        ^ constant.other.reference
-
-\cite{my:bib:key}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex keyword.other.cite.latex
-%        ^ constant.other.citation
-
+\cite{my:bib:key,your:bib}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.citation.latex - meta.function meta.function
+%^^^^ support.function.cite.latex
+%    ^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^^^^^^ constant.other.citation.latex
+%               ^ punctuation.separator.sequence.latex
+%                ^^^^^^^^ constant.other.citation.latex
+%                        ^ punctuation.definition.group.brace.end.tex
 
 \cite[\command]{my:bib:key}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%           ^ support.function
-%
+% <- meta.function.citation.latex support.function.cite.latex punctuation.definition.backslash.latex
+%^^^^ meta.function.citation.latex - meta.group - meta.function meta.function
+%    ^^^^^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%              ^^^^^^^^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                          ^ - meta.function - meta.group
 
 \parencite[Proposition~1]{Ref}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%          ^ meta.group.bracket.latex
-%                          ^ constant.other.citation.latex
+% <- meta.function.citation.latex support.function.cite.latex punctuation.definition.backslash.latex
+%^^^^^^^^^ meta.function.citation.latex - meta.group - meta.function meta.function
+%         ^^^^^^^^^^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%                        ^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                             ^ - meta.function - meta.group
+%^^^^^^^^^ support.function.cite.latex
+%         ^ punctuation.definition.group.bracket.begin.latex
+%                     ^ constant.character.space.tex
+%                       ^ punctuation.definition.group.bracket.end.latex
+%                        ^ punctuation.definition.group.brace.begin.tex
+%                         ^^^ constant.other.citation.latex
+%                            ^ punctuation.definition.group.brace.end.tex
 
-\parencites[Proposition~1]{Firstref}[p.~2]{SecondRef}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%           ^ meta.group.bracket.latex
-%                          ^ constant.other.citation.latex
-%                                     ^ meta.group.bracket.latex
-%                                          ^ constant.other.citation.latex
+\parencites[Proposition~1]{Firstref} [p.~2] {SecondRef}
+% <- meta.function.citation.latex support.function.cite.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.citation.latex - meta.group - meta.function meta.function
+%          ^^^^^^^^^^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%                         ^^^^^^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                                   ^ meta.function.citation.latex - meta.group - meta.function meta.function
+%                                    ^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%                                          ^ meta.function.citation.latex - meta.group - meta.function meta.function
+%                                           ^^^^^^^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                                                      ^ - meta.function - meta.group
+%^^^^^^^^^^ support.function.cite.latex
+%          ^ punctuation.definition.group.bracket.begin.latex
+%                      ^ constant.character.space.tex
+%                        ^ punctuation.definition.group.bracket.end.latex
+%                         ^ punctuation.definition.group.brace.begin.tex
+%                          ^^^^^^^^ constant.other.citation.latex
+%                                  ^ punctuation.definition.group.brace.end.tex
+%                                    ^ punctuation.definition.group.bracket.begin.latex
+%                                       ^ constant.character.space.tex
+%                                         ^ punctuation.definition.group.bracket.end.latex
+%                                           ^ punctuation.definition.group.brace.begin.tex
+%                                            ^^^^^^^^^ constant.other.citation.latex
+%                                                     ^ punctuation.definition.group.brace.end.tex
 
 \Citeauthor*[]{knuth97} % Hit F12 to go to definition in syntax_test_bibtex.bib
 %^^^^^^^^^^^^^^^^^^^^^^ meta.function.citation.latex
-%^^^^^^^^^^^ support.function.cite.latex keyword.other.cite.latex
+%^^^^^^^^^^^ support.function.cite.latex
 %           ^^ meta.group.bracket.latex
 %             ^^^^^^^^^ meta.group.brace.tex
 %             ^ punctuation.definition.group.brace.begin.tex
 %              ^^^^^^^ constant.other.citation.latex
 %                     ^ punctuation.definition.group.brace.end.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FOOTNOTE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\footnote{This is a basic footnote}
+% <- meta.function.footnote.latex support.function.footnote.latex punctuation.definition.backslash.latex
+%^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex - meta.function meta.function
+%        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function
+%        ^ punctuation.definition.group.brace.begin.tex
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+%                                 ^ punctuation.definition.group.brace.end.tex
+
+\footnote [ 5 ] {This is a footnote with a specific reference mark}
+% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function
+%         ^ punctuation.definition.group.bracket.begin.latex
+%             ^ punctuation.definition.group.bracket.end.latex
+%               ^ punctuation.definition.group.brace.begin
+%                                                                 ^ punctuation.definition.group.brace.end
+
+\footnotetext{Footnote text without creating a mark}
+% ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex - meta.function meta.function
+%            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+%                                                  ^ punctuation.definition.group.brace.end.tex
+
+\footnotemark
+% <- meta.function.footnote.latex support.function.footnote.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+
+\footnotemark  [ 1   ]
+%^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex - meta.function meta.function
+%^^^^^^^^^^^^ support.function.footnote.latex
+%              ^^^^^^^ meta.group.bracket.latex
+%              ^ punctuation.definition.group.bracket.begin.latex
+%                    ^ punctuation.definition.group.bracket.end.latex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REF/LABEL COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\label{sec:name}
+%^^^^^^^^^^^^^^^ meta.function.label.latex - meta.function meta.function
+%^^^^^ support.function.label.latex
+%     ^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^ entity.name.label.latex
+%              ^ punctuation.definition.group.brace.end.tex
+
+\ref{sec:name}
+%^^^^^^^^^^^^^ meta.function.reference.latex - meta.function meta.function
+%^^^ support.function.reference.latex
+%   ^^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^ constant.other.reference.latex
+%            ^ punctuation.definition.group.brace.end.tex
 
 
 % URL COMMAND
@@ -733,37 +813,6 @@ $$
 %^^^^^^^ meta.function.textbf.latex
 %^^^^^^ support.function.textbf.latex
 %       ^^^^^^^^^^^^^^^ - meta.function
-
-% FOOTNOTE COMMANDS
-
-\footnote{This is a basic footnote}
-% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
-%        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
-%         ^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-
-\footnote [ 5 ] {This is a footnote with a specific reference mark}
-% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
-%         ^ punctuation.definition.group.bracket.begin.latex
-%         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
-%             ^ punctuation.definition.group.bracket.end.latex
-%               ^ punctuation.definition.group.brace.begin
-%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
-%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-%                                                                 ^ punctuation.definition.group.brace.end
-
-\footnotetext{Footnote text without creating a mark}
-% ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
-%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
-%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-
-\footnotemark
-% ^^^^^^^^^^^ support.function.footnote.latex
-
-\footnotemark  [ 1   ]
-% ^^^^^^^^^^^ support.function.footnote.latex
-%              ^ punctuation.definition.group.bracket.begin.latex
-%              ^^^^^^^ meta.group.bracket.latex
-%                    ^ punctuation.definition.group.bracket.end.latex
 
 % LIST ENVIRONMENTS
 
