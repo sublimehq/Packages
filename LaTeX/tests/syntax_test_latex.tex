@@ -1358,30 +1358,44 @@ a & b
 %                         ^ punctuation.definition.group.brace.end.tex
 %                          ^ punctuation.definition.group.brace.end.tex
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE: comment
 % The comment package can be used to write block comment
 % using an environment.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{comment}
-% ^ support.function.begin.latex keyword.control.flow.begin.latex
-%      ^ variable.parameter.function.latex
-This environment can be used to write
-% <- comment.block.environment.comment.latex
-block comments.
-% <- comment.block.environment.comment.latex
-\end{comment}
+%^^^^^^^^^^^^^^ meta.environment.comment.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
 
+This environment can be used to write
+% <- comment.block.environment.latex
+block comments.
+% <- comment.block.environment.latex
+
+\end{comment}
+%^^^^^^^^^^^^ meta.environment.comment.latex meta.function.end.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
 
 \comment
-% <- comment.block.command.comment.latex
-% ^ punctuation.definition.comment.start.latex
+% <- meta.environment.comment.latex keyword.declaration.comment.begin.latex punctuation.definition.backslash.latex
+%^^^^^^^ meta.environment.comment.latex keyword.declaration.comment.begin.latex
 This block comment can be done with
-% <- comment.block.command.comment.latex
+% <- comment.block.command.latex
 opening and closing commands.
-% <- comment.block.command.comment.latex
+% <- comment.block.command.latex
 \endcomment
-% <- comment.block.command.comment.latex
-% ^ punctuation.definition.comment.end.latex
+% <- meta.environment.comment.latex keyword.declaration.comment.end.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.environment.comment.latex keyword.declaration.comment.end.latex
 
 
 % PACKAGE: listings

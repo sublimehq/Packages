@@ -1460,6 +1460,50 @@ contexts:
         6: punctuation.definition.group.brace.end.tex
     - include: main
 
+###[ PACKAGE: COMMENT ]########################################################
+
+  pkg-comment-envs:
+    - match: (\\)comment{{endcs}}
+      scope: keyword.declaration.comment.begin.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push: comment-cmd-body
+    - match: ((\\)begin)\s*((\{)\s*(comment)\s*(\}))
+      scope: meta.function.begin.latex
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+      push: comment-env-body
+
+  comment-cmd-body:
+    - meta_scope: meta.environment.comment.latex
+    - meta_content_scope: comment.block.command.latex
+    - match: (\\)endcomment{{endcs}}
+      scope: keyword.declaration.comment.end.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
+
+  comment-env-body:
+    - meta_scope: meta.environment.comment.latex
+    - meta_content_scope: comment.block.environment.latex
+    - match: ((\\)end)\s*((\{)\s*(comment)\s*(\}))
+      scope: meta.function.end.latex
+      captures:
+        1: support.function.end.latex keyword.control.flow.end.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+      pop: 1
+
+###[ PACKAGE: PKGLISTINGS ]####################################################
+
   # listings package
   pkg-listings:
     - match: (\\)lstinline\b
@@ -2545,38 +2589,6 @@ contexts:
   pkg-minted-env-raw-body:
     - meta_include_prototype: false
     - meta_content_scope: markup.raw.verb.latex
-
-  # comment package
-  pkg-comment-envs:
-    - match: ^(\\)comment\b
-      captures:
-        0: punctuation.definition.comment.start.latex
-        1: punctuation.definition.backslash.latex
-      push:
-        - meta_scope: meta.environment.comment.latex comment.block.command.comment.latex
-        - match: ^(\\)endcomment\b
-          captures:
-            0: punctuation.definition.comment.end.latex
-            1: punctuation.definition.backslash.latex
-          pop: 1
-    - match: ((\\)begin)\s*(\{)\s*(comment)\s*(\})
-      captures:
-        1: support.function.begin.latex keyword.control.flow.begin.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
-      push:
-        - meta_scope: meta.environment.comment.latex
-        - meta_content_scope: comment.block.environment.comment.latex
-        - match: ((\\)end)\s*(\{)\s*(comment)\s*(\})
-          captures:
-            1: support.function.end.latex keyword.control.flow.end.latex
-            2: punctuation.definition.backslash.latex
-            3: punctuation.definition.group.brace.begin.tex
-            4: variable.parameter.function.latex
-            5: punctuation.definition.group.brace.end.tex
-          pop: 1
 
 ###############################################################################
 
