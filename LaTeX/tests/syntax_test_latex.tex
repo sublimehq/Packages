@@ -574,9 +574,6 @@ $$
 \includecommand{...}
 % ^^^^^^^^^^ support.function.general.latex
 
-\inputminted{py}{path/to/file.py}
-% ^^^^^^^^^^ support.function.general.latex
-
 
 % MARKUP COMMANDS
 
@@ -1435,42 +1432,139 @@ class MyClass() {
 %                      ^ - meta.environment.verbatim.lstinline.latex
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE: minted
 % The minted package is used to highlight source code using
 % the Pygments library.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{minted}{raw}
+%^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex - markup.raw
+%^^^^^^^^^^^^^ meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
+%             ^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^ constant.other.language-name.latex
+%                 ^ punctuation.definition.group.brace.end.tex
+%                  ^ meta.fold.begin.latex
+
+% <- meta.environment.verbatim.minted.latex markup.raw.verb.latex
+
+  \end{minted}
+% <- meta.environment.verbatim.minted.latex meta.function.end.latex - markup.raw
+%^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex meta.function.end.latex - markup.raw
+% ^^^^ support.function.end.latex keyword.control.flow.end.latex
+% ^ punctuation.definition.backslash.latex
+%     ^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
 
 \begin{minted}[linenos=true]{python}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
+%             ^^^^^^^^^^^^^^ meta.group.bracket.latex
+%             ^ punctuation.definition.group.bracket.begin.latex
+%              ^^^^^^^ variable.parameter.latex
+%                     ^ keyword.operator.assignment.latex
+%                          ^ punctuation.definition.group.bracket.end.latex
+%                           ^^^^^^^^ meta.group.brace.tex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                            ^^^^^^ constant.other.language-name.latex
+%                                  ^ punctuation.definition.group.brace.end.tex
+%                                   ^ meta.fold.begin.latex - meta.group
+
 def my_function():
     pass
 % <- meta.environment.verbatim.minted.latex
-% <- meta.environment.embedded.python.latex
-% <- source.python.embedded
+% <- source.python.embedded.latex
 %   ^ keyword.control.flow.pass.python
-\end{minted}
 
+\end{minted}
+%^^^^^^^^^^^^ meta.environment.verbatim.minted.latex meta.function.end.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^ variable.parameter.function.latex
+%          ^ punctuation.definition.group.brace.end.tex
+%           ^ meta.fold.end.latex
 
 \mint{python}{import this}
-%             ^ meta.environment.verbatim.minted.latex
-%             ^ meta.environment.embedded.python.latex
-%             ^ source.python.embedded
-%             ^ keyword.control.import.python
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^ support.function.mint.latex
+%    ^^^^^^^^ meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^^ constant.other.language-name.latex
+%           ^ punctuation.definition.group.brace.end.tex
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^^^^^^^^ source.python.embedded.latex
+%             ^^^^^^ keyword.control.import.python
+%                        ^ punctuation.definition.group.brace.end.tex
+
+\mint { python } {
+%^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^ support.function.mint.latex
+%     ^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%       ^^^^^^ constant.other.language-name.latex
+%              ^ punctuation.definition.group.brace.end.tex
+%                ^ punctuation.definition.group.brace.begin.tex
+  import this
+%^^^^^^^^^^^^^ source.python.embedded.latex
+% ^^^^^^ keyword.control.import.python
+}
+% <- meta.environment.verbatim.minted.latex punctuation.definition.group.brace.end.tex
 
 % instead of embedding the code into { and } it is also possible
 % to use an arbitrary character
 \mint{python}|import this|
-%             ^ meta.environment.verbatim.minted.latex
-%             ^ source.python.embedded
-
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^ support.function.mint.latex
+%    ^^^^^^^^ meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^^ constant.other.language-name.latex
+%           ^ punctuation.definition.group.brace.end.tex
+%            ^ punctuation.definition.verb.begin.latex
+%             ^^^^^^^^^^^ source.python.embedded.latex
+%             ^^^^^^ keyword.control.import.python
+%                        ^ punctuation.definition.verb.end.latex
 
 \mintinline{python}{print(x ** 2)}
-%                    ^ meta.environment.verbatim.minted.latex
-%                    ^ meta.environment.embedded.python.latex
-%                    ^ source.python.embedded
-%                    ^ support.function.builtin.python
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^^^^^^^ support.function.mint.latex
+%          ^^^^^^^^ meta.group.brace.tex
+%          ^ punctuation.definition.group.brace.begin.tex
+%           ^^^^^^ constant.other.language-name.latex
+%                 ^ punctuation.definition.group.brace.end.tex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^^^^^^^ source.python.embedded.latex
+%                   ^^^^^ meta.function-call.identifier.python support.function.builtin.python
+%                        ^^^^^^^^ meta.function-call.arguments.python
+%                        ^ punctuation.section.arguments.begin.python
+%                         ^ meta.path.python meta.generic-name.python
+%                           ^^ keyword.operator.arithmetic.python
+%                              ^ meta.number.integer.decimal.python constant.numeric.value.python
+%                               ^ punctuation.section.arguments.end.python
+%                                ^ punctuation.definition.group.brace.end.tex
 
 \mintinline{python}+print(x ** 2)+
 %                    ^ source.python.embedded
 
+\inputminted{py}{path/to/file.py}
+%^^^^^^^^^^^ support.function.general.latex
+%           ^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%              ^ punctuation.definition.group.brace.end.tex
+%               ^ punctuation.definition.group.brace.begin.tex
+%                               ^ punctuation.definition.group.brace.end.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
