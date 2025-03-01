@@ -934,6 +934,38 @@ The \emph{verbatim} environment sets everything in verbatim.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Beamer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+% <- meta.environment.frame.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.environment.frame.latex
+%     ^^^^^^^ meta.environment.frame.latex meta.group.brace.tex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\frametitle{title}
+% <- meta.environment.frame.latex meta.function.frametitle.latex support.function.frametitle.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^ meta.environment.frame.latex meta.function.frametitle.latex
+%^^^^^^^^^^ support.function.frametitle.latex
+%          ^^^^^^^ meta.group.brace.tex
+%          ^ punctuation.definition.group.brace.begin.tex
+%           ^^^^^ entity.name.section.frame.latex
+%                ^ punctuation.definition.group.brace.end.tex
+
+\end{frame}
+% <- meta.environment.frame.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.environment.frame.latex
+%   ^^^^^^^ meta.environment.frame.latex meta.group.brace.tex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^ variable.parameter.function.latex
+%         ^ punctuation.definition.group.brace.end.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 Math
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

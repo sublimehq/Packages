@@ -1264,7 +1264,42 @@ contexts:
       pop: 2
     - include: macro-variables
 
-###[ PACKAGES ]################################################################
+###[ PACKAGE: BEAMER ]#########################################################
+
+  pkg-beamer-envs:
+    - match: ((\\)begin)\s*((\{)\s*(frame)\s*(\}))
+      scope: meta.function.begin.latex
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+      push: beamer-env-body
+
+  beamer-env-body:
+    - meta_scope: meta.environment.frame.latex
+    - match: ((\\)end)\s*((\{)\s*(frame)\s*(\}))
+      scope: meta.function.end.latex
+      captures:
+        1: support.function.end.latex keyword.control.flow.end.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+      pop: 1
+    - match: ((\\)frametitle)\s*((\{)(.*)(\}))
+      scope: meta.function.frametitle.latex
+      captures:
+        1: support.function.frametitle.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: entity.name.section.frame.latex
+        6: punctuation.definition.group.brace.end.tex
+    - include: main
 
   # listings package
   pkg-listings:
@@ -1997,38 +2032,6 @@ contexts:
             4: variable.parameter.function.latex
             5: punctuation.definition.group.brace.end.tex
           pop: 1
-
-  # beamer support
-  pkg-beamer-envs:
-    - match: ((\\)begin)(\{)(frame)(\})
-      captures:
-        1: support.function.begin.latex keyword.control.flow.begin.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
-      push:
-        - meta_scope: meta.environment.frame.latex
-        - match: ((\\)end)(\{)(frame)(\})
-          captures:
-            1: support.function.end.latex keyword.control.flow.end.latex
-            2: punctuation.definition.backslash.latex
-            3: punctuation.definition.group.brace.begin.tex
-            4: variable.parameter.function.latex
-            5: punctuation.definition.group.brace.end.tex
-          pop: 1
-        - include: frametitles
-        - include: main
-
-  frametitles:
-    - match: ((\\)frametitle)(\{)(.*)(\})
-      scope: meta.function.frametitle.latex
-      captures:
-       1: support.function.frametitle.latex
-       2: punctuation.definition.backslash.latex
-       3: punctuation.definition.group.brace.begin.tex
-       4: entity.name.function.frame.latex
-       5: punctuation.definition.group.brace.end.tex
 
   # support for array package
   pkg-array:
