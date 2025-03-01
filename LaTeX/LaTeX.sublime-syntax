@@ -515,41 +515,45 @@ contexts:
 ###[ LIST ENVIRONMENT ]########################################################
 
   lists:
-    - match: ((\\)begin)\s*(\{)\s*(itemize\*?)\s*(\})
+    - match: ((\\)begin)\s*((\{)\s*(itemize\*?)\s*(\}))
       scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       push: list-itemsize-body
-    - match: ((\\)begin)\s*(\{)\s*(enumerate\*?)\s*(\})
+    - match: ((\\)begin)\s*((\{)\s*(enumerate\*?)\s*(\}))
       scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       push: list-enumerate-body
-    - match: ((\\)begin)\s*(\{)\s*(list\*?)\s*(\})
+    - match: ((\\)begin)\s*((\{)\s*(list\*?)\s*(\}))
       scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       push: list-list-body
-    - match: ((\\)begin)\s*(\{)\s*(description\*?)\s*(\})
+    - match: ((\\)begin)\s*((\{)\s*(description\*?)\s*(\}))
       scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       push: list-description-body
 
   list-itemsize-body:
@@ -582,32 +586,34 @@ contexts:
   block-math-begin-end-command:
     - match: |-
         (?x)
-        ((\\)begin) (\{) \s* (
-          (?: align | alignat | aligned | alignedat | displaymath | eqnarray
-          | equation | flalign | gather | gathered | math | multline | x?xalignat
-          | split | dmath | dseries | dgroup | darray | dsuspend )\*?
-        ) \s* (\})
+        ((\\)begin)
+        \s* ( (\{) \s* ( {{math_envs}} ) \s* (\}) )
+      scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       push: block-math-begin-end-command-body
     - match: |-
         (?x)
         ((\\)begin)
-        \s* (\{) \s* ( IEEEeqnarray\*? ) \s* (\})
-        (?: \s* (\{) \s* ( {{letter}}+ ) \s* (\}) )?
+        \s* ( (\{) \s* ( IEEEeqnarray\*? ) \s* (\}) )
+        (?: \s* ( (\{) \s* ( {{letter}}+ ) \s* (\}) ) )?
+      scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
-        6: punctuation.definition.group.brace.begin.tex
-        7: variable.parameter.function.latex
-        8: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+        7: meta.group.brace.tex
+        8: punctuation.definition.group.brace.begin.tex
+        9: variable.parameter.function.latex
+        10: punctuation.definition.group.brace.end.tex
       push: block-math-begin-end-command-body
 
   block-math-begin-end-command-body:
@@ -711,33 +717,36 @@ contexts:
 ###[ OTHER ENVIRONMENT ]#######################################################
 
   environments:
-    - match: ((\\)begin)\s*(\{)\s*(\w*)\*?\s*(\})
+    - match: ((\\)begin)\s*((\{)\s*(\w*)\*?\s*(\}))
       scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       push: optional-arguments
-    - match: ((\\)end)\s*(\{)\s*(\w*)\*?\s*(\})
+    - match: ((\\)end)\s*((\{)\s*(\w*)\*?\s*(\}))
       scope: meta.function.end.latex
       captures:
         1: support.function.end.latex keyword.control.flow.end.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
 
   environment-end:
-    - match: ((\\)end)\s*(\{)\s*(\4)\s*(\})
+    - match: ((\\)end)\s*((\{)\s*(\5)\s*(\}))
       scope: meta.function.end.latex
       captures:
         1: support.function.end.latex keyword.control.flow.end.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
       pop: 1
 
 ###[ OTHER ]###################################################################
@@ -2799,6 +2808,29 @@ variables:
     | zsaveposx
     | zsaveposy
     )(?:\*|{{endcs}})
+
+  math_envs: |-
+    (?x:
+      align
+    | alignat
+    | aligned
+    | alignedat
+    | displaymath
+    | eqnarray
+    | equation
+    | flalign
+    | gather
+    | gathered
+    | math
+    | multline
+    | x?xalignat
+    | split
+    | dmath
+    | dseries
+    | dgroup
+    | darray
+    | dsuspend
+    )\*?
 
   # lazy pattern to match well known reference commands
   # required for goto definition and symbol lists

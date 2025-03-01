@@ -1102,7 +1102,9 @@ The \emph{verbatim} environment sets everything in verbatim.
 % Math Environments
 
 \begin{equation}
-% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^ variable.parameter.function.latex
@@ -1111,14 +1113,18 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{equation}
-% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^ variable.parameter.function.latex
 %            ^ punctuation.definition.group.brace.end.tex
 
 \begin{equation*}
-% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^^ variable.parameter.function.latex
@@ -1127,13 +1133,18 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{equation*}
-% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^ variable.parameter.function.latex
 %             ^ punctuation.definition.group.brace.end.tex
 
 \begin{IEEEeqnarray}
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^^^^^ variable.parameter.function.latex
@@ -1142,12 +1153,18 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{IEEEeqnarray}
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^^^^ variable.parameter.function.latex
 %                ^ punctuation.definition.group.brace.end.tex
 
 \begin{IEEEeqnarray}{c}
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^^^^^ variable.parameter.function.latex
@@ -1159,6 +1176,9 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{IEEEeqnarray}
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^^^^ variable.parameter.function.latex
