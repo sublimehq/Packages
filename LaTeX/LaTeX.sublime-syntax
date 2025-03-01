@@ -37,7 +37,7 @@ contexts:
     # they are only partially matched.
     - meta_prepend: true
     # packages
-    - include: pkg-listings
+    - include: pkg-listings-cmds
     - include: pkg-minted-cmds
     # latex
     - include: graphics
@@ -1502,162 +1502,224 @@ contexts:
         6: punctuation.definition.group.brace.end.tex
       pop: 1
 
-###[ PACKAGE: PKGLISTINGS ]####################################################
+###[ PACKAGE: LISTINGS ]#######################################################
 
-  # listings package
-  pkg-listings:
-    - match: (\\)lstinline\b
-      scope: meta.environment.verbatim.lstinline.latex support.function.lstinline.latex
+  pkg-listings-cmds:
+    - match: (\\)lstinline{{endcs}}
+      scope: support.function.lstinline.latex
       captures:
         1: punctuation.definition.backslash.latex
-      push:
-        - meta_include_prototype: false
-        - meta_content_scope: meta.environment.verbatim.lstinline.latex
-        - include: general-optional-arguments
-        - match: \{
-          scope: punctuation.definition.group.brace.begin.tex
-          set:
-            - meta_include_prototype: false
-            - meta_scope: meta.environment.verbatim.lstinline.latex meta.group.brace.tex
-            - meta_content_scope: markup.raw.verb.latex
-            - include: brace-group-end
-        - match: (\W)
-          scope: punctuation.definition.verb.latex
-          set:
-            - meta_include_prototype: false
-            - meta_scope: meta.environment.verbatim.lstinline.latex
-            - meta_content_scope: markup.raw.verb.latex
-            - match: \1
-              scope: punctuation.definition.verb.latex
-              pop: 1
+      push: lstlisting-cmd-args
+
+  lstlisting-cmd-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.environment.verbatim.lstinline.latex meta.function.lstinline.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: lstlisting-cmd-brace-body
+    - match: (\W)
+      scope: punctuation.definition.verb.begin.latex
+      push: lstlisting-cmd-verb-body
+    - include: general-optional-arguments
+    - include: else-pop
+
+  lstlisting-cmd-brace-body:
+    - meta_scope: meta.group.brace.tex
+    - meta_content_scope: markup.raw.verb.latex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
+
+  lstlisting-cmd-verb-body:
+    - meta_content_scope: markup.raw.verb.latex
+    - match: \1
+      scope: punctuation.definition.verb.end.latex
+      pop: 2
 
   pkg-listings-envs:
-    - match: ((\\)begin)\s*(\{)(lstlisting)(\})
+    - match: ((\\)begin)\s*((\{)\s*(lstlisting)\s*(\}))
+      scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.environment.verbatim.lstlisting.latex
-        - match: ((\\)end)\s*(\{)(lstlisting)(\})
-          captures:
-            1: support.function.end.latex keyword.control.flow.end.latex
-            2: punctuation.definition.backslash.latex
-            3: punctuation.definition.group.brace.begin.tex
-            4: variable.parameter.function.latex
-            5: punctuation.definition.group.brace.end.tex
-          pop: 1
-        - include: general-optional-arguments
-        - match: .*(%\s*(?i:c))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.c
-          embed_scope: meta.environment.embedded.c.latex source.c.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:cpp|c\+\+))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.c++
-          embed_scope: meta.environment.embedded.c++.latex source.c++.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:haskell|hs))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.haskell
-          embed_scope: meta.environment.embedded.haskell.latex source.haskell.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:java))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.java
-          embed_scope: meta.environment.embedded.java.latex source.java.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:html))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:text.html.basic
-          embed_scope: meta.environment.embedded.html.latex source.html.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:tex|latex))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:text.tex.latex
-          embed_scope: meta.environment.embedded.latex.latex source.latex.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:lisp))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.lisp
-          embed_scope: meta.environment.embedded.lisp.latex source.lisp.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:lua))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.lua
-          embed_scope: meta.environment.embedded.lua.latex source.lua.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:perl))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.perl
-          embed_scope: meta.environment.embedded.perl.latex source.perl.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:php))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.php
-          embed_scope: meta.environment.embedded.php.latex source.php.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:python|py))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.python
-          embed_scope: meta.environment.embedded.python.latex source.python.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:r))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.r
-          embed_scope: meta.environment.embedded.r.latex source.r.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:ruby))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.ruby
-          embed_scope: meta.environment.embedded.ruby.latex source.ruby.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:sh|shell|bash ))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.shell
-          embed_scope: meta.environment.embedded.shell.latex source.shell.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:sql|mysql|ddl|dml))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.sql
-          embed_scope: meta.environment.embedded.sql.latex source.sql.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:xml))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:text.xml
-          embed_scope: meta.environment.embedded.xml.latex source.xml.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: .*(%\s*(?i:yaml))$
-          captures:
-            1: comment.line.percentage.latex
-          embed: scope:source.yaml
-          embed_scope: meta.environment.embedded.yaml.latex source.yaml.embedded
-          escape: (?=\\end\{lstlisting\})
-        - match: ''
-          push:
-            - meta_scope: meta.environment.embedded.generic.latex markup.raw.verb.latex
-            - match: (?=\\end\{lstlisting\})
-              pop: 1
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+      embed: pkg-lstlisting-env-body
+      escape: (?:^\s*)?((\\)end)\s*((\{)\s*(lstlisting)\s*(\}))(\s*\n)?
+      escape_captures:
+        0: meta.environment.verbatim.lstlisting.latex meta.function.end.latex
+        1: support.function.end.latex keyword.control.flow.end.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+        7: meta.fold.end.latex
+
+  pkg-lstlisting-env-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.environment.verbatim.lstlisting.latex
+    - include: general-optional-arguments
+    - match: .*((%)\s*(?i:bash|sh(?:ell)?))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.shell.bash
+      embed_scope: markup.raw.verb.latex source.shell.bash.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:c))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.c
+      embed_scope: markup.raw.verb.latex source.c.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:cpp|c\+\+))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.c++
+      embed_scope: markup.raw.verb.latex source.c++.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:css))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.css
+      embed_scope: markup.raw.verb.latex source.css.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:haskell|hs))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.haskell
+      embed_scope: markup.raw.verb.latex source.haskell.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:java))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.java
+      embed_scope: markup.raw.verb.latex source.java.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:html))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:text.html.basic
+      embed_scope: markup.raw.verb.latex source.html.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:tex|latex))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:text.tex.latex
+      embed_scope: markup.raw.verb.latex source.latex.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:lisp))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.lisp
+      embed_scope: markup.raw.verb.latex source.lisp.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:lua))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.lua
+      embed_scope: markup.raw.verb.latex source.lua.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:perl))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.perl
+      embed_scope: markup.raw.verb.latex source.perl.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:php))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.php
+      embed_scope: markup.raw.verb.latex source.php.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:python|py))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.python
+      embed_scope: markup.raw.verb.latex source.python.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:r))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.r
+      embed_scope: markup.raw.verb.latex source.r.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:ruby))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.ruby
+      embed_scope: markup.raw.verb.latex source.ruby.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:sql|ddl|dml))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.sql
+      embed_scope: markup.raw.verb.latex source.sql.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:xml))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:text.xml
+      embed_scope: markup.raw.verb.latex text.xml.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:ya?ml))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.yaml
+      embed_scope: markup.raw.verb.latex source.yaml.embedded.latex
+      escape: (?!)
+    - match: .*((%)\s*(?i:zsh))(\s*$\n?)
+      captures:
+        1: comment.line.percentage.tex
+        2: punctuation.definition.comment.tex
+        3: meta.fold.begin.latex
+      embed: scope:source.shell.zsh
+      embed_scope: markup.raw.verb.latex source.shell.zsh.embedded.latex
+      escape: (?!)
+    - match: .*((%).*)$\n?
+      push: pkg-lstlistings-env-raw-body
+
+  pkg-lstlistings-env-raw-body:
+    - meta_include_prototype: false
+    - meta_content_scope: markup.raw.verb.latex
 
 ###[ PACKAGE: MINTED ]#########################################################
 

@@ -1398,27 +1398,48 @@ opening and closing commands.
 %^^^^^^^^^^ meta.environment.comment.latex keyword.declaration.comment.end.latex
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE: listings
 % The listings package is used to highlight source code.
 % Supported languages:
 % - python
 % - java
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{lstlisting} % python
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstlisting.latex - markup.raw
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^^ variable.parameter.function.latex
+%                ^ punctuation.definition.group.brace.end.tex
+%                  ^^^^^^^^ comment.line.percentage.tex
+%                  ^ punctuation.definition.comment.tex
 def my_function():
     pass
 % <- meta.environment.verbatim.lstlisting.latex
-% <- meta.environment.embedded.python.latex
 % <- source.python.embedded
 %   ^ keyword.control.flow.pass.python
 \end{lstlisting}
+%^^^^^^^^^^^^^^^ meta.environment.verbatim.lstlisting.latex meta.function.end.latex - markup.raw
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^^ variable.parameter.function.latex
+%              ^ punctuation.definition.group.brace.end.tex
 
 \begin{lstlisting}[frame=single,
                    language=python] %python
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstlisting.latex - markup.raw
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.bracket.latex
+%                  ^^^^^^^^ variable.parameter.latex
+%                          ^ keyword.operator.assignment.latex
+%                                 ^ punctuation.definition.group.bracket.end.latex
+%                                   ^^^^^^^ comment.line.percentage.tex
+%                                   ^ punctuation.definition.comment.tex
 def my_function():
     pass
 % <- meta.environment.verbatim.lstlisting.latex
-% <- meta.environment.embedded.python.latex
 % <- source.python.embedded
 %   ^ keyword.control.flow.pass.python
 \end{lstlisting}
@@ -1426,7 +1447,6 @@ def my_function():
 \begin{lstlisting} %java
 class MyClass() {
 % <- meta.environment.verbatim.lstlisting.latex
-% <- meta.environment.embedded.java.latex
 % <- source.java.embedded
 % ^ keyword.declaration.class.java
 }
