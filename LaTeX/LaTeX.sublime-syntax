@@ -42,7 +42,7 @@ contexts:
     # latex
     - include: includes
     - include: preamble
-    - include: url
+    - include: urls
     - include: references
     - include: structure
     - include: text-decorators
@@ -811,18 +811,6 @@ contexts:
         6: punctuation.definition.group.brace.end.tex
       pop: 1
 
-###[ OTHER ]###################################################################
-
-  url:
-    - match: ((\\)(?:url|href|path))(\{)([^}]*)(\})
-      scope: meta.function.link.url.latex
-      captures:
-        1: support.function.url.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: markup.underline.link.latex
-        5: punctuation.definition.group.brace.end.tex
-
 ###[ FONTS ]###################################################################
 
   # https://en.wikibooks.org/wiki/LaTeX/Fonts#Font_styles
@@ -1316,6 +1304,18 @@ contexts:
       scope: punctuation.definition.group.brace.end.tex
       pop: 2
     - include: macro-variables
+
+###[ URL COMMANDS ]############################################################
+
+  urls:
+    - match: ((\\)(?:url|href|path))(\{)([^}]*)(\})
+      scope: meta.function.link.url.latex
+      captures:
+        1: support.function.url.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.tex
+        4: markup.underline.link.latex
+        5: punctuation.definition.group.brace.end.tex
 
 ###[ VERBATIM COMMANDS ]#######################################################
 
