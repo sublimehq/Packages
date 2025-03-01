@@ -29,7 +29,7 @@ contexts:
     # latex
     - include: lists
     - include: sections
-    - include: verbatim
+    - include: verbatim-envs
 
   expressions:
     # NOTE: within braces, it is possible that only part of some nested
@@ -674,28 +674,39 @@ contexts:
 
   math-content:
     - meta_prepend: true
-    - include: verb
-    - include: text-decorators
-    - include: references
     - include: environments
+    - include: references
+    - include: text-decorators
+    - include: verb
 
 ###[ VERBATIM ENVIRONMENT ]####################################################
 
-  verbatim:
-    - match: ((\\)begin)\s*(\{)\s*((?:[vV]erbatim|alltt)\*?)\s*(\})
+  verbatim-envs:
+    - match: ((\\)begin)\s*((\{)\s*((?:[vV]erbatim|alltt)\*?)\s*(\}))(?:\s+$)?
+      scope: meta.function.begin.latex
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.group.brace.begin.tex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.group.brace.end.tex
-      push: verbatim-body
+        3: meta.group.brace.tex
+        4: punctuation.definition.group.brace.begin.tex
+        5: variable.parameter.function.latex
+        6: punctuation.definition.group.brace.end.tex
+      push: verbatim-env-body
 
-  verbatim-body:
+  verbatim-env-body:
     - meta_include_prototype: false
-    - meta_scope: meta.environment.verbatim.verbatim.latex
-    - meta_content_scope: markup.raw.verbatim.latex
-    - include: environment-end
+    - meta_scope: meta.environment.verbatim.latex
+    - meta_content_scope: markup.raw.verb.latex
+    - match: (?:^\s*)?(((\\)end)\s*((\{)\s*(\5)\s*(\})))
+      captures:
+        1: meta.function.end.latex
+        2: support.function.end.latex keyword.control.flow.end.latex
+        3: punctuation.definition.backslash.latex
+        4: meta.group.brace.tex
+        5: punctuation.definition.group.brace.begin.tex
+        6: variable.parameter.function.latex
+        7: punctuation.definition.group.brace.end.tex
+      pop: 1
 
 ###[ OTHER ENVIRONMENT ]#######################################################
 
@@ -755,20 +766,6 @@ contexts:
         3: punctuation.definition.group.brace.begin.tex
         4: markup.underline.link.latex
         5: punctuation.definition.group.brace.end.tex
-
-  verb:
-    - match: ((\\)verb)(\W)
-      captures:
-        1: support.function.verb.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.verb.latex
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.environment.verbatim.verb.latex
-        - meta_content_scope: markup.raw.verb.latex
-        - match: \3
-          scope: punctuation.definition.verb.latex
-          pop: 1
 
 ###[ FONTS ]###################################################################
 
@@ -1263,6 +1260,24 @@ contexts:
       scope: punctuation.definition.group.brace.end.tex
       pop: 2
     - include: macro-variables
+
+###[ VERBATIM COMMANDS ]#######################################################
+
+  verb:
+    - match: (\\)verb(\W)
+      scope: support.function.verb.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+        2: punctuation.definition.verb.latex
+      push: verb-cmd-body
+
+  verb-cmd-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.environment.verbatim.verb.latex
+    - meta_content_scope: markup.raw.verb.latex
+    - match: \2
+      scope: punctuation.definition.verb.latex
+      pop: 1
 
 ###[ PACKAGE: ARRAY ]##########################################################
 
