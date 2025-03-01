@@ -318,15 +318,6 @@ $$
 %                    ^ punctuation.definition.variable.tex
 $$
 
-\newcolumntype{x}{>{$}c<{$}}
-% ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
-% ^ support.function.newcolumntype.latex
-%                 ^ support.function.insert-before-column.latex
-%                   ^ meta.function.before-column-decl.latex
-%                     ^ meta.function.newcolumntype.latex keyword.other.column-type.latex
-%                      ^ support.function.insert-after-column.latex
-%                        ^ meta.function.after-column-decl.latex
-
 \begin{document}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
 %        ^ variable.parameter.function.latex
@@ -1180,6 +1171,196 @@ f(x) = x^2
 %        ^ meta.function.box.latex
 %           ^ -meta.function.box.latex
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGE: array
+% The array package extends array and tabular environments
+% and allows for macros in format specifications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tabular}
+%^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex - meta.environment meta.environment
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+%              ^^^ meta.group.brackets.latex
+%              ^ punctuation.definition.group.bracket.begin.latex
+%               ^ constant.other.column-type.latex
+%                ^ punctuation.definition.group.bracket.end.latex
+%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.column-spec.latex meta.group.brace.tex
+%                 ^ punctuation.definition.group.brace.begin.tex
+%                  ^ keyword.operator.inter-column-line.latex
+%                    ^ keyword.operator.inter-column-line.latex
+%                     ^^^^^^^^^^^^ meta.function.column-decl.latex
+%                     ^ support.function.inter-column-nospace.latex
+%                      ^^^^^^ meta.group.brace.tex
+%                      ^ punctuation.definition.group.brace.begin.tex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ support.function.insert-before-column.latex
+%                              ^^ meta.group.brace.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                               ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ keyword.other.column-type.latex
+%                                  ^^^^ meta.function.column-decl.latex
+%                                  ^ support.function.insert-after-column.latex
+%                                   ^^ meta.group.brace.tex
+%                                   ^ punctuation.definition.group.brace.begin.tex
+%                                    ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
+%                                      ^ keyword.operator.inter-column-line.latex
+%                                       ^ punctuation.definition.group.brace.end.tex
+
+\hline
+
+a & b
+% <- meta.environment.tabular.latex
+
+\hline
+
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\begin{tabular}{*{3}{>{$}c<{$}}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+%              ^^^^^^^^^^^^^^^^^ meta.column-spec.latex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%               ^^^^ meta.function.insert-repeated.count.latex
+%               ^ support.function.insert-repeated.latex
+%                ^^^ meta.group.brace.tex
+%                ^ punctuation.definition.group.brace.begin.tex
+%                 ^ meta.number.integer.decimal.latex constant.numeric.value.latex
+%                  ^ punctuation.definition.group.brace.end.tex
+%                   ^^^^^^^^^^^ meta.function.insert-repeated.content.latex meta.group.brace.tex
+%                   ^ punctuation.definition.group.brace.begin.tex
+%                    ^^^^ meta.function.column-decl.latex
+%                    ^ support.function.insert-before-column.latex
+%                     ^^ meta.group.brace.tex
+%                     ^ punctuation.definition.group.brace.begin.tex
+%                      ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                       ^ punctuation.definition.group.brace.end.tex
+%                        ^ keyword.other.column-type.latex
+%                         ^^^^ meta.function.column-decl.latex
+%                         ^ support.function.insert-after-column.latex
+%                          ^^ meta.group.brace.tex
+%                          ^ punctuation.definition.group.brace.begin.tex
+%                           ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                              ^ punctuation.definition.group.brace.end.tex
+    a & b & c \\\hline
+    1 & 2 & 3
+%^^^^^^^^^^^^ meta.environment.tabular.latex
+%     ^ constant.character.ampersand.tex
+%         ^ constant.character.ampersand.tex
+
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+% issue 1280
+
+\begin{tabular}{p{2.6cm} | p{6.0cm} }
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment meta.environment
+%               ^ support.function.parbox-column
+%                        ^ keyword.operator.inter-column-line
+%                          ^ support.function.parbox-column
+%                                  ^ meta.environment.tabular
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+% issue 2238
+
+% \usepackage{dcolumn}
+\begin{tabular}{c|D{\%}{\cdot}{-1}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+%              ^^^^ meta.column-spec.latex meta.group.brace.tex - meta.group meta.group
+%                  ^^^^^^^^^^^^^^^ meta.column-spec.latex meta.group.brace.tex meta.group.brace.tex
+%                                 ^ meta.column-spec.latex meta.group.brace.tex - meta.group meta.group
+%              ^ punctuation.definition.group.brace.begin.tex
+%               ^ keyword.other.column-type.latex
+%                ^ keyword.operator.inter-column-line.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^ constant.character.escape.tex
+%                   ^ punctuation.definition.backslash.tex
+%                     ^ punctuation.definition.group.brace.end.tex
+%                      ^ punctuation.definition.group.brace.begin.tex
+%                       ^^^^^ keyword.other.math.binary-operator.tex
+%                       ^ punctuation.definition.backslash.tex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ punctuation.definition.group.brace.end.tex
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\newcolumntype{x}{>{$}c<{$}}
+% <- meta.function.newcolumntype.latex keyword.declaration.newcolumntype.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
+%^^^^^^^^^^^^^ keyword.declaration.newcolumntype.latex
+%             ^^^^^^^^^^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^ entity.name.newcolumntype.latex
+%               ^ punctuation.definition.group.brace.end.tex
+%                ^ punctuation.definition.group.brace.begin.tex
+%                 ^^^^ meta.function.column-decl.latex
+%                 ^ support.function.insert-before-column.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                    ^ punctuation.definition.group.brace.end.tex
+%                     ^ keyword.other.column-type.latex
+%                      ^^^^ meta.function.column-decl.latex
+%                      ^ support.function.insert-after-column.latex
+%                       ^ punctuation.definition.group.brace.begin.tex
+%                         ^ punctuation.definition.group.brace.end.tex
+%                          ^ punctuation.definition.group.brace.end.tex
+
 % PACKAGE: comment
 % The comment package can be used to write block comment
 % using an environment.
@@ -1291,63 +1472,7 @@ def my_function():
 %                    ^ source.python.embedded
 
 
-% PACKAGE: array
-% The array package extends array and tabular environments
-% and allows for macros in format specifications
-
-\begin{tabular}
-% <- -meta.environment.tabular.latex
-\end{tabular}
-
-\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
-%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex
-%                  ^ keyword.operator.inter-column-line.latex
-%                     ^ support.function.inter-column-nospace.latex
-
-\hline
-
-a & b
-% <- meta.environment.tabular.latex
-
-\hline
-
-\end{tabular}
-% ^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
-%     ^ variable.parameter.function.latex
-
-
-\begin{tabular}{*{3}{>{$}c<{$}}}
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
-%               ^ support.function.insert-repeated.latex
-%                ^^^ meta.function.insert-repeated-count.latex
-%                 ^ constant.numeric.array-count.latex
-%                    ^ support.function.insert-before-column.latex
-%                   ^^^^^^^^^^^ meta.function.insert-repeated-content.latex
-%                         ^ support.function.insert-after-column.latex
-    a & b & c \\\hline
-    1 & 2 & 3
-\end{tabular}
-
-
-% issue 1280
-
-\begin{tabular}{p{2.6cm} | p{6.0cm} }
-%               ^^^^^^^^^^^^^^^^^^^ meta.environment.tabular meta.function.column-spec
-%               ^ support.function.parbox-column
-%                        ^ keyword.operator.inter-column-line
-%                          ^ support.function.parbox-column
-%                                  ^ meta.environment.tabular meta.function.column-spec
-\end{tabular}
-
-% issue 2238
-
-% \usepackage{dcolumn}
-\begin{tabular}{c|D{\%}{\cdot}{-1}}
-%              ^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex - comment
-%                   ^^ constant.character.escape.tex
-%                       ^^^^^ keyword.other.math.binary-operator.tex
-\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \AnyDeclarationCommand{\eq}{\begin{equation}}
 
