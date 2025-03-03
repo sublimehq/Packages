@@ -442,8 +442,115 @@ fn function<const N: u16>() {
 //              ^^^ storage.type.numeric
     let b: Byte<b'a'>;
 //             ^^^^^^ meta.function meta.block meta.generic
-//              ^^^^ string.quoted.single.rust
+//              ^^^^ string.quoted.single
 //              ^ storage.type.string
 //               ^ punctuation.definition.string.begin
 //                 ^ punctuation.definition.string.end
 }
+
+fn impl_trait_return_use_bound<'a>() -> impl for<'b> Trait1<Item = impl Trait2<'a> + use<'a>> {}
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.function.return-type
+//                                   ^^ punctuation.separator
+//                                      ^^^^ storage.type.impl
+//                                           ^^^ keyword.other
+//                                              ^ meta.generic punctuation.definition.generic.begin
+//                                                 ^ meta.generic punctuation.definition.generic.end
+//                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+//                                                         ^ meta.generic punctuation.definition.generic.begin
+//                                                               ^ meta.generic keyword.operator
+//                                                                 ^^^^ meta.generic storage.type.impl
+//                                                                            ^^^^ meta.generic meta.generic
+//                                                                            ^ punctuation.definition.generic.begin
+//                                                                             ^^ storage.modifier.lifetime
+//                                                                               ^ punctuation.definition.generic.end
+//                                                                                 ^ keyword.operator
+//                                                                                   ^^^ keyword.other
+//                                                                                      ^^^^ meta.generic
+//                                                                                      ^ punctuation.definition.generic.begin
+//                                                                                       ^^ storage.modifier.lifetime
+//                                                                                         ^ punctuation.definition.generic.end
+//                                                                                          ^ punctuation.definition.generic.end
+
+fn impl_trait_use<'a, foo>() -> impl Trait1 + use<'a, Self, foo> {}
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.function.return-type
+//                                          ^ keyword.operator
+//                                            ^^^ keyword.other
+//                                               ^ punctuation.definition.generic.begin
+//                                                ^^ storage.modifier.lifetime
+//                                                  ^ punctuation.separator
+//                                                    ^^^^ keyword.other
+//                                                        ^ punctuation.separator
+//                                                          ^^^ storage.type.rust
+//                                                             ^ punctuation.definition.generic.end
+
+fn impl_trait_return1<'a, 'b>() -> impl Trait<&'a u8, Ty = impl Sized + 'b> {}
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.function.return-type
+//                              ^^ punctuation.separator
+//                                 ^^^^ storage.type.impl
+//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.generic
+//                                           ^ punctuation.definition.generic.begin
+//                                            ^ keyword.operator
+//                                             ^^ storage.modifier.lifetime
+//                                                ^^ storage.type
+//                                                  ^ punctuation.separator
+//                                                       ^ keyword.operator
+//                                                         ^^^^ storage.type.impl
+//                                                              ^^^^^ support.type
+//                                                                    ^ keyword.operator
+//                                                                      ^^ storage.modifier.lifetime
+//                                                                        ^ punctuation.definition.generic.end
+fn impl_trait_return2() -> impl Debug + 'a {}
+//                      ^^^^^^^^^^^^^^^^^^ meta.function meta.function.return-type
+//                         ^^^^ storage.type.impl
+//                              ^^^^^ storage.type.rust
+//                                    ^ keyword.operator
+//                                      ^^ storage.modifier.lifetime
+
+fn impl_trait_param(x: impl FnOnce(&[u8]) -> &[u8])  {}
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.function.parameters
+//                     ^^^^ storage.type.impl
+//                          ^^^^^^ support.type
+//                                ^ meta.group punctuation.section.group.begin
+//                                 ^ meta.group keyword.operator
+//                                  ^ meta.group punctuation.section.group.begin
+//                                   ^^ meta.group storage.type
+//                                     ^^ meta.group punctuation.section.group.end
+//                                        ^^^^^^^^ meta.function meta.function.parameters meta.function.return-type
+//                                        ^^ punctuation.separator
+//                                           ^ meta.function.parameters keyword.operator
+//                                            ^ meta.function.parameters punctuation.section.group.begin
+//                                             ^^ meta.function.parameters storage.type
+//                                               ^ meta.function.parameters punctuation.section.group.end
+
+
+fn impl_trait_with_plus() -> impl Iterator<Item = hir::GenericParam<'hir>> + Captures<'a> + Captures<'s> {}
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.function.return-type
+//                           ^^^^ storage.type.impl
+//                                ^^^^^^^^ support.type
+//                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic - meta.generic meta.generic
+//                                         ^^^^ storage.type.rust
+//                                              ^ keyword.operator
+//                                                ^^^ variable.other.rust
+//                                                   ^^ punctuation.accessor.rust
+//                                                     ^^^^^^^^^^^^ storage.type.rust
+//                                                                 ^^^^^^ meta.generic meta.generic
+//                                                                  ^^^^ storage.modifier.lifetime
+//                                                                       ^ meta.generic - meta.generic meta.generic
+//                                                                         ^ keyword.operator
+//                                                                           ^^^^^^^^ storage.type.rust
+//                                                                                   ^^^^ meta.generic
+//                                                                                    ^^ storage.modifier.lifetime
+//                                                                                        ^ keyword.operator
+//                                                                                          ^^^^^^^^ storage.type.rust
+//                                                                                                  ^^^^ meta.generic
+//                                                                                                   ^^ storage.modifier.lifetime
+
+fn impl_trait() -> impl Type use < {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.rust
+//              ^^^^^^^^^^^^^^^^^^^ meta.function.return-type.rust
+//                 ^^^^ storage.type.impl.rust
+//                      ^^^^ storage.type.rust
+//                           ^^^ keyword.other.rust
+//                               ^^ meta.generic.rust
+//                               ^ punctuation.definition.generic.begin.rust
+//                                 ^^ meta.block.rust
