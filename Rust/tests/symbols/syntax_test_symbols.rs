@@ -30,3 +30,16 @@ type MyType;
 
 union Union {}
 //    @@@@@ definition
+
+
+enum AnotherEnum {
+//   @@@@@@@@@@@ definition
+    Foo,
+//  @@@ definition
+    Bar {
+//  @@@ definition
+        toggle: bool,
+    },
+    Baz(MyEnum),
+//  @@@ definition
+}
