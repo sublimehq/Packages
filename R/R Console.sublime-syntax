@@ -1,15 +1,22 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
+
 name: R Console
-file_extensions: []
 scope: source.r-console
+version: 2
+
+file_extensions: []
+
+###[ CONTEXTS ]################################################################
+
 contexts:
+
   main:
     - match: "^> "
       scope: punctuation.section.embedded.r-console
       push:
         - meta_scope: source.r.embedded.r-console
         - match: \n|\z
-          pop: true
+          pop: 1
         - include: scope:source.r

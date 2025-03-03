@@ -322,16 +322,22 @@ This commit applies all changes required to satisfy the JSON format unittest.
 # ------------------------ >8 ------------------------
 # Do not touch the line above.
 # Everything below will be removed.
-diff --git a/modules/compare.py b/modules/compare.py
+diff --git i/modules/compare.py b/modules/compare.py
 index 5610357..b9b47f3 100644
---- a/modules/compare.py
-+++ b/modules/compare.py
+--- c/modules/compare.py
++++ w/modules/compare.py
+# <- source.diff.git meta.block.header.diff meta.diff.header.to-file meta.header.to-file.diff punctuation.definition.to-file.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff meta.diff.header.to-file meta.header.to-file.diff
+#^^ punctuation.definition.to-file.diff
+#   ^ variable.parameter.source.diff
+#    ^^^^^^^^^^^^^^^^^^^ meta.path.diff string.unquoted.git
 @@ -97,7 +97,7 @@ def set_against_branch(git_gutter, **kwargs):
              message = pieces[0]
              branch = pieces[1][11:]   # skip 'refs/heads/'
              commit = pieces[2][0:7]   # 7-digit commit hash
 -            return [branch, '%s %s' % (commit, message)]
 +            return [branch, '%s | %s' % (commit, message)]
-
+# <- source.diff.git meta.block.delta.diff markup.inserted.diff punctuation.definition.inserted.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.delta.diff markup.inserted.diff
          # Create the list of branches to show in the quick panel
          items = [parse_result(r) for r in output.split('\n')]

@@ -1,75 +1,323 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.gnu.org/software/diffutils/manual/diffutils.html
 name: Diff
+scope: source.diff
+version: 2
+
+extends: Diff (Basic).sublime-syntax
+
 file_extensions:
   - diff
   - patch
-first_line_match: |-
-  (?x)^
-      (===\ modified\ file
-      |==== \s* // .+ \s - \s .+ \s+ ====
-      |Index:[ ]
-      |---\ [^%]
-      |\*\*\*.*\d{4}\s*$
-      |\d+(,\d+)* (a|d|c) \d+(,\d+)* $
-      |diff\ --git[ ]
-      )
 
-scope: source.diff
+first_line_match: |-
+  ^(?x:
+    ===\ modified\ file
+  | ==== \s* // .+ \s - \s .+ \s+ ====
+  | Index:[ ]
+  | Prereq:[ ]
+  | ---\ [^%]
+  | \*\*\*.*\d{4}\s*$
+  | \d+(,\d+)* [adc] \d+(,\d+)* $
+  )
+
 contexts:
   main:
-    - match: '^((\*{15})|(={67})|(-{3}))$\n?'
+    - match: (?={{git_first_line}})
+      embed: Packages/Git Formats/Git Diff.sublime-syntax#email-first-line
+      escape: (?!)
+    # Hack for unit tests
+    - include: incomplete-line
+    - match: ^
+      push: diffs
+
+  diffs:
+    - include: diff-line-ranges
+    - include: diff-header
+    - include: conflicts
+    - include: diff-deltas
+    - include: diff3-edit
+    - include: diff3-normal
+
+###[ HEADERS ]#################################################################
+
+  diff-header:
+    - meta_prepend: true
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Context
+    - match: '{{bol}}(\*{15}){{eol}}'
       scope: meta.separator.diff
       captures:
-        1: punctuation.definition.separator.diff
-    - match: ^\d+(,\d+)*(a|d|c)\d+(,\d+)*$\n?
-      scope: meta.diff.range.normal meta.range.normal.diff
-    - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*$\n?
-      scope: meta.diff.range.unified meta.range.unified.diff
+        1: punctuation.separator.block.diff
+    - match: '{{bol}}(\*{3})[ ](?!$)'
       captures:
-        1: punctuation.definition.range.diff
-        2: meta.toc-list.line-number.diff
-        3: punctuation.definition.range.diff
-        4: entity.name.section.diff
-    - match: '^(((\-{3}) .+ (\-{4}))|((\*{3}) .+ (\*{4})))$\n?'
-      scope: meta.diff.range.context meta.range.context.diff
+        1: punctuation.definition.from-file.diff
+      push: diff-header-context-from-file
+
+    # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
+    - match: '{{bol}}(={67}|={78}|_{67}){{eol}}'
+      scope: meta.separator.diff
       captures:
-        3: punctuation.definition.range.diff
-        4: punctuation.definition.range.diff
-        6: punctuation.definition.range.diff
-        7: punctuation.definition.range.diff
-    - match: '(^(((-{3}) .+)|((\*{3}) .+))$\n?|^(={4}) .+(?= - ))'
+        1: punctuation.separator.block.diff
+
+    # File headers from extensions and SVN
+    - match: |-
+        {{bol}}(?x:(
+            Added | Copied | Deleted | Index | Modified
+          | Prereq | Property [ ] changes [ ] on
+        ))(:)[ \t]*
+      captures:
+        1: meta.mapping.key.diff keyword.other.diff
+        2: punctuation.separator.key-value.diff
+      push: diff-header-index-file-body
+
+    # Can't find documentation for these "="-formatted headers, but there
+    # are preexisting unit tests.
+    - match: '{{bol}}(={4}) .+(?= - )'
       scope: meta.diff.header.from-file meta.header.from-file.diff
       captures:
-        4: punctuation.definition.from-file.diff
-        6: punctuation.definition.from-file.diff
-        7: punctuation.definition.from-file.diff
-    - match: '(^(\+{3}) .+$\n?| (-) .* (={4})$\n?)'
-      scope: meta.diff.header.to-file meta.header.to-file.diff
+        1: punctuation.definition.from-file.diff
+      push: diff-header-4equals-body
+
+  diff-header-index-file-body:
+    - meta_scope: meta.mapping.diff meta.diff.index meta.index.diff
+    - meta_content_scope: meta.mapping.value.diff meta.toc-list.file-name.diff
+    - include: pop-eol
+    - include: path-separators
+
+  diff-header-4equals-body:
+    - match: ( (-) )(.* (={4})){{eol}}
       captures:
-        2: punctuation.definition.to-file.diff
-        3: punctuation.definition.to-file.diff
+        1: meta.header.diff
+        2: punctuation.separator.range.diff
+        3: meta.diff.header.to-file meta.header.to-file.diff
         4: punctuation.definition.to-file.diff
-    - match: ^(?:(>)(?:\ .*?)?|(\+).*?)(\s*?)$\n?
-      scope: markup.inserted.diff
+      pop: 1
+    - include: pop-immediately
+
+  diff-header-context-from-file:
+    - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
+    - match: '{{eol}}'
+      set: maybe-diff-header-context-to-file
+    - include: dev-null
+    - include: path-separators
+    - include: timestamps
+
+  maybe-diff-header-context-to-file:
+    - match: '{{bol}}(-{3})[ ](?!$)'
       captures:
-        1: punctuation.definition.inserted.diff
-        2: punctuation.definition.inserted.diff
-        3: meta.whitespace.trailing.diff
-    - match: ^(!).*?(\s*?)$\n?
-      scope: markup.changed.diff
+        1: punctuation.definition.to-file.diff
+      push: diff-header-context-to-file
+    - match: ^
+      pop: 1
+
+  diff-header-context-to-file:
+    - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
+    - include: pop-eol
+    - include: dev-null
+    - include: path-separators
+    - include: timestamps
+
+###[ RANGES ]##################################################################
+
+  diff-line-ranges:
+    - meta_prepend: true
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Hunks
+    - match: '{{bol}}-{3}{{eol}}'
+      scope: meta.separator.diff punctuation.separator.block.diff
+    - match: '{{bol}}\d+(?:(,)\d+)*(a|d|c)\d+(?:(,)\d+)*{{eol}}'
+      scope: meta.diff.range.normal meta.range.normal.diff
       captures:
-        1: punctuation.definition.changed.diff
-        2: meta.whitespace.trailing.diff
-    - match: ^(?:(<)(?:\ .*?)?|(-).*?)(\s*?)$\n?
-      scope: markup.deleted.diff
+        1: punctuation.separator.range.diff
+        2: support.function.diff
+        3: punctuation.separator.range.diff
+
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
+    - match: '{{bol}}(-){3}(?= .+ -{4}{{eol}})'
+      scope: punctuation.definition.range.begin.diff
+      push: inside-diff-line-ranges-context
+    - match: '{{bol}}(\*){3}(?= .+ \*{4}{{eol}})'
+      scope: punctuation.definition.range.begin.diff
+      push: inside-diff-line-ranges-context
+
+  inside-diff-line-ranges-context:
+    - meta_scope: meta.diff.range.context meta.range.context.diff meta.toc-list.hunk.diff
+    - include: pop-eol
+    - match: \1{4}
+      scope: punctuation.definition.range.end.diff
+      pop: 1
+    - include: line-range-span
+
+###[ DELTAS ]##################################################################
+
+  diff-deltas:
+    - meta_prepend: true
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
+    - match: '{{bol}}> ?'
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: '{{bol}}< ?'
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
+    - match: '{{bol}}\+ ?'
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: '{{bol}}- ?'
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - match: '{{bol}}! ?'
+      scope: punctuation.definition.changed.diff
+      push: line-changed
+
+###[ DIFF3 ]###################################################################
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
+  diff3-normal:
+    - match: '{{bol}}====([1-3]?){{eol}}'
+      scope: meta.hunk.diff punctuation.section.hunk.diff
       captures:
-        1: punctuation.definition.deleted.diff
-        2: punctuation.definition.deleted.diff
-        3: meta.whitespace.trailing.diff
-    - match: ^Index(:) (.+)$\n?
-      scope: meta.diff.index meta.index.diff
+        1: constant.numeric.from-file.diff
+
+    - match: '{{bol}}(([1-3])(:)(?:\d+(a)|\d+(?:(,)\d+)?(c))){{eol}}'
+      scope: meta.diff.range.normal meta.range.normal.diff
       captures:
-        1: punctuation.separator.key-value.diff
-        2: meta.toc-list.file-name.diff
+        1: meta.toc-list.hunk.diff
+        2: constant.numeric.from-file.diff
+        3: punctuation.separator.file.diff
+        4: support.function.diff
+        5: punctuation.separator.range.diff
+        6: support.function.diff
+      push: diff3-normal-change
+
+  diff3-normal-change:
+    - meta_scope: meta.hunk.diff
+    - meta_content_scope: meta.block.diff
+    - match: '{{bol}}(?:\t|  )'
+      push: line-changed
+    - match: '{{bol}}'
+      pop: 1
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
+  diff3-edit:
+    - match: '{{bol}}(\d+)(a){{eol}}'
+      captures:
+        1: meta.diff.range.normal meta.range.normal.diff
+        2: support.function.diff
+      push: diff3-edit-inserted
+
+    - match: '{{bol}}(\d+)(d){{eol}}'
+      captures:
+        1: meta.diff.range.normal meta.range.normal.diff
+        2: support.function.diff
+      push: diff3-edit-deleted
+
+    - match: '{{bol}}(\d+)(c){{eol}}'
+      captures:
+        1: meta.diff.range.normal meta.range.normal.diff
+        2: support.function.diff
+      push: diff3-edit-changed
+
+  diff3-edit-inserted:
+    - meta_scope: meta.hunk.diff
+    - meta_content_scope: meta.block.diff markup.inserted.diff
+    - include: diff3-edit-end
+
+  diff3-edit-deleted:
+    - meta_scope: meta.hunk.diff
+    - meta_content_scope: meta.block.diff markup.deleted.diff
+    - include: diff3-edit-end
+
+  diff3-edit-changed:
+    - meta_scope: meta.hunk.diff
+    - meta_content_scope: meta.block.diff markup.changed.diff
+    - include: diff3-edit-end
+
+  diff3-edit-end:
+    - match: '{{bol}}\.$'
+      scope: punctuation.terminator.hunk.diff
+      pop: 1
+
+###[ CONFLICTS ]###############################################################
+
+  # Utility context for other files to use
+  conflict-markers:
+    - match: '{{bol}}({{conflict_begin}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: '{{bol}}({{conflict_end}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: '{{bol}}({{conflict_base}}|{{conflict_split}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+  conflicts:
+    - match: '{{bol}}({{conflict_begin}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+      push: conflict-deleted-lines
+
+  conflict-deleted-lines:
+    - meta_content_scope: meta.block.conflict.diff markup.deleted.diff
+    - match: '{{bol}}({{conflict_base}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+      set: conflict-base-lines
+    - include: conflict-base-lines
+
+  conflict-base-lines:
+    - meta_content_scope: meta.block.conflict.diff comment.block.diff
+    - match: '{{bol}}({{conflict_split}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+      set: conflict-new-lines
+    - include: invalid-conflict-marker
+
+  conflict-new-lines:
+    - meta_content_scope: meta.block.conflict.diff markup.inserted.diff
+    - match: '{{bol}}({{conflict_end}})(?:\s+({{conflict_identifier}}))?{{eol}}'
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+      pop: 1
+    # Nested conflicts in Git ReReRe
+    - include: conflicts
+    - include: invalid-conflict-marker
+
+  invalid-conflict-marker:
+    - match: '{{bol}}(?:{{conflict_any}})'
+      scope: invalid.illegal.conflict.diff
+
+###############################################################################
+
+variables:
+  conflict_marker_size: '{7}'
+  conflict_begin: <{{conflict_marker_size}}
+  conflict_end: '>{{conflict_marker_size}}'
+  conflict_split: ={{conflict_marker_size}}
+  conflict_base: \|{{conflict_marker_size}}
+  conflict_any: |-
+    (?x:
+      {{conflict_begin}}
+    | {{conflict_end}}
+    | {{conflict_split}}
+    | {{conflict_base}}
+    )
+
+  conflict_identifier: (?:\S.*?)

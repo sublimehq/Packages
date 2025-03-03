@@ -18,7 +18,7 @@ variables:
     (?xi: continue | exit | return )
 
   loop_keywords: |-
-    (?xi: loop | end\s+(?: loop | repeat | while ) | repeat | while )
+    (?xi: loop | end\s+(?: loop | repeat | while ) | repeat | while | do )
 
   other_keywords: |-
     (?xi: close | cursor | declare | deallocate | delimiter | execute | fetch
@@ -95,6 +95,15 @@ contexts:
     - meta_prepend: true
     - include: rename-statements
     - include: show-statements
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.mysql
+      push:
+        - expect-type
+        - variable-meta
+        - single-identifier
+    - match: \b(?i:table)\b
+      scope: keyword.context.mysql
+      push: expect-table-name
 
 ###[ COMMENTS ]################################################################
 
@@ -603,10 +612,14 @@ contexts:
     - match: \b(?i:replace\s+(?:into)?)\b
       scope: keyword.other.dml.sql
       push: expect-table-name
+    - include: into
     - match: \b(?i:limit)\b
       scope: keyword.other.dml.sql
     - match: \b(?i:on\s+duplicate\s+key)\b
       scope: keyword.other.dml.sql
+    - match: \b(?i:load\s+data)\b
+      scope: keyword.other.dml.mysql
+      push: dml-load-data
 
   join-expressions:
     # https://mariadb.com/kb/en/join-syntax
@@ -622,12 +635,65 @@ contexts:
       scope: keyword.other.dml.sql
       set: maybe-column-name-list
 
+###[ DML LOAD STATEMENTS ]#####################################################
+
+  dml-load-data:
+    - match: \b(?i:low_priority|concurrent|local)\b
+      scope: storage.modifier.mysql
+    - match: \b(?i:infile)\b
+      scope: keyword.other.dml.mysql
+      set:
+        - dml-load-data-after-infile
+        - meta-filepath
+        - single-string
+
+  dml-load-data-after-infile:
+    - match: \b(?i:ignore|replace)\b
+      scope: storage.modifier.mysql
+    - match: \b(?i:into\s+table)\b
+      scope: keyword.other.dml.mysql
+      push:
+        - maybe-partition
+        - expect-table-name
+    - include: import-export-file-params
+
+  import-export-file-params:
+    - match: \b(?i:character\s+set)\b
+      scope: storage.modifier.mysql
+      push: charset
+    - match: \b(?i:fields|columns|lines)\b
+      scope: storage.modifier.mysql
+    - match: \b(?i:(optionally\s+)?(?:terminated|enclosed|escaped|starting)\s+by)\b
+      scope: keyword.other.dml.mysql
+      push: single-string
+    - include: numbers
+    - include: pop-on-top-level-reserved-word
+    - match: (?=\()
+      set: column-name-list
+
+  meta-filepath:
+    - meta_content_scope: meta.filepath.mysql
+    - include: immediately-pop
+
+  single-string:
+    - include: strings
+    - include: else-pop
+
 ###[ DML SET STATEMENTS ]######################################################
 
   set-target:
     - meta_prepend: true
     - include: set-password
     - include: set-role
+    - match: \b(?i:global|session|local|persist|persist_only)\b
+      scope: storage.modifier.mysql
+      set: set-other-assignment
+    - match: ((@@)(?i:global|session|local|persist|persist_only))(\.)
+      captures:
+        1: variable.language.mysql
+        2: punctuation.definition.variable.mysql
+        3: punctuation.accessor.dot.mysql
+      set: set-other-assignment
 
   set-password:
     # https://mariadb.com/kb/en/set-password
@@ -653,6 +719,11 @@ contexts:
     - include: expect-user-name
 
   set-other-assignment:
+    - match: (?=\b\w+\s*:?=)
+      scope: punctuation.accessor.dot.mysql
+      push:
+        - variable-member
+        - single-identifier
     - match: =
       scope: keyword.operator.assignment.sql
       set: set-other-value
@@ -661,6 +732,16 @@ contexts:
   set-other-value:
     - include: expressions
     - include: pop-on-top-level-reserved-word
+
+  variable-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.mysql
+    - include: immediately-pop
+
+  variable-member:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.other.member.mysql
+    - include: immediately-pop
 
 ###[ GRANT STATEMENTS ]########################################################
 
@@ -784,6 +865,13 @@ contexts:
     - include: show-create
     - include: show-grants
     - include: show-columns
+    - include: show-index
+    - match: \b(?i:processlist)\b
+      scope: constant.language.mysql
+    - match: \b(?i:engine\s+innodb\s+status)\b
+      scope: constant.language.mysql
+    - match: \b(?i:open\s+tables)\b
+      scope: constant.language.mysql
     - include: else-pop
 
   show-create:
@@ -829,17 +917,37 @@ contexts:
       scope: keyword.other.mysql
       set: expect-table-name
 
+  show-index:
+    - match: \b(?i:index)\b
+      scope: keyword.other.dml.mysql
+      push: drop-index-args
+
   explain-parameters:
     - match: \b(?i:format)\b
       scope: variable.parameter.explain.sql
     - include: assignment-operators-constants
-    - match: \b(?i:into)\b
-      scope: keyword.other.dml.sql
-      push: expect-table-name
+    - include: into
     - match: \b(?i:for\s+schema)\b
       scope: keyword.other.dml.sql
       push: expect-other-name
     - include: else-pop
+
+  into:
+    - match: \b(?i:into\s+outfile)\b
+      scope: keyword.other.dml.sql
+      push:
+        - import-export-file-params
+        - meta-filepath
+        - single-string
+    - match: \b(?i:into)\b
+      scope: keyword.other.dml.sql
+      push: expect-table-name
+    - include: values
+
+  values:
+    - match: \b(?i:values|row)\b
+      scope: keyword.other.ddl.sql
+      push: maybe-group
 
 ###[ OTHER STATEMENTS ]########################################################
 
@@ -886,9 +994,22 @@ contexts:
       scope: keyword.other.dml.sql
     - include: like-expressions
 
+
+###[ OPERATORS ]###############################################################
+
+  statement-terminators:
+    - meta_append: true
+    - match: '\$\$'
+      scope: punctuation.terminator.mysql
+
+  assignment-operators:
+    - meta_append: true
+    - match: ':='
+      scope: keyword.operator.assignment.mysql
+
   assignment-operators-constants:
     - include: assignment-operators
-    - match: \b(?i:utf8|utf8mb3|tree|traditional|json)\b
+    - match: \b(?i:utf8|utf8mb\d|tree|traditional|json)\b
       scope: string.unquoted.mysql
 
 ###[ ALGORITHM EXPRESSIONS ]###################################################
@@ -1058,8 +1179,7 @@ contexts:
         - expect-partition-creation-name
         - maybe-partition
     # partition parameters
-    - match: \b(?i:values)\b
-      scope: keyword.other.ddl.sql
+    - include: values
     - match: \b(?i:in|less\s+than)\b
       scope: keyword.operator.logical.sql
       push: maybe-group
@@ -1336,7 +1456,7 @@ contexts:
     - match: \b(?i:table|function|procedure|package)\b
       scope: storage.type.sql
     # wildcard privilege level
-    - match: (\*)(?:(\.)(\*))?
+    - match: (\*)\s*(?:(\.)\s*(\*))?
       scope: meta.other-name.sql
       captures:
         1: constant.other.wildcard.asterisk.sql
@@ -1389,8 +1509,9 @@ contexts:
     - meta_scope: meta.group.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: 1
+      set: maybe-table-alias
     - include: comma-separators
+    - include: values
     - include: expect-table-references
 
   expect-table-references:
@@ -1491,6 +1612,16 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.modifier.sql
+      pop: 1
+    - match: \b(?i:charset)\b
+      scope: storage.modifier.mysql
+      push: charset
+
+  charset:
+    - match: \w+
+      scope: constant.language.mysql
+      pop: 1
+    - match: (?=\S)
       pop: 1
 
 ###[ IDENTIFIERS ]#############################################################
@@ -1597,6 +1728,9 @@ contexts:
       scope: variable.language.sql
       captures:
         1: punctuation.definition.variable.sql
+      push:
+        - variable-member
+        - maybe-identifier-accessor
     - match: (@){{simple_identifier}}\b
       scope: variable.other.sql
       captures:

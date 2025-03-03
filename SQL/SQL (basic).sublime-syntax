@@ -1619,6 +1619,7 @@ contexts:
     - match: \b(?i:and|or|having|exists|between|in|not|is)\b
       scope: keyword.operator.logical.sql
       pop: 1
+    - include: assignment-operators
     - include: else-pop
 
   operators:

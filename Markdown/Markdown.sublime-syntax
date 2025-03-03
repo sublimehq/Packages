@@ -1303,7 +1303,7 @@ contexts:
         5: constant.other.language-name.markdown
         6: comment.line.infostring.markdown
         7: meta.fold.code-fence.begin.markdown
-      embed: scope:source.diff
+      embed: scope:source.diff.embedded.markdown
       embed_scope:
         markup.raw.code-fence.diff.markdown-gfm
         source.diff

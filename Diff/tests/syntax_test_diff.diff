@@ -1,0 +1,656 @@
+\ SYNTAX TEST partial-symbols "Packages/Diff/Diff.sublime-syntax"
+
+--- Path to Original File
+\^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff - source.diff.git
+\ <-                      punctuation.definition.from-file.diff
+\^^                       punctuation.definition.from-file.diff
+
++++ Path to Modified File
+\^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file meta.header.to-file.diff
+\ <-                      punctuation.definition.to-file.diff
+\^^                       punctuation.definition.to-file.diff
+
+28a211
+\^^^^^ meta.diff.range.normal meta.range.normal.diff
+
+@@ -2,8 +2,11 @@
+\^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\ <-             punctuation.definition.range.begin.diff
+\^               punctuation.definition.range.begin.diff
+\ ^ - punctuation
+\  ^^^^^^^^^^    meta.toc-list.hunk.diff
+\            ^ - punctuation
+\             ^^ punctuation.definition.range.end.diff
+\               ^ - entity - punctuation
+
+@@ -2,8 +2,11 @@ function_hint(int var)
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    meta.toc-list.hunk.diff
+\^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\ <-             punctuation.definition.range.begin.diff
+\^               punctuation.definition.range.begin.diff
+\ ^ - punctuation
+\            ^ - punctuation
+\             ^^ punctuation.definition.range.end.diff
+\               ^ - entity - punctuation
+\                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
+\                                      ^ - entity.name.section.diff
+
+==== From-File - To-File ====
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header
+\^^^^^^^^^^^^^ meta.header.from-file.diff
+\^^^ punctuation.definition.from-file.diff
+\                ^^^^^^^^^^^^ meta.header.to-file.diff
+\              ^ punctuation
+\                        ^^^^ punctuation.definition.to-file.diff
+
+--- Range ----
+\^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\ <-           punctuation.definition.range.begin.diff
+\^^            punctuation.definition.range.begin.diff
+\         ^^^^ punctuation.definition.range.end.diff
+
+*** Range ****
+\^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\ <-           punctuation.definition.range.begin.diff
+\^^            punctuation.definition.range.begin.diff
+\         ^^^^ punctuation.definition.range.end.diff
+
+***************
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+
+****************
+\^^^^^^^^^^^^^^^ - meta - punctuation
+
+===================================================================
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+
+====================================================================
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - punctuation
+
+---
+\^^ meta.separator.diff
+\^^ punctuation.separator.block.diff
+
+----
+\^^^ - meta - punctuation
+
+Plain Text
+\^^^^^^^^^ source.diff - markup
+
++ Addition  
+\ <-       punctuation.definition.inserted.diff
+\ ^^^^^^^^ markup.inserted.diff - meta.whitespace
+\         ^^ markup.inserted.diff meta.whitespace.trailing.diff
+
+> Addition  
+\ <-       punctuation.definition.inserted.diff
+\ ^^^^^^^^ markup.inserted.diff - meta.whitespace
+\         ^^ markup.inserted.diff meta.whitespace.trailing.diff
+
+- Deletion  
+\ <-       punctuation.definition.deleted.diff
+\ ^^^^^^^^ markup.deleted.diff - meta.whitespace
+\         ^^ markup.deleted.diff meta.whitespace.trailing.diff
+
+< Deletion  
+\ <-       punctuation.definition.deleted.diff
+\ ^^^^^^^^ markup.deleted.diff - meta.whitespace
+\         ^^ markup.deleted.diff meta.whitespace.trailing.diff
+
+! Modified  
+\ <-       punctuation.definition.changed.diff
+\ ^^^^^^^^ markup.changed.diff - meta.whitespace
+\         ^^ markup.changed.diff meta.whitespace.trailing.diff
+
+Index: lao
+\      @@@ local-definition
+\^^^^^^^^^^ meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^       punctuation.separator.key-value.diff
+\      ^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+
+\ No newline at end of file
+\^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+\ <- punctuation.definition.comment
+
+
+Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
+1,2d0
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^^^^ meta.diff.range.normal meta.range.normal.diff
+\^ punctuation.separator.range.diff
+\  ^ support.function.diff
+< The Way that can be told of is not the eternal Way;
+< The name that can be named is not the eternal name.
+4c2,3
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^^^^ meta.diff.range.normal meta.range.normal.diff
+\^ support.function.diff
+\  ^ punctuation.separator.range.diff
+< The Named is the mother of all things.
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+\^ punctuation.definition.deleted.diff
+---
+\ <- meta.separator.diff punctuation.separator.block.diff
+\^^ meta.separator.diff punctuation.separator.block.diff
+> The named is the mother of all things.
+> 
+\^ - meta.whitespace
+11a11,13
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^^^^^^^ meta.diff.range.normal meta.range.normal.diff
+\ ^ support.function.diff
+\    ^ punctuation.separator.range.diff
+> They both may be called deep and profound.
+> Deeper and more profound,
+> The door of all subtleties!
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.inserted.diff
+\^ punctuation.definition.inserted.diff
+
+
+Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
+*** lao	2002-02-21 23:30:39.942229878 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
+\^^ punctuation.definition.from-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
+
+\ Only consider `---` to be a "to" if it follows a `***`
+*** lao 2002-02-21 23:30:39.942229878 -0800
+--- tzu	2002-02-21 23:30:50.442260588 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
+\^^ punctuation.definition.to-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
+***************
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+*** 1,7 ****
+\^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\    ^ punctuation.separator
+\^^ punctuation.definition.range.begin.diff
+\       ^^^^ punctuation.definition.range.end.diff
+- The Way that can be told of is not the eternal Way;
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+\ <- punctuation.definition.deleted.diff
+- The name that can be named is not the eternal name.
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+\ <- punctuation.definition.deleted.diff
+  The Nameless is the origin of Heaven and Earth;
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup
+! The Named is the mother of all things.
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.changed.diff
+\ <- punctuation.definition.changed.diff
+  Therefore let there always be non-being,
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup
+    so we may see their subtlety,
+  And let there always be being,
+--- 1,6 ----
+\^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\^^ punctuation.definition.range.begin.diff
+\    ^ punctuation.separator
+\       ^^^^ punctuation.definition.range.end.diff
+  The Nameless is the origin of Heaven and Earth;
+! The named is the mother of all things.
+\ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.changed.diff
+\ <- punctuation.definition.changed.diff
+! 
+\ <- markup.changed.diff punctuation.definition.changed.diff
+\^ - meta.whitespace
+  Therefore let there always be non-being,
+    so we may see their subtlety,
+  And let there always be being,
+***************
+\^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+*** 9,11 ****
+\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\    ^ punctuation.separator
+\^^ punctuation.definition.range.begin.diff
+\        ^^^^ punctuation.definition.range.end.diff
+--- 8,13 ----
+\^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
+\    ^ punctuation.separator
+\^^ punctuation.definition.range.begin.diff
+\        ^^^^ punctuation.definition.range.end.diff
+  The two are the same,
+  But after they are produced,
+    they have different names.
++ They both may be called deep and profound.
++ Deeper and more profound,
++ The door of all subtleties!
+
+
+Unified Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
+--- lao	2002-02-21 23:30:39.942229878 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.from-file
+\^^ punctuation.definition.from-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
++++ tzu	2002-02-21 23:30:50.442260588 -0800
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.to-file
+\^^ punctuation.definition.to-file
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number
+@@ -1,7 +1,6 @@
+\^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
+\^ punctuation.definition.range.begin.diff
+\            ^^ punctuation.definition.range.end.diff
+-The Way that can be told of is not the eternal Way;
+-The name that can be named is not the eternal name.
+ The Nameless is the origin of Heaven and Earth;
+-The Named is the mother of all things.
++The named is the mother of all things.
++
+ Therefore let there always be non-being,
+   so we may see their subtlety,
+ And let there always be being,
+@@ -9,3 +8,6 @@
+ The two are the same,
+ But after they are produced,
+   they have different names.
++They both may be called deep and profound.
++Deeper and more profound,
++The door of all subtleties!
+
+
+Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
+====2
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ constant.numeric.from-file.diff
+1:1,2c
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
+\^^^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
+\^ punctuation.separator.file.diff
+\  ^ punctuation.separator.range.diff
+\    ^ support.function.diff
+\     ^ - meta.toc-list
+3:1,2c
+  The Way that can be told of is not the eternal Way;
+  The name that can be named is not the eternal name.
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.changed.diff
+2:0a
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
+\^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
+\^ punctuation.separator.file.diff
+\  ^ support.function.diff
+\   ^ - meta.toc-list
+====1
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ constant.numeric.from-file.diff
+1:4c
+  The Named is the mother of all things.
+2:2,3c
+3:4,5c
+  The named is the mother of all things.
+  
+====3
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ constant.numeric.from-file.diff
+1:8c
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
+\^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
+\^ punctuation.separator.file.diff
+\  ^ support.function.diff
+\   ^ - meta.toc-list
+2:7c
+    so we may see their outcome.
+3:9c
+    so we may see their result.
+====
+\ <- meta.hunk.diff punctuation.section.hunk.diff
+\^^^^ meta.hunk.diff punctuation.section.hunk.diff
+1:11a
+2:11,13c
+  They both may be called deep and profound.
+  Deeper and more profound,
+  The door of all subtleties!
+3:13,14c
+  
+    -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.changed.diff
+
+
+Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Selecting-Which-Changes-to-Incorporate
+11a
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff
+\^^^ meta.hunk.diff
+\^ meta.diff.range.normal meta.range.normal.diff
+\ ^ support.function.diff
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.inserted.diff
+.
+\ <- meta.hunk.diff punctuation.terminator.hunk.diff
+8c
+\ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff
+\^^ meta.hunk.diff
+\^ support.function.diff
+  so we may see their result.
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.changed.diff
+.
+\ <- meta.hunk.diff punctuation.terminator.hunk.diff
+24d
+\ <- meta.diff.range.normal meta.range.normal.diff
+\^ meta.diff.range.normal meta.range.normal.diff
+\ ^ support.function.diff
+
+  This is removed content
+\^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hunk.diff meta.block.diff markup.deleted.diff
+.
+\ <- meta.hunk.diff punctuation.terminator.hunk.diff
+
+
+SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
+Index: deleted-file
+\      @@@@@@@@@@@@ local-definition
+\^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^ punctuation.separator.key-value.diff
+\      ^^^^^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+===================================================================
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+--- deleted-file  (revision 3)
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff
+\^^ punctuation.definition.from-file.diff
+\                 ^^^^^^^^^^^^ comment.block.diff
++++ deleted-file  (working copy)
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file meta.header.to-file.diff
+\^^ punctuation.definition.to-file.diff
+\                 ^^^^^^^^^^^^^^ comment.block.diff
+@@ -1 +0,0 @@
+\^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+\^ punctuation.definition.range.begin.diff
+\  ^ support.function.diff
+\     ^ support.function.diff
+\       ^ punctuation.separator.sequence.diff
+\          ^^ punctuation.definition.range.end.diff
+-This file will be deleted.
+\^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
+Index: changed-file
+\      @@@@@@@@@@@@ local-definition
+\^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^ punctuation.separator.key-value.diff
+\      ^^^^^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+===================================================================
+--- changed-file  (revision 4)
++++ changed-file  (working copy)
+@@ -1,6 +1,6 @@
+ The letters in a line of text
+ Could make your day much better.
+ But expanded into paragraphs,
+-I'd tell of kangaroos and calves
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
++I'd tell of monkeys and giraffes
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.inserted.diff
+ Until you were all smiles and laughs
+ From my letter made of letters.
+
+Property changes on: changed-file
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^^^^^^^^^^^^^^^ meta.mapping.key.diff keyword.other.diff
+\                  ^ punctuation.separator.key-value.diff
+\                    ^^^^^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+___________________________________________________________________
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.separator.block.diff
+Added: propname
+\      @@@@@@@@ local-definition
+\^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
+\^^^^ meta.mapping.key.diff keyword.other.diff
+\    ^ punctuation.separator.key-value.diff
+\      ^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
+## -0,0 +1 ##
++propvalue
+\^^^^^^^^^ markup.inserted.diff
+Index: added-file
+\      @@@@@@@@@@ local-definition
+===================================================================
+--- added-file  (revision 0)
++++ added-file  (working copy)
+@@ -0,0 +1 @@
++This is an added file.
+
+
+https://www.gnu.org/software/diffutils/manual/diffutils.html#Marking-Conflicts-1
+<<<<<<< A
+\       @ local-definition "Conflict: A"
+\^^^^^^^^^ meta.block.conflict.begin.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.begin.diff
+\      ^ - entity - punctuation
+\       ^ entity.name.section.diff
+\        ^ - entity
+lines from A
+\^^^^^^^^^^^^ meta.block.conflict.diff markup.deleted.diff - meta.block meta.block
+=======
+\^^^^^^^ meta.block.conflict.separator.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.diff
+lines from B
+\^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff
+>>>>>>> B
+\^^^^^^^^^ meta.block.conflict.end.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.end.diff
+\      ^ - entity
+\       ^ entity.name.section.diff
+\        ^ - entity
+context context
+\^^^^^^^^^^^^^^^ - meta.block
+
+<<<<<<< A
+\       @ local-definition "Conflict: A"
+lines from A
+||||||| B
+\^^^^^^^^^ meta.block.conflict.separator.diff - meta.block meta.block - markup
+\^^^^^^ punctuation.section.block.diff
+\      ^ - entity - punctuation
+\       ^ entity.name.section.diff
+\        ^ - entity
+lines from B
+\^^^^^^^^^^^^ meta.block.conflict.diff comment.block.diff - meta.block meta.block - markup
+=======
+\^^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff - meta.block meta.block - markup
+>
+\ <- meta.block.conflict.diff markup.inserted.diff - punctuation - invalid
+<
+\ <- meta.block.conflict.diff markup.inserted.diff - punctuation - invalid
+|||||
+\^^^^ meta.block.conflict.diff markup.inserted.diff - punctuation.section
+lines from C
+\^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff
+>>>>>>> C
+context context
+\ <- - meta.block
+
+<<<<<<< tzu
+\       @@@ local-definition "Conflict: tzu"
+=======
+The Way that can be told of is not the eternal Way;
+The name that can be named is not the eternal name.
+>>>>>>> tao
+
+<<<<<<< lao
+\       @@@ local-definition "Conflict: lao"
+||||||| tzu
+They both may be called deep and profound.
+Deeper and more profound,
+The door of all subtleties!
+=======
+
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+>>>>>>> tao
+
+<<<<<<< lao
+\       @@@ local-definition "Conflict: lao"
+=======
+
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+>>>>>>> tao
+
+
+https://www.gnu.org/software/diffutils/manual/diffutils.html#Generating-the-Merged-Output-Directly
+<<<<<<< tzu
+\       @@@ local-definition "Conflict: tzu"
+=======
+The Way that can be told of is not the eternal Way;
+The name that can be named is not the eternal name.
+>>>>>>> tao
+The Nameless is the origin of Heaven and Earth;
+The Named is the mother of all things.
+Therefore let there always be non-being,
+  so we may see their subtlety,
+And let there always be being,
+  so we may see their result.
+The two are the same,
+But after they are produced,
+  they have different names.
+<<<<<<< lao
+\       @@@ local-definition "Conflict: lao"
+||||||| tzu
+They both may be called deep and profound.
+Deeper and more profound,
+The door of all subtleties!
+=======
+
+  -- The Way of Lao-Tzu, tr. Wing-tsit Chan
+>>>>>>> tao
+
+If you have questions, please
+<<<<<<< HEAD
+\       @@@@ local-definition "Conflict: HEAD"
+open an issue
+=======
+ask your question in IRC.
+>>>>>>> branch-a
+
+
+\ https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging
+#! /usr/bin/env ruby
+
+def hello
+<<<<<<< ours
+\       @@@@ local-definition "Conflict: ours"
+  puts 'hola world'
+||||||| base
+  puts 'hello world'
+=======
+  puts 'hello mundo'
+>>>>>>> theirs
+end
+
+hello()
+
+
+\ https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts
+<<<<<<< HEAD:index.html
+\       @@@@@@@@@@@@@@@ local-definition "Conflict: HEAD:index.html"
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+
+
+\ https://git-scm.com/docs/rerere.html#_nested_conflicts
+<<<<<<< HEAD
+\       @@@@ local-definition "Conflict: HEAD"
+\^^^^^^^^^^^^ meta.block.conflict.begin.diff
+\^^^^^^ punctuation.section.block.begin.diff
+\       ^^^^ entity.name.section.diff
+111
+\^^ meta.block.conflict.diff markup.deleted.diff
+=======
+\^^^^^^^ meta.block.conflict.separator.diff
+\^^^^^^ punctuation.section.block.diff
+<<<<<<< HEAD
+\       @@@@ local-definition "Conflict: HEAD"
+\^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.begin.diff
+\^^^^^^ punctuation.section.block.begin.diff
+\       ^^^^ entity.name.section.diff
+333
+\^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.diff markup.deleted.diff
+=======
+\^^^^^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.separator.diff punctuation.section.block.diff
+222
+\^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict markup.inserted.diff
+>>>>>>> branch-2
+\^^^^^^^^^^^^^^^ meta.block.conflict.diff markup.inserted.diff meta.block.conflict.end.diff
+\^^^^^^ punctuation.section.block.end.diff
+\       ^^^^^^^^ entity.name.section.diff
+>>>>>>> branch-3~
+\^^^^^^^^^^^^^^^^ meta.block.conflict.end.diff
+\^^^^^^ punctuation.section.block.end.diff
+\       ^^^^^^^^^ entity.name.section.diff
+
+\ illegal separators due to positions \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<<<<<<< theirs
+>>>>>>> ours
+\ <- meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+======= 
+\ <- meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+=======a
+\ <- meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.deleted.diff invalid.illegal.conflict.diff
+=======
+\ <- meta.block.conflict.separator.diff punctuation.section.block.diff
+\^^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+=======
+\ <- meta.block.conflict.diff markup.inserted.diff invalid.illegal.conflict.diff
+\^^^^^^ meta.block.conflict.diff markup.inserted.diff invalid.illegal.conflict.diff
+>>>>>>> ours
+\<- meta.block.conflict.end.diff punctuation.section.block.end.diff
+\^^^^^^^^^^^^ meta.block.conflict.end.diff
+
+\ not a conflict marker \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<<<<<<<deleted
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^ markup.deleted.diff
+
+>>>>>>>added
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^ markup.inserted.diff
+
+<<<<<< deleted
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^ markup.deleted.diff
+
+|||||
+\ <- - meta.block.conflict - punctuation
+\^^^^ - meta.block.conflict - punctuation
+
+>>>>>> added
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^ markup.inserted.diff
+
+<<<<<<<< deleted
+\ <- markup.deleted.diff punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^^^ markup.deleted.diff
+
+|||||||||
+\ <- - meta.block.conflict - punctuation
+\^^^^^^^^ - meta.block.conflict - punctuation
+
+>>>>>>>> added
+\ <- markup.inserted.diff punctuation.definition.inserted.diff
+\^^^^^^^^^^^^^^ markup.inserted.diff
+
+\ side-by-side diffs \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+\ https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Side-by-Side
+The Way that can be told of is n   <
+The name that can be named is no   <
+The Nameless is the origin of He        The Nameless is the origin of He
+The Named is the mother of all t   |    The named is the mother of all t
+                                   >
+Therefore let there always be no        Therefore let there always be no
+  so we may see their subtlety,           so we may see their subtlety,
+And let there always be being,          And let there always be being,
+  so we may see their outcome.            so we may see their outcome.
+The two are the same,                   The two are the same,
+But after they are produced,            But after they are produced,
+  they have different names.              they have different names.
+                                   >    They both may be called deep and
+                                   >    Deeper and more profound,
+                                   >    The door of all subtleties!

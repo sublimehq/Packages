@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>meta.block.conflict.begin.diff entity.name.section</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>s/^/Conflict: /</string>
+		<key>showInIndexedSymbolList</key>
+		<integer>0</integer>
+		<key>showInIndexedReferenceList</key>
+		<integer>0</integer>
+	</dict>
+</dict>
+</plist>
