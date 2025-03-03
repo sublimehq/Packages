@@ -10,7 +10,7 @@
 		entity.name.struct.rust,
 		entity.name.trait.rust,
 		entity.name.union.rust,
-        meta.enum.rust storage.type - meta.struct
+		meta.enum.rust storage.type - meta.struct
 	</string>
 	<key>settings</key>
 	<dict>
