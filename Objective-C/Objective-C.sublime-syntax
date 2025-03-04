@@ -172,11 +172,6 @@ contexts:
         1: keyword.operator.bitwise.objc
       branch_point: block
       branch: [block, pop-immediately]
-    - match: '(@catch)\s*(\()'
-      captures:
-        1: keyword.control.exception.objc
-        2: punctuation.section.group.begin.objc
-      push: function-params
     - include: protocol-list
 
   call-try-not:
@@ -244,6 +239,11 @@ contexts:
     - meta_prepend: true
     - match: \@(?:autoreleasepool|import|synchronized)\b
       scope: keyword.control.objc
+    - match: '(@catch)\s*(\()'
+      captures:
+        1: keyword.control.exception.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push: function-params
     - match: \@(?:try|catch|finally|throw)\b
       scope: keyword.control.exception.objc
   keyword.storage:
@@ -313,12 +313,12 @@ contexts:
     - meta_prepend: true
     - include: message-enclosure
     - match: '@\{'
-      scope: punctuation.section.mapping.begin
+      scope: punctuation.section.mapping.begin.objc
       push: enclosure.mapping
   enclosure.mapping:
     - meta_scope: meta.mapping.objc
     - match: \}
-      scope: punctuation.section.mapping.end
+      scope: punctuation.section.mapping.end.objc
       pop: 1
     - include: expression
 
@@ -329,7 +329,7 @@ contexts:
 
   pre-message:
     - match: \[
-      scope: meta.brackets.square.objc punctuation.section.brackets.begin
+      scope: meta.brackets.square.objc punctuation.section.brackets.begin.objc
       set: message
   message:
     - meta_scope: meta.bracketed.objc

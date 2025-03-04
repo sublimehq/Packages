@@ -262,7 +262,7 @@
     a,b = b.c;
 //   ^ punctuation.separator.c
 //      ^ keyword.operator.assignment.c
-//         ^ punctuation.accessor.dot.c++
+//         ^ punctuation.accessor.dot.c
 //          ^ variable.other.readwrite.member.c
 //           ^ punctuation.terminator.c
 
@@ -355,7 +355,7 @@
 /////////////////////////////////////////////
 
     [a, b, c]
-//  ^ meta.brackets.square.objc punctuation.section.brackets.begin
+//  ^ meta.brackets.square.objc punctuation.section.brackets.begin.objc
 //   ^^^^^^^^ meta.brackets.square.c
 //    ^ punctuation.separator.c
 //       ^ punctuation.separator.c
@@ -598,9 +598,10 @@
 //              ^ punctuation.section.group.end 
 //                ^ variable.parameter.c 
     );
-//^^ meta.function.parameters.c meta.group.c 
-//  ^^ meta.function.c 
-//  ^ punctuation.section.group.end.c 
+//^^^ meta.function.c
+//^^ meta.function.parameters.c meta.group.c
+//  ^ punctuation.section.group.end.c
+//   ^ punctuation.terminator.c
 
 /////////////////////////////////////////////
 // Control Flow
@@ -797,22 +798,22 @@
         char a3[12];
 //^^^^^^^^^^^^^^^^^^ meta.block.c
 //      ^^^^ storage.type.c
-//             ^ meta.brackets.square.objc punctuation.section.brackets.begin
+//             ^ meta.brackets.square.objc punctuation.section.brackets.begin.objc
 //              ^^^ meta.brackets.square.c
 //              ^^ meta.number.integer.decimal.c constant.numeric.value.c
 //                ^ punctuation.section.brackets.end.c
 //                 ^ punctuation.terminator.c
         void* h5;
-//^^^^^^^^^^^^^^^ meta.block.c 
-//      ^^^^ storage.type.c 
-//          ^ keyword.operator.arithmetic.c 
-//              ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^ meta.block.c
+//      ^^^^ storage.type.c
+//          ^ keyword.operator.c
+//              ^ punctuation.terminator.c
         enum B out; };
-//^^^^^^^^^^^^^^^^^^^ meta.block.c 
-//      ^^^^ keyword.declaration.enum.c 
-//                ^ punctuation.terminator.c 
-//                  ^ punctuation.section.block.end 
-//                   ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^^^^ meta.block.c
+//      ^^^^ keyword.declaration.enum.c
+//                ^ punctuation.terminator.c
+//                  ^ punctuation.section.block.end.c
+//                   ^ punctuation.terminator.c
 
     union MACRO myUnion {
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.union.c
@@ -850,16 +851,16 @@
 //      ^ punctuation.section.block.end 
 //          ^ punctuation.terminator.c 
         void* ptr;
-//^^^^^^^^^^^^^^^^ meta.block.c 
-//      ^^^^ storage.type.c 
-//          ^ keyword.operator.arithmetic.c 
-//               ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^ meta.block.c
+//      ^^^^ storage.type.c
+//          ^ keyword.operator.c
+//               ^ punctuation.terminator.c
         int a, *ptr2;
-//^^^^^^^^^^^^^^^^^^^ meta.block.c 
-//      ^^^ storage.type.c 
-//           ^ punctuation.separator.c 
-//             ^ keyword.operator.arithmetic.c 
-//                  ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^^^^ meta.block.c
+//      ^^^ storage.type.c
+//           ^ punctuation.separator.c
+//             ^ keyword.operator.c
+//                  ^ punctuation.terminator.c
     };
 //^^^ meta.block.c 
 //  ^ punctuation.section.block.end 
@@ -878,9 +879,9 @@
 //                     ^ punctuation.terminator.c 
         myunion.s2.f = 20;
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
-//             ^ punctuation.accessor.dot.c++
+//             ^ punctuation.accessor.dot.c
 //              ^^ variable.other.readwrite.member.c
-//                ^ punctuation.accessor.dot.c++
+//                ^ punctuation.accessor.dot.c
 //                 ^ variable.other.readwrite.member.c
 //                   ^ keyword.operator.assignment.c
 //                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
@@ -895,9 +896,9 @@
 //          ^^^^^^ keyword.declaration.struct.c
 //                 ^ meta.block.c punctuation.section.block.begin.c
         myCustomType* a;
-//^^^^^^^^^^^^^^^^^^^^^^ meta.block.c 
-//                  ^ keyword.operator.arithmetic.c 
-//                     ^ punctuation.terminator.c 
+//^^^^^^^^^^^^^^^^^^^^^^ meta.block.c
+//                  ^ keyword.operator.c
+//                     ^ punctuation.terminator.c
     } b;
 //^^^ meta.block.c 
 //  ^ punctuation.section.block.end 
@@ -957,59 +958,111 @@
 //   ^ punctuation.terminator.c 
 
     void __declspec(dllimport) importedFn() const;
-//  ^^^^ storage.type.c 
-//       ^^^^^^^^^^ storage.modifier.c 
-//                 ^^^^^^^^^^^ meta.group.c 
-//                 ^ punctuation.section.group.begin.c 
-//                  ^^^^^^^^^ constant.other.c 
-//                           ^ punctuation.section.group.end.c 
-//                             ^^^^^^^^^^ entity.name.function.c 
-//                                       ^ punctuation.section.group.begin.c 
-//                                        ^^^^^^^^ meta.function.c 
-//                                        ^ punctuation.section.group.end.c 
-//                                          ^^^^^ storage.modifier.c 
+//  ^^^^ storage.type.c
+//       ^^^^^^^^^^^^^^^^^^^^^ meta.group.c
+//       ^^^^^^^^^^ storage.modifier.c
+//                 ^ punctuation.section.group.begin.c
+//                  ^^^^^^^^^ constant.other.c
+//                           ^ punctuation.section.group.end.c
+//                             ^^^^^^^^^^^^^^^^^^ meta.function.c
+//                             ^^^^^^^^^^ entity.name.function.c
+//                                       ^ punctuation.section.group.begin.c
+//                                        ^ punctuation.section.group.end.c
+//                                          ^^^^^ storage.modifier.c
+//                                               ^ punctuation.terminator.c
     __declspec(property(get=10, put=10)) void runForever();
-//  ^^^^^^^^^^ storage.modifier.c 
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c 
-//            ^ punctuation.section.group.begin.c 
-//             ^^^^^^^^ storage.modifier.c 
-//                     ^ punctuation.section.group.begin.c 
-//                      ^^^ variable.parameter.c 
-//                         ^ keyword.operator.assignment.c 
-//                          ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                            ^ punctuation.separator.c 
-//                              ^^^ variable.parameter.c 
-//                                 ^ keyword.operator.assignment.c 
-//                                  ^^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                                    ^ punctuation.section.group.end 
-//                                     ^ punctuation.section.group.end.c 
-//                                       ^^^^ storage.type.c 
-//                                            ^^^^^^^^^^ entity.name.function.c 
-//                                                      ^ punctuation.section.group.begin.c 
-//                                                       ^^ meta.function.c 
-//                                                       ^ punctuation.section.group.end.c 
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c
+//  ^^^^^^^^^^ storage.modifier.c
+//            ^ punctuation.section.group.begin.c
+//             ^^^^^^^^ storage.modifier.c
+//                     ^ punctuation.section.group.begin.c
+//                      ^^^^^^^^^^^^^^^ meta.group.c
+//                      ^^^ variable.parameter.c
+//                         ^ keyword.operator.assignment.c
+//                          ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//                            ^ punctuation.separator.c
+//                              ^^^ variable.parameter.c
+//                                 ^ keyword.operator.assignment.c
+//                                  ^^ meta.number.integer.decimal.c constant.numeric.value.c
+//                                    ^ punctuation.section.group.end.c
+//                                     ^ punctuation.section.group.end.c
+//                                       ^^^^ storage.type.c
+//                                            ^^^^^^^^^^^^ meta.function.c
+//                                            ^^^^^^^^^^ entity.name.function.c
+//                                                      ^ punctuation.section.group.begin.c
+//                                                       ^ punctuation.section.group.end.c
+//                                                        ^ punctuation.terminator.c
 
     void on_load() __attribute__((constructor, visibility("hidden"))) {}
-//  ^^^^ storage.type.c 
-//       ^^^^^^^ entity.name.function.c 
-//              ^ punctuation.section.group.begin.c 
-//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c 
-//               ^ punctuation.section.group.end.c 
-//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c meta.attribute.c 
-//                 ^^^^^^^^^^^^^ storage.modifier.c 
-//                              ^^ punctuation.section.group.begin.c 
-//                                ^^^^^^^^^^^ constant.other.c 
-//                                           ^ punctuation.separator.c 
-//                                             ^^^^^^^^^^^^^^^^^^^^ meta.group.c 
-//                                             ^^^^^^^^^^ storage.modifier.c 
-//                                                       ^ punctuation.section.group.begin.c 
-//                                                        ^^^^^^^^ string.quoted.double.c 
-//                                                        ^ punctuation.definition.string.begin.c 
-//                                                               ^ punctuation.definition.string.end.c 
-//                                                                ^ punctuation.section.group.end 
-//                                                                 ^^ punctuation.section.group.end.c 
-//                                                                    ^ meta.function.c meta.block.c punctuation.section.block.begin 
-//                                                                     ^ meta.block.c punctuation.section.block.end.c 
+//  ^^^^ storage.type.c
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c
+//       ^^^^^^^ entity.name.function.c
+//              ^ punctuation.section.group.begin.c
+//               ^ punctuation.section.group.end.c
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c meta.attribute.c
+//                 ^^^^^^^^^^^^^ storage.modifier.c
+//                              ^^ punctuation.section.group.begin.c
+//                                ^^^^^^^^^^^ constant.other.c
+//                                           ^ punctuation.separator.c
+//                                             ^^^^^^^^^^ storage.modifier.c
+//                                                       ^^^^^^^^^^ meta.group.c
+//                                                       ^ punctuation.section.group.begin.c
+//                                                        ^^^^^^^^ string.quoted.double.c
+//                                                        ^ punctuation.definition.string.begin.c
+//                                                               ^ punctuation.definition.string.end.c
+//                                                                ^ punctuation.section.group.end.c
+//                                                                 ^^ punctuation.section.group.end.c
+//                                                                    ^ meta.function.c meta.block.c punctuation.section.block.begin
+//                                                                     ^ meta.block.c punctuation.section.block.end.c
+
+    int old_func() [[deprecated]] [[gnu::pure]] [[nodiscard("Do not discard")]] {
+//  ^^^ storage.type.c
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c
+//      ^^^^^^^^ entity.name.function.c
+//              ^ punctuation.section.group.begin.c
+//               ^ punctuation.section.group.end.c
+//                 ^^^^^^^^^^^^^^ meta.brackets.square.c meta.annotation.c
+//                 ^^ meta.brackets.square.c punctuation.section.brackts.begin.c
+//                   ^^^^^^^^^^ constant.other.c
+//                             ^^ punctuation.section.brackets.end.c
+//                                ^^^^^^^^^^^^^ meta.brackets.square.c meta.annotation.c
+//                                ^^ meta.brackets.square.c punctuation.section.brackts.begin.c
+//                                  ^^^^^^^^^ constant.other.c
+//                                           ^^ punctuation.section.brackets.end.c
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.square.c meta.annotation.c
+//                                              ^^ meta.brackets.square.c punctuation.section.brackts.begin.c
+//                                                ^^^^^^^^^ storage.modifier.c
+//                                                         ^^^^^^^^^^^^^^^^^^ meta.group.c
+//                                                         ^ punctuation.section.group.begin.c
+//                                                          ^^^^^^^^^^^^^^^^ string.quoted.double.c
+//                                                          ^ punctuation.definition.string.begin.c
+//                                                                         ^ punctuation.definition.string.end.c
+//                                                                          ^ punctuation.section.group.end.c
+//                                                                           ^^ punctuation.section.brackets.end.c
+//                                                                              ^ meta.function.c meta.block.c punctuation.section.block.begin
+    if ([[clang::hot]] true) return 5;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//  ^^ keyword.control.c
+//     ^^^^^^^^^^^^^^^^^^^^^ meta.group.c
+//     ^ punctuation.section.group.begin.c
+//      ^^^^^^^^^^^^^^ meta.brackets.square.c meta.annotation.c
+//      ^^ meta.brackets.square.objc punctuation.section.brackts.begin.objc
+//        ^^^^^^^^^^ constant.other.c
+//                  ^^ punctuation.section.brackets.end.c
+//                     ^^^^ constant.language.boolean.true.c
+//                         ^ punctuation.section.group.end.c
+//                           ^^^^^^ keyword.control.flow.return.c
+//                                  ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                                   ^ punctuation.terminator.c
+    else return 6;
+//^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//  ^^^^ keyword.control.c
+//       ^^^^^^ keyword.control.flow.return.c
+//              ^ meta.number.integer.decimal.c constant.numeric.value.c
+//               ^ punctuation.terminator.c
+    }
+//^^^ meta.function.c meta.block.c
+//  ^ punctuation.section.block.end.c
 
     int a =
 //  ^^^ storage.type.c 
@@ -1141,6 +1194,10 @@
 //                             ^ meta.number.integer.decimal.c constant.numeric.value.c 
 //                              ^ punctuation.section.group.end.c 
 
+/////////////////////////////////////////////
+// Objective-C
+/////////////////////////////////////////////
+
 
 
 #import <Foundation/Foundation.h>
@@ -1255,13 +1312,13 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.objc meta.block.c
 //  ^^^^^^^^^^ storage.modifier.objc
 //             ^^^^^^^^^^^^ support.class.cocoa.objc
-//                         ^ keyword.operator.arithmetic.c
+//                         ^ keyword.operator.c
 //                            ^ punctuation.terminator.c
     @private char* d;
 //^^^^^^^^^^^^^^^^^^^ meta.interface.objc meta.block.c
 //  ^^^^^^^^ storage.modifier.objc
 //           ^^^^ storage.type.c
-//               ^ keyword.operator.arithmetic.c
+//               ^ keyword.operator.c
 //                  ^ punctuation.terminator.c
     @package sample e;
 //^^^^^^^^^^^^^^^^^^^^ meta.interface.objc meta.block.c
@@ -1272,6 +1329,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 @property(readwrite, nonatomic) IBOutlet NSButton* btn;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.objc
 //^^^^^^^ keyword.other.objc
+//       ^^^^^^^^^^^^^^^^^^^^^^ meta.group.objc
 //       ^ punctuation.section.group.begin.objc
 //        ^^^^^^^^^ storage.modifier.objc
 //                 ^ punctuation.separator.c
@@ -1284,6 +1342,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 @property(readonly, getter=myGetE) IBInspectable sample e;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.objc
 //^^^^^^^ keyword.other.objc
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.objc
 //       ^ punctuation.section.group.begin.objc
 //        ^^^^^^^^ storage.modifier.objc
 //                ^ punctuation.separator.c
@@ -1372,10 +1431,10 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.block.c
 //  ^^^^^^^^ storage.modifier.objc
 //           ^^^^^^^^ support.class.cocoa.objc
-//                   ^ keyword.operator.arithmetic.c
+//                   ^ keyword.operator.c
 //                       ^ keyword.operator.assignment.c
 //                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.bracketed.objc
-//                         ^ punctuation.section.brackets.begin
+//                         ^ meta.brackets.square.objc punctuation.section.brackets.begin
 //                          ^^^^^^^^ support.class.cocoa.objc
 //                                   ^^^^^^^^^^^^^^^^ entity.name.function.method.objc
 //                                                   ^ punctuation.separator.arguments.objc
@@ -1394,7 +1453,7 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.block.c
 //  ^^^^^^ storage.modifier.objc
 //         ^^^^^^^^ support.class.cocoa.objc
-//                 ^ keyword.operator.arithmetic.c
+//                 ^ keyword.operator.c
 //                     ^ keyword.operator.assignment.c
 //                       ^^^^ string.quoted.single.c
 //                       ^^ punctuation.definition.string.begin.objc
@@ -1404,12 +1463,12 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.block.c
 //  ^^^^^^^^^^^^^^^ storage.modifier.objc
 //                  ^^^^^^ support.class.cocoa.objc
-//                        ^ keyword.operator.arithmetic.c
+//                        ^ keyword.operator.c
 //                            ^ keyword.operator.assignment.c
 //                              ^^^^^^^^^^^^^^^^^^^^^ meta.bracketed.objc
-//                              ^ punctuation.section.brackets.begin
+//                              ^ meta.brackets.square.objc punctuation.section.brackets.begin
 //                               ^^^^^^^^^^^^^^ meta.bracketed.objc
-//                               ^ punctuation.section.brackets.begin
+//                               ^ meta.brackets.square.objc punctuation.section.brackets.begin
 //                                ^^^^^^ support.class.cocoa.objc
 //                                       ^^^^^ entity.name.function.method.objc
 //                                            ^ punctuation.section.brackets.end.objc
@@ -1425,9 +1484,9 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //          ^^^^^^^^ support.class.cocoa.objc
 //                  ^ keyword.operator.c
 //                   ^ punctuation.section.scope.end.objc
-//                    ^ keyword.operator.arithmetic.c
+//                    ^ keyword.operator.c
 //                        ^ keyword.operator.assignment.c
-//                           ^ meta.brackets.square.objc punctuation.section.brackets.begin
+//                           ^ meta.brackets.square.objc punctuation.section.brackets.begin.objc
         @314.5,
 //^^^^^^^^^^^^^ meta.implementation.objc meta.block.c meta.brackets.square.c
 //      ^ constant.numeric.objc
@@ -1463,9 +1522,9 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
     NSDictionary* g = @{
 //^^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.block.c
 //  ^^^^^^^^^^^^ support.class.cocoa.objc
-//              ^ keyword.operator.arithmetic.c
+//              ^ keyword.operator.c
 //                  ^ keyword.operator.assignment.c
-//                    ^^ meta.mapping.objc punctuation.section.mapping.begin
+//                    ^^ meta.mapping.objc punctuation.section.mapping.begin.objc
         (__bridge id)kValue1 : (__bridge NSViewController)kValue2,
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.implementation.objc meta.block.c meta.mapping.objc
 //      ^^^^^^^^^^^^^ meta.group.c
@@ -1580,9 +1639,9 @@ typedef SEL(^sample)(IMP _Nullable a, id _Nonnull b, Class nonnull c, BOOL nulla
 //                                      ^^^^^^^^^^^^^^^^^^^^ entity.name.function.method.objc
 //                                                          ^ punctuation.separator.arguments.objc
 //                                                           ^^^^ variable.language.objc
-//                                                               ^ punctuation.accessor.dot.c++
+//                                                               ^ punctuation.accessor.dot.c
 //                                                                ^ variable.other.readwrite.member.c
-//                                                                 ^ punctuation.accessor.dot.c++
+//                                                                 ^ punctuation.accessor.dot.c
 //                                                                  ^^^^^^^^^^ variable.other.readwrite.member.c
 //                                                                            ^ punctuation.section.brackets.end.objc
 //                                                                             ^ punctuation.section.group.end

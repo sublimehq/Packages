@@ -183,8 +183,8 @@ contexts:
     - include: type
     - include: keyword
     - include: constant
-    - include: operator
     - include: punctuation
+    - include: operator
     - include: generic
     - include: call
     - include: enclosure
@@ -214,10 +214,11 @@ contexts:
       branch_point: not-call
       branch: [call-try-not, call-multi-line]
   call-try-not:
-    - include: expression-identifiers
+    - match: ({{identifier}})
+      set: call-try-not-paren
+  call-try-not-paren:
     - match: (?=\()
       fail: not-call
-    - match: '{{identifier}}\b'
     - include: else-pop
   call-multi-line:
     - match: '\b{{std_funcs}}\b'
@@ -279,12 +280,15 @@ contexts:
     - include: expression
   function-tail:
     - meta_scope: meta.function.c
-    - match: ;
+    - match: (?=;)
       pop: 1
     - match: \{
-      scope: punctuation.section.block.begin
+      scope: punctuation.section.block.begin.c
       set: function-body
-    - include: expression
+    - include: expression-identifiers
+    - match: \[\[
+      scope: meta.brackets.square.c punctuation.section.brackts.begin.c
+      push: enclosure.attribute
   function-body:
     - meta_scope: meta.function.c meta.block.c
     - match: \}
@@ -441,6 +445,7 @@ contexts:
       pop: 1
   enclosure.block:
     - meta_content_scope: meta.block.c
+    - include: function
     - include: expression
     - match: \}
       scope: meta.block.c punctuation.section.block.end.c
@@ -586,7 +591,7 @@ contexts:
       scope: keyword.operator.arithmetic.c
   operator.accessor:
     - match: (\.|\-\>)(?=\s*{{identifier}})
-      scope: punctuation.accessor.dot.c++
+      scope: punctuation.accessor.dot.c
       branch_point: access
       branch: [access, pop-immediately]
     - match: \.|\-\>
@@ -751,6 +756,11 @@ contexts:
       scope: storage.type.c
     - match: \b(u?intptr|u?intmax|ptrdiff|nullptr|max_align|size|u?int(_fast|_least)?(8|16|32|64))_t\b
       scope: support.type.stdint.c
+    - match: \b(typeof_unqual|__typeof__|__typeof|typeof)\s*(\()
+      captures:
+        1: keyword.declaration.type.c
+        2: meta.group.c punctuation.section.group.begin.c
+      push: enclosure.parenthesis
     - match: \b(typeof_unqual|__typeof__|__typeof|typeof)\b
       scope: keyword.declaration.type.c
 
