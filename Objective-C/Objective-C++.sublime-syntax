@@ -19,6 +19,8 @@ first_line_match: |-
   )
 
 contexts:
+  protocol-list:
+    - include: template
   message-enclosure: []
   enclosure:
     - meta_prepend: true

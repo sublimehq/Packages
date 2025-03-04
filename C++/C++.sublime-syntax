@@ -315,9 +315,9 @@ contexts:
       push: type.concept-body
     - include: else-pop
   type.concept-body:
-    - include: expression
     - match: (?=;|\)|\]|\})
       pop: 1
+    - include: expression
 
   enum-def:
     - match: \b(enum)(?:\s*(class))?\b
