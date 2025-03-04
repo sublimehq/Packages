@@ -893,6 +893,7 @@ contexts:
 
   table-name-or-subquery:
     - meta_include_prototype: false
+    - include: comments
     - include: table-subquery
     - include: table-name-or-function-call
 
@@ -1610,6 +1611,7 @@ contexts:
 
   maybe-operator:
     - meta_include_prototype: false
+    - include: comments
     - match: '<=>|[!<>]?=|<>|<|>'
       scope: keyword.operator.comparison.sql
       pop: 1
