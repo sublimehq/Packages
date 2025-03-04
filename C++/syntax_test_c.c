@@ -886,6 +886,10 @@
 //                   ^ keyword.operator.assignment.c
 //                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
 //                       ^ punctuation.terminator.c
+        myunion..s2;
+//^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//             ^^ invalid.illegal.syntax.c
+//                 ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c 
 //  ^ punctuation.section.block.end.c 

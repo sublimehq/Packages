@@ -883,6 +883,10 @@
 //                   ^ keyword.operator.assignment.c
 //                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
 //                       ^ punctuation.terminator.c
+        myunion..s2;
+//^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//             ^^ invalid.illegal.syntax.c
+//                 ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c
 //  ^ punctuation.section.block.end.c
@@ -1832,7 +1836,7 @@
 //                      ^ punctuation.section.generic.end.c++
     concept MyConcept<T> = std::same_as<T, void> || requires(T a) { something(a) == 0; };
 //^^ meta.template.c++
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++
 //  ^^^^^^^ keyword.declaration.c++
 //          ^^^^^^^^^ entity.name.concept.c++
 //                   ^ meta.template.c++ punctuation.definition.generic.begin.c++
@@ -1863,7 +1867,6 @@
 //                                                                                      ^ punctuation.terminator.c
 
     export module test.module:part;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++
 //  ^^^^^^ keyword.other.c++
 //         ^^^^^^ keyword.declaration.module.c++
 //               ^^^^^^^^^^^^^^^^^ entity.name.module.c++
@@ -1871,14 +1874,12 @@
 //                           ^ punctuation.separator.partition.c++
 //                                ^ punctuation.terminator.c
     module test.module:part;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++
 //  ^^^^^^ keyword.declaration.module.c++
 //        ^^^^^^^^^^^^^^^^^ entity.name.module.c++
 //             ^ punctuation.accessor.dot.c++
 //                    ^ punctuation.separator.partition.c++
 //                         ^ punctuation.terminator.c
     import test.module:part;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.concept.c++
 //  ^^^^^^ keyword.other.import.c++
 //        ^^^^^^^^^^^^^^^^^ entity.name.module.c++
 //             ^ punctuation.accessor.dot.c++

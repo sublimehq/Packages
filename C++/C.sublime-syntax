@@ -590,6 +590,8 @@ contexts:
     - match: \+\+|--
       scope: keyword.operator.arithmetic.c
   operator.accessor:
+    - match: \.\.
+      scope: invalid.illegal.syntax.c
     - match: (\.|\-\>)(?=\s*{{identifier}})
       scope: punctuation.accessor.dot.c
       branch_point: access

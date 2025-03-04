@@ -1,4 +1,4 @@
-/* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
+// SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax"
 
     // Comment
 //  ^^^^^^^^^^ comment.line.double-slash.c 
@@ -883,6 +883,10 @@
 //                   ^ keyword.operator.assignment.c
 //                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
 //                       ^ punctuation.terminator.c
+        myunion..s2;
+//^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//             ^^ invalid.illegal.syntax.c
+//                 ^ punctuation.terminator.c
     }
 //^^^ meta.function.c meta.block.c
 //  ^ punctuation.section.block.end.c
