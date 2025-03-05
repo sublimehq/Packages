@@ -9,8 +9,8 @@
         <integer>1</integer>
         <key>symbolTransformation</key>
         <string>
-            s/^[ \t]+|[ \t]+$//g;   # trim leading and trailing whitespace
-            s/[ \t]*\.[ \t]*/\./g;  # trim whitespace between name parts
+            # ignore whitespace in unquoted parts
+            s/(\"(?:\\\"|[^"])*\")?[ \t]*?/\1/g;
         </string>
     </dict>
 </dict>
