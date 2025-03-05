@@ -12,6 +12,10 @@ contexts:
     - meta_prepend: true
     - include: embedded-ruby
 
+  number-sign-comments:
+    - meta_prepend: true
+    - include: embedded-ruby
+
   embedded-ruby:
     - include: Ruby.sublime-syntax#escaped-char
     - include: Ruby.sublime-syntax#embedded-ruby

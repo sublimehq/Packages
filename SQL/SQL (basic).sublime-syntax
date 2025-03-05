@@ -889,6 +889,8 @@ contexts:
 ###[ TABLE NAMES OR SUBQUERIES ]###############################################
 
   table-name-or-subquery:
+    - meta_include_prototype: false
+    - include: comments
     - include: table-subquery
     - include: table-name-or-function-call
 
