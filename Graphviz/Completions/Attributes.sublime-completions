@@ -1,177 +1,1209 @@
 {
     "scope": "source.dot meta.attributes - string",
     "completions": [
-        {"trigger": "Damping\tattribute", "contents": "Damping=${1}"},
-        {"trigger": "K\tattribute", "contents": "K=${1}"},
-        {"trigger": "URL\tattribute", "contents": "URL=${1}"},
-        {"trigger": "_background\tattribute", "contents": "_background=\"${1}\""},
-        {"trigger": "area\tattribute", "contents": "area=${1}"},
-        {"trigger": "arrowhead\tattribute", "contents": "arrowhead=${1}"},
-        {"trigger": "arrowsize\tattribute", "contents": "arrowsize=${1}"},
-        {"trigger": "arrowtail\tattribute", "contents": "arrowtail=${1}"},
-        {"trigger": "bb\tattribute", "contents": "bb=${1}"},
-        {"trigger": "bgcolor\tattribute", "contents": "bgcolor=${1}"},
-        {"trigger": "center\tattribute", "contents": "center=${1}"},
-        {"trigger": "charset\tattribute", "contents": "charset=\"${1}\""},
-        {"trigger": "clusterrank\tattribute", "contents": "clusterrank=${1}"},
-        {"trigger": "color\tattribute", "contents": "color=${1}"},
-        {"trigger": "colorscheme\tattribute", "contents": "colorscheme=\"${1}\""},
-        {"trigger": "comment\tattribute", "contents": "comment=\"${1}\""},
-        {"trigger": "compound\tattribute", "contents": "compound=${1}"},
-        {"trigger": "concentrate\tattribute", "contents": "concentrate=${1}"},
-        {"trigger": "constraint\tattribute", "contents": "constraint=${1}"},
-        {"trigger": "decorate\tattribute", "contents": "decorate=${1}"},
-        {"trigger": "defaultdist\tattribute", "contents": "defaultdist=${1}"},
-        {"trigger": "dim\tattribute", "contents": "dim=${1}"},
-        {"trigger": "dimen\tattribute", "contents": "dimen=${1}"},
-        {"trigger": "dir\tattribute", "contents": "dir=${1}"},
-        {"trigger": "diredgeconstraints\tattribute", "contents": "diredgeconstraints=${1}"},
-        {"trigger": "distortion\tattribute", "contents": "distortion=${1}"},
-        {"trigger": "dpi\tattribute", "contents": "dpi=${1}"},
-        {"trigger": "edgeURL\tattribute", "contents": "edgeURL=${1}"},
-        {"trigger": "edgehref\tattribute", "contents": "edgehref=${1}"},
-        {"trigger": "edgetarget\tattribute", "contents": "edgetarget=${1}"},
-        {"trigger": "edgetooltip\tattribute", "contents": "edgetooltip=${1}"},
-        {"trigger": "epsilon\tattribute", "contents": "epsilon=${1}"},
-        {"trigger": "esep\tattribute", "contents": "esep=${1}"},
-        {"trigger": "fillcolor\tattribute", "contents": "fillcolor=${1}"},
-        {"trigger": "fixedsize\tattribute", "contents": "fixedsize=${1}"},
-        {"trigger": "fontcolor\tattribute", "contents": "fontcolor=${1}"},
-        {"trigger": "fontname\tattribute", "contents": "fontname=\"${1}\""},
-        {"trigger": "fontnames\tattribute", "contents": "fontnames=\"${1}\""},
-        {"trigger": "fontpath\tattribute", "contents": "fontpath=\"${1}\""},
-        {"trigger": "fontsize\tattribute", "contents": "fontsize=${1}"},
-        {"trigger": "forcelabels\tattribute", "contents": "forcelabels=${1}"},
-        {"trigger": "gradientangle\tattribute", "contents": "gradientangle=${1}"},
-        {"trigger": "group\tattribute", "contents": "group=\"${1}\""},
-        {"trigger": "headURL\tattribute", "contents": "headURL=${1}"},
-        {"trigger": "head_lp\tattribute", "contents": "head_lp=${1}"},
-        {"trigger": "headclip\tattribute", "contents": "headclip=${1}"},
-        {"trigger": "headhref\tattribute", "contents": "headhref=${1}"},
-        {"trigger": "headlabel\tattribute", "contents": "headlabel=${1}"},
-        {"trigger": "headport\tattribute", "contents": "headport=${1}"},
-        {"trigger": "headtarget\tattribute", "contents": "headtarget=${1}"},
-        {"trigger": "headtooltip\tattribute", "contents": "headtooltip=${1}"},
-        {"trigger": "height\tattribute", "contents": "height=${1}"},
-        {"trigger": "href\tattribute", "contents": "href=${1}"},
-        {"trigger": "id\tattribute", "contents": "id=${1}"},
-        {"trigger": "image\tattribute", "contents": "image=\"${1}\""},
-        {"trigger": "imagepath\tattribute", "contents": "imagepath=\"${1}\""},
-        {"trigger": "imagepos\tattribute", "contents": "imagepos=\"${1}\""},
-        {"trigger": "imagescale\tattribute", "contents": "imagescale=${1}"},
-        {"trigger": "inputscale\tattribute", "contents": "inputscale=${1}"},
-        {"trigger": "label\tattribute", "contents": "label=${1}"},
-        {"trigger": "labelURL\tattribute", "contents": "labelURL=${1}"},
-        {"trigger": "label_scheme\tattribute", "contents": "label_scheme=${1}"},
-        {"trigger": "labelangle\tattribute", "contents": "labelangle=${1}"},
-        {"trigger": "labeldistance\tattribute", "contents": "labeldistance=${1}"},
-        {"trigger": "labelfloat\tattribute", "contents": "labelfloat=${1}"},
-        {"trigger": "labelfontcolor\tattribute", "contents": "labelfontcolor=${1}"},
-        {"trigger": "labelfontname\tattribute", "contents": "labelfontname=\"${1}\""},
-        {"trigger": "labelfontsize\tattribute", "contents": "labelfontsize=${1}"},
-        {"trigger": "labelhref\tattribute", "contents": "labelhref=${1}"},
-        {"trigger": "labeljust\tattribute", "contents": "labeljust=\"${1}\""},
-        {"trigger": "labelloc\tattribute", "contents": "labelloc=\"${1}\""},
-        {"trigger": "labeltarget\tattribute", "contents": "labeltarget=${1}"},
-        {"trigger": "labeltooltip\tattribute", "contents": "labeltooltip=${1}"},
-        {"trigger": "landscape\tattribute", "contents": "landscape=${1}"},
-        {"trigger": "layer\tattribute", "contents": "layer=${1}"},
-        {"trigger": "layerlistsep\tattribute", "contents": "layerlistsep=\"${1}\""},
-        {"trigger": "layers\tattribute", "contents": "layers=${1}"},
-        {"trigger": "layerselect\tattribute", "contents": "layerselect=${1}"},
-        {"trigger": "layersep\tattribute", "contents": "layersep=\"${1}\""},
-        {"trigger": "layout\tattribute", "contents": "layout=\"${1}\""},
-        {"trigger": "len\tattribute", "contents": "len=${1}"},
-        {"trigger": "levels\tattribute", "contents": "levels=${1}"},
-        {"trigger": "levelsgap\tattribute", "contents": "levelsgap=${1}"},
-        {"trigger": "lhead\tattribute", "contents": "lhead=\"${1}\""},
-        {"trigger": "lheight\tattribute", "contents": "lheight=${1}"},
-        {"trigger": "lp\tattribute", "contents": "lp=${1}"},
-        {"trigger": "ltail\tattribute", "contents": "ltail=\"${1}\""},
-        {"trigger": "lwidth\tattribute", "contents": "lwidth=${1}"},
-        {"trigger": "margin\tattribute", "contents": "margin=${1}"},
-        {"trigger": "maxiter\tattribute", "contents": "maxiter=${1}"},
-        {"trigger": "mclimit\tattribute", "contents": "mclimit=${1}"},
-        {"trigger": "mindist\tattribute", "contents": "mindist=${1}"},
-        {"trigger": "minlen\tattribute", "contents": "minlen=${1}"},
-        {"trigger": "mode\tattribute", "contents": "mode=\"${1}\""},
-        {"trigger": "model\tattribute", "contents": "model=\"${1}\""},
-        {"trigger": "mosek\tattribute", "contents": "mosek=${1}"},
-        {"trigger": "newrank\tattribute", "contents": "newrank=${1}"},
-        {"trigger": "nodesep\tattribute", "contents": "nodesep=${1}"},
-        {"trigger": "nojustify\tattribute", "contents": "nojustify=${1}"},
-        {"trigger": "normalize\tattribute", "contents": "normalize=${1}"},
-        {"trigger": "notranslate\tattribute", "contents": "notranslate=${1}"},
-        {"trigger": "nslimit\tattribute", "contents": "nslimit=${1}"},
-        {"trigger": "nslimit1\tattribute", "contents": "nslimit1=${1}"},
-        {"trigger": "ordering\tattribute", "contents": "ordering=\"${1}\""},
-        {"trigger": "orientation\tattribute", "contents": "orientation=${1}"},
-        {"trigger": "orientation\tattribute", "contents": "orientation=\"${1}\""},
-        {"trigger": "outputorder\tattribute", "contents": "outputorder=${1}"},
-        {"trigger": "overlap\tattribute", "contents": "overlap=${1}"},
-        {"trigger": "overlap_scaling\tattribute", "contents": "overlap_scaling=${1}"},
-        {"trigger": "overlap_shrink\tattribute", "contents": "overlap_shrink=${1}"},
-        {"trigger": "pack\tattribute", "contents": "pack=${1}"},
-        {"trigger": "packmode\tattribute", "contents": "packmode=${1}"},
-        {"trigger": "pad\tattribute", "contents": "pad=${1}"},
-        {"trigger": "page\tattribute", "contents": "page=${1}"},
-        {"trigger": "pagedir\tattribute", "contents": "pagedir=${1}"},
-        {"trigger": "pencolor\tattribute", "contents": "pencolor=${1}"},
-        {"trigger": "penwidth\tattribute", "contents": "penwidth=${1}"},
-        {"trigger": "peripheries\tattribute", "contents": "peripheries=${1}"},
-        {"trigger": "pin\tattribute", "contents": "pin=${1}"},
-        {"trigger": "pos\tattribute", "contents": "pos=${1}"},
-        {"trigger": "quadtree\tattribute", "contents": "quadtree=${1}"},
-        {"trigger": "quantum\tattribute", "contents": "quantum=${1}"},
-        {"trigger": "rank\tattribute", "contents": "rank=${1}"},
-        {"trigger": "rankdir\tattribute", "contents": "rankdir=${1}"},
-        {"trigger": "ranksep\tattribute", "contents": "ranksep=${1}"},
-        {"trigger": "ratio\tattribute", "contents": "ratio=${1}"},
-        {"trigger": "rects\tattribute", "contents": "rects=${1}"},
-        {"trigger": "regular\tattribute", "contents": "regular=${1}"},
-        {"trigger": "remincross\tattribute", "contents": "remincross=${1}"},
-        {"trigger": "repulsiveforce\tattribute", "contents": "repulsiveforce=${1}"},
-        {"trigger": "resolution\tattribute", "contents": "resolution=${1}"},
-        {"trigger": "root\tattribute", "contents": "root=${1}"},
-        {"trigger": "rotate\tattribute", "contents": "rotate=${1}"},
-        {"trigger": "rotation\tattribute", "contents": "rotation=${1}"},
-        {"trigger": "samehead\tattribute", "contents": "samehead=\"${1}\""},
-        {"trigger": "sametail\tattribute", "contents": "sametail=\"${1}\""},
-        {"trigger": "samplepoints\tattribute", "contents": "samplepoints=${1}"},
-        {"trigger": "scale\tattribute", "contents": "scale=${1}"},
-        {"trigger": "searchsize\tattribute", "contents": "searchsize=${1}"},
-        {"trigger": "sep\tattribute", "contents": "sep=${1}"},
-        {"trigger": "shape\tattribute", "contents": "shape=${1}"},
-        {"trigger": "shapefile\tattribute", "contents": "shapefile=\"${1}\""},
-        {"trigger": "showboxes\tattribute", "contents": "showboxes=${1}"},
-        {"trigger": "sides\tattribute", "contents": "sides=${1}"},
-        {"trigger": "size\tattribute", "contents": "size=${1}"},
-        {"trigger": "skew\tattribute", "contents": "skew=${1}"},
-        {"trigger": "smoothing\tattribute", "contents": "smoothing=${1}"},
-        {"trigger": "sortv\tattribute", "contents": "sortv=${1}"},
-        {"trigger": "splines\tattribute", "contents": "splines=${1}"},
-        {"trigger": "start\tattribute", "contents": "start=${1}"},
-        {"trigger": "style\tattribute", "contents": "style=${1}"},
-        {"trigger": "stylesheet\tattribute", "contents": "stylesheet=\"${1}\""},
-        {"trigger": "tailURL\tattribute", "contents": "tailURL=${1}"},
-        {"trigger": "tail_lp\tattribute", "contents": "tail_lp=${1}"},
-        {"trigger": "tailclip\tattribute", "contents": "tailclip=${1}"},
-        {"trigger": "tailhref\tattribute", "contents": "tailhref=${1}"},
-        {"trigger": "taillabel\tattribute", "contents": "taillabel=${1}"},
-        {"trigger": "tailport\tattribute", "contents": "tailport=${1}"},
-        {"trigger": "tailtarget\tattribute", "contents": "tailtarget=${1}"},
-        {"trigger": "tailtooltip\tattribute", "contents": "tailtooltip=${1}"},
-        {"trigger": "target\tattribute", "contents": "target=${1}"},
-        {"trigger": "tooltip\tattribute", "contents": "tooltip=${1}"},
-        {"trigger": "truecolor\tattribute", "contents": "truecolor=${1}"},
-        {"trigger": "vertices\tattribute", "contents": "vertices=${1}"},
-        {"trigger": "viewport\tattribute", "contents": "viewport=${1}"},
-        {"trigger": "voro_margin\tattribute", "contents": "voro_margin=${1}"},
-        {"trigger": "weight\tattribute", "contents": "weight=${1}"},
-        {"trigger": "width\tattribute", "contents": "width=${1}"},
-        {"trigger": "xdotversion\tattribute", "contents": "xdotversion=\"${1}\""},
-        {"trigger": "xlabel\tattribute", "contents": "xlabel=${1}"},
-        {"trigger": "xlp\tattribute", "contents": "xlp=${1}"},
-        {"trigger": "z\tattribute", "contents": "z=${1}"},
+        {
+            "trigger": "Damping",
+            "contents": "Damping=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "K",
+            "contents": "K=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "URL",
+            "contents": "URL=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "_background",
+            "contents": "_background=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "area",
+            "contents": "area=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "arrowhead",
+            "contents": "arrowhead=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "arrowsize",
+            "contents": "arrowsize=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "arrowtail",
+            "contents": "arrowtail=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "bb",
+            "contents": "bb=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "bgcolor",
+            "contents": "bgcolor=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "center",
+            "contents": "center=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "charset",
+            "contents": "charset=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "clusterrank",
+            "contents": "clusterrank=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "color",
+            "contents": "color=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "colorscheme",
+            "contents": "colorscheme=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "comment",
+            "contents": "comment=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "compound",
+            "contents": "compound=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "concentrate",
+            "contents": "concentrate=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "constraint",
+            "contents": "constraint=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "decorate",
+            "contents": "decorate=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "defaultdist",
+            "contents": "defaultdist=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "dim",
+            "contents": "dim=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "dimen",
+            "contents": "dimen=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "dir",
+            "contents": "dir=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "diredgeconstraints",
+            "contents": "diredgeconstraints=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "distortion",
+            "contents": "distortion=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "dpi",
+            "contents": "dpi=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "edgeURL",
+            "contents": "edgeURL=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "edgehref",
+            "contents": "edgehref=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "edgetarget",
+            "contents": "edgetarget=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "edgetooltip",
+            "contents": "edgetooltip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "epsilon",
+            "contents": "epsilon=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "esep",
+            "contents": "esep=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fillcolor",
+            "contents": "fillcolor=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fixedsize",
+            "contents": "fixedsize=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fontcolor",
+            "contents": "fontcolor=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fontname",
+            "contents": "fontname=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fontnames",
+            "contents": "fontnames=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fontpath",
+            "contents": "fontpath=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "fontsize",
+            "contents": "fontsize=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "forcelabels",
+            "contents": "forcelabels=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "gradientangle",
+            "contents": "gradientangle=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "group",
+            "contents": "group=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headURL",
+            "contents": "headURL=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "head_lp",
+            "contents": "head_lp=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headclip",
+            "contents": "headclip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headhref",
+            "contents": "headhref=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headlabel",
+            "contents": "headlabel=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headport",
+            "contents": "headport=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headtarget",
+            "contents": "headtarget=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headtooltip",
+            "contents": "headtooltip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "height",
+            "contents": "height=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "href",
+            "contents": "href=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "id",
+            "contents": "id=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "image",
+            "contents": "image=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "imagepath",
+            "contents": "imagepath=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "imagepos",
+            "contents": "imagepos=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "imagescale",
+            "contents": "imagescale=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "inputscale",
+            "contents": "inputscale=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "label",
+            "contents": "label=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelURL",
+            "contents": "labelURL=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "label_scheme",
+            "contents": "label_scheme=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelangle",
+            "contents": "labelangle=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labeldistance",
+            "contents": "labeldistance=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelfloat",
+            "contents": "labelfloat=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelfontcolor",
+            "contents": "labelfontcolor=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelfontname",
+            "contents": "labelfontname=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelfontsize",
+            "contents": "labelfontsize=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelhref",
+            "contents": "labelhref=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labeljust",
+            "contents": "labeljust=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labelloc",
+            "contents": "labelloc=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labeltarget",
+            "contents": "labeltarget=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "labeltooltip",
+            "contents": "labeltooltip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "landscape",
+            "contents": "landscape=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "layer",
+            "contents": "layer=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "layerlistsep",
+            "contents": "layerlistsep=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "layers",
+            "contents": "layers=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "layerselect",
+            "contents": "layerselect=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "layersep",
+            "contents": "layersep=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "layout",
+            "contents": "layout=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "len",
+            "contents": "len=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "levels",
+            "contents": "levels=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "levelsgap",
+            "contents": "levelsgap=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "lhead",
+            "contents": "lhead=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "lheight",
+            "contents": "lheight=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "lp",
+            "contents": "lp=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "ltail",
+            "contents": "ltail=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "lwidth",
+            "contents": "lwidth=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "margin",
+            "contents": "margin=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "maxiter",
+            "contents": "maxiter=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "mclimit",
+            "contents": "mclimit=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "mindist",
+            "contents": "mindist=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "minlen",
+            "contents": "minlen=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "mode",
+            "contents": "mode=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "model",
+            "contents": "model=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "mosek",
+            "contents": "mosek=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "newrank",
+            "contents": "newrank=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "nodesep",
+            "contents": "nodesep=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "nojustify",
+            "contents": "nojustify=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "normalize",
+            "contents": "normalize=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "notranslate",
+            "contents": "notranslate=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "nslimit",
+            "contents": "nslimit=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "nslimit1",
+            "contents": "nslimit1=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "ordering",
+            "contents": "ordering=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "orientation",
+            "contents": "orientation=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "orientation",
+            "contents": "orientation=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "outputorder",
+            "contents": "outputorder=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "overlap",
+            "contents": "overlap=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "overlap_scaling",
+            "contents": "overlap_scaling=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "overlap_shrink",
+            "contents": "overlap_shrink=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pack",
+            "contents": "pack=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "packmode",
+            "contents": "packmode=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pad",
+            "contents": "pad=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "page",
+            "contents": "page=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pagedir",
+            "contents": "pagedir=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pencolor",
+            "contents": "pencolor=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "penwidth",
+            "contents": "penwidth=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "peripheries",
+            "contents": "peripheries=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pin",
+            "contents": "pin=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pos",
+            "contents": "pos=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "quadtree",
+            "contents": "quadtree=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "quantum",
+            "contents": "quantum=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "rank",
+            "contents": "rank=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "rankdir",
+            "contents": "rankdir=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "ranksep",
+            "contents": "ranksep=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "ratio",
+            "contents": "ratio=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "rects",
+            "contents": "rects=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "regular",
+            "contents": "regular=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "remincross",
+            "contents": "remincross=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "repulsiveforce",
+            "contents": "repulsiveforce=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "resolution",
+            "contents": "resolution=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "root",
+            "contents": "root=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "rotate",
+            "contents": "rotate=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "rotation",
+            "contents": "rotation=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "samehead",
+            "contents": "samehead=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "sametail",
+            "contents": "sametail=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "samplepoints",
+            "contents": "samplepoints=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "scale",
+            "contents": "scale=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "searchsize",
+            "contents": "searchsize=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "sep",
+            "contents": "sep=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "shape",
+            "contents": "shape=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "shapefile",
+            "contents": "shapefile=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "showboxes",
+            "contents": "showboxes=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "sides",
+            "contents": "sides=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "size",
+            "contents": "size=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "skew",
+            "contents": "skew=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "smoothing",
+            "contents": "smoothing=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "sortv",
+            "contents": "sortv=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "splines",
+            "contents": "splines=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "start",
+            "contents": "start=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "style",
+            "contents": "style=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "stylesheet",
+            "contents": "stylesheet=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tailURL",
+            "contents": "tailURL=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tail_lp",
+            "contents": "tail_lp=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tailclip",
+            "contents": "tailclip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tailhref",
+            "contents": "tailhref=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "taillabel",
+            "contents": "taillabel=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tailport",
+            "contents": "tailport=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tailtarget",
+            "contents": "tailtarget=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tailtooltip",
+            "contents": "tailtooltip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "target",
+            "contents": "target=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tooltip",
+            "contents": "tooltip=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "truecolor",
+            "contents": "truecolor=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "vertices",
+            "contents": "vertices=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "viewport",
+            "contents": "viewport=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "voro_margin",
+            "contents": "voro_margin=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "weight",
+            "contents": "weight=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "width",
+            "contents": "width=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "xdotversion",
+            "contents": "xdotversion=\"${1}\"",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "xlabel",
+            "contents": "xlabel=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "xlp",
+            "contents": "xlp=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "z",
+            "contents": "z=${1}",
+            "annotation": "attribute",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
     ]
 }

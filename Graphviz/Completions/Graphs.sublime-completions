@@ -1,7 +1,19 @@
 {
     "scope": "source.dot - meta",
     "completions": [
-        {"trigger": "graph\tobject", "contents": "graph ${1:name} {\n\t${2}\n}"},
-        {"trigger": "digraph\tobject", "contents": "digraph ${1:name} {\n\t${2}\n}"},
+        {
+            "trigger": "graph",
+            "contents": "graph ${1:name} {\n\t$2\n}",
+            "annotation": "object",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "digraph",
+            "contents": "digraph ${1:name} {\n\t$2\n}",
+            "annotation": "object",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
     ]
 }
