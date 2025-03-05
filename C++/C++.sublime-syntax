@@ -340,7 +340,7 @@ contexts:
         2: meta.group.c++ punctuation.section.group.begin.c++
       set: [lambda-try-not, enclosure.parenthesis]
 
-    - match: (\])\s*(\{|\-\>|mutable\b)
+    - match: \]\s*(?:\{|\-\>|mutable\b)
       fail: lambda
   enclosure.outer-block:
     - meta_content_scope: meta.block.c++
@@ -551,12 +551,12 @@ contexts:
       scope: keyword.control.exception.c++
     - match: \bco_(await|yield|return)\b
       scope: keyword.control.c++
-    - match: \b(requires)\s*(\()\b
+    - match: \b(requires)\s*(\()
       captures:
         1: keyword.operator.word.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
       push: [function-tail, function-params]
-    - match: \b(requires)\b
+    - match: \brequires\b
       scope: keyword.operator.word.c++
 
   constant:
@@ -583,11 +583,9 @@ contexts:
     - meta_prepend: true
     - match: \b((const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid|noexcept)\b
       scope: keyword.operator.word.c++
-    - match: \b(and|x?or|not)(_eq)?\b
+    - match: \b(?:and|xor|or|not)(?:_eq)?\b
       scope: keyword.operator.logical.c++
-    - match: \b(bit(and|or)|compl)\b
-      scope: keyword.operator.bitwise.c++
-    - match: \bxor(_eq)\b
+    - match: \b(?:bit(?:and|or)|compl)\b
       scope: keyword.operator.bitwise.c++
   operator.comparison:
     - meta_prepend: true
