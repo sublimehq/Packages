@@ -51,9 +51,9 @@ contexts:
     - match: (?={{identifier}}\s*<)
       branch_point: function-template
       branch: [function-template, consume-ident]
-    - match: \b{{identifier}}\b
+    - match: '{{identifier}}'
   function-template:
-    - match: ({{identifier}})(?=\s*<)
+    - match: '{{identifier}}(?=\s*<)'
       scope: entity.name.function.c++
       set: function-template-body
   function-template-body:
@@ -102,7 +102,7 @@ contexts:
 
   function-tail:
     - meta_prepend: true
-    - match: \b(override|final|noexcept)\b
+    - match: \b(?:override|final|noexcept)\b
       scope: storage.modifier.c++
     - match: ':'
       scope: punctuation.separator.initializer-list.begin.c++
@@ -130,7 +130,7 @@ contexts:
 
   initializer-list:
     - meta_scope: meta.method.initializer-list.c++
-    - match: \b{{identifier}}\b
+    - match: '{{identifier}}'
       scope: variable.other.readwrite.member.c++
       push: initializer-list-body
     - include: punctuation.comma
@@ -156,7 +156,7 @@ contexts:
         2: punctuation.section.group.begin.c++
       push: enclosure.parenthesis
   template-call:
-    - match: \b{{identifier}}\b
+    - match: '{{identifier}}'
       scope: entity.name.function.c++
       set: template-call-body
   template-call-body:
@@ -221,7 +221,7 @@ contexts:
     - match: \busing\b
       scope: keyword.declaration.c++
       push: type.using
-    - match: \b(class|struct)\b
+    - match: \b(?:class|struct)\b
       scope: keyword.declaration.c++
       push: class
     - match: \btemplate\b
@@ -283,7 +283,7 @@ contexts:
         - match: \b
           set: type.template-name
         - include: expression
-    - match: \b(typename|class)\b
+    - match: \b(?:typename|class)\b
       scope: keyword.declaration.type.c++
     - include: expression
   type.template-requires:
@@ -294,7 +294,7 @@ contexts:
   type.template-name:
     - match: (?=[\]\}\);]) # Fallback
       pop: 1
-    - match: \b(typename|class)\b
+    - match: \b(?:typename|class)\b
       scope: keyword.declaration.type.c++
     - include: expression-identifiers
     - match: ({{identifier}})\s*(\[)
@@ -397,7 +397,7 @@ contexts:
       pop: 2 # skip params
 
   generic: # override, replace with {} constructor
-    - match: \b({{identifier}})\s*(\{)
+    - match: ({{identifier}})\s*(\{)
       captures:
         1: variable.function.c++
         2: meta.block.c punctuation.section.block.begin.c++
@@ -426,7 +426,7 @@ contexts:
       scope: entity.name.class.c++
       set:
         - include: template
-        - match: (::)
+        - match: '::'
           fail: class-name
         - match: (?=\S)
           pop: 2
@@ -463,13 +463,13 @@ contexts:
   qualified-ident:
     - match: \btypename\b
       scope: storage.modifier.c++
-    - match: (::)
+    - match: '::'
       scope: punctuation.accessor.double-colon.c++
     - match: '{{identifier}}'
       push: qualified-ident-body
     - include: else-pop
   qualified-ident-body:
-    - match: (::)
+    - match: '::'
       scope: punctuation.accessor.double-colon.c++
       pop: 1
     - include: template
@@ -490,7 +490,7 @@ contexts:
       fail: template
     - match: (?=\&\&\s*[^>])
       fail: template
-    - match: (>)
+    - match: '>'
       scope: punctuation.definition.generic.end.c++
       pop: true
     - include: expression
@@ -521,11 +521,11 @@ contexts:
 
   keyword:
     - meta_append: true
-    - match: \b(export|friend|operator)\b
+    - match: \b(?:export|friend|operator)\b
       scope: keyword.other.c++
   keyword.type:
     - meta_prepend: true
-    - match: \b(w?char(8|16|32)_t)|wchar_t\b
+    - match: \b(?:w?char(?:8|16|32)_t)|wchar_t\b
       scope: storage.type.c++
     - match: \b(decltype)\s*(\()
       captures:
@@ -536,9 +536,9 @@ contexts:
       scope: keyword.declaration.type.c++
   keyword.storage:
     - meta_prepend: true
-    - match: '\b(private|protected|public)\s*:'
+    - match: '\b(?:private|protected|public)\s*:'
       scope: storage.modifier.c++
-    - match: \b(const(expr|eval|init)|explicit|mutable|private|protected|public|virtual|typename|alignas)\b
+    - match: \b(?:const(?:expr|eval|init)|explicit|mutable|private|protected|public|virtual|typename|alignas)\b
       scope: storage.modifier.c++
   keyword.control:
     - meta_prepend: true
@@ -547,9 +547,9 @@ contexts:
         1: keyword.control.exception.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
       push: function-params
-    - match: \b(try|catch|finally|throw)\b
+    - match: \b(?:try|catch|finally|throw)\b
       scope: keyword.control.exception.c++
-    - match: \bco_(await|yield|return)\b
+    - match: \bco_(?:await|yield|return)\b
       scope: keyword.control.c++
     - match: \b(requires)\s*(\()
       captures:
@@ -581,7 +581,7 @@ contexts:
       scope: keyword.operator.bitwise.c++
   operator.word:
     - meta_prepend: true
-    - match: \b((const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid|noexcept)\b
+    - match: \b(?:(?:const|static|reinterpret|dynamic)_cast|static_assert|delete|new|typeid|noexcept)\b
       scope: keyword.operator.word.c++
     - match: \b(?:and|xor|or|not)(?:_eq)?\b
       scope: keyword.operator.logical.c++

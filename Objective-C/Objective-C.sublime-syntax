@@ -78,15 +78,15 @@ contexts:
       set: enclosure.block
     - include: else-pop
   interface-body:
-    - match: \@end
+    - match: \@end\b
       scope: keyword.declaration.interface.end.objc
       pop: 1
-    - match: \@property
+    - match: \@property\b
       scope: keyword.other.objc
       push:
         - statement
         - property
-    - match: \@(?:synthesize|dynamic)
+    - match: \@(?:synthesize|dynamic)\b
       scope: keyword.other.objc
       push: statement
 
@@ -111,7 +111,7 @@ contexts:
         1: storage.modifier.objc
         2: keyword.operator.assignment.objc
         3: entity.name.function.method.objc
-    - match: \b([sg]etter|readonly|readwrite|assign|retain|copy|atomic|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
+    - match: \b(?:[sg]etter|readonly|readwrite|assign|retain|copy|atomic|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
       scope: storage.modifier.objc
     - include: punctuation.comma
     - include: operator
@@ -199,7 +199,7 @@ contexts:
 
   preprocessor:
     - meta_prepend: true
-    - match: '{{dir_start}}(import)\b'
+    - match: '{{dir_start}}import\b'
       scope: keyword.control.import.objc
       push: preprocessor.include
 
@@ -233,7 +233,7 @@ contexts:
         1: keyword.operator.word.objc
         2: meta.group.objc punctuation.section.group.begin.objc
       push: keyword.selector
-    - match: '@(?:selector|encode|defs|available)'
+    - match: '@(?:selector|encode|defs|available)\b'
       scope: keyword.operator.word.objc
   keyword.control:
     - meta_prepend: true
@@ -250,7 +250,7 @@ contexts:
     - meta_prepend: true
     - match: \b(?:nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(?:unused|nonnull|block|weak|strong|autoreleasing|bridge|covariant|contravariant))\b
       scope: storage.modifier.objc
-    - match: \@(private|public|protected|package|optional|required)\b
+    - match: \@(?:private|public|protected|package|optional|required)\b
       scope: storage.modifier.objc
   keyword.type:
     - meta_append: true
@@ -283,7 +283,7 @@ contexts:
 
   gnu-attribute:
     - meta_append: true
-    - match: \b(objc_(direct|designated_initializer|root_class|requires_super|subclassing_restricted|precise_lifetime|))\b
+    - match: \bobjc_(?:direct|designated_initializer|root_class|requires_super|subclassing_restricted|precise_lifetime)\b
       scope: constant.other.objc
     - match: \b(swift_name|objc_runtime_name)\s*(\()
       captures:
