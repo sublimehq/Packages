@@ -162,8 +162,12 @@ contexts:
       captures:
         1: punctuation.separator.continuation.line.dot
 
-    - match: '[{}|]'
-      scope: punctuation.separator.memory-block.dot
+    - match: \{
+      scope: punctuation.section.block.begin.memory.dot
+    - match: \}
+      scope: punctuation.section.block.end.memory.dot
+    - match: '|'
+      scope: punctuation.separator.memory.dot
 
   double-quoted-string-escapes:
     - match: \\\"
@@ -199,14 +203,14 @@ contexts:
 
   braces:
     - match: \{
-      scope: punctuation.definition.group.begin.dot
+      scope: punctuation.section.group.begin.dot
       push: brace-body
 
   brace-body:
     - meta_scope: meta.group.dot
 
     - match: \}
-      scope: punctuation.definition.group.end.dot
+      scope: punctuation.section.group.end.dot
       pop: 1
 
     - include: separators

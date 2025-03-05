@@ -38,8 +38,8 @@ node n { size="str" }
 #             ^     string.quoted.double punctuation.definition.string.begin
 #                 ^ string.quoted.double punctuation.definition.string.end
 #      ^^^^^^^^^^^^^^ meta.group
-#      ^              meta.group punctuation.definition.group.begin
-#                   ^ meta.group punctuation.definition.group.end
+#      ^              meta.group punctuation.section.group.begin
+#                   ^ meta.group punctuation.section.group.end
 
 edge n { main="\"\." }
 #              ^^ constant.character.escape
