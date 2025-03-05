@@ -643,26 +643,26 @@
 //^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c 
 //                  ^ meta.block.c punctuation.section.block.begin 
                     case 0:
-//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c 
-//                  ^^^^ keyword.control.c 
-//                       ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                        ^ keyword.operator.ternary.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c
+//                  ^^^^ keyword.control.case.c
+//                       ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                        ^ punctuation.separator.c
                         goto exit;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c 
 //                      ^^^^ keyword.control.flow.goto.c 
 //                               ^ punctuation.terminator.c 
                     case 1:
-//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c 
-//                  ^^^^ keyword.control.c 
-//                       ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                        ^ keyword.operator.ternary.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c
+//                  ^^^^ keyword.control.case.c
+//                       ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                        ^ punctuation.separator.c
                     case 2 + 3:
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c 
-//                  ^^^^ keyword.control.c 
-//                       ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                         ^ keyword.operator.arithmetic.c 
-//                           ^ meta.number.integer.decimal.c constant.numeric.value.c 
-//                            ^ keyword.operator.ternary.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c
+//                  ^^^^ keyword.control.case.c
+//                       ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                         ^ keyword.operator.arithmetic.c
+//                           ^ meta.number.integer.decimal.c constant.numeric.value.c
+//                            ^ punctuation.separator.c
                         if (a + b < i) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c
 //                      ^^ keyword.control.c
@@ -697,9 +697,9 @@
 //                      ^^^^^ keyword.control.flow.break.c 
 //                           ^ punctuation.terminator.c 
                     default:
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c 
-//                  ^^^^^^^ keyword.control.c 
-//                         ^ keyword.operator.ternary.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c
+//                  ^^^^^^^ keyword.control.case.c
+//                         ^ punctuation.separator.c
                         continue;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c meta.block.c 
 //                      ^^^^^^^^ keyword.control.flow.continue.c 
@@ -883,6 +883,15 @@
 //                   ^ keyword.operator.assignment.c
 //                     ^^ meta.number.integer.decimal.c constant.numeric.value.c
 //                       ^ punctuation.terminator.c
+        (&myunion)->s2;
+//^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
+//      ^^^^^^^^^^ meta.group.c
+//      ^ punctuation.section.group.begin.c
+//       ^ keyword.operator.bitwise.c++
+//               ^ punctuation.section.group.end.c
+//                ^^ punctuation.accessor.arrow.c
+//                  ^^ variable.other.readwrite.member.c
+//                    ^ punctuation.terminator.c
         myunion..s2;
 //^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c
 //             ^^ invalid.illegal.syntax.c
@@ -1617,7 +1626,7 @@
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.c++ meta.class.c++ meta.function.c meta.block.c
 //          ^^^^^^ keyword.control.flow.return.c
 //                 ^^^^ variable.language.c++
-//                     ^^ punctuation.accessor.dot.c
+//                     ^^ punctuation.accessor.arrow.c
 //                       ^^^^^^^^ variable.other.readwrite.member.c
 //                               ^ punctuation.terminator.c
         }

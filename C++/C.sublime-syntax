@@ -488,6 +488,17 @@ contexts:
         1: entity.name.label.c
         2: punctuation.separator.c
 
+  case:
+    - match: \bcase\b
+      scope: keyword.control.case.c
+      push: case-body
+  case-body:
+    - match: ':'
+      scope: punctuation.separator.c
+      pop: 1
+    - include: expression
+    - include: eof-pop
+
   access:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.member.c
@@ -592,8 +603,10 @@ contexts:
   operator.accessor:
     - match: \.\.
       scope: invalid.illegal.syntax.c
-    - match: (\.|\-\>)(?=\s*{{identifier}})
-      scope: punctuation.accessor.dot.c
+    - match: (?:(\.)|(\-\>))(?=\s*{{identifier}})
+      captures:
+        1: punctuation.accessor.dot.c
+        2: punctuation.accessor.arrow.c
       branch_point: access
       branch: [access, pop-immediately]
     - match: \.|\-\>
@@ -748,7 +761,12 @@ contexts:
     - match: \bgoto\b
       scope: keyword.control.flow.goto.c
   keyword.control:
-    - match: \b(?:if|else|for|while|do|switch|case|default)\b
+    - include: case
+    - match: \b(default)\s*(:)
+      captures:
+        1: keyword.control.case.c
+        2: punctuation.separator.c
+    - match: \b(?:if|else|for|while|do|switch|default)\b
       scope: keyword.control.c
   keyword.asm:
     - match: \b(asm|__asm|__asm__)\b
