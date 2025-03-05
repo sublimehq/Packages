@@ -10,9 +10,8 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: Ruby.sublime-syntax#escaped-char
-    - include: Ruby.sublime-syntax#embedded-ruby
+    - include: embedded-ruby
 
-  comments:
+  embedded-ruby:
     - include: Ruby.sublime-syntax#escaped-char
     - include: Ruby.sublime-syntax#embedded-ruby
