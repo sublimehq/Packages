@@ -282,6 +282,13 @@ SELECT * FROM #$users;
 #^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
 #             ^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby variable.other.readwrite.global
 #                    ^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
+-- id: #{id}
+#^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby comment.line.double-dash.sql
+#^ punctuation.definition.comment.sql
+#      ^^^^^ meta.interpolation.ruby
+#      ^^ punctuation.section.interpolation.begin.ruby
+#        ^^ source.ruby.embedded.ruby
+#          ^ punctuation.section.interpolation.end.ruby
 SQL
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted

@@ -12,10 +12,24 @@ contexts:
     - meta_prepend: true
     - include: embedded-ruby
 
+  embedded-ruby:
+    - include: Ruby.sublime-syntax#escaped-char
+    - include: Ruby.sublime-syntax#embedded-ruby
+
+###[ COMMENTS ]################################################################
+
   number-sign-comments:
     - meta_prepend: true
     - include: embedded-ruby
 
-  embedded-ruby:
-    - include: Ruby.sublime-syntax#escaped-char
-    - include: Ruby.sublime-syntax#embedded-ruby
+  inside-double-dash-comment:
+    - meta_append: true
+    - include: embedded-ruby
+
+  inside-comment-docblock:
+    - meta_append: true
+    - include: embedded-ruby
+
+  inside-comment-block:
+    - meta_append: true
+    - include: embedded-ruby

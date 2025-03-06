@@ -5191,11 +5191,10 @@ FROM
 
 -- comment one
 select
-    col1,
-    (col_array)[1]
+    col1, col2
 -- comment two
 from table1
--- comment three -- left join lateral
+-- comment three
 left join lateral (
     -- comment four
     select col2
