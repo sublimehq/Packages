@@ -1,108 +1,125 @@
-# SYNTAX TEST "Packages/Graphviz/DOT.sublime-syntax"
-# <- source.dot
+// SYNTAX TEST "Packages/Graphviz/DOT.sublime-syntax"
+// <- source.dot
 
     // comment
-#   ^^^^^^^^^^^ comment.line.double-slash
-#   ^^ comment.line.double-slash punctuation.definition.comment
+//  ^^^^^^^^^^^ comment.line.double-slash
+//  ^^ comment.line.double-slash punctuation.definition.comment
 
     // comment // comment # comment /* comment */
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash - comment comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash - comment comment
 
 # comment
-# <- comment.line.number-sign punctuation.definition.comment
-#^^^^^^^^^ comment.line.number-sign
+// <- comment.line.number-sign punctuation.definition.comment
+ // <- comment.line.number-sign
+//^^^^^^^^ comment.line.number-sign
 
 # comment # comment // comment /* comment */
-# <- comment.line.number-sign punctuation.definition.comment
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
+// <- comment.line.number-sign punctuation.definition.comment
+ // <- comment.line.number-sign
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
 
     /* comment # comment // comment */
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - comment comment
-#   ^^ comment.block punctuation.definition.comment.begin
-#                                   ^^ comment.block punctuation.definition.comment.end
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - comment comment
+//  ^^ comment.block punctuation.definition.comment.begin
+//                                  ^^ comment.block punctuation.definition.comment.end
 
     /**
-#   ^^ comment.block punctuation.definition.comment.begin
-#     ^ - comment.block.documentation - punctuation.definition.comment.begin
+//  ^^ comment.block punctuation.definition.comment.begin
+//    ^ - comment.block.documentation - punctuation.definition.comment.begin
     * comment
-#   ^ comment.block punctuation.definition.comment
+//  ^ comment.block punctuation.definition.comment
     */
-#   ^^ punctuation.definition.comment.end
+//  ^^ punctuation.definition.comment.end
 
-    graph n {}
-#   ^^^^^ storage.type
-#         ^ entity.name.graph
+graph n {
+// <- storage.type
+ // <- storage.type
+//^^^ storage.type
+//    ^ entity.name.graph
 
-node n { size="str" }
-#             ^^^^^ string.quoted.double
-#             ^     string.quoted.double punctuation.definition.string.begin
-#                 ^ string.quoted.double punctuation.definition.string.end
-#      ^^^^^^^^^^^^^^ meta.group
-#      ^              meta.group punctuation.section.group.begin
-#                   ^ meta.group punctuation.section.group.end
+    node [ size="str" ]
+// ^ meta.group
+//  ^^^^ keyword.declaration
+//       ^^^^^^^^^^^^^^ meta.attributes
+//       ^              meta.attributes punctuation.definition.attributes.begin
+//              ^^^^^ meta.string string.quoted.double
+//              ^     meta.string string.quoted.double punctuation.definition.string.begin
+//                  ^ meta.string string.quoted.double punctuation.definition.string.end
+//                    ^ meta.attributes punctuation.definition.attributes.end
 
-edge n { main="\"\." }
-#              ^^ constant.character.escape
-#                ^^ string.quoted.double invalid.illegal.escape-character
+    edge [ main="\"\\\l\n\r\E\G\H\L\N\T\." ]
+// ^ meta.group
+//  ^^^^ keyword.declaration
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes meta.string string.quoted.double
+//               ^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+//                                     ^^ invalid.illegal.escape-character - constant.character.escape
+//                                        ^ - meta.string - string.quoted.double
 
-edge n { main="\
-               \
-    "}
-#   ^ meta.group string.quoted.double punctuation.definition.string.end
+    edge [ main="\
+                 \
+        "]
+//      ^ meta.string string.quoted.double punctuation.definition.string.end
 
-node n { color="" }
-#        ^^^^^ support.constant.attribute.node
+    node [ color="" ]
+//         ^^^^^ support.constant.attribute.node
 
-edge n { lhead="" }
-#        ^^^^^ support.constant.attribute.edge
+    edge [ lhead="" ]
+//         ^^^^^ support.constant.attribute.edge
+}
+
 
 graph n { page="" }
-#         ^^^^ support.constant.attribute.graph
+//        ^^^^ support.constant.attribute.graph
 
-    graph cluster_n {
-#         ^^^^^^^^^ entity.name.graph
-#         ^^^^^^^^  meta.annotation variable.annotation.cluster
-#                 ^ - meta.annotation variable.annotation.cluster
-    t -> n;
-#     ^^        keyword.operator.relationship
+    strict graph cluster_n {
+//  ^^^^^^ keyword.declaration.strict
+//               ^^^^^^^^^ entity.name.graph
+//               ^^^^^^^^  meta.annotation variable.annotation.cluster
+//                       ^ - meta.annotation variable.annotation.cluster
 }
+
+    graph o { a -- b ; a -- c }
+//              ^^        keyword.operator.edge.graph
+
+    digraph o { a -> b ; a -> c }
+//                ^^        keyword.operator.edge.digraph
 
 // Loosely taken from http://www.graphviz.org/content/node-shapes#html
 digraph structs {
     node [shape=plaintext]
     struct1 [label=<
-#                 ^ keyword.operator.assignment
-#                  ^ punctuation.section.embedded.begin
-#                   ^ text.html.embedded
+//                ^ keyword.operator.assignment
+//                 ^ punctuation.section.embedded.begin
+//                  ^ text.html.embedded
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-#                                               ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
   <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
 </TABLE>>];
-#  ^^^^      text.html.embedded
-#  ^^^^^     text.html.embedded
-#      ^     punctuation.definition.tag.end.html - punctuation.section.embedded.end
-#       ^    punctuation.section.embedded.end - text.html.embedded
+// ^^^^      text.html.embedded
+// ^^^^^     text.html.embedded
+//     ^     punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//      ^    punctuation.section.embedded.end - text.html.embedded
     struct2 [label=<
-#                 ^    keyword.operator.assignment
-#                  ^   punctuation.section.embedded.begin
-#                   ^^ text.html.embedded
+//                ^    keyword.operator.assignment
+//                 ^   punctuation.section.embedded.begin
+//                  ^^ text.html.embedded
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-#                                               ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
   <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
 </TABLE> >];
-#  ^^^^^^     text.html.embedded
-# ^^^^^^ meta.tag
-#       ^ - meta.tag
-#      ^      punctuation.definition.tag.end.html - punctuation.section.embedded.end
-#        ^    punctuation.section.embedded.end - text.html.embedded
+// ^^^^^^     text.html.embedded
+//^^^^^^ meta.tag
+//      ^ - meta.tag
+//     ^      punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//       ^    punctuation.section.embedded.end - text.html.embedded
     struct1:f1 -> struct2:f0;
     struct2:f0 -> struct1:f2;
 }
 
 label = <<u>this is underscored</u><br/>this is not>
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.html
-#       ^ punctuation.section.embedded.begin
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.embedded
-#        ^^^ meta.tag
-#                              ^^^^^^^^^ meta.tag
-#                                                  ^ punctuation.section.embedded.end
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.html
+//      ^ punctuation.section.embedded.begin
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.embedded
+//       ^^^ meta.tag
+//                             ^^^^^^^^^ meta.tag
+//                                                 ^ punctuation.section.embedded.end
