@@ -22,6 +22,10 @@ contexts:
     - meta_prepend: true
     - include: embedded-ruby
 
+  inside-number-sign-comment:
+    - meta_prepend: true
+    - include: embedded-ruby
+
   inside-double-dash-comment:
     - meta_append: true
     - include: embedded-ruby
