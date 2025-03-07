@@ -745,15 +745,15 @@
     struct A; enum B; union C;
 //  ^^^^^^^^ meta.struct.c 
 //  ^^^^^^ keyword.declaration.struct.c 
-//         ^ entity.name.enum.forward-decl.c 
+//         ^ entity.name.struct.forward-declare.c 
 //          ^ punctuation.terminator.c 
 //            ^^^^^^ meta.enum.c 
 //            ^^^^ keyword.declaration.enum.c 
-//                 ^ entity.name.enum.forward-decl.c 
+//                 ^ entity.name.enum.forward-declare.c 
 //                  ^ punctuation.terminator.c 
 //                    ^^^^^^^ meta.union.c 
 //                    ^^^^^ keyword.declaration.union.c 
-//                          ^ entity.name.enum.forward-decl.c 
+//                          ^ entity.name.union.forward-declare.c 
 //                           ^ punctuation.terminator.c 
 
     enum B

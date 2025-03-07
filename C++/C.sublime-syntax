@@ -247,7 +247,7 @@ contexts:
     - match: ({{identifier}})\s*(\()
       captures:
         1: entity.name.function.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c
       push:
         - function-tail
         - function-params
@@ -255,7 +255,7 @@ contexts:
   function-params:
     - meta_content_scope: meta.function.parameters.c meta.group.c
     - match: \)
-      scope: punctuation.section.group.end.c
+      scope: meta.group.c punctuation.section.group.end.c
       pop: 1
     - match: \}|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c
@@ -359,20 +359,26 @@ contexts:
     - include: expression
   type.enum:
     - meta_scope: meta.enum.c
-    - include: call
-    - match: ({{identifier}})\s*(?=;)
-      captures:
-        1: entity.name.enum.forward-decl.c
+    - match: ''
+      push:
+        - pop-twice
+        - type.enum-body
+        - type.enum-body-start
+        - likely-macro
+        - type.enum-name
+        - likely-macro
+  type.enum-name:
+    - match: '{{identifier}}\s*(?=;)'
+      scope: entity.name.enum.forward-declare.c
+      pop: 4
+    - match: '{{identifier}}'
+      scope: entity.name.enum.c
       pop: 1
-    - match: (?:{{identifier}}\s*)*?({{identifier}})?\s*(?:{{likely_macro}}\s*)*(?=\{|$)
-      captures:
-        1: entity.name.enum.c
-      set:
-        - match: \{
-          scope: meta.enum.c punctuation.section.block.begin.c
-          set: type.enum-body
-        - match: (?=\S)
-          fail: enum
+    - include: else-pop
+  type.enum-body-start:
+    - match: \{
+      scope: meta.block.c punctuation.section.block.begin.c
+      pop: 1
     - match: (?=\S)
       fail: enum
   type.enum-body:
@@ -387,40 +393,54 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.c
       pop: 1
+
   type.struct:
     - meta_scope: meta.struct.c
-    - include: call
-    - match: ({{identifier}})\s*(?=;)
-      captures:
-        1: entity.name.enum.forward-decl.c
+    - match: ''
+      push:
+        - pop-twice
+        - enclosure.block
+        - type.struct-body
+        - likely-macro
+        - type.struct-name
+        - likely-macro
+  type.struct-name:
+    - match: '{{identifier}}\s*(?=;)'
+      scope: entity.name.struct.forward-declare.c
+      pop: 4
+    - match: '{{identifier}}'
+      scope: entity.name.struct.c
       pop: 1
-    - match: (?:{{identifier}}\s*)*?({{identifier}})?\s*(?:{{likely_macro}}\s*)*(?=\{|$)
-      captures:
-        1: entity.name.struct.c
-      set:
-        - match: \{
-          scope: meta.struct.c meta.block.c punctuation.section.block.begin.c
-          set: enclosure.block
-        - match: (?=\S)
-          fail: struct
+    - include: else-pop
+  type.struct-body:
+    - match: \{
+      scope: meta.block.c punctuation.section.block.begin.c
+      pop: 1
     - match: (?=\S)
       fail: struct
+
   type.union:
     - meta_scope: meta.union.c
-    - include: call
-    - match: ({{identifier}})\s*(?=;)
-      captures:
-        1: entity.name.enum.forward-decl.c
+    - match: ''
+      push:
+        - pop-twice
+        - enclosure.block
+        - type.union-body
+        - likely-macro
+        - type.union-name
+        - likely-macro
+  type.union-name:
+    - match: '{{identifier}}\s*(?=;)'
+      scope: entity.name.union.forward-declare.c
+      pop: 4
+    - match: '{{identifier}}'
+      scope: entity.name.union.c
       pop: 1
-    - match: (?:{{identifier}}\s*)*?({{identifier}})?\s*(?:{{likely_macro}}\s*)*(?=\{|$)
-      captures:
-        1: entity.name.union.c
-      set:
-        - match: \{
-          scope: meta.union.c meta.block.c punctuation.section.block.begin.c
-          set: enclosure.block
-        - match: (?=\S)
-          fail: union
+    - include: else-pop
+  type.union-body:
+    - match: \{
+      scope: meta.block.c punctuation.section.block.begin.c
+      pop: 1
     - match: (?=\S)
       fail: union
 
@@ -518,6 +538,16 @@ contexts:
   access-not-fn:
     - match: \(
       fail: access
+    - include: else-pop
+
+  likely-macro:
+    - match: '({{likely_macro}})\s*(\()'
+      captures:
+        1: variable.function.assumed-macro.c
+        2: meta.group.c++ punctuation.section.group.begin.c
+      push: call-body
+    - match: '{{likely_macro}}'
+      scope: meta.assumed-macro.c
     - include: else-pop
 
 ###[ BASIC OBJECTS ]############################################################
@@ -646,7 +676,7 @@ contexts:
             ( (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                \d+ {{dec_exponent}}?
+                \d[\d']* {{dec_exponent}}?
                 # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
                 | {{dec_exponent}}
                 # 1., 1.f, 1.L # but not `..`
@@ -659,7 +689,7 @@ contexts:
             | ({{float_suffix}})
           ) ({{dec_suffix}})?
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | ( (\.) \d+ {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
+          | ( (\.) \d[\d']* {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
         )
       scope: meta.number.float.decimal.c
       captures:
@@ -861,8 +891,8 @@ variables:
   double_suffix: '[fFlL]'
   float_suffix: '[fF]'
   integer_suffix: '(?:(?:ll|LL)(?!\s*[lL])|(?i)(?:u(?!\w*u)|l(?!\w*l)|i(?!\w*[ij])|j(?!\w*[ij])))+\b'
-  dec_exponent: '(?:[eE][-+]?\d*)'
-  hex_exponent: '(?:[pP][-+]?\d*)'
+  dec_exponent: (?:[eE][-+]?[\d']*)
+  hex_exponent: (?:[pP][-+]?[\d']*)
 
   declspec_item: '(?:allocator|appdomain|deprecated|dllimport|dllexport|empty_bases|hybrid_patchable|jitintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|no_sanitize_address|process|restrict|safebuffers|selectany|thread)'
   declspec_func: '(?:align|allocate|code_seg|spectre|uuid|deprecated)'

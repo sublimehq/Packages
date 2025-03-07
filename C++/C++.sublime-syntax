@@ -260,8 +260,10 @@ contexts:
     - meta_scope: meta.using.c++
     - meta_content_scope: entity.name.namespace.c++
     - match: (?={{qualified}})
-      push: qualified-ident
-    - include: else-pop
+      push:
+        - pop-twice
+        - qualified-ident
+    - include: eol-pop
 
   type.template:
     - meta_scope: meta.template.c++
@@ -531,16 +533,6 @@ contexts:
     - meta_prepend: true
     - match: \<
       fail: access
-
-  likely-macro:
-    - match: '({{likely_macro}})\s*(\()'
-      captures:
-        1: variable.function.assumed-macro.c++
-        2: meta.group.c++ punctuation.section.group.begin.c++
-      push: call-body
-    - match: '{{likely_macro}}'
-      scope: meta.assumed-macro.c++
-    - include: else-pop
 
   keyword:
     - meta_append: true

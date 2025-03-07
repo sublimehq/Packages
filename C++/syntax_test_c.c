@@ -1,4 +1,5 @@
 // SYNTAX TEST "Packages/C++/C.sublime-syntax" 
+// <- source.c
 
     // Comment
 //  ^^^^^^^^^^ comment.line.double-slash.c 
@@ -69,20 +70,20 @@
 //                                    ^^^^ meta.number.float.decimal.c 
 //                                    ^^^ constant.numeric.value.c 
 //                                       ^ constant.numeric.suffix.c 
-    3.14f 314.l 3.14L
-//  ^^^^^ meta.number.float.decimal.c 
-//  ^^^^ constant.numeric.value.c 
-//   ^ punctuation.separator.decimal.c 
-//      ^ constant.numeric.suffix.c 
-//        ^^^^^ meta.number.float.decimal.c 
-//        ^^^^ constant.numeric.value.c 
-//           ^ punctuation.separator.decimal.c 
-//            ^ constant.numeric.suffix.c 
-//              ^^^^^ meta.number.float.decimal.c 
-//              ^^^^ constant.numeric.value.c 
-//               ^ punctuation.separator.decimal.c 
-//                  ^ constant.numeric.suffix.c 
-    314e15 3.14e-15
+    3.14f 314.l 3.1'4L
+//  ^^^^^ meta.number.float.decimal.c
+//  ^^^^ constant.numeric.value.c
+//   ^ punctuation.separator.decimal.c
+//      ^ constant.numeric.suffix.c
+//        ^^^^^ meta.number.float.decimal.c
+//        ^^^^ constant.numeric.value.c
+//           ^ punctuation.separator.decimal.c
+//            ^ constant.numeric.suffix.c
+//              ^^^^^^ meta.number.float.decimal.c
+//              ^^^^^ constant.numeric.value.c
+//               ^ punctuation.separator.decimal.c
+//                   ^ constant.numeric.suffix.c
+    314e15 3.14e-1'5
 //  ^^^^^^ meta.number.float.decimal.c constant.numeric.value.c 
 //         ^^^^^^^^ meta.number.float.decimal.c constant.numeric.value.c 
 //          ^ punctuation.separator.decimal.c 
@@ -746,15 +747,15 @@
     struct A; enum B; union C;
 //  ^^^^^^^^ meta.struct.c 
 //  ^^^^^^ keyword.declaration.struct.c 
-//         ^ entity.name.enum.forward-decl.c 
+//         ^ entity.name.struct.forward-declare.c 
 //          ^ punctuation.terminator.c 
 //            ^^^^^^ meta.enum.c 
 //            ^^^^ keyword.declaration.enum.c 
-//                 ^ entity.name.enum.forward-decl.c 
+//                 ^ entity.name.enum.forward-declare.c 
 //                  ^ punctuation.terminator.c 
 //                    ^^^^^^^ meta.union.c 
 //                    ^^^^^ keyword.declaration.union.c 
-//                          ^ entity.name.enum.forward-decl.c 
+//                          ^ entity.name.union.forward-declare.c 
 //                           ^ punctuation.terminator.c 
 
     enum B
@@ -851,11 +852,11 @@
 //^^^^^^^ meta.block.c 
 //      ^ punctuation.section.block.end 
 //          ^ punctuation.terminator.c 
-        void* ptr;
-//^^^^^^^^^^^^^^^^ meta.block.c
-//      ^^^^ storage.type.c
-//          ^ keyword.operator.c
-//               ^ punctuation.terminator.c
+        struct C* ptr;
+//^^^^^^^^^^^^^^^^^^^^ meta.block.c
+//      ^^^^^^ keyword.declaration.struct.c
+//              ^ keyword.operator.c
+//                   ^ punctuation.terminator.c
         int a, *ptr2;
 //^^^^^^^^^^^^^^^^^^^ meta.block.c
 //      ^^^ storage.type.c
