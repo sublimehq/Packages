@@ -193,7 +193,8 @@ contexts:
       scope: keyword.declaration.module.c++
       push: module-name
     - match: \b(import)\s*(?=<)
-      scope: keyword.other.import.c++
+      captures:
+        1: keyword.other.import.c++
       push: string.angled
     - match: \bimport\b
       scope: keyword.other.import.c++
@@ -201,6 +202,8 @@ contexts:
   module-name:
     - meta_content_scope: entity.name.module.c++
     - match: '{{identifier}}'
+    - match: \.(?=\W)
+      scope: invalid.illegal.unexpected-character.c++
     - match: \.
       scope: punctuation.accessor.dot.c++
     - match: ':'
@@ -221,7 +224,7 @@ contexts:
     - match: \busing\b
       scope: keyword.declaration.c++
       push: type.using
-    - match: \b(?:class|struct)\b
+    - match: \b(?:struct|class)\b
       scope: keyword.declaration.c++
       push: class
     - match: \btemplate\b
@@ -333,7 +336,10 @@ contexts:
   enclosure.brackets:
     - meta_prepend: true
     - match: (\])\s*(<)
-      fail: lambda
+      captures:
+        1: punctuation.section.brackets.end.c++
+        2: keyword.control.comparison.c++
+      set: lambda-try-not-template
     - match: (\])\s*(\()
       captures:
         1: punctuation.section.brackets.end.c++
@@ -347,6 +353,13 @@ contexts:
     - match: \}
       scope: meta.block.c++ punctuation.section.block.end.c++
       pop: 1
+    - match: '({{likely_macro}})\s*(\()'
+      captures:
+        1: variable.function.assumed-macro.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
+      push: call-body
+    - match: '{{likely_macro}}'
+      scope: meta.assumed-macro.c++
     - include: main
 
   lambda-enclosure: # for ObjC++
@@ -362,12 +375,21 @@ contexts:
     - match: \{
       fail: lambda
     - include: else-pop
+  lambda-try-not-template:
+    - match: (?=\)|\}|\]|\|\||;|\band\b|\bor\b)
+      pop: 1
+    - match: (?=\&\&\s*[^>,])
+      pop: 1
+    - match: '>'
+      fail: lambda
+    - include: expression
   lambda:
     - meta_scope: meta.lambda.c++
     - match: '[&=](?=\s*[,\]])'
       scope: storage.modifier.capture.c++
     - match: (?=\S)
-      set:
+      push:
+        - pop-twice
         - function-tail
         - function-params
         - lambda-template
@@ -488,7 +510,7 @@ contexts:
   try-template-body:
     - match: (?=\)|\}|\]|\|\||;|\band\b|\bor\b)
       fail: template
-    - match: (?=\&\&\s*[^>])
+    - match: (?=\&\&\s*[^>,])
       fail: template
     - match: '>'
       scope: punctuation.definition.generic.end.c++
@@ -511,12 +533,13 @@ contexts:
       fail: access
 
   likely-macro:
-    - match: '{{likely_macro}}'
-    - match: '({{identifier}})\s*(\()'
+    - match: '({{likely_macro}})\s*(\()'
       captures:
-        1: variable.function.c++
+        1: variable.function.assumed-macro.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
-      push: enclosure.parenthesis
+      push: call-body
+    - match: '{{likely_macro}}'
+      scope: meta.assumed-macro.c++
     - include: else-pop
 
   keyword:
@@ -616,7 +639,7 @@ contexts:
         2: variable.function.c++
       pop: 1
   string.raw:
-    - meta_scope: string.quoted.raw.c++
+    - meta_scope: string.quoted.double.raw.c++
     - match: (\)\3)(\")({{literal_operator}})?
       captures:
         1: constant.other.placeholder.c++
