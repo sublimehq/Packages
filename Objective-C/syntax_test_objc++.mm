@@ -1216,14 +1216,14 @@
 //    ^ punctuation.definition.string.end.c++
 //     ^^^^^^^^ variable.function.c++
     R"RAW(
-//  ^^^^^^ string.quoted.raw.c++
+//  ^^^^^^ string.quoted.double.raw.c++
 //  ^ storage.type.string.c++
 //   ^ punctuation.definition.string.begin.c++
 //    ^^^^ constant.other.placeholder.c++
     raw string )STR"
-//^^^^^^^^^^^^^^^^^^ string.quoted.raw.c++
+//^^^^^^^^^^^^^^^^^^ string.quoted.double.raw.c++
     )RAW"_literal
-//^^^^^^^^^^^^^^^ string.quoted.raw.c++
+//^^^^^^^^^^^^^^^ string.quoted.double.raw.c++
 //  ^^^^ constant.other.placeholder.c++
 //      ^ punctuation.definition.string.end.c++
 //       ^^^^^^^^ variable.function.c++

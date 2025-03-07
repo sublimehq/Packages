@@ -509,7 +509,7 @@ contexts:
       scope: punctuation.separator.c
       pop: 1
     - include: expression
-    - include: eof-pop
+    - include: eol-pop
 
   access:
     - match: '{{identifier}}'
