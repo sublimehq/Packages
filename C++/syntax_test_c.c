@@ -712,16 +712,17 @@
                 }
 //^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c meta.block.c meta.block.c 
 //              ^ punctuation.section.block.end 
-            } while (a > b);
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c 
-//^^^^^^^^^^^ meta.block.c 
-//          ^ punctuation.section.block.end 
-//            ^^^^^ keyword.control.c 
-//                  ^^^^^^^ meta.group.c 
-//                  ^ punctuation.section.group.begin 
-//                     ^ keyword.operator.comparison.c 
-//                        ^ punctuation.section.group.end 
-//                         ^ punctuation.terminator.c 
+            } while (a --> b);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c meta.block.c meta.block.c
+//^^^^^^^^^^^ meta.block.c
+//          ^ punctuation.section.block.end.c
+//            ^^^^^ keyword.control.c
+//                  ^^^^^^^^^ meta.group.c
+//                  ^ punctuation.section.group.begin.c
+//                     ^^ keyword.operator.arithmetic.c
+//                       ^ keyword.operator.comparison.c
+//                          ^ punctuation.section.group.end.c
+//                           ^ punctuation.terminator.c
         }
 //^^^^^^^ meta.function.c meta.block.c meta.block.c 
 //      ^ punctuation.section.block.end 
@@ -1106,6 +1107,8 @@
 /////////////////////////////////////////////
 // Preprocessor
 /////////////////////////////////////////////
+    ASSUME_MACRO
+//  ^^^^^^^^^^^^ meta.assumed-macro.c
 
     #include <stdlib.h>
 //^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.include.c 

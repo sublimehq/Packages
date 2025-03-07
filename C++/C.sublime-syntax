@@ -23,6 +23,9 @@ contexts:
   prototype:
     - include: comment
     - include: preprocessor
+    - match: ^\s*({{likely_macro}})\s*$
+      captures:
+        1: meta.assumed-macro.c
 
 ###[ PREPROCESSOR ]############################################################
 
@@ -54,6 +57,7 @@ contexts:
       scope: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
+        - include: preprocessor.line-escape
         - include: comment
         - include: eol-pop
 
@@ -104,24 +108,28 @@ contexts:
     - include: preprocessor.line-escape
     - include: eol-pop
   preprocessor.define:
+    - meta_scope: meta.preprocessor.macro.c
     - include: eol-pop
     - match: \s*({{identifier}})(\()
       captures:
         1: entity.name.macro.c support.macro.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c meta.preprocessor.macro.parameters.c
       set: preprocessor.define-params
     - match: '{{identifier}}'
       scope: entity.name.macro.c support.macro.c
       embed: preprocessor.define-body
       escape: (?<!\\)\n
   preprocessor.define-params:
+    - meta_content_scope: meta.group.c meta.preprocessor.macro.parameters.c
+    - include: preprocessor.line-escape
+    - include: comment
     - include: eol-pop
     - match: '{{identifier}}'
       scope: variable.parameter.c
     - include: punctuation.comma
     - include: operator.variadic
     - match: \)
-      scope: punctuation.section.group.end.c
+      scope: meta.group.c punctuation.section.group.end.c meta.preprocessor.macro.parameters.c
       embed: preprocessor.define-body
       escape: (?<!\\)\n
     - include: else-pop
@@ -204,12 +212,12 @@ contexts:
       captures:
         1: variable.function.c support.function.std.c
         2: meta.group.c punctuation.section.group.begin.c
-      push: enclosure.parenthesis
+      push: call-body
     - match: ({{identifier}})\s*(\()
       captures:
         1: variable.function.c
         2: meta.group.c punctuation.section.group.begin.c
-      push: enclosure.parenthesis
+      push: call-body
     - match: (?={{identifier}}\s*$)
       branch_point: not-call
       branch: [call-try-not, call-multi-line]
@@ -221,13 +229,17 @@ contexts:
       fail: not-call
     - include: else-pop
   call-multi-line:
+    - meta_content_scope: meta.function-call.c
     - match: '\b{{std_funcs}}\b'
       scope: support.function.std.c
     - match: '\b{{identifier}}\b'
       scope: variable.function.c
     - match: \(
       scope: meta.group.c punctuation.section.group.begin.c
-      set: enclosure.parenthesis
+      set: call-body
+  call-body:
+    - meta_scope: meta.function-call.c meta.group.c
+    - include: enclosure.parenthesis
 
   function:
     - include: expression-identifiers
@@ -562,6 +574,7 @@ contexts:
 
   operator:
     - include: operator.variadic
+    - include: operator.increment-decrement
     - include: operator.accessor
     - include: operator.assignment
     - include: operator.arithmetic
@@ -570,7 +583,6 @@ contexts:
     - include: operator.comparison
     - include: operator.word
     - include: operator.ternary
-    - include: operator.increment-decrement
   operator.assignment:
     - match: =
       scope: keyword.operator.assignment.c

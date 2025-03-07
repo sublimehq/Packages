@@ -1216,14 +1216,17 @@
 //    ^ punctuation.definition.string.end.c++
 //     ^^^^^^^^ variable.function.c++
     R"RAW(
-//  ^^^^^^ string.quoted.raw.c++
+//  ^^^^^^ string.quoted.double.raw.c++
+//  ^ storage.type.string.c++
+//   ^ punctuation.definition.string.begin.c++
+//    ^^^^ constant.other.placeholder.c++
 //  ^ storage.type.string.c++
 //   ^ punctuation.definition.string.begin.c++
 //    ^^^^ constant.other.placeholder.c++
     raw string )STR"
-//^^^^^^^^^^^^^^^^^^ string.quoted.raw.c++
+//^^^^^^^^^^^^^^^^^^ string.quoted.double.raw.c++
     )RAW"_literal
-//^^^^^^^^^^^^^^^ string.quoted.raw.c++
+//^^^^^^^^^^^^^^^ string.quoted.double.raw.c++
 //  ^^^^ constant.other.placeholder.c++
 //      ^ punctuation.definition.string.end.c++
 //       ^^^^^^^^ variable.function.c++
@@ -1756,7 +1759,7 @@
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.c
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.c
 //      ^ punctuation.section.group.begin.c
-//       ^^ meta.lambda.c++
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.lambda.c++
 //       ^ meta.brackets.square.c++ punctuation.section.brackets.begin.c++
 //        ^ storage.modifier.capture.c++
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.c
@@ -1779,7 +1782,6 @@
 //                                                 ^ variable.parameter.c++
 //                                                  ^ punctuation.section.group.end.c++
 //                                                    ^ meta.function.c meta.block.c punctuation.section.block.begin.c
-
         })(5, 10);
 //^^^^^^^^^^^^^^^^ meta.block.c
 //^^^^^^^^^^^^^^^ meta.group.c
