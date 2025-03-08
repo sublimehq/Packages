@@ -307,7 +307,7 @@ contexts:
 
   diff-file-header-path-start:
     # TODO: Quoted file names https://git-scm.com/docs/git-config#Documentation/git-config.txt-corequotePath
-    - match: (?:a|b|ours|theirs)(?=/)
+    - match: (?:a|b|c|i|w|ours|theirs)(?=/)
       scope: variable.parameter.source.diff
       push: diff-file-header-path
 

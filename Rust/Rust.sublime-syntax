@@ -564,7 +564,6 @@ contexts:
   types:
     # matches stray identifiers as a types because a type is expected
     - include: comments
-    - include: impl-types
     - include: return-type
     - match: '&'
       scope: keyword.operator.rust
@@ -590,6 +589,7 @@ contexts:
         - include: pattern-param
     - include: dyn-types
     - include: lifetime
+    - include: impl-trait
     - match: (?={{identifier}}::)
       push: type-path
     - match: (?=::)
@@ -640,6 +640,7 @@ contexts:
       scope: punctuation.accessor.rust
       set: [type-path-second, path-after-accessor]
     - include: type-names
+    - include: generic-identifier-names
     - include: else-pop
 
   type-path-second:
@@ -709,15 +710,6 @@ contexts:
   generic-type-names:
     - match: '\b(?:r#)?_*{{type_identifier}}'
       scope: storage.type.rust
-
-  impl-types:
-    - match: '\bimpl\b'
-      scope: storage.type.impl.rust
-      push:
-        - include: comments
-        - include: impl-generic
-        - match: '(?=\S)'
-          pop: true
 
   dyn-types:
     - match: '\bdyn\b(?=\s*(?:\(|{{lifetime}}|{{identifier}}))'
@@ -802,6 +794,40 @@ contexts:
       scope: punctuation.accessor.double-colon.rust
     - match: '[-+%/*]'
       scope: keyword.operator.arithmetic.rust
+
+  impl-trait:
+    - match: '\bimpl\b'
+      scope: storage.type.impl.rust
+      push: impl-trait-types
+
+  impl-trait-types:
+    - match: '\buse\b'
+      scope: keyword.other.rust
+      push: impl-trait-use
+    - include: types
+    - match: '(?=\S)'
+      pop: true
+
+  impl-trait-use:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.rust
+      set: impl-trait-use-generic-body
+    - match: '(?=\S)'
+      pop: true
+
+  impl-trait-use-generic-body:
+    - meta_scope: meta.generic.rust
+    - match: '>'
+      scope: punctuation.definition.generic.end.rust
+      pop: true
+    - include: lifetime
+    - match: ','
+      scope: punctuation.separator.rust
+    - match: '\bSelf\b'
+      scope: keyword.other.rust
+    - include: all-generic-type-names
+    - match: '(?=\S)'
+      pop: true
 
   ##[ STRUCTS ]###############################################################
 

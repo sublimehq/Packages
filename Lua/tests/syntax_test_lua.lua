@@ -752,6 +752,15 @@
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
 
+    a, b = c, d
+--  ^ variable.other
+--   ^ punctuation.separator.comma
+--     ^ variable.other
+--       ^ keyword.operator.assignment
+--         ^ variable.other
+--          ^ punctuation.separator.comma
+--            ^ variable.other
+
     local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua
 --        ^ variable.other.lua
