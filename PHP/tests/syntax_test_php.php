@@ -6108,28 +6108,28 @@ h1 {
 </style>
 
 <p style="color: <?php echo "red" ?>">text</p>
-//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
-//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - meta.embedded.php
-//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html meta.embedded.php
-//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
+//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - source
+//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html - meta.embedded.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html meta.embedded.php
+//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - source
 //                                   ^ text.html.php meta.tag.block.any.html punctuation.definition.tag.end.html
 
 <p style='color: <?php echo 'red' ?>'>text</p>
-//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
-//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - meta.embedded.php
-//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html meta.embedded.php
-//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
+//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - source
+//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html - meta.embedded.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html meta.embedded.php
+//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - source
 //                                   ^ text.html.php meta.tag.block.any.html punctuation.definition.tag.end.html
 
 <p onclick="foo(<?php echo "red" ?>)">text</p>
-//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
-//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call
-//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
+//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - source
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html meta.function-call
+//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - source
 
 <p onclick='foo(<?php echo 'red' ?>)'>text</p>
-//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
-//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call
-//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
+//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - source
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html meta.function-call
+//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - source
 
 <![CDATA[Text with <? $php ?> interpolation.]]>
 //       ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
