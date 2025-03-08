@@ -61,15 +61,14 @@ graph test_1 {
 //      ^ meta.string string.quoted.double punctuation.definition.string.end
 
     node [ color="" ]
-//         ^^^^^ support.constant.attribute.node
+//         ^^^^^ support.constant.attribute
 
     edge [ lhead="" ]
-//         ^^^^^ support.constant.attribute.edge
+//         ^^^^^ support.constant.attribute
 }
 
-
 graph test_2 { page="" }
-//             ^^^^ support.constant.attribute.graph
+//             ^^^^ support.constant.attribute
 
     strict graph cluster_test_3 {
 //  ^^^^^^ keyword.declaration.strict

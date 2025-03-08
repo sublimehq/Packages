@@ -210,24 +210,21 @@ contexts:
     - match: \b(?:true)\b
       scope: constant.language.boolean.true.dot
 
-    - match: \b(?:{{svg_colors}})\b
-      scope: constant.language.color.svg.dot
-    - match: \b(?:{{x11_colors}})\b
-      scope: constant.language.color.x11.dot
+    - match: \b(?:{{svg_colors}}|{{x11_colors}})\b
+      scope: constant.language.color.dot
 
-    - match: \b(?:{{graph_attributes}})\b
-      scope: support.constant.attribute.graph.dot
-    - match: \b(?:{{cluster_attributes}})\b
-      scope: support.constant.attribute.cluster.dot
-    - match: \b(?:{{node_attributes}})\b
-      scope: support.constant.attribute.node.dot
-    - match: \b(?:{{edge_attributes}})\b
-      scope: support.constant.attribute.edge.dot
-
-    - match: \b(?:{{arrow_shape_attributes}})\b
-      scope: support.constant.attribute.shape.arrow.dot
-    - match: \b(?:{{polygon_shape_attributes}})\b
-      scope: support.constant.attribute.shape.polygon.dot
+    - match: |-
+        (?x:
+          \b(?:
+            {{graph_attributes}}
+          | {{cluster_attributes}}
+          | {{node_attributes}}
+          | {{edge_attributes}}
+          | {{arrow_shape_attributes}}
+          | {{polygon_shape_attributes}}
+          )\b
+        )
+      scope: support.constant.attribute.dot
 
 ###[ LITERALS / STRINGS ]######################################################
 
