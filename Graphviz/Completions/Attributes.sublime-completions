@@ -6,14 +6,14 @@
             "contents": "Damping=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Factor damping force motions. (neato only)"
         },
         {
             "trigger": "K",
             "contents": "K=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Spring constant used in virtual physical model. (fdp, sfdp only)"
         },
         {
             "trigger": "URL",
@@ -27,644 +27,644 @@
             "contents": "_background=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "A string in the xdot format specifying an arbitrary background."
         },
         {
             "trigger": "area",
             "contents": "area=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Indicates the preferred area for a node or empty cluster. (patchwork only)"
         },
         {
             "trigger": "arrowhead",
             "contents": "arrowhead=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Style of arrowhead on the head node of an edge."
         },
         {
             "trigger": "arrowsize",
             "contents": "arrowsize=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Multiplicative scale factor for arrowheads."
         },
         {
             "trigger": "arrowtail",
             "contents": "arrowtail=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Style of arrowhead on the tail node of an edge."
         },
         {
             "trigger": "bb",
             "contents": "bb=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Bounding box of drawing in points. (write only)"
         },
         {
             "trigger": "bgcolor",
             "contents": "bgcolor=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Canvas background color. "
         },
         {
             "trigger": "center",
             "contents": "center=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to center the drawing in the output canvas."
         },
         {
             "trigger": "charset",
             "contents": "charset=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Character encoding used when interpreting string input as a text label."
         },
         {
             "trigger": "clusterrank",
             "contents": "clusterrank=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Mode used for handling clusters. (dot only)"
         },
         {
             "trigger": "color",
             "contents": "color=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Basic drawing color for graphics, not text. "
         },
         {
             "trigger": "colorscheme",
             "contents": "colorscheme=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "A color scheme namespace: the context for interpreting color names."
         },
         {
             "trigger": "comment",
             "contents": "comment=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Comments are inserted into output."
         },
         {
             "trigger": "compound",
             "contents": "compound=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, allow edges between clusters. (dot only)"
         },
         {
             "trigger": "concentrate",
             "contents": "concentrate=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, use edge concentrators."
         },
         {
             "trigger": "constraint",
             "contents": "constraint=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If false, the edge is not used in ranking the nodes. (dot only)"
         },
         {
             "trigger": "decorate",
             "contents": "decorate=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to connect the edge label to the edge with a line."
         },
         {
             "trigger": "defaultdist",
             "contents": "defaultdist=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The distance between nodes in separate connected components. (neato only)"
         },
         {
             "trigger": "dim",
             "contents": "dim=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Set the number of dimensions used for the layout. (neato, fdp, sfdp only)"
         },
         {
             "trigger": "dimen",
             "contents": "dimen=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Set the number of dimensions used for rendering. (neato, fdp, sfdp only)"
         },
         {
             "trigger": "dir",
             "contents": "dir=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Edge type for drawing arrowheads."
         },
         {
             "trigger": "diredgeconstraints",
             "contents": "diredgeconstraints=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to constrain most edges to point downwards. (neato only)"
         },
         {
             "trigger": "distortion",
             "contents": "distortion=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Distortion factor for shape=polygon."
         },
         {
             "trigger": "dpi",
             "contents": "dpi=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies the expected number of pixels per inch on a display device. (bitmap output, svg only)"
         },
         {
             "trigger": "edgeURL",
             "contents": "edgeURL=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The link for the non-label parts of an edge. map, svg only."
         },
         {
             "trigger": "edgehref",
             "contents": "edgehref=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Synonym for edgeURL. (map, svg only)"
         },
         {
             "trigger": "edgetarget",
             "contents": "edgetarget=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Browser window to use for the edgeURL link. (map, svg only)"
         },
         {
             "trigger": "edgetooltip",
             "contents": "edgetooltip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Tooltip annotation attached to the non-label part of an edge. (cmap, svg only)"
         },
         {
             "trigger": "epsilon",
             "contents": "epsilon=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Terminating condition. neato only."
         },
         {
             "trigger": "esep",
             "contents": "esep=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Margin used around polygons for purposes of spline edge routing. (neato, fdp, sfdp, osage, circo, twopi only)"
         },
         {
             "trigger": "fillcolor",
             "contents": "fillcolor=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Color used to fill the background of a node or cluster."
         },
         {
             "trigger": "fixedsize",
             "contents": "fixedsize=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to use the specified width and height attributes to choose node size (rather than sizing to fit the node contents). "
         },
         {
             "trigger": "fontcolor",
             "contents": "fontcolor=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Color used for text. "
         },
         {
             "trigger": "fontname",
             "contents": "fontname=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Font used for text."
         },
         {
             "trigger": "fontnames",
             "contents": "fontnames=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Allows user control of how basic fontnames are represented in SVG output. (svg only)"
         },
         {
             "trigger": "fontpath",
             "contents": "fontpath=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Directory list used by libgd to search for bitmap fonts."
         },
         {
             "trigger": "fontsize",
             "contents": "fontsize=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Font size, in points, used for text."
         },
         {
             "trigger": "forcelabels",
             "contents": "forcelabels=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to force placement of all xlabels, even if overlapping. "
         },
         {
             "trigger": "gradientangle",
             "contents": "gradientangle=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If a gradient fill is being used, this determines the angle of the fill. "
         },
         {
             "trigger": "group",
             "contents": "group=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Name for a group of nodes, for bundling edges avoiding crossings. (dot only)"
         },
         {
             "trigger": "headURL",
             "contents": "headURL=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If defined, headURL is output as part of the head label of the edge. (map, svg only)"
         },
         {
             "trigger": "head_lp",
             "contents": "head_lp=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Center position of an edge's head label. write only."
         },
         {
             "trigger": "headclip",
             "contents": "headclip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, the head of an edge is clipped to the boundary of the head node. "
         },
         {
             "trigger": "headhref",
             "contents": "headhref=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Synonym for headURL. (map, svg only)"
         },
         {
             "trigger": "headlabel",
             "contents": "headlabel=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Text label to be placed near head of edge."
         },
         {
             "trigger": "headport",
             "contents": "headport=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Indicates where on the head node to attach the head of the edge."
         },
         {
             "trigger": "headtarget",
             "contents": "headtarget=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Browser window to use for the headURL link. (map, svg only)"
         },
         {
             "trigger": "headtooltip",
             "contents": "headtooltip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Tooltip annotation attached to the head of an edge. (cmap, svg only)"
         },
         {
             "trigger": "height",
             "contents": "height=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Height of node, in inches."
         },
         {
             "trigger": "href",
             "contents": "href=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Synonym for URL. (map, postscript, svg only)"
         },
         {
             "trigger": "id",
             "contents": "id=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Identifier for graph objects. (map, postscript, svg only)"
         },
         {
             "trigger": "image",
             "contents": "image=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Gives the name of a file containing an image to be displayed inside a node."
         },
         {
             "trigger": "imagepath",
             "contents": "imagepath=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "A list of directories in which to look for image files."
         },
         {
             "trigger": "imagepos",
             "contents": "imagepos=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Controls how an image is positioned within its containing node. "
         },
         {
             "trigger": "imagescale",
             "contents": "imagescale=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Controls how an image fills its containing node."
         },
         {
             "trigger": "inputscale",
             "contents": "inputscale=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Scales the input positions to convert between length units. (neato, fdp only)"
         },
         {
             "trigger": "label",
             "contents": "label=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Text label attached to objects. "
         },
         {
             "trigger": "labelURL",
             "contents": "labelURL=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If defined, labelURL is the link used for the label of an edge. (map, svg only)"
         },
         {
             "trigger": "label_scheme",
             "contents": "label_scheme=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to treat a node whose name has the form |edgelabel|* as a special node representing an edge label. (sfdp only)"
         },
         {
             "trigger": "labelangle",
             "contents": "labelangle=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The angle (in degrees) in polar coordinates of the head & tail edge labels."
         },
         {
             "trigger": "labeldistance",
             "contents": "labeldistance=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Scaling factor for the distance of headlabel / taillabel from the head / tail nodes."
         },
         {
             "trigger": "labelfloat",
             "contents": "labelfloat=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, allows edge labels to be less constrained in position."
         },
         {
             "trigger": "labelfontcolor",
             "contents": "labelfontcolor=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Color used for headlabel and taillabel."
         },
         {
             "trigger": "labelfontname",
             "contents": "labelfontname=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Font for headlabel and taillabel."
         },
         {
             "trigger": "labelfontsize",
             "contents": "labelfontsize=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Font size of headlabel and taillabel."
         },
         {
             "trigger": "labelhref",
             "contents": "labelhref=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Synonym for labelURL. (map, svg only)"
         },
         {
             "trigger": "labeljust",
             "contents": "labeljust=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Justification for graph & cluster labels."
         },
         {
             "trigger": "labelloc",
             "contents": "labelloc=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Vertical placement of labels for nodes, root graphs and clusters. "
         },
         {
             "trigger": "labeltarget",
             "contents": "labeltarget=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Browser window to open labelURL links in. (map, svg only)"
         },
         {
             "trigger": "labeltooltip",
             "contents": "labeltooltip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Tooltip annotation attached to label of an edge. (cmap, svg only)"
         },
         {
             "trigger": "landscape",
             "contents": "landscape=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, the graph is rendered in landscape mode."
         },
         {
             "trigger": "layer",
             "contents": "layer=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies layers in which the node, edge or cluster is present."
         },
         {
             "trigger": "layerlistsep",
             "contents": "layerlistsep=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The separator characters used to split attributes of type layerRange into a list of ranges."
         },
         {
             "trigger": "layers",
             "contents": "layers=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "A linearly ordered list of layer names attached to the graph."
         },
         {
             "trigger": "layerselect",
             "contents": "layerselect=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Selects a list of layers to be emitted."
         },
         {
             "trigger": "layersep",
             "contents": "layersep=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The separator characters for splitting the layers attribute into a list of layer names."
         },
         {
             "trigger": "layout",
             "contents": "layout=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Which layout engine to use."
         },
         {
             "trigger": "len",
             "contents": "len=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Preferred edge length, in inches. (neato, fdp only)"
         },
         {
             "trigger": "levels",
             "contents": "levels=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Number of levels allowed in the multilevel scheme. (sfdp only)"
         },
         {
             "trigger": "levelsgap",
             "contents": "levelsgap=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "strictness of neato level constraints. (neato only)"
         },
         {
             "trigger": "lhead",
             "contents": "lhead=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Logical head of an edge. (dot only)"
         },
         {
             "trigger": "lheight",
             "contents": "lheight=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Height of graph or cluster label, in inches. (write only)"
         },
         {
             "trigger": "lp",
             "contents": "lp=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Label center position. (write only)"
         },
         {
             "trigger": "ltail",
             "contents": "ltail=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Logical tail of an edge. (dot only)"
         },
         {
             "trigger": "lwidth",
             "contents": "lwidth=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Width of graph or cluster label, in inches. (write only)"
         },
         {
             "trigger": "margin",
             "contents": "margin=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "For graphs, this sets x and y margins of canvas, in inches."
         },
         {
             "trigger": "maxiter",
             "contents": "maxiter=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets the number of iterations used. (neato, fdp only)"
         },
         {
             "trigger": "mclimit",
             "contents": "mclimit=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Scale factor for mincross (mc) edge crossing minimiser parameters. (dot only)"
         },
         {
             "trigger": "mindist",
             "contents": "mindist=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies the minimum separation between all nodes. (circo only)"
         },
         {
             "trigger": "minlen",
             "contents": "minlen=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Minimum edge length (rank difference between head and tail). (dot only)"
         },
         {
             "trigger": "mode",
             "contents": "mode=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Technique for optimizing the layout. (neato only)"
         },
         {
             "trigger": "model",
             "contents": "model=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies how the distance matrix is computed for the input graph. (neato only)"
         },
         {
             "trigger": "mosek",
@@ -678,63 +678,63 @@
             "contents": "newrank=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to use a single global ranking, ignoring clusters. (dot only)"
         },
         {
             "trigger": "nodesep",
             "contents": "nodesep=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "In dot, nodesep specifies the minimum space between two adjacent nodes in the same rank, in inches."
         },
         {
             "trigger": "nojustify",
             "contents": "nojustify=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to justify multiline text vs the previous text line (rather than the side of the container)."
         },
         {
             "trigger": "normalize",
             "contents": "normalize=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "normalizes coordinates of final layout. (neato, fdp, sfdp, twopi, circo only)"
         },
         {
             "trigger": "notranslate",
             "contents": "notranslate=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether to avoid translating layout to the origin point. (neato only)"
         },
         {
             "trigger": "nslimit",
             "contents": "nslimit=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets number of iterations in network simplex applications. (dot only)"
         },
         {
             "trigger": "nslimit1",
             "contents": "nslimit1=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets number of iterations in network simplex applications. (dot only)"
         },
         {
             "trigger": "ordering",
             "contents": "ordering=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Constrains the left-to-right ordering of node edges. (dot only)"
         },
         {
             "trigger": "orientation",
             "contents": "orientation=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "node shape rotation angle, or graph orientation."
         },
         {
             "trigger": "orientation",
@@ -748,462 +748,462 @@
             "contents": "outputorder=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specify order in which nodes and edges are drawn."
         },
         {
             "trigger": "overlap",
             "contents": "overlap=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Determines if and how node overlaps should be removed. (fdp, neato, sfdp, circo, twopi only)"
         },
         {
             "trigger": "overlap_scaling",
             "contents": "overlap_scaling=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Scale layout by factor, to reduce node overlap. (prism, neato, sfdp, fdp, circo, twopi only)"
         },
         {
             "trigger": "overlap_shrink",
             "contents": "overlap_shrink=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether the overlap removal algorithm should perform a compression pass to reduce the size of the layout. (prism only)"
         },
         {
             "trigger": "pack",
             "contents": "pack=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether each connected component of the graph should be laid out separately, and then the graphs packed together."
         },
         {
             "trigger": "packmode",
             "contents": "packmode=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "How connected components should be packed."
         },
         {
             "trigger": "pad",
             "contents": "pad=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Inches to extend the drawing area around the minimal area needed to draw the graph."
         },
         {
             "trigger": "page",
             "contents": "page=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Width and height of output pages, in inches."
         },
         {
             "trigger": "pagedir",
             "contents": "pagedir=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The order in which pages are emitted."
         },
         {
             "trigger": "pencolor",
             "contents": "pencolor=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Color used to draw the bounding box around a cluster."
         },
         {
             "trigger": "penwidth",
             "contents": "penwidth=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies the width of the pen, in points, used to draw lines and curves."
         },
         {
             "trigger": "peripheries",
             "contents": "peripheries=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Set number of peripheries used in polygonal shapes and cluster boundaries."
         },
         {
             "trigger": "pin",
             "contents": "pin=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Keeps the node at the node's given input position. (neato, fdp only)"
         },
         {
             "trigger": "pos",
             "contents": "pos=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Position of node, or spline control points. (neato, fdp only)"
         },
         {
             "trigger": "quadtree",
             "contents": "quadtree=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Quadtree scheme to use. (sfdp only)"
         },
         {
             "trigger": "quantum",
             "contents": "quantum=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If quantum > 0.0, node label dimensions will be rounded to integral multiples of the quantum."
         },
         {
             "trigger": "rank",
             "contents": "rank=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Rank constraints on the nodes in a subgraph. (dot only)"
         },
         {
             "trigger": "rankdir",
             "contents": "rankdir=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets direction of graph layout. (dot only)"
         },
         {
             "trigger": "ranksep",
             "contents": "ranksep=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies separation between ranks. (dot, twopi only)"
         },
         {
             "trigger": "ratio",
             "contents": "ratio=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets the aspect ratio (drawing height/drawing width) for the drawing."
         },
         {
             "trigger": "rects",
             "contents": "rects=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Rectangles for fields of records, in points. (write only)"
         },
         {
             "trigger": "regular",
             "contents": "regular=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, force polygon to be regular."
         },
         {
             "trigger": "remincross",
             "contents": "remincross=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If there are multiple clusters, whether to run edge crossing minimization a second time. (dot only)"
         },
         {
             "trigger": "repulsiveforce",
             "contents": "repulsiveforce=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "The power of the repulsive force used in an extended Fruchterman-Reingold. (sfdp only)"
         },
         {
             "trigger": "resolution",
             "contents": "resolution=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Synonym for dpi. (bitmap output, svg only)"
         },
         {
             "trigger": "root",
             "contents": "root=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies nodes to be used as the center of the layout. (twopi, circo only)"
         },
         {
             "trigger": "rotate",
             "contents": "rotate=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If rotate=90, sets drawing orientation to landscape."
         },
         {
             "trigger": "rotation",
             "contents": "rotation=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Rotates the final layout counter-clockwise by the specified number of degrees. (sfdp only)"
         },
         {
             "trigger": "samehead",
             "contents": "samehead=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Edges with the same head and the same samehead value are aimed at the same point on the head. (dot only)"
         },
         {
             "trigger": "sametail",
             "contents": "sametail=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Edges with the same tail and the same sametail value are aimed at the same point on the tail.. (dot only)"
         },
         {
             "trigger": "samplepoints",
             "contents": "samplepoints=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Gives the number of points used for a circle / ellipse node."
         },
         {
             "trigger": "scale",
             "contents": "scale=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Scales layout by the given factor after the initial layout. (neato, twopi only)"
         },
         {
             "trigger": "searchsize",
             "contents": "searchsize=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "During network simplex, the maximum number of edges with negative cut values to search when looking for an edge with minimum cut value. (dot only)"
         },
         {
             "trigger": "sep",
             "contents": "sep=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Margin to leave around nodes when removing node overlap. (fdp, neato, sfdp, osage, circo, twopi only)"
         },
         {
             "trigger": "shape",
             "contents": "shape=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets the shape of a node."
         },
         {
             "trigger": "shapefile",
             "contents": "shapefile=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "A file containing user-supplied node content."
         },
         {
             "trigger": "showboxes",
             "contents": "showboxes=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Print guide boxes for debugging. (dot only)"
         },
         {
             "trigger": "sides",
             "contents": "sides=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Number of sides when shape=polygon."
         },
         {
             "trigger": "size",
             "contents": "size=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Maximum width and height of drawing, in inches."
         },
         {
             "trigger": "skew",
             "contents": "skew=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Skew factor for shape=polygon."
         },
         {
             "trigger": "smoothing",
             "contents": "smoothing=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Specifies a post-processing step used to smooth out an uneven distribution of nodes. (sfdp only)"
         },
         {
             "trigger": "sortv",
             "contents": "sortv=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sort order of graph components for ordering packmode packing."
         },
         {
             "trigger": "splines",
             "contents": "splines=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Controls how, and if, edges are represented."
         },
         {
             "trigger": "start",
             "contents": "start=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Parameter used to determine the initial layout of nodes. (neato, fdp, sfdp only)"
         },
         {
             "trigger": "style",
             "contents": "style=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Set style information for components of the graph."
         },
         {
             "trigger": "stylesheet",
             "contents": "stylesheet=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "A URL or pathname specifying an XML style sheet, used in SVG output. (svg only)"
         },
         {
             "trigger": "tailURL",
             "contents": "tailURL=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If defined, tailURL is output as part of the tail label of the edge. (map, svg only)"
         },
         {
             "trigger": "tail_lp",
             "contents": "tail_lp=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Position of an edge's tail label, in points. (write only)"
         },
         {
             "trigger": "tailclip",
             "contents": "tailclip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If true, the tail of an edge is clipped to the boundary of the tail node."
         },
         {
             "trigger": "tailhref",
             "contents": "tailhref=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Synonym for tailURL. (map, svg only)"
         },
         {
             "trigger": "taillabel",
             "contents": "taillabel=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Text label to be placed near tail of edge."
         },
         {
             "trigger": "tailport",
             "contents": "tailport=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Indicates where on the tail node to attach the tail of the edge."
         },
         {
             "trigger": "tailtarget",
             "contents": "tailtarget=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Browser window to use for the tailURL link. (map, svg only)"
         },
         {
             "trigger": "tailtooltip",
             "contents": "tailtooltip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Tooltip annotation attached to the tail of an edge. (cmap, svg only)"
         },
         {
             "trigger": "target",
             "contents": "target=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "If the object has a URL, this attribute determines which window of the browser is used for the URL. (map, svg only)"
         },
         {
             "trigger": "tooltip",
             "contents": "tooltip=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Tooltip (mouse hover text) attached to the node, edge, cluster, or graph. (cmap, svg only)"
         },
         {
             "trigger": "truecolor",
             "contents": "truecolor=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Whether internal bitmap rendering relies on a truecolor color model or uses. (bitmap output only)"
         },
         {
             "trigger": "vertices",
             "contents": "vertices=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Sets the coordinates of the vertices of the node's polygon, in inches. (write only)"
         },
         {
             "trigger": "viewport",
             "contents": "viewport=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Clipping window on final drawing."
         },
         {
             "trigger": "voro_margin",
             "contents": "voro_margin=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Tuning margin of Voronoi technique. (neato, fdp, sfdp, twopi, circo only)"
         },
         {
             "trigger": "weight",
             "contents": "weight=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Weight of edge."
         },
         {
             "trigger": "width",
             "contents": "width=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Width of node, in inches."
         },
         {
             "trigger": "xdotversion",
             "contents": "xdotversion=\"${1}\"",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Determines the version of xdot used in output. (xdot only)"
         },
         {
             "trigger": "xlabel",
             "contents": "xlabel=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "External label for a node or edge."
         },
         {
             "trigger": "xlp",
             "contents": "xlp=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Position of an exterior label, in points. (write only)"
         },
         {
             "trigger": "z",
             "contents": "z=${1}",
             "annotation": "attribute",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "Z-coordinate value for 3D layouts and displays."
         },
     ]
 }
