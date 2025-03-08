@@ -228,7 +228,8 @@ contexts:
     - match: |-
         (?x:
           \b(?:
-            {{graph_attributes}}
+            {{style_attributes}}
+          | {{graph_attributes}}
           | {{cluster_attributes}}
           | {{node_attributes}}
           | {{edge_attributes}}
@@ -411,6 +412,15 @@ variables:
   compass_pt: |-
     (?x:
       n | ne | e | se | s | sw | w | nw | c | _
+    )
+
+  style_attributes: |-
+    (?x:
+      dashed
+    | dotted
+    | filled
+    | invis
+    | solid
     )
 
   # https://graphviz.org/docs/graph/
