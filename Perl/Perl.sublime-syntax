@@ -137,6 +137,7 @@ contexts:
     - include: expressions-common
 
   expressions-common:
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
     - include: sub
     - include: quoted-like
     - include: label

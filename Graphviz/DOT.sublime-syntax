@@ -18,6 +18,7 @@ contexts:
     - include: expressions
 
   expressions:
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
     - match: \b((sub|di)?graph)\b\s+((cluster_)?\w+)\b
       captures:
         1: storage.type.dot

@@ -48,6 +48,29 @@ module foo.a.b1_3;
 
 //<- - comment
 
+/*
+ * Merge Conflict Marker Tests
+ */
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
 auto wysiwyg = r"f// \n\";
 //             ^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 //             ^ storage.modifier.string.d

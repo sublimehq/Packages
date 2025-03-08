@@ -238,6 +238,7 @@ contexts:
     - match: \%+
       scope: punctuation.definition.comment.erlang
       push: comment-body
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   comment-body:
     - meta_include_prototype: false
