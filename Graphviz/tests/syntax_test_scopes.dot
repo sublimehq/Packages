@@ -133,3 +133,12 @@ label = <<u>this is underscored</u><br/>this is not>
 //      ^ meta.group meta.group punctuation.section.group.end
     }
 //  ^ meta.group punctuation.section.group.end
+
+    graph {
+        subgraph { }
+//     ^ meta.group
+//                ^ meta.group meta.group
+    }
+
+    digraph { }
+//           ^ meta.group

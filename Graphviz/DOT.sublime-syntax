@@ -141,10 +141,11 @@ contexts:
     - match: |-
         (?x:
           {{leading_wspace}}
-          \b(?:({{strict}})\s+)?
-          ({{digraph_or_graph}})\b
-          \s+
-          ((cluster_)?{{id}})\b
+          \b
+          (?:({{strict}})\s+)?
+          ({{digraph_or_graph}})
+          (?:\s+((cluster_)?{{id}}))?
+          \b
         )
       captures:
         1: keyword.declaration.strict.dot
@@ -159,7 +160,10 @@ contexts:
     - match: |-
         (?x:
           {{leading_wspace}}
-          \b({{subgraph}})\b\s+((cluster_)?{{id}})\b
+          \b
+          ({{subgraph}})
+          (?:\s+((cluster_)?{{id}}))?
+          \b
         )
       captures:
         1: storage.type.dot
