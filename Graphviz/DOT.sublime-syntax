@@ -128,6 +128,15 @@ contexts:
 
     - include: declaration-statements
 
+  expect-declaration-statements-list-body:
+    - match: \{
+      scope: punctuation.section.group.begin.dot
+      set: declaration-statements-list-body
+
+    - match: \S+
+      scope: invalid.illegal.expected-statements-list.dot
+      pop: 1
+
   graph-declarations:
     - match: |-
         (?x:
@@ -135,16 +144,14 @@ contexts:
           \b(?:({{strict}})\s+)?
           ({{digraph_or_graph}})\b
           \s+
-          ((cluster_)?{{id}})\b\s*
-          (\{)
+          ((cluster_)?{{id}})\b
         )
       captures:
         1: keyword.declaration.strict.dot
         2: storage.type.dot
         3: entity.name.graph.dot
         4: meta.annotation.dot variable.annotation.cluster.dot
-        5: punctuation.section.group.begin.dot
-      push: declaration-statements-list-body
+      push: expect-declaration-statements-list-body
 
     - include: stray-braces
 
@@ -152,15 +159,16 @@ contexts:
     - match: |-
         (?x:
           {{leading_wspace}}
-          (?:\b({{subgraph}})\b\s+((cluster_)?{{id}})\b\s*)?
-          (\{)
+          \b({{subgraph}})\b\s+((cluster_)?{{id}})\b
         )
       captures:
         1: storage.type.dot
         2: entity.name.graph.dot
         3: meta.annotation.dot variable.annotation.cluster.dot
-        4: punctuation.section.group.begin.dot
-      push: declaration-statements-list-body
+      push: expect-declaration-statements-list-body
+
+    - match: (?={{leading_wspace}}\{)
+      push: expect-declaration-statements-list-body
 
     - include: stray-braces
 

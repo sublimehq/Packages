@@ -121,3 +121,15 @@ label = <<u>this is underscored</u><br/>this is not>
 //       ^^^ meta.tag
 //                             ^^^^^^^^^ meta.tag
 //                                                 ^ punctuation.section.embedded.end
+
+    graph test_7
+    {
+//  ^ meta.group punctuation.section.group.begin
+
+        subgraph test_8
+        {
+//      ^ meta.group meta.group punctuation.section.group.begin
+        }
+//      ^ meta.group meta.group punctuation.section.group.end
+    }
+//  ^ meta.group punctuation.section.group.end
