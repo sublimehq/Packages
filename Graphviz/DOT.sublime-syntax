@@ -27,6 +27,7 @@ contexts:
     - include: fullline-comments-number-sign
     - include: declarations
     - include: attribute-statements
+    - include: node-statements
     - include: attribute-lists
     - include: embedded-html
     - include: literals
@@ -107,8 +108,8 @@ contexts:
   declaration-statements:
     - include: fullline-comments-number-sign
     - include: subgraph-declarations
-    - include: node-statements
     - include: attribute-statements
+    - include: node-statements
     - include: attribute-lists
     - include: embedded-html
     - include: literals
@@ -326,6 +327,7 @@ contexts:
 
     - include: subgraph-declarations
     - include: attribute-statements
+    - include: node-statements
     - include: attribute-lists
     - include: embedded-html
     - include: literals
