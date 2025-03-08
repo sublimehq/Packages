@@ -289,6 +289,12 @@ SELECT * FROM #$users;
 #      ^^ punctuation.section.interpolation.begin.ruby
 #        ^^ source.ruby.embedded.ruby
 #          ^ punctuation.section.interpolation.end.ruby
+#{no_comment}
+# <- meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby punctuation.section.interpolation.begin.ruby
+#^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby
+#^ punctuation.section.interpolation.begin.ruby
+# ^^^^^^^^^^ source.ruby.embedded.ruby
+#           ^ punctuation.section.interpolation.end.ruby
 SQL
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
