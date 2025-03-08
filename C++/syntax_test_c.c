@@ -578,11 +578,14 @@
 //                    ^ punctuation.terminator.c
 
     static extern int*
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.return-type.c
 //  ^^^^^^ storage.modifier.c 
 //         ^^^^^^ storage.modifier.c 
 //                ^^^ storage.type.c 
 //                   ^ keyword.operator.c 
     test(
+//^^^^^^ meta.function.identifier.c
+//      ^^ meta.function.parameters.c meta.group.c
 //  ^^^^ entity.name.function.c 
 //      ^ punctuation.section.group.begin.c 
         const uint64_t a,
@@ -942,7 +945,13 @@
 /////////////////////////////////////////////
 
     __declspec(align(5)) struct Test {
-//  ^^^^^^^^^^^^^^^^^^^^ meta.group.c
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct.c - meta.struct meta.struct
+//  ^^^^^^^^^^ - meta.group
+//            ^^^^^^ meta.group.c - meta.group meta.group
+//                  ^^^ meta.group.c meta.group.c
+//                     ^ meta.group.c - meta.group meta.group
+//                      ^^^^^^^^^^^^^ - meta.group - meta.block
+//                                   ^^ meta.block.c - meta.block meta.block
 //  ^^^^^^^^^^ storage.modifier.c
 //            ^ punctuation.section.group.begin.c
 //             ^^^^^ storage.modifier.c
@@ -1083,6 +1092,11 @@
 //  ^^^ storage.type.c 
 //        ^ keyword.operator.assignment.c 
     int main(int argc, char const* argv[]) {
+//  ^^^^ meta.function.return-type.c
+//      ^^^^ meta.function.identifier.c
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.c meta.group.c
+//                                        ^ meta.function.c - meta.block - meta.group
+//                                         ^^ meta.function.c meta.block.c
 //  ^^^ storage.type.c 
 //      ^^^^ entity.name.function.c 
 //          ^ punctuation.section.group.begin.c 
@@ -1126,7 +1140,9 @@
     #error Error Message
 //^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.diagnostic.c 
 //^^^^^^^^ keyword.control.import.error.c 
-//        ^^^^^^^^^^^^^^ string.unquoted.c 
+//        ^ - keyword - string
+//         ^^^^^^^^^^^^^ meta.string.c string.unquoted.c 
+//                      ^ - string
     #error Error Message \
     (this is an "error")
 //^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.diagnostic.c string.unquoted.c 
@@ -1138,6 +1154,11 @@
     (this is a "warning")
 
     #define FOO __declspec(dllimport)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.c - meta.macro meta.macro
+//  ^^^^^^^^ meta.macro.c
+//          ^^^ meta.macro.identifier.c - meta.group
+//             ^^^^^^^^^^^ meta.macro.body.c - meta.group
+//                        ^^^^^^^^^^^ meta.macro.body.c meta.group.c
 //^^^^^^^^^ keyword.control.import.c 
 //          ^^^ entity.name.macro.c support.macro.c 
 //              ^^^^^^^^^^ storage.modifier.c 
@@ -1146,6 +1167,15 @@
 //                         ^^^^^^^^^ constant.other.c 
 //                                  ^ punctuation.section.group.end.c 
     #define BAR(x, y, ...) enum MyEnum ## x { kEnumValue1 = y __VA_OPT__(,) __VA_ARGS__ };
+    #define BAR(x, y, ...) enum MyEnum ## x { kEnumValue1 = y __VA_OPT__(,) __VA_ARGS__ };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.c - meta.macro meta.macro
+//  ^^^^^^^^ meta.macro.c
+//          ^^^ meta.macro.identifier.c - meta.group
+//             ^^^^^^^^^^^ meta.macro.parameters.c meta.group.c
+//                        ^^^^^^^^^^^^^^^^^^ meta.macro.body.c - meta.group - meta.block
+//                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.macro.body.c meta.block.c - meta.group
+//                                                                      ^^^ meta.macro.body.c meta.block.c meta.group.c - meta.group meta.group
+//                                                                         ^^^^^^^^^^^^^^ meta.macro.body.c meta.block.c - meta.group
 //^^^^^^^^^ keyword.control.import.c 
 //          ^^^ entity.name.macro.c support.macro.c 
 //             ^ punctuation.section.group.begin.c 
@@ -1172,7 +1202,9 @@
 
     #if FOO
 //^^^^^^^^^ meta.preprocessor.c 
-//^^^^^ keyword.control.import.c 
+//^^ - keyword.control.import.c 
+//  ^^^ keyword.control.import.c 
+//     ^ - keyword.control.import.c 
     #ifndef FOO
 //^^^^^^^^^^^^^ meta.preprocessor.c 
 //^^^^^^^^^ keyword.control.import.c 
@@ -1189,7 +1221,10 @@
 //^^^^^^^^^^^^^^^ meta.preprocessor.c 
 //^^^^^^^^^^^ keyword.control.import.c 
     #else
-//^^^^^^^ keyword.control.import.c 
+//^^^^^^^ meta.preprocessor.c 
+//^^ - keyword.control.import.c 
+//  ^^^^^ keyword.control.import.c 
+//       ^ - keyword.control.import.c
     #endif
 //^^^^^^^^ keyword.control.import.c 
 
@@ -1202,8 +1237,11 @@
     #
 //  ^ keyword.control.c
     #embed "file.txt" if_empty(0)
-//^^^^^^^^ keyword.control.import.c 
-//         ^^^^^^^^^^ string.quoted.double.c 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.c
+//^^ - keyword
+//  ^^^^^^ keyword.control.import.c 
+//        ^ - keyword - string
+//         ^^^^^^^^^^ meta.string.c string.quoted.double.c 
 //         ^ punctuation.definition.string.begin.c 
 //                  ^ punctuation.definition.string.end.c 
 //                    ^^^^^^^^ keyword.other.c 
