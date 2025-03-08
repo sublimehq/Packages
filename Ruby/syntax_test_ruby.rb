@@ -278,10 +278,13 @@ DB.fetch(<<-SQL, conn).name
 #              ^^^^^^^^^^^^ - meta.string - string
 #              ^ punctuation.separator
 #                    ^ punctuation.definition.group.end
-SELECT * FROM #$users;
+SELECT * FROM #$users WHERE name = 'Mr. #$family';
 #^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
 #             ^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby variable.other.readwrite.global
-#                    ^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
+#                    ^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.string.sql - meta.interpolation
+#                                  ^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.string.sql string.quoted.single.sql - meta.interpolation
+#                                       ^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.string.sql meta.interpolation.ruby variable.other.readwrite.global.ruby
+#                                               ^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.string.sql string.quoted.single.sql - meta.interpolation
 -- id: #{id}
 #^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby comment.line.double-dash.sql
 #^ punctuation.definition.comment.sql

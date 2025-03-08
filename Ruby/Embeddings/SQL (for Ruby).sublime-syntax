@@ -39,3 +39,22 @@ contexts:
   embedded-ruby:
     - include: Ruby.sublime-syntax#escaped-char
     - include: Ruby.sublime-syntax#embedded-ruby
+
+###[ LITERALS ]################################################################
+
+  inside-like-single-quoted-string:
+    - meta_append: true
+    - include: interpolated-ruby
+
+  inside-single-quoted-string:
+    - meta_append: true
+    - include: interpolated-ruby
+
+  string-interpolations:
+    # this context is included in anonymous string contexts
+    - meta_append: true
+    - include: interpolated-ruby
+
+  interpolated-ruby:
+    - include: Ruby.sublime-syntax#escaped-char
+    - include: Ruby.sublime-syntax#interpolated-ruby
