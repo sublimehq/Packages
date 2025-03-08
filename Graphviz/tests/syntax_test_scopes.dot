@@ -13,6 +13,11 @@
  // <- comment.line.number-sign
 //^^^^^^^^ comment.line.number-sign
 
+    # comment # comment
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
+//  ^ comment.line.number-sign punctuation.definition.comment
+
 # comment # comment // comment /* comment */
 // <- comment.line.number-sign punctuation.definition.comment
  // <- comment.line.number-sign

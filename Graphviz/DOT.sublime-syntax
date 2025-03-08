@@ -42,8 +42,7 @@ contexts:
     - include: block-comments
 
   line-comments:
-    # NOTE: number-sign line comments are not part of prototype as they must
-    #       start at BOL (beginning of the line)
+    # NOTE: number-sign line comments are not part of prototype
 
     - match: /{2}
       scope: punctuation.definition.comment.dot
@@ -82,14 +81,13 @@ contexts:
         1: punctuation.definition.comment.dot
 
   fullline-comments-number-sign:
-    # NOTE: number-sign line comments are not part of prototype as they must
-    #       start at BOL (beginning of the line)
+    # NOTE: number-sign line comments are not part of prototype
 
-    - match: '^(\s+)?#'
-      scope: punctuation.definition.comment.dot
-      captures:
-        1: invalid.illegal.whitespace.dot
-      push: fullline-comment-number-sign-body
+    - match: '{{leading_wspace}}(?=#)'
+      push:
+        - - match: '#'
+            scope: punctuation.definition.comment.dot
+            set: fullline-comment-number-sign-body
 
   fullline-comment-number-sign-body:
     - meta_include_prototype: false
