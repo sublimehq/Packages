@@ -122,7 +122,6 @@ contexts:
       push: inside-number-sign-comment
 
   inside-number-sign-comment:
-    - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
     - match: \n
       pop: 1
