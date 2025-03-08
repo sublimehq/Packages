@@ -98,13 +98,11 @@ contexts:
       push: inside-comment-block
 
   inside-double-dash-comment:
-    - meta_include_prototype: false
     - meta_scope: comment.line.double-dash.sql
     - match: \n
       pop: 1
 
   inside-comment-docblock:
-    - meta_include_prototype: false
     - meta_scope: comment.block.documentation.sql
     - match: \*+/
       scope: punctuation.definition.comment.end.sql
@@ -114,7 +112,6 @@ contexts:
         1: punctuation.definition.comment.sql
 
   inside-comment-block:
-    - meta_include_prototype: false
     - meta_scope: comment.block.sql
     - match: \*+/
       scope: punctuation.definition.comment.end.sql
@@ -893,6 +890,7 @@ contexts:
 
   table-name-or-subquery:
     - meta_include_prototype: false
+    - include: comments
     - include: table-subquery
     - include: table-name-or-function-call
 
@@ -1610,6 +1608,7 @@ contexts:
 
   maybe-operator:
     - meta_include_prototype: false
+    - include: comments
     - match: '<=>|[!<>]?=|<>|<|>'
       scope: keyword.operator.comparison.sql
       pop: 1
