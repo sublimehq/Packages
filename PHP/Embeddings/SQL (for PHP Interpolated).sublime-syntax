@@ -17,25 +17,11 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.sql
 
-  single-identifier:
-    - meta_prepend: true
-    - meta_include_prototype: false
-    - include: Packages/PHP/PHP Source.sublime-syntax#interpolation
-
-  inside-like-single-quoted-string:
-    - meta_prepend: true
-    - include: string-interpolation
-
-  inside-single-quoted-string:
-    - meta_prepend: true
-    - include: string-interpolation
-
-  string-interpolation:
-    # this context is included in anonymous string contexts
-    - meta_prepend: true
-    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
-
 ###[ COMMENTS ]################################################################
+
+  inside-number-sign-comment:
+    - meta_append: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
 
   inside-double-dash-comment:
     - meta_append: true
@@ -48,3 +34,18 @@ contexts:
   inside-comment-block:
     - meta_append: true
     - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
+
+###[ LITERALS ]################################################################
+
+  inside-like-single-quoted-string:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
+
+  inside-single-quoted-string:
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
+
+  string-interpolations:
+    # this context is included in anonymous string contexts
+    - meta_prepend: true
+    - include: Packages/PHP/PHP Source.sublime-syntax#string-interpolations
