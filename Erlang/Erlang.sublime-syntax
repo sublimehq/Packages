@@ -34,13 +34,13 @@ variables:
   # an identifier can contain lowercase, uppercase, digits, underscore and @
   ident_char: '[_A-Za-z\d@]'
   # the character which identifies the end of an identifier
-  # Note: need the character as embedded positvie lookaheads don't work
+  # Note: need the character as embedded positive lookaheads don't work
   ident_break_char: '[^{{ident_char}}]'
   # end of identifier lookahead
   # Note: avoid negative lookahead as it is 6-8% slower
   ident_break: (?={{ident_break_char}})
   # a quoted identifier with possibly escaped single quote
-  # preceeded by an arbitary number of excaped backslashes
+  # preceded by an arbitrary number of escaped backslashes
   ident_quoted: \'((?:\\\\)*\\\'|[^''])*\'
   # an identifier can be an atom or a variable
   ident_unquoted: '[_A-Za-z]{{ident_char}}*'
@@ -268,8 +268,8 @@ contexts:
     # https://www.erlang.org/doc/reference_manual/macros.html#flow-control-in-macros
     # Note:
     #   The `-` is scoped as `punctuation.definition` because:
-    #   1. derectives are most likely one-liners (with exceptions!)
-    #   2. the hyphon is compared to the hash-tag in C/C++ preprocessors
+    #   1. directives are most likely one-liners (with exceptions!)
+    #   2. the hyphen is compared to the hash-tag in C/C++ preprocessors
     #   3. the `.` is meant to share the scope `punctuation.terminator.clause`
     #      with clauses/functions as it has the same meaning.
     - match: (-)\s*(ifdef|ifndef){{ident_break}}
@@ -886,7 +886,7 @@ contexts:
 
   expr-fun-meta:
     - meta_scope: meta.fun.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   expr-fun-type-decider:
     # function reference (e.g.: FuncName = fun module:name/arity)
@@ -1268,7 +1268,7 @@ contexts:
 
   record-field-access-meta:
     - meta_content_scope: meta.record.field.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   record-field-access-name:
     - include: variable-other-field
@@ -1303,7 +1303,7 @@ contexts:
 
   record-field-identifier-meta:
     - meta_content_scope: meta.field.identifier.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   record-field-identifier:
     - include: variable-anonymous-pop
@@ -1448,7 +1448,7 @@ contexts:
 
   namespace-meta:
     - meta_scope: meta.path.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   namespace-member-other:
    - include: reference-pop
@@ -1456,7 +1456,7 @@ contexts:
    - include: atom-pop
    - include: macro-pop
    - include: variable-other-pop
-   - include: immediatelly-pop
+   - include: immediately-pop
 
   namespace-accessor:
     - match: ':'
@@ -1500,7 +1500,7 @@ contexts:
 
   reference-arity-meta:
     - meta_content_scope: meta.reference.function.arity.erlang
-    - include: immediatelly-pop
+    - include: immediately-pop
 
   reference-arity-body:
     - match: \d+
@@ -2134,7 +2134,7 @@ contexts:
     - match: (?=->|when{{ident_break_char}})
       pop: 1
 
-  immediatelly-pop:
+  immediately-pop:
     - match: ''
       pop: 1
 
@@ -2189,7 +2189,7 @@ contexts:
         - include: illegal-group-body
 
   illegal-group-body:
-    # consume numbers to prevent matching decimal separater as clause-end
+    # consume numbers to prevent matching decimal separator as clause-end
     - match: \d+\.\d*|\.\d+
     - include: clause-end-pop
     - match: \(

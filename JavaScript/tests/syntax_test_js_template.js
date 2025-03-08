@@ -188,6 +188,10 @@ var style = css`
 /*             ^ punctuation.definition.string.begin.js */
 /*              ^ - source.css.embedded */
 
+    @media screen {}
+/*  ^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*         ^^^^^^ support.constant.media.css */
+
     tr, .${sel} {
 /*  ^^^^^^^^^^^^ meta.selector.css */
 /*  ^^ entity.name.tag.html.css */
@@ -203,11 +207,119 @@ var style = css`
 /*                          ^^^^^^^^ meta.property-value.css meta.interpolation.js */
     }
 /*  ^ meta.block.css punctuation.section.block.end.css */
+
+    background: var(--color);
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js source.css.embedded.js */
+/*  ^^^^^^^^^^ meta.property-name.css support.type.property-name.css */
+/*            ^ punctuation.separator.key-value.css */
+/*              ^^^^^^^^^^^^ meta.property-value.css */
+/*              ^^^ meta.function-call.identifier.css support.function.var.css */
+/*                 ^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                 ^ punctuation.section.group.begin.css */
+/*                  ^^^^^^^ variable.other.custom-property.css */
+/*                         ^ punctuation.section.group.end.css */
+/*                          ^ punctuation.terminator.rule.css */
+
+    ${tag}, .${cls} { ${prop}: ${value} }
+/*  ^^^^^^ meta.selector.css meta.interpolation.js */
+/*        ^^^ meta.selector.css - meta.interpolation */
+/*           ^^^^^^ meta.selector.css meta.interpolation.js */
+/*                 ^ meta.selector.css - meta.interpolation */
+/*                  ^^ meta.property-list.css meta.block.css */
+/*                    ^^^^^^^ meta.property-list.css meta.block.css meta.property-name.css support.type.property-name.css meta.interpolation.js */
+/*                           ^^ meta.property-list.css meta.block.css - meta.interpolation */
+/*                             ^^^^^^^^ meta.property-list.css meta.block.css meta.property-value.css meta.interpolation.js */
+/*                                     ^^ meta.property-list.css meta.block.css - meta.interpolation */
+/*  ^^ punctuation.section.interpolation.begin.js */
+/*    ^^^ variable.other.readwrite.js */
+/*       ^ punctuation.section.interpolation.end.js */
+/*        ^ punctuation.separator.sequence.css */
+/*          ^^^^^^^ entity.other.attribute-name.class.css */
+/*          ^ punctuation.definition.entity.css */
+/*           ^^ punctuation.section.interpolation.begin.js */
+/*             ^^^ variable.other.readwrite.js */
+/*                ^ punctuation.section.interpolation.end.js */
+/*                  ^ punctuation.section.block.begin.css */
+/*                    ^^ punctuation.section.interpolation.begin.js */
+/*                      ^^^^ variable.other.readwrite.js */
+/*                          ^ punctuation.section.interpolation.end.js */
+/*                           ^ punctuation.separator.key-value.css */
+/*                             ^^ punctuation.section.interpolation.begin.js */
+/*                               ^^^^^ variable.other.readwrite.js */
+/*                                    ^ punctuation.section.interpolation.end.js */
+/*                                      ^ punctuation.section.block.end.css */
     `
 /* <- meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*^^^ meta.string.template.js string.quoted.other.js - source.css.embedded */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
+
+var style = css`color:${color}`;
+/*          ^^^ variable.function.tagged-template.js */
+/*             ^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*             ^ string.quoted.other.js punctuation.definition.string.begin.js */
+/*              ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                   ^ punctuation.separator.key-value.css */
+/*                    ^^ meta.property-value.css meta.interpolation.js punctuation.section.interpolation.begin.js */
+/*                      ^^^^^ meta.property-value.css meta.interpolation.js source.js.embedded variable.other.readwrite.js */
+/*                           ^ meta.property-value.css meta.interpolation.js punctuation.section.interpolation.end.js */
+/*                            ^ string.quoted.other.js punctuation.definition.string.end.js */
+/*                             ^ punctuation.terminator.statement.js - meta.string */
+
+
+/*
+ * SQL Templates
+ */
+
+var sql = sql`SELECT * FROM "foo";`
+/*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
+
+var sql = SQL`SELECT * FROM "foo";`
+/*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
+var sql = sql`
+/*        ^^^ variable.function.tagged-template */
+/*           ^^ meta.string.template.js string.quoted.other.js */
+/*           ^ punctuation.definition.string.begin.js */
+/*            ^ - source.sql.embedded */
+
+SELECT  *,
+/* ^^^ keyword.other.dml.sql */
+/*      ^ constant.other.wildcard.asterisk.sql */
+        f.id AS database_id
+/*           ^^ keyword.operator.assignment.alias.sql */
+FROM    foo
+WHERE   f.a IS NULL
+/* ^^ keyword.other.dml.sql */
+/*          ^^ keyword.operator.logical.sql */
+/*             ^^^^ constant.language.null.sql */
+        AND f.b IS NOT NULL
+/*      ^^^ keyword.operator.logical.sql */
+/*              ^^ keyword.operator.logical.sql */
+/*                 ^^^ keyword.operator.logical.sql */
+/*                     ^^^^ constant.language.null.sql */
+
+    `
+/* <- meta.string.template.js string.quoted.other.js - source.sql.embedded */
+/*^^^ meta.string.template.js string.quoted.other.js - source.sql.embedded */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string */
+
+var sql = sql`SELECT * FROM ${users};`
+/*            ^^^^^^^^^^^^^^ meta.string.template.js source.sql.embedded.js - meta.interpolation.js */
+/*                          ^^^^^^^^ meta.string.template.js source.sql.embedded.js meta.interpolation.js */
+/*                          ^^ punctuation.section.interpolation.begin.js */
+/*                            ^^^^^ source.js.embedded variable.other.readwrite.js */
+/*                                 ^ punctuation.section.interpolation.end.js */
+/*                                  ^ punctuation.terminator.statement.sql - meta.interpolation.js */
+/*                                   ^ string.quoted.other.js punctuation.definition.string.end.js */
 
 /*
  * Unknown Template
@@ -239,3 +351,107 @@ var other = `
 /*^^^ meta.string.template.js string.quoted.other.js */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
+
+/*
+ * Nested tagged template strings
+ */
+
+var raw = `
+/*        ^ meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js */
+    var raw = \`
+/*^^^^^^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*            ^^ constant.character.escape.js */
+        var raw = \`
+/*^^^^^^^^^^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*                ^^ constant.character.escape.js */
+                any${thing}
+/*^^^^^^^^^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*                 ^^^^^^^^ meta.string.template.js meta.interpolation.js */
+/*                 ^^ punctuation.section.interpolation.begin.js */
+/*                   ^^^^^ source.js.embedded variable.other.readwrite.js */
+/*                        ^ punctuation.section.interpolation.end.js */
+            \`;
+/*^^^^^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*          ^^ constant.character.escape.js */
+        \`;
+/*^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*      ^^ constant.character.escape.js */
+    `;
+/*^^^ meta.string.template.js string.quoted.other.js */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ punctuation.terminator.statement.js */
+
+var html = html`
+    <style>
+        div { color: ${color}; }
+/*      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js text.html.embedded.js source.css.embedded.html */
+/*      ^^^^ meta.selector.css */
+/*      ^^^ entity.name.tag.html.css */
+/*          ^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*          ^ punctuation.section.block.begin.css */
+/*            ^^^^^ meta.property-name.css support.type.property-name.css */
+/*                 ^ punctuation.separator.key-value.css */
+/*                  ^ meta.property-value.css - meta.interpolation */
+/*                   ^^^^^^^^ meta.property-value.css meta.interpolation.js */
+/*                   ^^ punctuation.section.interpolation.begin.js */
+/*                     ^^^^^ source.js.embedded variable.other.readwrite.js */
+/*                          ^ punctuation.section.interpolation.end.js */
+/*                           ^ punctuation.terminator.rule.css */
+/*                             ^ punctuation.section.block.end.css */
+    </style>
+    <script>
+        let html = html\`
+/*^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js text.html.embedded.js source.js.embedded.html */
+/*      ^^^ keyword.declaration */
+/*          ^^^^ variable.other */
+/*               ^ keyword.operator.assignment */
+/*                 ^^^^ variable.function.tagged-template */
+/*                     ^^ meta.string.template string.quoted.other punctuation.definition.string.begin */
+            no more ${html} highlighting
+/*         ^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+/*                  ^^^^^^^ meta.string.template.js text.html.embedded.js source.js.embedded.html meta.string.template.js meta.interpolation.js */
+/*                         ^^^^^^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+            \`;
+/*^^^^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+/*            ^ meta.string.template text.html.embedded source.js.embedded.html punctuation.terminator.statement */
+/*          ^^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.statement */
+        let css = css\`
+            no more ${css} highlighting
+/*         ^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+/*                  ^^^^^^ meta.string.template.js text.html.embedded.js source.js.embedded.html meta.string.template.js meta.interpolation.js */
+/*                        ^^^^^^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+            \`;
+/*^^^^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+/*            ^ meta.string.template text.html.embedded source.js.embedded.html punctuation.terminator.statement */
+/*          ^^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.statement */
+        let js = js\`
+            no more ${js} highlighting
+/*         ^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+/*                  ^^^^^ meta.string.template.js text.html.embedded.js source.js.embedded.html meta.string.template.js meta.interpolation.js */
+/*                       ^^^^^^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+            \`;
+/*^^^^^^^^^^^^ meta.string.template text.html.embedded source.js.embedded.html meta.string.template string.quoted.other */
+/*            ^ meta.string.template text.html.embedded source.js.embedded.html punctuation.terminator.statement */
+/*          ^^ punctuation.definition.string.end */
+/*            ^ punctuation.terminator.statement */
+    </script>
+    `
+
+var js = js`
+    var js = js\`
+        var = "no more ${js}";
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js source.js.embedded.js meta.string.template.js */
+/*^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.js */
+/*                     ^^^^^ meta.interpolation.js */
+/*                          ^^ string.quoted.other.js */
+        \`;
+/*^^^^^^^^^ meta.string.template.js source.js.embedded.js */
+/*^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*      ^^ punctuation.definition.string.end.js */
+/*        ^ punctuation.terminator.statement.js */
+    `;
+/*^^^ meta.string.template.js string.quoted.other.js */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ punctuation.terminator.statement.js */

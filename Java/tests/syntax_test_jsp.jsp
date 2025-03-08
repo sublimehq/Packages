@@ -612,7 +612,7 @@
 //                              ^^^^^^^^^ entity.name.tag.localname.html
 //                                       ^ punctuation.definition.tag.end.html
 
-    <!--Note: Illegal unescaped less then symbol is not is not handled here. -->
+    <!--Note: Illegal unescaped less than symbol is not is not handled here. -->
     <jsp:scriptlet>int i = (1 &gt;< 5);</jsp:scriptlet>
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag.jsp meta.tag.jsp
 //  ^^^^^^^^^^^^^^^ meta.tag.jsp.scriptlet.begin.html

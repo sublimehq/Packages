@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[until ${2:[[ ${1:condition} ]]}; do
+	${0:#statements}
+done]]></content>
+	<tabTrigger>until</tabTrigger>
+	<scope>source.shell.bash, source.shell.zsh</scope>
+	<description>until … done</description>
+</snippet>

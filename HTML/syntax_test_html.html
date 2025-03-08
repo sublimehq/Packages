@@ -99,7 +99,7 @@
 
         <script type="text/javascript"> <!--
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
-        ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value - source
+        ##      ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value - source
         ##                            ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value - source
         ##                             ^^^^^^ - meta.tag  - source
         ## ^ entity.name.tag.script
@@ -120,11 +120,20 @@
 
         <script
         type
-        ## <- meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ></script>
+
+        <script
+        type
         =
-        ## <- meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ></script>
+
+        <script
+        type
+        =
         application/jAvAsCrIpT>
-        ## <- meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ## <- meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
             var foo = 100;
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
@@ -186,7 +195,7 @@
 
         <script type = "text/html"> <!--
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
-        ##      ^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##      ^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
         ##                        ^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ## ^ entity.name.tag.script - text.html.embedded.html
         ##             ^ string.quoted.double.html - text.html.embedded.html
@@ -317,7 +326,7 @@
 
         <style type="text/css"> <!-- h1 {} --> </style>
         ##^^^^^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
-        ##     ^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##     ^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
         ##                    ^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ##                     ^ - meta.tag - comment - source
         ##                      ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
@@ -328,7 +337,7 @@
 
         <style type  =  "text/css"> <!-- h1 {} --> </style>
         ##^^^^^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
-        ##     ^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
+        ##     ^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value
         ##                        ^ meta.tag.style.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ##                         ^ - meta.tag - comment - source
         ##                          ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
@@ -400,7 +409,7 @@
         <style
         type
         =
-        text/csss>
+        text/css_>
             div {}
         ##  ^^^^^^ - source.css
         </style
@@ -991,7 +1000,7 @@ class="foo"></div>
             <input id="inputId" type="text" value="value">
             ## ^ entity.name.tag.inline.form.html
             ##                   ^ entity.other.attribute-name.html
-            <textarea name="texareaName"></textarea>
+            <textarea name="textareaName"></textarea>
             ## ^ entity.name.tag.inline.form.html
         </form>
 

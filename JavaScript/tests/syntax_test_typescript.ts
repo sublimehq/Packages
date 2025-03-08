@@ -1247,12 +1247,66 @@ let x: (this: any) => any;
 
 let x: < T > ( ... foo : any ) => any;
 //     ^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
 //       ^ variable.parameter.generic
+//         ^ punctuation.definition.generic.end
 //           ^^^^^^^^^^^^^^^^^ meta.group
+//           ^ punctuation.section.group.begin
 //             ^^^ keyword.operator.spread
 //                 ^^^ variable.parameter
 //                     ^ punctuation.separator.type
 //                       ^^^ support.type.any
+//                           ^ punctuation.section.group.end
+//                             ^^ keyword.declaration.function
+//                                ^^^ support.type.any
+
+let x: < const T > ( ... foo : any ) => any;
+//     ^^^^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//       ^^^^^ storage.modifier.const
+//             ^ variable.parameter.generic
+//               ^ punctuation.definition.generic.end
+//                 ^^^^^^^^^^^^^^^^^ meta.group
+//                 ^ punctuation.section.group.begin
+//                   ^^^ keyword.operator.spread
+//                       ^^^ variable.parameter
+//                           ^ punctuation.separator.type
+//                             ^^^ support.type.any
+//                                 ^ punctuation.section.group.end
+//                                   ^^ keyword.declaration.function
+//                                      ^^^ support.type.any
+
+let x: < in T > ( ... foo : any ) => any;
+//     ^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//       ^^ storage.modifier.variance
+//          ^ variable.parameter.generic
+//            ^ punctuation.definition.generic.end
+//              ^^^^^^^^^^^^^^^^^ meta.group
+//              ^ punctuation.section.group.begin
+//                ^^^ keyword.operator.spread
+//                    ^^^ variable.parameter
+//                        ^ punctuation.separator.type
+//                          ^^^ support.type.any
+//                              ^ punctuation.section.group.end
+//                                ^^ keyword.declaration.function
+//                                   ^^^ support.type.any
+
+let x: < out T > ( ... foo : any ) => any;
+//     ^^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//       ^^^ storage.modifier.variance
+//           ^ variable.parameter.generic
+//             ^ punctuation.definition.generic.end
+//               ^^^^^^^^^^^^^^^^^ meta.group
+//               ^ punctuation.section.group.begin
+//                 ^^^ keyword.operator.spread
+//                     ^^^ variable.parameter
+//                         ^ punctuation.separator.type
+//                           ^^^ support.type.any
+//                               ^ punctuation.section.group.end
+//                                 ^^ keyword.declaration.function
+//                                    ^^^ support.type.any
 
 let x: () => T
     U
@@ -1360,6 +1414,16 @@ let x: T.U
 [];
 //<- meta.sequence - meta.type
 
+    foo != bar
+//  ^^^ variable.other.readwrite
+//      ^^ keyword.operator.comparison
+//         ^^^ variable.other.readwrite
+
+    foo < bar
+//  ^^^ variable.other.readwrite
+//      ^ keyword.operator.comparison
+//        ^^^ variable.other.readwrite
+
     foo < bar > ();
 //  ^^^ variable.function
 //      ^^^^^^^ meta.generic
@@ -1367,12 +1431,6 @@ let x: T.U
 //        ^^^ support.class
 //            ^ punctuation.definition.generic.end
 //              ^^ meta.group
-
-    foo < bar
-//  ^^^ variable.other.readwrite
-//      ^ keyword.operator.comparison
-//        ^^^ variable.other.readwrite
-    ;
 
     new Foo<bar>;
 //  ^^^ keyword.operator.word.new
@@ -1420,8 +1478,71 @@ const f = <T, U = V<any>>() => {};
 //                          ^^ keyword.declaration.function.arrow
 //                             ^^ meta.block
 
-    a != b;
-//    ^^ keyword.operator.comparison
+const f = <const T>() => foo;
+//        ^^^^^^^^^ meta.function meta.generic - meta.function meta.function
+//                 ^^ meta.function.parameters - meta.function meta.function
+//                   ^^^^^^^ meta.function - meta.function meta.function
+//        ^ punctuation.definition.generic.begin
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+//                ^ punctuation.definition.generic.end
+//                 ^ punctuation.section.group.begin
+//                  ^ punctuation.section.group.end
+//                    ^^ keyword.declaration.function.arrow
+//                       ^^^ meta.block variable.other.readwrite
+//                          ^ punctuation.terminator.statement
+
+const f = <const T>(a: T,): T => foo;
+//        ^^^^^^^^^ meta.function meta.generic - meta.function meta.function
+//                 ^^^^^^^ meta.function.parameters - meta.function meta.function
+//                        ^ meta.function - meta.type - meta.function meta.function
+//                         ^^^ meta.function meta.type - meta.function meta.function
+//                            ^^^^^^ meta.function - meta.type - meta.function meta.function
+//        ^ punctuation.definition.generic.begin
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+//                ^ punctuation.definition.generic.end
+//                 ^ punctuation.section.group.begin
+//                  ^ variable.parameter.function
+//                   ^ punctuation.separator.type
+//                    ^^ meta.type
+//                     ^ support.class
+//                      ^ punctuation.separator.parameter.function
+//                       ^ punctuation.section.group.end
+//                        ^ punctuation.separator.type
+//                          ^ support.class
+//                            ^^ keyword.declaration.function.arrow
+//                               ^^^ meta.block variable.other.readwrite
+//                                  ^ punctuation.terminator.statement
+
+const f = <const T extends Foo, X extends Bar>(a: T,): X => foo;
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.js meta.generic.js
+//                                            ^^^^^^^ meta.function.parameters - meta.function meta.function
+//                                                   ^ meta.function - meta.type - meta.function meta.function
+//                                                    ^^^ meta.function meta.type - meta.function meta.function
+//                                                       ^^^^^^ meta.function - meta.type - meta.function meta.function
+//        ^ punctuation.definition.generic.begin
+//         ^^^^^ storage.modifier.const
+//               ^ variable.parameter.generic
+//                 ^^^^^^^ storage.modifier.extends
+//                         ^^^ support.class
+//                            ^ punctuation.separator.comma
+//                              ^ variable.parameter.generic
+//                                ^^^^^^^ storage.modifier.extends
+//                                        ^^^ support.class
+//                                           ^ punctuation.definition.generic.end
+//                                            ^ punctuation.section.group.begin
+//                                             ^ meta.binding.name variable.parameter.function
+//                                              ^ punctuation.separator.type
+//                                               ^^ meta.type
+//                                                ^ support.class
+//                                                 ^ punctuation.separator.parameter.function
+//                                                  ^ punctuation.section.group.end
+//                                                   ^ punctuation.separator.type
+//                                                     ^ support.class
+//                                                       ^^ keyword.declaration.function.arrow
+//                                                          ^^^ meta.block variable.other.readwrite
+//                                                             ^ punctuation.terminator.statement
 
 const x = {
     readonly: true,
@@ -1559,3 +1680,52 @@ type T = Foo | ... 100 more ... | Bar;
 //  ^^^^^^^ meta.function-call
 //     ^^ keyword.operator.type
 //       ^^ meta.function-call.arguments
+
+// instantiations
+
+    new class extends Bar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^^^^^ storage.modifier.extends.js
+//                    ^^^ entity.other.inherited-class.js
+//                        ^^ meta.block.js
+//                        ^ punctuation.section.block.begin.js
+//                         ^ punctuation.section.block.end.js
+
+    new class Foo extends Bar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^ entity.name.class.js
+//                ^^^^^^^ storage.modifier.extends.js
+//                        ^^^ entity.other.inherited-class.js
+//                            ^^ meta.block.js
+//                            ^ punctuation.section.block.begin.js
+//                             ^ punctuation.section.block.end.js
+
+    new class implements IBar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^^^^^^^^ storage.modifier.implements.js
+//                       ^^^^ entity.other.inherited-class.js
+//                            ^^ meta.block.js
+//                            ^ punctuation.section.block.begin.js
+//                             ^ punctuation.section.block.end.js
+
+    new class Foo implements IBar {};
+//  ^^^ keyword.operator.word.new.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
+//      ^^^^^ keyword.declaration.class.js
+//            ^^^ entity.name.class.js
+//                ^^^^^^^^^^ storage.modifier.implements.js
+//                           ^^^^ entity.other.inherited-class.js
+//                                ^^ meta.block.js
+//                                ^ punctuation.section.block.begin.js
+//                                 ^ punctuation.section.block.end.js
+//                                  ^ punctuation.terminator.statement.js

@@ -1,0 +1,242 @@
+%YAML 1.2
+---
+# https://cassandra.apache.org/doc/latest/cassandra/cql/
+name: Cassandra Query Language
+scope: source.sql.cql
+version: 2
+
+extends: Packages/SQL/SQL (basic).sublime-syntax
+
+file_extensions:
+  - cql
+
+variables:
+
+  ddl_target_function: |-
+    (?xi: function )
+
+  ddl_target_other: |-
+    (?xi: keyspace | type | user | (?: materialized \s+ )? view )
+
+  simple_types: |-
+    (?xi:
+      ASCII | BIGINT | BLOB | BOOLEAN | COUNTER | DATE | DECIMAL | DOUBLE
+    | DURATION | FLOAT | INET | INT | SMALLINT | TEXT | TIME | TIMESTAMP
+    | TIMEUUID | TINYINT | UUID | VARCHAR | VARINT )
+
+  types_with_optional_number: (?!)
+
+contexts:
+
+###[ DDL CREATE STATEMENTS ]###################################################
+
+  create-target:
+    - meta_prepend: true
+    - include: create-type
+
+  create-type:
+    - match: \b(?i:type)\b
+      scope: keyword.other.ddl.cql
+      push:
+        - create-type-args
+        - maybe-column-declaration-list
+        - expect-type-creation-name
+        - create-type-condition
+
+  create-type-condition:
+    - meta_include_prototype: false
+    - include: maybe-condition
+
+  create-type-args:
+    - meta_scope: meta.type.sql
+    - include: create-common-args
+
+  create-common-args:
+    - meta_prepend: true
+    - match: \b(?i:clustering)\b
+      scope: keyword.other.cql
+    - match: \b(?i:with)\b
+      scope: keyword.other.cql
+
+###[ DML STATEMENTS ]##########################################################
+
+  dml-statements:
+    - meta_prepend: true
+    - match: \b(?i:(select)\s+(json))\b
+      captures:
+        1: keyword.other.dml.sql
+        2: storage.modifier.cql
+    - match: \b(?i:allow\s+filtering)\b
+      scope: keyword.other.dml.cql
+    - match: \b(?i:copy)\b
+      scope: keyword.other.dml.cql
+      push:
+        - dml-copy-from
+        - maybe-group
+        - expect-table-name
+
+  dml-copy-from:
+    - match: \b(?i:from)\b
+      scope: keyword.other.cql
+      pop: 1
+    - include: else-pop
+
+  join-expressions: []
+
+###[ OTHER STATEMENTS ]########################################################
+
+  other-statements:
+    - meta_prepend: true
+    - match: \b(?i:use)\b
+      scope: keyword.context.sql
+      push: expect-database-name
+    - match: \b(?i:source)\b
+      scope: keyword.other.cql
+
+###[ EXPRESSIONS ]#############################################################
+
+  expressions:
+    - meta_append: true
+    - include: arrays
+    - include: dicts-or-sets
+    - match: \b(?i:limit)\b
+      scope: keyword.other.dml.cql
+    - match: \b((?i:with))\s+(\w+)?
+      captures:
+        1: keyword.other.cql
+        2: string.unquoted.cql
+    - match: \b(?i:primary\s+key)\b
+      scope: storage.modifier.cql
+    - match: \b(?i:using\s+ttl)\b
+      scope: keyword.other.cql
+
+  built-in-scalar-function-calls:
+    - meta_append: true
+    - match: \b(?:token|uuid|now|toJson|TTL|WRITETIME|KEYS|ENTRIES|FULL)(?=\s*\()
+      scope: support.function.scalar.cql
+      push: function-call-arguments
+
+  arrays:
+    - match: \[
+      scope: punctuation.section.brackets.begin.cql
+      push: inside-array
+
+  inside-array:
+    - meta_scope: meta.brackets.cql
+    - match: \]
+      scope: punctuation.section.brackets.end.cql
+      pop: 1
+    - include: expressions
+
+  dicts-or-sets:
+    - match: \{
+      scope: punctuation.section.braces.begin.cql
+      push: inside-dict-or-set
+
+  inside-dict-or-set:
+    - meta_scope: meta.braces.cql
+    - match: \}
+      scope: punctuation.section.braces.end.cql
+      pop: 1
+    - match: ':'
+      scope: punctuation.separator.key-value.cql
+    - include: expressions
+    - match: '{{simple_identifier}}'
+      scope: meta.mapping.key.cql string.unquoted.cql
+
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  inside-column-declaration-list:
+    - meta_scope: meta.group.table-columns.sql
+    - match: \)
+      scope: punctuation.section.group.end.sql
+      pop: 1
+    - match: \b(?i:(primary\s+key))\s*(\()
+      captures:
+        1: storage.modifier.cql
+        2: meta.group.partition-key.cql punctuation.section.group.begin.cql
+      push: inside-partition-key
+    - match: \b(?i:primary\s+key)\b
+      scope: storage.modifier.cql
+    - include: expressions
+    - include: expect-column-declarations
+
+  inside-partition-key:
+    - meta_content_scope: meta.group.partition-key.cql
+    - match: \)
+      scope: meta.group.partition-key.cql punctuation.section.group.end.cql
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.cql
+      push: inside-partition-key-group
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+      set: inside-group
+    - include: expect-column-names
+
+  inside-partition-key-group:
+    - match: \)
+      scope: punctuation.section.group.end.cql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+    - include: expect-column-names
+
+###[ TYPES ]###################################################################
+
+  built-in-type:
+    - meta_prepend: true
+    # https://cassandra.apache.org/doc/latest/cassandra/cql/types.html#collections
+    - match: \b(?i:frozen|list|map|set|tuple)\b
+      scope: storage.type.cql
+      set: maybe-generic
+
+  maybe-generic:
+    - match: <
+      scope: punctuation.definition.generic.begin.cql
+      set:
+        - inside-generic
+        - expect-generic-type
+    - include: else-pop
+
+  inside-generic:
+    - meta_scope: meta.generic.cql
+    - match: \>
+      scope: punctuation.definition.generic.end.cql
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.cql
+      push: expect-generic-type
+
+  expect-generic-type:
+    - match: (?=[,>])
+      pop: 1
+    - include: expect-type
+
+###[ LITERALS ]################################################################
+
+  constants:
+    - meta_prepend: true
+    - include: booleans
+
+  literals-and-variables:
+    - meta_prepend: true
+    - include: variables
+
+  numbers:
+    - meta_prepend: true
+    - match: \h{8}(?:-\h{4}){3}-\h{12}
+      scope: constant.numeric.uuid.cql
+
+  variables:
+    - match: (:){{simple_identifier}}
+      scope: variable.other.constant.cql
+      captures:
+        1: punctuation.definition.variable.cql
+
+###[ OPERATORS ]###############################################################
+
+  logical-operators:
+    - meta_append: true
+    - match: \b(?i:contains(?:\s+key)?)\b
+      scope: keyword.operator.logical.cql

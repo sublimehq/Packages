@@ -42,7 +42,7 @@ contexts:
       pop: 1
 
   comments:
-    - match: (@)Comment\b
+    - match: (@)(?i:comment)\b
       scope: keyword.declaration.comment.bibtex
       captures:
         1: punctuation.definition.keyword.bibtex
@@ -204,13 +204,13 @@ contexts:
     - meta_content_scope: meta.preamble.bibtex
     - match: \{
       scope: punctuation.section.braces.begin.bibtex
-      set: preable-brace-body
+      set: preamble-brace-body
     - match: \(
       scope: punctuation.section.parens.begin.bibtex
-      set: preable-paren-body
+      set: preamble-paren-body
     - include: else-pop
 
-  preable-brace-body:
+  preamble-brace-body:
     - meta_scope: meta.preamble.arguments.bibtex meta.braces.bibtex
     - match: \}
       scope: punctuation.section.braces.end.bibtex
@@ -219,7 +219,7 @@ contexts:
     - include: strings
     - include: variables
 
-  preable-paren-body:
+  preamble-paren-body:
     - meta_scope: meta.preamble.arguments.bibtex meta.parens.bibtex
     - match: \)
       scope: punctuation.section.parens.end.bibtex

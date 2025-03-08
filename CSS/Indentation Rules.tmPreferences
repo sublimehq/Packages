@@ -11,7 +11,7 @@
 		<string><![CDATA[(?x)
 			# any text
 			^.*
-			# follwed by opening bracket
+			# followed by opening bracket
 			[(\[{]
 			# optionally followed by...
 			(?<balanced>

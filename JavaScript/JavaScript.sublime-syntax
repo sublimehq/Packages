@@ -45,11 +45,56 @@ variables:
   # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
   reserved_word: |-
     (?x:
-      break|case|catch|class|const|continue|debugger|default|delete|do|else|
-      export|extends|finally|for|function|if|import|in|instanceof|new|return|
-      super|switch|this|throw|try|typeof|var|void|while|with|yield|
-      enum|
-      null|true|false
+      # standard mode
+        break
+      | case
+      | catch
+      | class
+      | const
+      | continue
+      | debugger
+      | default
+      | delete
+      | do
+      | else
+      | export
+      | extends
+      | false
+      | finally
+      | for
+      | function
+      | if
+      | import
+      | in
+      | instanceof
+      | new
+      | null
+      | return
+      | super
+      | switch
+      | this
+      | throw
+      | true
+      | try
+      | typeof
+      | var
+      | void
+      | while
+      | with
+      # strict mode
+      # | let  # currently allowed as variable
+      | static
+      | yield
+      # async code
+      | await
+      # future reserved words
+      | enum
+      | implements
+      | interface
+      | package
+      | private
+      | protected
+      | public
     ){{identifier_break}}
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier_name}})
@@ -109,6 +154,11 @@ variables:
 
   leading_wspace: (?:^\s*)
   trailing_wspace: (?:\s*$\n?)
+
+  tagged_template_quote_begin: \`
+  tagged_template_quote_end: \`
+  tagged_template_quote_escape: '{{no_escape_behind}}{{tagged_template_quote_end}}'
+  no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
 
 contexts:
   main:
@@ -1185,7 +1235,7 @@ contexts:
       set:
         - detect-arrow
         - parenthesized-expression
-    - match: (?={{identifier_start}})
+    - match: ''
       set:
         - detect-arrow
         - literal-variable
@@ -1232,11 +1282,11 @@ contexts:
     - include: string-content
 
   literal-string-templates:
-    - match: (?=(?:{{identifier_name}}\s*)?`)
+    - match: (?=(?:{{identifier_name}}\s*)?{{tagged_template_quote_begin}})
       push: literal-string-template-begin
 
   literal-string-template:
-    - match: (?=(?:{{identifier_name}}\s*)?`)
+    - match: (?=(?:{{identifier_name}}\s*)?{{tagged_template_quote_begin}})
       set: literal-string-template-begin
 
   literal-string-template-begin:
@@ -1247,65 +1297,95 @@ contexts:
     #  to maintain JavaScript indentation rules until embedded
     #  code really begins/ends. It's required for embedded code
     #  to be indented using global JavaScript indentation rules.
-    - match: (css)\s*((\`){{trailing_wspace}}?)
+    - include: literal-string-template-css
+    - include: literal-string-template-html
+    - include: literal-string-template-js
+    - include: literal-string-template-json
+    - include: literal-string-template-sql
+    - include: literal-string-template-raw
+    - include: immediately-pop
+
+  literal-string-template-css:
+    - match: (css)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:source.css.js-template
       embed_scope: meta.string.template.js source.css.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (html)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-html:
+    - match: (html)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:text.html.js-template
       embed_scope: meta.string.template.js text.html.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (js)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-js:
+    - match: (js)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:source.js.js-template
       embed_scope: meta.string.template.js source.js.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (json)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-json:
+    - match: (json)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js
         3: punctuation.definition.string.begin.js
       embed: scope:source.json.js-template
       embed_scope: meta.string.template.js source.json.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (?:({{identifier_name}})\s*)?(\`)
+
+  literal-string-template-sql:
+    - match: (sql|SQL)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+      captures:
+        1: variable.function.tagged-template.js
+        2: meta.string.template.js string.quoted.other.js
+        3: punctuation.definition.string.begin.js
+      embed: scope:source.sql.js-template
+      embed_scope: meta.string.template.js source.sql.embedded.js
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
+      escape_captures:
+        0: meta.string.template.js string.quoted.other.js
+        1: punctuation.definition.string.end.js
+      pop: 1
+
+  literal-string-template-raw:
+    - match: (?:({{identifier_name}})\s*)?({{tagged_template_quote_begin}})
       captures:
         1: variable.function.tagged-template.js
         2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
       set: literal-string-template-content
-    - include: immediately-pop
 
   literal-string-template-content:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.template.js string.quoted.other.js
-    - match: \`
+    - match: '{{tagged_template_quote_end}}'
       scope: meta.string.template.js string.quoted.other.js punctuation.definition.string.end.js
       pop: 1
     - include: string-interpolations
@@ -1551,6 +1631,7 @@ contexts:
       set:
         - class-meta
         - class-body
+        - class-implements
         - class-extends
         - class-name
 
@@ -1608,6 +1689,12 @@ contexts:
       set:
         - inherited-class-expression-end
         - inherited-class-expression-begin
+    - include: else-pop
+
+  class-implements:
+    - match: implements{{identifier_break}}
+      scope: invalid.illegal.unexpected-token.js
+      pop: 1
     - include: else-pop
 
   inherited-class-name:
@@ -2043,13 +2130,14 @@ contexts:
   parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.begin.js
-      set:
-        - meta_scope: meta.group.js
-        - match: \)
-          scope: punctuation.section.group.end.js
-          pop: 1
-        - match: (?=\S)
-          push: expression
+      set: parenthesized-expression-body
+
+  parenthesized-expression-body:
+    - meta_scope: meta.group.js
+    - match: \)
+      scope: punctuation.section.group.end.js
+      pop: 1
+    - include: expressions
 
   function-call-arguments:
     - meta_content_scope: meta.function-call.js

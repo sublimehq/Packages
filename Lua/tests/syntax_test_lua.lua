@@ -87,6 +87,14 @@
 -- no more doc comment after empty line
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line.documentation
 
+--- Another doc comment
+    --[=[ block comments after should work with an equals
+--  ^^^^^ comment.block punctuation.definition.comment.begin
+    commented
+--  ^^^^^^^^^ comment.block
+    ]=]
+--  ^^^ comment.block punctuation.definition.comment.end
+
 -----------------
 --^^^^^^^^^^^^^^^ comment.line.documentation.lua punctuation.definition.comment.lua
 -- This will also do.
@@ -720,6 +728,15 @@
 --                 ^ keyword.operator.assignment
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
+
+    a, b = c, d
+--  ^ variable.other
+--   ^ punctuation.separator.comma
+--     ^ variable.other
+--       ^ keyword.operator.assignment
+--         ^ variable.other
+--          ^ punctuation.separator.comma
+--            ^ variable.other
 
     local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua

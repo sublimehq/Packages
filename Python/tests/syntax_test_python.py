@@ -1808,12 +1808,12 @@ def type_annotations_terminated_by_keyword() -> int if
 # <- - meta.function - meta.type
 #   ^^^^ keyword.control.flow.pass.python
 
-def type_annotations_without_terminator_followd_by_comment() -> int # comment
-#                                                            ^^^ meta.function.return-type.python - meta.type
-#                                                               ^^^ meta.function.return-type.python meta.type.python
-#                                                                  ^^^^^^^^^^^ - meta.function - meta.type
-#                                                            ^^ punctuation.separator.return-type.python
-#                                                               ^^^ support.type.python
+def type_annotations_without_terminator_followed_by_comment() -> int # comment
+#                                                             ^^^ meta.function.return-type.python - meta.type
+#                                                                ^^^ meta.function.return-type.python meta.type.python
+#                                                                   ^^^^^^^^^^^ - meta.function - meta.type
+#                                                             ^^ punctuation.separator.return-type.python
+#                                                                ^^^ support.type.python
     pass
 # <- - meta.function - meta.type
 #   ^^^^ keyword.control.flow.pass.python
@@ -2124,6 +2124,9 @@ class MyClass():
 #            ^^ meta.class.inheritance.python - meta.class meta.class
 #              ^ meta.class.python - meta.class meta.class punctuation.section.class.begin
     def my_func(self, param1, # Multi-line function definition
+#               ^^^^ variable.parameter.python variable.language.python
+#                   ^ punctuation.separator.parameters.python
+#                     ^^^^^^ variable.parameter.python - variable.language
 #                             ^ comment.line.number-sign
         # This is defaulted
 #       ^ comment.line.number-sign
@@ -2185,6 +2188,39 @@ class DataClass(TypedDict, None, total=False, True=False):
 #                                                 ^ invalid.illegal.assignment.python
 #                                                  ^^^^^ constant.language.boolean.false.python
 
+class MyClass(func(var, arg=var), module.func(var, arg=var)):
+#     ^^^^^^^ meta.class.python
+#            ^ meta.class.inheritance.python - meta.function-call
+#             ^^^^ meta.class.inheritance.python meta.function-call.identifier.python
+#                 ^^^^^^^^^^^^^^ meta.class.inheritance.python meta.function-call.arguments.python
+#                               ^^^^^^^^^ meta.class.inheritance.python - meta.function-call
+#                                        ^^^^ meta.class.inheritance.python meta.function-call.identifier.python
+#                                            ^^^^^^^^^^^^^^ meta.class.inheritance.python meta.function-call.arguments.python
+#                                                          ^ meta.class.inheritance.python
+#                                                           ^ meta.class.python
+#     ^^^^^^^ entity.name.class.python
+#            ^ punctuation.section.inheritance.begin.python
+#             ^^^^ variable.function.python
+#                 ^ punctuation.section.arguments.begin.python
+#                  ^^^ meta.generic-name.python
+#                     ^ punctuation.separator.arguments.python
+#                       ^^^ variable.parameter.python
+#                          ^ keyword.operator.assignment.python
+#                           ^^^ meta.generic-name.python
+#                              ^ punctuation.section.arguments.end.python
+#                               ^ punctuation.separator.inheritance.python
+#                                 ^^^^^^ meta.path.python meta.generic-name.python
+#                                       ^ meta.path.python punctuation.accessor.dot.python
+#                                        ^^^^ meta.path.python variable.function.python
+#                                            ^ punctuation.section.arguments.begin.python
+#                                             ^^^ meta.generic-name.python
+#                                                ^ punctuation.separator.arguments.python
+#                                                  ^^^ variable.parameter.python
+#                                                     ^ keyword.operator.assignment.python
+#                                                      ^^^ meta.generic-name.python
+#                                                         ^ punctuation.section.arguments.end.python
+#                                                          ^ punctuation.section.inheritance.end.python
+#                                                           ^ punctuation.section.class.begin.python
 
 class MyClass:
     def foo():
@@ -3334,7 +3370,7 @@ foo ^= bar ^= baz
 #                ^ - keyword
 #                 ^^ invalid.deprecated.operator.python
 
-# locical keywords
+# logical keywords
 
   and in is not or
 # ^^^ keyword.operator.logical.python

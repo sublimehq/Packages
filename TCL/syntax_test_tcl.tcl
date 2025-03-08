@@ -235,7 +235,7 @@ proc test {} {
 
     set saoid [svcmap_saoid sm]
 #   ^^^ keyword.other
-    # Syntax highligting works inside an if statement:
+    # Syntax highlighting works inside an if statement:
     if {[defvar cpe_uplink_ifoid 0] == 0} {
         array set cpe_param [objectGetField -oid $cpeoid -fieldname parameters]
 #       ^^^^^ keyword.other

@@ -43,7 +43,7 @@ namespace HelloWorld
         void dcscmm(Transpose TransA, int m, int n, int k,
             double alpha,
             double[] val, int offsetval,
-            int[] indx, int offsetindx,
+            int[] idx, int offsetidx,
             int[] pntrb, int offsetpntrb,
             //int[] pntre, int offsetpntre,
             double[] b, int offsetb, int ldb,

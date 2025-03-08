@@ -1,0 +1,190 @@
+%YAML 1.2
+---
+# This is the common base syntax for Gnu Diff and Git Diff,
+# which contains contexts, shared by both of them.
+# It is not designed as standalone syntax and therefore does not expose
+# anything when referenced or used directly.
+#
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.gnu.org/software/diffutils/manual/diffutils.html
+scope: source.diff.basic
+version: 2
+hidden: true
+
+contexts:
+  main: []
+
+###[ HEADERS ]#################################################################
+
+  diff-header:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
+    - match: '{{bol}}(-{3})[ ](?!$)'
+      captures:
+        1: punctuation.definition.from-file.diff
+      push: diff-header-unified-from-file
+    - match: '{{bol}}(\+{3})[ ](?!$)'
+      captures:
+        1: punctuation.definition.to-file.diff
+      push: diff-header-unified-to-file
+
+  diff-header-unified-from-file:
+    - meta_scope: meta.diff.header.from-file meta.header.from-file.diff
+    - include: pop-eol
+    - include: dev-null
+    - include: path-separators
+    - include: timestamps
+    - include: diff-header-unified-file-comment
+
+  diff-header-unified-to-file:
+    - meta_scope: meta.diff.header.to-file meta.header.to-file.diff
+    - include: pop-eol
+    - include: dev-null
+    - include: path-separators
+    - include: timestamps
+    - include: diff-header-unified-file-comment
+
+  diff-header-unified-file-comment:
+    - match: \s+(\(.+\))$
+      captures:
+        1: comment.block.diff
+
+###[ RANGES ]##################################################################
+
+  diff-line-ranges:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Detailed-Unified
+    - match: '{{bol}}(@@)(?=[^@\n]+@@(?:\s|$))'
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [hunk-name, inside-diff-line-ranges-unified]
+
+  inside-diff-line-ranges-unified:
+    - meta_scope: meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+    - include: pop-eol
+    - match: \1
+      scope: punctuation.definition.range.end.diff
+      pop: 1
+    - include: line-range-span
+    - match: '[+-](?=\d)'
+      scope: support.function.diff
+
+  hunk-name:
+    - include: pop-eol
+    - match: '[ \t]+'
+      scope: meta.toc-list.hunk.diff
+    - match: \S.+?(?=\s*{{eol}})
+      scope: meta.toc-list.hunk.diff entity.name.section.diff
+
+  line-range-span:
+    - match: \d+(?:(,)\d+)?
+      captures:
+        1: punctuation.separator.sequence.diff
+
+###[ DELTAS ]##################################################################
+
+  diff-deltas:
+    # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
+    - match: '{{bol}}\+'
+      scope: punctuation.definition.inserted.diff
+      push: line-inserted
+    - match: '{{bol}}-'
+      scope: punctuation.definition.deleted.diff
+      push: line-deleted
+    - include: incomplete-line
+
+  # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
+  incomplete-line:
+    - match: '{{bol}}[\\/]'
+      scope: punctuation.definition.comment.begin.diff
+      push: line-ignored
+
+  line-deleted:
+    - meta_scope: markup.deleted.diff
+    - include: pop-eol
+    - include: trailing-whitespace
+
+  line-inserted:
+    - meta_scope: markup.inserted.diff
+    - include: pop-eol
+    - include: trailing-whitespace
+
+  line-changed:
+    - meta_scope: markup.changed.diff
+    - include: pop-eol
+    - include: trailing-whitespace
+
+  line-ignored:
+    - meta_scope: comment.line.diff
+    - include: pop-eol
+    - include: trailing-whitespace
+
+  trailing-whitespace:
+    - match: '[ \t]*$'
+      scope: meta.whitespace.trailing.diff
+
+###[ COMPONENTS ]##############################################################
+
+  dev-null:
+    - match: /dev/null\b
+      scope: constant.language.null.diff
+
+  path-separators:
+    - match: /|\\
+      scope: punctuation.separator.path.diff
+    - match: \B\.\.(?=/|\\)
+      scope: constant.other.path.parent.diff
+    - match: \B\.(?=/|\\)
+      scope: constant.other.path.self.diff
+
+  timestamps:
+    # 1970-01-01 00:00:00 +0000
+    - match: \b1970(-)01(-)01 0?0(:)00(:)00(?:(\.)0+)?(?:[ ]([+-]?0000|UTC))?
+      scope: meta.date.diff constant.language.null.diff
+      captures:
+        1: punctuation.separator.date.diff
+        2: punctuation.separator.date.diff
+        3: punctuation.separator.date.diff
+        4: punctuation.separator.date.diff
+        5: punctuation.separator.decimal.diff
+        6: storage.modifier.diff
+
+    # 2002-02-21 23:30:50.442260588 -0800
+    - match: \b\d{4}(-)\d\d(-)\d\d \d?\d(:)\d\d(:)\d\d(?:(\.)\d+)?(?:[ ]([+-]?\d{4}))?
+      scope: meta.date.diff meta.number.integer.decimal.diff constant.numeric.value.diff
+      captures:
+        1: punctuation.separator.date.diff
+        2: punctuation.separator.date.diff
+        3: punctuation.separator.date.diff
+        4: punctuation.separator.date.diff
+        5: punctuation.separator.decimal.diff
+        6: storage.modifier.diff
+
+###[ PROTOTYPES ]##############################################################
+
+  pop-immediately:
+    - match: ''
+      pop: 1
+
+  pop-eol:
+    - match: '{{eol}}'
+      pop: 1
+
+  pop-before-eol:
+    - match: $
+      pop: 1
+
+###############################################################################
+
+variables:
+  git_hash40: '[0-9a-fA-F]{40}'
+  git_hash64: '[0-9a-fA-F]{64}'
+  git_hash_full: (?:{{git_hash64}}|{{git_hash40}})
+  git_first_line: |-
+    {{bol}}(?x:
+      From [ ] \w+@z [ ]
+      Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
+    | From [ ] {{git_hash_full}} [ ]
+      Mon [ ] Sep [ ]   17 [ ] 00:00:00 [ ] 2001  # git-format-patch
+    )
+  # No whitespace at beginning of line, unless overridden
+  bol: ^
+  eol: (?:$\n?)

@@ -27,7 +27,7 @@ variables:
   metamethod: |- # http://lua-users.org/wiki/MetatableEvents
     (?x:__(?:
       # special
-      index|newindex|call|tostring|len|i?pairs|gc
+      index|newindex|call|tostring|len|i?pairs|gc|close
       # math operators
       |unm|add|sub|mul|i?div|mod|pow|concat
       # bitwise operators
@@ -36,7 +36,7 @@ variables:
       |eq|lt|le
     ){{identifier_break}})
   # __metatable and __mode don't use functions
-  metaproperty: (?:__(?:metatable|mode){{identifier_break}})
+  metaproperty: (?:__(?:metatable|mode|name){{identifier_break}})
 
   identifier_start: '[A-Za-z_]'
   identifier_char: '[A-Za-z0-9_]'
@@ -152,7 +152,7 @@ contexts:
       set: maybe-line-doc-comment
 
   maybe-line-doc-comment:
-    - match: ^\s*(?=--(?!\[\[))
+    - match: ^\s*(?=--(?!\[(=*)\[))
       set:
         - match: -{2,}
           scope: punctuation.definition.comment.lua
@@ -211,7 +211,7 @@ contexts:
       scope: invalid.illegal.unexpected-end.lua
 
     - match: (?=\S)
-      push: expression
+      push: expression-list
 
   block-contents:
     - meta_scope: meta.block.lua
@@ -557,7 +557,7 @@ contexts:
 
   support:
     - match: |-
-        (?x:_G|_VERSION){{identifier_break}}
+        (?x:_G|_VERSION|_ENV){{identifier_break}}
       scope: support.constant.builtin.lua
       pop: 1
 
@@ -566,7 +566,7 @@ contexts:
           assert|collectgarbage|dofile|error|getmetatable|ipairs|load|loadfile
           |next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select
           |setmetatable|tonumber|tostring|type|xpcall
-          |require|getfenv|module|setfenv|unpack
+          |require|getfenv|module|setfenv|unpack|warn
         ){{function_call_ahead}}
       scope: meta.function-call.lua support.function.builtin.lua
       pop: 1

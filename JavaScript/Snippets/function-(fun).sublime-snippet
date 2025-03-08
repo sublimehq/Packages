@@ -3,6 +3,6 @@
 	${0:// body...}
 }]]></content>
 	<tabTrigger>fun</tabTrigger>
-	<scope>source.js</scope>
+	<scope>source.js, source.ts, source.jsx, source.tsx</scope>
 	<description>Function</description>
 </snippet>

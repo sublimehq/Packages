@@ -146,6 +146,19 @@
 //                   ^^^^^^ - meta.tag
 //                         ^^^^^^ meta.tag
 
+    <foo>foo<bar>bar<baz>baz</baz>bar</bar>foo</foo>;
+//  ^^^^^ meta.tag
+//       ^^^ - meta.tag
+//          ^^^^^ meta.tag
+//               ^^^ - meta.tag
+//                  ^^^^^ meta.tag
+//                       ^^^ - meta.tag
+//                          ^^^^^^ meta.tag
+//                                ^^^ - meta.tag
+//                                   ^^^^^^ meta.tag
+//                                         ^^^ - meta.tag
+//                                            ^^^^^^ meta.tag
+
     <foo></foo><bar>
 //  ^^^^^^^^^^^ meta.jsx
 //             ^^^^^ - meta.jsx
@@ -183,13 +196,27 @@
 //  ^ punctuation.separator.key-value
 
     'test'
-//  ^^^^^^ string.quoted.single
+//  ^^^^^^ meta.string.js string.quoted.single
+
+    baz 'test'
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
+//  ^^^ entity.other.attribute-name
+//      ^^^^^^ meta.string.js string.quoted.single
+//      ^ punctuation.definition.string.begin
+//           ^ punctuation.definition.string.end
 
     baz='test'
 //  ^^^^^^^^^^ meta.jsx meta.tag.attributes
 //  ^^^ entity.other.attribute-name
 //     ^ punctuation.separator.key-value
-//      ^^^^^^ string.quoted.single
+//      ^^^^^^ meta.string.js string.quoted.single
+//      ^ punctuation.definition.string.begin
+//           ^ punctuation.definition.string.end
+
+    baz "test"
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
+//  ^^^ entity.other.attribute-name
+//      ^^^^^^ meta.string.js string.quoted.double
 //      ^ punctuation.definition.string.begin
 //           ^ punctuation.definition.string.end
 
@@ -197,12 +224,12 @@
 //  ^^^^^^^^^^ meta.jsx meta.tag.attributes
 //  ^^^ entity.other.attribute-name
 //     ^ punctuation.separator.key-value
-//      ^^^^^^ string.quoted.double
+//      ^^^^^^ meta.string.js string.quoted.double
 //      ^ punctuation.definition.string.begin
 //           ^ punctuation.definition.string.end
 
     baz="\n"
-//      ^^^^ string.quoted.double - constant.character.escape
+//      ^^^^ meta.string.js string.quoted.double - constant.character.escape
 
     baz="&nbsp;&nbsp"
 //       ^^^^^^ constant.character.escape
@@ -212,19 +239,24 @@
 
     baz={xyzzy}
 //      ^^^^^^^ meta.interpolation
-//      ^ punctuation.definition.interpolation.begin
+//      ^ punctuation.section.interpolation.begin
 //       ^^^^^ source.js.embedded.jsx variable.other.readwrite
-//            ^ punctuation.definition.interpolation.end
+//            ^ punctuation.section.interpolation.end
 
     baz={{ xyzzy:42 }}
 //      ^^^^^^^^^^^^^^ meta.interpolation
-//      ^ punctuation.definition.interpolation.begin
+//      ^ punctuation.section.interpolation.begin
 //       ^^^^^^^^^^^^ source.js.embedded.jsx meta.mapping
 //         ^^^^^ meta.mapping.key
 //              ^ punctuation.separator.key-value
 //               ^^ meta.number.integer.decimal.js constant.numeric.value.js
-//                   ^ punctuation.definition.interpolation.end
+//                   ^ punctuation.section.interpolation.end
 
+    {attr}name={value}
+//  ^^^^^^ meta.interpolation
+//        ^^^^ entity.other.attribute-name
+//            ^ punctuation.separator.key-value
+//             ^^^^^^^ meta.interpolation
 
     {...attrs}
 //  ^^^^^^^^^^ meta.interpolation
@@ -240,7 +272,7 @@
 //        ^^^^^ meta.mapping.key
 //             ^ punctuation.separator.key-value
 //              ^^ meta.number.integer.decimal.js constant.numeric.value.js
-//                  ^ punctuation.definition.interpolation.end
+//                  ^ punctuation.section.interpolation.end
 
     // baz
 //  ^^^^^^ comment.line.double-slash
@@ -278,32 +310,32 @@
 //     ^^^^^ meta.mapping.key
 //          ^ punctuation.separator.key-value
 //           ^^ meta.number.integer.decimal.js constant.numeric.value.js
-//               ^ punctuation.definition.interpolation.end
+//               ^ punctuation.section.interpolation.end
 
     {//}
-//  ^ punctuation.definition.interpolation.begin
+//  ^ punctuation.section.interpolation.begin
 //   ^^^ comment.line.double-slash
 //   ^^ punctuation.definition.comment
 //     ^ - punctuation
     }
-//  ^ punctuation.definition.interpolation.end
+//  ^ punctuation.section.interpolation.end
 
     {/* foo */}
 //  ^^^^^^^^^^^ meta.jsx meta.interpolation comment.block - source.embedded
-//  ^ punctuation.definition.interpolation.begin
+//  ^ punctuation.section.interpolation.begin
 //   ^^ punctuation.definition.comment.begin
 //          ^^ punctuation.definition.comment.end
-//            ^ punctuation.definition.interpolation.end
+//            ^ punctuation.section.interpolation.end
 
     {/* foo */ bar}
 //  ^^^^^^^^^^^^^^^ meta.jsx meta.interpolation
 //   ^^^^^^^^^^^^^ source.js.embedded
-//  ^ punctuation.definition.interpolation.begin - comment
+//  ^ punctuation.section.interpolation.begin - comment
 //   ^^ punctuation.definition.comment.begin
 //          ^^ punctuation.definition.comment.end
 //            ^^^^^ - comment
 //             ^^^ meta.jsx meta.interpolation variable.other.readwrite
-//                ^ punctuation.definition.interpolation.end
+//                ^ punctuation.section.interpolation.end
 
 </foo>;
 

@@ -923,16 +923,20 @@ type Foo >: Bar
 
    { a => ??? }
 //   ^ variable.parameter
+// ^^^^^^^^^^^^ meta.block.scala
 
    { (a, b) => ??? }
-//   ^ punctuation.section.group.begin.scala
+// ^ punctuation.section.block.begin.scala
 //    ^ variable.parameter.scala
 //       ^ variable.parameter.scala
 //        ^ punctuation.section.group.end.scala
+//                 ^ punctuation.section.block.end.scala
 
    { a: Int => ??? }
+// ^ punctuation.section.block.begin.scala
 //   ^ variable.parameter
 //      ^^^ storage.type.primitive.scala
+//                 ^ punctuation.section.block.end.scala
 
    { (a: Int, b: Int) => ??? }
 //    ^ variable.parameter
@@ -967,9 +971,9 @@ type Foo >: Bar
    a => ???
 // ^ variable.parameter
 
-   a: Int => ???
-// ^ variable.parameter
-//    ^^^ storage.type.primitive.scala
+   (a: Int) => ???
+//  ^ variable.parameter
+//     ^^^ storage.type.primitive.scala
 
 {
    case _ if thing =>
@@ -1031,10 +1035,10 @@ foo(())()
 //       ^^^^^^^^^^^^ string.quoted.double
 //       ^^^^^^^^^^^^ - comment
 
-   cb: ((Throwable \/ Unit) => Unit) => 42
-// ^^ variable.parameter
-//                 ^^ support.type.scala
-//                                   ^^ keyword.declaration.function.arrow
+   (cb: ((Throwable \/ Unit) => Unit)) => 42
+//  ^^ variable.parameter
+//                  ^^ support.type.scala
+//                                     ^^ keyword.declaration.function.arrow
 
 def foo(a: A <:< B)
 //           ^^^ support.type.scala
@@ -1256,9 +1260,9 @@ val Stuff(thing, other) = ???
 //        ^^^^^ variable.other.constant.scala
 //               ^^^^^ variable.other.constant.scala
 
-   x: List[Int] => ()
-// ^ variable.parameter.scala
-//              ^^ keyword.declaration.function.arrow.lambda.scala
+   (x: List[Int]) => ()
+//  ^ variable.parameter.scala
+//                ^^ keyword.declaration.function.arrow.lambda.scala
 
 /** private */ class Foo
 //             ^^^^^ keyword.declaration.class.scala
@@ -1409,13 +1413,13 @@ def test
 def foo: Map[Bar]=42
 //                ^^ meta.number.integer.decimal.scala
 
-   x: Foo.Bar => ()
-// ^ variable.parameter.scala
-//            ^^ keyword.declaration.function.arrow.lambda.scala
+   (x: Foo.Bar) => ()
+//  ^ variable.parameter.scala
+//              ^^ keyword.declaration.function.arrow.lambda.scala
 
-   x: Foo#Bar => ()
-// ^ variable.parameter.scala
-//            ^^ keyword.declaration.function.arrow.lambda.scala
+   (x: Foo#Bar) => ()
+//  ^ variable.parameter.scala
+//              ^^ keyword.declaration.function.arrow.lambda.scala
 
     object Stuff {
       case
@@ -1640,22 +1644,11 @@ match {
 //^^^^ - meta.pattern
 //     ^ meta.pattern.scala
    => 42
-// ^^ - meta.block.case.first
 // ^^ - meta.pattern
-//    ^^ meta.block.case.first.scala
-{
-
-  // <- - meta.block.case
-}
 
   case _ => 42
-//       ^^ - meta.block.case.non-first
 //       ^^ - meta.pattern
-//          ^^ meta.block.case.non-first.scala
 
-  case _ => 42
-//       ^^ - meta.block.case.non-first
-//          ^^ meta.block.case.non-first.scala
 }
 
 class Foo
@@ -1963,9 +1956,9 @@ tail: _ *
 //            ^^ variable.other.constant.scala
       subject,
 //    ^^^^^^^ variable.other.constant.scala
-      Content(tpe, value)) = m
-//            ^^^ variable.other.constant.scala
-//                 ^^^^^ variable.other.constant.scala
+      Content(type_, value)) = m
+//            ^^^^^ variable.other.constant.scala
+//                   ^^^^^ variable.other.constant.scala
 
 {
   case Foo() =>
@@ -2024,8 +2017,10 @@ for (_<- fu; _← fu; _= fu)
 //  ^ punctuation.section.group.begin.scala
 //   ^ variable.language.underscore.scala
 //    ^^ keyword.operator.assignment.scala
+//         ^ punctuation.terminator.scala
 //           ^ variable.language.underscore.scala
 //            ^ keyword.operator.assignment.scala
+//                ^ punctuation.terminator.scala
 //                  ^ variable.language.underscore.scala
 //                   ^ keyword.operator.assignment.scala
 //                       ^ punctuation.section.group.end.scala
@@ -2303,3 +2298,29 @@ completed: F[_ >: A] => B)
 //      ^ entity.name.type.scala
 }
 
+(abc, cba) => ()
+//  ^ punctuation.separator.scala
+
+class c()
+    extends a()
+    // some comment
+    with foo with bar {
+//  ^^^^ storage.modifier.with.scala
+//       ^^^ entity.other.inherited-class.scala
+//           ^^^^ storage.modifier.with.scala
+//                ^^^ entity.other.inherited-class.scala
+
+trait Foo { abcd: Foo =>
+//          ^^^^ variable.parameter.scala
+//                ^^^ support.class.scala
+//                    ^^ keyword.declaration.function.arrow.lambda.scala
+}
+
+trait Foo { abcd: Foo.type =>
+//          ^^^^ variable.parameter.scala
+//                ^^^ support.class.scala
+//                    ^^^^ keyword.other.scala
+//                         ^^ keyword.declaration.function.arrow.lambda.scala
+}
+
+type Foo = Foo.type

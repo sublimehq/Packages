@@ -239,7 +239,7 @@ int f(int x, \
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
-#error "Eplicitly quoted string wrapped, \
+#error "Explicitly quoted string wrapped, \
     ensuring that the string quoting stops at some point \
     "
 #warning This is a short warning
@@ -258,6 +258,42 @@ int f(int x, \
 bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
+
+size_t size_t_var;
+/* <- support.type.stddef */
+
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
+
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
 
 FOOBAR
 hello() {
@@ -497,6 +533,23 @@ struct UI_MenuBoxData
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
+int bar(int, int const *, int const * const);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+/*     ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
+/*                                          ^ punctuation.terminator */
+/*      ^^^ storage.type */
+/*         ^ punctuation.separator */
+/*           ^^^ storage.type */
+/*               ^^^^^ storage.modifier */
+/*                     ^ keyword.operator */
+/*                      ^ punctuation.separator */
+/*                        ^^^ storage.type */
+/*                            ^^^^^ storage.modifier */
+/*                                  ^ keyword.operator */
+/*                                    ^^^^^ storage.modifier */
+
 int foo(int val, float val2[])
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
@@ -534,9 +587,17 @@ int foo(int val, float val2[])
 
     if (val == -1) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
-#else
+#elifdef BAR
  /* <- keyword.control.import */
     if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#elifndef BAZ
+ /* <- keyword.control.import */
+    if (val == -3) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#else
+ /* <- keyword.control.import */
+    if (val == -4) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
  /* <- keyword.control.import */
@@ -801,6 +862,11 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*                   ^ punctuation.definition.string.end */
 #endif
 
+static const unsigned char image_png[] = {
+#embed <image.png>
+/* <- keyword.control.import.include */
+};
+
 #include<iostream>
 /* <- keyword.control.import.include */
 /*      ^ punctuation.definition.string.begin */
@@ -819,9 +885,8 @@ dec1 = 1234567890;
 /*               ^ punctuation.terminator - constant */
 
 dec2 = 1234567890f;
-/*     ^^^^^^^^^^^ meta.number.float.decimal.c */
 /*     ^^^^^^^^^^ constant.numeric.value.c */
-/*               ^ constant.numeric.suffix.c */
+/*               ^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
 dec3 = 1234567890L;
@@ -855,9 +920,9 @@ dec7 = 1234567890uLL;
 /*                  ^ punctuation.terminator - constant */
 
 dec8 = 1'234_567'890s0f;
-/*     ^ meta.number.integer.decimal.c constant.numeric.value.c */
-/*      ^^^^^^^^^ string.quoted.single */
-/*               ^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^ constant.numeric.value.c */
+/*          ^^^^ invalid.illegal.numeric.suffix.c */
 /*               ^^^ constant.numeric.value.c */
 /*                  ^^^ invalid.illegal.numeric.suffix.c */
 /*                     ^ punctuation.terminator - constant */
@@ -916,11 +981,9 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*                            ^^ constant.numeric.base.c */
 /*                              ^ constant.numeric.value.c */
 /*                               ^ constant.numeric.suffix.c */
-/*                                 ^^ meta.number.integer.hexadecimal.c */
+/*                                 ^^^^^^^ meta.number.integer.hexadecimal.c */
 /*                                 ^^ constant.numeric.base.c */
-/*                                   ^^^ string.quoted.single.c */
-/*                                      ^^^^^^ meta.number.integer.decimal.c */
-/*                                      ^^ constant.numeric.value.c */
+/*                                   ^^^^^ constant.numeric.value.c */
 /*                                        ^^^^ invalid.illegal.numeric.suffix.c */
 /*                                            ^ punctuation.terminator - constant */
 

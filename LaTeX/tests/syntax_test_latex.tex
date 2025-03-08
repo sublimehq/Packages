@@ -334,11 +334,11 @@
 %           ^ support.function
 %
 
-\parencite[Propositon~1]{Ref}
+\parencite[Proposition~1]{Ref}
 % ^ meta.function.citation.latex
 % ^ support.function.cite.latex
 %          ^ meta.group.bracket.latex
-%                         ^ constant.other.citation.latex
+%                          ^ constant.other.citation.latex
 
 \parencites[Proposition~1]{Firstref}[p.~2]{SecondRef}
 % ^ meta.function.citation.latex
@@ -761,7 +761,7 @@ The \emph{verbatim} environment sets everything in verbatim.
 % ^ support.function.includegraphics.latex
 %                           ^ support.function.general.latex
 
-% Neasted optional arguments
+% Nested optional arguments
 \includegraphics[width={\foo[argument]{bar}}]{test.png}
 % ^ support.function.includegraphics.latex
 %                        ^ meta.group.bracket.latex
@@ -783,6 +783,13 @@ The \emph{verbatim} environment sets everything in verbatim.
 %^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
 % ^^^^^^^^^^ markup.math.inline - string
 %           ^ punctuation.definition.string.end.tex - markup.math.inline
+
+ $\verb!$! \alpha$
+%^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+% ^^^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex markup.math.inline
+%       ^ markup.raw.verb.latex
+%          ^^^^^^ keyword.other.math.greek.tex
+%                ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.end.tex
 
  $$f(x) = x^2$$
 %^^ string.other.math.tex punctuation.definition.string.begin.tex
@@ -838,21 +845,61 @@ The \emph{verbatim} environment sets everything in verbatim.
 %      ^^^^^^^^ variable.parameter.function.latex
 %              ^ punctuation.definition.group.brace.end.tex
 f(x) = x^2
-% <- meta.environment.math.block.be.latex variable.other.math.tex
+% <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{equation}
-% <- support.function.end.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
-%^^^ support.function.end.latex keyword.control.flow.begin.latex
+% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^ variable.parameter.function.latex
 %            ^ punctuation.definition.group.brace.end.tex
 
+\begin{equation*}
+% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^ variable.parameter.function.latex
+%               ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{equation*}
+% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
 
-$\verb!$! \alpha$
-%^^^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex markup.math.inline
-%      ^ markup.raw.verb.latex
-%         ^^^^^^ keyword.other.math.greek.tex
+\begin{IEEEeqnarray}
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^^^^ variable.parameter.function.latex
+%                  ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{IEEEeqnarray}
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^^^^ variable.parameter.function.latex
+%                ^ punctuation.definition.group.brace.end.tex
 
+\begin{IEEEeqnarray}{c}
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^^^^ variable.parameter.function.latex
+%                  ^ punctuation.definition.group.brace.end.tex
+%                   ^ punctuation.definition.group.brace.begin.tex
+%                    ^ variable.parameter.function.latex
+%                     ^ punctuation.definition.group.brace.end.tex
+f(x) = x^2
+% <- meta.environment.math.block.latex variable.other.math.tex
+%^^^^^^^^^ meta.environment.math.block
+\end{IEEEeqnarray}
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^^^^ variable.parameter.function.latex
+%                ^ punctuation.definition.group.brace.end.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 Boxes

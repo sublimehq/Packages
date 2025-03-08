@@ -114,7 +114,7 @@ not a comment
 :: <- - comment
 :: ^^^^^^^^^^ - comment
 
-::: Test Case : continuation with only litaral caret, no recursive continuation
+::: Test Case : continuation with only literal caret, no recursive continuation
 
 REM Line^
 ^
@@ -441,6 +441,12 @@ ECHO : Not a comment ^
 ::^^ - entity
 :: ^ punctuation.definition.label.dosbatch
 ::  ^^ entity.name.label.dosbatch constant.character.escape.dosbatch - punctuation
+::    ^ - entity
+
+   :^%
+::^^ - entity
+:: ^ punctuation.definition.label.dosbatch
+::  ^^ entity.name.label.dosbatch - constant.character.escape - punctuation
 ::    ^ - entity
 
    :%%
@@ -795,6 +801,17 @@ ECHO : Not a comment ^
 ::      ^ punctuation.definition.label.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
 ::       ^^ constant.character.escape.dosbatch
+::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+
+   CALL :^% 10
+::^ - meta.function-call
+:: ^^^^^ meta.function-call.dosbatch
+::      ^^^ meta.function-call.identifier.dosbatch
+::         ^^^ meta.function-call.arguments.dosbatch
+::            ^ - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.label.dosbatch
+::      ^^^ variable.label.dosbatch - keyword - constant.character
 ::          ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL :%% 10
@@ -1277,6 +1294,23 @@ bar baz
 ::     ^ - keyword - variable
 ::      ^ variable.label.dosbatch
 ::       ^ - variable
+
+   GOTO ^%
+:: ^^^^^^^ meta.command.goto.dosbatch
+::        ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^^ variable.label.dosbatch - constant.character
+::        ^ - variable
+
+   GOTO ^%var%
+:: ^^^^^^^^^^^ meta.command.goto.dosbatch
+::            ^ - meta.command
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ - keyword - variable
+::      ^ variable.label.dosbatch - meta.interpolation - constant.character
+::       ^^^^^ variable.label.dosbatch meta.interpolation.dosbatch - constant.character
+::            ^ - variable
 
    GOTO %var% ignored content ( & echo foo
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
@@ -2508,6 +2542,12 @@ put arg1 arg2
 ::                         ^^^^^^^ meta.interpolation.dosbatch
 ::                               ^ punctuation.section.interpolation.end.dosbatch
 
+   ren example.txt example_^%today%.txt
+::                         ^ - constant.character.escape
+::                          ^ punctuation.section.interpolation.begin.dosbatch
+::                          ^^^^^^^ meta.interpolation.dosbatch
+::                                ^ punctuation.section.interpolation.end.dosbatch
+
    powershell get-date -uformat "%%Y%%m%%d">today.txt
 ::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.dosbatch
 ::            ^^^^^^^^ - variable.parameter
@@ -2557,13 +2597,13 @@ put arg1 arg2
 ::      ^^ keyword.operator.assignment.redirection.dosbatch
 ::         ^^^ constant.language.null.dosbatch
 
-   ECHO <contet.txt and others
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-::      ^^^^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch - string string
+   ECHO <content.txt and others
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^ meta.string.dosbatch meta.redirection.dosbatch - string string
 
-   ECHO "<contet.txt and others"
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - meta.redirection
+   ECHO "<content.txt and others"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - meta.redirection
 
    dir > f.txt 2>&1 /b
 :: ^^^^^^^^^^^^^^^^^^^ meta.function-call
@@ -2914,11 +2954,11 @@ put arg1 arg2
 ::        ^^^^^ - support.function
 
    ECHO "
-::      ^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::       ^ - meta.string - string
 
    ECHO "^
-::      ^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::        ^ - meta.string - string
 
    ECHO "^
@@ -2949,22 +2989,22 @@ put arg1 arg2
 ::                 ^ - meta.command - meta.string - string
 
    ECHO "foo"
-::      ^^^^^ string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^ string.unquoted.dosbatch - constant - punctuation
 ::           ^ - meta.command - meta.string - string
 
    ECHO "foo"bar"baz"
 ::     ^ - meta.string - string
-::      ^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::                   ^ - meta.string - string
 
    ECHO foo"bar>nul && echo baz
 ::     ^ - meta.string - string
-::      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::                             ^ - meta.string - string
 
    ECHO foo"bar">nul && echo baz
 ::     ^ - meta.string - string
-::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 ::              ^ keyword.operator.assignment.redirection.dosbatch
 ::               ^^^ constant.language.null.dosbatch
 ::                   ^^ keyword.operator.logical.dosbatch
@@ -3179,14 +3219,14 @@ no continuation
 ::       ^^^ variable.other.readwrite.dosbatch
 ::          ^ punctuation.separator.dosbatch
 ::           ^^^^ string.unquoted.dosbatch
-::               ^ keyword.operator.asignment.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
 ::                ^^^^ string.unquoted.dosbatch
 ::                    ^ punctuation.section.interpolation.end.dosbatch
 ::                      ^ punctuation.section.interpolation.begin.dosbatch
 ::                       ^^^ variable.other.readwrite.dosbatch
 ::                          ^ punctuation.separator.dosbatch
 ::                           ^^^^ string.unquoted.dosbatch
-::                               ^ keyword.operator.asignment.dosbatch
+::                               ^ keyword.operator.assignment.dosbatch
 ::                                ^^^^ string.unquoted.dosbatch
 ::                                    ^ punctuation.section.interpolation.end.dosbatch
 
@@ -3284,7 +3324,7 @@ no continuation
 ::        ^ punctuation.separator.dosbatch
 ::         ^ punctuation.section.interpolation.begin.dosbatch
 ::             ^ punctuation.section.interpolation.end.dosbatch
-::              ^ keyword.operator.asignment.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.section.interpolation.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
@@ -3310,7 +3350,7 @@ no continuation
 ::        ^ punctuation.separator.dosbatch
 ::         ^ punctuation.section.interpolation.begin.dosbatch
 ::             ^ punctuation.section.interpolation.end.dosbatch
-::              ^ keyword.operator.asignment.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.section.interpolation.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
@@ -3887,7 +3927,7 @@ no continuation
 ::       ^ punctuation.section.interpolation.begin.dosbatch
 ::        ^^^^ variable.other.readwrite.dosbatch
 ::            ^ punctuation.separator.dosbatch
-::              ^ keyword.operator.asignment.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
 ::               ^ string.unquoted.dosbatch
 ::                ^ punctuation.section.interpolation.end.dosbatch
 
@@ -4691,7 +4731,7 @@ no continuation
 ::                                              ^^^^ support.function.builtin.dosbatch
 
    :: even number of quotes in l-value
-   :: quoted value with missing end quotation markd
+   :: quoted value with missing end quotation mark
    set /p today="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -4725,7 +4765,7 @@ no continuation
 ::                                                ^^^^ support.function.builtin.dosbatch
 
    :: even number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p today="enter %date%: not a comment & echo done" ignored
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -4828,7 +4868,7 @@ no continuation
 ::                                                       ^ - punctuation
 
    :: odd number of quotes in l-value
-   :: quoted value with missing end quotation markd
+   :: quoted value with missing end quotation mark
    set /p today"="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -4863,7 +4903,7 @@ no continuation
 ::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: odd number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p today"="enter %date%: not a comment & echo done" text
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -5150,7 +5190,7 @@ no continuation
 ::                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 
    :: quoted prompt, even number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p "today="enter %date%: ignored content & echo done" end
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -5252,7 +5292,7 @@ no continuation
 ::                                                ^^^^ support.function.builtin.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
-   :: quoted value with missing end quotation markd
+   :: quoted value with missing end quotation mark
    set /p "today"="enter %date%: not a comment & echo done
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -5282,7 +5322,7 @@ no continuation
 ::                                                  ^^^^ support.function.builtin.dosbatch
 
    :: quoted prompt, odd number of quotes in l-value
-   :: quoted value with even number of quotes, & ignoredd within quotes
+   :: quoted value with even number of quotes, & ignored within quotes
    set /p "today"="enter %date%: not a comment & echo done" text
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string

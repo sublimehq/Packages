@@ -6,14 +6,11 @@ name: Bash
 scope: source.shell.bash
 version: 2
 
-extends: Packages/ShellScript/commands-builtin-shell-bash.sublime-syntax
-
 file_extensions:
   - sh
   - bash
   - bashrc    # e.g.: /etc/bash.bashrc
   - ash
-  - zsh
 
 hidden_file_extensions:
   - .bash_aliases
@@ -27,11 +24,6 @@ hidden_file_extensions:
   - .bashrc
   - .profile
   - .textmate_init
-  - .zlogin
-  - .zlogout
-  - .zprofile
-  - .zshenv
-  - .zshrc
   - APKBUILD  # https://wiki.alpinelinux.org/wiki/APKBUILD_Reference
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - ebuild
@@ -39,136 +31,59 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(bash|zsh|sh|tcsh|ash|dash)\b            # shebang
+    ^ \#! .* \b(bash|sh|tcsh|ash|dash)\b                # shebang
   | ^ \s* \# .*? -\*- .*? \bshell(-script)?\b .*? -\*-  # editorconfig
-  | ^ \#(autoload|compdef)\b                            # zsh completions
   )
-
-###############################################################################
-
-variables:
-  is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
-  is_variable: (?={{variable_first_char}}{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
-
-  # posix identifiers (alpha-numeric)
-  identifier: '{{identifier_first_char}}{{identifier_char}}*'
-  identifier_first_char: '[[:alpha:]_]'
-  identifier_char: '[[:alnum:]_]'
-
-  # non-posix identifiers
-  nonposix: '{{nonposix_first_char}}{{nonposix_char}}*{{nonposix_break}}'
-  nonposix_first_char: '[^{{metachar}}]'
-  nonposix_char: '[^{{metachar}}=]'
-  nonposix_begin: (?={{nonposix_first_char}})
-  nonposix_break: (?={{metachar}}|{{varassign}}|$)
-
-  # Commands literals are command names without interpolation or quotation.
-  cmd_literal: '{{cmd_literal_char}}+{{cmd_break}}'
-  cmd_literal_char: '[^{{metachar}}%$\\""''`]'
-
-  # Command names are non-posix identifiers, which may include assignment operators.
-  cmd_begin: (?={{cmd_char}})
-  cmd_break: (?!{{cmd_char}})
-  cmd_char: '[^{{metachar}}]'
-
-  # Command options are identifiers, which may start with interpolation.
-  opt_punctuation: '{{wspace}}(--|[-+]){{nonposix_begin}}'
-  opt_literal_char: '[^{{metachar}}=%$\\""''`]'
-  opt_break: '{{nonposix_break}}'
-
-  # Variables are posix identifiers, which may start with interpolation.
-  variable_begin: (?={{variable_first_char}}|\$)
-  variable_first_char: '{{identifier_first_char}}'
-
-  # posix regexp quantifiers
-  character_quantifier: '[?*+]'
-  lazy_or_possessive: '[?+]?'
-  ranged_quantifier: \{\d+(?:,\d*)?\}
-
-  posix_classes: |-
-    (?x: ascii | alnum | alpha | blank | cntrl | digit | graph
-    | lower | print | punct | space | upper | word | xdigit )
-
-  # A character that, when unquoted, separates words. A metacharacter is a
-  # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
-  # ‘(’, ‘)’, ‘<’, or ‘>’.
-  metachar: '[\s|&;()<>]'
-
-  nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
-  varassign: '[-+]?='
-  wspace: (?:\s+|^)
-
-  no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
 
 ###############################################################################
 
 contexts:
   main:
+    - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
   statements:
     - include: comments
-    - include: line-continuations
-    - include: operators
-    - include: redirections
-    - include: def-anonymous
-    - include: cmd-alias
-    - include: cmd-arithmetic
-    - include: cmd-compound
-    - include: cmd-historic
-    - include: cmd-sudo
-    - include: cmd-test
-    - include: cmd-control
-    - include: cmd-coproc
-    - include: cmd-exec
-    - include: cmd-unalias
-    - include: cmd-unset
-    - include: cmd-builtins
-    - include: cmd-declare
-    - include: cmd-export
-    - include: cmd-readonly
-    - include: def-variables
-    - include: def-functions
-    - include: booleans
-    - include: cmd-basic
+    - include: terminators
+    - match: (?=\S)
+      push: statement
 
   statement:
-    - include: statements
-    - include: eol-pop
-
-###[ PROTOTYPES ]##############################################################
-
-  brace-pop:
-    - match: (?=\})
-      pop: 1
-
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  eoc-pop:
-    - match: (?=[)}]|\s*([|;]|&(?!>)))
-      pop: 1
-    - include: eol-pop
-
-  eol-pop:
-    - match: $|(?=\s+#)
-      pop: 1
-    - include: line-continuations
-
-  eol-pop2:
-    - match: $|(?=\s+#)
-      pop: 2
-    - include: line-continuations
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
-  immediately-pop2:
-    - match: ''
-      pop: 2
+    # reserved words
+    - include: redirections
+    - include: eoc-pop
+    - include: operators
+    - include: cmd-control
+    # definitions
+    - include: def-variable
+    - include: def-coproc
+    - include: def-function
+    # builtin commands
+    #  can be augmented by function definitions
+    - include: boolean
+    - include: cmd-alias
+    - include: cmd-arithmetic
+    - include: cmd-command
+    - include: cmd-compound-brace
+    - include: cmd-compound-paren
+    - include: cmd-declare
+    - include: cmd-echo
+    - include: cmd-exec
+    - include: cmd-export
+    - include: cmd-historic
+    - include: cmd-mapfile
+    - include: cmd-read
+    - include: cmd-readonly
+    - include: cmd-sudo
+    - include: cmd-test
+    - include: cmd-trap
+    - include: cmd-unalias
+    - include: cmd-unset
+    - include: cmd-builtin
+    # user defined commands
+    - include: cmd-basic
+    - include: illegal-stray
 
 ###[ COMMENTS ]################################################################
 
@@ -192,8 +107,10 @@ contexts:
       pop: 1
 
   shebang:
-    - match: ^\#!
-      scope: punctuation.definition.comment.shell
+    # allow extending syntaxes like Markdown to ignore indentation restrictions
+    - match: '{{no_indent}}(\#!)'
+      captures:
+        1: punctuation.definition.comment.shell
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Bash is embedded.
       pop: 1
@@ -201,58 +118,114 @@ contexts:
   shebang-body:
     - meta_scope: comment.line.shebang.shell
     # Note: Keep sync with first_line_match!
-    - match: \b(bash|zsh|sh|tcsh|ash)\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.shell
     - match: \n
       pop: 1
 
+###[ COPROC DEFINITIONS ]######################################################
+
+  def-coproc:
+    - match: coproc{{cmd_break}}
+      scope:
+        meta.coproc.shell
+        keyword.declaration.coproc.shell
+      set: def-coproc-identifier
+
+  def-coproc-identifier:
+    - match: (?:(\s*)(({{cmd_literal}})\s*)?(?=\{))?
+      captures:
+        1: meta.coproc.shell
+        2: meta.coproc.identifier.shell
+        3: entity.name.function.shell
+      set:
+        - def-coproc-command-meta
+        - statement
+
+  def-coproc-command-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.coproc.command.shell
+    - include: immediately-pop
+
 ###[ FUNCTION DEFINITIONS ]####################################################
 
-  def-anonymous:
-    - match: (?=\(\s*\))
-      push:
-        - def-functions-redirection
-        - def-anonymous-body
-        - def-functions-params
+  def-function:
+    # [Bash] 3.3 Shell Functions
+    - match: function{{cmd_break}}
+      scope: keyword.declaration.function.shell
+      branch_point: function
+      branch:
+        - def-function-begin
+        - def-anonymous-begin
+      pop: 1
+    - match: (?={{cmd_literal}}\s*\(\s*\))
+      set:
+        - def-function-body
+        - def-function-params
+        - def-function-name
+    # anonymous functions are immediately called
+    # hence scoping as meta.function-call meta.function
+    - match: (\()\s*(\))
+      scope: meta.function-call.shell meta.function.anonymous.parameters.shell
+      captures:
+        1: punctuation.section.parameters.begin.shell
+        2: punctuation.section.parameters.end.shell
+      set: def-anonymous-body
+
+  def-anonymous-begin:
+    # anonymous functions are immediately called
+    # hence scoping as meta.function-call meta.function
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.shell meta.function.anonymous.shell
+    - match: ''
+      set: def-anonymous-body
 
   def-anonymous-body:
-    - include: def-function-body-braces
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.shell meta.function.anonymous.shell
+    - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
+      scope: punctuation.section.block.begin.shell
+      set: def-anonymous-block-body
+    - include: illegal-options
     - include: line-continuations
     - include: comments
     - include: else-pop
 
-  def-functions:
-    # [Bash] 3.3 Shell Functions
-    - match: (?={{cmd_literal}}\s*\(\s*\))
-      push:
-        - def-functions-redirection
-        - def-functions-body
-        - def-functions-params
-        - def-functions-name
-    - match: function{{cmd_break}}
-      scope:
-        meta.function.shell
-        keyword.declaration.function.shell
-      push:
-        - def-functions-redirection
-        - def-functions-body
-        - def-functions-params
-        - def-functions-name
+  def-anonymous-block-body:
+    - meta_scope: meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
+    - match: \}
+      scope: punctuation.section.block.end.shell
+      set:
+        - cmd-args-meta
+        - cmd-args
+    - include: statements
 
-  def-functions-name:
+  def-function-begin:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.shell
+    - match: ''
+      set:
+        - def-function-body
+        - def-function-params
+        - def-function-name
+
+  def-function-name:
+    - meta_include_prototype: false
     - match: '{{cmd_begin}}'
-      set: def-functions-name-chars
-    - include: else-pop
-    - include: eol-pop
+      set: def-function-name-chars
+    - match: (?=\S)
+      fail: function
 
-  def-functions-name-chars:
-    - match: '{{cmd_literal_char}}+'
-      scope: entity.name.function.shell
-    - include: entity-function-expansions
-    - include: immediately-pop
+  def-function-name-chars:
+    - meta_scope: entity.name.function.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{cmd_break}}'
+      pop: 1
 
-  def-functions-params:
+  def-function-params:
     - clear_scopes: 1
+    - meta_include_prototype: false
     - meta_content_scope: meta.function.identifier.shell
     - match: (\()\s*(\))
       scope: meta.function.parameters.shell
@@ -263,8 +236,11 @@ contexts:
     - include: line-continuations
     - include: comments
     - include: else-pop
+    - include: eol-pop
 
-  def-functions-body:
+  def-function-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function.shell
     - include: def-function-body-braces
     - include: def-function-body-parens
     - include: line-continuations
@@ -273,267 +249,262 @@ contexts:
 
   def-function-body-braces:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
-      scope: punctuation.section.compound.begin.shell
-      set:
-        - meta_scope: meta.compound.shell
-        - match: \}
-          scope: punctuation.section.compound.end.shell
-          pop: 1
-        - include: statements
+      scope: punctuation.section.block.begin.shell
+      set: def-function-body-braces-body
+
+  def-function-body-braces-body:
+    - meta_scope: meta.function.body.shell meta.block.shell
+    - match: \}
+      scope: punctuation.section.block.end.shell
+      set: def-function-end
+    - include: statements
 
   def-function-body-parens:
     - match: \(
-      scope: punctuation.section.compound.begin.shell
-      set:
-        - meta_scope: meta.compound.shell
-        - match: \)
-          scope: punctuation.section.compound.end.shell
-          pop: 1
-        - include: statements
+      scope: meta.block.shell punctuation.section.block.begin.shell
+      set: def-function-body-parens-body
 
-  def-functions-redirection:
-    - meta_scope: meta.function.shell
+  def-function-body-parens-body:
+    - meta_scope: meta.function.body.shell meta.block.shell
+    - match: \)
+      scope: punctuation.section.block.end.shell
+      set: def-function-end
+    - include: statements
+
+  def-function-end:
+    - include: eoc-pop
     - include: redirections
-    - include: else-pop
-    - include: eol-pop
+    - include: illegal-words
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
-  def-variables:
-    - match: '{{is_variable}}'
-      push:
-        - variable-value-assignment
-        - variable-item-access
-        - variable-other-chars
-
-  variables:
-    - match: (?={{identifier_first_char}})
-      push: [variable-item-access, variable-other-chars]
-
-  variable-other-chars:
-    - match: '{{identifier_char}}+'
-      scope: variable.other.readwrite.shell
-    - include: variable-other-expansions
-    - include: immediately-pop
-
-  variable-item-access:
-    - meta_scope: meta.variable.shell
-    - include: arrays-item-access
-    - include: line-continuations
-    - include: immediately-pop
-
-  variable-value-assignment:
-    - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: variable-value
-    - include: line-continuations
-    - include: immediately-pop
-
-  variable-value:
-    - match: \(
-      scope: punctuation.section.sequence.begin.shell
+  def-variable:
+    - match: (?={{identifier}}(?:\[[^\]]*\])*{{varassign}})
       set:
-        - meta_scope: meta.sequence.shell
-        - match: \)
-          scope: punctuation.section.sequence.end.shell
-          pop: 1
-        - match: \[
-          scope: punctuation.section.brackets.begin.shell
-          push:
-            - meta_scope: meta.brackets.shell
-            - match: \]
-              scope: punctuation.section.brackets.end.shell
-              set: variable-value-assignment
-            - include: expansions-and-strings
-            - include: comments
-        - include: comments
-        - match: (?=\S)
-          push: variable-value
+        - literal-array-value-assignment
+        - variable-name-begin
+
+  variable-name-begin:
+    - meta_include_prototype: false
+    - match: '{{builtin_variables}}'
+      scope: variable.language.builtin.shell
+      pop: 1
+    - match: ''
+      set: variable-name-chars
+
+  variable-name-chars:
+    - meta_scope: variable.other.readwrite.shell
     - include: line-continuations
-    - include: boolean
-    - include: number
-    - include: string-unquoted
+    - include: literal-unquoted-content
+    - match: '{{identifier_break}}'
+      pop: 1
+
+  variable-subscription:
+    - include: variable-subscriptions
+    - include: line-continuations
+    - include: immediately-pop
+
+  variable-subscriptions:
+    - match: (\[)([*@])(\])
+      scope: meta.item-access.shell
+      captures:
+        1: punctuation.section.item-access.begin.shell
+        2: variable.language.array.shell
+        3: punctuation.section.item-access.end.shell
+    - match: \[
+      scope: punctuation.section.item-access.begin.shell
+      push: variable-subscription-body
+
+  variable-subscription-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.item-access.shell
+    - meta_content_scope: meta.arithmetic.shell
+    - match: \]
+      scope: punctuation.section.item-access.end.shell
+      pop: 1
+    - include: eoc-pop
+    - include: expression-content
+
+  assignment-value-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.assignment.r-value.shell
     - include: immediately-pop
 
 ###[ ALIAS BUILTINS ]##########################################################
 
   cmd-alias:
     - match: alias{{cmd_break}}
-      scope:
-        meta.declaration.alias.shell
-        keyword.declaration.alias.shell
-      push:
+      scope: keyword.declaration.alias.shell
+      set:
         - cmd-alias-args-meta
         - cmd-alias-args
 
   cmd-alias-args-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.declaration.alias.arguments.shell
+    - meta_scope: meta.declaration.alias.shell
     - include: immediately-pop
 
   cmd-alias-args:
-    - match: ([-+])p
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: cmd-alias-args-end-of-options
-
-  cmd-alias-args-end-of-options:
-    - include: cmd-args-illegal-options
-    - match: --{{cmd_break}}|(?=\S)
+    - match: --{{word_break}}
       scope: keyword.operator.end-of-options.shell
-      set: cmd-alias-args-name
-    - include: eoc-pop
+      set: cmd-alias-args-definitions
+    - include: cmd-args-options
+    - include: cmd-alias-args-definitions
 
-  cmd-alias-args-name:
-    - include: cmd-args-boilerplate
-    - match: =
-      scope: keyword.operator.assignment.shell
-      push: string-unquoted
-    - match: (?=\S)
-      push: cmd-alias-args-name-chars
+  cmd-alias-args-definitions:
+    - include: cmd-args-end
+    - match: '{{word_begin}}'
+      push: alias-name-chars
 
-  cmd-alias-args-name-chars:
-    - meta_scope: meta.variable.shell
-    - match: '{{opt_literal_char}}+'
-      scope: entity.name.function.shell
-    - include: entity-function-expansions
-    - include: immediately-pop
+  alias-name-chars:
+    - meta_scope: meta.assignment.l-value.shell meta.command.shell entity.name.function.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{opt_break}}'
+      set: statements-value-assignment
 
 ###[ ARITHMETIC BUILTINS ]#####################################################
 
   cmd-arithmetic:
-    - match: \(\((?=.+\)\))
-      scope: punctuation.section.arithmetic.begin.shell
-      push: cmd-arithmetic-body
+    - match: (?=\(\()
+      branch_point: cmd-arithmetic
+      branch:
+        - cmd-compound-arithmetic
+        - cmd-compound-paren
+      pop: 1
     - match: let{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.let.shell
-      push: cmd-arithmetic-args
+      scope: meta.function-call.identifier.shell support.function.shell
+      set: cmd-arithmetic-args
+
+  cmd-compound-arithmetic:
+    - meta_include_prototype: false
+    - match: \(\(
+      scope: punctuation.section.compound.begin.shell
+      set: cmd-arithmetic-body
 
   cmd-arithmetic-body:
-    - meta_scope: meta.arithmetic.shell
+    - meta_scope: meta.compound.arithmetic.shell
+    - meta_content_scope: meta.arithmetic.shell
     - match: \)\)
-      scope: punctuation.section.arithmetic.end.shell
+      scope: punctuation.section.compound.end.shell
       pop: 1
-    - include: expressions
+    - match: (?=\))
+      fail: cmd-arithmetic
+    - include: expression-content
 
   cmd-arithmetic-args:
+    - meta_content_scope: meta.function-call.arguments.shell meta.arithmetic.shell
+    - include: cmd-args-end
+    - include: expression-content
+
+###[ COMMAND BUILTINS ]########################################################
+
+  cmd-command:
+    - match: command{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set: cmd-command-args
+
+  cmd-command-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - match: \"
-      scope:
-        meta.string.shell string.quoted.double.shell
-        punctuation.definition.string.begin.shell
-      embed: cmd-arithmetic-args-quoted-commen
-      embed_scope: meta.string.shell meta.interpolation.shell
-      escape: '{{no_escape_behind}}"'
-      escape_captures:
-        0: meta.string.shell string.quoted.double.shell
-           punctuation.definition.string.end.shell
-    - match: \'
-      scope:
-        meta.string.shell string.quoted.single.shell
-        punctuation.definition.string.begin.shell
-      embed: cmd-arithmetic-args-quoted-commen
-      embed_scope: meta.string.shell meta.interpolation.shell
-      escape: '{{no_escape_behind}}'''
-      escape_captures:
-        0: meta.string.shell string.quoted.single.shell
-           punctuation.definition.string.end.shell
-    - include: redirections
-    - include: eoc-pop
-    - include: cmd-test
-    - include: expressions
-
-  cmd-arithmetic-args-quoted-commen:
-    - include: line-continuations
-    - include: cmd-test
-    - include: expressions
-
-###[ COPROC BUILTINS ]#########################################################
-
-  cmd-coproc:
-    - match: coproc{{cmd_break}}
-      scope:
-        meta.coproc.shell
-        keyword.declaration.coproc.shell
-      push: cmd-coproc-identifier
-
-  cmd-coproc-identifier:
-    - match: (\s*({{cmd_literal}})\s*)(\{)
-      captures:
-        1: meta.coproc.identifier.shell
-        2: entity.name.function.shell
-        3: meta.coproc.command.shell meta.compound.shell
-           punctuation.section.compound.begin.shell
-      set:
-        - cmd-coproc-compound-meta
-        - cmd-coproc-compound-command
-    - match: ''
-      set: cmd-coproc-basic-command
-
-  cmd-coproc-basic-command:
-    - meta_scope: meta.coproc.command.shell
-    - include: statement
-
-  cmd-coproc-compound-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.coproc.command.shell
-    - include: immediately-pop
-
-  cmd-coproc-compound-command:
-    - meta_content_scope: meta.compound.shell
-    - match: \}
-      scope:
-        meta.compound.shell
-        punctuation.section.compound.end.shell
-      set: cmd-compound-args
-    - include: statements
+    - include: cmd-args-end
+    - include: cmd-args-options
+    - include: else-pop
 
 ###[ DECLARE BUILTINS ]########################################################
 
   cmd-declare:
     - match: (declare|local|typeset){{cmd_break}}
-      scope:
-        meta.declaration.variable.shell
-        keyword.declaration.variable.shell
-      push:
+      scope: keyword.declaration.variable.shell
+      set:
         - cmd-declare-args-meta
         - cmd-declare-args
 
   cmd-declare-args-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.declaration.variable.arguments.shell
+    - meta_scope: meta.declaration.variable.shell
     - include: immediately-pop
 
   cmd-declare-args:
-    - match: ([-+])(?:[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*)
+    # option contains -f or -F
+    - match: ([-+])[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-declare-options-then-functions
-    - include: cmd-declare-options-then-variables
-
-  cmd-declare-options-then-functions:
-    - include: cmd-declare-options
-    - include: cmd-args-end-of-options-then-functions
-
-  cmd-declare-options-then-variables:
-    - include: cmd-declare-options
-    - include: cmd-args-end-of-options-then-variables
-
-  cmd-declare-options:
-    - match: ([-+])(?:[aAgiIlnrtux]+|p)
+      set: cmd-args-end-of-options-then-function-declarations
+    # option contains any mix of iA or Ai
+    - match: ([-+])(?:[agIlnrtux]*?i[iagIlnrtux]*?A|[agIlnrtux]*?A[aAgIlnrtux]*?i)[aAgiIlnrtux]*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+      set: cmd-args-end-of-options-then-variables-arithmetic-mappings
+    # option contains any mix of ia or ai or i
+    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-arithmetic-values
+    # option contains A
+    - match: ([-+])[aAgIlnrtux]*?A[aAgIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-variables-with-literal-mappings
+    # anything else is a variable with any value
+    - include: cmd-args-end-of-options-then-variables-literal-values
+
+  cmd-declare-variables-with-arithmetic-values:
+    - match: ([-+])[aAgiIlnrtux]*?A[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-args-end-of-options-then-variables-arithmetic-mappings
+    - include: cmd-args-end-of-options-then-variables-arithmetic-values
+
+  cmd-declare-variables-with-literal-mappings:
+    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-args-end-of-options-then-variables-arithmetic-mappings
+    - include: cmd-args-end-of-options-then-variables-literal-mappings
+
+###[ ECHO BUILTINS ]###########################################################
+
+  cmd-echo:
+    - match: echo{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set: cmd-echo-args
+
+  cmd-echo-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: eoc-pop
+    - match: ([-+])[neE]+{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (?=\S)
+      set: cmd-echo-string
+
+  cmd-echo-string:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-end
+    - include: string-path-patterns
 
 ###[ EXEC BUILTINS ]###########################################################
 
@@ -541,28 +512,25 @@ contexts:
     - match: exec{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.exec.shell
-      push: cmd-exec-args
+        support.function.shell
+      set: cmd-exec-args
 
   cmd-exec-args:
     - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-end
     - match: ([-+])[cl]*[a]{{opt_break}}
-      scope: meta.parameter.option.shell variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-value
-    - match: ([-+])[cl]+{{opt_break}}
-      scope: meta.parameter.option.shell variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: '{{wspace}}(--){{cmd_break}}'
-      captures:
-        0: meta.function-call.arguments.shell
-        1: keyword.operator.end-of-options.shell
+    - match: --{{word_break}}
+      scope:
+        meta.function-call.arguments.shell
+        keyword.operator.end-of-options.shell
       pop: 1
-    - include: cmd-args-illegal-options
-    - include: redirections
-    - include: eoc-pop
+    - include: cmd-args-options
     - include: else-pop
 
 ###[ EXPORT BUILTINS ]#########################################################
@@ -571,83 +539,108 @@ contexts:
     - match: export{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.export.shell
-      push:
-        - cmd-export-args-meta
+        support.function.shell
+      set:
+        - cmd-args-meta
         - cmd-export-args
 
-  cmd-export-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
-
   cmd-export-args:
-    - match: ([-+])n?fn?
+    - match: ([-+])n?fn?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-export-options-then-functions
-    - include: cmd-export-options-then-variables
+      set: cmd-args-end-of-options-then-function-declarations
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
-  cmd-export-options-then-functions:
-    - include: cmd-export-options
-    - include: cmd-args-end-of-options-then-functions
+###[ MAPFILE BUILTINS ]########################################################
 
-  cmd-export-options-then-variables:
-    - include: cmd-export-options
-    - include: cmd-args-end-of-options-then-variables
+  cmd-mapfile:
+    # bash only
+    - match: (?:mapfile|readarray){{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-mapfile-args
 
-  cmd-export-options:
-    - match: ([-+])[np]
+  cmd-mapfile-args:
+    - match: ([-+])t*C{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-command
+    - match: ([-+])[t]*[cdnOsu]{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-value
+    - include: cmd-args-end-of-options-then-variables-literal-values
+
+###[ MAPFILE BUILTINS ]########################################################
+
+  cmd-read:
+    - match: read{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-read-args
+
+  cmd-read-args:
+    - match: ([-+])[deiNnprstu]*[diNnptu]{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-args-option-maybe-value
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
 ###[ READONLY BUILTINS ]#######################################################
 
   cmd-readonly:
     - match: readonly{{cmd_break}}
-      scope:
-        meta.declaration.variable.shell
-        keyword.declaration.variable.shell
-      push:
-        - cmd-readonly-args-meta
+      scope: keyword.declaration.variable.shell
+      set:
+        - cmd-declare-args-meta
         - cmd-readonly-args
 
-  cmd-readonly-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.declaration.variable.arguments.shell
-    - include: immediately-pop
-
   cmd-readonly-args:
-    - match: ([-+])[aA]*f[aA]*
+    # options contain -f => function declarations (wins over -A)
+    - match: ([-+])[aA]*f[aA]*{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-readonly-options-then-functions
-    - include: cmd-readonly-options-then-variables
-
-  cmd-readonly-options-then-functions:
-    - include: cmd-readonly-options
-    - include: cmd-args-end-of-options-then-functions
-
-  cmd-readonly-options-then-variables:
-    - include: cmd-readonly-options
-    - include: cmd-args-end-of-options-then-variables
-
-  cmd-readonly-options:
-    - match: ([-+])(?:[aAf]+|p)
+      set: cmd-args-end-of-options-then-function-declarations
+    # options contain -A => associative array (wins over -a)
+    - match: ([-+])a?Aa?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+      set: cmd-readonly-options-then-mappings
+    - include: cmd-args-end-of-options-then-variables-literal-values
+
+  cmd-readonly-options-then-mappings:
+    - match: ([-+])[aA]*f[aA]*{{opt_break}}
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-args-end-of-options-then-function-declarations
+    - include: cmd-args-end-of-options-then-variables-literal-mappings
 
 ###[ SUDO BUILTINS ]###########################################################
 
@@ -656,87 +649,64 @@ contexts:
     - match: sudo{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.sudo.shell
-      push: cmd-sudo-args
+        support.function.shell
+      set: cmd-sudo-args
 
   cmd-sudo-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - match: (--)(?x:askpass|auth-type|background|close-from|login-class|
-        preserve-env|edit|group|set-home|help|host|login|remove-timestamp|
-        reset-timestamp|list|non-interactive|preserve-groups|prompt|role|
-        stdin|shell|type|other-user|user|version|validate){{opt_break}}
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-      push: cmd-args-option-maybe-assignment
-    - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]
+    - include: cmd-args-end
+    - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-value
-    - match: ([-+])[AbEeHiKklnPSsUuVv]+
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: --{{cmd_break}}
+    - match: --{{word_break}}
       scope:
         meta.function-call.arguments.shell
         keyword.operator.end-of-options.shell
       pop: 1
-    - match: (--|[-+]){{identifier}}
-      scope: invalid.illegal.parameter.shell
-    - include: redirections
+    - include: cmd-args-options
     - include: else-pop
-    - include: eol-pop
 
 ###[ TEST BUILTINS ]###########################################################
 
   cmd-test:
     - match: \[\[(?=\s)
-      scope: support.function.test.begin.shell
-      push: compound-test-body
+      scope: punctuation.section.compound.begin.shell
+      set: compound-test-body
     - match: \[(?=\s)
-      scope: support.function.test.begin.shell
-      push: builtin-test-body
+      scope: punctuation.section.compound.begin.shell
+      set: builtin-test-body
     - match: test{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.test.shell
-      push: cmd-test-args
+      scope: meta.function-call.identifier.shell support.function.shell
+      set: cmd-test-args
+
+  builtin-test-body:
+    - meta_scope: meta.compound.conditional.shell
+    - match: '{{wspace}}(\])'
+      captures:
+        1: punctuation.section.compound.end.shell
+      pop: 1
+    - include: cmd-test-args
 
   cmd-test-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - match: =~
+    - match: =~|[<>]=
       scope: invalid.illegal.operator.shell
     - match: '!=|==?'
       scope: keyword.operator.comparison.shell
-    - include: redirections
-    - include: test-expression-common
-    - include: eoc-pop
-
-  builtin-test-body:
-    - meta_scope: meta.conditional.shell
-    - match: '{{wspace}}(\])'
-      captures:
-        1: support.function.test.end.shell
-      pop: 1
-    - match: =~
-      scope: invalid.illegal.operator.shell
-    - match: '!=|==?'
+    - match: '<(?!<)|>(?!>)'
       scope: keyword.operator.comparison.shell
+    - include: cmd-args-end
     - include: test-expression-common
 
   compound-test-body:
-    - meta_scope: meta.conditional.shell
+    - meta_scope: meta.compound.conditional.shell
     - match: '{{wspace}}(\]\])'
       captures:
-        1: support.function.test.end.shell
+        1: punctuation.section.compound.end.shell
       pop: 1
     - match: \(
       scope: punctuation.section.group.begin.shell
@@ -751,19 +721,28 @@ contexts:
       captures:
         1: keyword.operator.comparison.shell
       push: compound-test-pattern
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.shell
+    - include: line-continuations
     - include: test-expression-common
 
   compound-test-eregexp:
-    - meta_content_scope: meta.string.regexp.shell
-    - match: (?=\s)
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - match: (?=[\s;])
       pop: 1
+    - include: line-continuations
     - include: eregexp-main-content
+    - include: illegal-pipeseps
 
   compound-test-pattern:
-    - meta_content_scope: meta.string.regexp.shell
-    - match: (?=\s)
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - match: (?=[\s;])
       pop: 1
+    - include: line-continuations
     - include: pattern-main-content
+    - include: illegal-pipeseps
 
   compound-test-group-body:
     - meta_scope: meta.group.shell
@@ -780,22 +759,26 @@ contexts:
       captures:
         1: keyword.operator.comparison.shell
       push: compound-test-group-pattern
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.shell
+    - include: line-continuations
     - include: test-expression-common
 
   compound-test-group-eregexp:
-    - meta_content_scope: meta.string.regexp.shell
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: compound-test-group-pattern-end
-    - include: eregexp-group-content
+    - include: eregexp-main-content
+    - include: illegal-pipeseps
 
   compound-test-group-pattern:
-    - meta_content_scope: meta.string.regexp.shell
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
     - include: compound-test-group-pattern-end
     - include: pattern-main-content
+    - include: illegal-pipeseps
 
   compound-test-group-pattern-end:
-    - match: \)
-      scope: punctuation.section.group.end.shell
-      pop: 2
     - match: '{{wspace}}(\]\])'
       captures:
         1: invalid.illegal.unexpected-token.shell
@@ -803,8 +786,9 @@ contexts:
     - match: $\n?
       scope: invalid.illegal.unexpected-token.shell
       pop: 3
-    - match: (?=&&|\|\|)
+    - match: (?=\s*(?:&&|\|\||;|\)))
       pop: 1
+    - include: line-continuations
 
   test-expression-common:
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
@@ -815,16 +799,34 @@ contexts:
         1: punctuation.definition.parameter.shell
     - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*(=~|!=|==?))
       scope: keyword.operator.comparison.shell
-    - match: '[<>]=?'
-      scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
+    - include: illegal-pipeseps
     - include: comments
-    - include: booleans
-    - include: numbers
-    - include: expansions-variables
-    - include: strings-unquoted
-    - include: line-continuations
+    - include: cmd-args-values
+
+###[ TRAP BUILTINS ]###########################################################
+
+  cmd-trap:
+    - match: trap{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-trap-sigspec
+        - cmd-trap-command
+
+  cmd-trap-command:
+    - include: cmd-args-end
+    - include: cmd-args-options
+    - include: statements-word
+
+  cmd-trap-sigspec:
+    - include: cmd-args-end
+    - match: '{{signal_names}}'
+      scope: constant.language.signal.shell
+    - include: cmd-args-values
 
 ###[ UNALIAS BUILTINS ]########################################################
 
@@ -832,24 +834,10 @@ contexts:
     - match: unalias{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.unalias.shell
-      push:
-        - cmd-unalias-args-meta
-        - cmd-unalias-options
-
-  cmd-unalias-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
-
-  cmd-unalias-options:
-    - match: ([-+])a
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: cmd-alias-args-end-of-options
+        support.function.shell
+      set:
+        - cmd-args-meta
+        - cmd-args-end-of-options-then-function-references
 
 ###[ UNSET BUILTINS ]##########################################################
 
@@ -857,65 +845,46 @@ contexts:
     - match: unset{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        support.function.unset.shell
-      push:
-        - cmd-unset-args-meta
+        support.function.shell
+      set:
+        - cmd-args-meta
         - cmd-unset-args
 
-  cmd-unset-args-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
-
   cmd-unset-args:
-    - match: ([-+])[nv]?f[nv]?
+    - match: ([-+])[nv]?f[nv]?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: cmd-unset-options-then-functions
-    - include: cmd-unset-options-then-variables
-
-  cmd-unset-options-then-functions:
-    - include: cmd-unset-options
-    - include: cmd-args-end-of-options-then-functions
-
-  cmd-unset-options-then-variables:
-    - include: cmd-unset-options
-    - include: cmd-args-end-of-options-then-variables
-
-  cmd-unset-options:
-    - match: ([-+])[nv]+
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
+      set: cmd-args-end-of-options-then-function-references
+    - include: cmd-args-end-of-options-then-variables-literal-values
 
 ###[ COMMANDS ]################################################################
 
-  cmd-compound:
-    - match: \(
-      scope: punctuation.section.compound.begin.shell
-      push:
-        - meta_scope: meta.compound.shell
-        - match: \)
-          scope: punctuation.section.compound.end.shell
-          set: cmd-compound-args
-        - include: statements
+  cmd-compound-brace:
     - match: \{{{cmd_break}}
       scope: punctuation.section.compound.begin.shell
-      push:
-        - meta_scope: meta.compound.shell
-        - match: \}
-          scope: punctuation.section.compound.end.shell
-          set: cmd-compound-args
-        - include: statements
+      set: cmd-compound-brace-body
 
-  cmd-compound-args:
-    - meta_content_scope: meta.compound.arguments.shell
-    - include: cmd-args
+  cmd-compound-brace-body:
+    - meta_scope: meta.compound.command.shell
+    - match: \}
+      scope: punctuation.section.compound.end.shell
+      pop: 1
+    - include: statements
+
+  cmd-compound-paren:
+    - match: \(
+      scope: punctuation.section.compound.begin.shell
+      set: cmd-compound-paren-body
+
+  cmd-compound-paren-body:
+    - meta_scope: meta.compound.command.shell
+    - match: \)
+      scope: punctuation.section.compound.end.shell
+      pop: 1
+    - include: statements
 
   cmd-historic:
     - match: (\!)(-?\d+|!)
@@ -925,120 +894,213 @@ contexts:
     - match: \!
       scope: punctuation.definition.history.shell
 
-  cmd-basic:
-    # basic user defined or external commands
-    - match: '{{cmd_begin}}'
-      push: [cmd-args, cmd-basic-name]
+  cmd-builtin:
+    # cmd modifier commands are directly followed by simple commands
+    - match: '{{modifier_cmds}}'
+      scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
+    # shell built-in commands with arbitrary arguments
+    - match: '{{builtin_cmds}}'
+      scope: meta.function-call.identifier.shell meta.command.shell support.function.shell
+      push:
+        - cmd-args-meta
+        - cmd-args
 
-  cmd-basic-name:
-    - clear_scopes: 1
-    - meta_scope: meta.function-call.identifier.shell
-    - match: '{{cmd_literal_char}}+'
-      scope: variable.function.shell
-    - include: variable-function-expansions
-    - include: expansions-job
+  cmd-basic:
+    - match: \$?\"
+      scope: punctuation.definition.quoted.begin.shell
+      set:
+        - cmd-name-body
+        - path-pattern-double-quoted-body
+        - path-pattern-quoted-begin
+    - match: \$\'
+      scope: punctuation.definition.quoted.begin.shell
+      set:
+        - cmd-name-body
+        - path-pattern-ansi-c-body
+        - path-pattern-quoted-begin
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      set:
+        - cmd-name-body
+        - path-pattern-single-quoted-body
+        - path-pattern-quoted-begin
+    - match: '{{cmd_begin}}'
+      set:
+        - cmd-name-body
+        - path-pattern-begin
+
+  cmd-name-body:
+    - meta_scope: meta.function-call.identifier.shell meta.command.shell variable.function.shell
+    - include: line-continuations
+    - include: path-pattern-content
+    - match: '{{cmd_break}}'
+      set:
+        - cmd-args-meta
+        - cmd-args
+
+  cmd-args-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
-  cmd-args:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate-with-end-of-options
-    - include: cmd-args-options
+  cmd-args-end:
+    - include: redirections
+    - include: eoc-pop
 
-  cmd-args-illegal-options:
-    - match: (--|[-+]){{identifier}}
-      scope: invalid.illegal.parameter.shell
+  cmd-args:
+    - include: cmd-args-end-of-options-then-ambiguous
+
+  cmd-args-end-of-options-then-ambiguous:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-ambiguous
+    - include: cmd-args-options
+    - include: cmd-args-ambiguous
+
+  cmd-args-ambiguous:
+    - include: cmd-args-end
+    - include: cmd-args-values
+
+  cmd-args-end-of-options-then-function-declarations:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-function-declarations
+    - include: cmd-args-options
+    - include: cmd-args-function-declarations
+
+  cmd-args-function-declarations:
+    - include: cmd-args-end
+    - match: '{{word_begin}}'
+      push: function-declaration-name-chars
+
+  function-declaration-name-chars:
+    - meta_scope: meta.command.shell entity.name.function.shell
+    - include: literal-unquoted-content
+    - include: word-end
+
+  cmd-args-end-of-options-then-function-references:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-function-references
+    - include: cmd-args-options
+    - include: cmd-args-function-references
+
+  cmd-args-function-references:
+    - include: cmd-args-end
+    - match: '{{word_begin}}'
+      push: function-reference-name-chars
+
+  function-reference-name-chars:
+    - meta_scope: meta.command.shell variable.function.shell
+    - include: literal-unquoted-content
+    - include: word-end
+
+  cmd-args-end-of-options-then-variables-arithmetic-mappings:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-arithmetic-mappings
+    - include: cmd-args-options
+    - include: cmd-args-variables-arithmetic-mappings
+
+  cmd-args-variables-arithmetic-mappings:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - arithmetic-mapping-value-assignment
+        - variable-name-begin
+    - include: illegal-words
+
+  cmd-args-end-of-options-then-variables-arithmetic-values:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-arithmetic-values
+    - include: cmd-args-options
+    - include: cmd-args-variables-arithmetic-values
+
+  cmd-args-variables-arithmetic-values:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - arithmetic-array-value-assignment
+        - variable-name-begin
+    - include: illegal-words
+
+  cmd-args-end-of-options-then-variables-literal-mappings:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-literal-mappings
+    - include: cmd-args-options
+    - include: cmd-args-variables-literal-mappings
+
+  cmd-args-variables-literal-mappings:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - literal-mapping-value-assignment
+        - variable-name-begin
+    - include: illegal-words
+
+  cmd-args-end-of-options-then-variables-literal-values:
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-args-variables-literal-values
+    - include: cmd-args-options
+    - include: cmd-args-variables-literal-values
+
+  cmd-args-variables-literal-values:
+    - include: cmd-args-end
+    - match: '{{variable_begin}}'
+      push:
+        - literal-array-value-assignment
+        - variable-name-begin
+    - include: illegal-words
 
   cmd-args-options:
     - match: '{{opt_punctuation}}'
-      captures:
-        1: meta.parameter.option.shell
-           variable.parameter.option.shell
-           punctuation.definition.parameter.shell
+      scope: punctuation.definition.parameter.shell
       push: cmd-args-option-name
 
   cmd-args-option-name:
-    - meta_content_scope: meta.parameter.option.shell
-    - match: '{{opt_literal_char}}+'
-      scope: variable.parameter.option.shell
-    - include: expansions-and-strings
-    - include: cmd-args-option-maybe-assignment
+    - meta_scope: meta.parameter.option.shell variable.parameter.option.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{opt_break}}'
+      set: cmd-args-option-maybe-assignment
 
   cmd-args-option-maybe-assignment:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - meta_include_prototype: false
     - match: =
       scope: keyword.operator.assignment.shell
-      set: variable-value
+      set: cmd-args-option-assignment-value
     - include: line-continuations
     - include: immediately-pop
+
+  cmd-args-option-assignment-value:
+    - meta_include_prototype: false
+    - include: line-continuations
+    - include: redirection
+    - include: boolean
+    - include: number
+    - include: string-path-pattern
+    - include: immediately-pop
+
+  cmd-args-option-maybe-command:
+    - meta_include_prototype: false
+    - include: eoc-pop
+    - include: statements-word
 
   cmd-args-option-maybe-value:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - match: '{{wspace}}(?=[^-\]}{{metachar}}]|\\\n)'
-      set: variable-value
+    - meta_include_prototype: false
+    - include: redirection
+    - include: eoc-pop
+    - include: boolean
     - include: number
-    - include: line-continuations
-    - include: immediately-pop
+    - include: string-path-pattern
 
-  cmd-args-boilerplate:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: expansions-and-strings
-    - include: redirections
+  cmd-args-values:
     - include: booleans
-    - include: eoc-pop
-
-  cmd-args-boilerplate-with-end-of-options:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: cmd-args-boilerplate
-    - include: cmd-args-end-of-options-then-ambigious
-
-  cmd-args-end-of-options-then-ambigious:
-    - match: '{{wspace}}(--){{cmd_break}}'
-      captures:
-        1: keyword.operator.end-of-options.shell
-      push: cmd-args-ambigious
-
-  cmd-args-ambigious:
-    - include: expansions-and-strings
-    - include: redirections
-    - include: line-continuations
-    - match: $|(?=\s*[#)};&|])
-      pop: 2
-
-  cmd-args-end-of-options-then-functions:
-    - include: cmd-args-illegal-options
-    - match: --{{cmd_break}}|(?=\S)
-      scope: keyword.operator.end-of-options.shell
-      set: cmd-args-functions
-    - include: eoc-pop
-
-  cmd-args-functions:
-    - include: cmd-args-boilerplate
-    - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      push: string-unquoted
-    - match: '{{cmd_begin}}'
-      push: cmd-args-functions-chars
-
-  cmd-args-functions-chars:
-    - meta_scope: meta.variable.shell
-    - match: '{{identifier_char}}+'
-      scope: variable.function.shell
-    - include: variable-function-expansions
-    - include: immediately-pop
-
-  cmd-args-end-of-options-then-variables:
-    - include: cmd-args-illegal-options
-    - match: --{{cmd_break}}|(?=\S)
-      scope: keyword.operator.end-of-options.shell
-      set: cmd-args-variables
-    - include: eoc-pop
-
-  cmd-args-variables:
-    - include: cmd-args-boilerplate
-    - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      push: variable-value
-    - include: variables
+    - include: numbers
+    - include: string-path-patterns
 
 ###[ CONTROL STATEMENTS ]######################################################
 
@@ -1051,14 +1113,14 @@ contexts:
     - match: elif{{cmd_break}}
       scope: keyword.control.conditional.elseif.shell
     - match: fi{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
+      scope: keyword.control.conditional.endif.shell
     - match: else{{cmd_break}}
       scope: keyword.control.conditional.else.shell
     - match: case{{cmd_break}}
-      scope: keyword.control.conditional.case.shell
-      push: [case-body, case-word]
+      scope: meta.statement.conditional.case.shell keyword.control.conditional.case.shell
+      set: case-word
     - match: esac{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
+      scope: keyword.control.conditional.endcase.shell
     # loops
     - match: do{{cmd_break}}
       scope: keyword.control.loop.do.shell
@@ -1066,10 +1128,15 @@ contexts:
       scope: keyword.control.loop.end.shell
     - match: for{{cmd_break}}
       scope: keyword.control.loop.for.shell
-      push: for-args
+      set:
+        - for-meta
+        - for-args
     - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
-      push: loop-iterator-var
+      set:
+        - select-meta
+        - loop-iterator-wordlist
+        - loop-iterator-var
     - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
     - match: while{{cmd_break}}
@@ -1077,385 +1144,473 @@ contexts:
     # flow
     - match: break{{cmd_break}}
       scope: keyword.control.flow.break.shell
-      push: flow-args
+      set: flow-args
     - match: continue{{cmd_break}}
       scope: keyword.control.flow.continue.shell
-      push: flow-args
+      set: flow-args
     - match: exit{{cmd_break}}
       scope: keyword.control.flow.exit.shell
-      push: flow-args
+      set: flow-args
     - match: return{{cmd_break}}
       scope: keyword.control.flow.return.shell
-      push: flow-args
+      set: flow-args
+    - match: time{{cmd_break}}
+      scope: keyword.control.flow.time.shell
+      set: time-args
 
   case-word:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.statement.conditional.case.word.shell
     - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
-      pop: 1
+      scope: meta.statement.conditional.case.shell keyword.control.conditional.in.shell
+      set: case-body
+    - include: case-end
     - include: comments
-    - include: case-end-ahead
-    - include: expansions-and-strings
+    - include: redirections
+    - include: cmd-args-values
 
   case-body:
-    - meta_scope: meta.conditional.case.shell
+    - meta_content_scope: meta.statement.conditional.case.body.shell
+    - include: case-end
     - include: comments
-    - match: esac{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
-      pop: 1
-    - match: \(|(?=\S)
-      scope: keyword.control.conditional.patterns.begin.shell
-      push:
-        - case-clause-commands
-        - case-clause-patterns
+    - include: case-clauses
 
-  case-clause-patterns:
-    - clear_scopes: 1  # remove meta.conditional.case.shell
-    - meta_scope:
-        meta.conditional.case.clause.patterns.shell
-        meta.string.regexp.shell
+  case-clauses:
+    - match: \(
+      scope: punctuation.section.patterns.begin.shell
+      push: case-clause-paren-pattern-body
+    - match: (?=\S)
+      push: case-clause-plain-pattern-body
+
+  case-clause-paren-pattern-body:
+    # patterns enclosed in parenthesis may continue on next line without \
+    - meta_include_prototype: false
+    - meta_scope: meta.clause.patterns.shell
+    - include: comments
+    - include: case-clause-pattern-body
+
+  case-clause-plain-pattern-body:
+    # patterns not enclosed in parenthesis are terminated at eol
+    - meta_include_prototype: false
+    - meta_scope: meta.clause.patterns.shell
+    - match: $|(?=\s+[#\n])
+      set: case-clause-after-pattern
+    - include: case-clause-pattern-body
+
+  case-clause-pattern-body:
     - match: \)
-      scope: keyword.control.conditional.patterns.end.shell
-      pop: 1
-    # emergency bail outs if ')' is missing
-    - match: (?=;;&?|;&)
-      pop: 1
-    - include: case-clause-pattern-content
-
-  case-clause-pattern-content:
-    # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
-    # expansion, command substitution, and arithmetic expansion.
-    - match: \(  # Note: exists to support ZSH
-      scope: meta.group.regexp.shell punctuation.definition.group.begin.regexp.shell
-      push: case-clause-pattern-group-body
+      scope: punctuation.section.patterns.end.shell
+      set: case-clause-after-pattern
+    - match: \|
+      scope: keyword.operator.logical.shell
     - include: case-end-ahead
-    - include: pattern-group-content
+    - include: line-continuations
+    - include: group-path-patterns
 
-  case-clause-pattern-group-body:
-    - meta_content_scope: meta.group.regexp.shell
-    - include: pattern-group-end
-    - include: case-clause-pattern-content
+  case-clause-after-pattern:
+    # required to handle scope specific indentation rules
+    - meta_include_prototype: false
+    - meta_content_scope: meta.clause.shell
+    - include: comments
+    - match: ^|(?=\S)
+      set: case-clause-body
 
-  case-clause-commands:
-    - clear_scopes: 1  # remove meta.conditional.case.shell
-    - meta_scope: meta.conditional.case.clause.commands.shell
-    - match: ;;&?|;&
-      scope: punctuation.terminator.case.clause.shell
-      pop: 1
+  case-clause-body:
+    - meta_content_scope: meta.clause.body.shell
+    - include: case-clause-end
     - include: case-end-ahead
     - include: statements
+
+  case-clause-end:
+    - match: '{{case_clause_end}}'
+      scope: meta.clause.shell punctuation.terminator.clause.shell
+      pop: 1
+
+  case-end:
+    - match: esac{{cmd_break}}
+      scope: keyword.control.conditional.endcase.shell
+      set: case-end-meta
+
+  case-end-meta:
+    # This context is required for case...esac specific
+    # indentation rules to be correctly applied.
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.conditional.case.end.shell
+    - include: immediately-pop
 
   case-end-ahead:
     - match: (?=esac{{cmd_break}})
       pop: 1
 
   flow-args:
+    - include: redirection
+    - include: eoc-pop
     - include: number
-    - include: cmd-args-boilerplate
+    - include: string-path-pattern
+
+  for-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.for.shell
+    - include: immediately-pop
 
   for-args:
-    - include: loop-end
+    - meta_include_prototype: false
+    - include: eoc-pop
     - match: \(\(
-      scope: punctuation.section.arithmetic.begin.shell
+      scope: punctuation.section.compound.begin.shell
       set: cmd-arithmetic-body
     - match: (?=\S)
-      set: loop-iterator-var
+      set:
+        - loop-iterator-wordlist
+        - variable-name-begin
+
+  select-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.statement.loop.select.shell
+    - include: immediately-pop
 
   loop-iterator-var:
-    - match: in{{cmd_break}}
-      scope: keyword.control.in.shell
-      set: loop-iterator-range
-    - include: loop-end
-    - include: variables
-
-  loop-iterator-range:
-    - include: loop-end
-    - include: number-range
-    - match: (?=\S)
-      set: loop-iterator-wordlist
+    - include: eoc-pop
+    - match:  (?=\S)
+      set: variable-name-begin
 
   loop-iterator-wordlist:
-    - include: loop-end
-    - include: booleans
-    - include: strings-unquoted
+    - match: in{{cmd_break}}
+      scope: keyword.operator.iterator.in.shell
+      set: loop-iterator-wordlist-body
+    - include: cmd-args-end
+    - include: else-pop
 
-  loop-end:
-    - match: (?=(?:do|done){{cmd_break}})
-      pop: 1
-    - include: redirections
-    - include: eoc-pop
+  loop-iterator-wordlist-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.sequence.list.shell
+    - match: \(
+      scope: invalid.illegal.unexpected-token.shell
+    - include: cmd-args-end
+    - include: string-path-patterns
 
-###[ REDIRECTIONS AND HEREDOCS ]###############################################
+  time-args:
+    - include: cmd-args-end
+    - include: cmd-args-options
+    - include: else-pop
 
-  redirections:
-    - include: redirections-here-string
-    - include: redirections-here-document
-    - include: redirections-process
-    - include: redirections-input
-    - include: redirections-output
-    - include: redirections-inout
+###[ ARITHMETIC VALUE ASSIGNMENTS ]############################################
 
-  redirections-process:
-    - match: (\d*)([<>])(\()
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.process.shell
-        3: meta.compound.shell
-           punctuation.section.compound.begin.shell
-      push:
-        - meta_content_scope: meta.compound.shell
-        - match: \)
-          scope:
-            meta.compound.shell
-            punctuation.section.compound.end.shell
-          pop: 1
-        - include: statements
-
-  redirections-output:
-    - match: (\d*)(>>!?|>&?|&>|&?>[|>])
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-      push: redirections-post
-
-  redirections-input:
-    - match: (\d*)(<&?)
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-      push: redirections-post
-
-  redirections-post:
-    - match: \s*(?:(\d+)|(-))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: punctuation.terminator.file-descriptor.shell
-      pop: 1
-    - match: \s*(?=\S)
+  arithmetic-array-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.assignment.l-value.shell
+    - match: '{{varassign}}'
+      scope: meta.assignment.shell keyword.operator.assignment.shell
       set:
-        - match: '{{cmd_break}}'
-          pop: 1
-        - include: expansions-and-strings
-    - match: \s*
-      pop: 1
+        - assignment-value-meta
+        - arithmetic-array-value
+    - include: variable-subscription
 
-  redirections-inout:
-    - match: (\d*)(<>)
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
+  arithmetic-array-value:
+    # maybe indexed array of or single arithmetic expression value
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: arithmetic-explicit-mapping-body
+    - include: line-continuations
+    - include: arithmetic-word
+    - include: immediately-pop
 
-  redirections-here-string:
-    - match: (\d*)(<<<)\s*{{nonposix_begin}}
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.herestring.shell
+  arithmetic-mapping-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.assignment.l-value.shell
+    - match: '{{varassign}}'
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - arithmetic-mapping-value
+    - include: variable-subscription
 
-  redirections-here-document:
-    # These are the variants that allow tabs before the end token
-    - match: (\d*)(<<-)\s*((')({{identifier}})('))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell
-        4: punctuation.definition.tag.begin.shell
-        5: entity.name.tag.heredoc.shell
-        6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<-)\s*((")({{identifier}})("))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell
-        4: punctuation.definition.tag.begin.shell
-        5: entity.name.tag.heredoc.shell
-        6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<-)\s*((\\)({{identifier}}))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell
-        4: punctuation.definition.tag.shell
-        5: entity.name.tag.heredoc.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<-)\s*({{identifier}})
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      push: [heredocs-body-allow-tabs, heredocs-preamble]
-    # These are the variants that DON'T allow tabs before the end token
-    - match: (\d*)(<<)\s*((')({{identifier}})('))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell
-        4: punctuation.definition.tag.begin.shell
-        5: entity.name.tag.heredoc.shell
-        6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<)\s*((")({{identifier}})("))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell
-        4: punctuation.definition.tag.begin.shell
-        5: entity.name.tag.heredoc.shell
-        6: punctuation.definition.tag.end.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<)\s*((\\)({{identifier}}))
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell
-        4: punctuation.definition.tag.shell
-        5: entity.name.tag.heredoc.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<)\s*({{identifier}})
-      captures:
-        1: meta.file-descriptor.shell
-           meta.number.integer.decimal.shell
-           constant.numeric.value.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      push: [heredocs-body, heredocs-preamble]
+  arithmetic-mapping-value:
+    # maybe associative of or single arithmetic expression value
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: arithmetic-mapping-begin
+    - include: line-continuations
+    - include: arithmetic-word
+    - include: immediately-pop
 
-  heredocs-body:
-    - meta_scope: meta.string.heredoc.shell
-    - meta_content_scope: string.unquoted.heredoc.shell
-    - include: heredocs-body-common-with-expansion
-    - match: ^\3$ # the third capture from redirections-here-document
-      scope: meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      pop: 1
-    - match: ^\3(\s+)\n # the third capture from redirections-here-document
-      captures:
-        1: invalid.illegal.unexpected-whitespace.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: 1
-
-  heredocs-body-allow-tabs:
-    - meta_scope: meta.string.heredoc.shell
-    - meta_content_scope: string.unquoted.heredoc.shell
-    - include: heredocs-body-common-with-expansion
-    - match: ^\t*(\3)$ # the third capture from redirections-here-document
-      captures:
-        1: meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      pop: 1
-    - match: ^\t*\3(\s+)\n # the third capture from redirections-here-document
-      captures:
-        1: invalid.illegal.unexpected-whitespace.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: 1
-
-  heredocs-body-common-with-expansion:
-    # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
-    # expansion, command substitution, and arithmetic expansion, the character
-    # sequence \newline is ignored, and ‘\’ must be used to quote the
-    # characters ‘\’, ‘$’, and ‘`’.
-    - include: string-escapes
-    - include: string-interpolations
-
-  heredocs-body-no-expansion:
-    - meta_scope: meta.string.heredoc.shell
-    - meta_content_scope: string.unquoted.heredoc.shell
-    - match: ^\5$ # the fourth capture from redirections-here-document
-      scope: meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      pop: 1
-    - match: ^\5(\s+)\n # the fourth capture from redirections-here-document
-      captures:
-        1: invalid.illegal.unexpected-whitespace.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: 1
-
-  heredocs-body-allow-tabs-no-expansion:
-    - meta_scope: meta.string.heredoc.shell
-    - meta_content_scope: string.unquoted.heredoc.shell
-    - match: ^\t*(\5)$ # the fourth capture from redirections-here-document
-      captures:
-        1: meta.tag.heredoc.shell entity.name.tag.heredoc.shell
-      pop: 1
-    - match: ^\t*\5(\s+)\n # the fourth capture from redirections-here-document
-      captures:
-        1: invalid.illegal.unexpected-whitespace.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: 1
-
-  heredocs-preamble:
-    # This enables us to keep parsing on the line where the start token of
-    # the heredoc is. Once the first line has ended, we enter the body of
-    # the heredoc, where everything is just an unquoted string.
-    # One clear_scope for the string.unquoted.
-    # The problem with this is that when we also end a function definition
-    # on the same line (with the "}" token), we cannot do that.
-    - clear_scopes: 1
-    - match: ^
-      pop: 1
+  arithmetic-mapping-begin:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - match: (?=\[)
+      set: arithmetic-explicit-mapping-body
     - match: (?=\S)
-      push: [statement, cmd-args]
+      set: arithmetic-implicit-mapping-body
 
-###[ EXPRESSIONS ]#############################################################
+  arithmetic-explicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: explicit-mapping-keys
+    - match: (?=[[:alnum:]_'"])
+      push: arithmetic-word
+    - include: illegal-words
 
-  arrays-item-access:
+  arithmetic-implicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - match: '{{word_begin}}'
+      push: arithmetic-implicit-mapping-key-body
+
+  arithmetic-implicit-mapping-key-body:
+    - meta_scope: meta.item-access.shell entity.name.key.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{word_break}}'
+      set: arithmetic-implicit-mapping-value
+
+  arithmetic-implicit-mapping-value:
+    - include: line-continuations
+    - include: comments
+    - include: arithmetic-word
+
+###[ LITERAL VALUE ASSIGNMENTS ]###############################################
+
+  literal-array-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.assignment.l-value.shell
+    - match: '{{varassign}}'
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - literal-array-value
+    - include: variable-subscription
+
+  literal-array-value:
+    # maybe indexed array of or single literal/string value
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: literal-explicit-mapping-body
+    - include: line-continuations
+    - include: redirection
+    - include: boolean
+    - include: string-path-pattern
+    - include: immediately-pop
+
+  literal-mapping-value-assignment:
+    # maybe variable subscripts followed by value assignment
+    - meta_content_scope: meta.assignment.l-value.shell
+    - match: '{{varassign}}'
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - literal-mapping-value
+    - include: variable-subscription
+
+  literal-mapping-value:
+    # maybe associative array of or single literal/string value
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.sequence.begin.shell
+      set: literal-mapping-begin
+    - include: line-continuations
+    - include: redirection
+    - include: boolean
+    - include: string-path-pattern
+    - include: immediately-pop
+
+  literal-mapping-begin:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - match: (?=\[)
+      set: literal-explicit-mapping-body
+    - match: (?=\S)
+      set: literal-implicit-mapping-body
+
+  literal-explicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - include: explicit-mapping-keys
+    - include: booleans
+    - include: group-path-patterns
+
+  literal-implicit-mapping-body:
+    - meta_scope: meta.sequence.list.shell
+    - include: list-end
+    - match: '{{word_begin}}'
+      push: literal-implicit-mapping-key-body
+
+  literal-implicit-mapping-key-body:
+    - meta_scope: meta.item-access.shell entity.name.key.shell
+    - include: line-continuations
+    - include: literal-unquoted-content
+    - match: '{{word_break}}'
+      set: literal-implicit-mapping-value
+
+  literal-implicit-mapping-value:
+    - include: line-continuations
+    - include: comments
+    - include: boolean
+    - include: group-path-pattern
+
+###[ STATEMENT VALUE ASSIGNMENTS ]#############################################
+
+  statements-value-assignment:
+    - meta_content_scope: meta.assignment.l-value.shell
+    - match: '{{varassign}}'
+      scope: meta.assignment.shell keyword.operator.assignment.shell
+      set:
+        - assignment-value-meta
+        - statements-value
+    - include: line-continuations
+    - include: immediately-pop
+
+  statements-value:
+    - meta_include_prototype: false
+    - include: statements-word
+    - include: immediately-pop
+
+  statements-word:
+    - match: \"
+      scope: meta.quoted.shell punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.shell
+      escape: '{{no_escape_behind}}\"'
+      escape_captures:
+        0: meta.quoted.shell punctuation.definition.quoted.end.shell
+      pop: 1
+    - match: \'
+      scope: meta.quoted.shell punctuation.definition.quoted.begin.shell
+      embed: statements
+      embed_scope: meta.quoted.shell
+      escape: '{{no_escape_behind}}'''
+      escape_captures:
+        0: meta.quoted.shell punctuation.definition.quoted.end.shell
+      pop: 1
+    - match: '{{cmd_begin}}'
+      set:
+        - unquoted-statements-word-body
+        - path-pattern-begin
+
+  unquoted-statements-word-body:
+    - meta_scope: meta.command.shell variable.function.shell
+    - include: line-continuations
+    - include: path-pattern-content
+    - match: '{{cmd_break}}'
+      pop: 1
+
+###[ ARRAY VALUE PROTOTYPES ]##################################################
+
+  explicit-mapping-keys:
     - match: \[
       scope: punctuation.section.item-access.begin.shell
-      push:
-        - array-item-access-end
-        - array-item-access-begin
+      push: explicit-mapping-key-body
 
-  array-item-access-end:
+  explicit-mapping-key-body:
     - meta_scope: meta.item-access.shell
+    - meta_content_scope: entity.name.key.shell
     - match: \]
       scope: punctuation.section.item-access.end.shell
-      pop: 1
+      set: explicit-mapping-value-assignment
+    - include: literal-unquoted-content
 
-  array-item-access-begin:
-    - match: '[*@]'
-      scope: variable.language.array.shell
+  explicit-mapping-value-assignment:
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
       pop: 1
-    - match: ''
-      set: array-key-body
+    - include: line-continuations
+    - include: immediately-pop
 
-  array-key-body:
-    - meta_scope: meta.string.shell string.unquoted.shell
-    - match: (?=\])
+  list-end:
+    - match: \)
+      scope: punctuation.section.sequence.end.shell
       pop: 1
-    - include: string-unquoted-body
+    - include: line-continuations
+    - include: comments
 
-  expressions:
+###[ ARITHMETIC EXPRESSIONS ]##################################################
+
+  arithmetic-word:
+    # A `word` which is interpreted as arithmetic expression
+    - match: \"
+      scope: punctuation.definition.quoted.begin.shell
+      set: arithmetic-word-double-quoted-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      set: arithmetic-word-single-quoted-body
+    - match: '{{word_begin}}'
+      set: arithmetic-word-unquoted-body
+
+  arithmetic-word-double-quoted-body:
+    - meta_scope: meta.quoted.shell meta.arithmetic.shell
+    - include: expression-double-quoted-body
+
+  arithmetic-word-single-quoted-body:
+    - meta_scope: meta.quoted.shell meta.arithmetic.shell
+    - include: expression-single-quoted-body
+
+  arithmetic-word-unquoted-body:
+    - meta_scope: meta.arithmetic.shell
     - match: \(
       scope: punctuation.section.group.begin.shell
-      push:
-        - meta_scope: meta.group.shell
-        - match: \)
-          scope: punctuation.section.group.end.shell
-          pop: 1
-        - include: expressions
+      push: expression-group-body
+    - include: expression-common
+    - include: word-end
+
+  expression-content:
+    # arithmetic expression content without word boundary checks
+    - match: \"
+      scope: punctuation.definition.quoted.begin.shell
+      push: expression-double-quoted-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      push: expression-single-quoted-body
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-group-body
+    - include: expression-common
+
+  expression-double-quoted-body:
+    - match: \"
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-double-quoted-group-body
+    - include: expression-common
+
+  expression-double-quoted-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - match: (?=")
+      pop: 1
+    - include: expression-common
+
+  expression-single-quoted-body:
+    - match: \'
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-single-quoted-group-body
+    - include: expression-common
+
+  expression-single-quoted-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - match: (?=')
+      pop: 1
+    - include: expression-common
+
+  expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: expression-common
+
+  expression-common:
     # multi char operators
     - match: '[-+*/%&|^]=|<<=|>>='
       scope: keyword.operator.assignment.augmented.shell
@@ -1472,24 +1627,238 @@ contexts:
       scope: keyword.operator.assignment.shell
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.shell
-    - match: ;
-      scope: punctuation.terminator.statement.shell
-    - match: \,
-      scope: punctuation.separator.sequence.shell
     - match: \:|\?
       scope: keyword.operator.ternary.shell
+    - include: comma-separators
+    - include: terminators
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
     - include: booleans
-    - include: numbers
-    - include: strings
-    - include: expansions-variables
-    - include: variables
-    - include: line-continuations
+    - include: expression-numbers
+    - include: expression-variables
+    - include: expression-illegals
 
-###[ CONSTANTS ]###############################################################
+  expression-illegals:
+    - match: '{{word_char}}'
+      scope: invalid.illegal.unexpected-token.shell
+
+  expression-numbers:
+    # lazily consume everything which looks like a number.
+    # supports interpolation in decimal integers.
+    - include: base-numbers
+    - match: (?=\d)
+      push: dec-number-body
+
+  expression-variables:
+    # variables within arithmetic expressions must not contain quotes
+    - match: (?=[{{identifier_first_char}}$%])
+      push:
+        - variable-subscription
+        - expression-variable-chars
+
+  expression-variable-chars:
+    - meta_scope: variable.other.readwrite.shell
+    - include: line-continuations
+    - include: string-interpolations
+    - match: '{{identifier_break}}'
+      pop: 1
+
+###[ OPERATORS ]###############################################################
+
+  line-continuations:
+    - match: (\\)\n
+      captures:
+        1: punctuation.separator.continuation.line.shell
+      push: line-continuation-body
+    - match: \\(\s+)\n
+      captures:
+        1: invalid.illegal.unexpected-whitespace.shell
+
+  line-continuation-body:
+    - meta_include_prototype: false
+    - match: ^
+      pop: 1
+
+  operators:
+    - match: \|\||\&\&|\!(?!\S)
+      scope: keyword.operator.logical.shell
+    - match: \||\&
+      scope: keyword.operator.assignment.pipe.shell
+
+  comma-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.shell
+
+  terminators:
+    - match: ;
+      scope: punctuation.terminator.statement.shell
+
+###[ REDIRECTIONS AND HEREDOCS ]###############################################
+
+  redirections:
+    - match: (?=\d*&?[<>])
+      push: redirection
+
+  redirection:
+    - include: redirection-here-string
+    - include: redirection-here-document
+    - include: redirection-process
+    - include: redirection-inout
+    - include: redirection-input
+    - include: redirection-output
+
+  redirection-here-document:
+    - match: (\d*)(<<-)\s*(?=["'\\]?({{heredoc}}))
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      embed: heredoc-begin
+      escape: '{{tab_indent}}(\3)$\n?'
+      escape_captures:
+        0: meta.redirection.shell meta.tag.heredoc.end.shell
+        1: entity.name.tag.heredoc.shell
+      pop: 1
+    - match: (\d*)(<<)\s*(?=["'\\]?({{heredoc}}))
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      embed: heredoc-begin
+      escape: '{{no_indent}}(\3)$\n?'
+      escape_captures:
+        0: meta.redirection.shell meta.tag.heredoc.end.shell
+        1: entity.name.tag.heredoc.shell
+      pop: 1
+
+  heredoc-begin:
+    - meta_scope: meta.redirection.shell
+    # These are the variants that allow tabs before the end token
+    - match: (')({{heredoc}})(')
+      scope: meta.tag.heredoc.begin.shell
+      captures:
+        1: punctuation.definition.tag.begin.shell
+        2: entity.name.tag.heredoc.shell
+        3: punctuation.definition.tag.end.shell
+      push:
+        - heredoc-preamble-no-expansion
+        - cmd-args
+    - match: (")({{heredoc}})(")
+      scope: meta.tag.heredoc.begin.shell
+      captures:
+        1: punctuation.definition.tag.begin.shell
+        2: entity.name.tag.heredoc.shell
+        3: punctuation.definition.tag.end.shell
+      push:
+        - heredoc-preamble-no-expansion
+        - cmd-args
+    - match: (\\)({{heredoc}})
+      scope: meta.tag.heredoc.begin.shell
+      captures:
+        1: punctuation.definition.tag.shell
+        2: entity.name.tag.heredoc.shell
+      push:
+        - heredoc-preamble-no-expansion
+        - cmd-args
+    - match: '{{heredoc}}'
+      scope: meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
+      push:
+        - heredoc-preamble
+        - cmd-args
+
+  heredoc-preamble:
+    - match: ^
+      set: heredoc-body
+    - include: statements
+
+  heredoc-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.heredoc.shell string.unquoted.heredoc.shell
+    # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
+    # expansion, command substitution, and arithmetic expansion, the character
+    # sequence \newline is ignored, and ‘\’ must be used to quote the
+    # characters ‘\’, ‘$’, and ‘`’.
+    - include: string-prototype
+    - include: string-escapes
+    - include: brace-interpolations
+    - include: string-interpolations
+
+  heredoc-preamble-no-expansion:
+    - match: ^
+      set: heredoc-body-no-expansion
+    - include: statements
+
+  heredoc-body-no-expansion:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.heredoc.shell string.unquoted.heredoc.shell
+
+  redirection-here-string:
+    - match: (\d*)(<<<)\s*{{word_begin}}
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.herestring.shell
+      set: here-string-body
+
+  here-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.redirection.shell
+    - meta_content_scope: meta.string.herestring.shell string.unquoted.shell
+    - include: string-unquoted-content
+    - include: word-end
+
+  redirection-input:
+    - match: (\d*)(<&?)
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - redirection-descriptor
+
+  redirection-inout:
+    - match: (\d*)(<>)
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - redirection-descriptor
+
+  redirection-output:
+    - match: (\d*)((?:&>>?|>>?&?)[|!]?)
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - redirection-descriptor
+
+  redirection-process:
+    - match: (\d*)([<>])(?=\()
+      captures:
+        1: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: keyword.operator.assignment.redirection.shell
+      set:
+        - redirection-meta
+        - cmd-compound-paren
+
+  redirection-descriptor:
+    - meta_include_prototype: false
+    - match: \d+{{word_break}}
+      scope: meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+      pop: 1
+    - match: '[-p]{{word_break}}'
+      scope: meta.file-descriptor.shell variable.language.stdio.shell
+      pop: 1
+    - include: eoc-pop
+    - include: string-path-pattern
+
+  redirection-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.redirection.shell
+    - include: immediately-pop
+
+###[ LITERALS ]################################################################
 
   booleans:
     - match: false\b
@@ -1506,476 +1875,379 @@ contexts:
       pop: 1
 
   numbers:
+    # strictly consume full numbers only, for use in contexts with strings
+    - include: base-numbers
+    - match: \d+{{dec_break}}
+      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
+
+  base-numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: \b(0[xX])(\h*)
-      scope: meta.number.integer.hexadecimal.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
+    - match: 0[xX]
+      scope: constant.numeric.base.shell
+      push: hex-number-body
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: \b(0)([0-7]+)
-      scope: meta.number.integer.octal.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
+    - match: 0(?=[0-7$])
+      scope: constant.numeric.base.shell
+      push: oct-number-body
     # Otherwise, numbers take the form [base#]n, where the optional base is a
     # decimal number between 2 and 64 representing the arithmetic base, and n is
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
-    - match: \b(\d+#)([a-zA-Z0-9@_]+)
-      scope: meta.number.integer.other.shell
-      captures:
-        1: constant.numeric.base.shell
-        2: constant.numeric.value.shell
-    # If base# is omitted, then base 10 is used.
-    - match: \b\d+(?![.\w])
-      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
+    - match: \d{{dec_digit}}*#
+      scope: constant.numeric.base.shell
+      push: other-number-body
 
   number:
     # Note: Leading sign is scoped as operator for consistent highlighting as
     #       we can't distinguish operators from sign for sure everywhere.
-    - match: ([-+]?)(0[xX])(\h*)\w*
+    # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
+    - match: ([-+]?)(0[xX])
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.integer.hexadecimal.shell constant.numeric.base.shell
-        3: meta.number.integer.hexadecimal.shell constant.numeric.value.shell
-      pop: 1
-    - match: ([-+]?)(0)([0-7]+)\w*
+        2: constant.numeric.base.shell
+      set: hex-number-body
+    # Constants with a leading 0 are interpreted as octal numbers.
+    - match: ([-+]?)(0)(?=[0-7$])
+      scope: meta.number.integer.octal.shell
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.integer.octal.shell constant.numeric.base.shell
-        3: meta.number.integer.octal.shell constant.numeric.value.shell
-      pop: 1
-    - match: ([-+]?)(\d+#)([a-zA-Z0-9@_]+)
+        2: constant.numeric.base.shell
+      set: oct-number-body
+    # Otherwise, numbers take the form [base#]n, where the optional base is a
+    # decimal number between 2 and 64 representing the arithmetic base, and n is
+    # a number in that base. When specifying n, the digits greater than 9 are
+    # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
+    # in that order.
+    - match: ([-+]?)(\d{{dec_digit}}*#)
+      scope: meta.number.integer.other.she
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.integer.other.shell constant.numeric.base.shell
-        3: meta.number.integer.other.shell constant.numeric.value.shell
+        2: constant.numeric.base.shell
+      set: other-number-body
     # If base# is omitted, then base 10 is used.
-    - match: ([-+]?)(\d+)(?![.\w])
+    # note: consume whole uninterpolated word only to avoid false positives.
+    - match: ([-+]?)(\d+){{dec_break}}
+      scope: meta.number.integer.decimal.shell
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.integer.decimal.shell constant.numeric.value.shell
+        2: constant.numeric.value.shell
       pop: 1
 
-  number-range:
-    - match: ({)(([-+]?)\d+)(..)(([-+]?)\d+)(?:(..)(([-+]?)\d+))?(})
-      scope: meta.sequence.range.shell
-      captures:
-        1: punctuation.section.sequence.begin.shell
-        2: meta.number.integer.decimal.shell constant.numeric.value.shell
-        3: keyword.operator.arithmetic.shell
-        4: keyword.operator.range.shell
-        5: meta.number.integer.decimal.shell constant.numeric.value.shell
-        6: keyword.operator.arithmetic.shell
-        7: keyword.operator.range.shell
-        8: meta.number.integer.decimal.shell constant.numeric.value.shell
-        9: keyword.operator.arithmetic.shell
-        10: punctuation.section.sequence.end.shell
-      pop: 1
-
-###[ OPERATORS ]###############################################################
-
-  line-continuations:
-    - match: \\\n
-      scope: punctuation.separator.continuation.line.shell
-      push:
-        - match: ^
-          pop: 1
-    - match: \\(\s+)\n
-      captures:
-        1: invalid.illegal.unexpected-whitespace.shell
-
-  operators:
-    - match: \|\||\&\&|\!(?!\S)
-      scope: keyword.operator.logical.shell
-    - match: \||\&
-      scope: keyword.operator.assignment.pipe.shell
-    - match: ;
-      scope: punctuation.terminator.statement.shell
-
-###[ IDENTIFIER EXPANSIONS AND QUOTES ]########################################
-
-  entity-function-expansions:
-    - include: line-continuations
-    - include: any-escapes
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-quoted-single-body
-    - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-quoted-double-body
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-ansi-c-body
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell entity.name.function.shell
-        - include: string-quoted-double-body
-    - include: expansions-variables
-
-  variable-function-expansions:
-    - include: line-continuations
-    - include: any-escapes
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell variable.function.shell
-        - include: string-quoted-single-body
-    - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell variable.function.shell
-        - include: string-quoted-double-body
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell variable.function.shell
-        - include: string-ansi-c-body
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell variable.function.shell
-        - include: string-quoted-double-body
-    - include: expansions-variables
-
-  variable-other-expansions:
-    - include: line-continuations
-    - include: any-escapes
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: meta.string.shell variable.other.readwrite.shell
-        - include: string-quoted-single-body
-    - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: meta.string.shell variable.other.readwrite.shell
-        - include: string-quoted-double-body
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: meta.string.shell variable.other.readwrite.shell
-        - include: string-ansi-c-body
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: meta.string.shell variable.other.readwrite.shell
-        - include: string-quoted-double-body
-    - include: expansions-variables
-
-###[ EXPANSIONS ]##############################################################
-
-  expansions-and-strings:
-    - include: strings
-    - include: expansions
-
-  expansions:
-    - include: expansions-patterns
-    - include: expansions-brace
-    - include: expansions-variables
-    - include: expansions-job
-
-  expansions-variables:
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
-
-  expansions-arithmetic:
-    - match: (\$)(\(\()
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
-      push:
-        - meta_scope: meta.interpolation.arithmetic.shell
-        - match: \)\)
-          scope: punctuation.section.interpolation.end.shell
-          pop: 1
-        - include: expressions
-
-  expansions-brace:
-    - match: \{
-      scope: punctuation.section.interpolation.begin.shell
-      push:
-        - meta_scope: meta.interpolation.brace.shell
-        - match: \}
-          scope: punctuation.section.interpolation.end.shell
-          pop: 1
-        - match: \,
-          scope: punctuation.separator.sequence.shell
-        - include: expansions-and-strings
-
-  expansions-command:
-    - match: (\$)(\()
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
-      push:
-        - meta_scope: meta.interpolation.command.shell
-        - match: \s*(\))
-          captures:
-            1: punctuation.section.interpolation.end.shell
-          pop: 1
-        - include: statements
-    - match: \`
-      scope:
-        meta.interpolation.command.shell
-        punctuation.section.interpolation.begin.shell
-      embed: statements
-      embed_scope: meta.interpolation.command.shell
-      escape: '{{no_escape_behind}}\`'
-      escape_captures:
-        0: meta.interpolation.command.shell
-           punctuation.section.interpolation.end.shell
-
-  expansions-job:
-    # There are a number of ways to refer to a job in the shell.
-    # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
-    # which is the last job stopped while it was in the foreground or started in
-    # the background. The previous job may be referenced using ‘%-’.
-    # Job number n may be referred to as ‘%n’.
-    - match: (%)([-+%]|\d+)
-      scope:
-        meta.interpolation.job.shell
-        variable.language.job.shell
-      captures:
-        1: punctuation.definition.variable.shell
-    # A job may also be referred to using a prefix of the name used to start it,
-    # or using a substring that appears in its command line. For example, ‘%ce’
-    # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
-    # job containing the string ‘ce’ in its command line. If the prefix or
-    # substring matches more than one job, Bash reports an error.
-    # A single ‘%’ (with no accompanying job specification) also refers to the
-    # current job.
-    - match: (%)(?:(\??)\w+)?
-      scope:
-        meta.interpolation.job.shell
-        variable.other.readwrite.shell
-      captures:
-        1: punctuation.definition.variable.shell
-        2: keyword.operator.match.shell
-
-  expansions-parameter:
-    - match: (\$)(\{)(#)(\})
-      captures:
-        0: meta.interpolation.parameter.shell
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
-        3: variable.language.shell
-        4: punctuation.section.interpolation.end.shell
-    - match: (\$)(\{)
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
-      push:
-        - expansions-parameter-meta
-        - expansions-parameter-chars
-        - expansions-parameter-first-char
-    - match: (\$)[$#@!~*?_-](?!\w)
-      scope:
-        meta.interpolation.parameter.shell
-        variable.language.shell
-      captures:
-        1: punctuation.definition.variable.shell
-    - match: (\$)(?:\d|{{identifier}})
-      scope:
-        meta.interpolation.parameter.shell
-        variable.other.readwrite.shell
-      captures:
-        1: punctuation.definition.variable.shell
-
-  expansions-parameter-meta:
+  dec-number-body:
     - meta_include_prototype: false
-    - meta_scope: meta.interpolation.parameter.shell
+    - meta_scope: meta.number.integer.decimal.shell
+    - match: '{{dec_digit}}+'
+      scope: constant.numeric.value.shell
+    - include: variable-expansions
     - include: immediately-pop
 
-  expansions-parameter-first-char:
-    - match: \!
-      scope: keyword.operator.logical.shell
-      pop: 1
-    - match: \#
-      scope: keyword.operator.arithmetic.shell
-      pop: 1
-    - include: line-continuations
+  hex-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.hexadecimal.shell
+    - match: '{{hex_digit}}+'
+      scope: constant.numeric.value.shell
+    - include: variable-expansions
     - include: immediately-pop
 
-  expansions-parameter-chars:
-    - include: expressions-parameter-variable
-    - include: arrays-item-access
-    - match: ([@*])?(/)
-      captures:
-        1: variable.language.shell
-        2: keyword.operator.substitution.shell
-      set:
-        - expansions-parameter-substitution
-        - expansions-parameter-switch
-    - match: \:?[-+=?]
-      scope: keyword.operator.assignment.shell
-      set: expressions-parameter-variable
-    - match: (@)?(:)
-      captures:
-        1: variable.language.shell
-        2: keyword.operator.substring.begin.shell
-      set:
-        - match: ":"
-          scope: keyword.operator.substring.end.shell
-          set: expansions-parameter-expression
-        - include: expansions-parameter-expression
-    - match: \#(?=})
-    - match: ([@*])?(\#\#?|%%?|\^\^?|,,?)
-      captures:
-        1: variable.language.shell
-        2: keyword.operator.expansion.shell
-      set: expansions-parameter-pattern
-    - match: ([@*])?(@)([QEPAa])(?=})
-      captures:
-        1: variable.language.shell
-        2: keyword.operator.expansion.shell
-        3: variable.parameter.switch.shell
-    - match: '[@*](?=})'
-      scope: variable.language.shell
-
-  expansions-parameter-common:
-    - match: \}
-      scope: punctuation.section.interpolation.end.shell
-      pop: 1
-    - match: '{{identifier_char}}+'
-      scope: variable.other.readwrite.shell
-    - include: line-continuations
-    - include: strings
-
-  expansions-parameter-expression:
-    - include: expressions
-    - include: expansions-parameter-common
-
-  expansions-parameter-pattern:
-    # [3.5.8.1] Pattern Matching in parameter expansions
-    - meta_content_scope: meta.string.regexp.shell
-    - include: expansions-parameter-common
-    - include: expansions-variables
-    - include: expansions-parameter-pattern-charsets
-    - include: expansions-parameter-pattern-groups
-    - include: pattern-wildcards
-
-  expansions-parameter-pattern-charsets:
-    - match: (?=\[)
-      branch_point: expansions-parameter-pattern-charset
-      branch:
-        - expansions-parameter-pattern-charset
-        - pattern-charset-fallback
-
-  expansions-parameter-pattern-charset:
-    - match: (\[)([!^]?)
-      captures:
-        1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.regexp.shell
-      set:
-        - expansions-parameter-pattern-charset-body
-        - pattern-charset-begin
-
-  expansions-parameter-pattern-charset-body:
-    - meta_scope: meta.set.regexp.shell
-    - match: $|(?=\}) # bailout at end parameter
-      fail: expansions-parameter-pattern-charset
-    - include: pattern-charset-end
-    - include: pattern-charset-content
-
-  expansions-parameter-pattern-groups:
-    - match: ([?*+@!])(\()
-      captures:
-        1: keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell punctuation.definition.group.begin.regexp.shell
-      push: expansions-parameter-pattern-group-body
-
-  expansions-parameter-pattern-group-body:
-    - meta_content_scope: meta.group.regexp.shell
-    - include: pattern-group-end
-    - include: line-continuations
-    - include: strings
-    - include: expansions-variables
-    - include: expansions-parameter-pattern-groups
-    - include: expansions-parameter-pattern-group-charsets
-    - include: pattern-wildcards
-    - include: pattern-operators
-    - include: brace-pop
-
-  expansions-parameter-pattern-group-charsets:
-    - match: (?=\[)
-      branch_point: expansions-parameter-pattern-group-charset
-      branch:
-        - expansions-parameter-pattern-group-charset
-        - pattern-charset-fallback
-
-  expansions-parameter-pattern-group-charset:
-    - match: (\[)([!^]?)
-      captures:
-        1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.regexp.shell
-      set:
-        - expansions-parameter-pattern-group-charset-body
-        - pattern-charset-begin
-
-  expansions-parameter-pattern-group-charset-body:
-    - meta_scope: meta.set.regexp.shell
-    - match: $|(?=[)}]) # bailout at end of group or parameter
-      fail: expansions-parameter-pattern-group-charset
-    - include: pattern-charset-end
-    - include: pattern-charset-content
-
-  expansions-parameter-substitution:
-    # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
-    - meta_content_scope: meta.string.regexp.shell
-    - match: /
-      scope: keyword.operator.substitution.shell
-      set: expressions-parameter-variable
-    - include: expansions-parameter-pattern
-
-  expansions-parameter-switch:
-    - match: '[/#%]'
-      scope: variable.parameter.switch.shell
-      pop: 1
-    - include: line-continuations
+  oct-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.octal.shell
+    - match: '{{oct_digit}}+'
+      scope: constant.numeric.value.shell
+    - include: variable-expansions
     - include: immediately-pop
 
-  expressions-parameter-variable:
-    - include: expansions-parameter-common
-    - include: expansions-variables
+  other-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.other.shell
+    - match: '[[:alnum:]@_]+'
+      scope: constant.numeric.value.shell
+    - include: variable-expansions
+    - include: immediately-pop
 
-  expansions-patterns:
+  literal-unquoted-content:
+    - match: \$?\"
+      scope: punctuation.definition.quoted.begin.shell
+      push: literal-double-quoted-body
+    - match: \$'
+      scope: punctuation.definition.quoted.begin.shell
+      push: literal-ansi-c-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      push: literal-single-quoted-body
+    - include: string-prototype
+    - include: any-escapes
+    - include: brace-interpolations
+    - include: string-interpolations
+
+  literal-ansi-c-body:
+    - match: \'
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - include: line-continuations
+    - include: string-prototype
+    - include: string-escapes-ansi-c
+
+  literal-double-quoted-body:
+    - match: \"
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - include: line-continuations
+    - include: string-prototype
+    - include: string-escapes
+    - include: string-interpolations
+
+  literal-single-quoted-body:
+    - match: \'
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - include: string-prototype
+
+###[ STRINGS ]#################################################################
+
+  string-unquoted-content:
+    # [Bash] 3.1.2.5
+    - match: \$?\"
+      scope: punctuation.definition.string.begin.shell
+      push: string-double-quoted-body
+    # [Bash] 3.1.2.4
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push: string-ansi-c-body
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push: string-single-quoted-body
+    - include: string-prototype
+    - include: any-escapes
+    - include: brace-interpolations
+    - include: string-interpolations
+
+  string-ansi-c-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.shell
+    - match: \'
+      scope: punctuation.definition.string.end.shell
+      pop: 1
+    - include: line-continuations
+    - include: string-prototype
+    - include: string-escapes-ansi-c
+
+  string-double-quoted-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.shell
+    - match: \"
+      scope: punctuation.definition.string.end.shell
+      pop: 1
+    - include: line-continuations
+    - include: string-prototype
+    - include: string-escapes
+    - include: string-interpolations
+
+  string-single-quoted-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.shell
+    - match: \'
+      scope: punctuation.definition.string.end.shell
+      pop: 1
+    - include: string-prototype
+
+  any-escapes:
+    - match: \\.
+      scope: constant.character.escape.shell
+
+  string-escapes:
+    - match: \\(?:e|033)\[\d{1,3}(?:;\d{1,3}){0,4}m
+      scope: constant.character.escape.color.shell
+    - match: \\[$`"\\]
+      scope: constant.character.escape.shell
+
+  string-escapes-ansi-c:
+    - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
+      scope: constant.character.escape.shell
+
+  string-interpolations:
+    - match: '{{is_interpolation}}'
+      push: string-interpolation-body
+
+  string-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: variable-expansions
+    - include: immediately-pop
+
+  # for use by inheriting syntaxes to easily inject string interpolation
+  # in any kind of quoted or unquoted string
+  string-prototype: []
+
+###[ STRING PATH PATTERN MATCHING ]############################################
+
+  group-path-patterns:
+    # This context consumes glob patterns within contexts (groups or lists)
+    # which do not support redirections or any other kind of pipelines.
+    # Operators like `&`, `;`, `|`, `<` or `>` are scoped illegal.
+    - match: (?=\S)
+      push: group-path-pattern
+
+  group-path-pattern:
+    - match: (/)dev(/)null{{word_break}}
+      scope: meta.path.shell constant.language.null.shell
+      captures:
+        1: punctuation.separator.path.shell
+        2: punctuation.separator.path.shell
+      pop: 1
+    - match: '{{illegal_group_separators}}+'
+      scope: invalid.illegal.unexpected-token.shell
+      pop: 1
+    - match: '{{word_begin}}'
+      set:
+        - group-path-pattern-body
+        - maybe-tilde-interpolation
+
+  group-path-pattern-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.glob.shell string.unquoted.shell
+    - include: string-path-pattern-content
+    - include: word-end
+
+  string-path-patterns:
+    # This context consumes glob patterns within contexts
+    # which support redirections or pipelines.
+    - match: (?=\S)
+      push: string-path-pattern
+
+  string-path-pattern:
+    - match: (/)dev(/)null{{word_break}}
+      scope: meta.path.shell constant.language.null.shell
+      captures:
+        1: punctuation.separator.path.shell
+        2: punctuation.separator.path.shell
+      pop: 1
+    - match: '{{word_begin}}'
+      set:
+        - string-path-pattern-body
+        - maybe-tilde-interpolation
+
+  string-path-pattern-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.glob.shell string.unquoted.shell
+    - include: string-path-pattern-content
+    - include: word-end
+
+  string-path-pattern-content:
+    - match: \$?\"
+      scope: punctuation.definition.string.begin.shell
+      push: string-path-pattern-double-quoted-body
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push: string-path-pattern-ansi-c-body
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push: string-path-pattern-single-quoted-body
+    - include: string-prototype
+    - include: any-escapes
+    - include: brace-interpolations
+    - include: string-interpolations
+    - include: job-expansions
     - include: pattern-groups
     - include: pattern-charsets
-    - include: pattern-wildcards
+    - include: pattern-common
+    - include: string-pathlist-separators
 
-  expansions-tilde:
-    - match: '~'
-      scope: meta.interpolation.tilde.shell variable.language.tilde.shell
+  string-path-pattern-ansi-c-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_scope: string.quoted.single.shell
+    - include: string-ansi-c-body
+    - include: string-quoted-pathlist-separators
+
+  string-path-pattern-double-quoted-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_scope: string.quoted.double.shell
+    - include: string-double-quoted-body
+    - include: string-quoted-pathlist-separators
+
+  string-path-pattern-single-quoted-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_scope: string.quoted.single.shell
+    - include: string-single-quoted-body
+    - include: string-quoted-pathlist-separators
+
+  string-pathlist-separators:
+    - match: '{{pathlist_separator}}'
+      scope: punctuation.separator.sequence.shell
+      push: path-pattern-begin
+
+  string-quoted-pathlist-separators:
+    - match: '{{pathlist_separator}}'
+      scope: punctuation.separator.sequence.shell
+
+###[ PATH PATTERN MATCHING ]###################################################
+
+  path-pattern-begin:
+    - include: tilde-interpolation
+    - include: path-pattern-quoted-begin
+
+  path-pattern-quoted-begin:
+    - meta_include_prototype: false
+    - match: \.\.(?=/)
+      scope: constant.other.path.parent.shell
+      pop: 1
+    - match: \.(?=/)
+      scope: constant.other.path.self.shell
+      pop: 1
+    - include: line-continuations
+    - include: immediately-pop
+
+  path-pattern-content:
+    - match: \$?\"
+      scope: punctuation.definition.quoted.begin.shell
+      push: path-pattern-double-quoted-body
+    - match: \$'
+      scope: punctuation.definition.quoted.begin.shell
+      push: path-pattern-ansi-c-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      push: path-pattern-single-quoted-body
+    - include: string-prototype
+    - include: any-escapes
+    - include: brace-interpolations
+    - include: string-interpolations
+    - include: job-expansions
+    - include: pattern-groups
+    - include: pattern-charsets
+    - include: pattern-common
+    - include: path-separators
+
+  path-pattern-ansi-c-body:
+    - include: literal-ansi-c-body
+    - include: path-separators
+
+  path-pattern-double-quoted-body:
+    - include: literal-double-quoted-body
+    - include: path-separators
+
+  path-pattern-single-quoted-body:
+    - include: literal-single-quoted-body
+    - include: path-separators
+
+  path-separators:
+    - match: (/)(?:(?:(\.\.)|(\.))(?=/))?
+      captures:
+        1: punctuation.separator.path.shell
+        2: constant.other.path.parent.shell
+        3: constant.other.path.self.shell
 
 ###[ SHELL PATTERN MATCHING ]##################################################
 
   pattern-main-content:
     # [3.5.8.1] Pattern Matching in arbitrary expressions
-    - include: line-continuations
-    - include: any-escapes
-    - include: pattern-literals
-    - include: expansions-variables
-    - include: expansions-patterns
+    - include: string-unquoted-content
+    - include: pattern-groups
+    - include: pattern-charsets
+    - include: pattern-common
 
   pattern-charsets:
     - match: (?=\[)
@@ -2048,7 +2320,7 @@ contexts:
         2: punctuation.separator.sequence.regexp.shell
         3: constant.character.escape.regexp.shell
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
     - include: eol-pop
 
   pattern-charset-collate-body:
@@ -2060,7 +2332,8 @@ contexts:
         2: punctuation.definition.set.end.regexp.shell
       pop: 1
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
+    - include: eol-pop
 
   pattern-charset-equivalence-body:
     - meta_scope: meta.set.regexp.shell
@@ -2071,7 +2344,8 @@ contexts:
         2: punctuation.definition.set.end.regexp.shell
       pop: 1
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
+    - include: eol-pop
 
   pattern-charset-posix-body:
     - meta_scope: meta.set.regexp.shell
@@ -2083,34 +2357,43 @@ contexts:
         3: punctuation.definition.set.end.regexp.shell
       pop: 1
     - include: any-escapes
-    - include: expansions-variables
+    - include: variable-expansions
+    - include: eol-pop
 
   pattern-groups:
-    - match: ([?*+@!])(\()
-      captures:
-        1: keyword.operator.quantifier.regexp.shell
-        2: meta.group.regexp.shell punctuation.definition.group.begin.regexp.shell
-      push: pattern-group-body
+    - match: '[?*+@!](?=\()'
+      scope: keyword.operator.quantifier.regexp.shell
+      push: pattern-group
+
+  pattern-group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.regexp.shell
+      set: pattern-group-body
 
   pattern-group-body:
-    - meta_content_scope: meta.group.regexp.shell
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: meta.group.regexp.shell string.unquoted.shell
     - include: pattern-group-end
     - include: pattern-group-content
 
-  pattern-group-content:
-    - include: line-continuations
-    - include: any-escapes
-    - include: pattern-literals
-    - include: expansions-variables
-    - include: pattern-groups
-    - include: pattern-group-charsets
-    - include: pattern-wildcards
-    - include: pattern-operators
-
   pattern-group-end:
     - match: \)
-      scope: meta.group.regexp.shell punctuation.definition.group.end.regexp.shell
+      scope: punctuation.section.group.end.regexp.shell
       pop: 1
+    - include: line-continuations
+
+  pattern-group-content:
+    - include: string-unquoted-content
+    - include: pattern-group-groups
+    - include: pattern-group-charsets
+    - include: pattern-group-operators
+    - include: pattern-common
+
+  pattern-group-groups:
+    # required to distinguish nested groups in ZSH
+    - include: pattern-groups
 
   pattern-group-charsets:
     - match: (?=\[)
@@ -2135,36 +2418,11 @@ contexts:
     - include: pattern-charset-end
     - include: pattern-charset-content
 
-  pattern-literals:
-    - match: \"
-      scope: punctuation.definition.literal.begin.shell
-      push: pattern-double-quoted-literal-body
-    - match: \'
-      scope: punctuation.definition.literal.begin.shell
-      push: pattern-single-quoted-literal-body
-
-  pattern-double-quoted-literal-body:
-    - meta_include_prototype: false
-    - match: \"
-      scope: punctuation.definition.literal.end.shell
-      pop: 1
-    - include: string-prototype
-    - include: string-escapes
-    - include: line-continuations
-    - include: expansions-variables
-
-  pattern-single-quoted-literal-body:
-    - meta_include_prototype: false
-    - match: \'
-      scope: punctuation.definition.literal.end.shell
-      pop: 1
-    - include: string-prototype
-
-  pattern-operators:
+  pattern-group-operators:
     - match: \|
-      scope: keyword.operator.logical.regexp.shell
+      scope: keyword.operator.alternation.regexp.shell
 
-  pattern-wildcards:
+  pattern-common:
     - match: \*
       scope: constant.other.wildcard.asterisk.shell
     - match: \?
@@ -2173,15 +2431,12 @@ contexts:
 ###[ POSIX EXTENDED REGULAR EXPRESSIONS ]######################################
 
   eregexp-main-content:
-    - include: line-continuations
-    - include: any-escapes
-    - include: pattern-literals
-    - include: expansions-variables
+    - include: eregexp-quantifiers
+    - include: string-unquoted-content
     - include: eregexp-charsets
     - include: eregexp-groups
     - include: eregexp-anchors
     - include: eregexp-operators
-    - include: eregexp-quantifiers
     - include: eregexp-literals
 
   eregexp-groups:
@@ -2190,22 +2445,19 @@ contexts:
       push: [eregexp-group-body, eregexp-unexpected-quantifier]
 
   eregexp-group-body:
-    - meta_scope: meta.group.regexp.shell
-    - match: \)
-      scope: punctuation.section.group.end.regexp.shell
-      pop: 1
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: meta.group.regexp.shell string.unquoted.shell
+    - include: pattern-group-end
     - include: eregexp-group-content
 
   eregexp-group-content:
-    - include: line-continuations
-    - include: any-escapes
-    - include: pattern-literals
-    - include: expansions-variables
+    - include: eregexp-quantifiers
+    - include: string-unquoted-content
     - include: eregexp-group-charsets
     - include: eregexp-groups
     - include: eregexp-anchors
     - include: eregexp-operators
-    - include: eregexp-quantifiers
     - include: eregexp-literals
 
   eregexp-charsets:
@@ -2289,136 +2541,771 @@ contexts:
     - match: \)
       scope: invalid.illegal.stray.regexp.shell
 
-###[ STRINGS ]#################################################################
+###[ EXPANSIONS ]##############################################################
 
-  strings-unquoted:
-    - match: (?=[^{{metachar}}])
-      push: string-unquoted-body
+  variable-expansions:
+    - include: arithmetic-expansions
+    - include: command-expansions
+    - include: parameter-expansions
 
-  string-unquoted:
-    - match: (?=[^{{metachar}}])
-      set: string-unquoted-body
+###[ ARITHMETIC EXPANSIONS ]###################################################
 
-  string-unquoted-body:
+  arithmetic-expansions:
+    - match: (?=\$\(\()
+      branch_point: arithmetic-expansion
+      branch:
+        - arithmetic-expansion
+        - command-expansion
+
+  arithmetic-expansion:
+    - match: (\$)(\(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+      set: arithmetic-expansion-parens-body
+
+  arithmetic-expansion-parens-body:
+    - meta_scope: meta.interpolation.arithmetic.shell
+    - match: \)\)
+      scope: punctuation.section.interpolation.end.shell
+      pop: 1
+    - match: (?=\))
+      fail: arithmetic-expansion
+    - include: expression-content
+
+###[ BRACE EXPANSIONS ]########################################################
+
+  brace-interpolations:
+    # use branching as valid brace expansions must not exceed word boundaries
+    - match: (?={)
+      branch_point: brace-interpolation
+      branch:
+        - brace-interpolation-sequence
+        - brace-interpolation-series
+        - brace-interpolation-fallback
+
+  brace-interpolation-sequence:
+    # sequence expression
+    - clear_scopes: 1
     - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.shell
-    - include: string-prototype
+    - match: \{
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.begin.shell
+      push:
+        - brace-interpolation-sequence-body
+        - brace-interpolation-sequence-begin
+
+  brace-interpolation-sequence-begin:
+    - match: \.\.
+      scope: keyword.operator.range.shell
+      pop: 1
     - include: line-continuations
-    - include: any-escapes
+    - include: brace-interpolation-sequence-content
+
+  brace-interpolation-sequence-body:
+    - meta_content_scope: meta.interpolation.brace.shell
+    - match: \.\.
+      scope: keyword.operator.range.shell
+    - include: brace-interpolation-end
+    - include: brace-interpolation-sequence-content
+
+  brace-interpolation-sequence-content:
+    - include: variable-expansions
+    - match: ([-+]?)(\d+)
+      scope: meta.number.integer.decimal.shell
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: constant.numeric.value.shell
+    - match: '[[:alpha:]]'
+      scope: constant.character.shell
+    - match: ''
+      fail: brace-interpolation
+
+  brace-interpolation-series:
+    # series of comma-separated strings
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - match: \{
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.begin.shell
+      push: brace-interpolation-series-begin
+
+  brace-interpolation-series-begin:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.interpolation.brace.shell
+        meta.string.shell string.unquoted.shell
+    - match: (?=\})
+      fail: brace-interpolation
+    - include: line-continuations
+    - include: brace-interpolation-series-content
+
+  brace-interpolation-series-body:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.interpolation.brace.shell
+        meta.string.shell string.unquoted.shell
+    - include: brace-interpolation-end
+    - include: brace-interpolation-series-content
+
+  brace-interpolation-series-content:
+    - match: \,
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.separator.sequence.shell
+      set: brace-interpolation-series-body
+    - include: line-continuations
+    - include: pattern-main-content
+    - match: '{{word_break}}'
+      fail: brace-interpolation
+
+  brace-interpolation-end:
+    - match: \}
+      scope:
+        meta.interpolation.brace.shell
+        punctuation.section.interpolation.end.shell
+      pop: 2
+    - include: line-continuations
+
+  brace-interpolation-fallback:
+    - meta_include_prototype: false
+    - match: \{
+      pop: 1
+
+###[ COMMAND EXPANSIONS ]######################################################
+
+  command-expansions:
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+      push: command-expansion-body
+    - match: \`
+      scope:
+        meta.interpolation.command.shell
+        punctuation.section.interpolation.begin.shell
+      embed: statements
+      embed_scope: meta.interpolation.command.shell
+      escape: '{{no_escape_behind}}\`'
+      escape_captures:
+        0: meta.interpolation.command.shell
+           punctuation.section.interpolation.end.shell
+
+  command-expansion:
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+      set: command-expansion-body
+
+  command-expansion-body:
+    - meta_scope: meta.interpolation.command.shell
+    - match: \s*(\))
+      captures:
+        1: punctuation.section.interpolation.end.shell
+      pop: 1
+    - include: statements
+
+###[ JOB EXPANSIONS ]##########################################################
+
+  job-expansions:
+    # There are a number of ways to refer to a job in the shell.
+    # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
+    # which is the last job stopped while it was in the foreground or started in
+    # the background. The previous job may be referenced using ‘%-’.
+    # Job number n may be referred to as ‘%n’.
+    - match: (%)([-+%]|\d+)
+      scope:
+        meta.interpolation.job.shell
+        variable.language.job.shell
+      captures:
+        1: punctuation.definition.variable.shell
+    # A job may also be referred to using a prefix of the name used to start it,
+    # or using a substring that appears in its command line. For example, ‘%ce’
+    # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
+    # job containing the string ‘ce’ in its command line. If the prefix or
+    # substring matches more than one job, Bash reports an error.
+    # A single ‘%’ (with no accompanying job specification) also refers to the
+    # current job.
+    - match: (%)(?:(\??)\w+)?
+      scope:
+        meta.interpolation.job.shell
+        variable.other.readwrite.shell
+      captures:
+        1: punctuation.definition.variable.shell
+        2: keyword.operator.match.shell
+
+###[ PARAMETER EXPANSIONS ]####################################################
+
+  parameter-expansions:
+    - match: (\$)(\{)
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+      push:
+        - parameter-expansion-meta
+        - parameter-expansion-modifier
+        - parameter-expansion-name
+        - parameter-expansion-operator
+    # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
+    - match: (\$)\d
+      scope: meta.interpolation.parameter.shell variable.language.positional.shell
+      captures:
+        1: punctuation.definition.variable.shell
+    # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
+    - match: (\$){{builtin_variables}}
+      scope: meta.interpolation.parameter.shell variable.language.builtin.shell
+      captures:
+        1: punctuation.definition.variable.shell
+    # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
+    - match: (\$){{special_variables}}
+      scope: meta.interpolation.parameter.shell variable.language.special.shell
+      captures:
+        1: punctuation.definition.variable.shell
+    - match: (\$){{identifier}}
+      scope: meta.interpolation.parameter.shell variable.other.readwrite.shell
+      captures:
+        1: punctuation.definition.variable.shell
+
+  parameter-expansion-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.parameter.shell
+    - include: immediately-pop
+
+  parameter-expansion-operator:
+    # Both ! and # are operators and special parameters at the same time.
+    # First char is operator only if not followed by } or operator
+    # Note: Matches may be wrong if line continuation follows, but it seems
+    # unlikely enough to accept it, instead of overcomplicating with branching.
+    - meta_include_prototype: false
+    # Expansion result is used as new parameter name to expand
+    # Adds a level of indirection to name resolution
+    - match: \!(?![/%,:=^}]|[-+?@][^}])
+      scope: keyword.operator.expansion.indirection.shell
+      pop: 1
+    # Length of var in words (array) or bytes
+    - match: \#(?![/%,:=^}]|[-+?@#][^}])
+      scope: keyword.operator.expansion.length.shell
+      pop: 1
+    - include: line-continuations
+    - include: immediately-pop
+
+  parameter-expansion-name:
+    - meta_include_prototype: false
+    - match: \d+
+      scope: variable.language.positional.shell
+      pop: 1
+    - match: '{{builtin_variables}}(?=[-+*/%?,:=#^@}\[])'
+      scope: variable.language.builtin.shell
+      pop: 1
+    - match: '{{special_variables}}(?=[-+*/%?,:=#^@}\[])'
+      scope: variable.language.special.shell
+      pop: 1
+    - match: ''
+      set: parameter-expansion-name-chars
+
+  parameter-expansion-name-chars:
+    - meta_content_scope: variable.other.readwrite.shell
+    # note: no quoted name parts allowed within parameter expansions
+    - match: '[@*](?!\w)'
+      scope: variable.language.special.shell
+      pop: 1
+    - include: variable-name-chars
+
+  parameter-expansion-modifier:
+    # ${parameter@operator}
+    - match: (?:(@)({{parameter_switch}}))?(})
+      captures:
+        1: keyword.operator.expansion.shell
+        2: variable.parameter.switch.shell
+        3: punctuation.section.interpolation.end.shell
+      pop: 1
+    # ${parameter:=word}
+    - match: :?[-+=?]
+      scope: keyword.operator.assignment.shell
+      set:
+        - parameter-expansion-pattern
+        - maybe-tilde-interpolation
+    # ${parameter:offset:length}
+    - match: ':'
+      scope: keyword.operator.substring.begin.shell
+      set: parameter-expansion-substr-start
+    # ${parameter/pattern/word}
+    - match: /[/#%]?
+      scope: keyword.operator.substitution.shell
+      set:
+        - parameter-expansion-substitution-pattern
+        - maybe-tilde-interpolation
+    # ${parameter#pattern}
+    # ${parameter##pattern}
+    # ${parameter%pattern}
+    # ${parameter%%pattern}
+    # ${parameter^pattern}
+    # ${parameter^^pattern}
+    # ${parameter,pattern}
+    # ${parameter,,pattern}
+    - match: (?:##?|%%?|\^\^?|,,?)
+      scope: keyword.operator.expansion.shell
+      set:
+        - parameter-expansion-pattern
+        - maybe-tilde-interpolation
+    - include: variable-subscriptions
+
+  parameter-expansion-substr-start:
+    - meta_content_scope: meta.arithmetic.shell
+    - match: ':'
+      scope: keyword.operator.substring.end.shell
+      set: parameter-expansion-expression
+    - include: parameter-expansion-expression
+
+  parameter-expansion-expression:
+    - meta_content_scope: meta.arithmetic.shell
+    - include: parameter-expansion-end
+    - include: expression-content
+
+  parameter-expansion-substitution-pattern:
+    # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - match: /
+      scope: keyword.operator.substitution.shell
+      set: parameter-expansion-string
+    - include: parameter-expansion-pattern
+
+  parameter-expansion-pattern:
+    # [3.5.8.1] Pattern Matching in parameter expansions
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - include: parameter-expansion-end
+    - include: string-unquoted-content
+    - include: parameter-expansion-pattern-charsets
+    - include: parameter-expansion-pattern-groups
+    - include: pattern-common
+
+  parameter-expansion-pattern-charsets:
+    - match: (?=\[)
+      branch_point: parameter-expansion-pattern-charset
+      branch:
+        - parameter-expansion-pattern-charset
+        - pattern-charset-fallback
+
+  parameter-expansion-pattern-charset:
+    - match: (\[)([!^]?)
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      set:
+        - parameter-expansion-pattern-charset-body
+        - pattern-charset-begin
+
+  parameter-expansion-pattern-charset-body:
+    - meta_scope: meta.set.regexp.shell
+    - match: $|(?=\}) # bailout at end parameter
+      fail: parameter-expansion-pattern-charset
+    - include: pattern-charset-end
+    - include: pattern-charset-content
+
+  parameter-expansion-pattern-groups:
+    - match: '[?*+@!]?(?=\()'
+      scope: keyword.operator.quantifier.regexp.shell
+      push: parameter-expansion-pattern-group
+
+  parameter-expansion-pattern-group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.regexp.shell
+      set: parameter-expansion-pattern-group-body
+
+  parameter-expansion-pattern-group-body:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - meta_scope: meta.group.regexp.shell string.unquoted.shell
+    - include: pattern-group-end
+    - include: parameter-expansion-pattern-group-content
+    - include: brace-pop
+
+  parameter-expansion-pattern-group-content:
+    - include: string-unquoted-content
+    - include: parameter-expansion-pattern-groups
+    - include: parameter-expansion-pattern-group-charsets
+    - include: pattern-group-operators
+    - include: pattern-common
+
+  parameter-expansion-pattern-group-charsets:
+    - match: (?=\[)
+      branch_point: parameter-expansion-pattern-group-charset
+      branch:
+        - parameter-expansion-pattern-group-charset
+        - pattern-charset-fallback
+
+  parameter-expansion-pattern-group-charset:
+    - match: (\[)([!^]?)
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.regexp.shell
+      set:
+        - parameter-expansion-pattern-group-charset-body
+        - pattern-charset-begin
+
+  parameter-expansion-pattern-group-charset-body:
+    - meta_scope: meta.set.regexp.shell
+    - match: $|(?=[)}]) # bailout at end of group or parameter
+      fail: parameter-expansion-pattern-group-charset
+    - include: pattern-charset-end
+    - include: pattern-charset-content
+
+  parameter-expansion-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.shell string.unquoted.shell
+    - include: parameter-expansion-end
+    - include: string-unquoted-content
+
+  parameter-expansion-end:
+    - match: \}
+      scope: punctuation.section.interpolation.end.shell
+      pop: 1
+    - include: line-continuations
+
+###[ TILDE EXPANSIONS ]########################################################
+
+  maybe-tilde-interpolation:
+    - meta_include_prototype: false
+    # https://www.gnu.org/software/bash/manual/bash.html#Tilde-Expansion
+    - include: tilde-interpolation
+    - include: line-continuations
+    - include: immediately-pop
+
+  tilde-interpolation:
+    - match: \~
+      scope: variable.language.tilde.shell
+      set: tilde-modifier
+
+  tilde-modifier:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.tilde.shell
+    - match: (?:[-+]?\d+|[-+](?=\\?/|{{metachar}}))
+      scope: variable.language.tilde.shell
+      pop: 1
+    - match: ''
+      set: tilde-modifier-username
+
+  tilde-modifier-username:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.tilde.shell constant.other.username.shell
+    - include: line-continuations
     - include: string-interpolations
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - clear_scopes: 1
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.shell
-        - include: string-quoted-single-body
-    - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - clear_scopes: 1
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.shell
-        - include: string-quoted-double-body
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - clear_scopes: 1
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.ansi-c.shell
-        - include: string-ansi-c-body
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - clear_scopes: 1
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.locale.shell
-        - include: string-quoted-double-body
-    - include: string-path-separators
-    - match: (?!{{cmd_literal_char}})
+    - match: (?=\\?/|{{metachar}})
       pop: 1
 
-  strings:
-    - include: any-escapes
-    # nothing is escaped in a singly-quoted string!
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.single.shell
-        - include: string-quoted-single-body
-    - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.double.shell
-        - include: string-quoted-double-body
-    # [Bash] 3.1.2.4
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
-        - include: string-ansi-c-body
-    # [Bash] 3.1.2.5
-    # If the string is translated and replaced, the replacement is double-quoted.
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.double.locale.shell
-        - include: string-quoted-double-body
+###[ ILLEGALS ]################################################################
 
-  string-quoted-double-body:
-    - match: \"
-      scope: punctuation.definition.string.end.shell
+  illegal-options:
+    - match: (--|[-+]){{identifier}}
+      scope: invalid.illegal.parameter.shell
+
+  illegal-pipeseps:
+    - match: '[{{pipe_seps}}]'
+      scope: invalid.illegal.unexpected-token.shell
+
+  illegal-stray:
+    - match: '[)}\]]'
+      scope: invalid.illegal.stray.shell
+
+  illegal-words:
+    - match: '{{word_begin}}'
+      push: illegal-word-chars
+
+  illegal-word-chars:
+    - meta_include_prototype: false
+    - meta_scope: invalid.illegal.unexpected-token.shell
+    - include: literal-unquoted-content
+    - include: word-end
+
+###[ PROTOTYPES ]##############################################################
+
+  brace-pop:
+    - match: (?=\})
       pop: 1
-    - include: string-prototype
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  eoc-pop:
+    - match: (?=\s*(?:[)}|;]|&(?!>)))
+      pop: 1
+    - include: eol-pop
+
+  eol-pop:
+    - match: $|(?=\s+[#\n])
+      pop: 1
     - include: line-continuations
-    - include: string-escapes
-    - include: string-interpolations
-    - include: string-path-separators
 
-  string-ansi-c-body:
-    - match: \'
-      scope: punctuation.definition.string.end.shell
+  immediately-pop:
+    - match: ''
       pop: 1
-    - include: string-prototype
+
+  pipesep-pop:
+    - match: (?=[{{pipe_seps}}])
+      pop: 1
+
+  word-end:
+    - match: '{{word_break}}'
+      pop: 1
     - include: line-continuations
-    - include: string-escapes-ansi-c
 
-  string-quoted-single-body:
-    - match: \'
-      scope: punctuation.definition.string.end.shell
-      pop: 1
-    - include: string-prototype
-    - include: string-path-separators
+###[ VARIABLES ]###############################################################
 
-  any-escapes:
-    - match: \\.
-      scope: constant.character.escape.shell
+variables:
+  # Language identifier in shebang
+  shebang_language: \b(?:bash|sh|tcsh|ash|dash)\b
 
-  string-escapes:
-    - match: '\\(?:e|033)\[\d{1,3}(?:;\d{1,3}){0,4}m'
-      scope: constant.character.escape.color.shell
-    - match: \\[$`"\\]
-      scope: constant.character.escape.shell
+  # Commands literals are command names without interpolation or quotation.
+  cmd_literal: '{{cmd_literal_char}}+{{cmd_break}}'
+  cmd_literal_char: '[^{{metachar}}%$\\"''`]'
 
-  string-path-separators:
-    - match: ':(?=\$|(?:~|\.?\.)?/(?!/))'
-      scope: punctuation.separator.sequence.shell
+  # Command names are non-posix identifiers, which may include assignment operators.
+  cmd_begin: (?={{cmd_char}})
+  cmd_break: (?!{{cmd_char}})
+  cmd_char: '[^{{metachar}}]'
 
-  string-escapes-ansi-c:
-    - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
-      scope: constant.character.escape.shell
+  # Command options are identifiers, which may start with interpolation.
+  opt_punctuation: (--|[-+])(?={{word_char}})
+  opt_break: (?![^={{metachar}}])
 
-  string-interpolations:
-    - match: '{{is_interpolation}}'
-      push:
-        - clear_scopes: 1
-        - include: expansions-variables
-        - include: immediately-pop
+  # HEREDOC tag names
+  heredoc: '{{heredoc_first_char}}{{heredoc_char}}*'
+  heredoc_first_char: '[[:alpha:]_]'
+  heredoc_char: '[[:alnum:]_.-]'
+  heredoc_break: (?!{{heredoc_char}})
 
-  # for use by inheriting syntaxes to easily inject string interpolation
-  # in any kind of quoted or unquoted string
-  string-prototype: []
+  # Variable names
+  variable_begin: (?={{variable_first_char}})
+  variable_first_char: '[[:alpha:]_''"$%]'
+
+  # POSIX identifiers (alpha-numeric)
+  identifier: '{{identifier_first_char}}{{identifier_char}}*'
+  identifier_first_char: '[[:alpha:]_]'
+  identifier_char: '[[:alnum:]_]'
+  identifier_break: (?!{{identifier_char}})
+
+  # Generic identifiers (shell words)
+  word_begin: (?=\S)
+  word_break: (?!{{word_char}})
+  word_char: '[^{{metachar}}]'
+
+  # A character that, when unquoted, separates words. A metacharacter is a
+  # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
+  # ‘(’, ‘)’, ‘<’, or ‘>’.
+  metachar: '[\s(){{pipe_seps}}]'
+  pipe_seps: '\|&<>;'
+  wspace: (?:\s+|^)
+
+  # Indentation and whitespace patterns
+  no_indent: ^
+  tab_indent: ^\t*
+
+  # A lookbehind used in embed..escape patterns, to check for unescaped characters
+  # in embed...escape statements.
+  no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
+
+  case_clause_end: ;;&?|;&
+
+  # Parameter expansions
+  is_interpolation: (?=\$[({{{identifier_char}}{{special_variables}}]|`)
+  parameter_switch: '[AEKLPQUaku]'
+
+  # Filename expansions
+  pathlist_separator: :(?=\$|(?:~|\.?\.)?/(?!/))
+
+  illegal_group_separators: '[({{pipe_seps}}]'
+
+  # POSIX extended regexp quantifiers
+  character_quantifier: '[?*+]'
+  lazy_or_possessive: '[?+]?'
+  ranged_quantifier: \{\d+(?:,\d*)?\}
+
+  posix_classes: |-
+    (?x: ascii | alnum | alpha | blank | cntrl | digit | graph
+    | lower | print | punct | space | upper | word | xdigit )
+
+  # Numbers
+  dec_break: '{{word_break}}'
+  dec_digit: \d
+  hex_digit: \h
+  oct_digit: '[0-7]'
+  varassign: '[-+]?='
+
+  # 4.2 Shell Built-in Commands
+  # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
+  # Note: Contains items which are not present as dedicated contexts
+  builtin_cmds: |-
+    (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
+    | getopts | hash | help | jobs | kill | logout | printf | pwd | set
+    | shift | shopt | source | su | suspend | times | type | ulimit | umask
+    | wait ){{cmd_break}}
+
+  modifier_cmds: |-
+    (?x: builtin ){{cmd_break}}
+
+  # 5 Shell Variables
+  # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
+  builtin_variables: |-
+    (?x:
+      _
+    | BASH
+    | BASH_ALIASES
+    | BASH_ARGC
+    | BASH_ARGV
+    | BASH_ARGV0
+    | BASH_CMDS
+    | BASH_COMMAND
+    | BASH_COMPAT
+    | BASH_ENV
+    | BASH_EXECUTION_STRING
+    | BASH_LINENO
+    | BASH_LOADABLES_PATH
+    | BASH_REMATCH
+    | BASH_SOURCE
+    | BASH_SUBSHELL
+    | BASH_VERSINFO
+    | BASH_VERSION
+    | BASH_XTRACEFD
+    | BASHOPTS
+    | BASHPID
+    | CDPATH
+    | CHILD_MAX
+    | COLUMNS
+    | COMP_CWORD
+    | COMP_KEY
+    | COMP_LINE
+    | COMP_POINT
+    | COMP_TYPE
+    | COMP_WORDBREAKS
+    | COMP_WORDS
+    | COMPREPLY
+    | COPROC
+    | DIRSTACK
+    | ENV
+    | EPOCHREALTIME
+    | EPOCHSECONDS
+    | EUID
+    | EXECIGNORE
+    | FCEDIT
+    | FIGNORE
+    | FUNCNAME
+    | FUNCNEST
+    | GLOBIGNORE
+    | GROUPS
+    | histchars
+    | HISTCMD
+    | HISTCONTROL
+    | HISTFILE
+    | HISTFILESIZE
+    | HISTIGNORE
+    | HISTSIZE
+    | HISTTIMEFORMAT
+    | HOME
+    | HOSTFILE
+    | HOSTNAME
+    | HOSTTYPE
+    | IFS
+    | IGNOREEOF
+    | INPUTRC
+    | INSIDE_EMACS
+    | LANG
+    | LC_ALL
+    | LC_COLLATE
+    | LC_CTYPE
+    | LC_MESSAGES
+    | LC_NUMERIC
+    | LC_TIME
+    | LINENO
+    | LINES
+    | MACHTYPE
+    | MAIL
+    | MAILCHECK
+    | MAILPATH
+    | MAPFILE
+    | OLDPWD
+    | OPTARG
+    | OPTERR
+    | OPTIND
+    | OSTYPE
+    | PATH
+    | PIPESTATUS
+    | POSIXLY_CORRECT
+    | PPID
+    | PROMPT_COMMAND
+    | PROMPT_DIRTRIM
+    | PS0
+    | PS1
+    | PS2
+    | PS3
+    | PS4
+    | PWD
+    | RANDOM
+    | READLINE_ARGUMENT
+    | READLINE_LINE
+    | READLINE_MARK
+    | READLINE_POINT
+    | REPLY
+    | SECONDS
+    | SHELL
+    | SHELLOPTS
+    | SHLVL
+    | SRANDOM
+    | TIMEFORMAT
+    | TMOUT
+    | UID
+    ){{identifier_break}}
+
+  # 3.4.2 Special Parameters
+  # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
+  special_variables: '[$#@!*?-]'
+
+  signal_names: |-
+    (?x: EXIT | DEBUG | SIG {{signal_subnames}} ){{word_break}}
+
+  signal_subnames: |-
+    (?x:
+    | ABRT
+    | ALRM
+    | BUS
+    | CHLD
+    | CONT
+    | FPE
+    | HUP
+    | ILL
+    | INT
+    | IO
+    | KILL
+    | LWP
+    | PIPE
+    | PROF
+    | PWR
+    | QUIT
+    | RTMAX(?:-(?:1[0-4]|\d))?
+    | RTMIN(?:\+(?:1[0-5]|\d))?
+    | SEGV
+    | STKFLT
+    | STOP
+    | SYS
+    | TERM
+    | TRAP
+    | TSTP
+    | TTIN
+    | TTOU
+    | URG
+    | USR1
+    | USR2
+    | VTALRM
+    | WAITING
+    | WINCH
+    | XCPU
+    | XFSZ
+    )

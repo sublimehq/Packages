@@ -147,6 +147,16 @@
 /*           ^ punctuation.section.block.begin.css */
 /*            ^ punctuation.section.block.end.css */
 
+    h\74 ml {}
+/*  ^^^^^^^^ meta.selector.css */
+/*  ^^^^^^^ entity.name.tag.other.css */
+
+    ns\:name .ns\:name #ns\:name {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*  ^^^^^^^^ entity.name.tag.other.css */
+/*           ^^^^^^^^^ entity.other.attribute-name.class.css*/
+/*                     ^^^^^^^^^ entity.other.attribute-name.id.css */
+
     @123
 /*  ^^^^^ - meta.at-rule - constant - keyword - punctuation */
 
@@ -716,7 +726,7 @@
     .test-nested-container { @container name { table {}; > span { font-size: 1.25rem; }; color: red } }
 /*                         ^^ meta.property-list.css meta.block.css - meta.at-rule */
 /*                           ^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.at-rule.container.css - meta.group - meta.block meta.block */
-/*                                           ^^ meta.property-list.css meta.block.css meta.at-rule.container.css meta.block.css - meta.block.css meta.block.css meta.block.css - meta.sepector */
+/*                                           ^^ meta.property-list.css meta.block.css meta.at-rule.container.css meta.block.css - meta.block.css meta.block.css meta.block.css - meta.selector */
 /*                                             ^^^^^^ meta.property-list.css meta.block.css meta.at-rule.container.css meta.property-list.css meta.block.css meta.selector.css */
 /*                                                   ^^ meta.property-list.css meta.block.css meta.at-rule.container.css meta.property-list.css meta.block.css meta.property-list.css meta.block.css */
 /*                                                     ^^ meta.property-list.css meta.block.css meta.at-rule.container.css meta.property-list.css meta.block.css - meta.selector */
@@ -974,7 +984,7 @@
 /*                       ^^^^^^^ meta.property-list.css meta.block.css meta.at-rule.media.css - meta.group - meta.block meta.block */
 /*                              ^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.at-rule.media.css meta.group.css */
 /*                                               ^ meta.property-list.css meta.block.css meta.at-rule.media.css - meta.group - meta.block meta.block */
-/*                                                ^^ meta.property-list.css meta.block.css meta.at-rule.media.css meta.block.css - meta.block.css meta.block.css meta.block.css - meta.sepector */
+/*                                                ^^ meta.property-list.css meta.block.css meta.at-rule.media.css meta.block.css - meta.block.css meta.block.css meta.block.css - meta.selector */
 /*                                                  ^^^^^^ meta.property-list.css meta.block.css meta.at-rule.media.css meta.property-list.css meta.block.css meta.selector.css */
 /*                                                        ^^ meta.property-list.css meta.block.css meta.at-rule.media.css meta.property-list.css meta.block.css meta.property-list.css meta.block.css */
 /*                                                          ^^ meta.property-list.css meta.block.css meta.at-rule.media.css meta.property-list.css meta.block.css - meta.selector */
@@ -1783,7 +1793,7 @@
     .test-nested-supports { @supports { table {}; > span { font-size: 1.25rem; }; color: red } }
 /*                        ^^ meta.property-list.css meta.block.css - meta.at-rule */
 /*                          ^^^^^^^^^^ meta.property-list.css meta.block.css meta.at-rule.supports.css - meta.group - meta.block meta.block */
-/*                                    ^^ meta.property-list.css meta.block.css meta.at-rule.supports.css meta.block.css - meta.block.css meta.block.css meta.block.css - meta.sepector */
+/*                                    ^^ meta.property-list.css meta.block.css meta.at-rule.supports.css meta.block.css - meta.block.css meta.block.css meta.block.css - meta.selector */
 /*                                      ^^^^^^ meta.property-list.css meta.block.css meta.at-rule.supports.css meta.property-list.css meta.block.css meta.selector.css */
 /*                                            ^^ meta.property-list.css meta.block.css meta.at-rule.supports.css meta.property-list.css meta.block.css meta.property-list.css meta.block.css */
 /*                                              ^^ meta.property-list.css meta.block.css meta.at-rule.supports.css meta.property-list.css meta.block.css - meta.selector */
@@ -2282,7 +2292,7 @@
 /*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^^ meta.property-list.css meta.block.css meta.property-value.css constant.language.null.css */
 
-    --custon-prop-name: value;
+    --custom-prop-name: value;
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
 /*  ^^^^^^^^^^^^^^^^^^ meta.property-name.css entity.other.custom-property.css */
 /*                    ^ punctuation.separator.key-value.css */
@@ -2765,6 +2775,18 @@
 /*                             ^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.group.css meta.attribute-selector.css meta.brackets.css - meta.selector meta.selector */
 /*                                                 ^^ meta.selector.css meta.function-call.arguments.css meta.group.css - meta.brackets */
 /*                                                   ^ meta.selector.css - meta.group */
+
+ul:has(> li), a[ng-click='post()'] { ul:has(> li), a[ng-click='post()'] { color: color(w(var()) s(var()) () )); } }
+/* <- meta.selector.css entity.name.tag.html.css */
+/*^^^^^^^^^^^^^ meta.selector.css - meta.attribute-selector */
+/*             ^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css meta.brackets.css */
+/*                                ^ meta.selector.css - meta.attribute-selector - meta.property-list */
+/*                                 ^^ meta.property-list.css meta.block.css - meta.selector */
+/*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.selector.css */
+/*                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css meta.property-list.css meta.block.css */
+/*                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.css */
+/*                                                                                                               ^^ meta.property-list.css meta.block.css - meta.property-list meta.property-list - meta.block meta.block */
+/*                                                                                                                 ^ - meta.property-list - meta.block */
 
    *.test-universal-selector {}
 /* ^ constant.other.wildcard.asterisk.css */
@@ -4479,7 +4501,7 @@ img{
 /*               ^ variable.language.parent.css */
 
         /* & is not a string value, but an object in CSS */
-        .foo { &bar { /* is not not .foobar!  */ }
+        .foo { &bar { /* is not .foobar!  */ }
 /*             ^ variable.language.parent.css */
 /*              ^^^ entity.name.tag.other.css*/
 

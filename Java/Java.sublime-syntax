@@ -37,7 +37,7 @@ variables:
     | {{illegal_keywords}}
     )
   declaration_keywords: |-
-    (?x: class | enum | @?interface | record | var | void | extends | implements | import | package )
+    (?x: class | enum | @?interface | var | void | extends | implements | import | package )
   control_keywords: |-
     (?x: assert | break | case | catch | continue | do | else | finally | for
     | if | return | switch | throw | throws | try | while | yield )
@@ -263,7 +263,7 @@ contexts:
     # fail: looks like a qualified annotation
     - match: (?={{single_dot}})
       fail: annotation-identifier
-    # fail: truncate meta scope immediatelly
+    # fail: truncate meta scope immediately
     - match: (?=\S)
       fail: annotation-unqualified-parameters
 
@@ -342,7 +342,7 @@ contexts:
     #   - locals:  class, variables
     #   - try/for: variables
     #
-    # Member declarations need to be handled differently as constructurs look
+    # Member declarations need to be handled differently as constructors look
     # exactly like function calls. The other two scopes (global, local) are
     # merged here to maintain syntax highlighting whenever possible. That's
     # needed for `incomplete code` scenarios or if contexts are lost due to
@@ -843,12 +843,29 @@ contexts:
 
 ###[ RECORD DECLARATIONS ]#####################################################
 
+  member-record-keyword:
+    # https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
+    - match: record{{break}}
+      scope: keyword.declaration.record.java
+      set:
+        - member-record-block
+        - record-extends
+        - record-parameters
+        - maybe-type-parameter
+        - class-name
+
+  member-record-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: class-block-body
+    - include: member-else-fail
+
   record-keyword:
     # https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
     - match: record{{break}}
       scope: keyword.declaration.record.java
       set:
-        - class-block
+        - record-block
         - record-extends
         - record-parameters
         - maybe-type-parameter
@@ -893,6 +910,12 @@ contexts:
         - inherited-object-type
     - include: else-pop
 
+  record-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: class-block-body
+    - include: declaration-else-fail
+
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member-declarations:
@@ -900,11 +923,11 @@ contexts:
       branch_point: class-members
       branch:
         - member-maybe-constructor
-        - member-maybe-method
-        - member-maybe-field
         - member-maybe-class
         - member-maybe-enum
         - member-maybe-interface
+        - member-maybe-method
+        - member-maybe-field
 
   member-else-fail:
     - match: (?=\S)
@@ -918,7 +941,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
-    - include: record-keyword
+    - include: member-record-keyword
     - include: class-modifiers
     - include: member-else-fail
 
@@ -2536,7 +2559,7 @@ contexts:
     - include: operator-ternary-colon
     - include: expression
 
-###[ PUNCTUATIONS ]############################################################
+###[ PUNCTUATION ]#############################################################
 
   punctuations:
     - match: '::'
@@ -2977,10 +3000,10 @@ contexts:
     - match: '{{id}}'
       scope: support.class.java
       push:
-        - unqualiefied-object-type-end
+        - unqualified-object-type-end
         - maybe-type-argument
 
-  unqualiefied-object-type-end:
+  unqualified-object-type-end:
     - match: (?={{single_dot}})
       fail: object-type
     - include: else-pop3
@@ -3076,7 +3099,7 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       pop: 2
 
-###[ INHERRITED TYPE REFERENCES ]##############################################
+###[ INHERITED TYPE REFERENCES ]###############################################
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-list:
@@ -3097,10 +3120,10 @@ contexts:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
-        - unqualiefied-inherited-object-type-end
+        - unqualified-inherited-object-type-end
         - maybe-type-argument
 
-  unqualiefied-inherited-object-type-end:
+  unqualified-inherited-object-type-end:
     - match: (?={{single_dot}})
       fail: inherited-object-type
     - include: illegal-array-modifiers

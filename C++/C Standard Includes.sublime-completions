@@ -108,10 +108,24 @@
             "kind": ["namespace", "h", "Header"]
         },
         {
+            // (since C23) Bit manipulation functions and byte order macros
+            "trigger": "stdbit.h",
+            "details": "Added in C23",
+            "contents": "stdbit.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
             // (since C99) Boolean type
             "trigger": "stdbool.h",
             "details": "Added in C99",
             "contents": "stdbool.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C23) Checked integer arithmetic macros
+            "trigger": "stdckdint.h",
+            "details": "Added in C23",
+            "contents": "stdckdint.h",
             "kind": ["namespace", "h", "Header"]
         },
         {

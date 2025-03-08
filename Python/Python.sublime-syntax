@@ -797,8 +797,13 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.inheritance.python
+    # expression-in-a-group (without qualified-name)
+    - include: line-continuations
+    - include: illegal-assignment-expressions
+    - include: lambda-in-groups
+    - include: expressions-common
     - include: illegal-name
-    - include: constants
+    # specific "qualified-name" patterns
     - match: ({{identifier}})\s*({{assignment_operator}})
       captures:
         1: variable.parameter.class-inheritance.python
@@ -807,7 +812,6 @@ contexts:
       push: qualified-base-class-name
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.python
-    - include: expression-in-a-group
 
   qualified-base-class-name:
     - meta_scope: meta.path.python
@@ -1584,7 +1588,7 @@ contexts:
       set: maybe-first-case-statement
 
   maybe-first-case-statement:
-    # Disable detentation of first case statement by special indentation rule.
+    # Disable dedentation of first case statement by special indentation rule.
     # see: https://github.com/sublimehq/Packages/issues/3456
     - match: case\b
       scope:
@@ -1942,7 +1946,7 @@ contexts:
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
 
-###[ GENERATORS GROUPS TUBLES ]###############################################
+###[ GENERATORS GROUPS TUPLES ]###############################################
 
   generators-groups-and-tuples:
     - include: empty-tuples
@@ -2314,7 +2318,7 @@ contexts:
     # until the last non-special identifier (if any).
     # This allows the leaf to be scoped individually.
     - meta_scope: meta.path.python
-    # If a line continuation follows, this may or may not be the last leaf (most likley not though)
+    # If a line continuation follows, this may or may not be the last leaf (most likely not though)
     - match: (?={{identifier}}\s*(\.|\\))
       push: name-content
     - match: (\.)\s*(?={{identifier}}\s*(\.|\\))
@@ -2408,6 +2412,8 @@ contexts:
 
   parameter-names:
     - include: illegal-names
+    - match: (?:self|cls)\b
+      scope: variable.parameter.python variable.language.python
     - match: '{{identifier}}'
       scope: variable.parameter.python
 
@@ -2973,7 +2979,6 @@ contexts:
         - triple-double-quoted-f-string-replacement-expression
 
   triple-double-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
 
   triple-double-quoted-f-string-replacement-formatspec:
@@ -3318,7 +3323,6 @@ contexts:
         - double-quoted-f-string-replacement-expression
 
   double-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
     - include: eol-pop
 
@@ -3658,7 +3662,6 @@ contexts:
         - triple-single-quoted-f-string-replacement-expression
 
   triple-single-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
 
   triple-single-quoted-f-string-replacement-formatspec:
@@ -4003,7 +4006,6 @@ contexts:
         - single-quoted-f-string-replacement-expression
 
   single-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
     - include: eol-pop
 
@@ -4053,7 +4055,7 @@ contexts:
       scope: constant.character.escape.unicode.name.python
 
   escaped-raw-quotes:
-    # consume escaped quotes in raw-strings to preven them terminating strings
+    # consume escaped quotes in raw-strings to prevent them terminating strings
     # but don't scope them as escapes as they are treated literal
     - match: \\[\\'"]
 

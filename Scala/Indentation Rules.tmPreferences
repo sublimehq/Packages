@@ -9,23 +9,28 @@
     <string>(?x)
         ^ .* \{ [^}"']* $   # curly brace indent
       | ^ .* \( [^)"']* $   # paren indent
+
+      # if a line ends with `=`, then it's a line-wrapped declaration (e.g. val x = \n)
+      |  ^ .* = \s* $
+
+      # if a line ends with `:`, then it's a line-wrapped declaration (e.g. class Foo: \n)
+      |  ^ .* : \s* $
+
+      # attempts to detect a line-wrapped control construct without curly braces (e.g. if (foo) \n)
+      | ^ .* \b(if|do|while|for|match|catch|try|else|yield)\b .* \) \s* $
+
+      # any line that starts with extension is an extension now
+      | ^ \s* extension\b .* $
+
+      # case statements have always been braceless, now they can just happen anywhere
+      | ^ \s* \b(case)\b .* =&gt; .* $
     </string>
     <key>decreaseIndentPattern</key>
     <string>(?x)
         ^ (.*\*/)? \s* \} .* $      # curly brace dedent
       | ^ (.*\*/)? \s* \) .* $      # parent dedent
-    </string>
-    <key>bracketIndentNextLinePattern</key>
-    <string>(?x)
-      # if a line ends with `=`, then it's a line-wrapped declaration (e.g. val x = \n)
-        ^ .* = \s* $
-
-      # attempts to detect a line-wrapped control construct without curly braces (e.g. if (foo) \n)
-      | ^ .* \b(if|do|while|for)\b .* \) \s* $
-
-      # simpler line-wrapped control constructs
-      | ^ .* \b(else)\b \s* $
-      | ^ .* \b(yield)\b \s* $
+      | ^ \s* end ($|\s+ .* $)      # end token
+      | ^ \s* (catch|else|yield) ($|\s+ .* $)     # braceless things (I would prefer to also do while/do but we can't)
     </string>
   </dict>
 </dict>

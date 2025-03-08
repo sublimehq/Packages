@@ -1151,7 +1151,7 @@ var other = other`template ${string}`;
 var other = other`
     # Heading
 
-    My ${pragraph}!
+    My ${paragraph}!
 `
 
 /*

@@ -15,8 +15,8 @@ variables:
   # https://www.w3.org/TR/css3-selectors/#lex
   unicode: \\\h{1,6}[ \t\n\f]?
   escape: (?:{{unicode}}|\\[^\n\f\h])
-  nmstart: (?:[_[:alpha:][^\x{0}-\x{127}]]|{{escape}})
-  nmchar: (?:[-_[:alnum:][^\x{0}-\x{127}]]|{{escape}})
+  nmstart: (?:[_A-Za-z[^\x{0}-\x{127}]]|{{escape}})
+  nmchar: (?:[-_0-9A-Za-z[^\x{0}-\x{127}]]|{{escape}})
 
   # Identifier Break
   # The proper pattern would be (?!{{nmchar}}), but its impact on performance
@@ -25,7 +25,7 @@ variables:
   # 2. Breaks are ascii characters other than denoted by {{nmchar}}.
   # 3. Assume unicode or escape character if backslash is matched, instead of
   #    matching (?!{{escape}}) which also effects performance negative.
-  break: (?=[[^-_[:alnum:]\\]&&[\x{0}-\x{127}]]|\Z)
+  break: (?=[[^-_0-9A-Za-z\\]&&[\x{0}-\x{127}]]|\Z)
 
   # Interpolateable Identifiers
   ident_begin: (?=--|-?{{ident_start}})
@@ -85,11 +85,18 @@ variables:
 
   logical_operators: (?i:and|or|not|only)
 
+  # Block punctuation
+  #  Provides an easy and safe interface for template syntaxes to override
+  #  block punctuation patterns to prevent ambiguities with interpolations.
+  #  It helps to correctly highlight {{ tag }} { {{prop}}: {{value}} }
+  block_start: \{
+  block_end: \}
+
   # Properties and Selectors
   property_or_selector_begin: (?={{ident_begin}}|{{selector_start}})
   property_end: (?=[;@)}])
 
-  selector_start: '[[:alpha:].:#&*\[{{combinator_char}}]'
+  selector_start: '[A-Za-z.:#&*\[{{combinator_char}}]'
   selector_end: (?=[;@(){}])
 
   keyframe_selector_begin: (?=\b(?i:from|to){{break}}|\.?[\d,%])
@@ -118,7 +125,7 @@ variables:
 
   # Foreign Tags
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
-  tag_name_begin: (?=[[:alpha:]])
+  tag_name_begin: (?=[A-Za-z])
   tag_name_break: (?!{{tag_name_char}})
   # tags may consist of any char valid in html but not being of special meaning in CSS
   tag_name_char: '[^ \t\n\f.:#&*</:;(){}\[\]{{combinator_char}}]'
@@ -355,10 +362,14 @@ contexts:
 
   stylesheet:
     # https://www.w3.org/TR/css-syntax-3/#typedef-stylesheet
+    #
+    # CAUTION:
+    # property-lists must follow selector, properties, at-rules
+    # to give {{ interpolation }} precedence
     - include: comments
-    - include: property-lists
     - include: selectors
     - include: at-rules
+    - include: property-lists
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
@@ -531,7 +542,7 @@ contexts:
   at-counter-style-declaration-list:
     # https://www.w3.org/TR/css-syntax-3/#typedef-declaration-list
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: at-counter-style-declaration-list-body
     - include: comments
@@ -689,19 +700,22 @@ contexts:
 
   at-keyframe-block:
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: at-keyframe-block-body
     - include: comments
     - include: else-pop
 
   at-keyframe-block-body:
+    # CAUTION:
+    # property-lists must follow selector, properties, at-rules
+    # to give {{ interpolation }} precedence
     - meta_include_prototype: false
     - meta_scope: meta.block.css
     - include: block-end
     - include: comments
-    - include: property-lists
     - include: at-keyframe-selectors
+    - include: property-lists
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
@@ -1008,7 +1022,7 @@ contexts:
 
   at-other-body:
     - meta_scope: meta.at-rule.other.css
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       push: at-other-block-body
     - include: at-rule-end
@@ -1221,7 +1235,7 @@ contexts:
     - meta_scope: entity.other.attribute-name.class.css
     - include: identifier-content
 
-  # Id Selectors
+  # ID Selectors
   # https://drafts.csswg.org/selectors-4/#id-selectors
   selector-ids:
     - match: \#
@@ -1252,6 +1266,8 @@ contexts:
     - meta_scope: entity.name.tag.other.css
     - match: '{{tag_name_break}}'
       pop: 1
+    # consume escape sequences and possibly following whitespace
+    - match: '{{escape}}'
 
   selector-variables:
     - match: \&
@@ -1492,7 +1508,7 @@ contexts:
 
   maybe-stylesheet-block:
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: stylesheet-block-body
     - include: comments
@@ -1508,14 +1524,14 @@ contexts:
 
   maybe-property-list:
     - meta_include_prototype: false
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       set: property-list-body
     - include: comments
     - include: else-pop
 
   property-lists:
-    - match: \{
+    - match: '{{block_start}}'
       scope: punctuation.section.block.begin.css
       push: property-list-body
 
@@ -1523,13 +1539,17 @@ contexts:
     # According to official specs, this is a style-block.
     # It supports declarations, nested style-rules and at-rules.
     # https://www.w3.org/TR/css-syntax-3/#typedef-style-block
+    #
+    # CAUTION:
+    # property-lists must follow selector, properties, at-rules
+    # to give {{ interpolation }} precedence
     - meta_include_prototype: false
     - meta_scope: meta.property-list.css meta.block.css
     - include: block-end
     - include: comments
-    - include: property-lists
     - include: properties-or-selectors
     - include: nested-at-rules
+    - include: property-lists
     - include: rule-terminators
     - include: illegal-commas
     - include: illegal-groups
@@ -2407,10 +2427,10 @@ contexts:
     - match: \b(?i:(?:repeating-)?linear-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
-        - linear-gradient-function-argurments-list-body
+        - linear-gradient-function-arguments-list-body
         - function-arguments-list-begin
 
-  linear-gradient-function-argurments-list-body:
+  linear-gradient-function-arguments-list-body:
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
     - include: function-arguments-prototype
     - include: comma-delimiters
@@ -2987,11 +3007,10 @@ contexts:
     - include: identifier-content
 
   identifier-content:
-    # also pop parent context
     - match: '{{break}}'
       pop: 1
-    # consume unicode escapes and possibly following whitespace
-    - match: '{{unicode}}'
+    # consume escape sequences and possibly following whitespace
+    - match: '{{escape}}'
 
 ###[ CONSTANTS ]###############################################################
 
@@ -3280,6 +3299,7 @@ contexts:
     - meta_scope: meta.line-names.css meta.brackets.css
     - include: brackets-end
     - include: line-names
+    - include: quoted-strings
     - include: terminator-pop
 
   line-names:
@@ -3464,12 +3484,12 @@ contexts:
       scope: punctuation.separator.sequence.css
 
   block-end:
-    - match: \}
+    - match: '{{block_end}}'
       scope: punctuation.section.block.end.css
       pop: 1
 
   block-end2:
-    - match: \}
+    - match: '{{block_end}}'
       scope: punctuation.section.block.end.css
       pop: 2
 
@@ -3493,13 +3513,13 @@ contexts:
 
   illegal-blocks:
     # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
-    - match: \{
+    - match: '{{block_start}}'
       scope: invalid.illegal.unexpected-token.css
       push:
-        - match: \}
+        - match: '{{block_end}}'
           scope: invalid.illegal.unexpected-token.css
           pop: 1
-    - match: \}
+    - match: '{{block_end}}'
       scope: invalid.illegal.unexpected-token.css
 
   illegal-groups:

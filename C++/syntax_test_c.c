@@ -201,6 +201,32 @@ struct foo {
 int i;
 /* <- storage.type */
 
+signed _BitInt(4) bi1 = 1wb;
+/*     ^ keyword.declaration.type */
+/*                       ^ constant.numeric.suffix */
+
+unsigned _BitInt(4) bi2 = 1uwb;
+/*       ^ keyword.declaration.type */
+/*                         ^ constant.numeric.suffix */
+
+_Atomic int ai1;
+/* <- storage.modifier */
+
+_Atomic(int) ai2;
+/* <- storage.modifier */
+
+_Alignas(int) int aa1;
+/* <- keyword.declaration.type */
+
+alignas(int) int aa2;
+/* <- keyword.declaration.type */
+
+thread_local int tl1;
+/* <- storage.modifier */
+
+_Thread_local int tl2;
+/* <- storage.modifier */
+
 typeof(i) dt;
 /* <- keyword.declaration.type */
 /*    ^ punctuation.section.group.begin */
@@ -217,6 +243,18 @@ typeof_unqual(i) dt;
 /* <- keyword.declaration.type */
 /*           ^ punctuation.section.group.begin */
 /*             ^ punctuation.section.group.end */
+
+static_assert(alignof(int) == 4);
+/*              ^ keyword.operator.word */
+
+_Static_assert(_Alignof(int) == 4);
+/*              ^ keyword.operator.word */
+
+static_assert(sizeof(int) == 4);
+/* <- keyword.operator.word */
+
+_Static_assert(sizeof(int) == 4);
+/* <- keyword.operator.word */
 
 void build_default_prototype(Function *ret) {
     static typeof(*ret->params) params[4];
@@ -275,7 +313,7 @@ int f(int x, \
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
-#error "Eplicitly quoted string wrapped, \
+#error "Explicitly quoted string wrapped, \
     ensuring that the string quoting stops at some point \
     "
 #warning This is a short warning
@@ -294,6 +332,251 @@ int f(int x, \
 bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
+
+_Decimal32 d32;
+/* <- storage.type */
+
+_Decimal64 d64;
+/* <- storage.type */
+
+_Decimal128 d128;
+/* <- storage.type */
+
+complex complex_t_var;
+/* <- support.type.complex */
+
+imaginary imaginary_t_var;
+/* <- support.type.complex */
+
+fenv_t fenv_t_var;
+/* <- support.type.fenv */
+
+fexcept_t fexcept_t_var;
+/* <- support.type.fenv */
+
+jmp_buf jmp_buf_var;
+/* <- support.type.setjmp */
+
+sig_atomic_t sig_atomic_t_var;
+/* <- support.type.signal */
+
+va_list va_list_var;
+/* <- support.type.stdarg */
+
+atomic_bool atomic_bool_var;
+/* <- support.type.stdatomic */
+
+atomic_char atomic_char_var;
+/* <- support.type.stdatomic */
+
+atomic_schar atomic_schar_var;
+/* <- support.type.stdatomic */
+
+atomic_uchar atomic_uchar_var;
+/* <- support.type.stdatomic */
+
+atomic_short atomic_short_var;
+/* <- support.type.stdatomic */
+
+atomic_ushort atomic_ushort_var;
+/* <- support.type.stdatomic */
+
+atomic_int atomic_int_var;
+/* <- support.type.stdatomic */
+
+atomic_uint atomic_uint_var;
+/* <- support.type.stdatomic */
+
+atomic_long atomic_long_var;
+/* <- support.type.stdatomic */
+
+atomic_ulong atomic_ulong_var;
+/* <- support.type.stdatomic */
+
+atomic_llong atomic_llong_var;
+/* <- support.type.stdatomic */
+
+atomic_ullong atomic_ullong_var;
+/* <- support.type.stdatomic */
+
+atomic_char8_t atomic_char8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_char16_t atomic_char16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_char32_t atomic_char32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_wchar_t atomic_wchar_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least8_t atomic_int_least8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least8_t atomic_uint_least8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least16_t atomic_int_least16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least16_t atomic_uint_least16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least32_t atomic_int_least32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least32_t atomic_uint_least32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_least64_t atomic_int_least64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_least64_t atomic_uint_least64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast8_t atomic_int_fast8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast8_t atomic_uint_fast8_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast16_t atomic_int_fast16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast16_t atomic_uint_fast16_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast32_t atomic_int_fast32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast32_t atomic_uint_fast32_t_var;
+/* <- support.type.stdatomic */
+
+atomic_int_fast64_t atomic_int_fast64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uint_fast64_t atomic_uint_fast64_t_var;
+/* <- support.type.stdatomic */
+
+atomic_intptr_t atomic_intptr_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uintptr_t atomic_uintptr_t_var;
+/* <- support.type.stdatomic */
+
+atomic_size_t atomic_size_t_var;
+/* <- support.type.stdatomic */
+
+atomic_ptrdiff_t atomic_ptrdiff_t_var;
+/* <- support.type.stdatomic */
+
+atomic_intmax_t atomic_intmax_t_var;
+/* <- support.type.stdatomic */
+
+atomic_uintmax_t atomic_uintmax_t_var;
+/* <- support.type.stdatomic */
+
+atomic_flag atomic_flag_var;
+/* <- support.type.stdatomic */
+
+memory_order memory_order_var;
+/* <- support.type.stdatomic */
+
+FILE *FILE_var;
+/* <- support.type.stdio */
+
+fpos_t fpos_t_var;
+/* <- support.type.stdio */
+
+div_t div_t_var;
+/* <- support.type.stdlib */
+
+ldiv_t ldiv_t_var;
+/* <- support.type.stdlib */
+
+lldiv_t lldiv_t_var;
+/* <- support.type.stdlib */
+
+imaxdiv_t imaxdiv_t_var;
+/* <- support.type.stdlib */
+
+size_t size_t_var;
+/* <- support.type.stddef */
+
+ptrdiff_t ptrdiff_t_var;
+/* <- support.type.stddef */
+
+max_align_t max_align_t_var;
+/* <- support.type.stddef */
+
+nullptr_t nullptr_t_var;
+/* <- support.type.stddef */
+
+wchar_t wchar_t_var;
+/* <- support.type.wchar */
+
+wint_t wint_t_var;
+/* <- support.type.wchar */
+
+wctrans_t wctrans_t_var;
+/* <- support.type.wchar */
+
+wctype_t wctype_t_var;
+/* <- support.type.wchar */
+
+mbstate_t mbstate_t_var;
+/* <- support.type.uchar */
+
+char8_t char8_t_var;
+/* <- support.type.uchar */
+
+char16_t char16_t_var;
+/* <- support.type.uchar */
+
+char32_t char32_t_var;
+/* <- support.type.uchar */
+
+time_t time_t_var;
+/* <- support.type.time */
+
+clock_t clock_t_var;
+/* <- support.type.time */
+
+thrd_t thrd_t_var;
+/* <- support.type.threads */
+
+thrd_start_t thrd_start_t_var;
+/* <- support.type.threads */
+
+mtx_t mtx_t_var;
+/* <- support.type.threads */
+
+cnd_t cnd_t_var;
+/* <- support.type.threads */
+
+tss_t tss_t_var;
+/* <- support.type.threads */
+
+tss_dtor_t tss_dtor_t_var;
+/* <- support.type.threads */
+
+once_flag once_flag_var;
+/* <- support.type.threads */
+
+void *null_pointer1 = NULL;
+                    /* ^ constant.language.null */
+
+void *null_pointer2 = nullptr;
+                    /* ^ constant.language.null */
+
+_Noreturn
+/* <- storage.modifier */
+void foo(void) { abort(); }
+
+noreturn
+/* <- storage.modifier */
+void bar(void) { abort(); }
 
 FOOBAR
 hello() {
@@ -551,6 +834,23 @@ struct UI_MenuBoxData
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
+int bar(int, int const *, int const * const);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+/*     ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
+/*                                          ^ punctuation.terminator */
+/*      ^^^ storage.type */
+/*         ^ punctuation.separator */
+/*           ^^^ storage.type */
+/*               ^^^^^ storage.modifier */
+/*                     ^ keyword.operator */
+/*                      ^ punctuation.separator */
+/*                        ^^^ storage.type */
+/*                            ^^^^^ storage.modifier */
+/*                                  ^ keyword.operator */
+/*                                    ^^^^^ storage.modifier */
+
 int foo(int val, float val2[])
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
@@ -589,9 +889,17 @@ int foo(int val, float val2[])
     if (val == -1) {
 /*  ^^ keyword.control */
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
-#else
+#elifdef BAR
  /* <- keyword.control.import */
     if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#elifndef BAZ
+ /* <- keyword.control.import */
+    if (val == -3) {
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
+#else
+ /* <- keyword.control.import */
+    if (val == -4) {
 /*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
  /* <- keyword.control.import */
@@ -708,6 +1016,9 @@ static const uint32_t * const MACRO funcname();
 /*                      ^ storage.modifier */
 /*                                  ^ entity.name.function */
 
+static constexpr int bar = 1;
+/*     ^ storage.modifier */
+
 MACRO int
 /*    ^ storage.type */
 funcname2
@@ -804,6 +1115,11 @@ func_call(foo
 /*                   ^ punctuation.definition.string.end */
 #endif
 
+static const unsigned char image_png[] = {
+#embed <image.png>
+/* <- keyword.control.import.include */
+};
+
 #include<iostream>
 /* <- keyword.control.import.include */
 /*      ^ punctuation.definition.string.begin */
@@ -817,14 +1133,14 @@ func_call(foo
 dec0 = 0;
 /*     ^ meta.number.integer.decimal.c constant.numeric.value.c */
 /*      ^ punctuation.terminator - constant */
+
 dec1 = 1234567890;
 /*     ^^^^^^^^^^ meta.number.integer.decimal.c constant.numeric.value.c */
 /*               ^ punctuation.terminator - constant */
 
 dec2 = 1234567890f;
-/*     ^^^^^^^^^^^ meta.number.float.decimal.c */
 /*     ^^^^^^^^^^ constant.numeric.value.c */
-/*               ^ constant.numeric.suffix.c */
+/*               ^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
 dec3 = 1234567890L;
@@ -858,12 +1174,18 @@ dec7 = 1234567890uLL;
 /*                  ^ punctuation.terminator - constant */
 
 dec8 = 1'234_567'890s0f;
-/*     ^ meta.number.integer.decimal.c constant.numeric.value.c */
-/*      ^^^^^^^^^ string.quoted.single */
-/*               ^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^ constant.numeric.value.c */
+/*          ^^^^ invalid.illegal.numeric.suffix.c */
 /*               ^^^ constant.numeric.value.c */
 /*                  ^^^ invalid.illegal.numeric.suffix.c */
 /*                     ^ punctuation.terminator - constant */
+
+dec9 = 2'354'202'076LL;
+/*     ^^^^^^^^^^^^^^^ meta.number.integer.decimal.c */
+/*     ^^^^^^^^^^^^^ constant.numeric.value.c */
+/*                  ^^ constant.numeric.suffix.c */
+/*                    ^ punctuation.terminator - constant */
 
 oct1 = 01234567;
 /*     ^^^^^^^^ meta.number.integer.octal.c */
@@ -892,12 +1214,18 @@ oct4 = 01234567ulL;
 /*             ^^^ constant.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
 
-oct2 = 01284967Z0L;
+oct5 = 01284967Z0L;
 /*     ^^^^^^^^^^^ meta.number.integer.octal.c */
 /*     ^ constant.numeric.base.c */
 /*      ^^ constant.numeric.value.c */
 /*        ^^^^^^^^ invalid.illegal.numeric.suffix.c */
 /*                ^ punctuation.terminator - constant */
+
+oct6 = 014'70;
+/*     ^^^^^^ meta.number.integer.octal.c */
+/*     ^ constant.numeric.base.c */
+/*      ^^^^^ constant.numeric.value.c */
+/*           ^ punctuation.terminator - constant */
 
 hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*     ^^^ meta.number.integer.hexadecimal.c */
@@ -919,11 +1247,9 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*                            ^^ constant.numeric.base.c */
 /*                              ^ constant.numeric.value.c */
 /*                               ^ constant.numeric.suffix.c */
-/*                                 ^^ meta.number.integer.hexadecimal.c */
+/*                                 ^^^^^^^ meta.number.integer.hexadecimal.c */
 /*                                 ^^ constant.numeric.base.c */
-/*                                   ^^^ string.quoted.single.c */
-/*                                      ^^^^^^ meta.number.integer.decimal.c */
-/*                                      ^^ constant.numeric.value.c */
+/*                                   ^^^^^ constant.numeric.value.c */
 /*                                        ^^^^ invalid.illegal.numeric.suffix.c */
 /*                                            ^ punctuation.terminator - constant */
 
@@ -939,6 +1265,30 @@ hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*                      ^ punctuation.separator.decimal.c */
 /*                                ^ constant.numeric.suffix.c */
 /*                                 ^ punctuation.terminator - constant */
+
+hex3 = 0xA7'45'8C'38;
+/*     ^^^^^^^^^^^^^ meta.number.integer.hexadecimal.c */
+/*     ^^ constant.numeric.base.c */
+/*       ^^^^^^^^^^^ constant.numeric.value.c */
+/*                  ^ punctuation.terminator - constant */
+
+bin1 = 0b010110;
+/*     ^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^ constant.numeric.value */
+/*             ^ punctuation.terminator - constant */
+
+bin2 = 0B010010;
+/*     ^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^ constant.numeric.value */
+/*             ^ punctuation.terminator - constant */
+
+bin3 = 0b1001'1101'0010'1100;
+/*     ^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary */
+/*     ^^ constant.numeric.base */
+/*       ^^^^^^^^^^^^^^^^^^^ constant.numeric.value */
+/*                          ^ punctuation.terminator - constant */
 
 f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
 /*  ^^^ meta.number.float.decimal.c */

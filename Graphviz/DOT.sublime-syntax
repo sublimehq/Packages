@@ -5,8 +5,8 @@ name: Graphviz (DOT)
 scope: source.dot
 
 file_extensions:
-  - dot
   - gv
+  - dot
 
 first_line_match: |-
   (?xi:

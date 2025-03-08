@@ -11,6 +11,9 @@ $0
 </body>
 </html>]]></content>
 	<tabTrigger>html</tabTrigger>
-	<scope>text.html entity.name.tag, text.html meta.character.less-than</scope>
+	<scope>
+		(text.html entity.name.tag, text.html meta.character.less-than)
+		- (text.html.markdown - markup.raw.code-fence text.html)
+	</scope>
 	<description>html</description>
 </snippet>

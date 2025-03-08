@@ -337,7 +337,7 @@ contexts:
     # non-breaking spaces : S<content>
     - match: (S)(<)
       captures:
-        1: entity.name.tag.none-braeking.perl
+        1: entity.name.tag.non-breaking.perl
         2: punctuation.definition.tag.begin.perl
       push:
         - include: comment-pod-format-body
@@ -878,7 +878,7 @@ contexts:
         - match: \.{4,}  # consume any dot sequence longer than 3 chars
         - match: \.{3}
           scope: constant.other.placeholder.text.perl
-        - match: ~{3,}   # consume any tild sequence longer than 2 chars
+        - match: ~{3,}   # consume any tilde sequence longer than 2 chars
         - match: ~{1,2}
           scope: constant.other.placeholder.text.perl
         - match: ([@^])[<|>*]+
@@ -1063,7 +1063,7 @@ contexts:
 ###[ KEYWORDS ]###############################################################
 
   keywords:
-    # All keywords can be prefixed with the case sensitive `CORE` namespace.
+    # All keywords can be prefixed with the case-sensitive `CORE` namespace.
     # This context makes sure not to highlight the keywords as functions.
     # The `meta.path` is not applied for simplicity reasons.
     - match: \b(CORE)(::)(?={{reserved_words}})
@@ -1213,7 +1213,7 @@ contexts:
     - match: \.=?
       scope: keyword.operator.concatenation.perl
       push: expressions-begin
-    # string concation
+    # string repetition
     #  "string" x 10
     - match: \bx{{break}}
       scope: keyword.operator.arithmetic.perl
@@ -1716,7 +1716,7 @@ contexts:
     #     b) The `&` coderef parts are removed as they are not supported within
     #        string interpolations.
     #
-    #  2) The interpolation needs to be poped off from after each variable
+    #  2) The interpolation needs to be popped off from after each variable
     #     to ensure to correctly pop off from the owning context if needed.
     #     Otherwise the variable `$/` could break the statement `s//$repl$/g`.
     ###########################################################################

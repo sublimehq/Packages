@@ -1,0 +1,175 @@
+{
+	"scope": "source.shell meta.function-call.identifier - source.shell meta.function.identifier meta.interpolation",
+	"completions": [
+		{
+			"trigger": "alias",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "break",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "builtin",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "cd",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "command",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "continue",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "declare",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "echo",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "enable",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "eval",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "exec",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "exit",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "export",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "getopts",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "hash",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "let",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "local",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "logout",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "printf",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "pwd",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "read",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "readonly",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "return",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "shift",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "source",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "test",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "time",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "times",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "trap",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "type",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "typeset",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "ulimit",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "umask",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "unalias",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+	],
+}

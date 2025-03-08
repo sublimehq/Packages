@@ -470,7 +470,7 @@ contexts:
     - match: '{{constants}}'
       scope: support.type.vb.asp # maybe this should be constant.language.asp
     - match: '{{functions}}'
-      scope: support.function.vb.asp # TODO: scope opening and closing parens i.e. LBound(var_name) but needs to handle (ignore) nested parens LBound((var_name)). Will also apply to things like Response.Write below. Note that parens are optional (when return value is not used) i.e. on it's own line, `LBound var_name` is valid. In other cases the parens can't be accurately scoped, because we don't know if they are for array access or method params
+      scope: support.function.vb.asp # TODO: scope opening and closing parens i.e. LBound(var_name) but needs to handle (ignore) nested parens LBound((var_name)). Will also apply to things like Response.Write below. Note that parens are optional (when return value is not used) i.e. on its own line, `LBound var_name` is valid. In other cases the parens can't be accurately scoped, because we don't know if they are for array access or method params
     - match: '{{keywords}}'
       scope: storage.type.asp
     - include: operators

@@ -364,7 +364,7 @@ contexts:
           scope: punctuation.section.block.begin.objc++
           set:
             - meta_scope: meta.block.objc++
-            - match: (?=^\s*#\s*(elif|else|endif)\b)
+            - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
               pop: true
             - match: (?=@end\b)
               pop: true
@@ -740,7 +740,7 @@ contexts:
       scope: punctuation.section.block.begin.objc++
       push:
         - meta_scope: meta.block.objc++
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - match: '\}'
           scope: punctuation.section.block.end.objc++
@@ -1113,8 +1113,8 @@ contexts:
             - match : \)
               scope: punctuation.section.group.end.objc++
               set: function-definition-continue
-            - match: '\bvoid\b'
-              scope: storage.type.objc++
+            - include: modifiers
+            - include: types
             - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.objc++
             - match: '='
@@ -1169,7 +1169,7 @@ contexts:
         - match: '\}'
           scope: meta.function.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - match: '(?=({{before_tag}})([^(;]+$|.*\{))'
           push: data-structures
@@ -1667,7 +1667,7 @@ contexts:
         - match: '\}'
           scope: meta.method.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - match: '(?=({{before_tag}})([^(;]+$|.*\{))'
           push: data-structures
@@ -1814,11 +1814,11 @@ contexts:
         - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.objc++
-        # Enter a new scope where all elif/else branches have their
-        # contexts popped by a subsequent elif/else/endif. This ensures that
-        # preprocessor branches don't push multiple meta.block scopes on
-        # the stack, thus messing up the "global" context's detection of
-        # functions.
+        # Enter a new scope where all elif/elifdef/elifndef/else branches have
+        # their contexts popped by a subsequent elif/elifdef/elifndef/else/endif.
+        # This ensures that preprocessor branches don't push multiple meta.block
+        # scopes on the stack, thus messing up the "global" context's detection
+        # of functions.
         - match: $\n
           set: preprocessor-if-branch-global
 
@@ -1830,7 +1830,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       pop: true
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \{
       scope: punctuation.section.block.begin.objc++
@@ -1845,7 +1845,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       set: preprocessor-block-finish-global
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \}
       scope: punctuation.section.block.end.objc++
@@ -1944,11 +1944,11 @@ contexts:
         - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.objc++
-        # Enter a new scope where all elif/else branches have their
-        # contexts popped by a subsequent elif/else/endif. This ensures that
-        # preprocessor branches don't push multiple meta.block scopes on
-        # the stack, thus messing up the "global" context's detection of
-        # functions.
+        # Enter a new scope where all elif/elifdef/elifndef/else branches have
+        # their contexts popped by a subsequent elif/elifdef/elifndef/else/endif.
+        # This ensures that preprocessor branches don't push multiple meta.block
+        # scopes on the stack, thus messing up the "global" context's detection
+        # of functions.
         - match: $\n
           set: preprocessor-if-branch-statements
 
@@ -1960,7 +1960,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       pop: true
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \{
       scope: punctuation.section.block.begin.objc++
@@ -1991,7 +1991,7 @@ contexts:
     - match : \)
       scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
       set: preprocessor-if-branch-statements
-    - match: ^\s*(#\s*(?:elif|else))\b
+    - match: ^\s*(#\s*(?:elif|elifdef|elifndef|else))\b
       captures:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       set: preprocessor-if-branch-statements
@@ -2014,7 +2014,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       set: preprocessor-block-finish-statements
-    - match: (?=^\s*#\s*(elif|else)\b)
+    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \}
       scope: punctuation.section.block.end.objc++
@@ -2057,7 +2057,7 @@ contexts:
         - match: '\{'
           scope: punctuation.section.block.begin.objc++
           pop: true
-        - match: (?=^\s*#\s*(elif|else|endif)\b)
+        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
           pop: true
         - include: statements
 
@@ -2141,7 +2141,7 @@ contexts:
     - include: expressions
 
   preprocessor-other:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else|line|pragma|undef))\b
       captures:
         1: keyword.control.import.objc++
       push:
@@ -2165,7 +2165,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.objc++
-    - match: ^\s*(#\s*(?:include|include_next))\b
+    - match: ^\s*(#\s*(?:include|include_next|embed))\b
       captures:
         1: keyword.control.import.include.objc++
       push:

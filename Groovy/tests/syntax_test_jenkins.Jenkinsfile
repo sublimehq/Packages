@@ -27,7 +27,7 @@ def call() {
 //     ^^^ meta.block.groovy meta.string.embedded-shell.groovy punctuation.definition.string.begin.groovy
 //        ^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash comment.line.number-sign.shell punctuation.definition.comment.shell
           echo "hello ${world}"
-//        ^^^^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash meta.function-call.identifier.shell support.function.echo.shell
+//        ^^^^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash meta.function-call.identifier.shell support.function.shell
 //                    ^ meta.interpolation.parameter.shell punctuation.definition.variable.shell
 //                     ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 //                      ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
@@ -84,3 +84,33 @@ int something = sh(returnStdout: true, script: '''#!/bin/bash
     echo 7
     ''')
 // TODO: highlight bash above
+
+node('some-node-name') {
+    try {
+    // <- meta.block.groovy keyword.control.exception.try.groovy
+    //  ^ punctuation.section.block.begin.groovy
+        lock(lockName) {
+            
+        }
+    } catch (InterruptedException e) {
+    // <- punctuation.section.block.end.groovy
+    //^^^^^ keyword.control.exception.catch.groovy
+    //      ^ punctuation.section.group.begin.groovy
+    //       ^^^^^^^^^^^^^^^^^^^^ storage.type.class.groovy
+    //                            ^ variable.other.readwrite.groovy
+    //                             ^ punctuation.section.group.end.groovy
+    //                               ^ punctuation.section.block.begin.groovy
+        if (isDeployment) {
+        // <- meta.block.groovy meta.block.groovy keyword.control.conditional.if.groovy
+        // ^ meta.block.groovy meta.block.groovy meta.group.groovy punctuation.section.group.begin.groovy
+        //  ^^^^^^^^^^^^ meta.block.groovy meta.block.groovy meta.group.groovy variable.other.readwrite.groovy
+        //              ^ meta.block.groovy meta.block.groovy meta.group.groovy punctuation.section.group.end.groovy
+        //                ^ meta.block.groovy meta.block.groovy meta.block.groovy punctuation.section.block.begin.groovy
+            notify.deployment(channel: config.jobStatusChannel, status: 'ABORTED', environment: params.CI_ENVIRONMENT)
+        }
+        throw e
+        // <- meta.block.groovy meta.block.groovy keyword.control.flow.throw.groovy
+        //    ^ meta.block.groovy meta.block.groovy variable.other.readwrite.groovy
+    }
+    // <- meta.block.groovy meta.block.groovy punctuation.section.block.end.groovy
+}

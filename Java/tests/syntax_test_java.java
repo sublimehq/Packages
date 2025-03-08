@@ -1658,7 +1658,7 @@ Bar             // comment
 
 
 /******************************************************************************
- * Eumeration Declaration Tests
+ * Enumeration Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
  *****************************************************************************/
 
@@ -2332,7 +2332,7 @@ Bar             // comment
 //         ^^^^^^^^^^^^^^ entity.name.interface.java
 
 // Note: The extends is actually not allowed here, but the syntax definition does
-//       not yet distiguish between interface types and annotation types
+//       not yet distinguish between interface types and annotation types
 @interface AnnotationType extends
 //<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^^ meta.interface.java
@@ -2449,37 +2449,33 @@ Bar             // comment
  * https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
  *****************************************************************************/
 
-record
-// <- meta.class.java keyword.declaration.record.java
-//^^^^ meta.class.java keyword.declaration.record.java
-//    ^ meta.class.identifier.java
+record ;
+// <- - keyword.declaration
+//^^^^ - keyword.declaration
 
-record RecordTest
+record RecordTest ;
+// <- support.class.java
+//^^^^ support.class.java
+//     ^^^^^^^^^^ variable.other.java
+
+record RecordTest<> ;
+// <- support.class.java
+//^^^^ support.class.java
+//     ^^^^^^^^^^ variable.other.java
+
+record RecordTest<T> ;
+// <- support.class.java
+//^^^^ support.class.java
+//     ^^^^^^^^^^ variable.other.java
+
+record RecordTest {  }
 // <- meta.class.java keyword.declaration.record.java
 //^^^^ meta.class.java keyword.declaration.record.java
 //    ^^^^^^^^^^^^ meta.class.identifier.java
+//                ^^^^ meta.class.java meta.block.java
 //     ^^^^^^^^^^ entity.name.class.java
-
-record RecordTest<>
-// <- meta.class.java keyword.declaration.record.java
-//^^^^ meta.class.java keyword.declaration.record.java
-//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
-//               ^^ meta.class.identifier.java meta.generic.declaration.java
-//                 ^ meta.class.identifier.java - meta.generic
-//     ^^^^^^^^^^ entity.name.class.java
-//               ^ punctuation.definition.generic.begin.java
-//                ^ punctuation.definition.generic.end.java
-
-record RecordTest<T>
-// <- meta.class.java keyword.declaration.record.java
-//^^^^ meta.class.java keyword.declaration.record.java
-//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
-//               ^^^ meta.class.identifier.java meta.generic.declaration.java
-//                  ^ meta.class.identifier.java - meta.generic
-//     ^^^^^^^^^^ entity.name.class.java
-//               ^ punctuation.definition.generic.begin.java
-//                ^ variable.parameter.type.java
-//                 ^ punctuation.definition.generic.end.java
+//                ^ punctuation.section.block.begin.java
+//                   ^ punctuation.section.block.end.java
 
 record RecordTest( {  }
 // <- meta.class.java keyword.declaration.record.java
@@ -2569,6 +2565,76 @@ record CompactConstructorTests(int foo) {
 // ^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 }
 // <- meta.class.java meta.block.java punctuation.section.block.end.java
+
+/*
+ * Record is a `contextual keyword` valid only in record declaration statements.
+ * see: https://docs.oracle.com/javase/specs/jls/se23/html/jls-3.html#jls-3.9
+ */
+
+record record(record record) { record record(record record) { record record = 10 } }
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^ meta.class.identifier.java
+//           ^^^^^^^^^^^^^^^ meta.class.parameters.java meta.group.java
+//                          ^ meta.class.java - meta.block
+//                           ^^ meta.class.java meta.block.java
+//                             ^^^^^^ meta.class.java meta.block.java meta.class.java
+//                                   ^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
+//                                          ^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.parameters.java meta.group.java
+//                                                         ^ meta.class.java meta.block.java meta.class.java - meta.block meta.block
+//                                                          ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.java meta.block.java
+//                                                                                ^^ meta.class.java meta.block.java - meta.block meta.block
+//                                                                                  ^ - meta.class
+//^^^^ keyword.declaration.record.java
+//     ^^^^^^ entity.name.class.java
+//            ^^^^^^ support.class.java
+//                   ^^^^^^ variable.parameter.java
+//                             ^^^^^^ keyword.declaration.record.java
+//                                    ^^^^^^ entity.name.class.java
+//                                           ^^^^^^ support.class.java
+//                                                  ^^^^^^ variable.parameter.java
+//                                                            ^^^^^^ support.class.java
+//                                                                   ^^^^^^ variable.other.member.java
+
+object.record(20000, Units.MILLISECONDS);
+//^^^^ meta.variable.identifier.java variable.other.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^^^ meta.function-call.identifier.java variable.function.java - keyword.declaration
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
+//           ^ punctuation.section.group.begin.java
+//            ^^^^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                 ^ punctuation.separator.comma.java
+//                   ^^^^^ support.class.java
+//                        ^ punctuation.accessor.dot.java
+//                         ^^^^^^^^^^^^ constant.other.java
+//                                     ^ punctuation.section.group.end.java
+//                                      ^ punctuation.terminator.java
+
+class Clazz {
+   void fn() {
+      object.record(20000, Units.MILLISECONDS);
+//    ^^^^^^ meta.variable.identifier.java variable.other.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^^^ meta.function-call.identifier.java variable.function.java - keyword.declaration
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
+//                 ^ punctuation.section.group.begin.java
+//                  ^^^^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                       ^ punctuation.separator.comma.java
+//                         ^^^^^ support.class.java
+//                              ^ punctuation.accessor.dot.java
+//                               ^^^^^^^^^^^^ constant.other.java
+//                                           ^ punctuation.section.group.end.java
+//                                            ^ punctuation.terminator.java
+
+      record = 10;
+//    ^^^^^^ variable.other.java
+
+      record.record = record;
+//    ^^^^^^ variable.other.java
+//           ^^^^^^ variable.other.java
+//                  ^ keyword.operator.assignment.java
+//                    ^^^^^^ variable.other.java
+   }
+}
 
 /******************************************************************************
  * Field Declaration Tests
@@ -3425,14 +3491,14 @@ class FieldDeclarationTests {
 //                               ^^^^^ variable.other.member.java
 //                                    ^ punctuation.terminator.java
 
-  private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
+  private MyGeneric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
-//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
-//                                              ^^^^^^^^^ meta.generic.java meta.generic.java
-//                                                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
-//                                                         ^^^^^^^^^^^^^^^^^^^ meta.path.java
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
+//                                               ^^^^^^^^^ meta.generic.java meta.generic.java
+//                                                        ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
+//                                                          ^^^^^^^^^^^^^^^^^^^ meta.path.java
       and.fully.Qualified<Generic>> myVariable;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
@@ -3488,7 +3554,7 @@ int globalMethodDeclarationTests() {}
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
 
-class MethodDelcarationTests {
+class MethodDeclarationTests {
 
   void
 //^^^^^ meta.function.return-type.java
@@ -4339,7 +4405,7 @@ class MethodDelcarationTests {
 class ReceiverArgTests {
 
   // Illegal: Top-level constructors can't contain receiver parameters,
-  //          but the syntax does not destinguish top-level and nested classses
+  //          but the syntax does not distinguish top-level and nested classes
   ReceiverArgTests(ReceiverArgTests this, A this) {}
 //^^^^^^^^^^^^^^^^ meta.function.identifier.java - meta.function meta.function
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.java meta.group.java - meta.function meta.function
@@ -4381,7 +4447,7 @@ class ReceiverArgTests {
 //                                                              ^ punctuation.section.block.end.java
 
   // Illegal: Static methods can't contain receiver parameters,
-  //          but the syntax does not destinguish them.
+  //          but the syntax does not distinguish them.
   static void method(ReceiverArgTests this) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.function - meta.function meta.function
 //^^^^^^^ meta.function.modifier.java
@@ -4640,7 +4706,7 @@ class ReceiverArgTests {
 /******************************************************************************
  * Invalid Class Member Fallback Tests
  *   Things that are not supported by Java but might need to be handled by the
- *   syntax to prevent highligthing from breaking due to incomplete code blocks.
+ *   syntax to prevent highlighting from breaking due to incomplete code blocks.
  *
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
@@ -7391,7 +7457,7 @@ class TryStatementTests {
 //  ^^^^^^^ keyword.control.exception.finally.java
   }
 
-  void testSimleTryCatchFinally() {
+  void testSimpleTryCatchFinally() {
 
     // ensure not to break highlighting even though braces are missing
     try foo() catch (Exception e) bar(e) finally baz()
@@ -9486,7 +9552,7 @@ class TypeComparisonExpressionsTests {
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
-  void instanceofAmbigultyTests {
+  void instanceofAmbiguityTests {
 
     a = b instanceof c?1__1:0b11110101;
 //        ^^^^^^^^^^^^ meta.instanceof.java

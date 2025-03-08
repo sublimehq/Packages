@@ -108,8 +108,8 @@ def get_tag_completions(inside_tag=True):
         'li', 'label', 'legend', 'main', 'map', 'mark', 'meter',
         'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup',
         'option', 'output', 'p', 'picture', 'pre', 'q', 'rb', 'rp',
-        'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'select', 'shadow',
-        'small', 'span', 'strong', 'sub', 'summary', 'sup',
+        'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'script', 'select', 'shadow',
+        'small', 'span', 'strong', 'style', 'sub', 'summary', 'sup',
         'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th',
         'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul', 'var',
         'video'
@@ -129,10 +129,8 @@ def get_tag_completions(inside_tag=True):
         ('meta', 'meta ${1:charset=\"utf-8\"}>'),
         ('param', 'param name=\"$1\" value=\"$2\">'),
         ('progress', 'progress value=\"$1\" max=\"$2\">'),
-        ('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
         ('slot', 'slot name=\"$1\">$0</slot>'),
         ('source', 'source src=\"$1\" type=\"$2\">'),
-        ('style', 'style${2: type=\"${1:text/css}\"}>$0</style>'),
         ('track', 'track kind=\"$1\" src=\"$2\">'),
         ('wbr', 'wbr>'),
         ('video', 'video src=\"$1\">$0</video>')
@@ -169,7 +167,7 @@ def get_tag_completions(inside_tag=True):
 
 def get_tag_attributes():
     """
-    Returns a dictionary with attributes accociated to tags
+    Returns a dictionary with attributes associated to tags
     This assumes that all tags can have global attributes as per MDN:
     https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes
     """

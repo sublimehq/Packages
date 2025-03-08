@@ -54,11 +54,38 @@ auto wysiwyg = r"f// \n\";
 //              ^ punctuation.definition.string.begin.d
 //                   ^^ - constant.character.escape.d
 //                      ^ punctuation.definition.string.end.d
+
 auto wysiwygAlt = `f//\n\`;
 //                ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
 //                ^ punctuation.definition.string.begin.d
 //                    ^^ - constant.character.escape.d
 //                       ^ punctuation.definition.string.end.d
+
+auto wysiwygInter = i`string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())\r\n`;
+//                  ^ storage.modifier.string.d
+//                   ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
+//                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                           ^^ punctuation.section.interpolation.begin.d
+//                             ^^^^ variable.language.d
+//                                 ^ punctuation.accessor.dot.d
+//                                  ^^^ variable.other.d
+//                                     ^ punctuation.section.interpolation.end.d
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
+//                                      ^^^^ - constant.character
+//                                                   ^^ constant.character.escape.d
+//                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                                                                 ^^ punctuation.section.interpolation.begin.d
+//                                                                   ^^^^ variable.language.d
+//                                                                       ^ punctuation.accessor.dot.d
+//                                                                        ^^^ variable.function.d
+//                                                                           ^ punctuation.section.parens.begin.d
+//                                                                            ^ punctuation.section.parens.end.d
+//                                                                             ^ punctuation.section.interpolation.end.d
+//                                                                              ^^^^^ meta.string.d string.quoted.double.raw.backtick.d
+//                                                                              ^^^^ - constant.character
+//                                                                                  ^ punctuation.definition.string.end.d
+//                                                                                   ^ punctuation.terminator.d - meta.string
+
 auto doubleQuoted = "c://\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.d
 //                  ^ punctuation.definition.string.begin.d
@@ -76,6 +103,32 @@ auto invalidEscape4 = "\u12398";
 //                    ^^^^^^^^^ meta.string.d string.quoted.double.d
 //                     ^^^^^^ constant.character.escape.d
 //                           ^ - constant.character.escape.d
+
+auto interpolated = i"string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())\r\n";
+//                  ^ storage.modifier.string.d
+//                   ^^^^^^^^ meta.string.d string.quoted.double.d
+//                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                           ^^ punctuation.section.interpolation.begin.d
+//                             ^^^^ variable.language.d
+//                                 ^ punctuation.accessor.dot.d
+//                                  ^^^ variable.other.d
+//                                     ^ punctuation.section.interpolation.end.d
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.d
+//                                      ^^^^ constant.character.escape.d
+//                                                   ^^ constant.character.escape.d
+//                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
+//                                                                 ^^ punctuation.section.interpolation.begin.d
+//                                                                   ^^^^ variable.language.d
+//                                                                       ^ punctuation.accessor.dot.d
+//                                                                        ^^^ variable.function.d
+//                                                                           ^ punctuation.section.parens.begin.d
+//                                                                            ^ punctuation.section.parens.end.d
+//                                                                             ^ punctuation.section.interpolation.end.d
+//                                                                              ^^^^^ meta.string.d string.quoted.double.d
+//                                                                              ^^^^ constant.character.escape.d
+//                                                                                  ^ punctuation.definition.string.end.d
+//                                                                                   ^ punctuation.terminator.d - meta.string
+
 auto hexString = x"00 ba
 //               ^^^^^^^^ meta.string.d string.quoted.double.raw.d
 //               ^ storage.modifier.string.d
@@ -85,47 +138,47 @@ auto hexString = x"00 ba
 //  ^^^ string.quoted.double.raw.d constant.character.escape.d
 //      ^ string.quoted.double.raw.d invalid.illegal.unknown-escape.d
 //       ^ string.quoted.double.raw.d punctuation.definition.string.end.d
-auto deliminated = q"SQL_1
-//                 ^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                 ^ storage.modifier.string.d
-//                  ^ punctuation.definition.string.begin.d
-//                   ^^^^^ constant.other.delimeter.d
+auto delimited = q"SQL_1
+//               ^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//               ^ storage.modifier.string.d
+//                ^ punctuation.definition.string.begin.d
+//                 ^^^^^ constant.other.delimiter.d
     select foo \n
 //  ^^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 SQL_1";
-// <- meta.string.d string.quoted.double.raw.d constant.other.delimeter.d
+// <- meta.string.d string.quoted.double.raw.d constant.other.delimiter.d
 //^^^^ meta.string.d string.quoted.double.raw.d
-// ^^ constant.other.delimeter.d
+// ^^ constant.other.delimiter.d
 //   ^ punctuation.definition.string.end.d
 //    ^ punctuation.terminator.d
 //    - meta.string.d
-auto deliminatedBad = q"SQL\
-//                         ^ meta.string.d string.quoted.double.raw.d invalid.illegal.d
+auto delimitedBad = q"SQL\
+//                       ^ meta.string.d string.quoted.double.raw.d invalid.illegal.d
 SQL";
-auto deliminatedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
-//                       ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                       ^ storage.modifier.string.d
-//                        ^^ punctuation.definition.string.begin.d
-//                              ^^ punctuation.definition.string.end.d
-//                                   ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                                   ^ storage.modifier.string.d
-//                                    ^^ punctuation.definition.string.begin.d
-//                                          ^^ punctuation.definition.string.end.d
-//                                               ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                                               ^ storage.modifier.string.d
-//                                                ^^ punctuation.definition.string.begin.d
-//                                                      ^^ punctuation.definition.string.end.d
-//                                                           ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                                                           ^ storage.modifier.string.d
-//                                                            ^^ punctuation.definition.string.begin.d
-//                                                                  ^^ punctuation.definition.string.end.d
-auto deliminatedAny = q"/foo(xxx)/";
-//                    ^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
-//                    ^ storage.modifier.string.d
-//                     ^ punctuation.definition.string.begin.d
-//                      ^ constant.other.delimeter.d
-//                               ^ constant.other.delimeter.d
-//                                ^ punctuation.definition.string.end.d
+auto delimitedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
+//                     ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                     ^ storage.modifier.string.d
+//                      ^^ punctuation.definition.string.begin.d
+//                            ^^ punctuation.definition.string.end.d
+//                                 ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                 ^ storage.modifier.string.d
+//                                  ^^ punctuation.definition.string.begin.d
+//                                        ^^ punctuation.definition.string.end.d
+//                                             ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                             ^ storage.modifier.string.d
+//                                              ^^ punctuation.definition.string.begin.d
+//                                                    ^^ punctuation.definition.string.end.d
+//                                                         ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                                         ^ storage.modifier.string.d
+//                                                          ^^ punctuation.definition.string.begin.d
+//                                                                ^^ punctuation.definition.string.end.d
+auto delimitedAny = q"/foo(xxx)/";
+//                  ^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                  ^ storage.modifier.string.d
+//                   ^ punctuation.definition.string.begin.d
+//                    ^ constant.other.delimiter.d
+//                             ^ constant.other.delimiter.d
+//                              ^ punctuation.definition.string.end.d
 auto stringPostfix = ``c + ""w + q"//"d;
 //                     ^ meta.string.d string.quoted.double.raw.backtick.d storage.type.string.d
 //                           ^ meta.string.d string.quoted.double.d storage.type.string.d
@@ -199,6 +252,28 @@ auto tokenString = q{ if { () /*}*/ else /*{*/ } };
 //                                             ^ punctuation.section.braces.end.d
 //                                               ^ string.unquoted.embedded.d punctuation.definition.string.end.d
 //                                                ^ punctuation.terminator.d
+
+auto interpolTokenStr = iq{ if $(this.var) { me = $(this.bar) } }
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
+//                      ^^ storage.modifier.string.d
+//                        ^ punctuation.definition.string.begin.d
+//                          ^^ keyword.d
+//                             ^^^^^^^^^^^ meta.interpolation.d
+//                             ^^ punctuation.section.interpolation.begin.d
+//                               ^^^^ variable.language.d
+//                                   ^ punctuation.accessor.dot.d
+//                                    ^^^ variable.other.d
+//                                       ^ punctuation.section.interpolation.end.d
+//                                         ^ punctuation.section.braces.begin.d
+//                                              ^ keyword.operator.assignment.d
+//                                                ^^^^^^^^^^^ meta.interpolation.d
+//                                                ^^ punctuation.section.interpolation.begin.d
+//                                                  ^^^^ variable.language.d
+//                                                      ^ punctuation.accessor.dot.d
+//                                                       ^^^ variable.other.d
+//                                                          ^ punctuation.section.interpolation.end.d
+//                                                            ^ punctuation.section.braces.end.d
+//                                                              ^ punctuation.definition.string.end.d
 
 auto c = 'a';
 //       ^^^ meta.string.d string.quoted.single.d

@@ -1,0 +1,553 @@
+-- SYNTAX TEST "Packages/SQL/PostgreSQL.sublime-syntax"
+
+CREATE TABLE test1 (a character(4));
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^^^^ entity.name.struct.table
+--                 ^^^^^^^^^^^^^^^^ meta.group.table-columns
+--                                 ^ punctuation.terminator.statement
+--                 ^ punctuation.section.group.begin
+--                  ^ meta.column-name variable.other.member.declaration
+--                    ^^^^^^^^^^^^ storage.type
+--                              ^ constant.numeric
+--                                ^ punctuation.section.group.end
+
+INSERT INTO test1 VALUES ('ok');
+SELECT a, char_length(a) FROM test1;
+-- ^^^ keyword.other.dml
+--     ^ meta.column-name - variable.other.member.declaration
+--      ^ punctuation.separator.sequence
+--        ^^^^^^^^^^^^^^ meta.function-call
+--        ^^^^^^^^^^^ support.function
+--                   ^ meta.group punctuation.section.arguments.begin
+--                    ^ meta.group meta.column-name - variable.other.member.declaration
+--                     ^ meta.group punctuation.section.arguments.end
+--                       ^^^^ keyword.other.dml - meta.group
+--                            ^^^^^ meta.table-name
+--                                 ^ punctuation.terminator.statement
+
+CREATE TABLE test2 (b varchar(5));
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^^^^ entity.name.struct
+--                 ^^^^^^^^^^^^^^ meta.group.table-columns
+--                               ^ punctuation.terminator.statement
+--                 ^ punctuation.section.group.begin
+--                  ^ meta.column-name
+--                    ^^^^^^^^^^ storage.type
+--                            ^ constant.numeric
+--                              ^ punctuation.section.group.end
+INSERT INTO test2 VALUES ('ok');
+INSERT INTO test2 VALUES ('good      ');
+INSERT INTO test2 VALUES ('too long');
+#ERROR:  value too long for type character varying(5)
+INSERT INTO test2 VALUES ('too long'::varchar(5)); -- explicit truncation
+--                        ^^^^^^^^^^ string.quoted.single
+--                                  ^^ keyword.operator.cast
+--                                    ^^^^^^^^^^ storage.type
+SELECT b, char_length(b) FROM test2;
+
+CREATE TABLE IF NOT EXISTS public.dropzone_details
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^ keyword.control.conditional.if
+--              ^^^ keyword.operator.logical
+--                  ^^^^^^ keyword.operator.logical
+--                         ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct
+--                               ^ punctuation.accessor.dot
+(
+-- <- meta.statement.create meta.group.table-columns punctuation.section.group.begin
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
+--  ^^ meta.column-name
+--     ^^^^ storage.type
+--          ^^^ keyword.operator.logical
+--              ^^^^ constant.language.null
+--                   ^^^^^^^ storage.modifier
+--                           ^^^^^^^^^^^^^^^^ meta.function-call support.function
+--                                           ^ meta.function-call meta.group punctuation.section.arguments.begin
+--                                            ^ meta.function-call meta.group punctuation.section.arguments.end
+--                                             ^ punctuation.separator.sequence
+    name text COLLATE pg_catalog."default",
+    doc jsonb,
+--  ^^^ meta.column-name variable.other.member.declaration
+--      ^^^^^ storage.type
+--           ^ punctuation.separator.sequence
+    poc json,
+--  ^^^ meta.column-name
+--      ^^^^ storage.type
+--          ^ punctuation.separator.sequence
+    size integer,
+--  ^^^^ meta.column-name
+--       ^^^^^^^ storage.type
+--              ^ punctuation.separator.sequence
+    CONSTRAINT id_name_uix UNIQUE (id, name)
+--  ^^^^^^^^^^ storage.modifier
+--             ^^^^^^^^^^^ meta.constraint-name
+--                         ^^^^^^ keyword.other
+--                                ^ punctuation.section.group.begin
+--                                 ^^ meta.column-name - variable.other.member.declaration
+--                                   ^ punctuation.separator.sequence
+--                                     ^^^^ meta.column-name
+--                                         ^ punctuation.section.group.end
+)
+
+-- https://www.postgresql.org/docs/current/datatype-binary.html#id-1.5.7.12.9
+SELECT '\xDEADBEEF'::bytea;
+--      ^^^^^^^^^^ meta.string string.quoted.single constant.character.escape
+--                ^ punctuation.definition.string.end
+--                 ^^ keyword.operator.cast
+--                   ^^^^^ storage.type
+SET bytea_output = 'escape';
+SELECT 'abc \153\154\155 \052\251\124'::bytea;
+--          ^^^^^^^^^^^^ constant.character.escape
+--                                    ^^ keyword.operator.cast
+--                                      ^^^^^ storage.type
+--                                           ^ punctuation.terminator.statement
+
+
+CREATE TYPE mood AS ENUM ('sad', 'ok', 'happy');
+-- ^^^ meta.statement.create keyword.other.ddl
+--     ^^^^ meta.statement.create keyword.other
+--          ^^^^ meta.statement.create entity.name
+--               ^^ keyword.context.block
+CREATE TABLE person (
+    name text,
+--  ^^^^ meta.column-name variable.other.member.declaration
+--       ^^^^ storage.type
+--           ^ punctuation.separator.sequence
+    current_mood mood
+--  ^^^^^^^^^^^^ meta.column-name variable.other.member.declaration
+--               ^^^^ support.type
+);
+INSERT INTO person VALUES ('Moe', 'happy');
+SELECT * FROM person WHERE current_mood = 'happy';
+
+CREATE TABLE test (a BIT(3), b BIT VARYING(5));
+INSERT INTO test VALUES (B'101', B'00');
+INSERT INTO test VALUES (B'10', B'101');
+INSERT INTO test VALUES (B'10'::bit(3), B'101');
+
+CREATE TABLE sal_emp (
+    name            text,
+    pay_by_quarter  integer[],
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
+--  ^^^^^^^^^^^^^^ meta.column-name
+--                  ^^^^^^^ storage.type
+--                         ^ punctuation.section.brackets.begin
+--                          ^ punctuation.section.brackets.end
+--                           ^ punctuation.separator.sequence - storage
+    schedule        text[][]
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create meta.group.table-columns
+--  ^^^^^^^^ meta.column-name
+--                  ^^^^ storage.type
+--                      ^ punctuation.section.brackets.begin
+--                       ^ punctuation.section.brackets.end
+--                        ^ punctuation.section.brackets.begin
+--                         ^ punctuation.section.brackets.end
+);
+
+INSERT INTO sal_emp
+    VALUES ('Bill',
+    '{10000, 10000, 10000, 10000}',
+    '{{"meeting", "lunch"}, {"training", "presentation"}}');
+
+INSERT INTO sal_emp
+    VALUES ('Carol',
+    '{20000, 25000, 25000, 25000}',
+    '{{"breakfast", "consulting"}, {"meeting", "lunch"}}');
+
+INSERT INTO sal_emp
+    VALUES ('Bill',
+    ARRAY[10000, 10000, 10000, 10000],
+--  ^^^^^ keyword.declaration
+--       ^ punctuation.section.brackets.begin
+--        ^^^^^ meta.number.integer.decimal constant.numeric.value
+--             ^ punctuation.separator.sequence
+--                                  ^ punctuation.section.brackets.end
+--                                   ^ punctuation.separator.sequence
+    ARRAY[['meeting', 'lunch'], ['training', 'presentation']]);
+--  ^^^^^ keyword.declaration
+--       ^^ punctuation.section.brackets.begin
+--         ^^^^^^^^^ string.quoted.single
+--                  ^ punctuation.separator.sequence - string
+
+INSERT INTO sal_emp
+    VALUES ('Carol',
+    ARRAY[20000, 25000, 25000, 25000],
+    ARRAY[['breakfast', 'consulting'], ['meeting', 'lunch']]);
+
+SELECT name FROM sal_emp WHERE pay_by_quarter[1] <> pay_by_quarter[2];
+-- ^^^ keyword.other.dml
+--     ^^^^ meta.column-name
+--          ^^^^ keyword.other.dml
+--               ^^^^^^^ meta.table-name
+--                       ^^^^^ keyword.other.dml
+--                             ^^^^^^^^^^^^^^ meta.column-name
+--                                           ^ punctuation.section.brackets.begin
+--                                            ^ meta.number.integer.decimal constant.numeric.value
+--                                             ^ punctuation.section.brackets.end
+--                                               ^^ keyword.operator.comparison
+--                                                  ^^^^^^^^^^^^^^ meta.column-name
+--                                                                ^ punctuation.section.brackets.begin
+--                                                                 ^ meta.number.integer.decimal constant.numeric.value
+--                                                                  ^ punctuation.section.brackets.end
+--                                                                   ^ punctuation.terminator.statement
+
+SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
+-- ^^^ keyword.other.dml
+--     ^^^^^^^^ meta.column-name
+--             ^ punctuation.section.brackets.begin
+--              ^ meta.number.integer.decimal constant.numeric.value
+--               ^ keyword.operator.range
+--                ^ meta.number.integer.decimal constant.numeric.value
+--                 ^ punctuation.section.brackets.end
+--                  ^ punctuation.section.brackets.begin
+--                   ^ meta.number.integer.decimal constant.numeric.value
+--                    ^ punctuation.section.brackets.end
+--                      ^^^^ keyword.other.dml
+--                           ^^^^^^^ meta.table-name
+
+
+-- ----------------------------------------------------------------------------
+-- CREATE EXTENSION
+-- https://www.postgresql.org/docs/current/sql-createextension.html
+--
+-- CREATE EXTENSION [ IF NOT EXISTS ] extension_name
+--  [ WITH ] [ SCHEMA schema_name ]
+--           [ VERSION version ]
+--           [ CASCADE ]
+-- ----------------------------------------------------------------------------
+
+CREATE EXTENSION hstore SCHEMA addons;
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^^^^^ keyword.other.ddl
+--               ^^^^^^ entity.name.namespace.psql
+--                      ^^^^^^ storage.modifier
+--                             ^^^^^^ meta.schema-name
+--                                   ^ punctuation.terminator.statement
+
+CREATE EXTENSION IF NOT EXISTS extension_name WITH SCHEMA schema_name VERSION 1.0 CASCADE;
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^^^^ keyword.other.ddl.psql
+--               ^^ keyword.control.conditional.if.sql
+--                  ^^^ keyword.operator.logical.sql
+--                      ^^^^^^ keyword.operator.logical.sql
+--                             ^^^^^^^^^^^^^^ entity.name.namespace.psql
+--                                            ^^^^ keyword.other.psql
+--                                                 ^^^^^^ storage.modifier.psql
+--                                                        ^^^^^^^^^^^ meta.schema-name.psql
+--                                                                    ^^^^^^^ storage.modifier.psql
+--                                                                            ^^^ meta.number.float.decimal.sql constant.numeric.value.sql
+--                                                                                ^^^^^^^ storage.modifier.psql
+--                                                                                       ^ punctuation.terminator.statement.sql
+
+-- -----------------
+-- DROP EXTENSION
+-- https://www.postgresql.org/docs/current/sql-dropextension.html
+-- -----------------
+
+DROP EXTENSION name CASCADE;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^^^^^ keyword.other.ddl.psql
+--             ^^^^ meta.extension-name.psql
+--                  ^^^^^^^ storage.modifier.psql
+--                         ^ punctuation.terminator.statement.sql
+
+DROP EXTENSION IF EXISTS name, second RESTRICT;
+-- <- meta.statement.drop.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop.sql
+-- ^ keyword.other.ddl.sql
+--   ^^^^^^^^^ keyword.other.ddl.psql
+--             ^^ keyword.control.conditional.if.sql
+--                ^^^^^^ keyword.operator.logical.sql
+--                       ^^^^ meta.extension-name.psql
+--                           ^ punctuation.separator.sequence.psql
+--                             ^^^^^^ meta.extension-name.psql
+--                                    ^^^^^^^^ storage.modifier.psql
+--                                            ^ punctuation.terminator.statement.sql
+
+-- -----------------
+-- ALTER EXTENSION
+-- https://www.postgresql.org/docs/current/sql-alterextension.html
+-- -----------------
+
+ALTER EXTENSION extension_name UPDATE TO 1.2;
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^^^^ keyword.other.ddl.psql
+--                                    ^^ keyword.other.ddl.psql
+--                                       ^^^ meta.number.float.decimal.sql constant.numeric.value.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+ALTER EXTENSION extension_name SET SCHEMA new_schema;
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^ keyword.other.ddl.psql
+--                                 ^^^^^^ storage.modifier.psql
+--                                        ^^^^^^^^^^ meta.schema-name.psql
+--
+
+ALTER EXTENSION extension_name ADD member_object;
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^ keyword.other.ddl.sql
+--                                 ^^^^^^^^^^^^^ meta.member-name.psql
+--                                              ^ punctuation.terminator.statement.sql
+
+ALTER EXTENSION extension_name DROP member_object;
+-- <- meta.statement.alter.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl.sql
+--    ^^^^^^^^^ keyword.other.ddl.psql
+--              ^^^^^^^^^^^^^^ meta.extension-name.psql
+--                             ^^^^ keyword.other.ddl.sql
+--                                  ^^^^^^^^^^^^^ meta.member-name.psql
+
+
+-- -----------------
+-- CREATE INDEX
+-- https://www.postgresql.org/docs/current/sql-createindex.html
+--
+-- CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ] [ [ IF NOT EXISTS ] name ] ON [ ONLY ] table_name [ USING method ]
+--    ( { column_name | ( expression ) } [ COLLATE collation ] [ opclass [ ( opclass_parameter = value [, ... ] ) ] ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] [, ...] )
+--    [ INCLUDE ( column_name [, ...] ) ]
+--    [ WITH ( storage_parameter [= value] [, ... ] ) ]
+--    [ TABLESPACE tablespace_name ]
+--    [ WHERE predicate ]
+-- -----------------
+
+CREATE INDEX index_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ entity.name.struct.index.sql
+
+CREATE INDEX index_name USING method_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^ keyword.other.ddl.sql
+--           ^^^^^^^^^^ entity.name.struct.index.sql
+--                      ^^^^^ keyword.other
+
+CREATE UNIQUE INDEX IF NOT EXISTS index_name ON table_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^ keyword.other.ddl.sql
+--                  ^^ keyword.control.conditional.if.sql
+--                     ^^^ keyword.operator.logical.sql
+--                         ^^^^^^ keyword.operator.logical.sql
+--                                ^^^^^^^^^^ entity.name.struct.index.sql
+--                                           ^^ keyword.other.sql
+--                                              ^^^^^^^^^^ meta.table-name.sql
+
+CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS index_name ON ONLY table_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^ keyword.other.ddl.psql
+--                               ^^ keyword.control.conditional.if.sql
+--                                  ^^^ keyword.operator.logical.sql
+--                                      ^^^^^^ keyword.operator.logical.sql
+--                                             ^^^^^^^^^^ entity.name.struct.index.sql
+--                                                        ^^ keyword.other.sql
+--                                                           ^^^^ keyword.other.psql
+--                                                                ^^^^^^^^^^ meta.table-name.sql
+
+CREATE UNIQUE INDEX CONCURRENTLY IF EXISTS index_name ON ONLY table_name USING method_name
+-- <- meta.statement.create.sql keyword.other.ddl.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+-- ^^^ keyword.other.ddl.sql
+--     ^^^^^^ keyword.other.ddl.sql
+--            ^^^^^ keyword.other.ddl.sql
+--                  ^^^^^^^^^^^^ keyword.other.ddl.psql
+--                               ^^ keyword.control.conditional.if.sql
+--                                  ^^^^^^ keyword.operator.logical.sql
+--                                         ^^^^^^^^^^ entity.name.struct.index.sql
+--                                                    ^^ keyword.other.sql
+--                                                       ^^^^ keyword.other.psql
+--                                                            ^^^^^^^^^^ meta.table-name.sql
+--                                                                       ^^^^^ keyword.other
+
+CREATE INDEX ON fancy_table USING gin (fancy_column gin_trgm_ops);
+-- <- meta.statement.create.sql keyword.other.ddl
+-- ^^^^ meta.statement.create.sql - meta.index
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.index.sql
+-- ^^^ keyword.other.ddl
+--     ^^^^^ keyword.other.ddl
+--           ^^ keyword.other
+--              ^^^^^^^^^^^ meta.table-name
+--                          ^^^^^ keyword.other
+--                                ^^^ meta.function-call.sql support.function.sql
+
+-- -----------------
+-- CREATE TABLE
+-- https://www.postgresql.org/docs/current/ddl-basics.html
+-- -----------------
+
+CREATE TABLE example_table (
+     first_name VARCHAR(100)
+         CONSTRAINT check_first_name
+--       ^^^^^^^^^^ storage.modifier
+--                  ^^^^^^^^^^^^^^^^ meta.constraint-name
+         ( first_name ~* '^[a-z]+$')
+--       ^ punctuation.section.group.begin
+--         ^^^^^^^^^^ meta.column-name
+--                    ^^ keyword.operator.comparison
+--                       ^^^^^^^^^^ meta.string.regexp
+--                       ^ punctuation.definition.string.begin
+--                                ^ punctuation.definition.string.end
+--                                 ^ punctuation.section.group.end - meta.string
+);
+
+ALTER TABLE mytable ADD CONSTRAINT verify_code CHECK (code IN ('A', 'AG', 'AL', 'AS', 'B', 'C', 'D', 'DA'));
+-- <- meta.statement.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^ keyword.other.ddl
+--    ^^^^^ keyword.other.ddl
+--          ^^^^^^^ meta.table-name
+--                  ^^^ keyword.other.ddl
+--                      ^^^^^^^^^^ keyword.other.ddl
+--                                 ^^^^^^^^^^^ meta.constraint-name
+--                                             ^^^^^ keyword.other
+--                                                   ^ punctuation.section.group.begin
+--                                                    ^^^^ meta.column-name
+
+
+CREATE TABLE test1 (
+    name                     varchar(500)  NOT NULL PRIMARY KEY,
+    description              varchar       NOT NULL DEFAULT '',
+    authors                  varchar[],
+);
+
+CREATE TABLE test2 (
+    test1name               varchar(500)  NOT NULL REFERENCES test1(name) ON DELETE CASCADE ON UPDATE CASCADE,
+--  ^^^^^^^^^ meta.column-name
+--                          ^^^^^^^^^^^^ storage.type
+--                                        ^^^ keyword.operator.logical
+--                                            ^^^^ constant.language.null
+--                                                 ^^^^^^^^^^ storage.modifier
+--                                                            ^^^^^ meta.table-name
+--                                                                 ^ punctuation.section.group.begin
+--                                                                  ^^^^ meta.column-name
+--                                                                      ^ punctuation.section.group.end
+--                                                                        ^^^^^^^^^^^^^^^^^ storage.modifier
+--                                                                                          ^^^^^^^^^^^^^^^^^ storage.modifier
+--                                                                                                           ^ punctuation.separator.sequence
+    PRIMARY KEY(test1name)
+);
+
+ALTER TABLE test2 ADD something varchar[];
+-- <- meta.statement.alter.sql keyword.other.ddl
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter
+-- ^^ keyword.other.ddl
+--    ^^^^^ keyword.other.ddl
+--          ^^^^^ meta.table-name
+--                ^^^ keyword.other.ddl
+--                    ^^^^^^^^^ meta.column-name
+--                              ^^^^^^^ storage.type
+--                                     ^ punctuation.section.brackets.begin
+--                                      ^ punctuation.section.brackets.end
+--                                       ^ punctuation.terminator.statement
+
+
+CREATE TRIGGER blah AFTER INSERT OR UPDATE
+-- ^^^ keyword.other.ddl
+--     ^^^^^^^ keyword.other
+--             ^^^^ entity.name.struct.other
+--                  ^^^^^^^^^^^^^^^^^^^^^^ keyword.other
+    ON some_table FOR EACH ROW EXECUTE PROCEDURE some_procedure();
+--  ^^ keyword.other
+--     ^^^^^^^^^^ meta.table-name
+--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other
+--                                               ^^^^^^^^^^^^^^ meta.function-call support.function
+
+
+CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, something_else boolean) RETURNS varchar[] AS $$
+--                                          ^^^^^^^^^ storage.type
+--                                                 ^ punctuation.section.brackets.begin
+--                                                  ^ punctuation.section.brackets.end
+--                                                                                                                     ^^ punctuation.section.block.begin
+DECLARE
+-- ^^^^ keyword.declaration.variable
+    output varchar[];
+-- ^ - variable
+--  ^^^^^^ variable.other
+--        ^ - variable - storage
+--         ^^^^^^^ storage.type
+--                ^ punctuation.section.brackets.begin
+--                 ^ punctuation.section.brackets.end
+--                  ^ punctuation.terminator.statement
+BEGIN
+-- ^^ keyword.other.luw
+    FOR I IN array_lower(vals, 1)..array_upper(vals, 1) LOOP
+--  ^^^ keyword.control.loop
+--      ^ variable.other
+--        ^^ keyword.operator.logical
+--           ^^^^^^^^^^^ meta.function-call support.function
+--                               ^^ keyword.operator
+--                                 ^^^^^^^^^^^ meta.function-call support.function
+--                                                      ^^^^ keyword.control.loop
+        output[I] := compute_result(vals[I], something, something_else);
+    END LOOP;
+--  ^^^ keyword.control.loop
+--      ^^^^ keyword.control.loop
+    RETURN output;
+--  ^^^^^^ keyword.control.flow.return
+END;
+$$ LANGUAGE plpgsql STABLE;
+-- <- punctuation.section.block.end
+-- ^^^^^^^^ keyword.other
+--          ^^^^^^^ constant.language
+--                  ^^^^^^ storage.modifier
+--                        ^ punctuation.terminator.statement
+
+DECLARE var varchar[];
+--     ^ - variable
+--      ^^^ variable.other.psql
+--         ^ - variable - storage
+
+DROP TRIGGER blah ON some_table;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop
+-- ^ keyword.other.ddl
+--   ^^^^^^^ keyword.other
+--                ^^ keyword.other
+--                   ^^^^^^^^^^ meta.table-name
+--                             ^ punctuation.terminator.statement
+
+value := ts_headline(value, query, E'HighlightAll=TRUE, StartSel="\002", StopSel="\003"');
+--                                 ^^ punctuation.definition.string.begin
+--                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
+--                                                                ^^^^ constant.character.escape
+--                                                                                ^^^^ constant.character.escape
+--                                                                                     ^ punctuation.definition.string.end
+value := E'\u1234 \U9876A001'
+--    ^^ keyword.operator.assignment
+--         ^^^^^^ constant.character.escape
+--               ^ - constant
+--                ^^^^^^^^^^ constant.character.escape

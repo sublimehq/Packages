@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string><![CDATA[source.as]]></string>
+	<key>settings</key>
+	<dict>
+		<key>foldScopes</key>
+		<array>
+			<dict><!-- STRINGS -->
+				<key>begin</key>
+				<string>punctuation.definition.string.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.string.end</string>
+				<key>excludeTrailingNewlines</key>
+				<false/>
+			</dict>
+			<dict><!-- COMMENTS -->
+				<key>begin</key>
+				<string>punctuation.definition.comment.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.comment.end</string>
+				<key>excludeTrailingNewlines</key>
+				<false/>
+			</dict>
+		</array>
+		<key>indentationFoldingEnabled</key>
+		<false/>
+		<key>shellVariables</key>
+		<array>
+			<dict>
+				<key>name</key><string>TM_COMMENT_START</string>
+				<key>value</key><string><![CDATA[// ]]></string>
+			</dict>
+			<dict>
+				<key>name</key><string>TM_COMMENT_MODE</string>
+				<key>value</key><string>line</string>
+			</dict>
+			<dict>
+				<key>name</key><string>TM_COMMENT_START_2</string>
+				<key>value</key><string><![CDATA[/*]]></string>
+			</dict>
+			<dict>
+				<key>name</key><string>TM_COMMENT_END_2</string>
+				<key>value</key><string><![CDATA[*/]]></string>
+			</dict>
+			<dict>
+				<key>name</key><string>TM_COMMENT_MODE_2</string>
+				<key>value</key><string>block</string>
+			</dict>
+			<dict>
+				<key>name</key><string>TM_COMMENT_DISABLE_INDENT_2</string>
+				<key>value</key><string>yes</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

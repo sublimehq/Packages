@@ -1,22 +1,31 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
+
 name: Rd (R Documentation)
+scope: text.tex.latex.rd
+version: 2
+
 file_extensions:
   - rd
-scope: text.tex.latex.rd
+
+###[ CONTEXTS ]################################################################
+
 contexts:
+
   prototype:
     - include: scope:text.tex.latex#comments
 
   main:
-    - include: rd-stucture
+    - include: rd-structure
     - include: r-code
     - include: latex-equations
     - include: scope:text.tex.latex#plain-tex
     - include: scope:text.tex.latex#begin-end-commands
     - include: scope:text.tex.latex#general-commands
     - include: global-braces
+
+###[ SECTIONS ]################################################################
 
   global-braces:
     - match: '\{'
@@ -25,7 +34,7 @@ contexts:
         - meta_scope: meta.group.brace.latex
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
-          pop: true
+          pop: 1
         - include: main
 
   latex-equations:
@@ -44,7 +53,7 @@ contexts:
         - include: scope:text.tex.latex#math-content
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
 
   eqn:
     - match: '((\\)(?:eqn))(\{)'
@@ -58,7 +67,7 @@ contexts:
         - include: scope:text.tex.latex#math-content
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
 
   r-code:
     - match: '((\\)(?:code))(\{)'
@@ -71,9 +80,10 @@ contexts:
         - meta_content_scope: source.r.embedded
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
         - match: \\%
         - include: scope:source.r
+
     - match: '((\\)(?:Sexpr))(?:(\[)(?:[^\]]*)(\]))?(\{)'
       captures:
         1: support.function.sexpr.rd
@@ -86,9 +96,10 @@ contexts:
         - meta_content_scope: source.r.embedded
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
         - match: \\%
         - include: scope:source.r
+
     - match: '((\\)(?:usage))(\{)(?:\n)?'
       captures:
         1: support.function.usage.rd
@@ -99,9 +110,10 @@ contexts:
         - meta_content_scope: source.r.embedded
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
         - match: \\%
         - include: scope:source.r
+
     - match: '((\\)(?:examples))(\{)(?:\n)?'
       captures:
         1: support.function.examples.rd
@@ -112,11 +124,11 @@ contexts:
         - meta_content_scope: source.r.embedded
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
         - match: \\%
         - include: scope:source.r
 
-  rd-stucture:
+  rd-structure:
     - match: '((\\)name)(\{)'
       captures:
         1: keyword.other.section.rd
@@ -128,7 +140,7 @@ contexts:
         - match: '(\})'
           captures:
             1: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
         - include: main
 
     - match: '((\\)(?:alias|docType|keyword|title))(\{)'
@@ -141,5 +153,5 @@ contexts:
         - match: '(\})'
           captures:
             1: punctuation.definition.group.brace.end.rd
-          pop: true
+          pop: 1
         - include: main

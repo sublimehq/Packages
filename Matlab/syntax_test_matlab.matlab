@@ -65,7 +65,7 @@ classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass
 %           ^^^^^^ variable.parameter.attribute.matlab
 %                 ^ punctuation.section.parens.end.matlab
 %                    ^^^^^^^^^^ comment.line.percentage.matlab
-      function funcionName(obj)
+      function functionName(obj)
          functionName@SuperClass1(obj)
 %                    ^ punctuation.accessor.at.matlab - keyword.operator
       end
@@ -279,7 +279,7 @@ end
 %^^ meta.function.matlab keyword.declaration.function.end.matlab
 %  ^ - meta.function
 
-function [one, two, three] = myFunction(x)  % funtion with more than one output
+function [one, two, three] = myFunction(x)  % function with more than one output
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
 %                                      ^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
