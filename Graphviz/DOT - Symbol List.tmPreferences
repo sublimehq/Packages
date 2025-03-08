@@ -11,7 +11,13 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-		s/^(?:cluster_)?([a-zA-Z_\x{200}-\x{377}][a-zA-Z0-9_\x{200}-\x{377}]*)/$1 \(clustered\)/g;
+		s/^(?:cluster_)([a-zA-Z_\x{200}-\x{377}][a-zA-Z0-9_\x{200}-\x{377}]*)/$1 \(clustered\)/g;
+		</string>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+		<key>symbolIndexTransformation</key>
+		<string>
+		s/^(?:cluster_)([a-zA-Z_\x{200}-\x{377}][a-zA-Z0-9_\x{200}-\x{377}]*)/$1 \(clustered\)/g;
 		</string>
 	</dict>
 </dict>
