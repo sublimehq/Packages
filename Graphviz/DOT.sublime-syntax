@@ -14,7 +14,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \b(dot|graphviz)\b .*? -\*-  # editorconfig
+    {{leading_wspace}} // .*? -\*- .*? \b(dot|graphviz)\b .*? -\*-  # editorconfig
   )
 
 ###[ CONTEXTS ]################################################################
@@ -85,8 +85,10 @@ contexts:
     # NOTE: number-sign line comments are not part of prototype as they must
     #       start at BOL (beginning of the line)
 
-    - match: '^#'
+    - match: '^(\s+)?#'
       scope: punctuation.definition.comment.dot
+      captures:
+        1: invalid.illegal.whitespace.dot
       push: fullline-comment-number-sign-body
 
   fullline-comment-number-sign-body:
