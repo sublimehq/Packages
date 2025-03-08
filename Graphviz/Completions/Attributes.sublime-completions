@@ -1,5 +1,5 @@
 {
-    "scope": "source.dot meta.attributes - meta.string - string.quoted.double",
+    "scope": "source.dot & (meta.group | meta.attributes) - meta.string - string.quoted.double",
     "completions": [
         {
             "trigger": "Damping",

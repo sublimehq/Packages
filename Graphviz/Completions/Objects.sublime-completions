@@ -1,5 +1,5 @@
 {
-    "scope": "source.dot meta.group - meta.attributes",
+    "scope": "source.dot & meta.group - meta.attributes",
     "completions": [
         {
             "trigger": "subgraph",
