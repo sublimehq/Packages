@@ -7,39 +7,81 @@
 ////////////////////////////////////////////////////////////////////////////////
 
         {
-            "trigger": "filled",
-            "contents": "filled",
-            "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
-            "details": ""
-        },
-        {
-            "trigger": "solid",
-            "contents": "solid",
-            "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
-            "details": ""
-        },
-        {
-            "trigger": "invis",
-            "contents": "invis",
-            "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
-            "details": ""
-        },
-        {
             "trigger": "dashed",
             "contents": "dashed",
             "annotation": "style",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "dotted",
             "contents": "dotted",
             "annotation": "style",
             "kind": ["snippet", "s", "Snippet"],
-            "details": ""
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "solid",
+            "contents": "solid",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "invis",
+            "contents": "invis",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "bold",
+            "contents": "bold",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "tapered",
+            "contents": "tapered",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "filled",
+            "contents": "filled",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "striped",
+            "contents": "striped",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "wedged",
+            "contents": "wedged",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "diagonals",
+            "contents": "diagonals",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
+        },
+        {
+            "trigger": "rounded",
+            "contents": "rounded",
+            "annotation": "style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
 
 ////////////////////////////////////////////////////////////////////////////////
