@@ -226,8 +226,7 @@ contexts:
     - match: |-
         (?x:
           \b(?:
-            {{style_attributes}}
-          | {{graph_attributes}}
+            {{graph_attributes}}
           | {{cluster_attributes}}
           | {{node_attributes}}
           | {{edge_attributes}}
@@ -240,7 +239,34 @@ contexts:
 ###[ LITERALS / STRINGS ]######################################################
 
   literal-strings:
+    - include: special-strings
     - include: literal-double-quoted-strings
+
+  special-strings:
+    - match: |-
+        (?x:
+          (\")
+          \b(
+            {{clustermode_attribute_types}}
+          | {{dirtype_attribute_types}}
+          | {{outputmode_attribute_types}}
+          | {{packmode_attribute_types}}
+          | {{pagedir_attribute_types}}
+          | {{quadtype_attribute_types}}
+          | {{ranktype_attribute_types}}
+          | {{rankdir_attribute_types}}
+          | {{smoothtype_attributes_types}}
+          | {{style_attribute_types}}
+          )\b
+          (\")
+        )
+      scope: >-
+        meta.string.dot
+        string.quoted.double.dot
+      captures:
+        1: punctuation.definition.string.begin.dot
+        2: support.constant.dot
+        3: punctuation.definition.string.end.dot
 
   literal-double-quoted-strings:
     - match: \"
@@ -412,15 +438,6 @@ variables:
       n | ne | e | se | s | sw | w | nw | c | _
     )
 
-  style_attributes: |-
-    (?x:
-      dashed
-    | dotted
-    | filled
-    | invis
-    | solid
-    )
-
   # https://graphviz.org/docs/graph/
   graph_attributes: |-
     (?x:
@@ -541,7 +558,107 @@ variables:
     | underline | utr
     )
 
+  # https://graphviz.org/docs/attr-types/clusterMode/
+  clustermode_attribute_types: |-
+    (?x:
+      global
+    | local
+    | none
+    )
+
+  # https://graphviz.org/docs/attr-types/dirType/
+  dirtype_attribute_types: |-
+    (?x:
+      back
+    | both
+    | forward
+    | none
+    )
+
+  # https://graphviz.org/docs/attr-types/outputMode/
+  outputmode_attribute_types: |-
+    (?x:
+      breadthfirst
+    | nodesfirst
+    | edgesfirst
+    )
+
+  # https://graphviz.org/docs/attr-types/packMode/
+  packmode_attribute_types: |-
+    (?x:
+      array(?:_[bclrt]{1,5})?(?:\d+)?
+    | cluster
+    | graph
+    | node
+    )
+
+  # https://graphviz.org/docs/attr-types/pagedir/
+  pagedir_attribute_types: |-
+    (?x:
+      B[LR]         # bottom left, bottom right
+    | T[LR]         # top left, top right
+    | R[BT]         # right bottom, right top
+    | L[BT]         # left bottom, left top
+    )
+
+  # https://graphviz.org/docs/attr-types/quadType/
+  quadtype_attribute_types: |-
+    (?x:
+      fast
+    | none
+    | normal
+    )
+
+  # https://graphviz.org/docs/attr-types/rankType/
+  ranktype_attribute_types: |-
+    (?x:
+      main
+    | max
+    | min
+    | same
+    | sink
+    | source
+    )
+
+  # https://graphviz.org/docs/attr-types/rankdir/
+  rankdir_attribute_types: |-
+    (?x:
+      BT            # bottom -> top
+    | LR            # left -> right
+    | RL            # right -> left
+    | TB            # top -> bottom
+    )
+
+  # https://graphviz.org/docs/attr-types/smoothType/
+  smoothtype_attributes_types: |-
+    (?x:
+      avg_dist
+    | graph_dist
+    | none
+    | power_dist
+    | rng
+    | spring
+    | triangle
+    )
+
+  # https://graphviz.org/docs/attr-types/style/
+  style_attribute_types: |-
+    (?x:
+      dashed
+    | dotted
+    | solid
+    | invis
+    | bold
+    | tapered
+    | filled
+    | striped
+    | wedged
+    | diagonals
+    | rounded
+    )
+
   # https://graphviz.org/doc/info/colors.html#svg
+  # NOTE: case-insensitive
   svg_colors: |-
     (?xi:
       aliceblue | antiquewhite | aqua | aquamarine | azure
@@ -567,6 +684,7 @@ variables:
     )
 
   # https://graphviz.org/doc/info/colors.html#x11
+  # NOTE: case-insensitive
   x11_colors: |-
     (?xi:
       aliceblue | antiquewhite[1-4]? | aqua | aquamarine[1-4]? | azure[1-4]?
