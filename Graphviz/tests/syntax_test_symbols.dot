@@ -1,0 +1,26 @@
+// SYNTAX TEST "Packages/Graphviz/DOT.sublime-syntax"
+// <- source.dot
+
+    graph test_1 { }
+//        @@@@@@ definition
+
+    digraph test_2 { }
+//          @@@@@@ definition
+
+    strict graph test_3 { }
+//               @@@@@@ definition
+
+    strict digraph test_4 { }
+//                 @@@@@@ definition
+
+    graph cluster_test_5 { }
+//        @@@@@@@@@@@@@@ definition "test_5 (clustered)"
+
+    digraph cluster_test_6 { }
+//          @@@@@@@@@@@@@@ definition "test_6 (clustered)"
+
+    strict graph cluster_test_7 { }
+//               @@@@@@@@@@@@@@ definition "test_7 (clustered)"
+
+    strict digraph cluster_test_8 { }
+//                 @@@@@@@@@@@@@@ definition "test_8 (clustered)"
