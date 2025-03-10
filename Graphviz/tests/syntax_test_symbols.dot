@@ -24,3 +24,21 @@
 
     strict digraph cluster_test_8 { }
 //                 @@@@@@@@@@@@@@ definition "test_8 (clustered)"
+
+    graph test_9
+//        @@@@@@ definition
+    {
+        subgraph test_10
+//               @@@@@@@ definition
+        {
+        }
+    }
+
+    digraph test_11
+//          @@@@@@@ definition
+    {
+        subgraph test_12
+//               @@@@@@@ definition
+        {
+        }
+    }
