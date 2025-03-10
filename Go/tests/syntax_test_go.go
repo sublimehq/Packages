@@ -4567,12 +4567,13 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //   ^^^^^^^^^^^^^^ constant.other.placeholder.go
 
-    "%d %d %#[1]x %#x"
-//  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
+    "%d %d %#[1]x %#x %w"
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.double.go
 //   ^^ constant.other.placeholder.go
 //      ^^ constant.other.placeholder.go
 //         ^^^^^^ constant.other.placeholder.go
 //                ^^^ constant.other.placeholder.go
+//                    ^^ constant.other.placeholder.go
 
     "%"
 //  ^^^ meta.string.go string.quoted.double.go
@@ -4695,12 +4696,13 @@ by accident, but if necessary, such support could be sacrificed.
 //  ^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //   ^^^^^^^^^^^^^^ constant.other.placeholder.go
 
-    `%d %d %#[1]x %#x`
+    `%d %d %#[1]x %#x %w`
 //  ^^^^^^^^^^^^^^^^^^ meta.string.go string.quoted.backtick.go
 //   ^^ constant.other.placeholder.go
 //      ^^ constant.other.placeholder.go
 //         ^^^^^^ constant.other.placeholder.go
 //                ^^^ constant.other.placeholder.go
+//                    ^^ constant.other.placeholder.go
 
     `%`
 //  ^^^ meta.string.go string.quoted.backtick.go
