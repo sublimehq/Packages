@@ -232,6 +232,7 @@ contexts:
           | {{edge_attributes}}
           | {{arrow_shape_attributes}}
           | {{polygon_shape_attributes}}
+          | {{splines_attributes}}
           )\b
         )
       scope: support.constant.attribute.dot
@@ -556,6 +557,17 @@ variables:
     | septagon | signature | square | star
     | tab | terminator | threepoverhang | trapezium | triangle | tripleoctagon
     | underline | utr
+    )
+
+  # https://graphviz.org/docs/attrs/splines/
+  splines_attributes: |-
+    (?x:
+      curved
+    | line
+    | none
+    | ortho
+    | polyline
+    | spline
     )
 
   # https://graphviz.org/docs/attr-types/clusterMode/
