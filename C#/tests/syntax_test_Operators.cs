@@ -12,7 +12,7 @@ Customer? first = customers?[0];
 ///       ^^^^^ variable.other
 ///             ^ keyword.operator.assignment.variable
 ///               ^^^^^^^^^ variable.other
-///                        ^ keyword.operator.null-coalescing
+///                        ^ keyword.operator.null-coalescing - meta.brackets
 ///                         ^^^ meta.brackets
 ///                         ^ punctuation.section.brackets.begin
 ///                           ^ punctuation.section.brackets.end
