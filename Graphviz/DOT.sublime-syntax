@@ -220,7 +220,7 @@ contexts:
     - match: \b(?:true)\b
       scope: constant.language.boolean.true.dot
 
-    - match: \b(?:{{svg_colors}}|{{x11_colors}})\b
+    - match: \b(?:{{svg_colors}}|{{x11_colors}}|{{brewer_color_schemes}})\b
       scope: constant.language.color.dot
 
     - match: |-
@@ -234,6 +234,7 @@ contexts:
           | {{arrow_shape_attributes}}
           | {{polygon_shape_attributes}}
           | {{record_shape_attributes}}
+          | {{ranksep_attributes}}
           | {{splines_attributes}}
           )\b
         )
@@ -569,6 +570,12 @@ variables:
       record
     )
 
+  # https://graphviz.org/docs/attrs/ranksep/
+  ranksep_attributes: |-
+    (?x:
+      equally
+    )
+
   # https://graphviz.org/docs/attrs/splines/
   splines_attributes: |-
     (?x:
@@ -679,6 +686,33 @@ variables:
     | rounded
     )
 
+  # https://graphviz.org/doc/info/colors.html#x11
+  # NOTE: case-insensitive
+  x11_colors: |-
+    (?xi:
+      aliceblue | antiquewhite[1-4]? | aqua | aquamarine[1-4]? | azure[1-4]?
+    | beige | bisque[1-4]? | black | blanchedalmond | blue[1-4]? | blueviolet | brown[1-4]? | burlywood[1-4]?
+    | cadetblue[1-4]? | chartreuse[1-4]? | chocolate[1-4]? | coral[1-4]? | cornflowerblue | cornsilk[1-4]? | crimson | cyan[1-4]?
+    | darkblue | darkcyan | darkgoldenrod[1-4]? | darkgr[ae]y | darkgreen | darkkhaki | darkmagenta | darkolivegreen[1-4]? | darkorange[1-4]? | darkorchid[1-4]? | darkred | darksalmon | darkseagreen[1-4]? | darkslateblue | darkslategray[1-4]? | darkslategrey | darkturquoise | darkviolet | deeppink[1-4]? | deepskyblue[1-4]? | dimgr[ae]y | dodgerblue[1-4]?
+    | firebrick[1-4]? | floralwhite | forestgreen | fuchsia
+    | gainsboro | ghostwhite | gold[1-4]? | goldenrod[1-4]? | gr[ae]y(?:[0-9]|[1-9][0-9]|100)? | green[1-4]? | greenyellow
+    | honeydew[1-4]? | hotpink[1-4]?
+    | indianred[1-4]? | indigo | invis | ivory[1-4]?
+    | khaki[1-4]?
+    | lavender | lavenderblush[1-4]? | lawngreen | lemonchiffon[1-4]? | lightblue[1-4]? | lightcoral | lightcyan[1-4]? | lightgoldenrod[1-4]? | lightgoldenrodyellow | lightgr[ae]y | lightgreen | lightpink[1-4]? | lightsalmon[1-4]? | lightseagreen | lightskyblue[1-4]? | lightslateblue | lightslategr[ae]y | lightsteelblue[1-4]? | lightyellow[1-4]? | lime | limegreen | linen
+    | magenta[1-4]? | maroon[1-4]? | mediumaquamarine | mediumblue | mediumorchid[1-4]? | mediumpurple[1-4]? | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose[1-4]? | moccasin
+    | navajowhite[1-4]? | navy | navyblue | none
+    | oldlace | olive | olivedrab[1-4]? | orange[1-4]? | orangered[1-4]? | orchid[1-4]?
+    | palegoldenrod | palegreen[1-4]? | paleturquoise[1-4]? | palevioletred[1-4]? | papayawhip | peachpuff[1-4]? | peru | pink[1-4]? | plum[1-4]? | powderblue | purple[1-4]?
+    | rebeccapurple | red[1-4]? | rosybrown[1-4]? | royalblue[1-4]?
+    | saddlebrown | salmon[1-4]? | sandybrown | seagreen[1-4]? | seashell[1-4]? | sienna[1-4]? | silver | skyblue[1-4]? | slateblue[1-4]? | slategray[1-4]? | slategrey | snow[1-4]? | springgreen[1-4]? | steelblue[1-4]?
+    | tan[1-4]? | teal | thistle[1-4]? | tomato[1-4]? | transparent | turquoise[1-4]?
+    | violet | violetred[1-4]?
+    | webgr[ae]y | webgreen | webmaroon | webpurple | wheat[1-4]? | white | whitesmoke
+    | x11gr[ae]y | x11green | x11maroon | x11purple
+    | yellow[1-4]? | yellowgreen
+    )
+
   # https://graphviz.org/doc/info/colors.html#svg
   # NOTE: case-insensitive
   svg_colors: |-
@@ -705,29 +739,43 @@ variables:
     | yellow | yellowgreen
     )
 
-  # https://graphviz.org/doc/info/colors.html#x11
-  # NOTE: case-insensitive
-  x11_colors: |-
-    (?xi:
-      aliceblue | antiquewhite[1-4]? | aqua | aquamarine[1-4]? | azure[1-4]?
-    | beige | bisque[1-4]? | black | blanchedalmond | blue[1-4]? | blueviolet | brown[1-4]? | burlywood[1-4]?
-    | cadetblue[1-4]? | chartreuse[1-4]? | chocolate[1-4]? | coral[1-4]? | cornflowerblue | cornsilk[1-4]? | crimson | cyan[1-4]?
-    | darkblue | darkcyan | darkgoldenrod[1-4]? | darkgr[ae]y | darkgreen | darkkhaki | darkmagenta | darkolivegreen[1-4]? | darkorange[1-4]? | darkorchid[1-4]? | darkred | darksalmon | darkseagreen[1-4]? | darkslateblue | darkslategray[1-4]? | darkslategrey | darkturquoise | darkviolet | deeppink[1-4]? | deepskyblue[1-4]? | dimgr[ae]y | dodgerblue[1-4]?
-    | firebrick[1-4]? | floralwhite | forestgreen | fuchsia
-    | gainsboro | ghostwhite | gold[1-4]? | goldenrod[1-4]? | gr[ae]y(?:[0-9]|[1-9][0-9]|100)? | green[1-4]? | greenyellow
-    | honeydew[1-4]? | hotpink[1-4]?
-    | indianred[1-4]? | indigo | invis | ivory[1-4]?
-    | khaki[1-4]?
-    | lavender | lavenderblush[1-4]? | lawngreen | lemonchiffon[1-4]? | lightblue[1-4]? | lightcoral | lightcyan[1-4]? | lightgoldenrod[1-4]? | lightgoldenrodyellow | lightgr[ae]y | lightgreen | lightpink[1-4]? | lightsalmon[1-4]? | lightseagreen | lightskyblue[1-4]? | lightslateblue | lightslategr[ae]y | lightsteelblue[1-4]? | lightyellow[1-4]? | lime | limegreen | linen
-    | magenta[1-4]? | maroon[1-4]? | mediumaquamarine | mediumblue | mediumorchid[1-4]? | mediumpurple[1-4]? | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose[1-4]? | moccasin
-    | navajowhite[1-4]? | navy | navyblue | none
-    | oldlace | olive | olivedrab[1-4]? | orange[1-4]? | orangered[1-4]? | orchid[1-4]?
-    | palegoldenrod | palegreen[1-4]? | paleturquoise[1-4]? | palevioletred[1-4]? | papayawhip | peachpuff[1-4]? | peru | pink[1-4]? | plum[1-4]? | powderblue | purple[1-4]?
-    | rebeccapurple | red[1-4]? | rosybrown[1-4]? | royalblue[1-4]?
-    | saddlebrown | salmon[1-4]? | sandybrown | seagreen[1-4]? | seashell[1-4]? | sienna[1-4]? | silver | skyblue[1-4]? | slateblue[1-4]? | slategray[1-4]? | slategrey | snow[1-4]? | springgreen[1-4]? | steelblue[1-4]?
-    | tan[1-4]? | teal | thistle[1-4]? | tomato[1-4]? | transparent | turquoise[1-4]?
-    | violet | violetred[1-4]?
-    | webgr[ae]y | webgreen | webmaroon | webpurple | wheat[1-4]? | white | whitesmoke
-    | x11gr[ae]y | x11green | x11maroon | x11purple
-    | yellow[1-4]? | yellowgreen
+  # https://graphviz.org/doc/info/colors.html#brewer
+  # https://graphviz.org/docs/attrs/colorscheme/
+  brewer_color_schemes: |-
+    (?x:
+      accent[3-8]
+    | blues[3-9]
+    | brbg(?:[3-9]|1[0-1])
+    | bugn[3-9]
+    | bupu[3-9]
+    | dark2[3-8]
+    | gnbu[3-9]
+    | greens[3-9]
+    | greys[3-9]
+    | oranges[3-9]
+    | orrd[3-9]
+    | paired(?:[3-9]|1[0-2])
+    | pastel1[3-9]
+    | pastel2[3-8]
+    | piyg(?:[3-9]|1[0-1])
+    | prgn(?:[3-9]|1[0-1])
+    | pubu[3-9]
+    | pubugn[3-9]
+    | puor(?:[3-9]|1[0-1])
+    | purd[3-9]
+    | purples[3-9]
+    | rdbu(?:[3-9]|1[0-1])
+    | rdgy(?:[3-9]|1[0-1])
+    | rdpu[3-9]
+    | rdylbu(?:[3-9]|1[0-1])
+    | rdylgn(?:[3-9]|1[0-1])
+    | reds[3-9]
+    | set1[3-9]
+    | set2[3-8]
+    | set3(?:[3-9]|1[0-2])
+    | spectral(?:[3-9]|1[0-1])
+    | ylgn[3-9]
+    | ylgnbu[3-9]
+    | ylorbr[3-9]
+    | ylorrd[3-9]
     )
