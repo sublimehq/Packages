@@ -227,11 +227,13 @@ contexts:
         (?x:
           \b(?:
             {{graph_attributes}}
+          | {{subgraph_attributes}}
           | {{cluster_attributes}}
           | {{node_attributes}}
           | {{edge_attributes}}
           | {{arrow_shape_attributes}}
           | {{polygon_shape_attributes}}
+          | {{record_shape_attributes}}
           | {{splines_attributes}}
           )\b
         )
@@ -442,84 +444,86 @@ variables:
   # https://graphviz.org/docs/graph/
   graph_attributes: |-
     (?x:
-      bgcolor
-    | center | clusterrank | color | comment | compound | concentrate
-    | fillcolor | fontname | fontpath | fontsize
-    | label | labeljust | labelloc | layers
-    | margin | mclimit
-    | nodesep | nslimit | nslimit1
-    | ordering | orientation
-    | page | pagedir
-    | quantum
-    | rank | rankdir | ranksep | ratio | remincross | rotate
-    | samplepoints | searchsize | size | style
+      Damping
+    | K
     | URL
+    | bb | bgcolor
+    | center | charset | clusterrank | colorscheme | comment | compound | concentrate
+    | defaultdist | dim | diredgeconstraints | dpi
+    | epsilon | esep
+    | fontcolor | fontname | fontnames | fontpath | fontsize
+    | imagepath
+    | label | labeljust | labelloc | landscape | layers | layersep | layout | levelsgap | lp
+    | margin | maxiter | mclimit | mindist | mode | model | mosek
+    | nodesep | nojustify | normalize | nslimit | nslimit1
+    | ordering | outputorder | overlap
+    | pack | packmode | pad | page | pagedir
+    | quantum
+    | rankdir | ranksep | ratio | remincross | resolution | root | rotate
+    | searchsize | sep | showboxes | size | splines | start | stylesheet
+    | target | truecolor
+    | viewport | voro_margin
+    )
+
+  subgraph_attributes: |-
+    (?x:
+      rank
     )
 
   # https://graphviz.org/docs/clusters/
   cluster_attributes: |-
     (?x:
-      area
-    | bb | bgcolor
-    | class | cluster | color | colorscheme
-    | fillcolor | fontcolor | fontname | fontsize
-    | gradientangle
-    | href
-    | id
-    | K
-    | label | labeljust | labelloc | layer | lheight | lp | lwidth
-    | margin
-    | nojustify
-    | pencolor | penwidth | peripheries
-    | sortv | style
-    | target | tooltip
+      K
     | URL
+    | bgcolor
+    | color | colorscheme
+    | fillcolor | fixedsize | fontcolor | fontname | fontsize
+    | label | labeljust | labelloc | lp
+    | nojustify
+    | pencolor
+    | style
+    | target | tooltip
     )
 
   # https://graphviz.org/docs/nodes/
   node_attributes: |-
     (?x:
-      area
-    | class | color | colorscheme | comment
+      URL
+    | color | colorscheme | comment
     | distortion
     | fillcolor | fixedsize | fontcolor | fontname | fontsize
-    | gradientangle | group
-    | height | href
-    | id | image | imagepos | imagescale
-    | label | labelloc | layer
+    | group
+    | height
+    | image | imagescale
+    | label | layer
     | margin
     | nojustify
-    | ordering | orientation
-    | penwidth | peripheries | pin | pos
+    | peripheries | pin | pos
     | rects | regular | root
-    | samplepoints | shape | shapefile | showboxes | sides | skew | sortv | style
+    | samplepoints | shape | shapefile | showboxes | sides | skew | style
     | target | tooltip
-    | URL
     | vertices
     | width
-    | xlabel | xlp
     | z
     )
 
   # https://graphviz.org/docs/edges/
   edge_attributes: |-
     (?x:
-      arrowhead | arrowsize | arrowtail
-    | class | color | colorscheme | comment | constraint
+      URL
+    | arrowhead | arrowsize | arrowtail
+    | color | colorscheme | comment | constraint
     | decorate | dir
-    | edgehref | edgetarget | edgetooltip | edgeURL
-    | fillcolor | fontcolor | fontname | fontsize
-    | head_lp | headclip | headhref | headlabel | headport | headtarget | headtooltip | headURL | href
-    | id
-    | label | labelangle | labeldistance | labelfloat | labelfontcolor | labelfontname | labelfontsize | labelhref | labeltarget | labeltooltip | labelURL | layer | len | lhead | lp | ltail
+    | edgeURL | edgehref | edgetarget | edgetooltip
+    | fontcolor | fontname | fontsize
+    | headURL | headclip | headhref | headlabel | headport | headtarget | headtooltip | href
+    | label | labelURL | labelangle | labeldistance | labelfloat | labelfontcolor | labelfontname | labelfontsize | labelhref | labeltarget | labeltooltip | layer | len | lhead | lp | ltail
     | minlen
     | nojustify
-    | penwidth | pos
+    | pos
     | samehead | sametail | showboxes | style
-    | tail_lp | tailclip | tailhref | taillabel | tailport | tailtarget | tailtooltip | tailURL | target | tooltip
-    | URL
+    | tailURL | tailclip | tailhref | taillabel | tailport | tailtarget | tailtooltip | target | tooltip
     | weight
-    | xlabel | xlp
     )
 
   # https://graphviz.org/doc/info/arrows.html
@@ -537,7 +541,7 @@ variables:
     | [lr]?vee
     )
 
-  # https://graphviz.org/doc/info/shapes.html
+  # https://graphviz.org/doc/info/shapes.html#polygon
   polygon_shape_attributes: |-
     (?x:
       assembly
@@ -557,6 +561,12 @@ variables:
     | septagon | signature | square | star
     | tab | terminator | threepoverhang | trapezium | triangle | tripleoctagon
     | underline | utr
+    )
+
+  # https://graphviz.org/doc/info/shapes.html#record
+  record_shape_attributes: |-
+    (?x:
+      record
     )
 
   # https://graphviz.org/docs/attrs/splines/
