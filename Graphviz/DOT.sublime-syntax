@@ -142,14 +142,18 @@ contexts:
           \b
           (?:({{strict}})\s+)?
           ({{digraph_or_graph}})
-          (?:\s+((cluster_)?{{id}}))?
-          \b
+          (?:\s+((cluster_)?{{id}}\b|((\")(?:(\\\")|(\\.)|[^\"])*(\"))))?
         )
       captures:
         1: keyword.declaration.strict.dot
         2: storage.type.dot
         3: entity.name.graph.dot
         4: meta.annotation.dot variable.annotation.cluster.dot
+        5: meta.string.dot string.quoted.double.dot
+        6: punctuation.definition.string.begin.dot
+        7: constant.character.escape.dot
+        8: invalid.illegal.constant-character-escape.dot
+        9: punctuation.definition.string.end.dot
       push: expect-declaration-statements-list-body
 
     - include: stray-braces
@@ -160,13 +164,17 @@ contexts:
           {{leading_wspace}}
           \b
           ({{subgraph}})
-          (?:\s+((cluster_)?{{id}}))?
-          \b
+          (?:\s+((cluster_)?{{id}}\b|((\")(?:(\\\")|(\\.)|[^\"])*(\"))))?
         )
       captures:
         1: storage.type.dot
         2: entity.name.graph.dot
         3: meta.annotation.dot variable.annotation.cluster.dot
+        4: meta.string.dot string.quoted.double.dot
+        5: punctuation.definition.string.begin.dot
+        6: constant.character.escape.dot
+        7: invalid.illegal.constant-character-escape.dot
+        8: punctuation.definition.string.end.dot
       push: expect-declaration-statements-list-body
 
     - match: (?={{leading_wspace}}\{)
