@@ -1,32 +1,22 @@
 // SYNTAX TEST "Packages/Graphviz/DOT.sublime-syntax"
 // <- source.dot
 
-    // comment
-//  ^^^^^^^^^^^ comment.line.double-slash
+    // comment // comment # comment /* comment */
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash - comment comment
 //  ^^ comment.line.double-slash punctuation.definition.comment
 
-    // comment // comment # comment /* comment */
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash - comment comment
-
-# comment
-// <- comment.line.number-sign punctuation.definition.comment
- // <- comment.line.number-sign
-//^^^^^^^^ comment.line.number-sign
-
-    # comment # comment
+    # comment # comment // comment /* comment */
 // ^ - comment
-//  ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
 //  ^ comment.line.number-sign punctuation.definition.comment
 
-# comment # comment // comment /* comment */
-// <- comment.line.number-sign punctuation.definition.comment
- // <- comment.line.number-sign
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
-
     /* comment # comment // comment */
+// ^ - comment
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - comment comment
 //  ^^ comment.block punctuation.definition.comment.begin
 //                                  ^^ comment.block punctuation.definition.comment.end
+//                                    ^ - comment
 
     /**
 //  ^^ comment.block punctuation.definition.comment.begin
