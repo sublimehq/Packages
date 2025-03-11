@@ -1,0 +1,1034 @@
+{
+    "scope": "source.dot & (meta.group | meta.attributes)",
+    "completions": [
+        {
+            "trigger": "aliceblue",
+            "contents": "aliceblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f0f8ff;\">████</tt>"
+        },
+        {
+            "trigger": "antiquewhite",
+            "contents": "antiquewhite",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #faebd7;\">████</tt>"
+        },
+        {
+            "trigger": "aqua",
+            "contents": "aqua",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00ffff;\">████</tt>"
+        },
+        {
+            "trigger": "aquamarine",
+            "contents": "aquamarine",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #7fffd4;\">████</tt>"
+        },
+        {
+            "trigger": "azure",
+            "contents": "azure",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f0ffff;\">████</tt>"
+        },
+        {
+            "trigger": "beige",
+            "contents": "beige",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f5f5dc;\">████</tt>"
+        },
+        {
+            "trigger": "bisque",
+            "contents": "bisque",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffe4c4;\">████</tt>"
+        },
+        {
+            "trigger": "black",
+            "contents": "black",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #000000;\">████</tt>"
+        },
+        {
+            "trigger": "blanchedalmond",
+            "contents": "blanchedalmond",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffebcd;\">████</tt>"
+        },
+        {
+            "trigger": "blue",
+            "contents": "blue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #0000ff;\">████</tt>"
+        },
+        {
+            "trigger": "blueviolet",
+            "contents": "blueviolet",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #8a2be2;\">████</tt>"
+        },
+        {
+            "trigger": "brown",
+            "contents": "brown",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #a52a2a;\">████</tt>"
+        },
+        {
+            "trigger": "burlywood",
+            "contents": "burlywood",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #deb887;\">████</tt>"
+        },
+        {
+            "trigger": "cadetblue",
+            "contents": "cadetblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #5f9ea0;\">████</tt>"
+        },
+        {
+            "trigger": "chartreuse",
+            "contents": "chartreuse",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #7fff00;\">████</tt>"
+        },
+        {
+            "trigger": "chocolate",
+            "contents": "chocolate",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #d2691e;\">████</tt>"
+        },
+        {
+            "trigger": "coral",
+            "contents": "coral",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff7f50;\">████</tt>"
+        },
+        {
+            "trigger": "cornflowerblue",
+            "contents": "cornflowerblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #6495ed;\">████</tt>"
+        },
+        {
+            "trigger": "cornsilk",
+            "contents": "cornsilk",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fff8dc;\">████</tt>"
+        },
+        {
+            "trigger": "crimson",
+            "contents": "crimson",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #dc143c;\">████</tt>"
+        },
+        {
+            "trigger": "cyan",
+            "contents": "cyan",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00ffff;\">████</tt>"
+        },
+        {
+            "trigger": "darkblue",
+            "contents": "darkblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00008b;\">████</tt>"
+        },
+        {
+            "trigger": "darkcyan",
+            "contents": "darkcyan",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #008b8b;\">████</tt>"
+        },
+        {
+            "trigger": "darkgoldenrod",
+            "contents": "darkgoldenrod",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #b8860b;\">████</tt>"
+        },
+        {
+            "trigger": "darkgray",
+            "contents": "darkgray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #a9a9a9;\">████</tt>"
+        },
+        {
+            "trigger": "darkgreen",
+            "contents": "darkgreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #006400;\">████</tt>"
+        },
+        {
+            "trigger": "darkgrey",
+            "contents": "darkgrey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #a9a9a9;\">████</tt>"
+        },
+        {
+            "trigger": "darkkhaki",
+            "contents": "darkkhaki",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #bdb76b;\">████</tt>"
+        },
+        {
+            "trigger": "darkmagenta",
+            "contents": "darkmagenta",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #8b008b;\">████</tt>"
+        },
+        {
+            "trigger": "darkolivegreen",
+            "contents": "darkolivegreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #556b2f;\">████</tt>"
+        },
+        {
+            "trigger": "darkorange",
+            "contents": "darkorange",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff8c00;\">████</tt>"
+        },
+        {
+            "trigger": "darkorchid",
+            "contents": "darkorchid",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #9932cc;\">████</tt>"
+        },
+        {
+            "trigger": "darkred",
+            "contents": "darkred",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #8b0000;\">████</tt>"
+        },
+        {
+            "trigger": "darksalmon",
+            "contents": "darksalmon",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #e9967a;\">████</tt>"
+        },
+        {
+            "trigger": "darkseagreen",
+            "contents": "darkseagreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #8fbc8f;\">████</tt>"
+        },
+        {
+            "trigger": "darkslateblue",
+            "contents": "darkslateblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #483d8b;\">████</tt>"
+        },
+        {
+            "trigger": "darkslategray",
+            "contents": "darkslategray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #2f4f4f;\">████</tt>"
+        },
+        {
+            "trigger": "darkslategrey",
+            "contents": "darkslategrey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #2f4f4f;\">████</tt>"
+        },
+        {
+            "trigger": "darkturquoise",
+            "contents": "darkturquoise",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00ced1;\">████</tt>"
+        },
+        {
+            "trigger": "darkviolet",
+            "contents": "darkviolet",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #9400d3;\">████</tt>"
+        },
+        {
+            "trigger": "deeppink",
+            "contents": "deeppink",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff1493;\">████</tt>"
+        },
+        {
+            "trigger": "deepskyblue",
+            "contents": "deepskyblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00bfff;\">████</tt>"
+        },
+        {
+            "trigger": "dimgray",
+            "contents": "dimgray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #696969;\">████</tt>"
+        },
+        {
+            "trigger": "dimgrey",
+            "contents": "dimgrey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #696969;\">████</tt>"
+        },
+        {
+            "trigger": "dodgerblue",
+            "contents": "dodgerblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #1e90ff;\">████</tt>"
+        },
+        {
+            "trigger": "firebrick",
+            "contents": "firebrick",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #b22222;\">████</tt>"
+        },
+        {
+            "trigger": "floralwhite",
+            "contents": "floralwhite",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fffaf0;\">████</tt>"
+        },
+        {
+            "trigger": "forestgreen",
+            "contents": "forestgreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #228b22;\">████</tt>"
+        },
+        {
+            "trigger": "fuchsia",
+            "contents": "fuchsia",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff00ff;\">████</tt>"
+        },
+        {
+            "trigger": "gainsboro",
+            "contents": "gainsboro",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #dcdcdc;\">████</tt>"
+        },
+        {
+            "trigger": "ghostwhite",
+            "contents": "ghostwhite",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f8f8ff;\">████</tt>"
+        },
+        {
+            "trigger": "gold",
+            "contents": "gold",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffd700;\">████</tt>"
+        },
+        {
+            "trigger": "goldenrod",
+            "contents": "goldenrod",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #daa520;\">████</tt>"
+        },
+        {
+            "trigger": "gray",
+            "contents": "gray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #808080;\">████</tt>"
+        },
+        {
+            "trigger": "grey",
+            "contents": "grey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #808080;\">████</tt>"
+        },
+        {
+            "trigger": "green",
+            "contents": "green",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #008000;\">████</tt>"
+        },
+        {
+            "trigger": "greenyellow",
+            "contents": "greenyellow",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #adff2f;\">████</tt>"
+        },
+        {
+            "trigger": "honeydew",
+            "contents": "honeydew",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f0fff0;\">████</tt>"
+        },
+        {
+            "trigger": "hotpink",
+            "contents": "hotpink",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff69b4;\">████</tt>"
+        },
+        {
+            "trigger": "indianred",
+            "contents": "indianred",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #cd5c5c;\">████</tt>"
+        },
+        {
+            "trigger": "indigo",
+            "contents": "indigo",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #4b0082;\">████</tt>"
+        },
+        {
+            "trigger": "ivory",
+            "contents": "ivory",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fffff0;\">████</tt>"
+        },
+        {
+            "trigger": "khaki",
+            "contents": "khaki",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f0e68c;\">████</tt>"
+        },
+        {
+            "trigger": "lavender",
+            "contents": "lavender",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #e6e6fa;\">████</tt>"
+        },
+        {
+            "trigger": "lavenderblush",
+            "contents": "lavenderblush",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fff0f5;\">████</tt>"
+        },
+        {
+            "trigger": "lawngreen",
+            "contents": "lawngreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #7cfc00;\">████</tt>"
+        },
+        {
+            "trigger": "lemonchiffon",
+            "contents": "lemonchiffon",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fffacd;\">████</tt>"
+        },
+        {
+            "trigger": "lightblue",
+            "contents": "lightblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #add8e6;\">████</tt>"
+        },
+        {
+            "trigger": "lightcoral",
+            "contents": "lightcoral",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f08080;\">████</tt>"
+        },
+        {
+            "trigger": "lightcyan",
+            "contents": "lightcyan",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #e0ffff;\">████</tt>"
+        },
+        {
+            "trigger": "lightgoldenrodyellow",
+            "contents": "lightgoldenrodyellow",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fafad2;\">████</tt>"
+        },
+        {
+            "trigger": "lightgray",
+            "contents": "lightgray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #d3d3d3;\">████</tt>"
+        },
+        {
+            "trigger": "lightgreen",
+            "contents": "lightgreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #90ee90;\">████</tt>"
+        },
+        {
+            "trigger": "lightgrey",
+            "contents": "lightgrey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #d3d3d3;\">████</tt>"
+        },
+        {
+            "trigger": "lightpink",
+            "contents": "lightpink",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffb6c1;\">████</tt>"
+        },
+        {
+            "trigger": "lightsalmon",
+            "contents": "lightsalmon",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffa07a;\">████</tt>"
+        },
+        {
+            "trigger": "lightseagreen",
+            "contents": "lightseagreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #20b2aa;\">████</tt>"
+        },
+        {
+            "trigger": "lightskyblue",
+            "contents": "lightskyblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #87cefa;\">████</tt>"
+        },
+        {
+            "trigger": "lightslategray",
+            "contents": "lightslategray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #778899;\">████</tt>"
+        },
+        {
+            "trigger": "lightslategrey",
+            "contents": "lightslategrey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #778899;\">████</tt>"
+        },
+        {
+            "trigger": "lightsteelblue",
+            "contents": "lightsteelblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #b0c4de;\">████</tt>"
+        },
+        {
+            "trigger": "lightyellow",
+            "contents": "lightyellow",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffffe0;\">████</tt>"
+        },
+        {
+            "trigger": "lime",
+            "contents": "lime",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00ff00;\">████</tt>"
+        },
+        {
+            "trigger": "limegreen",
+            "contents": "limegreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #32cd32;\">████</tt>"
+        },
+        {
+            "trigger": "linen",
+            "contents": "linen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #faf0e6;\">████</tt>"
+        },
+        {
+            "trigger": "magenta",
+            "contents": "magenta",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff00ff;\">████</tt>"
+        },
+        {
+            "trigger": "maroon",
+            "contents": "maroon",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #800000;\">████</tt>"
+        },
+        {
+            "trigger": "mediumaquamarine",
+            "contents": "mediumaquamarine",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #66cdaa;\">████</tt>"
+        },
+        {
+            "trigger": "mediumblue",
+            "contents": "mediumblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #0000cd;\">████</tt>"
+        },
+        {
+            "trigger": "mediumorchid",
+            "contents": "mediumorchid",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ba55d3;\">████</tt>"
+        },
+        {
+            "trigger": "mediumpurple",
+            "contents": "mediumpurple",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #9370db;\">████</tt>"
+        },
+        {
+            "trigger": "mediumseagreen",
+            "contents": "mediumseagreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #3cb371;\">████</tt>"
+        },
+        {
+            "trigger": "mediumslateblue",
+            "contents": "mediumslateblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #7b68ee;\">████</tt>"
+        },
+        {
+            "trigger": "mediumspringgreen",
+            "contents": "mediumspringgreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00fa9a;\">████</tt>"
+        },
+        {
+            "trigger": "mediumturquoise",
+            "contents": "mediumturquoise",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #48d1cc;\">████</tt>"
+        },
+        {
+            "trigger": "mediumvioletred",
+            "contents": "mediumvioletred",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #c71585;\">████</tt>"
+        },
+        {
+            "trigger": "midnightblue",
+            "contents": "midnightblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #191970;\">████</tt>"
+        },
+        {
+            "trigger": "mintcream",
+            "contents": "mintcream",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f5fffa;\">████</tt>"
+        },
+        {
+            "trigger": "mistyrose",
+            "contents": "mistyrose",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffe4e1;\">████</tt>"
+        },
+        {
+            "trigger": "moccasin",
+            "contents": "moccasin",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffe4b5;\">████</tt>"
+        },
+        {
+            "trigger": "navajowhite",
+            "contents": "navajowhite",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffdead;\">████</tt>"
+        },
+        {
+            "trigger": "navy",
+            "contents": "navy",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #000080;\">████</tt>"
+        },
+        {
+            "trigger": "oldlace",
+            "contents": "oldlace",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fdf5e6;\">████</tt>"
+        },
+        {
+            "trigger": "olive",
+            "contents": "olive",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #808000;\">████</tt>"
+        },
+        {
+            "trigger": "olivedrab",
+            "contents": "olivedrab",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #6b8e23;\">████</tt>"
+        },
+        {
+            "trigger": "orange",
+            "contents": "orange",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffa500;\">████</tt>"
+        },
+        {
+            "trigger": "orangered",
+            "contents": "orangered",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff4500;\">████</tt>"
+        },
+        {
+            "trigger": "orchid",
+            "contents": "orchid",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #da70d6;\">████</tt>"
+        },
+        {
+            "trigger": "palegoldenrod",
+            "contents": "palegoldenrod",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #eee8aa;\">████</tt>"
+        },
+        {
+            "trigger": "palegreen",
+            "contents": "palegreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #98fb98;\">████</tt>"
+        },
+        {
+            "trigger": "paleturquoise",
+            "contents": "paleturquoise",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #afeeee;\">████</tt>"
+        },
+        {
+            "trigger": "palevioletred",
+            "contents": "palevioletred",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #db7093;\">████</tt>"
+        },
+        {
+            "trigger": "papayawhip",
+            "contents": "papayawhip",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffefd5;\">████</tt>"
+        },
+        {
+            "trigger": "peachpuff",
+            "contents": "peachpuff",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffdab9;\">████</tt>"
+        },
+        {
+            "trigger": "peru",
+            "contents": "peru",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #cd853f;\">████</tt>"
+        },
+        {
+            "trigger": "pink",
+            "contents": "pink",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffc0cb;\">████</tt>"
+        },
+        {
+            "trigger": "plum",
+            "contents": "plum",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #dda0dd;\">████</tt>"
+        },
+        {
+            "trigger": "powderblue",
+            "contents": "powderblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #b0e0e6;\">████</tt>"
+        },
+        {
+            "trigger": "purple",
+            "contents": "purple",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #800080;\">████</tt>"
+        },
+        {
+            "trigger": "red",
+            "contents": "red",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff0000;\">████</tt>"
+        },
+        {
+            "trigger": "rosybrown",
+            "contents": "rosybrown",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #bc8f8f;\">████</tt>"
+        },
+        {
+            "trigger": "royalblue",
+            "contents": "royalblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #4169e1;\">████</tt>"
+        },
+        {
+            "trigger": "saddlebrown",
+            "contents": "saddlebrown",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #8b4513;\">████</tt>"
+        },
+        {
+            "trigger": "salmon",
+            "contents": "salmon",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fa8072;\">████</tt>"
+        },
+        {
+            "trigger": "sandybrown",
+            "contents": "sandybrown",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f4a460;\">████</tt>"
+        },
+        {
+            "trigger": "seagreen",
+            "contents": "seagreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #2e8b57;\">████</tt>"
+        },
+        {
+            "trigger": "seashell",
+            "contents": "seashell",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fff5ee;\">████</tt>"
+        },
+        {
+            "trigger": "sienna",
+            "contents": "sienna",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #a0522d;\">████</tt>"
+        },
+        {
+            "trigger": "silver",
+            "contents": "silver",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #c0c0c0;\">████</tt>"
+        },
+        {
+            "trigger": "skyblue",
+            "contents": "skyblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #87ceeb;\">████</tt>"
+        },
+        {
+            "trigger": "slateblue",
+            "contents": "slateblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #6a5acd;\">████</tt>"
+        },
+        {
+            "trigger": "slategray",
+            "contents": "slategray",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #708090;\">████</tt>"
+        },
+        {
+            "trigger": "slategrey",
+            "contents": "slategrey",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #708090;\">████</tt>"
+        },
+        {
+            "trigger": "snow",
+            "contents": "snow",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #fffafa;\">████</tt>"
+        },
+        {
+            "trigger": "springgreen",
+            "contents": "springgreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #00ff7f;\">████</tt>"
+        },
+        {
+            "trigger": "steelblue",
+            "contents": "steelblue",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #4682b4;\">████</tt>"
+        },
+        {
+            "trigger": "tan",
+            "contents": "tan",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #d2b48c;\">████</tt>"
+        },
+        {
+            "trigger": "teal",
+            "contents": "teal",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #008080;\">████</tt>"
+        },
+        {
+            "trigger": "thistle",
+            "contents": "thistle",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #d8bfd8;\">████</tt>"
+        },
+        {
+            "trigger": "tomato",
+            "contents": "tomato",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ff6347;\">████</tt>"
+        },
+        {
+            "trigger": "turquoise",
+            "contents": "turquoise",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #40e0d0;\">████</tt>"
+        },
+        {
+            "trigger": "violet",
+            "contents": "violet",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ee82ee;\">████</tt>"
+        },
+        {
+            "trigger": "wheat",
+            "contents": "wheat",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f5deb3;\">████</tt>"
+        },
+        {
+            "trigger": "white",
+            "contents": "white",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffffff;\">████</tt>"
+        },
+        {
+            "trigger": "whitesmoke",
+            "contents": "whitesmoke",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #f5f5f5;\">████</tt>"
+        },
+        {
+            "trigger": "yellow",
+            "contents": "yellow",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #ffff00;\">████</tt>"
+        },
+        {
+            "trigger": "yellowgreen",
+            "contents": "yellowgreen",
+            "annotation": "svg color",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>, Preview: <tt style=\"color: #9acd32;\">████</tt>"
+        }
+    ]
+}
