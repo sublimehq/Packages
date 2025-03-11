@@ -10,77 +10,77 @@
             "trigger": "dashed",
             "contents": "dashed",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "dotted",
             "contents": "dotted",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "solid",
             "contents": "solid",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "invis",
             "contents": "invis",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "bold",
             "contents": "bold",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "tapered",
             "contents": "tapered",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "filled",
             "contents": "filled",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "striped",
             "contents": "striped",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "wedged",
             "contents": "wedged",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "diagonals",
             "contents": "diagonals",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
         {
             "trigger": "rounded",
             "contents": "rounded",
             "annotation": "style",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["type", "t", "Style attribute type"],
             "details": "<a href=\"https://graphviz.org/docs/attr-types/style/\">DOT - Style Attribute Types</a>"
         },
 
@@ -92,413 +92,413 @@
             "trigger": "box",
             "contents": "box",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "polygon",
             "contents": "polygon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "ellipse",
             "contents": "ellipse",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "oval",
             "contents": "oval",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "circle",
             "contents": "circle",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "point",
             "contents": "point",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "egg",
             "contents": "egg",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "triangle",
             "contents": "triangle",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "plaintext",
             "contents": "plaintext",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "plain",
             "contents": "plain",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "diamond",
             "contents": "diamond",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "trapezium",
             "contents": "trapezium",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "parallelogram",
             "contents": "parallelogram",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "house",
             "contents": "house",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "pentagon",
             "contents": "pentagon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "hexagon",
             "contents": "hexagon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "septagon",
             "contents": "septagon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "octagon",
             "contents": "octagon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "doublecircle",
             "contents": "doublecircle",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "doubleoctagon",
             "contents": "doubleoctagon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "tripleoctagon",
             "contents": "tripleoctagon",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "invtriangle",
             "contents": "invtriangle",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "invtrapezium",
             "contents": "invtrapezium",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "invhouse",
             "contents": "invhouse",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "Mdiamond",
             "contents": "Mdiamond",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "Msquare",
             "contents": "Msquare",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "Mcircle",
             "contents": "Mcircle",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "rect",
             "contents": "rect",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "rectangle",
             "contents": "rectangle",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "square",
             "contents": "square",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "star",
             "contents": "star",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "none",
             "contents": "none",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "underline",
             "contents": "underline",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "cylinder",
             "contents": "cylinder",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "note",
             "contents": "note",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "tab",
             "contents": "tab",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "folder",
             "contents": "folder",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "box3d",
             "contents": "box3d",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "component",
             "contents": "component",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "promoter",
             "contents": "promoter",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "cds",
             "contents": "cds",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "terminator",
             "contents": "terminator",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "utr",
             "contents": "utr",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "primersite",
             "contents": "primersite",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "restrictionsite",
             "contents": "restrictionsite",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "fivepoverhang",
             "contents": "fivepoverhang",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "threepoverhang",
             "contents": "threepoverhang",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "noverhang",
             "contents": "noverhang",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "assembly",
             "contents": "assembly",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "signature",
             "contents": "signature",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "insulator",
             "contents": "insulator",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "ribosite",
             "contents": "ribosite",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "rnastab",
             "contents": "rnastab",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "proteasesite",
             "contents": "proteasesite",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "proteinstab",
             "contents": "proteinstab",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "rpromoter",
             "contents": "rpromoter",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "rarrow",
             "contents": "rarrow",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "larrow",
             "contents": "larrow",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
         {
             "trigger": "lpromoter",
             "contents": "lpromoter",
             "annotation": "node shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "n", "Node shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/shapes.html\">DOT - Node Shapes</a>"
         },
 
@@ -510,77 +510,77 @@
             "trigger": "box",
             "contents": "box",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "crow",
             "contents": "crow",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "curve",
             "contents": "curve",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "diamond",
             "contents": "diamond",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "dot",
             "contents": "dot",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "icurve",
             "contents": "icurve",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "inv",
             "contents": "inv",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "none",
             "contents": "none",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "normal",
             "contents": "normal",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "tee",
             "contents": "tee",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         },
         {
             "trigger": "vee",
             "contents": "vee",
             "annotation": "arrow shape",
-            "kind": ["snippet", "s", "Snippet"],
+            "kind": ["keyword", "a", "Arrow shape"],
             "details": "<a href=\"https://graphviz.org/doc/info/arrows.html\">DOT - Arrow Shapes</a>"
         }
     ]
