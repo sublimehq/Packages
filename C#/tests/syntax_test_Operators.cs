@@ -9,8 +9,12 @@ int? length = customers?.Length;
 Customer? first = customers?[0];
 /// <- support.type
 ///     ^ storage.type.nullable
-///                        ^^^^ meta.brackets
-///                        ^^ punctuation.section.brackets.begin
+///       ^^^^^ variable.other
+///             ^ keyword.operator.assignment.variable
+///               ^^^^^^^^^ variable.other
+///                        ^ keyword.operator.null-coalescing - meta.brackets
+///                         ^^^ meta.brackets
+///                         ^ punctuation.section.brackets.begin
 ///                           ^ punctuation.section.brackets.end
 
 Customer second = customers[0];
@@ -24,8 +28,8 @@ int? count = customers?[0]?.Orders?.Count();
 ///^ storage.type.nullable
 ///     ^ variable.other
 ///        ^ keyword.operator.assignment
-///                   ^^^^ meta.brackets
-///                   ^^ punctuation.section.brackets.begin
+///                    ^^^ meta.brackets
+///                    ^ punctuation.section.brackets.begin
 ///                      ^ punctuation.section.brackets.end
 ///                       ^^ punctuation.accessor.null-coalescing
 ///                               ^^ punctuation.accessor.null-coalescing
@@ -33,16 +37,16 @@ int? count = customers?[0]?.Orders?.Count();
 
 A?.B?.C?[0] ?? E;
 /// ^^ punctuation.accessor.null-coalescing
-///    ^^ punctuation.section.brackets.begin
-///         ^^ keyword.operator
+///     ^ punctuation.section.brackets.begin
+///         ^^ keyword.operator.null-coalescing
 ///             ^ punctuation.terminator
 
 A?.B?.C?[0] == E;
  /// <- punctuation.accessor.null-coalescing
   /// <- punctuation.accessor.null-coalescing
 /// ^^ punctuation.accessor.null-coalescing
-///    ^^^^ meta.brackets
-///    ^^ punctuation.section.brackets.begin
+///     ^^^ meta.brackets
+///     ^ punctuation.section.brackets.begin
 ///       ^ punctuation.section.brackets.end
 ///         ^^ keyword.operator
 ///             ^ punctuation.terminator

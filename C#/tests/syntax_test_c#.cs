@@ -247,3 +247,47 @@ public interface IObjectRepository
 //          ^^^^^^^^^^ entity.name.function
 //                                                ^ punctuation.terminator
 }
+
+// https://github.com/sublimehq/Packages/issues/4187
+public class Program {
+    public static int Main (string [] args)
+    {
+        var xml = new XmlDocument ();
+        var outcome = xml.SelectSingleNode ("/whatever")?.Attributes? ["nope"];
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+//      ^^^ storage.type.variable.cs
+//          ^^^^^^^ variable.other.cs
+//                  ^ keyword.operator.assignment.variable.cs
+//                    ^^^ variable.other.cs
+//                       ^ punctuation.accessor.dot.cs
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs
+//                        ^^^^^^^^^^^^^^^^ variable.function.cs
+//                                         ^^^^^^^^^^^^^ meta.group.cs
+//                                         ^ punctuation.section.group.begin.cs
+//                                          ^^^^^^^^^^^ meta.string.cs string.quoted.double.cs
+//                                          ^ punctuation.definition.string.begin.cs
+//                                                    ^ punctuation.definition.string.end.cs
+//                                                     ^ punctuation.section.group.end.cs
+//                                                      ^^ punctuation.accessor.null-coalescing.cs
+//                                                        ^^^^^^^^^^ variable.other.cs
+//                                                                  ^ keyword.operator.null-coalescing.cs
+//                                                                    ^^^^^^^^ meta.brackets.cs
+//                                                                    ^ punctuation.section.brackets.begin.cs
+//                                                                     ^^^^^^ meta.string.cs string.quoted.double.cs
+//                                                                     ^ punctuation.definition.string.begin.cs
+//                                                                          ^ punctuation.definition.string.end.cs
+//                                                                           ^ punctuation.section.brackets.end.cs
+//                                                                            ^ punctuation.terminator.statement.cs
+        if (outcome is not null) {
+            Console.WriteLine ("true");
+        } else {
+//^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+//^^^^^^^ meta.block.cs
+//      ^ punctuation.section.block.end.cs
+//        ^^^^^ keyword.control.conditional.else.cs
+//             ^ meta.block.cs punctuation.section.block.begin.cs
+            Console.WriteLine ("false");
+        }
+        return 0;
+    }
+}
