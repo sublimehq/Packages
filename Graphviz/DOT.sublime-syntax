@@ -221,6 +221,7 @@ contexts:
   literals:
     - include: literal-strings
     - include: literal-constants
+    - include: literal-numbers
 
   literal-constants:
     - match: \b(?:false)\b
@@ -247,6 +248,40 @@ contexts:
           )\b
         )
       scope: support.constant.attribute.dot
+
+
+  literal-numbers:
+    - match: |-
+        (?x:
+          (?:(?:([-])|([+]))(\s+)??)?
+          (
+            (?: (0+)?? [1-9] \d* | 0 )
+            (?: (\.) \d* )                                                      # 1. 1.1
+          | (\.) \d+                                                            # .1
+          )
+        )
+      scope: meta.number.float.decimal.dot
+      captures:
+        1: constant.numeric.sign.dot
+        2: invalid.illegal.numeric-sign.dot
+        3: invalid.illegal.whitespace.dot
+        4: constant.numeric.value.dot
+        5: invalid.illegal.leading-zero.dot
+        6: punctuation.separator.decimal.dot
+        7: punctuation.separator.decimal.dot
+
+    - match: |-
+        (?x:
+          (?: (?:([-])|([+])) (\s+)?? )?
+          ( (0+)?? [1-9] \d* | 0 )
+        )
+      scope: meta.number.integer.decimal.dot
+      captures:
+        1: constant.numeric.sign.dot
+        2: invalid.illegal.numeric-sign.dot
+        3: invalid.illegal.whitespace.dot
+        4: constant.numeric.value.dot
+        5: invalid.illegal.leading-zero.dot
 
 ###[ LITERALS / STRINGS ]######################################################
 

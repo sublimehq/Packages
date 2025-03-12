@@ -60,6 +60,12 @@ graph test_1 {
 
     edge [ lhead="" ]
 //         ^^^^^ support.constant.attribute
+
+    A -> B [arrowsize=2]
+//                    ^ meta.number.integer.decimal constant.numeric.value
+    A -> C [arrowsize=0.5]
+//                    ^^^ meta.number.float.decimal constant.numeric.value
+//                     ^ punctuation.separator.decimal
 }
 
 graph test_2 { page="" }
