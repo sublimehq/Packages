@@ -488,30 +488,35 @@ variables:
   # https://graphviz.org/docs/graph/
   graph_attributes: |-
     (?x:
-      Damping
+      _background
+    | Damping
     | K
     | URL
-    | bb | bgcolor
-    | center | charset | clusterrank | colorscheme | comment | compound | concentrate
-    | defaultdist | dim | diredgeconstraints | dpi
+    | bb | beautify | bgcolor
+    | center | charset | class | clusterrank | colorscheme | comment | compound | concentrate
+    | defaultdist | dim | dimen | diredgeconstraints | dpi
     | epsilon | esep
-    | fontcolor | fontname | fontnames | fontpath | fontsize
-    | imagepath
-    | label | labeljust | labelloc | landscape | layers | layersep | layout | levelsgap | lp
-    | margin | maxiter | mclimit | mindist | mode | model | mosek
-    | nodesep | nojustify | normalize | nslimit | nslimit1
-    | ordering | outputorder | overlap
+    | fontcolor | fontname | fontnames | fontpath | fontsize | forcelabels
+    | gradientangle
+    | href
+    | id | imagepath | inputscale
+    | label | label_scheme | labeljust | labelloc | landscape | layerlistsep | layers | layerselect | layersep | layout | levels | levelsgap | lheight | linelength | lp | lwidth
+    | margin | maxiter | mclimit | mindist | mode | model
+    | newrank | nodesep | nojustify | normalize | notranslate | nslimit | nslimit1
+    | oneblock | ordering | orientation | outputorder | overlap | overlap_scaling | overlap_shrink
     | pack | packmode | pad | page | pagedir
-    | quantum
-    | rankdir | ranksep | ratio | remincross | resolution | root | rotate
-    | searchsize | sep | showboxes | size | splines | start | stylesheet
-    | target | truecolor
+    | quadtree | quantum
+    | rankdir | ranksep | ratio | remincross | repulsiveforce | resolution | root | rotate | rotation
+    | scale | searchsize | sep | showboxes | size | smoothing | sortv | splines | start | style | stylesheet
+    | target | TBbalance | tooltip | truecolor
     | viewport | voro_margin
+    | xdotversion
     )
 
   subgraph_attributes: |-
     (?x:
-      rank
+      cluster
+    | rank
     )
 
   # https://graphviz.org/docs/clusters/
@@ -519,13 +524,18 @@ variables:
     (?x:
       K
     | URL
-    | bgcolor
-    | color | colorscheme
+    | area
+    | bb | bgcolor
+    | cluster | color | class | colorscheme
     | fillcolor | fixedsize | fontcolor | fontname | fontsize
-    | label | labeljust | labelloc | lp
+    | gradientangle
+    | href
+    | id
+    | label | labeljust | labelloc | layer | lheight | lp | lwidth
+    | margin
     | nojustify
-    | pencolor
-    | style
+    | pencolor | penwidth | peripheries
+    | sortv | style
     | target | tooltip
     )
 
@@ -533,21 +543,24 @@ variables:
   node_attributes: |-
     (?x:
       URL
-    | color | colorscheme | comment
+    | area
+    | class | color | colorscheme | comment
     | distortion
     | fillcolor | fixedsize | fontcolor | fontname | fontsize
-    | group
-    | height
-    | image | imagescale
-    | label | layer
+    | gradientangle | group
+    | height | href
+    | id | image | imagepos | imagescale
+    | label | labelloc | layer
     | margin
     | nojustify
-    | peripheries | pin | pos
+    | ordering | orientation
+    | penwidth | peripheries | pin | pos
     | rects | regular | root
-    | samplepoints | shape | shapefile | showboxes | sides | skew | style
+    | samplepoints | shape | shapefile | showboxes | sides | skew | sortv | style
     | target | tooltip
     | vertices
     | width
+    | xlabel | xlp
     | z
     )
 
@@ -556,17 +569,19 @@ variables:
     (?x:
       URL
     | arrowhead | arrowsize | arrowtail
-    | color | colorscheme | comment | constraint
+    | class | color | colorscheme | comment | constraint
     | decorate | dir
     | edgeURL | edgehref | edgetarget | edgetooltip
-    | fontcolor | fontname | fontsize
-    | headURL | headclip | headhref | headlabel | headport | headtarget | headtooltip | href
+    | fillcolor | fontcolor | fontname | fontsize
+    | id
+    | head_lp | headURL | headclip | headhref | headlabel | headport | headtarget | headtooltip | href
     | label | labelURL | labelangle | labeldistance | labelfloat | labelfontcolor | labelfontname | labelfontsize | labelhref | labeltarget | labeltooltip | layer | len | lhead | lp | ltail
     | minlen
     | nojustify
-    | pos
+    | penwidth | pos
     | samehead | sametail | showboxes | style
-    | tailURL | tailclip | tailhref | taillabel | tailport | tailtarget | tailtooltip | target | tooltip
+    | tail_lp | tailURL | tailclip | tailhref | taillabel | tailport | tailtarget | tailtooltip | target | tooltip
+    | xlabel | xlp
     | weight
     )
 
