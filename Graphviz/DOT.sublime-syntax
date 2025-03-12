@@ -383,6 +383,7 @@ contexts:
       scope: punctuation.section.embedded.end.dot
       pop: 1
 
+    # TODO: make this the Graphviz flavor of HTML
     - include: scope:text.html.plain#html
       apply_prototype: true
 
