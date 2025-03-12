@@ -233,7 +233,8 @@ contexts:
     - match: |-
         (?x:
           \b(?:
-            {{graph_attributes}}
+            {{layout_engines}}
+          | {{graph_attributes}}
           | {{subgraph_attributes}}
           | {{cluster_attributes}}
           | {{node_attributes}}
@@ -483,6 +484,21 @@ variables:
   compass_pt: |-
     (?x:
       n | ne | e | se | s | sw | w | nw | c | _
+    )
+
+  # https://graphviz.org/docs/layouts/
+  layout_engines: |-
+    (?x:
+      dot
+    | neato
+    | fdp
+    | sfdp
+    | circo
+    | twopi
+    | nop
+    | nop2
+    | osage
+    | patchwork
     )
 
   # https://graphviz.org/docs/graph/
