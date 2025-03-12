@@ -228,10 +228,8 @@ contexts:
       scope: constant.language.boolean.false.dot
     - match: \b(?:true)\b
       scope: constant.language.boolean.true.dot
-
     - match: \b(?:{{svg_colors}}|{{x11_colors}}|{{brewer_color_schemes}})\b
       scope: constant.language.color.dot
-
     - match: |-
         (?x:
           \b(?:
@@ -248,7 +246,8 @@ contexts:
           )\b
         )
       scope: support.constant.attribute.dot
-
+    - match: '\b(?:{{id}})\b'
+      scope: meta.edge.identifier.dot
 
   literal-numbers:
     - match: |-
