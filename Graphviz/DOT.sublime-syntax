@@ -138,7 +138,6 @@ contexts:
   graph-declarations:
     - match: |-
         (?x:
-          {{leading_wspace}}
           \b
           (?:({{strict}})\s+)?
           ({{digraph_or_graph}})
@@ -161,7 +160,6 @@ contexts:
   subgraph-declarations:
     - match: |-
         (?x:
-          {{leading_wspace}}
           \b
           ({{subgraph}})
           (?:\s+((cluster_)?{{id}}\b|((\")(?:(\\\")|(\\.)|[^\"])*(\"))))?
@@ -177,7 +175,7 @@ contexts:
         8: punctuation.definition.string.end.dot
       push: expect-declaration-statements-list-body
 
-    - match: (?={{leading_wspace}}\{)
+    - match: (?=\{)
       push: expect-declaration-statements-list-body
 
     - include: stray-braces
@@ -189,7 +187,6 @@ contexts:
 
     - match: |-
         (?x:
-          {{leading_wspace}}
           (?:\b({{id}})\b\s*)
           (?:(:)\s*\b({{id}})\b\s*)?
           (?:(:)\s*\b({{compass_pt}})\b\s*)?
@@ -207,7 +204,6 @@ contexts:
   attribute-statements:
     - match: |-
         (?x:
-          {{leading_wspace}}
           (?:\b({{graph}}|{{node}}|{{edge}})\b\s*)
           (\[)
         )
@@ -228,8 +224,10 @@ contexts:
       scope: constant.language.boolean.false.dot
     - match: \b(?:true)\b
       scope: constant.language.boolean.true.dot
+
     - match: \b(?:{{svg_colors}}|{{x11_colors}}|{{brewer_color_schemes}})\b
       scope: constant.language.color.dot
+
     - match: |-
         (?x:
           \b(?:
@@ -247,8 +245,9 @@ contexts:
           )\b
         )
       scope: support.constant.attribute.dot
+
     - match: '\b(?:{{id}})\b'
-      scope: meta.edge.identifier.dot
+      scope: entity.name.node.dot
 
   literal-numbers:
     - match: |-
