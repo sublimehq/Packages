@@ -201,7 +201,7 @@ contexts:
         3: entity.name.node.dot
         4: punctuation.separator.dot
         5: meta.annotation.dot variable.annotation.compass.dot
-        6: punctuation.definition.attributes.begin.dot
+        6: punctuation.section.brackets.begin.dot
       push: attribute-list-body
 
   attribute-statements:
@@ -213,7 +213,7 @@ contexts:
         )
       captures:
         1: keyword.declaration.dot
-        2: punctuation.definition.attributes.begin.dot
+        2: punctuation.section.brackets.begin.dot
       push: attribute-list-body
 
 ###[ LITERALS ]################################################################
@@ -418,7 +418,7 @@ contexts:
 
   attribute-lists:
     - match: \[
-      scope: punctuation.definition.attributes.begin.dot
+      scope: punctuation.section.brackets.begin.dot
       push: attribute-list-body
     - include: stray-brackets
 
@@ -426,7 +426,7 @@ contexts:
     - meta_scope: meta.attributes.dot
 
     - match: \]
-      scope: punctuation.definition.attributes.end.dot
+      scope: punctuation.section.brackets.end.dot
       pop: 1
 
     - include: attributes

@@ -36,11 +36,11 @@ graph test_1 {
 // ^ meta.group
 //  ^^^^ keyword.declaration
 //       ^^^^^^^^^^^^^^ meta.attributes
-//       ^              meta.attributes punctuation.definition.attributes.begin
+//       ^              meta.attributes punctuation.section.brackets.begin
 //              ^^^^^ meta.string string.quoted.double
 //              ^     meta.string string.quoted.double punctuation.definition.string.begin
 //                  ^ meta.string string.quoted.double punctuation.definition.string.end
-//                    ^ meta.attributes punctuation.definition.attributes.end
+//                    ^ meta.attributes punctuation.section.brackets.end
 
     edge [ main="\"\\\l\n\r\E\G\H\L\N\T\." ]
 // ^ meta.group
