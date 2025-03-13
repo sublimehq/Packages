@@ -180,9 +180,11 @@
     123,
 //  ^^^ entity.name.label.pascal
 //     ^ punctuation.separator.sequence.pascal
+//  @@@ local-definition
     abc;
 //  ^^^ entity.name.label.pascal
 //     ^ punctuation.terminator.pascal
+//  @@@ local-definition
 
 // Hint directives
   Const
@@ -214,6 +216,7 @@
 //                            ^ punctuation.terminator.pascal
 //                              ^^^^^^^^^^^^ variable.annotation.pascal
 //                                          ^ punctuation.terminator.pascal
+//         @@@@@@@@@ definition
 
   begin
 //^^^^^ meta.block.pascal keyword.context.block.begin.pascal
@@ -232,6 +235,7 @@
 //^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
 //^^^^^^^^ keyword.declaration.function.pascal
 //         ^^^^^^^^^^^^^ entity.name.function.pascal
+//         @@@@@@@@@@@@@ definition
 
   begin
 //^^^^^ meta.function.pascal
@@ -253,6 +257,7 @@
     Something;
 //^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
 //  ^^^^^^^^^ meta.function-call.pascal variable.function.pascal
+//  @@@@@@@@@ reference
 //           ^ punctuation.terminator.pascal
   end.
 
@@ -262,6 +267,7 @@
 //^^^^^^^^^ keyword.declaration.function.pascal
 //          ^^^ entity.name.function.pascal
 //             ^ punctuation.terminator.pascal
+//          @@@ definition
   begin
 //^^^^^ meta.function.pascal
 //^^^^^ keyword.context.block.begin.pascal
@@ -273,6 +279,8 @@
 
 // https://www.freepascal.org/docs-html/ref/refse97.html
   Unit testforward;
+//     @@@@@@@@@@@ reference
+// TODO: Fix Unit definitions
   interface
   Procedure First (n : longint);
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
@@ -285,11 +293,13 @@
 //                     ^^^^^^^ support.type.primitive.pascal
 //                            ^ punctuation.section.parameters.end.pascal
 //                             ^ punctuation.terminator.pascal
+//          @@@@@ definition
   Procedure Second;
 //^^^^^^^^^^^^^^^^^ meta.function.pascal
 //^^^^^^^^^ keyword.declaration.function.pascal
 //          ^^^^^^ entity.name.function.pascal
 //                ^ punctuation.terminator.pascal
+//          @@@@@@ definition
   implementation
 //^^^^^^^^^^^^^^ keyword.control.pascal
   Procedure First (n : longint); forward;
@@ -305,22 +315,26 @@
 //                             ^ punctuation.terminator.pascal
 //                               ^^^^^^^ keyword.control.pascal
 //                                      ^ punctuation.terminator.pascal
+//          @@@@@ definition
   Procedure Second;
 //^^^^^^^^^^^^^^^^^ meta.function.pascal
 //^^^^^^^^^ keyword.declaration.function.pascal
 //          ^^^^^^ entity.name.function.pascal
 //                ^ punctuation.terminator.pascal
+//          @@@@@@ definition
   begin
 //^^^^^ meta.function.pascal
 //^^^^^ keyword.context.block.begin.pascal
     WriteLn ('In second. Calling first...');
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
+//  @@@@@@@ reference
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
 //           ^ punctuation.definition.string.begin.pascal
 //                                       ^ punctuation.definition.string.end.pascal
 //                                         ^ punctuation.terminator.pascal
     First (1);
 //^^^^^^^^^^^^ meta.function.pascal
+//  @@@@@ reference
 //         ^ meta.number.integer.decimal.pascal constant.numeric.value.pascal
 //           ^ punctuation.terminator.pascal
   end;
@@ -338,6 +352,7 @@
 //                     ^^^^^^^ support.type.primitive.pascal
 //                            ^ punctuation.section.parameters.end.pascal
 //                             ^ punctuation.terminator.pascal
+//          @@@@@ definition
   begin
 //^^^^^ meta.function.pascal
 //^^^^^ keyword.context.block.begin.pascal
@@ -345,6 +360,7 @@
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
 //  ^^^^^^^^ meta.function-call.pascal
 //  ^^^^^^^ variable.function.pascal
+//  @@@@@@@ reference
 //          ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.pascal
 //          ^ punctuation.section.arguments.begin.pascal
 //           ^^^^^^^^^^^^^^^^^^^ meta.string.pascal string.quoted.single.pascal
@@ -364,6 +380,7 @@ procedure CommandBind(f, Args: array of AnsiString; Sender: Byte);
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
 //^^^^^^^ keyword.declaration.function.pascal
 //        ^^^^^^^^^^^ entity.name.function.pascal
+//        @@@@@@@@@@@ definition
 //                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.pascal
 //                   ^ punctuation.section.parameters.begin.pascal
 //                    ^ variable.parameter.pascal
@@ -404,6 +421,7 @@ begin
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal meta.block.pascal
 //^^ keyword.control.pascal
 //   ^^^^^^ meta.function-call.pascal variable.function.pascal
+//   @@@@@@ reference
 //         ^^^^^^ meta.function-call.arguments.pascal
 //         ^ punctuation.section.arguments.begin.pascal
 //              ^ punctuation.section.arguments.end.pascal
@@ -412,7 +430,9 @@ begin
 //                    ^^^^ keyword.control.pascal
   begin
     MainConsole.Console('Usage: bind "key" "command"', GAME_MESSAGE_COLOR);
+//              @@@@@@@ reference
     Exit;
+//  @@@@ reference
   end;
 end;
 
@@ -420,6 +440,7 @@ end;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.pascal
 //^^^^^^^^ keyword.declaration.function.pascal
 //         ^^^^^^^^^ entity.name.function.pascal
+//         @@@@@@@@@ definition
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.pascal
 //                  ^ punctuation.section.parameters.begin.pascal
 //                   ^ variable.parameter.pascal
@@ -468,6 +489,8 @@ end;
 
   // https://www.gnu-pascal.org/gpc/attribute.html#attribute
   program AttributeDemo;
+//        @@@@@@@@@@@@@ reference
+// TODO: Fix Program definitions
 
   { Demo for `iocritical' attribute. }
 
@@ -484,11 +507,13 @@ end;
 //                        ^^^^^^^^^^ variable.annotation.pascal
 //                                  ^ punctuation.section.parameters.end.pascal
 //                                   ^ punctuation.terminator.pascal
+//          @ definition
   var t: Text;
   begin
 //^^^^^ meta.function.pascal
 //^^^^^ meta.block.pascal keyword.context.block.begin.pascal
     Reset (t)  { Will not cause a runtime error here because I/O
+//  @@@@@ reference
                  checking is off, but leave InOutRes set. }
   end;
   {$I+}
@@ -496,6 +521,7 @@ end;
   begin
 
     p;
+//  @ reference
     { Since `p' was declared `iocritical', and I/O checking is now on,
       InOutRes is checked immediately after the call to p, and a
       runtime error raised. }
@@ -511,5 +537,6 @@ end;
     { Neither this one, which would be reached without the
       `iocritical' attribute. }
     WriteLn ('never gets here')
+//  @@@@@@@ reference
 
   end.
