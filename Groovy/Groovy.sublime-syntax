@@ -637,14 +637,11 @@ contexts:
 ###[ FUNCTIONS ]###############################################################
 
   support-functions:
-    - match: (?x)\b(?:sprintf|print(?:f|ln)?)\b
+    - match: '\b{{printing_functions}}\b'
       scope: support.function.print.groovy
-    - match: |-
-        (?x)\b(?:shouldFail|fail(?:NotEquals)?|ass(?:ume|ert(?:S(?:cript|ame)|N(?:ot(?:Same|
-        Null)|ull)|Contains|T(?:hat|oString|rue)|Inspect|Equals|False|Length|
-        ArrayEquals)))\b
+    - match: '\b{{testing_functions}}\b'
       scope: support.function.testing.groovy
-    - match: (?x)\b(?:sleep|inspect|dump|use|with)\b
+    - match: '\b{{other_functions}}\b'
       scope: support.function.other.groovy
 
   values:
@@ -731,3 +728,36 @@ variables:
   # e.g. `"$$a"` is invalid, but `"${$a}"` is fine.
   single_dollar_interpolation_identifier: (?:{{unicode_letter}}|[a-zA-Z_])(?:{{unicode_letter}}|[a-zA-Z0-9_])*
   primitive: (?:boolean|byte|char|short|int|float|long|double)\b
+
+  printing_functions: |-
+    (?x:
+      sprintf
+    | print(?:f|ln)?
+    )
+  testing_functions: |-
+    (?x:
+      shouldFail
+    | fail(?:NotEquals)?
+    | ass(?:
+        ume
+      | ert(?:
+          S(?:cript|ame)
+        | N(?:ot(?:Same|Null)|ull)
+        | Contains
+        | T(?:hat|oString|rue)
+        | Inspect
+        | Equals
+        | False
+        | Length
+        | ArrayEquals
+        )
+      )
+    )
+  other_functions: |-
+    (?x:
+      sleep
+    | inspect
+    | dump
+    | use
+    | with
+    )
