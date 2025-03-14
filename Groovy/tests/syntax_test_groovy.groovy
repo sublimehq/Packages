@@ -4,12 +4,12 @@
 // Tests for issue 1260
 
 def defectiveSyntaxTest(String value) {
-// <- meta.definition.method.groovy keyword.declaration.function.groovy
+// <- meta.definition.method.groovy keyword.declaration.function
 //  ^^^^^^^^^^^^^^^^^^^ entity.name.function
-//                     ^ meta.definition.method.groovy punctuation.definition.parameters.begin.groovy
+//                     ^ meta.definition.method punctuation.definition.parameters.begin
 //                      ^^^^^^ storage.type.parameter
 //                             ^^^^^ variable.parameter
-//                                  ^ meta.definition.method.groovy punctuation.definition.parameters.end.groovy
+//                                  ^ meta.definition.method punctuation.definition.parameters.end
     println value
 }
 
@@ -33,29 +33,29 @@ double interpretString(String value) {
 defectiveSyntaxTest("hello")
 // <- meta.function-call.identifier
 //^^^^^^^^^^^^^^^^^ meta.function-call.identifier
-//                 ^ meta.function-call.arguments.groovy punctuation.section.arguments.begin.groovy
-//                  ^^^^^^^ meta.function-call.arguments.groovy string.quoted.double.groovy
-//                         ^ meta.function-call.groovy punctuation.section.arguments.end.groovy
+//                 ^ meta.function-call.arguments punctuation.section.arguments.begin
+//                  ^^^^^^^ meta.function-call.arguments string.quoted.double
+//                         ^ meta.function-call punctuation.section.arguments.end
 
 voidCheck(123456)
-// <- meta.function-call.identifier.groovy variable.function.groovy
-//^^^^^^^ meta.function-call.identifier.groovy variable.function.groovy
-//       ^ meta.function-call.arguments.groovy punctuation.section.arguments.begin.groovy
-//        ^^^^^^ meta.function-call.arguments.groovy constant.numeric.groovy
-//              ^ meta.function-call.groovy punctuation.section.arguments.end.groovy
+// <- meta.function-call.identifier variable.function
+//^^^^^^^ meta.function-call.identifier variable.function
+//       ^ meta.function-call.arguments punctuation.section.arguments.begin
+//        ^^^^^^ meta.function-call.arguments constant.numeric
+//              ^ meta.function-call punctuation.section.arguments.end
 //               ^ - meta.function-call
 
 chartHistogram([1,1,2,3])
-// <- meta.function-call.identifier.groovy variable.function.groovy
-//^^^^^^^^^^^^ meta.function-call.identifier.groovy variable.function.groovy
-//            ^^^^^^^^^^ meta.function-call.arguments.groovy
-//            ^ punctuation.section.arguments.begin.groovy
-//             ^^^^^^^^^ meta.structure.groovy
-//             ^ punctuation.definition.structure.begin.groovy
-//              ^ constant.numeric.groovy
-//               ^ punctuation.definition.separator.groovy
-//                     ^ punctuation.definition.structure.end.groovy
-//                      ^ meta.function-call.groovy punctuation.section.arguments.end.groovy - meta.structure
+// <- meta.function-call.identifier variable.function
+//^^^^^^^^^^^^ meta.function-call.identifier variable.function
+//            ^^^^^^^^^^ meta.function-call.arguments
+//            ^ punctuation.section.arguments.begin
+//             ^^^^^^^^^ meta.structure
+//             ^ punctuation.definition.structure.begin
+//              ^ constant.numeric
+//               ^ punctuation.definition.separator
+//                     ^ punctuation.definition.structure.end
+//                      ^ meta.function-call punctuation.section.arguments.end - meta.structure
 
 def greeting = "Hello ${true ? 'World' : 'Home'}"
 // <- storage.type.def
@@ -81,14 +81,14 @@ def greeting = "Hello ${true ? 'World' : 'Home'}"
 //                                               ^ - string.quoted - invalid
 
 def str = "
-//        ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
-//         ^ string.quoted.double.groovy invalid.illegal.unclosed-string.groovy
+//        ^ string.quoted.double punctuation.definition.string.begin
+//         ^ string.quoted.double invalid.illegal.unclosed-string
   "
-//^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
-// ^ string.quoted.double.groovy invalid.illegal.unclosed-string.groovy
+//^ string.quoted.double punctuation.definition.string.begin
+// ^ string.quoted.double invalid.illegal.unclosed-string
 def str = "\
-//        ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
-//         ^^ string.quoted.double.groovy constant.character.escape.groovy
+//        ^ string.quoted.double punctuation.definition.string.begin
+//         ^^ string.quoted.double constant.character.escape
 def str = "\
   "
-//^ string.quoted.double.groovy punctuation.definition.string.end.groovy
+//^ string.quoted.double punctuation.definition.string.end

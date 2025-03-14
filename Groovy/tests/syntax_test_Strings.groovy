@@ -1,298 +1,299 @@
 // SYNTAX TEST "Packages/Groovy/Groovy.sublime-syntax"
+// <- source.grooovy
 
 multilineSingle = '''
-//                ^^^ string.quoted.single.block.groovy punctuation.definition.string.begin.groovy
+//                ^^^ string.quoted.single.block punctuation.definition.string.begin
   '''
-//^^^ string.quoted.single.block.groovy punctuation.definition.string.end.groovy
+//^^^ string.quoted.single.block punctuation.definition.string.end
 
 multilineDouble = """
-//                ^^^ string.quoted.double.block.groovy punctuation.definition.string.begin.groovy
+//                ^^^ string.quoted.double.block punctuation.definition.string.begin
   """
-//^^^ string.quoted.double.block.groovy punctuation.definition.string.end.groovy
+//^^^ string.quoted.double.block punctuation.definition.string.end
 
 multilineDollarSlashy = $/
-//                      ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.begin.groovy
+//                      ^^ string.quoted.other.dollar-slashy punctuation.definition.string.begin
   /$
-//^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 escapedNewlineSingle = '\
-//                     ^ string.quoted.single.groovy punctuation.definition.string.begin.groovy
-//                      ^^ string.quoted.single.groovy constant.character.escape.groovy - invalid.illegal.unclosed-string.groovy
+//                     ^ string.quoted.single punctuation.definition.string.begin
+//                      ^^ string.quoted.single constant.character.escape - invalid.illegal.unclosed-string
 
 escapedNewlineDouble = "\
-//                     ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
-//                      ^^ string.quoted.double.groovy constant.character.escape.groovy - invalid.illegal.unclosed-string.groovy
+//                     ^ string.quoted.double punctuation.definition.string.begin
+//                      ^^ string.quoted.double constant.character.escape - invalid.illegal.unclosed-string
 
 escapeNewlineTripleSingle = '''\
-//                          ^^^ string.quoted.single.block.groovy punctuation.definition.string.begin.groovy
-//                             ^^ string.quoted.single.block.groovy constant.character.escape.groovy - invalid.illegal.unclosed-string.groovy
+//                          ^^^ string.quoted.single.block punctuation.definition.string.begin
+//                             ^^ string.quoted.single.block constant.character.escape - invalid.illegal.unclosed-string
   '''
-//^^^ string.quoted.single.block.groovy punctuation.definition.string.end.groovy
+//^^^ string.quoted.single.block punctuation.definition.string.end
 
 escapeNewlineTripleDouble = """\
-//                          ^^^ string.quoted.double.block.groovy punctuation.definition.string.begin.groovy
-//                             ^^ string.quoted.double.block.groovy constant.character.escape.groovy - invalid.illegal.unclosed-string.groovy
+//                          ^^^ string.quoted.double.block punctuation.definition.string.begin
+//                             ^^ string.quoted.double.block constant.character.escape - invalid.illegal.unclosed-string
   """
-//^^^ string.quoted.double.block.groovy punctuation.definition.string.end.groovy
+//^^^ string.quoted.double.block punctuation.definition.string.end
 
 escapedNewlineInterpolated = "${\
-//                              ^^ string.quoted.double.groovy source.groovy.embedded.source constant.character.escape.groovy
+//                              ^^ string.quoted.double source.groovy.embedded.source constant.character.escape
 }";
 
 escapeInterpolation = "\${notInterpolated}"
-//                     ^^ constant.character.escape.groovy - punctuation.section.embedded.groovy
-//                       ^^^^^^^^^^^^^^^^^ string.quoted.double.groovy - source.groovy.embedded.source
+//                     ^^ constant.character.escape - punctuation.section.embedded
+//                       ^^^^^^^^^^^^^^^^^ string.quoted.double - source.groovy.embedded.source
 
 validEscapesSingle = '\$\'\"\t\n\r\t\f\b\u00D7\\'
-//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.groovy constant.character.escape.groovy
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single constant.character.escape
 
 validEscapesDouble = "\$\'\"\t\n\r\t\f\b\u00D7\\"
-//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.groovy constant.character.escape.groovy
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double constant.character.escape
 
 validEscapesTripleSingle = '''\$\'\"\t\n\r\t\f\b\u00D7\\'''
-//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.block.groovy constant.character.escape.groovy
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.block constant.character.escape
 
 validEscapesTripleDouble = """\$\'\"\t\n\r\t\f\b\u00D7\\"""
-//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block.groovy constant.character.escape.groovy
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block constant.character.escape
 
 validEscapesSlashy= /\/\u00D7/
-//                   ^^^^^^^^ string.regexp.groovy constant.character.escape.groovy
+//                   ^^^^^^^^ string.regexp constant.character.escape
 
 invalidEscapesSingle = '\y \1 \+ \{'
-//                      ^^^^^^^^^^^ string.quoted.single.groovy - constant.character.escape.groovy
+//                      ^^^^^^^^^^^ string.quoted.single - constant.character.escape
 
 invalidEscapesDouble = "\y \1 \+ \{"
-//                      ^^^^^^^^^^^ string.quoted.double.groovy - constant.character.escape.groovy
+//                      ^^^^^^^^^^^ string.quoted.double - constant.character.escape
 
 invalidEscapesTripleSingle = '''\y \1 \+ \{'''
-//                              ^^^^^^^^^^^ string.quoted.single.block.groovy - constant.character.escape.groovy
+//                              ^^^^^^^^^^^ string.quoted.single.block - constant.character.escape
 
 invalidEscapesTripleDouble = """\y \1 \+ \{"""
-//                              ^^^^^^^^^^^ string.quoted.double.block.groovy - constant.character.escape.groovy
+//                              ^^^^^^^^^^^ string.quoted.double.block - constant.character.escape
 
 regularCharactersSlashy = /\$\'\"\t\n\r\t\f\b\y\1\+\{/
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.groovy - constant.character.escape.groovy
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp - constant.character.escape
 
 regularCharactersDollarSlashy = $/\$\'\"\t\n\r\t\f\b\y\1\+\{/$
-//                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.dollar-slashy.groovy - constant.character.escape.groovy
+//                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.dollar-slashy - constant.character.escape
 
 interpolation1 = "2 + 3 = ${2 + 3}"
-//                        ^^ punctuation.section.interpolation.begin.groovy
+//                        ^^ punctuation.section.interpolation.begin
 //                          ^^^^^ source.groovy.embedded.source
-//                          ^ constant.numeric.groovy
-//                            ^ keyword.operator.arithmetic.groovy
-//                              ^ constant.numeric.groovy
-//                               ^ punctuation.section.interpolation.end.groovy
-//                                ^ punctuation.definition.string.end.groovy
+//                          ^ constant.numeric
+//                            ^ keyword.operator.arithmetic
+//                              ^ constant.numeric
+//                               ^ punctuation.section.interpolation.end
+//                                ^ punctuation.definition.string.end
 
 interpolation3 = "Hello $name"
-//                      ^^^^^ variable.other.interpolated.groovy
-//                           ^ punctuation.definition.string.end.groovy
+//                      ^^^^^ variable.other.interpolated
+//                           ^ punctuation.definition.string.end
 
 interpolation4 = "Hello $person.name"
-//                      ^^^^^^^ variable.other.interpolated.groovy
-//                             ^ punctuation.accessor.dot.groovy
-//                              ^^^^ string.quoted.double.groovy variable.other.interpolated.groovy
-//                                  ^ punctuation.definition.string.end.groovy
+//                      ^^^^^^^ variable.other.interpolated
+//                             ^ punctuation.accessor.dot
+//                              ^^^^ string.quoted.double variable.other.interpolated
+//                                  ^ punctuation.definition.string.end
 
 interpolation5 = "$a2_3"
-//                ^^^^^ string.quoted.double.groovy variable.other.interpolated.groovy
-//                     ^ punctuation.definition.string.end.groovy
+//                ^^^^^ string.quoted.double variable.other.interpolated
+//                     ^ punctuation.definition.string.end
 
 interpolation6 = "The sum of 1 and 2 is equal to ${def a = 1; a + 2}"
-//                                                 ^^^^^^^^^^^^^^^^ string.quoted.double.groovy source.groovy.embedded.source
-//                                                 ^^^ storage.type.def.groovy
-//                                                         ^ constant.numeric.groovy
-//                                                              ^ keyword.operator.arithmetic.groovy
-//                                                                ^ constant.numeric.groovy
-//                                                                  ^ punctuation.definition.string.end.groovy
+//                                                 ^^^^^^^^^^^^^^^^ string.quoted.double source.groovy.embedded.source
+//                                                 ^^^ storage.type.def
+//                                                         ^ constant.numeric
+//                                                              ^ keyword.operator.arithmetic
+//                                                                ^ constant.numeric
+//                                                                  ^ punctuation.definition.string.end
 
 interpolation7 = "foo { ${if (x) { y } else { z } } }"
-//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.groovy
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                    ^ - punctuation
-//                        ^^ keyword.control.conditional.if.groovy
-//                               ^ punctuation.section.block.begin.groovy
-//                                   ^ punctuation.section.block.end.groovy - punctuation.section.interpolation
-//                                     ^^^^ keyword.control.conditional.else.groovy
-//                                          ^ punctuation.section.block.begin.groovy
-//                                              ^ punctuation.section.block.end.groovy - punctuation.section.interpolation
-//                                                ^ punctuation.section.interpolation.end.groovy
+//                        ^^ keyword.control.conditional.if
+//                               ^ punctuation.section.block.begin
+//                                   ^ punctuation.section.block.end - punctuation.section.interpolation
+//                                     ^^^^ keyword.control.conditional.else
+//                                          ^ punctuation.section.block.begin
+//                                              ^ punctuation.section.block.end - punctuation.section.interpolation
+//                                                ^ punctuation.section.interpolation.end
 //                                                  ^ - punctuation
-//                                                   ^ punctuation.definition.string.end.groovy
+//                                                   ^ punctuation.definition.string.end
 
 unicodeInterpolation1 = "$À"
-//                       ^^ variable.other.interpolated.groovy
-//                         ^ punctuation.definition.string.end.groovy
+//                       ^^ variable.other.interpolated
+//                         ^ punctuation.definition.string.end
 
 unicodeInterpolation2 = "$À.ö"
-//                       ^^ variable.other.interpolated.groovy
-//                         ^ punctuation.accessor.dot.groovy
-//                          ^ variable.other.interpolated.groovy
-//                           ^ punctuation.definition.string.end.groovy
+//                       ^^ variable.other.interpolated
+//                         ^ punctuation.accessor.dot
+//                          ^ variable.other.interpolated
+//                           ^ punctuation.definition.string.end
 
 unicodeInterpolation3 = "$\u00c0.\u00F6"
-//                       ^^^^^^^ variable.other.interpolated.groovy
-//                              ^ punctuation.accessor.dot.groovy
-//                               ^^^^^^ variable.other.interpolated.groovy
-//                                     ^ punctuation.definition.string.end.groovy
+//                       ^^^^^^^ variable.other.interpolated
+//                              ^ punctuation.accessor.dot
+//                               ^^^^^^ variable.other.interpolated
+//                                     ^ punctuation.definition.string.end
 
 invalidInterpolation1 = "$"
 //                       ^ invalid.illegal
-//                        ^ punctuation.definition.string.end.groovy
+//                        ^ punctuation.definition.string.end
 
 invalidInterpolation2 = "$21"
-//                       ^^^ invalid.illegal - variable.other.interpolated.groovy
-//                          ^ punctuation.definition.string.end.groovy
+//                       ^^^ invalid.illegal - variable.other.interpolated
+//                          ^ punctuation.definition.string.end
 
 invalidInterpolation3 = "$$"
-//                       ^^ invalid.illegal - variable.other.interpolated.groovy
-//                         ^ punctuation.definition.string.end.groovy
+//                       ^^ invalid.illegal - variable.other.interpolated
+//                         ^ punctuation.definition.string.end
 
 notAnAccessorDot1 = "$obj."
-//                   ^^^^^ string.quoted.double.groovy
-//                   ^^^^ variable.other.interpolated.groovy
-//                       ^ - punctuation.accessor.dot.groovy
-//                        ^ punctuation.definition.string.end.groovy - variable.other.interpolated.groovy
+//                   ^^^^^ string.quoted.double
+//                   ^^^^ variable.other.interpolated
+//                       ^ - punctuation.accessor.dot
+//                        ^ punctuation.definition.string.end - variable.other.interpolated
 
 notAnAccessorDot2 = "$obj.2"
-//                   ^^^^^^ string.quoted.double.groovy
-//                   ^^^^ variable.other.interpolated.groovy
-//                       ^ - punctuation.accessor.dot.groovy
-//                        ^ - variable.other.interpolated.groovy
-//                         ^ punctuation.definition.string.end.groovy
+//                   ^^^^^^ string.quoted.double
+//                   ^^^^ variable.other.interpolated
+//                       ^ - punctuation.accessor.dot
+//                        ^ - variable.other.interpolated
+//                         ^ punctuation.definition.string.end
 
 notAnAccessorDot3 = "$obj.×"
-//                   ^^^^^^ string.quoted.double.groovy
-//                   ^^^^ variable.other.interpolated.groovy
-//                       ^ - punctuation.accessor.dot.groovy
-//                        ^ - variable.other.interpolated.groovy
-//                         ^ punctuation.definition.string.end.groovy
+//                   ^^^^^^ string.quoted.double
+//                   ^^^^ variable.other.interpolated
+//                       ^ - punctuation.accessor.dot
+//                        ^ - variable.other.interpolated
+//                         ^ punctuation.definition.string.end
 
 notAnAccessorDot4 = "$obj.\u00D7"
-//                   ^^^^^^^^^^^ string.quoted.double.groovy
-//                   ^^^^ variable.other.interpolated.groovy
-//                       ^ - punctuation.accessor.dot.groovy
-//                        ^^^^^^ constant.character.escape.groovy - variable.other.interpolated.groovy
-//                              ^ punctuation.definition.string.end.groovy
+//                   ^^^^^^^^^^^ string.quoted.double
+//                   ^^^^ variable.other.interpolated
+//                       ^ - punctuation.accessor.dot
+//                        ^^^^^^ constant.character.escape - variable.other.interpolated
+//                              ^ punctuation.definition.string.end
 
 notASafeNavigation = "$obj?.nope"
-//                    ^^^^^^^^^^ string.quoted.double.groovy
-//                    ^^^^ variable.other.interpolated.groovy
-//                        ^^ - punctuation.accessor.groovy
-//                          ^^^^ - variable.other.interpolated.groovy
-//                              ^ punctuation.definition.string.end.groovy
+//                    ^^^^^^^^^^ string.quoted.double
+//                    ^^^^ variable.other.interpolated
+//                        ^^ - punctuation.accessor
+//                          ^^^^ - variable.other.interpolated
+//                              ^ punctuation.definition.string.end
 
 notAMethodCall = "$obj.nope()"
-//                ^^^^^^^^^^^ string.quoted.double.groovy
-//                ^^^^ variable.other.interpolated.groovy
-//                    ^ punctuation.accessor.dot.groovy
-//                     ^^^^ variable.other.interpolated.groovy
-//                     ^^^^^^ - meta.method-call.groovy
-//                           ^ punctuation.definition.string.end.groovy
+//                ^^^^^^^^^^^ string.quoted.double
+//                ^^^^ variable.other.interpolated
+//                    ^ punctuation.accessor.dot
+//                     ^^^^ variable.other.interpolated
+//                     ^^^^^^ - meta.method-call
+//                           ^ punctuation.definition.string.end
 
 lazyInterpolation = "lazy ${-> someVariable}"
-//                   ^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.groovy
-//                          ^^ keyword.operator.arrow.groovy
-//                                          ^ punctuation.definition.string.end.groovy
+//                   ^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                          ^^ keyword.operator.arrow
+//                                          ^ punctuation.definition.string.end
 
 invalidStringClose = """""""
 //                      ^^^^ invalid.illegal
 
 unclosedStr1 = "
-//              ^ invalid.illegal.unclosed-string.groovy
+//              ^ invalid.illegal.unclosed-string
 
 unclosedStr2 = '
-//              ^ invalid.illegal.unclosed-string.groovy
+//              ^ invalid.illegal.unclosed-string
 
 unclosedStr3 = "newlines ${'''
     aren't valid inside the interpolation but outside of the
     multiline string
 '''}
-//  ^ invalid.illegal.unclosed-string.groovy
+//  ^ invalid.illegal.unclosed-string
 
 unclosedStr4 = "newlines ${'''
     aren't valid inside the interpolation but outside of the
     multiline string'''
-//                     ^ invalid.illegal.unclosed-string.groovy
+//                     ^ invalid.illegal.unclosed-string
 
 // multiline string embedded in a single line string
 embed1 = "embed ${'''
-//       ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
-//        ^^^^^^ string.quoted.double.groovy
-//              ^^ punctuation.section.interpolation.begin.groovy
+//       ^ string.quoted.double punctuation.definition.string.begin
+//        ^^^^^^ string.quoted.double
+//              ^^ punctuation.section.interpolation.begin
 //                ^^^ source.groovy.embedded.source
   Some text
-//^^^^^^^^^ string.quoted.double.groovy source.groovy.embedded.source string.quoted.single.block.groovy
+//^^^^^^^^^ string.quoted.double source.groovy.embedded.source string.quoted.single.block
 '''}"
-// ^ punctuation.section.interpolation.end.groovy
-//  ^ string.quoted.double.groovy punctuation.definition.string.end.groovy
+// ^ punctuation.section.interpolation.end
+//  ^ string.quoted.double punctuation.definition.string.end
 
 // multiline > singleline > multiline
 embed2 = """I hope
     ${
         " people ${'''don't
-//        ^^^^^^^ string.quoted.double.block.groovy source.groovy.embedded.source string.quoted.double.groovy
-//                    ^^^^^ string.quoted.single.block.groovy
+//        ^^^^^^^ string.quoted.double.block source.groovy.embedded.source string.quoted.double
+//                    ^^^^^ string.quoted.single.block
         actually'''}"
-//                 ^ string.quoted.double.block.groovy source.groovy.embedded.source string.quoted.double.groovy punctuation.section.interpolation.end.groovy
+//                 ^ string.quoted.double.block source.groovy.embedded.source string.quoted.double punctuation.section.interpolation.end
     }
-//  ^ punctuation.section.interpolation.end.groovy
+//  ^ punctuation.section.interpolation.end
               do this
   """
-//^^^ string.quoted.double.block.groovy punctuation.definition.string.end.groovy
+//^^^ string.quoted.double.block punctuation.definition.string.end
 
 embeddedInterpolation1 = "${"$yep"}"
-//                           ^^^^ string.quoted.double.groovy source.groovy.embedded.source string.quoted.double.groovy variable.other.interpolated.groovy
+//                           ^^^^ string.quoted.double source.groovy.embedded.source string.quoted.double variable.other.interpolated
 
 embeddedNonInterpolation = "${'$nope'}"
-//                             ^^^^^ string.quoted.double.groovy source.groovy.embedded.source string.quoted.single.groovy - variable.other.interpolated.groovy
+//                             ^^^^^ string.quoted.double source.groovy.embedded.source string.quoted.single - variable.other.interpolated
 
 dollarSlashy01 = $/Hello $person.name/$
-//                       ^^^^^^^ string.quoted.other.dollar-slashy.groovy variable.other.interpolated.groovy
-//                              ^ punctuation.accessor.dot.groovy
-//                               ^^^^ string.quoted.other.dollar-slashy.groovy variable.other.interpolated.groovy
-//                                   ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                       ^^^^^^^ string.quoted.other.dollar-slashy variable.other.interpolated
+//                              ^ punctuation.accessor.dot
+//                               ^^^^ string.quoted.other.dollar-slashy variable.other.interpolated
+//                                   ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy02 = $/today is ${new Date().format( 'yyyy-MM-dd' )}./$
 //                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.groovy.embedded.source
-//                          ^^ punctuation.section.interpolation.begin.groovy
-//                            ^^^ keyword.operator.new.groovy
+//                          ^^ punctuation.section.interpolation.begin
+//                            ^^^ keyword.operator.new
 //                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-//                                                               ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                                                               ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy03 = $/$ dollar sign/$
-//                 ^^^^^^^^^^^^^ string.quoted.other.dollar-slashy.groovy - invalid.illegal
-//                              ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^^^^^^^^^^^^ string.quoted.other.dollar-slashy - invalid.illegal
+//                              ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy04 = $/$$ escaped dollar sign/$
-//                 ^^ string.quoted.other.dollar-slashy.groovy constant.character.escape.groovy - invalid.illegal - variable.other.interpolated.groovy
-//                                       ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^ string.quoted.other.dollar-slashy constant.character.escape - invalid.illegal - variable.other.interpolated
+//                                       ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy05 = $/\ backslash/$
-//                 ^^^^^^^^^^^ string.quoted.other.dollar-slashy.groovy - invalid.illegal - constant.character.escape.groovy
-//                            ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^^^^^^^^^^ string.quoted.other.dollar-slashy - invalid.illegal - constant.character.escape
+//                            ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy06 = $// forward slash/$
-//                 ^^^^^^^^^^^^^^^ string.quoted.other.dollar-slashy.groovy - invalid.illegal - constant.character.escape.groovy
-//                                ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^^^^^^^^^^^^^^ string.quoted.other.dollar-slashy - invalid.illegal - constant.character.escape
+//                                ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy07 = $/$/ escaped forward slash/$
-//                 ^^ string.quoted.other.dollar-slashy.groovy constant.character.escape.groovy
-//                                         ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^ string.quoted.other.dollar-slashy constant.character.escape
+//                                         ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy08 = $/$$$/ escaped opening dollar slashy/$
-//                 ^^^^ string.quoted.other.dollar-slashy.groovy constant.character.escape.groovy
-//                                                   ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^^^ string.quoted.other.dollar-slashy constant.character.escape
+//                                                   ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy09 = $/$/$$ escaped closing dollar slashy/$
-//                 ^^^^ string.quoted.other.dollar-slashy.groovy constant.character.escape.groovy
-//                                                   ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                 ^^^^ string.quoted.other.dollar-slashy constant.character.escape
+//                                                   ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 dollarSlashy10 = $/${$$}/$
-//                   ^^ string.quoted.other.dollar-slashy.groovy source.groovy.embedded.source - constant.character.escape.groovy
-//                      ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
+//                   ^^ string.quoted.other.dollar-slashy source.groovy.embedded.source - constant.character.escape
+//                      ^^ string.quoted.other.dollar-slashy punctuation.definition.string.end
 
 interpolatedSlashy = /a ${color} $obj$/
-//                        ^^^^^ string.regexp.groovy source.groovy.embedded.source
-//                               ^^^^ string.regexp.groovy variable.other.interpolated.groovy
-//                                   ^ string.regexp.groovy - variable.other.interpolated.groovy
+//                        ^^^^^ string.regexp source.groovy.embedded.source
+//                               ^^^^ string.regexp variable.other.interpolated
+//                                   ^ string.regexp - variable.other.interpolated
