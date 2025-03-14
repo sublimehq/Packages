@@ -1,4 +1,5 @@
 // SYNTAX TEST "Packages/Groovy/Groovy.sublime-syntax"
+// <- source.groovy
 
 // Tests for issue 1260
 
