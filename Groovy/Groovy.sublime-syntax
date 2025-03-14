@@ -26,7 +26,7 @@ contexts:
 
   main:
     - match: '^(#!).+{{eol}}'
-      scope: comment.line.hashbang.groovy
+      scope: comment.line.shebang.groovy
       captures:
         1: punctuation.definition.comment.groovy
     - match: '{{leading_wspace}}(package)\s+([^ ;]+)'
@@ -43,12 +43,12 @@ contexts:
 
 ###[ COMMENTS ]################################################################
 
-  comment-block:
+  block-comments:
     - match: /\*
       scope: punctuation.definition.comment.groovy
-      push: inside-comment-block
+      push: block-comment-body
 
-  inside-comment-block:
+  block-comment-body:
     - meta_scope: comment.block.groovy
     - match: \*/
       scope: punctuation.definition.comment.groovy
@@ -56,14 +56,19 @@ contexts:
 
   comments:
     - match: /\*\*/
-      scope: comment.block.empty.groovy punctuation.definition.comment.groovy
+      scope: >-
+        comment.block.empty.groovy
+        punctuation.definition.comment.groovy
     - include: scope:text.html.javadoc
-    - include: comment-block
+    - include: block-comments
+    - include: line-comments
+
+  line-comments:
     - match: //
       scope: punctuation.definition.comment.groovy
-      push: inside-line-comment
+      push: line-comment-body
 
-  inside-line-comment:
+  line-comment-body:
     - meta_scope: comment.line.double-slash.groovy
     - include: eol-pop
 
@@ -307,7 +312,7 @@ contexts:
             1: storage.type.parameter.groovy
         - match: ","
           scope: punctuation.definition.parameters.separator.groovy
-        - include: comment-block
+        - include: block-comments
     - match: (?<=\))\s*(throws)\s
       captures:
         1: storage.modifier.throws.groovy
