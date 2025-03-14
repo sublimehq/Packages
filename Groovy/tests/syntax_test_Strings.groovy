@@ -1,5 +1,5 @@
 // SYNTAX TEST "Packages/Groovy/Groovy.sublime-syntax"
-// <- source.grooovy
+// <- source.groovy
 
 multilineSingle = '''
 //                ^^^ string.quoted.single.block punctuation.definition.string.begin
