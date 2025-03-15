@@ -122,7 +122,6 @@ contexts:
       push: inside-number-sign-comment
 
   inside-number-sign-comment:
-    - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.sql
     - match: \n
       pop: 1
@@ -623,7 +622,12 @@ contexts:
 
   join-expressions:
     # https://mariadb.com/kb/en/join-syntax
-    - match: \b(?i:(?:(?:cross|inner|(?:natural\s+)?(?:left|right)(?:\s+outer)?)\s+|straight_)?join)\b
+    - match: \b(?i:(?:(?:cross|inner|(?:natural\s+)?(?:left|right)(?:\s+outer)?)\s+|straight_)?join)(?:\s+lateral)?\b
+      scope: keyword.other.dml.sql
+      push:
+        - join-condition
+        - table-name-or-subquery
+    - match: \b(?i:lateral)\b
       scope: keyword.other.dml.sql
       push:
         - join-condition

@@ -786,7 +786,7 @@ contexts:
         # precision
         (?: \. (?: \d+ | (?:\[\d+\])? \* )? )?
         # maybe indexed verb
-        (?:\[\d+\])? [bcdeEfFgGoOpqsTtUvxX]
+        (?:\[\d+\])? [bcdeEfFgGoOpqsTtUvwxX]
       scope: constant.other.placeholder.go
 
   match-block-string-templates:

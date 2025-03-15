@@ -5379,6 +5379,27 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //                                                                           ^ keyword.operator.concatenation.php
 //                                                                                        ^ punctuation.terminator.statement.php
 
+$sql = "SELECT a WHERE id = $id -- id: $id";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php meta.embedded.php source.php.embedded.html
+//^^ variable.other.php
+//   ^ keyword.operator.assignment.php
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php
+//     ^ string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.php
+//      ^^^^^^ keyword.other.dml.sql
+//             ^ meta.column-name.sql
+//               ^^^^^ keyword.other.dml.sql
+//                     ^^ meta.column-name.sql
+//                        ^ keyword.operator.comparison.sql
+//                          ^^^ meta.interpolation.php variable.other.php
+//                          ^ punctuation.definition.variable.php
+//                              ^^^^^^^^^^ comment.line.double-dash.sql
+//                              ^^ punctuation.definition.comment.sql
+//                                     ^^^ meta.interpolation.php variable.other.php
+//                                     ^ punctuation.definition.variable.php
+//                                        ^ string.quoted.double.php punctuation.definition.string.end.php
+//                                         ^ punctuation.terminator.statement.php
+
 $sql = "DROP TABLE foo";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
 //      ^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php

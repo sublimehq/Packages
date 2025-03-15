@@ -1377,14 +1377,10 @@ contexts:
         1: variable.function.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       push: [function_call_arguments, arguments]
-    - match: '({{name}})\s*(\??\[)'
+    - match: '(\?)?\s*(\[)'
       captures:
-        1: variable.other.cs
+        1: keyword.operator.null-coalescing.cs
         2: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push: accessor_arguments
-    - match: '\s*(\??\[)'
-      captures:
-        1: meta.brackets.cs punctuation.section.brackets.begin.cs
       push: accessor_arguments
     - match: '({{base_type}})\b'
       scope: storage.type.cs

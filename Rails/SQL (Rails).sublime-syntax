@@ -15,3 +15,36 @@ contexts:
   prototype:
     - meta_prepend: true
     - include: HTML (Rails).sublime-syntax#rails-embedded
+
+###[ COMMENTS ]################################################################
+
+  inside-number-sign-comment:
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  inside-double-dash-comment:
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  inside-comment-docblock:
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+  inside-comment-block:
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-embedded
+
+###[ LITERALS ]################################################################
+
+  inside-like-single-quoted-string:
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations
+
+  inside-single-quoted-string:
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations
+
+  string-interpolations:
+    # this context is included in anonymous string contexts
+    - meta_append: true
+    - include: HTML (Rails).sublime-syntax#rails-interpolations
