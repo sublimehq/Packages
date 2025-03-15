@@ -1,4 +1,0 @@
-{
-	// This overrides "file_extensions" in C.sublime-syntax 
-	"extensions": ["h"]
-}
