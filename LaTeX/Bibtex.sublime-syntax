@@ -23,6 +23,7 @@ contexts:
     - include: bibtex
 
   bibtex:
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
     - include: line-comments
     - include: comments
     - include: declarations

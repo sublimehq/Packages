@@ -1937,3 +1937,92 @@ bar="baz" />
 ##                                                          ^ punctuation.separator.namespace - illegal
 ##                                                           ^^^ entity.name.tag.localname - illegal
 ##                                                              ^ punctuation.definition.tag.end
+
+###############################################################################
+## Merge Conficts
+###############################################################################
+
+<<<<<<< HEAD
+## <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##     ^ meta.block.conflict.begin.diff - entity - punctuation
+##      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+##          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+## <- meta.block.conflict.separator.diff punctuation.section.block.diff
+##^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+##     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+## <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+##^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+##     ^ meta.block.conflict.end.diff - entity - punctuation
+##      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+##            ^ meta.block.conflict.end.diff - entity - punctuation
+
+<tag
+     attr="value"
+<<<<<<< HEAD
+## <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##     ^ meta.block.conflict.begin.diff - entity - punctuation
+##      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+##          ^ meta.block.conflict.begin.diff - entity - punctuation
+     our="value"
+=======
+## <- meta.block.conflict.separator.diff punctuation.section.block.diff
+##^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+##     ^ meta.block.conflict.separator.diff - punctuation
+     their="value"
+>>>>>>> master
+## <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+##^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+##     ^ meta.block.conflict.end.diff - entity - punctuation
+##      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+##            ^ meta.block.conflict.end.diff - entity - punctuation
+>
+## <- meta.tag.xml punctuation.definition.tag.end.opening.xml
+
+<![CDATA[
+<<<<<<< HEAD
+## <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##     ^ meta.block.conflict.begin.diff - entity - punctuation
+##      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+##          ^ meta.block.conflict.begin.diff - entity - punctuation
+     our="value"
+=======
+## <- meta.block.conflict.separator.diff punctuation.section.block.diff
+##^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+##     ^ meta.block.conflict.separator.diff - punctuation
+     their="value"
+>>>>>>> master
+## <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+##^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+##     ^ meta.block.conflict.end.diff - entity - punctuation
+##      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+##            ^ meta.block.conflict.end.diff - entity - punctuation
+]]>
+## <- meta.tag.sgml.cdata.xml punctuation.definition.tag.end.xml
+
+<!DOCTYPE root-element [
+<<<<<<< HEAD
+## <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##     ^ meta.block.conflict.begin.diff - entity - punctuation
+##      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+##          ^ meta.block.conflict.begin.diff - entity - punctuation
+     <!ELEMENT root-element (#PCDATA)>
+=======
+## <- meta.block.conflict.separator.diff punctuation.section.block.diff
+##^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+##     ^ meta.block.conflict.separator.diff - punctuation
+     <!ELEMENT root-element (#PCDATA)>
+>>>>>>> master
+## <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+##^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+##     ^ meta.block.conflict.end.diff - entity - punctuation
+##      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+##            ^ meta.block.conflict.end.diff - entity - punctuation
+]>
