@@ -1,0 +1,171 @@
+// SYNTAX TEST "Packages/Graphviz/DOT.sublime-syntax"
+// <- source.dot
+
+    // comment // comment # comment /* comment */
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash - comment comment
+//  ^^ comment.line.double-slash punctuation.definition.comment
+
+    # comment # comment // comment /* comment */
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
+//  ^ comment.line.number-sign punctuation.definition.comment
+
+    /* comment # comment // comment */
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - comment comment
+//  ^^ comment.block punctuation.definition.comment.begin
+//                                  ^^ comment.block punctuation.definition.comment.end
+//                                    ^ - comment
+
+    /**
+//  ^^ comment.block punctuation.definition.comment.begin
+//    ^ - comment.block.documentation - punctuation.definition.comment.begin
+    * comment
+//  ^ comment.block punctuation.definition.comment
+    */
+//  ^^ punctuation.definition.comment.end
+
+graph test_1 {
+// <- storage.type
+ // <- storage.type
+//^^^ storage.type
+//    ^^^^^^ entity.name.graph
+
+    node [ size="str" ]
+// ^ meta.group
+//  ^^^^ keyword.declaration
+//       ^^^^^^^^^^^^^^ meta.attributes
+//       ^              meta.attributes punctuation.section.brackets.begin
+//              ^^^^^ meta.string string.quoted.double
+//              ^     meta.string string.quoted.double punctuation.definition.string.begin
+//                  ^ meta.string string.quoted.double punctuation.definition.string.end
+//                    ^ meta.attributes punctuation.section.brackets.end
+
+    edge [ main="\"\\\l\n\r\E\G\H\L\N\T\." ]
+// ^ meta.group
+//  ^^^^ keyword.declaration
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes meta.string string.quoted.double
+//               ^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+//                                     ^^ invalid.illegal.escape-character - constant.character.escape
+//                                        ^ - meta.string - string.quoted.double
+
+    edge [ main="\
+                 \
+        "]
+//      ^ meta.string string.quoted.double punctuation.definition.string.end
+
+    node [ color="" ]
+//         ^^^^^ support.constant.attribute
+
+    edge [ lhead="" ]
+//         ^^^^^ support.constant.attribute
+
+    A -> B [arrowsize=2]
+//  ^ entity.name.node
+//    ^^ keyword.operator.edge.digraph
+//       ^ entity.name.node
+//                    ^ meta.number.integer.decimal constant.numeric.value
+    A -> C [arrowsize=0.5]
+//  ^ entity.name.node
+//    ^^ keyword.operator.edge.digraph
+//       ^ entity.name.node
+//                    ^^^ meta.number.float.decimal constant.numeric.value
+//                     ^ punctuation.separator.decimal
+}
+
+graph test_2 { page="" }
+//             ^^^^ support.constant.attribute
+
+    strict graph cluster_test_3 {
+//  ^^^^^^ keyword.declaration.strict
+//               ^^^^^^^^^ entity.name.graph
+//               ^^^^^^^^  meta.annotation variable.annotation.cluster
+//                       ^^^^^^ - meta.annotation variable.annotation.cluster
+}
+
+    graph test_4 { a -- b ; a -- c }
+//                   ^^ keyword.operator.edge.graph
+
+    digraph test_5 { a -> b ; a -> c }
+//                     ^^ keyword.operator.edge.digraph
+
+digraph test_6 {
+    node [shape=plaintext]
+    test_6_1 [label=<
+//                 ^ keyword.operator.assignment
+//                  ^ punctuation.section.embedded.begin
+//                   ^ text.html.embedded
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
+  <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
+</TABLE>>];
+// ^^^^      text.html.embedded
+// ^^^^^     text.html.embedded
+//     ^     punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//      ^    punctuation.section.embedded.end - text.html.embedded
+    test_6_2 [label=<
+//                 ^    keyword.operator.assignment
+//                  ^   punctuation.section.embedded.begin
+//                   ^ text.html.embedded
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
+  <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
+</TABLE> >];
+// ^^^^^^     text.html.embedded
+//^^^^^^ meta.tag
+//      ^ - meta.tag
+//     ^      punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//       ^    punctuation.section.embedded.end - text.html.embedded
+    test_6_1:f1 -> test_6_2:f0;
+    test_6_2:f0 -> test_6_1:f2;
+}
+
+label = <<u>this is underscored</u><br/>this is not>
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.html
+//      ^ punctuation.section.embedded.begin
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.embedded
+//       ^^^ meta.tag
+//                             ^^^^^^^^^ meta.tag
+//                                                 ^ punctuation.section.embedded.end
+
+    graph test_7
+    {
+//  ^ meta.group punctuation.section.group.begin
+
+        subgraph test_8
+        {
+//      ^ meta.group meta.group punctuation.section.group.begin
+        }
+//      ^ meta.group meta.group punctuation.section.group.end
+    }
+//  ^ meta.group punctuation.section.group.end
+
+    graph {
+        subgraph { }
+//     ^ meta.group
+//                ^ meta.group meta.group
+
+        { }
+//       ^ meta.group meta.group
+    }
+
+    digraph { }
+//           ^ meta.group
+
+
+    graph "test_9" {
+//        ^^^^^^^^ entity.name.graph
+        subgraph "test_10" {
+//               ^^^^^^^^^ entity.name.graph
+        }
+    }
+
+    digraph "test_11" {
+//          ^^^^^^^^^ entity.name.graph
+    }
+
+    graph "...\"..." {
+//        ^^^^^^^^^^ entity.name.graph
+//            ^^ constant.character.escape
+    }
