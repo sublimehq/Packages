@@ -527,39 +527,6 @@ contexts:
 
   decimal-integers: [] # TODO: fix decimal integers
 
-###[ REGULAR EXPRESSIONS ]#####################################################
-
-  regexp:
-    - match: '/(?=[^/]+/)'
-      scope: punctuation.definition.string.regexp.begin.groovy
-      push: inside-regexp
-
-  inside-regexp:
-    - meta_scope: string.regexp.groovy
-    - match: /
-      scope: punctuation.definition.string.regexp.end.groovy
-      pop: 1
-    # backslashes only escape forward slashes and newlines (and unicode)
-    - match: \\/
-      scope: constant.character.escape.groovy
-    - include: escaped-end-of-line
-    - include: unicode-escape-sequence
-    - include: single-dollar-string-interpolation
-    - match: '\$\{'
-      scope: punctuation.section.interpolation.begin.groovy
-      push:
-        - meta_scope: source.groovy.embedded.source
-        - match: '\}'
-          scope: punctuation.section.interpolation.end.groovy
-          pop: 1
-        - include: escaped-end-of-line
-        # newlines are invalid inside the interpolation
-        # but outside of a nested multiline string
-        - match: '\n'
-          scope: invalid.illegal.newline.groovy
-          pop: 1
-        - include: groovy-code
-
 ###[ STORAGE ]#################################################################
 
   storage-modifiers:
@@ -601,42 +568,55 @@ contexts:
 
 ###[ STRINGS ]#################################################################
 
-  # https://groovy-lang.org/syntax.html#all-strings
+  strings:
+    # https://groovy-lang.org/syntax.html#all-strings
 
-  single-dollar-string-interpolation:
-    - match: \${{single_dollar_interpolation_identifier}}
-      scope: variable.other.interpolated.groovy
+    - include: double-quoted-block-strings
+    - include: double-quoted-strings
+
+    - include: single-quoted-block-strings
+    - include: single-quoted-strings
+
+    - include: dollar-slashy-strings
+    - include: regexp
+
+  double-quoted-block-strings:
+    # https://groovy-lang.org/syntax.html#_triple_double_quoted_string
+
+    - match: \"{3}
+      scope: punctuation.definition.string.begin.groovy
       push:
-        - match: \.(?={{single_dollar_interpolation_identifier}})
-          scope: punctuation.accessor.dot.groovy
-        - match: '{{single_dollar_interpolation_identifier}}'
-          scope: variable.other.interpolated.groovy
-        - match: \b
+        - meta_scope: string.quoted.double.block.groovy
+        - match: \"{4,}
+          scope: invalid.illegal
           pop: 1
+        - match: \"{3}
+          scope: punctuation.definition.string.end.groovy
+          pop: 1
+        - include: string-escape-sequences
+        - include: single-dollar-string-interpolation
+        - include: string-interpolation-multiple-lines
+        # anything else following a dollar sign is not a valid interpolation
+        - match: \$(?=")
+          scope: invalid.illegal.groovy
+        - match: \$[^"]+
+          scope: invalid.illegal.groovy
 
-  unicode-escape-sequence:
-    - match: \\u\h{4}
-      scope: constant.character.escape.groovy
-    - match: \\u(?!\h{4}).{4}
-      scope: invalid.illegal.escape.groovy
+  single-quoted-block-strings:
+    # https://groovy-lang.org/syntax.html#_triple_single_quoted_string
 
-  escaped-end-of-line:
-    - match: \\\n
-      scope: constant.character.escape.groovy
+    - match: \'{3}
+      scope: punctuation.definition.string.begin.groovy
       push:
-        - match: ^
+        - meta_scope: string.quoted.single.block.groovy
+        - match: \'{3}
+          scope: punctuation.definition.string.end.groovy
           pop: 1
+        - include: string-escape-sequences
 
-  string-escape-sequences:
-    - include: unicode-escape-sequence
-    - include: escaped-end-of-line
-    - match: |-
-        \\[nrtbf\$\\'"]
-      scope: constant.character.escape.groovy
-    - match: \\.
-      scope: invalid.illegal.escape.groovy
+  double-quoted-strings:
+    # https://groovy-lang.org/syntax.html#_double_quoted_string
 
-  string-quoted-double:
     - match: \"
       scope: punctuation.definition.string.begin.groovy
       push:
@@ -668,7 +648,7 @@ contexts:
         - match: \$[^"]+
           scope: invalid.illegal.identifier.groovy
 
-  string-quoted-single:
+  single-quoted-strings:
     - match: \'
       scope: punctuation.definition.string.begin.groovy
       push:
@@ -681,48 +661,9 @@ contexts:
           pop: 1
         - include: string-escape-sequences
 
-  string-quoted-triple-single:
-    - match: \'{3}
-      scope: punctuation.definition.string.begin.groovy
-      push:
-        - meta_scope: string.quoted.single.block.groovy
-        - match: \'{3}
-          scope: punctuation.definition.string.end.groovy
-          pop: 1
-        - include: string-escape-sequences
+  dollar-slashy-strings:
+    # https://groovy-lang.org/syntax.html#_dollar_slashy_string
 
-  string-quoted-triple-double:
-    - match: \"{3}
-      scope: punctuation.definition.string.begin.groovy
-      push:
-        - meta_scope: string.quoted.double.block.groovy
-        - match: \"{4,}
-          scope: invalid.illegal
-          pop: 1
-        - match: \"{3}
-          scope: punctuation.definition.string.end.groovy
-          pop: 1
-        - include: string-escape-sequences
-        - include: single-dollar-string-interpolation
-        - include: string-interpolation-multiple-lines
-        # anything else following a dollar sign is not a valid interpolation
-        - match: \$(?=")
-          scope: invalid.illegal.groovy
-        - match: \$[^"]+
-          scope: invalid.illegal.groovy
-
-  string-interpolation-multiple-lines:
-    - match: '\$\{'
-      scope: punctuation.section.interpolation.begin.groovy
-      push:
-        - meta_scope: source.groovy.embedded.source
-        - match: '\}'
-          scope: punctuation.section.interpolation.end.groovy
-          pop: 1
-        - include: escaped-end-of-line
-        - include: groovy-code
-
-  string-dollar-slashy:
     - match: '\$/'
       scope: punctuation.definition.string.begin.groovy
       push:
@@ -746,13 +687,88 @@ contexts:
             - include: escaped-end-of-line
             - include: groovy-code
 
-  strings:
-    - include: string-quoted-triple-double
-    - include: string-quoted-triple-single
-    - include: string-quoted-double
-    - include: string-quoted-single
-    - include: regexp
-    - include: string-dollar-slashy
+###[ STRINGS / REGULAR EXPRESSIONS ]###########################################
+
+  # https://groovy-lang.org/syntax.html#_slashy_string
+
+  regexp:
+    - match: '/(?=[^/]+/)'
+      scope: punctuation.definition.string.regexp.begin.groovy
+      push: inside-regexp
+
+  inside-regexp:
+    - meta_scope: string.regexp.groovy
+    - match: /
+      scope: punctuation.definition.string.regexp.end.groovy
+      pop: 1
+    # backslashes only escape forward slashes and newlines (and unicode)
+    - match: \\/
+      scope: constant.character.escape.groovy
+    - include: escaped-end-of-line
+    - include: unicode-escape-sequence
+    - include: single-dollar-string-interpolation
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
+      push:
+        - meta_scope: source.groovy.embedded.source
+        - match: '\}'
+          scope: punctuation.section.interpolation.end.groovy
+          pop: 1
+        - include: escaped-end-of-line
+        # newlines are invalid inside the interpolation
+        # but outside of a nested multiline string
+        - match: '\n'
+          scope: invalid.illegal.newline.groovy
+          pop: 1
+        - include: groovy-code
+
+###[ STRINGS / STRING INTERPOLATION ]##########################################
+
+  string-interpolation-multiple-lines:
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
+      push:
+        - meta_scope: source.groovy.embedded.source
+        - match: '\}'
+          scope: punctuation.section.interpolation.end.groovy
+          pop: 1
+        - include: escaped-end-of-line
+        - include: groovy-code
+
+  single-dollar-string-interpolation:
+    - match: \${{single_dollar_interpolation_identifier}}
+      scope: variable.other.interpolated.groovy
+      push:
+        - match: \.(?={{single_dollar_interpolation_identifier}})
+          scope: punctuation.accessor.dot.groovy
+        - match: '{{single_dollar_interpolation_identifier}}'
+          scope: variable.other.interpolated.groovy
+        - match: \b
+          pop: 1
+
+###[ STRINGS / ESCAPES ]#######################################################
+
+  unicode-escape-sequence:
+    - match: \\u\h{4}
+      scope: constant.character.escape.groovy
+    - match: \\u(?!\h{4}).{4}
+      scope: invalid.illegal.escape.groovy
+
+  escaped-end-of-line:
+    - match: \\\n
+      scope: constant.character.escape.groovy
+      push:
+        - match: ^
+          pop: 1
+
+  string-escape-sequences:
+    - include: unicode-escape-sequence
+    - include: escaped-end-of-line
+    - match: |-
+        \\[nrtbf\$\\'"]
+      scope: constant.character.escape.groovy
+    - match: \\.
+      scope: invalid.illegal.escape.groovy
 
 ###[ SEQUENCES ]###############################################################
 
