@@ -263,7 +263,7 @@ contexts:
 
   loop-keywords:
     - match: \bdo\b
-      scope: keyword.control.loop.do.groovy
+      scope: keyword.control.loop.do-while.groovy
     - match: \bfor\b
       scope: keyword.control.loop.for.groovy
     - match: \bwhile\b
@@ -463,8 +463,69 @@ contexts:
   numbers:
     # https://groovy-lang.org/syntax.html#_numbers
 
-    - match: '((0(x|X)[0-9a-fA-F]*)|(\+|-)?\b(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
-      scope: constant.numeric.groovy
+    - include: floats
+    - include: integers
+
+###[ NUMBERS / FLOATS ]########################################################
+
+  floats:
+    - include: decimal-floats
+
+  decimal-floats:
+    - match: |-
+        (?x:
+          (?:
+            (\+|-)?
+            \b(
+              (?:[0-9]+\.?[0-9]*)
+            | (?:\.[0-9]+)
+            )
+            ([eE][-+]?[0-9]+)?
+          )
+          (UL|ul|[LlFfUuDd])?\b
+        )
+      scope: meta.number.float.decimal.groovy
+      captures:
+        1: constant.numeric.value.sign.groovy
+        2: constant.numeric.value.groovy
+        3: constant.numeric.value.exponent.groovy
+        4: constant.numeric.suffix.groovy
+
+###[ NUMBERS / INTEGERS ]######################################################
+
+  integers:
+    - include: binary-integers
+    - include: hexadecimal-integers
+    - include: octal-integers
+    - include: decimal-integers
+
+  binary-integers:
+    - match: (0[bB])([0-1]*)
+      scope: meta.number.integer.binary.groovy
+      captures:
+        1: constant.numeric.base.groovy
+        2: constant.numeric.value.groovy
+
+  octal-integers:
+    - match: |-
+        (?x:
+          (?: (0[oO]) | (0) )
+          ([1-7][0-7]*)
+        )
+      scope: meta.number.integer.octal.groovy
+      captures:
+        1: constant.numeric.base.groovy
+        2: invalid.illegal.octal-integer-base.groovy
+        3: constant.numeric.value.groovy
+
+  hexadecimal-integers:
+    - match: (0[xX])([0-9a-fA-F]*)
+      scope: meta.number.integer.hexadecimal.groovy
+      captures:
+        1: constant.numeric.base.groovy
+        2: constant.numeric.value.groovy
+
+  decimal-integers: [] # TODO: fix decimal integers
 
 ###[ REGULAR EXPRESSIONS ]#####################################################
 
@@ -498,7 +559,6 @@ contexts:
           scope: invalid.illegal.newline.groovy
           pop: 1
         - include: groovy-code
-
 
 ###[ STORAGE ]#################################################################
 
