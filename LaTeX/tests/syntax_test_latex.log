@@ -1,0 +1,133 @@
+# SYNTAX TEST "LaTeX Log.sublime-syntax"
+
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**Analysis-I.tex
+(./Analysis-I.tex)
+# <- meta.block.log punctuation.section.block.begin.log
+#^^^^^^^^^^^^^^^^^ meta.block.log
+#^^^^^^^^^^^^^^^^ meta.toc-list.log entity.name.section.filename.log
+#                ^ punctuation.section.block.end.log
+#                 ^ - meta.block
+
+(./Analysis-I.tex
+LaTeX2e <2023-06-01> patch level 1
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log
+#       ^^^^^^^^^^^^ string.quoted.other.log
+#       ^ punctuation.definition.string.begin.log
+#                  ^ punctuation.definition.string.end.log
+
+! fatal error
+#^^^^^^^^^^^^ meta.block.log markup.error.log
+
+Package hyperref Error: Option `pdfauthor' not found,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log
+#^^^^^^^^^^^^^^^^^^^^^^ markup.error.log
+#                              ^^^^^^^^^^^ string.quoted.single.log
+#                              ^ punctuation.definition.string.begin.log
+#                                        ^ punctuation.definition.string.end.log
+
+Package hyperref Warning: Option `pdfauthor' has already been used,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log
+#^^^^^^^^^^^^^^^^^^^^^^^^ markup.warning.log
+#                                ^^^^^^^^^^^ string.quoted.single.log
+#                                ^ punctuation.definition.string.begin.log
+#                                          ^ punctuation.definition.string.end.log
+(hyperref)                setting the option has no effect on input line 13.
+# <- meta.block.log meta.group.log punctuation.section.group.begin.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log
+#^^^^^^^^^ meta.group.log
+#        ^ punctuation.section.group.end.log
+
+Overfull \hbox (2.7858pt too wide) detected at line 369
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log meta.warning.box.log
+#^^^^^^^ markup.warning.log
+#        ^^^^^ support.function.latex
+#        ^ punctuation.definition.variable.latex
+#              ^^^^^^^^^^^^^^^^^^^ meta.group.log
+#              ^ punctuation.section.group.begin.log
+#                                ^ punctuation.section.group.end.log
+\T1/cmr/m/n/10.95 23.20.
+# <- meta.block.log meta.warning.box.log support.function.latex punctuation.definition.variable.latex
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log meta.warning.box.log
+#^^ support.function.latex
+ []
+# <- meta.block.log meta.warning.box.log punctuation.terminator.log
+#^^ meta.block.log meta.warning.box.log punctuation.terminator.log
+
+Underfull \hbox (badness 10000) in paragraph at lines 3417--3445
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log meta.warning.box.log
+#^^^^^^^^ markup.warning.log
+#         ^^^^^ support.function.latex
+#         ^ punctuation.definition.variable.latex
+#               ^^^^^^^^^^^^^^^ meta.group.log
+#               ^ punctuation.section.group.begin.log
+#                             ^ punctuation.section.group.end.log
+ []
+# <- meta.block.log meta.warning.box.log punctuation.terminator.log
+#^^ meta.block.log meta.warning.box.log punctuation.terminator.log
+
+(/opt/TeX/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+<<t1.cmap>>)
+# <- meta.block.log meta.block.log string.quoted.other.log punctuation.definition.string.begin.log
+#^^^^^^^^^^^ meta.block.log meta.block.log
+#^^^^^^^^^^ string.quoted.other.log
+#^ punctuation.definition.string.begin.log
+#        ^^ punctuation.definition.string.end.log
+#          ^ punctuation.section.block.end.log
+
+(/opt/TeX/texmf-dist/tex/latex/koma-script/scrbook.cls
+Document Class: scrbook 2023/07/07 v3.41 KOMA-Script document class (book)
+# <- meta.block.log meta.block.log comment.line.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log meta.block.log comment.line.log
+
+(/opt/TeX/texmf-dist/tex/latex/koma-script/tocbasic.sty
+Document Class: scrbook 2023/07/07 v3.41 KOMA-Script document class with wrappe
+d comment continued on next line (book)
+# <- meta.block.log meta.block.log meta.block.log comment.line.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log meta.block.log meta.block.log comment.line.log
+\scr@dte@tocline@numberwidth=\skip48
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log meta.block.log meta.block.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.function.latex
+#                           ^ keyword.operator.assignment.latex
+#                            ^^^^^^^ support.function.latex
+#                            ^ punctuation.definition.variable.latex
+)
+# <- meta.block.log meta.block.log meta.block.log punctuation.section.block.end.log
+#^ meta.block.log meta.block.log - meta.block meta.block meta.block
+
+Class scrbook Info: using compatibility default `runin=bysign'
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log
+#^^^^^^^^^^^^^^^^^^ markup.info.log
+#                                               ^^^^^^^^^^^^^^ string.quoted.single.log
+#                                               ^ punctuation.definition.string.begin.log
+#                                                            ^ punctuation.definition.string.end.log
+
+(scrbook)           for `\section on input line 6001.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log
+#^^^^^^^^ meta.group.log
+#       ^ punctuation.section.group.end.log
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.log
+#                       ^ punctuation.definition.string.begin.log
+#                                                   ^ punctuation.definition.string.end.log
+
+))
+# <- meta.block.log meta.block.log punctuation.section.block.end.log
+#^ meta.block.log punctuation.section.block.end.log - meta.block meta.block
+# ^ - meta.block
+
+# wrapped block file names
+(/opt/TeX/texmf-dist/tex/latex/koma-scri
+pt/scrbook.cls
+# <- meta.block.log meta.toc-list.log entity.name.section.filename.log
+#^^^^^^^^^^^^^ meta.block.log meta.toc-list.log entity.name.section.filename.log
+)
+
+(/opt/TeX/texmf-dist/tex/latex/koma-scri
+pt/scrbook.cls
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+# <- meta.block.log comment.line.log
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.log comment.line.log
+)
