@@ -111,10 +111,10 @@ interpolation6 = "The sum of 1 and 2 is equal to ${def a = 1; a + 2}"
 interpolation7 = "foo { ${if (x) { y } else { z } } }"
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                    ^ - punctuation
-//                        ^^ keyword.control.conditional
+//                        ^^ keyword.control.conditional.if
 //                               ^ punctuation.section.block.begin
 //                                   ^ punctuation.section.block.end - punctuation.section.interpolation
-//                                     ^^^^ keyword.control.conditional
+//                                     ^^^^ keyword.control.conditional.else
 //                                          ^ punctuation.section.block.begin
 //                                              ^ punctuation.section.block.end - punctuation.section.interpolation
 //                                                ^ punctuation.section.interpolation.end

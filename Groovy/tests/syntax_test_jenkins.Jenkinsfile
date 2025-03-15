@@ -87,21 +87,21 @@ int something = sh(returnStdout: true, script: '''#!/bin/bash
 
 node('some-node-name') {
     try {
-    // <- meta.block keyword.control.exception
+    // <- meta.block keyword.control.exception.try
     //  ^ punctuation.section.block.begin
         lock(lockName) {
 
         }
     } catch (InterruptedException e) {
     // <- punctuation.section.block.end
-    //^^^^^ keyword.control.exception
+    //^^^^^ keyword.control.exception.catch
     //      ^ punctuation.section.group.begin
     //       ^^^^^^^^^^^^^^^^^^^^ storage.type.class
     //                            ^ variable.other.readwrite
     //                             ^ punctuation.section.group.end
     //                               ^ punctuation.section.block.begin
         if (isDeployment) {
-        // <- meta.block meta.block keyword.control.conditional
+        // <- meta.block meta.block keyword.control.conditional.if
         // ^ meta.block meta.block meta.group punctuation.section.group.begin
         //  ^^^^^^^^^^^^ meta.block meta.block meta.group variable.other.readwrite
         //              ^ meta.block meta.block meta.group punctuation.section.group.end
@@ -109,7 +109,7 @@ node('some-node-name') {
             notify.deployment(channel: config.jobStatusChannel, status: 'ABORTED', environment: params.CI_ENVIRONMENT)
         }
         throw e
-        // <- meta.block meta.block keyword.control.flow
+        // <- meta.block meta.block keyword.control.flow.throw
         //    ^ meta.block meta.block variable.other.readwrite
     }
     // <- meta.block meta.block punctuation.section.block.end
