@@ -1,5 +1,41 @@
 (* SYNTAX TEST "Packages/OCaml/OCaml.sublime-syntax" *)
 
+(* Function Definitions *)
+
+let foo = function
+(* <- meta.function.ocaml keyword.other.function-definition.ocaml *)
+(*^^^^^^^ meta.function.ocaml *)
+(*  ^^^ entity.name.function.ocaml *)
+(*      ^ keyword.operator.ocaml *)
+(*        ^^^^^^^^ keyword.control.match-definition.ocaml *)
+    | [] -> None
+(* ^^^^^^^^ meta.pattern-match.ocaml *)
+(*  ^ keyword.control.match-definition.ocaml *)
+(*    ^^ constant.language.pseudo-variable.ocaml *)
+(*       ^^ punctuation.separator.match-definition.ocaml *)
+(*          ^^^^ entity.name.type.variant.ocaml *)
+    | _  -> Some 23
+
+let bar = function
+(* <- meta.function.ocaml keyword.other.function-definition.ocaml *)
+(*^^^^^^^ meta.function.ocaml *)
+(*  ^^^ entity.name.function.ocaml *)
+(*      ^ keyword.operator.ocaml *)
+(*        ^^^^^^^^ keyword.control.match-definition.ocaml *)
+    | [] -> None
+(* ^^^^^^^^ meta.pattern-match.ocaml *)
+(*  ^ keyword.control.match-definition.ocaml *)
+(*    ^^ constant.language.pseudo-variable.ocaml *)
+(*       ^^ punctuation.separator.match-definition.ocaml *)
+(*          ^^^^ entity.name.type.variant.ocaml *)
+    | _  -> Some 42
+(*  ^^^^^^^ meta.pattern-match.ocaml *)
+(*  ^ keyword.control.match-definition.ocaml *)
+(*    ^ constant.language.universal-match.ocaml *)
+(*       ^^ punctuation.separator.match-definition.ocaml *)
+(*          ^^^^ entity.name.type.variant.ocaml *)
+(*               ^^ constant.numeric.value.ocaml *)
+
   let open Core.Std
 (*^^^ keyword.other.ocaml *)
 (*    ^^^^ keyword.control.import.ocaml *)
@@ -24,6 +60,37 @@
   and open = 5
 (*^^^ keyword.other.ocaml *)
 (*    ^^^^ variable.other.constant.ocaml *)
+
+(* Module Signatures *)
+
+  val foo   : 'a -> 'a
+(*^^^^^^^^^^^^^^^^^^^^^ meta.module.signature.val.ocaml *)
+(*^^^ keyword.other.ocaml *)
+(*    ^^^ entity.name.type.value-signature.ocaml *)
+(*          ^ punctuation.separator.type-constraint.ocaml *)
+(*            ^^ storage.type.ocaml *)
+(*               ^^ punctuation.separator.function-return.ocaml *)
+(*                  ^^ storage.type.ocaml *)
+
+  val (<*<) : 'a -> 'a
+(*^^^^^^^^^^^^^^^^^^^^^ meta.module.signature.val.ocaml *)
+(*^^^ keyword.other.ocaml *)
+(*    ^ punctuation.section.parens.begin.ocaml *)
+(*     ^^^ entity.name.type.value-signature.ocaml *)
+(*        ^ punctuation.section.parens.end.ocaml *)
+(*          ^ punctuation.separator.type-constraint.ocaml *)
+(*            ^^ storage.type.ocaml *)
+(*               ^^ punctuation.separator.function-return.ocaml *)
+(*                  ^^ storage.type.ocaml *)
+
+  val bar   : 'a -> 'a
+(*^^^^^^^^^^^^^^^^^^^^^ meta.module.signature.val.ocaml *)
+(*^^^ keyword.other.ocaml *)
+(*    ^^^ entity.name.type.value-signature.ocaml *)
+(*          ^ punctuation.separator.type-constraint.ocaml *)
+(*            ^^ storage.type.ocaml *)
+(*               ^^ punctuation.separator.function-return.ocaml *)
+(*                  ^^ storage.type.ocaml *)
 
 
 (* Integers *)
