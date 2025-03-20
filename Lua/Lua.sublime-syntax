@@ -696,6 +696,38 @@ contexts:
     - match: \\.
       scope: invalid.illegal.invalid-escape.lua
 
+  # pop the context once one escaped character has been matched
+  string-escape-pop:
+    - match: \\[abfnrtv\\'"\[\]\n]
+      scope: constant.character.escape.lua
+      pop: 1
+
+    - match: \\x\h\h
+      scope: constant.character.escape.hexadecimal.lua
+      pop: 1
+
+    - match: \\\d{1,3}
+      scope: constant.character.escape.decimal.lua
+      pop: 1
+
+    # unicode can make multiple, but that is a bit hard to handle
+    - match: \\u\{\h+\}
+      scope: constant.character.escape.unicode.lua
+      pop: 1
+
+    # \z turns into nothing, so we don't pop
+    - match: \\z
+      push:
+        - meta_scope: constant.character.escape.whitespace.lua
+        - include: else-pop
+
+    - match: \n
+      scope: invalid.illegal.unclosed-string.lua
+      pop: 2
+    - match: \\.
+      scope: invalid.illegal.invalid-escape.lua
+      pop: 1
+
   parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.begin.lua
@@ -880,6 +912,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.lua
       set:
+        # - single-quoted-meta
         - pattern-single-quoted-string-body
         - pattern-test-first-caret
     - match: \"
@@ -889,10 +922,12 @@ contexts:
         - pattern-test-first-caret
 
   pattern-test-first-caret:
+    - meta_include_prototype: false
     - match: '\^'
       scope: keyword.control.anchor.lua
       pop: 1
-    - include: immediately-pop
+    - match: '[^\n]'
+      pop: 1
 
   pattern-single-quoted-string-body:
     - meta_include_prototype: false
@@ -903,8 +938,9 @@ contexts:
     - match: '%'
       scope: constant.character.escape.lua
       push:
-        - match: (?=[\\\'])
+        - match: (?=\')
           pop: 1
+        - include: string-escape-pop
         - match: .
           scope: constant.character.escape.lua
           pop: 1
@@ -919,8 +955,9 @@ contexts:
     - match: '%'
       scope: constant.character.escape.lua
       push:
-        - match: (?=[\\\"])
+        - match: (?=\")
           pop: 1
+        - include: string-escape-pop
         - match: .
           scope: constant.character.escape.lua
           pop: 1
@@ -929,12 +966,19 @@ contexts:
   pattern-multiline-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.lua string.quoted.multiline.lua
-    - match: (?:(\$)|(%)|)(\]\1\])
-      captures:
-        1: keyword.control.anchor.lua
-        2: constant.character.escape.lua
-        3: punctuation.definition.string.end.lua
-      pop: 1
+    - include: multiline-string-body
+    # - match: (?:(\$)|(%)|)(\]\1\])
+    #   captures:
+    #     1: keyword.control.anchor.lua
+    #     2: constant.character.escape.lua
+    #     3: punctuation.definition.string.end.lua
+    #   pop: 1
+    # This is added here so that we can escape the string properly
+    - match: (%)(?=\]\1\])
+      scope: constant.character.escape.lua
+    - match: (\$)(?=\]\1\])
+      scope: keyword.control.anchor.lua
+
     - match: '%'
       scope: constant.character.escape.lua
       push:
@@ -967,11 +1011,13 @@ contexts:
         - include: fmtstr-embed
 
   fmtstr-embed:
+    - meta_include_prototype: false
     - match: '%'
       scope: constant.other.placeholder.lua
       push: fmtstr-pattern
 
   fmtstr-pattern:
+    - meta_include_prototype: false
     # these characters never appear in a format pattern so it can be simpler
     - match: (?=[\\\"\'\]])
       pop: 1
@@ -1008,6 +1054,7 @@ contexts:
         - include: packstr-pattern
 
   packstr-pattern:
+    - meta_include_prototype: false
     - match: '[=<>]|![0-9]*'
       scope: storage.modifier.lua
 
