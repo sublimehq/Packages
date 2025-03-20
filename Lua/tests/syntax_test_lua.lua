@@ -789,3 +789,17 @@
 --                            ^^^^^^^^^^^^ meta.string string.quoted.double.lua
 --                                        ^ punctuation.separator.comma.lua
 --                                             ^ punctuation.section.group.end.lua
+
+-- basic tests for patterns
+    local a = ('test'):match('^()t?$-e*s+()$')
+--                            ^ keyword.control.anchor
+--                             ^ punctuation.section.group.begin
+--                              ^ punctuation.section.group.end
+--                                ^ keyword.operator.quantifier
+--                                  ^ keyword.operator.quantifier
+--                                    ^ keyword.operator.quantifier
+--                                      ^ keyword.operator.quantifier
+--                                         ^ keyword.control.anchor
+
+    local b = string.format('%0.9f', 15.4)
+--                           ^^^^^ constant.other.placeholder.lua
