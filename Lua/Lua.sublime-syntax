@@ -807,6 +807,23 @@ contexts:
             - expression-list-end
             - pattern-expression
 
+  function-arguments-fmtstr-at1:
+    - include: fmtstr-string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set:
+        - meta_scope: meta.group.lua
+        - match: \)
+          scope: punctuation.section.group.end.lua
+          pop: 1
+        - include: reserved-word-expression-pop
+        - match: (?=\S)
+          push:
+            - expression-list-end
+            - fmtstr-expression
+
   pattern-expression:
     - include: pattern-string
     - include: expression-begin
@@ -909,6 +926,47 @@ contexts:
           pop: 1
     - include: pattern-nonnested
 
+  fmtstr-expression:
+    - include: fmtstr-string
+    - include: expression-begin
+
+  fmtstr-string:
+    - match: \[(=*)\[
+      scope: punctuation.definition.string.begin.lua
+      set: multiline-string-body
+      with_prototype:
+        - include: fmtstr-embed
+
+    - match: \'
+      scope: punctuation.definition.string.begin.lua
+      set: single-quoted-string-body
+      with_prototype:
+        - include: fmtstr-embed
+
+    - match: \"
+      scope: punctuation.definition.string.begin.lua
+      set: double-quoted-string-body
+      with_prototype:
+        - include: fmtstr-embed
+
+  fmtstr-embed:
+    - match: '%'
+      scope: constant.other.placeholder.lua
+      push: fmtstr-pattern
+
+  fmtstr-pattern:
+    # these characters never appear in a format pattern so it can be simpler
+    - match: (?=[\\\"\'\]])
+      pop: 1
+    - match: '[-+#0-9. ]'
+      scope: constant.other.placeholder.lua
+    - match: '[cdiuoxXaAfeEgGpqs%]'
+      scope: constant.other.placeholder.lua
+      pop: 1
+    - match: '.'
+      scope: invalid.illegal.invalid-format.lua
+      pop: 1
+
   builtin-modules:
     - match: coroutine{{identifier_break}}
       scope: support.constant.builtin.lua
@@ -961,9 +1019,18 @@ contexts:
                     - function-arguments-meta
                     - function-arguments-pattern-at2
                 - include: else-pop
+            - match: (?:format){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.stringy.lua
+              set:
+                - match: (?={{function_args_begin}})
+                  pop: 1
+                  push:
+                    - function-arguments-meta
+                    - function-arguments-fmtstr-at1
+                - include: else-pop
             - match: |-
                 (?x:
-                  byte|char|dump|format|len|lower|pack
+                  byte|char|dump|len|lower|pack
                   |packsize|rep|reverse|sub|unpack|upper
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
