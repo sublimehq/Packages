@@ -824,6 +824,23 @@ contexts:
             - expression-list-end
             - fmtstr-expression
 
+  function-arguments-packstr-at1:
+    - include: packstr-string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set:
+        - meta_scope: meta.group.lua
+        - match: \)
+          scope: punctuation.section.group.end.lua
+          pop: 1
+        - include: reserved-word-expression-pop
+        - match: (?=\S)
+          push:
+            - expression-list-end
+            - packstr-expression
+
   pattern-expression:
     - include: pattern-string
     - include: expression-begin
@@ -967,6 +984,42 @@ contexts:
       scope: invalid.illegal.invalid-format.lua
       pop: 1
 
+  packstr-expression:
+    - include: packstr-string
+    - include: expression-begin
+
+  packstr-string:
+    - match: \[(=*)\[
+      scope: punctuation.definition.string.begin.lua
+      set: multiline-string-body
+      with_prototype:
+        - include: packstr-pattern
+
+    - match: \'
+      scope: punctuation.definition.string.begin.lua
+      set: single-quoted-string-body
+      with_prototype:
+        - include: packstr-pattern
+
+    - match: \"
+      scope: punctuation.definition.string.begin.lua
+      set: double-quoted-string-body
+      with_prototype:
+        - include: packstr-pattern
+
+  packstr-pattern:
+    - match: '[=<>]|![0-9]*'
+      scope: storage.modifier.lua
+
+    - match: '[bBhHlLjJTfdnz]|[Iis][0-9]*|c[0-9]+'
+      scope: storage.type.lua
+
+    - match: '[xX]'
+      scope: punctuation.separator.padding.lua
+
+    - match: (?:[^\\\"\'\]\s])
+      scope: invalid.illegal.invalid-storage.lua
+
   builtin-modules:
     - match: coroutine{{identifier_break}}
       scope: support.constant.builtin.lua
@@ -1028,10 +1081,19 @@ contexts:
                     - function-arguments-meta
                     - function-arguments-fmtstr-at1
                 - include: else-pop
+            - match: (?:pack|unpack|packsize){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.stringy.lua
+              set:
+                - match: (?={{function_args_begin}})
+                  pop: 1
+                  push:
+                    - function-arguments-meta
+                    - function-arguments-packstr-at1
+                - include: else-pop
             - match: |-
                 (?x:
-                  byte|char|dump|len|lower|pack
-                  |packsize|rep|reverse|sub|unpack|upper
+                  byte|char|dump|len|lower
+                  |rep|reverse|sub|upper
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: 1
