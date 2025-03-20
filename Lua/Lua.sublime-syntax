@@ -465,7 +465,11 @@ contexts:
       push: expression-begin
 
   accessor:
-    - match: '[.:]'
+    - match: ':'
+      scope: punctuation.accessor.lua
+      push: property-method
+
+    - match: '\.'
       scope: punctuation.accessor.lua
       push: property
 
@@ -498,6 +502,18 @@ contexts:
       pop: 1
     - include: reserved-word-pop
     - include: else-pop
+
+  property-method:
+    - match: '(?:find|gmatch|gsub|match){{identifier_break}}'
+      scope: meta.property.lua meta.function-call.lua variable.function.lua
+      set:
+        - match: (?={{function_args_begin}})
+          pop: 1
+          push:
+            - function-arguments-meta
+            - function-arguments-pattern-at1
+        - include: else-pop
+    - include: property
 
   function-arguments-meta:
     - meta_scope: meta.function-call.arguments.lua
@@ -757,6 +773,142 @@ contexts:
     - meta_scope: meta.function.lua
     - include: immediately-pop
 
+  function-arguments-pattern-at2:
+    - include: string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set:
+        - meta_scope: meta.group.lua
+        - match: \)
+          scope: punctuation.section.group.end.lua
+          pop: 1
+        - include: reserved-word-expression-pop
+        - match: (?=\S)
+          push:
+            - expression-list-end-pattern-next
+            - expression-begin
+
+  function-arguments-pattern-at1:
+    - include: pattern-string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set:
+        - meta_scope: meta.group.lua
+        - match: \)
+          scope: punctuation.section.group.end.lua
+          pop: 1
+        - include: reserved-word-expression-pop
+        - match: (?=\S)
+          push:
+            - expression-list-end
+            - pattern-expression
+
+  pattern-expression:
+    - include: pattern-string
+    - include: expression-begin
+
+  expression-list-end-pattern-next:
+    - match: ','
+      scope: punctuation.separator.comma.lua
+      set:
+        - expression-list-end
+        - pattern-expression
+    - include: expression-end
+
+  pattern-nonnested:
+    - match: '\('
+      scope: punctuation.section.group.begin.lua
+    - match: '\)'
+      scope: punctuation.section.group.end.lua
+    - match: '(\[)(\^)?\]?'
+      captures:
+        1: punctuation.definition.set.begin.lua
+        2: keyword.operator.logical.lua
+    - match: '\]'
+      scope: punctuation.definition.set.end.lua
+    - match: '\(\)'
+      scope: punctuation.section.brackets.lua
+    - match: '[+*?\-]'
+      scope: keyword.operator.quantifier.lua
+    - match: \.
+      scope: keyword.other.any.lua
+
+  pattern-string:
+    - match: \[(=*)\[
+      scope: punctuation.definition.string.begin.lua
+      set:
+        - pattern-multiline-string-body
+        - pattern-test-first-caret
+    - match: \'
+      scope: punctuation.definition.string.begin.lua
+      set:
+        - pattern-single-quoted-string-body
+        - pattern-test-first-caret
+    - match: \"
+      scope: punctuation.definition.string.begin.lua
+      set:
+        - pattern-double-quoted-string-body
+        - pattern-test-first-caret
+
+  pattern-test-first-caret:
+    - match: '\^'
+      scope: keyword.control.anchor.lua
+      pop: 1
+    - include: immediately-pop
+
+  pattern-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: single-quoted-string-body
+    - match: \$(?=\')
+      scope: keyword.control.anchor.lua
+    - match: '%'
+      scope: constant.character.escape.lua
+      push:
+        - match: (?=[\\\'])
+          pop: 1
+        - match: .
+          scope: constant.character.escape.lua
+          pop: 1
+    - include: pattern-nonnested
+
+  pattern-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: double-quoted-string-body
+    - match: \$(?=\")
+      scope: keyword.control.anchor.lua
+    - match: '%'
+      scope: constant.character.escape.lua
+      push:
+        - match: (?=[\\\"])
+          pop: 1
+        - match: .
+          scope: constant.character.escape.lua
+          pop: 1
+    - include: pattern-nonnested
+
+  pattern-multiline-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - match: (?:(\$)|(%)|)(\]\1\])
+      captures:
+        1: keyword.control.anchor.lua
+        2: constant.character.escape.lua
+        3: punctuation.definition.string.end.lua
+      pop: 1
+    - match: '%'
+      scope: constant.character.escape.lua
+      push:
+        - match: .
+          scope: constant.character.escape.lua
+          pop: 1
+    - include: pattern-nonnested
+
   builtin-modules:
     - match: coroutine{{identifier_break}}
       scope: support.constant.builtin.lua
@@ -800,9 +952,18 @@ contexts:
         - match: \.
           scope: punctuation.accessor.lua
           set:
+            - match: (?:find|gmatch|gsub|match){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              set:
+                - match: (?={{function_args_begin}})
+                  pop: 1
+                  push:
+                    - function-arguments-meta
+                    - function-arguments-pattern-at2
+                - include: else-pop
             - match: |-
                 (?x:
-                  byte|char|dump|find|format|gmatch|gsub|len|lower|match|pack
+                  byte|char|dump|format|len|lower|pack
                   |packsize|rep|reverse|sub|unpack|upper
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
