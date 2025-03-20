@@ -62,6 +62,8 @@ variables:
     )\b)
   doc_comment_custom_tag: (?:@\w+\b)
 
+  string_char_escape: \\(?:[abfnrtv\\'"\[\]\n]|x\h\h|\d{1,3}|u\{\h+\})
+
 contexts:
   main:
     - meta_include_prototype: false
@@ -885,34 +887,160 @@ contexts:
         - pattern-expression
     - include: expression-end
 
-  pattern-nonnested:
-    - match: '\('
-      scope: punctuation.section.group.begin.lua
-    - match: '\)'
-      scope: punctuation.section.group.end.lua
-    - match: '(\[)(\^)?\]?'
-      captures:
-        1: punctuation.definition.set.begin.lua
-        2: keyword.operator.logical.lua
-    - match: '\]'
-      scope: punctuation.definition.set.end.lua
+  pattern-shared:
+    - meta_include_prototype: false
+      # start anchor is handled separately as ^ doesn't match the start of the string
+    - match: \$$
+      scope: keyword.control.anchor.lua
     - match: '\(\)'
       scope: punctuation.section.brackets.lua
     - match: '[+*?\-]'
       scope: keyword.operator.quantifier.lua
+      push: pattern-shared-norepetition
     - match: \.
       scope: keyword.other.any.lua
 
+  pattern-shared-norepetition:
+    - meta_include_prototype: false
+    - match: '[+*?\-]'
+      pop: 1
+    - match: ''
+      pop: 1
+
+  # the pattern implementation is split into quoted and unquoted as escapes are only processed
+  # in quoted strings.
+  pattern-quoted:
+    - meta_include_prototype: false
+    - include: string-content
+    - include: pattern-shared
+    - match: '\('
+      scope: punctuation.section.group.begin.lua
+      push:
+        - pattern-shared-norepetition
+        - pattern-quoted-nested
+    - match: '(\[)(\^)?\]?'
+      captures:
+        1: punctuation.definition.set.begin.lua
+        2: keyword.operator.logical.lua
+      push: pattern-quoted-set-body
+    - include: pattern-quoted-charclass
+
+  pattern-quoted-charclass:
+    - match: \%
+      scope: constant.character.escape.lua
+      push:
+        - include: string-escape-pop
+        - match: .
+          scope: constant.character.escape.lua
+          pop: 1
+
+  pattern-quoted-nested:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.lua meta.mode.basic.lua
+    - match: '\)'
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: pattern-quoted
+
+  pattern-quoted-set-body:
+    - meta_scope: meta.set.regexp
+    - match: '\]'
+      scope: punctuation.definition.set.end.lua
+      pop: 1
+    - include: pattern-quoted-set-ranges
+    - include: pattern-quoted-charclass
+
+  pattern-quoted-set-ranges:
+    - meta_include_prototype: false
+    # These only work with direct characters. Lua doesn't support percent escapes in sets
+    - match: (?=({{string_char_escape}}|[^%\]\-])-({{string_char_escape}}|[^\]]))
+      push:
+        - pattern-quoted-set-range-end
+        - pattern-quoted-set-range-begin
+
+  pattern-quoted-set-range-begin:
+    - meta_include_prototype: false
+    - match: '-'
+      scope: punctuation.separator.sequence.regexp
+      pop: 1
+    - include: string-content
+
+  pattern-quoted-set-range-end:
+    - meta_include_prototype: false
+    - meta_scope: constant.other.range.regexp
+    - include: string-escape-pop
+    - match: .
+      pop: 1
+
+  pattern-unquoted:
+    - meta_include_prototype: false
+    - include: pattern-shared
+    - match: '\('
+      scope: punctuation.section.group.begin.lua
+      push:
+        - pattern-shared-norepetition
+        - pattern-unquoted-nested
+    - match: '(\[)(\^)?\]?'
+      captures:
+        1: punctuation.definition.set.begin.lua
+        2: keyword.operator.logical.lua
+      push: pattern-unquoted-set-body
+    - include: pattern-unquoted-charclass
+
+  pattern-unquoted-charclass:
+    - match: \%
+      scope: constant.character.escape.lua
+      push:
+        - match: .
+          scope: constant.character.escape.lua
+          pop: 1
+
+  pattern-unquoted-nested:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.lua meta.mode.basic.lua
+    - match: '\)'
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: pattern-unquoted
+
+  pattern-unquoted-set-body:
+    - meta_scope: meta.set.regexp
+    - match: '\]'
+      scope: punctuation.definition.set.end.lua
+      pop: 1
+    - include: pattern-unquoted-set-ranges
+    - include: pattern-unquoted-charclass
+
+  pattern-unquoted-set-ranges:
+    - meta_include_prototype: false
+    # These only work with direct characters. Lua doesn't support percent escapes in sets
+    - match: (?=[^%\]\-]-[^\]])
+      push:
+        - pattern-unquoted-set-range-end
+        - pattern-unquoted-set-range-begin
+
+  pattern-unquoted-set-range-begin:
+    - meta_include_prototype: false
+    - match: '-'
+      scope: punctuation.separator.sequence.regexp
+      pop: 1
+
+  pattern-unquoted-set-range-end:
+    - meta_include_prototype: false
+    - meta_scope: constant.other.range.regexp
+    - match: .
+      pop: 1
+
+  # this gets included in expressions that want to have a pattern string
   pattern-string:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
       set:
         - pattern-multiline-string-body
-        - pattern-test-first-caret
+        - pattern-test-first-caret-multiline
     - match: \'
       scope: punctuation.definition.string.begin.lua
       set:
-        # - single-quoted-meta
         - pattern-single-quoted-string-body
         - pattern-test-first-caret
     - match: \"
@@ -926,66 +1054,43 @@ contexts:
     - match: '\^'
       scope: keyword.control.anchor.lua
       pop: 1
-    - match: '[^\n]'
+    # it seems to require this match rather than immediately-pop
+    # in order to work with the multiline below
+    - match: (?=[^\^])
       pop: 1
+
+  pattern-test-first-caret-multiline:
+    - meta_include_prototype: false
+    - match: $\n?
+      set: pattern-test-first-caret
+    - include: pattern-test-first-caret
 
   pattern-single-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.lua string.quoted.single.lua
     - include: single-quoted-string-body
-    - match: \$(?=\')
-      scope: keyword.control.anchor.lua
-    - match: '%'
-      scope: constant.character.escape.lua
-      push:
-        - match: (?=\')
-          pop: 1
-        - include: string-escape-pop
-        - match: .
-          scope: constant.character.escape.lua
-          pop: 1
-    - include: pattern-nonnested
+    - match: ''
+      embed: pattern-quoted
+      escape: (?=\')
 
   pattern-double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.lua string.quoted.double.lua
     - include: double-quoted-string-body
-    - match: \$(?=\")
-      scope: keyword.control.anchor.lua
-    - match: '%'
-      scope: constant.character.escape.lua
-      push:
-        - match: (?=\")
-          pop: 1
-        - include: string-escape-pop
-        - match: .
-          scope: constant.character.escape.lua
-          pop: 1
-    - include: pattern-nonnested
+    - match: ''
+      embed: pattern-quoted
+      escape: (?=\")
 
   pattern-multiline-string-body:
     - meta_include_prototype: false
-    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - meta_scope: meta.string.lua string.quoted.double.lua
     - include: multiline-string-body
-    # - match: (?:(\$)|(%)|)(\]\1\])
-    #   captures:
-    #     1: keyword.control.anchor.lua
-    #     2: constant.character.escape.lua
-    #     3: punctuation.definition.string.end.lua
-    #   pop: 1
-    # This is added here so that we can escape the string properly
-    - match: (%)(?=\]\1\])
-      scope: constant.character.escape.lua
-    - match: (\$)(?=\]\1\])
-      scope: keyword.control.anchor.lua
-
-    - match: '%'
-      scope: constant.character.escape.lua
-      push:
-        - match: .
-          scope: constant.character.escape.lua
-          pop: 1
-    - include: pattern-nonnested
+    - match: ''
+      embed: pattern-unquoted
+      # we don't seem to be able to use the capture to get the right one
+      # this means that patterns that contain something that matches this
+      # will lose their context half way through.
+      escape: (?=\]=*\])
 
   fmtstr-expression:
     - include: fmtstr-string
