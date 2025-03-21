@@ -887,6 +887,24 @@ contexts:
         - pattern-expression
     - include: expression-end
 
+  pattern-shared-charclass:
+    - meta_include_prototype: false
+    - match: \%[AaCcDdGgLlPpSsUuWwXxZz]
+      scope: keyword.control.character-class.lua
+    - match: \%f
+      scope: keyword.control.anchor.lua
+
+    - match: (\%)(\d)
+      captures:
+        1: keyword.other.backref-and-recursion.lua
+        2: variable.other.backref-and-recursion.lua
+      push: pattern-shared-norepetition
+
+    # other alphabetic characters are not defined
+    # this skips `f` and `b` as they are special patterns
+    - match: \%[EeHhIiJjKkMmNnOoQqRrTtVvYy]
+      scope: invalid.illegal.invalid-escape.lua
+
   pattern-shared:
     - meta_include_prototype: false
       # start anchor is handled separately as ^ doesn't match the start of the string
@@ -899,6 +917,7 @@ contexts:
       push: pattern-shared-norepetition
     - match: \.
       scope: keyword.other.any.lua
+
 
   pattern-shared-norepetition:
     - meta_include_prototype: false
@@ -918,6 +937,7 @@ contexts:
       push:
         - pattern-shared-norepetition
         - pattern-quoted-nested
+        - pattern-shared-norepetition
     - match: '(\[)(\^)?\]?'
       captures:
         1: punctuation.definition.set.begin.lua
@@ -926,10 +946,16 @@ contexts:
     - include: pattern-quoted-charclass
 
   pattern-quoted-charclass:
+    - meta_include_prototype: false
+    - include: pattern-shared-charclass
     - match: \%
       scope: constant.character.escape.lua
       push:
+        - meta_include_prototype: false
         - include: string-escape-pop
+        - match: \d
+          scope: keyword.other.backref-and-recursion.lua
+          pop: 1
         - match: .
           scope: constant.character.escape.lua
           pop: 1
@@ -943,12 +969,14 @@ contexts:
     - include: pattern-quoted
 
   pattern-quoted-set-body:
-    - meta_scope: meta.set.regexp
+    - meta_include_prototype: false
+    - meta_scope: meta.set.lua
     - match: '\]'
       scope: punctuation.definition.set.end.lua
       pop: 1
     - include: pattern-quoted-set-ranges
     - include: pattern-quoted-charclass
+    - include: string-content
 
   pattern-quoted-set-ranges:
     - meta_include_prototype: false
@@ -961,13 +989,13 @@ contexts:
   pattern-quoted-set-range-begin:
     - meta_include_prototype: false
     - match: '-'
-      scope: punctuation.separator.sequence.regexp
+      scope: punctuation.separator.sequence.lua
       pop: 1
     - include: string-content
 
   pattern-quoted-set-range-end:
     - meta_include_prototype: false
-    - meta_scope: constant.other.range.regexp
+    - meta_scope: constant.other.range.lua
     - include: string-escape-pop
     - match: .
       pop: 1
@@ -980,6 +1008,7 @@ contexts:
       push:
         - pattern-shared-norepetition
         - pattern-unquoted-nested
+        - pattern-shared-norepetition
     - match: '(\[)(\^)?\]?'
       captures:
         1: punctuation.definition.set.begin.lua
@@ -988,9 +1017,15 @@ contexts:
     - include: pattern-unquoted-charclass
 
   pattern-unquoted-charclass:
+    - meta_include_prototype: false
+    - include: pattern-shared-charclass
     - match: \%
       scope: constant.character.escape.lua
       push:
+        - meta_include_prototype: false
+        - match: \d
+          scope: keyword.other.backref-and-recursion.lua
+          pop: 1
         - match: .
           scope: constant.character.escape.lua
           pop: 1
@@ -1004,7 +1039,8 @@ contexts:
     - include: pattern-unquoted
 
   pattern-unquoted-set-body:
-    - meta_scope: meta.set.regexp
+    - meta_include_prototype: false
+    - meta_scope: meta.set.lua
     - match: '\]'
       scope: punctuation.definition.set.end.lua
       pop: 1
@@ -1022,12 +1058,12 @@ contexts:
   pattern-unquoted-set-range-begin:
     - meta_include_prototype: false
     - match: '-'
-      scope: punctuation.separator.sequence.regexp
+      scope: punctuation.separator.sequence.lua
       pop: 1
 
   pattern-unquoted-set-range-end:
     - meta_include_prototype: false
-    - meta_scope: constant.other.range.regexp
+    - meta_scope: constant.other.range.lua
     - match: .
       pop: 1
 
@@ -1051,8 +1087,13 @@ contexts:
 
   pattern-test-first-caret:
     - meta_include_prototype: false
-    - match: '\^'
-      scope: keyword.control.anchor.lua
+    - match: (\^)[+*?\-]?
+      captures:
+        1: keyword.control.anchor.lua
+      pop: 1
+
+    # eat these because they can't be a repetition at the start
+    - match: '[+*?\-]'
       pop: 1
     # it seems to require this match rather than immediately-pop
     # in order to work with the multiline below

@@ -793,8 +793,7 @@
 -- basic tests for patterns
     local a = ('test'):match('^()t?$-e*s+()$')
 --                            ^ keyword.control.anchor
---                             ^ punctuation.section.group.begin
---                              ^ punctuation.section.group.end
+--                             ^^ punctuation.section.brackets.lua
 --                                ^ keyword.operator.quantifier
 --                                  ^ keyword.operator.quantifier
 --                                    ^ keyword.operator.quantifier
