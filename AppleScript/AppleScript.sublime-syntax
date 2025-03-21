@@ -556,103 +556,103 @@ contexts:
       scope: support.class.built-in.time.applescript
 
   finder:
-    - match: \b(item|container|(computer|disk|trash)-object|disk|folder|((alias|application|document|internet location) )?file|clipping|package)s?\b
+    - match: \b(?:item|container|(?:computer|disk|trash)-object|disk|folder|(?:(?:alias|application|document|internet location) )?file|clipping|package)s?\b
       scope: support.class.finder.items.applescript
-    - match: \b((Finder|desktop|information|preferences|clipping) )windows?\b
+    - match: \b(?:(?:Finder|desktop|information|preferences|clipping) )windows?\b
       scope: support.class.finder.window-classes.applescript
-    - match: \b(preferences|(icon|column|list) view options|(label|column|alias list)s?)\b
+    - match: \b(?:preferences|(?:icon|column|list) view options|(?:label|column|alias list)s?)\b
       scope: support.class.finder.type-definitions.applescript
-    - match: \b(copy|find|sort|clean up|eject|empty( trash)|erase|reveal|update)\b
+    - match: '\b(?:copy|find|sort|clean up|eject|empty(?: trash)|erase|reveal|update)\b'
       scope: support.function.finder.items.applescript
-    - match: \b(insertion location|product version|startup disk|desktop|trash|home|computer container|finder preferences)\b
+    - match: \b(?:insertion location|product version|startup disk|desktop|trash|home|computer container|finder preferences)\b
       scope: support.constant.finder.applescript
-    - match: \b(visible)\b
+    - match: \bvisible\b
       scope: support.variable.finder.applescript
 
   itunes:
-    - match: \b(artwork|application|encoder|EQ preset|item|source|visual|(EQ |browser )?window|((audio CD|device|shared|URL|file) )?track|playlist window|((audio CD|device|radio tuner|library|folder|user) )?playlist)s?\b
+    - match: \b(?:artwork|application|encoder|EQ preset|item|source|visual|(?:EQ |browser )?window|(?:(?:audio CD|device|shared|URL|file) )?track|playlist window|(?:(?:audio CD|device|radio tuner|library|folder|user) )?playlist)s?\b
       scope: support.class.itunes.applescript
-    - match: \b(add|back track|convert|fast forward|(next|previous) track|pause|play(pause)?|refresh|resume|rewind|search|stop|update|eject|subscribe|update(Podcast|AllPodcasts)|download)\b
+    - match: \b(?:add|back track|convert|fast forward|(?:next|previous) track|pause|play(?:pause)?|refresh|resume|rewind|search|stop|update|eject|subscribe|update(?:Podcast|AllPodcasts)|download)\b
       scope: support.function.itunes.applescript
-    - match: \b(current (playlist|stream (title|URL)|track)|player state)\b
+    - match: \b(?:current (?:playlist|stream (?:title|URL)|track)|player state)\b
       scope: support.constant.itunes.applescript
-    - match: \b(current (encoder|EQ preset|visual)|EQ enabled|fixed indexing|full screen|mute|player position|sound volume|visuals enabled|visual size)\b
+    - match: \b(?:current (?:encoder|EQ preset|visual)|EQ enabled|fixed indexing|full screen|mute|player position|sound volume|visuals enabled|visual size)\b
       scope: support.variable.itunes.applescript
 
   standard-suite:
-    - match: \b(colors?|documents?|items?|windows?)\b
+    - match: \b(?:colors?|documents?|items?|windows?)\b
       scope: support.class.standard-suite.applescript
-    - match: \b(close|count|delete|duplicate|exists|make|move|open|print|quit|save|activate|select|data size)\b
+    - match: \b(?:close|count|delete|duplicate|exists|make|move|open|print|quit|save|activate|select|data size)\b
       scope: support.function.standard-suite.applescript
-    - match: \b(name|frontmost|version)\b
+    - match: \b(?:name|frontmost|version)\b
       scope: support.constant.standard-suite.applescript
-    - match: \b(selection)\b
+    - match: \b(?:selection)\b
       scope: support.variable.standard-suite.applescript
-    - match: \b(attachments?|attribute runs?|characters?|paragraphs?|texts?|words?)\b
+    - match: \b(?:attachments?|attribute runs?|characters?|paragraphs?|texts?|words?)\b
       scope: support.class.text-suite.applescript
 
   standardadditions:
-    - match: \b((alert|dialog) reply)\b
+    - match: \b(?:(?:alert|dialog) reply)\b
       scope: support.class.standardadditions.user-interaction.applescript
-    - match: \b(file information)\b
+    - match: \bfile information\b
       scope: support.class.standardadditions.file.applescript
-    - match: \b(POSIX files?|system information|volume settings)\b
+    - match: \b(?:POSIX files?|system information|volume settings)\b
       scope: support.class.standardadditions.miscellaneous.applescript
-    - match: \b(URLs?|internet address(es)?|web pages?|FTP items?)\b
+    - match: \b(?:URLs?|internet address(es)?|web pages?|FTP items?)\b
       scope: support.class.standardadditions.internet.applescript
-    - match: \b(info for|list (disks|folder)|mount volume|path to( resource)?)\b
+    - match: '\b(?:info for|list (?:disks|folder)|mount volume|path to(?: resource)?)\b'
       scope: support.function.standardadditions.file.applescript
-    - match: \b(beep|choose (application|color|file( name)?|folder|from list|remote application|URL)|delay|display (alert|dialog)|say)\b
+    - match: '\b(?:beep|choose (?:application|color|file(?: name)?|folder|from list|remote application|URL)|delay|display (?:alert|dialog)|say)\b'
       scope: support.function.standardadditions.user-interaction.applescript
-    - match: \b(ASCII (character|number)|localized string|offset|summarize)\b
+    - match: \b(?:ASCII (?:character|number)|localized string|offset|summarize)\b
       scope: support.function.standardadditions.string.applescript
-    - match: \b(set the clipboard to|the clipboard|clipboard info)\b
+    - match: \b(?:set the clipboard to|the clipboard|clipboard info)\b
       scope: support.function.standardadditions.clipboard.applescript
-    - match: \b(open for access|close access|read|write|get eof|set eof)\b
+    - match: \b(?:open for access|close access|read|write|get eof|set eof)\b
       scope: support.function.standardadditions.file-i-o.applescript
-    - match: \b((load|store|run) script|scripting components)\b
+    - match: \b(?:(?:load|store|run) script|scripting components)\b
       scope: support.function.standardadditions.scripting.applescript
-    - match: \b(current date|do shell script|get volume settings|random number|round|set volume|system attribute|system info|time to GMT)\b
+    - match: \b(?:current date|do shell script|get volume settings|random number|round|set volume|system attribute|system info|time to GMT)\b
       scope: support.function.standardadditions.miscellaneous.applescript
-    - match: \b(opening folder|(closing|moving) folder window for|adding folder items to|removing folder items from)\b
+    - match: \b(?:opening folder|(?:closing|moving) folder window for|adding folder items to|removing folder items from)\b
       scope: support.function.standardadditions.folder-actions.applescript
-    - match: \b(open location|handle CGI request)\b
+    - match: \b(?:open location|handle CGI request)\b
       scope: support.function.standardadditions.internet.applescript
 
   system-events:
-    - match: \b(audio (data|file))\b
+    - match: \b(?:audio (?:data|file))\b
       scope: support.class.system-events.audio-file.applescript
-    - match: \b(alias(es)?|(Classic|local|network|system|user) domain objects?|disk( item)?s?|domains?|file( package)?s?|folders?|items?)\b
+    - match: '\b(?:alias(?:es)?|(?:Classic|local|network|system|user) domain objects?|disk(?: item)?s?|domains?|file(?: package)?s?|folders?|items?)\b'
       scope: support.class.system-events.disk-folder-file.applescript
-    - match: \b(delete|open|move)\b
+    - match: \b(?:delete|open|move)\b
       scope: support.function.system-events.disk-folder-file.applescript
-    - match: \b(folder actions?|scripts?)\b
+    - match: \b(?:folder actions?|scripts?)\b
       scope: support.class.system-events.folder-actions.applescript
-    - match: \b(attach action to|attached scripts|edit action of|remove action from)\b
+    - match: \b(?:attach action to|attached scripts|edit action of|remove action from)\b
       scope: support.function.system-events.folder-actions.applescript
-    - match: \b(movie data|movie file)\b
+    - match: \b(?:movie data|movie file)\b
       scope: support.class.system-events.movie-file.applescript
-    - match: \b(log out|restart|shut down|sleep)\b
+    - match: \b(?:log out|restart|shut down|sleep)\b
       scope: support.function.system-events.power.applescript
-    - match: \b(((application |desk accessory )?process|(check|combo )?box)(es)?|(action|attribute|browser|(busy|progress|relevance) indicator|color well|column|drawer|group|grow area|image|incrementor|list|menu( bar)?( item)?|(menu |pop up |radio )?button|outline|(radio|tab|splitter) group|row|scroll (area|bar)|sheet|slider|splitter|static text|table|text (area|field)|tool bar|UI element|window)s?)\b
+    - match: '\b(?:(?:(?:application |desk accessory )?process|(?:check|combo )?box)(?:es)?|(?:action|attribute|browser|(?:busy|progress|relevance) indicator|color well|column|drawer|group|grow area|image|incrementor|list|menu(?: bar)?(?: item)?|(?:menu |pop up |radio )?button|outline|(?:radio|tab|splitter) group|row|scroll (?:area|bar)|sheet|slider|splitter|static text|table|text (?:area|field)|tool bar|UI element|window)s?)\b'
       scope: support.class.system-events.processes.applescript
-    - match: \b(click|key code|keystroke|perform|select)\b
+    - match: \b(?:click|key code|keystroke|perform|select)\b
       scope: support.function.system-events.processes.applescript
-    - match: \b(property list (file|item))\b
+    - match: \b(?:property list (?:file|item))\b
       scope: support.class.system-events.property-list.applescript
-    - match: \b(annotation|QuickTime (data|file)|track)s?\b
+    - match: \b(?:annotation|QuickTime (?:data|file)|track)s?\b
       scope: support.class.system-events.quicktime-file.applescript
-    - match: \b((abort|begin|end) transaction)\b
+    - match: \b(?:(?:abort|begin|end) transaction)\b
       scope: support.function.system-events.system-events.applescript
-    - match: \b(XML (attribute|data|element|file)s?)\b
+    - match: \b(?:XML (?:attribute|data|element|file)s?)\b
       scope: support.class.system-events.xml.applescript
-    - match: \b(print settings|users?|login items?)\b
+    - match: \b(?:print settings|users?|login items?)\b
       scope: support.class.system-events.other.applescript
 
   textmate:
-    - match: \b(print settings)\b
+    - match: \b(?:print settings)\b
       scope: support.class.textmate.applescript
-    - match: \b(get url|insert|reload bundles)\b
+    - match: \b(?:get url|insert|reload bundles)\b
       scope: support.function.textmate.applescript
 
 
