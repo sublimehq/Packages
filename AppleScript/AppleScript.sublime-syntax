@@ -73,9 +73,9 @@ contexts:
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
-        3: punctuation.definition.parameters.applescript
+        3: punctuation.section.parameters.applescript
         4: variable.parameter.handler.applescript
-        5: punctuation.definition.parameters.applescript
+        5: punctuation.section.parameters.applescript
       push:
         - meta_scope: meta.function.positional.applescript
         - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)

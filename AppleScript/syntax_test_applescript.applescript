@@ -387,7 +387,7 @@ on myHandler()
 #^^^^^^^^^^^^^ meta.function.positional.applescript
 #^ keyword.control.function.applescript
 #  ^^^^^^^^^ entity.name.function.handler.applescript
-#           ^^ punctuation.definition.parameters.applescript
+#           ^^ punctuation.section.parameters.applescript
     --commands
 end myHandler
 #^^^^^^^^^^^^ meta.function.positional.applescript
