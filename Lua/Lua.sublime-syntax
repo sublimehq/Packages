@@ -893,6 +893,8 @@ contexts:
       scope: keyword.control.character-class.lua
     - match: \%f
       scope: keyword.control.anchor.lua
+    - match: \%[\$\^]
+      scope: constant.character.escape.lua
 
     - match: (\%)(\d)
       captures:
@@ -1104,17 +1106,25 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.string.lua string.quoted.single.lua
     - include: single-quoted-string-body
+    - match: \$(?=\')
+      scope: keyword.control.anchor.lua
     - match: ''
-      embed: pattern-quoted
-      escape: (?=\')
+      push: pattern-quoted
+      with_prototype:
+        - match: (?=\$?\')
+          pop: 1
 
   pattern-double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.lua string.quoted.double.lua
     - include: double-quoted-string-body
+    - match: \$(?=\")
+      scope: keyword.control.anchor.lua
     - match: ''
-      embed: pattern-quoted
-      escape: (?=\")
+      push: pattern-quoted
+      with_prototype:
+        - match: (?=\$?\")
+          pop: 1
 
   pattern-multiline-string-body:
     - meta_include_prototype: false

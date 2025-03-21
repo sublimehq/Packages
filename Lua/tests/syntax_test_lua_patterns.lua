@@ -4,6 +4,15 @@
 -- Anchors and escapes
 --------------------
 
+(''):match('\'')
+--          ^^ constant.character.escape.lua
+
+(''):match(' \'')
+--           ^^ constant.character.escape.lua
+
+(''):match(" \"")
+--           ^^ constant.character.escape.lua
+
 (''):match('^foo ^bbar$ %f[test] <test>$')
 --          ^ keyword.control.anchor.lua
 --               ^ - keyword.control.anchor.lua
@@ -21,12 +30,12 @@
 
 (''):match('%^foo ^bbar$ <test>%$')
 --           ^ - keyword.control.anchor.lua
---                             ^ - keyword.control.anchor.lua
+--                              ^ - keyword.control.anchor.lua
 
 (''):match[[%^foo ^bbar$ <test>%$]]
 --          ^^ constant.character.escape.lua
 --           ^ - keyword.control.anchor.lua
---                             ^ - keyword.control.anchor.lua
+--                              ^ - keyword.control.anchor.lua
 --                             ^^ constant.character.escape.lua
 
 (''):match('%1')
@@ -141,3 +150,9 @@
 --           ^^^ constant.other.range
 --              ^ - constant.other.range
 --               ^ punctuation.definition.set.end.lua
+
+------------------
+-- Other various tests
+------------------
+(''):match[[[]]
+--          ^ punctuation.definition.set.begin.lua
