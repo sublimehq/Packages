@@ -1128,7 +1128,7 @@ contexts:
 
   pattern-multiline-string-body:
     - meta_include_prototype: false
-    - meta_scope: meta.string.lua string.quoted.double.lua
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
     - include: multiline-string-body
     - match: ''
       embed: pattern-unquoted
