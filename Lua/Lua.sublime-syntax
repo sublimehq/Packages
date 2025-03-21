@@ -953,9 +953,6 @@ contexts:
       push:
         - meta_include_prototype: false
         - include: string-escape-pop
-        - match: \d
-          scope: keyword.other.backref-and-recursion.lua
-          pop: 1
         - match: .
           scope: constant.character.escape.lua
           pop: 1
@@ -1023,9 +1020,6 @@ contexts:
       scope: constant.character.escape.lua
       push:
         - meta_include_prototype: false
-        - match: \d
-          scope: keyword.other.backref-and-recursion.lua
-          pop: 1
         - match: .
           scope: constant.character.escape.lua
           pop: 1
