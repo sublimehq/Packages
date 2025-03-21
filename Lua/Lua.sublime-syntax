@@ -1158,6 +1158,9 @@ contexts:
 
   fmtstr-embed:
     - meta_include_prototype: false
+    - match: '%%'
+      scope: constant.character.escape.lua
+
     - match: '%'
       scope: constant.other.placeholder.lua
       push: fmtstr-pattern
@@ -1169,7 +1172,7 @@ contexts:
       pop: 1
     - match: '[-+#0-9. ]'
       scope: constant.other.placeholder.lua
-    - match: '[cdiuoxXaAfeEgGpqs%]'
+    - match: '[cdiuoxXaAfeEgGpqs]'
       scope: constant.other.placeholder.lua
       pop: 1
     - match: '.'
