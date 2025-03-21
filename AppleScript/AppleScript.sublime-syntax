@@ -94,7 +94,7 @@ contexts:
             (of|in)\s+       # "of" or "in"
             (\w+)            # direct parameter
           )?
-          (?=\s+{{prepositions}})
+          (?=\s+{{preposition}})
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -106,7 +106,7 @@ contexts:
           captures:
             1: keyword.control.function.applescript
           pop: true
-        - match: \b({{prepositions}})(?:\s+(the|an?))?\s+(\w+)\b
+        - match: \b({{preposition}})(?:\s+(the|an?))?\s+(\w+)\b
           captures:
             1: keyword.control.preposition.applescript
             2: keyword.other.applescript
@@ -487,11 +487,11 @@ contexts:
         )\b
       scope: keyword.operator.reference.applescript
 
-    - match: \b(?:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinals}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
+    - match: \b(?:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinal}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
       scope: keyword.operator.reference.applescript
     - match: \b(?:continue|return|exit(?:\s+repeat)?)\b
       scope: keyword.control.loop.applescript
-    - match: \b(?:{{prepositions}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
+    - match: \b(?:{{preposition}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
       scope: keyword.other.applescript
 
   groups:
@@ -550,7 +550,7 @@ contexts:
         | (?:(?: C | encoded | Pascal )\s+)? string
         )s?\b
       scope: support.class.built-in.applescript
-    - match: '{{unit_types}}'
+    - match: '{{unit_type}}'
       scope: support.class.built-in.unit.applescript
     - match: \b(?i:seconds|minutes|hours|days)\b
       scope: support.class.built-in.time.applescript
@@ -756,9 +756,9 @@ contexts:
       scope: meta.number.float.decimal.applescript constant.language.applescript
 
   time-units:
-    - match: '{{months}}'
+    - match: '{{month}}'
       scope: constant.other.time.month.applescript
-    - match: '{{weekdays}}'
+    - match: '{{weekday}}'
       scope: constant.other.time.weekday.applescript
 
   text-constants:
@@ -945,7 +945,7 @@ variables:
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW4
   identifier: (?i:[a-z][a-z0-9_]*)
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
-  months: |-
+  month: |-
     \b(?x:
       Jan(?:uary)? | Feb(?:ruary)? | Mar(?:ch)?
     | Apr(?:il)? | May | June?
@@ -953,24 +953,24 @@ variables:
     | Oct(?:ober)? | Nov(?:ember)? | Dec(?:ember)?
     )\b
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
-  weekdays: |-
+  weekday: |-
     \b(?x:
       Mon(?:day)? | Tue(?:sday)? | Wed(?:nesday)? | Thu(?:rsday)?
     | Fri(?:day)? | Sat(?:urday)? | Sun(?:day)?
     )\b
-  ordinals: |-
+  ordinal: |-
     \b(?x:
       first | second | third | fourth | fifth
     | sixth | seventh | eighth | ninth | tenth
     )\b
-  prepositions: |-
+  preposition: |-
     \b(?x:
       above | against | apart\s+from | around | aside\s+from | at | below
     | beneath | beside | between | by | for | from | instead\s+of | into | on
     | onto | out\s+of | over | thru | under
     )\b
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-SW8
-  unit_types: |-
+  unit_type: |-
     \b(?x:
       # Optional length dimensions (cubic cannot be miles/km)
       (?:(?: square | cubic (?! \s+ kilomet | miles )) \s+)?
