@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
+# https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html
 name: AppleScript
 scope: source.applescript
 
@@ -549,23 +550,7 @@ contexts:
         | (?:(?: C | encoded | Pascal )\s+)? string
         )s?\b
       scope: support.class.built-in.applescript
-    - match: |-
-        \b(?x:
-          # Optional length dimensions
-          (?:(?: cubic | square ) \s+)?
-          # Length
-          (?:
-            (?: centi | kilo)? (?: meters | metres )
-          | (?: inches | feet | yards | miles )
-          )
-        # Volume
-        | liters | litres | gallons | quarts
-        # Mass / weight
-        | (?:kilo)?grams | ounces | pounds
-        # Temperature
-        | degrees \s+ (?: Celsius | Fahrenheit | Kelvin )
-        )
-        \b
+    - match: '{{unit_types}}'
       scope: support.class.built-in.unit.applescript
     - match: \b(?i:seconds|minutes|hours|days)\b
       scope: support.class.built-in.time.applescript
@@ -959,15 +944,17 @@ contexts:
 variables:
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW4
   identifier: (?i:[a-z][a-z0-9_]*)
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
   months: |-
-    \b(?xi:
+    \b(?x:
       Jan(?:uary)? | Feb(?:ruary)? | Mar(?:ch)?
     | Apr(?:il)? | May | June?
     | July? | Aug(?:ust)? | Sep(?:tember)?
     | Oct(?:ober)? | Nov(?:ember)? | Dec(?:ember)?
     )\b
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
   weekdays: |-
-    \b(?xi:
+    \b(?x:
       Mon(?:day)? | Tue(?:sday)? | Wed(?:nesday)? | Thu(?:rsday)?
     | Fri(?:day)? | Sat(?:urday)? | Sun(?:day)?
     )\b
@@ -981,4 +968,21 @@ variables:
       above | against | apart\s+from | around | aside\s+from | at | below
     | beneath | beside | between | by | for | from | instead\s+of | into | on
     | onto | out\s+of | over | thru | under
+    )\b
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-SW8
+  unit_types: |-
+    \b(?x:
+      # Optional length dimensions (cubic cannot be miles/km)
+      (?:(?: square | cubic (?! \s+ kilomet | miles )) \s+)?
+      # Length
+      (?:
+        (?: centi | kilo)? (?: meters | metres )
+      | (?: inches | feet | yards | miles )
+      )
+    # Volume
+    | liters | litres | gallons | quarts
+    # Mass / weight
+    | (?:kilo)?grams | ounces | pounds
+    # Temperature
+    | degrees \s+ (?: Celsius | Fahrenheit | Kelvin )
     )\b
