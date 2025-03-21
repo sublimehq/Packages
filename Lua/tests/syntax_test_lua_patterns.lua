@@ -38,6 +38,11 @@
 --                              ^ - keyword.control.anchor.lua
 --                             ^^ constant.character.escape.lua
 
+(''):match[[
+^testing$]]
+-- <- keyword.control.anchor.lua
+--      ^ keyword.control.anchor.lua
+
 (''):match('%1')
 --          ^ keyword.other.backref-and-recursion
 --           ^ variable.other.backref-and-recursion
@@ -156,3 +161,4 @@
 ------------------
 (''):match[[[]]
 --          ^ punctuation.definition.set.begin.lua
+--           ^^ punctuation.definition.string.end.lua
