@@ -257,7 +257,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: true
-        - match: \b(from|to|by)\b
+        - match: \b(?:from|to|by)\b
           scope: keyword.control.modifier.range.applescript
         - match: \bin\b
           scope: keyword.control.modifier.list.applescript
@@ -455,12 +455,12 @@ contexts:
   operators:
     - match: (?:\*|\+|-|/|÷|\^)
       scope: keyword.operator.arithmetic.applescript
-    - match: \b(?i:div|mod)\b
+    - match: \b(?:div|mod)\b
       scope: keyword.operator.arithmetic.applescript
     - match: \&
       scope: keyword.operator.concatenation.applescript
 
-    - match: \b(?i:and|or|not)\b
+    - match: \b(?:and|or|not)\b
       scope: keyword.operator.logical.applescript
 
     - match: (?:=|≠|>=|<=|≥|>|≤|<)
@@ -468,7 +468,7 @@ contexts:
     - match: (?:equal(?:s|\s+to)|contains?|comes\s+(?:after|before)|(?:start|begin|end)s?\s+with)
       scope: keyword.operator.comparison.applescript
     - match: |-
-        \b(?ix:
+        \b(?x:
         # is / isn't
           is (?: n't |\s+ not )? (?:\s+
           (?: equal (?:\s+ to)?
@@ -481,16 +481,16 @@ contexts:
         )\b
       scope: keyword.operator.comparison.applescript
     - match: |-
-        \b(?ix:
+        \b(?x:
           as | (?:a \s+)? (?: ref (?:\s+ to)? | reference \s+ to )
         )\b
       scope: keyword.operator.reference.applescript
 
-    - match: \b(?i:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinals}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
+    - match: \b(?:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinals}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
       scope: keyword.operator.reference.applescript
-    - match: \b(?i:continue|return|exit(?:\s+repeat)?)\b
+    - match: \b(?:continue|return|exit(?:\s+repeat)?)\b
       scope: keyword.control.loop.applescript
-    - match: \b(?i:{{prepositions}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
+    - match: \b(?:{{prepositions}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
       scope: keyword.other.applescript
 
   groups:
@@ -505,7 +505,7 @@ contexts:
 
   built-in.support:
     - match: |-
-        \b(?xi:
+        \b(?x:
           frontmost | id | name | running | version | days? | weekdays?
         | months? | years? | time | date \s+ string | time \s+ string | length
         | rest | reverse | items? | contents | quoted \s+ form | characters?
@@ -513,7 +513,7 @@ contexts:
         )\b
       scope: support.function.built-in.property.applescript
     - match: |-
-        \b(?xi:
+        \b(?x:
           activate | log | clipboard \s+ info | set \s+ the \s+ clipboard \s+ to
         | the \s+ clipboard | info \s+ for | list \s+ (?: disks | folder )
         | mount \s+ volume | path \s+ to (?:\s+ resource )?
@@ -530,14 +530,14 @@ contexts:
         | delay | display \s+(?: alert | dialog ) | say
         )\b
       scope: support.function.built-in.command.applescript
-    - match: \b(?i:get|run)\b
+    - match: \b(?:get|run)\b
       scope: support.function.built-in.applescript
-    - match: \b(?i:anything|data|text|upper\s+case|propert(?:y|ies))\b
+    - match: \b(?:anything|data|text|upper\s+case|propert(?:y|ies))\b
       scope: support.class.built-in.applescript
-    - match: \b(?i:alias|class)(?:es)?\b
+    - match: \b(?:alias|class)(?:es)?\b
       scope: support.class.built-in.applescript
     - match: |-
-        \b(?xi:
+        \b(?x:
           app (?:lication)? | boolean | character | constant | date | event
         | file (?:\s+ specification )? | handler | integer | item | keystroke
         | linked \s+ list | list | machine | number | picture | preposition
@@ -550,7 +550,7 @@ contexts:
         )s?\b
       scope: support.class.built-in.applescript
     - match: |-
-        \b(?ix:
+        \b(?x:
           # Optional length dimensions
           (?:(?: cubic | square ) \s+)?
           # Length
@@ -729,27 +729,27 @@ contexts:
       scope: variable.language.applescript
     - match: \b(?:its|my)\b
       scope: storage.modifier.applescript
-    - match: \b(?i:AppleScript|result|version)\b
+    - match: \b(?:AppleScript|result|version)\b
       scope: constant.other.miscellaneous.applescript
     - include: raw-codes
 
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW14
   booleans:
-    - match: \b(?i:true)\b
+    - match: \btrue\b
       scope: constant.language.boolean.true.applescript
-    - match: \b(?i:false)\b
+    - match: \bfalse\b
       scope: constant.language.boolean.false.applescript
 
   booleans-lenient:
     # yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
-    - match: \b(?i:yes)\b
+    - match: \byes\b
       scope: constant.language.boolean.true.applescript
-    - match: \b(?i:no)\b
+    - match: \bno\b
       scope: constant.language.boolean.false.applescript
     - include: booleans
 
   nulls:
-    - match: \b(?i:null|missing\s+value)\b
+    - match: \b(?:null|missing\s+value)\b
       scope: constant.language.null.applescript
 
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW12
@@ -777,11 +777,11 @@ contexts:
       scope: constant.other.time.weekday.applescript
 
   text-constants:
-    - match: \b(?i:space|tab|return|linefeed|quote)\b
+    - match: \b(?:space|tab|return|linefeed|quote)\b
       scope: constant.other.text.applescript
-    - match: \b(?i:all\s+(?:caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(?:sub|super)script|underline)\b
+    - match: \b(?:all\s+(?:caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(?:sub|super)script|underline)\b
       scope: constant.other.styles.applescript
-    - match: \b(?i:text\s+item\s+delimiters|print\s+(?:length|depth))\b
+    - match: \b(?:text\s+item\s+delimiters|print\s+(?:length|depth))\b
       scope: variable.language.applescript
 
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW26
@@ -977,7 +977,7 @@ variables:
     | sixth | seventh | eighth | ninth | tenth
     )\b
   prepositions: |-
-    \b(?xi:
+    \b(?x:
       above | against | apart\s+from | around | aside\s+from | at | below
     | beneath | beside | between | by | for | from | instead\s+of | into | on
     | onto | out\s+of | over | thru | under
