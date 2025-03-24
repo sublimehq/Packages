@@ -949,6 +949,11 @@ contexts:
   pattern-quoted-charclass:
     - meta_include_prototype: false
     - include: pattern-shared-charclass
+    - match: \%b
+      scope: keyword.control.balanced.lua
+      push:
+        - pattern-quoted-balanced-char
+        - pattern-quoted-balanced-char
     - match: \%
       scope: constant.character.escape.lua
       push:
@@ -957,6 +962,13 @@ contexts:
         - match: .
           scope: constant.character.escape.lua
           pop: 1
+
+  pattern-quoted-balanced-char:
+    - meta_include_prototype: false
+    - include: string-escape-pop
+    - match: .
+      scope: keyword.control.balanced.lua
+      pop: 1
 
   pattern-quoted-nested:
     - meta_include_prototype: false
@@ -1017,6 +1029,11 @@ contexts:
   pattern-unquoted-charclass:
     - meta_include_prototype: false
     - include: pattern-shared-charclass
+    - match: \%b
+      scope: keyword.control.balanced.lua
+      push:
+        - pattern-unquoted-balanced-char
+        - pattern-unquoted-balanced-char
     - match: \%
       scope: constant.character.escape.lua
       push:
@@ -1024,6 +1041,12 @@ contexts:
         - match: .
           scope: constant.character.escape.lua
           pop: 1
+
+  pattern-unquoted-balanced-char:
+    - meta_include_prototype: false
+    - match: .
+      scope: keyword.control.balanced.lua
+      pop: 1
 
   pattern-unquoted-nested:
     - meta_include_prototype: false

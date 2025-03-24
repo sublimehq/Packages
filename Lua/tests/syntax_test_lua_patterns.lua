@@ -13,19 +13,27 @@
 (''):match(" \"")
 --           ^^ constant.character.escape.lua
 
-(''):match('^foo ^bbar$ %f[test] <test>$')
+(''):match('^foo ^bbar$ %f[test] %b() <test>$')
 --          ^ keyword.control.anchor.lua
 --               ^ - keyword.control.anchor.lua
 --                    ^ - keyword.control.anchor.lua
 --                      ^^ keyword.control.anchor.lua
---                                     ^ keyword.control.anchor.lua
+--                        ^ punctuation.definition.set.begin.lua
+--                             ^ punctuation.definition.set.end.lua
+--                        ^^^^^^ meta.set.lua
+--                               ^^^^ keyword.control.balanced.lua
+--                                          ^ keyword.control.anchor.lua
 
-(''):match[[^foo ^bbar$ %f[test] <test>$]]
+(''):match[[^foo ^bbar$ %f[test] %b() <test>$]]
 --          ^ keyword.control.anchor.lua
 --               ^ - keyword.control.anchor.lua
 --                    ^ - keyword.control.anchor.lua
 --                      ^^ keyword.control.anchor.lua
---                                     ^ keyword.control.anchor.lua
+--                        ^ punctuation.definition.set.begin.lua
+--                             ^ punctuation.definition.set.end.lua
+--                        ^^^^^^ meta.set.lua
+--                               ^^^^ keyword.control.balanced.lua
+--                                          ^ keyword.control.anchor.lua
 
 
 (''):match('%^foo ^bbar$ <test>%$')
