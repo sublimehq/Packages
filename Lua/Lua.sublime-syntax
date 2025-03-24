@@ -510,8 +510,7 @@ contexts:
       scope: meta.property.lua meta.function-call.lua variable.function.lua
       set:
         - match: (?={{function_args_begin}})
-          pop: 1
-          push:
+          set:
             - function-arguments-meta
             - function-arguments-pattern-at1
         - include: else-pop
@@ -889,7 +888,7 @@ contexts:
 
   pattern-shared-charclass:
     - meta_include_prototype: false
-    - match: \%[AaCcDdGgLlPpSsUuWwXxZz]
+    - match: \%(?i:[acdglpsuwxz])
       scope: keyword.control.character-class.lua
     - match: \%f
       scope: keyword.control.anchor.lua
@@ -904,7 +903,7 @@ contexts:
 
     # other alphabetic characters are not defined
     # this skips `f` and `b` as they are special patterns
-    - match: \%[EeHhIiJjKkMmNnOoQqRrTtVvYy]
+    - match: \%(?i:[ehijkmnoqrtvy])
       scope: invalid.illegal.invalid-escape.lua
 
   pattern-shared:
@@ -1267,8 +1266,7 @@ contexts:
               scope: meta.property.lua support.function.builtin.lua
               set:
                 - match: (?={{function_args_begin}})
-                  pop: 1
-                  push:
+                  set:
                     - function-arguments-meta
                     - function-arguments-pattern-at2
                 - include: else-pop
@@ -1276,8 +1274,7 @@ contexts:
               scope: meta.property.lua support.function.builtin.stringy.lua
               set:
                 - match: (?={{function_args_begin}})
-                  pop: 1
-                  push:
+                  set:
                     - function-arguments-meta
                     - function-arguments-fmtstr-at1
                 - include: else-pop
@@ -1285,8 +1282,7 @@ contexts:
               scope: meta.property.lua support.function.builtin.stringy.lua
               set:
                 - match: (?={{function_args_begin}})
-                  pop: 1
-                  push:
+                  set:
                     - function-arguments-meta
                     - function-arguments-packstr-at1
                 - include: else-pop
