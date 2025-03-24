@@ -738,6 +738,14 @@ contexts:
           scope: punctuation.section.group.end.lua
           pop: 1
         - include: reserved-word-expression-pop
+        - match: (?="(?:{{string_char_escape}}|[^\\"])*"\s*\)\s*:\s*format{{identifier_break}})
+          push: fmtstr-expression
+        - match: (?='(?:{{string_char_escape}}|[^\\'])*'\s*\)\s*:\s*format{{identifier_break}})
+          push: fmtstr-expression
+        - match: (?="(?:{{string_char_escape}}|[^\\"])*"\s*\)\s*:\s*(?:pack|unpack|packsize){{identifier_break}})
+          push: packstr-expression
+        - match: (?='(?:{{string_char_escape}}|[^\\'])*'\s*\)\s*:\s*(?:pack|unpack|packsize){{identifier_break}})
+          push: packstr-expression
         - match: (?=\S)
           push: expression
 

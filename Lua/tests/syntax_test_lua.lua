@@ -809,7 +809,7 @@
 --                                                  ^^ constant.other.placeholder.lua
 --                                                     ^^ constant.other.placeholder.lua
 
-    local c = string.pack('< = !3 i f s b c1 d f h i1 j l n s1 x z X')
+    local c = string.pack('< = !3 i f s b c1 d f h i1 j l n s1 x z X');
 --                         ^ storage.modifier.lua
 --                           ^ storage.modifier.lua
 --                             ^^ storage.modifier.lua
@@ -829,3 +829,15 @@
 --                                                             ^ punctuation.separator.padding.lua
 --                                                               ^ storage.type.lua
 --                                                                 ^ punctuation.separator.padding.lua
+
+    ("%q %d"):format(test);
+--  ^ punctuation.section.group.begin.lua
+--    ^^ constant.other.placeholder.lua
+--       ^^ constant.other.placeholder.lua
+--          ^ punctuation.section.group.end.lua
+
+    ("< = !5 f"):pack(test);
+--    ^ storage.modifier.lua
+--      ^ storage.modifier.lua
+--        ^^ storage.modifier.lua
+--           ^ storage.type.lua
