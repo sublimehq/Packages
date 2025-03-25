@@ -172,7 +172,7 @@ contexts:
 
   single-quoted-string-body:
     - meta_scope: string.quoted.single.log
-    - match: ''''
+    - match: \'
       scope: punctuation.definition.string.end.log
       pop: 1
     - match: \.$
