@@ -234,8 +234,7 @@ contexts:
     - match: (?=[ ]+\|)
       pop: 1
     - include: path-separators
-    - match: \.{3}
-      scope: keyword.operator.diff
+    - include: path-shortcuts
 
   stat-shortstat:
     - include: pop-eol
@@ -550,6 +549,17 @@ contexts:
       scope: meta.number.integer.octal.diff constant.numeric.value.diff
     - match: \b(?:100)?755\b
       scope: meta.number.integer.octal.diff constant.numeric.value.diff storage.modifier.executable.diff
+
+  path-shortcuts:
+    - match: \.{3}
+      scope: keyword.operator.diff
+    - match: ' (=>) '
+      captures:
+        1: keyword.operator.diff
+    - match: \{
+      scope: punctuation.section.braces.begin.git
+    - match: \}
+      scope: punctuation.section.braces.end.git
 
 ###[ PROTOTYPES ]##############################################################
 
