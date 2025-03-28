@@ -83,6 +83,7 @@ Much better, no?
  ....tmPreferences => DOT - Comments.tmPreferences} |   10 +-
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
 \^^^ keyword.operator.diff
+\   ^ - keyword.operator
 \                  ^^ keyword.operator.diff
 \                                                 ^ punctuation.section.braces.end.git
 \                                                   ^ punctuation.separator.sequence.diff
