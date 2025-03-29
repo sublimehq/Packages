@@ -552,10 +552,10 @@ contexts:
 
   path-shortcuts:
     - match: \.{3}
-      scope: keyword.operator.diff
+      scope: keyword.operator.truncation.diff
     - match: ' (=>) '
       captures:
-        1: keyword.operator.diff
+        1: keyword.operator.transformation.diff
     - match: \{
       scope: punctuation.section.braces.begin.git
     - match: \}
