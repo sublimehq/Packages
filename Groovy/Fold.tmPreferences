@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>scope</key>
-    <string>source.groovy</string>
-    <key>settings</key>
-    <dict>
-        <key>foldScopes</key>
-        <array>
-            <dict>
-                <key>begin</key>
-                <string>punctuation.definition.parameters.begin</string>
-                <key>end</key>
-                <string>punctuation.definition.parameters.end</string>
-            </dict>
-            <dict>
-                <key>begin</key>
-                <string>punctuation.definition.method-parameters.begin</string>
-                <key>end</key>
-                <string>punctuation.definition.method-parameters.end</string>
-            </dict>
-        </array>
-    </dict>
+	<key>scope</key>
+	<string><![CDATA[source.groovy]]></string>
+	<key>settings</key>
+	<dict>
+		<key>foldScopes</key>
+		<array>
+			<dict><!-- COMMENTS -->
+				<key>begin</key>
+				<string>punctuation.definition.comment.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.comment.end</string>
+			</dict>
+			<dict><!-- STRINGS -->
+				<key>begin</key>
+				<string>punctuation.definition.string.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.string.end</string>
+			</dict>
+			<dict><!-- REGEX STRINGS -->
+				<key>begin</key>
+				<string>punctuation.definition.string.regexp.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.string.regexp.end</string>
+			</dict>
+			<dict><!-- STRING INTERPOLATIONS -->
+				<key>begin</key>
+				<string>punctuation.section.interpolation.begin</string>
+				<key>end</key>
+				<string>punctuation.section.interpolation.end</string>
+			</dict>
+			<dict><!-- MAPPINGS -->
+				<key>begin</key>
+				<string>meta.block.groovy punctuation.section.block.begin</string>
+				<key>end</key>
+				<string>meta.block.groovy punctuation.section.block.end</string>
+			</dict>
+			<dict><!-- SEQUENCES -->
+				<key>begin</key>
+				<string>punctuation.section.sequence.begin</string>
+				<key>end</key>
+				<string>punctuation.section.sequence.end</string>
+			</dict>
+			<dict><!-- FUNCTION PARAMETERS -->
+				<key>begin</key>
+				<string>punctuation.definition.parameters.begin</string>
+				<key>end</key>
+				<string>punctuation.definition.parameters.end</string>
+			</dict>
+		</array>
+		<key>indentationFoldingEnabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

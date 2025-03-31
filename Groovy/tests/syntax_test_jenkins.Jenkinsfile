@@ -1,6 +1,5 @@
 // SYNTAX TEST "Packages/Groovy/Groovy.sublime-syntax"
-// <- comment.line.double-slash.groovy punctuation.definition.comment.groovy
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.groovy
+// <- source.groovy
 
 pipeline {
     agent {
@@ -16,18 +15,18 @@ pipeline {
 }
 
 def call() {
-// <- meta.definition.method.groovy keyword.declaration.function.groovy
-//^ meta.definition.method.groovy keyword.declaration.function.groovy
-//  ^^^^ meta.definition.method.groovy entity.name.function.groovy
-//      ^ meta.definition.method.groovy punctuation.definition.parameters.begin.groovy
-//       ^ meta.definition.method.groovy punctuation.definition.parameters.end.groovy
-//         ^ meta.block.groovy punctuation.section.block.begin.groovy
+// <- meta.definition.method keyword.declaration.function
+//^ meta.definition.method keyword.declaration.function
+//  ^^^^ meta.definition.method entity.name.function
+//      ^ meta.definition.method punctuation.definition.parameters.begin
+//       ^ meta.definition.method punctuation.definition.parameters.end
+//         ^ meta.block punctuation.section.block.begin
     sh '''#!/bin/bash
-//  ^^ meta.block.groovy support.function.groovy
-//     ^^^ meta.block.groovy meta.string.embedded-shell.groovy punctuation.definition.string.begin.groovy
-//        ^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash comment.line.number-sign.shell punctuation.definition.comment.shell
+//  ^^ meta.block support.function
+//     ^^^ meta.block meta.string.embedded-shell punctuation.definition.string.begin
+//        ^ meta.block meta.string.embedded-shell string.quoted.single.block comment.line.number-sign.shell punctuation.definition.comment.shell
           echo "hello ${world}"
-//        ^^^^ meta.block.groovy meta.string.embedded-shell.groovy string.quoted.single.block.groovy source.shell.bash meta.function-call.identifier.shell support.function.shell
+//        ^^^^ meta.block meta.string.embedded-shell string.quoted.single.block meta.function-call.identifier.shell support.function.shell
 //                    ^ meta.interpolation.parameter.shell punctuation.definition.variable.shell
 //                     ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 //                      ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
@@ -35,11 +34,11 @@ def call() {
 //                            ^ - meta.interpolation
     '''
 }
-// <- meta.block.groovy punctuation.section.block.end.groovy
+// <- meta.block punctuation.section.block.end
 
 @Library('somelib') _
-// <- meta.declaration.annotation.groovy storage.type.annotation.groovy
-//^^^^^^ meta.declaration.annotation.groovy storage.type.annotation.groovy
+// <- meta.declaration.annotation storage.type.annotation
+//^^^^^^ meta.declaration.annotation storage.type.annotation
 
 properties([
     parameters([
@@ -50,31 +49,31 @@ properties([
 
 // Project config
 Map config = [
-// <- storage.type.class.groovy
-//  ^^^^^^ variable.other.readwrite.groovy
-//         ^ keyword.operator.assignment.groovy
-//           ^ meta.structure.groovy punctuation.definition.structure.begin.groovy
+// <- storage.type.class
+//  ^^^^^^ variable.other.readwrite
+//         ^ keyword.operator.assignment
+//           ^ meta.sequence punctuation.section.sequence.begin
     containerWorkDir: '/src',
-//  ^^^^^^^^^^^^^^^^ constant.other.key.groovy
-//                  ^ punctuation.definition.separator.key-value.groovy
-//                    ^^^^^^ string.quoted.single.groovy
-//                          ^ punctuation.definition.separator.groovy
+//  ^^^^^^^^^^^^^^^^ constant.other.key
+//                  ^ punctuation.definition.separator.key-value
+//                    ^^^^^^ string.quoted.single
+//                          ^ punctuation.separator.sequence
     DEFAULT_BRANCH: 'master',
-//  ^^^^^^^^^^^^^^ constant.other.key.groovy
-//                ^ punctuation.definition.separator.key-value.groovy
+//  ^^^^^^^^^^^^^^ constant.other.key
+//                ^ punctuation.definition.separator.key-value
 ]
-// <- meta.structure.groovy punctuation.definition.structure.end.groovy
-//^ - meta.structure
+// <- meta.sequence punctuation.section.sequence.end
+//^ - meta.sequence
 // Deployment decision variables
 Boolean isPullRequest = (env.CHANGE_ID != null)
-// ^^^^ storage.type.class.groovy
-//      ^^^^^^^^^^^^^ variable.other.readwrite.groovy
-//                    ^ keyword.operator.assignment.groovy
-//                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.groovy
-//                      ^ punctuation.section.group.begin.groovy
-//                                     ^^ keyword.operator.comparison.groovy
-//                                        ^^^^ constant.language.null.groovy
-//                                            ^ punctuation.section.group.end.groovy
+// ^^^^ storage.type.class
+//      ^^^^^^^^^^^^^ variable.other.readwrite
+//                    ^ keyword.operator.assignment
+//                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//                      ^ punctuation.section.group.begin
+//                                     ^^ keyword.operator.comparison
+//                                        ^^^^ constant.language.null
+//                                            ^ punctuation.section.group.end
 
 // Environment section
 env.SOME_ENV_VAR = "refs/heads/${config.DEFAULT_BRANCH.toLowerCase()}"
@@ -87,30 +86,30 @@ int something = sh(returnStdout: true, script: '''#!/bin/bash
 
 node('some-node-name') {
     try {
-    // <- meta.block.groovy keyword.control.exception.try.groovy
-    //  ^ punctuation.section.block.begin.groovy
+    // <- meta.block keyword.control.exception.try
+    //  ^ punctuation.section.block.begin
         lock(lockName) {
-            
+
         }
     } catch (InterruptedException e) {
-    // <- punctuation.section.block.end.groovy
-    //^^^^^ keyword.control.exception.catch.groovy
-    //      ^ punctuation.section.group.begin.groovy
-    //       ^^^^^^^^^^^^^^^^^^^^ storage.type.class.groovy
-    //                            ^ variable.other.readwrite.groovy
-    //                             ^ punctuation.section.group.end.groovy
-    //                               ^ punctuation.section.block.begin.groovy
+    // <- punctuation.section.block.end
+    //^^^^^ keyword.control.exception.catch
+    //      ^ punctuation.section.group.begin
+    //       ^^^^^^^^^^^^^^^^^^^^ storage.type.class
+    //                            ^ variable.other.readwrite
+    //                             ^ punctuation.section.group.end
+    //                               ^ punctuation.section.block.begin
         if (isDeployment) {
-        // <- meta.block.groovy meta.block.groovy keyword.control.conditional.if.groovy
-        // ^ meta.block.groovy meta.block.groovy meta.group.groovy punctuation.section.group.begin.groovy
-        //  ^^^^^^^^^^^^ meta.block.groovy meta.block.groovy meta.group.groovy variable.other.readwrite.groovy
-        //              ^ meta.block.groovy meta.block.groovy meta.group.groovy punctuation.section.group.end.groovy
-        //                ^ meta.block.groovy meta.block.groovy meta.block.groovy punctuation.section.block.begin.groovy
+        // <- meta.block meta.block keyword.control.conditional.if
+        // ^ meta.block meta.block meta.group punctuation.section.group.begin
+        //  ^^^^^^^^^^^^ meta.block meta.block meta.group variable.other.readwrite
+        //              ^ meta.block meta.block meta.group punctuation.section.group.end
+        //                ^ meta.block meta.block meta.block punctuation.section.block.begin
             notify.deployment(channel: config.jobStatusChannel, status: 'ABORTED', environment: params.CI_ENVIRONMENT)
         }
         throw e
-        // <- meta.block.groovy meta.block.groovy keyword.control.flow.throw.groovy
-        //    ^ meta.block.groovy meta.block.groovy variable.other.readwrite.groovy
+        // <- meta.block meta.block keyword.control.flow.throw
+        //    ^ meta.block meta.block variable.other.readwrite
     }
-    // <- meta.block.groovy meta.block.groovy punctuation.section.block.end.groovy
+    // <- meta.block meta.block punctuation.section.block.end
 }

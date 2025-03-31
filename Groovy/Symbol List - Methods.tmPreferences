@@ -2,15 +2,15 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.groovy meta.definition.method.signature</string>
+	<string><![CDATA[source.groovy meta.definition.method.signature]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
+		<string><![CDATA[
 		s/\s*.*\s+(\w+)\s*(\(.*\)).*/    $1$2/g
-		</string>
+		]]></string>
 	</dict>
 </dict>
 </plist>
