@@ -176,7 +176,8 @@ contexts:
             - include: pop-on-line-end
         - include: pop-on-line-end
     - match: ^\s*(vpath)$
-      captures: keyword.control.vpath.makefile
+      captures:
+        1: keyword.control.vpath.makefile
     - match: ^\s*({{include}})\s+
       captures:
         1: keyword.control.import.makefile
