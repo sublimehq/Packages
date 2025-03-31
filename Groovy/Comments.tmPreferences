@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.groovy</string>
+	<string><![CDATA[source.groovy]]></string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
@@ -11,19 +11,19 @@
 				<key>name</key>
 				<string>TM_COMMENT_START</string>
 				<key>value</key>
-				<string>// </string>
+				<string><![CDATA[// ]]></string>
 			</dict>
 			<dict>
 				<key>name</key>
 				<string>TM_COMMENT_START_2</string>
 				<key>value</key>
-				<string>/*</string>
+				<string><![CDATA[/*]]></string>
 			</dict>
 			<dict>
 				<key>name</key>
 				<string>TM_COMMENT_END_2</string>
 				<key>value</key>
-				<string>*/</string>
+				<string><![CDATA[*/]]></string>
 			</dict>
 		</array>
 	</dict>

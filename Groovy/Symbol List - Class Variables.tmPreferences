@@ -2,15 +2,15 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.groovy meta.definition.class meta.definition.class-variable.name</string>
+	<string><![CDATA[source.groovy meta.definition.class meta.definition.class-variable.name]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
-		s/.+/  $0/g
-		</string>
+		<string><![CDATA[
+		s/^/  /g
+		]]></string>
 	</dict>
 </dict>
 </plist>
