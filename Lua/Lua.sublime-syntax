@@ -917,7 +917,8 @@ contexts:
   pattern-shared:
     - meta_include_prototype: false
       # start anchor is handled separately as ^ doesn't match the start of the string
-    - match: \$$
+      # It needs to be the end of the string (which $ matches when it is an embedded pattern)
+    - match: \$$(?!\n)
       scope: keyword.control.anchor.lua
     - match: '\(\)'
       scope: punctuation.section.brackets.lua
