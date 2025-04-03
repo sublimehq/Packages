@@ -33,6 +33,7 @@ hidden_file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bpython(?:\d(?:\.\d+)?)?\b                        # shebang
+  | ^ \#! .* \buv\b                                             # shebang (uv)
   | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d+)?)?\b .*? -\*-  # editorconfig
   )
 
