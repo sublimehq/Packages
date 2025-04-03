@@ -626,6 +626,7 @@ contexts:
 
   event_handler_declaration_body:
     - meta_scope: meta.block.cs
+    - include: attribute
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: true
