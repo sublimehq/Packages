@@ -608,29 +608,33 @@ contexts:
         2: punctuation.accessor.dot.cs
     - match: '{{name}}'
       scope: variable.other.member.cs
-      set:
-        - match: ';'
-          scope: punctuation.terminator.statement.cs
-          pop: true
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - match: \b(add)\b
-              scope: keyword.declaration.function.accessor.add.cs
-              push: method_body
-            - match: \b(remove)\b
-              scope: keyword.declaration.function.accessor.remove.cs
-              push: method_body
-        - match: (?==)
-          set: member_variables_declaration
-        - match: (?=\S)
-          pop: true
+      set: event_handler_declaration_after_name
     - match: (?=\S)
       pop: true
+
+  event_handler_declaration_after_name:
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: event_handler_declaration_body
+    - match: (?==)
+      set: member_variables_declaration
+    - match: (?=\S)
+      pop: true
+
+  event_handler_declaration_body:
+    - meta_scope: meta.block.cs
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: \b(add)\b
+      scope: keyword.declaration.function.accessor.add.cs
+      push: method_body
+    - match: \b(remove)\b
+      scope: keyword.declaration.function.accessor.remove.cs
+      push: method_body
 
   method_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
