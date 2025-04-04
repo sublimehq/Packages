@@ -1,9 +1,33 @@
 {
-    "scope": "source.dot meta.group - meta.attributes",
+    "scope": "source.dot meta.group - source.dot meta.attributes",
     "completions": [
-        {"trigger": "subgraph\tobject", "contents": "subgraph ${1:cluster_}${2:name} {\n\t${3}\n}"},
-        {"trigger": "edge defaults\tobject", "contents": "edge [${1}];"},
-        {"trigger": "node defaults\tobject", "contents": "node [${1}];"},
-        {"trigger": "node\tobject", "contents": "${1:name} [${2}];"},
+        {
+            "trigger": "subgraph",
+            "contents": "${3:subgraph ${1:cluster_}${2:name} }{\n\t${0}\n}",
+            "annotation": "object",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "Optionally-clustered subgraph"
+        },
+        {
+            "trigger": "edgedefaults",
+            "contents": "edge [${1}]",
+            "annotation": "object",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "Default properties for graph edges"
+        },
+        {
+            "trigger": "nodedefaults",
+            "contents": "node [${1}]",
+            "annotation": "object",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "Default properties for graph nodes"
+        },
+        {
+            "trigger": "node",
+            "contents": "${1:name} [${2}]",
+            "annotation": "object",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
     ]
 }

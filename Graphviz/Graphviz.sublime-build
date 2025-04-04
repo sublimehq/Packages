@@ -1,5 +1,6 @@
 {
-    "shell_cmd": "dot \"${file}\" -O -Tpng",
+    // https://graphviz.org/doc/info/command.html
+    "shell_cmd": "dot -O -Tpng \"${file}\"",
     "file_regex": "^Error: (..[^:]*):.*line (\\d+).*$",
     "working_dir": "${file_path}",
     "selector": "source.dot",
@@ -8,35 +9,35 @@
     [
         {
             "name": "dot SVG",
-            "shell_cmd": "dot \"${file}\" -O -Tsvg"
+            "shell_cmd": "dot -O -Tsvg \"${file}\""
         },
         {
             "name": "neato",
-            "shell_cmd": "neato \"${file}\" -O -Tpng"
+            "shell_cmd": "neato -O -Tpng \"${file}\""
         },
         {
             "name": "twopi",
-            "shell_cmd": "twopi \"${file}\" -O -Tpng"
+            "shell_cmd": "twopi -O -Tpng \"${file}\""
         },
         {
             "name": "circo",
-            "shell_cmd": "circo \"${file}\" -O -Tpng"
+            "shell_cmd": "circo -O -Tpng \"${file}\""
         },
         {
             "name": "fdp",
-            "shell_cmd": "fdp \"${file}\" -O -Tpng"
+            "shell_cmd": "fdp -O -Tpng \"${file}\""
         },
         {
             "name": "sfdp",
-            "shell_cmd": "sfdp \"${file}\" -O -Tpng"
+            "shell_cmd": "sfdp -O -Tpng \"${file}\""
         },
         {
             "name": "patchwork",
-            "shell_cmd": "patchwork \"${file}\" -O -Tpng"
+            "shell_cmd": "patchwork -O -Tpng \"${file}\""
         },
         {
             "name": "osage",
-            "shell_cmd": "osage \"${file}\" -O -Tpng"
+            "shell_cmd": "osage -O -Tpng \"${file}\""
         },
     ]
 }
