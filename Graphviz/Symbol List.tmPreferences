@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>name</key>
-    <string>Symbol List</string>
-    <key>scope</key>
-    <string>source.dot entity.name.graph</string>
-    <key>settings</key>
-    <dict>
-        <key>showInSymbolList</key>
-        <integer>1</integer>
-        <key>symbolTransformation</key>
-        <string>
-        s/^cluster_?(.*)/$1 \(clustered\)/g;
-        </string>
-    </dict>
+	<key>name</key>
+	<string>DOT - Symbol List</string>
+	<key>scope</key>
+	<string>source.dot entity.name.graph</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+		# cluster_graphID --> graphID (clustered)
+		s/^(?:cluster_)([a-zA-Z_\x{200}-\x{377}][a-zA-Z0-9_\x{200}-\x{377}]*)/$1 \(clustered\)/g;
+		</string>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+		<key>symbolIndexTransformation</key>
+		<string>
+		# cluster_graphID --> graphID (clustered)
+		s/^(?:cluster_)([a-zA-Z_\x{200}-\x{377}][a-zA-Z0-9_\x{200}-\x{377}]*)/$1 \(clustered\)/g;
+		</string>
+	</dict>
 </dict>
 </plist>
