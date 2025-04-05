@@ -291,3 +291,25 @@ public class Program {
         return 0;
     }
 }
+
+[Obsolete]
+class C {
+    [Obsolete]
+    event EventHandler E {
+        [Obsolete]
+//^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.block.cs
+//      ^^^^^^^^^^ meta.annotation.cs
+//      ^ punctuation.definition.annotation.begin.cs
+//       ^^^^^^^^ variable.annotation.cs
+//               ^ punctuation.definition.annotation.end.cs
+        add {}
+//^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.block.cs
+//      ^^^^ meta.method.cs
+//      ^^^ keyword.declaration.function.accessor.add.cs
+//          ^^ meta.method.body.cs meta.block.cs
+//          ^ punctuation.section.block.begin.cs
+//           ^ punctuation.section.block.end.cs
+        [Obsolete]
+        remove {}
+    }
+}
