@@ -80,6 +80,16 @@ Much better, no?
 \                             ^ punctuation.separator.sequence.diff
 \                                 ^ meta.number.integer.decimal.diff constant.numeric.value.diff
 \                                   ^ markup.inserted.diff
+ ....tmPreferences => DOT - Comments.tmPreferences} |   10 +-
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
+\^^^ keyword.operator.truncation.diff
+\   ^ - keyword.operator
+\                  ^^ keyword.operator.transformation.diff
+\                                                 ^ punctuation.section.braces.end.git
+\                                                   ^ punctuation.separator.sequence.diff
+\                                                       ^^ meta.number.integer.decimal.diff constant.numeric.value.diff
+\                                                          ^ markup.inserted.diff
+\                                                           ^ markup.deleted.diff
  app/assets/images/logo.jpeg  | Bin 0 -> 50966 bytes
 \@@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.toc-list.filename.diff meta.path.git string.unquoted.git
