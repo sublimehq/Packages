@@ -1,0 +1,48 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        {
+            "trigger": "comment",
+            "contents": "###.. ${1:comment}\n\n${0:next block}",
+            "annotation": "(Extended) Comment",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "bc",
+            "contents": "bc.. ${1:code}\n\n${0:next block}",
+            "annotation": "(Extended) Block code",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "bq",
+            "contents": "bq..${1:link} ${2:quote...}\n<footer>${3:footer}</footer>\n\n${0:next block}",
+            "annotation": "(Extended) Block Quotation",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "notextile",
+            "contents": "notextile.. ${1:text}\n\n${0:next block}",
+            "annotation": "(Extended) No formatting",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "paragraph",
+            "contents": "p${1:alignment}.. ${2:text...}\n\n${0:next block}",
+            "annotation": "(Extended) Block Paragraph",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "pre",
+            "contents": "pre.. ${1:text...}\n\n${0:next block}",
+            "annotation": "(Extended) Pre-formatted text",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        }
+    ]
+}

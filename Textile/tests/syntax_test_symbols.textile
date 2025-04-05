@@ -1,0 +1,74 @@
+###. SYNTAX TEST "Packages/Textile/Textile.sublime-syntax"
+###. <- text.html.textile
+
+h1. H1 Header
+###.@@@@@@@@@ definition "H1 Header"
+
+h2. H2 Header
+###.@@@@@@@@@ definition "  H2 Header"
+
+h3. H3 Header
+###.@@@@@@@@@ definition "    H3 Header"
+
+h4. H4 Header
+###.@@@@@@@@@ definition "      H4 Header"
+
+h5. H5 Header
+###.@@@@@@@@@ definition "        H5 Header"
+
+h6. H6 Header
+###.@@@@@@@@@ definition "          H6 Header"
+
+h6. H6 Header    with multiple spaces
+###.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ "          H6 Header with multiple spaces"
+
+h6). H6 Header
+###. @@@@@@@@@ definition "          H6 Header"
+
+h6)). H6 Header
+###.  @@@@@@@@@ definition "          H6 Header"
+
+h6))). H6 Header
+###.   @@@@@@@@@ definition "          H6 Header"
+
+h6)>. H6 Header
+###.  @@@@@@@@@ definition "          H6 Header"
+
+h6))>. H6 Header
+###.   @@@@@@@@@ definition "          H6 Header"
+
+h6)))>. H6 Header
+###.    @@@@@@@@@ definition "          H6 Header"
+
+h6=. H6 Header
+###. @@@@@@@@@ definition "          H6 Header"
+
+h6<>. H6 Header
+###.  @@@@@@@@@ definition "          H6 Header"
+
+h6(. H6 Header
+###. @@@@@@@@@ definition "          H6 Header"
+
+h6((. H6 Header
+###.  @@@@@@@@@ definition "          H6 Header"
+
+h6(((. H6 Header
+###.   @@@@@@@@@ definition "          H6 Header"
+
+h6(<. H6 Header
+###.  @@@@@@@@@ definition "          H6 Header"
+
+h6((<. H6 Header
+###.   @@@@@@@@@ definition "          H6 Header"
+
+h6(((<. H6 Header
+###.    @@@@@@@@@ definition "          H6 Header"
+
+h6(). H6 Header
+###.  @@@@@@@@@ definition "          H6 Header"
+
+h6(()). H6 Header
+###.    @@@@@@@@@ definition "          H6 Header"
+
+h6((())). H6 Header
+###.      @@@@@@@@@ definition "          H6 Header"
