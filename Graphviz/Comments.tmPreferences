@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Comments</string>
+	<string>DOT - Comments</string>
 	<key>scope</key>
 	<string>source.dot</string>
 	<key>settings</key>
@@ -19,11 +19,17 @@
 				<key>name</key>
 				<string>TM_COMMENT_START_2</string>
 				<key>value</key>
+				<string># </string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>TM_COMMENT_START_3</string>
+				<key>value</key>
 				<string>/*</string>
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>TM_COMMENT_END_2</string>
+				<string>TM_COMMENT_END_3</string>
 				<key>value</key>
 				<string>*/</string>
 			</dict>

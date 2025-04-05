@@ -1,0 +1,1860 @@
+{
+    "scope": "source.dot meta.group, source.dot meta.attributes",
+    "completions": [
+        {
+            "trigger": "accent3",
+            "contents": "accent3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "accent4",
+            "contents": "accent4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "accent5",
+            "contents": "accent5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "accent6",
+            "contents": "accent6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "accent7",
+            "contents": "accent7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "accent8",
+            "contents": "accent8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues3",
+            "contents": "blues3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues4",
+            "contents": "blues4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues5",
+            "contents": "blues5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues6",
+            "contents": "blues6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues7",
+            "contents": "blues7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues8",
+            "contents": "blues8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blues9",
+            "contents": "blues9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg10",
+            "contents": "brbg10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg11",
+            "contents": "brbg11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg3",
+            "contents": "brbg3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg4",
+            "contents": "brbg4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg5",
+            "contents": "brbg5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg6",
+            "contents": "brbg6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg7",
+            "contents": "brbg7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg8",
+            "contents": "brbg8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brbg9",
+            "contents": "brbg9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn3",
+            "contents": "bugn3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn4",
+            "contents": "bugn4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn5",
+            "contents": "bugn5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn6",
+            "contents": "bugn6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn7",
+            "contents": "bugn7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn8",
+            "contents": "bugn8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bugn9",
+            "contents": "bugn9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu3",
+            "contents": "bupu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu4",
+            "contents": "bupu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu5",
+            "contents": "bupu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu6",
+            "contents": "bupu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu7",
+            "contents": "bupu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu8",
+            "contents": "bupu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bupu9",
+            "contents": "bupu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dark23",
+            "contents": "dark23",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dark24",
+            "contents": "dark24",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dark25",
+            "contents": "dark25",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dark26",
+            "contents": "dark26",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dark27",
+            "contents": "dark27",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dark28",
+            "contents": "dark28",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu3",
+            "contents": "gnbu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu4",
+            "contents": "gnbu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu5",
+            "contents": "gnbu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu6",
+            "contents": "gnbu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu7",
+            "contents": "gnbu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu8",
+            "contents": "gnbu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gnbu9",
+            "contents": "gnbu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens3",
+            "contents": "greens3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens4",
+            "contents": "greens4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens5",
+            "contents": "greens5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens6",
+            "contents": "greens6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens7",
+            "contents": "greens7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens8",
+            "contents": "greens8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greens9",
+            "contents": "greens9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys3",
+            "contents": "greys3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys4",
+            "contents": "greys4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys5",
+            "contents": "greys5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys6",
+            "contents": "greys6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys7",
+            "contents": "greys7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys8",
+            "contents": "greys8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greys9",
+            "contents": "greys9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges3",
+            "contents": "oranges3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges4",
+            "contents": "oranges4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges5",
+            "contents": "oranges5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges6",
+            "contents": "oranges6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges7",
+            "contents": "oranges7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges8",
+            "contents": "oranges8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oranges9",
+            "contents": "oranges9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd3",
+            "contents": "orrd3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd4",
+            "contents": "orrd4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd5",
+            "contents": "orrd5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd6",
+            "contents": "orrd6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd7",
+            "contents": "orrd7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd8",
+            "contents": "orrd8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orrd9",
+            "contents": "orrd9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired10",
+            "contents": "paired10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired11",
+            "contents": "paired11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired12",
+            "contents": "paired12",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired3",
+            "contents": "paired3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired4",
+            "contents": "paired4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired5",
+            "contents": "paired5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired6",
+            "contents": "paired6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired7",
+            "contents": "paired7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired8",
+            "contents": "paired8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paired9",
+            "contents": "paired9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel13",
+            "contents": "pastel13",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel14",
+            "contents": "pastel14",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel15",
+            "contents": "pastel15",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel16",
+            "contents": "pastel16",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel17",
+            "contents": "pastel17",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel18",
+            "contents": "pastel18",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel19",
+            "contents": "pastel19",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel23",
+            "contents": "pastel23",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel24",
+            "contents": "pastel24",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel25",
+            "contents": "pastel25",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel26",
+            "contents": "pastel26",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel27",
+            "contents": "pastel27",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pastel28",
+            "contents": "pastel28",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg10",
+            "contents": "piyg10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg11",
+            "contents": "piyg11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg3",
+            "contents": "piyg3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg4",
+            "contents": "piyg4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg5",
+            "contents": "piyg5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg6",
+            "contents": "piyg6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg7",
+            "contents": "piyg7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg8",
+            "contents": "piyg8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "piyg9",
+            "contents": "piyg9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn10",
+            "contents": "prgn10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn11",
+            "contents": "prgn11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn3",
+            "contents": "prgn3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn4",
+            "contents": "prgn4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn5",
+            "contents": "prgn5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn6",
+            "contents": "prgn6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn7",
+            "contents": "prgn7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn8",
+            "contents": "prgn8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "prgn9",
+            "contents": "prgn9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu3",
+            "contents": "pubu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu4",
+            "contents": "pubu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu5",
+            "contents": "pubu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu6",
+            "contents": "pubu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu7",
+            "contents": "pubu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu8",
+            "contents": "pubu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubu9",
+            "contents": "pubu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn3",
+            "contents": "pubugn3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn4",
+            "contents": "pubugn4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn5",
+            "contents": "pubugn5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn6",
+            "contents": "pubugn6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn7",
+            "contents": "pubugn7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn8",
+            "contents": "pubugn8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pubugn9",
+            "contents": "pubugn9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor10",
+            "contents": "puor10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor11",
+            "contents": "puor11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor3",
+            "contents": "puor3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor4",
+            "contents": "puor4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor5",
+            "contents": "puor5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor6",
+            "contents": "puor6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor7",
+            "contents": "puor7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor8",
+            "contents": "puor8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "puor9",
+            "contents": "puor9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd3",
+            "contents": "purd3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd4",
+            "contents": "purd4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd5",
+            "contents": "purd5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd6",
+            "contents": "purd6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd7",
+            "contents": "purd7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd8",
+            "contents": "purd8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purd9",
+            "contents": "purd9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples3",
+            "contents": "purples3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples4",
+            "contents": "purples4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples5",
+            "contents": "purples5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples6",
+            "contents": "purples6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples7",
+            "contents": "purples7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples8",
+            "contents": "purples8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purples9",
+            "contents": "purples9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu10",
+            "contents": "rdbu10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu11",
+            "contents": "rdbu11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu3",
+            "contents": "rdbu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu4",
+            "contents": "rdbu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu5",
+            "contents": "rdbu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu6",
+            "contents": "rdbu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu7",
+            "contents": "rdbu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu8",
+            "contents": "rdbu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdbu9",
+            "contents": "rdbu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy10",
+            "contents": "rdgy10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy11",
+            "contents": "rdgy11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy3",
+            "contents": "rdgy3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy4",
+            "contents": "rdgy4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy5",
+            "contents": "rdgy5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy6",
+            "contents": "rdgy6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy7",
+            "contents": "rdgy7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy8",
+            "contents": "rdgy8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdgy9",
+            "contents": "rdgy9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu3",
+            "contents": "rdpu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu4",
+            "contents": "rdpu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu5",
+            "contents": "rdpu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu6",
+            "contents": "rdpu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu7",
+            "contents": "rdpu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu8",
+            "contents": "rdpu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdpu9",
+            "contents": "rdpu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu10",
+            "contents": "rdylbu10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu11",
+            "contents": "rdylbu11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu3",
+            "contents": "rdylbu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu4",
+            "contents": "rdylbu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu5",
+            "contents": "rdylbu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu6",
+            "contents": "rdylbu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu7",
+            "contents": "rdylbu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu8",
+            "contents": "rdylbu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylbu9",
+            "contents": "rdylbu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn10",
+            "contents": "rdylgn10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn11",
+            "contents": "rdylgn11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn3",
+            "contents": "rdylgn3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn4",
+            "contents": "rdylgn4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn5",
+            "contents": "rdylgn5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn6",
+            "contents": "rdylgn6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn7",
+            "contents": "rdylgn7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn8",
+            "contents": "rdylgn8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rdylgn9",
+            "contents": "rdylgn9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds3",
+            "contents": "reds3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds4",
+            "contents": "reds4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds5",
+            "contents": "reds5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds6",
+            "contents": "reds6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds7",
+            "contents": "reds7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds8",
+            "contents": "reds8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "reds9",
+            "contents": "reds9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set13",
+            "contents": "set13",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set14",
+            "contents": "set14",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set15",
+            "contents": "set15",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set16",
+            "contents": "set16",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set17",
+            "contents": "set17",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set18",
+            "contents": "set18",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set19",
+            "contents": "set19",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set23",
+            "contents": "set23",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set24",
+            "contents": "set24",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set25",
+            "contents": "set25",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set26",
+            "contents": "set26",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set27",
+            "contents": "set27",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set28",
+            "contents": "set28",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set310",
+            "contents": "set310",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set311",
+            "contents": "set311",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set312",
+            "contents": "set312",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set33",
+            "contents": "set33",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set34",
+            "contents": "set34",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set35",
+            "contents": "set35",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set36",
+            "contents": "set36",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set37",
+            "contents": "set37",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set38",
+            "contents": "set38",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "set39",
+            "contents": "set39",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral10",
+            "contents": "spectral10",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral11",
+            "contents": "spectral11",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral3",
+            "contents": "spectral3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral4",
+            "contents": "spectral4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral5",
+            "contents": "spectral5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral6",
+            "contents": "spectral6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral7",
+            "contents": "spectral7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral8",
+            "contents": "spectral8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "spectral9",
+            "contents": "spectral9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn3",
+            "contents": "ylgn3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn4",
+            "contents": "ylgn4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn5",
+            "contents": "ylgn5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn6",
+            "contents": "ylgn6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn7",
+            "contents": "ylgn7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn8",
+            "contents": "ylgn8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgn9",
+            "contents": "ylgn9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu3",
+            "contents": "ylgnbu3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu4",
+            "contents": "ylgnbu4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu5",
+            "contents": "ylgnbu5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu6",
+            "contents": "ylgnbu6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu7",
+            "contents": "ylgnbu7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu8",
+            "contents": "ylgnbu8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylgnbu9",
+            "contents": "ylgnbu9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr3",
+            "contents": "ylorbr3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr4",
+            "contents": "ylorbr4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr5",
+            "contents": "ylorbr5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr6",
+            "contents": "ylorbr6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr7",
+            "contents": "ylorbr7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr8",
+            "contents": "ylorbr8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorbr9",
+            "contents": "ylorbr9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd3",
+            "contents": "ylorrd3",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd4",
+            "contents": "ylorrd4",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd5",
+            "contents": "ylorrd5",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd6",
+            "contents": "ylorrd6",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd7",
+            "contents": "ylorrd7",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd8",
+            "contents": "ylorrd8",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ylorrd9",
+            "contents": "ylorrd9",
+            "annotation": "brewer color scheme",
+            "kind": ["keyword", "c", "Color Scheme"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        }
+    ]
+}
