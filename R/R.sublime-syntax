@@ -55,6 +55,7 @@ contexts:
   comments:
     - include: roxygen
     - include: line-comments
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   line-comments:
     - match: \#+(?!.*(?:-{4,}|={4,}|#{4,})\s*$\n?)

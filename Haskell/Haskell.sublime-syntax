@@ -271,6 +271,7 @@ contexts:
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-170002.3
     - include: line-comments
     - include: block-comments
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   block-comments:
     - match: \{-(?!#)

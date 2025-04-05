@@ -59,6 +59,7 @@ contexts:
         - include: root_asp
         - match: \n
           pop: true
+    - include: scope:source.diff#conflict-markers  # merge conflict marker
 
   line_continuation_char:
     - match: '\b_'

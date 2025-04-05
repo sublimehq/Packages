@@ -341,6 +341,7 @@ contexts:
         1: punctuation.section.frontmatter.end.markdown
 
   markdown:
+    - include: scope:source.diff#conflict-markers
     - include: indented-code-blocks
     - include: thematic-breaks
     - include: block-quotes
@@ -759,6 +760,7 @@ contexts:
       pop: 1
 
   list-block-content:
+    - include: scope:source.diff#conflict-markers
     - include: fenced-code-blocks
     - include: html-blocks
     - include: reference-definitions
@@ -2474,6 +2476,7 @@ contexts:
     - include: link-ref
 
   markups:
+    - include: scope:source.diff#conflict-markers
     # Markdown will convert this for us. We match it so that the
     # HTML grammar will not mark it up as invalid.
     - match: '[<>](-+|=+)[<>]?'
