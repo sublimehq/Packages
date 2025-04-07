@@ -1074,6 +1074,32 @@ EOT-EOT-EOT
 #    ^^^^^^^^^^ - meta.string.heredoc.perl
 #    ^^ - keyword.operator.heredoc.perl
 
+###[ INDENTED HEREDOC ]#######################################################
+
+$var = <<~EOF # comment
+# no comment
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+#^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+  EOF
+#^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+# ^^^ entity.name.tag.heredoc.plain.perl
+
+$var = <<~'EOF' # comment
+# no comment
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+#^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+  EOF
+#^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+# ^^^ entity.name.tag.heredoc.plain.perl
+
+$var = <<~"EOF" # comment
+# no comment
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+#^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+  EOF
+#^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl
+# ^^^ entity.name.tag.heredoc.plain.perl
+
 ###[ OPERATORS ]##############################################################
   ,
 # ^ punctuation.separator.sequence.perl
