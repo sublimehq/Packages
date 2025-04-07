@@ -900,6 +900,9 @@ contexts:
     - match: <<(?=(\s*['"]\s*)?{{identifier}})
       scope: keyword.operator.heredoc.perl
       push: [string-heredoc-meta, string-heredoc-body]
+    - match: <<~(?=(\s*['"]\s*)?{{identifier}})
+      scope: keyword.operator.heredoc.perl
+      push: [string-heredoc-meta, string-indented-heredoc-body]
 
   string-heredoc-meta:
     - meta_scope: meta.string.heredoc.perl
@@ -1057,6 +1060,171 @@ contexts:
     - meta_content_scope: string.unquoted.heredoc.perl
     - match: ^\1$
       scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      pop: true
+    - include: interpolated-common
+
+  string-indented-heredoc-body:
+    # embedded css
+    - match: \s*((['"]?)(\s*CSS)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.css.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-css, string-heredoc-expr]
+    # embedded html
+    - match: \s*((['"]?)(\s*HTML)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.html.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-html, string-heredoc-expr]
+    # embedded javascript
+    - match: \s*((['"]?)(\s*JAVASCRIPT)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.js.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-javascript, string-heredoc-expr]
+    # embedded json
+    - match: \s*((['"]?)(\s*JSON)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.json.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-json, string-heredoc-expr]
+    # embedded sql
+    - match: \s*((['"]?)(\s*SQL)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.sql.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-sql, string-heredoc-expr]
+    # embedded xml
+    - match: \s*((['"]?)(\s*XML)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.xml.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-xml, string-heredoc-expr]
+    # single quoted heredoc string without interpolation
+    - match: \s*((')(\s*[^'\s]+)('))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.plain.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-plain, string-heredoc-expr]
+    # double quoted heredoc string with interpolation
+    - match: \s*((")(\s*[^"\s]+)("))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.plain.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-interpolated-quoted, string-heredoc-expr]
+    # unquoted heredoc string with interpolation
+    - match: \s*({{identifier}})
+      captures:
+        1: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      set: [string-indented-heredoc-interpolated-unquoted, string-heredoc-expr]
+    - include: immediately-pop
+
+  string-indented-heredoc-css:
+    - meta_content_scope: source.css.embedded.perl
+    # pop off only, if keyword is indented correctly
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.css.perl
+      pop: true
+    - match: ''
+      embed: scope:source.css
+      escape: (?=^ *CSS$)
+
+  string-indented-heredoc-html:
+    - meta_content_scope: text.html.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.html.perl
+      pop: true
+    - match: ''
+      embed: scope:text.html.basic
+      escape: (?=^ *HTML$)
+
+  string-indented-heredoc-javascript:
+    - meta_content_scope: source.js.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.js.perl
+      pop: true
+    - match: ''
+      embed: scope:source.js
+      escape: (?=^ *JAVASCRIPT$)
+
+  string-indented-heredoc-json:
+    - meta_content_scope: source.json.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.json.perl
+      pop: true
+    - match: ''
+      embed: scope:source.json
+      escape: (?=^ *JSON$)
+
+  string-indented-heredoc-sql:
+    - meta_content_scope: source.sql.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.sql.perl
+      pop: true
+    - match: ''
+      embed: scope:source.sql
+      escape: (?=^ *SQL$)
+
+  string-indented-heredoc-xml:
+    - meta_content_scope: text.xml.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.xml.perl
+      pop: true
+    - match: ''
+      embed: scope:text.xml
+      escape: (?=^ *XML$)
+
+  string-indented-heredoc-plain:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.plain.perl
+      pop: true
+
+  string-indented-heredoc-interpolated-quoted:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.plain.perl
+      pop: true
+    - include: interpolated-common
+
+  string-indented-heredoc-interpolated-unquoted:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^[ \t]*(\1)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.plain.perl
       pop: true
     - include: interpolated-common
 
