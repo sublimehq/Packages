@@ -1,0 +1,52 @@
+[
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "reStructuredText (reST)",
+                        "children":
+                        [
+                            {
+                                "caption": "Settings - Syntax Specific",
+                                "command": "edit_settings",
+                                "args":
+                                {
+                                    "base_file": "${packages}/RestructuredText/reStructuredText.sublime-settings",
+                                    "default": "{\n\t$0\n}\n"
+                                }
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Documentation",
+                                "children":
+                                [
+                                    {
+                                        "caption": "Markup Specification",
+                                        "command": "open_url",
+                                        "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html" }
+                                    },
+                                    {
+                                        "caption": "Directives",
+                                        "command": "open_url",
+                                        "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/directives.html" }
+                                    },
+                                    {
+                                        "caption": "Interpreted Text Roles",
+                                        "command": "open_url",
+                                        "args": { "url": "https://docutils.sourceforge.io/docs/ref/rst/roles.html" }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
