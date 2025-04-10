@@ -4,6 +4,12 @@
  * HTML Templates
  */
 
+var html = /* html */ ` <p>${content}</p> `
+/*                    ^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*                    ^ string.quoted.other.js punctuation.definition.string.begin.js - text.html.embedded */
+/*                     ^^^^^^^^^^^^^^^^^^^ text.html.embedded.js - string */
+/*                                        ^ string.quoted.other.js punctuation.definition.string.end.js - text.html.embedded */
+
 var html = html` <p>${content}</p> `
 /*             ^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
 /*             ^ string.quoted.other.js punctuation.definition.string.begin.js - text.html.embedded */
@@ -96,6 +102,12 @@ var html = html`
  * JSON Templates
  */
 
+var json = /* json */ ` { "key": "value" } `
+/*                    ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*                    ^ string.quoted.other.js punctuation.definition.string.begin.js - source.json.embedded */
+/*                     ^^^^^^^^^^^^^^^^^^^^ source.json.embedded.js */
+/*                                         ^ string.quoted.other.js punctuation.definition.string.end.js - source.json.embedded */
+
 var json = json` { "key": "value" } `
 /*             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
 /*             ^ string.quoted.other.js punctuation.definition.string.begin.js - source.json.embedded */
@@ -148,6 +160,12 @@ var json = json`
  * JavaScript Templates
  */
 
+var script = /* js */ ` var = 0 `
+/*                    ^^^^^^^^^^^ meta.string.template.js */
+/*                    ^ string.quoted.other.js punctuation.definition.string.begin.js - source.js.embedded */
+/*                     ^^^^^^^^^ source.js.embedded.js */
+/*                              ^ string.quoted.other.js punctuation.definition.string.end.js - source.js.embedded */
+
 var script = js` var = 0 `
 /*             ^^^^^^^^^^^ meta.string.template.js */
 /*             ^ string.quoted.other.js punctuation.definition.string.begin.js - source.js.embedded */
@@ -175,6 +193,11 @@ var script = js`
  * CSS Templates
  */
 
+var style = /* css */ ` tr {  } `
+/*                    ^^^^^^^^^^^ meta.string.template.js */
+/*                    ^ string.quoted.other.js punctuation.definition.string.begin.js - source.css.embedded */
+/*                     ^^^^^^^^^ source.css.embedded.js */
+/*                              ^ string.quoted.other.js punctuation.definition.string.end.js - source.css.embedded */
 
 var style = css` tr {  } `
 /*             ^^^^^^^^^^^ meta.string.template.js */
@@ -271,12 +294,17 @@ var style = css`color:${color}`;
  * SQL Templates
  */
 
+var sql = /* sql */ `SELECT * FROM "foo";`
+/*                  ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*                  ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
+/*                   ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*                                       ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
+
 var sql = sql`SELECT * FROM "foo";`
 /*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
 /*           ^ string.quoted.other.js punctuation.definition.string.begin.js - source.sql.embedded */
 /*            ^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
 /*                                ^ string.quoted.other.js punctuation.definition.string.end.js - source.sql.embedded */
-
 
 var sql = SQL`SELECT * FROM "foo";`
 /*           ^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
@@ -324,6 +352,14 @@ var sql = sql`SELECT * FROM ${users};`
 /*
  * Unknown Template
  */
+
+var other = /* any */ `tagged`
+/*          ^^^^^^^^^ comment.block.js */
+/*          ^^ punctuation.definition.comment.begin.js */
+/*                 ^^ punctuation.definition.comment.end.js */
+/*                    ^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*                    ^ punctuation.definition.string.begin.js */
+/*                           ^ punctuation.definition.string.end.js */
 
 var other = other`
 /*          ^^^^^ variable.function.tagged-template */
