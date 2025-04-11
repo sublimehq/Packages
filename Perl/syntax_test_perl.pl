@@ -904,7 +904,7 @@ HTML
 # <- meta.string.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
    HTML
-#  ^^^^ meta.string.heredoc.perl text.html.embedded.perl - constant.other.language-name.perl
+#  ^^^^ meta.string.heredoc.perl text.html.embedded.perl - constant - entity
 HTML
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
 #^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
