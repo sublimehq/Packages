@@ -1,0 +1,34 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        {
+            "trigger": "listordered",
+            "contents": "#(${1:class}${2:#id})${3:[language]}.\n#(${4:class}) ${5:item-1}\n#(${6:class}) ${7:item-2}\n$0",
+            "annotation": "Ordered List",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "listorderedenumerated",
+            "contents": "#${1:start}(${2:class}${3:#id})${4:[language]}.\n#(${5:class}) ${6:item-1}\n#(${7:class}) ${8:item-2}\n$0",
+            "annotation": "Ordered List",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "listorderedecontinuing",
+            "contents": "#_(${1:class}${2:#id})${3:[language]}.\n#(${4:class}) ${5:item-1}\n#(${6:class}) ${7:item-2}\n$0",
+            "annotation": "Ordered List",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "listunordered",
+            "contents": "*(${1:class}${2:#id})${3:[language]}.\n*(${4:class}) ${5:item-a}\n*(${6:class}) ${7:item-b}\n$0",
+            "annotation": "Unordered List",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        }
+    ]
+}

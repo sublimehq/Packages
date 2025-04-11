@@ -1,0 +1,62 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        {
+            "trigger": "linkimage",
+            "contents": "!${1:alignment}${2:(class#id)}${3:(relative) image-link}(${4:title})!:${5:(relative) target-link}",
+            "annotation": "Link Image",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "image",
+            "contents": "!${1:alignment}${2:(class#id)}${3:(relative) image-link}(${4:title})!",
+            "annotation": "Image",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "definition",
+            "contents": "- ${1:term} := ${2:definition}\n$0",
+            "annotation": "Definition",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "definitionmultiline",
+            "contents": "- ${1:term} := ${2:definition first line}\n${2:definition second line} =:$0",
+            "annotation": "Definition (multi line)",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "footnote",
+            "contents": "[${1:number}]\n\nfn${1}. ${2:text}\n\n$0",
+            "annotation": "Footnote",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "autonumberednote",
+            "contents": "[#${1:label}]\n\nnote#${1}${2:optional ! (no back link)}${3:optional ^ (only first back link)}${4:optional * (all the back links)}. ${5:text}\n\nnotelist:${6:start}${7:optional ! or ^}${8:optional +}.\n\n$0",
+            "annotation": "Auto-numbered note",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "link",
+            "contents": "\"(${1:class})${2:\\$ (URL as text) or title or !image!}(${3:tooltip})\":${4:link}",
+            "annotation": "Link",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "acronym",
+            "contents": "${1:ABC}(${2:always be closing})",
+            "annotation": "Inline - Acronym",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        }
+    ]
+}
