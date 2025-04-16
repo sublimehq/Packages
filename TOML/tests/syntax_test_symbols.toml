@@ -1,0 +1,29 @@
+# SYNTAX TEST "Packages/TOML/TOML.sublime-syntax"
+
+  [table-name]
+#  @@@@@@@@@@ local-definition
+
+  [table.name]
+#  @@@@@@@@@@ local-definition "table.name"
+
+  [table . name]
+#  @@@@@@@@@@@@ local-definition "table.name"
+
+  [table."doted.name"]
+#  @@@@@@@@@@@@@@@@@@ local-definition
+
+  [ key subkey . "sub subkey" ]
+#  @@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition "keysubkey.\"sub subkey\""
+
+  [ key . subkey . "sub.subkey" ]
+#  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition "key.subkey.\"sub.subkey\""
+
+  [ key . subkey . "sub . subkey" ]
+#  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition "key.subkey.\"sub . subkey\""
+
+  [ "key . subkey" . "sub . subkey" ]
+#  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition "\"key . subkey\".\"sub . subkey\""
+
+[[array.section.name]]
+# @@@@@@@@@@@@@@@@@@ local-definition
+
