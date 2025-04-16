@@ -656,6 +656,14 @@
 			"details": "Specifies <code>SQL</code> code highlighting"
 		},
 
+		// TOML
+		{
+			"trigger": "toml",
+			"annotation": "TOML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TOML</code> code highlighting"
+		},
+
 		// XML
 		{
 			"trigger": "atom",
