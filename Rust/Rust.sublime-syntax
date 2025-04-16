@@ -9,11 +9,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(cargo|rust)\b                # shebang
+    ^ \#! .* {{shebang_language}}            # shebang
   | ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \b(?:cargo|rust)\b
   non_raw_ident: '[[:alpha:]][_[:alnum:]]*|_[_[:alnum:]]+'
   # include a word boundary at the end to ensure all possible characters are
   # consumed, to prevent catastrophic backtracking
@@ -118,7 +119,7 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.rust
     # Note: Keep sync with first_line_match!
-    - match: \b(?:cargo|rust)\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.rust
     - match: $\n?
       pop: 1
