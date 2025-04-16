@@ -2153,6 +2153,20 @@ FROM TableName
 |^^ meta.code-fence.definition.end.sql.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 |  ^ meta.code-fence.definition.end.sql.markdown-gfm meta.fold.code-fence.end - punctuation
 
+```toml
+| <- meta.code-fence.definition.begin.toml.markdown-gfm punctuation.definition.raw.code-fence.begin.markdown
+|^^^^^^^ meta.code-fence.definition.begin.toml.markdown-gfm
+|^^ punctuation.definition.raw.code-fence.begin.markdown
+|  ^^^^ constant.other.language-name.markdown
+[section.name]
+|^^^^^^^^^^^^^ markup.raw.code-fence.toml.markdown-gfm source.toml meta.section.toml meta.brackets.toml
+|^^^^^^^^^^^^ entity.name.section.toml
+|       ^ punctuation.accessor.dot.toml
+|            ^ punctuation.section.brackets.end.toml
+```
+| <- meta.code-fence.definition.end.toml.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+|^^ meta.code-fence.definition.end.toml.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+
 ```ts
 declare type foo = 'bar'
 | <- markup.raw.code-fence.typescript.markdown-gfm source.ts
