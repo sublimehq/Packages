@@ -20,6 +20,7 @@ file_extensions:
   - ipp
   - ixx
   - cppm
+  - ino
 
 first_line_match: |-
   (?xi:
