@@ -118,7 +118,6 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.rust
-    # Note: Keep sync with first_line_match!
     - match: '{{shebang_language}}'
       scope: constant.language.shebang.rust
     - match: $\n?
