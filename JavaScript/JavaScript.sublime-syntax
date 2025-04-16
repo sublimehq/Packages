@@ -13,12 +13,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b  # shebang
+    ^ \#! .* {{shebang_language}}                        # shebang
   | ^ \s* // .*? -\*- .*? \b(?:js|javascript)\b .*? -\*-  # editorconfig
   )
 
 variables:
-  shebang_lang: \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b
+  shebang_language: \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b
 
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'
@@ -260,8 +260,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.js
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.js
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
       pop: 1
@@ -269,10 +270,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.js
-    # Note: Keep sync with first_line_match!
-    - match: '{{shebang_lang}}'
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.js
-    - match: \n
+    - match: $\n?
       pop: 1
 
   else-pop:
