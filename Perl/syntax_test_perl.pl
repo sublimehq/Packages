@@ -6,62 +6,95 @@
 
 ###[ POD TESTS ] #############################################################
 
-=pod
-# <- meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
-#^^^ meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
-=encoding utf8
-# <- meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
-#^^^^^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
-#^^^^^^^^ entity.name.tag.pod.perl
-#         ^^^^ markup.heading.perl
-=head1 B<--param>
-# <- meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
-#^^^^^^^^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
+=head1 Section 1
+# <- comment.block.documentation.perl meta.heading.perl entity.name.tag.pod.perl
+#^^^^^^^^^^^^^^^^ comment.block.documentation.perl meta.heading.perl
 #^^^^^ entity.name.tag.pod.perl
-#      ^^^^^^^^^^ markup.heading.perl
+#     ^ - entity
+#      ^^^^^^^^^ entity.name.section.perl
+Paragraph
+# <- comment.block.documentation.perl
+#^^^^^^^^^ comment.block.documentation.perl
+=head2 Section 1.1
+# <- comment.block.documentation.perl meta.heading.perl entity.name.tag.pod.perl
+#^^^^^^^^^^^^^^^^^^ comment.block.documentation.perl meta.heading.perl
+#^^^^^ entity.name.tag.pod.perl
+#     ^ - entity
+#      ^^^^^^^^^^^ entity.name.section.perl
+Paragraph
+# <- comment.block.documentation.perl
+#^^^^^^^^^ comment.block.documentation.perl
+=item Using C<$|> to Control Buffering
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.perl
+#^^^^ entity.name.tag.pod.perl
+#    ^ - entity - string
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#           ^ entity.name.tag.code.perl
+#            ^ punctuation.definition.tag.begin.perl
+#             ^^ markup.quote.perl
+#               ^ punctuation.definition.tag.end.perl
+=cut
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
+
+=pod
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
+=encoding utf8
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^^^^ comment.block.documentation.perl
+#^^^^^^^^ entity.name.tag.pod.perl
+#        ^ - entity - string
+#         ^^^^ meta.string.perl string.unquoted.perl
+=head1 B<--param>
+# <- comment.block.documentation.perl meta.heading.perl entity.name.tag.pod.perl
+#^^^^^^^^^^^^^^^^^ comment.block.documentation.perl meta.heading.perl
+#^^^^^ entity.name.tag.pod.perl
+#     ^ - entity - string
+#      ^^^^^^^^^^ entity.name.section.perl
 #      ^ entity.name.tag.bold.perl
 #       ^ punctuation.definition.tag.begin.perl
 #        ^^^^^^^ markup.bold.perl
 #               ^ punctuation.definition.tag.end.perl
    B<bold>
-#  ^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.bold.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^ markup.bold.perl
 #        ^ punctuation.definition.tag.end.perl
    C<code>
-#  ^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.code.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^ markup.quote.perl
 #        ^ punctuation.definition.tag.end.perl
    E<lt>
-#  ^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.escaped.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^ constant.character.escape.perl
 #      ^ punctuation.definition.tag.end.perl
    F<file.ext>
-#  ^^^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.filename.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^^^^^ meta.string.perl string.unquoted.perl
 #            ^ punctuation.definition.tag.end.perl
    I<italic>
-#  ^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.italic.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^^^ markup.italic.perl
 #          ^ punctuation.definition.tag.end.perl
 
    L<http://www.perl.org/>
-#  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.link.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^^^^^^^^^^^^^^^^^ markup.underline.link.perl
 #                        ^ punctuation.definition.tag.end.perl
    L<The Perl Home Page|http://www.perl.org/>
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.link.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.perl
@@ -75,7 +108,7 @@
 #         ^ punctuation.definition.tag.end.perl
 #            ^ punctuation.definition.tag.end.perl
    X<index entry>
-#  ^^^^^^^^^^^^^^ meta.comment.perl comment.block.documentation.perl
+#  ^^^^^^^^^^^^^^ comment.block.documentation.perl
 #  ^ entity.name.tag.index.perl
 #   ^ punctuation.definition.tag.begin.perl
 #    ^^^^^^^^^^^ entity.name.label.perl
@@ -85,64 +118,66 @@
 #                                         ^ entity.name.tag.escaped.perl
 
 =begin css
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^ comment.block.documentation.perl
 #^^^^^ entity.name.tag.pod.perl
 #     ^ - constant - entity
-#      ^^^ constant.other.language-name.css.perl
+#      ^^^ constant.other.language-name.perl
   a {  };
-# ^^^^^^^ meta.comment.perl meta.interpolation.perl source.css.embedded.perl source.css
+# ^^^^^^^^ comment.block.documentation.perl source.css.embedded.perl
 =end
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
 
 =begin html
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^^ comment.block.documentation.perl
 #^^^^^ entity.name.tag.pod.perl
 #     ^ - constant - entity
-#      ^^^^ constant.other.language-name.html.perl
+#      ^^^^ constant.other.language-name.perl
     <html>
-# <- meta.comment.perl meta.interpolation.perl text.html.embedded.perl
-#^^^^^^^^^ meta.comment.perl meta.interpolation.perl text.html.embedded.perl
+# <- comment.block.documentation.perl text.html.embedded.perl
+#^^^^^^^^^^ comment.block.documentation.perl text.html.embedded.perl
     </html>
-# <- meta.comment.perl meta.interpolation.perl text.html.embedded.perl
-#^^^^^^^^^ meta.comment.perl meta.interpolation.perl text.html.embedded.perl
+# <- comment.block.documentation.perl text.html.embedded.perl
+#^^^^^^^^^^ comment.block.documentation.perl text.html.embedded.perl
 =end
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
 
 =begin json
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^^ comment.block.documentation.perl
 #^^^^^ entity.name.tag.pod.perl
 #     ^ - constant - entity
-#      ^^^^ constant.other.language-name.json.perl
+#      ^^^^ constant.other.language-name.perl
   {
-# ^ meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
+# ^ comment.block.documentation.perl source.json.embedded.perl meta.mapping.json punctuation.section.mapping.begin.json
     "key": "value",
-#   ^^^^^^^^^^^^^^^ meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
+#   ^^^^^^^^^^^^^^^^ comment.block.documentation.perl source.json.embedded.perl
   }
-# ^ meta.comment.perl meta.interpolation.perl source.json.embedded.perl source.json
+# ^ comment.block.documentation.perl source.json.embedded.perl meta.mapping.json punctuation.section.mapping.end.json
 =end
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
 
 =begin sql
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^^^^^^^^ meta.comment.perl meta.interpolation.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^^^^^^^^ comment.block.documentation.perl
 #^^^^^ entity.name.tag.pod.perl
 #     ^ - constant - entity
-#      ^^^ constant.other.language-name.sql.perl
+#      ^^^ constant.other.language-name.perl
   SELECT * FROM `table`
-# ^^^^^^^^^^^^^^^^^^^^^ meta.comment.perl meta.interpolation.perl source.sql.embedded.perl source.sql
+#^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.perl source.sql.embedded.perl
 =end
-# <- meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
-#^^^ meta.comment.perl meta.interpolation.perl entity.name.tag.pod.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
+
+# stray =cut tag
 
 =cut
-# <- meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
-#^^^ meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
+# <- comment.block.documentation.perl entity.name.tag.pod.perl
+#^^^ comment.block.documentation.perl entity.name.tag.pod.perl
 
 ###[ FORMAT ]#################################################################
 
@@ -869,7 +904,7 @@ HTML
 # <- meta.string.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
    HTML
-#  ^^^^ meta.string.heredoc.perl text.html.embedded.perl - constant.other.language-name.html.perl
+#  ^^^^ meta.string.heredoc.perl text.html.embedded.perl - constant - entity
 HTML
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
 #^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
