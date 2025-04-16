@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.perl</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*[])}]</string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^.*            # anything on the line followed by:
+			(
+			  \[[^]"']*    # an open square bracket not followed by a closing square bracket or string punctuation
+			| \([^)"']*    # an open bracket not followed by a closing bracket or string punctuation
+			| \{[^}"']*    # an open curly brace not followed by a closing brace or string punctuation
+			)$
+		]]></string>
+		<key>indentParens</key>
+		<false/>
+		<key>indentSquareBrackets</key>
+		<false/>
+	</dict>
+</dict>
+</plist>
