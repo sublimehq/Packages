@@ -11,4 +11,5 @@ extends: Packages/SQL/SQL.sublime-syntax
 contexts:
   prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: scope:source.js.plain#literal-string-template-end-ahead
+    - include: scope:source.js.plain#text-interpolations
