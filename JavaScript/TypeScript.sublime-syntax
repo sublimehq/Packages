@@ -13,12 +13,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bts-node(?:-script)?\b                    # shebang
+    ^ \#! .* {{shebang_language}}                       # shebang
   | ^ \s* // .*? -\*- .*? \b(ts|typescript)\b .*? -\*-  # editorconfig
   )
 
 variables:
-  shebang_lang: \bts-node(?:-script)?\b
+  shebang_language: \bts-node(?:-script)?\b
 
   possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 

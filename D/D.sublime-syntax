@@ -10,11 +10,13 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bg?dmd\b                           # shebang
+    ^ \#! .* {{shebang_language}}                # shebang
   | ^ \s* // .*? -\*- .*? \bd(lang)?\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \bg?dmd\b
+
   name: '[[:alpha:]_][[:alpha:]0-9_]*'
   name_lookahead: '(?=\b{{name}}\b)'
   identifier_ref: '\.?\s*{{name}}(\s*\.\s*{{name}})*'
@@ -82,12 +84,13 @@ contexts:
   main:
     - meta_include_prototype: false
     - match: ''
-      set: [d, shebang]
+      push: [d, shebang]
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.d
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.d
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
       pop: 1
@@ -95,10 +98,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.d
-    # Note: Keep sync with first_line_match!
-    - match: \bg?dmd\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.d
-    - match: \n
+    - match: $\n?
       pop: 1
 
   d:

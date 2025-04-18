@@ -64,11 +64,13 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bj?ruby\b                      # shebang
+    ^ \#! .* {{shebang_language}}            # shebang
   | ^ \s* \# .*? -\*- .*? \bruby\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \bj?ruby\b
+
   bin_digits: (?:[01]+(?:_[01]+)*)
   dec_digits: (?:\d+(?:_\d+)*)
   hex_digits: (?:\h+(?:_\h+)*)
@@ -87,7 +89,26 @@ variables:
 
 contexts:
   main:
-    - include: expressions
+    - meta_include_prototype: false
+    - match: ''
+      push: [expressions, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.ruby
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.ruby
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.ruby
+    - match: $\n?
+      pop: 1
 
   expressions:
     - include: constants

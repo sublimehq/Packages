@@ -14,11 +14,13 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bperl\b                        # shebang
+    ^ \#! .* {{shebang_language}}            # shebang
   | ^ \s* \# .*? -\*- .*? \bperl\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \bperl\b
+
   break: \b(?!::)
   identifier: '\b[_[:alpha:]]\w*\b'
   pod: '={{identifier}}'
@@ -173,8 +175,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.perl
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.perl
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
       pop: true
@@ -182,10 +185,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.perl
-    # Note: Keep sync with first_line_match!
-    - match: \bperl\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.perl
-    - match: \n
+    - match: $\n?
       pop: true
 
   comment-line:
