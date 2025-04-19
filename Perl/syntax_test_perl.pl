@@ -246,6 +246,91 @@ Paragraph
 
 )
 
+# conflicts in HEREDOC strings
+
+$plain_heredoc = <<MERGE
+  before
+#^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+<<<<<<< HEAD
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  ours
+#^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+=======
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+  base
+#^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+|||||||
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+  theires
+#^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+>>>>>>> master
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+  after
+#^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
+MERGE
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+
+$css_heredoc = <<CSS
+<<<<<<< HEAD
+# <- meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+=======
+# <- meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.separator.diff punctuation.section.block.diff
+|||||||
+# <- meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.separator.diff punctuation.section.block.diff
+>>>>>>> master
+# <- meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.string.heredoc.perl source.css.embedded.perl source.css meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+CSS
+# <- meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.css.perl
+#^^ meta.string.heredoc.perl meta.tag.heredoc.perl entity.name.tag.heredoc.css.perl
+
+# multiline strings
+
+$double_quoted_string = "
+  before
+#^^^^^^^ meta.string.perl string.quoted.double.perl
+<<<<<<< HEAD
+# <- meta.string.perl string.quoted.double.perl meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.string.perl string.quoted.double.perl meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  ours
+#^^^^^ meta.string.perl string.quoted.double.perl
+=======
+# <- meta.string.perl string.quoted.double.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.perl string.quoted.double.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+  base
+#^^^^^ meta.string.perl string.quoted.double.perl
+|||||||
+# <- meta.string.perl string.quoted.double.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.perl string.quoted.double.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+  theires
+#^^^^^^^^ meta.string.perl string.quoted.double.perl
+>>>>>>> master
+# <- meta.string.perl string.quoted.double.perl meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+  after
+#^^^^^^ meta.string.perl string.quoted.double.perl
+"
+
 ###[ FORMAT ]#################################################################
 
 format.

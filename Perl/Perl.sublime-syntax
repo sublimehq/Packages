@@ -1805,6 +1805,7 @@ contexts:
       captures:
         1: punctuation.definition.placeholder.perl
         2: punctuation.separator.decimal.perl
+    - include: merge-conflict-markers
 
 ###[ REGEXP ]#################################################################
 
