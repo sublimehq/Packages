@@ -46,6 +46,16 @@ def get_properties():
             "<overflow-position>",
             "<content-position>",
         ],
+        "alignment-baseline": [
+            "baseline",
+            "alphabetic",
+            "ideographic",
+            "middle",
+            "central",
+            "mathematical",
+            "text-before-edge",
+            "text-after-edge",
+        ],
         "all": [],
         "alt": [],
         "animation": [
