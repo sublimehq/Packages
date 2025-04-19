@@ -342,6 +342,7 @@ def get_properties():
         ],
         "cx": ["<calc>"],
         "cy": ["<calc>"],
+        "d": ["none", ["path()", "path($)"]],
         "direction": ["ltr", "rtl"],
         "display": [
             "none",
@@ -388,7 +389,7 @@ def get_properties():
         "enable-background": ["accumulate", "new"],
         "fallback": [],
         "field-sizing": ["content", "fixed"],
-        "fill": ["<color>"],
+        "fill": ["<color>", "none", "context-fill", "context-stroke"],
         "fill-opacity": [
             "<calc>",
         ],
