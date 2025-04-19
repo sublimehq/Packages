@@ -279,7 +279,6 @@ def get_common_values():
             "additive",
             "fixed",
         ],
-        "ending-shape": ["circle", "ellipse"],
         "fill-rule": ["nonzero", "evenodd"],
         "filter-value": ["none", "<url>", "<filter-function>"],
         "filter-function": [
@@ -444,6 +443,17 @@ def get_common_values():
         "overflow-position": ["unsafe", "safe"],
         "polar-color-space": ["hsl", "hwb", "lch", "oklch"],
         "position": ["<side-or-corner>", "center"],
+        "radial-gradient-syntax": [
+            "<radial-shape>",
+            "<size>",
+            "at",
+            "<position>",
+            "<color>",
+        ],
+        "radial-shape": [
+            "circle",
+            "ellipse"
+        ],
         "ray-size": [
             "closest-side",
             "closest-corner",
