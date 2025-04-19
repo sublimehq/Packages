@@ -1239,7 +1239,13 @@ def get_properties():
             "contents",
             "scroll-position",
         ],
-        "word-break": ["normal", "break-all", "break-word", "keep-all"],
+        "word-break": [
+            "normal",
+            "break-all",
+            "break-word",
+            "keep-all",
+            "auto-phrase",
+        ],
         "word-spacing": [
             "<calc>",
             "normal",
