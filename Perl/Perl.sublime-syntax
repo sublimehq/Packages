@@ -14,11 +14,13 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bperl\b                        # shebang
+    ^ \#! .* {{shebang_language}}            # shebang
   | ^ \s* \# .*? -\*- .*? \bperl\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \bperl\b
+
   break: \b(?!::)
   identifier: '\b[_[:alpha:]]\w*\b'
   pod: '={{identifier}}'
@@ -174,8 +176,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.perl
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.perl
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
       pop: true
@@ -183,10 +186,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.perl
-    # Note: Keep sync with first_line_match!
-    - match: \bperl\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.perl
-    - match: \n
+    - match: $\n?
       pop: true
 
   comment-line:
@@ -195,96 +197,96 @@ contexts:
       push: comment-line-body
 
   comment-line-body:
-    - meta_scope: meta.comment.perl comment.line.number-sign.perl
+    - meta_scope: comment.line.number-sign.perl
     - match: \n
       pop: true
 
   comment-pod:
     # SEE: https://perldoc.perl.org/perlpod.html
-    - match: ^{{pod}}
-      scope: entity.name.tag.pod.perl
+    # pod end tags
+    - match: ^=(?:cut|end)\b
+      scope: comment.block.documentation.perl entity.name.tag.pod.perl
+    # pod heading
+    - match: ^(=head[1-6])\s+
+      captures:
+        1: entity.name.tag.pod.perl
       push:
-        - comment-pod-body
-        - comment-pod-begin
-
-  comment-pod-begin:
-    - meta_content_scope: meta.string.perl string.unquoted.perl
-    - match: \n
-      pop: true
-    - include: comment-pod-formatting
-
-  comment-pod-body:
-    - meta_scope: meta.comment.perl comment.block.documentation.perl
-    - match: ^=cut\b
-      scope: entity.name.tag.pod.perl
-      pop: true
-    - include: comment-pod-embedded
-    - include: comment-pod-keyword
-    - include: comment-pod-formatting
-
-  comment-pod-embedded:
+        - comment-pod-paragraph-body
+        - comment-pod-heading-body
+    # verbatim paragraph
     - match: ^=begin\b
       scope: entity.name.tag.pod.perl
-      push: comment-pod-embedded-body
+      push: comment-pod-verbatim-body
+    # other/unknown pod tags
+    - match: ^({{pod}})\s+
+      captures:
+        1: entity.name.tag.pod.perl
+      push:
+        - comment-pod-paragraph-body
+        - comment-pod-command-body
 
-  comment-pod-embedded-body:
-    - clear_scopes: 1 # remove `comment`
-    - meta_scope: meta.interpolation.perl
+  comment-pod-heading-body:
+    - meta_scope: meta.heading.perl
+    - meta_content_scope: entity.name.section.perl
+    - match: $\n?
+      pop: true
+    - include: comment-pod-formatting
+
+  comment-pod-command-body:
+    - meta_content_scope: meta.string.perl string.unquoted.perl
+    - match: $\n?
+      pop: true
+    - include: comment-pod-formatting
+
+  comment-pod-paragraph-body:
+    - meta_scope: comment.block.documentation.perl
+    - match: ^(?={{pod}})
+      pop: true
+    - include: comment-pod-formatting
+
+  comment-pod-verbatim-body:
+    - meta_scope: comment.block.documentation.perl
     # end embedded section
     - match: ^=end\b
       scope: entity.name.tag.pod.perl
       pop: true
     # embedded css
     - match: \bcss\b
-      scope: constant.other.language-name.css.perl
+      scope: constant.other.language-name.perl
       embed: scope:source.css
       embed_scope: source.css.embedded.perl
       escape: (?=^{{pod}})
     # embedded html
     - match: \bhtml\b
-      scope: constant.other.language-name.html.perl
+      scope: constant.other.language-name.perl
       embed: scope:text.html.basic
       embed_scope: text.html.embedded.perl
       escape: (?=^{{pod}})
     # embedded javascript
     - match: \b(?:js|javascript)\b
-      scope: constant.other.language-name.js.perl
+      scope: constant.other.language-name.perl
       embed: scope:source.js
       embed_scope: source.js.embedded.perl
       escape: (?=^{{pod}})
     # embedded json
     - match: \bjson\b
-      scope: constant.other.language-name.json.perl
+      scope: constant.other.language-name.perl
       embed: scope:source.json
       embed_scope: source.json.embedded.perl
       escape: (?=^{{pod}})
     # embedded sql
     - match: \bsql\b
-      scope: constant.other.language-name.sql.perl
+      scope: constant.other.language-name.perl
       embed: scope:source.sql
       embed_scope: source.sql.embedded.perl
       escape: (?=^{{pod}})
     # embedded xml
     - match: \bxml\b
-      scope: constant.other.language-name.xml.perl
+      scope: constant.other.language-name.perl
       embed: scope:text.xml
       embed_scope: text.xml.embedded.perl
       escape: (?=^{{pod}})
-    # unexpected pod command
-    - match: ^{{pod}}
-      scope: invalid.illegal.end-expected.perl
-      pop: true
     - include: else-pop
-
-  comment-pod-keyword:
-    - match: ^{{pod}}
-      scope: entity.name.tag.pod.perl
-      push: comment-pod-keyword-body
-
-  comment-pod-keyword-body:
-    - meta_content_scope: markup.heading.perl
-    - include: eol-pop
-    - include: comment-pod-formatting
 
   comment-pod-formatting:
     # bold text : B<content>
@@ -901,6 +903,9 @@ contexts:
     - match: <<(?=(\s*['"]\s*)?{{identifier}})
       scope: keyword.operator.heredoc.perl
       push: [string-heredoc-meta, string-heredoc-body]
+    - match: <<~(?=(\s*['"]\s*)?{{identifier}})
+      scope: keyword.operator.heredoc.perl
+      push: [string-heredoc-meta, string-indented-heredoc-body]
 
   string-heredoc-meta:
     - meta_scope: meta.string.heredoc.perl
@@ -1058,6 +1063,171 @@ contexts:
     - meta_content_scope: string.unquoted.heredoc.perl
     - match: ^\1$
       scope: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      pop: true
+    - include: interpolated-common
+
+  string-indented-heredoc-body:
+    # embedded css
+    - match: \s*((['"]?)(\s*CSS)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.css.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-css, string-heredoc-expr]
+    # embedded html
+    - match: \s*((['"]?)(\s*HTML)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.html.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-html, string-heredoc-expr]
+    # embedded javascript
+    - match: \s*((['"]?)(\s*JAVASCRIPT)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.js.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-javascript, string-heredoc-expr]
+    # embedded json
+    - match: \s*((['"]?)(\s*JSON)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.json.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-json, string-heredoc-expr]
+    # embedded sql
+    - match: \s*((['"]?)(\s*SQL)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.sql.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-sql, string-heredoc-expr]
+    # embedded xml
+    - match: \s*((['"]?)(\s*XML)(\2))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.xml.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-xml, string-heredoc-expr]
+    # single quoted heredoc string without interpolation
+    - match: \s*((')(\s*[^'\s]+)('))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.plain.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-plain, string-heredoc-expr]
+    # double quoted heredoc string with interpolation
+    - match: \s*((")(\s*[^"\s]+)("))
+      captures:
+        1: meta.tag.heredoc.perl
+        2: punctuation.definition.tag.begin.perl
+        3: entity.name.tag.heredoc.plain.perl
+        4: punctuation.definition.tag.end.perl
+      set: [string-indented-heredoc-interpolated-quoted, string-heredoc-expr]
+    # unquoted heredoc string with interpolation
+    - match: \s*({{identifier}})
+      captures:
+        1: meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
+      set: [string-indented-heredoc-interpolated-unquoted, string-heredoc-expr]
+    - include: immediately-pop
+
+  string-indented-heredoc-css:
+    - meta_content_scope: source.css.embedded.perl
+    # pop off only, if keyword is indented correctly
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.css.perl
+      pop: true
+    - match: ''
+      embed: scope:source.css
+      escape: (?=^ *CSS$)
+
+  string-indented-heredoc-html:
+    - meta_content_scope: text.html.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.html.perl
+      pop: true
+    - match: ''
+      embed: scope:text.html.basic
+      escape: (?=^ *HTML$)
+
+  string-indented-heredoc-javascript:
+    - meta_content_scope: source.js.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.js.perl
+      pop: true
+    - match: ''
+      embed: scope:source.js
+      escape: (?=^ *JAVASCRIPT$)
+
+  string-indented-heredoc-json:
+    - meta_content_scope: source.json.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.json.perl
+      pop: true
+    - match: ''
+      embed: scope:source.json
+      escape: (?=^ *JSON$)
+
+  string-indented-heredoc-sql:
+    - meta_content_scope: source.sql.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.sql.perl
+      pop: true
+    - match: ''
+      embed: scope:source.sql
+      escape: (?=^ *SQL$)
+
+  string-indented-heredoc-xml:
+    - meta_content_scope: text.xml.embedded.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.xml.perl
+      pop: true
+    - match: ''
+      embed: scope:text.xml
+      escape: (?=^ *XML$)
+
+  string-indented-heredoc-plain:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.plain.perl
+      pop: true
+
+  string-indented-heredoc-interpolated-quoted:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^[ \t]*(\3)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.plain.perl
+      pop: true
+    - include: interpolated-common
+
+  string-indented-heredoc-interpolated-unquoted:
+    - meta_content_scope: string.unquoted.heredoc.perl
+    - match: ^[ \t]*(\1)$
+      scope: meta.tag.heredoc.perl
+      captures:
+        1: entity.name.tag.heredoc.plain.perl
       pop: true
     - include: interpolated-common
 

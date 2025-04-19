@@ -9,10 +9,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}}            # shebang
+  | ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \b(?:cargo|rust)\b
   non_raw_ident: '[[:alpha:]][_[:alnum:]]*|_[_[:alnum:]]+'
   # include a word boundary at the end to ensure all possible characters are
   # consumed, to prevent catastrophic backtracking
@@ -91,7 +93,9 @@ variables:
     )
 contexts:
   main:
-    - include: statements
+    - meta_include_prototype: false
+    - match: ''
+      push: [statements, frontmatter, shebang]
 
   prototype:
     # Macro metavariables. Ideally we would do this as a with_prototype,
@@ -100,6 +104,40 @@ contexts:
     # can be inserted in just about any position in the syntax.
     - match: '\${{identifier}}'
       scope: variable.other.rust
+
+  shebang:
+    - meta_include_prototype: false
+    # allow extending syntaxes like Markdown to ignore indentation restrictions
+    - match: \s*(\#!)
+      captures:
+        1: punctuation.definition.comment.rust
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Rust is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.rust
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.rust
+    - match: $\n?
+      pop: 1
+
+  frontmatter:
+    - meta_include_prototype: false
+    - match: \s*(---)\s*$\n?
+      captures:
+        0: meta.frontmatter.rust
+        1: punctuation.section.frontmatter.begin.rust
+      embed: scope:source.toml
+      embed_scope: meta.frontmatter.rust source.toml.embedded.rust
+      escape: ^\s*(---)\s*$\n?
+      escape_captures:
+        0: meta.frontmatter.rust
+        1: punctuation.section.frontmatter.end.rust
+      pop: 1
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Rust is embedded.
+      pop: 1
 
   statements:
     # This isn't really just "statements", it also includes all types,

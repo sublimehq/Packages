@@ -395,18 +395,17 @@
 / ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.parens.haml
 /          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html
 /                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html
-/           ^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/               ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                       ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                             ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                                     ^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/           ^^^^ - meta.interpolation
+/               ^^^^^^^^ meta.interpolation.haml
+/                       ^^^^^^ - meta.interpolation
+/                             ^^^^^^^^ meta.interpolation.haml
+/                                     ^^^ - meta.interpolation
 /                                        ^^^^^^^^^ - meta.interpolation
-/                                                 ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                                                       ^^^^^^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                                                                    ^^^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                                                                            ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                                                                                    ^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                                                                                      ^ - meta.interpolation
+/                                                 ^^^^^^ - meta.interpolation
+/                                                       ^^^^^^^^^^^^^ meta.interpolation.haml
+/                                                                    ^^^^^^^^ - meta.interpolation
+/                                                                            ^^^^^^^^ meta.interpolation.haml
+/                                                                                    ^^^ - meta.interpolation
 /          ^ string.quoted.double.html punctuation.definition.string.begin.html
 /           ^^^ variable.function
 /              ^ punctuation.section.group.begin.js

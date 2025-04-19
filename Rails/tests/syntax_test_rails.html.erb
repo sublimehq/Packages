@@ -54,22 +54,22 @@
   <script type="application/ld+json">
       {
           <% key %>: <%.Site.Color%>,
-      |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
-      |   ^^^^^^^^^ meta.mapping.json meta.interpolation.rails
-      |            ^^ meta.mapping.json - meta.interpolation
-      |              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.rails
-      |                             ^ meta.mapping.json - meta.interpolation
+      #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+      #   ^^^^^^^^^ meta.mapping.json meta.embedded.rails
+      #            ^^ meta.mapping.json - meta.embedded
+      #              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.embedded.rails
+      #                             ^ meta.mapping.json - meta.embedded
 
           "<% key %>": "<%.Site.Color%>",
-      |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
-      |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
-      |    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.rails - string
-      |             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
-      |              ^^ meta.mapping.json - meta.interpolation
-      |                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
-      |                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.rails - string
-      |                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
-      |                                 ^ meta.mapping.json - meta.interpolation
+      #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+      #   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+      #    ^^^^^^^^^ meta.mapping.key.json meta.embedded.rails - string
+      #             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+      #              ^^ meta.mapping.json - meta.embedded
+      #                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+      #                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.embedded.rails - string
+      #                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+      #                                 ^ meta.mapping.json - meta.embedded
       }
   </script>
 
@@ -112,14 +112,14 @@
 #                                        ^^^ punctuation.section.embedded.end.rails
 
 <p style="font-weight: <% if show_bold %>bold<% else %>normal<% end %>">
-#        ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html
+#        ^ meta.attribute-with-value.style.html meta.string.html - source
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html
 #                      ^^^^^^^^^^^^^^^^^^ meta.property-value.css meta.embedded.rails
 #                                        ^^^^ meta.property-value.css - meta.embedded
 #                                            ^^^^^^^^^^ meta.property-value.css meta.embedded.rails
 #                                                      ^^^^^^ meta.property-value.css - meta.embedded
 #                                                            ^^^^^^^^^ meta.property-value.css meta.embedded.rails
-#                                                                     ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation
+#                                                                     ^ meta.attribute-with-value.style.html meta.string.html - source
 #        ^ string.quoted.double.html punctuation.definition.string.begin.html
 #         ^^^^^^^^^^^ support.type.property-name
 #                      ^^ punctuation.section.embedded.begin.rails
@@ -146,17 +146,17 @@
 
 <a onclick="run(<% @ruby %>, 'var<% @ruby %>e')" style="font: <% @ruby_font %>, 'font_<% @name %>';">text</a>
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.event.html meta.string.html
-#           ^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
-#               ^^^^^^^^^^^ meta.interpolation.html meta.embedded.rails
-#                          ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
-#                                ^^^^^^^^^^^ meta.interpolation.html meta.string.js meta.interpolation.rails meta.embedded.rails
-#                                           ^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#           ^^^^ - meta.embedded
+#               ^^^^^^^^^^^ meta.embedded.rails
+#                          ^^^^^^ - meta.interpolation meta.interpolation - meta.embedded
+#                                ^^^^^^^^^^^ meta.string.js meta.interpolation.rails meta.embedded.rails
+#                                           ^^^ - meta.embedded
 #                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.style.html meta.string.html
-#                                                       ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
-#                                                             ^^^^^^^^^^^^^^^^ meta.interpolation.html meta.embedded.rails
-#                                                                             ^^^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
-#                                                                                     ^^^^^^^^^^^ meta.interpolation.html meta.string.css meta.interpolation.rails meta.embedded.rails
-#                                                                                                ^^ meta.interpolation.html - meta.interpolation meta.interpolation - meta.embedded
+#                                                       ^^^^^^ - meta.embedded
+#                                                             ^^^^^^^^^^^^^^^^ meta.embedded.rails
+#                                                                             ^^^^^^^^ - meta.embedded
+#                                                                                     ^^^^^^^^^^^ meta.string.css meta.interpolation.rails meta.embedded.rails
+#                                                                                                ^^ - meta.embedded
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html meta.function-call
 #               ^^ punctuation.section.embedded.begin.rails
 #                 ^^^^^^^ source.ruby.rails.embedded.rails

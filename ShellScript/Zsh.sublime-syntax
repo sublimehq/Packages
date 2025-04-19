@@ -21,7 +21,7 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bzsh\b              # shebang
+    ^ \#! .* {{shebang_language}} # shebang
   | ^ \#(autoload|compdef)\b      # zsh completions
   )
 

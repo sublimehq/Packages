@@ -19,12 +19,13 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .*[^-]php(?:\d+(?:\.\d+){0,2})?\b # shebang
+    ^ \#! .*[^-]{{shebang_language}}                              # shebang
   | ^ \s* // .*? -\*- .*? \bphp(?:\d+(?:\.\d+){0,2})?\b .*? -\*-  # editorconfig
-  | ^ \s* <\?php\b                          # php tag
+  | ^ \s* <\?php\b                                                # php tag
   )
 
 variables:
+  shebang_language: \bphp(?:\d+(?:\.\d+){0,2})?\b
 
   tag_name_start: (?:[A-Za-z]|<\?)
 
@@ -54,8 +55,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.php
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.php
       set: shebang-body
     - match: ^|(?=\S)
       pop: 1
@@ -63,9 +65,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.php
-    - match: \bphp(?:[-_]?\d+(?:\.\d+){0,2})?\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.php
-    - match: \n
+    - match: $\n?
       pop: 1
 
 ###[ HTML CONTENT ]###########################################################

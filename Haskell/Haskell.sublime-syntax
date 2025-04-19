@@ -14,13 +14,15 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(cabal|runhaskell|stack)\b       # shebang
+    ^ \#! .* {{shebang_language}}               # shebang
   | ^ \s* -- .*? -\*- .*? \bhaskell\b .*? -\*-  # editorconfig
   )
 
 ###############################################################################
 
 variables:
+  shebang_language: \b(?:cabal|runhaskell|stack)\b
+
   # 2.2 Lexical Program Structure
   # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-160002.2
   special: '[(),;\[\]`{}]'
@@ -301,18 +303,18 @@ contexts:
         1: punctuation.definition.comment.haskell
 
   shebang:
-    - match: ^\#!
-      scope: punctuation.definition.comment.haskell
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.haskell
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Haskell is embedded.
       pop: 1
 
   shebang-body:
     - meta_scope: comment.line.shebang.haskell
-    # Note: Keep sync with first_line_match!
-    - match: \b(cabal|runhaskell|stack)\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.haskell
-    - match: \n
+    - match: $\n?
       pop: 1
 
 ###[ PREPROCESSOR ]############################################################

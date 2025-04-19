@@ -9,11 +9,13 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \blua\b                        # shebang
+    ^ \#! .* {{shebang_language}}           # shebang
   | ^ \s* -- .*? -\*- .*? \blua\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \blua\b
+
   reserved_word: |-
     (?x:(?:
       and|break|do|elseif|else|end|false|for|function|goto|if|in|
@@ -169,8 +171,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.lua
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.lua
       set: shebang-body
     - match: ^|(?=\S)
       pop: 1
@@ -178,9 +181,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.lua
-    - match: \blua\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.lua
-    - match: \n
+    - match: $\n?
       pop: 1
 
   statements:
