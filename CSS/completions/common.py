@@ -25,10 +25,15 @@ def get_common_values():
         "axis": ["block", "inline", "vertical", "horizontal"],
         "baseline-position": ["firstbaseline", "lastbaseline", "baseline"],
         "basic-shape": [
+            "<basic-shape-rect>",
             ["circle()", "circle($1)"],
             ["ellipse()", "ellipse($1)"],
-            ["inset()", "inset($1)"],
             ["polygon()", "polygon($1)"],
+        ],
+        "basic-shape-rect": [
+            ["inset()", "inset($1)"],
+            ["rect()", "rect($1)"],
+            ["xywh()", "xywh($1)"],
         ],
         "blend-mode": [
             "normal",

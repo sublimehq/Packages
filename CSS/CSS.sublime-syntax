@@ -1945,7 +1945,6 @@ contexts:
     - include: hue-rotate-functions
     - include: image-functions
     - include: image-set-functions
-    - include: inset-functions
     - include: local-functions
     - include: minmax-functions
     - include: polygon-functions
@@ -2542,23 +2541,6 @@ contexts:
     - include: length-constants
     - include: percentage-constants
 
-  inset-functions:
-    # inset()
-    # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
-    - match: \b(?i:inset)(?=\()
-      scope: meta.function-call.identifier.css support.function.shape.css
-      push:
-        - inset-function-arguments-list-body
-        - function-arguments-list-begin
-
-  inset-function-arguments-list-body:
-    - meta_content_scope: meta.function-call.arguments.css meta.group.css
-    - include: function-arguments-prototype
-    - match: \b(?i:round){{break}}
-      scope: keyword.other.shape.css
-    - include: length-constants
-    - include: percentage-constants
-
   polygon-functions:
     # polygon()
     # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
@@ -2578,9 +2560,13 @@ contexts:
     - include: percentage-constants
 
   rect-functions:
-    # rect() - Deprecated
-    # https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect
-    - match: \b(?i:rect)(?=\()
+    # inset()
+    # https://developer.mozilla.org/docs/Web/CSS/basic-shape/inset
+    # rect()
+    # https://developer.mozilla.org/docs/Web/CSS/basic-shape/rect
+    # xywh()
+    # https://developer.mozilla.org/docs/Web/CSS/basic-shape/xywh
+    - match: \b(?i:inset|rect|xywh)(?=\()
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
         - rect-function-arguments-list-body
@@ -2591,7 +2577,10 @@ contexts:
     - include: function-arguments-prototype
     - match: \b(?i:auto){{break}}
       scope: support.constant.property-value.css
+    - match: \b(?i:round){{break}}
+      scope: keyword.other.shape.css
     - include: length-constants
+    - include: percentage-constants
 
 ###[ BUILTIN TIMING FUNCTIONS ]################################################
 

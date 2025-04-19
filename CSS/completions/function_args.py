@@ -62,7 +62,7 @@ def get_func_args():
         "pow": ["<calc>"],
         "radial-gradient": ["<radial-gradient-syntax>"],
         "ray": ["<position>", "<ray-size>", "at", "contain"],
-        "rect": ["<calc>", "auto"],
+        "rect": ["<calc>", "auto", "round"],
         "rem": ["<calc>"],
         "repeat": ["<calc>", "auto-fill", "auto-fit"],
         "repeating-conic-gradient": ["from", "at", "<position>", "<color>"],
@@ -103,6 +103,7 @@ def get_func_args():
         "translateY": ["<calc>"],
         "translateZ": ["<calc>"],
         "var": [],
+        "xywh": ["<calc>", "auto", "round"],
     }
 
     completions = {}
