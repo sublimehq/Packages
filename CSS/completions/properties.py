@@ -633,7 +633,6 @@ def get_properties():
             "<calc>",
         ],
         "inline-size": ["<calc>", "auto"],
-        "input-security": ["auto", "none"],
         "inset": [],
         "inset-block": [],
         "inset-block-end": [],
