@@ -666,6 +666,7 @@ def get_properties():
         "inset-inline-end": [],
         "inset-inline-start": [],
         "isolation": ["auto", "isolation"],
+        "interpolate-size": ["numeric-only", "allow-keywords"],
         "justify-content": [
             "left",
             "normal",
