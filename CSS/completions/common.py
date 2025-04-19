@@ -281,6 +281,7 @@ def get_common_values():
         ],
         "ending-shape": ["circle", "ellipse"],
         "fill-rule": ["nonzero", "evenodd"],
+        "filter-value": ["none", "<url>", "<filter-function>"],
         "filter-function": [
             ["blur()", "blur($1)"],
             ["brightness()", "brightness($1)"],
