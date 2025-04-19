@@ -97,6 +97,7 @@ def get_func_args():
         "sin": ["<calc>"],
         "sqrt": ["<calc>"],
         "steps": ["<calc>", "end", "middle", "start"],
+        "symbols":["<symbols-type>"],
         "tan": ["<calc>"],
         "target-counter": ["<url>", "<counter-style>"],
         "target-counters": ["<url>", "<counter-style>"],

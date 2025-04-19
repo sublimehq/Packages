@@ -518,6 +518,7 @@ def get_common_values():
         "shape-box": ["<visual-box>", "margin-box"],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
+        "symbols-type": ["cyclic", "numeric", "alphabetic", "symbolic", "fixed"],
         "text-box-edge": ["auto", "<text-edge>"],
         "text-box-trim": ["none", "trim-start", "trim-end", "trim-both"],
         "text-edge": [
