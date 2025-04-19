@@ -260,7 +260,7 @@ def get_properties():
         "columns": ["<calc>", "auto"],
         "container": ["<container-type>"],
         "container-name": ["none"],
-        "container-type": ["<container-type>"],
+        "container-type": ["<container-type>", "scroll-state"],
         "contain": ["content", "layout", "none", "paint", "inline-size", "size", "strict", "style"],
         "contain-intrinsic-size": ["none", "auto"],
         "contain-intrinsic-block-size": ["none", "auto"],
