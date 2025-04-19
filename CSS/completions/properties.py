@@ -643,7 +643,7 @@ def get_properties():
         "image-resolution": ["from-image"],
         "ime-mode": ["auto", "normal", "active", "inactive", "disabled"],
         "inherits": ["false", "true"],
-        "initial-letter": ["normal"],
+        "initial-letter": ["<calc>", "normal"],
         "initial-letter-align": ["alphabetic", "auto", "hanging", "ideographic"],
         "initial-value": [
             "<calc>",
@@ -1170,6 +1170,10 @@ def get_properties():
             "all",
             "none",
         ],
+        "transition-behavior": [
+            "normal",
+            "allow-discrete",
+        ],
         "transition-delay": [
             "<calc>",
         ],
@@ -1211,6 +1215,8 @@ def get_properties():
             "top",
             "bottom",
         ],
+        "view-transition-name": ["none"],
+        "view-transition-class": ["none"],
         "viewport-fit": ["auto", "contain", "cover"],
         "visibility": ["visible", "hidden", "collapse"],
         "white-space": [
