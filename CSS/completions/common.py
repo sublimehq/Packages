@@ -587,7 +587,6 @@ def get_common_values():
         "visual-box": ["content-box", "padding-box", "border-box"],
         "white-space-collapse": [
             "collapse",
-            "discard",
             "preserve",
             "preserve-breaks",
             "preserve-spaces",
