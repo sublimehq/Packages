@@ -623,7 +623,7 @@ def get_properties():
         "hyphenate-character": ["auto"],
         "hyphenate-limit-chars": ["auto"],
         "image-orientation": ["flip", "from-image"],
-        "image-rendering": ["auto", "optimizeSpeed", "optimizeQuality", "pixelated"],
+        "image-rendering": ["auto", "crisp-edges", "pixelated", "smooth"],
         "image-resolution": ["from-image"],
         "ime-mode": ["auto", "normal", "active", "inactive", "disabled"],
         "inherits": ["false", "true"],
@@ -1179,7 +1179,7 @@ def get_properties():
             "plaintext",
         ],
         "unicode-range": [],
-        "user-select": ["all", "auto", "text", "none", "contain"],
+        "user-select": ["all", "auto", "text", "none"],
         "user-zoom": ["fixed", "zoom"],
         "vector-effect": [
             "none",
