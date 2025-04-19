@@ -1,0 +1,79 @@
+%YAML 1.2
+---
+name: Regular Expression (Groovy)
+scope: source.regexp.groovy
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp.sublime-syntax
+
+###[ CONTEXTS ]################################################################
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: groovy-interpolations
+
+  main:
+    - include: groovy-regexp-end-or-interpolation
+    - include: main-extended
+
+###[ OVERRIDES OVER BASE SYNTAX ]##############################################
+
+  base-literal:
+    - meta_prepend: true
+    - include: groovy-regexp-end-or-interpolation
+
+  base-literal-extended:
+    - meta_prepend: true
+    - include: groovy-regexp-end-or-interpolation
+
+  escaped-chars:
+    - match: \\(?:[/\n]|u\h{4})
+      scope: constant.character.escape.groovy
+
+  escaped-char:
+    - match: \\(?:[/\n]|u\h{4})
+      scope: constant.character.escape.groovy
+      pop: 1
+
+###[ GROOVY ]##################################################################
+
+  groovy-regexp-end-or-interpolation:
+    - match: (?=/)
+      pop: 1
+
+    - include: Packages/Groovy/Groovy.sublime-syntax#single-dollar-string-interpolation
+
+###[ PROTOTYPE / INTERPOLATIONS ]##############################################
+
+  groovy-interpolations:
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
+      push:
+        - groovy-interpolations-meta
+        - groovy-interpolations-body
+
+  groovy-interpolations-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.groovy
+
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.groovy
+      pop: 1
+
+    - include: Packages/Groovy/Groovy.sublime-syntax#escaped-end-of-line
+
+    # newlines are invalid inside the interpolation
+    # but outside of a nested multiline string
+    - match: '\n'
+      scope: invalid.illegal.newline.groovy
+      pop: 1
+
+  groovy-interpolations-body:
+    - include: Groovy.sublime-syntax#groovy-code
+
+    # immediately-pop
+    - match: ''
+      pop: 1
