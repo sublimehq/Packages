@@ -259,6 +259,12 @@ def get_common_values():
             "yellow",
             "yellowgreen",
         ],
+        "color-interpolation-method": [
+            "<rectangular-color-space>",
+            "<polar-color-space>",
+            "<hue-interpolation-method>",
+            "in",
+        ],
         "container-type": ["normal", "size", "inline-size"],
         "content-distribution": ["space-between", "space-around", "space-evenly", "stretch"],
         "content-position": ["center", "start", "end", "flex-start", "flex-end"],
@@ -285,6 +291,12 @@ def get_common_values():
             ["saturate()", "saturate($1)"],
             ["sepia()", "sepia($1)"],
         ],
+        "font-palette": [
+            "normal",
+            "light",
+            "dark",
+            ["palette-mix()", "palette-mix($1)"],
+        ],
         "font-variant-alternates": [
             "normal",
             "historical-forms",
@@ -307,6 +319,13 @@ def get_common_values():
         "grid": [
             ["repeat()", "repeat(${1:2}, ${2:1fr})"],
             ["minmax()", "minmax(${1:100px}, ${2:1fr})"],
+        ],
+        "hue-interpolation-method": [
+            "shorter hue",
+            "longer hue",
+            "increasing hue",
+            "decreasing hue",
+            "hue"
         ],
         "image": [
             "<url>",
@@ -420,6 +439,7 @@ def get_common_values():
             "katakana-iroha",
         ],
         "overflow-position": ["unsafe", "safe"],
+        "polar-color-space": ["hsl", "hwb", "lch", "oklch"],
         "position": ["<side-or-corner>", "center"],
         "ray-size": [
             "closest-side",
@@ -427,6 +447,19 @@ def get_common_values():
             "farthest-side",
             "farthest-corner",
             "sides",
+        ],
+        "rectangular-color-space": [
+            "srgb",
+            "srgb-linear",
+            "display-p3",
+            "a98-rgb",
+            "prophoto-rgb",
+            "rec2020",
+            "lab",
+            "oklab",
+            "xyz",
+            "xyz-d50",
+            "xyz-d65"
         ],
         "relative-size": ["larger", "smaller"],
         "relative-weight": ["bolder", "lighter"],

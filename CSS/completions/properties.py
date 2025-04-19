@@ -457,6 +457,7 @@ def get_properties():
         "font-kerning": ["auto", "normal", "none"],
         "font-language-override": ["normal", "<string>"],
         "font-optical-sizing": ["auto", "none"],
+        "font-palette":["<font-palette>"],
         "font-size": [
             "<calc>",
             "<absolute-size>",

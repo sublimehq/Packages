@@ -55,6 +55,7 @@ def get_func_args():
         "opacity": ["<calc>"],
         "path": ["<fill-rule>"],
         "paint": [],
+        "palette-mix": ["<calc>", "<color-interpolation-method>", "<font-palette>",],
         "perspective": ["<calc>"],
         "polygon": ["<calc>", "<fill-rule>"],
         "pow": ["<calc>"],
