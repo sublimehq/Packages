@@ -373,6 +373,17 @@ def get_properties():
             "ruby-text-container",
             "run-in",
         ],
+        "dominant-baseline": [
+            "auto",
+            "text-bottom",
+            "alphabetic",
+            "ideographic",
+            "middle",
+            "central",
+            "mathematical",
+            "hanging",
+            "text-top"
+        ],
         "empty-cells": ["show", "hide"],
         "enable-background": ["accumulate", "new"],
         "fallback": [],
@@ -1188,6 +1199,13 @@ def get_properties():
         "unicode-range": [],
         "user-select": ["all", "auto", "text", "none", "contain"],
         "user-zoom": ["fixed", "zoom"],
+        "vector-effect": [
+            "none",
+            "non-scaling-stroke",
+            "non-scaling-size",
+            "non-rotation",
+            "fixed-position"
+        ],
         "vertical-align": [
             "<calc>",
             "baseline",
