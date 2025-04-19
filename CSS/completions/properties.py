@@ -130,6 +130,7 @@ def get_properties():
             "cover",
             "contain",
         ],
+        "baseline-shift": ["<calc>", "sub", "super", "baseline"],
         "behavior": [],
         "bleed": ["auto"],
         "block-size": ["<calc>", "auto"],
