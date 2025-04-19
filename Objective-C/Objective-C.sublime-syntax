@@ -3,6 +3,8 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Objective-C
 scope: source.objc
+version: 2
+extends: Packages/C++/C.sublime-syntax
 
 file_extensions:
   - m
@@ -13,200 +15,369 @@ first_line_match: |-
     ^ \s* // .*? -\*- .*? \bobj(ective-)?c\b(?![#+]) .*? -\*-  # editorconfig
   )
 
-variables:
-  identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
-  control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
-  before_tag: 'struct|union|enum'
-  common_protocols: '\bNS(GlyphStorage|M(utableCopying|enuItem)|C(hangeSpelling|o(ding|pying|lorPicking(Custom|Default)))|T(oolbarItemValidations|ext(Input|AttachmentCell))|I(nputServ(iceProvider|erMouseTracker)|gnoreMisspelledWords)|Obj(CTypeSerializationCallBack|ect)|D(ecimalNumberBehaviors|raggingInfo)|U(serInterfaceValidations|RL(HandleClient|DownloadDelegate|ProtocolClient|AuthenticationChallengeSender))|Validated(ToolbarItem|UserInterfaceItem)|Locking)\b'
-  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
-
 contexts:
   main:
-    - include: preprocessor-global
-    - include: global
+    - meta_prepend: true
+    - include: interface
+    - include: implementation
 
-  #############################################################################
-  # Reusable contexts
-  #
-  # The follow contexts are currently constructed to be reused in the
-  # Objective-C++ syntax. They are specifically constructed to not push into
-  # sub-contexts, which ensures that Objective-C++ code isn't accidentally
-  # lexed as plain Objective-C.
-  #
-  # The "unique-*" contexts are additions that Objective-C makes over C, and
-  # thus can be directly reused in Objective-C++ along with contexts from C++
-  # and C.
-  #############################################################################
-
-  properties:
-    - match: ((@)property)\s*(\()
+  implementation:
+    - match: ^\s*(@implementation)\b
       captures:
-        1: keyword.other.property.objc
-        2: punctuation.definition.keyword.objc
-        3: punctuation.section.scope.begin.objc
+        1: keyword.declaration.class.objc
+      push: implementation-start
+  implementation-start:
+    - meta_scope: meta.implementation.objc
+    - match: '{{identifier}}'
+      scope: entity.name.type.objc
       push:
-        - meta_scope: meta.property-with-attributes.objc
-        - match: '\)'
-          scope: punctuation.section.scope.end.objc
-          pop: true
-        - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
-          scope: keyword.other.property.attribute.objc
-        - match: ','
-          scope: punctuation.separator.objc
-    - match: ((@)property)\b
-      scope: meta.property.objc
-      captures:
-        1: keyword.other.property.objc
-        2: punctuation.definition.keyword.objc
+        - pop-twice
+        - interface-body
+    - include: else-pop
 
-  protocol_list:
-    - match: '<'
-      scope: punctuation.section.scope.begin.objc
+  interface:
+    - match: ^\s*(@interface)\b
+      captures:
+        1: keyword.declaration.class.objc
       push:
-        - meta_scope: meta.protocol-list.objc
-        - match: '>'
-          scope: punctuation.section.scope.end.objc
-          pop: true
-        - match: '{{common_protocols}}'
-          scope: support.other.protocol.objc
-
-  protocol_type_qualifier:
-    - match: \b(in|out|inout|oneway|bycopy|byref)\b
-      scope: storage.modifier.protocol.objc
-
-  ns-predicate:
-    - match: '(?=\])'
-      pop: true
-    - match: \bargument(?:Array|s)(:)
-      scope: support.function.any-method.name-of-parameter.objc
+        - meta_scope: meta.interface.objc
+        - include: interface-start
+    - match: ^\s*(@protocol)\b
       captures:
-        1: punctuation.separator.arguments.objc
-    - match: \b\w+(:)
-      scope: invalid.illegal.unknown-method.objc
-      captures:
-        1: punctuation.separator.arguments.objc
-    - match: '@"'
-      scope: punctuation.definition.string.begin.objc
+        1: keyword.declaration.class.objc
       push:
-        - meta_scope: string.quoted.double.objc
-        - match: '"'
-          scope: punctuation.definition.string.end.objc
-          pop: true
-        - match: \b(?i:AND|OR|NOT|IN)\b
-          scope: keyword.operator.logical.predicate.cocoa.objc
-        - match: \b(?i:ALL|ANY|SOME|NONE)\b
-          scope: constant.language.predicate.cocoa.objc
-        - match: \b(?i:NULL|NIL|SELF|TRUE|YES|FALSE|NO|FIRST|LAST|SIZE)\b
-          scope: constant.language.predicate.cocoa.objc
-        - match: \b(?i:MATCHES|CONTAINS|BEGINSWITH|ENDSWITH|BETWEEN|LIKE)\b
-          scope: keyword.operator.comparison.predicate.cocoa.objc
-        - match: \b(?i:C(ASEINSENSITIVE|I))\b
-          scope: keyword.other.modifier.predicate.cocoa.objc
-        - match: \b(?i:ANYKEY|SUBQUERY|CAST|TRUEPREDICATE|FALSEPREDICATE)\b
-          scope: keyword.other.predicate.cocoa.objc
-        - match: '\\(\\|[abefnrtv''"?]|[0-3]\d{,2}|[4-7]\d?|x[a-zA-Z0-9]+)'
-          scope: constant.character.escape.objc
-        - match: \\.
-          scope: invalid.illegal.unknown-escape.objc
+        - meta_scope: meta.protocol.objc
+        - include: interface-start
 
-  unique-strings:
-    - match: '@"'
-      scope: punctuation.definition.string.begin.objc
+  interface-start:
+    - match: '{{identifier}}'
+      scope: entity.name.type.objc
       push:
-        - meta_scope: string.quoted.double.objc
-        - match: '"'
-          scope: punctuation.definition.string.end.objc
-          pop: true
-        - include: scope:source.c#string_escaped_char
-        - match: '%@'
-          scope: constant.other.placeholder.objc
-        - include: scope:source.c#string_placeholder
-
-  unique-keywords:
-    - match: (@)(dynamic|synthesize)\b
-      scope: keyword.other.property.directive.objc
-      captures:
-        1: punctuation.definition.keyword.objc
-    - match: \b(NS_DURING|NS_HANDLER|NS_ENDHANDLER)\b
-      scope: keyword.control.macro.objc
-    - match: (@)(try|catch|finally|throw)\b
-      scope: keyword.control.exception.objc
-      captures:
-        1: punctuation.definition.keyword.objc
-    - match: (@)(synchronized)\b
-      scope: keyword.control.synchronize.objc
-      captures:
-        1: punctuation.definition.keyword.objc
-    - match: (@)(defs|encode)\b
+        - pop-twice
+        - interface-body
+        - interface-struct
+        - interface-subclass
+        - interface-category
+    - include: else-pop
+  interface-category:
+    - match: \(
+      scope: meta.group.objc punctuation.section.group.begin.objc
+      set:
+        - meta_content_scope: meta.group.objc entity.name.type.category.objc
+        - include: enclosure.parenthesis
+    - include: else-pop
+  interface-subclass:
+    - include: protocol-list
+    - match: ':'
+      scope: punctuation.separator.objc
+    - include: expression-identifiers
+    - include: else-pop
+  interface-struct:
+    - match: \{
+      scope: meta.block.objc punctuation.section.block.begin.objc
+      set: enclosure.block
+    - include: else-pop
+  interface-body:
+    - match: \@end\b
+      scope: keyword.declaration.interface.end.objc
+      pop: 1
+    - match: \@property\b
       scope: keyword.other.objc
+      push:
+        - statement
+        - property
+    - match: \@(?:synthesize|dynamic)\b
+      scope: keyword.other.objc
+      push: statement
+
+    - match: (?:\+|\-)\s*(?=\()
+      push:
+        - selector
+        - selector-return
+    - include: expression
+
+  property:
+    - match: \(
+      scope: punctuation.section.group.begin.objc
+      set: property-attrs
+    - include: else-pop
+  property-attrs:
+    - meta_scope: meta.group.objc
+    - match: \)
+      scope: punctuation.section.group.end.objc
+      pop: 1
+    - match: \b([sg]etter)\s*(=)\s*({{identifier}})\b
       captures:
-        1: punctuation.definition.keyword.objc
-
-  unique-variables:
-    - match: \b_cmd\b
-      scope: variable.other.selector.objc
-    - match: \b(self|super)\b
-      scope: variable.language.objc
-    - match: \bNSApp\b
-      scope: support.variable.foundation
-
-  unique-constants:
-    - match: \b(YES|NO|Nil|nil)\b
-      scope: constant.language.objc
-
-  unique-modifiers:
-    - match: (@)(synchronized|public|private|protected)\b
+        1: storage.modifier.objc
+        2: keyword.operator.assignment.objc
+        3: entity.name.function.method.objc
+    - match: \b(?:[sg]etter|readonly|readwrite|assign|retain|copy|atomic|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
       scope: storage.modifier.objc
-      captures:
-        1: punctuation.definition.storage.modifier.objc
+    - include: punctuation.comma
+    - include: operator
 
-  unique-types:
-    - match: ((@)selector)\s*(\()
+  selector:
+    - meta_scope: meta.function.selector.objc
+    - match: '\b({{identifier}})\s*(\:)\s*(\()'
       captures:
-        1: storage.type.objc
-        2: punctuation.definition.storage.type.objc
-        3: punctuation.definition.storage.type.objc
+        1: entity.name.function.method.objc
+        2: punctuation.separator.arguments.objc
+        3: meta.group.objc punctuation.section.group.begin.objc
       push:
-        - meta_scope: meta.selector.objc
-        - meta_content_scope: meta.selector.method-name.objc
-        - match: '\)'
-          scope: punctuation.definition.storage.type.objc
-          pop: true
-        - match: '\b(?:[[:alpha:]_:][[:alnum:]_]*)+'
-          scope: support.function.any-method.name-of-parameter.objc
-          captures:
-            1: punctuation.separator.arguments.objc
-    - match: \b(id)\s*(?=<)
+        - selector-param
+        - enclosure.parenthesis
+    - match: \b({{identifier}})\s*(\:)
       captures:
-        1: storage.type.objc
-      push:
-        - meta_scope: meta.id-with-protocol.objc
-        - match: '>'
-          scope: punctuation.section.scope.end.objc
-          pop: true
-        - match: '<'
-          scope: punctuation.section.scope.begin.objc
-          push:
-            - meta_scope: meta.protocol-list.objc
-            - match: '(?=>)'
-              pop: true
-            - match: '{{common_protocols}}'
-              scope: support.other.protocol.objc
-    - match: \bid\b(\s|\n)?
-      scope: storage.type.id.objc
-    - match: \b(IBOutlet|IBAction|BOOL|SEL|id|unichar|IMP|Class)\b
-      scope: storage.type.objc
-    - match: (@)(class|protocol)\b
-      scope: storage.type.objc
-      captures:
-        1: punctuation.definition.storage.type.objc
-    - match: \bC(I(Sampler|Co(ntext|lor)|Image(Accumulator)?|PlugIn(Registration)?|Vector|Kernel|Filter(Generator|Shape)?)|A(Renderer|MediaTiming(Function)?|BasicAnimation|ScrollLayer|Constraint(LayoutManager)?|T(iledLayer|extLayer|rans(ition|action))|OpenGLLayer|PropertyAnimation|KeyframeAnimation|Layer|A(nimation(Group)?|ction)))\b
-      scope: support.class.quartz.objc
-    - match: \bC(G(Float|Point|Size|Rect)|IFormat|AConstraintAttribute)\b
-      scope: support.type.quartz.objc
+        1: entity.name.function.method.objc
+        2: punctuation.separator.arguments.objc
 
-  # This context is separate since the regexes are huge and they affect
-  # compilation speed and caching performance
+    - include: expression-identifiers
+
+    - match: \b{{identifier}}\b
+      scope: entity.name.function.method.objc
+    - match: ;
+      scope: punctuation.terminator.objc
+      pop: 1
+    - match: \{
+      scope: meta.block.objc punctuation.section.block.begin.objc
+      set: enclosure.block
+    - include: operator.variadic
+    - include: expression
+  selector-return:
+    - match: \(
+      scope: meta.group.objc punctuation.section.group.begin.objc
+      set: enclosure.parenthesis
+  selector-param:
+    - match: \b{{identifier}}\b
+      scope: variable.parameter.objc
+      pop: 1
+
+  protocol-list:
+    - match: \<(?=({{identifier}}|,|\s|\*)*\>)
+      scope: punctuation.section.scope.begin.objc
+      push: protocol-list-body
+  protocol-list-body:
+    - meta_scope: meta.protocol-list.objc
+    - include: expression-identifiers
+    - include: punctuation.comma
+    - include: operator.pointer
+    - match: \>
+      scope: punctuation.section.scope.end.objc
+      pop: 1
+
+  expression:
+    - meta_prepend: true
+    - match: (\^)\s*(?=\()
+      captures:
+        1: keyword.operator.bitwise.objc
+      branch_point: block
+      branch: [block, pop-immediately]
+    - include: protocol-list
+
+  call-try-not:
+    - meta_prepend: true
+    - match: '(?={{identifier}}\s*:)'
+      pop: 1
+
+  block:
+    - meta_scope: meta.function.block.objc
+    - match: ''
+      set:
+        - block-body
+        - block-params
+  block-params:
+    - match: \(
+      scope: punctuation.section.group.begin.objc
+      set: function-params
+    - include: else-pop
+  block-body:
+    - match: \{
+      scope: meta.block.objc punctuation.section.block.begin.objc
+      set: enclosure.block
+    - match: (?=\S)
+      fail: block
+
+  preprocessor:
+    - meta_prepend: true
+    - match: '{{dir_start}}import\b'
+      scope: keyword.control.import.objc
+      push: preprocessor.include
+
+  string:
+    - meta_prepend: true
+    - match: \@\"
+      scope: punctuation.definition.string.begin.objc
+      push: string.double-ns
+    - match: \@\'
+      scope: punctuation.definition.string.begin.objc
+      push: string.single
+  string.double-ns:
+    - meta_scope: string.quoted.double.objc
+    - include: string.double
+    - match: '%@'
+      scope: constant.other.placeholder.objc
+
+  keyword:
+    - meta_prepend: true
+    - match: \b(?:self|super)\b
+      scope: variable.language.objc
+    - match: \@(?:property|synthesize|dynamic)\b
+      scope: keyword.other.objc
+    - match: '(@available)\s*(\()'
+      captures:
+        1: keyword.operator.word.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push: keyword.available
+    - match: '(@selector)\s*(\()'
+      captures:
+        1: keyword.operator.word.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push: keyword.selector
+    - match: '@(?:selector|encode|defs|available)\b'
+      scope: keyword.operator.word.objc
+  keyword.control:
+    - meta_prepend: true
+    - match: \@(?:autoreleasepool|import|synchronized)\b
+      scope: keyword.control.objc
+    - match: '(@catch)\s*(\()'
+      captures:
+        1: keyword.control.exception.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push: function-params
+    - match: \@(?:try|catch|finally|throw)\b
+      scope: keyword.control.exception.objc
+  keyword.storage:
+    - meta_prepend: true
+    - match: \b(?:nonnull|nullable|_Nullable|_Nonnull|IBOutlet|IBInspectable|__(?:unused|nonnull|block|weak|strong|autoreleasing|bridge|covariant|contravariant))\b
+      scope: storage.modifier.objc
+    - match: \@(?:private|public|protected|package|optional|required)\b
+      scope: storage.modifier.objc
+  keyword.type:
+    - meta_append: true
+    - match: \b(?:BOOL|Class|SEL|IMP|id|instancetype|IBAction)\b
+      scope: storage.type.objc
+    - match: \@(?:interface|class|implementation|protocol|end)\b
+      scope: keyword.declaration.objc
+    - match: '(?=\bNS)'
+      push: ns-identifiers
+  keyword.available:
+    - meta_scope: meta.available.objc
+    - meta_content_scope: meta.group.objc
+    - match: \)
+      scope: meta.group.objc punctuation.section.group.end.objc
+      pop: 1
+    - match: \b(?:iOS|macOS|watchOS|tvOS|visionOS)\b
+      scope: support.constant.platform.objc
+    - match: \b(\d[\d\.]+)\b
+      captures:
+        1: constant.numeric.version.objc
+    - include: expression
+  keyword.selector:
+    - meta_scope: meta.selector.objc
+    - meta_content_scope: meta.group.objc meta.selector.method-name.objc
+    - match: \)
+      scope: meta.group.objc punctuation.section.group.end.objc
+      pop: 1
+    - match: '[^)]+'
+      scope: support.function.objc
+
+  gnu-attribute:
+    - meta_append: true
+    - match: \bobjc_(?:direct|designated_initializer|root_class|requires_super|subclassing_restricted|precise_lifetime)\b
+      scope: constant.other.objc
+    - match: \b(swift_name|objc_runtime_name)\s*(\()
+      captures:
+        1: storage.modifier.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push: enclosure.parenthesis
+
+  constant:
+    - meta_prepend: true
+    - match: \b(nil|Nil)\b
+      scope: constant.language.null.objc
+    - match: ((@|\b)YES|@true)\b
+      scope: constant.language.boolean.true.objc
+    - match: ((@|\b)NO|@false)\b
+      scope: constant.language.boolean.false.objc
+
+  type:
+    - meta_prepend: true
+    - match: \@(?=\d)
+      scope: constant.numeric.objc
+    - match: (\@class)\s*({{identifier}})
+      captures:
+        1: keyword.declaration.class.objc
+        2: entity.name.type.class.objc
+
+  enclosure:
+    - meta_prepend: true
+    - include: message-enclosure
+    - match: '@\{'
+      scope: punctuation.section.mapping.begin.objc
+      push: enclosure.mapping
+  enclosure.mapping:
+    - meta_scope: meta.mapping.objc
+    - match: \}
+      scope: punctuation.section.mapping.end.objc
+      pop: 1
+    - include: expression
+
+  message-enclosure: # for ObjC++
+    - match: (?=\[(?!\s*{{identifier}}\s*[:\]]))
+      branch_point: message
+      branch: [pre-message, not-message]
+
+  pre-message:
+    - match: \[
+      scope: meta.brackets.square.objc punctuation.section.brackets.begin.objc
+      set: message
+  message:
+    - meta_scope: meta.bracketed.objc
+
+    - include: type
+    - include: keyword
+    - include: constant
+    - include: operator.accessor
+    - include: operator.pointer
+    - include: call
+    - include: enclosure
+
+    - match: (?={{identifier}}\s*:)
+      set: message-func
+
+    - match: \]
+      fail: message
+
+    - match: ({{identifier}})\s*(\])
+      captures:
+        1: entity.name.function.method.objc
+        2: punctuation.section.brackets.end.objc
+      pop: 1
+
+    - match: '\b({{identifier}})\b'
+    - match: (?=\S)
+      fail: message
+  message-func:
+    - meta_scope: meta.bracketed.objc
+    - match: '\b({{identifier}})\s*(:)'
+      captures:
+        1: entity.name.function.method.objc
+        2: punctuation.separator.arguments.objc
+
+    - include: expression
+
+    - match: \]
+      scope: punctuation.section.brackets.end.objc
+      pop: 1
+
+  not-message:
+    - match: \[\[
+      scope: meta.brackets.square.objc punctuation.section.brackts.begin.objc
+      set: enclosure.attribute
+    - match: \[
+      scope: meta.brackets.square.objc punctuation.section.brackets.begin.objc
+      set: enclosure.brackets
+
   ns-identifiers:
     - match: (\s*)\b(NS(Rect(ToCGRect|FromCGRect)|MakeCollectable|S(tringFromProtocol|ize(ToCGSize|FromCGSize))|Draw(NinePartImage|ThreePartImage)|P(oint(ToCGPoint|FromCGPoint)|rotocolFromString)|EventMaskFromType|Value))\b
       captures:
@@ -228,1207 +399,16 @@ contexts:
       scope: support.constant.cocoa.objc
     - match: \bNS(RuleEditor|G(arbageCollector|radient)|MapTable|HashTable|Co(ndition|llectionView(Item)?)|T(oolbarItemGroup|extInputClient|r(eeNode|ackingArea))|InvocationOperation|Operation(Queue)?|D(ictionaryController|ockTile)|P(ointer(Functions|Array)|athC(o(ntrol(Delegate)?|mponentCell)|ell(Delegate)?)|r(intPanelAccessorizing|edicateEditor(RowTemplate)?))|ViewController|FastEnumeration|Animat(ionContext|ablePropertyContainer))\b
       scope: support.class.cocoa.leopard.objc
-    - match: \bNS(R(u(nLoop|ler(Marker|View))|e(sponder|cursiveLock|lativeSpecifier)|an(domSpecifier|geSpecifier))|G(etCommand|lyph(Generator|Storage|Info)|raphicsContext)|XML(Node|D(ocument|TD(Node)?)|Parser|Element)|M(iddleSpecifier|ov(ie(View)?|eCommand)|utable(S(tring|et)|C(haracterSet|opying)|IndexSet|D(ictionary|ata)|URLRequest|ParagraphStyle|A(ttributedString|rray))|e(ssagePort(NameServer)?|nu(Item(Cell)?|View)?|t(hodSignature|adata(Item|Query(ResultGroup|AttributeValueTuple)?)))|a(ch(BootstrapServer|Port)|trix))|B(itmapImageRep|ox|u(ndle|tton(Cell)?)|ezierPath|rowser(Cell)?)|S(hadow|c(anner|r(ipt(SuiteRegistry|C(o(ercionHandler|mmand(Description)?)|lassDescription)|ObjectSpecifier|ExecutionContext|WhoseTest)|oll(er|View)|een))|t(epper(Cell)?|atus(Bar|Item)|r(ing|eam))|imple(HorizontalTypesetter|CString)|o(cketPort(NameServer)?|und|rtDescriptor)|p(e(cifierTest|ech(Recognizer|Synthesizer)|ll(Server|Checker))|litView)|e(cureTextField(Cell)?|t(Command)?|archField(Cell)?|rializer|gmentedC(ontrol|ell))|lider(Cell)?|avePanel)|H(ost|TTP(Cookie(Storage)?|URLResponse)|elpManager)|N(ib(Con(nector|trolConnector)|OutletConnector)?|otification(Center|Queue)?|u(ll|mber(Formatter)?)|etService(Browser)?|ameSpecifier)|C(ha(ngeSpelling|racterSet)|o(n(stantString|nection|trol(ler)?|ditionLock)|d(ing|er)|unt(Command|edSet)|pying|lor(Space|P(ick(ing(Custom|Default)|er)|anel)|Well|List)?|m(p(oundPredicate|arisonPredicate)|boBox(Cell)?))|u(stomImageRep|rsor)|IImageRep|ell|l(ipView|o(seCommand|neCommand)|assDescription)|a(ched(ImageRep|URLResponse)|lendar(Date)?)|reateCommand)|T(hread|ypesetter|ime(Zone|r)|o(olbar(Item(Validations)?)?|kenField(Cell)?)|ext(Block|Storage|Container|Tab(le(Block)?)?|Input|View|Field(Cell)?|List|Attachment(Cell)?)?|a(sk|b(le(Header(Cell|View)|Column|View)|View(Item)?))|reeController)|I(n(dex(S(pecifier|et)|Path)|put(Manager|S(tream|erv(iceProvider|er(MouseTracker)?)))|vocation)|gnoreMisspelledWords|mage(Rep|Cell|View)?)|O(ut(putStream|lineView)|pen(GL(Context|Pixel(Buffer|Format)|View)|Panel)|bj(CTypeSerializationCallBack|ect(Controller)?))|D(i(st(antObject(Request)?|ributed(NotificationCenter|Lock))|ctionary|rectoryEnumerator)|ocument(Controller)?|e(serializer|cimalNumber(Behaviors|Handler)?|leteCommand)|at(e(Components|Picker(Cell)?|Formatter)?|a)|ra(wer|ggingInfo))|U(ser(InterfaceValidations|Defaults(Controller)?)|RL(Re(sponse|quest)|Handle(Client)?|C(onnection|ache|redential(Storage)?)|Download(Delegate)?|Prot(ocol(Client)?|ectionSpace)|AuthenticationChallenge(Sender)?)?|n(iqueIDSpecifier|doManager|archiver))|P(ipe|o(sitionalSpecifier|pUpButton(Cell)?|rt(Message|NameServer|Coder)?)|ICTImageRep|ersistentDocument|DFImageRep|a(steboard|nel|ragraphStyle|geLayout)|r(int(Info|er|Operation|Panel)|o(cessInfo|tocolChecker|perty(Specifier|ListSerialization)|gressIndicator|xy)|edicate))|E(numerator|vent|PSImageRep|rror|x(ception|istsCommand|pression))|V(iew(Animation)?|al(idated(ToolbarItem|UserInterfaceItem)|ue(Transformer)?))|Keyed(Unarchiver|Archiver)|Qui(ckDrawView|tCommand)|F(ile(Manager|Handle|Wrapper)|o(nt(Manager|Descriptor|Panel)?|rm(Cell|atter)))|W(hoseSpecifier|indow(Controller)?|orkspace)|L(o(c(k(ing)?|ale)|gicalTest)|evelIndicator(Cell)?|ayoutManager)|A(ssertionHandler|nimation|ctionCell|ttributedString|utoreleasePool|TSTypesetter|ppl(ication|e(Script|Event(Manager|Descriptor)))|ffineTransform|lert|r(chiver|ray(Controller)?)))\b
+    - match: \bNS(R(u(nLoop|ler(Marker|View))|e(sponder|cursiveLock|lativeSpecifier)|an(domSpecifier|geSpecifier))|G(etCommand|lyph(Generator|Storage|Info)|raphicsContext)|XML(Node|D(ocument|TD(Node)?)|Parser|Element)|M(iddleSpecifier|ov(ie(View)?|eCommand)|utable(S(tring|et)|C(haracterSet|opying)|IndexSet|D(ictionary|ata)|URLRequest|ParagraphStyle|A(ttributedString|rray))|e(ssagePort(NameServer)?|nu(Item(Cell)?|View)?|t(hodSignature|adata(Item|Query(ResultGroup|AttributeValueTuple)?)))|a(ch(BootstrapServer|Port)|trix))|B(itmapImageRep|ox|u(ndle|tton(Cell)?)|ezierPath|rowser(Cell)?)|S(hadow|c(anner|r(ipt(SuiteRegistry|C(o(ercionHandler|mmand(Description)?)|lassDescription)|ObjectSpecifier|ExecutionContext|WhoseTest)|oll(er|View)|een))|t(epper(Cell)?|atus(Bar|Item)|r(ing|eam))|imple(HorizontalTypesetter|CString)|o(cketPort(NameServer)?|und|rtDescriptor)|p(e(cifierTest|ech(Recognizer|Synthesizer)|ll(Server|Checker))|litView)|e(cureTextField(Cell)?|t(Command)?|archField(Cell)?|rializer|gmentedC(ontrol|ell))|lider(Cell)?|avePanel)|H(ost|TTP(Cookie(Storage)?|URLResponse)|elpManager)|N(ib(Con(nector|trolConnector)|OutletConnector)?|otification(Center|Queue)?|u(ll|mber(Formatter)?)|etService(Browser)?|ameSpecifier)|C(ha(ngeSpelling|racterSet)|o(n(stantString|nection|trol(ler)?|ditionLock)|d(ing|er)|unt(Command|edSet)|pying|lor(Space|P(ick(ing(Custom|Default)|er)|anel)|Well|List)?|m(p(oundPredicate|arisonPredicate)|boBox(Cell)?))|u(stomImageRep|rsor)|IImageRep|ell|l(ipView|o(seCommand|neCommand)|assDescription)|a(ched(ImageRep|URLResponse)|lendar(Date)?)|reateCommand)|T(hread|ypesetter|ime(Zone|r)|o(olbar(Item(Validations)?)?|kenField(Cell)?)|ext(Block|Storage|Container|Tab(le(Block)?)?|Input|View|Field(Cell)?|List|Attachment(Cell)?)?|a(sk|b(le(Header(Cell|View)|Column|View)|View(Item)?))|reeController)|I(n(dex(S(pecifier|et)|Path)|put(Manager|S(tream|erv(iceProvider|er(MouseTracker)?)))|vocation)|gnoreMisspelledWords|mage(Rep|Cell|View)?)|O(ut(putStream|lineView)|pen(GL(Context|Pixel(Buffer|Format)|View)|Panel)|bj(CTypeSerializationCallBack|ect(Controller)?))|D(i(st(antObject(Request)?|ributed(NotificationCenter|Lock))|ctionary|rectoryEnumerator)|ocument(Controller)?|e(serializer|cimalNumber(Behaviors|Handler)?|leteCommand)|at(e(Components|Picker(Cell)?|Formatter)?|a)|ra(wer|ggingInfo))|U(ser(InterfaceValidations|Defaults(Controller)?)|RL(Re(sponse|quest)|Handle(Client)?|C(onnection|ache|redential(Storage)?)|Download(Delegate)?|Prot(ocol(Client)?|ectionSpace)|AuthenticationChallenge(Sender)?)?|n(iqueIDSpecifier|doManager|archiver))|P(ipe|o(sitionalSpecifier|pUpButton(Cell)?|rt(Message|NameServer|Coder)?)|ICTImageRep|ersistentDocument|DFImageRep|a(steboard|nel|ragraphStyle|geLayout)|r(int(Info|er|Operation|Panel)|o(cessInfo|tocolChecker|perty(Specifier|ListSerialization)|gressIndicator|xy)|edicate))|E(numerator|vent|PSImageRep|rror|x(ception|istsCommand|pression))|V(iew(Animation)?|al(idated(ToobarItem|UserInterfaceItem)|ue(Transformer)?))|Keyed(Unarchiver|Archiver)|Qui(ckDrawView|tCommand)|F(ile(Manager|Handle|Wrapper)|o(nt(Manager|Descriptor|Panel)?|rm(Cell|atter)))|W(hoseSpecifier|indow(Controller)?|orkspace)|L(o(c(k(ing)?|ale)|gicalTest)|evelIndicator(Cell)?|ayoutManager)|A(ssertionHandler|nimation|ctionCell|ttributedString|utoreleasePool|TSTypesetter|ppl(ication|e(Script|Event(Manager|Descriptor)))|ffineTransform|lert|r(chiver|ray(Controller)?)))\b
       scope: support.class.cocoa.objc
     - match: \bNS(R(oundingMode|ule(Editor(RowType|NestingMode)|rOrientation)|e(questUserAttentionType|lativePosition))|G(lyphInscription|radientDrawingOptions)|XML(NodeKind|D(ocumentContentKind|TDNodeKind)|ParserError)|M(ultibyteGlyphPacking|apTableOptions)|B(itmapFormat|oxType|ezierPathElement|ackgroundStyle|rowserDropOperation)|S(tr(ing(CompareOptions|DrawingOptions|EncodingConversionOptions)|eam(Status|Event))|p(eechBoundary|litViewDividerStyle)|e(archPathD(irectory|omainMask)|gmentS(tyle|witchTracking))|liderType|aveOptions)|H(TTPCookieAcceptPolicy|ashTableOptions)|N(otification(SuspensionBehavior|Coalescing)|umberFormatter(RoundingMode|Behavior|Style|PadPosition)|etService(sError|Options))|C(haracterCollection|o(lor(RenderingIntent|SpaceModel|PanelMode)|mp(oundPredicateType|arisonPredicateModifier))|ellStateValue|al(culationError|endarUnit))|T(ypesetterControlCharacterAction|imeZoneNameStyle|e(stComparisonOperation|xt(Block(Dimension|V(erticalAlignment|alueType)|Layer)|TableLayoutAlgorithm|FieldBezelStyle))|ableView(SelectionHighlightStyle|ColumnAutoresizingStyle)|rackingAreaOptions)|I(n(sertionPosition|te(rfaceStyle|ger))|mage(RepLoadStatus|Scaling|CacheMode|FrameStyle|LoadStatus|Alignment))|Ope(nGLPixelFormatAttribute|rationQueuePriority)|Date(Picker(Mode|Style)|Formatter(Behavior|Style))|U(RL(RequestCachePolicy|HandleStatus|C(acheStoragePolicy|redentialPersistence))|Integer)|P(o(stingStyle|int(ingDeviceType|erFunctionsOptions)|pUpArrowPosition)|athStyle|r(int(ing(Orientation|PaginationMode)|erTableStatus|PanelOptions)|opertyList(MutabilityOptions|Format)|edicateOperatorType))|ExpressionType|KeyValue(SetMutationKind|Change)|QTMovieLoopMode|F(indPanel(SubstringMatchType|Action)|o(nt(RenderingMode|FamilyClass)|cusRingPlacement))|W(hoseSubelementIdentifier|ind(ingRule|ow(B(utton|ackingLocation)|SharingType|CollectionBehavior)))|L(ine(MovementDirection|SweepDirection|CapStyle|JoinStyle)|evelIndicatorStyle)|Animation(BlockingMode|Curve))\b
       scope: support.type.cocoa.leopard.objc
     - match: \bNS(R(ect(Edge)?|ange)|G(lyph(Relation|LayoutMode)?|radientType)|M(odalSession|a(trixMode|p(Table|Enumerator)))|B(itmapImageFileType|orderType|uttonType|ezelStyle|ackingStoreType|rowserColumnResizingType)|S(cr(oll(er(Part|Arrow)|ArrowPosition)|eenAuxiliaryOpaque)|tringEncoding|ize|ocketNativeHandle|election(Granularity|Direction|Affinity)|wapped(Double|Float)|aveOperationType)|Ha(sh(Table|Enumerator)|ndler(2)?)|C(o(ntrol(Size|Tint)|mp(ositingOperation|arisonResult))|ell(State|Type|ImagePosition|Attribute))|T(hreadPrivate|ypesetterGlyphInfo|i(ckMarkPosition|tlePosition|meInterval)|o(ol(TipTag|bar(SizeMode|DisplayMode))|kenStyle)|IFFCompression|ext(TabType|Alignment)|ab(State|leViewDropOperation|ViewType)|rackingRectTag)|ImageInterpolation|Zone|OpenGL(ContextAuxiliary|PixelFormatAuxiliary)|D(ocumentChangeType|atePickerElementFlags|ra(werState|gOperation))|UsableScrollerParts|P(oint|r(intingPageOrder|ogressIndicator(Style|Th(ickness|readInfo))))|EventType|KeyValueObservingOptions|Fo(nt(SymbolicTraits|TraitMask|Action)|cusRingType)|W(indow(OrderingMode|Depth)|orkspace(IconCreationOptions|LaunchOptions)|ritingDirection)|L(ineBreakMode|ayout(Status|Direction))|A(nimation(Progress|Effect)|ppl(ication(TerminateReply|DelegateReply|PrintReply)|eEventManagerSuspensionID)|ffineTransformStruct|lertStyle))\b
       scope: support.type.cocoa.objc
     # Catch-all
-    - match: \bNS\w+\b
-    - match: ''
-      pop: true
-
-
-  #############################################################################
-  # The following are Objective-C-specific contexts that should not be reused.
-  # This is because they push into subcontexts and use variables that are
-  # Objective-C-specific.
-  #############################################################################
-
-  ## Common context layout
-
-  global:
-    - include: objc-structures
-    - include: early-expressions
-    - match: '^\s*(?=\w+)'
-      push: global-modifier
-    - include: late-expressions
-
-  statements:
-    - include: preprocessor-statements
-    - include: scope:source.c#label
-    - include: expressions
-
-  expressions:
-    - include: early-expressions
-    - include: late-expressions
-
-  early-expressions:
-    - include: preprocessor-expressions
-    - include: comments
-    - include: case-default
-    - include: typedef
-    - include: keywords-parens
-    - include: keywords
-    - include: numbers
-    - include: operators
-    - include: strings
-    - include: parens
-    - include: block
-    - include: variables
-    - include: constants
-    - include: access
-    - match: ','
-      scope: punctuation.separator.objc
-    - match: '\)|\}'
-      scope: invalid.illegal.stray-bracket-end.objc
-    - include: bracketed-content
-    - include: brackets
-
-  late-expressions:
-    - include: modifiers-parens
-    - include: modifiers
-    - include: types
-    - include: function-call
-    - match: ';'
-      scope: punctuation.terminator.objc
-
-  comments:
-    - include: scope:source.c#comments
-
-  access:
-    - include: scope:source.c#access
-
-  keywords:
-    - include: unique-keywords
-    - include: scope:source.c#keywords
-
-  numbers:
-    - include: scope:source.c#numbers
-
-  operators:
-    - include: scope:source.c#operators
-
-  strings:
-    - include: unique-strings
-    - include: scope:source.c#strings
-
-  variables:
-    - include: unique-variables
-    - include: scope:source.c#variables
-
-  constants:
-    - include: unique-constants
-    - match: '(?=\bNS\w+\b)'
-      push: ns-identifiers
-    - include: scope:source.c#constants
-
-  modifiers:
-    - include: unique-modifiers
-    - include: scope:source.c#modifiers
-
-  types:
-    - include: unique-types
-    - match: '(?=\bNS\w+\b)'
-      push: ns-identifiers
-    - include: scope:source.c#types
-
-  ## Objective-C-specific contexts
-
-  bracketed-content:
-    - match: '(\[)\s*(?={{identifier}}\s+[^\s,])'
-      captures:
-        1: punctuation.section.scope.begin.objc
-      push:
-        - meta_scope: meta.bracketed.objc
-        - match: '\]'
-          scope: punctuation.section.scope.end.objc
-          pop: true
-        - match: \s*(NSPredicate)\s+(predicateWithFormat(:))
-          captures:
-            1: support.class.cocoa
-            2: support.function.any-method.objc
-            3: punctuation.separator.arguments.objc
-          push:
-            - meta_scope: meta.function-call.predicate.objc
-            - include: ns-predicate
-            - include: expressions
-        - match: '\s+(\w+)(?=\s*\])'
-          captures:
-            1: support.function.any-method.objc
-        - match: '\s+(\w+(:))'
-          captures:
-            1: support.function.any-method.objc
-            2: punctuation.separator.arguments.objc
-          push:
-            - meta_scope: meta.function-call.objc
-            - match: '(?=\])'
-              pop: true
-            - match: \b\w+(:)
-              scope: support.function.any-method.name-of-parameter.objc
-              captures:
-                1: punctuation.separator.arguments.objc
-            - include: expressions
-        - include: expressions
-
-  objc-structures:
-    - match: '((@)(interface|protocol))(?!.+;)\s+([[:alpha:]_][[:alnum:]_]*)\s*((:)(?:\s*)([[:alpha:]][[:alnum:]]*))?(\s|\n)?'
-      captures:
-        1: storage.type.objc
-        2: punctuation.definition.storage.type.objc
-        4: entity.name.type.objc
-        6: punctuation.definition.entity.other.inherited-class.objc
-        7: entity.other.inherited-class.objc
-        8: meta.divider.objc
-        9: meta.inherited-class.objc
-      push:
-        - meta_scope: meta.interface-or-protocol.objc
-        - meta_content_scope: meta.scope.interface.objc
-        - match: ((@)end)\b
-          captures:
-            1: storage.type.objc
-            2: punctuation.definition.storage.type.objc
-          pop: true
-        - include: preprocessor-objc-structures
-        - include: objc-structure-body
-    - match: '((@)(implementation))\s+([[:alpha:]_][[:alnum:]_]*)\s*(?::\s*([[:alpha:]][[:alnum:]]*))?'
-      captures:
-        1: storage.type.objc
-        2: punctuation.definition.storage.type.objc
-        4: entity.name.type.objc
-        5: entity.other.inherited-class.objc
-      push:
-        - meta_scope: meta.implementation.objc
-        - meta_content_scope: meta.scope.implementation.objc
-        - match: ((@)end)\b
-          captures:
-            1: storage.type.objc
-            2: punctuation.definition.storage.type.objc
-          pop: true
-        - include: preprocessor-objc-structures
-        - include: objc-structure-body
-
-  objc-structure-body:
-    - include: properties
-    - include: protocol_list
-    - include: method
-    - include: expressions
-
-  method:
-    - match: ^(-|\+)\s*
-      push:
-        - meta_scope: meta.function.objc
-        - match: '\{'
-          scope: punctuation.section.block.begin.objc
-          set:
-            - meta_scope: meta.block.objc
-            - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
-              pop: true
-            - match: (?=@end\b)
-              pop: true
-            - match: '\}'
-              scope: punctuation.section.block.end.objc
-              pop: true
-            - include: statements
-        - match: '(?=#|@end|;)'
-          pop: true
-        - match: '\('
-          scope: meta.return-type.objc punctuation.definition.type.objc
-          push:
-            - meta_scope: meta.return-type.objc
-            - match: (\))\s*(\w+\b)
-              captures:
-                1: punctuation.definition.type.objc
-                2: entity.name.function.objc
-              pop: true
-            - include: protocol_list
-            - include: protocol_type_qualifier
-            - include: expressions
-        - match: \b\w+(?=:)
-          scope: entity.name.function.name-of-parameter.objc
-        - match: ((:))\s*(\()
-          captures:
-            1: entity.name.function.name-of-parameter.objc
-            2: punctuation.separator.arguments.objc
-            3: punctuation.definition.type.objc
-          push:
-            - meta_scope: meta.argument-type.objc
-            - match: (\))\s*(\w+\b)?
-              captures:
-                1: punctuation.definition.type.objc
-                2: variable.parameter.function.objc
-              pop: true
-            - include: protocol_list
-            - include: protocol_type_qualifier
-            - include: expressions
-        - include: comments
-        - include: attribute
-        - match: '(,)\s+(\.\.\.)\s*'
-          captures:
-            1: punctuation.separator.objc
-            2: keyword.operator.variadic.objc
-          push:
-            - include: scope:source.c#function-call
-            - match: '(?=\S)'
-              pop: true
-
-  ## Preprocessor for objc-structures
-
-  preprocessor-objc-structures:
-    - include: preprocessor-rule-enabled-objc-structures
-    - include: preprocessor-rule-disabled-objc-structures
-
-  preprocessor-rule-disabled-objc-structures:
-    - match: ^\s*((#if)\s+(0))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: negated-block
-            - include: objc-structure-body
-        - match: ""
-          push:
-            - meta_scope: comment.block.preprocessor.if-branch.objc
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-
-  preprocessor-rule-enabled-objc-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.objc
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-        - match: ""
-          push:
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: negated-block
-            - include: objc-structure-body
-
-  ################################
-  # Directly from C.sublime-syntax
-  ################################
-
-  global-modifier:
-    - include: comments
-    - include: modifiers-parens
-    - include: modifiers
-    - match: '(?=\S)'
-      set: global-type
-
-  global-type:
-    - include: comments
-    - match: \*
-      scope: keyword.operator.objc
-    - match: |-
-        (?x:
-          ({{before_tag}})
-          \s+
-          (?=
-            {{identifier}}
-            (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
-          )
-        )
-      captures:
-        1: keyword.declaration.objc
-      set: global-maybe-function
-    # The previous match handles return types of struct/enum/etc from a func,
-    # there this one exits the context to allow matching an actual struct/union
-    - match: '(?=\b({{before_tag}})\b)'
-      set: data-structures
-    - match: '(?=\b({{control_keywords}})\b)'
-      pop: true
-    - match: '(?=\s)'
-      set: global-maybe-function
-    # Allow a macro call
-    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
-      captures:
-        1: variable.function.objc
-        2: meta.group.objc punctuation.section.group.begin.objc
-      push:
-        - meta_scope: meta.function-call.objc
-        - meta_content_scope: meta.group.objc
-        - match: '\)'
-          scope: meta.group.objc punctuation.section.group.end.objc
-          pop: true
-        - include: expressions
-    - match: (?={{identifier}}\s*\()
-      set:
-        - include: function-call
-        - match: ''
-          pop: true
-    - include: types
-    - match: '{{identifier}}'
-    - match: (?=\W)
-      pop: true
-
-  global-maybe-function:
-    - include: comments
-    # Consume pointer info, macros and any type info that was offset by macros
-    - match: \*
-      scope: keyword.operator.objc
-    - include: types
-    - include: modifiers-parens
-    - include: modifiers
-    # All uppercase identifier just before a newline is most likely a macro
-    - match: '[[:upper:][:digit:]_]+\s*$'
-    # Identifier that is not the function name - likely a macro
-    - match: '{{identifier}}(?!\s*(\(|$))'
-    # Real function definition
-    - match: '{{identifier}}(?=\s*(\(|$))'
-      scope: meta.function.objc entity.name.function.objc
-      set: function-definition-params
-    - match: '(?=\S)'
-      pop: true
-
-  function-definition-params:
-    - meta_content_scope: meta.function.objc
-    - include: comments
-    - match: '(?=\()'
-      set:
-        - match: \(
-          scope: meta.function.parameters.objc meta.group.objc punctuation.section.group.begin.objc
-          set:
-            - meta_content_scope: meta.function.parameters.objc meta.group.objc
-            - match : \)
-              scope: punctuation.section.group.end.objc
-              set: function-definition-continue
-            - include: modifiers
-            - include: types
-            - match: '{{identifier}}(?=\s*(\[|,|\)))'
-              scope: variable.parameter.objc
-            - include: expressions
-            - include: scope:source.c#preprocessor-line-continuation
-    - match: (?=\S)
-      pop: true
-
-  function-definition-continue:
-    - meta_content_scope: meta.function.objc
-    - include: comments
-    - match: '(?=;)'
-      pop: true
-    - match: \b(const|final|noexcept|override)\b
-      scope: storage.modifier.objc
-    - match: '(?=\{)'
-      set: function-definition-body
-    - match: '(?=\S)'
-      pop: true
-
-  function-definition-body:
-    - meta_content_scope: meta.function.objc
-    - match: '\{'
-      scope: meta.block.objc punctuation.section.block.begin.objc
-      set:
-        - meta_content_scope: meta.function.objc meta.block.objc
-        - match: '\}'
-          scope: meta.function.objc meta.block.objc punctuation.section.block.end.objc
-          pop: true
-        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
-          pop: true
-        - match: '(?=({{before_tag}})([^(;]+$|.*\{))'
-          push: data-structures
-        - include: statements
-
-  data-structures:
-    # Detect variable type definitions using struct/enum/union followed by a tag
-    - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: keyword.declaration.objc
-    - match: '\bstruct\b'
-      scope: keyword.declaration.struct.objc
-      set: data-structures-struct-definition
-    - match: '\benum\b'
-      scope: keyword.declaration.enum.objc
-      set: data-structures-enum-definition
-    - match: '\bunion\b'
-      scope: keyword.declaration.union.objc
-      set: data-structures-union-definition
-    - match: '(?=\S)'
-      pop: true
-
-  data-structures-struct-definition:
-    - meta_scope: meta.struct.objc
-    - include: data-structures-definition-common-begin
-    - include: data-structures-definition-common-macro
-    - match: '{{identifier}}(?=\s*;)'
-      scope: entity.name.struct.forward-decl.objc
-    - match: '{{identifier}}'
-      scope: entity.name.struct.objc
-      set: data-structures-struct-definition-after-name
-    - include: data-structures-struct-definition-block-start
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-struct-definition-after-name:
-    - meta_scope: meta.struct.objc
-    - include: data-structures-definition-common-begin
-    - match: '(?=;)'
-      pop: true
-    - include: data-structures-struct-definition-block-start
-
-  data-structures-struct-definition-block-start:
-    - match: '\{'
-      scope: meta.block.objc punctuation.section.block.begin.objc
-      set:
-        - meta_content_scope: meta.struct.objc meta.block.objc
-        - match: '\}'
-          scope: meta.struct.objc meta.block.objc punctuation.section.block.end.objc
-          pop: true
-        - include: data-structures-body
-
-  data-structures-enum-definition:
-    - meta_scope: meta.enum.objc
-    - include: data-structures-definition-common-begin
-    - include: data-structures-definition-common-macro
-    - match: '{{identifier}}(?=\s*;)'
-      scope: entity.name.enum.forward-decl.objc
-    - match: '{{identifier}}'
-      scope: entity.name.enum.objc
-      set: data-structures-enum-definition-after-name
-    - include: data-structures-enum-definition-block-start
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-enum-definition-after-name:
-    - meta_scope: meta.enum.objc
-    - include: data-structures-definition-common-begin
-    - match: '(?=;)'
-      pop: true
-    - include: data-structures-enum-definition-block-start
-
-  data-structures-enum-definition-block-start:
-    - match: '\{'
-      scope: meta.block.objc punctuation.section.block.begin.objc
-      set:
-        - meta_content_scope: meta.enum.objc meta.block.objc
-        # Enums don't support methods so we have a simplified body
-        - match: '\}'
-          scope: meta.enum.objc meta.block.objc punctuation.section.block.end.objc
-          pop: true
-        - include: data-structures-body-enum
-
-  data-structures-union-definition:
-    - meta_scope: meta.union.objc
-    - include: data-structures-definition-common-begin
-    - include: data-structures-definition-common-macro
-    - match: '{{identifier}}(?=\s*;)'
-      scope: entity.name.union.forward-decl.objc
-    - match: '{{identifier}}'
-      scope: entity.name.union.objc
-      set: data-structures-union-definition-after-name
-    - include: data-structures-union-definition-block-start
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-union-definition-after-name:
-    - meta_scope: meta.union.objc
-    - include: data-structures-definition-common-begin
-    - match: '(?=;)'
-      pop: true
-    - include: data-structures-union-definition-block-start
-
-  data-structures-union-definition-block-start:
-    - match: '\{'
-      scope: meta.block.objc punctuation.section.block.begin.objc
-      set:
-        - meta_content_scope: meta.union.objc meta.block.objc
-        - match: '\}'
-          scope: meta.union.objc meta.block.objc punctuation.section.block.end.objc
-          pop: true
-        - include: data-structures-body
-
-  data-structures-definition-common-begin:
-    - include: comments
-    - match: '(?=\b(?:{{before_tag}}|{{control_keywords}})\b)'
-      pop: true
-    - include: modifiers-parens
-    - include: modifiers
-
-  data-structures-definition-common-macro:
-    # Handle macros so they aren't matched as the class name
-    - match: '\b[[:upper:][:digit:]_]+\b(?!\s*($|\{))'
-
-  data-structures-definition-common-end:
-    - match: '(?=;)'
-      pop: true
-
-  data-structures-body:
-    - include: preprocessor-data-structures
-    - match: '(?={{before_tag}})'
-      push: data-structures
-    - include: expressions
-
-  data-structures-body-enum:
-    - include: comments
-    - include: preprocessor-data-structures
-    - match: '(?={{before_tag}})'
-      push: data-structures
-    - match: '{{identifier}}'
-      scope: entity.name.constant.objc
-      push: constant-value
-    - match: ','
-      scope: punctuation.separator.objc
-
-  constant-value:
-    - match: (?=[,;}])
-      pop: true
-    - include: expressions
-
-  block:
-    - match: '\{'
-      scope: punctuation.section.block.begin.objc
-      push:
-        - meta_scope: meta.block.objc
-        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
-          pop: true
-        - match: '\}'
-          scope: punctuation.section.block.end.objc
-          pop: true
-        - include: statements
-
-  parens:
-    - match: \(
-      scope: punctuation.section.group.begin.objc
-      push:
-        - meta_scope: meta.group.objc
-        - match: \)
-          scope: punctuation.section.group.end.objc
-          pop: true
-        - include: expressions
-
-  brackets:
-    - match: \[
-      scope: punctuation.section.brackets.begin.objc
-      push:
-        - meta_scope: meta.brackets.objc
-        - match: \]
-          scope: punctuation.section.brackets.end.objc
-          pop: true
-        - include: expressions
-
-  case-default:
-    - match: '\b(default|case)\b'
-      scope: keyword.control.objc
-      push:
-        - match: ':'
-          scope: punctuation.separator.objc
-          pop: true
-        - include: expressions
-
-  modifiers-parens:
-    - include: attribute
-    - match: \b(__declspec)(\()
-      captures:
-        1: storage.modifier.objc
-        2: meta.group.objc punctuation.section.group.begin.objc
-      push:
-        - meta_content_scope: meta.group.objc
-        - match: '\)'
-          scope: meta.group.objc punctuation.section.group.end.objc
-          pop: true
-        - match: '\b(align|allocate|code_seg|deprecated|property|uuid)\b\s*(\()'
-          captures:
-            1: storage.modifier.objc
-            2: meta.group.objc punctuation.section.group.begin.objc
-          push:
-            - meta_content_scope: meta.group.objc
-            - match: '\)'
-              scope: meta.group.objc punctuation.section.group.end.objc
-              pop: true
-            - include: numbers
-            - include: strings
-            - match: \b(get|put)\b
-              scope: variable.parameter.objc
-            - match: ','
-              scope: punctuation.separator.objc
-            - match: '='
-              scope: keyword.operator.assignment.objc
-        - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
-          scope: constant.other.objc
-
-  attribute:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.objc
-        2: meta.group.objc punctuation.section.group.begin.objc
-      push :
-        - meta_scope: meta.attribute.objc
-        - meta_content_scope: meta.group.objc
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: meta.group.objc punctuation.section.group.end.objc
-          pop: true
-
-  keywords-parens:
-    - match: '\b(sizeof)\b\s*(\()'
-      captures:
-        1: keyword.operator.word.objc
-        2: meta.group.objc punctuation.section.group.begin.objc
-      push:
-        - meta_content_scope: meta.group.objc
-        - match: '\)'
-          scope: meta.group.objc punctuation.section.group.end.objc
-          pop: true
-        - include: expressions
-
-  typedef:
-    - match: \btypedef\b
-      scope: keyword.declaration.type.objc
-      push:
-        - match: ({{identifier}})?\s*(?=;)
-          captures:
-            1: entity.name.type.typedef.objc
-          pop: true
-        - match: '(?=\b({{before_tag}})\b)'
-          push: data-structures
-        - include: expressions
-
-  function-call:
-  - match: (?={{identifier}}\s*\()
-    push:
-      - meta_content_scope: meta.function-call.objc
-      - include: scope:source.c#c99
-      - match: '{{identifier}}'
-        scope: variable.function.objc
-      - match: '\('
-        scope: meta.group.objc punctuation.section.group.begin.objc
-        set:
-          - meta_content_scope: meta.function-call.objc meta.group.objc
-          - match : \)
-            scope: meta.function-call.objc meta.group.objc punctuation.section.group.end.objc
-            pop: true
-          - include: expressions
-
-  ## Preprocessor for data-structures
-
-  preprocessor-data-structures:
-    - include: preprocessor-rule-enabled-data-structures
-    - include: preprocessor-rule-disabled-data-structures
-
-  preprocessor-rule-disabled-data-structures:
-    - match: ^\s*((#if)\s+(0))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: negated-block
-            - include: data-structures-body
-        - match: ""
-          push:
-            - meta_scope: comment.block.preprocessor.if-branch.objc
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-
-  preprocessor-rule-enabled-data-structures:
-    - match: ^\s*((#if)\s+(0*1))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.objc
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-        - match: ""
-          push:
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: negated-block
-            - include: data-structures-body
-
-  ## Preprocessor for global
-
-  preprocessor-global:
-    - include: preprocessor-rule-enabled-global
-    - include: preprocessor-rule-disabled-global
-    - include: preprocessor-rule-other-global
-
-  preprocessor-statements:
-    - include: preprocessor-rule-enabled-statements
-    - include: preprocessor-rule-disabled-statements
-    - include: preprocessor-rule-other-statements
-
-  preprocessor-expressions:
-    - include: scope:source.c#incomplete-inc
-    - include: preprocessor-macro-define
-    - include: scope:source.c#pragma-mark
-    - include: preprocessor-other
-
-  preprocessor-rule-disabled-global:
-    - match: ^\s*((#if)\s+(0))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: preprocessor-global
-            - include: negated-block
-            - include: global
-        - match: ""
-          push:
-            - meta_scope: comment.block.preprocessor.if-branch.objc
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-
-  preprocessor-rule-enabled-global:
-    - match: ^\s*((#if)\s+(0*1))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.objc
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-        - match: ""
-          push:
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: preprocessor-global
-            - include: negated-block
-            - include: global
-
-  preprocessor-rule-other-global:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
-      captures:
-        1: keyword.control.import.objc
-      push:
-        - meta_scope: meta.preprocessor.objc
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprocessor-comments
-        - match: \bdefined\b
-          scope: keyword.control.objc
-        # Enter a new scope where all elif/elifdef/elifndef/else branches have
-        # their contexts popped by a subsequent elif/elifdef/elifndef/else/endif.
-        # This ensures that preprocessor branches don't push multiple meta.block
-        # scopes on the stack, thus messing up the "global" context's detection
-        # of functions.
-        - match: $\n
-          set: preprocessor-if-branch-global
-
-  # These gymnastics here ensure that we are properly handling scope even
-  # when the preprocessor is used to create different scope beginnings, such
-  # as a different if/while condition
-  preprocessor-if-branch-global:
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      pop: true
-    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
-      push: preprocessor-elif-else-branch-global
-    - match: \{
-      scope: punctuation.section.block.begin.objc
-      set: preprocessor-block-if-branch-global
-    - include: preprocessor-global
-    - include: negated-block
-    - include: global
-
-  preprocessor-block-if-branch-global:
-    - meta_scope: meta.block.objc
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-block-finish-global
-    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
-      push: preprocessor-elif-else-branch-global
-    - match: \}
-      scope: punctuation.section.block.end.objc
-      set: preprocessor-if-branch-global
-    - include: statements
-
-  preprocessor-block-finish-global:
-    - meta_scope: meta.block.objc
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-block-finish-if-branch-global
-    - match: \}
-      scope: punctuation.section.block.end.objc
-      pop: true
-    - include: statements
-
-  preprocessor-block-finish-if-branch-global:
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      pop: true
-    - match: \}
-      scope: punctuation.section.block.end.objc
-      set: preprocessor-if-branch-global
-    - include: statements
-
-  preprocessor-elif-else-branch-global:
-    - match: (?=^\s*#\s*endif\b)
-      pop: true
-    - include: preprocessor-global
-    - include: negated-block
-    - include: global
-
-  ## Preprocessor for statements
-
-  preprocessor-rule-disabled-statements:
-    - match: ^\s*((#if)\s+(0))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: negated-block
-            - include: statements
-        - match: ""
-          push:
-            - meta_scope: comment.block.preprocessor.if-branch.objc
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-
-  preprocessor-rule-enabled-statements:
-    - match: ^\s*((#if)\s+(0*1))\b
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-        3: meta.number.integer.decimal.objc constant.numeric.value.objc
-      push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.objc
-          pop: true
-        - match: ^\s*(#\s*else)\b
-          captures:
-            1: meta.preprocessor.objc keyword.control.import.else.objc
-          push:
-            - meta_content_scope: comment.block.preprocessor.else-branch.objc
-            - match: (?=^\s*#\s*endif\b)
-              pop: true
-            - include: scope:source.c#preprocessor-disabled
-        - match: ""
-          push:
-            - match: (?=^\s*#\s*(else|endif)\b)
-              pop: true
-            - include: negated-block
-            - include: statements
-
-  preprocessor-rule-other-statements:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
-      captures:
-        1: keyword.control.import.objc
-      push:
-        - meta_scope: meta.preprocessor.objc
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprocessor-comments
-        - match: \bdefined\b
-          scope: keyword.control.objc
-        # Enter a new scope where all elif/elifdef/elifndef/else branches have
-        # their contexts popped by a subsequent elif/elifdef/elifndef/else/endif.
-        # This ensures that preprocessor branches don't push multiple meta.block
-        # scopes on the stack, thus messing up the "global" context's detection
-        # of functions.
-        - match: $\n
-          set: preprocessor-if-branch-statements
-
-  # These gymnastics here ensure that we are properly handling scope even
-  # when the preprocessor is used to create different scope beginnings, such
-  # as a different if/while condition
-  preprocessor-if-branch-statements:
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      pop: true
-    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
-      push: preprocessor-elif-else-branch-statements
-    - match: \{
-      scope: punctuation.section.block.begin.objc
-      set: preprocessor-block-if-branch-statements
-    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
-      set: preprocessor-if-branch-function-call
-    - include: negated-block
-    - include: statements
-
-  preprocessor-if-branch-function-call:
-    - meta_content_scope: meta.function-call.objc
-    - include: scope:source.c#c99
-    - match: '{{identifier}}'
-      scope: variable.function.objc
-    - match: '\('
-      scope: meta.group.objc punctuation.section.group.begin.objc
-      set: preprocessor-if-branch-function-call-arguments
-
-  preprocessor-if-branch-function-call-arguments:
-    - meta_content_scope: meta.function-call.objc meta.group.objc
-    - match : \)
-      scope: meta.function-call.objc meta.group.objc punctuation.section.group.end.objc
-      set: preprocessor-if-branch-statements
-    - match: ^\s*(#\s*(?:elif|elifdef|elifndef|else))\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-if-branch-statements
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-if-branch-function-call-arguments-finish
-    - include: expressions
-
-  preprocessor-if-branch-function-call-arguments-finish:
-    - meta_content_scope: meta.function-call.objc meta.group.objc
-    - match: \)
-      scope: meta.function-call.objc meta.group.objc punctuation.section.group.end.objc
-      pop: true
-    - include: expressions
-
-  preprocessor-block-if-branch-statements:
-    - meta_scope: meta.block.objc
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-block-finish-statements
-    - match: (?=^\s*#\s*(elif|elifdef|elifndef|else)\b)
-      push: preprocessor-elif-else-branch-statements
-    - match: \}
-      scope: punctuation.section.block.end.objc
-      set: preprocessor-if-branch-statements
-    - include: statements
-
-  preprocessor-block-finish-statements:
-    - meta_scope: meta.block.objc
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-block-finish-if-branch-statements
-    - match: \}
-      scope: punctuation.section.block.end.objc
-      pop: true
-    - include: statements
-
-  preprocessor-block-finish-if-branch-statements:
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      pop: true
-    - match: \}
-      scope: punctuation.section.block.end.objc
-      set: preprocessor-if-branch-statements
-    - include: statements
-
-  preprocessor-elif-else-branch-statements:
-    - match: (?=^\s*#\s*endif\b)
-      pop: true
-    - include: negated-block
-    - include: statements
-
-  ## Preprocessor other
-
-  negated-block:
-    - match: '\}'
-      scope: punctuation.section.block.end.objc
-      push:
-        - match: '\{'
-          scope: punctuation.section.block.begin.objc
-          pop: true
-        - match: (?=^\s*#\s*(elif|elifdef|elifndef|else|endif)\b)
-          pop: true
-        - include: statements
-
-  preprocessor-macro-define:
-    - match: ^\s*(\#\s*define)\b
-      captures:
-        1: meta.preprocessor.macro.objc keyword.control.import.define.objc
-      push:
-        - meta_content_scope: meta.preprocessor.macro.objc
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprocessor-line-ending
-        - include: scope:source.c#preprocessor-comments
-        - match: '({{identifier}})(?=\()'
-          scope: entity.name.function.preprocessor.objc
-          set:
-            - match: '\('
-              scope: punctuation.section.group.begin.objc
-              set: preprocessor-macro-params
-        - match: '{{identifier}}'
-          scope: entity.name.constant.preprocessor.objc
-          set: preprocessor-macro-definition
-
-  preprocessor-macro-params:
-    - meta_scope: meta.preprocessor.macro.parameters.objc meta.group.objc
-    - match: '{{identifier}}'
-      scope: variable.parameter.objc
-    - match: \)
-      scope: punctuation.section.group.end.objc
-      set: preprocessor-macro-definition
-    - match: ','
-      scope: punctuation.separator.objc
-      push:
-        - match: '{{identifier}}'
-          scope: variable.parameter.objc
-          pop: true
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprocessor-comments
-        - match: '\.\.\.'
-          scope: keyword.operator.variadic.objc
-        - match: '(?=\))'
-          pop: true
-        - match: (/\*).*(\*/)
-          scope: comment.block.objc
-          captures:
-            1: punctuation.definition.comment.objc
-            2: punctuation.definition.comment.objc
-        - match: '\S+'
-          scope: invalid.illegal.unexpected-character.objc
-    - include: scope:source.c#preprocessor-line-continuation
-    - include: scope:source.c#preprocessor-comments
-    - match: '\.\.\.'
-      scope: keyword.operator.variadic.objc
-    - match: (/\*).*(\*/)
-      scope: comment.block.objc
-      captures:
-        1: punctuation.definition.comment.objc
-        2: punctuation.definition.comment.objc
-    - match: $\n
-      scope: invalid.illegal.unexpected-end-of-line.objc
-
-  preprocessor-macro-definition:
-    - meta_content_scope: meta.preprocessor.macro.objc
-    - include: scope:source.c#preprocessor-line-continuation
-    - include: scope:source.c#preprocessor-line-ending
-    - include: scope:source.c#preprocessor-comments
-    # Don't define blocks in define statements
-    - match: '\{'
-      scope: punctuation.section.block.begin.objc
-    - match: '\}'
-      scope: punctuation.section.block.end.objc
-    - include: expressions
-
-  preprocessor-other:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|elifdef|elifndef|else|line|pragma|undef))\b
-      captures:
-        1: keyword.control.import.objc
-      push:
-        - meta_scope: meta.preprocessor.objc
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprocessor-line-ending
-        - include: scope:source.c#preprocessor-comments
-        - match: \bdefined\b
-          scope: keyword.control.objc
-    - match: ^\s*(#\s*(endif)\b)
-      captures:
-        1: meta.preprocessor.objc
-        2: keyword.control.import.objc
-    - match: ^\s*(#\s*(?:error|warning))\b
-      captures:
-        1: keyword.control.import.error.objc
-      push:
-        - meta_scope: meta.preprocessor.diagnostic.objc
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprocessor-line-ending
-        - include: scope:source.c#preprocessor-comments
-        - include: strings
-        - match: '\S+'
-          scope: string.unquoted.objc
-    - match: ^\s*(#\s*(?:include|include_next|embed))\b
-      captures:
-        1: keyword.control.import.include.objc
-      push:
-        - meta_scope: meta.preprocessor.include.objc
-        - include: preprocessor-other-include-common
-    - match: ^\s*(#\s*import)\b
-      captures:
-        1: keyword.control.import.import.objc
-      push:
-        - meta_scope: meta.preprocessor.import.objc
-        - include: preprocessor-other-include-common
-    - include: scope:source.c#preprocessor-practical-workarounds
-
-  preprocessor-other-include-common:
-    - include: scope:source.c#preprocessor-line-continuation
-    - include: scope:source.c#preprocessor-line-ending
-    - include: scope:source.c#preprocessor-comments
-    - match: '"'
-      scope: punctuation.definition.string.begin.objc
-      push:
-        - meta_scope: string.quoted.double.include.objc
-        - match: '"'
-          scope: punctuation.definition.string.end.objc
-          pop: true
-    - match: <
-      scope: punctuation.definition.string.begin.objc
-      push:
-        - meta_scope: string.quoted.other.lt-gt.include.objc
-        - match: ">"
-          scope: punctuation.definition.string.end.objc
-          pop: true
+    - match: \bN\w+\b
+      pop: 1
+    - include: pop-immediately
+
+variables:
+  fn_pointer: \(\s*(\*|\^)({{identifier}})\s*\)\s*(\()
