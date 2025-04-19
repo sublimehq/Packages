@@ -99,6 +99,8 @@ def get_common_values():
         "color": [
             "currentColor",
             "transparent",
+            ["color()", "color($1)"],
+            ["color-mix()", "color-mix($1, $2)"],
             ["rgb()", "rgb(${1:0}, ${2:0}, ${3:0}${4: / ${5:1.0}})"],
             ["rgba()", "rgba(${1:0}, ${2:0}, ${3:0}, ${4:1.0})"],
             ["hsl()", "hsl(${1:0}, ${2:100%}, ${3:50%}${4: / ${5:1.0}})"],

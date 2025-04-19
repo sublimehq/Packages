@@ -14,6 +14,7 @@ def get_func_args():
         "calc": [["attr()", "attr($1)"], "<calc>"],
         "circle": ["<calc>", "<shape-radius>", "at", "<position>"],
         "clamp": [["attr()", "attr($1)"], "<calc>"],
+        "color-mix": ["<color>", "<color-interpolation-method>"],
         "conic-gradient": ["from", "at", "<position>", "<color>"],
         "cos": ["<calc>"],
         "contrast": [],

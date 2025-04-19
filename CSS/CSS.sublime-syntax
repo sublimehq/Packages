@@ -2106,10 +2106,12 @@ contexts:
 
   color-color-functions:
     # color()
-    # https://drafts.csswg.org/css-color/#color-function
+    # https://developer.mozilla.org/de/docs/Web/CSS/color_value/color
+    # color-mix()
+    # https://developer.mozilla.org/de/docs/Web/CSS/color_value/color-mix
     # light-dark()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
-    - match: \b(?i:color|light-dark)(?=\()
+    - match: \b(?i:color(?:-mix)?|light-dark)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - color-color-function-arguments-list-body
@@ -2122,7 +2124,12 @@ contexts:
     - include: color-adjuster-functions # must be included before `color-values`
     - include: color-values
     - include: angle-constants
+    - include: percentage-constants
     - include: scalar-constants
+    - match: \b(?:from|in)\b
+      scope: keyword.other.color.css
+    - match: '{{ident}}'
+      scope: support.constant.property-value.css
 
   hsl-color-functions:
     # hsl(), hsla()
