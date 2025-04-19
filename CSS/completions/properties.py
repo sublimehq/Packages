@@ -60,24 +60,16 @@ def get_properties():
             "running",
             "paused",
         ],
+        "animation-composition": ["<single-animation-composition>"],
         "animation-delay": ["<calc>"],
-        "animation-direction": ["<animation-direction>"],
+        "animation-direction": ["<single-animation-direction>"],
         "animation-duration": ["<calc>"],
-        "animation-fill-mode": ["none", "forwards", "backwards", "both"],
-        "animation-iteration-count": [
-            "<calc>",
-            "infinite",
-        ],
-        "animation-name": [
-            "none",
-        ],
-        "animation-play-state": ["running", "paused"],
+        "animation-fill-mode": ["<single-animation-fill-mode>"],
+        "animation-iteration-count": ["<single-animation-iteration-count>"],
+        "animation-name": ["none"],
+        "animation-play-state": ["<single-animation-play-state>"],
         "animation-timing-function": ["<calc>", "<timing>"],
-        "animation-timeline": [
-            "auto",
-            "none",
-            ["scroll()", "scroll($1)"]
-        ],
+        "animation-timeline": ["<single-animation-timeline>"],
         "appearance": ["auto", "menulist-button", "none", "textfield"],
         "aspect-ratio": ["auto"],
         "azimuth": [

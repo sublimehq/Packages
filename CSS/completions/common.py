@@ -1,6 +1,5 @@
 def get_common_values():
     common_values = {
-        "animation-direction": ["alternate", "alternate-reverse", "normal", "reverse"],
         "absolute-size": [
             "xx-small",
             "x-small",
@@ -448,6 +447,37 @@ def get_common_values():
             "self-end",
             "flex-start",
             "flex-end",
+        ],
+        "single-animation-composition": [
+            "replace",
+            "add",
+            "accumulate"
+        ],
+        "single-animation-direction": [
+            "normal",
+            "reverse",
+            "alternate",
+            "alternate-reverse"
+        ],
+        "single-animation-fill-mode": [
+            "none",
+            "forwards",
+            "backwards",
+            "both"
+        ],
+        "single-animation-iteration-count": [
+            "infinite",
+            "<calc>"
+        ],
+        "single-animation-play-state": [
+            "running",
+            "paused"
+        ],
+        "single-animation-timeline": [
+            "auto",
+            "none",
+            ["scroll()", "scroll($1)"],
+            ["view()", "view($1)"]
         ],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
