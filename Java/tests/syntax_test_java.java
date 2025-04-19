@@ -489,6 +489,68 @@
 //      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 //            ^ meta.block.conflict.end.diff - entity - punctuation
 
+/* merge conflict in blocks */
+
+{
+// <- meta.block.java punctuation.section.block.begin.java
+<<<<<<< HEAD
+// <- meta.block.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.java meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.java meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.java meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.java meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.java meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.java meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.java meta.block.conflict.end.diff - entity - punctuation
+}
+// <- meta.block.java punctuation.section.block.end.java
+
+/* merge conflict in multiline strings */
+
+string = """
+before
+<<<<<<< HEAD
+// <- meta.string.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.string.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.string.java meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
+ours
+// <- meta.string.java string.quoted.triple.java
+//^^ meta.string.java string.quoted.triple.java
+=======
+// <- meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.string.java meta.block.conflict.separator.diff - punctuation
+theirs
+// <- meta.string.java string.quoted.triple.java
+//^^^^ meta.string.java string.quoted.triple.java
+|||||||
+base
+// <- meta.string.java string.quoted.triple.java
+//^^ meta.string.java string.quoted.triple.java
+>>>>>>> master
+// <- meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.string.java meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
+after
+// <- meta.string.java string.quoted.triple.java
+//^^^ meta.string.java string.quoted.triple.java
+"""
+// <- meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
+//^ meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
+
 
 /******************************************************************************
  * Package Declaration Tests

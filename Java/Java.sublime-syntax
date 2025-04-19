@@ -2522,6 +2522,7 @@ contexts:
       scope: punctuation.definition.string.end.java
       pop: 1
     - include: illegal-newline
+    - include: merge-conflict-markers
     - include: literal-string-escapes
 
   literal-double-quoted-textblocks:
@@ -2538,6 +2539,7 @@ contexts:
     - match: \"{3}
       scope: punctuation.definition.string.end.java
       pop: 1
+    - include: merge-conflict-markers
     - include: literal-string-escapes
 
   literal-string-escapes:
