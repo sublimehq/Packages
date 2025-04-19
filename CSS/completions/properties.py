@@ -545,7 +545,7 @@ def get_properties():
         "font-variant-position": ["normal", "sub", "super"],
         "font-variation-settings": ["normal"],
         "font-weight": ["<absolute-weight>", "<relative-weight>"],
-        "forced-color-adjust": ["auto", "none"],
+        "forced-color-adjust": ["auto", "none", "preserve-parent-color"],
         "gap": [
             "<calc>",
         ],
