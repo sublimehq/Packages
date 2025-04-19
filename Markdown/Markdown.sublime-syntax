@@ -3552,7 +3552,7 @@ contexts:
       captures:
         1: punctuation.section.div.begin.markdown
       push:
-        - fenced-div-puncuation
+        - fenced-div-punctuation
         - fenced-div-attr
 
   fenced-div-attr:
@@ -3567,7 +3567,7 @@ contexts:
         - tag-attr-name
     - match: else-pop
 
-  fenced-div-puncuation:
+  fenced-div-punctuation:
     - meta_include_prototype: false
     - meta_scope: meta.div.markdown
     - match: ':+'
