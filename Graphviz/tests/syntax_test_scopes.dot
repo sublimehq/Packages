@@ -1,0 +1,237 @@
+// SYNTAX TEST "Packages/Graphviz/DOT.sublime-syntax" \
+// <- source.dot
+
+    // comment // comment # comment /* comment */
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash - comment comment
+//  ^^ comment.line.double-slash punctuation.definition.comment
+
+    # comment # comment // comment /* comment */
+// <- comment
+ // <- comment
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment comment
+//  ^ comment.line.number-sign punctuation.definition.comment
+
+    /* comment # comment // comment */
+// ^ - comment
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - comment comment
+//  ^^ comment.block punctuation.definition.comment.begin
+//                                  ^^ comment.block punctuation.definition.comment.end
+//                                    ^ - comment
+
+    /**
+//  ^^ comment.block punctuation.definition.comment.begin
+//    ^ - comment.block.documentation - punctuation.definition.comment.begin
+    * comment
+//  ^ comment.block punctuation.definition.comment
+    // ...
+//  ^^^^^^^ - comment comment
+    # ...
+//  ^^^^^^ - comment comment
+    */
+//  ^^ punctuation.definition.comment.end
+
+graph test_1 {
+// <- storage.type
+ // <- storage.type
+//^^^ storage.type
+//    ^^^^^^ entity.name.graph
+//           ^ meta.group.dot punctuation.section.group.begin.dot
+
+    node [
+//  ^^^^ meta.attributes keyword.declaration
+//       ^              meta.attributes punctuation.section.brackets.begin
+
+        size = "str",
+//      ^^^^ support.constant.attribute
+//           ^ keyword.operator.assignment
+//             ^^^^^ meta.string string.quoted.double
+//             ^     punctuation.definition.string.begin
+//                 ^ punctuation.definition.string.end
+
+        color = "#fff"
+//               ^^^^ meta.string string.quoted.double support.constant color
+
+    ]
+//  ^ meta.attributes punctuation.section.brackets.end
+
+// <- meta.group
+
+    edge [ main = "\"\\\l\n\r\E\G\H\L\N\T\." ]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group meta.attributes
+//  ^^^^ keyword.declaration
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes meta.string string.quoted.double
+//                 ^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+//                                       ^^ invalid.illegal.escape-character - constant.character.escape
+//                                          ^ - meta.string - string.quoted.double
+//                                             ^ meta.group - meta.attributes
+
+    edge [ main=" \
+//              ^^^ meta.string string.quoted.double \
+//                ^ meta.string string.quoted.double punctuation.separator.continuation.line \
+                  \
+        "]
+//      ^ meta.string string.quoted.double punctuation.definition.string.end
+
+    node [ color = "" label = "a | { b | <rlabel> c }"]
+//         ^^^^^ support.constant.attribute
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group meta.attributes meta.string string.quoted.double
+//                               ^ punctuation.separator.memory
+//                                 ^ punctuation.section.block.begin.memory
+//                                       ^^^^^^^^ meta.annotation.label
+//                                       ^ meta.annotation.label punctuation.definition.annotation.begin
+//                                        ^^^^^^ meta.annotation.label entity.name.label.record-based-node
+//                                              ^ meta.annotation.label punctuation.definition.annotation.end
+//                                                  ^ punctuation.section.block.end.memory
+
+    edge [ lhead="" ]
+//         ^^^^^ support.constant.attribute
+}
+
+graph test_2 { page="" }
+//           ^^^^^^^^^^^ meta.group
+//           ^ meta.group punctuation.section.group.begin
+//             ^^^^ support.constant.attribute
+//                     ^ meta.group punctuation.section.group
+
+graph cluster_2_1 { subgraph cluster_2_1_1 { } }
+//    ^^^^^^^^^^^ entity.name.graph
+//    ^^^^^^^^ - meta.annotation
+//                           ^^^^^^^^^^^^^ meta.group entity.name.graph
+//                           ^^^^^^^^ - meta.annotation
+
+digraph cluster_2_2 { subgraph cluster_2_2_1 { } }
+//      ^^^^^^^^^^^ entity.name.graph
+//      ^^^^^^^^ - meta.annotation
+//                             ^^^^^^^^^^^^^ meta.group entity.name.graph
+//                             ^^^^^^^^ - meta.annotation
+
+    strict graph cluster_test_3 {
+//  ^^^^^^ keyword.declaration.strict
+//               ^^^^^^^^^^^^^^ entity.name.graph
+//               ^^^^^^^^  meta.annotation variable.annotation.cluster
+//                       ^^^^^^ - meta.annotation variable.annotation.cluster
+}
+
+graph test_4 { a -- b ; a -- c }
+//               ^^ keyword.operator.edge.graph
+//                    ^ meta.group punctuation.separator.statements
+
+digraph test_5 {
+    A -> B [arrowsize=2]
+//  ^ entity.name.node
+//    ^^ keyword.operator.edge.digraph
+//       ^ entity.name.node
+//                    ^ meta.number.integer.decimal constant.numeric.value
+
+    A -> C [arrowsize=0.5]
+//  ^ entity.name.node
+//    ^^ keyword.operator.edge.digraph
+//       ^ entity.name.node
+//                    ^^^ meta.number.float.decimal constant.numeric.value
+//                     ^ punctuation.separator.decimal
+}
+
+digraph test_6 {
+    node [shape=plaintext]
+    test_6_1 [label=<
+//                 ^ keyword.operator.assignment
+//                  ^ punctuation.section.embedded.begin
+//                   ^ text.html.embedded
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
+  <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
+</TABLE>>];
+// ^^^^      text.html.embedded
+// ^^^^^     text.html.embedded
+//     ^     punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//      ^    punctuation.section.embedded.end - text.html.embedded
+    test_6_2 [label=<
+//                 ^    keyword.operator.assignment
+//                  ^   punctuation.section.embedded.begin
+//                   ^ text.html.embedded
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end
+  <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
+</TABLE> >];
+// ^^^^^^     text.html.embedded
+//^^^^^^ meta.tag
+//      ^ - meta.tag
+//     ^      punctuation.definition.tag.end.html - punctuation.section.embedded.end
+//       ^    punctuation.section.embedded.end - text.html.embedded
+    test_6_1:f1 -> test_6_2:f0;
+    test_6_2:f0 -> test_6_1:f2;
+}
+
+label = <<u>this is underscored</u><br/>this is not>
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.html
+//      ^ punctuation.section.embedded.begin
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.embedded
+//       ^^^ meta.tag
+//                             ^^^^^^^^^ meta.tag
+//                                                 ^ punctuation.section.embedded.end
+
+    graph test_7
+    {
+//  ^ meta.group punctuation.section.group.begin
+
+        subgraph test_8_1
+        {
+//      ^ meta.group meta.group punctuation.section.group.begin
+        }
+//      ^ meta.group meta.group punctuation.section.group.end
+
+        subgraph test_8_2 { }
+//                        ^^^ meta.group meta.group
+//                        ^ meta.group meta.group punctuation.section.group.begin
+//                          ^ meta.group meta.group punctuation.section.group.end
+
+    }
+//  ^ meta.group punctuation.section.group.end
+
+    graph {
+        subgraph { }
+//     ^ meta.group
+//               ^^^ meta.group meta.group
+
+        { }
+//      ^^^ meta.group meta.group
+    }
+//  ^ meta.group punctuation.section.group.end - meta.group meta.group
+
+    digraph { }
+//          ^^^ meta.group
+
+
+    graph "test_9" {
+//        ^^^^^^^^ entity.name.graph meta.string string.quoted.double
+        subgraph "test_10" {
+//               ^^^^^^^^^ entity.name.graph meta.string string.quoted.double
+        }
+    }
+
+    digraph "test_11" {
+//          ^^^^^^^^^ entity.name.graph meta.string string.quoted.double
+    }
+
+graph "...\"..." {
+//    ^^^^^^^^^^ entity.name.graph meta.string string.quoted.double
+//        ^^ constant.character.escape
+
+    node [
+        fontsize=9,
+//               ^ meta.attributes meta.number.integer.decimal constant.numeric.value
+        color="#ffffff"
+//            ^^^^^^^^^ meta.attributes meta.string string.quoted.double
+//             ^^^^^^^ support.constant color
+//             ^ support.constant color punctuation.definition.generic
+        overlap=true,
+//              ^^^^ constant.language.boolean.true
+        overlap=false
+//              ^^^^^ constant.language.boolean.false
+    ]
+        ]
+//      ^ meta.group invalid.illegal.stray
+}
+    }
+//  ^ invalid.illegal.stray
