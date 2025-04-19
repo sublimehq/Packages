@@ -5215,3 +5215,30 @@ left join lateral (
     -- comment nine with single quote: don't use the wrong columns
     order by col7
 )
+
+
+-- ----------------------------------------------------------------------------
+-- Diff Conflict Markers
+-- https://mariadb.com/kb/en/string-literals
+-- ----------------------------------------------------------------------------
+
+SELECT
+<<<<<<< HEAD
+-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+-- ^^^^^^^^^ meta.block.conflict.begin.diff
+-- ^^^^ punctuation.section.block.begin.diff
+--      ^^^^ entity.name.section.diff
+    *
+--  ^ constant.other.wildcard.asterisk.sql
+=======
+-- <- meta.block.conflict.separator.diff punctuation.section.block.diff
+-- ^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+    column1, column2
+--  ^^^^^^^ meta.column-name.sql
+--         ^ punctuation.separator.sequence.sql
+--           ^^^^^^^ meta.column-name.sql
+>>>>>>> master
+-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+-- ^^^^^^^^^^^ meta.block.conflict.end.diff
+-- ^^^^ punctuation.section.block.end.diff
+--      ^^^^^^ entity.name.section.diff

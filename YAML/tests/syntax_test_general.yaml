@@ -24,3 +24,52 @@
 ...
 #^^ entity.other.document.end
 # <- entity.other.document.end
+
+
+##############################################################################
+## Merge Conflict Marker Tests
+
+<<<<<<< HEAD
+#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+
+context:
+  context:
+    - key: value
+<<<<<<< Updated upstream
+#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^^^^^^^^^^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#                       ^ meta.block.conflict.begin.diff - entity - punctuation
+    - upstream: 'value'
+    # <- punctuation.definition.block.sequence.item.yaml
+=======
+#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    # current tag incoplete
+    - local: 'value'
+    # <- punctuation.definition.block.sequence.item.yaml
+
+>>>>>>> Stashed changes
+#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^^^^^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#                      ^ meta.block.conflict.end.diff - entity - punctuation

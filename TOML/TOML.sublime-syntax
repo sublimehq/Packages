@@ -35,11 +35,32 @@ contexts:
     - match: \#
       scope: punctuation.definition.comment.toml
       push: comment-body
+    - include: merge-conflict-markers
 
   comment-body:
     - meta_scope: comment.line.number-sign.toml
     - match: $\n?
       pop: 1
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
 
 ###[ TABLES ]##################################################################
 
@@ -384,7 +405,8 @@ contexts:
     - match: \\.
       scope: invalid.illegal.string.escape.toml
 
-  string-prototype: []
+  string-prototype:
+    - include: merge-conflict-markers
 
 ###[ PROTOTYPES ]##############################################################
 
