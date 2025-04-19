@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Python/Python.sublime-syntax"
+# SYNTAX TEST "Packages/Python/Python.sublime-syntax" \
 
 ## Top-level
 
@@ -144,6 +144,26 @@ in_tuples = (
 #       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 #             ^ meta.block.conflict.end.diff - entity - punctuation
 )
+
+in_string = "before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.double.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.double.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after"
+#^^^^^ meta.string.python string.quoted.double.python
+#    ^ punctuation.definition.string.end.python
 
 in_strings = """
 <<<<<<< HEAD
