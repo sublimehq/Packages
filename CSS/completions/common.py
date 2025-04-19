@@ -512,6 +512,7 @@ def get_common_values():
             ["scroll()", "scroll($1)"],
             ["view()", "view($1)"]
         ],
+        "shape-box": ["<visual-box>", "margin-box"],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
         "text-box-edge": ["auto", "<text-edge>"],
@@ -581,6 +582,7 @@ def get_common_values():
             "%",
         ],
         "url": [["url()", "url($1)"]],
+        "visual-box": ["content-box", "padding-box", "border-box"],
         "white-space-collapse": [
             "collapse",
             "discard",

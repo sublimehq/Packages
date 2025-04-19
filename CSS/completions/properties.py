@@ -87,16 +87,14 @@ def get_properties():
         "background-attachment": ["fixed", "local", "scroll"],
         "background-blend-mode": ["<blend-mode>"],
         "background-clip": [
-            "border-box",
-            "content-box",
-            "padding-box",
+            "<visual-box>",
+            "border-area",
+            "text",
         ],
         "background-color": ["<color>"],
         "background-image": ["<url>", "none"],
         "background-origin": [
-            "border-box",
-            "content-box",
-            "padding-box",
+            "<visual-box>",
         ],
         "background-position": ["<calc>", "<position>"],
         "background-position-x": [
@@ -988,10 +986,7 @@ def get_properties():
         "shape-margin": ["<calc>"],
         "shape-outside": [
             "none",
-            "margin-box",
-            "content-box",
-            "border-box",
-            "padding-box",
+            "<shape-box>",
             "<basic-shape>",
             "<url>",
         ],
