@@ -1081,7 +1081,7 @@ def get_properties():
         "text-emphasis-color": [
             "<color>",
         ],
-        "text-emphasis-position": ["left", "over", "right", "under"],
+        "text-emphasis-position": ["auto", "over left", "under left", "over right", "under right"],
         "text-emphasis-style": ["<string>", "<text-emphasis-style>"],
         "text-indent": ["<calc>", "hanging", "each-line"],
         "text-justify": [
