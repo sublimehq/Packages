@@ -514,6 +514,18 @@ def get_common_values():
         ],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
+        "text-box-edge": ["auto", "<text-edge>"],
+        "text-box-trim": ["none", "trim-start", "trim-end", "trim-both"],
+        "text-edge": [
+            "cap",
+            "ex",
+            "ideographic",
+            "ideographic-ink",
+            "text",
+            "alphabetic",
+            "ideographic",
+            "ideographic-ink",
+        ],
         "text-wrap-mode": ["wrap", "nowrap"],
         "text-wrap-style": ["balance", "stable", "pretty"],
         "timing-function": [
