@@ -374,6 +374,7 @@ def get_properties():
         "empty-cells": ["show", "hide"],
         "enable-background": ["accumulate", "new"],
         "fallback": [],
+        "field-sizing": ["content", "fixed"],
         "fill": ["<color>"],
         "fill-opacity": [
             "<calc>",
