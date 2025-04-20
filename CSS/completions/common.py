@@ -1,6 +1,5 @@
 def get_common_values():
     common_values = {
-        "animation-direction": ["alternate", "alternate-reverse", "normal", "reverse"],
         "absolute-size": [
             "xx-small",
             "x-small",
@@ -26,10 +25,15 @@ def get_common_values():
         "axis": ["block", "inline", "vertical", "horizontal"],
         "baseline-position": ["firstbaseline", "lastbaseline", "baseline"],
         "basic-shape": [
+            "<basic-shape-rect>",
             ["circle()", "circle($1)"],
             ["ellipse()", "ellipse($1)"],
-            ["inset()", "inset($1)"],
             ["polygon()", "polygon($1)"],
+        ],
+        "basic-shape-rect": [
+            ["inset()", "inset($1)"],
+            ["rect()", "rect($1)"],
+            ["xywh()", "xywh($1)"],
         ],
         "blend-mode": [
             "normal",
@@ -100,6 +104,8 @@ def get_common_values():
         "color": [
             "currentColor",
             "transparent",
+            ["color()", "color($1)"],
+            ["color-mix()", "color-mix($1, $2)"],
             ["rgb()", "rgb(${1:0}, ${2:0}, ${3:0}${4: / ${5:1.0}})"],
             ["rgba()", "rgba(${1:0}, ${2:0}, ${3:0}, ${4:1.0})"],
             ["hsl()", "hsl(${1:0}, ${2:100%}, ${3:50%}${4: / ${5:1.0}})"],
@@ -260,6 +266,12 @@ def get_common_values():
             "yellow",
             "yellowgreen",
         ],
+        "color-interpolation-method": [
+            "<rectangular-color-space>",
+            "<polar-color-space>",
+            "<hue-interpolation-method>",
+            "in",
+        ],
         "container-type": ["normal", "size", "inline-size"],
         "content-distribution": ["space-between", "space-around", "space-evenly", "stretch"],
         "content-position": ["center", "start", "end", "flex-start", "flex-end"],
@@ -272,8 +284,8 @@ def get_common_values():
             "additive",
             "fixed",
         ],
-        "ending-shape": ["circle", "ellipse"],
         "fill-rule": ["nonzero", "evenodd"],
+        "filter-value": ["none", "<url>", "<filter-function>"],
         "filter-function": [
             ["blur()", "blur($1)"],
             ["brightness()", "brightness($1)"],
@@ -285,6 +297,12 @@ def get_common_values():
             ["opacity()", "opacity($1)"],
             ["saturate()", "saturate($1)"],
             ["sepia()", "sepia($1)"],
+        ],
+        "font-palette": [
+            "normal",
+            "light",
+            "dark",
+            ["palette-mix()", "palette-mix($1)"],
         ],
         "font-variant-alternates": [
             "normal",
@@ -308,6 +326,13 @@ def get_common_values():
         "grid": [
             ["repeat()", "repeat(${1:2}, ${2:1fr})"],
             ["minmax()", "minmax(${1:100px}, ${2:1fr})"],
+        ],
+        "hue-interpolation-method": [
+            "shorter hue",
+            "longer hue",
+            "increasing hue",
+            "decreasing hue",
+            "hue"
         ],
         "image": [
             "<url>",
@@ -421,7 +446,39 @@ def get_common_values():
             "katakana-iroha",
         ],
         "overflow-position": ["unsafe", "safe"],
+        "polar-color-space": ["hsl", "hwb", "lch", "oklch"],
         "position": ["<side-or-corner>", "center"],
+        "radial-gradient-syntax": [
+            "<radial-shape>",
+            "<size>",
+            "at",
+            "<position>",
+            "<color>",
+        ],
+        "radial-shape": [
+            "circle",
+            "ellipse"
+        ],
+        "ray-size": [
+            "closest-side",
+            "closest-corner",
+            "farthest-side",
+            "farthest-corner",
+            "sides",
+        ],
+        "rectangular-color-space": [
+            "srgb",
+            "srgb-linear",
+            "display-p3",
+            "a98-rgb",
+            "prophoto-rgb",
+            "rec2020",
+            "lab",
+            "oklab",
+            "xyz",
+            "xyz-d50",
+            "xyz-d65"
+        ],
         "relative-size": ["larger", "smaller"],
         "relative-weight": ["bolder", "lighter"],
         "repeat-style": [
@@ -442,9 +499,55 @@ def get_common_values():
             "flex-start",
             "flex-end",
         ],
+        "single-animation-composition": [
+            "replace",
+            "add",
+            "accumulate"
+        ],
+        "single-animation-direction": [
+            "normal",
+            "reverse",
+            "alternate",
+            "alternate-reverse"
+        ],
+        "single-animation-fill-mode": [
+            "none",
+            "forwards",
+            "backwards",
+            "both"
+        ],
+        "single-animation-iteration-count": [
+            "infinite",
+            "<calc>"
+        ],
+        "single-animation-play-state": [
+            "running",
+            "paused"
+        ],
+        "single-animation-timeline": [
+            "auto",
+            "none",
+            ["scroll()", "scroll($1)"],
+            ["view()", "view($1)"]
+        ],
+        "shape-box": ["<visual-box>", "margin-box"],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
-        "text-wrap": ["wrap", "nowrap", "balance", "stable", "pretty"],
+        "symbols-type": ["cyclic", "numeric", "alphabetic", "symbolic", "fixed"],
+        "text-box-edge": ["auto", "<text-edge>"],
+        "text-box-trim": ["none", "trim-start", "trim-end", "trim-both"],
+        "text-edge": [
+            "cap",
+            "ex",
+            "ideographic",
+            "ideographic-ink",
+            "text",
+            "alphabetic",
+            "ideographic",
+            "ideographic-ink",
+        ],
+        "text-wrap-mode": ["wrap", "nowrap"],
+        "text-wrap-style": ["balance", "stable", "pretty"],
         "timing-function": [
             "linear",
             "ease",
@@ -498,19 +601,13 @@ def get_common_values():
             "%",
         ],
         "url": [["url()", "url($1)"]],
+        "visual-box": ["content-box", "padding-box", "border-box"],
         "white-space-collapse": [
             "collapse",
-            "discard",
             "preserve",
             "preserve-breaks",
             "preserve-spaces",
             "break-spaces"
-        ],
-        "white-space-trim": [
-            "none",
-            "discard-before",
-            "discard-after",
-            "discard-inner"
         ],
     }
 
