@@ -2714,7 +2714,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-b-string-content
@@ -2754,7 +2754,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-f-string-content
@@ -2807,7 +2807,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-regexp-raw-u-string-content
@@ -3398,7 +3398,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-b-string-content
@@ -3438,7 +3438,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-f-string-content
@@ -3490,7 +3490,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-regexp-raw-u-string-content
