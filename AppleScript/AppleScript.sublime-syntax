@@ -2,8 +2,10 @@
 ---
 # https://www.sublimetext.com/docs/syntax.html
 # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html
+
 name: AppleScript
 scope: source.applescript
+version: 2
 
 file_extensions:
   - applescript
@@ -12,15 +14,51 @@ file_extensions:
 first_line_match: |-
   (?xi:
     ^ \#! .* \bosascript(?!\s+-l\s+JavaScript)\b  # shebang
-  | ^ \s* \# .*? -\*- .*? \bosascript\b .*? -\*-  # editorconfig
+  | {{leading_wspace}} \# .*? -\*- .*? \bosascript\b .*? -\*-  # editorconfig
   )
 
+###[ CONTEXTS ]################################################################
+
 contexts:
+
   prototype:
     - include: comments
 
   main:
     - include: statements
+
+###[ COMMENTS ]################################################################
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW8
+  comments:
+    - match: '#'
+      scope: punctuation.definition.comment.begin.applescript
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.number-sign.applescript
+        - include: pop-eol
+
+    - match: --
+      scope: punctuation.definition.comment.begin.applescript
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.double-dash.applescript
+        - include: pop-eol
+
+    - include: comments.nested
+
+  comments.nested:
+    - match: \(\*
+      scope: punctuation.definition.comment.begin.applescript
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.block.applescript
+        - match: \*\)
+          scope: punctuation.definition.comment.end.applescript
+          pop: 1
+        - include: comments.nested
+
+###[ APPLESCRIPT ]#############################################################
 
   statements:
     - match: \bprint\b
@@ -49,23 +87,24 @@ contexts:
       scope: constant.other.attributes.application.applescript
 
   blocks:
-    - match: ^\s*(script)\s+(\w+)
+    - match: '{{leading_wspace}}(script)\s+(\w+)'
       captures:
         1: keyword.control.script.applescript
         2: entity.name.type.script-object.applescript
       push:
         - meta_scope: meta.block.script.applescript
-        - match: ^\s*(end(?:\s+script)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+script)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.script.applescript
-          pop: true
+          pop: 1
         - include: main
 
     # This is not a very well-designed rule.
     # For now, we can leave it like this though, as it sorta works.
     - match: |-
-        ^(?x)
-          \s*(to|on)\s+      # "on" or "to"
+        (?x)
+          {{leading_wspace}}
+          (to|on)\s+         # "on" or "to"
           (\w+)              # function name
           (\()               # opening paren
             ((?:[\s,:\{\}]*(?:\w+)?)*)  # parameters
@@ -79,16 +118,17 @@ contexts:
         5: punctuation.section.parameters.applescript
       push:
         - meta_scope: meta.function.positional.applescript
-        - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end)(?:\s+(\2))?{{eol_with_optional_comment}}'
           captures:
             1: keyword.control.function.applescript
-          pop: true
+          pop: 1
         - include: main
 
     # TODO: match `given` parameters
     - match: |-
-        ^(?x)
-          \s*(to|on)\s+      # "on" or "to"
+        (?x)
+          {{leading_wspace}}
+          (to|on)\s+         # "on" or "to"
           (\w+)              # function name
           (?:\s+
             (of|in)\s+       # "of" or "in"
@@ -102,10 +142,10 @@ contexts:
         4: variable.parameter.handler.direct.applescript
       push:
         - meta_scope: meta.function.prepositional.applescript
-        - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end)(?:\s+(\2))?{{eol_with_optional_comment}}'
           captures:
             1: keyword.control.function.applescript
-          pop: true
+          pop: 1
         - match: \b({{preposition}})(?:\s+(the|an?))?\s+(\w+)\b
           captures:
             1: keyword.control.preposition.applescript
@@ -113,19 +153,20 @@ contexts:
             3: variable.parameter.handler.applescript
         - include: main
     - match: |-
-        ^(?x)
-          \s*(to|on)\s+           # "on" or "to"
-          (\w+)                   # function name
-          (?=\s*(--.*?)?$)        # nothing else
+        (?x)
+          {{leading_wspace}}
+          (to|on)\s+                      # "on" or "to"
+          (\w+)                           # function name
+          {{eol_with_optional_comment}}   # nothing else
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
       push:
         - meta_scope: meta.function.parameterless.applescript
-        - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end)(?:\s+(\2))?{{eol_with_optional_comment}}'
           captures:
             1: keyword.control.function.applescript
-          pop: true
+          pop: 1
         - include: main
     - include: blocks.tell
     - include: blocks.repeat
@@ -133,11 +174,11 @@ contexts:
     - include: blocks.other
 
   blocks.other:
-    - match: ^\s*(considering)\b
+    - match: '{{leading_wspace}}(considering)\b'
       push:
         - meta_scope: meta.block.considering.applescript
         - meta_content_scope: meta.array.attributes.considering.applescript
-        - match: ^\s*(end(?:\s+considering)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+considering)?){{eol_with_optional_comment}}'
           pop: 1
         - include: line-continuations
         - include: pop-eol
@@ -145,11 +186,11 @@ contexts:
         - match: \bbut\b
           scope: keyword.control.but.applescript
         - include: main
-    - match: ^\s*(ignoring)\b
+    - match: '{{leading_wspace}}(ignoring)\b'
       push:
         - meta_scope: meta.block.ignoring.applescript
         - meta_content_scope: meta.array.attributes.ignoring.applescript
-        - match: ^\s*(end(?:\s+ignoring)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+ignoring)?){{eol_with_optional_comment}}'
           pop: 1
         - include: line-continuations
         - include: pop-eol
@@ -157,15 +198,15 @@ contexts:
         - match: \bbut\b
           scope: keyword.control.but.applescript
         - include: main
-    - match: ^\s*(if)\b
+    - match: '{{leading_wspace}}(if)\b'
       captures:
         1: keyword.control.if.applescript
       push:
         - meta_scope: meta.block.if.applescript
-        - match: ^\s*(end(?:\s+if)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+if)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - match: \bthen\b
           scope: keyword.control.then.applescript
         - match: \belse\s+if\b
@@ -178,11 +219,11 @@ contexts:
         1: keyword.control.try.applescript
       push:
         - meta_scope: meta.block.try.applescript
-        - match: ^\s*(end(?:\s+(try|error))?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+(try|error))?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
-        - match: ^\s*(on\s+error)\b
+          pop: 1
+        - match: '{{leading_wspace}}(on\s+error)\b'
           captures:
             1: keyword.control.exception.on-error.applescript
           push:
@@ -193,95 +234,95 @@ contexts:
               scope: keyword.control.exception.modifier.applescript
             - include: expressions
         - include: main
-    - match: ^\s*(using\s+terms\s+from)\b
+    - match: '{{leading_wspace}}(using\s+terms\s+from)\b'
       captures:
         1: keyword.control.terms.applescript
       push:
         - meta_scope: meta.block.terms.applescript
-        - match: ^\s*(end(?:\s+using\s+terms\s+from)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+using\s+terms\s+from)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - include: main
-    - match: ^\s*(with\s+timeout(\s+of)?)\b
+    - match: '{{leading_wspace}}(with\s+timeout(\s+of)?)\b'
       captures:
         1: keyword.control.timeout.applescript
       push:
         - meta_scope: meta.block.timeout.applescript
-        - match: ^\s*(end(?:\s+timeout)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+timeout)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - include: main
-    - match: ^\s*(with\s+transaction(\s+of)?)\b
+    - match: '{{leading_wspace}}(with\s+transaction(\s+of)?)\b'
       captures:
         1: keyword.control.transaction.applescript
       push:
         - meta_scope: meta.block.transaction.applescript
-        - match: ^\s*(end(?:\s+transaction)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+transaction)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - include: main
 
   blocks.repeat:
-    - match: ^\s*(repeat)\s+(until)\b
+    - match: '{{leading_wspace}}(repeat)\s+(until)\b'
       captures:
         1: keyword.control.repeat.applescript
         2: keyword.control.until.applescript
       push:
         - meta_scope: meta.block.repeat.until.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - include: main
-    - match: ^\s*(repeat)\s+(while)\b
+    - match: '{{leading_wspace}}(repeat)\s+(while)\b'
       captures:
         1: keyword.control.repeat.applescript
         2: keyword.control.while.applescript
       push:
         - meta_scope: meta.block.repeat.while.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - include: main
-    - match: ^\s*(repeat)\s+(with)\s+(\w+)\b
+    - match: '{{leading_wspace}}(repeat)\s+(with)\s+(\w+)\b'
       captures:
         1: keyword.control.repeat.applescript
         2: keyword.control.until.applescript
         3: variable.parameter.loop.applescript
       push:
         - meta_scope: meta.block.repeat.with.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - match: \b(?:from|to|by)\b
           scope: keyword.control.modifier.range.applescript
         - match: \bin\b
           scope: keyword.control.modifier.list.applescript
         - include: main
-    - match: ^\s*(repeat)\b(?=\s*(--.*?)?$)
+    - match: '{{leading_wspace}}(repeat)\b{{eol_with_optional_comment}}'
       captures:
         1: keyword.control.repeat.applescript
       push:
         - meta_scope: meta.block.repeat.forever.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - include: main
-    - match: ^\s*(repeat)\b
+    - match: '{{leading_wspace}}(repeat)\b'
       captures:
         1: keyword.control.repeat.applescript
       push:
         - meta_scope: meta.block.repeat.times.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.end.applescript
-          pop: true
+          pop: 1
         - match: \btimes\b
           scope: keyword.control.times.applescript
         - include: main
@@ -350,101 +391,101 @@ contexts:
 
   blocks.tell:
     # tell Textmate
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:textmate)")(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:textmate)")(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.application.textmate.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: textmate
         - include: standard-suite
         - include: main
 
     # tell Finder
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:finder)")(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:finder)")(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.application.finder.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: finder
         - include: standard-suite
         - include: main
 
     # tell System Events
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:system events)")(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:system events)")(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.application.system-events.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: system-events
         - include: standard-suite
         - include: main
 
     # tell iTunes
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:itunes)")(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:itunes)")(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.application.itunes.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: itunes
         - include: standard-suite
         - include: main
 
     # tell generic application process
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+process\b)(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+process\b)(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.application-process.generic.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: standard-suite
         - include: main
 
     # tell generic application
-    - match: ^\s*(tell)\s+(?=app(lication)?\b)(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\b)(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.application.generic.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: standard-suite
         - include: main
 
     # generic tell block
-    - match: ^\s*(tell)\s+(?!.*\bto(?!\s+tell)\b)
+    - match: '{{leading_wspace}}(tell)\s+(?!.*\bto(?!\s+tell)\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
         - meta_scope: meta.block.tell.generic.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
           captures:
             1: keyword.control.tell.applescript
-          pop: true
+          pop: 1
         - include: main
 
     # tell … to statement
-    - match: ^\s*(tell)\s+(?=.*\bto\b)
+    - match: '{{leading_wspace}}(tell)\s+(?=.*\bto\b)'
       captures:
         1: keyword.control.tell.applescript
       push:
@@ -672,35 +713,6 @@ contexts:
           scope: punctuation.definition.variable.end.applescript
           pop: 1
 
-
-###[ COMMENTS ]################################################################
-
-  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW8
-  comments:
-    - match: '#'
-      scope: punctuation.definition.comment.begin.applescript
-      push:
-        - meta_scope: comment.line.number-sign.applescript
-        - include: pop-eol
-
-    - match: --
-      scope: punctuation.definition.comment.begin.applescript
-      push:
-        - meta_scope: comment.line.double-dash.applescript
-        - include: pop-eol
-
-    - include: comments.nested
-
-  comments.nested:
-    - match: \(\*
-      scope: punctuation.definition.comment.begin.applescript
-      push:
-        - meta_scope: comment.block.applescript
-        - match: \*\)
-          scope: punctuation.definition.comment.end.applescript
-          pop: 1
-        - include: comments.nested
-
 ###[ LITERALS ]################################################################
 
   literals:
@@ -774,6 +786,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.applescript
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.applescript string.quoted.double.applescript
         - match: '"'
           scope: punctuation.definition.string.end.applescript
@@ -938,12 +951,14 @@ contexts:
       scope: punctuation.separator.continuation.line.applescript
 
   pop-eol:
-    - match: \n?$
+    - match: $\n?
       pop: 1
 
 ###############################################################################
 
 variables:
+  eol_with_optional_comment: (?=\s*(--.*)?$)
+  leading_wspace: (?:^\s*)
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW4
   identifier: (?i:[a-z][a-z0-9_]*)
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
