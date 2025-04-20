@@ -865,7 +865,7 @@ contexts:
 
   record-separator:
     - match: ','
-      scope: punctuation.separator.sequence.applescript
+      scope: meta.mapping.applescript punctuation.separator.sequence.applescript
       set: record-body
 
   record-body:
