@@ -328,7 +328,7 @@ def get_properties():
         ],
         "cx": ["<calc>"],
         "cy": ["<calc>"],
-        "d": ["none", ["path()", "path($)"]],
+        "d": ["none", ["path()", "path($1)"]],
         "direction": ["ltr", "rtl"],
         "display": [
             "none",
