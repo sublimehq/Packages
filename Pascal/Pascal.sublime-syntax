@@ -12,16 +12,68 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \bpas(cal)?\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? {{first_line_language}} .*? -\*-                      # editorconfig
   )
 
+###[ CONTEXTS ]################################################################
 
 contexts:
+
   prototype:
     - include: comments
 
   main:
     - include: statements
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    - include: line-comments
+    - include: block-comments
+
+  line-comments:
+    - match: --
+      scope: punctuation.definition.comment.begin.pascal
+      push: line-comment-double-dash-body
+    - match: //
+      scope: punctuation.definition.comment.begin.pascal
+      push: line-comment-double-slash-body
+
+  line-comment-double-dash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-dash.pascal
+    - include: pop-eol
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.pascal
+    - include: pop-eol
+
+  block-comments:
+    - match: \(\*
+      scope: punctuation.definition.comment.begin.pascal
+      push: block-comment-paren-star-body
+    - match: '{'
+      scope: punctuation.definition.comment.begin.pascal
+      push: block-comment-brace-body
+
+  block-comment-paren-star-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.pascal
+    - match: \*\)
+      scope: punctuation.definition.comment.end.pascal
+      pop: 1
+    - include: block-comments
+
+  block-comment-brace-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.pascal
+    - match: '}'
+      scope: punctuation.definition.comment.end.pascal
+      pop: 1
+    - include: block-comments
+
+###[ KEYWORDS ]################################################################
 
   keywords:
     - include: access-modifiers
@@ -36,59 +88,6 @@ contexts:
   hint-directives:
     - match: '{{hint_directive}}'
       scope: variable.annotation.pascal
-
-  function-call-no-arg:
-    - match: ({{identifier}})\s*(;)
-      captures:
-        1: meta.function-call.pascal variable.function.pascal
-        2: punctuation.terminator.pascal
-
-  function-call:
-    - match: (({{identifier}})\s*)(\()
-      captures:
-        1: meta.function-call.pascal
-        2: variable.function.pascal
-        3: >-
-          meta.function-call.arguments.pascal
-          punctuation.section.arguments.begin.pascal
-      push:
-        - meta_content_scope: meta.function-call.arguments.pascal
-        - match: \)
-          scope: >-
-            meta.function-call.arguments.pascal
-            punctuation.section.arguments.end.pascal
-          pop: 1
-        - match: ','
-          scope: punctuation.separator.sequence.pascal
-        - include: statements
-
-  blocks:
-    - match: \b(?i:begin)\b
-      scope: keyword.context.block.begin.pascal
-      push:
-        - meta_scope: meta.block.pascal
-        - match: \b((?i:end))\b(;)?
-          captures:
-            1: keyword.context.block.end.pascal
-            2: punctuation.terminator.pascal
-          pop: 1
-        - include: statements
-
-  flow:
-    - match: \b(?i:continue)\b
-      scope: keyword.control.flow.continue.pascal
-    - match: \b(?i:break)\b
-      scope: keyword.control.flow.break.pascal
-    - match: \b(?i:goto)\b
-      scope: keyword.control.flow.goto.pascal
-    # https://www.freepascal.org/docs-html/ref/refse7.html
-    - match: \b(?i:label)\b
-      scope: keyword.declaration.pascal
-      push:
-        - include: pop-terminator
-        - include: comma-separator
-        - match: '{{identifier}}|[0-9]+'
-          scope: entity.name.label.pascal
 
 ###[ DEFINITIONS ]#############################################################
 
@@ -223,7 +222,7 @@ contexts:
       scope: punctuation.section.parameters.end.pascal
       pop: 1
     - include: comma-separator
-    - match: '\b(?xi: static | register | volatile | const | external | name | ignorable | inline | iocritical | size )\b'
+    - match: '{{annotation_variable}}'
       scope: variable.annotation.pascal
 
   maybe-function-variables:
@@ -408,12 +407,14 @@ contexts:
         3: constant.numeric.value.exponent.pascal
         4: constant.numeric.suffix.pascal
 
+###[ LITERALS / STRINGS ]######################################################
+
   strings:
     # Double quoted strings are an extension and (generally) support C-style escape sequences.
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.pascal
       push: string-double-body
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.pascal
       push: string-single-body
     - match: (#)[0-9]{1,5}
@@ -424,7 +425,7 @@ contexts:
   string-double-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.pascal string.quoted.double.pascal
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.end.pascal
       pop: 1
     - match: \\.
@@ -433,51 +434,14 @@ contexts:
   string-single-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.pascal string.quoted.single.pascal
-    - match: "''"
+    - match: \'\'
       scope: constant.character.escape.apostrophe.pascal
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.end.pascal
       pop: 1
     - match: \n
       scope: invalid.illegal.unterminated-string.pascal
       pop: 1
-
-
-###[ COMMENTS ]################################################################
-
-  comments:
-    - include: comments-line
-    - include: comments-block
-
-  comments-line:
-    - match: --
-      scope: punctuation.definition.comment.begin.pascal
-      push:
-        - meta_scope: comment.line.double-dash.pascal
-        - include: pop-eol
-    - match: //
-      scope: punctuation.definition.comment.begin.pascal
-      push:
-        - meta_scope: comment.line.double-slash.pascal
-        - include: pop-eol
-
-  comments-block:
-    - match: \(\*
-      scope: punctuation.definition.comment.begin.pascal
-      push:
-        - meta_scope: comment.block.pascal
-        - match: \*\)
-          scope: punctuation.definition.comment.end.pascal
-          pop: 1
-        - include: comments-block
-    - match: '{'
-      scope: punctuation.definition.comment.begin.pascal
-      push:
-        - meta_scope: comment.block.pascal
-        - match: '}'
-          scope: punctuation.definition.comment.end.pascal
-          pop: 1
-        - include: comments-block
 
 ###[ PROTOTYPE ]###############################################################
 
@@ -488,6 +452,25 @@ contexts:
     - include: terminator
     - include: function-call
     - include: identifiers-as-vars
+
+  function-call:
+    - match: (({{identifier}})\s*)(\()
+      captures:
+        1: meta.function-call.pascal
+        2: variable.function.pascal
+        3:
+          meta.function-call.arguments.pascal
+          punctuation.section.arguments.begin.pascal
+      push:
+        - meta_content_scope: meta.function-call.arguments.pascal
+        - match: \)
+          scope:
+            meta.function-call.arguments.pascal
+            punctuation.section.arguments.end.pascal
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.sequence.pascal
+        - include: statements
 
   statements:
     - include: functions
@@ -500,6 +483,40 @@ contexts:
     - include: assignment
     - include: function-call-no-arg
     - include: expressions
+
+  blocks:
+    - match: \b(?i:begin)\b
+      scope: keyword.context.block.begin.pascal
+      push:
+        - meta_scope: meta.block.pascal
+        - match: \b((?i:end))\b(;)?
+          captures:
+            1: keyword.context.block.end.pascal
+            2: punctuation.terminator.pascal
+          pop: 1
+        - include: statements
+
+  flow:
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.pascal
+    - match: \b(?i:break)\b
+      scope: keyword.control.flow.break.pascal
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.pascal
+    # https://www.freepascal.org/docs-html/ref/refse7.html
+    - match: \b(?i:label)\b
+      scope: keyword.declaration.pascal
+      push:
+        - include: pop-terminator
+        - include: comma-separator
+        - match: '{{identifier}}|[0-9]+'
+          scope: entity.name.label.pascal
+
+  function-call-no-arg:
+    - match: ({{identifier}})\s*(;)
+      captures:
+        1: meta.function-call.pascal variable.function.pascal
+        2: punctuation.terminator.pascal
 
   comma-separator:
     - match: ','
@@ -526,9 +543,10 @@ contexts:
     - match: ''
       pop: 1
 
-###############################################################################
+###[ VARIABLES ]###############################################################
 
 variables:
+  first_line_language: (?:\bpas(cal)?\b)
   # https://www.freepascal.org/docs-html/ref/refse4.html
   identifier: (?i:[_a-z][_a-z0-9]{0,126})
   keyword: |-
@@ -596,4 +614,4 @@ variables:
     | winapi | write
     )\b
   hint_directive: \b(?i:deprecated|experimental|platform|unimplemented)\b
-
+  annotation_variable: \b(?i:static|register|volatile|const|external|name|ignorable|inline|iocritical|size)\b
