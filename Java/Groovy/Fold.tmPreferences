@@ -2,11 +2,35 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>source.java</string>
+    <string>source.groovy</string>
     <key>settings</key>
     <dict>
         <key>foldScopes</key>
         <array>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.comment.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.comment.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.string.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.string.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.section.interpolation.begin</string>
+                <key>end</key>
+                <string>punctuation.section.interpolation.end</string>
+            </dict>
+            <dict>
+                <key>begin</key>
+                <string>punctuation.definition.generic.begin</string>
+                <key>end</key>
+                <string>punctuation.definition.generic.end</string>
+            </dict>
             <dict>
                 <key>begin</key>
                 <string>punctuation.section.block.begin</string>
@@ -32,6 +56,8 @@
                 <string>punctuation.section.group.end</string>
             </dict>
         </array>
+        <key>indentationFoldingEnabled</key>
+        <false/>
     </dict>
 </dict>
 </plist>
