@@ -2,9 +2,11 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.groovy entity.name.type.class</string>
+	<string>source.groovy entity.name.constant.java</string>
 	<key>settings</key>
 	<dict>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 	</dict>
