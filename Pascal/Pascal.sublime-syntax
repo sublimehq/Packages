@@ -12,7 +12,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? {{first_line_language}} .*? -\*-                      # editorconfig
+    ^ \s* // .*? -\*- .*? \bpas(?:cal)?\b .*? -\*-                              # editorconfig
   )
 
 ###[ CONTEXTS ]################################################################
@@ -546,7 +546,6 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
 variables:
-  first_line_language: \bpas(?:cal)?\b
   # https://www.freepascal.org/docs-html/ref/refse4.html
   identifier: (?i:[_a-z][_a-z0-9]{0,126})
   keyword: |-
