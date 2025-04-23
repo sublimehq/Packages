@@ -546,7 +546,7 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
 variables:
-  first_line_language: (?:\bpas(cal)?\b)
+  first_line_language: \bpas(?:cal)?\b
   # https://www.freepascal.org/docs-html/ref/refse4.html
   identifier: (?i:[_a-z][_a-z0-9]{0,126})
   keyword: |-
