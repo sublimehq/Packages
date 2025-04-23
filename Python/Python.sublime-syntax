@@ -32,11 +32,13 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bpython(?:\d(?:\.\d+)?)?\b                        # shebang
+    ^ \#! .* {{shebang_language}}                               # shebang
   | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d+)?)?\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \b(?:python(?:\d(?:\.\d+)?)?|uv)\b
+
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '[[:alpha:]_]{{identifier_continue}}*\b'
@@ -389,8 +391,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.python
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.python
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Python is embedded.
       pop: 1
@@ -398,10 +401,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.python
-    # Note: Keep sync with first_line_match!
-    - match: python(?:\d(?:\.\d+)?)?\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.python
-    - match: \n
+    - match: $\n?
       pop: 1
 
 ###[ TYPE HINTS ]#############################################################

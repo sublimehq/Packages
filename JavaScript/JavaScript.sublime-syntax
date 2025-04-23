@@ -13,12 +13,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b  # shebang
+    ^ \#! .* {{shebang_language}}                        # shebang
   | ^ \s* // .*? -\*- .*? \b(?:js|javascript)\b .*? -\*-  # editorconfig
   )
 
 variables:
-  shebang_lang: \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b
+  shebang_language: \b(?:node|js|bun|osascript\s+-l\s+JavaScript)\b
 
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'
@@ -190,8 +190,10 @@ contexts:
       push:
         - jsdoc-comment-body
         - jsdoc-block-tag
-    # normal block comments
-    - match: /\*
+    # normal block comments (not looking like tagged template string "decorator")
+    # note: required as comments are included via `prototype` and we don't want
+    # to exclude prototypes from `expression-begin` context as it might break inherited syntaxes.
+    - match: /\*(?!\s*{{identifier_name}}\s*\*/\s*`)
       scope: punctuation.definition.comment.begin.js
       push: block-comment-body
 
@@ -260,8 +262,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.js
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.js
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if the syntax is embedded.
       pop: 1
@@ -269,10 +272,9 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.js
-    # Note: Keep sync with first_line_match!
-    - match: '{{shebang_lang}}'
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.js
-    - match: \n
+    - match: $\n?
       pop: 1
 
   else-pop:
@@ -1169,9 +1171,9 @@ contexts:
     - include: yield-expression
     - include: await-expression
 
-    - include: regexp-complete
-    - include: literal-string
     - include: literal-string-template
+    - include: literal-string
+    - include: regexp-complete
     - include: constructor
     - include: literal-number
     - include: prefix-operators
@@ -1282,11 +1284,11 @@ contexts:
     - include: string-content
 
   literal-string-templates:
-    - match: (?=(?:{{identifier_name}}\s*)?{{tagged_template_quote_begin}})
+    - match: (?=(?:(?:/\*\s*{{identifier_name}}\s*\*/|{{identifier_name}})\s*)?{{tagged_template_quote_begin}})
       push: literal-string-template-begin
 
   literal-string-template:
-    - match: (?=(?:{{identifier_name}}\s*)?{{tagged_template_quote_begin}})
+    - match: (?=(?:(?:/\*\s*{{identifier_name}}\s*\*/|{{identifier_name}})\s*)?{{tagged_template_quote_begin}})
       set: literal-string-template-begin
 
   literal-string-template-begin:
@@ -1306,11 +1308,14 @@ contexts:
     - include: immediately-pop
 
   literal-string-template-css:
-    - match: (css)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+    - match: (?i:((/\*)\s*css\s*(\*/))|(css))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.css.js-template
       embed_scope: meta.string.template.js source.css.embedded.js
       escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
@@ -1320,11 +1325,14 @@ contexts:
       pop: 1
 
   literal-string-template-html:
-    - match: (html)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+    - match: (?i:((/\*)\s*html\s*(\*/))|(html))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:text.html.js-template
       embed_scope: meta.string.template.js text.html.embedded.js
       escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
@@ -1334,11 +1342,14 @@ contexts:
       pop: 1
 
   literal-string-template-js:
-    - match: (js)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+    - match: (?i:((/\*)\s*js\s*(\*/))|(js))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.js.js-template
       embed_scope: meta.string.template.js source.js.embedded.js
       escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
@@ -1348,11 +1359,14 @@ contexts:
       pop: 1
 
   literal-string-template-json:
-    - match: (json)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+    - match: (?i:((/\*)\s*json\s*(\*/))|(json))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.json.js-template
       embed_scope: meta.string.template.js source.json.embedded.js
       escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
@@ -1362,11 +1376,14 @@ contexts:
       pop: 1
 
   literal-string-template-sql:
-    - match: (sql|SQL)\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+    - match: (?i:((/\*)\s*sql\s*(\*/))|(sql))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.sql.js-template
       embed_scope: meta.string.template.js source.sql.embedded.js
       escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
@@ -1376,6 +1393,10 @@ contexts:
       pop: 1
 
   literal-string-template-raw:
+    # Consume block comments as patterns of `block-comments` context don't match if followed by backtick.
+    - match: /\*
+      scope: punctuation.definition.comment.begin.js
+      push: block-comment-body
     - match: (?:({{identifier_name}})\s*)?({{tagged_template_quote_begin}})
       captures:
         1: variable.function.tagged-template.js

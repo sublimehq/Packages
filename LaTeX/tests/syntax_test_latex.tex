@@ -348,12 +348,14 @@
 %                                     ^ meta.group.bracket.latex
 %                                          ^ constant.other.citation.latex
 
-\Citeauthor*[]{ref}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%          ^ support.function.cite.latex
-%           ^ meta.group.bracket.latex
-%              ^ constant.other.citation.latex
+\Citeauthor*[]{knuth97} % Hit F12 to go to definition in syntax_test_bibtex.bib
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.citation.latex
+%^^^^^^^^^^^ support.function.cite.latex keyword.other.cite.latex
+%           ^^ meta.group.bracket.latex
+%             ^^^^^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^^^^^ constant.other.citation.latex
+%                     ^ punctuation.definition.group.brace.end.tex
 
 
 % URL COMMAND

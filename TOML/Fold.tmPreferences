@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.toml</string>
+	<key>settings</key>
+	<dict>
+		<key>foldScopes</key>
+		<array>
+			<dict>
+				<key>begin</key>
+				<string>meta.section punctuation.section.brackets.end</string>
+				<key>end</key>
+				<string>meta.section punctuation.section.brackets.begin</string>
+				<key>excludeTrailingNewlines</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>begin</key>
+				<string>string.quoted.double.block punctuation.definition.string.begin</string>
+				<key>end</key>
+				<string>string.quoted.double.block punctuation.definition.string.end</string>
+				<key>excludeTrailingNewlines</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>begin</key>
+				<string>string.quoted.single.block punctuation.definition.string.begin</string>
+				<key>end</key>
+				<string>string.quoted.single.block punctuation.definition.string.end</string>
+				<key>excludeTrailingNewlines</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>
