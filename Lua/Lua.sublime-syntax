@@ -27,8 +27,8 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
-    - include: line-comments
     - include: block-comments
+    - include: line-comments
 
 ###[ COMMENTS / BLOCK COMMENTS ]###############################################
 
