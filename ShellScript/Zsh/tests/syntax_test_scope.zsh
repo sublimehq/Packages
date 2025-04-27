@@ -90,7 +90,7 @@ for name in word1 word2; do echo me; done
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^^^ variable.other.readwrite.shell
-#        ^^ keyword.operator.iterator.in.shell
+#        ^^ keyword.operator.iteration.in.shell
 #           ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                      ^ punctuation.terminator.statement.shell
@@ -167,7 +167,7 @@ select name in word1 word2; do echo $name; done
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
 #      ^^^^ variable.other.readwrite.shell
-#           ^^ keyword.operator.iterator.in.shell
+#           ^^ keyword.operator.iteration.in.shell
 #              ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                    ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                         ^ punctuation.terminator.statement.shell
@@ -358,7 +358,7 @@ for name in word1 word2; echo me;
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^^^ variable.other.readwrite.shell
-#        ^^ keyword.operator.iterator.in.shell
+#        ^^ keyword.operator.iteration.in.shell
 #           ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                 ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                      ^ punctuation.terminator.statement.shell
@@ -493,7 +493,7 @@ select name in word1 word2; do echo $name; done;
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
 #      ^^^^ variable.other.readwrite.shell
-#           ^^ keyword.operator.iterator.in.shell
+#           ^^ keyword.operator.iteration.in.shell
 #              ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                    ^^^^^ meta.string.glob.shell string.unquoted.shell
 #                         ^ punctuation.terminator.statement.shell
@@ -6494,7 +6494,7 @@ for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces f
 #^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #       ^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #        ^^^^^^^^^^^^^^ meta.string.glob.shell
 #        ^^^^^^^^^ string.unquoted.shell
