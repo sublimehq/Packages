@@ -474,7 +474,7 @@ contexts:
 
   ctl-for-in:
     - match: (?i:in){{keyword_break}}
-      scope: keyword.operator.logical.dosbatch
+      scope: keyword.operator.iteration.in.dosbatch
       pop: 1
     - include: else-pop
 
