@@ -561,7 +561,7 @@ contexts:
       scope: keyword.operator.logical.ruby
       push: after-keyword
     - match: \bin\b(?![?!])
-      scope: keyword.operator.logical.ruby
+      scope: keyword.operator.iteration.in.ruby
       push: after-keyword
     # other functions
     - match: \b(?:BEGIN|END)\b(?![?!])
