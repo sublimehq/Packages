@@ -2674,6 +2674,99 @@ $var = <<~"EOF" # comment
 # ^^ variable.language.deprecated.perl
 # ^ punctuation.definition.variable.perl
 
+# Postfix Dereference Syntax
+# https://perldoc.perl.org/perlref#Postfix-Dereference-Syntax
+
+$sref->$*;  # same as  ${ $sref }
+#      ^ keyword.operator.dereference.perl
+#       ^ variable.language.perl
+
+$aref->@*;  # same as  @{ $aref }
+#      ^ keyword.operator.dereference.perl
+#       ^ variable.language.perl
+
+$aref->$#*; # same as $#{ $aref }
+#      ^^ keyword.operator.dereference.perl
+#        ^ variable.language.perl
+
+$href->%*;  # same as  %{ $href }
+#      ^ keyword.operator.dereference.perl
+#       ^ variable.language.perl
+
+$cref->&*;  # same as  &{ $cref }
+#      ^ keyword.operator.dereference.perl
+#       ^ variable.language.perl
+
+$gref->**;  # same as  *{ $gref }
+#      ^ keyword.operator.dereference.perl
+#       ^ variable.language.perl
+
+$gref->*{SCALAR}; # same as *{ $gref }{SCALAR}
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^^^^ constant.other.key.perl
+#              ^ punctuation.section.item-access.end.perl
+
+# Postfix Reference Slicing
+# https://perldoc.perl.org/perlref#Postfix-Reference-Slicing
+
+$aref->$[ 0 ];  # same as $$aref[ 0 ]
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^ constant.numeric.value.perl
+#           ^ punctuation.section.item-access.end.perl
+
+$href->${ key };  # same as $$href{ key }
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^^^ constant.other.key.perl
+#             ^ punctuation.section.item-access.end.perl
+
+$aref->@[ 0 ];  # same as @$aref[ 0 ]
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^ constant.numeric.value.perl
+#           ^ punctuation.section.item-access.end.perl
+
+$href->@{ key };  # same as @$href{ key }
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^^^ constant.other.key.perl
+#             ^ punctuation.section.item-access.end.perl
+
+$aref->%[ 0 ];  # same as %$aref[ 0 ]
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^ constant.numeric.value.perl
+#           ^ punctuation.section.item-access.end.perl
+
+$href->%{ key };  # same as %$href{ key }
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^^^ constant.other.key.perl
+#             ^ punctuation.section.item-access.end.perl
+
+$aref->&[ 0 ];  # same as &$aref[ 0 ]
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^ constant.numeric.value.perl
+#           ^ punctuation.section.item-access.end.perl
+
+$href->&{ key };  # same as &$href{ key }
+#      ^ keyword.operator.dereference.perl
+#       ^^^^^^^ meta.item-access.perl
+#       ^ punctuation.section.item-access.begin.perl
+#         ^^^ constant.other.key.perl
+#             ^ punctuation.section.item-access.end.perl
+
 ###[ UNQUALIFIED VARIABLES ]##################################################
 
   $_foo = "bar";
