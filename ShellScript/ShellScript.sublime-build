@@ -4,6 +4,7 @@
 
 	"selector" : "source.shell",
 	"word_wrap": false,
+	"interactive": true,
 
 	"windows": {
 		// Try to run via MSYS2 shell on Windows

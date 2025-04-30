@@ -9,6 +9,7 @@
         {
             "name": "Run",
             "shell_cmd": "rdmd \"$file\"",
+            "interactive": true,
         }
     ]
 }
