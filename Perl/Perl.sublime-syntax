@@ -1832,8 +1832,17 @@ contexts:
         - match: '{{identifier}}(?!::)'
           scope: meta.function-call.perl variable.function.member.perl
           pop: true
-        # item access like $array->[0]
-        - match: (?=[{\[])
+        # item access like $array->[0] or postfix dereferce slicing $array->@[0]
+        # https://perldoc.perl.org/perlref#Postfix-Reference-Slicing
+        - match: (?:[$@%&*]\#?)?(?=[{\[])
+          scope: keyword.operator.dereference.perl
+          set: maybe-item-access
+        # postfix dereferencing
+        # https://perldoc.perl.org/perlref#Postfix-Dereference-Syntax
+        - match: ([$@%&*]\#?)(\*)(?!=)
+          captures:
+            1: keyword.operator.dereference.perl
+            2: variable.language.perl
           set: maybe-item-access
         - include: comment-line
         - include: else-pop

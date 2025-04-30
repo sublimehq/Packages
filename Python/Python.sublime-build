@@ -2,6 +2,7 @@
 	"cmd": ["python3", "-u", "$file"],
 	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 	"selector": "source.python",
+	"interactive": true,
 
 	"env": {"PYTHONIOENCODING": "utf-8"},
 
@@ -14,6 +15,7 @@
 		{
 			"name": "Syntax Check",
 			"cmd": ["python3", "-m", "py_compile", "$file"],
+			"interactive": false,
 
 			"windows": {
 				"cmd": ["py", "-m", "py_compile", "$file"],

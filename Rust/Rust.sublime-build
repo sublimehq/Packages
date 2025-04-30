@@ -11,12 +11,13 @@
             "windows":
             {
                 "cmd": ["$file_base_name.exe"]
-            }, 
+            },
         },
         {
             "selector": "source.rust",
             "shell_cmd": "rustc \"$file\" && \"./$file_base_name\"",
             "name": "Build & Run",
+            "interactive": true,
         },
     ]
 }
