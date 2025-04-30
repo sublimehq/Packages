@@ -153,12 +153,32 @@ regex = r'(?P<Quote>[\'"]).*?\g<Quote>'
 #                               ^^^^^ variable.other.backref-and-recursion.regexp - invalid
 
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
-#           ^ keyword.control.anchor.regexp
-#                         ^ keyword.operator.quantifier.regexp
+#           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#           ^^ keyword.control.anchor.regexp
+#                        ^^^ keyword.operator.quantifier.regexp
+#                                  ^ keyword.operator.quantifier.regexp
+
+regex = r'''
+    \b ([fobar]*){1} (?: a | b )?
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#   ^^ keyword.control.anchor.regexp
+#                ^^^ keyword.operator.quantifier.regexp
+#                               ^ keyword.operator.quantifier.regexp
+'''
 
 regex = r"""\b ([fobar]*){1}(?:a|b)?"""
-#           ^ keyword.control.anchor.regexp
-#                         ^ keyword.operator.quantifier.regexp
+#           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#           ^^ keyword.control.anchor.regexp
+#                        ^^^ keyword.operator.quantifier.regexp
+#                                  ^ keyword.operator.quantifier.regexp
+
+regex = r"""
+    \b ([fobar]*){1} (?: a | b )?
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#   ^^ keyword.control.anchor.regexp
+#                ^^^ keyword.operator.quantifier.regexp
+#                               ^ keyword.operator.quantifier.regexp
+"""
 
 # Capital R prevents all syntax embedding
 regex = R'\b ([fobar]*){1}(?:a|b)?'
@@ -1732,8 +1752,10 @@ fr"""
 # ^^^^ meta.string.python string.quoted.double.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+#     ^ meta.mode.extended.regexp
 
     {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# <- meta.mode.extended.regexp
 # ^^ meta.string.python string.quoted
 #   ^^^^^ meta.string.python meta.interpolation.python - string
 #        ^^ meta.string.python string.quoted
@@ -1760,8 +1782,10 @@ fr'''
 # ^^^^ meta.string.python string.quoted.single.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+#     ^ meta.mode.extended.regexp
 
     {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# <- meta.mode.extended.regexp
 # ^^ meta.string.python string.quoted
 #   ^^^^^ meta.string.python meta.interpolation.python - string
 #        ^^ meta.string.python string.quoted
