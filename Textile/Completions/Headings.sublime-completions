@@ -1,0 +1,48 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        {
+            "trigger": "h1",
+            "contents": "h1${1:indentation}${2:alignment}${3:style}. ${4:text...}\n\n$0",
+            "annotation": "Heading 1",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "h2",
+            "contents": "h2${1:indentation}${2:alignment}${3:style}. ${4:text...}\n\n$0",
+            "annotation": "Heading 2",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "h3",
+            "contents": "h3${1:indentation}${2:alignment}${3:style}. ${4:text...}\n\n$0",
+            "annotation": "Heading 3",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "h4",
+            "contents": "h4${1:indentation}${2:alignment}${3:style}. ${4:text...}\n\n$0",
+            "annotation": "Heading 4",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "h5",
+            "contents": "h5${1:indentation}${2:alignment}${3:style}. ${4:text...}\n\n$0",
+            "annotation": "Heading 5",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "h6",
+            "contents": "h6${1:indentation}${2:alignment}${3:style}. ${4:text...}\n\n$0",
+            "annotation": "Heading 6",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        }
+    ]
+}

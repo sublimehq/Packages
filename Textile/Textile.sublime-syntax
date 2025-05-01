@@ -1,225 +1,1132 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# Textile language:         https://textile-lang.com/
+# Textile on GitHub:        https://github.com/textile
+# Textile specifications:   https://github.com/textile/textile-spec
+# Sublime syntax docs:      http://www.sublimetext.com/docs/syntax.html
+
 name: Textile
 scope: text.html.textile
+version: 2
+
+extends: Packages/HTML/HTML.sublime-syntax
 
 file_extensions:
   - textile
 
-first_line_match: textile
+###[ CONTEXTS ]################################################################
 
 contexts:
+
+  prototype:
+    # NOTE: textile comments are just regular (extended) blocks
+    - include: merge-conflict-markers
+
   main:
-    - match: '(^h[1-6]([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
+    - meta_prepend: true
+    - include: blocks
+    - include: inlines
+
+###[ HTML ]####################################################################
+
+  # https://textile-lang.com/doc/html
+
+  html:
+    - meta_prepend: true
+    - include: html-notextiles
+
+  html-notextiles:
+    - match: (<)(notextile)[ \f\t]*(>)
+      scope: meta.tag.notextile.begin.html
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.other.html
+        3: punctuation.definition.tag.end.html
+      push: html-notextile-body
+
+  html-notextile-body:
+    - meta_content_scope: text.plain
+    - match: (</)(notextile)[ \f\t]*(>)
+      scope: meta.tag.notextile.end.html
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.other.html
+        3: punctuation.definition.tag.end.html
+      pop: 1
+
+###[ BLOCKS ]##################################################################
+
+  # https://textile-lang.com/category/block-modifiers/
+
+  blocks:
+    - include: textile-comments         # ###.. or ###.
+    - include: code-blocks              # bc.. or bc.
+    - include: quotation-blocks         # bq.. or bq.
+    - include: notextile-blocks         # notextile.. or notextile.
+    - include: pre-blocks               # pre.. or pre.
+    - include: headings                 # h1. to h6.
+    - include: notes
+    - include: footnotes
+    - include: tables
+    - include: lists
+    - include: paragraphs
+
+###[ BLOCKS / COMMENTS ]#######################################################
+
+  # https://textile-lang.com/doc/textile-comments
+  # NOTE: textile comments are just regular (extended) blocks
+
+  textile-comments:
+    - match: '^(###)(\.\.)[ ](?=\S)'
+      captures:
+        1: punctuation.definition.comment.textile
+        2: punctuation.definition.generic.extended-block.textile
+      push: extended-textile-comment-body
+    - match: '^(###)(\.)[ ](?=\S)'
+      captures:
+        1: punctuation.definition.comment.textile
+        2: punctuation.definition.generic.block.textile
+      push: textile-comment-body
+
+  extended-textile-comment-body:
+    - meta_scope: comment.block.textile
+    - include: next-block-pop
+
+  textile-comment-body:
+    - meta_scope: comment.block.textile
+    - include: empty-line-pop
+
+###[ BLOCKS / HEADINGS ]#######################################################
+
+  # https://textile-lang.com/doc/headings
+
+  # TODO: clean these up, not much different other than the beginning of the
+  #       line and the meta_scope
+
+  headings:
+    - match: |-
+        (?x:
+          ^
+          (h1)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
       captures:
         1: entity.name.tag.heading.textile
-        3: entity.name.type.textile
-        4: entity.name.tag.heading.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.heading.textile
       push:
-        - meta_scope: markup.heading.textile
-        - match: ^$
-          captures:
-            1: entity.name.tag.heading.textile
-            3: entity.name.type.textile
-            4: entity.name.tag.heading.textile
-          pop: true
-        - include: inline
-        - include: scope:text.html.basic
-    - match: '(^bq([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
+        - meta_scope: markup.heading.1.textile
+        - meta_content_scope: meta.toc-list.textile
+        # before-eol-pop
+        - match: '$'
+          pop: 1
+        - include: inlines
+        - include: html
+    - match: |-
+        (?x:
+          ^
+          (h2)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.heading.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.heading.textile
+      push:
+        - meta_scope: markup.heading.2.textile
+        - meta_content_scope: meta.toc-list.textile
+        # before-eol-pop
+        - match: '$'
+          pop: 1
+        - include: inlines
+        - include: html
+    - match: |-
+        (?x:
+          ^
+          (h3)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.heading.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.heading.textile
+      push:
+        - meta_scope: markup.heading.3.textile
+        - meta_content_scope: meta.toc-list.textile
+        # before-eol-pop
+        - match: '$'
+          pop: 1
+        - include: inlines
+        - include: html
+    - match: |-
+        (?x:
+          ^
+          (h4)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.heading.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.heading.textile
+      push:
+        - meta_scope: markup.heading.4.textile
+        - meta_content_scope: meta.toc-list.textile
+        # before-eol-pop
+        - match: '$'
+          pop: 1
+        - include: inlines
+        - include: html
+    - match: |-
+        (?x:
+          ^
+          (h5)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.heading.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.heading.textile
+      push:
+        - meta_scope: markup.heading.5.textile
+        - meta_content_scope: meta.toc-list.textile
+        # before-eol-pop
+        - match: '$'
+          pop: 1
+        - include: inlines
+        - include: html
+    - match: |-
+        (?x:
+          ^
+          (h6)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.heading.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.heading.textile
+      push:
+        - meta_scope: markup.heading.6.textile
+        - meta_content_scope: meta.toc-list.textile
+        # before-eol-pop
+        - match: '$'
+          pop: 1
+        - include: inlines
+        - include: html
+
+###[ BLOCKS / PRE-FORMATTED TEXT ]#############################################
+
+  # https://textile-lang.com/doc/pre-formatted-text
+
+  pre-blocks:
+    - match: |-
+        (?x:
+          ^
+          (pre)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.pre.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.pre.textile
+      push: extended-block-pre-body
+    - match: |-
+        (?x:
+          ^
+          (pre)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.pre.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.pre.textile
+      push: block-pre-body
+
+  extended-block-pre-body:
+    - meta_scope: markup.raw.textile
+    - include: next-block-pop
+
+  block-pre-body:
+    - meta_scope: markup.raw.textile
+    - include: empty-line-pop
+
+###[ BLOCKS / NOTEXTILE ]######################################################
+
+  # https://textile-lang.com/doc/no-textile-processing
+
+  notextile-blocks:
+    - match: |-
+        (?x:
+          ^
+          (notextile)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.notextile.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.notextile.textile
+      push: extended-block-notextile-body
+    - match: |-
+        (?x:
+          ^
+          (notextile)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.notextile.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.notextile.textile
+      push: block-notextile-body
+
+  extended-block-notextile-body:
+    - meta_content_scope: text.plain
+    - include: next-block-pop
+    - include: html
+
+  block-notextile-body:
+    - meta_content_scope: text.plain
+    - include: empty-line-pop
+    - include: html
+
+###[ BLOCKS / BLOCK CODE ]###################################################
+
+  # https://textile-lang.com/doc/block-code
+
+  code-blocks:
+    - match: |-
+        (?x:
+          ^
+          (bc)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.codeblock.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.codeblock.textile
+      push: extended-block-bc-body
+    - match: |-
+        (?x:
+          ^
+          (bc)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.codeblock.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.codeblock.textile
+      push: block-bc-body
+
+  extended-block-bc-body:
+    - meta_scope: markup.raw.textile
+    - include: next-block-pop
+
+  block-bc-body:
+    - meta_scope: markup.raw.textile
+    - include: empty-line-pop
+
+###[ BLOCKS / BLOCK QUOTES ]###################################################
+
+  # https://textile-lang.com/doc/block-quotations
+
+  quotation-blocks:
+    - match: |-
+        (?x:
+          ^
+          (bq)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.\.)
+          [ ](?=\S)
+        )
       captures:
         1: entity.name.tag.blockquote.textile
-        3: entity.name.type.textile
-        4: entity.name.tag.blockquote.textile
-      push:
-        - meta_scope: markup.quote.textile
-        - match: ^$
-          captures:
-            1: entity.name.tag.blockquote.textile
-            3: entity.name.type.textile
-            4: entity.name.tag.blockquote.textile
-          pop: true
-        - include: inline
-        - include: scope:text.html.basic
-    - match: '(^fn[0-9]+([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.blockquote.textile
+      push: extended-block-bq-body
+    - match: |-
+        (?x:
+          ^
+          (bq)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      captures:
+        1: entity.name.tag.blockquote.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.blockquote.textile
+      push: block-bq-body
+
+  extended-block-bq-body:
+    - meta_scope: markup.quote.textile
+    - include: next-block-pop
+    - include: inlines
+    - include: html
+
+  block-bq-body:
+    - meta_scope: markup.quote.textile
+    - include: empty-line-pop
+    - include: inlines
+    - include: html
+
+###[ BLOCKS / FOOTNOTES ]######################################################
+
+  # https://textile-lang.com/doc/footnotes
+
+  footnotes:
+    - match: |-
+        (?x:
+          ^
+          (fn\d+)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+        )
       captures:
         1: entity.name.tag.footnote.textile
-        3: entity.name.type.textile
-        4: entity.name.tag.footnote.textile
-      push:
-        - meta_scope: markup.other.footnote.textile
-        - match: ^$
-          captures:
-            1: entity.name.tag.footnote.textile
-            3: entity.name.type.textile
-            4: entity.name.tag.footnote.textile
-          pop: true
-        - include: inline
-        - include: scope:text.html.basic
-    - match: '(^table([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.footnote.textile
+      push: footnote-body
+
+  footnote-body:
+    - meta_scope: markup.other.footnote.textile
+    - include: empty-line-pop
+    - include: inlines
+    - include: html
+
+###[ AUTO-NUMBERED NOTES ]#####################################################
+
+  # https://textile-lang.com/doc/auto-numbered-notes
+
+  notes:
+    - include: auto-numbered-notes
+    - include: notelists
+
+  auto-numbered-notes:
+    - match: '^((note)(\#)(\w+)(\!\.))[ ]\b'
+      scope: meta.annotation.auto-numbered-note.no-backlinks.textile
+      captures:
+        2: keyword.other.note.textile
+        4: variable.annotation.textile
+        5: constant.other.textile
+
+    - match: '^((note)(\#)(\w+)(\^\.))[ ]\b'
+      scope: meta.annotation.auto-numbered-note.only-first-backlink.textile
+      captures:
+        2: keyword.other.note.textile
+        4: variable.annotation.textile
+        5: constant.other.textile
+
+    - match: '^((note)(\#)(\w+)(\*\.))[ ]\b'
+      scope: meta.annotation.auto-numbered-note.all-backlinks.textile
+      captures:
+        2: keyword.other.note.textile
+        4: variable.annotation.textile
+        5: constant.other.textile
+
+    - match: '^((note)(\#)(\w+)(\.))[ ]\b'
+      scope: meta.annotation.auto-numbered-note.textile
+      captures:
+        2: keyword.other.note.textile
+        4: variable.annotation.textile
+        5: constant.other.textile
+
+  notelists:
+    - match: '^(notelist)(\!\+\.)$'
+      scope: meta.notelist.no-backlinks.including-unreferenced-notes.textile
+      captures:
+        1: keyword.other.notelist.textile
+        2: constant.other.notelist-format.textile
+    - match: '^(notelist)(\!\.)$'
+      scope: meta.notelist.no-backlinks.textile
+      captures:
+        1: keyword.other.notelist.textile
+        2: constant.other.notelist-format.textile
+
+    - match: '^(notelist)(\^\+\.)$'
+      scope: meta.notelist.backlinks-to-first-citation.including-unreferenced-notes.textile
+      captures:
+        1: keyword.other.notelist.textile
+        2: constant.other.notelist-format.textile
+    - match: '^(notelist)(\^\.)$'
+      scope: meta.notelist.backlinks-to-first-citation.textile
+      captures:
+        1: keyword.other.notelist.textile
+        2: constant.other.notelist-format.textile
+
+    - match: '^(notelist)(\+\.)$'
+      scope: meta.notelist.backlinks-to-every-citation.including-unreferenced-notes.textile
+      captures:
+        1: keyword.other.notelist.textile
+        2: constant.other.notelist-format.textile
+    - match: '^(notelist)(\.)$'
+      scope: meta.notelist.backlinks-to-every-citation.textile
+      captures:
+        1: keyword.other.notelist.textile
+        2: constant.other.notelist-format.textile
+
+###[ BLOCKS / TABLES ]#########################################################
+
+  # https://textile-lang.com/doc/tables
+
+  tables:
+    - match: |-
+        (?x:
+          ^
+          (table)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+        )
       captures:
         1: entity.name.tag.footnote.textile
-        3: entity.name.type.textile
-        4: entity.name.tag.footnote.textile
-      push:
-        - meta_scope: markup.other.table.textile
-        - match: ^$
-          captures:
-            1: entity.name.tag.footnote.textile
-            3: entity.name.type.textile
-            4: entity.name.tag.footnote.textile
-          pop: true
-        - include: inline
-        - include: scope:text.html.basic
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.footnote.textile
+      push: table-body
+
+  table-body:
+    - meta_scope: markup.other.table.textile
+    - include: empty-line-pop
+    - include: inlines
+    - include: html
+
+  inline-table-row:
+    - match: '^\|({{textile_attributes_optional_class_style}})(\\\||.)+\|$'
+      scope: markup.other.table.cell.textile
+      captures:
+        1: entity.name.type.textile
+
+###[ BLOCKS / PARAGRAPHS ]#####################################################
+
+  # https://textile-lang.com/doc/paragraphs
+
+  paragraphs:
+    - include: block-paragraphs
+    - include: simple-paragraphs
+
+  block-paragraphs:
+    - match: |-
+        (?x:
+          ^
+          (p)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.\.)
+          [ ](?=\S)
+        )
+      scope: entity.name.section.paragraph.textile
+      captures:
+        1: entity.name.tag.paragraph.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.paragraph.textile
+      push: extended-block-p-body
+    - match: |-
+        (?x:
+          ^
+          (p)
+          ({{textile_indentation_optional}})
+          ({{textile_alignment_optional}})
+          ({{textile_attributes_optional_class_style}})
+          (\.)
+          [ ](?=\S)
+        )
+      scope: entity.name.section.paragraph.textile
+      captures:
+        1: entity.name.tag.paragraph.textile
+        2: constant.other.indentation.textile
+        3: constant.other.alignment.textile
+        4: entity.name.type.textile
+        5: entity.name.tag.paragraph.textile
+      push: block-p-body
+
+  extended-block-p-body:
+    - meta_scope: meta.paragraph.textile
+    - include: next-block-pop
+    - include: inlines
+    - include: html
+
+  block-p-body:
+    - meta_scope: meta.paragraph.textile
+    - include: empty-line-pop
+    - include: inlines
+    - include: html
+
+  simple-paragraphs:
     - match: ^(?=\S)
-      push:
-        - meta_scope: meta.paragraph.textile
-        - match: ^$
-          pop: true
-        - match: '(^p([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
-          scope: entity.name.section.paragraph.textile
-          captures:
-            1: entity.name.tag.paragraph.textile
-            3: entity.name.type.textile
-            4: entity.name.tag.paragraph.textile
-        - include: inline
-        - include: scope:text.html.basic
-    - include: scope:text.html.basic
-  inline:
-    # & is handled automagically by textile, so we match it to avoid text.html.basic from flagging it
-    - match: "&(?![A-Za-z0-9]+;)"
-      scope: text.html.textile
-    - match: '^\*+(\([^)]*\)|\{[^}]*\})*(\s+|$)'
+      push: simple-paragraph-body
+
+  simple-paragraph-body:
+    - meta_scope: meta.paragraph.textile
+    - include: empty-line-pop
+    - include: inlines
+    - include: html
+
+###[ BLOCKS / LISTS ]##########################################################
+
+  lists:
+    - match: '^\*'
+      captures:
+        1: markup.list.unnumbered.textile
+      push: unordered-list-block
+
+    - match: '^\#'
+      captures:
+        1: markup.list.numbered.textile
+      push: ordered-list-block
+
+    # TODO: definition lists
+
+  # https://textile-lang.com/doc/bulleted-unordered-lists
+
+  unordered-list-block:
+    - meta_content_scope: markup.list.unnumbered.textile
+    - include: list-block-end
+    - include: list-block-content
+
+  # https://textile-lang.com/doc/numbered-ordered-lists
+
+  ordered-list-block:
+    - meta_content_scope: markup.list.numbered.textile
+    - include: list-block-end
+    - include: list-block-content
+
+  # https://textile-lang.com/doc/definition-lists
+
+  # TODO: definition lists
+
+###[ BLOCKS / LISTS / HELPERS ]################################################
+
+  list-block-end:
+    - match: ^(?=\S)
+      pop: 1
+
+  list-block-content:
+    - include: list-items
+
+  list-items:
+    - match: '^\*+({{textile_attributes_optional_class_style}})(\s+|$)'
       scope: markup.list.unnumbered.textile
       captures:
         1: entity.name.type.textile
-    - match: '^#+(\([^)]*\)|\{[^}]*\})*\s+'
+
+    - match: '^\#+({{textile_attributes_optional_class_style}})\s+'
       scope: markup.list.numbered.textile
       captures:
         1: entity.name.type.textile
+
+  list-attributes:
+    - match: '\('
+      scope: punctuation.section.parens.begin.textile
+      set:
+        - meta_scope: meta.attributes.textile
+        - match: '\)'
+          scope: punctuation.section.parens.end.textile
+          pop: 1
+
+###[ INLINE ]##################################################################
+
+  inlines:
+    - include: inline-notextile
+    - include: inline-textile-specials
+    - include: inline-reference
+    - include: inline-link
+    - include: inline-image
+    - include: inline-table-row
+    - include: inline-markup
+    - include: inline-acronyms-abbreviations
+
+    # TODO: fix footnotes
+    - match: '(\[)(\d+)(\])'
+      scope: meta.link.reference.footnote.textile
+      captures:
+        1: punctuation.definition.link.begin.textile
+        2: meta.link.reference.literal.footnote-id.textile
+        3: punctuation.definition.link.end.textile
+
+  inline-notextile:
+    - match: (==)([ ]+)
+      captures:
+        1: punctuation.definition.notextile.begin.textile
+      embed: scope:text.plain
+      embed_scope: meta.embedded.text.plain text.plain
+      escape: (?:(\2)(\1)|({{eol}}))                                            # backreference to use whatever is in the match
+      escape_captures:
+        2: punctuation.definition.notextile.end.textile
+        3: invalid.illegal.new-line.textile
+
+  inline-textile-specials:
+    # https://textile-lang.com/doc/unicode-symbols
+
+    - match: '\((?:tm|R|C|1/4|1/2|3/4|o|\+/\-)\)'
+      scope: constant.character.textile
+
+    # NOTE: match here to avoid text.html.basic from flagging it
+    - match: '&(?!#[[:alnum:]]+;)'
+      scope: markup.raw.inline.ampersand.textile
+
+    - match: '(?<=\d[ ])x(?=[ ]\d)'
+      scope: markup.raw.inline.dimension-sign.textile
+
+    - match: '--'
+      scope: markup.raw.inline.long-dash.textile
+
+    - match: '(?<=[ ])-(?=[ ])'
+      scope: markup.raw.inline.unicode-dash.textile
+
+    - match: '\.\.\.'
+      scope: markup.raw.inline.ellipsis.textile
+
+###[ INLINE / ACRONYMS & ABBREVIATIONS ]#######################################
+
+  # https://textile-lang.com/doc/acronyms-abbreviations
+  # https://textile-lang.com/doc/uppercase-words
+
+  # TODO: ABBR(...) with 3+ letters
+  inline-acronyms-abbreviations: []
+
+###[ INLINE / REFERENCES ]#####################################################
+
+  inline-reference:
     - match: |-
-        (?x)
-        			"								# Start name, etc
-        				(?:							# Attributes
-        					# I swear, this is how the language is defined,
-        					# couldnt make it up if I tried.
-        					(?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
-        						# Class, Style, Lang
-        				  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
-        						# Style, Lang, Class
-        				  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
-        						# Lang, Style, Class
-        				)?
-        				([^"]+?)					# Link name
-        				\s?							# Optional whitespace
-        				(?:\(([^)]+?)\))?
-        			":								# End name
-        			(\w[-\w_]*)						# Linkref
-        			(?=[^\w\/;]*?(<|\s|$))			# Catch closing punctuation
-        											#  and end of meta.link
+        (?x:
+          "                                       # Start name, etc
+          {{textile_attributes_optional}}
+          ([^"]+?)                                # Link name
+          [[:blank:]]?                            # Optional whitespace
+          (?:\(([^)]+?)\))?
+          ":                                      # End name
+          (\w[-\w_]*)                             # Linkref
+          (?=[^\w\/;]*?(<|[[:blank:]]|$))         # Catch closing punctuation
+                                                  #  and end of meta.link
+        )
       scope: meta.link.reference.textile
       captures:
         1: string.other.link.title.textile
         2: string.other.link.description.title.textile
         3: constant.other.reference.link.textile
+
+###[ INLINE / LINKS ]##########################################################
+
+  # https://textile-lang.com/doc/links
+
+  inline-link:
     - match: |-
-        (?x)
-        			"								# Start name, etc
-        				(?:							# Attributes
-        					# I swear, this is how the language is defined,
-        					# couldnt make it up if I tried.
-        					(?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
-        						# Class, Style, Lang
-        				  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
-        						# Style, Lang, Class
-        				  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
-        						# Lang, Style, Class
-        				)?
-        				([^"]+?)					# Link name
-        				\s?							# Optional whitespace
-        				(?:\(([^)]+?)\))?
-        			":								# End Name
-        			(\S*?(?:\w|\/|;))				# URL
-        			(?=[^\w\/;]*?(<|\s|$))			# Catch closing punctuation
-        											#  and end of meta.link
+        (?x:
+          "                                       # Start name, etc
+          {{textile_attributes_optional}}
+          ([^"]+?)                                # Link name
+          [[:blank:]]?                            # Optional whitespace
+          (?:\(([^)]+?)\))?
+          ":                                      # End Name
+          (\S*?(?:\w|\/|;))                       # URL
+          (?=[^\w\/;]*?(<|[[:blank:]]|$))         # Catch closing punctuation
+                                                  #  and end of meta.link
+        )
       scope: meta.link.inline.textile
       captures:
         1: string.other.link.title.textile
         2: string.other.link.description.title.textile
         3: markup.underline.link.textile
+
+###[ INLINE / IMAGES ]#########################################################
+
+  # https://textile-lang.com/doc/images
+
+  inline-image:
     - match: |-
-        (?x)
-        			\!										# Open image
-        			(\<|\=|\>)?								# Optional alignment
-        			(?:										# Attributes
-        				# I swear, this is how the language is defined,
-        				# couldnt make it up if I tried.
-        				(?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
-        					# Class, Style, Lang
-        			  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
-        					# Style, Lang, Class
-        			  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
-        					# Lang, Style, Class
-        			)?
-        			(?:\.[ ])?            					# Optional
-        			([^\s(!]+?)         					# Image URL
-        			\s?                						# Optional space
-        			(?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?   	# Optional title
-        			\!										# Close image
-        			(?:
-        				:
-        				(\S*?(?:\w|\/|;))					# URL
-        				(?=[^\w\/;]*?(<|\s|$))				# Catch closing punctuation
-        			)?
+        (?x:
+          \!                                      # Open image
+          ({{textile_alignment_optional}})
+          {{textile_attributes_optional}}
+          (?:\.[ ])?                              # Optional
+          ([^[:blank:](!]+?)                      # Image URL
+          [[:blank:]]?                            # Optional space
+          (?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?     # Optional title
+          \!                                      # Close image
+          (?:
+            :
+            (\S*?(?:\w|\/|;))                     # URL
+            (?=[^\w\/;]*?(<|[[:blank:]]|$))       # Catch closing punctuation
+          )?
+        )
       scope: meta.image.inline.textile
       captures:
+        1: constant.other.alignment.textile
         2: markup.underline.link.image.textile
         3: string.other.link.description.textile
         4: markup.underline.link.textile
-    - match: '\|(\([^)]*\)|\{[^}]*\})*(\\\||.)+\|'
-      scope: markup.other.table.cell.textile
-      captures:
-        1: entity.name.type.textile
-    - match: '\B(\*\*)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\*\*\B'
+
+###[ INLINE / MARKUP ]#########################################################
+
+  inline-markup:
+    - include: inline-bold
+    - include: inline-italic
+    - include: inline-superscript-subscript
+    - include: inline-diff
+    - include: inline-citation
+    - include: inline-code
+    - include: inline-span
+    - include: textile-strings
+
+  inline-bold:
+    # https://textile-lang.com/doc/strong-and-bold-text
+
+    - match: '\B(\*\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*\*)\B'
       scope: markup.bold.textile
       captures:
-        3: entity.name.type.textile
-    - match: '\B(\*)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\*\B'
-      scope: markup.bold.textile
-      captures:
-        3: entity.name.type.textile
-    - match: '\B-((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)-\B'
-      scope: markup.deleted.textile
-      captures:
+        1: punctuation.definition.generic.begin.textile
         2: entity.name.type.textile
-    - match: '\B\+((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\+\B'
-      scope: markup.inserted.textile
+        4: punctuation.definition.generic.end.textile
+
+    - match: '\B(\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*)\B'
+      scope: markup.bold.strong.textile
       captures:
+        1: punctuation.definition.generic.begin.textile
         2: entity.name.type.textile
-    - match: '(?:\b|\s)_((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)_(?:\b|\s)'
+        4: punctuation.definition.generic.end.textile
+
+  inline-italic:
+    # https://textile-lang.com/doc/emphasized-and-italic-text
+
+    - match: '\b(__)({{textile_attributes_optional}})(\S.*?\S|\S)(__)\b'
       scope: markup.italic.textile
       captures:
+        1: punctuation.definition.generic.begin.textile
         2: entity.name.type.textile
-    - match: '\B(\?\?)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\?\?'
-      scope: markup.italic.phrasemodifiers.textile
+        4: punctuation.definition.generic.end.textile
+
+    - match: '\b(_)({{textile_attributes_optional}})(\S.*?\S|\S)(_)\b'
+      scope: markup.italic.emphasized.textile
       captures:
-        3: entity.name.type.textile
-    - match: '\B(@)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)@'
-      scope: markup.italic.phrasemodifiers.textile
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+  inline-superscript-subscript:
+    # https://textile-lang.com/doc/subscript-and-superscript-text
+
+    - match: '\B(\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^)\B'
+      scope: markup.superscript.textile
       captures:
-        3: entity.name.type.textile
-    - match: '\B(\^)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\^'
-      scope: markup.italic.phrasemodifiers.textile
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+    - match: '\b(\[\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^\])'
+      scope: markup.superscript.subword.textile
       captures:
-        3: entity.name.type.textile
-    - match: '\B(~)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)~'
-      scope: markup.italic.phrasemodifiers.textile
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+    - match: '\B(~)({{textile_attributes_optional}})(\S.*?\S|\S)(~)\B'
+      scope: markup.subscript.textile
       captures:
-        3: entity.name.type.textile
-    - match: '\B(%)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)%'
-      scope: markup.italic.phrasemodifiers.textile
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+    - match: '\b(\[~)({{textile_attributes_optional}})(\S.*?\S|\S)(~\])'
+      scope: markup.subscript.subword.textile
       captures:
-        3: entity.name.type.textile
-    # Footnotes
-    - match: '\[[0-9+]\]'
-      scope: entity.name.tag.textile
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+  inline-diff:
+    # https://textile-lang.com/doc/insertions-and-deletions
+
+    - match: '(\[-)({{textile_attributes_optional}})(\S.*?\S|\S)(-\])'
+      scope: markup.deleted.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+    - match: '\B(-)({{textile_attributes_optional}})(\S.*?\S|\S)(-)\B'
+      scope: markup.deleted.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+    - match: '(\[\+)({{textile_attributes_optional}})(\S.*?\S|\S)(\+\])'
+      scope: markup.inserted.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+    - match: '\B(\+)({{textile_attributes_optional}})(\S.*?\S|\S)(\+)\B'
+      scope: markup.inserted.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+  inline-citation:
+    # https://textile-lang.com/doc/citations
+
+    - match: '\B(\?\?)({{textile_attributes_optional}})(\S.*?\S|\S)(\?\?)\B'
+      scope: markup.citation.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+  inline-code:
+    # https://textile-lang.com/doc/inline-code
+
+    - match: '\B(@)({{textile_attributes_optional}})(\S.*?\S|\S)(@)\B'
+      scope: markup.raw.inline.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+  inline-span:
+    - match: '\B(%)({{textile_attributes_optional}})(\S.*?\S|\S)(%)\B'
+      scope: markup.span.textile
+      captures:
+        1: punctuation.definition.generic.begin.textile
+        2: entity.name.type.textile
+        4: punctuation.definition.generic.end.textile
+
+###[ STRINGS ]#################################################################
+
+  textile-strings:
+    - include: textile-strings-single-quoted
+    - include: textile-strings-double-quoted
+
+  # NOTE: used by inheriting syntaxes to inject string interpolation.
+  textile-string-prototype: []
+
+  textile-strings-single-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.textile
+      set: textile-string-single-quoted-body
+
+  textile-string-single-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: >-
+        meta.string.textile
+        string.quoted.single.textile
+    - match: \'
+      scope: punctuation.definition.string.end.textile
+      pop: 1
+    - match: '{{line_break}}'
+      scope: invalid.illegal.newline.textile
+      pop: 1
+    - include: textile-string-prototype
+    - include: textile-string-escapes-single-quoted
+
+  textile-strings-double-quoted:
+    - match: \"
+      scope: punctuation.definition.string.begin.textile
+      set: textile-string-double-quoted-body
+
+  textile-string-double-quoted-body:
+    - meta_include_prototype: false
+    - meta_scope: >-
+        meta.string.textile
+        string.quoted.double.textile
+    - match: \"
+      scope: punctuation.definition.string.end.textile
+      pop: 1
+    - match: '{{line_break}}'
+      scope: invalid.illegal.newline.textile
+      pop: 1
+    - include: textile-string-prototype
+    - include: textile-string-escapes-double-quoted
+
+###[ STRINGS / STRING ESCAPES ]################################################
+
+  textile-string-escapes-single-quoted:
+    - match: \\\'
+      scope: constant.character.escape.single-quote.textile                     # quotation mark
+    - include: textile-string-escapes
+
+  textile-string-escapes-double-quoted:
+    - match: \\\"
+      scope: constant.character.escape.double-quote.textile                     # quotation mark
+    - include: textile-string-escapes
+
+  textile-string-escapes:
+    - match: \\u\h{4}
+      scope: >-
+        constant.character.escape.unicode-symbol.basic-multilingual-plane.textile
+    - match: \\[\/\\bfnrt]
+      scope: constant.character.escape.textile
+    - match: \\.
+      scope: invalid.illegal.unrecognized-string-escape.textile
+
+###[ PROTOTYPES ]##############################################################
+
+  empty-line-pop:
+    - match: (?=^$)
+      pop: 1
+
+  eol-pop:
+    - match: '{{eol}}'
+      pop: 1
+
+  next-block-pop:
+    # NOTE: look-ahead for blocks, extended blocks or headers
+    - match: |-
+        (?x:
+          (?=
+            ^
+            (?: \#\#\# | bc | bq | h[1-6] | p | pre | notextile )
+            (?:{{textile_attributes_optional}})
+            (?:\.{1,2}[ ])
+            \S
+          )
+        )
+      pop: 1
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  line_break: (?:\n)
+  eol: (?:${{line_break}}?)
+
+  # NOTE: Textile is weird. This is how optional attributes are set. Compare the
+  #       documentation for more details.
+  textile_attributes_class: (?:\([^)]*\))
+  textile_attributes_style: (?:\{[^}]*\})
+  textile_attributes_lang: (?:\[[^]]+\])
+  textile_attributes_optional_class_style: |-
+    (?x:
+      (?:
+        {{textile_attributes_class}}?
+        {{textile_attributes_style}}?
+      )?
+    )
+  textile_attributes_class_style_lang: |-
+    (?x:
+      {{textile_attributes_class}}?
+      {{textile_attributes_style}}?
+      {{textile_attributes_lang}}?
+    )
+  textile_attributes_style_lang_class: |-
+    (?x:
+      {{textile_attributes_style}}?
+      {{textile_attributes_lang}}?
+      {{textile_attributes_class}}?
+    )
+  textile_attributes_lang_style_class: |-
+    (?x:
+      {{textile_attributes_lang}}?
+      {{textile_attributes_style}}?
+      {{textile_attributes_class}}?
+    )
+  textile_attributes_optional: |-
+    (?x:
+      (?:
+        {{textile_attributes_class_style_lang}}
+      | {{textile_attributes_style_lang_class}}
+      | {{textile_attributes_lang_style_class}}
+      )?
+    )
+
+  textile_indentation_optional: |-
+    (?x:
+      (?:
+        \({1,3}\){1,3}        # both
+      | \({1,3}               # left
+      | \){1,3}               # right
+      )?
+    )
+
+  textile_alignment_optional: |-
+    (?x:
+      (?:
+        <>                    # justified
+      | <                     # left
+      | >                     # right
+      | =                     # centered
+      )?
+    )
