@@ -736,3 +736,198 @@ key = '''
 #         ^^^^^^^ invalid.illegal.unexpected-token.toml
 #                ^ - invalid - comment
 #                 ^^^^^^^^^^ comment.line.number-sign.toml
+
+### [ DIFF CONFLICT MARKERS ]##################################################
+
+# plain markers
+
+<<<<<<< HEAD
+# <- meta.mapping.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+|||||||
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+=======
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+>>>>>>> master
+# <- meta.mapping.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+
+# sections
+
+<<<<<<< HEAD
+# <- meta.mapping.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+[ours]
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^ meta.section.toml meta.brackets.toml
+#^^^^ entity.name.section.toml
+#    ^ punctuation.section.brackets.end.toml
+|||||||
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+[base]
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^ meta.section.toml meta.brackets.toml
+#^^^^ entity.name.section.toml
+#    ^ punctuation.section.brackets.end.toml
+=======
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+[theirs]
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^^^ meta.section.toml meta.brackets.toml
+#^^^^^^ entity.name.section.toml
+#      ^ punctuation.section.brackets.end.toml
+>>>>>>> master
+# <- meta.mapping.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+
+# key value pairs
+
+<<<<<<< HEAD
+# <- meta.mapping.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+ours = "value"
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml
+|||||||
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+base = 0
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
+=======
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+theirs = [0, 1, 2]
+#^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#     ^^^ meta.mapping.toml
+#      ^ punctuation.separator.key-value.toml
+#        ^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+>>>>>>> master
+# <- meta.mapping.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+
+# list values
+
+list = [
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^ meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.begin.toml
+<<<<<<< HEAD
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  "ours"
+#^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+# ^^^^^^ meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#      ^ punctuation.definition.string.end.toml
+|||||||
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "base"
+#^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+# ^^^^^^ meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#      ^ punctuation.definition.string.end.toml
+=======
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "theirs"
+#^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+# ^^^^^^^^ meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#        ^ punctuation.definition.string.end.toml
+>>>>>>> master
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+]
+# <- meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
+
+# multiline strings
+
+string = """
+#^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#     ^^^ meta.mapping.toml
+#      ^ punctuation.separator.key-value.toml
+#        ^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.begin.toml
+<<<<<<< HEAD
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  "ours"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+|||||||
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "base"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+=======
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "theirs"
+#^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+>>>>>>> master
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+"""
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.end.toml
+#^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.end.toml
+
+
+string = '''
+#^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#     ^^^ meta.mapping.toml
+#      ^ punctuation.separator.key-value.toml
+#        ^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.begin.toml
+<<<<<<< HEAD
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  "ours"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+|||||||
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "base"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+=======
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "theirs"
+#^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+>>>>>>> master
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+'''
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.end.toml
+#^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.end.toml
