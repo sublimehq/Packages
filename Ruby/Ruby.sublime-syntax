@@ -529,7 +529,7 @@ contexts:
     # loop
     - match: \bfor\b(?![?!])
       scope: keyword.control.loop.for.ruby
-      push: after-keyword
+      push: for-variable
     - match: \buntil\b(?![?!])
       scope: keyword.control.loop.until.ruby
       push: after-keyword
@@ -572,6 +572,14 @@ contexts:
     - match: \bsuper\b(?![?!])
       scope: support.function.builtin.ruby
       push: after-keyword
+
+  for-variable:
+    # note: variables are not scoped, currently
+    - match: \bin\b
+      scope: keyword.operator.iteration.in.ruby
+      set: after-keyword
+    - match: (?=(?:end|do)\b(?![?!]))|$
+      pop: true
 
   operators:
     - match: '>>'

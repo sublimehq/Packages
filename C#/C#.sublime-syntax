@@ -2295,8 +2295,8 @@ contexts:
       pop: true
 
   foreach_var_assignment:
-    - match: '\b(in)\b'
-      scope: keyword.control.flow.cs
+    - match: \bin\b
+      scope: keyword.operator.iteration.in.cs
       set: line_of_code_in
     - match: (?=\)|\})
       pop: true

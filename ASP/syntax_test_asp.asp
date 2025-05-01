@@ -878,7 +878,7 @@
    '<- - meta.between-if-and-then.asp
    '^^^^^^^^ keyword.control.flow.asp
    '         ^^^^^^ variable.other.asp
-   '                ^^ keyword.control.flow.asp
+   '                ^^ keyword.operator.iteration.in.asp
    '                                  ^ meta.for.block.asp
         Response.Write(vbCrLf & cookie)
        '^^^^^^^^ support.class.asp
@@ -1231,7 +1231,7 @@ test = "hello%>
 <%
         for each item in list
        '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
-       '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
+       '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.operator.iteration.in.asp
             %><li><%= item %></li><%
                     '^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp
            '  ^ punctuation.definition.tag.begin.html

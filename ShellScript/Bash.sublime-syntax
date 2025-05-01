@@ -1275,7 +1275,7 @@ contexts:
 
   loop-iterator-wordlist:
     - match: in{{cmd_break}}
-      scope: keyword.operator.iterator.in.shell
+      scope: keyword.operator.iteration.in.shell
       set: loop-iterator-wordlist-body
     - include: cmd-args-end
     - include: else-pop

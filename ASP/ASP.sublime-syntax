@@ -663,7 +663,7 @@ contexts:
   control_flow_foreach_in:
     - meta_scope: meta.for.block.asp
     - match: '\b(?i:In){{whitespace_or_end_of_statement}}'
-      scope: keyword.control.flow.asp
+      scope: keyword.operator.iteration.in.asp
       set: [inside_control_flow_for, expression_until_end_of_statement]
 
   control_flow_forto:

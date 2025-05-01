@@ -1579,6 +1579,55 @@ rule /`/ do
 #        ^^ keyword.control.block.do
 end
 
+case 1
+#^^^ keyword.control.conditional.case.ruby
+#    ^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+  in 0..10
+# ^^ keyword.operator.logical.ruby
+#    ^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#     ^^ keyword.operator.range.ruby
+#       ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+    true
+  else
+# ^^^^ keyword.control.conditional.if.ruby
+    false
+end
+#^^ keyword.control.block.end.ruby
+
+for do
+#^^ keyword.control.loop.for.ruby
+#   ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+for item in items do
+#^^ keyword.control.loop.for.ruby
+#        ^^ keyword.operator.iteration.in.ruby
+#                 ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+unless item in items do
+#^^^^^ keyword.control.conditional.unless.ruby
+#           ^^ keyword.operator.logical.ruby
+#                    ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+until item in items do
+#^^^^ keyword.control.loop.until.ruby
+#          ^^ keyword.operator.logical.ruby
+#                   ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+while item in items do
+#^^^^ keyword.control.loop.while.ruby
+#          ^^ keyword.operator.logical.ruby
+#                   ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
 ##################
 # Crazy Stuff Found Online™
 ##################

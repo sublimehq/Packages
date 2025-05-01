@@ -291,7 +291,7 @@ namespace TestNamespace . Test
 ///                 ^ punctuation.section.group.begin
 ///                  ^^^ storage.type
 ///                      ^^^^ variable.other
-///                           ^^ keyword.control.flow
+///                           ^^ keyword.operator.iteration.in.cs
 ///                              ^^^^^^^^^^ variable.other
 ///                                        ^ punctuation.section.group.end
             {}

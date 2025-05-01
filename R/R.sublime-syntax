@@ -208,7 +208,7 @@ contexts:
     - match: \bwhile\b(?=\s*\()
       scope: keyword.control.loop.while.r
     - match: \bin\b
-      scope: keyword.operator.word.r
+      scope: keyword.operator.interation.in.r
 
   accessor:
     - meta_include_prototype: false
