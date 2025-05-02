@@ -2724,7 +2724,7 @@ contexts:
 
   command-expansion-comment-body:
     - meta_scope: meta.interpolation.command.shell comment.block.number-sign.shell
-    - match: '`'
+    - match: \`
       scope: punctuation.section.interpolation.end.shell
       pop: 1
 
