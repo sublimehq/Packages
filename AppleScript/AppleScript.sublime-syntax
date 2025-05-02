@@ -57,6 +57,7 @@ contexts:
         - match: \*\)
           scope: punctuation.definition.comment.end.applescript
           pop: 1
+        - include: merge-conflict-markers
         - include: comments.nested
 
   merge-conflict-markers:
