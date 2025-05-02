@@ -155,6 +155,26 @@ contexts:
             (?x)
             			(?! /\*)
             			(?! \*/)
+    - include: merge-conflict-markers
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
 
   char-literal:
     - match: '''({{escaped_char}}|.)'''
@@ -1402,17 +1422,17 @@ contexts:
       scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.triple.scala
-        - match: '{{unicode_char}}'
-          scope: constant.character.escape.scala
+        - meta_scope: meta.string.scala string.quoted.triple.scala
         - match: '(""")(?!")'
           scope: punctuation.definition.string.end.scala
           pop: true
+        - match: '{{unicode_char}}'
+          scope: constant.character.escape.scala
     - match: '"'
       scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.scala
+        - meta_scope: meta.string.scala string.quoted.double.scala
         - match: '"'
           scope: punctuation.definition.string.end.scala
           pop: true
@@ -1427,32 +1447,32 @@ contexts:
         1: support.function.scala
         2: punctuation.definition.string.begin.scala
       push:
-        - include: f_string
         - meta_include_prototype: false
-        - meta_scope: string.quoted.interpolated.scala
+        - meta_scope: meta.string.interpolated.scala string.quoted.triple.scala
         - match: '"""'
           scope: punctuation.definition.string.end.scala
           pop: true
+        - include: f_string
     - match: '({{alphaid}})(""")'
       captures:
         1: support.function.scala
         2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.triple.interpolated.scala
+        - meta_scope: meta.string.interpolated.scala string.quoted.triple.scala
         - match: '{{unicode_char}}'
           scope: constant.character.escape.scala
         - match: '(""")(?!")'
           scope: punctuation.definition.string.end.scala
           pop: true
-        - include: interpolated-vars-expressions
+        - include: interpolations
     - match: '(f)(")'
       captures:
         1: support.function.scala
         2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.interpolated.scala
+        - meta_scope: meta.string.interpolated.scala string.quoted.double.scala
         - include: f_string
         - match: '"'
           scope: punctuation.definition.string.end.scala
@@ -1465,27 +1485,27 @@ contexts:
         2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.raw.interpolated.scala
+        - meta_scope: meta.string.raw.scala string.quoted.double.scala
         - match: '"'
           scope: punctuation.definition.string.end.scala
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
-        - include: interpolated-vars-expressions
+        - include: interpolations
     - match: '({{alphaid}})(")'
       captures:
         1: support.function.scala
         2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.interpolated.scala
+        - meta_scope: meta.string.interpolated.scala string.quoted.double.scala
         - match: '"'
           scope: punctuation.definition.string.end.scala
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
         - include: escaped
-        - include: interpolated-vars-expressions
+        - include: interpolations
 
   escaped:
     - match: '{{escaped_char}}'
@@ -1498,7 +1518,7 @@ contexts:
   # /!\ this implementation may allow incorrect combinations
   f_string:
     - include: escaped
-    - include: interpolated-vars-expressions
+    - include: interpolations
     # constant formatting
     - match: '%[%n]'
       scope: constant.other.formatting.scala
@@ -1518,35 +1538,38 @@ contexts:
     - match: '%[\+\-# 0\(,]*[doxX]'
       scope: constant.other.formatting.scala
 
-  interpolated-vars-expressions:
-    # we duplicate this pattern to encode a greedy ? on the [']
-    - match: '\$(?={{alphaid}})'
-      scope: punctuation.definition.variable.scala variable.other.scala
-      push:
-        - clear_scopes: 1
-        - match: '{{alphaid}}'
-          scope: variable.other.scala
-          pop: true
-    - match: '\$\{'
-      scope: punctuation.definition.expression.scala
-      push:
-        - match: '\}'
-          scope: punctuation.definition.expression.scala
-          pop: true
-        - match: ''
-          push:
-            - clear_scopes: 1
-            - meta_content_scope: source.scala.embedded
-            - match: (?=\})
-              pop: true
-            - include: nest-curly-and-self
-            - include: main
+  interpolations:
+    - match: '(\$)(\{)'
+      captures:
+        1: punctuation.definition.variable.scala
+        2: punctuation.section.interpolation.begin.scala
+      push: interpolation-body
+    - match: '(\$){{alphaid}}'
+      scope: meta.interpolation.scala variable.other.scala
+      captures:
+        1: punctuation.definition.variable.scala
+      push: clear-pop
+
+  clear-pop:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - match: ''
+      pop: true
+
+  interpolation-body:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.scala
+    - meta_content_scope: source.scala.embedded
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.scala
+      pop: true
+    - include: nest-curly-and-self
 
   xml-literal:
     - match: '<!\[CDATA\['
       scope: punctuation.definition.string.begin.xml
       push:
-        - meta_scope: string.unquoted.cdata.xml
+        - meta_scope: meta.string.scala string.unquoted.cdata.xml
         - match: ']]>'
           scope: punctuation.definition.string.end.xml
           pop: true

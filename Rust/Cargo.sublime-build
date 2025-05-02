@@ -9,12 +9,14 @@
     [
         {
             "cmd": ["cargo", "run"],
-            "name": "Run"
+            "name": "Run",
+            "interactive": true,
         },
         {
             "cmd": ["cargo", "run", "--message-format", "short"],
             "file_regex": "^([^:]*):([0-9]*):([0-9]*):\\s*(.*)",
-            "name": "Run (Short)"
+            "name": "Run (Short)",
+            "interactive": true,
         },
         {
             "cmd": ["cargo", "test"],

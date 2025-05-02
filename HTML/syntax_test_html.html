@@ -26,6 +26,28 @@
 ##             ^^^^^^ keyword.content.external
 ##                    ^^^^^^^^^^^ string.quoted.double
 ##                               ^ punctuation.definition.tag.end
+
+## Merge Conflict Marker Tests
+
+<<<<<<< HEAD
+## <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+##     ^ meta.block.conflict.begin.diff - entity - punctuation
+##      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+##          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+## <- meta.block.conflict.separator.diff punctuation.section.block.diff
+##^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+##     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+## <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+##^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+##     ^ meta.block.conflict.end.diff - entity - punctuation
+##      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+##            ^ meta.block.conflict.end.diff - entity - punctuation
+
 <html>
     <head>
         <title>Test HTML</title>
@@ -807,9 +829,9 @@ class="foo"></div>
         ##  ^ - meta.attribute-with-value.style
         ##   ^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value.style meta.attribute-with-value.style
         ##   ^^^^^^ meta.attribute-with-value.style.html - meta.string - string - source.css
-        ##         ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
-        ##          ^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - string
-        ##                     ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
+        ##         ^ meta.attribute-with-value.style.html meta.string.html - source.css
+        ##          ^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html - string
+        ##                     ^ meta.attribute-with-value.style.html meta.string.html - source.css
         ##   ^^^^^ entity.other.attribute-name.style.html
         ##        ^ punctuation.separator.key-value.html
         ##         ^ string.quoted.double.html punctuation.definition.string.begin.html
@@ -822,9 +844,9 @@ class="foo"></div>
         ##  ^ - meta.attribute-with-value.style
         ##   ^^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value.style meta.attribute-with-value.style
         ##   ^^^^^^ meta.attribute-with-value.style.html - meta.string - string - source.css
-        ##         ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
-        ##          ^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - string
-        ##                      ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
+        ##         ^ meta.attribute-with-value.style.html meta.string.html - source.css
+        ##          ^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html - string
+        ##                      ^ meta.attribute-with-value.style.html meta.string.html - source.css
         ##   ^^^^^ entity.other.attribute-name.style.html
         ##        ^ punctuation.separator.key-value.html
         ##         ^ string.quoted.single.html punctuation.definition.string.begin.html
@@ -872,9 +894,9 @@ class="foo"></div>
         ##         ^ - meta.attribute-with-value.event
         ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value meta.attribute-with-value - source.js source.js
         ##          ^^^^^^^^ meta.attribute-with-value.event - meta.string
-        ##                  ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
-        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html
-        ##                                                ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
+        ##                  ^ meta.attribute-with-value.event.html meta.string.html
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html
+        ##                                                ^ meta.attribute-with-value.event.html meta.string.html
         ## ^^^^^^^^ entity.other.attribute-name
         ##                  ^ string.quoted.double.html punctuation.definition.string.begin.html - source.js
         ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - string
@@ -887,9 +909,9 @@ class="foo"></div>
         ##         ^ - meta.attribute-with-value.event
         ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value meta.attribute-with-value - source.js source.js
         ##          ^^^^^^^^ meta.attribute-with-value.event - meta.string
-        ##                  ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
-        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html
-        ##                                                ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
+        ##                  ^ meta.attribute-with-value.event.html meta.string.html
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html
+        ##                                                ^ meta.attribute-with-value.event.html meta.string.html
         ## ^^^^^^^^ entity.other.attribute-name
         ##                  ^ string.quoted.single.html punctuation.definition.string.begin.html - source.js
         ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - string

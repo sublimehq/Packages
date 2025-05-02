@@ -40,16 +40,39 @@
      */
 
 
+///[ DIFF MERGE CONFLICTS ]////////////////////////////////////////////////////
+
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
 
 ///[ PREPROCESSOR ]////////////////////////////////////////////////////////////
+
 
 #initclip
 #endinitclip
 
 #include "relative_path.as"
 
-///[ STRINGS ]/////////////////////////////////////////////////////////////////
 
+///[ STRINGS ]/////////////////////////////////////////////////////////////////
 
 
     var strDouble = "...\"...";
@@ -61,9 +84,7 @@
 //                      ^^ constant.character.escape
 
 
-
 ///[ TYPES ]///////////////////////////////////////////////////////////////////
-
 
 
     var typeBoolean:Boolean = true;
@@ -85,9 +106,7 @@
 //                 ^^^^^^ storage.type
 
 
-
 ///[ CONSTANTS ]///////////////////////////////////////////////////////////////
-
 
 
     var isFalse:Boolean = false;
@@ -120,9 +139,7 @@
 //                       ^^^^^^^^ constant.language.infinity
 
 
-
 ///[ NUMBERS ]/////////////////////////////////////////////////////////////////
-
 
 
     var intZero:Number = 0;
@@ -146,9 +163,7 @@
 //                             ^^^ meta.number constant.numeric
 
 
-
 ///[ KEYWORDS ]////////////////////////////////////////////////////////////////
-
 
 
     case

@@ -32,11 +32,13 @@ hidden_file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bpython(?:\d(?:\.\d+)?)?\b                        # shebang
+    ^ \#! .* {{shebang_language}}                               # shebang
   | ^ \s* \# .*? -\*- .*? \bpython(?:\d(?:\.\d+)?)?\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \b(?:python(?:\d(?:\.\d+)?)?|uv)\b
+
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '[[:alpha:]_]{{identifier_continue}}*\b'
@@ -376,6 +378,7 @@ contexts:
       push:
         - comment-body
         - type-hint
+    - include: merge-conflict-markers
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
@@ -389,8 +392,9 @@ contexts:
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\#!
-      scope: punctuation.definition.comment.python
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.python
       set: shebang-body
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Python is embedded.
       pop: 1
@@ -398,11 +402,30 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.python
-    # Note: Keep sync with first_line_match!
-    - match: python(?:\d(?:\.\d+)?)?\b
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.python
-    - match: \n
+    - match: $\n?
       pop: 1
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
 
 ###[ TYPE HINTS ]#############################################################
 
@@ -1538,7 +1561,7 @@ contexts:
       scope: invalid.illegal.missing-in.python
       pop: 1
     - match: in\b
-      scope: keyword.control.loop.for.in.python
+      scope: keyword.operator.iteration.in.python
       set: for-statement-in
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1770,7 +1793,7 @@ contexts:
   for-expression-target-list:
     - meta_scope: meta.expression.generator.python
     - match: in\b
-      scope: keyword.control.loop.for.in.python
+      scope: keyword.operator.iteration.in.python
       pop: 1
     - match: (?=[)\]}])
       pop: 1
@@ -2712,7 +2735,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-b-string-content
@@ -2752,7 +2775,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-f-string-content
@@ -2805,7 +2828,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-regexp-raw-u-string-content
@@ -2979,7 +3002,6 @@ contexts:
         - triple-double-quoted-f-string-replacement-expression
 
   triple-double-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
 
   triple-double-quoted-f-string-replacement-formatspec:
@@ -3324,7 +3346,6 @@ contexts:
         - double-quoted-f-string-replacement-expression
 
   double-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
     - include: eol-pop
 
@@ -3398,7 +3419,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-b-string-content
@@ -3438,7 +3459,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-f-string-content
@@ -3490,7 +3511,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-regexp-raw-u-string-content
@@ -3664,7 +3685,6 @@ contexts:
         - triple-single-quoted-f-string-replacement-expression
 
   triple-single-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
 
   triple-single-quoted-f-string-replacement-formatspec:
@@ -4009,7 +4029,6 @@ contexts:
         - single-quoted-f-string-replacement-expression
 
   single-quoted-f-string-replacement-expression:
-    - meta_content_scope: source.python.embedded
     - include: f-string-replacement-expression
     - include: eol-pop
 
@@ -4169,7 +4188,8 @@ contexts:
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string
-  string-prototype: []
+  string-prototype:
+    - include: merge-conflict-markers
 
 ###[ PROTOTYPES ]#############################################################
 

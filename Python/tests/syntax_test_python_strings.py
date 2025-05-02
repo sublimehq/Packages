@@ -153,12 +153,32 @@ regex = r'(?P<Quote>[\'"]).*?\g<Quote>'
 #                               ^^^^^ variable.other.backref-and-recursion.regexp - invalid
 
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
-#           ^ keyword.control.anchor.regexp
-#                         ^ keyword.operator.quantifier.regexp
+#           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#           ^^ keyword.control.anchor.regexp
+#                        ^^^ keyword.operator.quantifier.regexp
+#                                  ^ keyword.operator.quantifier.regexp
+
+regex = r'''
+    \b ([fobar]*){1} (?: a | b )?
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#   ^^ keyword.control.anchor.regexp
+#                ^^^ keyword.operator.quantifier.regexp
+#                               ^ keyword.operator.quantifier.regexp
+'''
 
 regex = r"""\b ([fobar]*){1}(?:a|b)?"""
-#           ^ keyword.control.anchor.regexp
-#                         ^ keyword.operator.quantifier.regexp
+#           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#           ^^ keyword.control.anchor.regexp
+#                        ^^^ keyword.operator.quantifier.regexp
+#                                  ^ keyword.operator.quantifier.regexp
+
+regex = r"""
+    \b ([fobar]*){1} (?: a | b )?
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
+#   ^^ keyword.control.anchor.regexp
+#                ^^^ keyword.operator.quantifier.regexp
+#                               ^ keyword.operator.quantifier.regexp
+"""
 
 # Capital R prevents all syntax embedding
 regex = R'\b ([fobar]*){1}(?:a|b)?'
@@ -1226,7 +1246,7 @@ expr = fr"^\s*({label}|{notlabel})"
 #         ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
 #             ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
 #              ^^^^^^^ source.python meta.string.python meta.interpolation.python
-#               ^^^^^ source.python.embedded meta.path.python meta.generic-name.python
+#               ^^^^^ meta.path.python meta.generic-name.python
 #                                ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
 
 line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
@@ -1316,63 +1336,72 @@ f"\{{{x}\}} test"
 #    ^ punctuation.section.interpolation.begin.python
 
 f"{something}"
-#^^^^^^^^^^^^ meta.string
-# <- storage.type.string
-#^ punctuation.definition.string.begin
+# <- storage.type.string.python
+#^ meta.string.python - meta.interpolation
+# ^^^^^^^^^^^ meta.string.python meta.interpolation.python - string
+#            ^ meta.string.python - meta.interpolation
+#^ string.quoted.double.python punctuation.definition.string.begin.python
 # ^ punctuation.section.interpolation.begin
 #           ^ punctuation.section.interpolation.end
-#            ^ punctuation.definition.string.end
-#  ^^^^^^^^^ source source.python.embedded
-#              ^ source - meta, string, source source
+#            ^ string.quoted.double.python punctuation.definition.string.end.python
+#             ^ - meta - string
 
 f"{True!a:02f}"
-#^^^^^^^^^^^^^^ meta.string
-# ^ - source source.python.embedded
-#  ^^^^ source source.python.embedded constant.language
-#      ^^^^^^^ - source source.python.embedded
+#^ meta.string.python - meta.interpolation
+# ^^^^^^^^^^^^ meta.string.python meta.interpolation.python - string
+#             ^ meta.string.python - meta.interpolation
+#^ string.quoted.double.python punctuation.definition.string.begin.python
+#  ^^^^ constant.language.boolean.true.python
 #      ^^ storage.modifier.conversion - constant.other.format-spec
 #         ^^^ constant.other.format-spec
 #            ^ punctuation.section.interpolation.end
-#             ^ punctuation.definition.string.end
-#              ^ source - meta, string, source source
+#             ^ string.quoted.double.python punctuation.definition.string.end.python
+#              ^ - meta - string
 
 f"result: {value:{width}.{precision}}\n"
-#         ^ punctuation.section.interpolation.begin.python - source source
-#          ^^^^^ source source.python.embedded
-#               ^^ - source source
+#^^^^^^^^^ meta.string.python - meta.interpolation
+#         ^^^^^^^ meta.string.python meta.interpolation.python - meta.format-spec - meta.interpolation meta.interpolation
+#                ^^^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python
+#                       ^ meta.string.python meta.interpolation.python meta.format-spec.python constant.other.format-spec.python
+#                        ^^^^^^^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python
+#                                   ^ meta.string.python meta.interpolation.python - meta.format-spec - meta.interpolation meta.interpolation
+#                                    ^^^ meta.string.python - meta.interpolation
+#^^^^^^^^^ string.quoted.double.python
+#^ punctuation.definition.string.begin.python
+#         ^ punctuation.section.interpolation.begin.python
+#          ^^^^^ meta.path.python meta.generic-name.python
+#               ^ punctuation.separator.format-spec.python
 #                ^ punctuation.section.interpolation.begin.python
-#                 ^^^^^ source source.python.embedded
+#                 ^^^^^ meta.path.python meta.generic-name.python
 #                      ^ punctuation.section.interpolation.end.python
-#                       ^ - source source
+#                       ^ constant.other.format-spec.python
 #                        ^ punctuation.section.interpolation.begin.python
-#                         ^^^^^^^^^ source source.python.embedded
-#                                  ^^ punctuation.section.interpolation.end.python - source source
-#                                    ^^ constant.character.escape
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.python
-#          ^^^^^^ - meta.format-spec
-#                ^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
-#                                   ^^^^ - meta.format-spec
-#          ^^^^^^ - meta.interpolation.python meta.interpolation.python
-#                ^^^^^^^ meta.interpolation.python meta.interpolation.python
-#                       ^ - meta.interpolation.python meta.interpolation.python
-#                        ^^^^^^^^^^^ meta.interpolation.python meta.interpolation.python
-#                                   ^^^ - meta.interpolation.python meta.interpolation.python
+#                         ^^^^^^^^^ meta.path.python meta.generic-name.python
+#                                  ^ punctuation.section.interpolation.end.python
+#                                   ^ punctuation.section.interpolation.end.python
+#                                    ^^^ string.quoted.double.python
+#                                    ^^ constant.character.escape.python
+#                                      ^ punctuation.definition.string.end.python
 
 rf"{value:{width!s:d}}"
-# <- storage.type.string - meta.string - string
-#^ storage.type.string - meta.string - string
-# ^ meta.string string.quoted.double punctuation.definition.string.begin
+# <- storage.type.string.python
+#^ storage.type.string.python
+# ^ meta.string.python - meta.interpolation
 #  ^^^^^^^ meta.string.python meta.interpolation.python - meta.format-spec
-#         ^^^^^^^^^ meta.string meta.interpolation meta.format-spec meta.interpolation - meta.format-spec meta.format-spec
-#                  ^ meta.string meta.interpolation meta.format-spec meta.interpolation meta.format-spec
-#                   ^^ meta.string meta.interpolation punctuation.section.interpolation.end
-#   ^^^^^ source source.python.embedded
-#        ^ punctuation.separator.format-spec
-#         ^ punctuation.section.interpolation.begin
-#          ^^^^^ source source.python.embedded
-#               ^^ storage.modifier.conversion
-#                 ^ punctuation.separator.format-spec
-#                  ^ constant.other.format-spec
+#         ^^^^^^^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python
+#                    ^ meta.string.python meta.interpolation.python - meta.format-spec
+# ^ string.quoted.double.python punctuation.definition.string.begin.python
+#  ^ punctuation.section.interpolation.begin.python
+#   ^^^^^ meta.path.python meta.generic-name.python
+#        ^ punctuation.separator.format-spec.python
+#         ^ punctuation.section.interpolation.begin.python
+#          ^^^^^ meta.path.python meta.generic-name.python
+#               ^^ storage.modifier.conversion.python
+#                 ^ punctuation.separator.format-spec.python
+#                  ^ meta.format-spec.python constant.other.format-spec.python
+#                   ^ punctuation.section.interpolation.end.python
+#                    ^ punctuation.section.interpolation.end.python
+#                     ^ string.quoted.double.python punctuation.definition.string.end.python
 
 fr"{var}? {var}* {var}{2,3} [{foo}-{bar}]+"
 # ^ meta.string.python string.quoted
@@ -1427,24 +1456,16 @@ f'{x=!s:*^20}'
 f'{"Σ"=}'
 #     ^ storage.modifier.debug.python
 f'{"Σ"= }'
-# ^ meta.string.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
-#     ^^^ meta.string.python meta.interpolation.python - source.python.embedded
+# ^^^^^^^ meta.string.python meta.interpolation.python
 #     ^ storage.modifier.debug.python
 f'{"Σ" =}'
-# ^ meta.string.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
-#     ^^^ meta.string.python meta.interpolation.python - source.python.embedded
+# ^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ storage.modifier.debug.python
 f'{"Σ" = }'
-# ^ meta.string.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
-#     ^^^^ meta.string.python meta.interpolation.python - source.python.embedded
+# ^^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ storage.modifier.debug.python
 f'{"Σ" = !s}'
-# ^ meta.string.python meta.interpolation.python - source.python.embedded
-#  ^^^ meta.string.python meta.interpolation.python source.python.embedded
-#     ^^^^^^ meta.string.python meta.interpolation.python - source.python.embedded
+# ^^^^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ storage.modifier.debug.python
 #        ^^ storage.modifier.conversion.python
 f'{0==1}'
@@ -1480,30 +1501,46 @@ f"{source.removesuffix(".py")}.c: $(srcdir)/{source}"
 #                                                   ^ meta.string.python string.quoted.double.python
 
 f"{f"{f"infinite"}":{f"{foo}"}.{"bar"}}"
-# <- storage.type.string.python
-#^ meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-# ^ meta.string.python meta.interpolation.python punctuation.section.interpolation.begin.python
-#  ^ meta.string.python meta.interpolation.python storage.type.string.python
-#   ^ meta.string.python meta.interpolation.python meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-#    ^ meta.string.python meta.interpolation.python meta.string.python meta.interpolation.python punctuation.section.interpolation.begin.python
-#     ^ meta.string.python meta.interpolation.python meta.string.python meta.interpolation.python storage.type.string.python
-#      ^^^^^^^^^^ meta.string.python meta.interpolation.python meta.string.python meta.interpolation.python meta.string.python string.quoted.double.python
-#                ^ meta.string.python meta.interpolation.python meta.string.python meta.interpolation.python punctuation.section.interpolation.end.python
-#                 ^ meta.string.python meta.interpolation.python meta.string.python string.quoted.double.python punctuation.definition.string.end.python
-#                  ^ meta.string.python meta.interpolation.python punctuation.separator.format-spec.python
-#                   ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python punctuation.section.interpolation.begin.python
-#                    ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python source.python.embedded storage.type.string.python
-#                     ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python source.python.embedded meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
-#                      ^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python source.python.embedded meta.string.python meta.interpolation.python
-#                           ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python source.python.embedded meta.string.python string.quoted.double.python punctuation.definition.string.end.python
-#                            ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python punctuation.section.interpolation.end.python
-#                             ^ meta.string.python meta.interpolation.python meta.format-spec.python constant.other.format-spec.python
-#                              ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python punctuation.section.interpolation.begin.python
-#                               ^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python source.python.embedded meta.string.python string.quoted.double.python
-#                                    ^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python punctuation.section.interpolation.end.python
+#^ meta.string.python - meta.interpolation
+# ^^ meta.string.python meta.interpolation.python - meta.string meta.string - meta.interpolation meta.interpolation
+#   ^ meta.string.python meta.interpolation.python meta.string.python - meta.interpolation meta.interpolation
+#    ^^^^^^^^^^^^^ meta.string.python meta.interpolation.python meta.string.python meta.interpolation.python
+#                 ^ meta.string.python meta.interpolation.python meta.string.python - meta.interpolation meta.interpolation
+#                  ^ meta.string.python meta.interpolation.python - meta.string meta.string - meta.interpolation meta.interpolation
+#                   ^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python
+#                      ^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python meta.string.python meta.interpolation.python
+#                           ^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python
+#                             ^ meta.string.python meta.interpolation.python meta.format-spec.python - meta.string meta.string - meta.interpolation meta.interpolation
+#                              ^^^^^^^ meta.string.python meta.interpolation.python meta.format-spec.python meta.interpolation.python
 #                                     ^ meta.string.python meta.interpolation.python punctuation.section.interpolation.end.python
-#                                      ^ meta.string.python string.quoted.double.python punctuation.definition.string.end.python
-#                                       ^ - meta.string
+#^ string.quoted.double.python punctuation.definition.string.begin.python
+# ^ punctuation.section.interpolation.begin.python
+#  ^ storage.type.string.python
+#   ^ string.quoted.double.python punctuation.definition.string.begin.python
+#    ^ punctuation.section.interpolation.begin.python
+#     ^ storage.type.string.python
+#      ^^^^^^^^^^ string.quoted.double.python
+#      ^ punctuation.definition.string.begin.python
+#               ^ punctuation.definition.string.end.python
+#                ^ punctuation.section.interpolation.end.python
+#                 ^ string.quoted.double.python punctuation.definition.string.end.python
+#                  ^ punctuation.separator.format-spec.python
+#                   ^ punctuation.section.interpolation.begin.python
+#                    ^ storage.type.string.python
+#                     ^ string.quoted.double.python punctuation.definition.string.begin.python
+#                      ^ punctuation.section.interpolation.begin.python
+#                       ^^^ meta.path.python meta.generic-name.python
+#                          ^ punctuation.section.interpolation.end.python
+#                           ^ string.quoted.double.python punctuation.definition.string.end.python
+#                            ^ punctuation.section.interpolation.end.python
+#                             ^ constant.other.format-spec.python
+#                              ^ punctuation.section.interpolation.begin.python
+#                               ^^^^^ string.quoted.double.python
+#                               ^ punctuation.definition.string.begin.python
+#                                   ^ punctuation.definition.string.end.python
+#                                    ^ punctuation.section.interpolation.end.python
+#                                     ^ punctuation.section.interpolation.end.python
+#                                      ^ string.quoted.double.python punctuation.definition.string.end.python
 
 # Incomplete strings or premature bailouts
 
@@ -1539,7 +1576,10 @@ f"   \
  {1 + 2!a:02f}"
 # <- meta.string.python string.quoted.double.python
 #^^^^^^^^^^^^^ meta.string.python meta.interpolation.python - string.quoted
-# ^^^^^ source source.python.embedded
+#^ punctuation.section.interpolation.begin.python
+# ^ meta.number.integer.decimal.python constant.numeric.value.python
+#   ^ keyword.operator.arithmetic.python
+#     ^ meta.number.integer.decimal.python constant.numeric.value.python
 #      ^^ storage.modifier.conversion.python
 #        ^ punctuation.separator.format-spec.python
 #         ^^^ meta.format-spec.python constant.other.format-spec.python
@@ -1550,7 +1590,9 @@ f'   \
  {1 + 2!a:02f}'
 # <- meta.string.python string.quoted.single.python
 #^^^^^^^^^^^^^ meta.string.python meta.interpolation.python - string.quoted
-# ^^^^^ source source.python.embedded
+# ^ meta.number.integer.decimal.python constant.numeric.value.python
+#   ^ keyword.operator.arithmetic.python
+#     ^ meta.number.integer.decimal.python constant.numeric.value.python
 #      ^^ storage.modifier.conversion.python
 #        ^ punctuation.separator.format-spec.python
 #         ^^^ meta.format-spec.python constant.other.format-spec.python
@@ -1710,8 +1752,10 @@ fr"""
 # ^^^^ meta.string.python string.quoted.double.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+#     ^ meta.mode.extended.regexp
 
     {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# <- meta.mode.extended.regexp
 # ^^ meta.string.python string.quoted
 #   ^^^^^ meta.string.python meta.interpolation.python - string
 #        ^^ meta.string.python string.quoted
@@ -1738,8 +1782,10 @@ fr'''
 # ^^^^ meta.string.python string.quoted.single.block.python
 # ^^^ punctuation.definition.string.begin.python
 #    ^ - punctuation - invalid
+#     ^ meta.mode.extended.regexp
 
     {var}? {var}* {var}{2,3} [{foo}-{bar}]+
+# <- meta.mode.extended.regexp
 # ^^ meta.string.python string.quoted
 #   ^^^^^ meta.string.python meta.interpolation.python - string
 #        ^^ meta.string.python string.quoted
@@ -1784,11 +1830,10 @@ fr''' {} {\} }
 
 f"""{
 #   ^^ meta.string.python meta.interpolation.python - invalid
-#    ^ source.python.embedded
     foo
-#   ^^^ meta.string.python meta.interpolation.python source.python.embedded meta.path.python meta.generic-name.python
+#   ^^^ meta.string.python meta.interpolation.python meta.path.python meta.generic-name.python
     !a:2d
-#   ^^^^^^ meta.string.python meta.interpolation.python - source.python.embedded
+#   ^^^^^^ meta.string.python meta.interpolation.python
 #   ^^ storage.modifier.conversion.python
 #     ^ punctuation.separator.format-spec.python
 #      ^^^ meta.format-spec.python constant.other.format-spec.python
@@ -1798,11 +1843,10 @@ f"""{
 
 f'''{
 #   ^^ meta.string.python meta.interpolation.python - invalid
-#    ^ source.python.embedded
     foo
-#   ^^^ meta.string.python meta.interpolation.python source.python.embedded meta.path.python meta.generic-name.python
+#   ^^^ meta.string.python meta.interpolation.python meta.path.python meta.generic-name.python
     !a:2d
-#   ^^^^^^ meta.string.python meta.interpolation.python - source.python.embedded
+#   ^^^^^^ meta.string.python meta.interpolation.python
 #   ^^ storage.modifier.conversion.python
 #     ^ punctuation.separator.format-spec.python
 #      ^^^ meta.format-spec.python constant.other.format-spec.python

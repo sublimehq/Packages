@@ -83,6 +83,7 @@ contexts:
   comments:
     - include: double-dash-comments
     - include: block-comments
+    - include: merge-conflict-markers
 
   double-dash-comments:
     - match: '--'
@@ -98,13 +99,11 @@ contexts:
       push: inside-comment-block
 
   inside-double-dash-comment:
-    - meta_include_prototype: false
     - meta_scope: comment.line.double-dash.sql
     - match: \n
       pop: 1
 
   inside-comment-docblock:
-    - meta_include_prototype: false
     - meta_scope: comment.block.documentation.sql
     - match: \*+/
       scope: punctuation.definition.comment.end.sql
@@ -112,13 +111,34 @@ contexts:
     - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.sql
+    - include: merge-conflict-markers
 
   inside-comment-block:
-    - meta_include_prototype: false
     - meta_scope: comment.block.sql
     - match: \*+/
       scope: punctuation.definition.comment.end.sql
       pop: 1
+    - include: merge-conflict-markers
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
@@ -893,6 +913,7 @@ contexts:
 
   table-name-or-subquery:
     - meta_include_prototype: false
+    - include: comments
     - include: table-subquery
     - include: table-name-or-function-call
 
@@ -1610,6 +1631,7 @@ contexts:
 
   maybe-operator:
     - meta_include_prototype: false
+    - include: comments
     - match: '<=>|[!<>]?=|<>|<|>'
       scope: keyword.operator.comparison.sql
       pop: 1

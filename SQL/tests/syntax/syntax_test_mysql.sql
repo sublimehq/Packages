@@ -5160,3 +5160,85 @@ SELECT * FROM (VALUES ROW(2,4,8)) AS t(a,b,c) INTO @x,@y,@z;
 --                                                       ^^ variable.other.sql
 --                                                       ^ punctuation.definition.variable.sql
 --                                                         ^ punctuation.terminator.statement.sql
+
+-- https://dev.mysql.com/doc/refman/8.4/en/lateral-derived-tables.html
+SELECT
+    salesperson.name,
+    max_sale.amount,
+    max_sale_customer.customer_name
+FROM
+    salesperson,
+    -- calculate maximum size, cache it in transient derived table max_sale
+    LATERAL
+    (SELECT MAX(amount) AS amount
+      FROM all_sales
+      WHERE all_sales.salesperson_id = salesperson.id)
+    AS max_sale,
+    -- find customer, reusing cached maximum size
+    LATERAL
+--  ^^^^^^^ keyword.other.dml.sql
+    (SELECT customer_name
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--  ^ punctuation.section.group.begin.sql
+--   ^^^^^^ keyword.other.dml.sql
+--          ^^^^^^^^^^^^^ meta.column-name.sql
+      FROM all_sales
+      WHERE all_sales.salesperson_id = salesperson.id
+      AND all_sales.amount =
+          -- the cached maximum size
+          max_sale.amount)
+    AS max_sale_customer;
+
+-- comment one
+select
+    col1, col2
+-- comment two
+from table1
+-- comment three
+left join lateral (
+    -- comment four
+    select col2
+    -- comment five
+--  ^^ punctuation.definition.comment.sql
+--  ^^^^^^^^^^^^^^^^ comment.line.double-dash.sql
+    from table2
+    -- comment six
+    where col2 = 'string'
+    and col3 = 123
+    -- comment seven
+    and col4 = '123'
+    -- comment eight
+    and col5 = 123
+    -- seems to toggle the commenting when using
+    -- certain keywords
+    group by col6
+    -- comment nine with single quote: don't use the wrong columns
+    order by col7
+)
+
+
+-- ----------------------------------------------------------------------------
+-- Diff Conflict Markers
+-- https://mariadb.com/kb/en/string-literals
+-- ----------------------------------------------------------------------------
+
+SELECT
+<<<<<<< HEAD
+-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+-- ^^^^^^^^^ meta.block.conflict.begin.diff
+-- ^^^^ punctuation.section.block.begin.diff
+--      ^^^^ entity.name.section.diff
+    *
+--  ^ constant.other.wildcard.asterisk.sql
+=======
+-- <- meta.block.conflict.separator.diff punctuation.section.block.diff
+-- ^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+    column1, column2
+--  ^^^^^^^ meta.column-name.sql
+--         ^ punctuation.separator.sequence.sql
+--           ^^^^^^^ meta.column-name.sql
+>>>>>>> master
+-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+-- ^^^^^^^^^^^ meta.block.conflict.end.diff
+-- ^^^^ punctuation.section.block.end.diff
+--      ^^^^^^ entity.name.section.diff

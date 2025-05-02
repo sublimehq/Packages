@@ -438,6 +438,87 @@
 //              ^^ punctuation.definition.comment.end
 //                ^ - comment
 
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
+{
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+}
+
+[
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+]
+
+<<<HEREDOC
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+HEREDOC
 
 /******************************************************************************
  * Namespace Declarations Tests
@@ -5298,6 +5379,27 @@ $sql = "SELECT " . $col . "FROM $table WHERE ( first_name =" . $name . ")" ; . "
 //                                                                           ^ keyword.operator.concatenation.php
 //                                                                                        ^ punctuation.terminator.statement.php
 
+$sql = "SELECT a WHERE id = $id -- id: $id";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.php meta.embedded.php source.php.embedded.html
+//^^ variable.other.php
+//   ^ keyword.operator.assignment.php
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.php
+//     ^ string.quoted.double.php punctuation.definition.string.begin.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.php
+//      ^^^^^^ keyword.other.dml.sql
+//             ^ meta.column-name.sql
+//               ^^^^^ keyword.other.dml.sql
+//                     ^^ meta.column-name.sql
+//                        ^ keyword.operator.comparison.sql
+//                          ^^^ meta.interpolation.php variable.other.php
+//                          ^ punctuation.definition.variable.php
+//                              ^^^^^^^^^^ comment.line.double-dash.sql
+//                              ^^ punctuation.definition.comment.sql
+//                                     ^^^ meta.interpolation.php variable.other.php
+//                                     ^ punctuation.definition.variable.php
+//                                        ^ string.quoted.double.php punctuation.definition.string.end.php
+//                                         ^ punctuation.terminator.statement.php
+
 $sql = "DROP TABLE foo";
 //     ^ meta.string.php string.quoted.double.php punctuation.definition.string.begin.php
 //      ^^^^^^^^^^^^^^ meta.string.php source.sql.embedded.php
@@ -6087,28 +6189,28 @@ h1 {
 </style>
 
 <p style="color: <?php echo "red" ?>">text</p>
-//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
-//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - meta.embedded.php
-//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html meta.embedded.php
-//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
+//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - source
+//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html - meta.embedded.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html meta.embedded.php
+//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - source
 //                                   ^ text.html.php meta.tag.block.any.html punctuation.definition.tag.end.html
 
 <p style='color: <?php echo 'red' ?>'>text</p>
-//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
-//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - meta.embedded.php
-//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html meta.embedded.php
-//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
+//       ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - source
+//        ^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html - meta.embedded.php
+//               ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html meta.embedded.php
+//                                  ^ meta.attribute-with-value.style.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - source
 //                                   ^ text.html.php meta.tag.block.any.html punctuation.definition.tag.end.html
 
 <p onclick="foo(<?php echo "red" ?>)">text</p>
-//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.interpolation
-//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call
-//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.interpolation
+//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - source
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html meta.function-call
+//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.double.html punctuation.definition.string.end.html - source
 
 <p onclick='foo(<?php echo 'red' ?>)'>text</p>
-//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - meta.interpolation
-//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html source.js.embedded.html meta.function-call
-//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - meta.interpolation
+//         ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.begin.html - source
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html meta.function-call
+//                                  ^ meta.attribute-with-value.event.html meta.string.html string.quoted.single.html punctuation.definition.string.end.html - source
 
 <![CDATA[Text with <? $php ?> interpolation.]]>
 //       ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html

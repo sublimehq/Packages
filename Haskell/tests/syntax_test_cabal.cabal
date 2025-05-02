@@ -1,5 +1,24 @@
 -- SYNTAX TEST "Packages/Haskell/Cabal.sublime-syntax"
 
+<<<<<<< HEAD
+-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+--^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+--     ^ meta.block.conflict.begin.diff - entity - punctuation
+--      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+--          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+-- <- meta.block.conflict.separator.diff punctuation.section.block.diff
+--^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+--     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+--^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+--     ^ meta.block.conflict.end.diff - entity - punctuation
+--      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+--            ^ meta.block.conflict.end.diff - entity - punctuation
+
 cabal-version:   >=2.2
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^^^^ meta.mapping.key.cabal
@@ -229,6 +248,13 @@ data-files:
 --                                                ^^ - meta.path - markup.underline.link - string
 --                                                ^ punctuation.separator.sequence.cabal
 
+<<<<<<< HEAD
+-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+--^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+--     ^ meta.block.conflict.begin.diff - entity - punctuation
+--      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+--          ^ meta.block.conflict.begin.diff - entity - punctuation
+
                  -- templates
                  ../data/template?.../**/styles.html
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
@@ -243,6 +269,28 @@ data-files:
 --                                    ^^ keyword.operator.wildcard.cabal
 --                                      ^ punctuation.separator.path.cabal
 --                                                  ^ - meta.path - markup.underline.link - string
+
+=======
+-- <- meta.block.conflict.separator.diff punctuation.section.block.diff
+--^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+--     ^ meta.block.conflict.separator.diff - punctuation
+
+                 -- templates
+                 ../data/styles.html
+--              ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
+--              ^ - meta.path - markup.underline.link - string
+--               ^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal markup.underline.link.cabal
+--               ^^ constant.other.path.parent.cabal
+--                 ^ punctuation.separator.path.cabal
+--                      ^ punctuation.separator.path.cabal
+--                                  ^ - meta.path - markup.underline.link - string
+
+>>>>>>> master
+-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+--^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+--     ^ meta.block.conflict.end.diff - entity - punctuation
+--      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+--            ^ meta.block.conflict.end.diff - entity - punctuation
 
 build-depends:  pandoc,
 -- <- meta.mapping.key.cabal entity.name.tag.cabal

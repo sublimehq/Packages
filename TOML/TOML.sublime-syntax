@@ -1,0 +1,465 @@
+%YAML 1.2
+---
+# https://toml.io/en/
+# http://www.sublimetext.com/docs/syntax.html
+name: TOML
+scope: source.toml
+version: 2
+
+file_extensions:
+  - toml
+  - tml
+  - Cargo.lock
+  - Gopkg.lock
+  - Pipfile
+  - pdm.lock
+  - poetry.lock
+  - uv.lock
+
+contexts:
+  main:
+    - include: toml
+
+  toml:
+    - meta_content_scope: meta.mapping.toml
+    - include: comments
+    - include: table-header
+    - include: table-keys
+    - include: table-values
+    - include: illegal-tokens
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    # https://toml.io/en/v1.0.0#comment
+    - match: \#
+      scope: punctuation.definition.comment.toml
+      push: comment-body
+    - include: merge-conflict-markers
+
+  comment-body:
+    - meta_scope: comment.line.number-sign.toml
+    - match: $\n?
+      pop: 1
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+###[ TABLES ]##################################################################
+
+  table-header:
+    # https://toml.io/en/v1.0.0#array-of-tables
+    - match: '{{ws}}(\[\[)'
+      scope: meta.section.toml
+      captures:
+        1: meta.brackets.toml punctuation.section.brackets.begin.toml
+      set: array-table-header-body
+    # https://toml.io/en/v1.0.0#table
+    - match: '{{ws}}(\[)'
+      scope: meta.section.toml
+      captures:
+        1: meta.brackets.toml punctuation.section.brackets.begin.toml
+      set: table-header-body
+
+  array-table-header-body:
+    - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
+    - match: \]\]
+      scope: meta.brackets.toml punctuation.section.brackets.end.toml
+      set: table-header-end
+    - include: table-header-content
+
+  table-header-body:
+    - meta_content_scope: meta.section.toml meta.brackets.toml entity.name.section.toml
+    - match: \]
+      scope: meta.brackets.toml punctuation.section.brackets.end.toml
+      set: table-header-end
+    - include: table-header-content
+
+  table-header-content:
+    - match: \.
+      scope: punctuation.accessor.dot.toml
+    - match: \"
+      scope: punctuation.definition.string.begin.toml
+      push: double-quoted-table-name-body
+    - match: \'
+      scope: punctuation.definition.string.begin.toml
+      push: single-quoted-table-name-body
+    - include: name-prototype
+    - match: '[^ \t0-9A-Za-z_-]'
+      scope: invalid.illegal.toml
+    - include: illegal-eol-pop
+
+  table-header-end:
+    # scope whole line to improve UX with background color applied
+    - meta_scope: meta.section.toml
+    - match: $\n?
+      set: toml
+    - include: comments
+    - include: illegal-tokens
+
+  double-quoted-table-name-body:
+    - match: \"
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: illegal-eol-pop
+    - include: string-escapes
+    - include: name-prototype
+
+  single-quoted-table-name-body:
+    - match: \'
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: illegal-eol-pop
+    - include: name-prototype
+
+  name-prototype: []
+
+###[ KEYS ]####################################################################
+
+  table-keys:
+    - match: \"
+      scope: punctuation.definition.string.begin.toml
+      push:
+        - table-key-accessor
+        - basic-string-body
+    - match: \'
+      scope: punctuation.definition.string.begin.toml
+      push:
+        - table-key-accessor
+        - literal-string-body
+    - match: '{{ident_begin}}'
+      push:
+        - table-key-accessor
+        - unquoted-table-key-body
+
+  unquoted-table-key-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.toml string.unquoted.toml
+    - include: string-prototype
+    - match: '{{ident_break}}'
+      pop: 1
+    - include: illegal-eol-pop
+
+  table-key-accessor:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.key.toml
+    - match: '{{ws}}(\.){{ws}}'
+      captures:
+        1: punctuation.accessor.dot.toml
+      pop: 1
+    - include: immediately-pop
+
+###[ VALUES ]##################################################################
+
+  table-values:
+    - match: =
+      scope: punctuation.separator.key-value.toml
+      push: table-value
+    # fallback if nothing else matches
+    - match: (?=\S)
+      push: [table-value-meta, value]
+
+  table-value:
+    - meta_include_prototype: false
+    - match: (?=\S)
+      set: [table-value-meta, value]
+    - include: eol-pop
+
+  table-value-meta:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.mapping.value.toml
+    - include: expect-eol
+
+  value:
+    - include: array
+    - include: inline-table
+    - include: boolean
+    - include: datetime
+    - include: number
+    - include: basic-multiline-string
+    - include: basic-string
+    - include: literal-multiline-string
+    - include: literal-string
+    - include: immediately-pop
+
+###[ ARRAYS ]##################################################################
+
+  array:
+    # https://toml.io/en/v1.0.0#array
+    - match: \[
+      scope: punctuation.section.sequence.begin.toml
+      set: array-body
+
+  array-body:
+    - meta_scope: meta.sequence.array.toml
+    - match: \]
+      scope: punctuation.section.sequence.end.toml
+      pop: 1
+    - match: (?=\})
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.toml
+    - include: comments
+    - match: (?=\S)
+      push: value
+
+###[ INLINE TABLES ]###########################################################
+
+  inline-table:
+    # https://toml.io/en/v1.0.0#inline-table
+    - match: \{
+      scope: punctuation.section.mapping.begin.toml
+      set: inline-table-body
+
+  inline-table-body:
+    - meta_scope: meta.mapping.toml
+    - match: \}
+      scope: punctuation.section.mapping.end.toml
+      pop: 1
+    - match: (?=[#\]])
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.sequence.toml
+    - include: table-keys
+    - include: table-values
+    - include: illegal-eol-pop
+
+###[ CONSTANT VALUES ]#########################################################
+
+  boolean:
+    # https://toml.io/en/v1.0.0#boolean
+    - match: false{{ident_break}}
+      scope: constant.language.boolean.false.toml
+      pop: 1
+    - match: true{{ident_break}}
+      scope: constant.language.boolean.true.toml
+      pop: 1
+
+  datetime:
+    # https://toml.io/en/v1.0.0#offset-date-time
+    # https://datatracker.ietf.org/doc/html/rfc3339
+    - match: |-
+        (?x)
+        # date
+        {{date_year}} (-) {{date_month}} (-) {{date_mday}}
+        # time
+        ([ tT])
+        {{time_hour}} (:) {{time_minute}} (:) {{time_second}} (?: (\.) [0-9]+ )?
+        # offset
+        (?: ([zZ]) | ([-+]) {{time_hour}} (:) {{time_minute}} )?
+      scope: constant.other.datetime.toml
+      captures:
+        1: punctuation.separator.date.toml
+        2: punctuation.separator.date.toml
+        3: punctuation.separator.datetime.toml
+        4: punctuation.separator.time.toml
+        5: punctuation.separator.time.toml
+        6: punctuation.separator.decimal.toml
+        7: storage.modifier.timezone.toml
+        8: keyword.operator.arithmetic.toml
+        9: punctuation.separator.time.toml
+      pop: 1
+    - match: |-
+        (?x)
+        {{date_year}} (-) {{date_month}} (-) {{date_mday}}
+      scope: constant.other.date.toml
+      captures:
+        1: punctuation.separator.date.toml
+        2: punctuation.separator.date.toml
+      pop: 1
+    - match: |-
+        (?x)
+        {{time_hour}} (:) {{time_minute}} (:) {{time_second}} (?: (\.) [0-9]+ )?
+      scope: constant.other.time.toml
+      captures:
+        1: punctuation.separator.time.toml
+        2: punctuation.separator.time.toml
+        3: punctuation.separator.decimal.toml
+      pop: 1
+
+  number:
+    # https://toml.io/en/v1.0.0#float
+    - match: ([-+])?(inf|nan){{ident_break}}
+      scope: meta.number.float.other.toml
+      captures:
+        1: keyword.operator.arithmetic.toml
+        2: constant.numeric.value.toml
+      pop: 1
+    - match: ([-+]?)({{dec_digits}}(?:(\.){{zero_dec_digits}}{{exponent}}?|{{exponent}})){{ident_break}}
+      scope: meta.number.float.decimal.toml
+      captures:
+        1: keyword.operator.arithmetic.toml
+        2: constant.numeric.value.toml
+        3: punctuation.separator.decimal.toml
+      pop: 1
+    # https://toml.io/en/v1.0.0#integer
+    - match: (0b)([01][01_]*)?{{ident_break}}
+      scope: meta.number.integer.binary.toml
+      captures:
+        1: constant.numeric.base.toml
+        2: constant.numeric.value.toml
+      pop: 1
+    - match: (0o)([0-7][0-7_]*)?{{ident_break}}
+      scope: meta.number.integer.octal.toml
+      captures:
+        1: constant.numeric.base.toml
+        2: constant.numeric.value.toml
+      pop: 1
+    - match: (0x)(\h[\h_]*)?{{ident_break}}
+      scope: meta.number.integer.hexadecimal.toml
+      captures:
+        1: constant.numeric.base.toml
+        2: constant.numeric.value.toml
+      pop: 1
+    - match: ([-+]?)({{dec_digits}}){{ident_break}}
+      scope: meta.number.integer.decimal.toml
+      captures:
+        1: keyword.operator.arithmetic.toml
+        2: constant.numeric.value.toml
+      pop: 1
+
+###[ STRING VALUES ]###########################################################
+
+  basic-multiline-string:
+    - match: '"""'
+      scope: punctuation.definition.string.begin.toml
+      set: basic-multiline-string-body
+
+  basic-multiline-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.toml string.quoted.double.block.toml
+    - match: '"""'
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: string-escapes
+    - include: string-prototype
+
+  basic-string:
+    - match: \"
+      scope: punctuation.definition.string.begin.toml
+      set: basic-string-body
+
+  basic-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.toml string.quoted.double.toml
+    - match: \"
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: illegal-eol-pop
+    - include: string-escapes
+    - include: string-prototype
+
+  literal-multiline-string:
+    - match: "'''"
+      scope: punctuation.definition.string.begin.toml
+      set: literal-multiline-string-body
+
+  literal-multiline-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.toml string.quoted.single.block.toml
+    - match: "'''"
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: string-prototype
+
+  literal-string:
+    - match: \'
+      scope: punctuation.definition.string.begin.toml
+      set: literal-string-body
+
+  literal-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.toml string.quoted.single.toml
+    - match: \'
+      scope: punctuation.definition.string.end.toml
+      pop: 1
+    - include: illegal-eol-pop
+    - include: string-prototype
+
+  string-escapes:
+    # https://toml.io/en/v1.0.0#string
+    - match: \\[btnfr"\\]
+      scope: constant.character.escape.toml
+    - match: \\u\h{4}
+      scope: constant.character.escape.unicode.16bit.toml
+    - match: \\U\h{8}
+      scope: constant.character.escape.unicode.32bit.toml
+    - match: \\.
+      scope: invalid.illegal.string.escape.toml
+
+  string-prototype:
+    - include: merge-conflict-markers
+
+###[ PROTOTYPES ]##############################################################
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+  eol-pop:
+    - match: $|(?={{ws}}[#=,\]\}])
+      pop: 1
+
+  expect-eol:
+    - include: eol-pop
+    - include: illegal-tokens
+
+  illegal-eol-pop:
+    - match: $\n?
+      scope: invalid.illegal.unexpected-eol.toml
+      pop: 1
+
+  illegal-tokens:
+    - match: '[^#\s]+'
+      scope: invalid.illegal.unexpected-token.toml
+
+###############################################################################
+
+variables:
+  ws: '[ \t]*'
+
+  # identifier
+  ident_begin: (?={{ident_char}})
+  ident_break: (?!{{ident_char}})
+  ident_char: '[0-9A-Za-z_-]'
+
+  # numbers
+  dec_digits: (?:[1-9][0-9_]+|[0-9])
+  zero_dec_digits: (?:[0-9][0-9_]*)
+  exponent: (?:[eE][-+]?{{zero_dec_digits}})
+
+  # rfc3339 / ISO8601 date
+
+  # date-fullyear = 4DIGIT
+  date_year: '[0-9]{4}'
+  # date-month = 2DIGIT   ; 01-12
+  date_month: '(?:0[0-9]|1[0-2])'
+  # date-mday = 2DIGIT    ; 01-28, 01-29, 01-30, 01-31 based on month/year
+  date_mday: '(?:[0-2][0-9]|3[0-1])'
+
+  # rfc3339 / ISO8601 time
+
+  # time-hour = 2DIGIT    ; 00-23
+  time_hour: '(?:[01][0-9]|2[0-4])'
+  # time-minute = 2DIGIT  ; 00-59
+  time_minute: '[0-5][0-9]'
+  # time-second = 2DIGIT  ; 00-58, 00-59, 00-60 based on leap second rules
+  time_second: '(?:[0-6][0-9])'

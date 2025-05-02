@@ -1,0 +1,933 @@
+# SYNTAX TEST "Packages/TOML/TOML.sublime-syntax"
+
+### [ TABLES ]#################################################################
+
+[table-name] illegal # comment
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml
+#^^^^^^^^^^^ meta.brackets.toml
+#^^^^^^^^^^ entity.name.section.toml
+#          ^ punctuation.section.brackets.end.toml
+#           ^ - invalid
+#            ^^^^^^^ invalid.illegal.unexpected-token.toml
+#                    ^^^^^^^^^ comment.line.number-sign.toml
+#                    ^ punctuation.definition.comment.toml
+
+[table.name] illegal # comment
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml
+#^^^^^^^^^^^ meta.brackets.toml
+#^^^^^^^^^^ entity.name.section.toml
+#     ^ punctuation.accessor.dot.toml
+#          ^ punctuation.section.brackets.end.toml
+#           ^ - invalid
+#            ^^^^^^^ invalid.illegal.unexpected-token.toml
+#                    ^^^^^^^^^ comment.line.number-sign.toml
+#                    ^ punctuation.definition.comment.toml
+
+[table."doted.name"] illegal # comment
+#^^^^^^^^^^^^^^^^^^^ meta.section.toml meta.brackets.toml
+#                   ^^^^^^^^^^^^^^^^^^^ meta.section.toml - meta.brackets
+#^^^^^^^^^^^^^^^^^^ entity.name.section.toml
+#     ^ punctuation.accessor.dot.toml
+#      ^ punctuation.definition.string.begin.toml
+#            ^ - punctuation
+#                 ^ punctuation.definition.string.end.toml
+#                  ^ punctuation.section.brackets.end.toml
+#                   ^ - invalid
+#                    ^^^^^^^ invalid.illegal.unexpected-token.toml
+#                            ^^^^^^^^^ comment.line.number-sign.toml
+#                            ^ punctuation.definition.comment.toml
+
+  [ key . subkey . "sub.subkey" ]
+# <- meta.section.toml - meta.brackets
+#^ meta.section.toml - meta.brackets
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.section.toml meta.brackets.toml
+#                                ^ meta.section.toml - meta.brackets
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.toml
+#       ^ punctuation.accessor.dot.toml
+#                ^ punctuation.accessor.dot.toml
+#                  ^ punctuation.definition.string.begin.toml
+#                             ^ punctuation.definition.string.end.toml
+#                               ^ punctuation.section.brackets.end.toml
+
+[[array.section.name]] illegal # comment
+#^^^^^^^^^^^^^^^^^^^^^ meta.section.toml meta.brackets.toml
+#                     ^^^^^^^^^^^^^^^^^^^ meta.section.toml - meta.brackets
+#^ punctuation.section.brackets.begin.toml
+# ^^^^^^^^^^^^^^^^^^ entity.name.section.toml
+#      ^ punctuation.accessor.dot.toml
+#              ^ punctuation.accessor.dot.toml
+#                   ^^ punctuation.section.brackets.end.toml
+#                     ^ - invalid
+#                      ^^^^^^^ invalid.illegal.unexpected-token.toml
+#                              ^^^^^^^^^ comment.line.number-sign.toml
+#                              ^ punctuation.definition.comment.toml
+
+### [ BARE KEYS ]##############################################################
+
+  key
+# ^^^ meta.mapping.key meta.string.toml string.unquoted.toml
+
+  bare_key
+# ^^^^^^^^ meta.mapping.key meta.string.toml string.unquoted.toml
+
+  bare-key
+# ^^^^^^^^ meta.mapping.key meta.string.toml string.unquoted.toml
+
+  1234 # comment
+# ^^^^ meta.mapping.key meta.string.toml string.unquoted.toml
+
+  key\b\t\n\f\r\\\u1234\U12345678
+# ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token.toml
+
+  key#comment
+# ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#    ^^^^^^^^ comment.line.number-sign.toml
+#    ^ punctuation.definition.comment.toml
+
+### [ QUOTED KEYS ]############################################################
+
+  "127.0.0.1"
+# ^^^^^^^^^^^ meta.mapping.key.toml meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#           ^ punctuation.definition.string.end.toml
+
+  "character encoding"
+# ^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.toml meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#                    ^ punctuation.definition.string.end.toml
+
+  "ʎǝʞ"
+# ^^^^^ meta.mapping.key.toml meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#     ^ punctuation.definition.string.end.toml
+
+  'key2'
+# ^^^^^^ meta.string.toml string.quoted.single.toml
+# ^ punctuation.definition.string.begin.toml
+#      ^ punctuation.definition.string.end.toml
+
+  'quoted "value"'
+# ^^^^^^^^^^^^^^^^ meta.string.toml string.quoted.single.toml
+# ^ punctuation.definition.string.begin.toml
+#                ^ punctuation.definition.string.end.toml
+
+  "key\b\t\n\f\r\"\\\u1234\U12345678"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string.toml string.quoted.double.toml
+#                                    ^ meta.mapping.toml - meta.mapping.key
+# ^ punctuation.definition.string.begin.toml
+#     ^^^^^^^^^^^^^^ constant.character.escape.toml
+#                   ^^^^^^ constant.character.escape.unicode.16bit.toml
+#                         ^^^^^^^^^^ constant.character.escape.unicode.32bit.toml
+#                                   ^ punctuation.definition.string.end.toml
+
+  'key\b\t\n\f\r\"\\\u1234\U12345678'
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string.toml string.quoted.single.toml
+#                                    ^ meta.mapping.toml - meta.mapping.key
+# ^ punctuation.definition.string.begin.toml
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character
+#                                   ^ punctuation.definition.string.end.toml
+
+  "" = "blank"     # VALID but discouraged
+# ^^ meta.mapping.key.toml meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#  ^ punctuation.definition.string.end.toml
+
+  '' = 'blank'     # VALID but discouraged
+# ^^ meta.mapping.key.toml meta.string.toml string.quoted.single.toml
+# ^ punctuation.definition.string.begin.toml
+#  ^ punctuation.definition.string.end.toml
+
+### [ DOTTED KEYS ]############################################################
+
+  dotted.key = { dotted.key }
+# ^^^^^^^^^^ meta.mapping.key.toml
+# ^^^^^^ meta.string.toml string.unquoted.toml
+#       ^ punctuation.accessor.dot.toml - string
+#        ^^^ meta.string.toml string.unquoted.toml
+#           ^^^ meta.mapping.toml
+#              ^^^^^^^^^^^^^^ meta.mapping.value.toml
+#                ^^^^^^^^^^ meta.mapping.key.toml
+#                ^^^^^^ meta.string.toml string.unquoted.toml
+#                      ^ punctuation.accessor.dot.toml - string
+#                       ^^^ meta.string.toml string.unquoted.toml
+
+site."google.com" = { site."google.com" }
+#^^^^^^^^^^^^^^^^ meta.mapping.key.toml
+#^^^ meta.string.toml string.unquoted.toml
+#   ^ punctuation.accessor.dot.toml - string
+#    ^^^^^^^^^^^^ meta.mapping.key.toml meta.string.toml string.quoted.double.toml
+#    ^ punctuation.definition.string.begin.toml
+#           ^ - punctuation
+#               ^ punctuation.definition.string.end.toml
+#                ^^^ meta.mapping.toml
+#                   ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml
+#                     ^^^^^^^^^^^^^^^^^ meta.mapping.key.toml
+#                     ^^^^ meta.string.toml string.unquoted.toml
+#                         ^ punctuation.accessor.dot.toml
+#                          ^^^^^^^^^^^^ meta.string.toml string.quoted.double.toml
+#                          ^ punctuation.definition.string.begin.toml
+#                                 ^ - punctuation
+#                                     ^ punctuation.definition.string.end.toml
+
+site . "google.com" = { site . "google.com" }
+#^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping
+#                     ^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping meta.mapping  meta.mapping
+#^^^^^^^^^^^^^^^^^^ meta.mapping.key.toml
+#^^^ meta.string.toml string.unquoted.toml
+#   ^^^ - meta.string
+#    ^ punctuation.accessor.dot.toml
+#      ^^^^^^^^^^^^ meta.string.toml string.quoted.double.toml
+#      ^ punctuation.definition.string.begin.toml
+#             ^ - punctuation
+#                 ^ punctuation.definition.string.end.toml
+#                  ^^^ meta.mapping.toml
+#                     ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml
+#                       ^^^^^^^^^^^^^^^^^^^ meta.mapping.key.toml
+#                       ^^^^ meta.string.toml string.unquoted.toml
+#                           ^^^ - meta.string
+#                            ^ punctuation.accessor.dot.toml
+#                              ^^^^^^^^^^^^ meta.string.toml string.quoted.double.toml
+#                              ^ punctuation.definition.string.begin.toml
+#                                     ^ - punctuation
+#                                         ^ punctuation.definition.string.end.toml
+
+### [ ARRAYS ]#################################################################
+
+array = []
+#       ^^ meta.mapping.value.toml meta.sequence.array.toml
+#       ^ punctuation.section.sequence.begin.toml
+#        ^ punctuation.section.sequence.end.toml
+
+array = [[]]
+#       ^ meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.begin.toml
+#        ^ meta.mapping.value.toml meta.sequence.array.toml meta.sequence.array.toml punctuation.section.sequence.begin.toml
+#         ^ meta.mapping.value.toml meta.sequence.array.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
+#          ^ meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
+#           ^ meta.mapping.toml - meta.sequence
+
+array = [ 10,, true, "str", [0, 0b1, ["a", 'b']] ]
+#       ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+#                           ^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.sequence.array.toml
+#                                    ^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.sequence.array.toml meta.sequence.array.toml
+#                                              ^ meta.mapping.value.toml meta.sequence.array.toml meta.sequence.array.toml
+#                                               ^^ meta.mapping.value.toml meta.sequence.array.toml
+#                                                 ^ meta.mapping.toml - meta.sequence
+
+array = [ true#comment ]
+#^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#    ^^^ meta.mapping.toml
+#     ^ punctuation.separator.key-value.toml
+#       ^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+#       ^ punctuation.section.sequence.begin.toml
+#         ^^^^ constant.language.boolean.true.toml
+#             ^^^^^^^^^^ comment.line.number-sign.toml
+#             ^ punctuation.definition.comment.toml
+]
+# <- meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
+
+array = { [ }  # handle incomplete arrays
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^ meta.mapping.value.toml meta.mapping.toml - meta.sequence
+#            ^^ meta.mapping.toml
+
+array = [ { x = 1, y = 2, z = 3 },
+          { x = 2, y = 4, z = 8 } ]
+#^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+#         ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.mapping
+#                                ^^ meta.mapping.value.toml meta.sequence.array.toml
+
+### [ INLINE TABLES ]##########################################################
+
+table = {}
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#       ^ punctuation.section.mapping.begin.toml
+#        ^ punctuation.section.mapping.end.toml
+#         ^ meta.mapping.toml
+
+table = {{}}
+#       ^ meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.begin.toml
+#        ^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.begin.toml
+#         ^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
+#          ^ meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
+#           ^ meta.mapping.toml
+
+table = {[]}
+#       ^ meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.begin.toml
+#        ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.begin.toml
+#         ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
+#          ^ meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
+#           ^ meta.mapping.toml
+
+table = { 0 }   # not a number, but an unquoted key
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#          ^^ meta.mapping.value.toml meta.mapping.toml
+#            ^ meta.mapping.toml
+
+table = { -0 }  # not a number, but an unquoted key
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#           ^^ meta.mapping.value.toml meta.mapping.toml
+#             ^ meta.mapping.toml
+
+table = { +0 }  # + is no valid char in identifiers, so treat it as value
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.number.integer.decimal.toml
+#           ^^ meta.mapping.value.toml meta.mapping.toml
+#             ^ meta.mapping.toml
+
+table = { "+10" }
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.quoted.double.toml
+#              ^^ meta.mapping.value.toml meta.mapping.toml
+#                ^ meta.mapping.toml
+
+table = { '+10' }
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.toml
+#              ^^ meta.mapping.value.toml meta.mapping.toml
+#                ^ meta.mapping.toml
+
+table = { = -0 }
+#       ^^^^ meta.mapping.value.toml meta.mapping.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.number.integer.decimal.toml
+#             ^^ meta.mapping.value.toml meta.mapping.toml
+#               ^ meta.mapping.toml
+
+table = { key = { key = "value", key = 5 } }
+#^^^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#    ^^^ meta.mapping.toml
+#       ^^ meta.mapping.value.toml meta.mapping.toml - meta.mapping meta.mapping meta.mapping
+#         ^^^ meta.mapping.value.toml meta.mapping.key - meta.mapping meta.mapping meta.mapping
+#            ^^^ meta.mapping.value.toml meta.mapping.toml - meta.mapping meta.mapping meta.mapping
+#               ^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
+#                 ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.key
+#                    ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
+#                       ^^^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml
+#                              ^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
+#                                ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.key.toml
+#                                   ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
+#                                      ^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.value.toml
+#                                       ^^ meta.mapping.value.toml meta.mapping.value.toml meta.mapping.toml
+#                                         ^^ meta.mapping.value.toml meta.mapping.toml - meta.mapping meta.mapping meta.mapping
+#                                           ^ meta.mapping.toml
+
+table = {  # inline tables are terminated by eol
+#       ^^^ meta.mapping.value.toml meta.mapping.toml
+#       ^ punctuation.section.mapping.begin.toml
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.toml - meta.mapping.value
+}
+# <- invalid.illegal.unexpected-token.toml
+
+table = { key#comment }
+#^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#    ^^^ meta.mapping.toml - meta.mapping meta.mapping
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#       ^ punctuation.section.mapping.begin.toml
+#         ^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#            ^^^^^^^^^^^ comment.line.number-sign.toml - meta.mapping.value
+#            ^ punctuation.definition.comment.toml
+}
+# <- invalid.illegal.unexpected-token.toml
+
+table = { key =
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#            ^^^ meta.mapping.value.toml meta.mapping.toml
+#             ^ punctuation.separator.key-value.toml
+#              ^ invalid.illegal.unexpected-eol.toml
+
+table = { key = false
+#       ^^ meta.mapping.value.toml meta.mapping.toml
+#         ^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#            ^^^ meta.mapping.value.toml meta.mapping.toml
+#             ^ punctuation.separator.key-value.toml
+#               ^^^^^ meta.mapping.value.toml meta.mapping.value.toml constant.language.boolean.false.toml
+#                    ^ meta.mapping.value.toml meta.mapping.toml invalid.illegal.unexpected-eol.toml
+
+table = { [ { ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#              ^^ meta.mapping.value.toml meta.mapping.toml
+#                ^ - meta.mapping.value
+
+table = { [ { key ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.key.toml
+#                ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                 ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#                  ^^ meta.mapping.value.toml meta.mapping.toml
+#                    ^ - meta.mapping.value
+
+table = { [ { key = ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.key.toml
+#                ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                   ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#                    ^^ meta.mapping.value.toml meta.mapping.toml
+#                      ^ - meta.mapping.value
+
+table = { [ { key = 'value' ] }  # handle incomplete tables
+#       ^^ meta.mapping.value.toml meta.mapping
+#         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#           ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#             ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.key.toml
+#                ^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                   ^^^^^^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.value.toml meta.string.toml
+#                          ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml meta.mapping.toml
+#                           ^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
+#                            ^^ meta.mapping.value.toml meta.mapping.toml
+#                              ^ - meta.mapping.value
+
+table = { key, key, key }
+#^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#    ^^^ meta.mapping.toml
+#       ^^^^^^^^^^^^^^^^^ meta.mapping.value.toml
+#       ^^ meta.mapping.toml
+#       ^ punctuation.section.mapping.begin.toml
+#         ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#            ^^ meta.mapping.toml
+#            ^ punctuation.separator.sequence.toml
+#              ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#                 ^^ meta.mapping.toml
+#                 ^ punctuation.separator.sequence.toml
+#                   ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#                      ^^ meta.mapping.toml
+#                       ^ punctuation.section.mapping.end.toml
+
+### [ BOOLEANS ]###############################################################
+
+key = true
+#     ^^^^ meta.mapping.value.toml constant.language.boolean.true.toml
+#         ^ meta.mapping.toml
+
+key = false
+#     ^^^^^ meta.mapping.value.toml constant.language.boolean.false.toml
+#          ^ meta.mapping.toml
+
+key = true_illegal
+#     ^^^^^^^^^^^^ invalid.illegal.unexpected-token.toml
+
+key = False
+#     ^^^^^ invalid.illegal.unexpected-token.toml
+
+### [ BINARY INTEGERS ]########################################################
+
+bin = 0b1_001
+#     ^^^^^^^ meta.mapping.value.toml meta.number.integer.binary.toml
+#     ^^ constant.numeric.base.toml
+#       ^^^^^ constant.numeric.value.toml
+
+bin = 0b
+#     ^^ meta.mapping.value.toml meta.number.integer.binary.toml constant.numeric.base.toml
+
+bin = 0b_
+#     ^^^ invalid.illegal.unexpected-token.toml
+
+bin = 0b12
+#     ^^^^ invalid.illegal.unexpected-token.toml
+
+### [ OCTAL INTEGERS ]#########################################################
+
+oct = 0o12_34_56_7
+#     ^^^^^^^^^^^^ meta.mapping.value.toml meta.number.integer.octal.toml
+#     ^^ constant.numeric.base.toml
+#       ^^^^^^^^^^ constant.numeric.value.toml
+
+oct = 0o
+#     ^^ meta.mapping.value.toml meta.number.integer.octal.toml constant.numeric.base.toml
+#       ^ meta.mapping.toml
+
+oct = 0o_
+#     ^^^ invalid.illegal.unexpected-token.toml
+
+oct = 0o18
+#     ^^^^ invalid.illegal.unexpected-token.toml
+
+### [ HEXADECIMAL INTEGERS ]###################################################
+
+hex = 0x12_34_56_78_9A_BC_DE_EF
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.number.integer.hexadecimal.toml
+#     ^^ constant.numeric.base.toml
+#       ^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.value.toml
+#                              ^ meta.mapping.toml
+
+hex = 0x
+#     ^^ meta.mapping.value.toml meta.number.integer.hexadecimal.toml constant.numeric.base.toml
+#       ^ meta.mapping.toml
+
+hex = 0x_
+#     ^^^ invalid.illegal.unexpected-token.toml
+
+hex = 0x1G
+#     ^^^^ invalid.illegal.unexpected-token.toml
+
+### [ DECIMAL INTEGERS ]#######################################################
+
+dec = 0
+#     ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
+#      ^ meta.mapping.toml
+
+dec = -0
+#     ^^ meta.mapping.value.toml meta.number.integer.decimal.toml
+#     ^ keyword.operator.arithmetic.toml
+#      ^ constant.numeric.value.toml
+#       ^ meta.mapping.toml
+
+dec = +0
+#     ^^ meta.mapping.value.toml meta.number.integer.decimal.toml
+#     ^ keyword.operator.arithmetic.toml
+#      ^ constant.numeric.value.toml
+#       ^ meta.mapping.toml
+
+dec = 10
+#     ^^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
+
+dec = 01
+#     ^^ invalid.illegal.unexpected-token.toml
+
+dec = 1234567890
+#     ^^^^^^^^^^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
+
+dec = 1234567890A
+#     ^^^^^^^^^^^ invalid.illegal.unexpected-token.toml
+
+### [ FLOATS ]#################################################################
+
+float = inf
+#       ^^^ meta.mapping.value.toml meta.number.float.other.toml constant.numeric.value.toml
+
+float = -inf
+#       ^^^^ meta.mapping.value.toml meta.number.float.other.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^ constant.numeric.value.toml
+
+float = +inf
+#       ^^^^ meta.mapping.value.toml meta.number.float.other.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^ constant.numeric.value.toml
+
+float = nan
+#       ^^^ meta.mapping.value.toml meta.number.float.other.toml constant.numeric.value.toml
+
+float = -nan
+#       ^^^^ meta.mapping.value.toml meta.number.float.other.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^ constant.numeric.value.toml
+
+float = +nan
+#       ^^^^ meta.mapping.value.toml meta.number.float.other.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^ constant.numeric.value.toml
+
+float = 0.1
+#       ^^^ meta.mapping.value.toml meta.number.float.decimal.toml constant.numeric.value.toml
+#        ^ punctuation.separator.decimal.toml
+
+float = -0.1
+#       ^^^^ meta.mapping.value.toml meta.number.float.decimal.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^ constant.numeric.value.toml
+#         ^ punctuation.separator.decimal.toml
+
+float = +0.1
+#       ^^^^ meta.mapping.value.toml meta.number.float.decimal.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^ constant.numeric.value.toml
+#         ^ punctuation.separator.decimal.toml
+
+float = 0.
+#       ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
+#        ^ invalid.illegal.unexpected-token.toml
+
+float = .1
+#       ^^ invalid.illegal.unexpected-token.toml
+
+float = 00.1
+#       ^^^^ invalid.illegal.unexpected-token.toml
+
+float = 1e1
+#       ^^^ meta.mapping.value.toml meta.number.float.decimal.toml constant.numeric.value.toml
+
+float = 1e+1
+#       ^^^^ meta.mapping.value.toml meta.number.float.decimal.toml constant.numeric.value.toml
+
+float = 1e-1
+#       ^^^^ meta.mapping.value.toml meta.number.float.decimal.toml constant.numeric.value.toml
+
+float = -1e+1
+#       ^^^^^ meta.mapping.value.toml meta.number.float.decimal.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^^constant.numeric.value.toml
+
+float = +1e-1
+#       ^^^^^ meta.mapping.value.toml meta.number.float.decimal.toml
+#       ^ keyword.operator.arithmetic.toml
+#        ^^^^constant.numeric.value.toml
+
+### [ DATE AND TIME ]##########################################################
+
+odt1 = 1979-05-27T07:32:00Z
+#      ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+#                         ^ storage.modifier.timezone.toml
+
+odt2 = 1979-05-27T00:32:00-07:00
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+#                         ^ keyword.operator.arithmetic.toml
+#                            ^ punctuation.separator.time.toml
+
+odt3 = 1979-05-27T00:32:00.999999-07:00
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+#                         ^ punctuation.separator.decimal.toml
+#                                ^ keyword.operator.arithmetic.toml
+#                                   ^ punctuation.separator.time.toml
+
+odt4 = 1979-05-27 07:32:00Z
+#      ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+#                         ^ storage.modifier.timezone.toml
+
+ldt1 = 1979-05-27T07:32:00
+#      ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+
+ldt2 = 1979-05-27T00:32:00.999999
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+#                         ^ punctuation.separator.decimal.toml
+
+ld1 = 1979-05-27
+#     ^^^^^^^^^^ meta.mapping.value.toml constant.other.date.toml
+#         ^ punctuation.separator.date.toml
+#            ^ punctuation.separator.date.toml
+
+lt1 = 07:32:00
+#     ^^^^^^^^ meta.mapping.value.toml constant.other.time.toml
+#       ^ punctuation.separator.time.toml
+#          ^ punctuation.separator.time.toml
+
+lt2 = 00:32:00.999999
+#     ^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.time.toml
+#       ^ punctuation.separator.time.toml
+#          ^ punctuation.separator.time.toml
+#             ^ punctuation.separator.decimal.toml
+
+ldt = 199-05-27T07:32:00
+#     ^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token.toml
+
+ldt = 1979-05-7T07:32:00
+#     ^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token.toml
+
+### [ STRINGS ]################################################################
+
+key = "value"
+#^^^^^^^^^^^^ - meta.mapping meta.mapping
+#^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml punctuation.definition.string.begin.toml
+#      ^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml
+#           ^ punctuation.definition.string.end.toml
+
+key = "value
+#^^^^^^^^^^^^ - meta.mapping meta.mapping
+#^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml punctuation.definition.string.begin.toml
+#      ^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml
+#           ^ invalid.illegal.unexpected-eol.toml
+
+key = 'value'
+#^^^^^^^^^^^^ - meta.mapping meta.mapping
+#^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^ meta.mapping.value.toml meta.string.toml string.quoted.single.toml punctuation.definition.string.begin.toml
+#      ^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.toml
+#           ^ punctuation.definition.string.end.toml
+
+key = 'value
+#^^^^^^^^^^^^ - meta.mapping meta.mapping
+#^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^ meta.mapping.value.toml meta.string.toml string.quoted.single.toml punctuation.definition.string.begin.toml
+#      ^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.toml
+#           ^ invalid.illegal.unexpected-eol.toml
+
+key = """
+#^^^^^^^^^ - meta.mapping meta.mapping
+#^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.begin.toml
+
+      "This \n \u2ff4"
+#^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+#     ^ - punctuation
+#           ^^ constant.character.escape.toml
+#              ^^^^^^ constant.character.escape.unicode.16bit.toml
+#                    ^ - punctuation
+
+      """ illegal # comment
+#^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+#     ^^^ punctuation.definition.string.end.toml
+#        ^ - string - invalid
+#         ^^^^^^^ invalid.illegal.unexpected-token.toml
+#                ^ - invalid - comment
+#                 ^^^^^^^^^^ comment.line.number-sign.toml
+
+key = '''
+#^^^^^^^^^ - meta.mapping meta.mapping
+#^^ meta.mapping.key meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.begin.toml
+
+      "This \n \u2ff4"
+#^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+#     ^ - punctuation
+#           ^^ - constant.character
+#              ^^^^^^ - constant.character
+#                    ^ - punctuation
+
+      ''' illegal # comment
+#^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+#     ^^^ punctuation.definition.string.end.toml
+#        ^ - string - invalid
+#         ^^^^^^^ invalid.illegal.unexpected-token.toml
+#                ^ - invalid - comment
+#                 ^^^^^^^^^^ comment.line.number-sign.toml
+
+### [ DIFF CONFLICT MARKERS ]##################################################
+
+# plain markers
+
+<<<<<<< HEAD
+# <- meta.mapping.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+|||||||
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+=======
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+>>>>>>> master
+# <- meta.mapping.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+
+# sections
+
+<<<<<<< HEAD
+# <- meta.mapping.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+[ours]
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^ meta.section.toml meta.brackets.toml
+#^^^^ entity.name.section.toml
+#    ^ punctuation.section.brackets.end.toml
+|||||||
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+[base]
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^ meta.section.toml meta.brackets.toml
+#^^^^ entity.name.section.toml
+#    ^ punctuation.section.brackets.end.toml
+=======
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+[theirs]
+# <- meta.section.toml meta.brackets.toml punctuation.section.brackets.begin.toml
+#^^^^^^^ meta.section.toml meta.brackets.toml
+#^^^^^^ entity.name.section.toml
+#      ^ punctuation.section.brackets.end.toml
+>>>>>>> master
+# <- meta.mapping.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+
+# key value pairs
+
+<<<<<<< HEAD
+# <- meta.mapping.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+ours = "value"
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml
+|||||||
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+base = 0
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^ meta.mapping.value.toml meta.number.integer.decimal.toml constant.numeric.value.toml
+=======
+# <- meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+theirs = [0, 1, 2]
+#^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#     ^^^ meta.mapping.toml
+#      ^ punctuation.separator.key-value.toml
+#        ^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+>>>>>>> master
+# <- meta.mapping.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+
+# list values
+
+list = [
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^ meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.begin.toml
+<<<<<<< HEAD
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  "ours"
+#^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+# ^^^^^^ meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#      ^ punctuation.definition.string.end.toml
+|||||||
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "base"
+#^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+# ^^^^^^ meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#      ^ punctuation.definition.string.end.toml
+=======
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "theirs"
+#^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml
+# ^^^^^^^^ meta.string.toml string.quoted.double.toml
+# ^ punctuation.definition.string.begin.toml
+#        ^ punctuation.definition.string.end.toml
+>>>>>>> master
+# <- meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.value.toml meta.sequence.array.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+]
+# <- meta.mapping.value.toml meta.sequence.array.toml punctuation.section.sequence.end.toml
+
+# multiline strings
+
+string = """
+#^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#     ^^^ meta.mapping.toml
+#      ^ punctuation.separator.key-value.toml
+#        ^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.begin.toml
+<<<<<<< HEAD
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  "ours"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+|||||||
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "base"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+=======
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "theirs"
+#^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
+>>>>>>> master
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+"""
+# <- meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.end.toml
+#^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml punctuation.definition.string.end.toml
+
+
+string = '''
+#^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#     ^^^ meta.mapping.toml
+#      ^ punctuation.separator.key-value.toml
+#        ^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.begin.toml
+<<<<<<< HEAD
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  "ours"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+|||||||
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "base"
+#^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+=======
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.separator.diff punctuation.section.block.diff
+  "theirs"
+#^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml
+>>>>>>> master
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+'''
+# <- meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.end.toml
+#^^ meta.mapping.value.toml meta.string.toml string.quoted.single.block.toml punctuation.definition.string.end.toml

@@ -53,6 +53,25 @@
    Third line
    -# <- comment.block.haml
 
+<<<<<<< HEAD
+/  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+/ ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+/      ^ meta.block.conflict.begin.diff - entity - punctuation
+/       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+/           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+/  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+/ ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+/      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+/  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+/ ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+/      ^ meta.block.conflict.end.diff - entity - punctuation
+/       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+/             ^ meta.block.conflict.end.diff - entity - punctuation
+
 %foo_bar
 / <- meta.tag.haml punctuation.definition.tag.haml
 /^^^^^^^ meta.tag.haml entity.name.tag.haml
@@ -376,18 +395,17 @@
 / ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.attributes.haml meta.parens.haml
 /          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html
 /                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html
-/           ^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/               ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                       ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                             ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                                     ^^^ meta.interpolation.html - meta.interpolation meta.interpolation
+/           ^^^^ - meta.interpolation
+/               ^^^^^^^^ meta.interpolation.haml
+/                       ^^^^^^ - meta.interpolation
+/                             ^^^^^^^^ meta.interpolation.haml
+/                                     ^^^ - meta.interpolation
 /                                        ^^^^^^^^^ - meta.interpolation
-/                                                 ^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                                                       ^^^^^^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                                                                    ^^^^^^^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                                                                            ^^^^^^^^ meta.interpolation.html meta.interpolation.haml
-/                                                                                    ^^ meta.interpolation.html - meta.interpolation meta.interpolation
-/                                                                                      ^ - meta.interpolation
+/                                                 ^^^^^^ - meta.interpolation
+/                                                       ^^^^^^^^^^^^^ meta.interpolation.haml
+/                                                                    ^^^^^^^^ - meta.interpolation
+/                                                                            ^^^^^^^^ meta.interpolation.haml
+/                                                                                    ^^^ - meta.interpolation
 /          ^ string.quoted.double.html punctuation.definition.string.begin.html
 /           ^^^ variable.function
 /              ^ punctuation.section.group.begin.js
@@ -504,8 +522,8 @@
   ```c
   void foo() {}
   ```
-  / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.code-fence.definition.end.c.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
-  /^^ meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.code-fence.definition.end.c.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+  / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.code-fence.definition.end.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
+  /^^ meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml meta.code-fence.definition.end.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
   - list #{@item}
   / <- meta.filter.haml meta.embedded.haml text.html.markdown.embedded.haml markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown

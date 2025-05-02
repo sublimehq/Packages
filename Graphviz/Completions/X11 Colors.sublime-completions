@@ -1,0 +1,4758 @@
+{
+    "scope": "source.dot meta.group, source.dot meta.attributes",
+    "completions": [
+        {
+            "trigger": "aliceblue",
+            "contents": "aliceblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "antiquewhite",
+            "contents": "antiquewhite",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "antiquewhite1",
+            "contents": "antiquewhite1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "antiquewhite2",
+            "contents": "antiquewhite2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "antiquewhite3",
+            "contents": "antiquewhite3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "antiquewhite4",
+            "contents": "antiquewhite4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aqua",
+            "contents": "aqua",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aquamarine",
+            "contents": "aquamarine",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aquamarine1",
+            "contents": "aquamarine1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aquamarine2",
+            "contents": "aquamarine2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aquamarine3",
+            "contents": "aquamarine3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aquamarine4",
+            "contents": "aquamarine4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "azure",
+            "contents": "azure",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "azure1",
+            "contents": "azure1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "azure2",
+            "contents": "azure2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "azure3",
+            "contents": "azure3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "azure4",
+            "contents": "azure4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "beige",
+            "contents": "beige",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bisque",
+            "contents": "bisque",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bisque1",
+            "contents": "bisque1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bisque2",
+            "contents": "bisque2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bisque3",
+            "contents": "bisque3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bisque4",
+            "contents": "bisque4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "black",
+            "contents": "black",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blanchedalmond",
+            "contents": "blanchedalmond",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blue",
+            "contents": "blue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blue1",
+            "contents": "blue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blue2",
+            "contents": "blue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blue3",
+            "contents": "blue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blue4",
+            "contents": "blue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blueviolet",
+            "contents": "blueviolet",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brown",
+            "contents": "brown",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brown1",
+            "contents": "brown1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brown2",
+            "contents": "brown2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brown3",
+            "contents": "brown3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brown4",
+            "contents": "brown4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "burlywood",
+            "contents": "burlywood",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "burlywood1",
+            "contents": "burlywood1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "burlywood2",
+            "contents": "burlywood2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "burlywood3",
+            "contents": "burlywood3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "burlywood4",
+            "contents": "burlywood4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cadetblue",
+            "contents": "cadetblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cadetblue1",
+            "contents": "cadetblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cadetblue2",
+            "contents": "cadetblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cadetblue3",
+            "contents": "cadetblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cadetblue4",
+            "contents": "cadetblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chartreuse",
+            "contents": "chartreuse",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chartreuse1",
+            "contents": "chartreuse1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chartreuse2",
+            "contents": "chartreuse2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chartreuse3",
+            "contents": "chartreuse3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chartreuse4",
+            "contents": "chartreuse4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chocolate",
+            "contents": "chocolate",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chocolate1",
+            "contents": "chocolate1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chocolate2",
+            "contents": "chocolate2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chocolate3",
+            "contents": "chocolate3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chocolate4",
+            "contents": "chocolate4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "coral",
+            "contents": "coral",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "coral1",
+            "contents": "coral1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "coral2",
+            "contents": "coral2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "coral3",
+            "contents": "coral3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "coral4",
+            "contents": "coral4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornflowerblue",
+            "contents": "cornflowerblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornsilk",
+            "contents": "cornsilk",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornsilk1",
+            "contents": "cornsilk1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornsilk2",
+            "contents": "cornsilk2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornsilk3",
+            "contents": "cornsilk3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornsilk4",
+            "contents": "cornsilk4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "crimson",
+            "contents": "crimson",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cyan",
+            "contents": "cyan",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cyan1",
+            "contents": "cyan1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cyan2",
+            "contents": "cyan2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cyan3",
+            "contents": "cyan3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cyan4",
+            "contents": "cyan4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkblue",
+            "contents": "darkblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkcyan",
+            "contents": "darkcyan",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgoldenrod",
+            "contents": "darkgoldenrod",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgoldenrod1",
+            "contents": "darkgoldenrod1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgoldenrod2",
+            "contents": "darkgoldenrod2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgoldenrod3",
+            "contents": "darkgoldenrod3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgoldenrod4",
+            "contents": "darkgoldenrod4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgray",
+            "contents": "darkgray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgreen",
+            "contents": "darkgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgrey",
+            "contents": "darkgrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkkhaki",
+            "contents": "darkkhaki",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkmagenta",
+            "contents": "darkmagenta",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkolivegreen",
+            "contents": "darkolivegreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkolivegreen1",
+            "contents": "darkolivegreen1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkolivegreen2",
+            "contents": "darkolivegreen2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkolivegreen3",
+            "contents": "darkolivegreen3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkolivegreen4",
+            "contents": "darkolivegreen4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorange",
+            "contents": "darkorange",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorange1",
+            "contents": "darkorange1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorange2",
+            "contents": "darkorange2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorange3",
+            "contents": "darkorange3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorange4",
+            "contents": "darkorange4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorchid",
+            "contents": "darkorchid",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorchid1",
+            "contents": "darkorchid1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorchid2",
+            "contents": "darkorchid2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorchid3",
+            "contents": "darkorchid3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorchid4",
+            "contents": "darkorchid4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkred",
+            "contents": "darkred",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darksalmon",
+            "contents": "darksalmon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkseagreen",
+            "contents": "darkseagreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkseagreen1",
+            "contents": "darkseagreen1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkseagreen2",
+            "contents": "darkseagreen2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkseagreen3",
+            "contents": "darkseagreen3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkseagreen4",
+            "contents": "darkseagreen4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslateblue",
+            "contents": "darkslateblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategray",
+            "contents": "darkslategray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategray1",
+            "contents": "darkslategray1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategray2",
+            "contents": "darkslategray2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategray3",
+            "contents": "darkslategray3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategray4",
+            "contents": "darkslategray4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategrey",
+            "contents": "darkslategrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkturquoise",
+            "contents": "darkturquoise",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkviolet",
+            "contents": "darkviolet",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deeppink",
+            "contents": "deeppink",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deeppink1",
+            "contents": "deeppink1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deeppink2",
+            "contents": "deeppink2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deeppink3",
+            "contents": "deeppink3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deeppink4",
+            "contents": "deeppink4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deepskyblue",
+            "contents": "deepskyblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deepskyblue1",
+            "contents": "deepskyblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deepskyblue2",
+            "contents": "deepskyblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deepskyblue3",
+            "contents": "deepskyblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deepskyblue4",
+            "contents": "deepskyblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dimgray",
+            "contents": "dimgray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dimgrey",
+            "contents": "dimgrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dodgerblue",
+            "contents": "dodgerblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dodgerblue1",
+            "contents": "dodgerblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dodgerblue2",
+            "contents": "dodgerblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dodgerblue3",
+            "contents": "dodgerblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dodgerblue4",
+            "contents": "dodgerblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "firebrick",
+            "contents": "firebrick",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "firebrick1",
+            "contents": "firebrick1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "firebrick2",
+            "contents": "firebrick2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "firebrick3",
+            "contents": "firebrick3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "firebrick4",
+            "contents": "firebrick4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "floralwhite",
+            "contents": "floralwhite",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "forestgreen",
+            "contents": "forestgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "fuchsia",
+            "contents": "fuchsia",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gainsboro",
+            "contents": "gainsboro",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ghostwhite",
+            "contents": "ghostwhite",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gold",
+            "contents": "gold",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gold1",
+            "contents": "gold1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gold2",
+            "contents": "gold2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gold3",
+            "contents": "gold3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gold4",
+            "contents": "gold4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "goldenrod",
+            "contents": "goldenrod",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "goldenrod1",
+            "contents": "goldenrod1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "goldenrod2",
+            "contents": "goldenrod2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "goldenrod3",
+            "contents": "goldenrod3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "goldenrod4",
+            "contents": "goldenrod4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray",
+            "contents": "gray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray0",
+            "contents": "gray0",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray1",
+            "contents": "gray1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray10",
+            "contents": "gray10",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray100",
+            "contents": "gray100",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray11",
+            "contents": "gray11",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray12",
+            "contents": "gray12",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray13",
+            "contents": "gray13",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray14",
+            "contents": "gray14",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray15",
+            "contents": "gray15",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray16",
+            "contents": "gray16",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray17",
+            "contents": "gray17",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray18",
+            "contents": "gray18",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray19",
+            "contents": "gray19",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray2",
+            "contents": "gray2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray20",
+            "contents": "gray20",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray21",
+            "contents": "gray21",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray22",
+            "contents": "gray22",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray23",
+            "contents": "gray23",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray24",
+            "contents": "gray24",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray25",
+            "contents": "gray25",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray26",
+            "contents": "gray26",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray27",
+            "contents": "gray27",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray28",
+            "contents": "gray28",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray29",
+            "contents": "gray29",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray3",
+            "contents": "gray3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray30",
+            "contents": "gray30",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray31",
+            "contents": "gray31",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray32",
+            "contents": "gray32",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray33",
+            "contents": "gray33",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray34",
+            "contents": "gray34",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray35",
+            "contents": "gray35",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray36",
+            "contents": "gray36",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray37",
+            "contents": "gray37",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray38",
+            "contents": "gray38",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray39",
+            "contents": "gray39",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray4",
+            "contents": "gray4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray40",
+            "contents": "gray40",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray41",
+            "contents": "gray41",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray42",
+            "contents": "gray42",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray43",
+            "contents": "gray43",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray44",
+            "contents": "gray44",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray45",
+            "contents": "gray45",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray46",
+            "contents": "gray46",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray47",
+            "contents": "gray47",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray48",
+            "contents": "gray48",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray49",
+            "contents": "gray49",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray5",
+            "contents": "gray5",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray50",
+            "contents": "gray50",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray51",
+            "contents": "gray51",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray52",
+            "contents": "gray52",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray53",
+            "contents": "gray53",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray54",
+            "contents": "gray54",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray55",
+            "contents": "gray55",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray56",
+            "contents": "gray56",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray57",
+            "contents": "gray57",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray58",
+            "contents": "gray58",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray59",
+            "contents": "gray59",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray6",
+            "contents": "gray6",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray60",
+            "contents": "gray60",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray61",
+            "contents": "gray61",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray62",
+            "contents": "gray62",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray63",
+            "contents": "gray63",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray64",
+            "contents": "gray64",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray65",
+            "contents": "gray65",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray66",
+            "contents": "gray66",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray67",
+            "contents": "gray67",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray68",
+            "contents": "gray68",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray69",
+            "contents": "gray69",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray7",
+            "contents": "gray7",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray70",
+            "contents": "gray70",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray71",
+            "contents": "gray71",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray72",
+            "contents": "gray72",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray73",
+            "contents": "gray73",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray74",
+            "contents": "gray74",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray75",
+            "contents": "gray75",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray76",
+            "contents": "gray76",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray77",
+            "contents": "gray77",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray78",
+            "contents": "gray78",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray79",
+            "contents": "gray79",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray8",
+            "contents": "gray8",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray80",
+            "contents": "gray80",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray81",
+            "contents": "gray81",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray82",
+            "contents": "gray82",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray83",
+            "contents": "gray83",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray84",
+            "contents": "gray84",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray85",
+            "contents": "gray85",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray86",
+            "contents": "gray86",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray87",
+            "contents": "gray87",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray88",
+            "contents": "gray88",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray89",
+            "contents": "gray89",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray9",
+            "contents": "gray9",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray90",
+            "contents": "gray90",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray91",
+            "contents": "gray91",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray92",
+            "contents": "gray92",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray93",
+            "contents": "gray93",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray94",
+            "contents": "gray94",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray95",
+            "contents": "gray95",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray96",
+            "contents": "gray96",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray97",
+            "contents": "gray97",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray98",
+            "contents": "gray98",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray99",
+            "contents": "gray99",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "green",
+            "contents": "green",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "green1",
+            "contents": "green1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "green2",
+            "contents": "green2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "green3",
+            "contents": "green3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "green4",
+            "contents": "green4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greenyellow",
+            "contents": "greenyellow",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey",
+            "contents": "grey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey0",
+            "contents": "grey0",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey1",
+            "contents": "grey1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey10",
+            "contents": "grey10",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey100",
+            "contents": "grey100",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey11",
+            "contents": "grey11",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey12",
+            "contents": "grey12",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey13",
+            "contents": "grey13",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey14",
+            "contents": "grey14",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey15",
+            "contents": "grey15",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey16",
+            "contents": "grey16",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey17",
+            "contents": "grey17",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey18",
+            "contents": "grey18",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey19",
+            "contents": "grey19",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey2",
+            "contents": "grey2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey20",
+            "contents": "grey20",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey21",
+            "contents": "grey21",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey22",
+            "contents": "grey22",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey23",
+            "contents": "grey23",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey24",
+            "contents": "grey24",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey25",
+            "contents": "grey25",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey26",
+            "contents": "grey26",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey27",
+            "contents": "grey27",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey28",
+            "contents": "grey28",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey29",
+            "contents": "grey29",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey3",
+            "contents": "grey3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey30",
+            "contents": "grey30",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey31",
+            "contents": "grey31",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey32",
+            "contents": "grey32",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey33",
+            "contents": "grey33",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey34",
+            "contents": "grey34",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey35",
+            "contents": "grey35",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey36",
+            "contents": "grey36",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey37",
+            "contents": "grey37",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey38",
+            "contents": "grey38",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey39",
+            "contents": "grey39",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey4",
+            "contents": "grey4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey40",
+            "contents": "grey40",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey41",
+            "contents": "grey41",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey42",
+            "contents": "grey42",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey43",
+            "contents": "grey43",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey44",
+            "contents": "grey44",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey45",
+            "contents": "grey45",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey46",
+            "contents": "grey46",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey47",
+            "contents": "grey47",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey48",
+            "contents": "grey48",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey49",
+            "contents": "grey49",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey5",
+            "contents": "grey5",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey50",
+            "contents": "grey50",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey51",
+            "contents": "grey51",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey52",
+            "contents": "grey52",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey53",
+            "contents": "grey53",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey54",
+            "contents": "grey54",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey55",
+            "contents": "grey55",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey56",
+            "contents": "grey56",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey57",
+            "contents": "grey57",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey58",
+            "contents": "grey58",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey59",
+            "contents": "grey59",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey6",
+            "contents": "grey6",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey60",
+            "contents": "grey60",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey61",
+            "contents": "grey61",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey62",
+            "contents": "grey62",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey63",
+            "contents": "grey63",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey64",
+            "contents": "grey64",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey65",
+            "contents": "grey65",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey66",
+            "contents": "grey66",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey67",
+            "contents": "grey67",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey68",
+            "contents": "grey68",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey69",
+            "contents": "grey69",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey7",
+            "contents": "grey7",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey70",
+            "contents": "grey70",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey71",
+            "contents": "grey71",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey72",
+            "contents": "grey72",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey73",
+            "contents": "grey73",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey74",
+            "contents": "grey74",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey75",
+            "contents": "grey75",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey76",
+            "contents": "grey76",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey77",
+            "contents": "grey77",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey78",
+            "contents": "grey78",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey79",
+            "contents": "grey79",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey8",
+            "contents": "grey8",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey80",
+            "contents": "grey80",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey81",
+            "contents": "grey81",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey82",
+            "contents": "grey82",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey83",
+            "contents": "grey83",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey84",
+            "contents": "grey84",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey85",
+            "contents": "grey85",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey86",
+            "contents": "grey86",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey87",
+            "contents": "grey87",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey88",
+            "contents": "grey88",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey89",
+            "contents": "grey89",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey9",
+            "contents": "grey9",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey90",
+            "contents": "grey90",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey91",
+            "contents": "grey91",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey92",
+            "contents": "grey92",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey93",
+            "contents": "grey93",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey94",
+            "contents": "grey94",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey95",
+            "contents": "grey95",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey96",
+            "contents": "grey96",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey97",
+            "contents": "grey97",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey98",
+            "contents": "grey98",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey99",
+            "contents": "grey99",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "honeydew",
+            "contents": "honeydew",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "honeydew1",
+            "contents": "honeydew1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "honeydew2",
+            "contents": "honeydew2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "honeydew3",
+            "contents": "honeydew3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "honeydew4",
+            "contents": "honeydew4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "hotpink",
+            "contents": "hotpink",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "hotpink1",
+            "contents": "hotpink1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "hotpink2",
+            "contents": "hotpink2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "hotpink3",
+            "contents": "hotpink3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "hotpink4",
+            "contents": "hotpink4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indianred",
+            "contents": "indianred",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indianred1",
+            "contents": "indianred1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indianred2",
+            "contents": "indianred2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indianred3",
+            "contents": "indianred3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indianred4",
+            "contents": "indianred4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indigo",
+            "contents": "indigo",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "invis",
+            "contents": "invis",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ivory",
+            "contents": "ivory",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ivory1",
+            "contents": "ivory1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ivory2",
+            "contents": "ivory2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ivory3",
+            "contents": "ivory3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ivory4",
+            "contents": "ivory4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "khaki",
+            "contents": "khaki",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "khaki1",
+            "contents": "khaki1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "khaki2",
+            "contents": "khaki2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "khaki3",
+            "contents": "khaki3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "khaki4",
+            "contents": "khaki4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavender",
+            "contents": "lavender",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavenderblush",
+            "contents": "lavenderblush",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavenderblush1",
+            "contents": "lavenderblush1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavenderblush2",
+            "contents": "lavenderblush2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavenderblush3",
+            "contents": "lavenderblush3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavenderblush4",
+            "contents": "lavenderblush4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lawngreen",
+            "contents": "lawngreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lemonchiffon",
+            "contents": "lemonchiffon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lemonchiffon1",
+            "contents": "lemonchiffon1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lemonchiffon2",
+            "contents": "lemonchiffon2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lemonchiffon3",
+            "contents": "lemonchiffon3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lemonchiffon4",
+            "contents": "lemonchiffon4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightblue",
+            "contents": "lightblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightblue1",
+            "contents": "lightblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightblue2",
+            "contents": "lightblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightblue3",
+            "contents": "lightblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightblue4",
+            "contents": "lightblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcoral",
+            "contents": "lightcoral",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcyan",
+            "contents": "lightcyan",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcyan1",
+            "contents": "lightcyan1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcyan2",
+            "contents": "lightcyan2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcyan3",
+            "contents": "lightcyan3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcyan4",
+            "contents": "lightcyan4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrod",
+            "contents": "lightgoldenrod",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrod1",
+            "contents": "lightgoldenrod1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrod2",
+            "contents": "lightgoldenrod2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrod3",
+            "contents": "lightgoldenrod3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrod4",
+            "contents": "lightgoldenrod4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrodyellow",
+            "contents": "lightgoldenrodyellow",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgray",
+            "contents": "lightgray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgreen",
+            "contents": "lightgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgrey",
+            "contents": "lightgrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightpink",
+            "contents": "lightpink",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightpink1",
+            "contents": "lightpink1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightpink2",
+            "contents": "lightpink2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightpink3",
+            "contents": "lightpink3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightpink4",
+            "contents": "lightpink4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsalmon",
+            "contents": "lightsalmon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsalmon1",
+            "contents": "lightsalmon1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsalmon2",
+            "contents": "lightsalmon2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsalmon3",
+            "contents": "lightsalmon3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsalmon4",
+            "contents": "lightsalmon4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightseagreen",
+            "contents": "lightseagreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightskyblue",
+            "contents": "lightskyblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightskyblue1",
+            "contents": "lightskyblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightskyblue2",
+            "contents": "lightskyblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightskyblue3",
+            "contents": "lightskyblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightskyblue4",
+            "contents": "lightskyblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightslateblue",
+            "contents": "lightslateblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightslategray",
+            "contents": "lightslategray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightslategrey",
+            "contents": "lightslategrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsteelblue",
+            "contents": "lightsteelblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsteelblue1",
+            "contents": "lightsteelblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsteelblue2",
+            "contents": "lightsteelblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsteelblue3",
+            "contents": "lightsteelblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsteelblue4",
+            "contents": "lightsteelblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightyellow",
+            "contents": "lightyellow",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightyellow1",
+            "contents": "lightyellow1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightyellow2",
+            "contents": "lightyellow2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightyellow3",
+            "contents": "lightyellow3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightyellow4",
+            "contents": "lightyellow4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lime",
+            "contents": "lime",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "limegreen",
+            "contents": "limegreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "linen",
+            "contents": "linen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "magenta",
+            "contents": "magenta",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "magenta1",
+            "contents": "magenta1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "magenta2",
+            "contents": "magenta2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "magenta3",
+            "contents": "magenta3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "magenta4",
+            "contents": "magenta4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "maroon",
+            "contents": "maroon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "maroon1",
+            "contents": "maroon1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "maroon2",
+            "contents": "maroon2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "maroon3",
+            "contents": "maroon3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "maroon4",
+            "contents": "maroon4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumaquamarine",
+            "contents": "mediumaquamarine",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumblue",
+            "contents": "mediumblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumorchid",
+            "contents": "mediumorchid",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumorchid1",
+            "contents": "mediumorchid1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumorchid2",
+            "contents": "mediumorchid2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumorchid3",
+            "contents": "mediumorchid3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumorchid4",
+            "contents": "mediumorchid4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumpurple",
+            "contents": "mediumpurple",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumpurple1",
+            "contents": "mediumpurple1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumpurple2",
+            "contents": "mediumpurple2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumpurple3",
+            "contents": "mediumpurple3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumpurple4",
+            "contents": "mediumpurple4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumseagreen",
+            "contents": "mediumseagreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumslateblue",
+            "contents": "mediumslateblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumspringgreen",
+            "contents": "mediumspringgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumturquoise",
+            "contents": "mediumturquoise",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumvioletred",
+            "contents": "mediumvioletred",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "midnightblue",
+            "contents": "midnightblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mintcream",
+            "contents": "mintcream",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mistyrose",
+            "contents": "mistyrose",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mistyrose1",
+            "contents": "mistyrose1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mistyrose2",
+            "contents": "mistyrose2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mistyrose3",
+            "contents": "mistyrose3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mistyrose4",
+            "contents": "mistyrose4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "moccasin",
+            "contents": "moccasin",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navajowhite",
+            "contents": "navajowhite",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navajowhite1",
+            "contents": "navajowhite1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navajowhite2",
+            "contents": "navajowhite2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navajowhite3",
+            "contents": "navajowhite3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navajowhite4",
+            "contents": "navajowhite4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navy",
+            "contents": "navy",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navyblue",
+            "contents": "navyblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "none",
+            "contents": "none",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oldlace",
+            "contents": "oldlace",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olive",
+            "contents": "olive",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olivedrab",
+            "contents": "olivedrab",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olivedrab1",
+            "contents": "olivedrab1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olivedrab2",
+            "contents": "olivedrab2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olivedrab3",
+            "contents": "olivedrab3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olivedrab4",
+            "contents": "olivedrab4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orange",
+            "contents": "orange",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orange1",
+            "contents": "orange1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orange2",
+            "contents": "orange2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orange3",
+            "contents": "orange3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orange4",
+            "contents": "orange4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orangered",
+            "contents": "orangered",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orangered1",
+            "contents": "orangered1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orangered2",
+            "contents": "orangered2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orangered3",
+            "contents": "orangered3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orangered4",
+            "contents": "orangered4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orchid",
+            "contents": "orchid",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orchid1",
+            "contents": "orchid1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orchid2",
+            "contents": "orchid2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orchid3",
+            "contents": "orchid3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orchid4",
+            "contents": "orchid4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegoldenrod",
+            "contents": "palegoldenrod",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegreen",
+            "contents": "palegreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegreen1",
+            "contents": "palegreen1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegreen2",
+            "contents": "palegreen2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegreen3",
+            "contents": "palegreen3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegreen4",
+            "contents": "palegreen4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paleturquoise",
+            "contents": "paleturquoise",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paleturquoise1",
+            "contents": "paleturquoise1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paleturquoise2",
+            "contents": "paleturquoise2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paleturquoise3",
+            "contents": "paleturquoise3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paleturquoise4",
+            "contents": "paleturquoise4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palevioletred",
+            "contents": "palevioletred",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palevioletred1",
+            "contents": "palevioletred1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palevioletred2",
+            "contents": "palevioletred2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palevioletred3",
+            "contents": "palevioletred3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palevioletred4",
+            "contents": "palevioletred4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "papayawhip",
+            "contents": "papayawhip",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peachpuff",
+            "contents": "peachpuff",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peachpuff1",
+            "contents": "peachpuff1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peachpuff2",
+            "contents": "peachpuff2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peachpuff3",
+            "contents": "peachpuff3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peachpuff4",
+            "contents": "peachpuff4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peru",
+            "contents": "peru",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pink",
+            "contents": "pink",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pink1",
+            "contents": "pink1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pink2",
+            "contents": "pink2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pink3",
+            "contents": "pink3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pink4",
+            "contents": "pink4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "plum",
+            "contents": "plum",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "plum1",
+            "contents": "plum1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "plum2",
+            "contents": "plum2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "plum3",
+            "contents": "plum3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "plum4",
+            "contents": "plum4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "powderblue",
+            "contents": "powderblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purple",
+            "contents": "purple",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purple1",
+            "contents": "purple1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purple2",
+            "contents": "purple2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purple3",
+            "contents": "purple3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purple4",
+            "contents": "purple4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rebeccapurple",
+            "contents": "rebeccapurple",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "red",
+            "contents": "red",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "red1",
+            "contents": "red1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "red2",
+            "contents": "red2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "red3",
+            "contents": "red3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "red4",
+            "contents": "red4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rosybrown",
+            "contents": "rosybrown",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rosybrown1",
+            "contents": "rosybrown1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rosybrown2",
+            "contents": "rosybrown2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rosybrown3",
+            "contents": "rosybrown3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rosybrown4",
+            "contents": "rosybrown4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "royalblue",
+            "contents": "royalblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "royalblue1",
+            "contents": "royalblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "royalblue2",
+            "contents": "royalblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "royalblue3",
+            "contents": "royalblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "royalblue4",
+            "contents": "royalblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "saddlebrown",
+            "contents": "saddlebrown",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "salmon",
+            "contents": "salmon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "salmon1",
+            "contents": "salmon1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "salmon2",
+            "contents": "salmon2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "salmon3",
+            "contents": "salmon3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "salmon4",
+            "contents": "salmon4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sandybrown",
+            "contents": "sandybrown",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seagreen",
+            "contents": "seagreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seagreen1",
+            "contents": "seagreen1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seagreen2",
+            "contents": "seagreen2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seagreen3",
+            "contents": "seagreen3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seagreen4",
+            "contents": "seagreen4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seashell",
+            "contents": "seashell",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seashell1",
+            "contents": "seashell1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seashell2",
+            "contents": "seashell2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seashell3",
+            "contents": "seashell3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seashell4",
+            "contents": "seashell4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sienna",
+            "contents": "sienna",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sienna1",
+            "contents": "sienna1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sienna2",
+            "contents": "sienna2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sienna3",
+            "contents": "sienna3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sienna4",
+            "contents": "sienna4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "silver",
+            "contents": "silver",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "skyblue",
+            "contents": "skyblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "skyblue1",
+            "contents": "skyblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "skyblue2",
+            "contents": "skyblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "skyblue3",
+            "contents": "skyblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "skyblue4",
+            "contents": "skyblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slateblue",
+            "contents": "slateblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slateblue1",
+            "contents": "slateblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slateblue2",
+            "contents": "slateblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slateblue3",
+            "contents": "slateblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slateblue4",
+            "contents": "slateblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategray",
+            "contents": "slategray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategray1",
+            "contents": "slategray1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategray2",
+            "contents": "slategray2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategray3",
+            "contents": "slategray3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategray4",
+            "contents": "slategray4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategrey",
+            "contents": "slategrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "snow",
+            "contents": "snow",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "snow1",
+            "contents": "snow1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "snow2",
+            "contents": "snow2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "snow3",
+            "contents": "snow3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "snow4",
+            "contents": "snow4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "springgreen",
+            "contents": "springgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "springgreen1",
+            "contents": "springgreen1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "springgreen2",
+            "contents": "springgreen2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "springgreen3",
+            "contents": "springgreen3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "springgreen4",
+            "contents": "springgreen4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "steelblue",
+            "contents": "steelblue",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "steelblue1",
+            "contents": "steelblue1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "steelblue2",
+            "contents": "steelblue2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "steelblue3",
+            "contents": "steelblue3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "steelblue4",
+            "contents": "steelblue4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tan",
+            "contents": "tan",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tan1",
+            "contents": "tan1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tan2",
+            "contents": "tan2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tan3",
+            "contents": "tan3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tan4",
+            "contents": "tan4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "teal",
+            "contents": "teal",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "thistle",
+            "contents": "thistle",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "thistle1",
+            "contents": "thistle1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "thistle2",
+            "contents": "thistle2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "thistle3",
+            "contents": "thistle3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "thistle4",
+            "contents": "thistle4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tomato",
+            "contents": "tomato",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tomato1",
+            "contents": "tomato1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tomato2",
+            "contents": "tomato2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tomato3",
+            "contents": "tomato3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tomato4",
+            "contents": "tomato4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "transparent",
+            "contents": "transparent",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "turquoise",
+            "contents": "turquoise",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "turquoise1",
+            "contents": "turquoise1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "turquoise2",
+            "contents": "turquoise2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "turquoise3",
+            "contents": "turquoise3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "turquoise4",
+            "contents": "turquoise4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violet",
+            "contents": "violet",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violetred",
+            "contents": "violetred",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violetred1",
+            "contents": "violetred1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violetred2",
+            "contents": "violetred2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violetred3",
+            "contents": "violetred3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violetred4",
+            "contents": "violetred4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "webgray",
+            "contents": "webgray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "webgreen",
+            "contents": "webgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "webgrey",
+            "contents": "webgrey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "webmaroon",
+            "contents": "webmaroon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "webpurple",
+            "contents": "webpurple",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "wheat",
+            "contents": "wheat",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "wheat1",
+            "contents": "wheat1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "wheat2",
+            "contents": "wheat2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "wheat3",
+            "contents": "wheat3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "wheat4",
+            "contents": "wheat4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "white",
+            "contents": "white",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "whitesmoke",
+            "contents": "whitesmoke",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "x11gray",
+            "contents": "x11gray",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "x11green",
+            "contents": "x11green",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "x11grey",
+            "contents": "x11grey",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "x11maroon",
+            "contents": "x11maroon",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "x11purple",
+            "contents": "x11purple",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellow",
+            "contents": "yellow",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellow1",
+            "contents": "yellow1",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellow2",
+            "contents": "yellow2",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellow3",
+            "contents": "yellow3",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellow4",
+            "contents": "yellow4",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellowgreen",
+            "contents": "yellowgreen",
+            "annotation": "x11 color",
+            "kind": ["keyword", "c", "X11 Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        }
+    ]
+}

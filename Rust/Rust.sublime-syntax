@@ -9,10 +9,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}}            # shebang
+  | ^ \s* // .*? -\*- .*? \brust\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \b(?:cargo|rust)\b
   non_raw_ident: '[[:alpha:]][_[:alnum:]]*|_[_[:alnum:]]+'
   # include a word boundary at the end to ensure all possible characters are
   # consumed, to prevent catastrophic backtracking
@@ -91,7 +93,9 @@ variables:
     )
 contexts:
   main:
-    - include: statements
+    - meta_include_prototype: false
+    - match: ''
+      push: [statements, frontmatter, shebang]
 
   prototype:
     # Macro metavariables. Ideally we would do this as a with_prototype,
@@ -100,6 +104,40 @@ contexts:
     # can be inserted in just about any position in the syntax.
     - match: '\${{identifier}}'
       scope: variable.other.rust
+
+  shebang:
+    - meta_include_prototype: false
+    # allow extending syntaxes like Markdown to ignore indentation restrictions
+    - match: \s*(\#!)
+      captures:
+        1: punctuation.definition.comment.rust
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Rust is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.rust
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.rust
+    - match: $\n?
+      pop: 1
+
+  frontmatter:
+    - meta_include_prototype: false
+    - match: \s*(---)\s*$\n?
+      captures:
+        0: meta.frontmatter.rust
+        1: punctuation.section.frontmatter.begin.rust
+      embed: scope:source.toml
+      embed_scope: meta.frontmatter.rust source.toml.embedded.rust
+      escape: ^\s*(---)\s*$\n?
+      escape_captures:
+        0: meta.frontmatter.rust
+        1: punctuation.section.frontmatter.end.rust
+      pop: 1
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Rust is embedded.
+      pop: 1
 
   statements:
     # This isn't really just "statements", it also includes all types,
@@ -564,7 +602,6 @@ contexts:
   types:
     # matches stray identifiers as a types because a type is expected
     - include: comments
-    - include: impl-types
     - include: return-type
     - match: '&'
       scope: keyword.operator.rust
@@ -590,6 +627,7 @@ contexts:
         - include: pattern-param
     - include: dyn-types
     - include: lifetime
+    - include: impl-trait
     - match: (?={{identifier}}::)
       push: type-path
     - match: (?=::)
@@ -640,6 +678,7 @@ contexts:
       scope: punctuation.accessor.rust
       set: [type-path-second, path-after-accessor]
     - include: type-names
+    - include: generic-identifier-names
     - include: else-pop
 
   type-path-second:
@@ -709,15 +748,6 @@ contexts:
   generic-type-names:
     - match: '\b(?:r#)?_*{{type_identifier}}'
       scope: storage.type.rust
-
-  impl-types:
-    - match: '\bimpl\b'
-      scope: storage.type.impl.rust
-      push:
-        - include: comments
-        - include: impl-generic
-        - match: '(?=\S)'
-          pop: true
 
   dyn-types:
     - match: '\bdyn\b(?=\s*(?:\(|{{lifetime}}|{{identifier}}))'
@@ -802,6 +832,40 @@ contexts:
       scope: punctuation.accessor.double-colon.rust
     - match: '[-+%/*]'
       scope: keyword.operator.arithmetic.rust
+
+  impl-trait:
+    - match: '\bimpl\b'
+      scope: storage.type.impl.rust
+      push: impl-trait-types
+
+  impl-trait-types:
+    - match: '\buse\b'
+      scope: keyword.other.rust
+      push: impl-trait-use
+    - include: types
+    - match: '(?=\S)'
+      pop: true
+
+  impl-trait-use:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.rust
+      set: impl-trait-use-generic-body
+    - match: '(?=\S)'
+      pop: true
+
+  impl-trait-use-generic-body:
+    - meta_scope: meta.generic.rust
+    - match: '>'
+      scope: punctuation.definition.generic.end.rust
+      pop: true
+    - include: lifetime
+    - match: ','
+      scope: punctuation.separator.rust
+    - match: '\bSelf\b'
+      scope: keyword.other.rust
+    - include: all-generic-type-names
+    - match: '(?=\S)'
+      pop: true
 
   ##[ STRUCTS ]###############################################################
 
@@ -1349,6 +1413,7 @@ contexts:
   comments:
     - include: line-comments
     - include: block-comments
+    - include: merge-conflict-markers
 
   line-comments:
     - match: //[!/]
@@ -1377,6 +1442,7 @@ contexts:
           captures:
             1: punctuation.definition.comment.rust
         - include: block-comments
+        - include: merge-conflict-markers
     - match: /\*
       scope: punctuation.definition.comment.rust
       push:
@@ -1385,8 +1451,29 @@ contexts:
           scope: punctuation.definition.comment.rust
           pop: true
         - include: block-comments
+        - include: merge-conflict-markers
 
-  ##[ STRING LITERALS ]#######################################################
+##[ MERGE CONFLICT MARKERS ]################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+##[ STRING LITERALS ]#######################################################
 
   strings:
     - include: byte-string

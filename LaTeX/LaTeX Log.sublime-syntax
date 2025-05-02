@@ -4,100 +4,177 @@ name: LaTeX Log
 scope: text.log.latex
 version: 2
 
-first_line_match: 'This is (pdf|pdfe)?TeXk?, Version '
+first_line_match: '^This is (?:LuaHB|pdfe?|Xe)?TeXk?, Version '
 
 ################################################################################
 
 contexts:
   main:
-    - include: log-entries
-    - include: file-paths
-    - include: under-over-full
+    - include: comments
+    - include: blocks
     - include: strings
 
-  under-over-full:
-    - match: (?:Overfull|Underfull)
-      scope: keyword.control.hyphenation.latex
-      push: under-over-full-body
+  comments:
+    # note: primarily used for syntax_test files
+    - match: \#
+      scope: punctuation.definition.comment.log
+      push: comment-body
 
-  under-over-full-body:
-    - meta_scope: meta.log.latex.hyphenation
-    - match: \[\]\n
-      scope: keyword.control.hyphenation.latex
+  comment-body:
+    - meta_scope: comment.line.log
+    - match: $\n?
       pop: 1
-    - match: '[0-9]+\-\-[0-9]+'
-      scope: variable.parameter.hyphenation.latex
 
-###[ File paths ]###############################################################
+###[ BLOCKS ]##################################################################
 
-  file-paths:
-    - include: function-file-paths
-    - include: tag-file-paths
-    - include: type-file-paths
+  blocks:
+    # block begin with full file name
+    - match: (\()((?:\\.|[^\s?!*)])+\.[A-Za-z]{2,}\b)
+      captures:
+        1: punctuation.section.block.begin.log
+        2: meta.toc-list.log entity.name.section.filename.log
+      push:
+        - block-body
+        - block-comment
+    # block begin with wrapped file name
+    - match: (\()((?:\\.|[^\s?!*)])+\n)
+      captures:
+        1: punctuation.section.block.begin.log
+        2: meta.toc-list.log entity.name.section.filename.log
+      push:
+        - block-body
+        - block-comment
+        - filename-continuation
 
-  function-file-paths:
-    - match: .*\.sty
-      scope: entity.name.function
+  filename-continuation:
+    - match: ((?:\\.|[^\s?!*)])+\.[A-Za-z]{2,}\b)
+      scope: meta.toc-list.log entity.name.section.filename.log
+      pop: 1
+    - match: (?=\S)
+      pop: 1
 
-  tag-file-paths:
-    - match: .*\.cfg
-      scope: entity.name.tag.configuration
-    - match: .*\.def
-      scope: entity.name.tag.definition
+  block-body:
+    - meta_scope: meta.block.log
+    - match: \)
+      scope: punctuation.section.block.end.log
+      pop: 1
+    - include: comments
+    - include: blocks
+    - include: groups
+    - include: log-entries
+    - include: commands
+    - include: strings
 
-  type-file-paths:
-    - match: .*\.cls
-      scope: entity.name.type.class
+  block-comment:
+    - match: '^Document Class:.{64}\n'
+      set: block-comment-body
+    - match: '^Document Class:.+'
+      scope: comment.line.log
+      pop: 1
+    - match: '^File:.{74}\n'
+      set: block-comment-body
+    - match: '^File:.+'
+      scope: comment.line.log
+      pop: 1
+    - match: '^Package:.{71}\n'
+      set: block-comment-body
+    - match: '^Package:.+'
+      scope: comment.line.log
+      pop: 1
+    - match: ^|(?=\))
+      pop: 1
 
-###[ Log entries ]##############################################################
+  block-comment-body:
+    - meta_scope: comment.line.log
+    - match: ^.{80}\n # consume anything which has 80 chars
+    - match: \n
+      pop: 1
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.log
+      push: group-body
+
+  group-body:
+    - meta_scope: meta.group.log
+    - match: \)
+      scope: punctuation.section.group.end.log
+      pop: 1
+    - include: comments
+    - include: groups
+    - include: log-entries
+    - include: commands
+    - include: strings
+
+###[ LOG ENTRIES ]##############################################################
 
   log-entries:
-    - include: error-log-entries
-    - include: warning-log-entries
-    - include: info-log-entries
-    - include: fixme-log-entries
+    # errors
+    - match: '^[^:]*Error:'
+      scope: markup.error.log
+    - match: '^!.*'
+      scope: markup.error.log
+    # warnings
+    - match: '^[^:]*(?:Overfull|Underfull)'
+      scope: markup.warning.log
+      push: box-warning-body
+    - match: '^[^:]*(FiXme|Warning):'
+      scope: markup.warning.log
+    - match: '^[^:]*:\d*:.*'
+      scope: markup.warning.log
+    # info
+    - match: '^[^:]*Info:'
+      scope: markup.info.log
 
-  error-log-entries:
-    - match: '.*Error|^!.*'
-      scope: invalid.illegal
+  box-warning-body:
+    - meta_scope: meta.warning.box.log
+    - match: ^\s*\[\]\n
+      scope: punctuation.terminator.log
+      pop: 1
+    - include: comments
+    - include: groups
+    - include: commands
 
-  warning-log-entries:
-    - match: '.*Warning:'
-      scope: invalid.deprecated
-    - match: '[^:]*:\d*:.*'
-      scope: invalid.deprecated
+  commands:
+    - match: (\\)[\w@]+
+      scope: support.function.latex
+      captures:
+        1: punctuation.definition.variable.latex
+    - match: :?=
+      scope: keyword.operator.assignment.latex
+    - match: ;
+      scope: punctuation.separator.latex
 
-  info-log-entries:
-    - match: '.*Info.*'
-      scope: comment.block.documentation
-
-  fixme-log-entries:
-    - match: '.*FiXme:'
-      scope: meta.log.latex.fixme
-
-###[ Strings ]##################################################################
+###[ STRINGS ]##################################################################
 
   strings:
-    - include: angle-bracket-strings
-
-  angle-bracket-strings:
+    - match: '<<'
+      scope: punctuation.definition.string.begin.log
+      push: double-angled-string-body
     - match: '<'
-      scope: punctuation.definition.string.begin.log.latex
-      push: angle-bracket-string-content
+      scope: punctuation.definition.string.begin.log
+      push: single-angled-string-body
+    - match: '`'
+      scope: punctuation.definition.string.begin.log
+      push: single-quoted-string-body
 
-  angle-bracket-string-content:
-    - meta_scope: string.unquoted.other.filename.log.latex
-    - match: '>'
-      scope: punctuation.definition.string.end.log.latex
+  double-angled-string-body:
+    - meta_scope: string.quoted.other.log
+    - match: '>>'
+      scope: punctuation.definition.string.end.log
       pop: 1
-    - match: .*/.*\.pdf
-      scope:
-        support.function.with-arg.latex
-        entity.name.function.filename.latex
-    - include: eol-pop
 
-###[ Helpers ]##################################################################
+  single-angled-string-body:
+    - meta_scope: string.quoted.other.log
+    - match: '>'
+      scope: punctuation.definition.string.end.log
+      pop: 1
 
-  eol-pop:
-    - match: $\n?
+  single-quoted-string-body:
+    - meta_scope: string.quoted.single.log
+    - match: \'
+      scope: punctuation.definition.string.end.log
+      pop: 1
+    - match: \.$
+      scope: punctuation.definition.string.end.log
       pop: 1

@@ -1,5 +1,25 @@
 # SYNTAX TEST "Packages/Rails/SQL (Rails).sublime-syntax"
 
+-- id: <%- $id -%>
+#^^^^^^^^^^^^^^^^^^ comment.line.double-dash.sql
+#^ punctuation.definition.comment.sql
+#      ^^^^^^^^^^^ meta.embedded.rails
+#      ^^^ punctuation.section.embedded.begin.rails
+#         ^^^^^ source.ruby.rails.embedded.rails
+#          ^^^ variable.other.readwrite.global.ruby
+#          ^ punctuation.definition.variable.ruby
+#              ^^^ punctuation.section.embedded.end.rails
+
+# id: <%- $id -%>
+# <- punctuation.definition.comment.sql
+#^^^^^^^^^^^^^^^^^ comment.line.number-sign.sql
+#     ^^^^^^^^^^^ meta.embedded.rails
+#     ^^^ punctuation.section.embedded.begin.rails
+#        ^^^^^ source.ruby.rails.embedded.rails
+#         ^^^ variable.other.readwrite.global.ruby
+#         ^ punctuation.definition.variable.ruby
+#             ^^^ punctuation.section.embedded.end.rails
+
     SELECT * FROM table
 #^^^^^^^^^^^^^^^^^^^^^^^ source.sql.rails
 #   ^^^^^^ keyword.other
@@ -18,11 +38,12 @@
 #            ^ punctuation.definition.comment
 #                                      ^^ punctuation.section.embedded.end.rails
 
-    SELECT <%- $cols %> FROM <%- $table %>
+    SELECT <%- $cols %> FROM <%- $table %> WHERE `id` = 'my-<%-$name %>'
 #   ^^^^^^ keyword.other
 #          ^^^^^^^^^^^^ meta.embedded.rails
 #                       ^^^^ keyword.other
 #                            ^^^^^^^^^^^^^ meta.embedded.rails
+#                                                           ^^^^^^^^^^^ meta.embedded.rails
 
   <% end %>
 # ^^^^^^^^^ meta.embedded.rails

@@ -911,7 +911,7 @@ def _():
     for
 #   ^^^ keyword.control.loop.for
     b = c in d
-#         ^^ keyword.operator.logical - keyword.control.loop.for.in
+#         ^^ keyword.operator.logical - keyword.operator.iteration.in
 
     for \
         a \
@@ -924,7 +924,7 @@ def _():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
 #   ^^^^^ storage.modifier.async
 #         ^^^ keyword.control.loop.for
-#               ^^ keyword.control.loop.for.in
+#               ^^ keyword.operator.iteration.in
 #                          ^ punctuation.section.block.loop.for
         pass
 
@@ -2536,7 +2536,7 @@ class Class():
 #     ^ meta.generic-name.python
 #       ^^^ keyword.control.loop.for.generator.python
 #           ^ meta.generic-name.python
-#             ^^ keyword.control.loop.for.in.python
+#             ^^ keyword.operator.iteration.in.python
 #                ^^^^^^^ meta.function-call.identifier.python variable.function.python
 #                       ^^ meta.function-call.arguments.python
 #                         ^ punctuation.section.sequence.end.python
@@ -2552,7 +2552,7 @@ class Class():
 #     ^ meta.generic-name.python
 #       ^^^ keyword.control.loop.for.generator.python
 #           ^ meta.generic-name.python
-#             ^^ keyword.control.loop.for.in.python
+#             ^^ keyword.operator.iteration.in.python
 #                ^^^^^^^ meta.function-call.identifier.python variable.function.python
 #                       ^^ meta.function-call.arguments.python
 #                         ^ punctuation.section.sequence.end.python
@@ -2730,24 +2730,24 @@ generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.generator.python
 #              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.loop.for.generator
-#                    ^^ keyword.control.loop.for.in
+#                    ^^ keyword.operator.iteration.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
 #          ^^^ keyword.control.loop.for.generator
-#                ^^ keyword.control.loop.for.in
+#                ^^ keyword.operator.iteration.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.loop.for.generator
-#               ^^ keyword.control.loop.for.in
+#               ^^ keyword.operator.iteration.in
 set_ = {x * x for x in y}
 #      ^^^^^^^^^^^^^^^^^^ meta.set
 #             ^^^^^^^^ meta.expression.generator
 #      ^ punctuation.section.set.begin
 #         ^ keyword.operator.arithmetic
 #             ^^^ keyword.control.loop.for.generator
-#                   ^^ keyword.control.loop.for.in
+#                   ^^ keyword.operator.iteration.in
 #                       ^ punctuation.section.set.end
 set_ = {x ** 2 for x in y}
 #      ^^^^^^^^^^^^^^^^^^ meta.set
@@ -2755,7 +2755,7 @@ set_ = {x ** 2 for x in y}
 #      ^ punctuation.section.set.begin
 #         ^^ keyword.operator.arithmetic
 #              ^^^ keyword.control.loop.for.generator
-#                    ^^ keyword.control.loop.for.in
+#                    ^^ keyword.operator.iteration.in
 #                        ^ punctuation.section.set.end
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
@@ -2766,7 +2766,7 @@ dict_ = {i: i for i in range(100)}
 #            ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
 #             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.loop.for.generator
-#                   ^^ keyword.control.loop.for.in
+#                   ^^ keyword.operator.iteration.in
 dict_ = {x * x: 1 for x in y}
 #       ^ meta.mapping.python
 #        ^^^^^ meta.mapping.key.python
@@ -2777,7 +2777,7 @@ dict_ = {x * x: 1 for x in y}
 #          ^ keyword.operator.arithmetic
 #             ^ punctuation.separator.key-value
 #                 ^^^ keyword.control.loop.for.generator
-#                       ^^ keyword.control.loop.for.in
+#                       ^^ keyword.operator.iteration.in
 #                           ^ punctuation.section.mapping.end
 dict_ = {x ** 2: 1 for x in y}
 #       ^ meta.mapping.python
@@ -2789,7 +2789,7 @@ dict_ = {x ** 2: 1 for x in y}
 #          ^^ keyword.operator.arithmetic
 #              ^ punctuation.separator.key-value
 #                  ^^^ keyword.control.loop.for.generator
-#                        ^^ keyword.control.loop.for.in
+#                        ^^ keyword.operator.iteration.in
 #                            ^ punctuation.section.mapping.end
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
@@ -2799,7 +2799,7 @@ list_ = [i for i in range(100) if i > 0 else -1]
 
 list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
-#                              ^^ keyword.control.loop.for.in
+#                              ^^ keyword.operator.iteration.in
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
@@ -2863,7 +2863,7 @@ unpack_ = [*(_ for [[][:], *_] in [((1, 2), "woops")])]
 #                          ^ keyword.operator.unpacking.sequence.python
 #                           ^ meta.path.python variable.language.anonymous.python
 #                            ^ punctuation.section.sequence.end.python
-#                              ^^ keyword.control.loop.for.in.python
+#                              ^^ keyword.operator.iteration.in.python
 #                                 ^ punctuation.section.sequence.begin.python
 #                                  ^ punctuation.section.sequence.begin.python
 #                                   ^ punctuation.section.sequence.begin.python
@@ -2891,7 +2891,7 @@ list_ = [lambda: 1 for i in range(10)]
 #                ^ constant.numeric.value.python
 #                  ^^^ keyword.control.loop.for.generator.python
 #                      ^ meta.generic-name.python
-#                        ^^ keyword.control.loop.for.in.python
+#                        ^^ keyword.operator.iteration.in.python
 #                           ^^^^^ support.function.builtin.python
 #                                ^ punctuation.section.arguments.begin.python
 #                                 ^^ constant.numeric.value.python
@@ -2911,7 +2911,7 @@ generator_ = (lambda: 1 for i in range(10))
 #                     ^ constant.numeric.value.python
 #                       ^^^ keyword.control.loop.for.generator.python
 #                           ^ meta.generic-name.python
-#                             ^^ keyword.control.loop.for.in.python
+#                             ^^ keyword.operator.iteration.in.python
 #                                ^^^^^ support.function.builtin.python
 #                                     ^ punctuation.section.arguments.begin.python
 #                                      ^^ constant.numeric.value.python
@@ -2931,7 +2931,7 @@ set_ = {lambda: 1 for i in range(10)}
 #               ^ constant.numeric.value.python
 #                 ^^^ keyword.control.loop.for.generator.python
 #                     ^ meta.generic-name.python
-#                       ^^ keyword.control.loop.for.in.python
+#                       ^^ keyword.operator.iteration.in.python
 #                          ^^^^^ support.function.builtin.python
 #                               ^ punctuation.section.arguments.begin.python
 #                                ^^ constant.numeric.value.python
@@ -2951,10 +2951,10 @@ list((i for i in generator), 123)
 _ = [m
      for cls in self.__class__.mro()
 #    ^^^ keyword.control.loop.for.generator
-#            ^^ keyword.control.loop.for.in
+#            ^^ keyword.operator.iteration.in
      for m in cls.__dict__]
 #    ^^^ keyword.control.loop.for.generator
-#          ^^ keyword.control.loop.for.in
+#          ^^ keyword.operator.iteration.in
 
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async
@@ -3031,7 +3031,7 @@ generator = (
 #   ^^^ keyword.control.loop.for.generator
     i
     in
-#   ^^ keyword.control.loop.for.in
+#   ^^ keyword.operator.iteration.in
     range(100)
 )
 

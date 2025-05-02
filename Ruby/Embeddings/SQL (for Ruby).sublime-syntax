@@ -8,7 +8,53 @@ extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
 
-  prototype:
+###[ COMMENTS ]################################################################
+
+  comments:
+    # Notes:
+    # 1. comments are included in `prototype` thus apply everywhere
+    # 2. prepend patterns here to ensure Ruby interpolation `#{...}` takes
+    #    precedence over any kind of comment (e.g. number-sighn comments).
     - meta_prepend: true
+    - include: embedded-ruby
+
+  inside-number-sign-comment:
+    # Explicitly prepend embedded-ruby as `prototype` is not included
+    # in comments due to comments being included in `prototype`.
+    - meta_append: true
+    - include: embedded-ruby
+
+  inside-double-dash-comment:
+    - meta_append: true
+    - include: embedded-ruby
+
+  inside-comment-docblock:
+    - meta_append: true
+    - include: embedded-ruby
+
+  inside-comment-block:
+    - meta_append: true
+    - include: embedded-ruby
+
+  embedded-ruby:
     - include: Ruby.sublime-syntax#escaped-char
     - include: Ruby.sublime-syntax#embedded-ruby
+
+###[ LITERALS ]################################################################
+
+  inside-like-single-quoted-string:
+    - meta_append: true
+    - include: interpolated-ruby
+
+  inside-single-quoted-string:
+    - meta_append: true
+    - include: interpolated-ruby
+
+  string-interpolations:
+    # this context is included in anonymous string contexts
+    - meta_append: true
+    - include: interpolated-ruby
+
+  interpolated-ruby:
+    - include: Ruby.sublime-syntax#escaped-char
+    - include: Ruby.sublime-syntax#interpolated-ruby
