@@ -43,13 +43,12 @@ curl -s \
 foo | `# get quarks ` \
 # <- variable.function
 #   ^ keyword.operator.assignment.pipe.shell
-#     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#     ^^^^^^^^^^^^^^^ meta.command.shell comment.block.backtick-number-sign.bash
 #                    ^^^ - meta.interpolation
-#     ^ punctuation.section.interpolation.begin.shell
-#      ^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                   ^ punctuation.section.interpolation.end.shell - comment
-#                     ^ punctuation.separator.continuation.line.shell - comment
-#                      ^ - punctuation - comment
+#     ^^ punctuation.definition.comment.begin.bash
+#                   ^ punctuation.definition.comment.end.bash
+#                    ^^ meta.function-call.arguments.shell - comment
+#                     ^ punctuation.separator.continuation.line.shell
 
 foo | ` # get quarks ` \
 bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \

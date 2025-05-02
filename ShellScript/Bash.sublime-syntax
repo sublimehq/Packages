@@ -91,6 +91,7 @@ contexts:
     - match: \#+
       scope: punctuation.definition.comment.shell
       push: comments-body
+    - include: interpolation-comment
     - include: merge-conflict-markers
 
   comments-body:
@@ -121,6 +122,17 @@ contexts:
     - match: '{{shebang_language}}'
       scope: constant.language.shebang.shell
     - match: $\n?
+      pop: 1
+
+  interpolation-comment:
+    - match: '`#(?=.*`)'  # No newlines
+      scope: punctuation.definition.comment.begin.bash
+      push: interpolation-comment-body
+
+  interpolation-comment-body:
+    - meta_scope: comment.block.backtick-number-sign.bash
+    - match: '`'
+      scope: punctuation.definition.comment.end.bash
       pop: 1
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
@@ -2090,6 +2102,7 @@ contexts:
       scope: constant.character.escape.shell
 
   string-interpolations:
+    - include: interpolation-comment
     - match: '{{is_interpolation}}'
       push: string-interpolation-body
 
@@ -2713,6 +2726,7 @@ contexts:
       escape_captures:
         0: meta.interpolation.command.shell
            punctuation.section.interpolation.end.shell
+    - include: interpolation-comment
 
   command-expansion:
     - match: (\$)(\()
