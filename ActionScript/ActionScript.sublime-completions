@@ -1,0 +1,363 @@
+{
+    "scope": "source.as",
+    "completions":
+    [
+        {
+            "trigger": "break",
+            "contents": "break;",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "break statement"
+        },
+        {
+            "trigger": "case",
+            "contents": "case ${1:one}:\n\t${2:// statement(s);}\ndefault:\n\t${3:// statement(s);}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "case statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} extends ${2:superClass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} extends ${2:superClass} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} implements ${2:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "class",
+            "contents": "class ${1:className} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "class statement"
+        },
+        {
+            "trigger": "continue",
+            "contents": "continue;",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "continue statement"
+        },
+        {
+            "trigger": "default",
+            "contents": "case ${1:one}:\n\t${2:// statement(s);}\ndefault:\n\t${3:// statement(s);}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "default statement"
+        },
+        {
+            "trigger": "delete",
+            "contents": "delete ${1:object};",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "delete statement"
+        },
+        {
+            "trigger": "delete",
+            "contents": "delete ${1:object.property};",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "delete statement"
+        },
+        {
+            "trigger": "do",
+            "contents": "do {\n\t${1:// statement(s);}\n}\nwhile (${2:condition});",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "do...while statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} extends ${2:superClass} implements ${3:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} extends ${2:superClass} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} implements ${2:interfaceName1, interfaceName2} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "dynamic",
+            "contents": "dynamic class ${1:className} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "dynamic class statement"
+        },
+        {
+            "trigger": "else",
+            "contents": "if (${1:condition}) {\n\t${2:// statement(s);}\n} else {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "else statement"
+        },
+        {
+            "trigger": "elseif",
+            "contents": "if (${1:condition}) {\n\t${2:// statement(s);}\n} else if (${3:condition}) {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "else if statement"
+        },
+        {
+            "trigger": "extends",
+            "contents": "extends ${1:superClass or originalInterface}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "extends statement"
+        },
+        {
+            "trigger": "for",
+            "contents": "for (${1:init};${2:condition};${3:next}) {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "for statement"
+        },
+        {
+            "trigger": "forin",
+            "contents": "for (${1:variableIterant} in ${2:object}) {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "for...in statement"
+        },
+        {
+            "trigger": "functionnamed",
+            "contents": "function ${1:functionname}(${2:parameters}){\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "function (named) statement"
+        },
+        {
+            "trigger": "functionanonymous",
+            "contents": "function (${1:parameters}){\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "function (anonymous) statement"
+        },
+        {
+            "trigger": "get",
+            "contents": "function get ${1:property}(${2:propertyParams}): ${3:propertyType} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "get statement"
+        },
+        {
+            "trigger": "if",
+            "contents": "if (${1:condition}) {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "if statement"
+        },
+        {
+            "trigger": "implements",
+            "contents": "implements ${1:interface}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "implements statement"
+        },
+        {
+            "trigger": "importclass",
+            "contents": "import ${1:className}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "import class statement"
+        },
+        {
+            "trigger": "importpackageclass",
+            "contents": "import ${1:className}.${2:className}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "import class from package statement"
+        },
+        {
+            "trigger": "interface",
+            "contents": "interface ${1:interfaceName}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "interface statement"
+        },
+        {
+            "trigger": "intrinsic",
+            "contents": "intrinsic class ${1:className} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "intrinsic statement"
+        },
+        {
+            "trigger": "intrinsicextends",
+            "contents": "intrinsic class ${1:className} extends ${2:superClass} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "intrinsic statement"
+        },
+        {
+            "trigger": "intrinsicextendsimplements",
+            "contents": "intrinsic class ${1:className} extends ${2:superClass} implements ${3:interfaceName} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "intrinsic statement"
+        },
+        {
+            "trigger": "intrinsicimplements",
+            "contents": "intrinsic class ${1:className} implements ${2:interfaceName} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "intrinsic statement"
+        },
+        {
+            "trigger": "privatevar",
+            "contents": "private var ${1:varName}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "private variable statement"
+        },
+        {
+            "trigger": "privatefunction",
+            "contents": "private function ${1:name}(${2:parameters}): ${3:type} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "private function statement"
+        },
+        {
+            "trigger": "publicvar",
+            "contents": "public var ${1:varName}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "public variable statement"
+        },
+        {
+            "trigger": "publicfunction",
+            "contents": "public function ${1:name}(${2:parameters}): ${3:type} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "public function statement"
+        },
+        {
+            "trigger": "return",
+            "contents": "return ${1:value};",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "return statement"
+        },
+        {
+            "trigger": "set",
+            "contents": "function set ${1:property}(${2:propertyParams}): ${3:propertyType} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "set statement"
+        },
+        {
+            "trigger": "setvariable",
+            "contents": "set(\"${1:variableString}\", ${2:expression});",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "set variable statement"
+        },
+        {
+            "trigger": "staticvar",
+            "contents": "static var ${1:varName}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "static variable statement"
+        },
+        {
+            "trigger": "staticfunction",
+            "contents": "static function ${1:name}(${2:parameters}): ${3:type} {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "static function statement"
+        },
+        {
+            "trigger": "supermethod",
+            "contents": "super.${1:method}(${2:parameters})",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "super statement"
+        },
+        {
+            "trigger": "super",
+            "contents": "super(${1:parameters})",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "super statement"
+        },
+        {
+            "trigger": "switch",
+            "contents": "switch (${1:expression}) {\n\tcase ${2:caseOne}:\n\t\t${3:break;}\n\tdefault:\n\t\t${4:break;}}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "switch statement"
+        },
+        {
+            "trigger": "throw",
+            "contents": "throw new Error(\"${1:Something happened!}\");",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "throw statement"
+        },
+        {
+            "trigger": "trycatch",
+            "contents": "try {\n\t${1:// something}\n} catch(error ${2:errorType}) {\n\t${0:// something}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "try...catch statement"
+        },
+        {
+            "trigger": "trycatchfinally",
+            "contents": "try {\n\t${1:// something}\n} catch(error ${2:errorType}) {\n\t${3:// something}\n} finally {\n\t${0:// something}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "try...catch...finally statement"
+        },
+        {
+            "trigger": "tryfinally",
+            "contents": "try {\n\t${1:// something}\n} finally {\n\t${0:// something}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "try...finally statement"
+        },
+        {
+            "trigger": "var",
+            "contents": "var ${1:name}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "var statement"
+        },
+        {
+            "trigger": "while",
+            "contents": "while (${1:condition}) {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "while statement"
+        },
+        {
+            "trigger": "with",
+            "contents": "with (${1:object: Object}) {\n\t${0:// statement(s);}\n}",
+            "annotation": "statement",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "with statement"
+        }
+    ]
+}

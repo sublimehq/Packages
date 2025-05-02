@@ -143,6 +143,29 @@
 --  ^^^^ comment.block.lua punctuation.definition.comment.begin.lua - comment.line
     ]]
 
+--
+-- Merge Conflict Marker Tests
+--
+
+<<<<<<< HEAD
+-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+--^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+--     ^ meta.block.conflict.begin.diff - entity - punctuation
+--      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+--          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+-- <- meta.block.conflict.separator.diff punctuation.section.block.diff
+--^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+--     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+--^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+--     ^ meta.block.conflict.end.diff - entity - punctuation
+--      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+--            ^ meta.block.conflict.end.diff - entity - punctuation
+
 --VARIABLES
 
     foo;
@@ -728,6 +751,15 @@
 --                 ^ keyword.operator.assignment
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
+
+    a, b = c, d
+--  ^ variable.other
+--   ^ punctuation.separator.comma
+--     ^ variable.other
+--       ^ keyword.operator.assignment
+--         ^ variable.other
+--          ^ punctuation.separator.comma
+--            ^ variable.other
 
     local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua

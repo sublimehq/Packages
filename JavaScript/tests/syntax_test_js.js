@@ -83,6 +83,25 @@
 // <- comment.line.other.js punctuation.definition.comment.js
 //^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
 
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
@@ -1110,6 +1129,16 @@ var instance = new Constructor(param1, param2)
 
 var obj = new function() {}();
 //            ^^^^^^^^ keyword.declaration.function
+
+var obj = new class extends Foo {}();
+//            ^^^^^ keyword.declaration.class.js
+//                  ^^^^^^^ storage.modifier.extends.js
+//                          ^^^ entity.other.inherited-class.js
+
+var obj = new class implements IFoo {}();
+//            ^^^^^ keyword.declaration.class.js
+//                  ^^^^^^^^^^ invalid.illegal.unexpected-token.js
+//                             ^^^^ - entity.other
 
 var obj2 = new class Foo{}();
 //             ^^^^^ keyword.declaration.class

@@ -28,6 +28,50 @@
 #   ^^^^^^^^^ comment.line.number-sign.ruby - punctuation
 
 ##################
+# Merge Conflicts
+##################
+
+<<<<<<< HEAD
+#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+
+puts <<~EOF; # comment
+<<<<<<< HEAD
+#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+EOF
+
+##################
 # Heredocs
 ##################
 
@@ -278,10 +322,26 @@ DB.fetch(<<-SQL, conn).name
 #              ^^^^^^^^^^^^ - meta.string - string
 #              ^ punctuation.separator
 #                    ^ punctuation.definition.group.end
-SELECT * FROM #$users;
+SELECT * FROM #$users WHERE name = 'Mr. #$family';
 #^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
 #             ^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby variable.other.readwrite.global
-#                    ^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
+#                    ^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.string.sql - meta.interpolation
+#                                  ^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.string.sql string.quoted.single.sql - meta.interpolation
+#                                       ^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.string.sql meta.interpolation.ruby variable.other.readwrite.global.ruby
+#                                               ^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.string.sql string.quoted.single.sql - meta.interpolation
+-- id: #{id}
+#^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby comment.line.double-dash.sql
+#^ punctuation.definition.comment.sql
+#      ^^^^^ meta.interpolation.ruby
+#      ^^ punctuation.section.interpolation.begin.ruby
+#        ^^ source.ruby.embedded.ruby
+#          ^ punctuation.section.interpolation.end.ruby
+#{no_comment}
+# <- meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby punctuation.section.interpolation.begin.ruby
+#^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby
+#^ punctuation.section.interpolation.begin.ruby
+# ^^^^^^^^^^ source.ruby.embedded.ruby
+#           ^ punctuation.section.interpolation.end.ruby
 SQL
 #^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
@@ -1562,6 +1622,55 @@ rule /`/ do
 #    ^ - string.regexp string.regexp
 #        ^^ keyword.control.block.do
 end
+
+case 1
+#^^^ keyword.control.conditional.case.ruby
+#    ^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+  in 0..10
+# ^^ keyword.operator.logical.ruby
+#    ^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+#     ^^ keyword.operator.range.ruby
+#       ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
+    true
+  else
+# ^^^^ keyword.control.conditional.if.ruby
+    false
+end
+#^^ keyword.control.block.end.ruby
+
+for do
+#^^ keyword.control.loop.for.ruby
+#   ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+for item in items do
+#^^ keyword.control.loop.for.ruby
+#        ^^ keyword.operator.iteration.in.ruby
+#                 ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+unless item in items do
+#^^^^^ keyword.control.conditional.unless.ruby
+#           ^^ keyword.operator.logical.ruby
+#                    ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+until item in items do
+#^^^^ keyword.control.loop.until.ruby
+#          ^^ keyword.operator.logical.ruby
+#                   ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
+
+while item in items do
+#^^^^ keyword.control.loop.while.ruby
+#          ^^ keyword.operator.logical.ruby
+#                   ^^ keyword.control.block.do.ruby
+end
+#^^ keyword.control.block.end.ruby
 
 ##################
 # Crazy Stuff Found Online™

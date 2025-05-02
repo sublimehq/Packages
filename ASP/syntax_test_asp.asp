@@ -174,22 +174,22 @@
     <script type="application/ld+json">
         {
             <% key %>: <%.Site.Color%>,
-        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
-        |   ^^^^^^^^^ meta.mapping.json meta.interpolation.asp
-        |            ^^ meta.mapping.json - meta.interpolation
-        |              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.asp
-        |                             ^ meta.mapping.json - meta.interpolation
+        '  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        '   ^^^^^^^^^ meta.mapping.json meta.embedded.asp
+        '            ^^ meta.mapping.json - meta.embedded
+        '              ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.embedded.asp
+        '                             ^ meta.mapping.json - meta.embedded
 
             "<% key %>": "<%.Site.Color%>",
-        |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
-        |   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
-        |    ^^^^^^^^^ meta.mapping.key.json meta.interpolation.asp - string
-        |             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
-        |              ^^ meta.mapping.json - meta.interpolation
-        |                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
-        |                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.interpolation.asp - string
-        |                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
-        |                                 ^ meta.mapping.json - meta.interpolation
+        '  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        '   ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.begin.json
+        '    ^^^^^^^^^ meta.mapping.key.json meta.embedded.asp - string
+        '             ^ meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+        '              ^^ meta.mapping.json - meta.embedded
+        '                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.begin.json
+        '                 ^^^^^^^^^^^^^^^ meta.mapping.value.json meta.embedded.asp - string
+        '                                ^ meta.mapping.value.json meta.string.json string.quoted.double.json punctuation.definition.string.end.json
+        '                                 ^ meta.mapping.json - meta.embedded
         }
     </script>
 
@@ -878,7 +878,7 @@
    '<- - meta.between-if-and-then.asp
    '^^^^^^^^ keyword.control.flow.asp
    '         ^^^^^^ variable.other.asp
-   '                ^^ keyword.control.flow.asp
+   '                ^^ keyword.operator.iteration.in.asp
    '                                  ^ meta.for.block.asp
         Response.Write(vbCrLf & cookie)
        '^^^^^^^^ support.class.asp
@@ -1231,7 +1231,7 @@ test = "hello%>
 <%
         for each item in list
        '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
-       '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
+       '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.operator.iteration.in.asp
             %><li><%= item %></li><%
                     '^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp
            '  ^ punctuation.definition.tag.begin.html
@@ -1248,10 +1248,10 @@ test = "hello%>
 '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
 '                                         ^^^^^^^^^ meta.tag.block.any.html
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
-'         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
-'          ^^ meta.attribute-with-value.class.html  meta.string.html meta.interpolation.html - string
-'                                   ^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html meta.interpolation.html - string
-'                                            ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
+'         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.embedded
+'          ^^ meta.attribute-with-value.class.html meta.string.html meta.embedded.asp - string
+'                                   ^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html meta.embedded.asp - string
+'                                            ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.embedded
 '                                             ^ - string
 '          ^^^^^^^^^^^^^^^^ meta.class-name.html
 '                                  ^^^^^^^^^^ meta.class-name.html
@@ -1380,7 +1380,7 @@ test = "hello%>
 
 <![CDATA[Text with <%= vbscript %> interpolation.]]>
 '        ^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
-'                  ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.interpolation.html - string
+'                  ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html meta.embedded.asp - string
 '                                 ^^^^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html
 '                  ^^^ punctuation.section.embedded.begin.asp
 '                               ^^ punctuation.section.embedded.end.asp
@@ -1388,7 +1388,7 @@ test = "hello%>
   <my-<%=tag%> <%=attr%>=<%=value%>/>
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
 ' ^ meta.tag.other.html punctuation.definition.tag.begin.html
-'  ^^^ entity.name.tag.other.html - meta.interpolation
+'  ^^^ entity.name.tag.other.html - meta.embedded
 '     ^^^^^^^^ entity.name.tag.other.html meta.embedded.asp
 '     ^^^ punctuation.section.embedded.begin.asp 
 '        ^^^ variable.other.asp
@@ -1421,6 +1421,52 @@ test = "hello%>
 '                        ^^^^^ variable.other.asp
 '                             ^^ punctuation.section.embedded.end.asp
 '                               ^^ punctuation.definition.tag.end.html
+
+<!-- 
+ --- Git Conflict Marker Tests 
+ -->
+
+<<<<<<< HEAD
+'  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+' ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+'      ^ meta.block.conflict.begin.diff - entity - punctuation
+'       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+'           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+'  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+' ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+'      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+'  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+' ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+'      ^ meta.block.conflict.end.diff - entity - punctuation
+'       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+'             ^ meta.block.conflict.end.diff - entity - punctuation
+
+<%
+
+<<<<<<< HEAD
+'  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+' ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+'      ^ meta.block.conflict.begin.diff - entity - punctuation
+'       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+'           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+'  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+' ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+'      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+'  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+' ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+'      ^ meta.block.conflict.end.diff - entity - punctuation
+'       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+'             ^ meta.block.conflict.end.diff - entity - punctuation
+
+%>
 
  </body>
 '^^^^^^^ meta.tag.structure.any.html

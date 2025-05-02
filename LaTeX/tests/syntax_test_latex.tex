@@ -2,6 +2,26 @@
 
 % <- text.tex.latex
 
+<<<<<<< HEAD
+%  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+% ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+%      ^ meta.block.conflict.begin.diff - entity - punctuation
+%       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+%           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+%  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+% ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+%      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+%  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+% ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+%      ^ meta.block.conflict.end.diff - entity - punctuation
+%       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+%             ^ meta.block.conflict.end.diff - entity - punctuation
+
+
 \documentclass[12pt]{article}
 % <- meta.preamble.documentclass.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.documentclass.latex - meta.preamble.documentclass meta.preamble.documentclass
@@ -348,12 +368,14 @@
 %                                     ^ meta.group.bracket.latex
 %                                          ^ constant.other.citation.latex
 
-\Citeauthor*[]{ref}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%          ^ support.function.cite.latex
-%           ^ meta.group.bracket.latex
-%              ^ constant.other.citation.latex
+\Citeauthor*[]{knuth97} % Hit F12 to go to definition in syntax_test_bibtex.bib
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.citation.latex
+%^^^^^^^^^^^ support.function.cite.latex keyword.other.cite.latex
+%           ^^ meta.group.bracket.latex
+%             ^^^^^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^^^^^ constant.other.citation.latex
+%                     ^ punctuation.definition.group.brace.end.tex
 
 
 % URL COMMAND

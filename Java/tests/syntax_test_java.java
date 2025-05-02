@@ -467,6 +467,92 @@
 
 
 /******************************************************************************
+ * Git Conflict Marker Tests
+ *****************************************************************************/
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
+/* merge conflict in blocks */
+
+{
+// <- meta.block.java punctuation.section.block.begin.java
+<<<<<<< HEAD
+// <- meta.block.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.java meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.java meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.java meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.java meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.java meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.java meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.java meta.block.conflict.end.diff - entity - punctuation
+}
+// <- meta.block.java punctuation.section.block.end.java
+
+/* merge conflict in multiline strings */
+
+string = """
+before
+<<<<<<< HEAD
+// <- meta.string.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.string.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.string.java meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
+ours
+// <- meta.string.java string.quoted.triple.java
+//^^ meta.string.java string.quoted.triple.java
+=======
+// <- meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.string.java meta.block.conflict.separator.diff - punctuation
+theirs
+// <- meta.string.java string.quoted.triple.java
+//^^^^ meta.string.java string.quoted.triple.java
+|||||||
+base
+// <- meta.string.java string.quoted.triple.java
+//^^ meta.string.java string.quoted.triple.java
+>>>>>>> master
+// <- meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.string.java meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
+after
+// <- meta.string.java string.quoted.triple.java
+//^^^ meta.string.java string.quoted.triple.java
+"""
+// <- meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
+//^ meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
+
+
+/******************************************************************************
  * Package Declaration Tests
  *****************************************************************************/
 
@@ -2449,37 +2535,33 @@ Bar             // comment
  * https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10
  *****************************************************************************/
 
-record
-// <- meta.class.java keyword.declaration.record.java
-//^^^^ meta.class.java keyword.declaration.record.java
-//    ^ meta.class.identifier.java
+record ;
+// <- - keyword.declaration
+//^^^^ - keyword.declaration
 
-record RecordTest
+record RecordTest ;
+// <- support.class.java
+//^^^^ support.class.java
+//     ^^^^^^^^^^ variable.other.java
+
+record RecordTest<> ;
+// <- support.class.java
+//^^^^ support.class.java
+//     ^^^^^^^^^^ variable.other.java
+
+record RecordTest<T> ;
+// <- support.class.java
+//^^^^ support.class.java
+//     ^^^^^^^^^^ variable.other.java
+
+record RecordTest {  }
 // <- meta.class.java keyword.declaration.record.java
 //^^^^ meta.class.java keyword.declaration.record.java
 //    ^^^^^^^^^^^^ meta.class.identifier.java
+//                ^^^^ meta.class.java meta.block.java
 //     ^^^^^^^^^^ entity.name.class.java
-
-record RecordTest<>
-// <- meta.class.java keyword.declaration.record.java
-//^^^^ meta.class.java keyword.declaration.record.java
-//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
-//               ^^ meta.class.identifier.java meta.generic.declaration.java
-//                 ^ meta.class.identifier.java - meta.generic
-//     ^^^^^^^^^^ entity.name.class.java
-//               ^ punctuation.definition.generic.begin.java
-//                ^ punctuation.definition.generic.end.java
-
-record RecordTest<T>
-// <- meta.class.java keyword.declaration.record.java
-//^^^^ meta.class.java keyword.declaration.record.java
-//    ^^^^^^^^^^^ meta.class.identifier.java - meta.generic
-//               ^^^ meta.class.identifier.java meta.generic.declaration.java
-//                  ^ meta.class.identifier.java - meta.generic
-//     ^^^^^^^^^^ entity.name.class.java
-//               ^ punctuation.definition.generic.begin.java
-//                ^ variable.parameter.type.java
-//                 ^ punctuation.definition.generic.end.java
+//                ^ punctuation.section.block.begin.java
+//                   ^ punctuation.section.block.end.java
 
 record RecordTest( {  }
 // <- meta.class.java keyword.declaration.record.java
@@ -2569,6 +2651,76 @@ record CompactConstructorTests(int foo) {
 // ^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 }
 // <- meta.class.java meta.block.java punctuation.section.block.end.java
+
+/*
+ * Record is a `contextual keyword` valid only in record declaration statements.
+ * see: https://docs.oracle.com/javase/specs/jls/se23/html/jls-3.html#jls-3.9
+ */
+
+record record(record record) { record record(record record) { record record = 10 } }
+//^^^^ meta.class.java keyword.declaration.record.java
+//    ^^^^^^^ meta.class.identifier.java
+//           ^^^^^^^^^^^^^^^ meta.class.parameters.java meta.group.java
+//                          ^ meta.class.java - meta.block
+//                           ^^ meta.class.java meta.block.java
+//                             ^^^^^^ meta.class.java meta.block.java meta.class.java
+//                                   ^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
+//                                          ^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.parameters.java meta.group.java
+//                                                         ^ meta.class.java meta.block.java meta.class.java - meta.block meta.block
+//                                                          ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.java meta.block.java
+//                                                                                ^^ meta.class.java meta.block.java - meta.block meta.block
+//                                                                                  ^ - meta.class
+//^^^^ keyword.declaration.record.java
+//     ^^^^^^ entity.name.class.java
+//            ^^^^^^ support.class.java
+//                   ^^^^^^ variable.parameter.java
+//                             ^^^^^^ keyword.declaration.record.java
+//                                    ^^^^^^ entity.name.class.java
+//                                           ^^^^^^ support.class.java
+//                                                  ^^^^^^ variable.parameter.java
+//                                                            ^^^^^^ support.class.java
+//                                                                   ^^^^^^ variable.other.member.java
+
+object.record(20000, Units.MILLISECONDS);
+//^^^^ meta.variable.identifier.java variable.other.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^^^ meta.function-call.identifier.java variable.function.java - keyword.declaration
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
+//           ^ punctuation.section.group.begin.java
+//            ^^^^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                 ^ punctuation.separator.comma.java
+//                   ^^^^^ support.class.java
+//                        ^ punctuation.accessor.dot.java
+//                         ^^^^^^^^^^^^ constant.other.java
+//                                     ^ punctuation.section.group.end.java
+//                                      ^ punctuation.terminator.java
+
+class Clazz {
+   void fn() {
+      object.record(20000, Units.MILLISECONDS);
+//    ^^^^^^ meta.variable.identifier.java variable.other.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^^^ meta.function-call.identifier.java variable.function.java - keyword.declaration
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
+//                 ^ punctuation.section.group.begin.java
+//                  ^^^^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                       ^ punctuation.separator.comma.java
+//                         ^^^^^ support.class.java
+//                              ^ punctuation.accessor.dot.java
+//                               ^^^^^^^^^^^^ constant.other.java
+//                                           ^ punctuation.section.group.end.java
+//                                            ^ punctuation.terminator.java
+
+      record = 10;
+//    ^^^^^^ variable.other.java
+
+      record.record = record;
+//    ^^^^^^ variable.other.java
+//           ^^^^^^ variable.other.java
+//                  ^ keyword.operator.assignment.java
+//                    ^^^^^^ variable.other.java
+   }
+}
 
 /******************************************************************************
  * Field Declaration Tests

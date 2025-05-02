@@ -1,5 +1,28 @@
 | SYNTAX TEST "Packages/Go/Markdown (Go).sublime-syntax"
 
+<!-- 
+ --- Merge Conflict Marker Tests
+ -->
+
+<<<<<<< HEAD
+|  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+| ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+|      ^ meta.block.conflict.begin.diff - entity - punctuation
+|       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+|           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+|  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+| ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+|      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+|  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+| ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+|      ^ meta.block.conflict.end.diff - entity - punctuation
+|       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+|             ^ meta.block.conflict.end.diff - entity - punctuation
+
 <!-- Comments -->
 
   {{/* a comment */}}
@@ -176,7 +199,7 @@
 | ^^^^ meta.disable-markdown meta.tag - meta.attribute-with-value
 |     ^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html - meta.string
 |           ^^^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
-|                   ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html meta.embedded.html source.css.embedded.html meta.property-value.css meta.interpolation.go
+|                   ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html source.css.embedded.html meta.property-value.css meta.interpolation.go
 |                                  ^ meta.disable-markdown meta.tag meta.attribute-with-value.style.html meta.string.html - meta.interpolation
 |                                   ^^ meta.disable-markdown meta.tag - meta.attribute-with-value
 |                   ^^ punctuation.section.interpolation.begin.go - source.go.template

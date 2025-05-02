@@ -1567,6 +1567,91 @@
 /*               ^ punctuation.terminator.rule.css */
 }
 
+    @scope
+/*  ^^^^^^ meta.at-rule.scope.css keyword.control.directive.css */
+
+    @scope {}
+/*  ^^^^^^^^^ meta.at-rule.scope.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^^ meta.property-list.css meta.block.css */
+
+    @scope to ;
+/*  ^^^^^^^^^^ meta.at-rule.scope.css  */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^^ keyword.other.css */
+/*            ^ punctuation.terminator.rule.css */
+
+    @scope () {}
+/*  ^^^^^^^^^^^^ meta.at-rule.scope.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^^ meta.group.css */
+/*            ^^  meta.property-list.css meta.block.css */
+
+    @scope () () {}
+/*  ^^^^^^^^^^ meta.at-rule.scope.css */
+/*            ^^^^^ - meta.at-rule */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^^ meta.group.css */
+/*            ^^ invalid.illegal.unexpected-token.css */
+/*               ^^  meta.property-list.css meta.block.css */
+
+    @scope () to () {}
+/*  ^^^^^^^^^^^^^^^^^^ meta.at-rule.scope.css */
+/*         ^^ meta.group.css */
+/*               ^^ meta.group.css */
+/*                  ^^ meta.property-list.css meta.block.css */
+/*  ^ punctuation.definition.keyword.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^ punctuation.section.group.end.css */
+/*            ^^ keyword.other.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^ punctuation.section.group.end.css */
+/*                  ^ punctuation.section.block.begin.css */
+/*                   ^ punctuation.section.block.end.css */
+
+    @scope /**/ () /**/ to /**/ () /**/ {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.scope.css */
+/*              ^^ meta.group.css */
+/*                              ^^ meta.group.css */
+/*                                      ^^ meta.property-list.css meta.block.css */
+/*  ^ punctuation.definition.keyword.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^^^^ comment.block.css */
+/*              ^ punctuation.section.group.begin.css */
+/*               ^ punctuation.section.group.end.css */
+/*                 ^^^^ comment.block.css */
+/*                      ^^ keyword.other.css */
+/*                         ^^^^ comment.block.css */
+/*                              ^ punctuation.section.group.begin.css */
+/*                               ^ punctuation.section.group.end.css */
+/*                                 ^^^^ comment.block.css */
+/*                                      ^ punctuation.section.block.begin.css */
+/*                                       ^ punctuation.section.block.end.css */
+
+    @scope (.class) to (.limit > *) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.scope.css */
+/*         ^ meta.group.css - meta.selector */
+/*          ^^^^^^ meta.at-rule.scope.css meta.group.css meta.selector.css */
+/*                ^ meta.group.css - meta.selector */
+/*                     ^ meta.group.css - meta.selector */
+/*                      ^^^^^^^^^^ meta.at-rule.scope.css meta.group.css meta.selector.css */
+/*                                ^ meta.group.css - meta.selector */
+/*                                  ^^ meta.property-list.css meta.block.css */
+/*  ^ punctuation.definition.keyword.css */
+/*  ^^^^^^ keyword.control.directive.css */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^^^^^^ entity.other.attribute-name.class.css */
+/*                ^ punctuation.section.group.end.css */
+/*                  ^^ keyword.other.css */
+/*                     ^ punctuation.section.group.begin.css */
+/*                      ^^^^^^ entity.other.attribute-name.class.css */
+/*                             ^ keyword.operator.combinator.css */
+/*                               ^ constant.other.wildcard.asterisk.css */
+/*                                ^ punctuation.section.group.end.css */
+/*                                  ^ punctuation.section.block.begin.css */
+/*                                   ^ punctuation.section.block.end.css */
+
     @scroll-timeline
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.scroll-timeline.css */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
@@ -3326,6 +3411,40 @@ ul:has(> li), a[ng-click='post()'] { ul:has(> li), a[ng-click='post()'] { color:
 /*                                  ^ punctuation.section.group.end.css */
 /*                                   ^ invalid.illegal.unexpected-token.css */
 
+    top: color(from red srgb 60% 10%);
+/*       ^^^^^ meta.function-call.identifier.css support.function.color.css */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^^ keyword.other.color.css */
+/*                  ^^^ support.constant.color.w3c.standard.css */
+/*                      ^^^^ support.constant.property-value.css */
+/*                           ^^^ meta.number.integer.decimal.css */
+/*                           ^^ constant.numeric.value.css */
+/*                             ^ constant.numeric.suffix.css */
+/*                               ^^^ meta.number.integer.decimal.css */
+/*                               ^^ constant.numeric.value.css */
+/*                                 ^ constant.numeric.suffix.css */
+/*                                  ^ punctuation.section.group.end.css */
+
+    top: color-mix(in lab, plum 60%, #f00 50%);
+/*       ^^^^^^^^^ meta.function-call.identifier.css support.function.color.css */
+/*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                ^ punctuation.section.group.begin.css */
+/*                 ^^ keyword.other.color.css */
+/*                    ^^^ support.constant.property-value.css */
+/*                       ^ punctuation.separator.sequence.css */
+/*                         ^^^^ support.constant.color.w3c.extended.css */
+/*                              ^^^ meta.number.integer.decimal.css */
+/*                              ^^ constant.numeric.value.css */
+/*                                ^ constant.numeric.suffix.css */
+/*                                 ^ punctuation.separator.sequence.css */
+/*                                   ^^^^ constant.other.color.rgb-value.css */
+/*                                   ^ punctuation.definition.constant.css */
+/*                                        ^^^ meta.number.integer.decimal.css */
+/*                                        ^^ constant.numeric.value.css */
+/*                                          ^ constant.numeric.suffix.css */
+/*                                           ^ punctuation.section.group.end.css */
+
     top: alpha(- 1.5%);
 /*       ^^^^^ support.function.color.css */
 /*             ^ keyword.operator.arithmetic.css */
@@ -3572,7 +3691,8 @@ ul:has(> li), a[ng-click='post()'] { ul:has(> li), a[ng-click='post()'] { color:
 /*               ^^^^^^^^^^^^ support.constant.property-value.css */
 
     top: inset(1.1px round 50%);
-/*       ^^^^^ support.function.shape.css */
+/*       ^^^^^ meta.function-call.identifier.css support.function.shape.css */
+/*            ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
 /*                   ^^^^^ keyword.other.shape.css */
@@ -3585,9 +3705,19 @@ ul:has(> li), a[ng-click='post()'] { ul:has(> li), a[ng-click='post()'] { color:
 /*       ^^^^ support.function.shape.css */
 /*            ^^^ support.function.var.css */
 
-    top: rect(1px);
-/*            ^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*             ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+    top: rect(4rem 20% round 1rem 2rem 3rem 4rem);
+/*       ^^^^ meta.function-call.identifier.css support.function.shape.css */
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*           ^ punctuation.section.group.begin.css */
+/*            ^^^^ meta.number.integer.decimal.css */
+/*                 ^^^ meta.number.integer.decimal.css */
+/*                     ^^^^^ keyword.other.shape.css */
+/*                           ^^^^ meta.number.integer.decimal.css */
+/*                                ^^^^ meta.number.integer.decimal.css */
+/*                                     ^^^^ meta.number.integer.decimal.css */
+/*                                          ^^^^ meta.number.integer.decimal.css */
+/*                                              ^ punctuation.section.group.end.css */
+/*                                               ^ punctuation.terminator.rule.css */
 }
 
 .test-calc-function {

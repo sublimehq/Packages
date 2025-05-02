@@ -1,62 +1,424 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
+# https://graphviz.org/doc/info/lang.html
+
 name: Graphviz (DOT)
 scope: source.dot
+version: 2
 
 file_extensions:
   - gv
   - dot
+  - DOT
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \b(dot|graphviz)\b .*? -\*-  # editorconfig
+    {{leading_wspace}} // .*? -\*- .*? {{first_line_lang}} .*? -\*-             # editorconfig
   )
 
-contexts:
-  main:
-    - include: expressions
+###[ CONTEXTS ]################################################################
 
-  expressions:
-    - match: \b((sub|di)?graph)\b\s+((cluster_)?\w+)\b
-      captures:
-        1: storage.type.dot
-        3: entity.name.graph.dot
-        4: meta.annotation.dot variable.annotation.cluster.dot
-    - match: \b(node|edge|graph|digraph|subgraph|strict)\b
-      scope: storage.type.dot
-    - match: \b(bottomlabel|color|comment|distortion|fillcolor|fixedsize|fontcolor|fontname|fontsize|group|height|label|layer|orientation|peripheries|regular|shape|shapefile|sides|skew|style|toplabel|URL|width|z)\b
-      scope: support.constant.attribute.node.dot
-    - match: \b(arrowhead|arrowsize|arrowtail|color|comment|constraint|decorate|dir|fontcolor|fontname|fontsize|headlabel|headport|headURL|label|labelangle|labeldistance|labelfloat|labelcolor|labelfontname|labelfontsize|layer|lhead|ltail|minlen|samehead|sametail|style|taillabel|tailport|tailURL|weight)\b
-      scope: support.constant.attribute.edge.dot
-    - match: \b(bgcolor|center|clusterrank|color|comment|compound|concentrate|fillcolor|fontname|fontpath|fontsize|label|labeljust|labelloc|layers|margin|mclimit|nodesep|nslimit|nslimit1|ordering|orientation|page|pagedir|quantum|rank|rankdir|ranksep|ratio|remincross|rotate|samplepoints|searchsize|size|style|URL)\b
-      scope: support.constant.attribute.graph.dot
-    - match: '-[->]'
-      scope: keyword.operator.relationship.dot
-    - match: '='
-      scope: keyword.operator.assignment.dot
-    - match: ';'
-      scope: punctuation.separator.statement.dot
-    - match: '"'
-      scope: punctuation.definition.string.begin.dot
-      push:
-        - meta_scope: string.quoted.double.dot
-        - match: '"'
-          scope: punctuation.definition.string.end.dot
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.dot
-        - match: (\\)$\n?
-          captures:
-            1: punctuation.separator.continuation.line.dot
-        - match: '[{}|]'
-          scope: punctuation.separator.memory-block.dot
-    - include: braces
-    - include: brackets
-    - include: embedded-html
+contexts:
+  prototype:
     - include: comments
 
+  main:
+    - include: fullline-comments-number-sign
+    - include: declarations
+    - include: attribute-statements
+    - include: node-statements
+    - include: attribute-lists
+    - include: embedded-html
+    - include: literals
+    - include: operators
+
+###[ COMMENTS ]################################################################
+
+  # https://graphviz.org/doc/info/lang.html#comments-and-optional-formatting
+
+  comments:
+    - include: line-comments
+    - include: block-comments
+    - include: merge-conflict-markers
+
+  line-comments:
+    # NOTE: number-sign line comments are not part of prototype
+    - match: //
+      scope: punctuation.definition.comment.dot
+      push: line-comment-double-slash-body
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.dot
+    - include: eol-pop
+
+  block-comments:
+    - include: empty-block-comments
+    - include: block-comments-slash-star
+
+  empty-block-comments:
+    - match: /\*{2,}/
+      scope: comment.block.empty.dot punctuation.definition.comment.dot
+
+  block-comments-slash-star:
+    - match: /\*
+      scope: punctuation.definition.comment.begin.dot
+      push: block-comment-slash-star-body
+
+  block-comment-slash-star-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.dot
+    - match: \*/
+      scope: punctuation.definition.comment.end.dot
+      pop: 1
+    - match: '{{leading_wspace}}(\*)(?!/)'
+      captures:
+        1: punctuation.definition.comment.dot
+    - include: merge-conflict-markers
+
+  fullline-comments-number-sign:
+    # NOTE: number-sign line comments are not part of prototype
+    - match: '{{leading_wspace}}(#)'
+      captures:
+        1: punctuation.definition.comment.dot
+      push: fullline-comment-number-sign-body
+
+  fullline-comment-number-sign-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.dot
+    - include: eol-pop
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+###[ DECLARATIONS ]############################################################
+
+  declarations:
+    - include: graph-declarations
+    - include: subgraph-declarations
+
+  declaration-keywords:
+    - match: \b(?:{{declaration_keywords}})\b
+      scope: keyword.declaration.dot
+
+  declaration-statements:
+    - include: fullline-comments-number-sign
+    - include: subgraph-declarations
+    - include: attribute-statements
+    - include: node-statements
+    - include: attribute-lists
+    - include: embedded-html
+    - include: literals
+    - include: operators
+
+  declaration-statements-list-body:
+    - meta_scope: meta.group.dot
+
+    - match: \}
+      scope: punctuation.section.group.end.dot
+      pop: 1
+    - match: ';'
+      scope: punctuation.separator.statements.dot
+
+    - include: declaration-statements
+
+  expect-declaration-statements-list-body:
+    - match: \{
+      scope: punctuation.section.group.begin.dot
+      set: declaration-statements-list-body
+
+    - match: \S+
+      scope: invalid.illegal.expected-statements-list.dot
+      pop: 1
+
+  graph-declarations:
+    - match: |-
+        (?x:
+          \b
+          (?:({{strict}})[[:blank:]]+)?
+          ({{digraph_or_graph}})
+          (?:
+            [[:blank:]]+
+            (
+              (cluster_)?{{id}}\b
+            | (
+                (\")
+                (?:(\\\") | (\\.) | [^\"])*
+                (\")
+              )
+            )
+          )?
+        )
+      captures:
+        1: keyword.declaration.strict.dot
+        2: storage.type.dot
+        3: entity.name.graph.dot
+        4: meta.annotation.dot variable.annotation.cluster.dot
+        5: meta.string.dot string.quoted.double.dot
+        6: punctuation.definition.string.begin.dot
+        7: constant.character.escape.dot
+        8: invalid.illegal.constant-character-escape.dot
+        9: punctuation.definition.string.end.dot
+      push: expect-declaration-statements-list-body
+
+    - include: stray-braces
+
+  subgraph-declarations:
+    - match: |-
+        (?x:
+          \b
+          ({{subgraph}})
+          (?:
+            [[:blank:]]+
+            (
+              (cluster_)?{{id}}\b
+            | (
+                (\")
+                (?:(\\\")|(\\.)|[^\"])*
+                (\")
+              )
+            )
+          )?
+        )
+      captures:
+        1: storage.type.dot
+        2: entity.name.graph.dot
+        3: meta.annotation.dot variable.annotation.cluster.dot
+        4: meta.string.dot string.quoted.double.dot
+        5: punctuation.definition.string.begin.dot
+        6: constant.character.escape.dot
+        7: invalid.illegal.constant-character-escape.dot
+        8: punctuation.definition.string.end.dot
+      push: expect-declaration-statements-list-body
+
+    - match: (?=\{)
+      push: expect-declaration-statements-list-body
+
+    - include: stray-braces
+
+###[ DECLARATIONS / STATEMENTS ]###############################################
+
+  node-statements:
+    # NOTE: compass point values are not keywords
+
+    - match: |-
+        (?x:
+          (?:\b({{id}})\b[[:blank:]]*)
+          (?:(:)[[:blank:]]*\b({{id}})\b[[:blank:]]*)?
+          (?:(:)[[:blank:]]*\b({{compass_pt}})\b[[:blank:]]*)?
+          (\[)
+        )
+      captures:
+        1: entity.name.node.dot
+        2: punctuation.separator.dot
+        3: entity.name.node.dot
+        4: punctuation.separator.dot
+        5: meta.annotation.dot variable.annotation.compass.dot
+        6: punctuation.section.brackets.begin.dot
+      push: attribute-list-body
+
+  attribute-statements:
+    - match: |-
+        (?x:
+          (?:\b({{graph}}|{{node}}|{{edge}})\b[[:blank:]]*)
+          (\[)
+        )
+      captures:
+        1: keyword.declaration.dot
+        2: punctuation.section.brackets.begin.dot
+      push: attribute-list-body
+
+###[ LITERALS ]################################################################
+
+  literals:
+    - include: literal-strings
+    - include: literal-constants
+    - include: literal-numbers
+
+  literal-constants:
+    - match: \b(?:false)\b
+      scope: constant.language.boolean.false.dot
+    - match: \b(?:true)\b
+      scope: constant.language.boolean.true.dot
+
+    - match: \b(?:{{svg_colors}}|{{x11_colors}}|{{brewer_color_schemes}})\b
+      scope: constant.language.color.dot
+
+    - match: |-
+        (?x:
+          \b(?:
+            {{layout_engines}}
+          | {{graph_attributes}}
+          | {{subgraph_attributes}}
+          | {{cluster_attributes}}
+          | {{node_attributes}}
+          | {{edge_attributes}}
+          | {{arrow_shape_attributes}}
+          | {{polygon_shape_attributes}}
+          | {{record_shape_attributes}}
+          | {{ranksep_attributes}}
+          | {{splines_attributes}}
+          )\b
+        )
+      scope: support.constant.attribute.dot
+
+    - match: \b{{id}}\b
+      scope: entity.name.node.dot
+
+  literal-numbers:
+    - match: |-
+        (?x:
+          (?:(?:([-])|([+]))([[:blank:]]+)??)?
+          (
+            (?: (0*) [1-9] \d* | 0 )
+            (?: (\.) \d* )                                                      # 1. 1.1
+          | (\.) \d+                                                            # .1
+          )
+        )
+      scope: meta.number.float.decimal.dot
+      captures:
+        1: constant.numeric.value.dot keyword.operator.arithmetic.dot
+        2: invalid.illegal.numeric-sign.dot
+        3: invalid.illegal.whitespace.dot
+        4: constant.numeric.value.dot
+        5: invalid.illegal.leading-zero.dot
+        6: punctuation.separator.decimal.dot
+        7: punctuation.separator.decimal.dot
+
+    - match: |-
+        (?x:
+          (?: (?:([-])|([+])) ([[:blank:]]*) )?
+          ( (0*) [1-9] \d* | 0 )
+        )
+      scope: meta.number.integer.decimal.dot
+      captures:
+        1: constant.numeric.value.dot keyword.operator.arithmetic.dot
+        2: invalid.illegal.numeric-sign.dot
+        3: invalid.illegal.whitespace.dot
+        4: constant.numeric.value.dot
+        5: invalid.illegal.leading-zero.dot
+
+###[ LITERALS / STRINGS ]######################################################
+
+  literal-strings:
+    - include: special-strings
+    - include: literal-double-quoted-strings
+
+  special-strings:
+    - match: |-
+        (?x:
+          (\")
+          (
+            {{clustermode_attribute_types}}
+          | {{dirtype_attribute_types}}
+          | {{outputmode_attribute_types}}
+          | {{packmode_attribute_types}}
+          | {{pagedir_attribute_types}}
+          | {{quadtype_attribute_types}}
+          | {{ranktype_attribute_types}}
+          | {{rankdir_attribute_types}}
+          | {{smoothtype_attributes_types}}
+          | {{style_attribute_types}}
+          )
+          (\")
+        )
+      scope: meta.string.dot string.quoted.double.dot
+      captures:
+        1: punctuation.definition.string.begin.dot
+        2: support.constant.dot
+        3: punctuation.definition.string.end.dot
+
+    - match: |-
+        (?x:
+          (\")
+          ((\#)(?:\h{3}|\h{6}|\h{8}))
+          (\")
+        )
+      scope: meta.string.dot string.quoted.double.dot
+      captures:
+        1: punctuation.definition.string.begin.dot
+        2: support.constant.dot color.dot
+        3: punctuation.definition.generic.dot
+        4: punctuation.definition.string.end.dot
+
+  literal-double-quoted-strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.dot
+      push: literal-double-quoted-string-body
+
+  literal-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.dot string.quoted.double.dot
+
+    - match: \"
+      scope: punctuation.definition.string.end.dot
+      pop: 1
+    - match: '(\\){{eol}}'
+      captures:
+        1: punctuation.separator.continuation.line.dot
+
+    - include: illegal-newline
+    - include: literal-double-quoted-string-escapes
+    - include: merge-conflict-markers
+
+    # TODO: https://graphviz.org/doc/info/shapes.html#record
+    - match: \{
+      scope: punctuation.section.block.begin.memory.dot
+    - match: \}
+      scope: punctuation.section.block.end.memory.dot
+    - match: \|
+      scope: punctuation.separator.memory.dot
+    - match: (\<)(\w+)(\>)
+      scope: meta.annotation.label.dot
+      captures:
+        1: punctuation.definition.annotation.begin.dot
+        2: entity.name.label.record-based-node.dot
+        3: punctuation.definition.annotation.end.dot
+
+  literal-double-quoted-string-escapes:
+    - match: \\\"
+      scope: constant.character.escape.dot
+
+    - include: literal-string-escapes
+
+  literal-string-escapes:
+    # https://graphviz.org/docs/attr-types/escString/
+
+    # \\ = backslash
+    # \n, \l, \r = alignment (center, left, right)
+    # \N, \H, \T = node name, head node name, tail node name
+    # \G = graph name
+    # \E = edge name
+    # \L = object's label attribute
+    - match: \\[\\lnrEGHLNT]
+      scope: constant.character.escape.dot
+
+    - match: \\.
+      scope: invalid.illegal.escape-character.dot
+
+###[ EMBEDDED HTML ]###########################################################
+
+  # https://graphviz.org/doc/info/lang.html#html-strings
   # http://www.graphviz.org/content/node-shapes#html
+
   embedded-html:
     - match: '<'
       scope: punctuation.section.embedded.begin.dot
@@ -65,56 +427,472 @@ contexts:
   embedded-html-body:
     - meta_scope: meta.embedded.html.dot
     - meta_content_scope: text.html.embedded.dot
+
     - match: '>'
       scope: punctuation.section.embedded.end.dot
-      pop: true
+      pop: 1
+
+    # TODO: make this the Graphviz flavor of HTML
     - include: scope:text.html.plain#html
       apply_prototype: true
 
-  braces:
-    - match: \{
-      scope: punctuation.definition.group.begin.dot
-      push:
-        - meta_scope: meta.group.dot
-        - match: \}
-          scope: punctuation.definition.group.end.dot
-          pop: true
-        - match: '[,;]'
-          scope: punctuation.separator.dot
-        - include: expressions
+###[ OPERATORS ]###############################################################
 
-  brackets:
+  # TODO: graphs contain undirected
+  # TODO: digraphs contain directed
+  # TODO: subgraphs contain assignment
+
+  operators:
+    - match: '--'
+      scope: keyword.operator.edge.graph.dot
+    - match: '->'
+      scope: keyword.operator.edge.digraph.dot
+    - match: '='
+      scope: keyword.operator.assignment.dot
+
+###[ ATTRIBUTE LISTS ]#########################################################
+
+  attributes:
+    - include: fullline-comments-number-sign
+
+    - match: '[,;]'
+      scope: punctuation.separator.sequence.dot
+
+    - include: subgraph-declarations
+    - include: attribute-statements
+    - include: node-statements
+    - include: attribute-lists
+    - include: embedded-html
+    - include: literals
+    - include: operators
+
+  attribute-lists:
     - match: \[
-      scope: punctuation.definition.attributes.begin.dot
-      push:
-        - meta_scope: meta.attributes.dot
-        - match: \]
-          scope: punctuation.definition.attributes.end.dot
-          pop: true
-        - match: '[,;]'
-          scope: punctuation.separator.dot
-        - include: expressions
+      scope: punctuation.section.brackets.begin.dot
+      push: attribute-list-body
+    - include: stray-brackets
 
-  comments:
-    - match: //
-      scope: punctuation.definition.comment.dot
-      push:
-        - meta_scope: comment.line.double-slash.dot
-        - match: $\n?
-          pop: true
-    - match: '#'
-      scope: punctuation.definition.comment.dot
-      push:
-        - meta_scope: comment.line.number-sign.dot
-        - match: $\n?
-          pop: true
-    - match: /\*
-      scope: punctuation.definition.comment.dot
-      push:
-        - meta_scope: comment.block.dot
-        - match: \*/
-          scope: punctuation.definition.comment.dot
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.dot
+  attribute-list-body:
+    - meta_scope: meta.attributes.dot
+
+    - match: \]
+      scope: punctuation.section.brackets.end.dot
+      pop: 1
+
+    - include: attributes
+
+###[ PROTOTYPES ]##############################################################
+
+  eol-pop:
+    - match: '{{eol}}'
+      pop: 1
+
+###[ ILLEGALS ]################################################################
+
+  illegal-newline:
+    - match: \n
+      scope: invalid.illegal.unexpected-newline.dot
+      pop: 1
+
+  stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray.dot
+
+  stray-brackets:
+    - match: \]
+      scope: invalid.illegal.stray.dot
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  first_line_lang: (?:\b(?:graphviz|dot)\b)
+
+  leading_wspace: (?:^[[:blank:]]*)
+  eol: (?:$\n?)
+
+  # https://graphviz.org/doc/info/lang.html#ids
+  id: (?:[a-zA-Z_\x{200}-\x{377}][a-zA-Z0-9_\x{200}-\x{377}]*)
+
+  edge: (?:edge|EDGE)
+  subgraph: (?:subgraph|SUBGRAPH)
+  graph: (?:graph|GRAPH)
+  digraph: (?:digraph|DIGRAPH)
+  digraph_or_graph: '(?:{{digraph}}|{{graph}})'
+  node: (?:node|NODE)
+  strict: (?:strict|STRICT)
+
+  declaration_keywords: |-
+    (?x:
+      {{edge}}
+    | {{node}}
+    )
+
+  compass_pt: '(?x: n | ne | e | se | s | sw | w | nw | c | _ )'
+
+  # https://graphviz.org/docs/layouts/
+  layout_engines: |-
+    (?x:
+      dot
+    | neato
+    | fdp
+    | sfdp
+    | circo
+    | twopi
+    | nop
+    | nop2
+    | osage
+    | patchwork
+    )
+
+  # https://graphviz.org/docs/graph/
+  graph_attributes: |-
+    (?x:
+      _background
+    | Damping
+    | K
+    | URL
+    | bb | beautify | bgcolor
+    | center | charset | class | clusterrank | colorscheme | comment | compound | concentrate
+    | defaultdist | dim | dimen | diredgeconstraints | dpi
+    | epsilon | esep
+    | font(?: color | name | names | path | size ) | forcelabels
+    | gradientangle
+    | href
+    | id | imagepath | inputscale
+    | label(?: _scheme | just | loc )? | landscape | layer(?: listsep | s | select | sep ) | layout | levels | levelsgap | lheight | linelength | lp | lwidth
+    | margin | maxiter | mclimit | mindist | mode | model
+    | newrank | nodesep | nojustify | normalize | notranslate | nslimit | nslimit1
+    | oneblock | ordering | orientation | outputorder | overlap(?: _scaling | _shrink )?
+    | pack | packmode | pad | page | pagedir
+    | quadtree | quantum
+    | rankdir | ranksep | ratio | remincross | repulsiveforce | resolution | root | rotate | rotation
+    | scale | searchsize | sep | showboxes | size | smoothing | sortv | splines | start | style | stylesheet
+    | target | TBbalance | tooltip | truecolor
+    | viewport | voro_margin
+    | xdotversion
+    )
+
+  subgraph_attributes: |-
+    (?x:
+      cluster
+    | rank
+    )
+
+  # https://graphviz.org/docs/clusters/
+  cluster_attributes: |-
+    (?x:
+      K
+    | URL
+    | area
+    | bb | bgcolor
+    | cluster | class | color | colorscheme
+    | fillcolor | fixedsize | font(?: color | name | size)
+    | gradientangle
+    | href
+    | id
+    | label(?: just | loc )? | layer | lheight | lp | lwidth
+    | margin
+    | nojustify
+    | pencolor | penwidth | peripheries
+    | sortv | style
+    | target | tooltip
+    )
+
+  # https://graphviz.org/docs/nodes/
+  node_attributes: |-
+    (?x:
+      URL
+    | area
+    | class | color | colorscheme | comment
+    | distortion
+    | fillcolor | fixedsize | font(?: color | name | size )
+    | gradientangle | group
+    | height | href
+    | id | image | imagepos | imagescale
+    | label | labelloc | layer
+    | margin
+    | nojustify
+    | ordering | orientation
+    | penwidth | peripheries | pin | pos
+    | rects | regular | root
+    | samplepoints | shape | shapefile | showboxes | sides | skew | sortv | style
+    | target | tooltip
+    | vertices
+    | width
+    | xlabel | xlp
+    | z
+    )
+
+  # https://graphviz.org/docs/edges/
+  edge_attributes: |-
+    (?x:
+      URL
+    | arrow(?: head | size | tail)
+    | class | color | colorscheme | comment | constraint
+    | decorate | dir
+    | edge(?: URL | href | target | tooltip )
+    | fillcolor | font(?: color | name | size)
+    | id
+    | head(?: _lp | URL | clip | href | label | port | target | tooltip ) | href
+    | label(?: URL | angle | distance | float | fontcolor | fontname | fontsize | href | target | tooltip )? | layer | len | lhead | lp | ltail
+    | minlen
+    | nojustify
+    | penwidth | pos
+    | samehead | sametail | showboxes | style
+    | tail(?: _lp | URL | clip | href | label | port | target | tooltip ) | target | tooltip
+    | xlabel | xlp
+    | weight
+    )
+
+  # https://graphviz.org/doc/info/arrows.html
+  arrow_shape_attributes: |-
+    (?x:
+      [o]?[lr]?box
+    | [lr]?crow
+    | [lr]?[i]?curve
+    | [o]?[lr]?diamond
+    | [o]?dot
+    | [o]?[lr]?inv
+    | none
+    | [o]?[lr]?normal
+    | [lr]?tee
+    | [lr]?vee
+    )
+
+  # https://graphviz.org/doc/info/shapes.html#polygon
+  polygon_shape_attributes: |-
+    (?x:
+      assembly
+    | box | box3d
+    | cds | circle | component | cylinder
+    | diamond | doublecircle | doubleoctagon
+    | egg | ellipse
+    | fivepoverhang | folder
+    | hexagon | house
+    | insulator | invhouse | invtrapezium | invtriangle
+    | larrow | lpromoter
+    | M(?: circle | diamond | square )
+    | none | note | noverhang
+    | octagon | oval
+    | parallelogram | pentagon | plain | plaintext | point | polygon | primersite | promoter | proteasesite | proteinstab
+    | rarrow | rect | rectangle | restrictionsite | ribosite | rnastab | rpromoter
+    | septagon | signature | square | star
+    | tab | terminator | threepoverhang | trapezium | triangle | tripleoctagon
+    | underline | utr
+    )
+
+  # https://graphviz.org/doc/info/shapes.html#record
+  record_shape_attributes: |-
+    (?x:
+      record
+    )
+
+  # https://graphviz.org/docs/attrs/ranksep/
+  ranksep_attributes: |-
+    (?x:
+      equally
+    )
+
+  # https://graphviz.org/docs/attrs/splines/
+  splines_attributes: |-
+    (?x:
+      curved
+    | line
+    | none
+    | ortho
+    | polyline
+    | spline
+    )
+
+  # https://graphviz.org/docs/attr-types/clusterMode/
+  clustermode_attribute_types: |-
+    (?x:
+      global
+    | local
+    | none
+    )
+
+  # https://graphviz.org/docs/attr-types/dirType/
+  dirtype_attribute_types: |-
+    (?x:
+      back
+    | both
+    | forward
+    | none
+    )
+
+  # https://graphviz.org/docs/attr-types/outputMode/
+  outputmode_attribute_types: |-
+    (?x:
+      breadthfirst
+    | nodesfirst
+    | edgesfirst
+    )
+
+  # https://graphviz.org/docs/attr-types/packMode/
+  packmode_attribute_types: |-
+    (?x:
+      array(?:_[bclrt]{1,5})?(?:\d+)?
+    | cluster
+    | graph
+    | node
+    )
+
+  # https://graphviz.org/docs/attr-types/pagedir/
+  pagedir_attribute_types: |-
+    (?x:
+      B[LR]         # bottom left, bottom right
+    | T[LR]         # top left, top right
+    | R[BT]         # right bottom, right top
+    | L[BT]         # left bottom, left top
+    )
+
+  # https://graphviz.org/docs/attr-types/quadType/
+  quadtype_attribute_types: |-
+    (?x:
+      fast
+    | none
+    | normal
+    )
+
+  # https://graphviz.org/docs/attr-types/rankType/
+  ranktype_attribute_types: |-
+    (?x:
+      main
+    | max
+    | min
+    | same
+    | sink
+    | source
+    )
+
+  # https://graphviz.org/docs/attr-types/rankdir/
+  rankdir_attribute_types: |-
+    (?x:
+      BT            # bottom -> top
+    | LR            # left -> right
+    | RL            # right -> left
+    | TB            # top -> bottom
+    )
+
+  # https://graphviz.org/docs/attr-types/smoothType/
+  smoothtype_attributes_types: |-
+    (?x:
+      avg_dist
+    | graph_dist
+    | none
+    | power_dist
+    | rng
+    | spring
+    | triangle
+    )
+
+  # https://graphviz.org/docs/attr-types/style/
+  style_attribute_types: |-
+    (?x:
+      dashed
+    | dotted
+    | solid
+    | invis
+    | bold
+    | tapered
+    | filled
+    | striped
+    | wedged
+    | diagonals
+    | rounded
+    )
+
+  # https://graphviz.org/doc/info/colors.html#x11
+  # NOTE: case-insensitive
+  x11_colors: |-
+    (?xi:
+      aliceblue | antiquewhite[1-4]? | aqua | aquamarine[1-4]? | azure[1-4]?
+    | beige | bisque[1-4]? | black | blanchedalmond | blue[1-4]? | blueviolet | brown[1-4]? | burlywood[1-4]?
+    | cadetblue[1-4]? | chartreuse[1-4]? | chocolate[1-4]? | coral[1-4]? | cornflowerblue | cornsilk[1-4]? | crimson | cyan[1-4]?
+    | darkblue | darkcyan | darkgoldenrod[1-4]? | darkgr[ae]y | darkgreen | darkkhaki | darkmagenta | darkolivegreen[1-4]? | darkorange[1-4]? | darkorchid[1-4]? | darkred | darksalmon | darkseagreen[1-4]? | darkslateblue | darkslategray[1-4]? | darkslategrey | darkturquoise | darkviolet | deeppink[1-4]? | deepskyblue[1-4]? | dimgr[ae]y | dodgerblue[1-4]?
+    | firebrick[1-4]? | floralwhite | forestgreen | fuchsia
+    | gainsboro | ghostwhite | gold[1-4]? | goldenrod[1-4]? | gr[ae]y(?:[0-9]|[1-9][0-9]|100)? | green[1-4]? | greenyellow
+    | honeydew[1-4]? | hotpink[1-4]?
+    | indianred[1-4]? | indigo | invis | ivory[1-4]?
+    | khaki[1-4]?
+    | lavender | lavenderblush[1-4]? | lawngreen | lemonchiffon[1-4]? | lightblue[1-4]? | lightcoral | lightcyan[1-4]? | lightgoldenrod[1-4]? | lightgoldenrodyellow | lightgr[ae]y | lightgreen | lightpink[1-4]? | lightsalmon[1-4]? | lightseagreen | lightskyblue[1-4]? | lightslateblue | lightslategr[ae]y | lightsteelblue[1-4]? | lightyellow[1-4]? | lime | limegreen | linen
+    | magenta[1-4]? | maroon[1-4]? | mediumaquamarine | mediumblue | mediumorchid[1-4]? | mediumpurple[1-4]? | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose[1-4]? | moccasin
+    | navajowhite[1-4]? | navy | navyblue | none
+    | oldlace | olive | olivedrab[1-4]? | orange[1-4]? | orangered[1-4]? | orchid[1-4]?
+    | palegoldenrod | palegreen[1-4]? | paleturquoise[1-4]? | palevioletred[1-4]? | papayawhip | peachpuff[1-4]? | peru | pink[1-4]? | plum[1-4]? | powderblue | purple[1-4]?
+    | rebeccapurple | red[1-4]? | rosybrown[1-4]? | royalblue[1-4]?
+    | saddlebrown | salmon[1-4]? | sandybrown | seagreen[1-4]? | seashell[1-4]? | sienna[1-4]? | silver | skyblue[1-4]? | slateblue[1-4]? | slategray[1-4]? | slategrey | snow[1-4]? | springgreen[1-4]? | steelblue[1-4]?
+    | tan[1-4]? | teal | thistle[1-4]? | tomato[1-4]? | transparent | turquoise[1-4]?
+    | violet | violetred[1-4]?
+    | webgr[ae]y | webgreen | webmaroon | webpurple | wheat[1-4]? | white | whitesmoke
+    | x11gr[ae]y | x11green | x11maroon | x11purple
+    | yellow[1-4]? | yellowgreen
+    )
+
+  # https://graphviz.org/doc/info/colors.html#svg
+  # NOTE: case-insensitive
+  svg_colors: |-
+    (?xi:
+      aliceblue | antiquewhite | aqua | aquamarine | azure
+    | beige | bisque | black | blanchedalmond | blue | blueviolet | brown | burlywood
+    | cadetblue | chartreuse | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan
+    | darkblue | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey | dodgerblue
+    | firebrick | floralwhite | forestgreen | fuchsia
+    | gainsboro | ghostwhite | gold | goldenrod | gray | green | greenyellow | grey
+    | honeydew | hotpink
+    | indianred | indigo | ivory
+    | khaki
+    | lavender | lavenderblush | lawngreen | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow | lightgray | lightgreen | lightgrey | lightpink | lightsalmon | lightseagreen | lightskyblue | lightslategray | lightslategrey | lightsteelblue | lightyellow | lime | limegreen | linen
+    | magenta | maroon | mediumaquamarine | mediumblue | mediumorchid | mediumpurple | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin
+    | navajowhite | navy
+    | oldlace | olive | olivedrab | orange | orangered | orchid
+    | palegoldenrod | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru | pink | plum | powderblue | purple
+    | red | rosybrown | royalblue
+    | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna | silver | skyblue | slateblue | slategray | slategrey | snow | springgreen | steelblue
+    | tan | teal | thistle | tomato | turquoise
+    | violet
+    | wheat | white | whitesmoke
+    | yellow | yellowgreen
+    )
+
+  # https://graphviz.org/doc/info/colors.html#brewer
+  # https://graphviz.org/docs/attrs/colorscheme/
+  brewer_color_schemes: |-
+    (?x:
+      accent[3-8]
+    | blues[3-9]
+    | brbg(?:[3-9]|1[0-1])
+    | bugn[3-9]
+    | bupu[3-9]
+    | dark2[3-8]
+    | gnbu[3-9]
+    | greens[3-9]
+    | greys[3-9]
+    | oranges[3-9]
+    | orrd[3-9]
+    | paired(?:[3-9]|1[0-2])
+    | pastel1[3-9]
+    | pastel2[3-8]
+    | piyg(?:[3-9]|1[0-1])
+    | prgn(?:[3-9]|1[0-1])
+    | pubu[3-9]
+    | pubugn[3-9]
+    | puor(?:[3-9]|1[0-1])
+    | purd[3-9]
+    | purples[3-9]
+    | rdbu(?:[3-9]|1[0-1])
+    | rdgy(?:[3-9]|1[0-1])
+    | rdpu[3-9]
+    | rdylbu(?:[3-9]|1[0-1])
+    | rdylgn(?:[3-9]|1[0-1])
+    | reds[3-9]
+    | set1[3-9]
+    | set2[3-8]
+    | set3(?:[3-9]|1[0-2])
+    | spectral(?:[3-9]|1[0-1])
+    | ylgn[3-9]
+    | ylgnbu[3-9]
+    | ylorbr[3-9]
+    | ylorrd[3-9]
+    )

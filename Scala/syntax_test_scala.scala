@@ -1,6 +1,25 @@
 // SYNTAX TEST "Packages/Scala/Scala.sublime-syntax"
 // <- source.scala comment.line.double-slash.scala
 
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
 package fubar
 // ^^^^ keyword.declaration.namespace.scala
 //      ^^^^^ entity.name.namespace.header.scala
@@ -356,7 +375,7 @@ type Foo = Bar[A] forSome { type A }
 
    "testing"
 // ^ punctuation.definition.string.begin.scala
-// ^^^^^^^^^ string.quoted.double.scala
+// ^^^^^^^^^ meta.string.scala string.quoted.double.scala
 //         ^ punctuation.definition.string.end.scala
 
   "escaped chars: \u1221 \125 \n"
@@ -367,32 +386,47 @@ type Foo = Bar[A] forSome { type A }
   "bad escaping: \p"
 //               ^ invalid.illegal.lone-escape.scala
 
+   """testing"""
+// ^^^^^^^^^^^^^ meta.string.scala string.quoted.triple.scala
+
   """escaped in triple: \u1221 \125 \n"""
 //^^^ punctuation.definition.string.begin.scala
 //                      ^^^^^^ constant.character.escape.scala
-//                             ^^^ - constant.character.escape.scala
-//                                  ^^ - constant.character.escape.scala
+//                             ^^^^ - constant.character
+//                                  ^^ - constant.character
 //                                    ^^^ punctuation.definition.string.end.scala
 
-   """testing"""
-// ^^^^^^^^^^^^^ string.quoted.triple.scala
+  """not bad in triple: \p"""
+//                      ^^ - constant.character - invalid
 
    s"testing $a ${42}"
-// ^^^^^^^^^ string.quoted.interpolated.scala
-// ^ support.function
+// ^^^^^^^^^^ meta.string.interpolated.scala string.quoted.double.scala - meta.interpolation
+//           ^^ meta.string.interpolated.scala meta.interpolation.scala - string
+//             ^ meta.string.interpolated.scala string.quoted.double.scala - meta.interpolation
+//              ^^^^^ meta.string.interpolated.scala meta.interpolation.scala - string
+//                   ^ meta.string.interpolated.scala string.quoted.double.scala - meta.interpolation
+// ^ support.function.scala
+//  ^ punctuation.definition.string.begin.scala
 //           ^^ variable.other
-//              ^^ punctuation.definition.expression
+//              ^ punctuation.definition.variable.scala
+//               ^ punctuation.section.interpolation.begin.scala
 //                ^^ meta.number.integer.decimal.scala
-//                  ^ punctuation.definition.expression
+//                  ^ punctuation.section.interpolation
+//                   ^ punctuation.definition.string.end.scala
 
    s"""testing $a ${42}"""
-// ^^^^^^^^^^^ string.quoted.triple.interpolated.scala
+// ^^^^^^^^^^^^ meta.string.interpolated.scala string.quoted.triple.scala - meta.interpolation
+//             ^^ meta.string.interpolated.scala meta.interpolation.scala - string
+//               ^ meta.string.interpolated.scala string.quoted.triple.scala - meta.interpolation
+//                ^^^^^ meta.string.interpolated.scala meta.interpolation.scala - string
+//                     ^^^ meta.string.interpolated.scala string.quoted.triple.scala - meta.interpolation
 // ^ support.function
 //             ^^ variable.other
-//                ^^ punctuation.definition.expression
+//                ^ punctuation.definition.variable.scala
+//                 ^ punctuation.section.interpolation.begin.scala
 //                  ^^ meta.number.integer.decimal.scala
-//                    ^ punctuation.definition.expression
-//                     ^^^ string.quoted.triple.interpolated.scala
+//                    ^ punctuation.section.interpolation
+//                     ^^^ punctuation.definition.string.end.scala
 
    f"formatted: x: $x%+,.3f ca"
 // ^ support.function
@@ -614,15 +648,15 @@ type Foo = Bar[A] forSome { type A }
 //      ^^^^ constant.other.symbol
 
    case "foo" =>
-//      ^^^^^ string.quoted.double.scala
+//      ^^^^^ meta.string.scala string.quoted.double.scala
 
    case """foo""" =>
-//      ^^^^^^^^^ string.quoted.triple.scala
+//      ^^^^^^^^^ meta.string.scala string.quoted.triple.scala
 
    case q"""..$foo""" =>
-//      ^^^^^^ string.quoted.triple.interpolated.scala
-//            ^^^^ variable.other
-//                ^^^ string.quoted.triple.interpolated.scala
+//      ^^^^^^ meta.string.interpolated.scala string.quoted.triple.scala
+//            ^^^^ meta.string.interpolated.scala meta.interpolation.scala variable.other.scala - string
+//                ^^^ meta.string.interpolated.scala string.quoted.triple.scala punctuation.definition.string.end.scala
 
    case <foo/> =>
 //      ^^^^^^ text.xml
@@ -1032,7 +1066,7 @@ foo(())()
 //    ^^ keyword.declaration.function.arrow
 
 "testing /*comments*/"
-//       ^^^^^^^^^^^^ string.quoted.double
+//       ^^^^^^^^^^^^ meta.string.scala string.quoted.double
 //       ^^^^^^^^^^^^ - comment
 
    (cb: ((Throwable \/ Unit) => Unit)) => 42
@@ -1235,9 +1269,10 @@ xs: Foo with Bar
 // ^^^^^ - storage.type
 
    s"before ${classTag[U] stuff} after"
-//   ^^^^^^ string.quoted.interpolated.scala
+// ^^^^^^^^^ meta.string.interpolated.scala string.quoted.double.scala
+//          ^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.scala meta.interpolation.scala - string
 //            ^^^^^ - storage.type
-//                               ^^^^^ string.quoted.interpolated.scala
+//                              ^^^^^^^ meta.string.interpolated.scala string.quoted.double.scala
 
 {
   case Stuff(thing, other) =>
@@ -1316,7 +1351,7 @@ def <(a: Int) = 42
        42 + "thing"
 //     ^^^^^^^^^^^^ - text.xml
 //     ^^ source.scala meta.number.integer.decimal.scala
-//          ^^^^^^^ source.scala string.quoted.double.scala
+//          ^^^^^^^ source.scala meta.string.scala string.quoted.double.scala
        // comments!
 //     ^^^^^^^^^^^^ source.scala comment.line.double-slash.scala
 
@@ -1393,7 +1428,7 @@ class Test1
 class Test1
     (val a: String) {
    "string"
-// ^^^^^^^^ string.quoted.double.scala
+// ^^^^^^^^ meta.string.scala string.quoted.double.scala
 }
 
 def test
@@ -1448,7 +1483,7 @@ for (
 
 new {
    "foo"
-// ^^^^^ string.quoted.double.scala
+// ^^^^^ meta.string.scala string.quoted.double.scala
 }
 
 def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
@@ -2026,12 +2061,10 @@ for (_<- fu; _← fu; _= fu)
 //                       ^ punctuation.section.group.end.scala
 
    raw"foo\nbar\rbaz"
-// ^^^ string.quoted.raw.interpolated.scala support.function.scala
-//    ^ string.quoted.raw.interpolated.scala punctuation.definition.string.begin.scala
-//     ^^^^^^^^^^^^^ string.quoted.raw.interpolated.scala
-//        ^^ string.quoted.raw.interpolated.scala
-//             ^^ string.quoted.raw.interpolated.scala
-//                  ^ string.quoted.raw.interpolated.scala punctuation.definition.string.end.scala
+// ^^^^^^^^^^^^^^^^^^ meta.string.raw.scala string.quoted.double.scala - constant.character
+// ^^^ support.function.scala
+//    ^ punctuation.definition.string.begin.scala
+//                  ^ punctuation.definition.string.end.scala
 
 case (foo => } abc
 //             ^^^ - variable
@@ -2061,8 +2094,12 @@ gzis =>// foo
 //     ^^ comment.line.double-slash.scala punctuation.definition.comment.scala
 
 s"testing '$foo' bar"
-//        ^ string.quoted.interpolated.scala - variable
-//             ^ string.quoted.interpolated.scala - variable
+//^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.scala
+//^^^^^^^^^ string.quoted.double.scala - meta.interpolation
+//         ^^^^ meta.interpolation.scala variable.other.scala - string
+//         ^ punctuation.definition.variable.scala
+//             ^^^^^^ string.quoted.double.scala - meta.interpolation
+//                  ^ punctuation.definition.string.end.scala
 
   class Context(var abc: Boolean, val fed: Int)
 //              ^^^ storage.type.volatile.scala

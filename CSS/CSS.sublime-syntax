@@ -387,6 +387,7 @@ contexts:
     - match: /\*+
       scope: punctuation.definition.comment.begin.css
       push: block-comment-body
+    - include: merge-conflict-markers
 
   block-comment-body:
     - meta_scope: comment.block.css
@@ -396,6 +397,27 @@ contexts:
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.css
+    - include: merge-conflict-markers
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
 
 ###[ AT RULES ]################################################################
 
@@ -418,6 +440,7 @@ contexts:
     - include: at-page
     - include: at-page-margin
     - include: at-property
+    - include: at-scope
     - include: at-scroll-timeline
     - include: at-other
 
@@ -437,6 +460,7 @@ contexts:
     - include: at-page
     - include: at-page-margin
     - include: at-property
+    - include: at-scope
     - include: at-scroll-timeline
     - include: at-other
 
@@ -926,6 +950,50 @@ contexts:
     - include: comments
     - include: else-pop
 
+###[ SCOPE AT-RULE ]###########################################################
+
+  # @scope
+  # https://developer.mozilla.org/en-US/docs/Web/CSS/@scope
+  at-scope:
+    - match: (@)(?i:scope){{break}}
+      scope: keyword.control.directive.css
+      captures:
+        1: punctuation.definition.keyword.css
+      push:
+        - at-scope-selector-meta
+        - maybe-property-list
+        - at-scope-selector-to
+        - at-scope-selector-group
+
+  at-scope-selector-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.at-rule.scope.css
+    - include: immediately-pop
+
+  at-scope-selector-to:
+    - meta_include_prototype: false
+    - match: to{{break}}
+      scope: keyword.other.css
+      set: at-scope-selector-group
+    - include: comments
+    - include: else-pop
+
+  at-scope-selector-group:
+    - meta_include_prototype: false
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      set: at-scope-selector-group-body
+    - include: comments
+    - include: else-pop
+
+  at-scope-selector-group-body:
+    - meta_scope: meta.group.css
+    - meta_content_scope: meta.selector.css
+    - match: \)
+      scope: punctuation.section.group.end.css
+      pop: 1
+    - include: selector-body
+
 ###[ SCROLL-TIMELINE AT-RULE ]#################################################
 
   # @scroll-timeline
@@ -1323,9 +1391,11 @@ contexts:
       set: attribute-selector-unquoted-value-content
 
   attribute-selector-unquoted-value-content:
+    - meta_include_prototype: false
     - meta_scope: meta.string.css string.unquoted.css
     - match: (?=[\s\]])
       pop: 1
+    - include: string-content
 
   attribute-selector-flag:
     - match: \b[iI]{{break}}
@@ -1899,7 +1969,6 @@ contexts:
     - include: hue-rotate-functions
     - include: image-functions
     - include: image-set-functions
-    - include: inset-functions
     - include: local-functions
     - include: minmax-functions
     - include: polygon-functions
@@ -2060,10 +2129,12 @@ contexts:
 
   color-color-functions:
     # color()
-    # https://drafts.csswg.org/css-color/#color-function
+    # https://developer.mozilla.org/de/docs/Web/CSS/color_value/color
+    # color-mix()
+    # https://developer.mozilla.org/de/docs/Web/CSS/color_value/color-mix
     # light-dark()
     # https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark
-    - match: \b(?i:color|light-dark)(?=\()
+    - match: \b(?i:color(?:-mix)?|light-dark)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - color-color-function-arguments-list-body
@@ -2076,7 +2147,12 @@ contexts:
     - include: color-adjuster-functions # must be included before `color-values`
     - include: color-values
     - include: angle-constants
+    - include: percentage-constants
     - include: scalar-constants
+    - match: \b(?:from|in)\b
+      scope: keyword.other.color.css
+    - match: '{{ident}}'
+      scope: support.constant.property-value.css
 
   hsl-color-functions:
     # hsl(), hsla()
@@ -2489,23 +2565,6 @@ contexts:
     - include: length-constants
     - include: percentage-constants
 
-  inset-functions:
-    # inset()
-    # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
-    - match: \b(?i:inset)(?=\()
-      scope: meta.function-call.identifier.css support.function.shape.css
-      push:
-        - inset-function-arguments-list-body
-        - function-arguments-list-begin
-
-  inset-function-arguments-list-body:
-    - meta_content_scope: meta.function-call.arguments.css meta.group.css
-    - include: function-arguments-prototype
-    - match: \b(?i:round){{break}}
-      scope: keyword.other.shape.css
-    - include: length-constants
-    - include: percentage-constants
-
   polygon-functions:
     # polygon()
     # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
@@ -2525,9 +2584,13 @@ contexts:
     - include: percentage-constants
 
   rect-functions:
-    # rect() - Deprecated
-    # https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect
-    - match: \b(?i:rect)(?=\()
+    # inset()
+    # https://developer.mozilla.org/docs/Web/CSS/basic-shape/inset
+    # rect()
+    # https://developer.mozilla.org/docs/Web/CSS/basic-shape/rect
+    # xywh()
+    # https://developer.mozilla.org/docs/Web/CSS/basic-shape/xywh
+    - match: \b(?i:inset|rect|xywh)(?=\()
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
         - rect-function-arguments-list-body
@@ -2538,7 +2601,10 @@ contexts:
     - include: function-arguments-prototype
     - match: \b(?i:auto){{break}}
       scope: support.constant.property-value.css
+    - match: \b(?i:round){{break}}
+      scope: keyword.other.shape.css
     - include: length-constants
+    - include: percentage-constants
 
 ###[ BUILTIN TIMING FUNCTIONS ]################################################
 

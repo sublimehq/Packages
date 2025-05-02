@@ -83,6 +83,8 @@ contexts:
           captures:
             1: punctuation.definition.comment.cs
         - include: comments_in
+        - include: merge-conflict-markers
+    - include: merge-conflict-markers
 
   comments_in:
     - match: \b(?i:todo|hack|xxx)\b
@@ -91,6 +93,24 @@ contexts:
       scope: comment.line.todo.cs
     - match: \b(https?://\S*)\b
       scope: markup.underline.link.cs
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
 
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
@@ -608,29 +628,34 @@ contexts:
         2: punctuation.accessor.dot.cs
     - match: '{{name}}'
       scope: variable.other.member.cs
-      set:
-        - match: ';'
-          scope: punctuation.terminator.statement.cs
-          pop: true
-        - match: \{
-          scope: punctuation.section.block.begin.cs
-          set:
-            - meta_scope: meta.block.cs
-            - match: \}
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - match: \b(add)\b
-              scope: keyword.declaration.function.accessor.add.cs
-              push: method_body
-            - match: \b(remove)\b
-              scope: keyword.declaration.function.accessor.remove.cs
-              push: method_body
-        - match: (?==)
-          set: member_variables_declaration
-        - match: (?=\S)
-          pop: true
+      set: event_handler_declaration_after_name
     - match: (?=\S)
       pop: true
+
+  event_handler_declaration_after_name:
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+    - match: \{
+      scope: punctuation.section.block.begin.cs
+      set: event_handler_declaration_body
+    - match: (?==)
+      set: member_variables_declaration
+    - match: (?=\S)
+      pop: true
+
+  event_handler_declaration_body:
+    - meta_scope: meta.block.cs
+    - include: attribute
+    - match: \}
+      scope: punctuation.section.block.end.cs
+      pop: true
+    - match: \b(add)\b
+      scope: keyword.declaration.function.accessor.add.cs
+      push: method_body
+    - match: \b(remove)\b
+      scope: keyword.declaration.function.accessor.remove.cs
+      push: method_body
 
   method_declaration:
     - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
@@ -1375,14 +1400,10 @@ contexts:
         1: variable.function.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       push: [function_call_arguments, arguments]
-    - match: '({{name}})\s*(\??\[)'
+    - match: '(\?)?\s*(\[)'
       captures:
-        1: variable.other.cs
+        1: keyword.operator.null-coalescing.cs
         2: meta.brackets.cs punctuation.section.brackets.begin.cs
-      push: accessor_arguments
-    - match: '\s*(\??\[)'
-      captures:
-        1: meta.brackets.cs punctuation.section.brackets.begin.cs
       push: accessor_arguments
     - match: '({{base_type}})\b'
       scope: storage.type.cs
@@ -2294,8 +2315,8 @@ contexts:
       pop: true
 
   foreach_var_assignment:
-    - match: '\b(in)\b'
-      scope: keyword.control.flow.cs
+    - match: \bin\b
+      scope: keyword.operator.iteration.in.cs
       set: line_of_code_in
     - match: (?=\)|\})
       pop: true

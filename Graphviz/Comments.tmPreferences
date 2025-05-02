@@ -2,13 +2,14 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Comments</string>
+	<string>DOT - Comments</string>
 	<key>scope</key>
 	<string>source.dot</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
 		<array>
+			<!-- NOTE: number-sign line comments are not part of the syntax's prototype -->
 			<dict>
 				<key>name</key>
 				<string>TM_COMMENT_START</string>

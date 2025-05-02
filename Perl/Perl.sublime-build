@@ -1,12 +1,15 @@
 {
 	"shell_cmd": "perl \"${file}\"",
 	"selector": "source.perl",
+	"interactive": true,
+
 	"variants":
 	[
 		{
 			"name": "Syntax Check",
 			"shell_cmd": "perl -c \"${file}\"",
 			"file_regex": "^.*? at (.*?) line ([0-9]+)",
+			"interactive": false,
 		}
 	]
 }

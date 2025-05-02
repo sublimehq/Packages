@@ -13,12 +13,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bts-node(?:-script)?\b                    # shebang
+    ^ \#! .* {{shebang_language}}                       # shebang
   | ^ \s* // .*? -\*- .*? \b(ts|typescript)\b .*? -\*-  # editorconfig
   )
 
 variables:
-  shebang_lang: \bts-node(?:-script)?\b
+  shebang_language: \bts-node(?:-script)?\b
 
   possible_arrow_function_begin: (?:\(|{{identifier_start}}|<)
 
@@ -263,17 +263,7 @@ contexts:
         - ts-abstract-class
         - expression-statement
 
-  class:
-    - match: class{{identifier_break}}
-      scope: keyword.declaration.class.js
-      set:
-        - class-meta
-        - class-body
-        - ts-class-implements
-        - class-extends
-        - class-name
-
-  ts-class-implements:
+  class-implements:
     - match: implements{{identifier_break}}
       scope: storage.modifier.implements.js
       set: ts-inherited-class-expression-list
@@ -1237,76 +1227,87 @@ contexts:
     - meta_prepend: true
     - include: ts-non-null-assertion
 
-  literal-string-template-begin:
-    # Notes:
-    #  Consume trailing whitespace after opening punctuation
-    #  and leading whitespace in front of closing punctuation
-    #  to maintain JavaScript indentation rules until embedded
-    #  code really begins/ends. It's required for embedded code
-    #  to be indented using global JavaScript indentation rules.
-    - match: (css)\s*((\`){{trailing_wspace}}?)
+  literal-string-template-css:
+    - match: (?i:((/\*)\s*css\s*(\*/))|(css))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.css.ts-template
       embed_scope: meta.string.template.js source.css.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (html)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-html:
+    - match: (?i:((/\*)\s*html\s*(\*/))|(html))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:text.html.ts-template
       embed_scope: meta.string.template.js text.html.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (js)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-js:
+    - match: (?i:((/\*)\s*js\s*(\*/))|(js))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.js.ts-template
       embed_scope: meta.string.template.js source.js.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (json)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-json:
+    - match: (?i:((/\*)\s*json\s*(\*/))|(json))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.json.ts-template
       embed_scope: meta.string.template.js source.json.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (sql|SQL)\s*((\`){{trailing_wspace}}?)
+
+  literal-string-template-sql:
+    - match: (?i:((/\*)\s*sql\s*(\*/))|(sql))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
       captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js
-        3: punctuation.definition.string.begin.js
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
       embed: scope:source.sql.ts-template
       embed_scope: meta.string.template.js source.sql.embedded.js
-      escape: '{{leading_wspace}}?(\`)'
+      escape: '{{leading_wspace}}?({{tagged_template_quote_escape}})'
       escape_captures:
         0: meta.string.template.js string.quoted.other.js
         1: punctuation.definition.string.end.js
       pop: 1
-    - match: (?:({{identifier_name}})\s*)?(\`)
-      captures:
-        1: variable.function.tagged-template.js
-        2: meta.string.template.js string.quoted.other.js punctuation.definition.string.begin.js
-      set: literal-string-template-content
-    - include: immediately-pop

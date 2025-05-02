@@ -99,6 +99,77 @@ $((
 
 
 ###############################################################################
+# Git Conflict Marker Tests
+###############################################################################
+
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+
+## in braces
+
+{
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+}
+
+## heredoc
+
+var=<<EOF
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+}
+EOF
+
+
+###############################################################################
 # 3.1.2 Quoting                                                               #
 # https://www.gnu.org/software/bash/manual/bash.html#Quoting                  #
 ###############################################################################
@@ -1058,7 +1129,7 @@ for in in in in
 #^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^ variable.other.readwrite.shell - keyword
-#      ^^ keyword.operator.iterator.in.shell
+#      ^^ keyword.operator.iteration.in.shell
 #         ^^ meta.string.glob.shell string.unquoted.shell
 #            ^^ meta.string.glob.shell string.unquoted.shell
 
@@ -1095,7 +1166,7 @@ for x; do echo "${!x}"; done
 for i in for in do echo done; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #       ^ - meta.string
 #        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ - meta.string
@@ -1118,7 +1189,7 @@ for i in { [ \( ; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #       ^ - meta.string
 #        ^ meta.string.glob.shell string.unquoted.shell
 #         ^ - meta.string
@@ -1138,7 +1209,7 @@ for i in str1 $str2 "str3" 'str4' st$r5; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^^^^ meta.string.glob.shell string.unquoted.shell
 #             ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                   ^^^^^^ meta.string.glob.shell string.quoted.double.shell
@@ -1157,7 +1228,7 @@ for i in <files.txt; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^ keyword.operator.assignment.redirection.shell
 #                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
@@ -1173,7 +1244,7 @@ for i in {foo,bar,baz}; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.section.interpolation.begin.shell - string
 #         ^^^ meta.string.glob.shell meta.interpolation.brace.shell meta.string.shell string.unquoted.shell
 #            ^ meta.string.glob.shell meta.interpolation.brace.shell punctuation.separator.sequence.shell - string
@@ -1187,7 +1258,7 @@ for i in for pre{foo,bar,baz}suf; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ - meta.string
 #            ^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
@@ -1205,7 +1276,7 @@ for i in {1..10}; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
@@ -1225,7 +1296,7 @@ for i in {-10..+20}; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^^^^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
@@ -1247,7 +1318,7 @@ for i in {-10..+20..-4}; do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^^^^^^^^^^^^^^ meta.interpolation.brace.shell
 #        ^ punctuation.section.interpolation.begin.shell
 #         ^ meta.number.integer.decimal.shell keyword.operator.arithmetic.shell
@@ -1272,7 +1343,7 @@ for i in (foo bar baz); do echo $i; done;
 # <- meta.statement.loop.for.shell keyword.control.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #   ^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^ meta.statement.loop.for.shell invalid.illegal.unexpected-token.shell
 #         ^^^ meta.statement.loop.for.shell meta.string.glob.shell string.unquoted.shell
 #            ^ - meta.string
@@ -1291,7 +1362,7 @@ for domain in $domains; do echo $domain; done
 #^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^^^^^^ variable.other.readwrite.shell - keyword
-#          ^^ keyword.operator.iterator.in.shell
+#          ^^ keyword.operator.iteration.in.shell
 #             ^^^^^^^^ variable.other.readwrite.shell
 #                     ^ punctuation.terminator.statement.shell
 #                       ^^ keyword.control.loop.do.shell
@@ -1306,7 +1377,7 @@ for i in $(seq 100); do
 #^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #        ^^^^^^^^^^ meta.interpolation.command.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^ punctuation.definition.variable.shell
 #         ^ punctuation.section.interpolation.begin.shell
 #          ^^^ meta.function-call variable.function.shell
@@ -1329,7 +1400,7 @@ for \
 #<- meta.statement.loop.for.shell
 #^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for.shell
 # ^^^ variable.other.readwrite.shell
-#     ^^ keyword.operator.iterator.in.shell
+#     ^^ keyword.operator.iteration.in.shell
 #        ^^^ meta.string.glob.shell string.unquoted.shell
 #            ^^^ meta.string.glob.shell string.unquoted.shell
 #                ^^^ meta.string.glob.shell string.unquoted.shell
@@ -1338,9 +1409,9 @@ for \
 for \
   var \
 in foo bar baz;
-#<- meta.statement.loop.for.shell keyword.operator.iterator.in.shell
+#<- meta.statement.loop.for.shell keyword.operator.iteration.in.shell
 #^^^^^^^^^^^^^ meta.statement.loop.for.shell
-#^ meta.statement.loop.for.shell keyword.operator.iterator.in.shell
+#^ meta.statement.loop.for.shell keyword.operator.iteration.in.shell
 #  ^^^ meta.string.glob.shell string.unquoted.shell
 #      ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^^^ meta.string.glob.shell string.unquoted.shell
@@ -1354,7 +1425,7 @@ in foo bar baz;
 #                             ^^ meta.interpolation.command.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - meta.statement.loop
 #                               ^^^^^^ meta.interpolation.command.shell - meta.statement.loop - meta.interpolation meta.interpolation
 #^^^ keyword.control.loop.for.shell
-#      ^^ keyword.operator.iterator.in.shell
+#      ^^ keyword.operator.iteration.in.shell
 #         ^ punctuation.definition.variable.shell
 #          ^ punctuation.section.interpolation.begin.shell
 #           ^^^ meta.function-call.identifier.shell variable.function.shell
@@ -1429,7 +1500,7 @@ select in in in select do done; do echo $in; done;
 #                             ^^ - meta.statement.loop - meta.sequence
 #^^^^^ keyword.control.loop.select.shell
 #      ^^ variable.other.readwrite.shell
-#         ^^ keyword.operator.iterator.in.shell
+#         ^^ keyword.operator.iteration.in.shell
 #           ^ - meta.string - string
 #            ^^ meta.string.glob.shell string.unquoted.shell
 #              ^ - meta.string - string
@@ -1454,7 +1525,7 @@ select \
 #          ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
 #                       ^^ - meta.statement.loop - meta.sequence
 # ^^^^^ variable.other.readwrite.shell
-#       ^^ keyword.operator.iterator.in.shell
+#       ^^ keyword.operator.iteration.in.shell
 #          ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
 #           ^^^^^^^^^^^^ string.unquoted.shell
 #            ^^ constant.other.wildcard.asterisk.shell
@@ -1469,7 +1540,7 @@ select \
 #   ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
 #    ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
 #                 ^^ - meta.statement.loop - meta.sequence
-# ^^ keyword.operator.iterator.in.shell
+# ^^ keyword.operator.iteration.in.shell
 #    ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
 #     ^^^^^^^^^^^^ string.unquoted.shell
 #      ^^ constant.other.wildcard.asterisk.shell
@@ -1493,7 +1564,7 @@ select \
 select fname in *;
 # <- keyword.control.loop.select.shell
 #^^^^^ keyword.control.loop.select.shell
-#            ^^ keyword.operator.iterator.in.shell
+#            ^^ keyword.operator.iteration.in.shell
 #               ^ meta.string.glob.shell string.unquoted.shell
 #                ^ punctuation.terminator.statement.shell
 do

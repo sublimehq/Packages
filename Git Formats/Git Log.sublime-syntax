@@ -48,10 +48,9 @@ contexts:
             - match: ','
               scope: punctuation.separator.sequence.git.log
     - match: (?={{diff_begin}})
-      embed: scope:source.shell.bash
-      escape: $
-    - match: (?=^index\s)
-      push: extended-patch-headers
+      embed: Git Diff.sublime-syntax#diffs
+      embed_scope: source.diff.git
+      escape: (?={{commit_begin}})
 
   commit-header:
     # All header attributes are mappings of `key: value` format.
@@ -72,48 +71,3 @@ contexts:
     # https://github.com/SublimeTextIssues/Core/issues/2395
     - match: ^
       push: Git Commit Message.sublime-syntax
-
-  extended-patch-headers:
-    # https://git-scm.com/docs/git-show#_generating_patch_text_with_p
-    - meta_scope: meta.diff.header.extended.git.log
-    - match: ^(index)\s+
-      captures:
-        1: keyword.context.git.log
-      push: index
-    - match: ^((?:new|deleted)\s+file\s+)?(mode)\s+
-      captures:
-        1: keyword.context.git.log
-        2: keyword.context.git.log
-      push: mode
-    - match: ^((?:dis)?similarity\s+index)\s+
-      captures:
-        1: keyword.context.git.log
-      push: similarity-index
-    - match: ^((?:copy|move)\s+(?:from|to))\s+
-      captures:
-        1: keyword.context.git.log
-      push: copy-or-move
-    - match: ^
-      pop: 1
-      embed: scope:source.diff
-      escape: '{{commit_or_diff_begin}}'
-
-  index:
-    - include: Git Common.sublime-syntax#commit
-    - include: mode
-
-  mode:
-    - include: Git Common.sublime-syntax#eol-pop
-    - match: ',|\.\.'
-      scope: punctuation.separator.sequence.git.log
-    - match: '[0-7]{6}'
-      scope: meta.number.integer.octal.git.log constant.numeric.value.git.log
-
-  similarity-index:
-    - include: Git Common.sublime-syntax#eol-pop
-    - match: \d+
-      scope: meta.number.integer.decimal.git.log constant.numeric.value.git.log
-
-  copy-or-move:
-    - include: Git Common.sublime-syntax#eol-pop
-    - include: Git Link.sublime-syntax#expect-path

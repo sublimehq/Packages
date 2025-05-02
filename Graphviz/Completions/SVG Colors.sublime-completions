@@ -1,0 +1,1034 @@
+{
+    "scope": "source.dot meta.group, source.dot meta.attributes",
+    "completions": [
+        {
+            "trigger": "aliceblue",
+            "contents": "aliceblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "antiquewhite",
+            "contents": "antiquewhite",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aqua",
+            "contents": "aqua",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "aquamarine",
+            "contents": "aquamarine",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "azure",
+            "contents": "azure",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "beige",
+            "contents": "beige",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "bisque",
+            "contents": "bisque",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "black",
+            "contents": "black",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blanchedalmond",
+            "contents": "blanchedalmond",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blue",
+            "contents": "blue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "blueviolet",
+            "contents": "blueviolet",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "brown",
+            "contents": "brown",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "burlywood",
+            "contents": "burlywood",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cadetblue",
+            "contents": "cadetblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chartreuse",
+            "contents": "chartreuse",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "chocolate",
+            "contents": "chocolate",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "coral",
+            "contents": "coral",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornflowerblue",
+            "contents": "cornflowerblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cornsilk",
+            "contents": "cornsilk",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "crimson",
+            "contents": "crimson",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "cyan",
+            "contents": "cyan",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkblue",
+            "contents": "darkblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkcyan",
+            "contents": "darkcyan",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgoldenrod",
+            "contents": "darkgoldenrod",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgray",
+            "contents": "darkgray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgreen",
+            "contents": "darkgreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkgrey",
+            "contents": "darkgrey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkkhaki",
+            "contents": "darkkhaki",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkmagenta",
+            "contents": "darkmagenta",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkolivegreen",
+            "contents": "darkolivegreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorange",
+            "contents": "darkorange",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkorchid",
+            "contents": "darkorchid",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkred",
+            "contents": "darkred",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darksalmon",
+            "contents": "darksalmon",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkseagreen",
+            "contents": "darkseagreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslateblue",
+            "contents": "darkslateblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategray",
+            "contents": "darkslategray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkslategrey",
+            "contents": "darkslategrey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkturquoise",
+            "contents": "darkturquoise",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "darkviolet",
+            "contents": "darkviolet",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deeppink",
+            "contents": "deeppink",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "deepskyblue",
+            "contents": "deepskyblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dimgray",
+            "contents": "dimgray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dimgrey",
+            "contents": "dimgrey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "dodgerblue",
+            "contents": "dodgerblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "firebrick",
+            "contents": "firebrick",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "floralwhite",
+            "contents": "floralwhite",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "forestgreen",
+            "contents": "forestgreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "fuchsia",
+            "contents": "fuchsia",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gainsboro",
+            "contents": "gainsboro",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ghostwhite",
+            "contents": "ghostwhite",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gold",
+            "contents": "gold",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "goldenrod",
+            "contents": "goldenrod",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "gray",
+            "contents": "gray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "grey",
+            "contents": "grey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "green",
+            "contents": "green",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "greenyellow",
+            "contents": "greenyellow",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "honeydew",
+            "contents": "honeydew",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "hotpink",
+            "contents": "hotpink",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indianred",
+            "contents": "indianred",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "indigo",
+            "contents": "indigo",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "ivory",
+            "contents": "ivory",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "khaki",
+            "contents": "khaki",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavender",
+            "contents": "lavender",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lavenderblush",
+            "contents": "lavenderblush",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lawngreen",
+            "contents": "lawngreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lemonchiffon",
+            "contents": "lemonchiffon",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightblue",
+            "contents": "lightblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcoral",
+            "contents": "lightcoral",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightcyan",
+            "contents": "lightcyan",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgoldenrodyellow",
+            "contents": "lightgoldenrodyellow",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgray",
+            "contents": "lightgray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgreen",
+            "contents": "lightgreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightgrey",
+            "contents": "lightgrey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightpink",
+            "contents": "lightpink",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsalmon",
+            "contents": "lightsalmon",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightseagreen",
+            "contents": "lightseagreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightskyblue",
+            "contents": "lightskyblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightslategray",
+            "contents": "lightslategray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightslategrey",
+            "contents": "lightslategrey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightsteelblue",
+            "contents": "lightsteelblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lightyellow",
+            "contents": "lightyellow",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "lime",
+            "contents": "lime",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "limegreen",
+            "contents": "limegreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "linen",
+            "contents": "linen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "magenta",
+            "contents": "magenta",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "maroon",
+            "contents": "maroon",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumaquamarine",
+            "contents": "mediumaquamarine",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumblue",
+            "contents": "mediumblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumorchid",
+            "contents": "mediumorchid",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumpurple",
+            "contents": "mediumpurple",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumseagreen",
+            "contents": "mediumseagreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumslateblue",
+            "contents": "mediumslateblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumspringgreen",
+            "contents": "mediumspringgreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumturquoise",
+            "contents": "mediumturquoise",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mediumvioletred",
+            "contents": "mediumvioletred",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "midnightblue",
+            "contents": "midnightblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mintcream",
+            "contents": "mintcream",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "mistyrose",
+            "contents": "mistyrose",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "moccasin",
+            "contents": "moccasin",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navajowhite",
+            "contents": "navajowhite",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "navy",
+            "contents": "navy",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "oldlace",
+            "contents": "oldlace",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olive",
+            "contents": "olive",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "olivedrab",
+            "contents": "olivedrab",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orange",
+            "contents": "orange",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orangered",
+            "contents": "orangered",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "orchid",
+            "contents": "orchid",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegoldenrod",
+            "contents": "palegoldenrod",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palegreen",
+            "contents": "palegreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "paleturquoise",
+            "contents": "paleturquoise",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "palevioletred",
+            "contents": "palevioletred",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "papayawhip",
+            "contents": "papayawhip",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peachpuff",
+            "contents": "peachpuff",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "peru",
+            "contents": "peru",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "pink",
+            "contents": "pink",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "plum",
+            "contents": "plum",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "powderblue",
+            "contents": "powderblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "purple",
+            "contents": "purple",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "red",
+            "contents": "red",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "rosybrown",
+            "contents": "rosybrown",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "royalblue",
+            "contents": "royalblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "saddlebrown",
+            "contents": "saddlebrown",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "salmon",
+            "contents": "salmon",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sandybrown",
+            "contents": "sandybrown",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seagreen",
+            "contents": "seagreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "seashell",
+            "contents": "seashell",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "sienna",
+            "contents": "sienna",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "silver",
+            "contents": "silver",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "skyblue",
+            "contents": "skyblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slateblue",
+            "contents": "slateblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategray",
+            "contents": "slategray",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "slategrey",
+            "contents": "slategrey",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "snow",
+            "contents": "snow",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "springgreen",
+            "contents": "springgreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "steelblue",
+            "contents": "steelblue",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tan",
+            "contents": "tan",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "teal",
+            "contents": "teal",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "thistle",
+            "contents": "thistle",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "tomato",
+            "contents": "tomato",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "turquoise",
+            "contents": "turquoise",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "violet",
+            "contents": "violet",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "wheat",
+            "contents": "wheat",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "white",
+            "contents": "white",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "whitesmoke",
+            "contents": "whitesmoke",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellow",
+            "contents": "yellow",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        },
+        {
+            "trigger": "yellowgreen",
+            "contents": "yellowgreen",
+            "annotation": "svg color",
+            "kind": ["keyword", "c", "SVG Color"],
+            "details": "<a href=\"https://graphviz.org/doc/info/colors.html\">DOT - Color Names</a>"
+        }
+    ]
+}

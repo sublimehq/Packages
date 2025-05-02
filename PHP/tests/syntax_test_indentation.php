@@ -5,6 +5,8 @@ https://github.com/sublimehq/Packages/issues/1924
     asdfadf
 <?php elseif(false): ?>
     asdf
+<?php else if(true):?>
+    asdf
 <?php else: ?>
     qwfpg
 <?php endif;?>
