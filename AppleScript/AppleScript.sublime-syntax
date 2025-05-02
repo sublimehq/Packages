@@ -13,8 +13,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bosascript(?!\s+-l\s+JavaScript)\b  # shebang
-  | {{leading_wspace}} \# .*? -\*- .*? \bosascript\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}}(?!\s+-l\s+JavaScript)\b  # shebang
+  | {{leading_wspace}} \# .*? -\*- .*? {{shebang_language}} .*? -\*-  # editorconfig
   )
 
 ###[ CONTEXTS ]################################################################
@@ -26,7 +26,25 @@ contexts:
     - include: comments
 
   main:
-    - include: statements
+    - meta_include_prototype: false
+    - match: ''
+      push: [statements, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.begin.applescript
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.applescript
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.applescript
+    - include: pop-eol
 
 ###[ COMMENTS ]################################################################
 
@@ -117,7 +135,7 @@ contexts:
           captures:
             1: keyword.control.script.applescript
           pop: 1
-        - include: main
+        - include: statements
 
     # This is not a very well-designed rule.
     # For now, we can leave it like this though, as it sorta works.
@@ -142,7 +160,7 @@ contexts:
           captures:
             1: keyword.control.function.applescript
           pop: 1
-        - include: main
+        - include: statements
 
     # TODO: match `given` parameters
     - match: |-
@@ -171,7 +189,7 @@ contexts:
             1: keyword.control.preposition.applescript
             2: keyword.other.applescript
             3: variable.parameter.handler.applescript
-        - include: main
+        - include: statements
     - match: |-
         (?x)
           {{leading_wspace}}
@@ -187,7 +205,7 @@ contexts:
           captures:
             1: keyword.control.function.applescript
           pop: 1
-        - include: main
+        - include: statements
     - include: blocks.tell
     - include: blocks.repeat
     - include: blocks.statement
@@ -205,7 +223,7 @@ contexts:
         - include: attributes.considering-ignoring
         - match: \bbut\b
           scope: keyword.control.but.applescript
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(ignoring)\b'
       push:
         - meta_scope: meta.block.ignoring.applescript
@@ -217,7 +235,7 @@ contexts:
         - include: attributes.considering-ignoring
         - match: \bbut\b
           scope: keyword.control.but.applescript
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(if)\b'
       captures:
         1: keyword.control.if.applescript
@@ -233,7 +251,7 @@ contexts:
           scope: keyword.control.else-if.applescript
         - match: \belse\b
           scope: keyword.control.else.applescript
-        - include: main
+        - include: statements
     - match: ^\s*(try)\b
       captures:
         1: keyword.control.try.applescript
@@ -253,7 +271,7 @@ contexts:
             - match: \b(?i:number|partial|from|to)\b
               scope: keyword.control.exception.modifier.applescript
             - include: expressions
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(using\s+terms\s+from)\b'
       captures:
         1: keyword.control.terms.applescript
@@ -263,7 +281,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: 1
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(with\s+timeout(\s+of)?)\b'
       captures:
         1: keyword.control.timeout.applescript
@@ -273,7 +291,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: 1
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(with\s+transaction(\s+of)?)\b'
       captures:
         1: keyword.control.transaction.applescript
@@ -283,7 +301,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: 1
-        - include: main
+        - include: statements
 
   blocks.repeat:
     - match: '{{leading_wspace}}(repeat)\s+(until)\b'
@@ -296,7 +314,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: 1
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(repeat)\s+(while)\b'
       captures:
         1: keyword.control.repeat.applescript
@@ -307,7 +325,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: 1
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(repeat)\s+(with)\s+(\w+)\b'
       captures:
         1: keyword.control.repeat.applescript
@@ -323,7 +341,7 @@ contexts:
           scope: keyword.control.modifier.range.applescript
         - match: \bin\b
           scope: keyword.control.modifier.list.applescript
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(repeat)\b{{eol_with_optional_comment}}'
       captures:
         1: keyword.control.repeat.applescript
@@ -333,7 +351,7 @@ contexts:
           captures:
             1: keyword.control.end.applescript
           pop: 1
-        - include: main
+        - include: statements
     - match: '{{leading_wspace}}(repeat)\b'
       captures:
         1: keyword.control.repeat.applescript
@@ -345,7 +363,7 @@ contexts:
           pop: 1
         - match: \btimes\b
           scope: keyword.control.times.applescript
-        - include: main
+        - include: statements
 
   blocks.statement:
     - match: \b(prop(?:erty)?)\s+(\w+)\b
@@ -422,7 +440,7 @@ contexts:
           pop: 1
         - include: textmate
         - include: standard-suite
-        - include: main
+        - include: statements
 
     # tell Finder
     - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:finder)")(?!.*\bto(?!\s+tell)\b)'
@@ -436,7 +454,7 @@ contexts:
           pop: 1
         - include: finder
         - include: standard-suite
-        - include: main
+        - include: statements
 
     # tell System Events
     - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:system events)")(?!.*\bto(?!\s+tell)\b)'
@@ -450,7 +468,7 @@ contexts:
           pop: 1
         - include: system-events
         - include: standard-suite
-        - include: main
+        - include: statements
 
     # tell iTunes
     - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:itunes)")(?!.*\bto(?!\s+tell)\b)'
@@ -464,7 +482,7 @@ contexts:
           pop: 1
         - include: itunes
         - include: standard-suite
-        - include: main
+        - include: statements
 
     # tell generic application process
     - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+process\b)(?!.*\bto(?!\s+tell)\b)'
@@ -477,7 +495,7 @@ contexts:
             1: keyword.control.tell.applescript
           pop: 1
         - include: standard-suite
-        - include: main
+        - include: statements
 
     # tell generic application
     - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\b)(?!.*\bto(?!\s+tell)\b)'
@@ -490,7 +508,7 @@ contexts:
             1: keyword.control.tell.applescript
           pop: 1
         - include: standard-suite
-        - include: main
+        - include: statements
 
     # generic tell block
     - match: '{{leading_wspace}}(tell)\s+(?!.*\bto(?!\s+tell)\b)'
@@ -502,7 +520,7 @@ contexts:
           captures:
             1: keyword.control.tell.applescript
           pop: 1
-        - include: main
+        - include: statements
 
     # tell … to statement
     - match: '{{leading_wspace}}(tell)\s+(?=.*\bto\b)'
@@ -512,7 +530,7 @@ contexts:
         - meta_scope: meta.block.tell.generic.applescript
         - include: line-continuations
         - include: pop-eol
-        - include: main
+        - include: statements
 
   operators:
     - match: (?:\*|\+|-|/|÷|\^)
@@ -977,6 +995,7 @@ contexts:
 ###############################################################################
 
 variables:
+  shebang_language: \bosascript\b
   eol_with_optional_comment: (?=\s*(--.*)?$)
   leading_wspace: (?:^\s*)
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW4
