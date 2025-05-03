@@ -19,6 +19,9 @@ file_extensions:
 contexts:
 
   main:
+    - include: textile
+
+  textile:
     - include: html
     - include: textile-blocks
     - include: textile-inlines
