@@ -81,14 +81,14 @@ contexts:
       captures:
         1: punctuation.definition.comment.textile
         2: punctuation.definition.generic.extended-block.textile
-      push: extended-textile-comment-body
+      push: textile-extended-comment-body
     - match: '^(###)(\.)[ ](?=\S)'
       captures:
         1: punctuation.definition.comment.textile
         2: punctuation.definition.generic.block.textile
       push: textile-comment-body
 
-  extended-textile-comment-body:
+  textile-extended-comment-body:
     - meta_scope: comment.block.textile
     - include: next-block-pop
 
@@ -270,7 +270,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.pre.textile
-      push: extended-block-pre-body
+      push: extended-pre-block-body
     - match: |-
         (?x:
           ^
@@ -287,13 +287,13 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.pre.textile
-      push: block-pre-body
+      push: pre-block-body
 
-  extended-block-pre-body:
+  extended-pre-block-body:
     - meta_scope: markup.raw.textile
     - include: next-block-pop
 
-  block-pre-body:
+  pre-block-body:
     - meta_scope: markup.raw.textile
     - include: empty-line-pop
 
@@ -318,7 +318,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.notextile.textile
-      push: extended-block-notextile-body
+      push: extended-notextile-block-body
     - match: |-
         (?x:
           ^
@@ -335,14 +335,14 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.notextile.textile
-      push: block-notextile-body
+      push: notextile-block-body
 
-  extended-block-notextile-body:
+  extended-notextile-block-body:
     - meta_content_scope: text.plain
     - include: next-block-pop
     - include: html
 
-  block-notextile-body:
+  notextile-block-body:
     - meta_content_scope: text.plain
     - include: empty-line-pop
     - include: html
@@ -368,7 +368,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.codeblock.textile
-      push: extended-block-bc-body
+      push: extended-code-block-body
     - match: |-
         (?x:
           ^
@@ -385,13 +385,13 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.codeblock.textile
-      push: block-bc-body
+      push: code-block-body
 
-  extended-block-bc-body:
+  extended-code-block-body:
     - meta_scope: markup.raw.textile
     - include: next-block-pop
 
-  block-bc-body:
+  code-block-body:
     - meta_scope: markup.raw.textile
     - include: empty-line-pop
 
@@ -416,7 +416,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.blockquote.textile
-      push: extended-block-bq-body
+      push: extended-quotation-block-body
     - match: |-
         (?x:
           ^
@@ -433,15 +433,15 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.blockquote.textile
-      push: block-bq-body
+      push: quotation-block-body
 
-  extended-block-bq-body:
+  extended-quotation-block-body:
     - meta_scope: markup.quote.textile
     - include: next-block-pop
     - include: inlines
     - include: html
 
-  block-bq-body:
+  quotation-block-body:
     - meta_scope: markup.quote.textile
     - include: empty-line-pop
     - include: inlines
