@@ -863,7 +863,8 @@ contexts:
     - include: inline-citation
     - include: inline-code
     - include: inline-span
-    - include: textile-strings
+    - include: textile-single-quoted-strings
+    - include: textile-double-quoted-strings
 
   inline-bold:
     # https://textile-lang.com/doc/strong-and-bold-text
@@ -987,36 +988,12 @@ contexts:
 
 ###[ STRINGS ]#################################################################
 
-  textile-strings:
-    - include: textile-strings-single-quoted
-    - include: textile-strings-double-quoted
-
-  # NOTE: used by inheriting syntaxes to inject string interpolation.
-  textile-string-prototype: []
-
-  textile-strings-single-quoted:
-    - match: \'
-      scope: punctuation.definition.string.begin.textile
-      set: textile-string-single-quoted-body
-
-  textile-string-single-quoted-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.textile string.quoted.single.textile
-    - match: \'
-      scope: punctuation.definition.string.end.textile
-      pop: 1
-    - match: '{{line_break}}'
-      scope: invalid.illegal.newline.textile
-      pop: 1
-    - include: textile-string-prototype
-    - include: textile-string-escapes-single-quoted
-
-  textile-strings-double-quoted:
+  textile-double-quoted-strings:
     - match: \"
       scope: punctuation.definition.string.begin.textile
-      set: textile-string-double-quoted-body
+      set: textile-double-quoted-string-body
 
-  textile-string-double-quoted-body:
+  textile-double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.textile string.quoted.double.textile
     - match: \"
@@ -1026,27 +1003,45 @@ contexts:
       scope: invalid.illegal.newline.textile
       pop: 1
     - include: textile-string-prototype
-    - include: textile-string-escapes-double-quoted
+    - include: textile-double-quoted-string-escapes
 
-###[ STRINGS / STRING ESCAPES ]################################################
-
-  textile-string-escapes-single-quoted:
-    - match: \\\'
-      scope: constant.character.escape.single-quote.textile                     # quotation mark
+  textile-double-quoted-string-escapes:
+    - match: \\\"
+      scope: constant.character.escape.textile
     - include: textile-string-escapes
 
-  textile-string-escapes-double-quoted:
-    - match: \\\"
-      scope: constant.character.escape.double-quote.textile                     # quotation mark
+  textile-single-quoted-strings:
+    - match: \'
+      scope: punctuation.definition.string.begin.textile
+      set: textile-single-quoted-string-body
+
+  textile-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.textile string.quoted.single.textile
+    - match: \'
+      scope: punctuation.definition.string.end.textile
+      pop: 1
+    - match: '{{line_break}}'
+      scope: invalid.illegal.newline.textile
+      pop: 1
+    - include: textile-string-prototype
+    - include: textile-single-quoted-string-escapes
+
+  textile-single-quoted-string-escapes:
+    - match: \\\'
+      scope: constant.character.escape.textile
     - include: textile-string-escapes
 
   textile-string-escapes:
     - match: \\u\h{4}
-      scope: constant.character.escape.unicode-symbol.basic-multilingual-plane.textile
+      scope: constant.character.escape.unicode.16bit.textile
     - match: \\[\/\\bfnrt]
       scope: constant.character.escape.textile
     - match: \\.
       scope: invalid.illegal.unrecognized-string-escape.textile
+
+  # NOTE: used by inheriting syntaxes to inject string interpolation.
+  textile-string-prototype: []
 
 ###[ PROTOTYPES ]##############################################################
 

@@ -441,7 +441,7 @@ h3. Inline Strings
 Test      "test ' \" \/ \\ \b \f \n \r \t \uFFFF \x"                        Test
 <!--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double -->
 <!--            ^ - constant.character.escape                                -->
-<!--              ^^ constant.character.escape.double-quote                  -->
+<!--              ^^ constant.character.escape                               -->
 <!--                 ^^ constant.character.escape                            -->
 <!--                    ^^ constant.character.escape                         -->
 <!--                       ^^ constant.character.escape                      -->
@@ -449,7 +449,7 @@ Test      "test ' \" \/ \\ \b \f \n \r \t \uFFFF \x"                        Test
 <!--                             ^^ constant.character.escape                -->
 <!--                                ^^ constant.character.escape             -->
 <!--                                   ^^ constant.character.escape          -->
-<!--                                      ^^^^^^ constant.character.escape.unicode-symbol.basic-multilingual-plane -->
+<!--                                      ^^^^^^ constant.character.escape.unicode.16bit.textile -->
 <!--                                             ^^ invalid.illegal.unrecognized-string-escape -->
 <!--                                                ^ - meta.string - string.quoted.double -->
 
@@ -462,7 +462,7 @@ Test      "Invalid string end
 Test      'test " \' \/ \\ \b \f \n \r \t \uFFFF \x'                        Test
 <!--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single -->
 <!--            ^ - constant.character.escape                                -->
-<!--              ^^ constant.character.escape.single-quote                  -->
+<!--              ^^ constant.character.escape                               -->
 <!--                 ^^ constant.character.escape                            -->
 <!--                    ^^ constant.character.escape                         -->
 <!--                       ^^ constant.character.escape                      -->
@@ -470,7 +470,7 @@ Test      'test " \' \/ \\ \b \f \n \r \t \uFFFF \x'                        Test
 <!--                             ^^ constant.character.escape                -->
 <!--                                ^^ constant.character.escape             -->
 <!--                                   ^^ constant.character.escape          -->
-<!--                                      ^^^^^^ constant.character.escape.unicode-symbol.basic-multilingual-plane -->
+<!--                                      ^^^^^^ constant.character.escape.unicode.16bit.textile -->
 <!--                                             ^^ invalid.illegal.unrecognized-string-escape -->
 <!--                                                ^ - meta.string - string.quoted.single -->
 
