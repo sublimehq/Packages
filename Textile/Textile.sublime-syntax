@@ -597,10 +597,6 @@ contexts:
   # https://textile-lang.com/doc/paragraphs
 
   paragraphs:
-    - include: block-paragraphs
-    - include: simple-paragraphs
-
-  block-paragraphs:
     - match: |-
         (?x:
           ^
@@ -618,7 +614,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.paragraph.textile
-      push: extended-block-p-body
+      push: extended-paragraph-body
     - match: |-
         (?x:
           ^
@@ -636,25 +632,17 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.paragraph.textile
-      push: block-p-body
+      push: paragraph-body
+    - match: ^(?=\S)
+      push: paragraph-body
 
-  extended-block-p-body:
+  extended-paragraph-body:
     - meta_scope: meta.paragraph.textile
     - include: next-block-pop
     - include: inlines
     - include: html
 
-  block-p-body:
-    - meta_scope: meta.paragraph.textile
-    - include: empty-line-pop
-    - include: inlines
-    - include: html
-
-  simple-paragraphs:
-    - match: ^(?=\S)
-      push: simple-paragraph-body
-
-  simple-paragraph-body:
+  paragraph-body:
     - meta_scope: meta.paragraph.textile
     - include: empty-line-pop
     - include: inlines
