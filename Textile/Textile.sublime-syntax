@@ -209,54 +209,42 @@ contexts:
   heading-h1-body:
     - meta_scope: markup.heading.1.textile
     - meta_content_scope: meta.toc-list.textile
-    # before-eol-pop
-    - match: '$'
-      pop: 1
+    - include: eol-pop
     - include: html
     - include: inlines
 
   heading-h2-body:
     - meta_scope: markup.heading.2.textile
     - meta_content_scope: meta.toc-list.textile
-    # before-eol-pop
-    - match: '$'
-      pop: 1
+    - include: eol-pop
     - include: html
     - include: inlines
 
   heading-h3-body:
     - meta_scope: markup.heading.3.textile
     - meta_content_scope: meta.toc-list.textile
-    # before-eol-pop
-    - match: '$'
-      pop: 1
+    - include: eol-pop
     - include: html
     - include: inlines
 
   heading-h4-body:
     - meta_scope: markup.heading.4.textile
     - meta_content_scope: meta.toc-list.textile
-    # before-eol-pop
-    - match: '$'
-      pop: 1
+    - include: eol-pop
     - include: html
     - include: inlines
 
   heading-h5-body:
     - meta_scope: markup.heading.5.textile
     - meta_content_scope: meta.toc-list.textile
-    # before-eol-pop
-    - match: '$'
-      pop: 1
+    - include: eol-pop
     - include: html
     - include: inlines
 
   heading-h6-body:
     - meta_scope: markup.heading.6.textile
     - meta_content_scope: meta.toc-list.textile
-    # before-eol-pop
-    - match: '$'
-      pop: 1
+    - include: eol-pop
     - include: html
     - include: inlines
 
@@ -744,7 +732,7 @@ contexts:
   inline-notextile-body:
     - meta_scope: meta.notextile.textile
     # backreference to use whatever is in the match
-    - match: \2(==)|({{eol}})
+    - match: \2(==)|(\n)|$
       captures:
         1: punctuation.definition.notextile.end.textile
         2: invalid.illegal.new-line.textile
@@ -999,7 +987,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.textile
       pop: 1
-    - match: '{{line_break}}'
+    - match: \n
       scope: invalid.illegal.newline.textile
       pop: 1
     - include: textile-string-prototype
@@ -1021,7 +1009,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.textile
       pop: 1
-    - match: '{{line_break}}'
+    - match: \n
       scope: invalid.illegal.newline.textile
       pop: 1
     - include: textile-string-prototype
@@ -1050,7 +1038,7 @@ contexts:
       pop: 1
 
   eol-pop:
-    - match: '{{eol}}'
+    - match: $
       pop: 1
 
   next-block-pop:
@@ -1070,9 +1058,6 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
 variables:
-  line_break: (?:\n)
-  eol: (?:${{line_break}}?)
-
   # NOTE: Textile is weird. This is how optional attributes are set. Compare the
   #       documentation for more details.
   textile_attributes_class: (?:\([^)]*\))
