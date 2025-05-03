@@ -18,13 +18,9 @@ file_extensions:
 
 contexts:
 
-  prototype:
-    # NOTE: textile comments are just regular (extended) blocks
-    - include: merge-conflict-markers
-
   main:
-    - meta_prepend: true
     - include: blocks
+    - include: html
     - include: inlines
 
 ###[ HTML ]####################################################################
@@ -92,10 +88,12 @@ contexts:
   textile-extended-comment-body:
     - meta_scope: comment.block.textile
     - include: next-block-pop
+    - include: merge-conflict-markers
 
   textile-comment-body:
     - meta_scope: comment.block.textile
     - include: empty-line-pop
+    - include: merge-conflict-markers
 
 ###[ BLOCKS / HEADINGS ]#######################################################
 
@@ -214,8 +212,8 @@ contexts:
     # before-eol-pop
     - match: '$'
       pop: 1
-    - include: inlines
     - include: html
+    - include: inlines
 
   heading-h2-body:
     - meta_scope: markup.heading.2.textile
@@ -223,8 +221,8 @@ contexts:
     # before-eol-pop
     - match: '$'
       pop: 1
-    - include: inlines
     - include: html
+    - include: inlines
 
   heading-h3-body:
     - meta_scope: markup.heading.3.textile
@@ -232,8 +230,8 @@ contexts:
     # before-eol-pop
     - match: '$'
       pop: 1
-    - include: inlines
     - include: html
+    - include: inlines
 
   heading-h4-body:
     - meta_scope: markup.heading.4.textile
@@ -241,8 +239,8 @@ contexts:
     # before-eol-pop
     - match: '$'
       pop: 1
-    - include: inlines
     - include: html
+    - include: inlines
 
   heading-h5-body:
     - meta_scope: markup.heading.5.textile
@@ -250,8 +248,8 @@ contexts:
     # before-eol-pop
     - match: '$'
       pop: 1
-    - include: inlines
     - include: html
+    - include: inlines
 
   heading-h6-body:
     - meta_scope: markup.heading.6.textile
@@ -259,8 +257,8 @@ contexts:
     # before-eol-pop
     - match: '$'
       pop: 1
-    - include: inlines
     - include: html
+    - include: inlines
 
 ###[ BLOCKS / PRE-FORMATTED TEXT ]#############################################
 
@@ -305,10 +303,12 @@ contexts:
   extended-pre-block-body:
     - meta_scope: markup.raw.textile
     - include: next-block-pop
+    - include: merge-conflict-markers
 
   pre-block-body:
     - meta_scope: markup.raw.textile
     - include: empty-line-pop
+    - include: merge-conflict-markers
 
 ###[ BLOCKS / NOTEXTILE ]######################################################
 
@@ -360,7 +360,7 @@ contexts:
     - include: empty-line-pop
     - include: html
 
-###[ BLOCKS / BLOCK CODE ]###################################################
+###[ BLOCKS / BLOCK CODE ]#####################################################
 
   # https://textile-lang.com/doc/block-code
 
@@ -403,10 +403,12 @@ contexts:
   extended-code-block-body:
     - meta_scope: markup.raw.textile
     - include: next-block-pop
+    - include: merge-conflict-markers
 
   code-block-body:
     - meta_scope: markup.raw.textile
     - include: empty-line-pop
+    - include: merge-conflict-markers
 
 ###[ BLOCKS / BLOCK QUOTES ]###################################################
 
@@ -451,14 +453,14 @@ contexts:
   extended-quotation-block-body:
     - meta_scope: markup.quote.textile
     - include: next-block-pop
-    - include: inlines
     - include: html
+    - include: inlines
 
   quotation-block-body:
     - meta_scope: markup.quote.textile
     - include: empty-line-pop
-    - include: inlines
     - include: html
+    - include: inlines
 
 ###[ BLOCKS / FOOTNOTES ]######################################################
 
@@ -485,8 +487,8 @@ contexts:
   footnote-body:
     - meta_scope: markup.other.footnote.textile
     - include: empty-line-pop
-    - include: inlines
     - include: html
+    - include: inlines
 
 ###[ AUTO-NUMBERED NOTES ]#####################################################
 
@@ -584,8 +586,8 @@ contexts:
   table-body:
     - meta_scope: markup.other.table.textile
     - include: empty-line-pop
-    - include: inlines
     - include: html
+    - include: inlines
 
   inline-table-row:
     - match: '^\|({{textile_attributes_optional_class_style}})(\\\||.)+\|$'
@@ -640,14 +642,14 @@ contexts:
   extended-paragraph-body:
     - meta_scope: meta.paragraph.textile
     - include: next-block-pop
-    - include: inlines
     - include: html
+    - include: inlines
 
   paragraph-body:
     - meta_scope: meta.paragraph.textile
     - include: empty-line-pop
-    - include: inlines
     - include: html
+    - include: inlines
 
 ###[ BLOCKS / LISTS ]##########################################################
 
@@ -668,6 +670,7 @@ contexts:
 
   unordered-list-block:
     - meta_content_scope: markup.list.unnumbered.textile
+    - include: merge-conflict-markers
     - include: list-block-end
     - include: list-block-content
 
@@ -675,6 +678,7 @@ contexts:
 
   ordered-list-block:
     - meta_content_scope: markup.list.numbered.textile
+    - include: merge-conflict-markers
     - include: list-block-end
     - include: list-block-content
 
