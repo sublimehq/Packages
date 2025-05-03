@@ -2703,6 +2703,14 @@ contexts:
         1: punctuation.definition.variable.shell
         2: punctuation.section.interpolation.begin.shell
       push: command-expansion-body
+    # scope backtick command expansion containing only line comment
+    # `comment` to enable toggle_comment command
+    - match: (`)(#)(?=.*`)  # No newlines
+      captures:
+        1: punctuation.section.interpolation.begin.shell
+        2: punctuation.definition.comment.shell
+      push: command-expansion-comment-body
+    # normal backtick command expansion
     - match: \`
       scope:
         meta.interpolation.command.shell
@@ -2713,6 +2721,12 @@ contexts:
       escape_captures:
         0: meta.interpolation.command.shell
            punctuation.section.interpolation.end.shell
+
+  command-expansion-comment-body:
+    - meta_scope: meta.interpolation.command.shell comment.block.number-sign.shell
+    - match: \`
+      scope: punctuation.section.interpolation.end.shell
+      pop: 1
 
   command-expansion:
     - match: (\$)(\()

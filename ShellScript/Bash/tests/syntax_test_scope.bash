@@ -40,16 +40,36 @@ curl -s \
 # ^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
 #          ^^^^^ meta.function-call.arguments.shell
 
-foo | `# get quarks ` \
+curl \
+  `# --proxy=socks5://localhost:4321` \
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell comment.block.number-sign.shell - string
+#                                    ^^^ meta.function-call.arguments.shell - meta.string - meta.interpolation - comment
+# ^ punctuation.section.interpolation.begin.shell
+#  ^ punctuation.definition.comment.shell
+#                                   ^ punctuation.section.interpolation.end.shell
+#                                     ^ punctuation.separator.continuation.line.shell
+curl \
+  `# --proxy=socks5://localhost:4321` \
+  --url=https://example.com
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+# ^^ punctuation.definition.parameter.shell
+#      ^ keyword.operator.assignment.shell
+#       ^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+
+foo | `# get quarks ` `# --param=value` \
 # <- variable.function
 #   ^ keyword.operator.assignment.pipe.shell
-#     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
-#                    ^^^ - meta.interpolation
+#     ^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.command.shell comment.block.number-sign.shell - variable
+#                    ^ meta.function-call.arguments.shell - meta.command - meta.interpolation - comment - string - variable
+#                     ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.interpolation.command.shell comment.block.number-sign.shell - string
 #     ^ punctuation.section.interpolation.begin.shell
-#      ^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                   ^ punctuation.section.interpolation.end.shell - comment
-#                     ^ punctuation.separator.continuation.line.shell - comment
-#                      ^ - punctuation - comment
+#      ^ punctuation.definition.comment.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^ punctuation.section.interpolation.begin.shell
+#                      ^ punctuation.definition.comment.shell
+#                                     ^ punctuation.section.interpolation.end.shell
+#                                       ^ punctuation.separator.continuation.line.shell
 
 foo | ` # get quarks ` \
 bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
