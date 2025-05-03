@@ -108,15 +108,14 @@ contexts:
 
   textile-headings:
     - match: |-
-        (?x:
-          ^
-          (h1)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (h1)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.heading.textile
         2: constant.other.indentation.textile
@@ -125,15 +124,14 @@ contexts:
         5: entity.name.tag.heading.textile
       push: textile-heading-h1-body
     - match: |-
-        (?x:
-          ^
-          (h2)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (h2)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.heading.textile
         2: constant.other.indentation.textile
@@ -142,15 +140,14 @@ contexts:
         5: entity.name.tag.heading.textile
       push: textile-heading-h2-body
     - match: |-
-        (?x:
-          ^
-          (h3)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (h3)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.heading.textile
         2: constant.other.indentation.textile
@@ -159,15 +156,14 @@ contexts:
         5: entity.name.tag.heading.textile
       push: textile-heading-h3-body
     - match: |-
-        (?x:
-          ^
-          (h4)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (h4)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.heading.textile
         2: constant.other.indentation.textile
@@ -176,15 +172,14 @@ contexts:
         5: entity.name.tag.heading.textile
       push: textile-heading-h4-body
     - match: |-
-        (?x:
-          ^
-          (h5)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (h5)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.heading.textile
         2: constant.other.indentation.textile
@@ -193,15 +188,14 @@ contexts:
         5: entity.name.tag.heading.textile
       push: textile-heading-h5-body
     - match: |-
-        (?x:
-          ^
-          (h6)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (h6)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.heading.textile
         2: constant.other.indentation.textile
@@ -258,15 +252,14 @@ contexts:
 
   textile-pre-blocks:
     - match: |-
-        (?x:
-          ^
-          (pre)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (pre)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.pre.textile
         2: constant.other.indentation.textile
@@ -275,15 +268,14 @@ contexts:
         5: entity.name.tag.pre.textile
       push: textile-extended-pre-block-body
     - match: |-
-        (?x:
-          ^
-          (pre)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (pre)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.pre.textile
         2: constant.other.indentation.textile
@@ -308,15 +300,14 @@ contexts:
 
   textile-notextile-blocks:
     - match: |-
-        (?x:
-          ^
-          (notextile)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (notextile)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.notextile.textile
         2: constant.other.indentation.textile
@@ -325,15 +316,14 @@ contexts:
         5: entity.name.tag.notextile.textile
       push: textile-extended-notextile-block-body
     - match: |-
-        (?x:
-          ^
-          (notextile)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (notextile)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.notextile.textile
         2: constant.other.indentation.textile
@@ -358,15 +348,14 @@ contexts:
 
   textile-code-blocks:
     - match: |-
-        (?x:
-          ^
-          (bc)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (bc)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.codeblock.textile
         2: constant.other.indentation.textile
@@ -375,15 +364,14 @@ contexts:
         5: entity.name.tag.codeblock.textile
       push: textile-extended-code-block-body
     - match: |-
-        (?x:
-          ^
-          (bc)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (bc)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.codeblock.textile
         2: constant.other.indentation.textile
@@ -408,15 +396,14 @@ contexts:
 
   textile-quotation-blocks:
     - match: |-
-        (?x:
-          ^
-          (bq)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (bq)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.blockquote.textile
         2: constant.other.indentation.textile
@@ -425,15 +412,14 @@ contexts:
         5: entity.name.tag.blockquote.textile
       push: textile-extended-quotation-block-body
     - match: |-
-        (?x:
-          ^
-          (bq)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (bq)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       captures:
         1: entity.name.tag.blockquote.textile
         2: constant.other.indentation.textile
@@ -460,14 +446,13 @@ contexts:
 
   textile-footnotes:
     - match: |-
-        (?x:
-          ^
-          (fn\d+)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-        )
+        (?x)
+        ^
+        (fn\d+)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
       captures:
         1: entity.name.tag.footnote.textile
         2: constant.other.indentation.textile
@@ -555,14 +540,13 @@ contexts:
 
   textile-tables:
     - match: |-
-        (?x:
-          ^
-          (table)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-        )
+        (?x)
+        ^
+        (table)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
       captures:
         1: entity.name.tag.footnote.textile
         2: constant.other.indentation.textile
@@ -589,15 +573,14 @@ contexts:
 
   textile-paragraphs:
     - match: |-
-        (?x:
-          ^
-          (p)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (p)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.\.)
+        [ ](?=\S)
       scope: entity.name.section.paragraph.textile
       captures:
         1: entity.name.tag.paragraph.textile
@@ -607,15 +590,14 @@ contexts:
         5: entity.name.tag.paragraph.textile
       push: textile-extended-paragraph-body
     - match: |-
-        (?x:
-          ^
-          (p)
-          ({{textile_indentation_optional}})
-          ({{textile_alignment_optional}})
-          ({{textile_attributes_optional_class_style}})
-          (\.)
-          [ ](?=\S)
-        )
+        (?x)
+        ^
+        (p)
+        ({{textile_indentation_optional}})
+        ({{textile_alignment_optional}})
+        ({{textile_attributes_optional_class_style}})
+        (\.)
+        [ ](?=\S)
       scope: entity.name.section.paragraph.textile
       captures:
         1: entity.name.tag.paragraph.textile
@@ -773,17 +755,16 @@ contexts:
 
   textile-inline-reference:
     - match: |-
-        (?x:
-          "                                       # Start name, etc
-          {{textile_attributes_optional}}
-          ([^"]+?)                                # Link name
-          [[:blank:]]?                            # Optional whitespace
-          (?:\(([^)]+?)\))?
-          ":                                      # End name
-          (\w[-\w_]*)                             # Linkref
-          (?=[^\w\/;]*?(<|[[:blank:]]|$))         # Catch closing punctuation
-                                                  #  and end of meta.link
-        )
+        (?x)
+        "                                       # Start name, etc
+        {{textile_attributes_optional}}
+        ([^"]+?)                                # Link name
+        [[:blank:]]?                            # Optional whitespace
+        (?:\(([^)]+?)\))?
+        ":                                      # End name
+        (\w[-\w_]*)                             # Linkref
+        (?=[^\w\/;]*?(<|[[:blank:]]|$))         # Catch closing punctuation
+                                                #  and end of meta.link
       scope: meta.link.reference.textile
       captures:
         1: string.other.link.title.textile
@@ -796,17 +777,16 @@ contexts:
 
   textile-inline-link:
     - match: |-
-        (?x:
-          "                                       # Start name, etc
-          {{textile_attributes_optional}}
-          ([^"]+?)                                # Link name
-          [[:blank:]]?                            # Optional whitespace
-          (?:\(([^)]+?)\))?
-          ":                                      # End Name
-          (\S*?(?:\w|\/|;))                       # URL
-          (?=[^\w\/;]*?(<|[[:blank:]]|$))         # Catch closing punctuation
-                                                  #  and end of meta.link
-        )
+        (?x)
+        "                                       # Start name, etc
+        {{textile_attributes_optional}}
+        ([^"]+?)                                # Link name
+        [[:blank:]]?                            # Optional whitespace
+        (?:\(([^)]+?)\))?
+        ":                                      # End Name
+        (\S*?(?:\w|\/|;))                       # URL
+        (?=[^\w\/;]*?(<|[[:blank:]]|$))         # Catch closing punctuation
+                                                #  and end of meta.link
       scope: meta.link.inline.textile
       captures:
         1: string.other.link.title.textile
@@ -819,21 +799,20 @@ contexts:
 
   textile-inline-image:
     - match: |-
-        (?x:
-          \!                                      # Open image
-          ({{textile_alignment_optional}})
-          {{textile_attributes_optional}}
-          (?:\.[ ])?                              # Optional
-          ([^[:blank:](!]+?)                      # Image URL
-          [[:blank:]]?                            # Optional space
-          (?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?     # Optional title
-          \!                                      # Close image
-          (?:
-            :
-            (\S*?(?:\w|\/|;))                     # URL
-            (?=[^\w\/;]*?(<|[[:blank:]]|$))       # Catch closing punctuation
-          )?
-        )
+        (?x)
+        \!                                      # Open image
+        ({{textile_alignment_optional}})
+        {{textile_attributes_optional}}
+        (?:\.[ ])?                              # Optional
+        ([^[:blank:](!]+?)                      # Image URL
+        [[:blank:]]?                            # Optional space
+        (?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?     # Optional title
+        \!                                      # Close image
+        (?:
+          :
+          (\S*?(?:\w|\/|;))                     # URL
+          (?=[^\w\/;]*?(<|[[:blank:]]|$))       # Catch closing punctuation
+        )?
       scope: meta.image.inline.textile
       captures:
         1: constant.other.alignment.textile
@@ -1047,14 +1026,13 @@ contexts:
   textile-next-block-pop:
     # NOTE: look-ahead for blocks, extended blocks or headers
     - match: |-
-        (?x:
-          (?=
-            ^
-            (?: \#\#\# | bc | bq | h[1-6] | p | pre | notextile )
-            (?:{{textile_attributes_optional}})
-            (?:\.{1,2}[ ])
-            \S
-          )
+        (?x)
+        (?=
+          ^
+          (?: \#\#\# | bc | bq | h[1-6] | p | pre | notextile )
+          (?:{{textile_attributes_optional}})
+          (?:\.{1,2}[ ])
+          \S
         )
       pop: 1
 
