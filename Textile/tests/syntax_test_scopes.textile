@@ -314,97 +314,97 @@ h3. Inline Markup
 Test    **Bold** Test *Strong* Test                                         Test
 <!--   ^ - markup.bold                                                       -->
 <!--    ^^^^^^^^ markup.bold                                                 -->
-<!--    ^^ punctuation.definition.generic.begin                              -->
-<!--          ^^ punctuation.definition.generic.end                          -->
+<!--    ^^ punctuation.definition.markup.begin                               -->
+<!--          ^^ punctuation.definition.markup.end                           -->
 <!--            ^^^^^^ - markup.bold                                         -->
 <!--                  ^^^^^^^^ markup.bold.strong                            -->
-<!--                  ^ punctuation.definition.generic.begin                 -->
-<!--                         ^ punctuation.definition.generic.end            -->
+<!--                  ^ punctuation.definition.markup.begin                  -->
+<!--                         ^ punctuation.definition.markup.end             -->
 <!--                          ^ - markup.bold                                -->
 
 Test    __Italic__ Test _Emphasized_ Test                                   Test
 <!--   ^ - markup.italic                                                     -->
 <!--    ^^^^^^^^^^ markup.italic                                             -->
-<!--    ^^ punctuation.definition.generic.begin                              -->
-<!--            ^^ punctuation.definition.generic.end                        -->
+<!--    ^^ punctuation.definition.markup.begin                               -->
+<!--            ^^ punctuation.definition.markup.end                         -->
 <!--              ^^^^^^ - markup.italic                                     -->
 <!--                    ^^^^^^^^^^^^ markup.italic.emphasized                -->
-<!--                    ^ punctuation.definition.generic.begin               -->
-<!--                               ^ punctuation.definition.generic.end      -->
+<!--                    ^ punctuation.definition.markup.begin                -->
+<!--                               ^ punctuation.definition.markup.end       -->
 <!--                                ^ - markup.italic                        -->
 
 Test    ^Superscript^ Test[^Superscript^]Test                               Test
 <!--   ^ - markup.superscript                                                -->
 <!--    ^^^^^^^^^^^^^ markup.superscript                                     -->
-<!--    ^ punctuation.definition.generic.begin                               -->
-<!--                ^ punctuation.definition.generic.end                     -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--                ^ punctuation.definition.markup.end                      -->
 <!--                 ^^^^^ - markup.superscript                              -->
 <!--                      ^^^^^^^^^^^^^^^ markup.superscript.subword         -->
-<!--                      ^^ punctuation.definition.generic.begin            -->
-<!--                                   ^^ punctuation.definition.generic.end -->
+<!--                      ^^ punctuation.definition.markup.begin             -->
+<!--                                   ^^ punctuation.definition.markup.end  -->
 <!--                                     ^^^^ - markup.superscript           -->
 
 Test    ~Subscript~ Test[~Subscript~]Test                                   Test
 <!--   ^ - markup.subscript                                                  -->
 <!--    ^^^^^^^^^^^ markup.subscript                                         -->
-<!--    ^ punctuation.definition.generic.begin                               -->
-<!--              ^ punctuation.definition.generic.end                       -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--              ^ punctuation.definition.markup.end                        -->
 <!--               ^^^^^ - markup.subscript                                  -->
 <!--                    ^^^^^^^^^^^^^ markup.subscript.subword               -->
-<!--                    ^^ punctuation.definition.generic.begin              -->
-<!--                               ^^ punctuation.definition.generic.end     -->
+<!--                    ^^ punctuation.definition.markup.begin               -->
+<!--                               ^^ punctuation.definition.markup.end      -->
 <!--                                 ^^^^ - markup.subscript                 -->
 
 Test    ??Citation??                                                        Test
 <!--   ^ - markup.citation                                                   -->
 <!--    ^^^^^^^^^^^^ markup.citation                                         -->
-<!--    ^^ punctuation.definition.generic.begin                              -->
-<!--              ^^ punctuation.definition.generic.end                      -->
+<!--    ^^ punctuation.definition.markup.begin                               -->
+<!--              ^^ punctuation.definition.markup.end                       -->
 <!--                ^ - markup.citation                                      -->
 
 Test    %span%                                                              Test
 <!--   ^ - markup.span                                                       -->
 <!--    ^^^^^^ markup.span                                                   -->
-<!--    ^ punctuation.definition.generic.begin                               -->
-<!--         ^ punctuation.definition.generic.end                            -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--         ^ punctuation.definition.markup.end                             -->
 <!--          ^ - markup.span                                                -->
 
 Test    +Insertion+ Test -Deletion- Test                                    Test
 <!--   ^ - markup                                                            -->
 <!--    ^^^^^^^^^^^ markup.inserted                                          -->
-<!--    ^ punctuation.definition.generic.begin                               -->
-<!--              ^ punctuation.definition.generic.end                       -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--              ^ punctuation.definition.markup.end                        -->
 <!--               ^^^^^^ - markup                                           -->
 <!--                     ^^^^^^^^^^ markup.deleted                           -->
-<!--                     ^ punctuation.definition.generic.begin              -->
-<!--                              ^ punctuation.definition.generic.end       -->
+<!--                     ^ punctuation.definition.markup.begin               -->
+<!--                              ^ punctuation.definition.markup.end        -->
 <!--                               ^^^^^ - markup                            -->
 
 Test    Test[+Insertion+][-Deletion-]Test                                   Test
 <!--    ^^^^ - markup                                                        -->
 <!--        ^^^^^^^^^^^^^ markup.inserted                                    -->
-<!--        ^ punctuation.definition.generic.begin                           -->
-<!--                   ^^ punctuation.definition.generic.end                 -->
+<!--        ^ punctuation.definition.markup.begin                            -->
+<!--                   ^^ punctuation.definition.markup.end                  -->
 <!--                     ^^^^^^^^^^^^ markup.deleted                         -->
-<!--                     ^^ punctuation.definition.generic.begin             -->
-<!--                               ^^ punctuation.definition.generic.end     -->
+<!--                     ^^ punctuation.definition.markup.begin              -->
+<!--                               ^^ punctuation.definition.markup.end      -->
 <!--                                 ^^^^ - markup                           -->
 
 Test    Test[-Deletion-][+Insertion+]Test                                   Test
 <!--    ^^^^ - markup                                                        -->
 <!--        ^^^^^^^^^^^^ markup.deleted                                      -->
-<!--        ^^ punctuation.definition.generic.begin                          -->
-<!--                  ^^ punctuation.definition.generic.end                  -->
+<!--        ^^ punctuation.definition.markup.begin                           -->
+<!--                  ^^ punctuation.definition.markup.end                   -->
 <!--                    ^^^^^^^^^^^^^ markup.inserted                        -->
-<!--                    ^ punctuation.definition.generic.begin               -->
-<!--                               ^^ punctuation.definition.generic.end     -->
+<!--                    ^ punctuation.definition.markup.begin                -->
+<!--                               ^^ punctuation.definition.markup.end      -->
 <!--                                 ^^^^ - markup                           -->
 
 Test    @Code@ Test <code>code</code>                                       Test
 <!--   ^ - markup.raw                                                        -->
 <!--    ^^^^^^ markup.raw.inline                                             -->
-<!--    ^ punctuation.definition.generic.begin                               -->
-<!--         ^ punctuation.definition.generic.end                            -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--         ^ punctuation.definition.markup.end                             -->
 <!--          ^^^^^^ - markup.raw                                            -->
 <!--                ^^^^^^ meta.tag.inline.any                               -->
 <!--                ^ punctuation.definition.tag.begin                       -->
