@@ -120,14 +120,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push:
-        - meta_scope: markup.heading.1.textile
-        - meta_content_scope: meta.toc-list.textile
-        # before-eol-pop
-        - match: '$'
-          pop: 1
-        - include: inlines
-        - include: html
+      push: heading-h1-body
     - match: |-
         (?x:
           ^
@@ -144,14 +137,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push:
-        - meta_scope: markup.heading.2.textile
-        - meta_content_scope: meta.toc-list.textile
-        # before-eol-pop
-        - match: '$'
-          pop: 1
-        - include: inlines
-        - include: html
+      push: heading-h2-body
     - match: |-
         (?x:
           ^
@@ -168,14 +154,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push:
-        - meta_scope: markup.heading.3.textile
-        - meta_content_scope: meta.toc-list.textile
-        # before-eol-pop
-        - match: '$'
-          pop: 1
-        - include: inlines
-        - include: html
+      push: heading-h3-body
     - match: |-
         (?x:
           ^
@@ -192,14 +171,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push:
-        - meta_scope: markup.heading.4.textile
-        - meta_content_scope: meta.toc-list.textile
-        # before-eol-pop
-        - match: '$'
-          pop: 1
-        - include: inlines
-        - include: html
+      push: heading-h4-body
     - match: |-
         (?x:
           ^
@@ -216,14 +188,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push:
-        - meta_scope: markup.heading.5.textile
-        - meta_content_scope: meta.toc-list.textile
-        # before-eol-pop
-        - match: '$'
-          pop: 1
-        - include: inlines
-        - include: html
+      push: heading-h5-body
     - match: |-
         (?x:
           ^
@@ -240,14 +205,61 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push:
-        - meta_scope: markup.heading.6.textile
-        - meta_content_scope: meta.toc-list.textile
-        # before-eol-pop
-        - match: '$'
-          pop: 1
-        - include: inlines
-        - include: html
+      push: heading-h6-body
+
+  heading-h1-body:
+    - meta_scope: markup.heading.1.textile
+    - meta_content_scope: meta.toc-list.textile
+    # before-eol-pop
+    - match: '$'
+      pop: 1
+    - include: inlines
+    - include: html
+
+  heading-h2-body:
+    - meta_scope: markup.heading.2.textile
+    - meta_content_scope: meta.toc-list.textile
+    # before-eol-pop
+    - match: '$'
+      pop: 1
+    - include: inlines
+    - include: html
+
+  heading-h3-body:
+    - meta_scope: markup.heading.3.textile
+    - meta_content_scope: meta.toc-list.textile
+    # before-eol-pop
+    - match: '$'
+      pop: 1
+    - include: inlines
+    - include: html
+
+  heading-h4-body:
+    - meta_scope: markup.heading.4.textile
+    - meta_content_scope: meta.toc-list.textile
+    # before-eol-pop
+    - match: '$'
+      pop: 1
+    - include: inlines
+    - include: html
+
+  heading-h5-body:
+    - meta_scope: markup.heading.5.textile
+    - meta_content_scope: meta.toc-list.textile
+    # before-eol-pop
+    - match: '$'
+      pop: 1
+    - include: inlines
+    - include: html
+
+  heading-h6-body:
+    - meta_scope: markup.heading.6.textile
+    - meta_content_scope: meta.toc-list.textile
+    # before-eol-pop
+    - match: '$'
+      pop: 1
+    - include: inlines
+    - include: html
 
 ###[ BLOCKS / PRE-FORMATTED TEXT ]#############################################
 
