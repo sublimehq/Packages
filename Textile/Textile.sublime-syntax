@@ -1001,9 +1001,7 @@ contexts:
 
   textile-string-single-quoted-body:
     - meta_include_prototype: false
-    - meta_scope: >-
-        meta.string.textile
-        string.quoted.single.textile
+    - meta_scope: meta.string.textile string.quoted.single.textile
     - match: \'
       scope: punctuation.definition.string.end.textile
       pop: 1
@@ -1020,9 +1018,7 @@ contexts:
 
   textile-string-double-quoted-body:
     - meta_include_prototype: false
-    - meta_scope: >-
-        meta.string.textile
-        string.quoted.double.textile
+    - meta_scope: meta.string.textile string.quoted.double.textile
     - match: \"
       scope: punctuation.definition.string.end.textile
       pop: 1
@@ -1046,8 +1042,7 @@ contexts:
 
   textile-string-escapes:
     - match: \\u\h{4}
-      scope: >-
-        constant.character.escape.unicode-symbol.basic-multilingual-plane.textile
+      scope: constant.character.escape.unicode-symbol.basic-multilingual-plane.textile
     - match: \\[\/\\bfnrt]
       scope: constant.character.escape.textile
     - match: \\.
