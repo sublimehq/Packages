@@ -45,7 +45,7 @@ contexts:
       push: html-notextile-body
 
   html-notextile-body:
-    - meta_content_scope: text.plain
+    - meta_content_scope: meta.notextile.textile
     - match: (</)(notextile)[ \f\t]*(>)
       scope: meta.tag.notextile.end.html
       captures:
@@ -53,6 +53,7 @@ contexts:
         2: entity.name.tag.other.html
         3: punctuation.definition.tag.end.html
       pop: 1
+    - include: html
 
 ###[ BLOCKS ]##################################################################
 
@@ -350,12 +351,12 @@ contexts:
       push: notextile-block-body
 
   extended-notextile-block-body:
-    - meta_content_scope: text.plain
+    - meta_content_scope: meta.notextile.textile
     - include: next-block-pop
     - include: html
 
   notextile-block-body:
-    - meta_content_scope: text.plain
+    - meta_content_scope: meta.notextile.textile
     - include: empty-line-pop
     - include: html
 
@@ -734,12 +735,17 @@ contexts:
     - match: (==)([ ]+)
       captures:
         1: punctuation.definition.notextile.begin.textile
-      embed: scope:text.plain
-      embed_scope: meta.embedded.text.plain text.plain
-      escape: (?:(\2)(\1)|({{eol}}))                                            # backreference to use whatever is in the match
-      escape_captures:
-        2: punctuation.definition.notextile.end.textile
-        3: invalid.illegal.new-line.textile
+      push: inline-notextile-body
+
+  inline-notextile-body:
+    - meta_scope: meta.notextile.textile
+    # backreference to use whatever is in the match
+    - match: \2(==)|({{eol}})
+      captures:
+        1: punctuation.definition.notextile.end.textile
+        2: invalid.illegal.new-line.textile
+      pop: 1
+    - include: html
 
   inline-textile-specials:
     # https://textile-lang.com/doc/unicode-symbols

@@ -227,32 +227,36 @@ notextile.. extended block plain text
             extended block plain text
 
             extended block plain text
-<!--                                ^ text.plain -->
+<!--                                ^ meta.notextile.textile -->
 
 p. paragraph
 
 notextile. block plain text
            block plain text
            block plain text
-<!--                      ^ text.plain -->
+<!--                      ^ meta.notextile.textile -->
 
 p. paragraph
 
-Test    == plain text ==                                                    Test
-<!--    ^^ punctuation.definition.notextile.begin                            -->
-<!--       ^^^^^^^^^^ meta.embedded.text.plain text.plain                    -->
-<!--                  ^^ punctuation.definition.notextile.end                -->
+Test    == html <b>text</b> == Test
+<!--    ^^^^^^^^^^^^^^^^^^^^^^ meta.notextile.textile -->
+<!--    ^^ punctuation.definition.notextile.begin -->
+<!--            ^^^ meta.tag.inline -->
+<!--                   ^^^^ meta.tag.inline -->
+<!--                        ^^ punctuation.definition.notextile.end -->
 
 Test
 
-Test    <notextile>plain text</notextile>                                   Test
-<!--    ^^^^^^^^^^^ meta.tag.notextile.begin.html                            -->
-<!--    ^ punctuation.definition.tag.begin.html                              -->
-<!--              ^ punctuation.definition.tag.end.html                      -->
-<!--               ^^^^^^^^^^ text.plain                                     -->
-<!--                         ^^^^^^^^^^^^ meta.tag.notextile.end.html        -->
-<!--                         ^^ punctuation.definition.tag.begin.html        -->
-<!--                                    ^ punctuation.definition.tag.end.html -->
+Test    <notextile>html <b>text</b></notextile> Test
+<!--    ^^^^^^^^^^^ meta.tag.notextile.begin.html -->
+<!--    ^ punctuation.definition.tag.begin.html -->
+<!--              ^ punctuation.definition.tag.end.html -->
+<!--               ^^^^^^^^^^^^^^^^ meta.notextile.textile -->
+<!--                    ^^^ meta.tag.inline -->
+<!--                           ^^^^ meta.tag.inline -->
+<!--                               ^^^^^^^^^^^^ meta.tag.notextile.end.html -->
+<!--                               ^^ punctuation.definition.tag.begin.html -->
+<!--                                          ^ punctuation.definition.tag.end.html -->
 
 p. paragraph
 
