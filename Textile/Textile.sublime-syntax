@@ -989,6 +989,7 @@ contexts:
       pop: 1
     - include: textile-string-prototype
     - include: textile-double-quoted-string-escapes
+    - include: strings-common-content
 
   textile-double-quoted-string-escapes:
     - match: \\\"
@@ -1011,6 +1012,7 @@ contexts:
       pop: 1
     - include: textile-string-prototype
     - include: textile-single-quoted-string-escapes
+    - include: strings-common-content
 
   textile-single-quoted-string-escapes:
     - match: \\\'

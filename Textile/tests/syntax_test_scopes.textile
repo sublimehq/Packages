@@ -493,6 +493,18 @@ p. &#2665; &#2665; &#2665;
 <!--       ^^ constant.character.entity.decimal.html punctuation.definition.entity.html -->
 <!--             ^ constant.character.entity.decimal.html punctuation.terminator.entity.html -->
 
+p. "entity &#2665; in textile string"
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.textile string.quoted.double.textile -->
+<!--       ^^^^^^^ constant.character.entity.decimal.html -->
+<!--       ^^ constant.character.entity.decimal.html punctuation.definition.entity.html -->
+<!--             ^ constant.character.entity.decimal.html punctuation.terminator.entity.html -->
+
+p. 'entity &#2665; in textile string'
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.textile string.quoted.single.textile -->
+<!--       ^^^^^^^ constant.character.entity.decimal.html -->
+<!--       ^^ constant.character.entity.decimal.html punctuation.definition.entity.html -->
+<!--             ^ constant.character.entity.decimal.html punctuation.terminator.entity.html -->
+
 
 <!----[ NOTES ]--------------------------------------------------------------->
 
