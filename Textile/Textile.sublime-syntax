@@ -732,11 +732,11 @@ contexts:
   textile-inline-notextile-body:
     - meta_scope: meta.notextile.textile
     # backreference to use whatever is in the match
-    - match: \2(==)|(\n)|$
+    - match: \2(==)
       captures:
         1: punctuation.definition.notextile.end.textile
-        2: invalid.illegal.new-line.textile
       pop: 1
+    - include: textile-illegal-newline-pop
     - include: html
 
   textile-inline-textile-specials:
@@ -987,9 +987,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.textile
       pop: 1
-    - match: \n
-      scope: invalid.illegal.newline.textile
-      pop: 1
+    - include: textile-illegal-newline-pop
     - include: textile-string-prototype
     - include: textile-double-quoted-string-escapes
     - include: strings-common-content
@@ -1010,9 +1008,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.textile
       pop: 1
-    - match: \n
-      scope: invalid.illegal.newline.textile
-      pop: 1
+    - include: textile-illegal-newline-pop
     - include: textile-string-prototype
     - include: textile-single-quoted-string-escapes
     - include: strings-common-content
@@ -1034,6 +1030,11 @@ contexts:
   textile-string-prototype: []
 
 ###[ PROTOTYPES ]##############################################################
+
+  textile-illegal-newline-pop:
+    - match: $\n?
+      scope: invalid.illegal.newline.textile
+      pop: 1
 
   textile-empty-line-pop:
     - match: (?=^$)
