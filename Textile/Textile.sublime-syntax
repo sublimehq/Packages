@@ -19,9 +19,9 @@ file_extensions:
 contexts:
 
   main:
-    - include: blocks
     - include: html
-    - include: inlines
+    - include: textile-blocks
+    - include: textile-inlines
 
 ###[ HTML ]####################################################################
 
@@ -55,18 +55,19 @@ contexts:
 
   # https://textile-lang.com/category/block-modifiers/
 
-  blocks:
-    - include: textile-comments         # ###.. or ###.
-    - include: code-blocks              # bc.. or bc.
-    - include: quotation-blocks         # bq.. or bq.
-    - include: notextile-blocks         # notextile.. or notextile.
-    - include: pre-blocks               # pre.. or pre.
-    - include: headings                 # h1. to h6.
-    - include: notes
-    - include: footnotes
-    - include: tables
-    - include: lists
-    - include: paragraphs
+  textile-blocks:
+    - include: textile-comments             # ###.. or ###.
+    - include: textile-code-blocks          # bc.. or bc.
+    - include: textile-quotation-blocks     # bq.. or bq.
+    - include: textile-notextile-blocks     # notextile.. or notextile.
+    - include: textile-pre-blocks           # pre.. or pre.
+    - include: textile-headings             # h1. to h6.
+    - include: textile-auto-numbered-notes
+    - include: textile-notelists
+    - include: textile-footnotes
+    - include: textile-tables
+    - include: textile-lists
+    - include: textile-paragraphs
 
 ###[ BLOCKS / COMMENTS ]#######################################################
 
@@ -87,12 +88,12 @@ contexts:
 
   textile-extended-comment-body:
     - meta_scope: comment.block.textile
-    - include: next-block-pop
+    - include: textile-next-block-pop
     - include: merge-conflict-markers
 
   textile-comment-body:
     - meta_scope: comment.block.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: merge-conflict-markers
 
 ###[ BLOCKS / HEADINGS ]#######################################################
@@ -102,7 +103,7 @@ contexts:
   # TODO: clean these up, not much different other than the beginning of the
   #       line and the meta_scope
 
-  headings:
+  textile-headings:
     - match: |-
         (?x:
           ^
@@ -119,7 +120,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push: heading-h1-body
+      push: textile-heading-h1-body
     - match: |-
         (?x:
           ^
@@ -136,7 +137,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push: heading-h2-body
+      push: textile-heading-h2-body
     - match: |-
         (?x:
           ^
@@ -153,7 +154,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push: heading-h3-body
+      push: textile-heading-h3-body
     - match: |-
         (?x:
           ^
@@ -170,7 +171,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push: heading-h4-body
+      push: textile-heading-h4-body
     - match: |-
         (?x:
           ^
@@ -187,7 +188,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push: heading-h5-body
+      push: textile-heading-h5-body
     - match: |-
         (?x:
           ^
@@ -204,55 +205,55 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.heading.textile
-      push: heading-h6-body
+      push: textile-heading-h6-body
 
-  heading-h1-body:
+  textile-heading-h1-body:
     - meta_scope: markup.heading.1.textile
     - meta_content_scope: meta.toc-list.textile
     - include: eol-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  heading-h2-body:
+  textile-heading-h2-body:
     - meta_scope: markup.heading.2.textile
     - meta_content_scope: meta.toc-list.textile
     - include: eol-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  heading-h3-body:
+  textile-heading-h3-body:
     - meta_scope: markup.heading.3.textile
     - meta_content_scope: meta.toc-list.textile
     - include: eol-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  heading-h4-body:
+  textile-heading-h4-body:
     - meta_scope: markup.heading.4.textile
     - meta_content_scope: meta.toc-list.textile
     - include: eol-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  heading-h5-body:
+  textile-heading-h5-body:
     - meta_scope: markup.heading.5.textile
     - meta_content_scope: meta.toc-list.textile
     - include: eol-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  heading-h6-body:
+  textile-heading-h6-body:
     - meta_scope: markup.heading.6.textile
     - meta_content_scope: meta.toc-list.textile
     - include: eol-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
 ###[ BLOCKS / PRE-FORMATTED TEXT ]#############################################
 
   # https://textile-lang.com/doc/pre-formatted-text
 
-  pre-blocks:
+  textile-pre-blocks:
     - match: |-
         (?x:
           ^
@@ -269,7 +270,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.pre.textile
-      push: extended-pre-block-body
+      push: textile-extended-pre-block-body
     - match: |-
         (?x:
           ^
@@ -286,23 +287,23 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.pre.textile
-      push: pre-block-body
+      push: textile-pre-block-body
 
-  extended-pre-block-body:
+  textile-extended-pre-block-body:
     - meta_scope: markup.raw.textile
-    - include: next-block-pop
+    - include: textile-next-block-pop
     - include: merge-conflict-markers
 
-  pre-block-body:
+  textile-pre-block-body:
     - meta_scope: markup.raw.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: merge-conflict-markers
 
 ###[ BLOCKS / NOTEXTILE ]######################################################
 
   # https://textile-lang.com/doc/no-textile-processing
 
-  notextile-blocks:
+  textile-notextile-blocks:
     - match: |-
         (?x:
           ^
@@ -319,7 +320,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.notextile.textile
-      push: extended-notextile-block-body
+      push: textile-extended-notextile-block-body
     - match: |-
         (?x:
           ^
@@ -336,23 +337,23 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.notextile.textile
-      push: notextile-block-body
+      push: textile-notextile-block-body
 
-  extended-notextile-block-body:
+  textile-extended-notextile-block-body:
     - meta_content_scope: meta.notextile.textile
-    - include: next-block-pop
+    - include: textile-next-block-pop
     - include: html
 
-  notextile-block-body:
+  textile-notextile-block-body:
     - meta_content_scope: meta.notextile.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: html
 
 ###[ BLOCKS / BLOCK CODE ]#####################################################
 
   # https://textile-lang.com/doc/block-code
 
-  code-blocks:
+  textile-code-blocks:
     - match: |-
         (?x:
           ^
@@ -369,7 +370,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.codeblock.textile
-      push: extended-code-block-body
+      push: textile-extended-code-block-body
     - match: |-
         (?x:
           ^
@@ -386,23 +387,23 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.codeblock.textile
-      push: code-block-body
+      push: textile-code-block-body
 
-  extended-code-block-body:
+  textile-extended-code-block-body:
     - meta_scope: markup.raw.textile
-    - include: next-block-pop
+    - include: textile-next-block-pop
     - include: merge-conflict-markers
 
-  code-block-body:
+  textile-code-block-body:
     - meta_scope: markup.raw.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: merge-conflict-markers
 
 ###[ BLOCKS / BLOCK QUOTES ]###################################################
 
   # https://textile-lang.com/doc/block-quotations
 
-  quotation-blocks:
+  textile-quotation-blocks:
     - match: |-
         (?x:
           ^
@@ -419,7 +420,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.blockquote.textile
-      push: extended-quotation-block-body
+      push: textile-extended-quotation-block-body
     - match: |-
         (?x:
           ^
@@ -436,25 +437,25 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.blockquote.textile
-      push: quotation-block-body
+      push: textile-quotation-block-body
 
-  extended-quotation-block-body:
+  textile-extended-quotation-block-body:
     - meta_scope: markup.quote.textile
-    - include: next-block-pop
+    - include: textile-next-block-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  quotation-block-body:
+  textile-quotation-block-body:
     - meta_scope: markup.quote.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
 ###[ BLOCKS / FOOTNOTES ]######################################################
 
   # https://textile-lang.com/doc/footnotes
 
-  footnotes:
+  textile-footnotes:
     - match: |-
         (?x:
           ^
@@ -470,23 +471,19 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.footnote.textile
-      push: footnote-body
+      push: textile-footnote-body
 
-  footnote-body:
+  textile-footnote-body:
     - meta_scope: markup.other.footnote.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
 ###[ AUTO-NUMBERED NOTES ]#####################################################
 
   # https://textile-lang.com/doc/auto-numbered-notes
 
-  notes:
-    - include: auto-numbered-notes
-    - include: notelists
-
-  auto-numbered-notes:
+  textile-auto-numbered-notes:
     - match: '^((note)(\#)(\w+)(\!\.))[ ]\b'
       scope: meta.annotation.auto-numbered-note.no-backlinks.textile
       captures:
@@ -515,7 +512,7 @@ contexts:
         4: variable.annotation.textile
         5: constant.other.textile
 
-  notelists:
+  textile-notelists:
     - match: '^(notelist)(\!\+\.)$'
       scope: meta.notelist.no-backlinks.including-unreferenced-notes.textile
       captures:
@@ -553,7 +550,7 @@ contexts:
 
   # https://textile-lang.com/doc/tables
 
-  tables:
+  textile-tables:
     - match: |-
         (?x:
           ^
@@ -569,15 +566,15 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.footnote.textile
-      push: table-body
+      push: textile-table-body
 
-  table-body:
+  textile-table-body:
     - meta_scope: markup.other.table.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  inline-table-row:
+  textile-inline-table-row:
     - match: '^\|({{textile_attributes_optional_class_style}})(\\\||.)+\|$'
       scope: markup.other.table.cell.textile
       captures:
@@ -587,7 +584,7 @@ contexts:
 
   # https://textile-lang.com/doc/paragraphs
 
-  paragraphs:
+  textile-paragraphs:
     - match: |-
         (?x:
           ^
@@ -605,7 +602,7 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.paragraph.textile
-      push: extended-paragraph-body
+      push: textile-extended-paragraph-body
     - match: |-
         (?x:
           ^
@@ -623,52 +620,52 @@ contexts:
         3: constant.other.alignment.textile
         4: entity.name.type.textile
         5: entity.name.tag.paragraph.textile
-      push: paragraph-body
+      push: textile-paragraph-body
     - match: ^(?=\S)
-      push: paragraph-body
+      push: textile-paragraph-body
 
-  extended-paragraph-body:
+  textile-extended-paragraph-body:
     - meta_scope: meta.paragraph.textile
-    - include: next-block-pop
+    - include: textile-next-block-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
-  paragraph-body:
+  textile-paragraph-body:
     - meta_scope: meta.paragraph.textile
-    - include: empty-line-pop
+    - include: textile-empty-line-pop
     - include: html
-    - include: inlines
+    - include: textile-inlines
 
 ###[ BLOCKS / LISTS ]##########################################################
 
-  lists:
+  textile-lists:
     - match: '^\*'
       captures:
         1: markup.list.unnumbered.textile
-      push: unordered-list-block
+      push: textile-unordered-list-block
 
     - match: '^\#'
       captures:
         1: markup.list.numbered.textile
-      push: ordered-list-block
+      push: textile-ordered-list-block
 
     # TODO: definition lists
 
   # https://textile-lang.com/doc/bulleted-unordered-lists
 
-  unordered-list-block:
+  textile-unordered-list-block:
     - meta_content_scope: markup.list.unnumbered.textile
     - include: merge-conflict-markers
-    - include: list-block-end
-    - include: list-block-content
+    - include: textile-list-block-end
+    - include: textile-list-block-content
 
   # https://textile-lang.com/doc/numbered-ordered-lists
 
-  ordered-list-block:
+  textile-ordered-list-block:
     - meta_content_scope: markup.list.numbered.textile
     - include: merge-conflict-markers
-    - include: list-block-end
-    - include: list-block-content
+    - include: textile-list-block-end
+    - include: textile-list-block-content
 
   # https://textile-lang.com/doc/definition-lists
 
@@ -676,14 +673,14 @@ contexts:
 
 ###[ BLOCKS / LISTS / HELPERS ]################################################
 
-  list-block-end:
+  textile-list-block-end:
     - match: ^(?=\S)
       pop: 1
 
-  list-block-content:
-    - include: list-items
+  textile-list-block-content:
+    - include: textile-list-items
 
-  list-items:
+  textile-list-items:
     - match: '^\*+({{textile_attributes_optional_class_style}})(\s+|$)'
       scope: markup.list.unnumbered.textile
       captures:
@@ -694,7 +691,7 @@ contexts:
       captures:
         1: entity.name.type.textile
 
-  list-attributes:
+  textile-list-attributes:
     - match: '\('
       scope: punctuation.section.parens.begin.textile
       set:
@@ -705,15 +702,15 @@ contexts:
 
 ###[ INLINE ]##################################################################
 
-  inlines:
-    - include: inline-notextile
-    - include: inline-textile-specials
-    - include: inline-reference
-    - include: inline-link
-    - include: inline-image
-    - include: inline-table-row
-    - include: inline-markup
-    - include: inline-acronyms-abbreviations
+  textile-inlines:
+    - include: textile-inline-notextile
+    - include: textile-inline-textile-specials
+    - include: textile-inline-reference
+    - include: textile-inline-link
+    - include: textile-inline-image
+    - include: textile-inline-table-row
+    - include: textile-inline-markup
+    - include: textile-inline-acronyms-abbreviations
 
     # TODO: fix footnotes
     - match: '(\[)(\d+)(\])'
@@ -723,13 +720,13 @@ contexts:
         2: meta.link.reference.literal.footnote-id.textile
         3: punctuation.definition.link.end.textile
 
-  inline-notextile:
+  textile-inline-notextile:
     - match: (==)([ ]+)
       captures:
         1: punctuation.definition.notextile.begin.textile
-      push: inline-notextile-body
+      push: textile-inline-notextile-body
 
-  inline-notextile-body:
+  textile-inline-notextile-body:
     - meta_scope: meta.notextile.textile
     # backreference to use whatever is in the match
     - match: \2(==)|(\n)|$
@@ -739,7 +736,7 @@ contexts:
       pop: 1
     - include: html
 
-  inline-textile-specials:
+  textile-inline-textile-specials:
     # https://textile-lang.com/doc/unicode-symbols
 
     - match: '\((?:tm|R|C|1/4|1/2|3/4|o|\+/\-)\)'
@@ -767,11 +764,11 @@ contexts:
   # https://textile-lang.com/doc/uppercase-words
 
   # TODO: ABBR(...) with 3+ letters
-  inline-acronyms-abbreviations: []
+  textile-inline-acronyms-abbreviations: []
 
 ###[ INLINE / REFERENCES ]#####################################################
 
-  inline-reference:
+  textile-inline-reference:
     - match: |-
         (?x:
           "                                       # Start name, etc
@@ -794,7 +791,7 @@ contexts:
 
   # https://textile-lang.com/doc/links
 
-  inline-link:
+  textile-inline-link:
     - match: |-
         (?x:
           "                                       # Start name, etc
@@ -817,7 +814,7 @@ contexts:
 
   # https://textile-lang.com/doc/images
 
-  inline-image:
+  textile-inline-image:
     - match: |-
         (?x:
           \!                                      # Open image
@@ -843,18 +840,18 @@ contexts:
 
 ###[ INLINE / MARKUP ]#########################################################
 
-  inline-markup:
-    - include: inline-bold
-    - include: inline-italic
-    - include: inline-superscript-subscript
-    - include: inline-diff
-    - include: inline-citation
-    - include: inline-code
-    - include: inline-span
+  textile-inline-markup:
+    - include: textile-inline-bold
+    - include: textile-inline-italic
+    - include: textile-inline-superscript-subscript
+    - include: textile-inline-diff
+    - include: textile-inline-citation
+    - include: textile-inline-code
+    - include: textile-inline-span
     - include: textile-single-quoted-strings
     - include: textile-double-quoted-strings
 
-  inline-bold:
+  textile-inline-bold:
     # https://textile-lang.com/doc/strong-and-bold-text
 
     - match: '\B(\*\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*\*)\B'
@@ -871,7 +868,7 @@ contexts:
         2: entity.name.type.textile
         4: punctuation.definition.generic.end.textile
 
-  inline-italic:
+  textile-inline-italic:
     # https://textile-lang.com/doc/emphasized-and-italic-text
 
     - match: '\b(__)({{textile_attributes_optional}})(\S.*?\S|\S)(__)\b'
@@ -888,7 +885,7 @@ contexts:
         2: entity.name.type.textile
         4: punctuation.definition.generic.end.textile
 
-  inline-superscript-subscript:
+  textile-inline-superscript-subscript:
     # https://textile-lang.com/doc/subscript-and-superscript-text
 
     - match: '\B(\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^)\B'
@@ -917,7 +914,7 @@ contexts:
         2: entity.name.type.textile
         4: punctuation.definition.generic.end.textile
 
-  inline-diff:
+  textile-inline-diff:
     # https://textile-lang.com/doc/insertions-and-deletions
 
     - match: '(\[-)({{textile_attributes_optional}})(\S.*?\S|\S)(-\])'
@@ -946,7 +943,7 @@ contexts:
         2: entity.name.type.textile
         4: punctuation.definition.generic.end.textile
 
-  inline-citation:
+  textile-inline-citation:
     # https://textile-lang.com/doc/citations
 
     - match: '\B(\?\?)({{textile_attributes_optional}})(\S.*?\S|\S)(\?\?)\B'
@@ -956,7 +953,7 @@ contexts:
         2: entity.name.type.textile
         4: punctuation.definition.generic.end.textile
 
-  inline-code:
+  textile-inline-code:
     # https://textile-lang.com/doc/inline-code
 
     - match: '\B(@)({{textile_attributes_optional}})(\S.*?\S|\S)(@)\B'
@@ -966,7 +963,7 @@ contexts:
         2: entity.name.type.textile
         4: punctuation.definition.generic.end.textile
 
-  inline-span:
+  textile-inline-span:
     - match: '\B(%)({{textile_attributes_optional}})(\S.*?\S|\S)(%)\B'
       scope: markup.span.textile
       captures:
@@ -1033,7 +1030,7 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
-  empty-line-pop:
+  textile-empty-line-pop:
     - match: (?=^$)
       pop: 1
 
@@ -1041,7 +1038,7 @@ contexts:
     - match: $
       pop: 1
 
-  next-block-pop:
+  textile-next-block-pop:
     # NOTE: look-ahead for blocks, extended blocks or headers
     - match: |-
         (?x:
