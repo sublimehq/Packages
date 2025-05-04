@@ -305,12 +305,18 @@ h2. Lists
   <!-- <- markup.list.unnumbered - markup.list markup.list                   -->
    <!-- <- markup.list.unnumbered                                            -->
 <!--^^^^^^^^ markup.list.unnumbered                                          -->
+  unnumbered
+  unnumbered
+<!--       ^ markup.list.unnumbered                                          -->
 # numbered
 <!-- <- markup.list.numbered.bullet                                          -->
  <!-- <- markup.list.numbered                                                -->
   <!-- <- markup.list.numbered - markup.list markup.list                     -->
    <!-- <- markup.list.numbered                                              -->
 <!--^^^^^^ markup.list.numbered                                              -->
+  numbered
+  numbered
+<!--       ^ markup.list.numbered                                            -->
 - TERM := definition
 <!-- <- markup.list.definition.bullet                                        -->
  <!-- <- markup.list.definition                                              -->
@@ -320,6 +326,11 @@ h2. Lists
 <!--^^ markup.list.definition meta.definition.term                           -->
 <!--   ^^ punctuation.separator.key-value                                    -->
 <!--      ^^^^^^^^^^ markup.list.definition meta.definition.definition       -->
+  definition
+  definition =: definition
+<!--       ^ markup.list.definition meta.definition.definition               -->
+<!--         ^^ markup.list.definition punctuation.definition.definition.end -->
+<!--           ^^^^^^^^^^^ markup.list.definition invalid.illegal.expected-eol -->
 
 p. paragraph
 

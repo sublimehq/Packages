@@ -675,7 +675,7 @@ contexts:
   textile-definition-definition:
     - meta_content_scope: meta.definition.definition.textile
     - include: merge-conflict-markers
-    - match: '.*(=:)(.*)?$\n?'
+    - match: '(=:)(.*)?$\n?'
       captures:
         1: punctuation.definition.definition.end.textile
         2: invalid.illegal.expected-eol.textile
