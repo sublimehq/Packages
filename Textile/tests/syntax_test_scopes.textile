@@ -308,6 +308,7 @@ h2. Lists
   unnumbered
   unnumbered
 <!--       ^ markup.list.unnumbered                                          -->
+
 # numbered
 <!-- <- markup.list.numbered.bullet                                          -->
  <!-- <- markup.list.numbered                                                -->
@@ -317,6 +318,7 @@ h2. Lists
   numbered
   numbered
 <!--       ^ markup.list.numbered                                            -->
+
 - TERM := definition
 <!-- <- markup.list.definition.bullet                                        -->
  <!-- <- markup.list.definition                                              -->

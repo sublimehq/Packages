@@ -1,6 +1,11 @@
 ###. SYNTAX TEST "Packages/Textile/Textile.sublime-syntax"
 ###. <- text.html.textile
 
+<!--
+    Test assertion lines here might not appear to be coomments.
+    That's fine.
+-->
+
 h1. H1 Header
 ###.@@@@@@@@@ definition "H1 Header"
 

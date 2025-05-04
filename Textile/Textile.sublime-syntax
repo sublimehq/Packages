@@ -206,42 +206,42 @@ contexts:
   textile-heading-h1-body:
     - meta_scope: markup.heading.1.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: before-eol-pop
+    - include: eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h2-body:
     - meta_scope: markup.heading.2.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: before-eol-pop
+    - include: eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h3-body:
     - meta_scope: markup.heading.3.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: before-eol-pop
+    - include: eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h4-body:
     - meta_scope: markup.heading.4.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: before-eol-pop
+    - include: eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h5-body:
     - meta_scope: markup.heading.5.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: before-eol-pop
+    - include: eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h6-body:
     - meta_scope: markup.heading.6.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: before-eol-pop
+    - include: eol-pop
     - include: html
     - include: textile-inlines
 
@@ -1032,12 +1032,8 @@ contexts:
     - match: (?=^$)
       pop: 1
 
-  before-eol-pop:
-    - match: $
-      pop: 1
-
   eol-pop:
-    - match: $\n?
+    - match: $
       pop: 1
 
   textile-next-block-pop:
