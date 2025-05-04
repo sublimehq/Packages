@@ -48,8 +48,8 @@ contexts:
   line-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-slash.actionscript
-
-    - include: eol-pop
+    - match: '$\n?'
+      pop: 1
 
 ###[ COMMENTS / BLOCK COMMENTS ]###############################################
 
@@ -449,12 +449,6 @@ contexts:
           pop: 1
         - match: '[^,)\n]+'
           scope: variable.parameter.function.actionscript
-
-###[ PROTOTYPES ]##############################################################
-
-  eol-pop:
-    - match: '$\n?'
-      pop: 1
 
 ###[ VARIABLES ]###############################################################
 
