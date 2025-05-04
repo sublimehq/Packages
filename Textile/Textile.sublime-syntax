@@ -207,42 +207,42 @@ contexts:
   textile-heading-h1-body:
     - meta_scope: markup.heading.1.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: eol-pop
+    - include: before-eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h2-body:
     - meta_scope: markup.heading.2.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: eol-pop
+    - include: before-eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h3-body:
     - meta_scope: markup.heading.3.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: eol-pop
+    - include: before-eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h4-body:
     - meta_scope: markup.heading.4.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: eol-pop
+    - include: before-eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h5-body:
     - meta_scope: markup.heading.5.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: eol-pop
+    - include: before-eol-pop
     - include: html
     - include: textile-inlines
 
   textile-heading-h6-body:
     - meta_scope: markup.heading.6.textile
     - meta_content_scope: meta.toc-list.textile
-    - include: eol-pop
+    - include: before-eol-pop
     - include: html
     - include: textile-inlines
 
@@ -623,67 +623,67 @@ contexts:
 
 ###[ BLOCKS / LISTS ]##########################################################
 
-  textile-lists:
-    - match: '^\*'
-      captures:
-        1: markup.list.unnumbered.textile
-      push: textile-unordered-list-block
-
-    - match: '^\#'
-      captures:
-        1: markup.list.numbered.textile
-      push: textile-ordered-list-block
-
-    # TODO: definition lists
-
   # https://textile-lang.com/doc/bulleted-unordered-lists
-
-  textile-unordered-list-block:
-    - meta_content_scope: markup.list.unnumbered.textile
-    - include: merge-conflict-markers
-    - include: textile-list-block-end
-    - include: textile-list-block-content
-
   # https://textile-lang.com/doc/numbered-ordered-lists
-
-  textile-ordered-list-block:
-    - meta_content_scope: markup.list.numbered.textile
-    - include: merge-conflict-markers
-    - include: textile-list-block-end
-    - include: textile-list-block-content
-
   # https://textile-lang.com/doc/definition-lists
 
-  # TODO: definition lists
+  textile-lists:
+    - match: '^(\*+)({{textile_attributes_optional}})'
+      captures:
+        1: markup.list.unnumbered.bullet.textile
+        2: markup.list.unnumbered.textile entity.name.type.textile
+      push: textile-unordered-list-item
+    - match: '^(#+)({{textile_attributes_optional}})'
+      captures:
+        1: markup.list.numbered.bullet.textile
+        2: markup.list.numbered.textile entity.name.type.textile
+      push: textile-ordered-list-item
+    - match: '^[-]'
+      scope: markup.list.definition.bullet.textile
+      push: textile-definition-list-item
 
-###[ BLOCKS / LISTS / HELPERS ]################################################
+  textile-unordered-list-item:
+    - meta_content_scope: markup.list.unnumbered.textile
+    - include: textile-empty-line-pop
+    - match: '^(?=[-*#])'
+      pop: 1
+    - include: html
 
-  textile-list-block-end:
-    - match: ^(?=\S)
+  textile-ordered-list-item:
+    - meta_content_scope: markup.list.numbered.textile
+    - include: textile-empty-line-pop
+    - match: '^(?=[-*#])'
+      pop: 1
+    - include: html
+
+  textile-definition-list-item:
+    - meta_content_scope: markup.list.definition.textile
+    - include: eol-pop
+    - include: textile-definitions
+    - match: '(.*)$\n?'
+      captures:
+        1: invalid.illegal.expected-definition.textile
       pop: 1
 
-  textile-list-block-content:
-    - include: textile-list-items
-
-  textile-list-items:
-    - match: '^\*+({{textile_attributes_optional_class_style}})(\s+|$)'
-      scope: markup.list.unnumbered.textile
+  textile-definitions:
+    - match: '(?:[[:blank:]]*)([[:upper:]]{3,})(?:[[:blank:]]*)(:=)'
       captures:
-        1: entity.name.type.textile
+        1: meta.definition.term.textile
+        2: punctuation.separator.key-value.textile
+      push: textile-definition-definition
 
-    - match: '^\#+({{textile_attributes_optional_class_style}})\s+'
-      scope: markup.list.numbered.textile
+  textile-definition-definition:
+    - meta_content_scope: meta.definition.definition.textile
+    - include: merge-conflict-markers
+    - match: '.*(=:)(.*)?$\n?'
       captures:
-        1: entity.name.type.textile
-
-  textile-list-attributes:
-    - match: '\('
-      scope: punctuation.section.parens.begin.textile
-      set:
-        - meta_scope: meta.attributes.textile
-        - match: '\)'
-          scope: punctuation.section.parens.end.textile
-          pop: 1
+        1: punctuation.definition.definition.end.textile
+        2: invalid.illegal.expected-eol.textile
+      pop: 1
+    - include: textile-empty-line-pop
+    - match: '^(?=[-])'
+      pop: 1
+    - include: html
 
 ###[ INLINE ]##################################################################
 
@@ -757,7 +757,7 @@ contexts:
     - match: |-
         (?x)
         "                                       # Start name, etc
-        {{textile_attributes_optional}}
+        ({{textile_attributes_optional}})
         ([^"]+?)                                # Link name
         [[:blank:]]?                            # Optional whitespace
         (?:\(([^)]+?)\))?
@@ -767,9 +767,10 @@ contexts:
                                                 #  and end of meta.link
       scope: meta.link.reference.textile
       captures:
-        1: string.other.link.title.textile
-        2: string.other.link.description.title.textile
-        3: constant.other.reference.link.textile
+        1: entity.name.type.textile
+        2: string.other.link.title.textile
+        3: string.other.link.description.title.textile
+        4: constant.other.reference.link.textile
 
 ###[ INLINE / LINKS ]##########################################################
 
@@ -779,7 +780,7 @@ contexts:
     - match: |-
         (?x)
         "                                       # Start name, etc
-        {{textile_attributes_optional}}
+        ({{textile_attributes_optional}})
         ([^"]+?)                                # Link name
         [[:blank:]]?                            # Optional whitespace
         (?:\(([^)]+?)\))?
@@ -789,9 +790,10 @@ contexts:
                                                 #  and end of meta.link
       scope: meta.link.inline.textile
       captures:
-        1: string.other.link.title.textile
-        2: string.other.link.description.title.textile
-        3: markup.underline.link.textile
+        1: entity.name.type.textile
+        2: string.other.link.title.textile
+        3: string.other.link.description.title.textile
+        4: markup.underline.link.textile
 
 ###[ INLINE / IMAGES ]#########################################################
 
@@ -802,7 +804,7 @@ contexts:
         (?x)
         \!                                      # Open image
         ({{textile_alignment_optional}})
-        {{textile_attributes_optional}}
+        ({{textile_attributes_optional}})
         (?:\.[ ])?                              # Optional
         ([^[:blank:](!]+?)                      # Image URL
         [[:blank:]]?                            # Optional space
@@ -816,9 +818,10 @@ contexts:
       scope: meta.image.inline.textile
       captures:
         1: constant.other.alignment.textile
-        2: markup.underline.link.image.textile
-        3: string.other.link.description.textile
-        4: markup.underline.link.textile
+        2: entity.name.type.textile
+        3: markup.underline.link.image.textile
+        4: string.other.link.description.textile
+        5: markup.underline.link.textile
 
 ###[ INLINE / MARKUP ]#########################################################
 
@@ -1019,8 +1022,12 @@ contexts:
     - match: (?=^$)
       pop: 1
 
-  eol-pop:
+  before-eol-pop:
     - match: $
+      pop: 1
+
+  eol-pop:
+    - match: $\n?
       pop: 1
 
   textile-next-block-pop:

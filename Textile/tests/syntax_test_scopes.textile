@@ -299,7 +299,27 @@ p. paragraph
 
 h2. Lists
 
-lists
+* unnumbered
+<!-- <- markup.list.unnumbered.bullet                                        -->
+ <!-- <- markup.list.unnumbered                                              -->
+  <!-- <- markup.list.unnumbered - markup.list markup.list                   -->
+   <!-- <- markup.list.unnumbered                                            -->
+<!--^^^^^^^^ markup.list.unnumbered                                          -->
+# numbered
+<!-- <- markup.list.numbered.bullet                                          -->
+ <!-- <- markup.list.numbered                                                -->
+  <!-- <- markup.list.numbered - markup.list markup.list                     -->
+   <!-- <- markup.list.numbered                                              -->
+<!--^^^^^^ markup.list.numbered                                              -->
+- TERM := definition
+<!-- <- markup.list.definition.bullet                                        -->
+ <!-- <- markup.list.definition                                              -->
+  <!-- <- markup.list.definition meta.definition.term - markup.list markup.list -->
+   <!-- <- markup.list.definition meta.definition.term                       -->
+<!--^^^^^^^^^^^^^^^^^ markup.list.definition                                 -->
+<!--^^ markup.list.definition meta.definition.term                           -->
+<!--   ^^ punctuation.separator.key-value                                    -->
+<!--      ^^^^^^^^^^ markup.list.definition meta.definition.definition       -->
 
 p. paragraph
 
