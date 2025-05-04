@@ -57,7 +57,7 @@ variables:
 
   colon: ':(?!=)'
 
-  string_prefix: '[bBrRfFuU]{,2}'
+  string_prefix: '[bBfFrRtTuU]{,2}'
 
   # Prefer ranged quantifiers over python interpolation in raw f-strings
   fstring_regexp_interpolation_begin: '\{(?!\d+(?:,\d*)?\})'
@@ -2744,8 +2744,8 @@ contexts:
     - include: string-prototype
 
   triple-double-quoted-plain-raw-f-string:
-    # Triple-quoted raw f-string
-    - match: ([fF]R|R[fF])(""")
+    # Triple-quoted raw f-string or t-string
+    - match: ([fFtT]R|R[fFtT])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
@@ -2763,8 +2763,8 @@ contexts:
     - include: triple-double-quoted-f-string-replacements
 
   triple-double-quoted-raw-f-string:
-    # Triple-quoted raw f-string, treated as regex
-    - match: ([fF]r|r[fF])(""")
+    # Triple-quoted raw f-string or t-string, treated as regex
+    - match: ([fFtT]r|r[fFtT])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
@@ -2876,8 +2876,8 @@ contexts:
     - include: triple-double-quoted-string-replacements
 
   triple-double-quoted-f-string:
-    # Triple-quoted f-string
-    - match: ([fF])(""")
+    # Triple-quoted f-string or t-string
+    - match: ([fFtT])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
@@ -3093,8 +3093,8 @@ contexts:
     - include: string-prototype
 
   double-quoted-plain-raw-f-string:
-    # Single-line raw f-string
-    - match: (R[fF]|[fF]R)(")
+    # Single-line raw f-string or t-string
+    - match: ([fFtT]R|R[fFtT])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
@@ -3112,8 +3112,8 @@ contexts:
     - include: double-quoted-f-string-replacements
 
   double-quoted-raw-f-string:
-    # Single-line raw f-string, treated as regex
-    - match: (r[fF]|[fF]r)(")
+    # Single-line raw f-string or t-string, treated as regex
+    - match: ([fFtT]r|r[fFtT])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
@@ -3222,8 +3222,8 @@ contexts:
     - include: double-quoted-string-replacements
 
   double-quoted-f-string:
-    # Single-line f-string
-    - match: ([fF])(")
+    # Single-line f-string or t-string
+    - match: ([fFtT])(")
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
@@ -3428,8 +3428,8 @@ contexts:
     - include: string-prototype
 
   triple-single-quoted-plain-raw-f-string:
-    # Triple-quoted raw f-string
-    - match: ([fF]R|R[fF])(''')
+    # Triple-quoted raw f-string or t-string
+    - match: ([fFtT]R|R[fFtT])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
@@ -3447,8 +3447,8 @@ contexts:
     - include: triple-single-quoted-f-string-replacements
 
   triple-single-quoted-raw-f-string:
-    # Triple-quoted raw f-string, treated as regex
-    - match: ([fF]r|r[fF])(''')
+    # Triple-quoted raw f-string or t-string, treated as regex
+    - match: ([fFtT]r|r[fFtT])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
@@ -3559,8 +3559,8 @@ contexts:
     - include: triple-single-quoted-string-replacements
 
   triple-single-quoted-f-string:
-    # Triple-quoted f-string
-    - match: ([fF])(''')
+    # Triple-quoted f-string or t-string
+    - match: ([fFtT])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
@@ -3845,7 +3845,7 @@ contexts:
 
   single-quoted-plain-raw-f-string:
     # Single-line raw f-string
-    - match: ([fF]R|R[fF])(')
+    - match: ([fFtT]R|R[fFtT])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
@@ -3864,7 +3864,7 @@ contexts:
 
   single-quoted-raw-f-string:
     # Single-line raw f-string, treated as regex
-    - match: ([fF]r|r[fF])(')
+    - match: ([fFtT]r|r[fFtT])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
@@ -3905,8 +3905,8 @@ contexts:
     - include: single-quoted-string-replacements
 
   single-quoted-f-string:
-    # Single-line f-string
-    - match: ([fF])(')
+    # Single-line f-string or t-string
+    - match: ([fFtT])(')
       captures:
         1: storage.type.string.python
         2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
