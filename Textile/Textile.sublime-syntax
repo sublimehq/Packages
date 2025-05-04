@@ -637,7 +637,7 @@ contexts:
         1: markup.list.numbered.bullet.textile
         2: markup.list.numbered.textile entity.name.type.textile
       push: textile-ordered-list-item
-    - match: '^[-]'
+    - match: '^-'
       scope: markup.list.definition.bullet.textile
       push: textile-definition-list-item
 
@@ -659,7 +659,7 @@ contexts:
     - meta_content_scope: markup.list.definition.textile
     - include: eol-pop
     - include: textile-definitions
-    - match: '(.*)$\n?'
+    - match: '(.*)\n?'
       captures:
         1: invalid.illegal.expected-definition.textile
       pop: 1
@@ -674,13 +674,13 @@ contexts:
   textile-definition-definition:
     - meta_content_scope: meta.definition.definition.textile
     - include: merge-conflict-markers
-    - match: '(=:)(.*)?$\n?'
+    - match: '(=:)(.*)?\n?'
       captures:
         1: punctuation.definition.definition.end.textile
         2: invalid.illegal.expected-eol.textile
       pop: 1
     - include: textile-empty-line-pop
-    - match: '^(?=[-])'
+    - match: '^(?=-)'
       pop: 1
     - include: html
 
