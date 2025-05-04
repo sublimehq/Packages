@@ -80,12 +80,12 @@ contexts:
   # NOTE: textile comments are just regular (extended) blocks
 
   textile-comments:
-    - match: '^(###)(\.\.)[ ](?=\S)'
+    - match: ^(###)(\.\.)[ ](?=\S)
       captures:
         1: punctuation.definition.comment.textile
         2: punctuation.definition.markup.extended-block.textile
       push: textile-extended-comment-body
-    - match: '^(###)(\.)[ ](?=\S)'
+    - match: ^(###)(\.)[ ](?=\S)
       captures:
         1: punctuation.definition.comment.textile
         2: punctuation.definition.markup.block.textile
@@ -471,28 +471,28 @@ contexts:
   # https://textile-lang.com/doc/auto-numbered-notes
 
   textile-auto-numbered-notes:
-    - match: '^((note)(\#)(\w+)(\!\.))[ ]\b'
+    - match: ^((note)(\#)(\w+)(\!\.))[ ]\b
       scope: meta.annotation.auto-numbered-note.no-backlinks.textile
       captures:
         2: keyword.other.note.textile
         4: variable.annotation.textile
         5: constant.other.textile
 
-    - match: '^((note)(\#)(\w+)(\^\.))[ ]\b'
+    - match: ^((note)(\#)(\w+)(\^\.))[ ]\b
       scope: meta.annotation.auto-numbered-note.only-first-backlink.textile
       captures:
         2: keyword.other.note.textile
         4: variable.annotation.textile
         5: constant.other.textile
 
-    - match: '^((note)(\#)(\w+)(\*\.))[ ]\b'
+    - match: ^((note)(\#)(\w+)(\*\.))[ ]\b
       scope: meta.annotation.auto-numbered-note.all-backlinks.textile
       captures:
         2: keyword.other.note.textile
         4: variable.annotation.textile
         5: constant.other.textile
 
-    - match: '^((note)(\#)(\w+)(\.))[ ]\b'
+    - match: ^((note)(\#)(\w+)(\.))[ ]\b
       scope: meta.annotation.auto-numbered-note.textile
       captures:
         2: keyword.other.note.textile
@@ -500,34 +500,34 @@ contexts:
         5: constant.other.textile
 
   textile-notelists:
-    - match: '^(notelist)(\!\+\.)$'
+    - match: ^(notelist)(\!\+\.)$
       scope: meta.notelist.no-backlinks.including-unreferenced-notes.textile
       captures:
         1: keyword.other.notelist.textile
         2: constant.other.notelist-format.textile
-    - match: '^(notelist)(\!\.)$'
+    - match: ^(notelist)(\!\.)$
       scope: meta.notelist.no-backlinks.textile
       captures:
         1: keyword.other.notelist.textile
         2: constant.other.notelist-format.textile
 
-    - match: '^(notelist)(\^\+\.)$'
+    - match: ^(notelist)(\^\+\.)$
       scope: meta.notelist.backlinks-to-first-citation.including-unreferenced-notes.textile
       captures:
         1: keyword.other.notelist.textile
         2: constant.other.notelist-format.textile
-    - match: '^(notelist)(\^\.)$'
+    - match: ^(notelist)(\^\.)$
       scope: meta.notelist.backlinks-to-first-citation.textile
       captures:
         1: keyword.other.notelist.textile
         2: constant.other.notelist-format.textile
 
-    - match: '^(notelist)(\+\.)$'
+    - match: ^(notelist)(\+\.)$
       scope: meta.notelist.backlinks-to-every-citation.including-unreferenced-notes.textile
       captures:
         1: keyword.other.notelist.textile
         2: constant.other.notelist-format.textile
-    - match: '^(notelist)(\.)$'
+    - match: ^(notelist)(\.)$
       scope: meta.notelist.backlinks-to-every-citation.textile
       captures:
         1: keyword.other.notelist.textile
@@ -561,7 +561,7 @@ contexts:
     - include: textile-inlines
 
   textile-inline-table-row:
-    - match: '^\|({{textile_attributes_optional_class_style}})(\\\||.)+\|$'
+    - match: ^\|({{textile_attributes_optional_class_style}})(\\\||.)+\|$
       scope: markup.other.table.cell.textile
       captures:
         1: entity.name.type.textile
@@ -627,31 +627,31 @@ contexts:
   # https://textile-lang.com/doc/definition-lists
 
   textile-lists:
-    - match: '^(\*+)({{textile_attributes_optional}})'
+    - match: ^(\*+)({{textile_attributes_optional}})
       captures:
         1: markup.list.unnumbered.bullet.textile
         2: markup.list.unnumbered.textile entity.name.type.textile
       push: textile-unordered-list-item
-    - match: '^(#+)({{textile_attributes_optional}})'
+    - match: ^(#+)({{textile_attributes_optional}})
       captures:
         1: markup.list.numbered.bullet.textile
         2: markup.list.numbered.textile entity.name.type.textile
       push: textile-ordered-list-item
-    - match: '^-'
+    - match: ^-
       scope: markup.list.definition.bullet.textile
       push: textile-definition-list-item
 
   textile-unordered-list-item:
     - meta_content_scope: markup.list.unnumbered.textile
     - include: textile-empty-line-pop
-    - match: '^(?=[-*#])'
+    - match: ^(?=[-*#])
       pop: 1
     - include: html
 
   textile-ordered-list-item:
     - meta_content_scope: markup.list.numbered.textile
     - include: textile-empty-line-pop
-    - match: '^(?=[-*#])'
+    - match: ^(?=[-*#])
       pop: 1
     - include: html
 
@@ -659,13 +659,13 @@ contexts:
     - meta_content_scope: markup.list.definition.textile
     - include: eol-pop
     - include: textile-definitions
-    - match: '(.*)\n?'
+    - match: (.*)\n?
       captures:
         1: invalid.illegal.expected-definition.textile
       pop: 1
 
   textile-definitions:
-    - match: '(?:[[:blank:]]*)([[:upper:]]{3,})(?:[[:blank:]]*)(:=)'
+    - match: (?:[[:blank:]]*)([[:upper:]]{3,})(?:[[:blank:]]*)(:=)
       captures:
         1: meta.definition.term.textile
         2: punctuation.separator.key-value.textile
@@ -673,13 +673,13 @@ contexts:
 
   textile-definition-definition:
     - meta_content_scope: meta.definition.definition.textile
-    - match: '(=:)(.*)?\n?'
+    - match: (=:)(.*)?\n?
       captures:
         1: punctuation.definition.definition.end.textile
         2: invalid.illegal.expected-eol.textile
       pop: 1
     - include: textile-empty-line-pop
-    - match: '^(?=-)'
+    - match: ^(?=-)
       pop: 1
     - include: html
 
@@ -695,7 +695,7 @@ contexts:
     - include: textile-inline-markup
     - include: textile-inline-abbreviations
 
-    - match: '(\[)(\d+)(\])'
+    - match: (\[)(\d+)(\])
       scope: meta.link.reference.footnote.textile
       captures:
         1: punctuation.definition.link.begin.textile
@@ -721,23 +721,23 @@ contexts:
   textile-inline-textile-specials:
     # https://textile-lang.com/doc/unicode-symbols
 
-    - match: '\((?:tm|R|C|1/4|1/2|3/4|o|\+/\-)\)'
+    - match: \((?:tm|R|C|1/4|1/2|3/4|o|\+/\-)\)
       scope: constant.character.textile
 
     # NOTE: match here to avoid text.html.basic from flagging it
-    - match: '&(?!#[[:alnum:]]+;)'
+    - match: \&(?!#[[:alnum:]]+;)
       scope: markup.raw.inline.ampersand.textile
 
-    - match: '(?<=\d[ ])x(?=[ ]\d)'
+    - match: (?<=\d[ ])x(?=[ ]\d)
       scope: markup.raw.inline.dimension-sign.textile
 
-    - match: '--'
+    - match: --
       scope: markup.raw.inline.long-dash.textile
 
-    - match: '(?<=[ ])-(?=[ ])'
+    - match: (?<=[ ])-(?=[ ])
       scope: markup.raw.inline.unicode-dash.textile
 
-    - match: '\.\.\.'
+    - match: \.\.\.
       scope: markup.raw.inline.ellipsis.textile
 
 ###[ INLINE / ACRONYMS & ABBREVIATIONS ]#######################################
@@ -746,7 +746,7 @@ contexts:
   # https://textile-lang.com/doc/uppercase-words
 
   textile-inline-abbreviations:
-    - match: '([[:upper:]]{3,})(\()'
+    - match: ([[:upper:]]{3,})(\()
       captures:
         1: meta.abbreviation.abbreviation.textile
         2: punctuation.section.parens.begin.textile
@@ -848,14 +848,14 @@ contexts:
   textile-inline-bold:
     # https://textile-lang.com/doc/strong-and-bold-text
 
-    - match: '\B(\*\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*\*)\B'
+    - match: \B(\*\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*\*)\B
       scope: markup.bold.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
 
-    - match: '\B(\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*)\B'
+    - match: \B(\*)({{textile_attributes_optional}})(\S.*?\S|\S)(\*)\B
       scope: markup.bold.strong.textile
       captures:
         1: punctuation.definition.markup.begin.textile
@@ -865,14 +865,14 @@ contexts:
   textile-inline-italic:
     # https://textile-lang.com/doc/emphasized-and-italic-text
 
-    - match: '\b(__)({{textile_attributes_optional}})(\S.*?\S|\S)(__)\b'
+    - match: \b(__)({{textile_attributes_optional}})(\S.*?\S|\S)(__)\b
       scope: markup.italic.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
 
-    - match: '\b(_)({{textile_attributes_optional}})(\S.*?\S|\S)(_)\b'
+    - match: \b(_)({{textile_attributes_optional}})(\S.*?\S|\S)(_)\b
       scope: markup.italic.emphasized.textile
       captures:
         1: punctuation.definition.markup.begin.textile
@@ -882,26 +882,26 @@ contexts:
   textile-inline-superscript-subscript:
     # https://textile-lang.com/doc/subscript-and-superscript-text
 
-    - match: '\B(\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^)\B'
+    - match: \B(\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^)\B
       scope: markup.superscript.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
-    - match: '\b(\[\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^\])'
+    - match: \b(\[\^)({{textile_attributes_optional}})(\S.*?\S|\S)(\^\])
       scope: markup.superscript.subword.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
 
-    - match: '\B(~)({{textile_attributes_optional}})(\S.*?\S|\S)(~)\B'
+    - match: \B(~)({{textile_attributes_optional}})(\S.*?\S|\S)(~)\B
       scope: markup.subscript.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
-    - match: '\b(\[~)({{textile_attributes_optional}})(\S.*?\S|\S)(~\])'
+    - match: \b(\[~)({{textile_attributes_optional}})(\S.*?\S|\S)(~\])
       scope: markup.subscript.subword.textile
       captures:
         1: punctuation.definition.markup.begin.textile
@@ -911,26 +911,26 @@ contexts:
   textile-inline-diff:
     # https://textile-lang.com/doc/insertions-and-deletions
 
-    - match: '(\[-)({{textile_attributes_optional}})(\S.*?\S|\S)(-\])'
+    - match: (\[-)({{textile_attributes_optional}})(\S.*?\S|\S)(-\])
       scope: markup.deleted.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
-    - match: '\B(-)({{textile_attributes_optional}})(\S.*?\S|\S)(-)\B'
+    - match: \B(-)({{textile_attributes_optional}})(\S.*?\S|\S)(-)\B
       scope: markup.deleted.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
 
-    - match: '(\[\+)({{textile_attributes_optional}})(\S.*?\S|\S)(\+\])'
+    - match: (\[\+)({{textile_attributes_optional}})(\S.*?\S|\S)(\+\])
       scope: markup.inserted.textile
       captures:
         1: punctuation.definition.markup.begin.textile
         2: entity.name.type.textile
         4: punctuation.definition.markup.end.textile
-    - match: '\B(\+)({{textile_attributes_optional}})(\S.*?\S|\S)(\+)\B'
+    - match: \B(\+)({{textile_attributes_optional}})(\S.*?\S|\S)(\+)\B
       scope: markup.inserted.textile
       captures:
         1: punctuation.definition.markup.begin.textile
@@ -940,7 +940,7 @@ contexts:
   textile-inline-citation:
     # https://textile-lang.com/doc/citations
 
-    - match: '\B(\?\?)({{textile_attributes_optional}})(\S.*?\S|\S)(\?\?)\B'
+    - match: \B(\?\?)({{textile_attributes_optional}})(\S.*?\S|\S)(\?\?)\B
       scope: markup.citation.textile
       captures:
         1: punctuation.definition.markup.begin.textile
@@ -950,7 +950,7 @@ contexts:
   textile-inline-code:
     # https://textile-lang.com/doc/inline-code
 
-    - match: '\B(@)({{textile_attributes_optional}})(\S.*?\S|\S)(@)\B'
+    - match: \B(@)({{textile_attributes_optional}})(\S.*?\S|\S)(@)\B
       scope: markup.raw.inline.textile
       captures:
         1: punctuation.definition.markup.begin.textile
@@ -958,7 +958,7 @@ contexts:
         4: punctuation.definition.markup.end.textile
 
   textile-inline-span:
-    - match: '\B(%)({{textile_attributes_optional}})(\S.*?\S|\S)(%)\B'
+    - match: \B(%)({{textile_attributes_optional}})(\S.*?\S|\S)(%)\B
       scope: markup.span.textile
       captures:
         1: punctuation.definition.markup.begin.textile
