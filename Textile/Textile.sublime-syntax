@@ -18,6 +18,8 @@ file_extensions:
 
 contexts:
 
+  # NOTE: textile comments are just regular (extended) blocks
+
   main:
     - include: textile
 
