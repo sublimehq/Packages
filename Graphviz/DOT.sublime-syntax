@@ -51,7 +51,8 @@ contexts:
   line-comment-double-slash-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-slash.dot
-    - include: eol-pop
+    - match: '{{eol}}'
+      pop: 1
 
   block-comments:
     - include: empty-block-comments
@@ -87,7 +88,8 @@ contexts:
   fullline-comment-number-sign-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.dot
-    - include: eol-pop
+    - match: '{{eol}}'
+      pop: 1
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
 
@@ -480,12 +482,6 @@ contexts:
       pop: 1
 
     - include: attributes
-
-###[ PROTOTYPES ]##############################################################
-
-  eol-pop:
-    - match: '{{eol}}'
-      pop: 1
 
 ###[ ILLEGALS ]################################################################
 
