@@ -461,6 +461,13 @@ Test    Test & Test 0 x 0 Test ... Test -- Test - Test                      Test
 <!--                                    ^^ markup.raw.inline.long-dash       -->
 <!--                                            ^ markup.raw.inline.unicode-dash -->
 
+Test    Test ABC(Aaa Bbb Ccc) Test                                          Test
+<!--         ^^^^^^^^^^^^^^^^ meta.abbreviation                              -->
+<!--         ^^^ meta.abbreviation meta.abbreviation.abbreviation            -->
+<!--            ^ meta.abbreviation punctuation.section.parens.begin         -->
+<!--             ^^^^^^^^^^^ meta.abbreviation meta.abbreviation.description -->
+<!--                        ^ meta.abbreviation punctuation.section.parens.end -->
+
 p. paragraph
 
 

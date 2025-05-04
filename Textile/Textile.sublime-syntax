@@ -103,9 +103,6 @@ contexts:
 
   # https://textile-lang.com/doc/headings
 
-  # TODO: clean these up, not much different other than the beginning of the
-  #       line and the meta_scope
-
   textile-headings:
     - match: |-
         (?x)
@@ -695,9 +692,8 @@ contexts:
     - include: textile-inline-image
     - include: textile-inline-table-row
     - include: textile-inline-markup
-    - include: textile-inline-acronyms-abbreviations
+    - include: textile-inline-abbreviations
 
-    # TODO: fix footnotes
     - match: '(\[)(\d+)(\])'
       scope: meta.link.reference.footnote.textile
       captures:
@@ -748,8 +744,20 @@ contexts:
   # https://textile-lang.com/doc/acronyms-abbreviations
   # https://textile-lang.com/doc/uppercase-words
 
-  # TODO: ABBR(...) with 3+ letters
-  textile-inline-acronyms-abbreviations: []
+  textile-inline-abbreviations:
+    - match: '([[:upper:]]{3,})(\()'
+      captures:
+        1: meta.abbreviation.abbreviation.textile
+        2: punctuation.section.parens.begin.textile
+      push: textile-inline-abbreviation-body
+
+  textile-inline-abbreviation-body:
+    - meta_scope: meta.abbreviation.textile
+    - meta_content_scope: meta.abbreviation.description.textile
+    - match: \)
+      scope: punctuation.section.parens.end.textile
+      pop: 1
+    - include: textile-illegal-newline-pop
 
 ###[ INLINE / REFERENCES ]#####################################################
 
