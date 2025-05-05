@@ -233,36 +233,42 @@ contexts:
   structure-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.structure.any.html
+    - include: merge-conflict-markers
     - include: tag-end
     - include: tag-attributes
 
   block-any-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.block.any.html
+    - include: merge-conflict-markers
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
   block-forms-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.block.form.html
+    - include: merge-conflict-markers
     - include: tag-end
     - include: tag-attributes
 
   inline-any-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.inline.any.html
+    - include: merge-conflict-markers
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
   inline-forms-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.inline.form.html
+    - include: merge-conflict-markers
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
   table-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.inline.table.html
+    - include: merge-conflict-markers
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
@@ -283,6 +289,7 @@ contexts:
   tag-other-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.other.html
+    - include: merge-conflict-markers
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
@@ -310,11 +317,13 @@ contexts:
   script-close-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.end.html
+    - include: merge-conflict-markers
     - include: tag-end
 
   script-javascript:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
+    - include: merge-conflict-markers
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-javascript-content
@@ -350,6 +359,7 @@ contexts:
   script-json:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
+    - include: merge-conflict-markers
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-json-content
@@ -385,11 +395,13 @@ contexts:
   script-html:
     - meta_include_prototype: false
     - meta_scope: meta.tag.script.begin.html
+    - include: merge-conflict-markers
     - include: tag-end
     - include: script-common
 
   script-other:
     - meta_scope: meta.tag.script.begin.html
+    - include: merge-conflict-markers
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: script-close-tag
@@ -480,11 +492,13 @@ contexts:
   style-close-tag-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.style.end.html
+    - include: merge-conflict-markers
     - include: tag-end
 
   style-css:
     - meta_include_prototype: false
     - meta_scope: meta.tag.style.begin.html
+    - include: merge-conflict-markers
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-css-content
@@ -520,6 +534,7 @@ contexts:
   style-other:
     - meta_include_prototype: false
     - meta_scope: meta.tag.style.begin.html
+    - include: merge-conflict-markers
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set: style-close-tag

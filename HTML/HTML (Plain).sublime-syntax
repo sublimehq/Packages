@@ -155,6 +155,7 @@ contexts:
 
   comment-content:
     - meta_scope: comment.block.html
+    - include: merge-conflict-markers
     - match: (<!-)?(-->)
       captures:
         1: invalid.illegal.bad-comments-or-CDATA.html
@@ -162,7 +163,6 @@ contexts:
       pop: 1
     - match: <!--(?!-?>)|--!>
       scope: invalid.illegal.bad-comments-or-CDATA.html
-
 
 ###[ MERGE CONFLICT MARKERS ]#################################################
 
@@ -199,6 +199,7 @@ contexts:
 
   doctype-meta:
     - meta_scope: meta.tag.sgml.doctype.html
+    - include: merge-conflict-markers
     - match: '>'
       scope: punctuation.definition.tag.end.html
       pop: 1
@@ -207,18 +208,21 @@ contexts:
     - match: '{{tag_name}}'
       scope: constant.language.doctype.html
       pop: 1
+    - include: merge-conflict-markers
     - include: else-pop
 
   doctype-content-type:
     - match: (?i:public|system){{tag_name_break}}
       scope: keyword.content.external.html
       pop: 1
+    - include: merge-conflict-markers
     - include: else-pop
 
   doctype-content:
     - match: \[
       scope: punctuation.section.brackets.begin.html
       set: doctype-internal-subset-content
+    - include: merge-conflict-markers
     - include: strings
     - include: else-pop
 
@@ -296,17 +300,18 @@ contexts:
   tag-html-content:
     - meta_include_prototype: false
     - meta_scope: meta.tag.html
+    - include: merge-conflict-markers
     - include: tag-end-maybe-self-closing
     - include: tag-attributes
 
 ###[ ATTRIBUTES ]#############################################################
 
   tag-attributes:
-    - include: merge-conflict-markers
     - include: tag-generic-attribute
 
   tag-attribute-value-content:
     - include: entities
+    - include: merge-conflict-markers
 
   tag-attribute-value-unquoted-end:
     - match: '{{unquoted_attribute_break}}'
@@ -467,6 +472,7 @@ contexts:
     # This context exists as common entry point for inherited syntaxes to add
     # custom highlighting to all strings.
     - include: entities
+    - include: merge-conflict-markers
 
 ###[ PROTOTYPES ]#############################################################
 

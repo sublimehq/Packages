@@ -1,0 +1,464 @@
+/* SYNTAX TEST "Packages/HTML/HTML.sublime-syntax" */
+
+Merge Conflict Marker Tests
+===========================
+
+Conflict in Comments
+--------------------
+
+<!--
+<<<<<<< HEAD
+/* <- comment.block.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ comment.block.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ comment.block.html meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ comment.block.html meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ comment.block.html meta.block.conflict.begin.diff - entity - punctuation */
+
+=======
+/* <- comment.block.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ comment.block.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ comment.block.html meta.block.conflict.separator.diff - punctuation */
+
+>>>>>>> master
+/* <- comment.block.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ comment.block.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ comment.block.html meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ comment.block.html meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ comment.block.html meta.block.conflict.end.diff - entity - punctuation */
+ -->
+
+
+Conflict in Plain Text
+----------------------
+
+<<<<<<< HEAD
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+
+=======
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+
+>>>>>>> master
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+
+
+Conflict in Doctype Tag Attributes
+----------------------------------
+
+<!DOCTYPE
+<<<<<<< HEAD
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    html4
+=======
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    html
+>>>>>>> master
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+>
+/* <- meta.tag.sgml.doctype.html punctuation.definition.tag.end.html */
+
+<!DOCTYPE html [
+/*^^^^^^^^^^^^^^ meta.tag.sgml.doctype.html */
+/*^^^^^^^ keyword.declaration.doctype.html */
+/*        ^^^^ constant.language.doctype.html */
+/*             ^ meta.brackets.html meta.internal-subset.xml.html punctuation.section.brackets.begin.html */
+<<<<<<< HEAD
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    ours
+=======
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    theirs
+>>>>>>> master
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+]>
+/* <- meta.tag.sgml.doctype.html meta.brackets.html meta.internal-subset.xml.html punctuation.section.brackets.end.html */
+ /* <- meta.tag.sgml.doctype.html punctuation.definition.tag.end.html */
+
+
+Conflict in CDATA Tags
+----------------------
+
+<![CDATA[
+<<<<<<< HEAD
+/* <- meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    ours
+=======
+/*^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html */
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    theirs
+>>>>>>> master
+/*^^^^^^^^^^^^ meta.tag.sgml.cdata.html meta.string.html string.unquoted.cdata.html */
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+]]>
+
+
+Conflict in Block Tag Attributes
+--------------------------------
+
+<div
+<<<<<<< HEAD
+/* <- meta.tag.block.any.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.tag.block.any.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.tag.block.any.html meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.tag.block.any.html meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.tag.block.any.html meta.block.conflict.begin.diff - entity - punctuation */
+    attrib="ours"
+=======
+/* <- meta.tag.block.any.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.tag.block.any.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.tag.block.any.html meta.block.conflict.separator.diff - punctuation */
+    attrib="theirs"
+>>>>>>> master
+/* <- meta.tag.block.any.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.tag.block.any.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.tag.block.any.html meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.tag.block.any.html meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.tag.block.any.html meta.block.conflict.end.diff - entity - punctuation */
+>
+/* <- meta.tag.block.any.html punctuation.definition.tag.end.html */
+
+
+Conflict in Inline Tag Attributes
+---------------------------------
+
+<img
+<<<<<<< HEAD
+/* <- meta.tag.inline.any.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.tag.inline.any.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.tag.inline.any.html meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.tag.inline.any.html meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.tag.inline.any.html meta.block.conflict.begin.diff - entity - punctuation */
+    attrib="ours"
+=======
+/* <- meta.tag.inline.any.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.tag.inline.any.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.tag.inline.any.html meta.block.conflict.separator.diff - punctuation */
+    attrib="theirs"
+>>>>>>> master
+/* <- meta.tag.inline.any.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.tag.inline.any.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.tag.inline.any.html meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.tag.inline.any.html meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.tag.inline.any.html meta.block.conflict.end.diff - entity - punctuation */
+/>
+/* <- meta.tag.inline.any.html punctuation.definition.tag.end.html */
+
+
+Conflict in Script Tag Attributes
+---------------------------------
+
+<script
+<<<<<<< HEAD
+/* <- meta.tag.script.begin.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.tag.script.begin.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.tag.script.begin.html meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.tag.script.begin.html meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.tag.script.begin.html meta.block.conflict.begin.diff - entity - punctuation */
+    attrib="ours"
+=======
+/* <- meta.tag.script.begin.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.tag.script.begin.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.tag.script.begin.html meta.block.conflict.separator.diff - punctuation */
+    attrib="theirs"
+>>>>>>> master
+/* <- meta.tag.script.begin.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.tag.script.begin.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.tag.script.begin.html meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.tag.script.begin.html meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.tag.script.begin.html meta.block.conflict.end.diff - entity - punctuation */
+>
+/* <- meta.tag.script.begin.html punctuation.definition.tag.end.html */
+
+/* Conflict in JavaScript */
+
+function func(arg) {
+<<<<<<< HEAD
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+=======
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+
+>>>>>>> master
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+}
+</script>
+
+
+Conflict in Style Tag Attributes
+---------------------------------
+
+<style
+<<<<<<< HEAD
+/* <- meta.tag.style.begin.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.tag.style.begin.html meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.tag.style.begin.html meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.tag.style.begin.html meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.tag.style.begin.html meta.block.conflict.begin.diff - entity - punctuation */
+    lang="css"
+=======
+/* <- meta.tag.style.begin.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.tag.style.begin.html meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.tag.style.begin.html meta.block.conflict.separator.diff - punctuation */
+    lang="scss"
+>>>>>>> master
+/* <- meta.tag.style.begin.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.tag.style.begin.html meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.tag.style.begin.html meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.tag.style.begin.html meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.tag.style.begin.html meta.block.conflict.end.diff - entity - punctuation */
+>
+/* <- meta.tag.style.begin.html punctuation.definition.tag.end.html */
+
+/* Conflict in CSS */
+
+.tr {
+<<<<<<< HEAD
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    color: red;
+/*^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css */
+/*  ^^^^^ meta.property-name.css support.type.property-name.css */
+/*       ^ punctuation.separator.key-value.css */
+/*        ^^^^ meta.property-value.css */
+/*         ^^^ support.constant.color.w3c.standard.css */
+/*            ^ punctuation.terminator.rule.css */
+=======
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    color: blue;
+/*^^^^^^^^^^^^^^ source.css.embedded.html meta.property-list.css meta.block.css */
+/*  ^^^^^ meta.property-name.css support.type.property-name.css */
+/*       ^ punctuation.separator.key-value.css */
+/*        ^^^^^ meta.property-value.css */
+/*         ^^^^ support.constant.color.w3c.standard.css */
+/*             ^ punctuation.terminator.rule.css */
+>>>>>>> master
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+}
+</style>
+
+
+Conflict in Tag Attribute Values
+--------------------------------
+
+<div
+    id="
+<<<<<<< HEAD
+/* <- meta.attribute-with-value.id.html meta.string.html */
+/*^^^^^^^^^^^ meta.attribute-with-value.id.html meta.string.html */
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    our-id
+/*^^^^^^^^^ meta.attribute-with-value.id.html meta.string.html */
+=======
+/*^^^^^^ meta.attribute-with-value.id.html meta.string.html */
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    their-id
+/*^^^^^^^^^^^ meta.attribute-with-value.id.html meta.string.html */
+>>>>>>> master
+/* <- meta.attribute-with-value.id.html meta.string.html */
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.id.html meta.string.html */
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+    "
+/*^^^ meta.attribute-with-value.id.html meta.string.html string.quoted.double.html */
+/*  ^ punctuation.definition.string.end.html */
+
+    class="
+<<<<<<< HEAD
+/* <- meta.attribute-with-value.class.html meta.string.html */
+/*^^^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html */
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    our-class
+/*^^^^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html */
+=======
+/*^^^^^^ meta.attribute-with-value.class.html meta.string.html */
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    their-class
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html */
+>>>>>>> master
+/* <- meta.attribute-with-value.class.html meta.string.html */
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html */
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+    "
+/*^^^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html */
+/*  ^ punctuation.definition.string.end.html */
+
+    string_attribute="
+<<<<<<< HEAD
+/* <- meta.attribute-with-value.html meta.string.html */
+/*^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html */
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    our-string
+/*^^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html string.quoted.double.html */
+=======
+/*^^^^^^ meta.attribute-with-value.html meta.string.html */
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    their-string
+/*^^^^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html string.quoted.double.html */
+>>>>>>> master
+/* <- meta.attribute-with-value.html meta.string.html */
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html */
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+    "
+/*^^^ meta.attribute-with-value.html meta.string.html string.quoted.double.html */
+/*  ^ punctuation.definition.string.end.html */
+
+    onclick="
+<<<<<<< HEAD
+/* <- meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+/*^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    ourclick();
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+=======
+/*^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    theirclick();
+/*^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+>>>>>>> master
+/* <- meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html source.js.embedded.html */
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+    "
+/*^^^ meta.attribute-with-value.event.html meta.string.html */
+/*  ^ punctuation.definition.string.end.html */
+
+    style="
+<<<<<<< HEAD
+/* <- meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/*^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/* <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff */
+/*     ^ meta.block.conflict.begin.diff - entity - punctuation */
+/*      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff */
+/*          ^ meta.block.conflict.begin.diff - entity - punctuation */
+    color: red;
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/*  ^^^^^ meta.property-name.css support.type.property-name.css */
+/*       ^ punctuation.separator.key-value.css */
+/*        ^^^^ meta.property-value.css */
+/*         ^^^ support.constant.color.w3c.standard.css */
+/*            ^ punctuation.terminator.rule.css */
+=======
+/*^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/* <- meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff */
+/*     ^ meta.block.conflict.separator.diff - punctuation */
+    color: blue;
+/*^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/*  ^^^^^ meta.property-name.css support.type.property-name.css */
+/*       ^ punctuation.separator.key-value.css */
+/*        ^^^^^ meta.property-value.css */
+/*         ^^^^ support.constant.color.w3c.standard.css */
+/*             ^ punctuation.terminator.rule.css */
+>>>>>>> master
+/* <- meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/*^^^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html source.css.embedded.html */
+/* <- meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff */
+/*     ^ meta.block.conflict.end.diff - entity - punctuation */
+/*      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff */
+/*            ^ meta.block.conflict.end.diff - entity - punctuation */
+    "
+/*^^^ meta.attribute-with-value.style.html meta.string.html */
+/*^^ source.css.embedded.html */
+/*  ^ string.quoted.double.html punctuation.definition.string.end.html */
+
+>
+/* <- meta.tag.block.any.html punctuation.definition.tag.end.html */
