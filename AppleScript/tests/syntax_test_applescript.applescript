@@ -1,4 +1,5 @@
 # SYNTAX TEST "Packages/AppleScript/AppleScript.sublime-syntax"
+# <- source.applescript
 
     10
 #   ^^ meta.number.integer.decimal.applescript constant.numeric.value.applescript
