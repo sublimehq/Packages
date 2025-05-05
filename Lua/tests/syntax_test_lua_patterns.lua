@@ -58,6 +58,54 @@
 (''):match('%W')
 --          ^^ keyword.control.character-class
 
+(''):match('%f[test]')
+--          ^^ keyword.control.anchor
+
+(''):match('% ')
+--          ^^ constant.character.escape.lua
+
+(''):match('%"')
+--          ^^ constant.character.escape.lua
+
+(''):match("%'")
+--          ^^ constant.character.escape.lua
+
+(''):match('%\x1b')
+--          ^ constant.character.escape.lua
+--           ^^^^ constant.character.escape.hexadecimal.lua
+
+(''):match('%\1234')
+--          ^ constant.character.escape.lua
+--           ^^^^ constant.character.escape.decimal.lua
+--               ^ - constant.character.escape.decimal.lua
+
+(''):match('%\r %\n')
+--          ^^^ constant.character.escape.lua
+--              ^^^ constant.character.escape.lua
+
+(''):match("%\u{2d}")
+--          ^ constant.character.escape.lua
+--           ^^^^^^ constant.character.escape.unicode.lua
+
+-- note: this pattern only repeats the first byte of the UTF-8 character.
+(''):match("%\u{2013}")
+--          ^ constant.character.escape.lua
+--           ^^^^^^^^ constant.character.escape.unicode.lua
+
+-- invalid patterns that we allow because of highlighting concerns
+
+(''):match('%')
+--          ^ constant.character.escape.lua
+--           ^ punctuation.definition.string.end.lua
+
+(''):match("%")
+--          ^ constant.character.escape.lua
+--           ^ punctuation.definition.string.end.lua
+
+(''):match[[%]]
+--          ^ constant.character.escape.lua
+--           ^^ punctuation.definition.string.end.lua
+
 
 --------------------
 -- Quantifiers
