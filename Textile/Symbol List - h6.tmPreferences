@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List - Heading6</string>
+	<key>scope</key>
+	<string><![CDATA[text.html.textile markup.heading.6.textile meta.toc-list.textile]]></string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
+		<key>symbolIndexTransformation</key>
+		<string><![CDATA[
+			s/(?:^\s*|\s*$)//g;
+			s/[[:blank:]]+/ /g;
+		]]></string>
+		<key>showInSymbolList</key>
+		<string>1</string>
+		<key>symbolTransformation</key>
+		<string><![CDATA[
+			s/(?:^\s*|\s*$)//g;
+			s/[[:blank:]]+/ /g;
+			s/^/          /g;
+		]]></string>
+	</dict>
+</dict>
+</plist>

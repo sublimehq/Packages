@@ -1,0 +1,665 @@
+<!-- SYNTAX TEST "Packages/Textile/Textile.sublime-syntax" -->
+<!-- <- text.html.textile -->
+
+
+<!----[ BLOCKS ]-------------------------------------------------------------->
+
+
+<!----[ BLOCKS / HEADINGS ]--------------------------------------------------->
+
+
+h1. Heading One
+<!-- <- markup.heading.1 entity.name.tag                                     -->
+ <!-- <- markup.heading.1 entity.name.tag                                    -->
+  <!-- <- markup.heading.1 entity.name.tag                                   -->
+   <!-- <- markup.heading.1                                                  -->
+<!--^^^^^^^^^^^ markup.heading.1 meta.toc-list                               -->
+<!--           ^ - markup.heading - meta.toc-list                            -->
+
+h2. Heading Two
+<!-- <- markup.heading.2 entity.name.tag                                     -->
+ <!-- <- markup.heading.2 entity.name.tag                                    -->
+  <!-- <- markup.heading.2 entity.name.tag                                   -->
+   <!-- <- markup.heading.2                                                  -->
+<!--^^^^^^^^^^^ markup.heading.2 meta.toc-list                               -->
+<!--           ^ - markup.heading - meta.toc-list                            -->
+
+h3. Heading Three
+<!-- <- markup.heading.3 entity.name.tag                                     -->
+ <!-- <- markup.heading.3 entity.name.tag                                    -->
+  <!-- <- markup.heading.3 entity.name.tag                                   -->
+   <!-- <- markup.heading.3                                                  -->
+<!--^^^^^^^^^^^^^ markup.heading.3 meta.toc-list                             -->
+<!--             ^ - markup.heading - meta.toc-list                          -->
+
+h4. Heading Four
+<!-- <- markup.heading.4 entity.name.tag                                     -->
+ <!-- <- markup.heading.4 entity.name.tag                                    -->
+  <!-- <- markup.heading.4 entity.name.tag                                   -->
+   <!-- <- markup.heading.4                                                  -->
+<!--^^^^^^^^^^^^ markup.heading.4 meta.toc-list                              -->
+<!--            ^ - markup.heading - meta.toc-list                           -->
+
+h5. Heading Five
+<!-- <- markup.heading.5 entity.name.tag                                     -->
+ <!-- <- markup.heading.5 entity.name.tag                                    -->
+  <!-- <- markup.heading.5 entity.name.tag                                   -->
+   <!-- <- markup.heading.5                                                  -->
+<!--^^^^^^^^^^^^ markup.heading.5 meta.toc-list                              -->
+<!--            ^ - markup.heading - meta.toc-list                           -->
+
+h6. Heading Six
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 entity.name.tag                                   -->
+   <!-- <- markup.heading.6                                                  -->
+<!--^^^^^^^^^^^ markup.heading.6 meta.toc-list                               -->
+<!--           ^ - markup.heading - meta.toc-list                            -->
+
+h6<. Heading Six (left-aligned)
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 constant.other.alignment                          -->
+   <!-- <- markup.heading.6 entity.name.tag                                  -->
+<!--^ markup.heading.6                                                       -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.6 meta.toc-list               -->
+<!--                           ^ - markup.heading - meta.toc-list            -->
+
+h6>. Heading Six (right-aligned)
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 constant.other.alignment                          -->
+   <!-- <- markup.heading.6 entity.name.tag                                  -->
+<!--^ markup.heading.6                                                       -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.6 meta.toc-list              -->
+<!--                            ^ - markup.heading - meta.toc-list           -->
+
+h6=. Heading Six (centered)
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 constant.other.alignment                          -->
+   <!-- <- markup.heading.6 entity.name.tag                                  -->
+<!--^ markup.heading.6                                                       -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^ markup.heading.6 meta.toc-list                   -->
+<!--                       ^ - markup.heading - meta.toc-list                -->
+
+h6(). Heading Six (indented 1em both)
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 constant.other.indentation                        -->
+   <!-- <- markup.heading.6 constant.other.indentation                       -->
+<!--^ markup.heading.6 entity.name.tag                                       -->
+<!-- ^ markup.heading.6                                                      -->
+<!--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.6 meta.toc-list         -->
+<!--                                 ^ - markup.heading - meta.toc-list      -->
+
+h6(()). Heading Six (indented 2em both)
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 constant.other.indentation                        -->
+   <!-- <- markup.heading.6 constant.other.indentation                       -->
+<!--^^ markup.heading.6                                                      -->
+<!--  ^ markup.heading.6 entity.name.tag                                     -->
+<!--   ^ markup.heading.6                                                    -->
+<!--    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.6 meta.toc-list       -->
+<!--                                   ^ - markup.heading - meta.toc-list    -->
+
+h6((())). Heading Six (indented 3em both)
+<!-- <- markup.heading.6 entity.name.tag                                     -->
+ <!-- <- markup.heading.6 entity.name.tag                                    -->
+  <!-- <- markup.heading.6 constant.other.indentation                        -->
+   <!-- <- markup.heading.6 constant.other.indentation                       -->
+<!--^^^^ markup.heading.6 constant.other.indentation                         -->
+<!--    ^ markup.heading.6 entity.name.tag                                   -->
+<!--     ^ markup.heading.6                                                  -->
+<!--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.6 meta.toc-list     -->
+<!--                                     ^ - markup.heading - meta.toc-list  -->
+
+
+<!----[ BLOCKS / COMMENTS ]--------------------------------------------------->
+
+
+h2. Blocks
+
+h3. Comments
+
+###.. extended block comment
+
+      extended block comment
+
+      extended block comment
+<!--                       ^ comment.block -->
+
+p. paragraph
+
+###. block comment
+     block comment
+     block comment
+<!--             ^ comment.block -->
+
+p. paragraph
+
+
+<!----[ BLOCKS / BLOCK CODE ]------------------------------------------------->
+
+
+h3. Code Blocks
+
+bc.. extended block code
+
+     extended block code
+
+     extended block code
+<!--                   ^ markup.raw -->
+
+p. paragraph
+
+bc. block code
+    block code
+    block code
+<!--         ^ markup.raw -->
+
+p. paragraph
+
+
+<!----[ BLOCKS / PRE-FORMATTED TEXT ]----------------------------------------->
+
+
+h3. PRE-Formatted Text Blocks
+
+pre.. extended pre-formatted text
+
+      extended pre-formatted text
+
+      extended pre-formatted text
+<!--                            ^ markup.raw -->
+
+p. paragraph
+
+pre. pre-formatted text
+     pre-formatted text
+     pre-formatted text
+<!--                  ^ markup.raw -->
+
+p. paragraph
+
+
+<!----[ BLOCKS / BLOCK QUOTATIONS ]------------------------------------------->
+
+
+h3. Quotation Blocks
+
+bq.. extended block quotation
+<!-- <- markup.quote entity.name.tag                                         -->
+ <!-- <- markup.quote entity.name.tag                                        -->
+  <!-- <- markup.quote entity.name.tag                                       -->
+   <!-- <- markup.quote entity.name.tag                                      -->
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote                                   -->
+
+     extended block quotation
+
+     extended block quotation
+<!--                        ^ markup.quote -->
+
+p. paragraph
+
+bq. block quotation
+<!-- <- markup.quote entity.name.tag                                         -->
+ <!-- <- markup.quote entity.name.tag                                        -->
+  <!-- <- markup.quote entity.name.tag                                       -->
+   <!-- <- markup.quote                                                      -->
+<!--^^^^^^^^^^^^^^^ markup.quote                                             -->
+    block quotation
+    block quotation
+<!--              ^ markup.quote -->
+
+
+p. paragraph
+
+
+<!----[ BLOCKS / NOTEXTILE ]-------------------------------------------------->
+
+
+h3. NOTEXTILE Blocks
+
+notextile.. extended block plain text
+
+            extended block plain text
+
+            extended block plain text
+<!--                                ^ meta.notextile.textile -->
+
+p. paragraph
+
+notextile. block plain text
+           block plain text
+           block plain text
+<!--                      ^ meta.notextile.textile -->
+
+p. paragraph
+
+Test    == html <b>text</b> == Test
+<!--    ^^^^^^^^^^^^^^^^^^^^^^ meta.notextile.textile -->
+<!--    ^^ punctuation.definition.notextile.begin -->
+<!--            ^^^ meta.tag.inline -->
+<!--                   ^^^^ meta.tag.inline -->
+<!--                        ^^ punctuation.definition.notextile.end -->
+
+Test
+
+Test    <notextile>html <b>text</b></notextile> Test
+<!--    ^^^^^^^^^^^ meta.tag.notextile.begin.html -->
+<!--    ^ punctuation.definition.tag.begin.html -->
+<!--              ^ punctuation.definition.tag.end.html -->
+<!--               ^^^^^^^^^^^^^^^^ meta.notextile.textile -->
+<!--                    ^^^ meta.tag.inline -->
+<!--                           ^^^^ meta.tag.inline -->
+<!--                               ^^^^^^^^^^^^ meta.tag.notextile.end.html -->
+<!--                               ^^ punctuation.definition.tag.begin.html -->
+<!--                                          ^ punctuation.definition.tag.end.html -->
+
+p. paragraph
+
+
+<!----[ BLOCKS / PARAGRAPHS ]------------------------------------------------->
+
+
+h3. Paragraph Blocks
+
+p.. extended block paragraph
+
+    extended block paragraph
+
+    extended block paragraph
+<!--                       ^ meta.paragraph -->
+
+p. block paragraph
+   block paragraph
+   block paragraph
+<!--             ^ meta.paragraph -->
+
+simple paragraph
+<!--           ^ meta.paragraph -->
+
+p. paragraph
+
+
+<!----[ TABLES ]-------------------------------------------------------------->
+
+
+h2. Tables
+
+table
+
+p. paragraph
+
+
+<!----[ LISTS ]--------------------------------------------------------------->
+
+
+h2. Lists
+
+* unnumbered
+<!-- <- markup.list.unnumbered.bullet                                        -->
+ <!-- <- markup.list.unnumbered                                              -->
+  <!-- <- markup.list.unnumbered - markup.list markup.list                   -->
+   <!-- <- markup.list.unnumbered                                            -->
+<!--^^^^^^^^ markup.list.unnumbered                                          -->
+  unnumbered
+  unnumbered
+<!--       ^ markup.list.unnumbered                                          -->
+
+# numbered
+<!-- <- markup.list.numbered.bullet                                          -->
+ <!-- <- markup.list.numbered                                                -->
+  <!-- <- markup.list.numbered - markup.list markup.list                     -->
+   <!-- <- markup.list.numbered                                              -->
+<!--^^^^^^ markup.list.numbered                                              -->
+  numbered
+  numbered
+<!--       ^ markup.list.numbered                                            -->
+
+- TERM := definition
+<!-- <- markup.list.definition.bullet                                        -->
+ <!-- <- markup.list.definition                                              -->
+  <!-- <- markup.list.definition meta.definition.term - markup.list markup.list -->
+   <!-- <- markup.list.definition meta.definition.term                       -->
+<!--^^^^^^^^^^^^^^^^^ markup.list.definition                                 -->
+<!--^^ markup.list.definition meta.definition.term                           -->
+<!--   ^^ punctuation.separator.key-value                                    -->
+<!--      ^^^^^^^^^^ markup.list.definition meta.definition.definition       -->
+  definition
+  definition =: definition
+<!--       ^ markup.list.definition meta.definition.definition               -->
+<!--         ^^ markup.list.definition punctuation.definition.definition.end -->
+<!--           ^^^^^^^^^^^ markup.list.definition invalid.illegal.expected-eol -->
+
+p. paragraph
+
+
+<!----[ INLINE ]-------------------------------------------------------------->
+
+
+h2. Inline Tests
+
+h3. Inline Markup
+
+Test    **Bold** Test *Strong* Test                                         Test
+<!--   ^ - markup.bold                                                       -->
+<!--    ^^^^^^^^ markup.bold                                                 -->
+<!--    ^^ punctuation.definition.markup.begin                               -->
+<!--          ^^ punctuation.definition.markup.end                           -->
+<!--            ^^^^^^ - markup.bold                                         -->
+<!--                  ^^^^^^^^ markup.bold.strong                            -->
+<!--                  ^ punctuation.definition.markup.begin                  -->
+<!--                         ^ punctuation.definition.markup.end             -->
+<!--                          ^ - markup.bold                                -->
+
+Test    __Italic__ Test _Emphasized_ Test                                   Test
+<!--   ^ - markup.italic                                                     -->
+<!--    ^^^^^^^^^^ markup.italic                                             -->
+<!--    ^^ punctuation.definition.markup.begin                               -->
+<!--            ^^ punctuation.definition.markup.end                         -->
+<!--              ^^^^^^ - markup.italic                                     -->
+<!--                    ^^^^^^^^^^^^ markup.italic.emphasized                -->
+<!--                    ^ punctuation.definition.markup.begin                -->
+<!--                               ^ punctuation.definition.markup.end       -->
+<!--                                ^ - markup.italic                        -->
+
+Test    ^Superscript^ Test[^Superscript^]Test                               Test
+<!--   ^ - markup.superscript                                                -->
+<!--    ^^^^^^^^^^^^^ markup.superscript                                     -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--                ^ punctuation.definition.markup.end                      -->
+<!--                 ^^^^^ - markup.superscript                              -->
+<!--                      ^^^^^^^^^^^^^^^ markup.superscript.subword         -->
+<!--                      ^^ punctuation.definition.markup.begin             -->
+<!--                                   ^^ punctuation.definition.markup.end  -->
+<!--                                     ^^^^ - markup.superscript           -->
+
+Test    ~Subscript~ Test[~Subscript~]Test                                   Test
+<!--   ^ - markup.subscript                                                  -->
+<!--    ^^^^^^^^^^^ markup.subscript                                         -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--              ^ punctuation.definition.markup.end                        -->
+<!--               ^^^^^ - markup.subscript                                  -->
+<!--                    ^^^^^^^^^^^^^ markup.subscript.subword               -->
+<!--                    ^^ punctuation.definition.markup.begin               -->
+<!--                               ^^ punctuation.definition.markup.end      -->
+<!--                                 ^^^^ - markup.subscript                 -->
+
+Test    ??Citation??                                                        Test
+<!--   ^ - markup.citation                                                   -->
+<!--    ^^^^^^^^^^^^ markup.citation                                         -->
+<!--    ^^ punctuation.definition.markup.begin                               -->
+<!--              ^^ punctuation.definition.markup.end                       -->
+<!--                ^ - markup.citation                                      -->
+
+Test    %span%                                                              Test
+<!--   ^ - markup.span                                                       -->
+<!--    ^^^^^^ markup.span                                                   -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--         ^ punctuation.definition.markup.end                             -->
+<!--          ^ - markup.span                                                -->
+
+Test    +Insertion+ Test -Deletion- Test                                    Test
+<!--   ^ - markup                                                            -->
+<!--    ^^^^^^^^^^^ markup.inserted                                          -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--              ^ punctuation.definition.markup.end                        -->
+<!--               ^^^^^^ - markup                                           -->
+<!--                     ^^^^^^^^^^ markup.deleted                           -->
+<!--                     ^ punctuation.definition.markup.begin               -->
+<!--                              ^ punctuation.definition.markup.end        -->
+<!--                               ^^^^^ - markup                            -->
+
+Test    Test[+Insertion+][-Deletion-]Test                                   Test
+<!--    ^^^^ - markup                                                        -->
+<!--        ^^^^^^^^^^^^^ markup.inserted                                    -->
+<!--        ^ punctuation.definition.markup.begin                            -->
+<!--                   ^^ punctuation.definition.markup.end                  -->
+<!--                     ^^^^^^^^^^^^ markup.deleted                         -->
+<!--                     ^^ punctuation.definition.markup.begin              -->
+<!--                               ^^ punctuation.definition.markup.end      -->
+<!--                                 ^^^^ - markup                           -->
+
+Test    Test[-Deletion-][+Insertion+]Test                                   Test
+<!--    ^^^^ - markup                                                        -->
+<!--        ^^^^^^^^^^^^ markup.deleted                                      -->
+<!--        ^^ punctuation.definition.markup.begin                           -->
+<!--                  ^^ punctuation.definition.markup.end                   -->
+<!--                    ^^^^^^^^^^^^^ markup.inserted                        -->
+<!--                    ^ punctuation.definition.markup.begin                -->
+<!--                               ^^ punctuation.definition.markup.end      -->
+<!--                                 ^^^^ - markup                           -->
+
+Test    @Code@ Test <code>code</code>                                       Test
+<!--   ^ - markup.raw                                                        -->
+<!--    ^^^^^^ markup.raw.inline                                             -->
+<!--    ^ punctuation.definition.markup.begin                                -->
+<!--         ^ punctuation.definition.markup.end                             -->
+<!--          ^^^^^^ - markup.raw                                            -->
+<!--                ^^^^^^ meta.tag.inline.any                               -->
+<!--                ^ punctuation.definition.tag.begin                       -->
+<!--                     ^ punctuation.definition.tag.end                    -->
+<!--                          ^^^^^^^ meta.tag.inline.any                    -->
+<!--                          ^^ punctuation.definition.tag.begin            -->
+<!--                                ^ punctuation.definition.tag.end         -->
+
+Test    (tm) (R) (C) (1/4) (1/2) (3/4) (o) (+/-)                            Test
+<!--    ^^^^ constant.character                                              -->
+<!--         ^^^ constant.character                                          -->
+<!--             ^^^ constant.character                                      -->
+<!--                 ^^^^^ constant.character                                -->
+<!--                       ^^^^^ constant.character                          -->
+<!--                             ^^^^^ constant.character                    -->
+<!--                                   ^^^ constant.character                -->
+<!--                                       ^^^^^ constant.character          -->
+
+Test    Test & Test 0 x 0 Test ... Test -- Test - Test                      Test
+<!--         ^ markup.raw.inline.ampersand                                   -->
+<!--                  ^ markup.raw.inline.dimension-sign                     -->
+<!--                           ^^^ markup.raw.inline.ellipsis                -->
+<!--                                    ^^ markup.raw.inline.long-dash       -->
+<!--                                            ^ markup.raw.inline.unicode-dash -->
+
+Test    Test ABC(Aaa Bbb Ccc) Test                                          Test
+<!--         ^^^^^^^^^^^^^^^^ meta.abbreviation                              -->
+<!--         ^^^ meta.abbreviation meta.abbreviation.abbreviation            -->
+<!--            ^ meta.abbreviation punctuation.section.parens.begin         -->
+<!--             ^^^^^^^^^^^ meta.abbreviation meta.abbreviation.description -->
+<!--                        ^ meta.abbreviation punctuation.section.parens.end -->
+
+p. paragraph
+
+
+<!----[ INLINE / STRINGS ]---------------------------------------------------->
+
+
+h3. Inline Strings
+
+Test      "test ' \" \/ \\ \b \f \n \r \t \uFFFF \x"                        Test
+<!--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double -->
+<!--            ^ - constant.character.escape                                -->
+<!--              ^^ constant.character.escape                               -->
+<!--                 ^^ constant.character.escape                            -->
+<!--                    ^^ constant.character.escape                         -->
+<!--                       ^^ constant.character.escape                      -->
+<!--                          ^^ constant.character.escape                   -->
+<!--                             ^^ constant.character.escape                -->
+<!--                                ^^ constant.character.escape             -->
+<!--                                   ^^ constant.character.escape          -->
+<!--                                      ^^^^^^ constant.character.escape.unicode.16bit.textile -->
+<!--                                             ^^ invalid.illegal.unrecognized-string-escape -->
+<!--                                                ^ - meta.string - string.quoted.double -->
+
+Test      "Invalid string end
+<!--      ^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double              -->
+<!--                         ^ invalid.illegal.newline                       -->
+
+<!-- <- - meta.string - string.quoted.double -->
+
+Test      'test " \' \/ \\ \b \f \n \r \t \uFFFF \x'                        Test
+<!--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single -->
+<!--            ^ - constant.character.escape                                -->
+<!--              ^^ constant.character.escape                               -->
+<!--                 ^^ constant.character.escape                            -->
+<!--                    ^^ constant.character.escape                         -->
+<!--                       ^^ constant.character.escape                      -->
+<!--                          ^^ constant.character.escape                   -->
+<!--                             ^^ constant.character.escape                -->
+<!--                                ^^ constant.character.escape             -->
+<!--                                   ^^ constant.character.escape          -->
+<!--                                      ^^^^^^ constant.character.escape.unicode.16bit.textile -->
+<!--                                             ^^ invalid.illegal.unrecognized-string-escape -->
+<!--                                                ^ - meta.string - string.quoted.single -->
+
+Test      'Invalid string end
+<!--      ^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single              -->
+<!--                         ^ invalid.illegal.newline                       -->
+
+<!-- <- - meta.string - string.quoted.single -->
+
+p. paragraph
+
+
+<!----[ HTML ]---------------------------------------------------------------->
+
+
+h2. HTML
+
+p. &#2665; &#2665; &#2665;
+<!--       ^^^^^^^ constant.character.entity.decimal.html -->
+<!--       ^^ constant.character.entity.decimal.html punctuation.definition.entity.html -->
+<!--             ^ constant.character.entity.decimal.html punctuation.terminator.entity.html -->
+
+p. "entity &#2665; in textile string"
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.textile string.quoted.double.textile -->
+<!--       ^^^^^^^ constant.character.entity.decimal.html -->
+<!--       ^^ constant.character.entity.decimal.html punctuation.definition.entity.html -->
+<!--             ^ constant.character.entity.decimal.html punctuation.terminator.entity.html -->
+
+p. 'entity &#2665; in textile string'
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.textile string.quoted.single.textile -->
+<!--       ^^^^^^^ constant.character.entity.decimal.html -->
+<!--       ^^ constant.character.entity.decimal.html punctuation.definition.entity.html -->
+<!--             ^ constant.character.entity.decimal.html punctuation.terminator.entity.html -->
+
+
+<!----[ NOTES ]--------------------------------------------------------------->
+
+
+note#test!. test
+<!-- <- meta.annotation.auto-numbered-note.no-backlinks keyword.other.note   -->
+ <!-- <- meta.annotation.auto-numbered-note.no-backlinks keyword.other.note  -->
+  <!-- <- meta.annotation.auto-numbered-note.no-backlinks keyword.other.note -->
+   <!-- <- meta.annotation.auto-numbered-note.no-backlinks keyword.other.note -->
+<!--^^^^^^^^ meta.annotation.auto-numbered-note.no-backlinks                 -->
+<!-- ^^^^ variable.annotation                                                -->
+<!--     ^^ constant.other                                                   -->
+
+note#test^. test
+<!-- <- meta.annotation.auto-numbered-note.only-first-backlink keyword.other.note -->
+ <!-- <- meta.annotation.auto-numbered-note.only-first-backlink keyword.other.note -->
+  <!-- <- meta.annotation.auto-numbered-note.only-first-backlink keyword.other.note -->
+   <!-- <- meta.annotation.auto-numbered-note.only-first-backlink keyword.other.note -->
+<!--^^^^^^^^ meta.annotation.auto-numbered-note.only-first-backlink          -->
+<!-- ^^^^ variable.annotation                                                -->
+<!--     ^^ constant.other                                                   -->
+
+note#test*. test
+<!-- <- meta.annotation.auto-numbered-note.all-backlinks keyword.other.note  -->
+ <!-- <- meta.annotation.auto-numbered-note.all-backlinks keyword.other.note -->
+  <!-- <- meta.annotation.auto-numbered-note.all-backlinks keyword.other.note -->
+   <!-- <- meta.annotation.auto-numbered-note.all-backlinks keyword.other.note -->
+<!--^^^^^^^^ meta.annotation.auto-numbered-note.all-backlinks                -->
+<!-- ^^^^ variable.annotation                                                -->
+<!--     ^^ constant.other                                                   -->
+
+note#test. test
+<!-- <- meta.annotation.auto-numbered-note keyword.other.note                -->
+ <!-- <- meta.annotation.auto-numbered-note keyword.other.note               -->
+  <!-- <- meta.annotation.auto-numbered-note keyword.other.note              -->
+   <!-- <- meta.annotation.auto-numbered-note keyword.other.note             -->
+<!--^^^^^^^ meta.annotation.auto-numbered-note                               -->
+<!-- ^^^^ variable.annotation                                                -->
+<!--     ^ constant.other                                                    -->
+
+notelist!+.
+<!-- <- meta.notelist.no-backlinks.including-unreferenced-notes keyword.other.notelist -->
+ <!-- <- meta.notelist.no-backlinks.including-unreferenced-notes keyword.other.notelist-->
+  <!-- <- meta.notelist.no-backlinks.including-unreferenced-notes keyword.other.notelist -->
+   <!-- <- meta.notelist.no-backlinks.including-unreferenced-notes keyword.other.notelist-->
+<!--^^^^^^^ meta.notelist.no-backlinks.including-unreferenced-notes          -->
+<!--^^^^ meta.notelist.no-backlinks.including-unreferenced-notes keyword.other.notelist -->
+<!--    ^^^ constant.other                                                   -->
+
+notelist!.
+<!-- <- meta.notelist.no-backlinks keyword.other.notelist                    -->
+ <!-- <- meta.notelist.no-backlinks keyword.other.notelist                   -->
+  <!-- <- meta.notelist.no-backlinks keyword.other.notelist                  -->
+   <!-- <- meta.notelist.no-backlinks keyword.other.notelist                 -->
+<!--^^^^^^ meta.notelist.no-backlinks                                        -->
+<!--^^^^ meta.notelist.no-backlinks keyword.other.notelist                   -->
+<!--    ^^ constant.other                                                    -->
+
+notelist^+.
+<!-- <- meta.notelist.backlinks-to-first-citation.including-unreferenced-notes keyword.other.notelist -->
+ <!-- <- meta.notelist.backlinks-to-first-citation.including-unreferenced-notes keyword.other.notelist -->
+  <!-- <- meta.notelist.backlinks-to-first-citation.including-unreferenced-notes keyword.other.notelist -->
+   <!-- <- meta.notelist.backlinks-to-first-citation.including-unreferenced-notes keyword.other.notelist -->
+<!--^^^^^^^ meta.notelist.backlinks-to-first-citation.including-unreferenced-notes -->
+<!--^^^^ meta.notelist.backlinks-to-first-citation.including-unreferenced-notes keyword.other.notelist -->
+<!--    ^^^ constant.other                                                   -->
+
+notelist^.
+<!-- <- meta.notelist.backlinks-to-first-citation keyword.other.notelist     -->
+ <!-- <- meta.notelist.backlinks-to-first-citation keyword.other.notelist    -->
+  <!-- <- meta.notelist.backlinks-to-first-citation keyword.other.notelist   -->
+   <!-- <- meta.notelist.backlinks-to-first-citation keyword.other.notelist  -->
+<!--^^^^^^ meta.notelist.backlinks-to-first-citation                         -->
+<!--^^^^ meta.notelist.backlinks-to-first-citation keyword.other.notelist    -->
+<!--    ^^ constant.other                                                    -->
+
+notelist+.
+<!-- <- meta.notelist.backlinks-to-every-citation.including-unreferenced-notes keyword.other.notelist -->
+ <!-- <- meta.notelist.backlinks-to-every-citation.including-unreferenced-notes keyword.other.notelist -->
+  <!-- <- meta.notelist.backlinks-to-every-citation.including-unreferenced-notes keyword.other.notelist -->
+   <!-- <- meta.notelist.backlinks-to-every-citation.including-unreferenced-notes keyword.other.notelist -->
+<!--^^^^^^ meta.notelist.backlinks-to-every-citation.including-unreferenced-notes -->
+<!--^^^^ meta.notelist.backlinks-to-every-citation.including-unreferenced-notes keyword.other.notelist -->
+<!--    ^^ constant.other                                                    -->
+
+notelist.
+<!-- <- meta.notelist.backlinks-to-every-citation keyword.other.notelist     -->
+ <!-- <- meta.notelist.backlinks-to-every-citation keyword.other.notelist    -->
+  <!-- <- meta.notelist.backlinks-to-every-citation keyword.other.notelist   -->
+   <!-- <- meta.notelist.backlinks-to-every-citation keyword.other.notelist  -->
+<!--^^^^^ meta.notelist.backlinks-to-every-citation                          -->
+<!--^^^^ meta.notelist.backlinks-to-every-citation keyword.other.notelist    -->
+<!--    ^ constant.other                                                     -->
+
+
+<!----[ FOOTNOTES ]----------------------------------------------------------->
+
+
+h2. Footnotes
+
+h3. Footnote References
+
+This paragraph contains a reference[1].
+<!--                               ^^^ meta.link.reference.footnote -->
+<!--                               ^ meta.link.reference.footnote punctuation.definition.link.begin -->
+<!--                                ^  meta.link.reference.footnote meta.link.reference.literal.footnote-id -->
+<!--                                 ^ meta.link.reference.footnote punctuation.definition.link.end -->
+
+h3. Footnote Lists
+
+fn1. This is the footnote
+<!-- <- markup.other.footnote entity.name.tag                                -->
+ <!-- <- markup.other.footnote entity.name.tag                               -->
+  <!-- <- markup.other.footnote entity.name.tag                              -->
+   <!-- <- markup.other.footnote entity.name.tag                             -->
+<!--^^^^^^^^^^^^^^^^^^^^^ markup.other.footnote                              -->
+
+p. paragraph

@@ -1,0 +1,62 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        {
+            "trigger": "trademark",
+            "contents": "(tm)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "™"
+        },
+        {
+            "trigger": "registered",
+            "contents": "(R)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "®"
+        },
+        {
+            "trigger": "copyright",
+            "contents": "(C)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "©"
+        },
+        {
+            "trigger": "degree",
+            "contents": "(o)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "°"
+        },
+        {
+            "trigger": "plusminus",
+            "contents": "(+/-)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "±"
+        },
+        {
+            "trigger": "quarter",
+            "contents": "(1/4)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "¼"
+        },
+        {
+            "trigger": "half",
+            "contents": "(1/2)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "½"
+        },
+        {
+            "trigger": "threequarters",
+            "contents": "(3/4)",
+            "annotation": "Unicode symbol",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "¾"
+        }
+    ]
+}

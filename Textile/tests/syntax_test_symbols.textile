@@ -1,0 +1,102 @@
+###. SYNTAX TEST "Packages/Textile/Textile.sublime-syntax"
+###. <- text.html.textile
+
+<!--
+    Test assertion lines here might not appear to be coomments.
+    That's fine.
+-->
+
+h1. H1 Header
+###.@@@@@@@@@ definition "H1 Header"
+
+h2. H2 Header
+###.@@@@@@@@@ local-definition "  H2 Header"
+###.@@@@@@@@@ global-definition
+
+h3. H3 Header
+###.@@@@@@@@@ local-definition "    H3 Header"
+###.@@@@@@@@@ global-definition
+
+h4. H4 Header
+###.@@@@@@@@@ local-definition "      H4 Header"
+###.@@@@@@@@@ global-definition
+
+h5. H5 Header
+###.@@@@@@@@@ local-definition "        H5 Header"
+###.@@@@@@@@@ global-definition
+
+h6. H6 Header
+###.@@@@@@@@@ local-definition "          H6 Header"
+###.@@@@@@@@@ global-definition
+
+h6. H6 Header    with multiple spaces
+###.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ local-definition "          H6 Header with multiple spaces"
+###.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ global-definition "H6 Header with multiple spaces"
+
+h6). H6 Header
+###. @@@@@@@@@ local-definition "          H6 Header"
+###. @@@@@@@@@ global-definition
+
+h6)). H6 Header
+###.  @@@@@@@@@ local-definition "          H6 Header"
+###.  @@@@@@@@@ global-definition
+
+h6))). H6 Header
+###.   @@@@@@@@@ local-definition "          H6 Header"
+###.   @@@@@@@@@ global-definition
+
+h6)>. H6 Header
+###.  @@@@@@@@@ local-definition "          H6 Header"
+###.  @@@@@@@@@ global-definition
+
+h6))>. H6 Header
+###.   @@@@@@@@@ local-definition "          H6 Header"
+###.   @@@@@@@@@ global-definition
+
+h6)))>. H6 Header
+###.    @@@@@@@@@ local-definition "          H6 Header"
+###.    @@@@@@@@@ global-definition
+
+h6=. H6 Header
+###. @@@@@@@@@ local-definition "          H6 Header"
+###. @@@@@@@@@ global-definition
+
+h6<>. H6 Header
+###.  @@@@@@@@@ local-definition "          H6 Header"
+###.  @@@@@@@@@ global-definition
+
+h6(. H6 Header
+###. @@@@@@@@@ local-definition "          H6 Header"
+###. @@@@@@@@@ global-definition
+
+h6((. H6 Header
+###.  @@@@@@@@@ local-definition "          H6 Header"
+###.  @@@@@@@@@ global-definition
+
+h6(((. H6 Header
+###.   @@@@@@@@@ local-definition "          H6 Header"
+###.   @@@@@@@@@ global-definition
+
+h6(<. H6 Header
+###.  @@@@@@@@@ local-definition "          H6 Header"
+###.  @@@@@@@@@ global-definition
+
+h6((<. H6 Header
+###.   @@@@@@@@@ local-definition "          H6 Header"
+###.   @@@@@@@@@ global-definition
+
+h6(((<. H6 Header
+###.    @@@@@@@@@ local-definition "          H6 Header"
+###.    @@@@@@@@@ global-definition
+
+h6(). H6 Header
+###.  @@@@@@@@@ local-definition "          H6 Header"
+###.  @@@@@@@@@ global-definition
+
+h6(()). H6 Header
+###.    @@@@@@@@@ local-definition "          H6 Header"
+###.    @@@@@@@@@ global-definition
+
+h6((())). H6 Header
+###.      @@@@@@@@@ local-definition "          H6 Header"
+###.      @@@@@@@@@ global-definition

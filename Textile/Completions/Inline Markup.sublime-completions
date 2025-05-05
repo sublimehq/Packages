@@ -1,0 +1,111 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        {
+            "trigger": "comment",
+            "contents": "<!-- ${1:comment} -->",
+            "annotation": "HTML Comment",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "notextile",
+            "contents": "<notextile>${1:no-format text}</notextile>",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "no formatting"
+        },
+        {
+            "trigger": "notextile",
+            "contents": "== ${1:no-format text} ==",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "no formatting"
+        },
+        {
+            "trigger": "bold",
+            "contents": "**${1:text}**",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "bold"
+        },
+        {
+            "trigger": "strong",
+            "contents": "*${1:text}*",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "strong"
+        },
+        {
+            "trigger": "italic",
+            "contents": "__${1:text}__",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "italic"
+        },
+        {
+            "trigger": "emphasized",
+            "contents": "_${1:text}_",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "emphasized"
+        },
+        {
+            "trigger": "superscript",
+            "contents": "[^${1:text}^]",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "superscript"
+        },
+        {
+            "trigger": "subscript",
+            "contents": "[~${1:text}~]",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "subscript"
+        },
+        {
+            "trigger": "insertion",
+            "contents": "[+${1:text}+]",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "insertion"
+        },
+        {
+            "trigger": "deletion",
+            "contents": "[-${1:text}-]",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "deletion"
+        },
+        {
+            "trigger": "change",
+            "contents": "[-${1:deletion}-][+${2:insertion}+]",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "change"
+        },
+        {
+            "trigger": "citation",
+            "contents": "??${1:text}??",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "citation"
+        },
+        {
+            "trigger": "code",
+            "contents": "@${1:code}@",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "code"
+        },
+        {
+            "trigger": "span",
+            "contents": "%${1:text}%",
+            "annotation": "inline",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": "span"
+        }
+    ]
+}

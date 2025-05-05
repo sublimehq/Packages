@@ -1,0 +1,359 @@
+<!-- SYNTAX TEST "Packages/Textile/Textile.sublime-syntax" -->
+<!-- <- text.html.textile -->
+
+
+<!--              MERGE CONFLICT HEADERS                                     -->
+
+
+<!--
+ Conflicts in top-level content
+ -->
+
+<<<<<<< HEAD
+<!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+ <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+  <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+   <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--   ^ meta.block.conflict.begin.diff - entity - punctuation -->
+<!--    ^^^^ meta.block.conflict.begin.diff entity.name.section.diff -->
+<!--        ^ meta.block.conflict.begin.diff - entity - punctuation -->
+
+=======
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+
+======= branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+
+|||||||
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+
+||||||| branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+
+>>>>>>> master
+<!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+ <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+  <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+   <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--   ^ meta.block.conflict.end.diff - entity - punctuation -->
+<!--    ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff -->
+<!--          ^ meta.block.conflict.end.diff - entity - punctuation -->
+
+<!--
+ Conflicts in notextile tags
+ -->
+
+<notextile>
+<<<<<<< HEAD
+<!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+ <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+  <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+   <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--   ^ meta.block.conflict.begin.diff - entity - punctuation -->
+<!--    ^^^^ meta.block.conflict.begin.diff entity.name.section.diff -->
+<!--        ^ meta.block.conflict.begin.diff - entity - punctuation -->
+    ours
+=======
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+    theirs
+======= branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+    theirs
+|||||||
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+    base
+||||||| branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+    base
+>>>>>>> master
+<!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+ <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+  <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+   <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--   ^ meta.block.conflict.end.diff - entity - punctuation -->
+<!--    ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff -->
+<!--          ^ meta.block.conflict.end.diff - entity - punctuation -->
+    after
+</notextile>
+
+<!--
+ Conflicts in notextile blocks
+ -->
+
+notextile. before
+<<<<<<< HEAD
+<!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+ <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+  <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+   <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--   ^ meta.block.conflict.begin.diff - entity - punctuation -->
+<!--    ^^^^ meta.block.conflict.begin.diff entity.name.section.diff -->
+<!--        ^ meta.block.conflict.begin.diff - entity - punctuation -->
+    ours
+=======
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+    theirs
+======= branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+    theirs
+|||||||
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+    base
+||||||| branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+    base
+>>>>>>> master
+<!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+ <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+  <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+   <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--   ^ meta.block.conflict.end.diff - entity - punctuation -->
+<!--    ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff -->
+<!--          ^ meta.block.conflict.end.diff - entity - punctuation -->
+    after
+
+<!--
+ Conflicts in ordered lists
+ -->
+
+# orderd list item
+<<<<<<< HEAD
+<!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+ <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+  <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+   <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--   ^ meta.block.conflict.begin.diff - entity - punctuation -->
+<!--    ^^^^ meta.block.conflict.begin.diff entity.name.section.diff -->
+<!--        ^ meta.block.conflict.begin.diff - entity - punctuation -->
+# orderd list item
+=======
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+# orderd list item
+======= branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+# orderd list item
+|||||||
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+# orderd list item
+||||||| branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+# orderd list item
+>>>>>>> master
+<!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+ <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+  <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+   <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--   ^ meta.block.conflict.end.diff - entity - punctuation -->
+<!--    ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff -->
+<!--          ^ meta.block.conflict.end.diff - entity - punctuation -->
+# orderd list item
+
+<!--
+ Conflicts in unordered lists
+ -->
+
+* unorderd list item
+<<<<<<< HEAD
+<!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+ <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+  <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+   <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--   ^ meta.block.conflict.begin.diff - entity - punctuation -->
+<!--    ^^^^ meta.block.conflict.begin.diff entity.name.section.diff -->
+<!--        ^ meta.block.conflict.begin.diff - entity - punctuation -->
+* unorderd list item
+=======
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+* unorderd list item
+======= branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+* unorderd list item
+|||||||
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+* unorderd list item
+||||||| branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+* unorderd list item
+>>>>>>> master
+<!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+ <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+  <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+   <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--   ^ meta.block.conflict.end.diff - entity - punctuation -->
+<!--    ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff -->
+<!--          ^ meta.block.conflict.end.diff - entity - punctuation -->
+* unorderd list item
+
+<!--
+ Conflicts in list definitions
+ -->
+
+- TERM := definition
+
+<<<<<<< HEAD
+<!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+ <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+  <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+   <!-- <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff -->
+<!--   ^ meta.block.conflict.begin.diff - entity - punctuation -->
+<!--    ^^^^ meta.block.conflict.begin.diff entity.name.section.diff -->
+<!--        ^ meta.block.conflict.begin.diff - entity - punctuation -->
+- TERM := definition
+
+=======
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+- TERM := definition
+
+======= branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+- TERM := definition
+
+|||||||
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^ meta.block.conflict.separator.diff - punctuation -->
+- TERM := definition
+
+||||||| branchname
+<!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+ <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+  <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+   <!-- <- meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--^^^ meta.block.conflict.separator.diff punctuation.section.block.diff -->
+<!--   ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation -->
+- TERM := definition
+
+>>>>>>> master
+<!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+ <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+  <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+   <!-- <- meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff -->
+<!--   ^ meta.block.conflict.end.diff - entity - punctuation -->
+<!--    ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff -->
+<!--          ^ meta.block.conflict.end.diff - entity - punctuation -->
+- TERM := definition
