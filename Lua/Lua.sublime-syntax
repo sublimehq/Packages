@@ -9,8 +9,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* {{first_line_language}}                                            # shebang
-  | {{leading_wspace}} -- .*? -\*- .*? {{first_line_language}} .*? -\*-         # editorconfig
+    ^ \#! .* {{shebang_language}}                                            # shebang
+  | {{leading_wspace}} -- .*? -\*- .*? {{shebang_language}} .*? -\*-         # editorconfig
   )
 
 ###[ CONTEXTS ]################################################################
@@ -130,7 +130,7 @@ contexts:
   shebang-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.shebang.lua
-    - match: '{{first_line_language}}'
+    - match: '{{shebang_language}}'
       scope: constant.language.shebang.lua
     - include: eol-pop
 
@@ -1495,7 +1495,7 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
 variables:
-  first_line_language: (?:\blua\b)
+  shebang_language: (?:\blua\b)
   leading_wspace: (?:^\s*)
   reserved_word: |-
     (?x:(?:
