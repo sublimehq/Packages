@@ -889,7 +889,7 @@ contexts:
       scope: keyword.control.character-class.lua
     - match: \%f
       scope: keyword.control.anchor.lua
-    - match: \%[\$\^]
+    - match: \%[\$\^()%.\[\]+\-?]
       scope: constant.character.escape.lua
 
     - match: (\%)(\d)
@@ -953,14 +953,18 @@ contexts:
       push:
         - pattern-quoted-balanced-char
         - pattern-quoted-balanced-char
+    - match: \%[^'"\\]
+      scope: constant.character.escape.lua
+
+    # this one is split so that it works with quoted strings
     - match: \%
       scope: constant.character.escape.lua
       push:
         - meta_include_prototype: false
-        - include: string-escape-pop
-        - match: .
+        - match: '[''"]'
           scope: constant.character.escape.lua
           pop: 1
+        - include: else-pop
 
   pattern-quoted-balanced-char:
     - meta_include_prototype: false
@@ -1030,24 +1034,10 @@ contexts:
   pattern-unquoted-charclass:
     - meta_include_prototype: false
     - include: pattern-shared-charclass
-    - match: \%b
+    - match: \%b.?.?
       scope: keyword.control.balanced.lua
-      push:
-        - pattern-unquoted-balanced-char
-        - pattern-unquoted-balanced-char
-    - match: \%
+    - match: \%.?
       scope: constant.character.escape.lua
-      push:
-        - meta_include_prototype: false
-        - match: .
-          scope: constant.character.escape.lua
-          pop: 1
-
-  pattern-unquoted-balanced-char:
-    - meta_include_prototype: false
-    - match: .
-      scope: keyword.control.balanced.lua
-      pop: 1
 
   pattern-unquoted-nested:
     - meta_include_prototype: false
