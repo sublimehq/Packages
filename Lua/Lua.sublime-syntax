@@ -889,8 +889,6 @@ contexts:
       scope: keyword.control.character-class.lua
     - match: \%f
       scope: keyword.control.anchor.lua
-    - match: \%[\$\^()%.\[\]+\-?]
-      scope: constant.character.escape.lua
 
     - match: (\%)(\d)
       captures:
