@@ -36,7 +36,8 @@ contexts:
       captures:
         1: punctuation.definition.comment.begin.applescript
       set: shebang-body
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if syntax is embedded.
+    # NOTE: Ensure to highlight shebang if syntax is embedded.
+    - match: ^|(?=\S)
       pop: 1
 
   shebang-body:
@@ -50,13 +51,16 @@ contexts:
 
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW8
   comments:
+    - include: line-comments
+    - include: block-comments
+
+  line-comments:
     - match: '#'
       scope: punctuation.definition.comment.begin.applescript
       push:
         - meta_include_prototype: false
         - meta_scope: comment.line.number-sign.applescript
         - include: pop-eol
-
     - match: --
       scope: punctuation.definition.comment.begin.applescript
       push:
@@ -64,9 +68,7 @@ contexts:
         - meta_scope: comment.line.double-dash.applescript
         - include: pop-eol
 
-    - include: comments.nested
-
-  comments.nested:
+  block-comments:
     - match: \(\*
       scope: punctuation.definition.comment.begin.applescript
       push:
@@ -76,7 +78,7 @@ contexts:
           scope: punctuation.definition.comment.end.applescript
           pop: 1
         - include: merge-conflict-markers
-        - include: comments.nested
+        - include: block-comments
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
@@ -141,13 +143,12 @@ contexts:
     # For now, we can leave it like this though, as it sorta works.
     - match: |-
         (?x)
-          {{leading_wspace}}
-          (to|on)\s+         # "on" or "to"
-          (\w+)              # function name
-          (\()               # opening paren
-            ((?:[\s,:\{\}]*(?:\w+)?)*)  # parameters
-          (\))               # closing paren
-
+        {{leading_wspace}}
+        (to|on)\s+                      # "on" or "to"
+        (\w+)                           # function name
+        (\()                            # opening paren
+          ((?:[\s,:\{\}]*(?:\w+)?)*)    # parameters
+        (\))                            # closing paren
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -165,14 +166,14 @@ contexts:
     # TODO: match `given` parameters
     - match: |-
         (?x)
-          {{leading_wspace}}
-          (to|on)\s+         # "on" or "to"
-          (\w+)              # function name
-          (?:\s+
-            (of|in)\s+       # "of" or "in"
-            (\w+)            # direct parameter
-          )?
-          (?=\s+{{preposition}})
+        {{leading_wspace}}
+        (to|on)\s+                      # "on" or "to"
+        (\w+)                           # function name
+        (?:\s+
+          (of|in)\s+                    # "of" or "in"
+          (\w+)                         # direct parameter
+        )?
+        (?=\s+{{preposition}})
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -192,10 +193,10 @@ contexts:
         - include: statements
     - match: |-
         (?x)
-          {{leading_wspace}}
-          (to|on)\s+                      # "on" or "to"
-          (\w+)                           # function name
-          {{eol_with_optional_comment}}   # nothing else
+        {{leading_wspace}}
+        (to|on)\s+                      # "on" or "to"
+        (\w+)                           # function name
+        {{eol_with_optional_comment}}   # nothing else
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -552,25 +553,61 @@ contexts:
         # is / isn't
           is (?: n't |\s+ not )? (?:\s+
           (?: equal (?:\s+ to)?
-          | (?: less | greater )\s+ than (?:\s+ or \s+ equal (?:\s+ to )?)?
-          | in | contained \s+ by
+          | (?: less | greater )\s+ than (?:\s+ or\s+equal (?:\s+ to )?)?
+          | in | contained\s+by
           ))?
         # does / doesn't
         | does (?: n't |\s+ not ) \s+
-          (?: equal | come \s+ (?: before | after ) | contain )
+          (?: equal | come\s+(?: before | after ) | contain )
         )\b
       scope: keyword.operator.comparison.applescript
     - match: |-
         \b(?x:
-          as | (?:a \s+)? (?: ref (?:\s+ to)? | reference \s+ to )
+          as | (?:a \s+)? (?: ref (?:\s+ to)? | reference\s+to )
         )\b
       scope: keyword.operator.reference.applescript
 
-    - match: \b(?:some|every|whose|where|that|id|index|\d+(?:st|nd|rd|th)|{{ordinal}}|last|front|back|middle|named|beginning|end|from|to|thr(?:u|ough)|before|(?:front|back|beginning|end)\s+of|after|behind|in\s+(?:front|back|beginning|end)\s+of)\b
+    - match: |-
+        \b(?x:
+          (?:front|back|beginning|end)\s+of
+        | \d+(?:st|nd|rd|th)
+        | after
+        | back | before | beginning | behind
+        | end | every
+        | from | front
+        | id | in\s+(?:front|back|beginning|end)\s+of | index
+        | last
+        | middle
+        | named
+        | that | thr(?:u|ough) | to
+        | some
+        | where | whose
+        | {{ordinal}}
+        )\b
       scope: keyword.operator.reference.applescript
     - match: \b(?:continue|return|exit(?:\s+repeat)?)\b
       scope: keyword.control.loop.applescript
-    - match: \b(?:{{preposition}}|before|behind|but|considering|copy|does|else|error|every|false|for|front|get|given|global|if|ignoring|is|it|its|local|me|middle|my|not|of|prop|property|put|ref|reference|repeat|returning|script|set|since|some|tell|that|the|then|through|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
+    - match: |-
+        \b(?x:
+          before | behind | but
+        | considering | copy
+        | does
+        | else | error | every
+        | false | for | front
+        | get | given | global
+        | if | ignoring | is | it | its
+        | local
+        | me | middle | my
+        | not
+        | of
+        | prop | property | put
+        | ref | reference | repeat | returning
+        | script | set | since | some
+        | tell | that | the | then | through | timeout | times | to | transaction | true | try
+        | until
+        | where | while | whose | with | without
+        | {{preposition}}
+        )\b
       scope: keyword.other.applescript
 
   groups:
@@ -586,28 +623,45 @@ contexts:
   built-in.support:
     - match: |-
         \b(?x:
-          frontmost | id | name | running | version | days? | weekdays?
-        | months? | years? | time | date \s+ string | time \s+ string | length
-        | rest | reverse | items? | contents | quoted \s+ form | characters?
-        | paragraphs? | words?
+          characters? | contents
+        | date\s+string | days?
+        | frontmost
+        | id | items?
+        | length
+        | months?
+        | name
+        | paragraphs?
+        | quoted\s+form
+        | rest | reverse | running
+        | time (?:\s+string)?
+        | version
+        | weekdays? | words?
+        | years?
         )\b
       scope: support.function.built-in.property.applescript
     - match: |-
         \b(?x:
-          activate | log | clipboard \s+ info | set \s+ the \s+ clipboard \s+ to
-        | the \s+ clipboard | info \s+ for | list \s+ (?: disks | folder )
-        | mount \s+ volume | path \s+ to (?:\s+ resource )?
-        | close \s+ access | get \s+ eof | open \s+ for \s+ access | read
-        | set \s+ eof | write | open \s+ location | current \s+ date
-        | do \s+ shell \s+ script | get \s+ volume \s+ settings
-        | random \s+ number | round | set \s+ volume
-        | system \s+ (?: attribute | info ) | time \s+ to \s+ GMT
-        | load \s+ script | run \s+ script | scripting \s+ components
-        | store \s+ script | copy | count | get | launch | run | set
-        | ASCII \s+ (?: character | number ) | localized \s+ string | offset
-        | summarize | beep | choose \s+(?: application | color | file (?:\s+ name)?
-          | folder | from \s+ list | remote \s+ application | URL )
-        | delay | display \s+(?: alert | dialog ) | say
+            ASCII\s+(?: character | number ) | activate
+          | beep
+          | choose \s+(?:
+              application
+            | color
+            | file (?:\s+ name)? | folder | from\s+list
+            | remote\s+application
+            | URL
+            )
+          | clipboard\s+info | close\s+access | copy | count | current\s+date
+          | delay | display \s+(?: alert | dialog ) | do\s+shell\s+script
+          | get (?:\s+(?: eof | volume\s+settings) )?
+          | info\s+for
+          | launch | list\s+(?: disks | folder ) | load\s+script | localized\s+string | log
+          | mount\s+volume
+          | offset | open\s+for\s+access | open\s+location
+          | path\s+to (?:\s+ resource )?
+          | random\s+number | read | round | run (?:\s+script)?
+          | say | scripting\s+components | set (?:\s+(?: eof | the\s+clipboard\s+to | volume) )? | store\s+script | summarize | system\s+(?: attribute | info )
+          | the\s+clipboard | time\s+to\s+GMT
+          | write
         )\b
       scope: support.function.built-in.command.applescript
     - match: \b(?:get|run)\b
@@ -618,15 +672,29 @@ contexts:
       scope: support.class.built-in.applescript
     - match: |-
         \b(?x:
-          app (?:lication)? | boolean | character | constant | date | event
-        | file (?:\s+ specification )? | handler | integer | item | keystroke
-        | linked \s+ list | list | machine | number | picture | preposition
-        | POSIX \s+ file | real | record | reference (?:\s+ form )?
-        | RGB \s+ color | script | sound | text \s+ item | type \s+ class
-        | vector | writing \s+ code (?:\s+ info )? | zone
-        | (?:(?: international | styled (?:\s+ (?: Clipboard | Unicode ))?
-          | Unicode )\s+)? text
-        | (?:(?: C | encoded | Pascal )\s+)? string
+            (?:(?: C | encoded | Pascal )\s+)? string
+          | (?:(?: international | styled (?:\s+ (?: Clipboard | Unicode ))? | Unicode )\s+)? text
+          | POSIX\s+file
+          | RGB\s+color
+          | app (?:lication)?
+          | boolean
+          | character | constant
+          | date
+          | event
+          | file (?:\s+ specification )?
+          | handler
+          | integer | item
+          | keystroke
+          | linked\s+list | list
+          | machine
+          | number
+          | picture | preposition
+          | real | record | reference (?:\s+ form )?
+          | script | sound
+          | text\s+item | type\s+class
+          | vector
+          | writing\s+code (?:\s+ info )?
+          | zone
         )s?\b
       scope: support.class.built-in.applescript
     - match: '{{unit_type}}'
@@ -635,7 +703,16 @@ contexts:
       scope: support.class.built-in.time.applescript
 
   finder:
-    - match: \b(?:item|container|(?:computer|disk|trash)-object|disk|folder|(?:(?:alias|application|document|internet location) )?file|clipping|package)s?\b
+    - match: |-
+        \b(?x:
+          (?:(?:alias|application|document|internet\s+location) \s+)? file
+        | (?:computer|disk|trash)-object
+        | clipping | container
+        | disk
+        | folder
+        | item
+        | package
+        )s?\b
       scope: support.class.finder.items.applescript
     - match: \b(?:(?:Finder|desktop|information|preferences|clipping) )windows?\b
       scope: support.class.finder.window-classes.applescript
@@ -713,7 +790,43 @@ contexts:
       scope: support.class.system-events.movie-file.applescript
     - match: \b(?:log out|restart|shut down|sleep)\b
       scope: support.function.system-events.power.applescript
-    - match: '\b(?:(?:(?:application |desk accessory )?process|(?:check|combo )?box)(?:es)?|(?:action|attribute|browser|(?:busy|progress|relevance) indicator|color well|column|drawer|group|grow area|image|incrementor|list|menu(?: bar)?(?: item)?|(?:menu |pop up |radio )?button|outline|(?:radio|tab|splitter) group|row|scroll (?:area|bar)|sheet|slider|splitter|static text|table|text (?:area|field)|tool bar|UI element|window)s?)\b'
+    - match: |-
+        \b(?x:
+          (?:
+            (?: application\s+| desk\s+accessory\s+)? process
+          | (?: check | combo\s+)? box
+          )
+          (?: es )?
+        | (?:
+            action
+          | attribute
+          | browser
+          | (?: busy | progress | relevance)\s+indicator
+          | color\s+well
+          | column
+          | drawer
+          | group
+          | grow area
+          | image
+          | incrementor
+          | list
+          | menu (?:\s+bar )? (?:\s+item )?
+          | (?:menu\s+| pop\s+up\s+| radio\s+)? button
+          | outline
+          | (?: radio | tab | splitter )\s+group
+          | row
+          | scroll\s+(?: area | bar )
+          | sheet
+          | slider
+          | splitter
+          | static text
+          | table
+          | text\s+(?: area | field )
+          | tool\s+bar
+          | UI\s+element
+          | window
+        )s?
+        )\b
       scope: support.class.system-events.processes.applescript
     - match: \b(?:click|key code|keystroke|perform|select)\b
       scope: support.function.system-events.processes.applescript
@@ -1021,15 +1134,19 @@ variables:
     )\b
   preposition: |-
     \b(?x:
-      above | against | apart\s+from | around | aside\s+from | at | below
-    | beneath | beside | between | by | for | from | instead\s+of | into | on
-    | onto | out\s+of | over | thru | under
+      above | against | apart\s+from | around | aside\s+from | at
+    | below | beneath | beside | between | by
+    | for | from
+    | instead\s+of | into
+    | on | onto | out\s+of | over
+    | thru
+    | under
     )\b
   # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-SW8
   unit_type: |-
     \b(?x:
       # Optional length dimensions (cubic cannot be miles/km)
-      (?:(?: square | cubic (?! \s+ kilomet | miles )) \s+)?
+      (?:(?: square | cubic (?!\s+kilomet | miles )) \s+)?
       # Length
       (?:
         (?: centi | kilo)? (?: meters | metres )
@@ -1040,5 +1157,5 @@ variables:
     # Mass / weight
     | (?:kilo)?grams | ounces | pounds
     # Temperature
-    | degrees \s+ (?: Celsius | Fahrenheit | Kelvin )
+    | degrees\s+(?: Celsius | Fahrenheit | Kelvin )
     )\b
