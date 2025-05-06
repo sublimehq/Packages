@@ -1,14 +1,17 @@
 %YAML 1.2
 ---
-# https://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
 
 name: ClojureScript
 scope: source.clojure.clojurescript
+version: 2
+
+extends: Packages/Clojure/Clojure.sublime-syntax
 
 file_extensions:
   - cljs
   - cljc
 
-contexts:
-  main:
-    - include: scope:source.clojure
+###[ CONTEXTS ]################################################################
+
+contexts: {}
