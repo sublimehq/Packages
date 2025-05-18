@@ -1856,10 +1856,16 @@ ip=10.10.20.14
 #      ^^^ variable.other.readwrite.shell
 #         ^ punctuation.section.interpolation.end.shell
 
-: ${(q)var}  # Quote characters that are special to the shell in the resulting words with backslashes
+: ${(q)var} ${(q-)foo} ${(q+)foo} # Quote characters that are special to the shell in the resulting words with backslashes
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
 #      ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#           ^^ meta.interpolation.parameter.shell - meta.modifier
+#             ^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
+#                 ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#                      ^^ meta.interpolation.parameter.shell - meta.modifier
+#                        ^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
+#                            ^^^^ meta.interpolation.parameter.shell - meta.modifier
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^ punctuation.definition.modifier.begin.shell.zsh
@@ -1867,6 +1873,20 @@ ip=10.10.20.14
 #     ^ punctuation.definition.modifier.end.shell.zsh
 #      ^^^ variable.other.readwrite.shell
 #         ^ punctuation.section.interpolation.end.shell
+#           ^ punctuation.definition.variable.shell
+#            ^ punctuation.section.interpolation.begin.shell
+#             ^ punctuation.definition.modifier.begin.shell.zsh
+#              ^^ storage.modifier.expansion.flag.shell.zsh
+#                ^ punctuation.definition.modifier.end.shell.zsh
+#                 ^^^ variable.other.readwrite.shell
+#                    ^ punctuation.section.interpolation.end.shell
+#                      ^ punctuation.definition.variable.shell
+#                       ^ punctuation.section.interpolation.begin.shell
+#                        ^ punctuation.definition.modifier.begin.shell.zsh
+#                         ^^ storage.modifier.expansion.flag.shell.zsh
+#                           ^ punctuation.definition.modifier.end.shell.zsh
+#                            ^^^ variable.other.readwrite.shell
+#                               ^ punctuation.section.interpolation.end.shell
 
 : ${(Q)var}  # Remove one level of quotes from the resulting words.
 # ^^ meta.interpolation.parameter.shell - meta.modifier

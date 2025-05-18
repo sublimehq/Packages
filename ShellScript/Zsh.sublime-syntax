@@ -528,7 +528,7 @@ contexts:
         - zsh-modifier-literal-string
         - zsh-modifier-expression
     # simple single char flags
-    - match: '[-~#%*@0ABCDEFLMNOPQRSTUVWXabcefikmnopqtuvwz]'
+    - match: 'q[-+]?|[-~#%*@0ABCDEFLMNOPQRSTUVWXabcefikmnoptuvwz]'
       scope: storage.modifier.expansion.flag.shell.zsh
 
   zsh-parameter-glob-ranges:
