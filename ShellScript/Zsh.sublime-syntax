@@ -31,6 +31,19 @@ contexts:
 
 ###[ ANONYMOUS FUNCTION DEFINITIONS ]##########################################
 
+  def-anonymous-begin:
+    # anonymous functions are immediately called
+    # hence scoping as meta.function-call meta.function
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.shell meta.function.anonymous.shell
+    - match: ''
+      set:
+        - def-anonymous-body
+        - def-anonymous-flag
+
+  def-anonymous-flag:
+    - include: def-function-flag
+
   def-anonymous-body:
     - meta_prepend: true
     - include: terminators
@@ -50,6 +63,9 @@ contexts:
   def-function-flag:
     - clear_scopes: 1
     - meta_scope: meta.function.shell
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      pop: 1
     - match: ([-+])[tTuU]{{opt_break}}
       scope: meta.parameter.option.shell variable.parameter.option.shell
       captures:

@@ -280,6 +280,19 @@ function -T func(); { echo foo; }
 #                             ^ punctuation.terminator.statement.shell
 #                               ^ punctuation.section.block.end.shell
 
+function -- -T { echo foo; }
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^^^ meta.function.shell
+#          ^^^^ meta.function.identifier.shell
+#              ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ keyword.operator.end-of-options.shell
+#           ^^ entity.name.function.shell
+#              ^ punctuation.section.block.begin.shell
+#                ^^^^^^^^ meta.function-call
+#                        ^ punctuation.terminator.statement.shell
+#                          ^ punctuation.section.block.end.shell
+
 func() { ... } 2>&1
 # <- meta.function.identifier.shell entity.name.function.shell
 #^^^ meta.function.identifier.shell entity.name.function.shell
@@ -1215,10 +1228,34 @@ function -U {} arg
 #           ^^ meta.function.anonymous.body.shell meta.block.shell
 #             ^^^^ meta.function-call.arguments.shell
 #^^^^^^^ keyword.declaration.function.shell
-#        ^^ invalid.illegal.parameter.shell
+#        ^^ variable.parameter.option.shell
 #           ^ punctuation.section.block.begin.shell
 #            ^ punctuation.section.block.end.shell
 #              ^^^ meta.string.glob.shell string.unquoted.shell
+
+function -T { : }
+#^^^^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^^^^ meta.function.anonymous.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^ punctuation.definition.parameter.shell
+#           ^^^^^ meta.function.anonymous.body.shell meta.block.shell
+#           ^ punctuation.section.block.begin.shell
+#               ^ punctuation.section.block.end.shell
+
+function -T () { : }
+#^^^^^^^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^^^^ meta.function.anonymous.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^ punctuation.definition.parameter.shell
+#           ^^ meta.function.anonymous.parameters.shell
+#           ^ punctuation.section.parameters.begin.shell
+#            ^ punctuation.section.parameters.end.shell
+#             ^ meta.function.anonymous.shell
+#              ^^^^^ meta.function.anonymous.body.shell meta.block.shell
+#              ^ punctuation.section.block.begin.shell
+#                  ^ punctuation.section.block.end.shell
 
 function ; {} arg
 # <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell
