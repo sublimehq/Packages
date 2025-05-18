@@ -1229,7 +1229,7 @@ autoload $dir/*/*~*.zwc(#q.N:t)
 #^^^^^^^ meta.function-call.identifier.shell support.function.shell
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #        ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
-#        ^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #        ^ punctuation.definition.variable.shell
 #            ^^^^^^^^^^ string.unquoted.shell
 #             ^ constant.other.wildcard.asterisk.shell
@@ -1805,14 +1805,14 @@ ip=10.10.20.14
 
 # `#` is not a special variable, if followed by identifiers
 : $#__ints {1..$#__hits}
-# ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 # ^ punctuation.definition.variable.shell
 #  ^ keyword.operator.expansion.length.shell
 #          ^^^^^^^^^^^^^ meta.interpolation.brace.shell
 #          ^ punctuation.section.interpolation.begin.shell
 #           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^^ keyword.operator.range.shell
-#              ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#              ^^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #              ^ punctuation.definition.variable.shell
 #               ^ keyword.operator.expansion.length.shell
 #                      ^ punctuation.section.interpolation.end.shell
