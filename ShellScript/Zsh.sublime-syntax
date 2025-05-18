@@ -508,9 +508,18 @@ contexts:
       scope: storage.modifier.expansion.flag.shell.zsh
       push: zsh-modifier-expression
     # flag:string:
+    - match: 'p[_gjsZ]'
+      scope: storage.modifier.expansion.flag.shell.zsh
+      push: zsh-modifier-interpolated-string
     - match: '[_gjsZ]'
       scope: storage.modifier.expansion.flag.shell.zsh
       push: zsh-modifier-literal-string
+    - match: 'p[lr]'
+      scope: storage.modifier.expansion.flag.shell.zsh
+      push:
+        - zsh-modifier-interpolated-string
+        - zsh-modifier-interpolated-string
+        - zsh-modifier-expression
     # flag:expr::string::string:
     - match: '[lr]'
       scope: storage.modifier.expansion.flag.shell.zsh
@@ -1036,6 +1045,102 @@ contexts:
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
     - include: expression-content
+
+###[ ZSH MODIFIER INTERPOLATED STRINGS ]#######################################
+
+  zsh-modifier-interpolated-string:
+    # interpolated string with restricted parmeter expansions
+    - match: \<
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-interpolated-string-angle-body
+    - match: \{
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-interpolated-string-brace-body
+    - match: \[
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-interpolated-string-bracket-body
+    - match: \(
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-interpolated-string-paren-body
+    - match: '{{glob_string_quote}}'
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      set: zsh-modifier-interpolated-string-other-body
+    - include: immediately-pop
+
+  zsh-modifier-interpolated-string-angle-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \>
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: zsh-modifier-interpolated-string-content
+
+  zsh-modifier-interpolated-string-brace-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \}
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: zsh-modifier-interpolated-string-content
+
+  zsh-modifier-interpolated-string-bracket-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \]
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: zsh-modifier-interpolated-string-content
+
+  zsh-modifier-interpolated-string-paren-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \)
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: zsh-modifier-interpolated-string-content
+
+  zsh-modifier-interpolated-string-other-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.quoted.glob.shell.zsh
+    - meta_content_scope: string.quoted.other.shell.zsh
+    - match: \1
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: zsh-modifier-interpolated-string-content
+
+  zsh-modifier-interpolated-string-content:
+    - match: \"
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      push: zsh-modifier-interpolated-string-double-quoted-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell.zsh
+      push: zsh-modifier-literal-string-single-quoted-body
+    - include: string-prototype
+    - include: any-escapes
+    - include: zsh-modifier-interpolations
+
+  zsh-modifier-interpolated-string-double-quoted-body:
+    - match: \"
+      scope: punctuation.definition.quoted.end.shell.zsh
+      pop: 1
+    - include: line-continuations
+    - include: string-prototype
+    - include: string-escapes
+    - include: zsh-modifier-interpolations
+
+  zsh-modifier-interpolations:
+    - match: (?=\$[{{identifier_char}}{{special_variables}}])
+      push: zsh-modifier-interpolation-body
+
+  zsh-modifier-interpolation-body:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: simple-parameter-expansions
+    - include: immediately-pop
 
 ###[ ZSH MODIFIER LITERAL STRINGS ]############################################
 

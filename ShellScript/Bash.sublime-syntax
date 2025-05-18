@@ -2784,6 +2784,9 @@ contexts:
         - parameter-expansion-modifier
         - parameter-expansion-name
         - parameter-expansion-operator
+    - include: simple-parameter-expansions
+
+  simple-parameter-expansions:
     # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
     - match: (\$)\d
       scope: meta.interpolation.parameter.shell variable.language.positional.shell

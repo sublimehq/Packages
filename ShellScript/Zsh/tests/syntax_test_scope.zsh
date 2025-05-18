@@ -1614,7 +1614,7 @@ ip=10.10.20.14
 #     ^^^ variable.other.readwrite.shell
 #        ^ punctuation.section.interpolation.end.shell
 
-## Flags
+## Literal Flags
 
 : ${(#)var}  # Evaluate the resulting words as numeric expressions and interpret these as character codes.
 # ^^ meta.interpolation.parameter.shell - meta.modifier
@@ -1844,7 +1844,7 @@ ip=10.10.20.14
 #      ^^^ variable.other.readwrite.shell
 #         ^ punctuation.section.interpolation.end.shell
 
-: ${(p)var}  # This forces the value of the parameter name to be interpreted as a further parameter name
+: ${(P)var}  # This forces the value of the parameter name to be interpreted as a further parameter name
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
 #      ^^^^ meta.interpolation.parameter.shell - meta.modifier
@@ -2518,6 +2518,104 @@ ip=10.10.20.14
 #      ^ keyword.operator.expansion.length.shell
 #       ^^^ variable.other.readwrite.shell
 #          ^ punctuation.section.interpolation.end.shell
+
+## Interpolated Flags
+
+: ${(pj<$sep>)arr} ${(pj<str_$sep>)arr} ${(pj<st"r_$sep">)arr} ${(pj<st'r_$sep'>)arr}
+# ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^^ storage.modifier.expansion.flag.shell.zsh
+#      ^^^^^^ meta.quoted.glob.shell.zsh
+#      ^ punctuation.definition.quoted.begin.shell.zsh
+#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#       ^ punctuation.definition.variable.shell
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+#             ^^^ variable.other.readwrite.shell
+#                ^ punctuation.section.interpolation.end.shell
+#                  ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                  ^ punctuation.definition.variable.shell
+#                   ^ punctuation.section.interpolation.begin.shell
+#                    ^^^^^^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#                    ^ punctuation.definition.modifier.begin.shell.zsh
+#                     ^^ storage.modifier.expansion.flag.shell.zsh
+#                       ^^^^^^^^^^ meta.quoted.glob.shell.zsh
+#                       ^ punctuation.definition.quoted.begin.shell.zsh
+#                        ^^^^ string.quoted.other.shell.zsh
+#                            ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                            ^ punctuation.definition.variable.shell
+#                                ^ punctuation.definition.quoted.end.shell.zsh
+#                                 ^ punctuation.definition.modifier.end.shell.zsh
+#                                  ^^^ variable.other.readwrite.shell
+#                                     ^ punctuation.section.interpolation.end.shell
+#                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                                       ^ punctuation.definition.variable.shell
+#                                        ^ punctuation.section.interpolation.begin.shell
+#                                         ^^^^^^^^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#                                         ^ punctuation.definition.modifier.begin.shell.zsh
+#                                          ^^ storage.modifier.expansion.flag.shell.zsh
+#                                            ^^^^^^^^^^^^ meta.quoted.glob.shell.zsh
+#                                            ^ punctuation.definition.quoted.begin.shell.zsh
+#                                             ^^^^^ string.quoted.other.shell.zsh
+#                                               ^ punctuation.definition.quoted.begin.shell.zsh
+#                                                  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                                                  ^ punctuation.definition.variable.shell
+#                                                      ^ string.quoted.other.shell.zsh punctuation.definition.quoted.end.shell.zsh
+#                                                       ^ punctuation.definition.quoted.end.shell.zsh
+#                                                        ^ punctuation.definition.modifier.end.shell.zsh
+#                                                         ^^^ variable.other.readwrite.shell
+#                                                            ^ punctuation.section.interpolation.end.shell
+#                                                              ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                                                              ^ punctuation.definition.variable.shell
+#                                                               ^ punctuation.section.interpolation.begin.shell
+#                                                                ^^^^^^^^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#                                                                ^ punctuation.definition.modifier.begin.shell.zsh
+#                                                                 ^^ storage.modifier.expansion.flag.shell.zsh
+#                                                                   ^^^^^^^^^^^^ meta.quoted.glob.shell.zsh
+#                                                                   ^ punctuation.definition.quoted.begin.shell.zsh
+#                                                                    ^^^^^^^^^^ string.quoted.other.shell.zsh - variable
+#                                                                      ^ punctuation.definition.quoted.begin.shell.zsh
+#                                                                             ^ punctuation.definition.quoted.end.shell.zsh
+#                                                                              ^ punctuation.definition.quoted.end.shell.zsh
+#                                                                               ^ punctuation.definition.modifier.end.shell.zsh
+#                                                                                ^^^ variable.other.readwrite.shell
+#                                                                                   ^ punctuation.section.interpolation.end.shell
+
+: ${(ps:del$im:)var}  # Force field splitting at the separator string.
+# ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^^ storage.modifier.expansion.flag.shell.zsh
+#      ^^^^^^^^ meta.quoted.glob.shell.zsh
+#      ^ punctuation.definition.quoted.begin.shell.zsh
+#       ^^^ string.quoted.other.shell.zsh - variable
+#          ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#          ^ punctuation.definition.variable.shell
+#             ^ punctuation.definition.quoted.end.shell.zsh
+#              ^ punctuation.definition.modifier.end.shell.zsh
+#               ^^^ variable.other.readwrite.shell
+#                  ^ punctuation.section.interpolation.end.shell
+
+: ${(pZ+$opt+)var}  # As z but takes a combination of option letters between a following pair of delimiter characters.
+# ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^^ storage.modifier.expansion.flag.shell.zsh
+#      ^^^^^^ meta.quoted.glob.shell.zsh
+#      ^ punctuation.definition.quoted.begin.shell.zsh
+#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^ punctuation.definition.variable.shell
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+#             ^^^ variable.other.readwrite.shell
+#                ^ punctuation.section.interpolation.end.shell
 
 ## Operators
 
