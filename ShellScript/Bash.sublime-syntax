@@ -3120,7 +3120,7 @@ variables:
 
   # Variable names
   variable_begin: (?={{variable_first_char}})
-  variable_first_char: '[[:alpha:]_''"$%]'
+  variable_first_char: '[{{identifier_first_char}}''"$%]'
 
   # POSIX identifiers (alpha-numeric)
   identifier: '{{identifier_first_char}}{{identifier_char}}*'

@@ -1108,6 +1108,9 @@ variables:
   # Language identifier in shebang
   shebang_language: \bzsh\b
 
+  # identifiers (alpha-numeric)
+  identifier_first_char: '[[:alnum:]_]'
+
   # Numbers
   dec_break: (?![^\s|&;()}<>])  # word_break without `{`
   dec_digit: '[\d_]'
