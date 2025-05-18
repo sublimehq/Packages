@@ -86,19 +86,40 @@ if [[ -f ~./foo ]] echo 'oh'; echo 'yes'; elif [[  ]] echo 'oh' | echo ' no'; el
 #                                                                                                ^^ keyword.control.conditional.endif.shell
 
 # for name ... [ in word ... ] term do list done
-for name in word1 word2; do echo me; done
+for in in in word2; do echo $in; done
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
-#   ^^^^ variable.other.readwrite.shell
-#        ^^ keyword.operator.iteration.in.shell
-#           ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                 ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                      ^ punctuation.terminator.statement.shell
-#                        ^^ keyword.control.loop.do.shell
-#                           ^^^^ meta.function-call.identifier.shell support.function.shell
-#                                ^^ meta.function-call.arguments.shell
-#                                  ^ punctuation.terminator.statement.shell
-#                                    ^^^^ keyword.control.loop.end.shell
+#   ^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.iteration.in.shell
+#         ^^ meta.string.glob.shell string.unquoted.shell
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                 ^ punctuation.terminator.statement.shell
+#                   ^^ keyword.control.loop.do.shell
+#                      ^^^^ meta.function-call.identifier.shell support.function.shell
+#                          ^^^^ meta.function-call.arguments.shell
+#                           ^^^ variable.other.readwrite.shell
+#                              ^ punctuation.terminator.statement.shell
+#                                ^^^^ keyword.control.loop.end.shell
+
+for a b c in word1 word2 word3; do echo $c $b $a; done
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^ variable.other.readwrite.shell
+#       ^ variable.other.readwrite.shell
+#         ^^ keyword.operator.iteration.in.shell
+#            ^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                  ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                        ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                             ^ punctuation.terminator.statement.shell
+#                               ^^ keyword.control.loop.do.shell
+#                                  ^^^^ support.function.shell
+#                                       ^^ variable.other.readwrite.shell
+#                                          ^^ variable.other.readwrite.shell
+#                                             ^^ variable.other.readwrite.shell
+#                                               ^ punctuation.terminator.statement.shell
+#                                                 ^^^^ keyword.control.loop.end.shell
 
 # for (( [expr1] ; [expr2] ; [expr3] )) do list done
 for (( i = 1; i < 10; i++ )) do echo $i; done
@@ -353,6 +374,26 @@ for name ( word1 $word2 | & ; < > ) print $name
 #                                   ^^^^^ support.function.shell
 #                                         ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 
+for a b c ( word1 $word2 | & ; < > ) print $name
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^ variable.other.readwrite.shell
+#     ^ variable.other.readwrite.shell
+#       ^ variable.other.readwrite.shell
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
+#         ^ punctuation.section.sequence.begin.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                 ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                        ^ invalid.illegal.unexpected-token.shell
+#                          ^ invalid.illegal.unexpected-token.shell
+#                            ^ invalid.illegal.unexpected-token.shell
+#                              ^ invalid.illegal.unexpected-token.shell
+#                                ^ invalid.illegal.unexpected-token.shell
+#                                  ^ punctuation.section.sequence.end.shell
+#                                    ^^^^^^^^^^^ meta.function-call
+#                                    ^^^^^ support.function.shell
+#                                          ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+
 # for name ... [ in word ... ] term sublist
 for name in word1 word2; echo me;
 # <- keyword.control.loop.for.shell
@@ -450,6 +491,24 @@ foreach \
 #          ^^^^^ variable.other.readwrite.shell
 #               ^ punctuation.terminator.statement.shell
 #                 ^^^ keyword.control.loop.endforeach.shell.zsh
+
+foreach in 1 new ( word1 word2 ) echo $name; end
+# <- meta.statement.loop.foreach.shell.zsh keyword.control.loop.foreach.shell.zsh
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.foreach.shell.zsh
+#^^^^^^ keyword.control.loop.foreach.shell.zsh
+#       ^^ variable.other.readwrite.shell
+#          ^ variable.other.readwrite.shell
+#            ^^^ variable.other.readwrite.shell
+#                ^^^^^^^^^^^^^^^ meta.sequence.list.shell.zsh
+#                ^ punctuation.section.sequence.begin.shell.zsh
+#                  ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                        ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                              ^ punctuation.section.sequence.end.shell.zsh
+#                                ^^^^^^^^^^ meta.function-call
+#                                ^^^^ support.function.shell
+#                                     ^^^^^ variable.other.readwrite.shell
+#                                          ^ punctuation.terminator.statement.shell
+#                                            ^^^ keyword.control.loop.endforeach.shell.zsh
 
 # repeat word sublist
 repeat $i+10 echo .;

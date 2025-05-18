@@ -135,8 +135,8 @@ contexts:
       scope: keyword.control.loop.foreach.shell.zsh
       set:
         - foreach-meta
-        - loop-iterator-wordlist
-        - loop-iterator-var
+        - loop-iterator-vars-in-wordlist
+        - loop-iterator-var  # first var can even be `in`.
     - match: end{{cmd_break}}
       scope: keyword.control.loop.endforeach.shell.zsh
 
@@ -188,6 +188,24 @@ contexts:
   case-end-ahead:
     - meta_prepend: true
     - include: brace-pop
+
+  for-args:
+    - meta_include_prototype: false
+    - include: eoc-pop
+    - match: \(\(
+      scope: punctuation.section.compound.begin.shell
+      set: cmd-arithmetic-body
+    - match: (?=\S)
+      set:
+        - loop-iterator-vars-in-wordlist
+        - loop-iterator-var  # first var can even be `in`.
+
+  loop-iterator-vars-in-wordlist:
+    # a variable list terminated by a word list
+    - meta_include_prototype: false
+    - match: (?=(?!in{{identifier_break}}){{identifier_first_char}})
+      push: variable-name-begin
+    - include: loop-iterator-wordlist
 
   foreach-meta:
     - meta_include_prototype: false
