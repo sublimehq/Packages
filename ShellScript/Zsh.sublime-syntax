@@ -91,16 +91,6 @@ contexts:
 
 ###[ BUILTINS ]################################################################
 
-  cmd-builtin:
-    - meta_prepend: true
-    - match: autoload{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.shell.zsh
-      set:
-        - cmd-args-meta
-        - cmd-args-end-of-options-then-function-references
-
   cmd-mapfile: []
   cmd-read: []
 
@@ -1138,9 +1128,9 @@ variables:
   # 17 Shell Builtin Commands
   # https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#Shell-Builtin-Commands
   builtin_cmds: |-
-    (?x: \. | \: | bg | bindkey | bye | cap | cd | chdir | clone | comparguments
-    | compcall | compctl | compdescribe | compfiles | compgroups | compquote
-    | comptags | comptry | compvalues | dirs | disable | disown | echotc
+    (?x: \. | \: | autoload | bg | bindkey | bye | cap | cd | chdir | clone
+    | comparguments | compcall | compctl | compdescribe | compfiles | compgroups
+    | compquote | comptags | comptry | compvalues | dirs | disable | disown | echotc
     | echoti | emulate | enable | eval | fc | fg | float | functions | getcap
     | getln | getopts | hash | history | integer | job | jobs | kill | limit
     | logout | popd | print | printf | pushd | pushln | pwd | r | read | rehash

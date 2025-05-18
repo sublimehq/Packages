@@ -1135,19 +1135,42 @@ typeset -fu func;
 #           ^^^^ entity.name.function.shell
 
 autoload +X
-# <- meta.function-call.identifier.shell support.function.shell.zsh
-#^^^^^^^ meta.function-call.identifier.shell support.function.shell.zsh
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^ meta.function-call.identifier.shell support.function.shell
 #       ^^^ meta.function-call.arguments.shell
 #        ^^ variable.parameter.option.shell
 
 fpath=(~/myfuncs $fpath)
 autoload myfunc1 myfunc2
-# <- meta.function-call.identifier.shell support.function.shell.zsh
-#^^^^^^^ meta.function-call.identifier.shell support.function.shell.zsh
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^^^^^ meta.function-call.identifier.shell support.function.shell
 #       ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#        ^^^^^^^ variable.function.shell
-#                ^^^^^^^ variable.function.shell
+#        ^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                ^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
+autoload /path/to/func
+#^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#       ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#        ^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+
+autoload $dir/*/*~*.zwc(#q.N:t)
+#^^^^^^^ meta.function-call.identifier.shell support.function.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#        ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#        ^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^ punctuation.definition.variable.shell
+#            ^^^^^^^^^^ string.unquoted.shell
+#             ^ constant.other.wildcard.asterisk.shell
+#               ^ constant.other.wildcard.asterisk.shell
+#                ^ keyword.operator.logical.regexp.shell.zsh
+#                 ^ constant.other.wildcard.asterisk.shell
+#                      ^^^^^^^^ meta.modifier.glob.shell.zsh
+#                      ^^ punctuation.definition.modifier.begin.shell.zsh
+#                        ^ storage.modifier.mode.glob.shell.zsh
+#                         ^^ storage.modifier.glob.shell.zsh
+#                           ^ punctuation.separator.sequence.shell.zsh
+#                            ^ storage.modifier.glob.shell.zsh
+#                             ^ punctuation.definition.modifier.end.shell.zsh
 
 ###############################################################################
 # 9.2 Anonymous Functions                                                     #
