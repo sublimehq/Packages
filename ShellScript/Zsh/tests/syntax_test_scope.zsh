@@ -1798,12 +1798,13 @@ ip=10.10.20.14
 #                     ^ meta.string.glob.shell string.unquoted.shell
 #                      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                          ^ meta.string.glob.shell string.unquoted.shell
-#                           ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                           ^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.language.special.shell
+#                             ^^ meta.string.glob.shell string.unquoted.shell
 #                                ^ meta.string.glob.shell string.unquoted.shell
 #                                 ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 
 # `#` is not a special variable, if followed by identifiers
-: $#__ints {1..$#1_hits}
+: $#__ints {1..$#__hits}
 # ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 # ^ punctuation.definition.variable.shell
 #  ^ keyword.operator.expansion.length.shell
@@ -7052,18 +7053,23 @@ _b=value
 #  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 
 10=value
-# <- meta.assignment.l-value.shell variable.other.readwrite.shell
-#^ meta.assignment.l-value.shell variable.other.readwrite.shell
+# <- meta.assignment.l-value.shell variable.language.positional.shell
+#^ meta.assignment.l-value.shell variable.language.positional.shell
 # ^ meta.assignment.shell keyword.operator.assignment.shell
 #  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 
 1a=value
-# <- meta.assignment.l-value.shell variable.other.readwrite.shell
-#^ meta.assignment.l-value.shell variable.other.readwrite.shell
-# ^ meta.assignment.shell keyword.operator.assignment.shell
-#  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+# <- - meta.assignment
+#^^^^^^^ - meta.assignment
 
 ### [ ARRAY VARIABLES ] #######################################################
+
+10[1]=value
+# <- meta.assignment.l-value.shell variable.language.positional.shell
+#^ meta.assignment.l-value.shell variable.language.positional.shell
+# ^^^ meta.assignment.l-value.shell meta.item-access.shell
+#    ^ meta.assignment.shell keyword.operator.assignment.shell
+#     ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 
 var[1]=Hello
 # <- variable.other.readwrite.shell

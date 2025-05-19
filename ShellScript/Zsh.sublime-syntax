@@ -105,6 +105,15 @@ contexts:
     - meta_prepend: true
     - include: redirections
 
+###[ VARIABLE DEFINITIONS ]####################################################
+
+  def-variable:
+    - meta_prepend: true
+    # positional parameter assignments
+    - match: \d{1,2}(?=(?:\[[^\]]*\])*{{varassign}})
+      scope: meta.assignment.l-value.shell variable.language.positional.shell
+      set: literal-array-value-assignment
+
 ###[ BUILTINS ]################################################################
 
   cmd-mapfile: []
@@ -1269,9 +1278,6 @@ contexts:
 variables:
   # Language identifier in shebang
   shebang_language: \bzsh\b
-
-  # identifiers (alpha-numeric)
-  identifier_first_char: '[[:alnum:]_]'
 
   # Numbers
   dec_break: (?![^\s|&;()}<>])  # word_break without `{`
