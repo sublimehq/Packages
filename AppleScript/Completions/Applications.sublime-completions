@@ -1,0 +1,476 @@
+{
+    "scope": "source.applescript",
+    "completions":
+    [
+//  These completions are based upon information found in
+//  Applications / Script Editor / Window / Library ( Shift + Command + L )
+
+//  Finder / Finder Basics
+
+        {
+            "trigger": "sort",
+            "contents": "sort ${1:specifier} by ${2:property}",
+            "annotation": "finder.finder_basics",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Return the specified object(s) in a sorted list</strong>\n\n---\n\n<b>sort</b> specifier: a list of finder objects to sort\n\t<b>by</b> property: the property to sort the items by (name, index, date, etc.)\n\t<b>→</b> specifier: the sorted items in their new order"
+        },
+
+//  Finder / Finder Items
+
+        {
+            "trigger": "clean_up",
+            "contents": "clean up ${1:specifier} by ${2:property}",
+            "annotation": "finder.finder_items",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Arrange items in window nicely (only applies to open windows in icon view that are not kept arranged)</strong>\n\n---\n\n<b>clean up</b> specifier: the window to clean up\n\t[<b>by</b> property]: the order in which to clean up the objects (name, index, date, etc.)"
+        },
+        {
+            "trigger": "eject",
+            "contents": "eject ${1:specifier}",
+            "annotation": "finder.finder_items",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Eject the specified disk(s)</strong>\n\n---\n\n<b>eject</b> [specifier]: the disk(s) to eject"
+        },
+        {
+            "trigger": "empty",
+            "contents": "empty ${1:specifier}",
+            "annotation": "finder.finder_items",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Empty the trash</strong>\n\n---\n\n<b>empty</b> [specifier]: \"empty\" and \"empty trash\" both do the same thing"
+        },
+        {
+            "trigger": "reveal",
+            "contents": "reveal ${1:specifier}",
+            "annotation": "finder.finder_items",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Bring the specified object(s) into view</strong>\n\n---\n\n<b>reveal</b> specifier: the object to be made visible"
+        },
+        {
+            "trigger": "update",
+            "contents": "update ${1:specifier} necessity ${2:boolean} registering applications ${3:boolean}",
+            "annotation": "finder.finder_items",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Update the display of the specified object(s) to match their on-disk representation</strong>\n\n---\n\n<b>update</b> specifier: the item to update\n\t[<b>necessity</b> boolean]: only update if necessary (i.e. a finder window is open). default is false\n\t[<b>registering applications</b> boolean]: register applications. default is true"
+        },
+
+//  Finder / Legacy Suite
+
+        {
+            "trigger": "restart",
+            "contents": "restart",
+            "annotation": "finder.legacy_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Restart the computer</strong>\n\n---\n\n<b>restart</b>"
+        },
+        {
+            "trigger": "shut_down",
+            "contents": "shut down",
+            "annotation": "finder.legacy_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Shut Down the computer</strong>\n\n---\n\n<b>shut down</b>"
+        },
+        {
+            "trigger": "sleep",
+            "contents": "sleep",
+            "annotation": "finder.legacy_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Put the computer to sleep</strong>\n\n---\n\n<b>sleep</b>"
+        },
+
+//  Finder / Standard Suite
+
+        {
+            "trigger": "open",
+            "contents": "open ${1:specifier} using ${2:specifier} with properties ${3:record}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Open the specified object(s)</strong>\n\n---\n\n<b>open</b> specifier: list of objects to open\n\t[<b>using</b> specifier]: the application file to open the object with\n\t[<b>with properties</b> record]: the initial values for the properties, to be included with the open command sent to the application that opens the direct object"
+        },
+        {
+            "trigger": "print",
+            "contents": "print ${1:specifier} with properties ${2:record}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Print the specified object(s)</strong>\n\n---\n\n<b>print</b> specifier: list of objects to print\n\t[<b>with properties</b> record]: optional properties to be included with the print command sent to the application that prints the direct object"
+        },
+        {
+            "trigger": "quit",
+            "contents": "quit",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Quit the Finder</strong>\n\n---\n\n<b>quit</b>"
+        },
+        {
+            "trigger": "activate",
+            "contents": "activate ${1:specifier}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Activate the specified window (or the Finder)</strong>\n\n---\n\n<b>activate</b> [specifier]: the window to activate (if not specified, activates the Finder)"
+        },
+        {
+            "trigger": "close",
+            "contents": "close ${1:specifier}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Close an object</strong>\n\n---\n\n<b>close</b> specifier: the object to close"
+        },
+        {
+            "trigger": "count",
+            "contents": "count ${1:specifier} each ${2:type}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Return the number of elements of a particular class within an object</strong>\n\n---\n\n<b>count</b> specifier: the object whose elements are to be counted\n\t<b>each</b> type: the class of the elements to be counted\n\t<b>→</b> integer: the number of elements"
+        },
+        {
+            "trigger": "data_size",
+            "contents": "data size ${1:specifier} as ${2:type}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Return the size in bytes of an object</strong>\n\n---\n\n<b>data size</b> specifier: the object whose data size is to be returned\n\t[<b>as</b> type]: the data type for which the size is calculated\n\t<b>→</b> integer: the size of the object in bytes"
+        },
+        {
+            "trigger": "delete",
+            "contents": "delete ${1:specifier}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Move an item from its container to the trash</strong>\n\n---\n\n<b>delete</b> specifier: the item to delete\n\t<b>→</b> specifier: to the item that was just deleted"
+        },
+        {
+            "trigger": "duplicate",
+            "contents": "duplicate ${1:specifier} to ${2:location specifier} replacing ${3:boolean} routing suppressed ${4:boolean} exact copy ${5:boolean}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Duplicate one or more object(s)</strong>\n\n---\n\n<b>duplicate</b> specifier: the object(s) to duplicate\n\t[<b>to</b> location specifier]: the new location for the object(s)\n\t[<b>replacing</b> boolean]: Specifies whether or not to replace items in the destination that have the same name as items being duplicated\n\t[<b>routing suppressed</b> boolean]: Specifies whether or not to autoroute items (default is false). Only applies when copying to the system folder.\n\t[<b>exact copy</b> boolean]: Specifies whether or not to copy permissions/ownership as is\n\t<b>→</b> specifier: to the duplicated object(s)"
+        },
+        {
+            "trigger": "exists",
+            "contents": "exists ${1:specifier}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Verify if an object exists</strong>\n\n---\n\n<b>exists</b> specifier: the object in question\n\t<b>→</b> boolean: true if it exists, false if not"
+        },
+        {
+            "trigger": "make",
+            "contents": "make new ${1:type} at ${2:location specifier} to ${3:specifier} with properties ${4:record}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Make a new element</strong>\n\n---\n\n<b>make</b>\n\t<b>new</b> type: the class of the new element\n\t<b>at</b> location specifier: the location at which to insert the element\n\t[<b>to</b> specifier]: when creating an alias file, the original item to create an alias to or when creating a file viewer window, the target of the window\n\t[<b>with properties</b> record]: the initial values for the properties of the element\n\t<b>→</b> specifier: to the new object(s)"
+        },
+        {
+            "trigger": "move",
+            "contents": "move ${1:specifier} to ${2:location specifier} replacing ${3:boolean} positioned at ${4:list} routing suppressed ${5:boolean}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Move object(s) to a new location</strong>\n\n---\n\n<b>move</b> specifier: the object(s) to move\n\t<b>to</b> location specifier: the new location for the object(s)\n\t[<b>replacing</b> boolean]: Specifies whether or not to replace items in the destination that have the same name as items being moved\n\t[<b>positioned at</b> list]: Gives a list (in local window coordinates) of positions for the destination items\n\t[<b>routing suppressed</b> boolean]: Specifies whether or not to autoroute items (default is false). Only applies when moving to the system folder.\n\t<b>→</b> specifier: to the object(s) after they have been moved"
+        },
+        {
+            "trigger": "select",
+            "contents": "select ${1:specifier}",
+            "annotation": "finder.standard_suite",
+            "kind": ["snippet", "s", "finder"],
+            "details": "<strong>Select the specified object(s)</strong>\n\n---\n\n<b>select</b> specifier: the object(s) to select"
+        },
+
+//  Mail / Mail
+
+        {
+            "trigger": "check_for_new_mail",
+            "contents": "check for new mail for ${1:account}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Triggers a check for email.</strong>\n\n---\n\n<b>check for new mail</b> \n\t[<b>for</b> account]: Specify the account that you wish to check for mail"
+        },
+        {
+            "trigger": "extract_name_from",
+            "contents": "extract name from ${1:text}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Command to get the full name out of a fully specified email address. E.g. Calling this with \"John Doe &lt;jdoe@example.com&gt;\" as the direct object would return \"John Doe\"</strong>\n\n---\n\n<b>extract name from</b> text: fully formatted email address\n\t<b>→</b> text: the full name"
+        },
+        {
+            "trigger": "extract_address_from",
+            "contents": "extract address from ${1:text}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Command to get just the email address out of a fully specified email address. E.g. Calling this with \"John Doe &lt;jdoe@example.com&gt;\" as the direct object would return \"jdoe@example.com\"</strong>\n\n---\n\n<b>extract address from</b> text: fully formatted email address\n\t<b>→</b> text: the email address"
+        },
+        {
+            "trigger": "forward",
+            "contents": "forward ${1:message} opening window ${2:boolean}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Creates a forwarded message.</strong>\n\n---\n\n<b>forward</b> message: the message to forward\n\t[<b>opening window</b> boolean]: Whether the window for the forwarded message is shown. Default is to not show the window.\n\t<b>→</b> outgoing message: the message to be forwarded"
+        },
+        {
+            "trigger": "GetURL",
+            "contents": "GetURL ${1:text}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Opens a mailto URL.</strong>\n\n---\n\n<b>GetURL</b> text: the mailto URL"
+        },
+        {
+            "trigger": "import_Mail_mailbox",
+            "contents": "import Mail mailbox at ${1:file}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Imports a mailbox created by Mail.</strong>\n\n---\n\n<b>import Mail mailbox</b>\n\t<b>at</b> file: the mailbox or folder of mailboxes to import"
+        },
+        {
+            "trigger": "mailto",
+            "contents": "mailto ${1:text}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Opens a mailto URL.</strong>\n\n---\n\n<b>mailto</b> text: the mailto URL"
+        },
+        {
+            "trigger": "perform_mail_action_with_messages",
+            "contents": "perform mail action with messages ${1:list of message} in mailboxes ${2:mailbox} for rule ${3:rule}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Script handler invoked by rules and menus that execute AppleScripts. The direct parameter of this handler is a list of messages being acted upon.</strong>\n\n---\n\n<b>perform mail action with messages</b> list of message: the message being acted upon\n\t[<b>in mailboxes</b> mailbox]: If the script is being executed by the user selecting an item in the scripts menu, this argument will specify the mailboxes that are currently selected. Otherwise it will not be specified.\n\t[<b>for rule</b> rule]: If the script is being executed by a rule action, this argument will be the rule being invoked. Otherwise it will not be specified."
+        },
+        {
+            "trigger": "redirect",
+            "contents": "redirect ${1:message} opening window ${2:boolean}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Creates a redirected message.</strong>\n\n---\n\n<b>redirect</b> message: the message to redirect\n\t[<b>opening window</b> boolean]: Whether the window for the redirected message is shown. Default is to not show the window.\n\t<b>→</b> outgoing message: the redirect message"
+        },
+        {
+            "trigger": "reply",
+            "contents": "reply ${1:message} opening window ${2:boolean} reply to all ${3:boolean}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Creates a reply message.</strong>\n\n---\n\n<b>reply</b> message: the message to reply to\n\t[<b>opening window</b> boolean]: Whether the window for the reply message is shown. Default is to not show the window.\n\t[<b>reply to all</b> boolean]: Whether to reply to all recipients. Default is to reply to the sender only.\n\t<b>→</b> outgoing message: the reply message"
+        },
+        {
+            "trigger": "send",
+            "contents": "send ${1:outgoing message} opening window ${2:boolean}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Sends a message.</strong>\n\n---\n\n<b>send</b> outgoing message: the message to send\n\t<b>→</b> boolean: true if sending was successful, false if not"
+        },
+        {
+            "trigger": "synchronize",
+            "contents": "synchronize with ${1:account}",
+            "annotation": "mail.mail",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Command to trigger synchronizing of an IMAP account with the server.</strong>\n\n---\n\n<b>synchronize</b>\n\t<b>with</b> account: The account to synchronize"
+        },
+
+//  Mail / Standard Suite
+
+        {
+            "trigger": "open",
+            "contents": "open ${1:file or list of file}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Open a document.</strong>\n\n---\n\n<b>open</b> file or list of file: The file(s) to be opened.\n\t<b>→</b> document or list of document: The opened document(s)."
+        },
+        {
+            "trigger": "close",
+            "contents": "close ${1:specifier} saving ${2:yes/no/ask} saving in ${3:file}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Close a document.</strong>\n\n---\n\n<b>close</b> specifier: the document(s) or window(s) to close.\n\t[<b>saving</b> yes/no/ask]: Should changes be saved before closing?\n\t[<b>saving in</b> file]: The file in which to save the document, if so."
+        },
+        {
+            "trigger": "save",
+            "contents": "save ${1:specifier} in ${2:file} as ${3:native format}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Save a document.</strong>\n\n---\n\n<b>save</b> specifier: The document(s) or window(s) to save.\n\t[<b>in</b> file]: The file in which to save the document.\n\t[<b>as</b> native format]: The file format to use."
+        },
+        {
+            "trigger": "print",
+            "contents": "print ${1:list of file or specifier} with properties ${2:print settings} print dialog ${3:boolean}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Print a document.</strong>\n\n---\n\n<b>print</b> list of file or specifier: The file(s), document(s), or window(s) to be printed.\n\t[<b>with properties</b> print settings]: The print settings to use.\n\t[<b>print dialog</b> boolean]: Should the application show the print dialog?"
+        },
+        {
+            "trigger": "quit",
+            "contents": "quit saving ${1:yes/no/ask}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Quit the application.</strong>\n\n---\n\n<b>quit</b>\n\t[<b>saving</b> yes/no/ask]: Should changes be saved before quitting?"
+        },
+        {
+            "trigger": "count",
+            "contents": "count ${1:specifier}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Return the number of elements of a particular class within an object.</strong>\n\n---\n\n<b>count</b> specifier: The objects to be counted.\n\t<b>→</b> integer: The count."
+        },
+        {
+            "trigger": "exists",
+            "contents": "exists ${1:any}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Verify that an object exists.</strong>\n\n---\n\n<b>exists</b> any: The object(s) to check.\n\t<b>→</b> boolean: Did the object(s) exist?"
+        },
+        {
+            "trigger": "make",
+            "contents": "make new ${1:type} at ${2:location specifier} with data ${3:any} with properties ${4:record}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Create a new object.</strong>\n\n---\n\n<b>make</b>\n\t<b>new</b> type: The class of the new object.\n\t[<b>at</b> location specifier]: The location at which to insert the object.\n\t[<b>with data</b> any]: The initial contents of the object.\n\t[<b>with properties</b> record]: The initial values for properties of the object.\n\t<b>→</b> specifier: The new object."
+        },
+        {
+            "trigger": "delete",
+            "contents": "delete ${1:specifier}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Delete an object.</strong>\n\n---\n\n<b>delete</b> specifier: The object(s) to delete."
+        },
+        {
+            "trigger": "duplicate",
+            "contents": "duplicate ${1:specifier} to ${2:location specifier} with properties ${3:record}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Copy an object.</strong>\n\n---\n\n<b>duplicate</b> specifier: The object(s) to copy.\n\t[<b>to</b> location specifier]: The location for the new copy or copies.\n\t[<b>with properties</b> record]: Properties to set in the new copy or copies right away."
+        },
+        {
+            "trigger": "move",
+            "contents": "move ${1:specifier} to ${2:location specifier}",
+            "annotation": "mail.standard_suite",
+            "kind": ["snippet", "s", "mail"],
+            "details": "<strong>Move an object to a new location.</strong>\n\n---\n\n<b>move</b> specifier: The object(s) to move.\n\t<b>to</b> location specifier: The new location for the object(s)."
+        },
+
+//  Standard Additions / Clipboard Commands
+
+        {
+            "trigger": "set_the_clipboard_to",
+            "contents": "set the clipboard to ${1:any}",
+            "annotation": "standard_additions.clipboard_commands",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Place data on an application&apos;s clipboard. Use inside a \"tell\" block and activate the application first</strong>\n\n---\n\n<b>set the clipboard to</b> any: the data to place on the clipboard"
+        },
+        {
+            "trigger": "the_clipboard",
+            "contents": "the clipboard as ${1:type class}",
+            "annotation": "standard_additions.clipboard_commands",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Return the contents of an application&apos;s clipboard. Use in a \"tell\" block after activating the application</strong>\n\n---\n\n<b>the clipboard</b>\n\t[<b>as</b> type class]: the type of data desired\n\t<b>→</b> any: the data"
+        },
+        {
+            "trigger": "clipboard_info",
+            "contents": "clipboard info for ${1:type class}",
+            "annotation": "standard_additions.clipboard_commands",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Return information about the clipboard</strong>\n\n---\n\n<b>clipboard info</b>\n\t[<b>for</b> type class]: restricts to information about only this data type\n\t<b>→</b> list of list: a list of {data type, size} for each type of data on the clipboard"
+        },
+
+//  Standard Additions / Internet Suite
+
+        {
+            "trigger": "open_location",
+            "contents": "open location ${1:text} error reporting ${2:boolean}",
+            "annotation": "standard_additions.internet_suite",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Opens a URL with the appropriate program</strong>\n\n---\n\n<b>open location</b> [text]: the URL to open\n\t[<b>error reporting</b> boolean]: Should error conditions be reported in a dialog?"
+        },
+        {
+            "trigger": "handle_CGI_request",
+            "contents": "handle CGI request ${1:text} searching for ${2:text} with posted data ${3:text} of content type ${4:text} using access method ${5:text} from address ${6:text} from user ${7:text} using password ${8:text} with user info ${9:text} from server ${10:text} via port ${11:text} executing by ${12:text} referred by ${13:text} from browser ${14:text} using action ${15:text} of action type ${16:text} from client IP address ${17:text} with full request ${18:text} with connection ID ${19:integer} from virtual host ${20:text}",
+            "annotation": "standard_additions.internet_suite",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Sent to a script to process a Common Gateway Interface request</strong>\n\n---\n\n<b>handle CGI request</b> text: the path of the URL\n\t[<b>searching for</b> text]: the data for the GET method or data after the \"?\" in a POST method\n\t[<b>with posted data</b> text]: the POST arguments\n\t[<b>of content type</b> text]: the MIME content type of POST arguments\n\t[<b>using access method</b> text]: either GET or POST\n\t[<b>from address</b> text]: the IP address of the entity making the request\n\t[<b>from user</b> text]: the user name associated with the request\n\t[<b>using password</b> text]: the password sent with the request\n\t[<b>with user info</b> text]: additional information about the user, usually the email address\n\t[<b>from server</b> text]: the name of the server application sending this request\n\t[<b>via port</b> text]: the IP port number of the server\n\t[<b>executing by</b> text]: the path to the script executing this CGI, in URL form\n\t[<b>referred by</b> text]: the URL of the page the client used to link to the CGI\n\t[<b>from browser</b> text]: the name of the client software\n\t[<b>using action</b> text]: the path to the file or CGI\n\t[<b>of action type</b> text]: either PREPROCESSOR, POSTPROCESSOR, CGI, or ACGI\n\t[<b>from client IP address</b> text]: the Internet address of the client\n\t[<b>with full request</b> text]: the full request as sent to the server\n\t[<b>with connection ID</b> integer]: the ID of the connection from the server to the client\n\t[<b>from virtual host</b> text]: the URL of the root folder of the virtual host\n\t<b>→</b> web page: an HTML page resulting from the CGI execution"
+        },
+
+//  Standard Additions / User Interaction
+
+        {
+            "trigger": "beep",
+            "contents": "beep ${1:integer}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Beep 1 or more times.</strong>\n\n---\n\n<b>beep</b> [integer]: number of times to beep"
+        },
+        {
+            "trigger": "choose_application",
+            "contents": "choose application with title ${1:text} with prompt ${2:text} multiple selections allowed ${3:boolean} as ${4:type class}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose an application on this machine or the network</strong>\n\n---\n\n<b>choose application</b>\n\t[<b>with title</b> text]: the dialog window title\n\t[<b>with prompt</b> text]: the prompt to be displayed in the dialog box\n\t[<b>multiple selections allowed</b> boolean]: Allow multiple items to be selected? (default is false)\n\t[<b>as</b> type class]: the desired type of result. May be application (the default) or alias.\n\t<b>→</b> application: the chosen application."
+        },
+        {
+            "trigger": "choose_color",
+            "contents": "choose color default color ${1:RGB color}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose a color</strong>\n\n---\n\n<b>choose color</b>\n\t[<b>default color</b> RGB color]: the default color\n\t<b>→</b> RGB color: the chosen color"
+        },
+        {
+            "trigger": "choose_file",
+            "contents": "choose file with prompt ${1:text} of type ${2:list of text} default location ${3:alias} invisibles ${4:boolean} multiple selections allowed ${5:boolean} showing package contents ${6:boolean}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose a file on a disk or server</strong>\n\n---\n\n<b>choose file</b>\n\t[<b>with prompt</b> text]: the prompt to be displayed in the dialog box\n\t[<b>of type</b> list of text]: a list of file types or type identifiers. Only files of the specified types will be selectable.\n\t[<b>default location</b> alias]: the default file location\n\t[<b>invisibles</b> boolean]: Show invisible files and folders? (default is false)\n\t[<b>multiple selections allowed</b> boolean]: Allow multiple items to be selected? (default is false)\n\t[<b>showing package contents</b> boolean]: Show the contents of packages? (Packages will be treated as folders. Default is false.)\n\t<b>→</b> alias: the chosen file"
+        },
+        {
+            "trigger": "choose_file_name",
+            "contents": "choose file name with prompt ${1:text} default name ${2:text} default location ${3:alias}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Get a new file reference from the user, without creating the file</strong>\n\n---\n\n<b>choose file name</b>\n\t[<b>with prompt</b> text]: the prompt to be displayed in the dialog box\n\t[<b>default name</b> text]: the default name for the new file\n\t[<b>default location</b> alias]: the default file location\n\t<b>→</b> file: the file the user specified"
+        },
+        {
+            "trigger": "choose_folder",
+            "contents": "choose folder with prompt ${1:text} default location ${2:alias} invisibles ${3:boolean} multiple selections allowed ${4:boolean} showing package contents ${5:boolean}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose a folder on a disk or server</strong>\n\n---\n\n<b>choose folder</b>\n\t[<b>with prompt</b> text]: the prompt to be displayed in the dialog box\n\t[<b>default location</b> alias]: the default folder location\n\t[<b>invisibles</b> boolean]: Show invisible files and folders? (default is false)\n\t[<b>multiple selections allowed</b> boolean]: Allow multiple items to be selected? (default is false)\n\t[<b>showing package contents</b> boolean]: Show the contents of packages? (Packages will be treated as folders. Default is false.)\n\t<b>→</b> alias: the chosen folder"
+        },
+        {
+            "trigger": "choose_from_list",
+            "contents": "choose from list ${1:list of text or number} with title ${2:text} with prompt ${3:text} default items ${4:list of text or number} OK button name ${5:text} cancel button name ${6:text} multiple selections allowed ${7:boolean} empty selection allowed ${8:boolean}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose one or more items from a list</strong>\n\n---\n\n<b>choose from list</b> list of text or number: a list of items to display\n\t[<b>with title</b> text]: the dialog window title\n\t[<b>with prompt</b> text]: the prompt to be displayed in the dialog box\n\t[<b>default items</b> list of text or number]: a list of items to initially select (an empty list if no selection)\n\t[<b>OK button name</b> text]: the name of the OK button\n\t[<b>cancel button name</b> text]: the name of the cancel button\n\t[<b>multiple selections allowed</b> boolean]: Allow multiple items to be selected?\n\t[<b>empty selections allowed</b> boolean]: Can the user make no selection and then choose OK?\n\t<b>→</b> list of text or number: the list of selected items"
+        },
+        {
+            "trigger": "choose_remote_application",
+            "contents": "choose remote application with title ${1:text} with prompt ${2:text}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose a running application on a remote machine or on this machine</strong>\n\n---\n\n<b>choose remote application</b>\n\t[<b>with title</b> text]: the dialog window title\n\t[<b>with prompt</b> text]: the prompt to be displayed above the list of applications\n\t<b>→</b> application: the chosen application"
+        },
+        {
+            "trigger": "choose_URL",
+            "contents": "choose URL showing ${1:list of Web servers/FTP Servers/Telnet hosts/File servers/News servers/Directory services/Media servers/Remote applications} editable URL ${2:boolean}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Choose a service on the Internet</strong>\n\n---\n\n<b>choose URL</b>\n\t[<b>showing</b> list of Web servers/FTP Servers/Telnet hosts/File servers/News servers/Directory services/Media servers/Remote applications]: which network services to show\n\t[<b>editable URL</b> boolean]: Allow user to type in a URL?\n\t<b>→</b> URL: the chosen URL"
+        },
+        {
+            "trigger": "display_alert",
+            "contents": "display alert ${1:text} message ${2:text} as ${3:critical/informational/warning} buttons ${4:list of text} default button ${5:text or integer} cancel button ${6:text or integer} giving up after ${7:integer}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Display an alert</strong>\n\n---\n\n<b>display alert</b> text: the alert text (will be displayed in emphasized system font)\n\t[<b>message</b> text]: the explanatory message (will be displayed in small system font)\n\t[<b>as</b> critical/informational/warning]: the type of alert (default is informational)\n\t[<b>buttons</b> list of text]: a list of up to three button names\n\t[<b>default button</b> text or integer]: the name or number of the default button\n\t[<b>cancel button</b> text or integer]: the name or number of the cancel button\n\t[<b>giving up after</b> integer]: number of seconds to wait before automatically dismissing the alert\n\t<b>→</b> alert reply: a record containing the button clicked"
+        },
+        {
+            "trigger": "display_dialog",
+            "contents": "display dialog ${1:text} default answer ${2:text} hidden answer ${3:boolean} buttons ${4:list of text} default button ${5:text or integer} cancel button ${6:text or integer} with title ${7:text} with icon ${8:text or integer} with icon ${9:stop/note/caution} with icon ${10:file} giving up after ${11:integer}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Display a dialog box, optionally requesting user input</strong>\n\n---\n\n<b>display dialog</b> text: the text to display in the dialog box\n\t[<b>default answer</b> text]: the default editable text\n\t[<b>hidden answer</b> boolean]: Should editable text be displayed as bullets? (default is false)\n\t[<b>buttons</b> list of text]: a list of up to three button names\n\t[<b>default button</b> text or integer]: the name or number of the default button\n\t[<b>cancel button</b> text or integer]: the name or number of the cancel button\n\t[<b>with title</b> text]: the dialog window title\n\t[<b>with icon</b> text or integer]: the resource name or ID of the icon to display…\n\t[<b>with icon</b> stop/note/caution]: …or one of these system icons…\n\t[<b>with icon</b> file]: …or an alias or file reference to a <code>.icns</code> file\n\t[<b>giving up after</b> integer]: number of seconds to wait before automatically dismissing the dialog\n\t<b>→</b> dialog reply: a record containing the button clicked and text entered (if any)"
+        },
+        {
+            "trigger": "display_notification",
+            "contents": "display notification ${1:text} with title ${2:text} subtitle ${3:text} sound name ${4:text}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Display a notification. At least one of the body text and the title must be specified.</strong>\n\n---\n\n<b>display notification</b> [text]: the body text of the notification\n\t[<b>with title</b> text]: the title of the notification (default is the name of the calling application)\n\t[<b>subtitle</b> text]: the subtitle of the notification\n\t[<b>sound name</b> text]: the name of the sound to play"
+        },
+        {
+            "trigger": "say",
+            "contents": "say ${1:text} displaying ${2:text} using ${3:text} speaking rate ${4:number} pitch ${5:number} modulation ${6:number} volume ${7:number} stopping current speech ${8:boolean} waiting until completion ${9:boolean} saving to ${10:any}",
+            "annotation": "standard_additions.user_interaction",
+            "kind": ["snippet", "s", "standard_additions"],
+            "details": "<strong>Speak the given text</strong>\n\n---\n\n<b>say</b> text: the text to speak, which can include intonation characters\n\t[<b>displaying</b> text]: the text to display in the feedback window (if different). Ignored unless Speech Recognition is on.\n\t[<b>using</b> text]: the voice to speak with. (Default is the system voice.)\n\t[<b>speaking rate</b> number]: the rate of speech in words per minute. Average human speech occurs at a rate of 180 to 220 words per minute. (Default depends on the voice used. If \"using\" is not given, the system speaking rate is the default.)\n\t[<b>pitch</b> number]: the base pitch frequency, a real number from 0 to 127. Values correspond to MIDI note values, where 60 is equal to middle C. Typical pitches range from around 30 to 40 for a low-pitched male voice to perhaps 55 to 65 for a high-pitched child&apos;s voice.\n\t[<b>modulation</b> number]: the pitch modulation, a real number from 0 to 127. A value of 0 corresponds to a monotone in which all speech is at the base speech pitch. Given a pitch value of 46, a modulation of 2 means the widest range of pitches would be 44 to 48.\n\t[<b>volume</b> number]:  the volume, a real number from 0 to 1 (default is the system volume).\n\t[<b>stopping current speech</b> boolean]: stop any current speech before starting (default is false). When false, \"say\" waits for previous speech commands to complete before beginning to speak.\n\t[<b>waiting until completion</b> boolean]: wait for speech to complete before returning (default is true).\n\t[<b>saving to</b> any]: the alias, file reference or path string of an AIFF file (existing or not) to contain the sound output.\n\t<b>→</b> specifier: The new object.\n\n---\n\nWhen \"saving to\" or voice-modifying parameters other than \"using\" are given, text is not displayed in the Speech Recognition feedback window, as it is not used to produce the speech in that case."
+        }
+    ]
+}
