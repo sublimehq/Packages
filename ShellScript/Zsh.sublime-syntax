@@ -475,7 +475,7 @@ contexts:
       push: zsh-parameter-subscription
     # length operator has precedence over special parameters
     - match: (\$)(\#?){{identifier}}
-      scope: meta.interpolation.parameter.shell variable.other.readwrite.shell
+      scope: variable.other.readwrite.shell
       captures:
         1: punctuation.definition.variable.shell
         2: keyword.operator.expansion.length.shell
