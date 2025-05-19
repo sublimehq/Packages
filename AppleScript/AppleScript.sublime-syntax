@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # https://www.sublimetext.com/docs/syntax.html
+# https://developer.apple.com/go/?id=applescript-lang-guide
 # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html
 
 name: AppleScript
