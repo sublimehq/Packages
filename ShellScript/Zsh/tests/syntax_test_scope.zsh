@@ -374,12 +374,12 @@ for name ( word1 $word2 | & ; < > ) print $name
 #                                   ^^^^^ support.function.shell
 #                                         ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 
-for a b c ( word1 $word2 | & ; < > ) print $name
+for a b 3 ( word1 $word2 | & ; < > ) print $name
 # <- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
 #   ^ variable.other.readwrite.shell
 #     ^ variable.other.readwrite.shell
-#       ^ variable.other.readwrite.shell
+#       ^ variable.language.positional.shell
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.shell
 #         ^ punctuation.section.sequence.begin.shell
 #           ^^^^^ meta.string.glob.shell string.unquoted.shell
@@ -497,7 +497,7 @@ foreach in 1 new ( word1 word2 ) echo $name; end
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.foreach.shell.zsh
 #^^^^^^ keyword.control.loop.foreach.shell.zsh
 #       ^^ variable.other.readwrite.shell
-#          ^ variable.other.readwrite.shell
+#          ^ variable.language.positional.shell
 #            ^^^ variable.other.readwrite.shell
 #                ^^^^^^^^^^^^^^^ meta.sequence.list.shell.zsh
 #                ^ punctuation.section.sequence.begin.shell.zsh

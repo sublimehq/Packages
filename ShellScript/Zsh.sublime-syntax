@@ -203,9 +203,17 @@ contexts:
   loop-iterator-vars-in-wordlist:
     # a variable list terminated by a word list
     - meta_include_prototype: false
+    - match: \d{1,2}{{identifier_break}}
+      scope: variable.language.positional.shell
     - match: (?=(?!in{{identifier_break}}){{identifier_first_char}})
       push: variable-name-begin
     - include: loop-iterator-wordlist
+
+  loop-iterator-var:
+    - meta_prepend: true
+    - match: \d{1,2}{{identifier_break}}
+      scope: variable.language.positional.shell
+      pop: 1
 
   foreach-meta:
     - meta_include_prototype: false
