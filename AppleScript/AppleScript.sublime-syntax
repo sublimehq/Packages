@@ -23,8 +23,8 @@ first_line_match: |-
 contexts:
 
   prototype:
-    - include: merge-conflict-markers
     - include: comments
+    - include: merge-conflict-markers
 
   main:
     - meta_include_prototype: false
