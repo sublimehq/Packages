@@ -1,8 +1,12 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
+# https://developer.apple.com/go/?id=applescript-lang-guide
+# https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html
+
 name: AppleScript
 scope: source.applescript
+version: 2
 
 file_extensions:
   - applescript
@@ -10,553 +14,72 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* \bosascript(?!\s+-l\s+JavaScript)\b  # shebang
-  | ^ \s* \# .*? -\*- .*? \bosascript\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}} (?! \s+ -l \s+ JavaScript ) \b      # shebang
+  | {{leading_wspace}} \# .*? -\*- .*? {{shebang_language}} .*? -\*-  # editorconfig
   )
 
+###[ CONTEXTS ]################################################################
+
 contexts:
-  main:
-    - include: blocks
-    - include: inline
-  attributes.considering-ignoring:
-    - match: ","
-      scope: punctuation.separator.array.attributes.applescript
-    - match: \b(and)\b
-      scope: keyword.control.attributes.and.applescript
-    - match: \b(?i:case|diacriticals|hyphens|numeric\s+strings|punctuation|white\s+space)\b
-      scope: constant.other.attributes.text.applescript
-    - match: \b(?i:application\s+responses)\b
-      scope: constant.other.attributes.application.applescript
-  blocks:
-    - match: ^\s*(script)\s+(\w+)
-      captures:
-        1: keyword.control.script.applescript
-        2: entity.name.type.script-object.applescript
-      push:
-        - meta_scope: meta.block.script.applescript
-        - match: ^\s*(end(?:\s+script)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.script.applescript
-          pop: true
-        - include: main
-    - match: |-
-        ^(?x)
-        	\s*(to|on)\s+ 					# "on" or "to"
-        	(\w+)							# function name
-        	(\()							# opening paren
-        		((?:[\s,:\{\}]*(?:\w+)?)*)	# parameters
-        	(\))							# closing paren
-      comment: |
-        This is not a very well-designed rule.  For now,
-                                we can leave it like this though, as it sorta works.
-      captures:
-        1: keyword.control.function.applescript
-        2: entity.name.function.handler.applescript
-        3: punctuation.definition.parameters.applescript
-        4: variable.parameter.handler.applescript
-        5: punctuation.definition.parameters.applescript
-      push:
-        - meta_scope: meta.function.positional.applescript
-        - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.function.applescript
-          pop: true
-        - include: main
-    - match: |-
-        ^(?x)
-        	\s*(to|on)\s+ 					# "on" or "to"
-        	(\w+)							# function name
-        	(?:\s+
-        		(of|in)\s+					# "of" or "in"
-        		(\w+)						# direct parameter
-        	)?
-        	(?=\s+(above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\b)
-      comment: "TODO: match `given` parameters"
-      captures:
-        1: keyword.control.function.applescript
-        2: entity.name.function.handler.applescript
-        3: keyword.control.function.applescript
-        4: variable.parameter.handler.direct.applescript
-      push:
-        - meta_scope: meta.function.prepositional.applescript
-        - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.function.applescript
-          pop: true
-        - match: \b(?i:above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\s+(\w+)\b
-          captures:
-            1: keyword.control.preposition.applescript
-            2: variable.parameter.handler.applescript
-        - include: main
-    - match: |-
-        ^(?x)
-        	\s*(to|on)\s+ 					# "on" or "to"
-        	(\w+)							# function name
-        	(?=\s*(--.*?)?$)				# nothing else
-      captures:
-        1: keyword.control.function.applescript
-        2: entity.name.function.handler.applescript
-      push:
-        - meta_scope: meta.function.parameterless.applescript
-        - match: ^\s*(end)(?:\s+(\2))?(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.function.applescript
-          pop: true
-        - include: main
-    - include: blocks.tell
-    - include: blocks.repeat
-    - include: blocks.statement
-    - include: blocks.other
-  blocks.other:
-    - match: ^\s*(considering)\b
-      push:
-        - meta_scope: meta.block.considering.applescript
-        - match: ^\s*(end(?:\s+considering)?)(?=\s*(--.*?)?$)
-          pop: true
-        - match: (?<=considering)
-          push:
-            - meta_scope: meta.array.attributes.considering.applescript
-            - match: (?<!¬)$
-              pop: true
-            - include: attributes.considering-ignoring
-        - match: (?<=ignoring)
-          push:
-            - meta_scope: meta.array.attributes.ignoring.applescript
-            - match: (?<!¬)$
-              pop: true
-            - include: attributes.considering-ignoring
-        - match: \b(but)\b
-          scope: keyword.control.but.applescript
-        - include: main
-    - match: ^\s*(ignoring)\b
-      push:
-        - meta_scope: meta.block.ignoring.applescript
-        - match: ^\s*(end(?:\s+ignoring)?)(?=\s*(--.*?)?$)
-          pop: true
-        - match: (?<=considering)
-          push:
-            - meta_scope: meta.array.attributes.considering.applescript
-            - match: (?<!¬)$
-              pop: true
-            - include: attributes.considering-ignoring
-        - match: (?<=ignoring)
-          push:
-            - meta_scope: meta.array.attributes.ignoring.applescript
-            - match: (?<!¬)$
-              pop: true
-            - include: attributes.considering-ignoring
-        - match: \b(but)\b
-          scope: keyword.control.but.applescript
-        - include: main
-    - match: ^\s*(if)\b
-      captures:
-        1: keyword.control.if.applescript
-      push:
-        - meta_scope: meta.block.if.applescript
-        - match: ^\s*(end(?:\s+if)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - match: \b(then)\b
-          scope: keyword.control.then.applescript
-        - match: \b(else\s+if)\b
-          scope: keyword.control.else-if.applescript
-        - match: \b(else)\b
-          scope: keyword.control.else.applescript
-        - include: main
-    - match: ^\s*(try)\b
-      captures:
-        1: keyword.control.try.applescript
-      push:
-        - meta_scope: meta.block.try.applescript
-        - match: ^\s*(end(?:\s+(try|error))?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - match: ^\s*(on\s+error)\b
-          captures:
-            1: keyword.control.exception.on-error.applescript
-          push:
-            - meta_scope: meta.property.error.applescript
-            - match: (?<!¬)$
-              pop: true
-            - match: \b(?i:number|partial|from|to)\b
-              scope: keyword.control.exception.modifier.applescript
-            - include: inline
-        - include: main
-    - match: ^\s*(using\s+terms\s+from)\b
-      captures:
-        1: keyword.control.terms.applescript
-      push:
-        - meta_scope: meta.block.terms.applescript
-        - match: ^\s*(end(?:\s+using\s+terms\s+from)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - include: main
-    - match: ^\s*(with\s+timeout(\s+of)?)\b
-      captures:
-        1: keyword.control.timeout.applescript
-      push:
-        - meta_scope: meta.block.timeout.applescript
-        - match: ^\s*(end(?:\s+timeout)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - include: main
-    - match: ^\s*(with\s+transaction(\s+of)?)\b
-      captures:
-        1: keyword.control.transaction.applescript
-      push:
-        - meta_scope: meta.block.transaction.applescript
-        - match: ^\s*(end(?:\s+transaction)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - include: main
-  blocks.repeat:
-    - match: ^\s*(repeat)\s+(until)\b
-      captures:
-        1: keyword.control.repeat.applescript
-        2: keyword.control.until.applescript
-      push:
-        - meta_scope: meta.block.repeat.until.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - include: main
-    - match: ^\s*(repeat)\s+(while)\b
-      captures:
-        1: keyword.control.repeat.applescript
-        2: keyword.control.while.applescript
-      push:
-        - meta_scope: meta.block.repeat.while.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - include: main
-    - match: ^\s*(repeat)\s+(with)\s+(\w+)\b
-      captures:
-        1: keyword.control.repeat.applescript
-        2: keyword.control.until.applescript
-        3: variable.parameter.loop.applescript
-      push:
-        - meta_scope: meta.block.repeat.with.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - match: \b(from|to|by)\b
-          scope: keyword.control.modifier.range.applescript
-        - match: \b(in)\b
-          scope: keyword.control.modifier.list.applescript
-        - include: main
-    - match: ^\s*(repeat)\b(?=\s*(--.*?)?$)
-      captures:
-        1: keyword.control.repeat.applescript
-      push:
-        - meta_scope: meta.block.repeat.forever.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - include: main
-    - match: ^\s*(repeat)\b
-      captures:
-        1: keyword.control.repeat.applescript
-      push:
-        - meta_scope: meta.block.repeat.times.applescript
-        - match: ^\s*(end(?:\s+repeat)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.end.applescript
-          pop: true
-        - match: \b(times)\b
-          scope: keyword.control.times.applescript
-        - include: main
-  blocks.statement:
-    - match: \b(prop(?:erty)?)\s+(\w+)\b
-      captures:
-        1: keyword.control.def.property.applescript
-        2: variable.other.property.applescript
-      push:
-        - meta_scope: meta.statement.property.applescript
-        - match: (?<!¬)$
-          pop: true
-        - match: ":"
-          scope: punctuation.separator.key-value.property.applescript
-        - include: inline
-    - match: \b(set)\s+(\w+)\s+(to)\b
-      captures:
-        1: keyword.control.def.set.applescript
-        2: variable.other.readwrite.set.applescript
-        3: keyword.control.def.set.applescript
-      push:
-        - meta_scope: meta.statement.set.applescript
-        - match: (?<!¬)$
-          pop: true
-        - include: inline
-    - match: \b(local)\b
-      captures:
-        1: keyword.control.def.local.applescript
-      push:
-        - meta_scope: meta.statement.local.applescript
-        - match: (?<!¬)$
-          pop: true
-        - match: ","
-          scope: punctuation.separator.variables.local.applescript
-        - match: \b\w+
-          scope: variable.other.readwrite.local.applescript
-        - include: inline
-    - match: \b(global)\b
-      captures:
-        1: keyword.control.def.global.applescript
-      push:
-        - meta_scope: meta.statement.global.applescript
-        - match: (?<!¬)$
-          pop: true
-        - match: ","
-          scope: punctuation.separator.variables.global.applescript
-        - match: \b\w+
-          scope: variable.other.readwrite.global.applescript
-        - include: inline
-    - match: \b(error)\b
-      captures:
-        1: keyword.control.exception.error.applescript
-      push:
-        - meta_scope: meta.statement.error.applescript
-        - match: (?<!¬)$
-          pop: true
-        - match: \b(number|partial|from|to)\b
-          scope: keyword.control.exception.modifier.applescript
-        - include: inline
-    - match: \b(if)\b(?=.*\bthen\b(?!\s*(--.*?)?$))
-      captures:
-        1: keyword.control.if.applescript
-      push:
-        - meta_scope: meta.statement.if-then.applescript
-        - match: (?<!¬)$
-          pop: true
-        - include: inline
-  blocks.tell:
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:textmate)")(?!.*\bto(?!\s+tell)\b)
-      comment: tell Textmate
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.application.textmate.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: textmate
-        - include: standard-suite
-        - include: main
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:finder)")(?!.*\bto(?!\s+tell)\b)
-      comment: tell Finder
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.application.finder.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: finder
-        - include: standard-suite
-        - include: main
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:system events)")(?!.*\bto(?!\s+tell)\b)
-      comment: tell System Events
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.application.system-events.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: system-events
-        - include: standard-suite
-        - include: main
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+"(?i:itunes)")(?!.*\bto(?!\s+tell)\b)
-      comment: tell iTunes
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.application.itunes.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: itunes
-        - include: standard-suite
-        - include: main
-    - match: ^\s*(tell)\s+(?=app(lication)?\s+process\b)(?!.*\bto(?!\s+tell)\b)
-      comment: tell generic application process
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.application-process.generic.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: standard-suite
-        - include: main
-    - match: ^\s*(tell)\s+(?=app(lication)?\b)(?!.*\bto(?!\s+tell)\b)
-      comment: tell generic application
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.application.generic.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: standard-suite
-        - include: main
-    - match: ^\s*(tell)\s+(?!.*\bto(?!\s+tell)\b)
-      comment: generic tell block
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.generic.applescript
-        - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: main
-    - match: ^\s*(tell)\s+(?=.*\bto\b)
-      comment: tell … to statement
-      captures:
-        1: keyword.control.tell.applescript
-      push:
-        - meta_scope: meta.block.tell.generic.applescript
-        - match: (?<!¬)$
-          captures:
-            1: keyword.control.tell.applescript
-          pop: true
-        - include: main
-  built-in:
-    - include: built-in.constant
-    - include: built-in.keyword
-    - include: built-in.support
-    - include: built-in.punctuation
-  built-in.constant:
-    - match: \b(?i:true|false|yes|no)\b
-      comment: yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
-      scope: constant.language.boolean.applescript
-    - match: \b(?i:null|missing\s+value)\b
-      scope: constant.language.null.applescript
-    - match: '-?\b\d+((\.(\d+\b)?)?(?i:e\+?\d*\b)?|\b)'
-      scope: constant.numeric.applescript
-    - match: \b(?i:space|tab|return|linefeed|quote)\b
-      scope: constant.other.text.applescript
-    - match: \b(?i:all\s+(caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(sub|super)script|underline)\b
-      scope: constant.other.styles.applescript
-    - match: \b(?i:Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\b
-      scope: constant.other.time.month.applescript
-    - match: \b(?i:Mon(day)?|Tue(sday)?|Wed(nesday)?|Thu(rsday)?|Fri(day)?|Sat(urday)?|Sun(day)?)\b
-      scope: constant.other.time.weekday.applescript
-    - match: '\b(?i:AppleScript|pi|result|version|current\s+application|its?|m[ey])\b'
-      scope: constant.other.miscellaneous.applescript
-    - match: \b(?i:text\s+item\s+delimiters|print\s+(length|depth))\b
-      scope: variable.language.applescript
-  built-in.keyword:
-    - match: (&|\*|\+|-|/|÷|\^)
-      scope: keyword.operator.arithmetic.applescript
-    - match: (=|≠|>|<|≥|>=|≤|<=)
-      scope: keyword.operator.comparison.applescript
-    - match: |-
-        (?ix)\b
-        	(and|or|div|mod|as|not
-        	|(a\s+)?(ref(\s+to)?|reference\s+to)
-        	|equal(s|\s+to)|contains?|comes\s+(after|before)|(start|begin|end)s?\s+with
-        	)
-        \b
-      scope: keyword.operator.word.applescript
-    - match: |-
-        (?ix)\b
-        	(is(n't|\s+not)?(\s+(equal(\s+to)?|(less|greater)\s+than(\s+or\s+equal(\s+to)?)?|in|contained\s+by))?
-        	|does(n't|\s+not)\s+(equal|come\s+(before|after)|contain)
-        	)
-        \b
-      comment: In double quotes so we can use a single quote in the keywords.
-      scope: keyword.operator.word.applescript
-    - match: \b(?i:some|every|whose|where|that|id|index|\d+(st|nd|rd|th)|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|last|front|back|middle|named|beginning|end|from|to|thr(u|ough)|before|(front|back|beginning|end)\s+of|after|behind|in\s+(front|back|beginning|end)\s+of)\b
-      scope: keyword.operator.reference.applescript
-    - match: \b(?i:continue|return|exit(\s+repeat)?)\b
-      scope: keyword.control.loop.applescript
-    - match: \b(?i:about|above|after|against|and|apart\s+from|around|as|aside\s+from|at|back|before|beginning|behind|below|beneath|beside|between|but|by|considering|contain|contains|contains|copy|div|does|eighth|else|end|equal|equals|error|every|false|fifth|first|for|fourth|from|front|get|given|global|if|ignoring|in|instead\s+of|into|is|it|its|last|local|me|middle|mod|my|ninth|not|of|on|onto|or|out\s+of|over|prop|property|put|ref|reference|repeat|returning|script|second|set|seventh|since|sixth|some|tell|tenth|that|the|then|third|through|thru|timeout|times|to|transaction|true|try|until|where|while|whose|with|without)\b
-      scope: keyword.other.applescript
-  built-in.punctuation:
-    - match: ¬
-      scope: punctuation.separator.continuation.line.applescript
-    - match: ":"
-      comment: "the : in property assignments"
-      scope: punctuation.separator.key-value.property.applescript
-    - match: "[()]"
-      comment: the parentheses in groups
-      scope: punctuation.section.group.applescript
-  built-in.support:
-    - match: \b(?i:POSIX\s+path|frontmost|id|name|running|version|days?|weekdays?|months?|years?|time|date\s+string|time\s+string|length|rest|reverse|items?|contents|quoted\s+form|characters?|paragraphs?|words?)\b
-      scope: support.function.built-in.property.applescript
-    - match: \b(?i:activate|log|clipboard\s+info|set\s+the\s+clipboard\s+to|the\s+clipboard|info\s+for|list\s+(disks|folder)|mount\s+volume|path\s+to(\s+resource)?|close\s+access|get\s+eof|open\s+for\s+access|read|set\s+eof|write|open\s+location|current\s+date|do\s+shell\s+script|get\s+volume\s+settings|random\s+number|round|set\s+volume|system\s+(attribute|info)|time\s+to\s+GMT|load\s+script|run\s+script|scripting\s+components|store\s+script|copy|count|get|launch|run|set|ASCII\s+(character|number)|localized\s+string|offset|summarize|beep|choose\s+(application|color|file(\s+name)?|folder|from\s+list|remote\s+application|URL)|delay|display\s+(alert|dialog)|say)\b
-      scope: support.function.built-in.command.applescript
-    - match: \b(?i:get|run)\b
-      scope: support.function.built-in.applescript
-    - match: \b(?i:anything|data|text|upper\s+case|propert(y|ies))\b
-      scope: support.class.built-in.applescript
-    - match: \b(?i:alias|class)(es)?\b
-      scope: support.class.built-in.applescript
-    - match: \b(?i:app(lication)?|boolean|character|constant|date|event|file(\s+specification)?|handler|integer|item|keystroke|linked\s+list|list|machine|number|picture|preposition|POSIX\s+file|real|record|reference(\s+form)?|RGB\s+color|script|sound|text\s+item|type\s+class|vector|writing\s+code(\s+info)?|zone|((international|styled(\s+(Clipboard|Unicode))?|Unicode)\s+)?text|((C|encoded|Pascal)\s+)?string)s?\b
-      scope: support.class.built-in.applescript
-    - match: |-
-        (?ix)\b
-        	(	(cubic\s+(centi)?|square\s+(kilo)?|centi|kilo)met(er|re)s
-        	|	square\s+(yards|feet|miles)|cubic\s+(yards|feet|inches)|miles|inches
-        	|	lit(re|er)s|gallons|quarts
-        	|	(kilo)?grams|ounces|pounds
-        	|	degrees\s+(Celsius|Fahrenheit|Kelvin)
-        	)
-        \b
-      scope: support.class.built-in.unit.applescript
-    - match: \b(?i:seconds|minutes|hours|days)\b
-      scope: support.class.built-in.time.applescript
-  comments:
-    - match: ^\s*(#).*$\n?
-      scope: comment.line.number-sign.applescript
-      captures:
-        1: punctuation.definition.comment.applescript
-    - match: (--).*$\n?
-      scope: comment.line.double-dash.applescript
-      captures:
-        1: punctuation.definition.comment.applescript
-    - match: \(\*
-      captures:
-        0: punctuation.definition.comment.applescript
-      push:
-        - meta_scope: comment.block.applescript
-        - match: \*\)
-          captures:
-            0: punctuation.definition.comment.applescript
-          pop: true
-        - include: comments.nested
+
+  prototype:
+    - include: comments
     - include: merge-conflict-markers
 
-  comments.nested:
-    - match: \(\*
+  main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [statements, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
       captures:
-        0: punctuation.definition.comment.applescript
+        1: punctuation.definition.comment.begin.applescript
+      set: shebang-body
+    # NOTE: Ensure to highlight shebang if syntax is embedded.
+    - match: ^|(?=\S)
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.applescript
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.applescript
+    - include: pop-eol
+
+###[ COMMENTS ]################################################################
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW8
+  comments:
+    - include: line-comments
+    - include: block-comments
+
+  line-comments:
+    - match: '#'
+      scope: punctuation.definition.comment.begin.applescript
       push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.number-sign.applescript
+        - include: pop-eol
+    - match: --
+      scope: punctuation.definition.comment.begin.applescript
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.double-dash.applescript
+        - include: pop-eol
+
+  block-comments:
+    - match: \(\*
+      scope: punctuation.definition.comment.begin.applescript
+      push:
+        - meta_include_prototype: false
         - meta_scope: comment.block.applescript
         - match: \*\)
-          captures:
-            0: punctuation.definition.comment.applescript
-          pop: true
-        - include: comments.nested
-    - include: merge-conflict-markers
+          scope: punctuation.definition.comment.end.applescript
+          pop: 1
+        - include: merge-conflict-markers
+        - include: block-comments
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
@@ -576,177 +99,1064 @@ contexts:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
-  data-structures:
-    - match: '(\{)'
-      comment: We cannot necessarily distinguish "records" from "arrays", and so this could be either.
+###[ APPLESCRIPT ]#############################################################
+
+  statements:
+    - match: \bprint\b
+      scope: keyword.other.print.applescript
+    - include: blocks
+    - include: expressions
+
+  expressions:
+    - include: line-continuations
+    - include: records-and-lists
+    - include: operators
+    - include: literals
+    - include: built-in.support
+    - include: groups
+    - include: standardadditions
+    - include: identifiers
+
+  attributes.considering-ignoring:
+    - match: ','
+      scope: punctuation.separator.array.attributes.applescript
+    - match: \band\b
+      scope: keyword.control.attributes.and.applescript
+    - match: \b(?i:case|diacriticals|hyphens|numeric\s+strings|punctuation|white\s+space)\b
+      scope: constant.other.attributes.text.applescript
+    - match: \b(?i:application\s+responses)\b
+      scope: constant.other.attributes.application.applescript
+
+  blocks:
+    - match: '{{leading_wspace}}(script)\s+(\w+)'
       captures:
-        1: punctuation.section.array.begin.applescript
+        1: keyword.control.script.applescript
+        2: entity.name.type.script-object.applescript
       push:
-        - meta_scope: meta.array.applescript
-        - match: '(\})'
+        - meta_scope: meta.block.script.applescript
+        - match: '{{leading_wspace}}(end(?:\s+script)?){{eol_with_optional_comment}}'
           captures:
-            1: punctuation.section.array.end.applescript
-          pop: true
-        - match: '(\w+|((\|)[^|\n]*(\|)))\s*(:)'
-          captures:
-            1: constant.other.key.applescript
-            2: meta.identifier.applescript
-            3: punctuation.definition.identifier.applescript
-            4: punctuation.definition.identifier.applescript
-            5: punctuation.separator.key-value.applescript
-        - match: ":"
-          scope: punctuation.separator.key-value.applescript
-        - match: ","
-          scope: punctuation.separator.array.applescript
-        - include: inline
-    - match: (?:(?<=application )|(?<=app ))(")
+            1: keyword.control.script.applescript
+          pop: 1
+        - include: statements
+
+    # This is not a very well-designed rule.
+    # For now, we can leave it like this though, as it sorta works.
+    - match: |-
+        (?x)
+        {{leading_wspace}}
+        ( to | on ) \s+                 # "on" or "to"
+        (\w+)                           # function name
+        (\()                            # opening paren
+          ((?:[\s,:\{\}]*(?:\w+)?)*)    # parameters
+        (\))                            # closing paren
       captures:
-        1: punctuation.definition.string.applescript
+        1: keyword.control.function.applescript
+        2: entity.name.function.handler.applescript
+        3: punctuation.section.parameters.applescript
+        4: variable.parameter.handler.applescript
+        5: punctuation.section.parameters.applescript
       push:
-        - meta_scope: string.quoted.double.application-name.applescript
-        - match: (")
+        - meta_scope: meta.function.positional.applescript
+        - match: '{{leading_wspace}}(end)(?:\s+(\2))?{{eol_with_optional_comment}}'
           captures:
-            1: punctuation.definition.string.applescript
-          pop: true
+            1: keyword.control.function.applescript
+          pop: 1
+        - include: statements
+
+    # TODO: match `given` parameters
+    - match: |-
+        (?x)
+        {{leading_wspace}}
+        (to|on) \s+                     # "on" or "to"
+        (\w+)                           # function name
+        (?: \s+
+          ( of | in ) \s+               # "of" or "in"
+          (\w+)                         # direct parameter
+        )?
+        (?=\s+{{preposition}})
+      captures:
+        1: keyword.control.function.applescript
+        2: entity.name.function.handler.applescript
+        3: keyword.control.function.applescript
+        4: variable.parameter.handler.direct.applescript
+      push:
+        - meta_scope: meta.function.prepositional.applescript
+        - match: '{{leading_wspace}}(end)(?:\s+(\2))?{{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.function.applescript
+          pop: 1
+        - match: \b({{preposition}})(?:\s+(the|an?))?\s+(\w+)\b
+          captures:
+            1: keyword.control.preposition.applescript
+            2: keyword.other.applescript
+            3: variable.parameter.handler.applescript
+        - include: statements
+    - match: |-
+        (?x)
+        {{leading_wspace}}
+        (to|on) \s+                     # "on" or "to"
+        (\w+)                           # function name
+        {{eol_with_optional_comment}}   # nothing else
+      captures:
+        1: keyword.control.function.applescript
+        2: entity.name.function.handler.applescript
+      push:
+        - meta_scope: meta.function.parameterless.applescript
+        - match: '{{leading_wspace}}(end)(?:\s+(\2))?{{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.function.applescript
+          pop: 1
+        - include: statements
+    - include: blocks.tell
+    - include: blocks.repeat
+    - include: blocks.statement
+    - include: blocks.other
+
+  blocks.other:
+    - match: '{{leading_wspace}}(considering)\b'
+      push:
+        - meta_scope: meta.block.considering.applescript
+        - meta_content_scope: meta.array.attributes.considering.applescript
+        - match: '{{leading_wspace}}(end(?:\s+considering)?){{eol_with_optional_comment}}'
+          pop: 1
+        - include: line-continuations
+        - include: pop-eol
+        - include: attributes.considering-ignoring
+        - match: \bbut\b
+          scope: keyword.control.but.applescript
+        - include: statements
+    - match: '{{leading_wspace}}(ignoring)\b'
+      push:
+        - meta_scope: meta.block.ignoring.applescript
+        - meta_content_scope: meta.array.attributes.ignoring.applescript
+        - match: '{{leading_wspace}}(end(?:\s+ignoring)?){{eol_with_optional_comment}}'
+          pop: 1
+        - include: line-continuations
+        - include: pop-eol
+        - include: attributes.considering-ignoring
+        - match: \bbut\b
+          scope: keyword.control.but.applescript
+        - include: statements
+    - match: '{{leading_wspace}}(if)\b'
+      captures:
+        1: keyword.control.if.applescript
+      push:
+        - meta_scope: meta.block.if.applescript
+        - match: '{{leading_wspace}}(end(?:\s+if)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - match: \bthen\b
+          scope: keyword.control.then.applescript
+        - match: \belse\s+if\b
+          scope: keyword.control.else-if.applescript
+        - match: \belse\b
+          scope: keyword.control.else.applescript
+        - include: statements
+    - match: ^\s*(try)\b
+      captures:
+        1: keyword.control.try.applescript
+      push:
+        - meta_scope: meta.block.try.applescript
+        - match: '{{leading_wspace}}(end(?:\s+(try|error))?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - match: '{{leading_wspace}}(on\s+error)\b'
+          captures:
+            1: keyword.control.exception.on-error.applescript
+          push:
+            - meta_scope: meta.property.error.applescript
+            - include: line-continuations
+            - include: pop-eol
+            - match: \b(?i:number|partial|from|to)\b
+              scope: keyword.control.exception.modifier.applescript
+            - include: expressions
+        - include: statements
+    - match: '{{leading_wspace}}(using\s+terms\s+from)\b'
+      captures:
+        1: keyword.control.terms.applescript
+      push:
+        - meta_scope: meta.block.terms.applescript
+        - match: '{{leading_wspace}}(end(?:\s+using\s+terms\s+from)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - include: statements
+    - match: '{{leading_wspace}}(with\s+timeout(\s+of)?)\b'
+      captures:
+        1: keyword.control.timeout.applescript
+      push:
+        - meta_scope: meta.block.timeout.applescript
+        - match: '{{leading_wspace}}(end(?:\s+timeout)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - include: statements
+    - match: '{{leading_wspace}}(with\s+transaction(\s+of)?)\b'
+      captures:
+        1: keyword.control.transaction.applescript
+      push:
+        - meta_scope: meta.block.transaction.applescript
+        - match: '{{leading_wspace}}(end(?:\s+transaction)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - include: statements
+
+  blocks.repeat:
+    - match: '{{leading_wspace}}(repeat)\s+(until)\b'
+      captures:
+        1: keyword.control.repeat.applescript
+        2: keyword.control.until.applescript
+      push:
+        - meta_scope: meta.block.repeat.until.applescript
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - include: statements
+    - match: '{{leading_wspace}}(repeat)\s+(while)\b'
+      captures:
+        1: keyword.control.repeat.applescript
+        2: keyword.control.while.applescript
+      push:
+        - meta_scope: meta.block.repeat.while.applescript
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - include: statements
+    - match: '{{leading_wspace}}(repeat)\s+(with)\s+(\w+)\b'
+      captures:
+        1: keyword.control.repeat.applescript
+        2: keyword.control.until.applescript
+        3: variable.parameter.loop.applescript
+      push:
+        - meta_scope: meta.block.repeat.with.applescript
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - match: \b(?:from|to|by)\b
+          scope: keyword.control.modifier.range.applescript
+        - match: \bin\b
+          scope: keyword.control.modifier.list.applescript
+        - include: statements
+    - match: '{{leading_wspace}}(repeat)\b{{eol_with_optional_comment}}'
+      captures:
+        1: keyword.control.repeat.applescript
+      push:
+        - meta_scope: meta.block.repeat.forever.applescript
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - include: statements
+    - match: '{{leading_wspace}}(repeat)\b'
+      captures:
+        1: keyword.control.repeat.applescript
+      push:
+        - meta_scope: meta.block.repeat.times.applescript
+        - match: '{{leading_wspace}}(end(?:\s+repeat)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.end.applescript
+          pop: 1
+        - match: \btimes\b
+          scope: keyword.control.times.applescript
+        - include: statements
+
+  blocks.statement:
+    - match: \b(prop(?:erty)?)\s+(\w+)\b
+      captures:
+        1: keyword.control.def.property.applescript
+        2: variable.other.property.applescript
+      push:
+        - meta_scope: meta.statement.property.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - match: ':'
+          scope: punctuation.separator.key-value.property.applescript
+        - include: expressions
+    - match: \b(set)\s+(\w+)\s+(to)\b
+      captures:
+        1: keyword.control.def.set.applescript
+        2: variable.other.readwrite.set.applescript
+        3: keyword.control.def.set.applescript
+      push:
+        - meta_scope: meta.statement.set.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - include: expressions
+    - match: \blocal\b
+      scope: keyword.control.def.local.applescript
+      push:
+        - meta_scope: meta.statement.local.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - match: ','
+          scope: punctuation.separator.variables.local.applescript
+        - match: \b\w+
+          scope: variable.other.readwrite.local.applescript
+        - include: expressions
+    - match: \bglobal\b
+      scope: keyword.control.def.global.applescript
+      push:
+        - meta_scope: meta.statement.global.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - match: ','
+          scope: punctuation.separator.variables.global.applescript
+        - match: \b\w+
+          scope: variable.other.readwrite.global.applescript
+        - include: expressions
+    - match: \berror\b
+      scope: keyword.control.exception.error.applescript
+      push:
+        - meta_scope: meta.statement.error.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - match: \b(number|partial|from|to)\b
+          scope: keyword.control.exception.modifier.applescript
+        - include: expressions
+    - match: \b(if)\b(?=.*\bthen\b(?!\s*(--.*?)?$))
+      captures:
+        1: keyword.control.if.applescript
+      push:
+        - meta_scope: meta.statement.if-then.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - include: expressions
+
+  blocks.tell:
+    # tell Textmate
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:textmate)")(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.application.textmate.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: textmate
+        - include: standard-suite
+        - include: statements
+
+    # tell Finder
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:finder)")(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.application.finder.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: finder
+        - include: standard-suite
+        - include: statements
+
+    # tell System Events
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:system events)")(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.application.system-events.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: system-events
+        - include: standard-suite
+        - include: statements
+
+    # tell iTunes
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+"(?i:itunes)")(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.application.itunes.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: itunes
+        - include: standard-suite
+        - include: statements
+
+    # tell generic application process
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\s+process\b)(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.application-process.generic.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: standard-suite
+        - include: statements
+
+    # tell generic application
+    - match: '{{leading_wspace}}(tell)\s+(?=app(lication)?\b)(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.application.generic.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: standard-suite
+        - include: statements
+
+    # generic tell block
+    - match: '{{leading_wspace}}(tell)\s+(?!.*\bto(?!\s+tell)\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.generic.applescript
+        - match: '{{leading_wspace}}(end(?:\s+tell)?){{eol_with_optional_comment}}'
+          captures:
+            1: keyword.control.tell.applescript
+          pop: 1
+        - include: statements
+
+    # tell … to statement
+    - match: '{{leading_wspace}}(tell)\s+(?=.*\bto\b)'
+      captures:
+        1: keyword.control.tell.applescript
+      push:
+        - meta_scope: meta.block.tell.generic.applescript
+        - include: line-continuations
+        - include: pop-eol
+        - include: statements
+
+  operators:
+    - match: (?:\*|\+|-|/|÷|\^)
+      scope: keyword.operator.arithmetic.applescript
+    - match: \b(?:div|mod)\b
+      scope: keyword.operator.arithmetic.applescript
+    - match: \&
+      scope: keyword.operator.concatenation.applescript
+
+    - match: \b(?:and|or|not)\b
+      scope: keyword.operator.logical.applescript
+
+    - match: (?:=|≠|>=|<=|≥|>|≤|<)
+      scope: keyword.operator.comparison.applescript
+    - match: (?:equal(?:s|\s+to)|contains?|comes\s+(?:after|before)|(?:start|begin|end)s?\s+with)
+      scope: keyword.operator.comparison.applescript
+    - match: |-
+        \b(?x:
+        # is / isn't
+          is (?: n't | \s+ not )? (?: \s+
+          (?: equal (?: \s+ to)?
+          | (?: less | greater ) \s+ than (?: \s+ or \s+ equal (?: \s+ to )?)?
+          | in | contained \s+ by
+          ))?
+        # does / doesn't
+        | does (?: n't | \s+ not ) \s+
+          (?: equal | come \s+ (?: before | after ) | contain )
+        )\b
+      scope: keyword.operator.comparison.applescript
+    - match: |-
+        \b(?x:
+          as | (?:a \s+ )? (?: ref (?: \s+ to)? | reference \s+ to )
+        )\b
+      scope: keyword.operator.reference.applescript
+
+    - match: |-
+        \b(?x:
+          (?: front | back | beginning | end) \s+ of
+        | \d+ (?:st | nd | rd | th)
+        | after
+        | back | before | beginning | behind
+        | end | every
+        | from | front
+        | id | in \s+ (?: front | back | beginning | end) \s+ of | index
+        | last
+        | middle
+        | named
+        | that | thr(?:u|ough) | to
+        | some
+        | where | whose
+        | {{ordinal}}
+        )\b
+      scope: keyword.operator.reference.applescript
+    - match: \b(?:continue|return|exit(?:\s+repeat)?)\b
+      scope: keyword.control.loop.applescript
+    - match: |-
+        \b(?x:
+          before | behind | but
+        | considering | copy
+        | does
+        | else | error | every
+        | false | for | front
+        | get | given | global
+        | if | ignoring | is | it | its
+        | local
+        | me | middle | my
+        | not
+        | of
+        | prop | property | put
+        | ref | reference | repeat | returning
+        | script | set | since | some
+        | tell | that | the | then | through | timeout | times | to | transaction | true | try
+        | until
+        | where | while | whose | with | without
+        | {{preposition}}
+        )\b
+      scope: keyword.other.applescript
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.applescript
+      push:
+        - meta_scope: meta.group.applescript
+        - match: \)
+          scope: punctuation.section.group.end.applescript
+          pop: 1
+        - include: expressions
+
+  built-in.support:
+    - match: |-
+        \b(?x:
+          characters? | contents
+        | date \s+ string | days?
+        | frontmost
+        | id | items?
+        | length
+        | months?
+        | name
+        | paragraphs?
+        | quoted \s+ form
+        | rest | reverse | running
+        | time (?: \s+ string)?
+        | version
+        | weekdays? | words?
+        | years?
+        )\b
+      scope: support.function.built-in.property.applescript
+    - match: |-
+        \b(?x:
+            ASCII \s +(?: character | number ) | activate
+          | beep
+          | choose \s+ (?:
+              application
+            | color
+            | file (?: \s+ name)? | folder | from \s+ list
+            | remote \s+ application
+            | URL
+            )
+          | clipboard \s+ info | close \s+ access | copy | count | current \s+ date
+          | delay | display \s+ (?: alert | dialog ) | do \s+ shell \s+ script
+          | get (?: \s+ (?: eof | volume \s+ settings) )?
+          | info \s+ for
+          | launch | list \s+ (?: disks | folder ) | load \s+ script | localized \s+ string | log
+          | mount \s+ volume
+          | offset | open \s+ for \s+ access | open \s+ location
+          | path \s+ to (?: \s+ resource )?
+          | random \s +number | read | round | run (?: \s+ script)?
+          | say | scripting \s+ components | set (?: \s+ (?: eof | the \s+ clipboard \s+ to | volume) )? | store \s+ script | summarize | system \s+ (?: attribute | info )
+          | the \s+ clipboard | time \s+ to \s+ GMT
+          | write
+        )\b
+      scope: support.function.built-in.command.applescript
+    - match: \b(?:get|run)\b
+      scope: support.function.built-in.applescript
+    - match: \b(?:anything|data|text|upper\s+case|propert(?:y|ies))\b
+      scope: support.class.built-in.applescript
+    - match: \b(?:alias|class)(?:es)?\b
+      scope: support.class.built-in.applescript
+    - match: |-
+        \b(?x:
+            (?:(?: C | encoded | Pascal ) \s+ )? string
+          | (?:(?: international | styled (?: \s+ (?: Clipboard | Unicode ))? | Unicode ) \s+ )? text
+          | POSIX \s+ file
+          | RGB \s+ color
+          | app (?:lication)?
+          | boolean
+          | character | constant
+          | date
+          | event
+          | file (?: \s+ specification )?
+          | handler
+          | integer | item
+          | keystroke
+          | linked \s+ list | list
+          | machine
+          | number
+          | picture | preposition
+          | real | record | reference (?: \s+ form )?
+          | script | sound
+          | text \s+ item | type \s+ class
+          | vector
+          | writing \s+ code (?: \s+ info )?
+          | zone
+        )s?\b
+      scope: support.class.built-in.applescript
+    - match: '{{unit_type}}'
+      scope: support.class.built-in.unit.applescript
+    - match: \b(?i:seconds|minutes|hours|days)\b
+      scope: support.class.built-in.time.applescript
+
+  finder:
+    - match: |-
+        \b(?x:
+          (?:(?: alias | application | document | internet \s+ location) \s+)? file
+        | (?: computer | disk | trash )-object
+        | clipping | container
+        | disk
+        | folder
+        | item
+        | package
+        )s?\b
+      scope: support.class.finder.items.applescript
+    - match: \b(?:(?:Finder|desktop|information|preferences|clipping) )windows?\b
+      scope: support.class.finder.window-classes.applescript
+    - match: \b(?:preferences|(?:icon|column|list) view options|(?:label|column|alias list)s?)\b
+      scope: support.class.finder.type-definitions.applescript
+    - match: '\b(?:copy|find|sort|clean up|eject|empty(?: trash)|erase|reveal|update)\b'
+      scope: support.function.finder.items.applescript
+    - match: \b(?:insertion location|product version|startup disk|desktop|trash|home|computer container|finder preferences)\b
+      scope: support.constant.finder.applescript
+    - match: \bvisible\b
+      scope: support.variable.finder.applescript
+
+  itunes:
+    - match: \b(?:artwork|application|encoder|EQ preset|item|source|visual|(?:EQ |browser )?window|(?:(?:audio CD|device|shared|URL|file) )?track|playlist window|(?:(?:audio CD|device|radio tuner|library|folder|user) )?playlist)s?\b
+      scope: support.class.itunes.applescript
+    - match: \b(?:add|back track|convert|fast forward|(?:next|previous) track|pause|play(?:pause)?|refresh|resume|rewind|search|stop|update|eject|subscribe|update(?:Podcast|AllPodcasts)|download)\b
+      scope: support.function.itunes.applescript
+    - match: \b(?:current (?:playlist|stream (?:title|URL)|track)|player state)\b
+      scope: support.constant.itunes.applescript
+    - match: \b(?:current (?:encoder|EQ preset|visual)|EQ enabled|fixed indexing|full screen|mute|player position|sound volume|visuals enabled|visual size)\b
+      scope: support.variable.itunes.applescript
+
+  standard-suite:
+    - match: \b(?:colors?|documents?|items?|windows?)\b
+      scope: support.class.standard-suite.applescript
+    - match: \b(?:close|count|delete|duplicate|exists|make|move|open|print|quit|save|activate|select|data size)\b
+      scope: support.function.standard-suite.applescript
+    - match: \b(?:name|frontmost|version)\b
+      scope: support.constant.standard-suite.applescript
+    - match: \b(?:selection)\b
+      scope: support.variable.standard-suite.applescript
+    - match: \b(?:attachments?|attribute runs?|characters?|paragraphs?|texts?|words?)\b
+      scope: support.class.text-suite.applescript
+
+  standardadditions:
+    - match: \b(?:(?:alert|dialog) reply)\b
+      scope: support.class.standardadditions.user-interaction.applescript
+    - match: \bfile information\b
+      scope: support.class.standardadditions.file.applescript
+    - match: \b(?:POSIX files?|system information|volume settings)\b
+      scope: support.class.standardadditions.miscellaneous.applescript
+    - match: \b(?:URLs?|internet address(es)?|web pages?|FTP items?)\b
+      scope: support.class.standardadditions.internet.applescript
+    - match: '\b(?:info for|list (?:disks|folder)|mount volume|path to(?: resource)?)\b'
+      scope: support.function.standardadditions.file.applescript
+    - match: '\b(?:beep|choose (?:application|color|file(?: name)?|folder|from list|remote application|URL)|delay|display (?:alert|dialog)|say)\b'
+      scope: support.function.standardadditions.user-interaction.applescript
+    - match: \b(?:ASCII (?:character|number)|localized string|offset|summarize)\b
+      scope: support.function.standardadditions.string.applescript
+    - match: \b(?:set the clipboard to|the clipboard|clipboard info)\b
+      scope: support.function.standardadditions.clipboard.applescript
+    - match: \b(?:open for access|close access|read|write|get eof|set eof)\b
+      scope: support.function.standardadditions.file-i-o.applescript
+    - match: \b(?:(?:load|store|run) script|scripting components)\b
+      scope: support.function.standardadditions.scripting.applescript
+    - match: \b(?:current date|do shell script|get volume settings|random number|round|set volume|system attribute|system info|time to GMT)\b
+      scope: support.function.standardadditions.miscellaneous.applescript
+    - match: \b(?:opening folder|(?:closing|moving) folder window for|adding folder items to|removing folder items from)\b
+      scope: support.function.standardadditions.folder-actions.applescript
+    - match: \b(?:open location|handle CGI request)\b
+      scope: support.function.standardadditions.internet.applescript
+
+  system-events:
+    - match: \b(?:audio (?:data|file))\b
+      scope: support.class.system-events.audio-file.applescript
+    - match: '\b(?:alias(?:es)?|(?:Classic|local|network|system|user) domain objects?|disk(?: item)?s?|domains?|file(?: package)?s?|folders?|items?)\b'
+      scope: support.class.system-events.disk-folder-file.applescript
+    - match: \b(?:delete|open|move)\b
+      scope: support.function.system-events.disk-folder-file.applescript
+    - match: \b(?:folder actions?|scripts?)\b
+      scope: support.class.system-events.folder-actions.applescript
+    - match: \b(?:attach action to|attached scripts|edit action of|remove action from)\b
+      scope: support.function.system-events.folder-actions.applescript
+    - match: \b(?:movie data|movie file)\b
+      scope: support.class.system-events.movie-file.applescript
+    - match: \b(?:log out|restart|shut down|sleep)\b
+      scope: support.function.system-events.power.applescript
+    - match: |-
+        \b(?x:
+          (?:
+            (?: application \s+ | desk \s+ accessory \s+ )? process
+          | (?: check | combo \s+ )? box
+          )
+          (?: es )?
+        | (?:
+            action
+          | attribute
+          | browser
+          | (?: busy | progress | relevance) \s+ indicator
+          | color \s+ well
+          | column
+          | drawer
+          | group
+          | grow area
+          | image
+          | incrementor
+          | list
+          | menu (?: \s+ bar )? (?: \s+ item )?
+          | (?:menu \s+ | pop \s+ up \s+ | radio \s+ )? button
+          | outline
+          | (?: radio | tab | splitter ) \s+ group
+          | row
+          | scroll \s+ (?: area | bar )
+          | sheet
+          | slider
+          | splitter
+          | static text
+          | table
+          | text \s+ (?: area | field )
+          | tool \s+ bar
+          | UI \s+ element
+          | window
+        )s?
+        )\b
+      scope: support.class.system-events.processes.applescript
+    - match: \b(?:click|key code|keystroke|perform|select)\b
+      scope: support.function.system-events.processes.applescript
+    - match: \b(?:property list (?:file|item))\b
+      scope: support.class.system-events.property-list.applescript
+    - match: \b(?:annotation|QuickTime (?:data|file)|track)s?\b
+      scope: support.class.system-events.quicktime-file.applescript
+    - match: \b(?:(?:abort|begin|end) transaction)\b
+      scope: support.function.system-events.system-events.applescript
+    - match: \b(?:XML (?:attribute|data|element|file)s?)\b
+      scope: support.class.system-events.xml.applescript
+    - match: \b(?:print settings|users?|login items?)\b
+      scope: support.class.system-events.other.applescript
+
+  textmate:
+    - match: \b(?:print settings)\b
+      scope: support.class.textmate.applescript
+    - match: \b(?:get url|insert|reload bundles)\b
+      scope: support.function.textmate.applescript
+
+
+  identifiers:
+    - match: \b{{identifier}}\b
+      scope: variable.other.readwrite.applescript
+    - match: \|
+      scope: punctuation.definition.variable.begin.applescript
+      push:
+        - meta_include_prototype: false
+        - meta_scope: variable.other.readwrite.applescript
+        - match: \|\|
+          scope: constant.character.escape.applescript
         - match: \\.
           scope: constant.character.escape.applescript
-    - match: (")
+        - match: \|
+          scope: punctuation.definition.variable.end.applescript
+          pop: 1
+
+###[ LITERALS ]################################################################
+
+  literals:
+    - include: booleans-lenient
+    - include: nulls
+    - include: numbers
+    - include: strings
+    - include: time-units
+    - include: text-constants
+    - match: \b(?:it|me|result|current\s+application)\b
+      scope: variable.language.applescript
+    - match: \b(?:its|my)\b
+      scope: storage.modifier.applescript
+    - match: \b(?:AppleScript|result|version)\b
+      scope: constant.other.miscellaneous.applescript
+    - include: raw-codes
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW14
+  booleans:
+    - match: \btrue\b
+      scope: constant.language.boolean.true.applescript
+    - match: \bfalse\b
+      scope: constant.language.boolean.false.applescript
+
+  booleans-lenient:
+    # yes/no can’t always be used as booleans, e.g. in an if() expression. But they work e.g. for boolean arguments.
+    - match: \byes\b
+      scope: constant.language.boolean.true.applescript
+    - match: \bno\b
+      scope: constant.language.boolean.false.applescript
+    - include: booleans
+
+  nulls:
+    - match: \b(?:null|missing\s+value)\b
+      scope: constant.language.null.applescript
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW12
+  numbers:
+    - match: (-?\b\d+(\.)\d*)([eE][+-]?\d+\b)?
+      scope: meta.number.float.decimal.applescript
       captures:
-        1: punctuation.definition.string.applescript
+        1: constant.numeric.value.applescript
+        2: punctuation.separator.decimal.applescript
+        3: constant.numeric.value.exponent.applescript
+    - match: (-?\b\d+)([eE][+-]?\d+\b)
+      scope: meta.number.float.decimal.applescript
+      captures:
+        1: constant.numeric.value.applescript
+        2: constant.numeric.value.exponent.applescript
+    - match: -?\b\d+
+      scope: meta.number.integer.decimal.applescript constant.numeric.value.applescript
+    - match: \b(?i:pi)\b
+      scope: meta.number.float.decimal.applescript constant.language.applescript
+
+  time-units:
+    - match: '{{month}}'
+      scope: constant.other.time.month.applescript
+    - match: '{{weekday}}'
+      scope: constant.other.time.weekday.applescript
+
+  text-constants:
+    - match: \b(?:space|tab|return|linefeed|quote)\b
+      scope: constant.other.text.applescript
+    - match: \b(?:all\s+(?:caps|lowercase)|bold|condensed|expanded|hidden|italic|outline|plain|shadow|small\s+caps|strikethrough|(?:sub|super)script|underline)\b
+      scope: constant.other.styles.applescript
+    - match: \b(?:text\s+item\s+delimiters|print\s+(?:length|depth))\b
+      scope: variable.language.applescript
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW26
+  strings:
+    - match: '"'
+      scope: punctuation.definition.string.begin.applescript
       push:
-        - meta_scope: string.quoted.double.applescript
-        - match: (")
-          captures:
-            1: punctuation.definition.string.applescript
-          pop: true
+        - meta_include_prototype: false
+        - meta_scope: meta.string.applescript string.quoted.double.applescript
+        - match: '"'
+          scope: punctuation.definition.string.end.applescript
+          pop: 1
         - match: \\.
           scope: constant.character.escape.applescript
-    - match: '(\|)[^|\n]*(\|)'
-      scope: meta.identifier.applescript
-      captures:
-        1: punctuation.definition.identifier.applescript
-        2: punctuation.definition.identifier.applescript
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW5
+  raw-codes:
     - match: '(«)(data) (utxt|utf8)([[:xdigit:]]*)(»)(?:\s+(as)\s+(?i:Unicode\s+text))?'
       scope: constant.other.data.utxt.applescript
       captures:
-        1: punctuation.definition.data.applescript
+        1: punctuation.definition.data.begin.applescript
         2: support.class.built-in.applescript
         3: storage.type.utxt.applescript
         4: string.unquoted.data.applescript
-        5: punctuation.definition.data.applescript
+        5: punctuation.definition.data.end.applescript
         6: keyword.operator.applescript
         7: support.class.built-in.applescript
     - match: («)(\w+)\b(?=\s)
       captures:
-        1: punctuation.definition.data.applescript
+        1: punctuation.definition.data.begin.applescript
         2: support.class.built-in.applescript
       push:
         - meta_scope: constant.other.data.raw.applescript
-        - match: (»)
-          captures:
-            1: punctuation.definition.data.applescript
-          pop: true
-    - match: "(«)[^»]*(»)"
+        - match: »
+          scope: punctuation.definition.data.end.applescript
+          pop: 1
+        - include: pop-eol
+    - match: (《)(\w+)\b(?=\s)
+      captures:
+        1: punctuation.definition.data.begin.applescript
+        2: support.class.built-in.applescript
+      push:
+        - meta_scope: constant.other.data.raw.applescript
+        - match: 》
+          scope: punctuation.definition.data.end.applescript
+          pop: 1
+        - include: pop-eol
+    - match: («)[^»]*(»)
       scope: invalid.illegal.data.applescript
       captures:
-        1: punctuation.definition.data.applescript
-        2: punctuation.definition.data.applescript
-  finder:
-    - match: \b(item|container|(computer|disk|trash)-object|disk|folder|((alias|application|document|internet location) )?file|clipping|package)s?\b
-      scope: support.class.finder.items.applescript
-    - match: \b((Finder|desktop|information|preferences|clipping) )windows?\b
-      scope: support.class.finder.window-classes.applescript
-    - match: \b(preferences|(icon|column|list) view options|(label|column|alias list)s?)\b
-      scope: support.class.finder.type-definitions.applescript
-    - match: \b(copy|find|sort|clean up|eject|empty( trash)|erase|reveal|update)\b
-      scope: support.function.finder.items.applescript
-    - match: \b(insertion location|product version|startup disk|desktop|trash|home|computer container|finder preferences)\b
-      scope: support.constant.finder.applescript
-    - match: \b(visible)\b
-      scope: support.variable.finder.applescript
-  inline:
+        1: punctuation.definition.data.begin.applescript
+        2: punctuation.definition.data.end.applescript
+    - match: (《)[^》]*(》)
+      scope: invalid.illegal.data.applescript
+      captures:
+        1: punctuation.definition.data.begin.applescript
+        2: punctuation.definition.data.end.applescript
+
+###[ RECORDS AND LISTS ]#######################################################
+
+  records-and-lists:
+    - match: (?=\{)
+      branch_point: records-and-lists
+      branch:
+        - maybe-list
+        - maybe-record
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW16
+  maybe-record:
+    - match: \{
+      scope: punctuation.section.mapping.begin.applescript
+      set: record-next
+
+  record-next:
+    - match: (?=\S)
+      set: record-body
+    - match: ^(?!\s*([#*]|$))
+      set: record-body
+
+  record-end:
+    - match: \}
+      scope: meta.mapping.applescript punctuation.section.mapping.end.applescript
+      pop: 1
+
+  record-separator:
+    - match: ','
+      scope: meta.mapping.applescript punctuation.separator.sequence.applescript
+      set: record-body
+
+  record-body:
+    - meta_content_scope: meta.mapping.applescript
+    - include: record-end
     - include: comments
-    - include: data-structures
-    - include: built-in
-    - include: standardadditions
-  itunes:
-    - match: \b(artwork|application|encoder|EQ preset|item|source|visual|(EQ |browser )?window|((audio CD|device|shared|URL|file) )?track|playlist window|((audio CD|device|radio tuner|library|folder|user) )?playlist)s?\b
-      scope: support.class.itunes.applescript
-    - match: \b(add|back track|convert|fast forward|(next|previous) track|pause|play(pause)?|refresh|resume|rewind|search|stop|update|eject|subscribe|update(Podcast|AllPodcasts)|download)\b
-      scope: support.function.itunes.applescript
-    - match: \b(current (playlist|stream (title|URL)|track)|player state)\b
-      scope: support.constant.itunes.applescript
-    - match: \b(current (encoder|EQ preset|visual)|EQ enabled|fixed indexing|full screen|mute|player position|sound volume|visuals enabled|visual size)\b
-      scope: support.variable.itunes.applescript
-  standard-suite:
-    - match: \b(colors?|documents?|items?|windows?)\b
-      scope: support.class.standard-suite.applescript
-    - match: \b(close|count|delete|duplicate|exists|make|move|open|print|quit|save|activate|select|data size)\b
-      scope: support.function.standard-suite.applescript
-    - match: \b(name|frontmost|version)\b
-      scope: support.constant.standard-suite.applescript
-    - match: \b(selection)\b
-      scope: support.variable.standard-suite.applescript
-    - match: \b(attachments?|attribute runs?|characters?|paragraphs?|texts?|words?)\b
-      scope: support.class.text-suite.applescript
-  standardadditions:
-    - match: \b((alert|dialog) reply)\b
-      scope: support.class.standardadditions.user-interaction.applescript
-    - match: \b(file information)\b
-      scope: support.class.standardadditions.file.applescript
-    - match: \b(POSIX files?|system information|volume settings)\b
-      scope: support.class.standardadditions.miscellaneous.applescript
-    - match: \b(URLs?|internet address(es)?|web pages?|FTP items?)\b
-      scope: support.class.standardadditions.internet.applescript
-    - match: \b(info for|list (disks|folder)|mount volume|path to( resource)?)\b
-      scope: support.function.standardadditions.file.applescript
-    - match: \b(beep|choose (application|color|file( name)?|folder|from list|remote application|URL)|delay|display (alert|dialog)|say)\b
-      scope: support.function.standardadditions.user-interaction.applescript
-    - match: \b(ASCII (character|number)|localized string|offset|summarize)\b
-      scope: support.function.standardadditions.string.applescript
-    - match: \b(set the clipboard to|the clipboard|clipboard info)\b
-      scope: support.function.standardadditions.clipboard.applescript
-    - match: \b(open for access|close access|read|write|get eof|set eof)\b
-      scope: support.function.standardadditions.file-i-o.applescript
-    - match: \b((load|store|run) script|scripting components)\b
-      scope: support.function.standardadditions.scripting.applescript
-    - match: \b(current date|do shell script|get volume settings|random number|round|set volume|system attribute|system info|time to GMT)\b
-      scope: support.function.standardadditions.miscellaneous.applescript
-    - match: \b(opening folder|(closing|moving) folder window for|adding folder items to|removing folder items from)\b
-      scope: support.function.standardadditions.folder-actions.applescript
-    - match: \b(open location|handle CGI request)\b
-      scope: support.function.standardadditions.internet.applescript
-  system-events:
-    - match: \b(audio (data|file))\b
-      scope: support.class.system-events.audio-file.applescript
-    - match: \b(alias(es)?|(Classic|local|network|system|user) domain objects?|disk( item)?s?|domains?|file( package)?s?|folders?|items?)\b
-      scope: support.class.system-events.disk-folder-file.applescript
-    - match: \b(delete|open|move)\b
-      scope: support.function.system-events.disk-folder-file.applescript
-    - match: \b(folder actions?|scripts?)\b
-      scope: support.class.system-events.folder-actions.applescript
-    - match: \b(attach action to|attached scripts|edit action of|remove action from)\b
-      scope: support.function.system-events.folder-actions.applescript
-    - match: \b(movie data|movie file)\b
-      scope: support.class.system-events.movie-file.applescript
-    - match: \b(log out|restart|shut down|sleep)\b
-      scope: support.function.system-events.power.applescript
-    - match: \b(((application |desk accessory )?process|(check|combo )?box)(es)?|(action|attribute|browser|(busy|progress|relevance) indicator|color well|column|drawer|group|grow area|image|incrementor|list|menu( bar)?( item)?|(menu |pop up |radio )?button|outline|(radio|tab|splitter) group|row|scroll (area|bar)|sheet|slider|splitter|static text|table|text (area|field)|tool bar|UI element|window)s?)\b
-      scope: support.class.system-events.processes.applescript
-    - match: \b(click|key code|keystroke|perform|select)\b
-      scope: support.function.system-events.processes.applescript
-    - match: \b(property list (file|item))\b
-      scope: support.class.system-events.property-list.applescript
-    - match: \b(annotation|QuickTime (data|file)|track)s?\b
-      scope: support.class.system-events.quicktime-file.applescript
-    - match: \b((abort|begin|end) transaction)\b
-      scope: support.function.system-events.system-events.applescript
-    - match: \b(XML (attribute|data|element|file)s?)\b
-      scope: support.class.system-events.xml.applescript
-    - match: \b(print settings|users?|login items?)\b
-      scope: support.class.system-events.other.applescript
-  textmate:
-    - match: \b(print settings)\b
-      scope: support.class.textmate.applescript
-    - match: \b(get url|insert|reload bundles)\b
-      scope: support.function.textmate.applescript
+    - include: illegal-commas
+    - match: ':'
+      scope: meta.mapping.applescript punctuation.separator.key-value.applescript
+      set: record-value
+    - match: (?=\S)
+      set: record-key-body
+
+  record-key-body:
+    - meta_scope: meta.mapping.key.applescript
+    - match: (?=\s*[,:}])
+      set: record-body
+    - include: literals
+    - include: identifiers
+
+  record-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.applescript
+    - include: record-end
+    - include: record-separator
+    - match: (?=\S)
+      set: record-value-body
+
+  record-value-body:
+    - meta_content_scope: meta.mapping.value.applescript
+    - match: (?=\s*[,}])
+      set: after-record-value
+    - include: expressions
+
+  after-record-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.mapping.applescript
+    - include: record-end
+    - include: record-separator
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW15
+  maybe-list:
+    - match: \{
+      scope: punctuation.section.array.begin.applescript
+      set:
+        - maybe-list-body
+
+  maybe-list-body:
+    - meta_scope: meta.array.applescript
+    - match: (?=,)
+      set: list-body
+    - match: (?=:)
+      fail: records-and-lists
+    - include: list-body
+
+  list-body:
+    - meta_scope: meta.array.applescript
+    - match: \}
+      scope: punctuation.section.array.end.applescript
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.array.applescript
+    - include: illegal-colons
+    - include: expressions
+
+  illegal-colons:
+    - match: ':'
+      scope: invalid.illegal.unexpected-colon.applescript
+
+  illegal-commas:
+    - match: ','
+      scope: invalid.illegal.unexpected-comma.applescript
+
+  illegal-stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray.applescript
+
+###[ PROTOTYPE ]###############################################################
+
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW9
+  line-continuations:
+    - match: ¬\n?
+      scope: punctuation.separator.continuation.line.applescript
+
+  pop-eol:
+    - match: $\n?
+      pop: 1
+
+###############################################################################
+
+variables:
+  shebang_language: \bosascript\b
+  eol_with_optional_comment: (?=\s*(--.*)?$)
+  leading_wspace: (?:^\s*)
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/conceptual/ASLR_lexical_conventions.html#//apple_ref/doc/uid/TP40000983-CH214-SW4
+  identifier: (?i:[a-z][a-z0-9_]*)
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
+  month: |-
+    \b(?x:
+      Jan(?:uary)? | Feb(?:ruary)? | Mar(?:ch)?
+    | Apr(?:il)? | May | June?
+    | July? | Aug(?:ust)? | Sep(?:tember)?
+    | Oct(?:ober)? | Nov(?:ember)? | Dec(?:ember)?
+    )\b
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-BBCGECID
+  weekday: |-
+    \b(?x:
+      Mon(?:day)? | Tue(?:sday)? | Wed(?:nesday)? | Thu(?:rsday)?
+    | Fri(?:day)? | Sat(?:urday)? | Sun(?:day)?
+    )\b
+  ordinal: |-
+    \b(?x:
+      first | second | third | fourth | fifth
+    | sixth | seventh | eighth | ninth | tenth
+    )\b
+  preposition: |-
+    \b(?x:
+      above | against | apart \s+ from | around | aside \s+ from | at
+    | below | beneath | beside | between | by
+    | for | from
+    | instead \s+ of | into
+    | on | onto | out \s+ of | over
+    | thru
+    | under
+    )\b
+  # https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_classes.html#//apple_ref/doc/uid/TP40000983-CH1g-SW8
+  unit_type: |-
+    \b(?x:
+      # Optional length dimensions (cubic cannot be miles/km)
+      (?:(?: square | cubic (?! \s+ kilomet | \s+ miles )) \s+)?
+      # Length
+      (?:
+        (?: centi | kilo)? (?: meters | metres )
+      | (?: inches | feet | yards | miles )
+      )
+    # Volume
+    | liters | litres | gallons | quarts
+    # Mass / weight
+    | (?:kilo)?grams | ounces | pounds
+    # Temperature
+    | degrees \s+ (?: Celsius | Fahrenheit | Kelvin )
+    )\b

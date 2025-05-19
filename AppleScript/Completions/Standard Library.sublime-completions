@@ -1,0 +1,1381 @@
+{
+    "scope": "source.applescript",
+    "completions":
+    [
+//  These completions are based upon information found in
+//  Applications / Script Editor / Window / Library ( Shift + Command + L )
+
+//  Constants / Booleans
+
+        {
+            "trigger": "false",
+            "contents": "false",
+            "annotation": "boolean constant",
+            "kind": ["variable", "c", "constant.boolean"],
+            "details": ""
+        },
+        {
+            "trigger": "true",
+            "contents": "true",
+            "annotation": "boolean constant",
+            "kind": ["variable", "c", "constant.boolean"],
+            "details": ""
+        },
+
+//  Constants / Folder
+
+        {
+            "trigger": "application_support",
+            "contents": "application support",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "applications_folder",
+            "contents": "applications folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "desktop",
+            "contents": "desktop",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "desktop_pictures_folder",
+            "contents": "desktop pictures folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "documents_folder",
+            "contents": "documents folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "downloads_folder",
+            "contents": "downloads folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "favorites_folder",
+            "contents": "favorites folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "Folder_Action_scripts",
+            "contents": "Folder Action scripts",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "fonts",
+            "contents": "fonts",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "help",
+            "contents": "help",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "home_folder",
+            "contents": "home folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "internet_plugins",
+            "contents": "internet plugins",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "keychain_folder",
+            "contents": "keychain folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "library_folder",
+            "contents": "library folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "modem_scripts",
+            "contents": "modem scripts",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "movies_folder",
+            "contents": "movies folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "music_folder",
+            "contents": "music folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "pictures_folder",
+            "contents": "pictures folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "preferences",
+            "contents": "preferences",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "printer_descriptions",
+            "contents": "printer descriptions",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "public_folder",
+            "contents": "public folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "scripting_additions",
+            "contents": "scripting additions",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "scripts_folder",
+            "contents": "scripts folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "services_folder",
+            "contents": "services folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "shared_documents",
+            "contents": "shared documents",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "shared_libraries",
+            "contents": "shared libraries",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "sites_folder",
+            "contents": "sites folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "startup_disk",
+            "contents": "startup disk",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "startup_items",
+            "contents": "startup items",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "system_folder",
+            "contents": "system folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "system_preferences",
+            "contents": "system preferences",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "temporary_items",
+            "contents": "temporary items",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "trash",
+            "contents": "trash",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "users_folder",
+            "contents": "users folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "utilities_folder",
+            "contents": "utilities folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+        {
+            "trigger": "workflows_folder",
+            "contents": "workflows folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder"],
+            "details": ""
+        },
+
+//  Constants / Folder / From Classic Domain
+
+        {
+            "trigger": "apple_menu",
+            "contents": "apple menu",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "control_panels",
+            "contents": "control panels",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "control_strip_modules",
+            "contents": "control strip modules",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "extensions",
+            "contents": "extensions",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "launcher_items_folder",
+            "contents": "launcher items folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "printer_drivers",
+            "contents": "printer drivers",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "printmonitor",
+            "contents": "printmonitor",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "shutdown_folder",
+            "contents": "shutdown folder",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "speakable_items",
+            "contents": "speakable items",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "stationary",
+            "contents": "stationary",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+        {
+            "trigger": "voices",
+            "contents": "voices",
+            "annotation": "folder constant",
+            "kind": ["variable", "c", "constant.folder.from_classic_domain"],
+            "details": ""
+        },
+
+//  Constants / Global
+
+        {
+            "trigger": "pi",
+            "contents": "pi",
+            "annotation": "global constant",
+            "kind": ["variable", "c", "constant.global"],
+            "details": ""
+        },
+        {
+            "trigger": "result",
+            "contents": "result",
+            "annotation": "global constant",
+            "kind": ["variable", "c", "constant.global"],
+            "details": ""
+        },
+
+//  Constants / Text
+
+        {
+            "trigger": "linefeed",
+            "contents": "linefeed",
+            "annotation": "text constant",
+            "kind": ["variable", "c", "constant.text"],
+            "details": "AppleScript defines the text property <code>linefeed</code> which can be used as a text constant to represent a linefeed (<code>\\n</code>) character."
+        },
+        {
+            "trigger": "quote",
+            "contents": "quote",
+            "annotation": "text constant",
+            "kind": ["variable", "c", "constant.text"],
+            "details": "AppleScript defines the text property <code>quote</code> which can be used as a text constant to represent a double-quote (<code>\"</code>) character."
+        },
+        {
+            "trigger": "return",
+            "contents": "return",
+            "annotation": "text constant",
+            "kind": ["variable", "c", "constant.text"],
+            "details": "AppleScript defines the text property <code>return</code> which can be used as a text constant to represent a return (<code>\\r</code>) character."
+        },
+        {
+            "trigger": "space",
+            "contents": "space",
+            "annotation": "text constant",
+            "kind": ["variable", "c", "constant.text"],
+            "details": "AppleScript defines the text property <code>space</code> which can be used as a text constant to represent a space (<code> </code>) character."
+        },
+        {
+            "trigger": "tab",
+            "contents": "tab",
+            "annotation": "text constant",
+            "kind": ["variable", "c", "constant.text"],
+            "details": "AppleScript defines the text property <code>tab</code> which can be used as a text constant to represent a tab (<code>\\t</code>) character."
+        },
+
+//  Declaration / Variable
+
+        {
+            "trigger": "copy",
+            "contents": "copy ${1:otherVariable} to ${2:variableName}",
+            "annotation": "variable declaration",
+            "kind": ["snippet", "d", "declaration.variable"],
+            "details": "If you assign a new value to a variable that is already in use, it replaces the old value. You can assign a simple value, an expression, or an object specifier."
+        },
+        {
+            "trigger": "global",
+            "contents": "global ${1:varName [, varName] ...}",
+            "annotation": "global var decl",
+            "kind": ["snippet", "d", "declaration.variable.global"],
+            "details": "Declare explicit <code>global</code> variable. Then later you can use <code>set</code> or <code>copy</code> to assign a value."
+        },
+        {
+            "trigger": "local",
+            "contents": "local ${1:varName [, varName] ...}",
+            "annotation": "local var decl",
+            "kind": ["snippet", "d", "declaration.variable.local"],
+            "details": "Declare explicit <code>local</code> variable. Then later you can use <code>set</code> or <code>copy</code> to assign a value."
+        },
+        {
+            "trigger": "set",
+            "contents": "set ${1:variableName} to ${2:variableValue}",
+            "annotation": "variable declaration",
+            "kind": ["snippet", "d", "declaration.variable"],
+            "details": "If you assign a new value to a variable that is already in use, it replaces the old value. You can assign a simple value, an expression, or an object specifier."
+        },
+
+//  Definition / Property
+
+        {
+            "trigger": "property",
+            "contents": "property ${1:propertyLabel} : ${2:expression}",
+            "annotation": "property definition",
+            "kind": ["snippet", "d", "definition.property"],
+            "details": ""
+        },
+
+//  Error / Apple Event
+
+        {
+            "trigger": "error_number_-1700",
+            "contents": "error number -1700",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Bad parameter data was detected or there was a failure while performing a coercion."
+        },
+
+//  Error / AppleScript
+
+        {
+            "trigger": "error_number_-2700",
+            "contents": "error number -2700",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Unknown error."
+        },
+        {
+            "trigger": "error_number_-2701",
+            "contents": "error number -2701",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Can't divide &lt;number&gt; by zero."
+        },
+        {
+            "trigger": "error_number_-2702",
+            "contents": "error number -2702",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "The result of a numeric operation was too large."
+        },
+        {
+            "trigger": "error_number_-2703",
+            "contents": "error number -2703",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "&lt;reference&gt; can't be launched because it is not an application."
+        },
+        {
+            "trigger": "error_number_-2704",
+            "contents": "error number -2704",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "&lt;reference&gt; isn't scriptable."
+        },
+        {
+            "trigger": "error_number_-2705",
+            "contents": "error number -2705",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "The application has a corrupted dictionary."
+        },
+        {
+            "trigger": "error_number_-2706",
+            "contents": "error number -2706",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Stack overflow."
+        },
+        {
+            "trigger": "error_number_-2707",
+            "contents": "error number -2707",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Internal table overflow."
+        },
+        {
+            "trigger": "error_number_-2708",
+            "contents": "error number -2708",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Attempt to create a vlaue larger than the allowable size."
+        },
+        {
+            "trigger": "error_number_-2709",
+            "contents": "error number -2709",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Can't get the event dictionary."
+        },
+        {
+            "trigger": "error_number_-2720",
+            "contents": "error number -2720",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Can't both consider and ignore &lt;attribute&gt;."
+        },
+        {
+            "trigger": "error_number_-2721",
+            "contents": "error number -2721",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Can't perform operation on text longer than 32K bytes."
+        },
+        {
+            "trigger": "error_number_-2729",
+            "contents": "error number -2729",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Message size too large for the 7.0 Finder."
+        },
+        {
+            "trigger": "error_number_-2740",
+            "contents": "error number -2740",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "A &lt;language element&gt; can't go after this &lt;language element&gt;."
+        },
+        {
+            "trigger": "error_number_-2741",
+            "contents": "error number -2741",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Expected &lt;language element&gt; but found &lt;language element&gt;."
+        },
+        {
+            "trigger": "error_number_-2750",
+            "contents": "error number -2750",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "The &lt;name&gt; parameter is specified more than once."
+        },
+        {
+            "trigger": "error_number_-2751",
+            "contents": "error number -2751",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "The &lt;name&gt; property is specified more than once."
+        },
+        {
+            "trigger": "error_number_-2752",
+            "contents": "error number -2752",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "The &lt;name&gt; handler is specified more than once."
+        },
+        {
+            "trigger": "error_number_-2753",
+            "contents": "error number -2753",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "The variable &lt;name&gt; is not defined."
+        },
+        {
+            "trigger": "error_number_-2754",
+            "contents": "error number -2754",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Can't declare &lt;name&gt; as both local and global variable."
+        },
+        {
+            "trigger": "error_number_-2755",
+            "contents": "error number -2755",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Exit statement was not in a repeat loop."
+        },
+        {
+            "trigger": "error_number_-2760",
+            "contents": "error number -2760",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "Tell statements are nested too deeply."
+        },
+        {
+            "trigger": "error_number_-2761",
+            "contents": "error number -2761",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "&lt;name&gt; is illegal as a formal parameter."
+        },
+        {
+            "trigger": "error_number_-2762",
+            "contents": "error number -2762",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "&lt;name&gt; is not a parameter name for the event &lt;event&gt;."
+        },
+        {
+            "trigger": "error_number_-2763",
+            "contents": "error number -2763",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "No result was returned for some argument of this expression."
+        },
+
+//  Error / Open Scripting
+
+        {
+            "trigger": "error_number_-1750",
+            "contents": "error number -1750",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "A scripting component error has occurred."
+        },
+
+//  Error / Operating System
+
+        {
+            "trigger": "error_number_0",
+            "contents": "error number 0",
+            "annotation": "error",
+            "kind": ["ambiguous", "e", "error"],
+            "details": "No error."
+        },
+
+//  Keyword / Reserved
+
+        {
+            "trigger": "about",
+            "contents": "about",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "above",
+            "contents": "above",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "after",
+            "contents": "after",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "against",
+            "contents": "against",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "and",
+            "contents": "and",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "apart from",
+            "contents": "apart from",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "around",
+            "contents": "around",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "as",
+            "contents": "as",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "aside from",
+            "contents": "aside from",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "at",
+            "contents": "at",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "back",
+            "contents": "back",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "before",
+            "contents": "before",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "beginning",
+            "contents": "beginning",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "behind",
+            "contents": "behind",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "below",
+            "contents": "below",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "beneath",
+            "contents": "beneath",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "beside",
+            "contents": "beside",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "between",
+            "contents": "between",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "but",
+            "contents": "but",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "by",
+            "contents": "by",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "considering",
+            "contents": "considering",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "contain",
+            "contents": "contain",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "contains",
+            "contents": "contains",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "continue",
+            "contents": "continue",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "copy",
+            "contents": "copy",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "div",
+            "contents": "div",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "does",
+            "contents": "does",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "eighth",
+            "contents": "eighth",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "else",
+            "contents": "else",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "end",
+            "contents": "end",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "equal",
+            "contents": "equal",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "equals",
+            "contents": "equals",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "error",
+            "contents": "error",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "every",
+            "contents": "every",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "exit",
+            "contents": "exit",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "false",
+            "contents": "false",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "fifth",
+            "contents": "fifth",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "first",
+            "contents": "first",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "for",
+            "contents": "for",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "fourth",
+            "contents": "fourth",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "from",
+            "contents": "from",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "front",
+            "contents": "front",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "get",
+            "contents": "get",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "given",
+            "contents": "given",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "global",
+            "contents": "global",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "if",
+            "contents": "if",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "ignoring",
+            "contents": "ignoring",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "in",
+            "contents": "in",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "instead of",
+            "contents": "instead of",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "into",
+            "contents": "into",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "is",
+            "contents": "is",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "it",
+            "contents": "it",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "its",
+            "contents": "its",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "last",
+            "contents": "last",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "local",
+            "contents": "local",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "me",
+            "contents": "me",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "middle",
+            "contents": "middle",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "mod",
+            "contents": "mod",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "my",
+            "contents": "my",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "ninth",
+            "contents": "ninth",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "not",
+            "contents": "not",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "of",
+            "contents": "of",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "on",
+            "contents": "on",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "onto",
+            "contents": "onto",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "or",
+            "contents": "or",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "out of",
+            "contents": "out of",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "over",
+            "contents": "over",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "prop",
+            "contents": "prop",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "property",
+            "contents": "property",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "put",
+            "contents": "put",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "ref",
+            "contents": "ref",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "reference",
+            "contents": "reference",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "repeat",
+            "contents": "repeat",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "return",
+            "contents": "return",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "returning",
+            "contents": "returning",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "script",
+            "contents": "script",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "second",
+            "contents": "second",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "set",
+            "contents": "set",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "seventh",
+            "contents": "seventh",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "since",
+            "contents": "since",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "sixth",
+            "contents": "sixth",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "some",
+            "contents": "some",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "tell",
+            "contents": "tell",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "tenth",
+            "contents": "tenth",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "that",
+            "contents": "that",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "the",
+            "contents": "the",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "then",
+            "contents": "then",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "third",
+            "contents": "third",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "through",
+            "contents": "through",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "thru",
+            "contents": "thru",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "timeout",
+            "contents": "timeout",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "times",
+            "contents": "times",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "to",
+            "contents": "to",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "transaction",
+            "contents": "transaction",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "true",
+            "contents": "true",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "try",
+            "contents": "try",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "until",
+            "contents": "until",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "where",
+            "contents": "where",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "while",
+            "contents": "while",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "whose",
+            "contents": "whose",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "with",
+            "contents": "with",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        },
+        {
+            "trigger": "without",
+            "contents": "without",
+            "annotation": "reserved keyword",
+            "kind": ["keyword", "r", "keyword.reserved"],
+            "details": ""
+        }
+    ]
+}
