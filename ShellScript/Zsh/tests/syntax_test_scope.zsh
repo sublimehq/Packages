@@ -1557,12 +1557,166 @@ function {
 ip=10.10.20.14
 #  ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 
+
 ###############################################################################
-#  Special Parameters                                                         #
+# 14.3 Parameter Expansion                                                    #
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion   #
 ###############################################################################
 
+#  Special Parameters
+
+: $* ${*} ${!*} ${#*} _$*_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^^^^ meta.string.glob.shell
+#                     ^ string.unquoted.shell
+#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ string.unquoted.shell
+
+: $@ ${@} ${!@} ${#@} _$@_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^^^^ meta.string.glob.shell
+#                     ^ string.unquoted.shell
+#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ string.unquoted.shell
+
+: $? ${?} ${!?} ${#?} _$?_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^^^^ meta.string.glob.shell
+#                     ^ string.unquoted.shell
+#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ string.unquoted.shell
+
+: $- ${-} ${!-} ${#-} _$-_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^^^^ meta.string.glob.shell
+#                     ^ string.unquoted.shell
+#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ string.unquoted.shell
+
+: $$ ${$} ${!$} ${#$} _$$_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^^^^ meta.string.glob.shell
+#                     ^ string.unquoted.shell
+#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ string.unquoted.shell
+
+: $! ${!} ${!!} ${#!} _$!_
+# ^^ meta.interpolation.parameter.shell variable.language.special.shell
+# ^ punctuation.definition.variable.shell
+#    ^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^ variable.language.special.shell
+#       ^ punctuation.section.interpolation.end.shell
+#         ^^^^^ meta.interpolation.parameter.shell
+#         ^ punctuation.definition.variable.shell
+#          ^ punctuation.section.interpolation.begin.shell
+#           ^ keyword.operator.expansion.indirection.shell
+#            ^ variable.language.special.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#               ^ punctuation.definition.variable.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                 ^ keyword.operator.expansion.length.shell
+#                  ^ variable.language.special.shell
+#                   ^ punctuation.section.interpolation.end.shell
+#                     ^^^^ meta.string.glob.shell
+#                     ^ string.unquoted.shell
+#                      ^^ meta.interpolation.parameter.shell variable.language.special.shell
+#                        ^ string.unquoted.shell
+
 # Expands to the number of positional parameters in decimal.
-: $# ${#} ${!#} ${##} _$#_
+: $# ${#} ${!#} ${##} _$#_ _$#1_ _$#a_
 # ^^ meta.interpolation.parameter.shell variable.language.special.shell
 # ^ punctuation.definition.variable.shell
 #    ^^^^ meta.interpolation.parameter.shell
@@ -1584,8 +1738,13 @@ ip=10.10.20.14
 #                   ^ punctuation.section.interpolation.end.shell
 #                     ^ meta.string.glob.shell string.unquoted.shell
 #                      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                          ^ meta.string.glob.shell string.unquoted.shell
+#                           ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                ^ meta.string.glob.shell string.unquoted.shell
+#                                 ^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 
-: $#__ints {1..$#__hits}
+# `#` is not a special variable, if followed by identifiers
+: $#__ints {1..$#1_hits}
 # ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 # ^ punctuation.definition.variable.shell
 #  ^ keyword.operator.expansion.length.shell
@@ -1598,10 +1757,12 @@ ip=10.10.20.14
 #               ^ keyword.operator.expansion.length.shell
 #                      ^ punctuation.section.interpolation.end.shell
 
-###############################################################################
-# 14.3 Parameter Expansion                                                    #
-# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Parameter-Expansion   #
-###############################################################################
+# User Parameter/Variable Expansions
+
+: $var      # Substitute contents of var, no splitting
+# ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#  ^^^ variable.other.readwrite.shell
 
 : ${var}    # Substitute contents of var, no splitting
 # ^^^^^^ meta.interpolation.parameter.shell
@@ -6599,6 +6760,35 @@ for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces f
 #                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 #                                                              ^ punctuation.definition.comment.shell
 
+
+##############################################################################
+# 15 Parameters
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Description-1
+##############################################################################
+
+ab=value
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.l-value.shell variable.other.readwrite.shell
+# ^ meta.assignment.shell keyword.operator.assignment.shell
+#  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+
+_b=value
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.l-value.shell variable.other.readwrite.shell
+# ^ meta.assignment.shell keyword.operator.assignment.shell
+#  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+
+10=value
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.l-value.shell variable.other.readwrite.shell
+# ^ meta.assignment.shell keyword.operator.assignment.shell
+#  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+
+1a=value
+# <- meta.assignment.l-value.shell variable.other.readwrite.shell
+#^ meta.assignment.l-value.shell variable.other.readwrite.shell
+# ^ meta.assignment.shell keyword.operator.assignment.shell
+#  ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 
 ### [ ARRAY VARIABLES ] #######################################################
 
