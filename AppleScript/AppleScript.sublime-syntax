@@ -13,7 +13,7 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* {{shebang_language}}(?!\s+-l\s+JavaScript)\b  # shebang
+    ^ \#! .* {{shebang_language}} (?! \s+ -l \s+ JavaScript ) \b      # shebang
   | {{leading_wspace}} \# .*? -\*- .*? {{shebang_language}} .*? -\*-  # editorconfig
   )
 
@@ -144,7 +144,7 @@ contexts:
     - match: |-
         (?x)
         {{leading_wspace}}
-        (to|on)\s+                      # "on" or "to"
+        ( to | on ) \s+                 # "on" or "to"
         (\w+)                           # function name
         (\()                            # opening paren
           ((?:[\s,:\{\}]*(?:\w+)?)*)    # parameters
@@ -167,10 +167,10 @@ contexts:
     - match: |-
         (?x)
         {{leading_wspace}}
-        (to|on)\s+                      # "on" or "to"
+        (to|on) \s+                     # "on" or "to"
         (\w+)                           # function name
-        (?:\s+
-          (of|in)\s+                    # "of" or "in"
+        (?: \s+
+          ( of | in ) \s+               # "of" or "in"
           (\w+)                         # direct parameter
         )?
         (?=\s+{{preposition}})
@@ -194,7 +194,7 @@ contexts:
     - match: |-
         (?x)
         {{leading_wspace}}
-        (to|on)\s+                      # "on" or "to"
+        (to|on) \s+                     # "on" or "to"
         (\w+)                           # function name
         {{eol_with_optional_comment}}   # nothing else
       captures:
@@ -551,31 +551,31 @@ contexts:
     - match: |-
         \b(?x:
         # is / isn't
-          is (?: n't |\s+ not )? (?:\s+
-          (?: equal (?:\s+ to)?
-          | (?: less | greater )\s+ than (?:\s+ or\s+equal (?:\s+ to )?)?
-          | in | contained\s+by
+          is (?: n't | \s+ not )? (?: \s+
+          (?: equal (?: \s+ to)?
+          | (?: less | greater ) \s+ than (?: \s+ or \s+ equal (?: \s+ to )?)?
+          | in | contained \s+ by
           ))?
         # does / doesn't
-        | does (?: n't |\s+ not ) \s+
-          (?: equal | come\s+(?: before | after ) | contain )
+        | does (?: n't | \s+ not ) \s+
+          (?: equal | come \s+ (?: before | after ) | contain )
         )\b
       scope: keyword.operator.comparison.applescript
     - match: |-
         \b(?x:
-          as | (?:a \s+)? (?: ref (?:\s+ to)? | reference\s+to )
+          as | (?:a \s+ )? (?: ref (?: \s+ to)? | reference \s+ to )
         )\b
       scope: keyword.operator.reference.applescript
 
     - match: |-
         \b(?x:
-          (?:front|back|beginning|end)\s+of
-        | \d+(?:st|nd|rd|th)
+          (?: front | back | beginning | end) \s+ of
+        | \d+ (?:st | nd | rd | th)
         | after
         | back | before | beginning | behind
         | end | every
         | from | front
-        | id | in\s+(?:front|back|beginning|end)\s+of | index
+        | id | in \s+ (?: front | back | beginning | end) \s+ of | index
         | last
         | middle
         | named
@@ -624,16 +624,16 @@ contexts:
     - match: |-
         \b(?x:
           characters? | contents
-        | date\s+string | days?
+        | date \s+ string | days?
         | frontmost
         | id | items?
         | length
         | months?
         | name
         | paragraphs?
-        | quoted\s+form
+        | quoted \s+ form
         | rest | reverse | running
-        | time (?:\s+string)?
+        | time (?: \s+ string)?
         | version
         | weekdays? | words?
         | years?
@@ -641,26 +641,26 @@ contexts:
       scope: support.function.built-in.property.applescript
     - match: |-
         \b(?x:
-            ASCII\s+(?: character | number ) | activate
+            ASCII \s +(?: character | number ) | activate
           | beep
-          | choose \s+(?:
+          | choose \s+ (?:
               application
             | color
-            | file (?:\s+ name)? | folder | from\s+list
-            | remote\s+application
+            | file (?: \s+ name)? | folder | from \s+ list
+            | remote \s+ application
             | URL
             )
-          | clipboard\s+info | close\s+access | copy | count | current\s+date
-          | delay | display \s+(?: alert | dialog ) | do\s+shell\s+script
-          | get (?:\s+(?: eof | volume\s+settings) )?
-          | info\s+for
-          | launch | list\s+(?: disks | folder ) | load\s+script | localized\s+string | log
-          | mount\s+volume
-          | offset | open\s+for\s+access | open\s+location
-          | path\s+to (?:\s+ resource )?
-          | random\s+number | read | round | run (?:\s+script)?
-          | say | scripting\s+components | set (?:\s+(?: eof | the\s+clipboard\s+to | volume) )? | store\s+script | summarize | system\s+(?: attribute | info )
-          | the\s+clipboard | time\s+to\s+GMT
+          | clipboard \s+ info | close \s+ access | copy | count | current \s+ date
+          | delay | display \s+ (?: alert | dialog ) | do \s+ shell \s+ script
+          | get (?: \s+ (?: eof | volume \s+ settings) )?
+          | info \s+ for
+          | launch | list \s+ (?: disks | folder ) | load \s+ script | localized \s+ string | log
+          | mount \s+ volume
+          | offset | open \s+ for \s+ access | open \s+ location
+          | path \s+ to (?: \s+ resource )?
+          | random \s +number | read | round | run (?: \s+ script)?
+          | say | scripting \s+ components | set (?: \s+ (?: eof | the \s+ clipboard \s+ to | volume) )? | store \s+ script | summarize | system \s+ (?: attribute | info )
+          | the \s+ clipboard | time \s+ to \s+ GMT
           | write
         )\b
       scope: support.function.built-in.command.applescript
@@ -672,28 +672,28 @@ contexts:
       scope: support.class.built-in.applescript
     - match: |-
         \b(?x:
-            (?:(?: C | encoded | Pascal )\s+)? string
-          | (?:(?: international | styled (?:\s+ (?: Clipboard | Unicode ))? | Unicode )\s+)? text
-          | POSIX\s+file
-          | RGB\s+color
+            (?:(?: C | encoded | Pascal ) \s+ )? string
+          | (?:(?: international | styled (?: \s+ (?: Clipboard | Unicode ))? | Unicode ) \s+ )? text
+          | POSIX \s+ file
+          | RGB \s+ color
           | app (?:lication)?
           | boolean
           | character | constant
           | date
           | event
-          | file (?:\s+ specification )?
+          | file (?: \s+ specification )?
           | handler
           | integer | item
           | keystroke
-          | linked\s+list | list
+          | linked \s+ list | list
           | machine
           | number
           | picture | preposition
-          | real | record | reference (?:\s+ form )?
+          | real | record | reference (?: \s+ form )?
           | script | sound
-          | text\s+item | type\s+class
+          | text \s+ item | type \s+ class
           | vector
-          | writing\s+code (?:\s+ info )?
+          | writing \s+ code (?: \s+ info )?
           | zone
         )s?\b
       scope: support.class.built-in.applescript
@@ -705,8 +705,8 @@ contexts:
   finder:
     - match: |-
         \b(?x:
-          (?:(?:alias|application|document|internet\s+location) \s+)? file
-        | (?:computer|disk|trash)-object
+          (?:(?: alias | application | document | internet \s+ location) \s+)? file
+        | (?: computer | disk | trash )-object
         | clipping | container
         | disk
         | folder
@@ -793,16 +793,16 @@ contexts:
     - match: |-
         \b(?x:
           (?:
-            (?: application\s+| desk\s+accessory\s+)? process
-          | (?: check | combo\s+)? box
+            (?: application \s+ | desk \s+ accessory \s+ )? process
+          | (?: check | combo \s+ )? box
           )
           (?: es )?
         | (?:
             action
           | attribute
           | browser
-          | (?: busy | progress | relevance)\s+indicator
-          | color\s+well
+          | (?: busy | progress | relevance) \s+ indicator
+          | color \s+ well
           | column
           | drawer
           | group
@@ -810,20 +810,20 @@ contexts:
           | image
           | incrementor
           | list
-          | menu (?:\s+bar )? (?:\s+item )?
-          | (?:menu\s+| pop\s+up\s+| radio\s+)? button
+          | menu (?: \s+ bar )? (?: \s+ item )?
+          | (?:menu \s+ | pop \s+ up \s+ | radio \s+ )? button
           | outline
-          | (?: radio | tab | splitter )\s+group
+          | (?: radio | tab | splitter ) \s+ group
           | row
-          | scroll\s+(?: area | bar )
+          | scroll \s+ (?: area | bar )
           | sheet
           | slider
           | splitter
           | static text
           | table
-          | text\s+(?: area | field )
-          | tool\s+bar
-          | UI\s+element
+          | text \s+ (?: area | field )
+          | tool \s+ bar
+          | UI \s+ element
           | window
         )s?
         )\b
@@ -1134,11 +1134,11 @@ variables:
     )\b
   preposition: |-
     \b(?x:
-      above | against | apart\s+from | around | aside\s+from | at
+      above | against | apart \s+ from | around | aside \s+ from | at
     | below | beneath | beside | between | by
     | for | from
-    | instead\s+of | into
-    | on | onto | out\s+of | over
+    | instead \s+ of | into
+    | on | onto | out \s+ of | over
     | thru
     | under
     )\b
@@ -1146,7 +1146,7 @@ variables:
   unit_type: |-
     \b(?x:
       # Optional length dimensions (cubic cannot be miles/km)
-      (?:(?: square | cubic (?!\s+kilomet | miles )) \s+)?
+      (?:(?: square | cubic (?! \s+ kilomet | \s+ miles )) \s+)?
       # Length
       (?:
         (?: centi | kilo)? (?: meters | metres )
@@ -1157,5 +1157,5 @@ variables:
     # Mass / weight
     | (?:kilo)?grams | ounces | pounds
     # Temperature
-    | degrees\s+(?: Celsius | Fahrenheit | Kelvin )
+    | degrees \s+ (?: Celsius | Fahrenheit | Kelvin )
     )\b
