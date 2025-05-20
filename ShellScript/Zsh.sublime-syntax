@@ -363,6 +363,9 @@ contexts:
 
   base-numbers:
     - meta_prepend: true
+    - match: 0[bB]
+      scope: constant.numeric.base.shell.zsh
+      push: bin-number-body
     - match: (\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?){{word_break}}
       scope: meta.number.float.decimal.shell.zsh
       captures:
@@ -371,6 +374,11 @@ contexts:
 
   number:
     - meta_prepend: true
+    - match: ([-+]?)(0[bB])
+      captures:
+        1: keyword.operator.arithmetic.shell.zsh
+        2: constant.numeric.base.shell.zsh
+      set: bin-number-body
     - match: ([-+]?)(\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?){{word_break}}
       scope: meta.number.float.decimal.shell.zsh
       captures:
@@ -378,6 +386,14 @@ contexts:
         2: constant.numeric.value.shell.zsh
         3: punctuation.separator.decimal.shell.zsh
       pop: 1
+
+  bin-number-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.number.integer.binary.shell.zsh
+    - match: '[01]+'
+      scope: constant.numeric.value.shell.zsh
+    - include: variable-expansions
+    - include: immediately-pop
 
 ###[ STRING PATH PATTERN MATCHING ]############################################
 
