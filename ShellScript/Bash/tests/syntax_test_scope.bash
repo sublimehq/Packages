@@ -13150,15 +13150,19 @@ true false
 #                       ^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
 #                        ^ - meta.number - constant
 
+(( 16#${_:0:2}DEF ))
+#  ^^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#     ^^^^^^^^ meta.number.integer.hexadecimal.shell meta.interpolation.parameter.shell
+#             ^^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
+#                ^ - meta.number - constant
+
+(( 8#127 ))
+#  ^^ meta.number.integer.octal.shell constant.numeric.base.shell
+#    ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+
 (( 64#123@_ ))
 #  ^^^ meta.number.integer.other.shell constant.numeric.base.shell
 #     ^^^^^ meta.number.integer.other.shell constant.numeric.value.shell
-
-(( 16#${_:0:2}DEF ))
-#  ^^^ meta.number.integer.other.shell constant.numeric.base.shell
-#     ^^^^^^^^ meta.number.integer.other.shell meta.interpolation.parameter.shell
-#             ^^^ meta.number.integer.other.shell constant.numeric.value.shell
-#                ^ - meta.number - constant
 
 : -target 20.10.2.4:8080 -port 80
 #         ^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell

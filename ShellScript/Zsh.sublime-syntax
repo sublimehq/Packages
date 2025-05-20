@@ -363,7 +363,7 @@ contexts:
 
   base-numbers:
     - meta_prepend: true
-    - match: 0[bB]
+    - match: 0[bB]|2#
       scope: constant.numeric.base.shell.zsh
       push: bin-number-body
     - match: (\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?){{word_break}}
@@ -374,7 +374,7 @@ contexts:
 
   number:
     - meta_prepend: true
-    - match: ([-+]?)(0[bB])
+    - match: ([-+]?)(0[bB]|2#)
       captures:
         1: keyword.operator.arithmetic.shell.zsh
         2: constant.numeric.base.shell.zsh
