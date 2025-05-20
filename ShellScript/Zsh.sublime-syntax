@@ -361,6 +361,17 @@ contexts:
 
 ###[ LITERALS ]################################################################
 
+  expression-numbers:
+    - meta_prepend: true
+    # numeric representation of constant character
+    - match: (\#\#)(.)
+      captures:
+        1: keyword.operator.arithmetic.shell.zsh
+        2: constant.other.character.shell.zsh
+    # numeric representation of variable's content's first character
+    - match: \#
+      scope: keyword.operator.arithmetic.shell.zsh
+
   base-numbers:
     - meta_prepend: true
     - match: (\d{{dec_digit}}*(\.){{dec_digit}}*(?:[eE][-+]?{{dec_digit}}*)?){{word_break}}
