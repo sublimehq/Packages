@@ -1542,6 +1542,28 @@ function {
   (( 3_162.277_660_168_379_5 ))  # numbers can contain underscores
 #    ^^^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.shell.zsh constant.numeric.value.shell.zsh
 
+  (( 0b10 0B11 2#10 ))
+#    ^^ meta.number.integer.binary.shell constant.numeric.base.shell
+#      ^^ meta.number.integer.binary.shell constant.numeric.value.shell
+#         ^^ meta.number.integer.binary.shell constant.numeric.base.shell
+#           ^^ meta.number.integer.binary.shell constant.numeric.value.shell
+#              ^^ meta.number.integer.binary.shell.zsh constant.numeric.base.shell.zsh
+#                ^^ meta.number.integer.binary.shell.zsh constant.numeric.value.shell.zsh
+
+  (( 04723 8#4723 ))
+#    ^ meta.number.integer.octal.shell constant.numeric.base.shell
+#     ^^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+#          ^^ meta.number.integer.octal.shell constant.numeric.base.shell
+#            ^^^^ meta.number.integer.octal.shell constant.numeric.value.shell
+
+  (( 0x20 0X20 16#AF ))
+#    ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#      ^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
+#         ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#           ^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
+#              ^^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#                 ^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
+
   (( 2_4#234_2abd27 ))
 #    ^^^^ meta.number.integer.other.shell constant.numeric.base.shell
 #        ^^^^^^^^^^ meta.number.integer.other.shell constant.numeric.value.shell

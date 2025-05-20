@@ -1901,12 +1901,12 @@ contexts:
       scope: meta.number.integer.decimal.shell constant.numeric.value.shell
 
   base-numbers:
-    # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: 0[xX]
+    # A leading ‘0x’, ‘0X’ or ‘16#’ denote hexadecimal.
+    - match: 0[xX]|16#
       scope: constant.numeric.base.shell
       push: hex-number-body
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: 0(?=[0-7$])
+    - match: 0(?=[0-7$])|8#
       scope: constant.numeric.base.shell
       push: oct-number-body
     # Otherwise, numbers take the form [base#]n, where the optional base is a
@@ -1922,13 +1922,13 @@ contexts:
     # Note: Leading sign is scoped as operator for consistent highlighting as
     #       we can't distinguish operators from sign for sure everywhere.
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: ([-+]?)(0[xX])
+    - match: ([-+]?)(0[xX]|16#)
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.base.shell
       set: hex-number-body
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: ([-+]?)(0)(?=[0-7$])
+    - match: ([-+]?)(0(?=[0-7$])|8#)
       scope: meta.number.integer.octal.shell
       captures:
         1: keyword.operator.arithmetic.shell
