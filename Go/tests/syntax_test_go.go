@@ -5998,8 +5998,8 @@ func lang_embedding() {
     require.Equal(t, 1, testdb.QueryInt(env.testDb, `select count(*) from "schema.{{.site.table}}" order by {{.order}}`))
     //                                              ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.begin.go
     //                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go
-    //                                                                            ^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go meta.interpolation.go - string
-    //                                                                                           ^^^^^^^^^^^ meta.block.go meta.string.go meta.embedded.go source.sql.embedded.go
+    //                                                                            ^^^^^^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go - string
+    //                                                                                           ^^^^^^^^^^^ meta.block.go meta.string.go meta.embedded.go
     //                                                                                                      ^^^^^^^^^^ meta.string.go meta.embedded.go source.sql.embedded.go meta.interpolation.go - string
     //                                                                                                                ^ meta.string.go string.quoted.backtick.go punctuation.definition.string.end.go
     //                                               ^^^^^^ keyword.other
