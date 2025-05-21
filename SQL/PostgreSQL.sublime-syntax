@@ -27,6 +27,9 @@ variables:
   types_with_optional_number: |-
     (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
 
+  type_modifiers: |-
+    (?xi: signed | unsigned | zerofill | default )
+
 contexts:
 
   sql:
@@ -208,6 +211,13 @@ contexts:
     - meta_prepend: true
     - match: \b(?i:unique)\b
       scope: keyword.other.psql
+
+  after-column-declaration-list:
+    - meta_prepend: true
+    - match: \b(?i:on)\b
+      scope: keyword.control.conditional.psql
+    - match: \b(?i:commit)\b
+      scope: variable.language.psql
 
 ###[ EXTENSION EXPRESSIONS ]###################################################
 

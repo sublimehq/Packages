@@ -763,7 +763,8 @@ contexts:
 
   maybe-column-declaration-list:
     - include: column-declaration-list
-    - include: else-pop
+    - match: (?=\S)
+      set: after-column-declaration-list
 
   column-declaration-list:
     - match: \(
@@ -774,10 +775,13 @@ contexts:
     - meta_scope: meta.group.table-columns.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      pop: 1
+      set: after-column-declaration-list
     - include: column-modifiers
     - include: expressions
     - include: expect-column-declarations
+
+  after-column-declaration-list:
+    - include: else-pop
 
   expect-column-declarations:
     - match: (?=\S)
@@ -863,6 +867,10 @@ contexts:
     - match: '{{simple_identifier}}'
       scope: variable.parameter.sql
       pop: 1
+    - match: (?=")
+      set:
+        - variable-parameter
+        - single-identifier
     - include: else-pop
 
   maybe-parameter-modifier:
@@ -882,6 +890,8 @@ contexts:
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
       push: expect-type
+    - match: \b(?i:default)\b
+      scope: keyword.other.sql
     - include: create-common-args
 
   expect-function-language-name:
@@ -1054,11 +1064,20 @@ contexts:
       pop: 1
 
   after-type:
+    - match: \b(?i:default)\b
+      scope: storage.modifier.sql
+      push: expression-or-pop
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
-      pop: 1
+      #pop: 1
     - include: assignment-operators
     - include: else-pop
+
+  expression-or-pop:
+    - match: (?=\))
+      pop: 1
+    - include: expressions
+    - include: pop-on-top-level-reserved-word
 
 ###[ IDENTIFIERS ]#############################################################
 
@@ -1345,6 +1364,11 @@ contexts:
     - meta_scope: meta.other-name.sql
     - include: immediately-pop
 
+  variable-parameter:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.parameter.sql
+    - include: immediately-pop
+
   single-identifier:
     - meta_include_prototype: false
     - include: pop-on-top-level-reserved-word
@@ -1391,6 +1415,7 @@ contexts:
 
   inside-double-quoted-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
     - match: \"
       scope: punctuation.definition.identifier.end.sql
       pop: 1
