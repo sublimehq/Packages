@@ -69,7 +69,6 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   double-dash-comments:
-    - meta_append: true
     - match: '--'
       scope: punctuation.definition.comment.sql
       push: inside-double-dash-comment
