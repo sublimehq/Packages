@@ -66,6 +66,14 @@ contexts:
         2: punctuation.section.brackets.end.psql
       set: maybe-group
 
+###[ COMMENTS ]################################################################
+
+  double-dash-comments:
+    - meta_append: true
+    - match: '--'
+      scope: punctuation.definition.comment.sql
+      push: inside-double-dash-comment
+
 ###[ DECLARE STATEMENTS ]######################################################
 
   declare-statements:
