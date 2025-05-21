@@ -27,9 +27,6 @@ variables:
   types_with_optional_number: |-
     (?xi: (?: bit | character ) (?:\s+varying)? | char | decimal | numeric | varchar )
 
-  type_modifiers: |-
-    (?xi: signed | unsigned | zerofill | default )
-
 contexts:
 
   sql:

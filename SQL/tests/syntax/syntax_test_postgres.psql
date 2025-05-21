@@ -73,6 +73,16 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --                                            ^ meta.function-call meta.group punctuation.section.arguments.end
 --                                             ^ punctuation.separator.sequence
     name text COLLATE pg_catalog."default",
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--  ^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--       ^^^^ storage.type.sql
+--            ^^^^^^^ keyword.other.sql
+--                    ^^^^^^^^^^ support.constant.sql
+--                              ^^^^^^^^^^ - keyword
+--                              ^ punctuation.accessor.dot.sql
+--                               ^ punctuation.definition.identifier.begin.sql
+--                                       ^ punctuation.definition.identifier.end.sql
+--                                        ^ punctuation.separator.sequence.sql
     doc jsonb,
 --  ^^^ meta.column-name variable.other.member.declaration
 --      ^^^^^ storage.type

@@ -803,9 +803,11 @@ contexts:
         \b(?xi:
           (?: (?: fulltext | primary | unique ) \s+ )? key
         | on \s+ (?: delete | update ) (?: \s+ cascade )?
-        | default
         )\b
       scope: storage.modifier.sql
+    - match: \b(?i:default)\b
+      scope: storage.modifier.sql
+      push: expression-or-pop
     - match: |-
         \b(?xi:
           foreign\s+key
@@ -890,8 +892,7 @@ contexts:
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
       push: expect-type
-    - match: \b(?i:default)\b
-      scope: keyword.other.sql
+    - include: column-modifiers
     - include: create-common-args
 
   expect-function-language-name:
@@ -1064,12 +1065,9 @@ contexts:
       pop: 1
 
   after-type:
-    - match: \b(?i:default)\b
-      scope: storage.modifier.sql
-      push: expression-or-pop
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
-      #pop: 1
+    - include: column-modifiers
     - include: assignment-operators
     - include: else-pop
 
@@ -1077,7 +1075,7 @@ contexts:
     - match: (?=\))
       pop: 1
     - include: expressions
-    - include: pop-on-top-level-reserved-word
+    - include: else-pop
 
 ###[ IDENTIFIERS ]#############################################################
 
