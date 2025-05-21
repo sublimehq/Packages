@@ -12,17 +12,19 @@
   { Comment 1 (* comment 2 *) }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.pascal
 //^ punctuation.definition.comment.begin.pascal
-//            ^^^^^^^^^^^^^^^ comment.block.pascal
+//            ^^^^^^^^^^^^^^^ comment.block.pascal comment.block.pascal
 //            ^^ punctuation.definition.comment.begin.pascal
 //                         ^^ punctuation.definition.comment.end.pascal
+//                           ^^ - comment comment
 //                            ^ punctuation.definition.comment.end.pascal
 
   (* Comment 1 { comment 2 } *)
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.pascal
 //^^ punctuation.definition.comment.begin.pascal
-//             ^^^^^^^^^^^^^ comment.block.pascal
+//             ^^^^^^^^^^^^^ comment.block.pascal comment.block.pascal
 //             ^ punctuation.definition.comment.begin.pascal
 //                         ^ punctuation.definition.comment.end.pascal
+//                          ^^^ - comment comment
 //                           ^^ punctuation.definition.comment.end.pascal
 
   { comment 1 // Comment 2 }
