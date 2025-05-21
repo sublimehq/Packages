@@ -1568,6 +1568,17 @@ function {
 #    ^^^^ meta.number.integer.other.shell constant.numeric.base.shell
 #        ^^^^^^^^^^ meta.number.integer.other.shell constant.numeric.value.shell
 
+  (( #var + ##chr ##c+hr ))
+#    ^ keyword.operator.arithmetic.shell.zsh - variable
+#     ^^^ variable.other.readwrite.shell - keyword
+#           ^^ keyword.operator.arithmetic.shell.zsh - variable
+#             ^ constant.other.character.shell.zsh - variable
+#              ^^ variable.other.readwrite.shell - constant
+#                 ^^ keyword.operator.arithmetic.shell.zsh - variable
+#                   ^ constant.other.character.shell.zsh - variable
+#                    ^ keyword.operator.arithmetic.shell
+#                     ^^ variable.other.readwrite.shell - constant
+
   (( abs(1 - 5) + 3 ))  # arithmetic function calls
 # ^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
 #    ^^^ meta.function-call.identifier.shell.zsh
@@ -3696,7 +3707,7 @@ stash) || true)
 # ^^^^^^^^^^^^ meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^^ punctuation.section.interpolation.begin.shell
-#     ^ invalid.illegal.unexpected-token.shell
+#     ^ keyword.operator.arithmetic.shell.zsh
 #       ^^^ variable.other.readwrite.shell
 #           ^^ punctuation.section.interpolation.end.shell
 
@@ -3704,7 +3715,7 @@ stash) || true)
 # ^^^^^^^^^^^ meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^^ punctuation.section.interpolation.begin.shell
-#     ^ invalid.illegal.unexpected-token.shell
+#     ^ keyword.operator.arithmetic.shell.zsh
 #      ^^^ variable.other.readwrite.shell
 #          ^^ punctuation.section.interpolation.end.shell
 
@@ -3731,7 +3742,7 @@ stash) || true)
 # ^^^^^^^^^^ meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
-#    ^ invalid.illegal.unexpected-token.shell
+#    ^ keyword.operator.arithmetic.shell.zsh
 #      ^^^ variable.other.readwrite.shell
 #          ^ punctuation.section.interpolation.end.shell
 
@@ -3739,7 +3750,7 @@ stash) || true)
 # ^^^^^^^^^ meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
-#    ^ invalid.illegal.unexpected-token.shell
+#    ^ keyword.operator.arithmetic.shell.zsh
 #     ^^^ variable.other.readwrite.shell
 #         ^ punctuation.section.interpolation.end.shell
 
