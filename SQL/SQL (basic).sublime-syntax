@@ -60,6 +60,9 @@ variables:
 contexts:
   prototype:
     - include: comments
+    - include: prototype_without_comments
+
+  prototype_without_comments: []
 
   main:
     - include: sql
@@ -1408,6 +1411,8 @@ contexts:
 
   inside-double-quoted-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - include: prototype_without_comments
     - match: \"
       scope: punctuation.definition.identifier.end.sql
       pop: 1
@@ -1419,6 +1424,8 @@ contexts:
 
   inside-single-quoted-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - include: prototype_without_comments
     - match: \'
       scope: punctuation.definition.identifier.end.sql
       pop: 1
