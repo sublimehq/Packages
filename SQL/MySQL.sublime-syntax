@@ -457,13 +457,13 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       set:
-        - maybe-column-modifier
         - alter-table-add-index-args
         - expect-index-name
         - maybe-condition
 
   alter-table-add-index-args:
     - include: column-name-lists
+    - include: column-reference-definitions
     - include: comment-keywords
     - include: index-algorithm-args
     - include: index-clustering-args
