@@ -98,7 +98,8 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
     CONSTRAINT id_name_uix UNIQUE (id, name)
 --  ^^^^^^^^^^ storage.modifier
 --             ^^^^^^^^^^^ meta.constraint-name
---                         ^^^^^^ keyword.other
+--                         ^^^^^^ storage.modifier.sql
+--                                ^^^^^^^^^^ meta.group.table-columns.sql meta.group.table-columns.sql
 --                                ^ punctuation.section.group.begin
 --                                 ^^ meta.column-name - variable.other.member.declaration
 --                                   ^ punctuation.separator.sequence

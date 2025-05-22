@@ -210,13 +210,6 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.psql
 
-###[ COLUMN EXPRESSIONS ]######################################################
-
-  inside-column-declaration-list:
-    - meta_prepend: true
-    - match: \b(?i:unique)\b
-      scope: keyword.other.psql
-
 ###[ EXTENSION EXPRESSIONS ]###################################################
 
   extension-attributes:
