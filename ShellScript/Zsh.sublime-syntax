@@ -1325,6 +1325,8 @@ variables:
 
   illegal_group_separators: '[|&;>]'
 
+  is_bare_function_definition: (?={{cmd_char}}+(?:\s+{{cmd_char}}+)*\s*\(\s*\))
+
   # 9.3.1 Hook Functions
   hook_functions: |-
     (?x: chpwd | periodic | precmd | preexec | zshaddhistory | zshexit ){{cmd_break}}

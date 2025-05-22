@@ -178,7 +178,7 @@ contexts:
         - def-function-begin
         - def-anonymous-begin
       pop: 1
-    - match: (?={{cmd_literal}}\s*\(\s*\))
+    - match: '{{is_bare_function_definition}}'
       set:
         - def-function-body
         - def-function-params
@@ -3177,6 +3177,10 @@ variables:
   hex_digit: \h
   oct_digit: '[0-7]'
   varassign: '[-+]?='
+
+  # 3.3 Shell Functions
+  # Implicit function definition without `function` keyword
+  is_bare_function_definition: (?={{cmd_literal}}\s*\(\s*\))
 
   # 4.2 Shell Built-in Commands
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
