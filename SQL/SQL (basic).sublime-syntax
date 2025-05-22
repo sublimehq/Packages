@@ -811,6 +811,9 @@ contexts:
     - match: \b(?i:unique)\b
       scope: storage.modifier.sql
       push: maybe-column-name-list
+    - include: column-reference-definitions
+
+  column-reference-definitions:
     - match: \b(?i:references)\b
       scope: storage.modifier.sql
       push:

@@ -2438,15 +2438,17 @@ ALTER TABLE tbl_name
 --                                ^^^^^^^^^^^^ meta.group.table-columns.sql
 --                                            ^ punctuation.separator.sequence.sql
 
-    ADD FOREIGN KEY index_name (col1, col2),
+    ADD FOREIGN KEY index_name (col1, col2) REFERENCES (col1, col2),
 -- <- meta.statement.alter.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 --  ^^^ keyword.other.ddl.sql
 --      ^^^^^^^ keyword.other.ddl.sql
 --              ^^^ keyword.other.ddl.sql
 --                  ^^^^^^^^^^ meta.index-name.sql
 --                             ^^^^^^^^^^^^ meta.group.table-columns.sql
---                                         ^ punctuation.separator.sequence.sql
+--                                          ^^^^^^^^^^ storage.modifier.sql
+--                                                     ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                                 ^ punctuation.separator.sequence.sql
 
     ADD FOREIGN KEY IF NOT EXISTS index_name (col1, col2),
 -- <- meta.statement.alter.sql
@@ -2472,9 +2474,9 @@ ALTER TABLE tbl_name
 --                                        ^^^^^^^^^^^^ meta.group.table-columns.sql
 --                                                    ^ punctuation.separator.sequence.sql
 
-    ADD CONSTRAINT symbol FOREIGN KEY index_name (col1, col2),
+    ADD CONSTRAINT symbol FOREIGN KEY index_name (col1, col2) REFERENCES (col1, col2),
 -- <- meta.statement.alter.sql
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
 --  ^^^ keyword.other.ddl.sql
 --      ^^^^^^^^^^ keyword.other.ddl.sql
 --                 ^^^^^^ meta.constraint-name.sql
@@ -2482,7 +2484,9 @@ ALTER TABLE tbl_name
 --                                ^^^ keyword.other.ddl.sql
 --                                    ^^^^^^^^^^ meta.index-name.sql
 --                                               ^^^^^^^^^^^^ meta.group.table-columns.sql
---                                                           ^ punctuation.separator.sequence.sql
+--                                                            ^^^^^^^^^^ storage.modifier.sql
+--                                                                       ^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                                                                   ^ punctuation.separator.sequence.sql
 
 -- ----------------------------------------------------------------------------
 --   ADD [CONSTRAINT [symbol]] PRIMARY KEY

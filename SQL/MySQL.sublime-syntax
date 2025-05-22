@@ -463,6 +463,7 @@ contexts:
 
   alter-table-add-index-args:
     - include: column-name-lists
+    - include: column-reference-definitions
     - include: comment-keywords
     - include: index-algorithm-args
     - include: index-clustering-args
