@@ -610,6 +610,13 @@ BEGIN
 --                                      ^ meta.group.table-columns.sql punctuation.section.group.begin.sql
          "MySPID" VARCHAR(15)
         ,"lBatchNum" INT
+--      ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--      ^ punctuation.separator.sequence.sql
+--       ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
+--       ^ punctuation.definition.string.begin.sql
+--                 ^ punctuation.definition.string.end.sql
+--                   ^^^ storage.type.sql
+
         ,"bLog" SMALLINT
         ,"bCPU" SMALLINT
         ,"dtEff" TIMESTAMP WITHOUT TIME ZONE

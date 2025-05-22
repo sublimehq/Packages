@@ -11,7 +11,7 @@ file_extensions:
 
 variables:
   simple_types: |-
-    (?xi: smallint | integer | bigint | real | double\s+precision
+    (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
     | smallserial | serial | bigserial
     | money
     | bytea
