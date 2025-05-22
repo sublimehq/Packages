@@ -457,6 +457,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       set:
+        - maybe-column-modifier
         - alter-table-add-index-args
         - expect-index-name
         - maybe-condition

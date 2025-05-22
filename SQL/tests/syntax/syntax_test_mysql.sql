@@ -5242,3 +5242,43 @@ SELECT
 -- ^^^^^^^^^^^ meta.block.conflict.end.diff
 -- ^^^^ punctuation.section.block.end.diff
 --      ^^^^^^ entity.name.section.diff
+
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- <- keyword.other.ddl.sql
+--  ^^^^^^^ keyword.other.ddl.sql
+--          ^^^ keyword.other.ddl.sql
+--              ^^^^^^^^^^ meta.group.table-columns.sql
+--              ^ punctuation.section.group.begin.sql
+--               ^^^^^^^^ meta.column-name.sql
+--                       ^ punctuation.section.group.end.sql
+--                         ^^^^^^^^^^ storage.modifier.sql
+--                                    ^^^^^^^ meta.table-name.sql
+--                                           ^^^^^^^^^^ meta.group.table-columns.sql
+--                                           ^ punctuation.section.group.begin.sql
+--                                            ^^^^^^^^ meta.column-name.sql
+--                                                    ^ punctuation.section.group.end.sql
+--                                                     ^ punctuation.terminator.statement.sql
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_PersonOrder
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- <- keyword.other.ddl.sql
+--  ^^^^^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^^^^^^^^ meta.constraint-name.sql
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^^^ keyword.other.ddl.sql
+--      ^^^ keyword.other.ddl.sql
+--          ^^^^^^^^^^ meta.group.table-columns.sql
+--          ^ punctuation.section.group.begin.sql
+--           ^^^^^^^^ meta.column-name.sql
+--                   ^ punctuation.section.group.end.sql
+--                     ^^^^^^^^^^ storage.modifier.sql
+--                                ^^^^^^^ meta.table-name.sql
+--                                       ^^^^^^^^^^ meta.group.table-columns.sql
+--                                       ^ punctuation.section.group.begin.sql
+--                                        ^^^^^^^^ meta.column-name.sql
+--                                                ^ punctuation.section.group.end.sql
+--                                                 ^ punctuation.terminator.statement.sql
