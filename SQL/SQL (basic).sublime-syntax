@@ -763,8 +763,7 @@ contexts:
 
   maybe-column-declaration-list:
     - include: column-declaration-list
-    - match: (?=\S)
-      set: after-column-declaration-list
+    - include: else-pop
 
   column-declaration-list:
     - match: \(
@@ -775,13 +774,10 @@ contexts:
     - meta_scope: meta.group.table-columns.sql
     - match: \)
       scope: punctuation.section.group.end.sql
-      set: after-column-declaration-list
+      pop: 1
     - include: column-modifiers
     - include: expressions
     - include: expect-column-declarations
-
-  after-column-declaration-list:
-    - include: else-pop
 
   expect-column-declarations:
     - match: (?=\S)
