@@ -563,6 +563,18 @@ value := E'\u1234 \U9876A001'
 --               ^ - constant
 --                ^^^^^^^^^^ constant.character.escape
 
+-- this is a comment
+-- ^^^^^^^^^^^^^^^^^^ comment.line.double-dash.sql
+
+select no_comment_here;
+--^^^^^^^^^^^^^^^^^^^^^^ - comment
+--^^^^ keyword.other.dml.sql
+--     ^^^^^^^^^^^^^^^ meta.column-name.sql
+--                    ^ punctuation.terminator.statement.sql
+
+--this is also a comment
+--^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.sql
+
 CREATE OR REPLACE FUNCTION public."AutAppB_getBatchOrders"(
     "@sBatchTy" character varying,
 --^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.parameters.sql meta.group.sql
