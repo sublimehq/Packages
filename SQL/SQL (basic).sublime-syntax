@@ -862,14 +862,10 @@ contexts:
         - maybe-parameter-modifier
 
   expect-parameter-name:
-    - match: '{{simple_identifier}}'
-      scope: variable.parameter.sql
-      pop: 1
-    - match: (?=")
+    - match: (?=\S)
       set:
         - variable-parameter
         - single-identifier
-    - include: else-pop
 
   maybe-parameter-modifier:
     - match: \b{{function_parameter_modifier}}\b
