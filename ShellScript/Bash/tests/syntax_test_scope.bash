@@ -4615,6 +4615,16 @@ ed/foo*  # The subdirectory foo of the home directory of the user fred
 #     ^^ variable.other.readwrite.shell
 #       ^ punctuation.section.interpolation.end.shell
 
+: $(~)
+# ^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
+#   ^ meta.interpolation.command.shell meta.function-call.identifier.shell meta.command.shell meta.interpolation.tilde.shell
+#    ^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
+#     ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ variable.language.tilde.shell
+#    ^ punctuation.section.interpolation.end.shell
+
 foo=~/~
 #   ^ variable.language.tilde.shell - string
 #    ^^ string.unquoted.shell - variable
@@ -4631,6 +4641,15 @@ foo=~/~${bar}
 #       ^ punctuation.section.interpolation.begin.shell
 #        ^^^ variable.other.readwrite.shell
 #           ^ punctuation.section.interpolation.end.shell
+
+foo=(~)
+#   ^ meta.sequence.list.shell - meta.string - meta.interpolation
+#    ^ meta.sequence.list.shell meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#     ^ meta.sequence.list.shell - meta.string - meta.interpolation
+#      ^ - meta.sequence
+#   ^ punctuation.section.sequence.begin.shell
+#    ^ variable.language.tilde.shell
+#     ^ punctuation.section.sequence.end.shell
 
 foo=(~/~foo ~/~bar)
 #   ^^^^^^^^^^^^^^^ meta.sequence.list.shell
@@ -5058,6 +5077,12 @@ foo}
 #      ^ keyword.operator.assignment.shell
 #       ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^ punctuation.section.interpolation.end.shell
+
+: ${foo-~}
+# ^^^^^^^^ meta.interpolation.parameter.shell
+#      ^ keyword.operator.assignment.shell
+#       ^ meta.string.glob.shell meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#        ^ punctuation.section.interpolation.end.shell
 
 : ${foo-~+/*bar}
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
@@ -7102,6 +7127,12 @@ a\/b/c/d}
 #         ^^ keyword.operator.expansion.shell
 #           ^^^^^^^ meta.string.regexp.shell
 #                  ^ punctuation.section.interpolation.end.shell
+
+: ${foo%%~}
+# ^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#         ^ punctuation.section.interpolation.end.shell
 
 : ${foo%%~+/*bar}
 # ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell

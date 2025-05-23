@@ -3036,7 +3036,7 @@ contexts:
     - meta_content_scope: meta.interpolation.tilde.shell constant.other.username.shell
     - include: line-continuations
     - include: string-interpolations
-    - match: (?=\\?/|{{metachar}})
+    - match: (?=\\?/|[]}{{metachar}}])
       pop: 1
 
 ###[ ILLEGALS ]################################################################
