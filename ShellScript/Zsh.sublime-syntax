@@ -653,9 +653,22 @@ contexts:
     - meta_append: true
     # 14.7.3 '=' expansion
     # https://zsh.sourceforge.io/Doc/Release/Expansion.html#g_t_0060_003d_0027-expansion
+    - match: (=)(\()
+      captures:
+        1: punctuation.definition.expansion.shell.zsh
+        2: punctuation.section.compound.begin.shell.zsh
+      set: equal-compound-interpolation-body
     - match: =
       scope: punctuation.definition.expansion.shell.zsh
       pop: 1
+
+  equal-compound-interpolation-body:
+    - clear_scopes: 1
+    - meta_scope: meta.compound.command.shell.zsh
+    - match: \)
+      scope: punctuation.section.compound.end.shell.zsh
+      pop: 1
+    - include: statements
 
   tilde-modifier:
     - meta_prepend: true

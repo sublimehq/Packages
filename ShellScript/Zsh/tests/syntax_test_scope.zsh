@@ -4531,6 +4531,43 @@ dyn_dir_name() {
 #        ^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell string.unquoted.shell
 #        ^ punctuation.definition.expansion.shell
 
+echo =( echo ls )
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell - meta.string
+#    ^^^ meta.function-call.arguments.shell meta.string.glob.shell - meta.function-call meta.function-call
+#       ^^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.compound.command.shell.zsh meta.function-call.identifier.shell
+#           ^^^ meta.function-call.arguments.shell meta.string.glob.shell meta.compound.command.shell.zsh meta.function-call.arguments.shell
+#              ^^ meta.function-call.arguments.shell meta.string.glob.shell meta.compound.command.shell.zsh - meta.function-call meta.function-call
+#    ^ punctuation.definition.expansion.shell.zsh
+#     ^ punctuation.section.compound.begin.shell.zsh
+#       ^^^^ support.function.shell
+#            ^^ meta.string.glob.shell string.unquoted.shell
+#               ^ punctuation.section.compound.end.shell.zsh
+
+cat =( < foo )
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#  ^^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^^^^^^^^^^ meta.string.glob.shell meta.compound.command.shell.zsh
+#   ^ punctuation.definition.expansion.shell.zsh
+#    ^ punctuation.section.compound.begin.shell.zsh
+#      ^^^^^ meta.redirection.shell
+#      ^ keyword.operator.assignment.redirection.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell.zsh
+
+cat =( <<< foo )
+# <- meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#  ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^^^^^^^^^^^^ meta.string.glob.shell meta.compound.command.shell.zsh
+#   ^ punctuation.definition.expansion.shell.zsh
+#    ^ punctuation.section.compound.begin.shell.zsh
+#      ^^^^^^^ meta.redirection.shell
+#      ^^^ keyword.operator.assignment.herestring.shell
+#          ^^^ meta.string.herestring.shell string.unquoted.shell
+#              ^ punctuation.section.compound.end.shell.zsh
+
 
 ###############################################################################
 # 14.8 Filename Generation
