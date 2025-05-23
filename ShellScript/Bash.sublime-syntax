@@ -1582,19 +1582,20 @@ contexts:
     - match: \'
       scope: punctuation.definition.quoted.begin.shell
       push: expression-single-quoted-body
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push: expression-group-body
+    - include: expression-groups
     - include: expression-common
 
   expression-double-quoted-body:
     - match: \"
       scope: punctuation.definition.quoted.end.shell
       pop: 1
+    - include: expression-double-quoted-groups
+    - include: expression-common
+
+  expression-double-quoted-groups:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: expression-double-quoted-group-body
-    - include: expression-common
 
   expression-double-quoted-group-body:
     - meta_scope: meta.group.shell
@@ -1603,16 +1604,20 @@ contexts:
       pop: 1
     - match: (?=")
       pop: 1
+    - include: expression-double-quoted-groups
     - include: expression-common
 
   expression-single-quoted-body:
     - match: \'
       scope: punctuation.definition.quoted.end.shell
       pop: 1
+    - include: expression-single-quoted-groups
+    - include: expression-common
+
+  expression-single-quoted-groups:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: expression-single-quoted-group-body
-    - include: expression-common
 
   expression-single-quoted-group-body:
     - meta_scope: meta.group.shell
@@ -1621,13 +1626,20 @@ contexts:
       pop: 1
     - match: (?=')
       pop: 1
+    - include: expression-single-quoted-groups
     - include: expression-common
+
+  expression-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: expression-group-body
 
   expression-group-body:
     - meta_scope: meta.group.shell
     - match: \)
       scope: punctuation.section.group.end.shell
       pop: 1
+    - include: expression-groups
     - include: expression-common
 
   expression-common:
