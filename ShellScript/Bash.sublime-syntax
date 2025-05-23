@@ -448,7 +448,7 @@ contexts:
 
   cmd-declare-args:
     # option contains -f or -F
-    - match: ([-+])[A-Za-z]*[Ff][A-Za-z]*{{opt_break}}
+    - match: ([-+]){{word_char}}*[Ff]{{word_char}}*{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -456,7 +456,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-args-end-of-options-then-function-declarations
     # option contains any mix of iA or Ai
-    - match: ([-+])(?:[A-Za-z]*?i[A-Za-z]*?A|[A-Za-z]*?A[A-Za-z]*?i)[A-Za-z]*?{{opt_break}}
+    - match: ([-+])(?:{{word_char}}*?i{{word_char}}*?A|{{word_char}}*?A{{word_char}}*?i){{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -464,7 +464,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-args-end-of-options-then-variables-arithmetic-mappings
     # option contains any mix of ia or ai or i
-    - match: ([-+])[A-Za-z]*?i[A-Za-z]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?i{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -472,7 +472,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-declare-variables-with-arithmetic-values
     # option contains A
-    - match: ([-+])[A-Za-z]*?A[A-Za-z]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?A{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -483,7 +483,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-declare-variables-with-arithmetic-values:
-    - match: ([-+])[A-Za-z]*?A[A-Za-z]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?A{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -493,7 +493,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables-arithmetic-values
 
   cmd-declare-variables-with-literal-mappings:
-    - match: ([-+])[A-Za-z]*?i[A-Za-z]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?i{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
