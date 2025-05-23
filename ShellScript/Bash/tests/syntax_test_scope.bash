@@ -13380,6 +13380,110 @@ ip=10.10.20.14
 ((a+=b))
 #    ^ - string.unquoted
 
+(( val = ( a - ( b * c + ( d - e ) ) ) / "d" ))
+#^ meta.compound.arithmetic.shell - meta.arithmetic
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell
+#                                            ^^ meta.compound.arithmetic.shell - meta.arithmetic
+# ^^^^^^^ - meta.group
+#        ^^^^^^ meta.group.shell - meta.group meta.group
+#              ^^^^^^^^^^ meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                        ^^^^^^^^^ meta.group.shell meta.group.shell meta.group.shell
+#                                 ^^ meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                                   ^^ meta.group.shell - meta.group meta.group
+#                                     ^^^^^^^ - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.shell
+#        ^ punctuation.section.group.begin.shell
+#          ^ variable.other.readwrite.shell
+#            ^ keyword.operator.arithmetic.shell
+#              ^ punctuation.section.group.begin.shell
+#                ^ variable.other.readwrite.shell
+#                  ^ keyword.operator.arithmetic.shell
+#                    ^ variable.other.readwrite.shell
+#                      ^ keyword.operator.arithmetic.shell
+#                        ^ punctuation.section.group.begin.shell
+#                          ^ variable.other.readwrite.shell
+#                            ^ keyword.operator.arithmetic.shell
+#                              ^ variable.other.readwrite.shell
+#                                ^ punctuation.section.group.end.shell
+#                                  ^ punctuation.section.group.end.shell
+#                                    ^ punctuation.section.group.end.shell
+#                                      ^ keyword.operator.arithmetic.shell
+#                                        ^ punctuation.definition.quoted.begin.shell
+#                                         ^ variable.other.readwrite.shell
+#                                          ^ punctuation.definition.quoted.end.shell
+#                                            ^^ punctuation.section.compound.end.shell
+
+(( val = '( a - ( b * c + ( d - e ) ) ) / d' ))
+#^ meta.compound.arithmetic.shell - meta.arithmetic
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell
+#                                            ^^ meta.compound.arithmetic.shell - meta.arithmetic
+# ^^^^^^^^ - meta.group
+#         ^^^^^^ meta.group.shell - meta.group meta.group
+#               ^^^^^^^^^^ meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                         ^^^^^^^^^ meta.group.shell meta.group.shell meta.group.shell
+#                                  ^^ meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                                    ^^ meta.group.shell - meta.group meta.group
+#                                      ^^^^^^ - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.shell
+#        ^ punctuation.definition.quoted.begin.shell
+#         ^ punctuation.section.group.begin.shell
+#           ^ variable.other.readwrite.shell
+#             ^ keyword.operator.arithmetic.shell
+#               ^ punctuation.section.group.begin.shell
+#                 ^ variable.other.readwrite.shell
+#                   ^ keyword.operator.arithmetic.shell
+#                     ^ variable.other.readwrite.shell
+#                       ^ keyword.operator.arithmetic.shell
+#                         ^ punctuation.section.group.begin.shell
+#                           ^ variable.other.readwrite.shell
+#                             ^ keyword.operator.arithmetic.shell
+#                               ^ variable.other.readwrite.shell
+#                                 ^ punctuation.section.group.end.shell
+#                                   ^ punctuation.section.group.end.shell
+#                                     ^ punctuation.section.group.end.shell
+#                                       ^ keyword.operator.arithmetic.shell
+#                                         ^ variable.other.readwrite.shell
+#                                          ^ punctuation.definition.quoted.end.shell
+#                                            ^^ punctuation.section.compound.end.shell
+
+(( val = "( a - ( b * c + ( d - e ) ) ) / d" ))
+#^ meta.compound.arithmetic.shell - meta.arithmetic
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell meta.arithmetic.shell
+#                                            ^^ meta.compound.arithmetic.shell - meta.arithmetic
+# ^^^^^^^^ - meta.group
+#         ^^^^^^ meta.group.shell - meta.group meta.group
+#               ^^^^^^^^^^ meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                         ^^^^^^^^^ meta.group.shell meta.group.shell meta.group.shell
+#                                  ^^ meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                                    ^^ meta.group.shell - meta.group meta.group
+#                                      ^^^^^^ - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.shell
+#        ^ punctuation.definition.quoted.begin.shell
+#         ^ punctuation.section.group.begin.shell
+#           ^ variable.other.readwrite.shell
+#             ^ keyword.operator.arithmetic.shell
+#               ^ punctuation.section.group.begin.shell
+#                 ^ variable.other.readwrite.shell
+#                   ^ keyword.operator.arithmetic.shell
+#                     ^ variable.other.readwrite.shell
+#                       ^ keyword.operator.arithmetic.shell
+#                         ^ punctuation.section.group.begin.shell
+#                           ^ variable.other.readwrite.shell
+#                             ^ keyword.operator.arithmetic.shell
+#                               ^ variable.other.readwrite.shell
+#                                 ^ punctuation.section.group.end.shell
+#                                   ^ punctuation.section.group.end.shell
+#                                     ^ punctuation.section.group.end.shell
+#                                       ^ keyword.operator.arithmetic.shell
+#                                         ^ variable.other.readwrite.shell
+#                                          ^ punctuation.definition.quoted.end.shell
+#                                            ^^ punctuation.section.compound.end.shell
 
 ###############################################################################
 # 7.1 Job Control Basics                                                      #
