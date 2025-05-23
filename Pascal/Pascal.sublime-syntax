@@ -1,8 +1,9 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 name: Pascal
 scope: source.pascal
+version: 2
 
 file_extensions:
   - pas
@@ -11,85 +12,437 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \bpas(cal)?\b .*? -\*-  # editorconfig
+    ^ \s* // .*? -\*- .*? \bpas(?:cal)?\b .*? -\*-                              # editorconfig
   )
 
+###[ CONTEXTS ]################################################################
+
 contexts:
+
   prototype:
+    - include: comments
     - include: merge-conflict-markers
 
   main:
-    - match: \b(?i:(absolute|abstract|all|and|and_then|array|as|asm|attribute|begin|bindable|case|class|const|constructor|destructor|div|do|do|else|end|except|export|exports|external|far|file|finalization|finally|for|forward|goto|if|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|nil|not|object|of|only|operator|or|or_else|otherwise|packed|pow|private|program|property|protected|public|published|qualified|record|repeat|resident|restricted|segment|set|shl|shr|then|to|try|type|unit|until|uses|value|var|view|virtual|while|with|xor))\b
-      scope: keyword.control.pascal
-    - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
-      scope: meta.function.prototype.pascal
-      captures:
-        1: keyword.declaration.function.pascal
-        2: entity.name.function.pascal
-    - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)
-      scope: meta.function.pascal
-      captures:
-        1: keyword.declaration.function.pascal
-        2: entity.name.function.pascal
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
-      scope: constant.numeric.pascal
-    - match: '(^[ \t]+)?(--)'
-      captures:
-        1: punctuation.whitespace.comment.leading.pascal
-        2: punctuation.definition.comment.pascal
-      push:
-        - meta_scope: comment.line.double-dash.pascal.one
-        - match: \n
-          pop: true
-    - match: '(^[ \t]+)?(//)'
-      captures:
-        1: punctuation.whitespace.comment.leading.pascal
-        2: punctuation.definition.comment.pascal
-      push:
-        - meta_scope: comment.line.double-slash.pascal.two
-        - match: \n
-          pop: true
+    - include: statements
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    - include: line-comments
+    - include: block-comments
+
+  line-comments:
+    - match: --
+      scope: punctuation.definition.comment.begin.pascal
+      push: line-comment-double-dash-body
+    - match: //
+      scope: punctuation.definition.comment.begin.pascal
+      push: line-comment-double-slash-body
+
+  line-comment-double-dash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-dash.pascal
+    - include: pop-eol
+
+  line-comment-double-slash-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.pascal
+    - include: pop-eol
+
+  block-comments:
     - match: \(\*
+      scope: punctuation.definition.comment.begin.pascal
+      push: block-comment-paren-star-body
+    - match: '{'
+      scope: punctuation.definition.comment.begin.pascal
+      push: block-comment-brace-body
+
+  block-comment-paren-star-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.pascal
+    - match: \*\)
+      scope: punctuation.definition.comment.end.pascal
+      pop: 1
+    - include: block-comments
+
+  block-comment-brace-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.pascal
+    - match: '}'
+      scope: punctuation.definition.comment.end.pascal
+      pop: 1
+    - include: block-comments
+
+###[ KEYWORDS ]################################################################
+
+  keywords:
+    - include: access-modifiers
+    - include: hint-directives
+    - match: '{{keyword}}|{{reserved_word}}|{{modifier}}'
+      scope: keyword.control.pascal
+
+  access-modifiers:
+    - match: \b(?i:published|public|protected|private|strict\s+private)\b
+      scope: storage.modifier.pascal
+
+  hint-directives:
+    - match: '{{hint_directive}}'
+      scope: variable.annotation.pascal
+
+###[ DEFINITIONS ]#############################################################
+
+  constant-definitions:
+    - match: \b(?i:const)\b
+      scope: keyword.declaration.constant.pascal
+      push: constant-definitions-body
+
+  constant-definitions-body:
+    - meta_scope: meta.block.pascal
+    - include: constant-and-var-definition-contents
+    - match: '='
+      scope: keyword.operator.assignment.pascal
+    - include: hint-directives
+    - match: '&{{reserved_word}}'
+      scope: variable.other.constant.pascal
+    - match: '{{identifier}}'
+      scope: variable.other.constant.pascal
+
+  var-definitions:
+    - match: \b(?i:var)\b
+      scope: keyword.declaration.variable.pascal
+      push: var-definitions-body
+
+  var-definitions-body:
+    - meta_scope: meta.block.pascal
+    - include: constant-and-var-definition-contents
+    - match: '&{{reserved_word}}'
+      scope: variable.other.readwrite.pascal
+      push: [maybe-hint-directive, maybe-type-marker]
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.pascal
+      push: [maybe-hint-directive, maybe-type-marker]
+
+  constant-and-var-definition-contents:
+    - include: pop-terminator
+    - include: comma-separator
+    - include: literals
+    - match: '{{reserved_word}}'
+      scope: invalid.illegal.pascal
+      pop: 1
+
+  maybe-type-marker:
+    - match: ':'
+      scope: punctuation.separator.annotation.pascal
+      set: expect-type
+    - include: else-pop
+
+  expect-type:
+    - include: types
+    - match: (?={{hint_directive}})
+      pop: 1
+    - include: types-for-anything
+    - include: else-pop
+
+  maybe-hint-directive:
+    - include: hint-directives
+    - include: else-pop
+
+###[ FUNCTIONS ]###############################################################
+
+  functions:
+    - match: \b(?i:(function|procedure))\s+({{identifier}})
       captures:
-        0: punctuation.definition.comment.pascal
+        1: keyword.declaration.function.pascal
+        2: entity.name.function.pascal
       push:
-        - meta_scope: comment.block.pascal.one
-        - match: \*\)
-          captures:
-            0: punctuation.definition.comment.pascal
-          pop: true
-    - match: '\{'
+        - function-body
+        - maybe-function-variables
+        - maybe-hint-directive
+        - maybe-function-attributes
+        - maybe-type-marker
+        - function-parameters
+
+  constructors:
+    - match: \b(?i:(constructor))\s+({{identifier}})
       captures:
-        0: punctuation.definition.comment.pascal
+        1: keyword.declaration.function.pascal
+        2: entity.name.function.constructor.pascal
       push:
-        - meta_scope: comment.block.pascal.two
-        - match: '\}'
-          captures:
-            0: punctuation.definition.comment.pascal
-          pop: true
-    - match: '"'
-      comment: Double quoted strings are an extension and (generally) support C-style escape sequences.
+        - function-body
+        - maybe-function-variables
+        - maybe-hint-directive
+        - maybe-function-attributes
+        - maybe-type-marker
+        - function-parameters
+
+  function-parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.pascal
+      push: function-parameters-body
+    - include: terminator
+    - include: else-pop
+
+  function-parameters-body:
+    - meta_scope: meta.function.parameters.pascal
+    - match: \)
+      scope: punctuation.section.parameters.end.pascal
+      pop: 1
+    - match: '[,;]'
+      scope: punctuation.separator.parameters.pascal
+    - match: \b(?i:(var|const)\s+)?({{identifier}})
       captures:
-        0: punctuation.definition.string.begin.pascal
+        1: keyword.declaration.pascal
+        2: variable.parameter.pascal
       push:
-        - meta_scope: string.quoted.double.pascal
-        - match: '"'
-          captures:
-            0: punctuation.definition.string.end.pascal
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.pascal
-    - match: "'"
+        - maybe-hint-directive
+        - maybe-type-marker
+        - function-parameter-assignment
+
+  function-parameter-assignment:
+    - match: =
+      scope: keyword.operator.assignment.pascal
+      push:
+        - include: literals
+        - include: else-pop
+    - include: else-pop
+
+  maybe-function-attributes:
+    - match: \b(?i:(attribute))\s*(\()
       captures:
-        0: punctuation.definition.string.begin.pascal
+        1: keyword.other.pascal
+        2: punctuation.section.parameters.begin.pascal
+      push: function-attribute
+    - match: \b(?i:forward|external)\b
+      scope: keyword.control.pascal
+    - include: terminator
+    - include: else-pop
+
+  function-attribute:
+    - match: \)
+      scope: punctuation.section.parameters.end.pascal
+      pop: 1
+    - include: comma-separator
+    - match: '{{annotation_variable}}'
+      scope: variable.annotation.pascal
+
+  maybe-function-variables:
+    - match: \b(?i:var)\b
+      scope: keyword.declaration.pascal
+      push: function-variables
+    - include: terminator
+    - include: else-pop
+
+  function-variables:
+    - match: (?=\b(?i:begin)\b)
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.pascal
+      push: [function-parameter-assignment, maybe-type-marker]
+    - include: comma-separator
+    - include: terminator
+    - include: else-pop
+
+  function-body:
+    - meta_scope: meta.function.pascal
+    - include: pop-terminator
+    - include: blocks
+    - include: else-pop
+
+###[ MISC ]####################################################################
+
+  types:
+    - match: \b(?i:boolean|real|character|char|string)\b
+      scope: support.type.primitive.pascal
+    - match: \b(?i:integer|cardinal|shortint|smallint|longint|int64|byte|word|longword)\b
+      scope: support.type.primitive.pascal
+    - match: \b(?i:array)\b
+      scope: support.type.pascal
+      push: after-array
+
+  after-array:
+    - match: \[
+      scope: punctuation.section.brackets.begin.pascal
+      push: array-body
+    - match: \b(?i:of)\b
+      scope: keyword.other.pascal
+      push: array-of
+    - include: else-pop
+
+  array-body:
+    - meta_scope: meta.brackets.pascal
+    - match: \]
+      scope: punctuation.section.brackets.end.pascal
+      pop: 1
+
+  array-of:
+    - include: types-for-anything
+    - match: (?=[,;])
+      pop: 1
+
+  types-for-anything:
+    - match: '{{identifier}}'
+      scope: support.type.pascal
+
+  # https://www.freepascal.org/docs-html/ref/refse88.html
+  operators:
+    - match: ':='
+      scope: keyword.operator.assignment.pascal
+    - match: \b(?i:and|or|xor|not)\b
+      scope: keyword.operator.logical.pascal
+    - match: \+|-|\*\*|\*|/|%|\b(?i:div|mod)\b
+      scope: keyword.operator.arithmetic.pascal
+    - match: '!|&|\||~|<<|>>|\b(?i:shl|shr)\b'
+      scope: keyword.operator.bitwise.pascal
+    - match: =|<>|>=?|<=?
+      scope: keyword.operator.comparison.pascal
+    - match: \b(?i:is|as)\b
+      scope: keyword.operator.comparison.pascal
+    - match: \b(?i:include|exclude|in)\b|><
+      scope: keyword.operator.set.pascal
+    - match: '[@^]'
+      scope: keyword.operator.pointer.pascal
+
+  assignment:
+    - match: '({{identifier}})\s*(:=)'
+      captures:
+        1: variable.other.readwrite.pascal
+        2: keyword.operator.assignment.pascal
       push:
-        - meta_scope: string.quoted.single.pascal
-        - match: "''"
-          scope: constant.character.escape.apostrophe.pascal
-        - match: "'"
-          captures:
-            0: punctuation.definition.string.end.pascal
-          pop: true
+        - include: pop-terminator
+        - include: expressions
+    - match: '(&{{reserved_word}})\s*(:=)'
+      captures:
+        1: variable.other.readwrite.pascal
+        2: keyword.operator.assignment.pascal
+      push:
+        - include: pop-terminator
+        - include: expressions
+
+  identifiers-as-vars:
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.pascal
+      push: maybe-accessor
+    - match: '&{{reserved_word}}'
+      scope: variable.other.readwrite.pascal
+      push: maybe-accessor
+
+  maybe-accessor:
+    - match: \.
+      scope: punctuation.accessor.dot.pascal
+      pop: 1
+    - include: else-pop
+
+###[ LITERALS ]################################################################
+
+  literals:
+    - include: constants
+    - include: numerics
+    - include: strings
+
+  constants:
+    - match: \b(?i:true)\b
+      scope: constant.language.boolean.true.pascal
+    - match: \b(?i:false)\b
+      scope: constant.language.boolean.false.pascal
+    - match: \b(?i:nil)\b
+      scope: constant.language.null.pascal
+
+  # https://www.freepascal.org/docs-html/ref/refse6.html
+  numerics:
+    # Binary
+    - match: (%)([01]+)
+      scope: meta.number.integer.binary.pascal
+      captures:
+        1: constant.numeric.base.pascal
+        2: constant.numeric.value.pascal
+    # Octal
+    - match: (&)([0-7]+)
+      scope: meta.number.integer.octal.pascal
+      captures:
+        1: constant.numeric.base.pascal
+        2: constant.numeric.value.pascal
+    # Hexadecimal
+    - match: \b(?i:(0x)(\h+))\b
+      scope: meta.number.integer.hexadecimal.pascal
+      captures:
+        1: constant.numeric.base.pascal
+        2: constant.numeric.value.pascal
+    # Decimal integer coerced to float
+    - match: \b(?i:([0-9]+)(f))\b
+      scope: meta.number.float.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: constant.numeric.suffix.pascal
+    # Decimal float coerced to integer
+    - match: |-
+        \b(?xi:
+          ([0-9]+(?:(\.)[0-9]*)?)
+          (e[+-]?[0-9]+)?
+          (l|ull?)
+        )\b
+      scope: meta.number.integer.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: punctuation.separator.decimal.pascal
+        3: constant.numeric.value.exponent.pascal
+        4: constant.numeric.suffix.pascal
+    # Decimal integer (normal)
+    - match: \b(?i:([0-9]+)(u?l?l?)(?!\.))\b
+      scope: meta.number.integer.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: constant.numeric.suffix.pascal
+    # Decimal float (normal)
+    - match: |-
+        \b(?xi:
+          ([0-9]+(?:(\.)[0-9]*)?)
+          (e[+-]?[0-9]+)?
+          (?!l|ull?)
+          (f)?
+        )
+      scope: meta.number.float.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: punctuation.separator.decimal.pascal
+        3: constant.numeric.value.exponent.pascal
+        4: constant.numeric.suffix.pascal
+
+###[ LITERALS / STRINGS ]######################################################
+
+  strings:
+    # Double quoted strings are an extension and (generally) support C-style escape sequences.
+    - match: \"
+      scope: punctuation.definition.string.begin.pascal
+      push: string-double-body
+    - match: \'
+      scope: punctuation.definition.string.begin.pascal
+      push: string-single-body
+    - match: (#)[0-9]{1,5}
+      scope: constant.character.pascal
+      captures:
+        1: punctuation.definition.string.begin.pascal
+
+  string-double-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.pascal string.quoted.double.pascal
+    - match: \"
+      scope: punctuation.definition.string.end.pascal
+      pop: 1
+    - match: \\.
+      scope: constant.character.escape.pascal
+
+  string-single-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.pascal string.quoted.single.pascal
+    - match: \'\'
+      scope: constant.character.escape.apostrophe.pascal
+    - match: \'
+      scope: punctuation.definition.string.end.pascal
+      pop: 1
+    - match: \n
+      scope: invalid.illegal.unterminated-string.pascal
+      pop: 1
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
 
@@ -111,3 +464,174 @@ contexts:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
+###[ PROTOTYPE ]###############################################################
+
+  expressions:
+    - include: literals
+    - include: operators
+    - include: keywords
+    - include: terminator
+    - include: function-call
+    - include: identifiers-as-vars
+
+  function-call:
+    - match: (({{identifier}})\s*)(\()
+      captures:
+        1: meta.function-call.pascal
+        2: variable.function.pascal
+        3:
+          meta.function-call.arguments.pascal
+          punctuation.section.arguments.begin.pascal
+      push:
+        - meta_content_scope: meta.function-call.arguments.pascal
+        - match: \)
+          scope:
+            meta.function-call.arguments.pascal
+            punctuation.section.arguments.end.pascal
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.sequence.pascal
+        - include: statements
+
+  statements:
+    - include: functions
+    - include: constructors
+    - include: constant-definitions
+    - include: var-definitions
+    - include: blocks
+    - include: literals
+    - include: flow
+    - include: assignment
+    - include: function-call-no-arg
+    - include: expressions
+
+  blocks:
+    - match: \b(?i:begin)\b
+      scope: keyword.context.block.begin.pascal
+      push:
+        - meta_scope: meta.block.pascal
+        - match: \b((?i:end))\b(;)?
+          captures:
+            1: keyword.context.block.end.pascal
+            2: punctuation.terminator.pascal
+          pop: 1
+        - include: statements
+
+  flow:
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.pascal
+    - match: \b(?i:break)\b
+      scope: keyword.control.flow.break.pascal
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.pascal
+    # https://www.freepascal.org/docs-html/ref/refse7.html
+    - match: \b(?i:label)\b
+      scope: keyword.declaration.pascal
+      push:
+        - include: pop-terminator
+        - include: comma-separator
+        - match: '{{identifier}}|[0-9]+'
+          scope: entity.name.label.pascal
+
+  function-call-no-arg:
+    - match: ({{identifier}})\s*(;)
+      captures:
+        1: meta.function-call.pascal variable.function.pascal
+        2: punctuation.terminator.pascal
+
+  comma-separator:
+    - match: ','
+      scope: punctuation.separator.sequence.pascal
+
+  terminator:
+    - match: ;
+      scope: punctuation.terminator.pascal
+
+  pop-terminator:
+    - match: ;
+      scope: punctuation.terminator.pascal
+      pop: 1
+
+  pop-eol:
+    - match: $\n?
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  # https://www.freepascal.org/docs-html/ref/refse4.html
+  identifier: (?i:[_a-z][_a-z0-9]{0,126})
+  keyword: |-
+    \b(?xi:
+      absolute | abstract | all | and_then | array | as | asm | attribute
+    | begin | bindable
+    | case | class | const
+    | destructor | div | do | do
+    | else | end | except | export | exports | external
+    | far | file | finalization | finally | for | forward
+    | goto
+    | if | implementation | import | in | inherited | initialization
+    | interface | interrupt | is
+    | label | library
+    | mod | module
+    | name | near
+    | object | of | only | operator | or_else | otherwise
+    | packed | pow | program | property
+    | qualified
+    | record | repeat | resident | restricted
+    | segment | set
+    | then | to | try | type
+    | unit | until | uses
+    | value | var | view | virtual
+    | while | with
+    )\b
+  # https://www.freepascal.org/docs-html/ref/refse3.html
+  reserved_word: |-
+    \b(?xi:
+    # Turbo Pascal
+      absolute | and | array | asm | begin | case | const | constructor
+    | destructor | div | do | downto | else | end | file | for | function | goto
+    | if | implementation | in | inherited | inline | interface | label | mod
+    | nil | not | object | of | operator | or | packed | procedure | program
+    | record | reintroduce | repeat | self | set | shl | shr | string | then | to
+    | type | unit | until | uses | var | while | with | xor
+    # Object Pascal additions
+      as | class | dispinterface | except | exports | finalization | finally
+    | initialization | inline | is | library | on | out | packed | property
+    | raise | resourcestring | threadvar | try
+    )\b
+  # https://www.freepascal.org/docs-html/ref/refsu3.html
+  modifier: |-
+    \b(?xi:
+      absolute | abstract | alias | assembler
+    | bitpacked | break
+    | cdecl | continue | cppdecl | cvar
+    | default | deprecated | dynamic
+    | enumerator | experimental | export | external
+    | far | far16 | forward
+    | generic
+    | helper
+    | implements | index | interrupt | iocheck
+    | local
+    | message
+    | name
+    | near | nodefault | noreturn | nostackframe
+    | oldfpccall | otherwise | overload | override
+    | pascal | platform | private | protected | public | published
+    | read | register | reintroduce | result
+    | safecall | saveregisters | softfloat | specialize | static | stdcall
+    | stored | strict
+    | unaligned | unimplemented
+    | varargs | virtual
+    | winapi | write
+    )\b
+  hint_directive: \b(?i:deprecated|experimental|platform|unimplemented)\b
+  annotation_variable: \b(?i:static|register|volatile|const|external|name|ignorable|inline|iocritical|size)\b
