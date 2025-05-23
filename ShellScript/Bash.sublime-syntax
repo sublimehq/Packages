@@ -425,7 +425,7 @@ contexts:
 
   cmd-declare-args:
     # option contains -f or -F
-    - match: ([-+])[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*{{opt_break}}
+    - match: ([-+]){{opt_char}}*[Ff]{{opt_char}}*
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -433,7 +433,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-args-end-of-options-then-function-declarations
     # option contains any mix of iA or Ai
-    - match: ([-+])(?:[agIlnrtux]*?i[iagIlnrtux]*?A|[agIlnrtux]*?A[aAgIlnrtux]*?i)[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+])(?:{{opt_char}}*i{{opt_char}}*A|{{opt_char}}*A{{opt_char}}*i){{opt_char}}*
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -441,7 +441,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-args-end-of-options-then-variables-arithmetic-mappings
     # option contains any mix of ia or ai or i
-    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{opt_char}}*i{{opt_char}}*
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -449,7 +449,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-declare-variables-with-arithmetic-values
     # option contains A
-    - match: ([-+])[aAgIlnrtux]*?A[aAgIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{opt_char}}*A{{opt_char}}*
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -460,7 +460,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-declare-variables-with-arithmetic-values:
-    - match: ([-+])[aAgiIlnrtux]*?A[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{opt_char}}*A{{opt_char}}*
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -470,7 +470,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables-arithmetic-values
 
   cmd-declare-variables-with-literal-mappings:
-    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{opt_char}}*i{{opt_char}}*
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -3329,7 +3329,8 @@ variables:
 
   # Command options are identifiers, which may start with interpolation.
   opt_punctuation: (--|[-+])(?={{word_char}})
-  opt_break: (?![^={{metachar}}])
+  opt_break: (?!{{opt_char}})
+  opt_char: '[^={{metachar}}]'
 
   # HEREDOC tag names
   heredoc: '{{heredoc_first_char}}{{heredoc_char}}*'
@@ -3339,7 +3340,7 @@ variables:
 
   # Variable names
   variable_begin: (?={{variable_first_char}})
-  variable_first_char: '[{{identifier_first_char}}''"$%]'
+  variable_first_char: '[{{identifier_first_char}}''"%${\\]'
 
   # POSIX identifiers (alpha-numeric)
   identifier: '{{identifier_first_char}}{{identifier_char}}*'

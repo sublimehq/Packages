@@ -9444,3 +9444,306 @@ cmd
 #   ^^^ keyword.operator.comparison.shell
 #       ^ meta.arithmetic.shell variable.other.readwrite.shell
 #         ^ punctuation.section.compound.end.shell
+
+
+##############################################################################
+# 17 "typeset" Shell Builtin Command
+##############################################################################
+
+typeset             # comment
+#<- meta.declaration.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell keyword.declaration.variable.shell
+#      ^ - meta.declaration.variable
+#                   ^^^^^^^^^^ comment.line.number-sign.shell
+
+typeset foo         # 'foo' is a variable name
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#          ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+typeset \_foo      # '\_' escaped first char in variable name
+#^^^^^^^^^^^^ meta.declaration.variable.shell
+#            ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^^ variable.other.readwrite.shell
+#       ^^ constant.character.escape.shell
+#            ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+typeset '_foo'     # single quoted variable name
+#^^^^^^^^^^^^^ meta.declaration.variable.shell
+#             ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^^^ variable.other.readwrite.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#            ^ punctuation.definition.quoted.end.shell
+#             ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+typeset "_foo"     # double quoted variable name
+#^^^^^^^^^^^^^ meta.declaration.variable.shell
+#             ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^^^ variable.other.readwrite.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#            ^ punctuation.definition.quoted.end.shell
+#             ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+foo='svar=val'
+typeset $foo       # interpolated variable name
+#^^^^^^^^^^^ meta.declaration.variable.shell
+#           ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^ punctuation.definition.variable.shell
+#           ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+typeset foo|       # '|' terminates statement
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#          ^ keyword.operator
+
+typeset foo |      # '|' terminates statement
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#           ^ keyword.operator
+
+typeset foo&       # '&' terminates statement
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#          ^ keyword.operator
+
+typeset foo &      # '&' terminates statement
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#           ^ keyword.operator
+
+typeset foo ;     # ';' terminates statement
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#           ^ punctuation.terminator.statement.shell
+
+declare foo; bar=baz # 2nd statement after ';'
+#^^^^^^^^^^ meta.declaration.variable.shell
+#          ^^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ punctuation.terminator.statement.shell
+#            ^^^ variable.other.readwrite.shell
+#               ^ keyword.operator.assignment.shell
+#                ^^^ meta.string.glob.shell string.unquoted.shell
+#                   ^ - meta.string - string - comment
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+typeset {var1,var2,var3}=value  # multiple assignments via brace expansion
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^^^^^^^^^^^^^^ meta.assignment.l-value.shell meta.interpolation.brace.shell
+#       ^ punctuation.section.interpolation.begin.shell
+#        ^^^^ meta.string.shell string.unquoted.shell
+#            ^ punctuation.separator.sequence.shell
+#             ^^^^ meta.string.shell string.unquoted.shell
+#                 ^ punctuation.separator.sequence.shell
+#                  ^^^^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.section.interpolation.end.shell
+#                       ^ meta.assignment.shell keyword.operator.assignment.shell
+#                        ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+
+typeset foo==bar baz =buz  # assignment must immediately follow a variable
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#                        ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#      ^ - variable
+#       ^^^ variable.other.readwrite.shell
+#          ^ keyword.operator.assignment.shell
+#           ^^^^ meta.string.glob.shell string.unquoted.shell
+#           ^ punctuation.definition.expansion.shell.zsh
+#               ^ - variable
+#                ^^^ variable.other.readwrite.shell
+#                   ^ - variable
+#                    ^^^^ invalid.illegal.unexpected-token.shell
+#                        ^ - variable
+
+typeset foo=<input.txt
+#^^^^^^^ meta.declaration.variable.shell - meta.assignment - meta.redirection
+#       ^^^ meta.declaration.variable.shell meta.assignment.l-value.shell - meta.redirection
+#          ^ meta.declaration.variable.shell meta.assignment.shell - meta.redirection
+#           ^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.redirection.shell
+#                     ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ keyword.operator.assignment.shell
+#           ^ keyword.operator.assignment.redirection.shell
+#            ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+
+# string value with pattern expansion
+typeset bar=\
+foo?bar+2*baz/$buz # comment
+# <- meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+#^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+#             ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - string
+#                 ^ - meta.declaration
+#                  ^^^^^^^^^^ comment.line.number-sign.shell
+
+# simple arithmetic expression value
+typeset -i bar=\
+foo?bar+2*baz/$buz # comment
+# <- meta.declaration.variable.shell variable.other.readwrite.shell
+#^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell meta.assignment.r-value.shell meta.arithmetic.shell
+#                 ^ - meta.declaration - meta.assignment - meta.arithmetic
+#^^ variable.other.readwrite.shell
+#  ^ - variable
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.arithmetic.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ keyword.operator.arithmetic.shell
+#         ^^^ variable.other.readwrite.shell
+#            ^ keyword.operator.arithmetic.shell
+#             ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^^^^^^^^^^ comment.line.number-sign.shell
+
+# Normal builtin interface
+builtin typeset svar=$(echo two words)
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^ keyword.declaration.variable.shell
+#               ^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#                   ^ meta.assignment.shell keyword.operator.assignment.shell
+#                    ^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell meta.interpolation.command.shell
+#                    ^ punctuation.definition.variable.shell
+#                     ^ punctuation.section.interpolation.begin.shell
+#                      ^^^^ meta.function-call.identifier.shell support.function.shell
+#                          ^^^^^^^^^^ meta.function-call.arguments.shell
+#                           ^^^ meta.string.glob.shell string.unquoted.shell
+#                               ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                                    ^ punctuation.section.interpolation.end.shell
+
+# Reserved word parsing
+typeset svar=$(echo one word) avar=(several words)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#           ^ meta.assignment.shell keyword.operator.assignment.shell
+#            ^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.string.glob.shell meta.interpolation.command.shell
+#            ^ punctuation.definition.variable.shell
+#             ^ punctuation.section.interpolation.begin.shell
+#              ^^^^ meta.function-call.identifier.shell support.function.shell
+#                  ^^^^^^^^^ meta.function-call.arguments.shell
+#                   ^^^ meta.string.glob.shell string.unquoted.shell
+#                       ^^^^ meta.string.glob.shell string.unquoted.shell
+#                           ^ punctuation.section.interpolation.end.shell
+#                             ^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#                                 ^ meta.assignment.shell keyword.operator.assignment.shell
+#                                  ^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
+#                                  ^ punctuation.section.sequence.begin.shell
+#                                   ^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                                           ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                                                ^ punctuation.section.sequence.end.shell
+
+# scalar parameter names as patterns
+typeset -m \*fo=value
+#^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell
+#       ^ punctuation.definition.parameter.shell
+#          ^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#          ^^ constant.character.escape.shell
+#              ^ meta.assignment.shell keyword.operator.assignment.shell
+#               ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
+
+# array parameter names as patterns
+typeset -am \*fo=("value" "value")
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#       ^ punctuation.definition.parameter.shell
+#           ^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#           ^^ constant.character.escape.shell
+#               ^ meta.assignment.shell keyword.operator.assignment.shell
+#                ^^^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
+#                ^ punctuation.section.sequence.begin.shell
+#                 ^^^^^^^ meta.string.glob.shell string.quoted.double.shell
+#                 ^ punctuation.definition.string.begin.shell
+#                       ^ punctuation.definition.string.end.shell
+#                         ^^^^^^^ meta.string.glob.shell string.quoted.double.shell
+#                         ^ punctuation.definition.string.begin.shell
+#                               ^ punctuation.definition.string.end.shell
+#                                ^ punctuation.section.sequence.end.shell
+
+# mapping parameter names as patterns
+typeset -Am \*fo=("key" "value")
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#       ^ punctuation.definition.parameter.shell
+#           ^^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#           ^^ constant.character.escape.shell
+#               ^ meta.assignment.shell keyword.operator.assignment.shell
+#                ^^^^^^^^^^^^^^^ meta.assignment.r-value.shell meta.sequence.list.shell
+#                ^ punctuation.section.sequence.begin.shell
+#                 ^^^^^ meta.item-access.shell entity.name.key.shell
+#                 ^ punctuation.definition.quoted.begin.shell
+#                     ^ punctuation.definition.quoted.end.shell
+#                       ^^^^^^^ meta.string.glob.shell string.quoted.double.shell
+#                       ^ punctuation.definition.string.begin.shell
+#                             ^ punctuation.definition.string.end.shell
+#                              ^ punctuation.section.sequence.end.shell
+
+# function names as patterns
+typeset -fm \*fo=func
+#^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#       ^ punctuation.definition.parameter.shell
+#           ^^^^^^^^^ meta.command.shell entity.name.function.shell
+#           ^^ constant.character.escape.shell
+
+typeset -mp "(${1:-${(@j:|:)hooktypes}})_functions"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#       ^ punctuation.definition.parameter.shell
+#           ^^ variable.other.readwrite.shell
+#           ^ punctuation.definition.quoted.begin.shell
+#             ^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#             ^ punctuation.definition.variable.shell
+#              ^ punctuation.section.interpolation.begin.shell
+#                  ^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell
+#                  ^ punctuation.definition.variable.shell
+#                   ^ punctuation.section.interpolation.begin.shell
+#                                    ^^ punctuation.section.interpolation.end.shell
+#                                     ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#                                      ^^^^^^^^^^^^ variable.other.readwrite.shell
+#                                                 ^ punctuation.definition.quoted.end.shell
+
+
+##############################################################################
+# 17 "unset" Shell Builtin Command
+##############################################################################
+
+unset -m \*a
+#^^^^ meta.function-call.identifier.shell support.function.shell
+#    ^^^^^^^ meta.function-call.arguments.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#        ^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#        ^^ constant.character.escape.shell
+
+unset -m a\* # ok
+#^^^^ meta.function-call.identifier.shell support.function.shell
+#    ^^^^^^^ meta.function-call.arguments.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
+#     ^ punctuation.definition.parameter.shell
+#        ^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#         ^^ constant.character.escape.shell
+#            ^^^^ comment.line.number-sign.shell
+#            ^ punctuation.definition.comment.shell

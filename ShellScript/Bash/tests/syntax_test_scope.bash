@@ -10997,6 +10997,44 @@ declare foo         # 'foo' is a variable name
 #          ^ - variable.other.readwrite
 #                  ^ - meta.declaration.variable
 
+declare \_foo      # '\_' escaped first char in variable name
+#^^^^^^^^^^^^ meta.declaration.variable.shell
+#            ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^^ variable.other.readwrite.shell
+#       ^^ constant.character.escape.shell
+#            ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+declare '_foo'     # single quoted variable name
+#^^^^^^^^^^^^^ meta.declaration.variable.shell
+#             ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^^^ variable.other.readwrite.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#            ^ punctuation.definition.quoted.end.shell
+#             ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+declare "_foo"     # double quoted variable name
+#^^^^^^^^^^^^^ meta.declaration.variable.shell
+#             ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^^^ variable.other.readwrite.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#            ^ punctuation.definition.quoted.end.shell
+#             ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
+declare $foo       # interpolated variable name
+#^^^^^^^^^^^ meta.declaration.variable.shell
+#           ^ - meta.declaration
+# <- keyword.declaration.variable.shell
+#       ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^ punctuation.definition.variable.shell
+#           ^ - variable.other.readwrite
+#                  ^ - meta.declaration.variable
+
 declare foo|       # '|' terminates statement
 #^^^^^^^^^^ meta.declaration.variable.shell
 #          ^ - meta.declaration
@@ -11034,11 +11072,25 @@ declare foo; bar=baz # 2nd statement after ';'
 #^^^^^^ keyword.declaration.variable.shell
 #       ^^^ variable.other.readwrite.shell
 #          ^ punctuation.terminator.statement.shell
-#            ^^^ variable.other.readwrite.shell
-#               ^ keyword.operator.assignment.shell
-#                ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^^^ meta.assignment.l-value.shell variable.other.readwrite.shell
+#               ^ meta.assignment.shell keyword.operator.assignment.shell
+#                ^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 #                   ^ - meta.string - string - comment
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+declare {var1,var2,var3}=value  # multiple assignments via brace expansion
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
+#^^^^^^ keyword.declaration.variable.shell
+#       ^^^^^^^^^^^^^^^^ meta.assignment.l-value.shell meta.interpolation.brace.shell
+#       ^ punctuation.section.interpolation.begin.shell
+#        ^^^^ meta.string.shell string.unquoted.shell
+#            ^ punctuation.separator.sequence.shell
+#             ^^^^ meta.string.shell string.unquoted.shell
+#                 ^ punctuation.separator.sequence.shell
+#                  ^^^^ meta.string.shell string.unquoted.shell
+#                      ^ punctuation.section.interpolation.end.shell
+#                       ^ meta.assignment.shell keyword.operator.assignment.shell
+#                        ^^^^^ meta.assignment.r-value.shell meta.string.glob.shell string.unquoted.shell
 
 declare foo==bar baz =buz  # assignment must immediately follow a variable
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.shell
