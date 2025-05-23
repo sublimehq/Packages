@@ -7,7 +7,7 @@ hidden: true
 extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
-  prototype:
+  prototype_without_comments:
     - meta_prepend: true
     - include: Packages/PHP/PHP Source.sublime-syntax#interpolations
 

@@ -11,7 +11,7 @@ file_extensions:
 
 variables:
   simple_types: |-
-    (?xi: smallint | integer | bigint | real | double\s+precision
+    (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
     | smallserial | serial | bigserial
     | money
     | bytea
@@ -127,6 +127,14 @@ contexts:
     - match: \b(?i:concurrently)\b
       scope: keyword.other.ddl.psql
 
+  create-table-args:
+    # https://www.postgresql.org/docs/current/sql-createtable.html
+    - meta_prepend: true
+    - match: \b(?i:on)\b
+      scope: keyword.control.conditional.psql
+    - match: \b(?i:commit)\b
+      scope: variable.language.psql
+
   create-common-args:
     - meta_prepend: true
     - match: \b(?i:after(?:\s+(?:insert|update|or))+)\b
@@ -208,13 +216,6 @@ contexts:
       scope: punctuation.section.brackets.begin.psql
     - match: \]
       scope: punctuation.section.brackets.end.psql
-
-###[ COLUMN EXPRESSIONS ]######################################################
-
-  inside-column-declaration-list:
-    - meta_prepend: true
-    - match: \b(?i:unique)\b
-      scope: keyword.other.psql
 
 ###[ EXTENSION EXPRESSIONS ]###################################################
 

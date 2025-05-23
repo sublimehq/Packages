@@ -7,7 +7,7 @@ hidden: true
 extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
-  prototype:
+  prototype_without_comments:
     - meta_prepend: true
     - include: php-single-quoted-strings
     - include: php-string-single-quoted-escapes

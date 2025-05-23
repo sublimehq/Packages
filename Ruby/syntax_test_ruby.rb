@@ -1728,3 +1728,11 @@ foo << bar.assert_match if baz.include?(x)
 #                       ^^ keyword.control.conditional.if.ruby
 foo << bar.to_s if baz.include?(x)
 #               ^^ keyword.control.conditional.if.ruby
+
+_query = <<-SQL
+  INSERT INTO table
+#^^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby
+# ^^^^^^^^^^^ keyword.other.dml.sql
+#             ^^^^^ meta.table-name.sql
+  VALUES (1, 2, 3)
+SQL

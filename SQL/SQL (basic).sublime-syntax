@@ -60,6 +60,9 @@ variables:
 contexts:
   prototype:
     - include: comments
+    - include: prototype_without_comments
+
+  prototype_without_comments: []
 
   main:
     - include: sql
@@ -799,9 +802,11 @@ contexts:
         \b(?xi:
           (?: (?: fulltext | primary | unique ) \s+ )? key
         | on \s+ (?: delete | update ) (?: \s+ cascade )?
-        | default
         )\b
       scope: storage.modifier.sql
+    - match: \b(?i:default)\b
+      scope: storage.modifier.sql
+      push: expression-or-pop
     - match: |-
         \b(?xi:
           foreign\s+key
@@ -863,10 +868,10 @@ contexts:
         - maybe-parameter-modifier
 
   expect-parameter-name:
-    - match: '{{simple_identifier}}'
-      scope: variable.parameter.sql
-      pop: 1
-    - include: else-pop
+    - match: (?=\S)
+      set:
+        - variable-parameter
+        - single-identifier
 
   maybe-parameter-modifier:
     - match: \b{{function_parameter_modifier}}\b
@@ -885,6 +890,7 @@ contexts:
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
       push: expect-type
+    - include: column-modifiers
     - include: create-common-args
 
   expect-function-language-name:
@@ -1059,8 +1065,14 @@ contexts:
   after-type:
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
-      pop: 1
+    - include: column-modifiers
     - include: assignment-operators
+    - include: else-pop
+
+  expression-or-pop:
+    - match: (?=\))
+      pop: 1
+    - include: expressions
     - include: else-pop
 
 ###[ IDENTIFIERS ]#############################################################
@@ -1348,6 +1360,11 @@ contexts:
     - meta_scope: meta.other-name.sql
     - include: immediately-pop
 
+  variable-parameter:
+    - meta_include_prototype: false
+    - meta_content_scope: variable.parameter.sql
+    - include: immediately-pop
+
   single-identifier:
     - meta_include_prototype: false
     - include: pop-on-top-level-reserved-word
@@ -1394,6 +1411,8 @@ contexts:
 
   inside-double-quoted-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - include: prototype_without_comments
     - match: \"
       scope: punctuation.definition.identifier.end.sql
       pop: 1
@@ -1405,6 +1424,8 @@ contexts:
 
   inside-single-quoted-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - include: prototype_without_comments
     - match: \'
       scope: punctuation.definition.identifier.end.sql
       pop: 1

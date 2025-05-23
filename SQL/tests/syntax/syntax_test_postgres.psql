@@ -73,6 +73,16 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
 --                                            ^ meta.function-call meta.group punctuation.section.arguments.end
 --                                             ^ punctuation.separator.sequence
     name text COLLATE pg_catalog."default",
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--  ^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--       ^^^^ storage.type.sql
+--            ^^^^^^^ keyword.other.sql
+--                    ^^^^^^^^^^ support.constant.sql
+--                              ^^^^^^^^^^ - keyword
+--                              ^ punctuation.accessor.dot.sql
+--                               ^ punctuation.definition.identifier.begin.sql
+--                                       ^ punctuation.definition.identifier.end.sql
+--                                        ^ punctuation.separator.sequence.sql
     doc jsonb,
 --  ^^^ meta.column-name variable.other.member.declaration
 --      ^^^^^ storage.type
@@ -88,7 +98,8 @@ CREATE TABLE IF NOT EXISTS public.dropzone_details
     CONSTRAINT id_name_uix UNIQUE (id, name)
 --  ^^^^^^^^^^ storage.modifier
 --             ^^^^^^^^^^^ meta.constraint-name
---                         ^^^^^^ keyword.other
+--                         ^^^^^^ storage.modifier.sql
+--                                ^^^^^^^^^^ meta.group.table-columns.sql meta.group.table-columns.sql
 --                                ^ punctuation.section.group.begin
 --                                 ^^ meta.column-name - variable.other.member.declaration
 --                                   ^ punctuation.separator.sequence
@@ -563,3 +574,97 @@ select no_comment_here;
 
 --this is also a comment
 --^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.sql
+
+CREATE OR REPLACE FUNCTION public."AutAppB_getBatchOrders"(
+    "@sBatchTy" character varying,
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.parameters.sql meta.group.sql
+--  ^^^^^^^^^^^ variable.parameter.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--            ^ punctuation.definition.identifier.end.sql
+--              ^^^^^^^^^^^^^^^^^ storage.type.sql
+--                               ^ punctuation.separator.sequence.sql
+    "@lBatchNum" character varying,
+    "@ValidAccess" character varying DEFAULT NULL::character varying)
+--                                   ^^^^^^^ storage.modifier.sql
+--                                           ^^^^ constant.language.null.sql
+--                                               ^^ keyword.operator.cast.psql
+--                                                 ^^^^^^^^^^^^^^^^^ storage.type.sql
+--                                                                  ^ punctuation.section.group.end.sql
+    RETURNS TABLE("sCliTS" character varying, "sCustID" character varying, "sCliAcctNum" character varying, "cCrdOrdAmt" numeric, "bLnRqst" smallint, "sDcsnCd" character varying, "sCrdTy" character varying, "cDecision" numeric, "sRsnCd1" character varying, "sPONum" character varying, "sApprNum" character varying, "dtShip" timestamp without time zone, "dtExp" timestamp without time zone, "sCliCmmt" character varying, "sCustNm" character varying, "sDesc" character varying, "sDcsnDesc" character varying, "sCrdDesc" character varying, "sRsnDesc" character varying, "sCliTrmCd" character varying, "lCARNum" integer, "sNotes" character varying, "sStsCd" character varying) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+
+# variable_conflict use_column
+DECLARE
+    "@@iIndex" INT;
+    "@@iTotal" INT;
+    "@@bLog" SMALLINT;
+    "@@dtLate" TIMESTAMP;
+    "@@dtEff" TIMESTAMP;
+BEGIN
+  IF "isAuth"("@ValidAccess") = 1 THEN
+    "@sBatchTy" = left("@sBatchTy", 1);
+    "@lBatchNum" = left("@lBatchNum", 10);
+
+    CREATE TEMPORARY TABLE "#ProcParms" (
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql - comment
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table.sql
+--         ^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^^^^ keyword.other.ddl.sql
+--                         ^^^^^^^^^^^^ entity.name.struct.table.sql
+--                         ^ punctuation.definition.identifier.begin.sql
+--                                    ^ punctuation.definition.identifier.end.sql
+--                                      ^ meta.group.table-columns.sql punctuation.section.group.begin.sql
+         "MySPID" VARCHAR(15)
+        ,"lBatchNum" INT
+--      ^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--      ^ punctuation.separator.sequence.sql
+--       ^^^^^^^^^^^ meta.string.sql string.quoted.double.sql
+--       ^ punctuation.definition.string.begin.sql
+--                 ^ punctuation.definition.string.end.sql
+--                   ^^^ storage.type.sql
+
+        ,"bLog" SMALLINT
+        ,"bCPU" SMALLINT
+        ,"dtEff" TIMESTAMP WITHOUT TIME ZONE
+    )ON COMMIT DROP;
+--^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql
+--^^^ meta.group.table-columns.sql
+--  ^ punctuation.section.group.end.sql
+--   ^^ keyword.control.conditional.psql
+--      ^^^^^^ variable.language.psql
+--             ^^^^ meta.statement.drop.sql keyword.other.ddl.sql
+--                 ^ punctuation.terminator.statement.sql
+
+
+    CREATE TEMPORARY TABLE "#Order" ON COMMIT DROP AS
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql
+--  ^^^^^^ keyword.other.ddl.sql
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.table.sql
+--         ^^^^^^^^^ keyword.other.ddl.sql
+--                   ^^^^^ keyword.other.ddl.sql
+--                         ^^^^^^^^ entity.name.struct.table.sql
+--                         ^ punctuation.definition.identifier.begin.sql
+--                                ^ punctuation.definition.identifier.end.sql
+--                                  ^^ keyword.control.conditional.psql
+--                                     ^^^^^^ variable.language.psql
+--                                            ^^^^^ meta.statement.drop.sql
+--                                            ^^^^ keyword.other.ddl.sql
+--                                                 ^^ keyword.operator.assignment.alias.sql
+    SELECT convert_int( 0) AS "lSeqNum", "lBatchNum", "lRefNum", "sCliID", "sTSID", "sCustID", "sCliAcctNum", "sOrdEmpID", "dtCrdOrder", "cCrdOrdAmt", "bLnRqst", "dtShip", "sCliTrmCd", '   ' AS "sOffID", "sStsCd"
+    FROM "CrdOrdMnl"
+    WHERE  1 = 2
+    ;
+
+    SELECT convert_int( "@lBatchNum"), 'MYID' || convert_varchar( 6, "@@SPID"()), coalesce( A."iValue1", 0), coalesce( A."lValue1", 0), D."dtValue1"
+    INTO "@@lBatchNum", "@@MySPID", "@@bLog", "@@bCPU", "@@dtEff"
+    FROM "RunControl" AS D
+    , "RunControl" AS A
+    WHERE  D."sKey" = 'dtEff'
+    AND A."sKey" = 'AutApprBLog'
+    ;

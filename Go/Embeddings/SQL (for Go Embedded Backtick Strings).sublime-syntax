@@ -8,7 +8,7 @@ hidden: true
 extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
-  prototype:
+  prototype_without_comments:
     - meta_prepend: true
     - include: scope:source.go#match-raw-text-content
 
