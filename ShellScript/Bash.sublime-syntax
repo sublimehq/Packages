@@ -448,7 +448,7 @@ contexts:
 
   cmd-declare-args:
     # option contains -f or -F
-    - match: ([-+])[aAgiIlnrtux]*[Ff][aAgiIlnrtux]*{{opt_break}}
+    - match: ([-+]){{word_char}}*[Ff]{{word_char}}*{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -456,7 +456,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-args-end-of-options-then-function-declarations
     # option contains any mix of iA or Ai
-    - match: ([-+])(?:[agIlnrtux]*?i[iagIlnrtux]*?A|[agIlnrtux]*?A[aAgIlnrtux]*?i)[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+])(?:{{word_char}}*?i{{word_char}}*?A|{{word_char}}*?A{{word_char}}*?i){{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -464,7 +464,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-args-end-of-options-then-variables-arithmetic-mappings
     # option contains any mix of ia or ai or i
-    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?i{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -472,7 +472,7 @@ contexts:
         1: punctuation.definition.parameter.shell
       set: cmd-declare-variables-with-arithmetic-values
     # option contains A
-    - match: ([-+])[aAgIlnrtux]*?A[aAgIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?A{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -483,7 +483,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables-literal-values
 
   cmd-declare-variables-with-arithmetic-values:
-    - match: ([-+])[aAgiIlnrtux]*?A[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?A{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -493,7 +493,7 @@ contexts:
     - include: cmd-args-end-of-options-then-variables-arithmetic-values
 
   cmd-declare-variables-with-literal-mappings:
-    - match: ([-+])[aAgiIlnrtux]*?i[aAgiIlnrtux]*?{{opt_break}}
+    - match: ([-+]){{word_char}}*?i{{word_char}}*?{{opt_break}}
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
@@ -3135,7 +3135,7 @@ variables:
 
   # Variable names
   variable_begin: (?={{variable_first_char}})
-  variable_first_char: '[{{identifier_first_char}}''"$%]'
+  variable_first_char: '[{{identifier_first_char}}''"%${\\]'
 
   # POSIX identifiers (alpha-numeric)
   identifier: '{{identifier_first_char}}{{identifier_char}}*'
