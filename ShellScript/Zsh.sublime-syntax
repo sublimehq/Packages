@@ -112,7 +112,9 @@ contexts:
     # positional parameter assignments
     - match: \d{1,2}(?=(?:\[[^\]]*\])*{{varassign}})
       scope: meta.assignment.l-value.shell variable.language.positional.shell
-      set: literal-array-value-assignment
+      set:
+        - literal-array-value-assignment
+        - subscript
 
 ###[ BUILTINS ]################################################################
 
@@ -258,6 +260,106 @@ contexts:
       pop: 1
     - include: comments
     - include: group-path-patterns
+
+###[ SUBSCRIPTS ]##############################################################
+
+  subscript-content:
+    # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Subscripts
+    - match: ''
+      branch_point: subscript
+      branch:
+        - zsh-subscript-flags
+        - subscript-expression-content
+        - subscript-plain-content
+
+  zsh-subscript-flags:
+    # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Subscript-Flags
+    - match: \(
+      scope: meta.modifier.subscript.shell.zsh punctuation.definition.modifier.begin.shell.zsh
+      set: zsh-subscript-flag-pattern-body
+    - include: line-continuations
+    - match: ''
+      fail: subscript
+
+  zsh-subscript-flag-pattern-body:
+    - meta_content_scope: meta.modifier.subscript.shell.zsh
+    - match: \)
+      scope: meta.modifier.subscript.shell.zsh punctuation.definition.modifier.end.shell.zsh
+      set: zsh-subscript-pattern-content
+    - include: zsh-subscript-flag-common
+
+  zsh-subscript-flag-plain-body:
+    - meta_content_scope: meta.modifier.subscript.shell.zsh
+    - match: \)
+      scope: meta.modifier.subscript.shell.zsh punctuation.definition.modifier.end.shell.zsh
+      set: subscript-plain-content
+    - include: zsh-subscript-flag-common
+
+  zsh-subscript-flag-common:
+    # key is pattern
+    - match: '[iIkKrR]'
+      scope: meta.modifier.subscript.shell.zsh storage.modifier.subscript.shell.zsh
+      set: zsh-subscript-flag-pattern-body
+    # key is plain text
+    - match: e
+      scope: meta.modifier.subscript.shell.zsh storage.modifier.subscript.shell.zsh
+      set: zsh-subscript-flag-plain-body
+    # additional flags
+    - match: '[bn]'
+      scope: storage.modifier.subscript.shell.zsh
+      push: zsh-modifier-expression
+    - match: s
+      scope: storage.modifier.subscript.shell.zsh
+      push: zsh-modifier-literal-string
+    - match: '[fpw]'
+      scope: storage.modifier.subscript.shell.zsh
+    - include: line-continuations
+    - match: ''
+      fail: subscript
+
+  zsh-subscript-pattern-content:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.glob.shell.zsh string.unquoted.shell
+    - match: (?=[],])
+      pop: 1
+    - include: pattern-main-content
+
+  subscript-plain-common:
+    - meta_append: true
+    # note: brackets must be balanced whithin subscripts
+    - match: \<
+      push: zsh-subscript-plain-angled-body
+    - match: \{
+      push: zsh-subscript-plain-braces-body
+    - match: \[
+      push: zsh-subscript-plain-brackets-body
+    - match: \(
+      push: zsh-subscript-plain-parens-body
+    - include: illegal-stray
+
+  zsh-subscript-plain-angled-body:
+    - meta_include_prototype: false
+    - match: \>
+      pop: 1
+    - include: subscript-plain-common
+
+  zsh-subscript-plain-braces-body:
+    - meta_include_prototype: false
+    - match: \}
+      pop: 1
+    - include: subscript-plain-common
+
+  zsh-subscript-plain-brackets-body:
+    - meta_include_prototype: false
+    - match: \]
+      pop: 1
+    - include: subscript-plain-common
+
+  zsh-subscript-plain-parens-body:
+    - meta_include_prototype: false
+    - match: \)
+      pop: 1
+    - include: subscript-plain-common
 
 ###[ ARITHMETIC EXPRESSIONS ]##################################################
 
@@ -485,34 +587,44 @@ contexts:
       push:
         - parameter-expansion-meta
         - parameter-expansion-modifier
+        - subscript
         - parameter-expansion-name
         - parameter-expansion-operator
         - zsh-parameter-flags
-    # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
+    - match: (?=\${{word_char}})
+      push:
+        - parameter-expansion-meta
+        - subscript
+        - simple-parmeter-expansion
+
+  simple-parmeter-expansion:
+    - meta_include_prototype: false
+    # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Positional-Parameters
     - match: (\$)\d
       scope: variable.language.positional.shell
       captures:
         1: punctuation.definition.variable.shell
-      push: zsh-parameter-subscription
-    # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
+      pop: 1
+    # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Set-By-The-Shell
     - match: (\$){{builtin_variables}}
       scope: variable.language.builtin.shell
       captures:
         1: punctuation.definition.variable.shell
-      push: zsh-parameter-subscription
-    # length operator has precedence over special parameters
+      pop: 1
+    # length operator has precedence over special parameters in ZSH
     - match: (\$)(\#?){{identifier}}
       scope: variable.other.readwrite.shell
       captures:
         1: punctuation.definition.variable.shell
         2: keyword.operator.expansion.length.shell
-      push: zsh-parameter-subscription
-    # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
+      pop: 1
+    # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Description-1
     - match: (\$){{special_variables}}
       scope: variable.language.special.shell
       captures:
         1: punctuation.definition.variable.shell
-      push: zsh-parameter-subscription
+      pop: 1
+    - include: immediately-pop
 
   parameter-expansion-operator:
     # 14.3 Parameter Expansion
@@ -641,11 +753,6 @@ contexts:
     # range operator is crucial
     - include: zsh-glob-range-operator
     - include: zsh-parameter-glob-range-fail
-
-  zsh-parameter-subscription:
-    - meta_include_prototype: false
-    - meta_scope: meta.interpolation.parameter.shell
-    - include: variable-subscription
 
 ###[ TILDE EXPANSIONS ]########################################################
 
@@ -1215,12 +1322,14 @@ contexts:
 
   zsh-modifier-interpolations:
     - match: (?=\$[{{identifier_char}}{{special_variables}}])
-      push: zsh-modifier-interpolation-body
+      push:
+        - zsh-modifier-interpolation-meta
+        - simple-parmeter-expansion
 
-  zsh-modifier-interpolation-body:
+  zsh-modifier-interpolation-meta:
     - clear_scopes: 1
     - meta_include_prototype: false
-    - include: simple-parameter-expansions
+    - meta_scope: meta.interpolation.parameter.shell
     - include: immediately-pop
 
 ###[ ZSH MODIFIER LITERAL STRINGS ]############################################
