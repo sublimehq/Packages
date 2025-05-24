@@ -1990,7 +1990,7 @@ is a #@$虎" strange label
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^^ punctuation.definition.variable.dosbatch
 ::     ^^^ variable.other.readwrite.dosbatch
-::         ^^ keyword.operator.iteration.in.dosbatch
+::         ^^ keyword.control.loop.in.dosbatch
 ::            ^ punctuation.section.set.begin.dosbatch
 ::             ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::              ^ punctuation.separator.comma.dosbatch
@@ -2006,7 +2006,7 @@ is a #@$虎" strange label
 ::        ^^ variable.parameter.option.recursive.dosbatch
 ::           ^^ punctuation.definition.variable.dosbatch
 ::           ^^^ variable.other.readwrite.dosbatch
-::               ^^ keyword.operator.iteration.in.dosbatch
+::               ^^ keyword.control.loop.in.dosbatch
 ::                  ^ punctuation.section.set.begin.dosbatch
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::                          ^ punctuation.separator.comma.dosbatch
@@ -2026,7 +2026,7 @@ is a #@$虎" strange label
 ::    ^^ variable.parameter.option.recursive.dosbatch
 ::       ^^ punctuation.definition.variable.dosbatch
 ::       ^^^ variable.other.readwrite.dosbatch
-::           ^^ keyword.operator.iteration.in.dosbatch
+::           ^^ keyword.control.loop.in.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::                      ^ punctuation.separator.comma.dosbatch
@@ -2040,7 +2040,7 @@ is a #@$虎" strange label
    %%f IN (folder1, ..\folder2, C:\folder) DO command
 :: ^^ punctuation.definition.variable.dosbatch
 :: ^^^ variable.other.readwrite.dosbatch
-::     ^^ keyword.operator.iteration.in.dosbatch
+::     ^^ keyword.control.loop.in.dosbatch
 ::        ^ punctuation.section.set.begin.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::                ^ punctuation.separator.comma.dosbatch
@@ -2053,7 +2053,7 @@ is a #@$虎" strange label
    /D /r ^
    %%f ^
    IN (folder1, ..\folder2, C:\folder) DO command
-:: ^^ keyword.operator.iteration.in.dosbatch
+:: ^^ keyword.control.loop.in.dosbatch
 ::    ^ punctuation.section.set.begin.dosbatch
 ::    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
 ::            ^ punctuation.separator.comma.dosbatch
@@ -2106,7 +2106,7 @@ is a #@$虎" strange label
 ::                 ^ punctuation.definition.string.end.dosbatch
 ::                   ^^ punctuation.definition.variable.dosbatch
 ::                   ^^^ variable.other.readwrite.dosbatch
-::                       ^^ keyword.operator.iteration.in.dosbatch
+::                       ^^ keyword.control.loop.in.dosbatch
 ::                          ^ punctuation.section.set.begin.dosbatch
 ::                          ^ meta.set.dosbatch punctuation.section.set.begin.dosbatch - meta.embedded
 ::                           ^ punctuation.section.embedded.begin.dosbatch
@@ -2133,7 +2133,7 @@ is a #@$虎" strange label
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.option.range.dosbatch
 ::        ^^ invalid.illegal.variable.dosbatch
-::           ^^ keyword.operator.iteration.in.dosbatch
+::           ^^ keyword.control.loop.in.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^ meta.set.dosbatch
 ::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
@@ -2151,7 +2151,7 @@ is a #@$虎" strange label
 ::     ^^ variable.parameter.option.recursive.dosbatch
 ::        ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::                             ^^^^^ invalid.illegal.variable.dosbatch
-::                                   ^^ keyword.operator.iteration.in.dosbatch
+::                                   ^^ keyword.control.loop.in.dosbatch
 
    FOR /R C:\dir name\file name.ext %%f IN (.) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
@@ -2162,7 +2162,7 @@ is a #@$虎" strange label
 ::                         ^^^^^^^^ invalid.illegal.variable.dosbatch
 ::                                  ^^ punctuation.definition.variable.dosbatch
 ::                                  ^^^ variable.other.readwrite.dosbatch
-::                                      ^^ keyword.operator.iteration.in.dosbatch
+::                                      ^^ keyword.control.loop.in.dosbatch
 
    FOR /R 'C:\dir name\file name.ext' %%f IN (*.ext) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
@@ -2173,7 +2173,7 @@ is a #@$虎" strange label
 ::                          ^^^^^^^^^ invalid.illegal.variable.dosbatch
 ::                                    ^^ punctuation.definition.variable.dosbatch
 ::                                    ^^^ variable.other.readwrite.dosbatch
-::                                        ^^ keyword.operator.iteration.in.dosbatch
+::                                        ^^ keyword.control.loop.in.dosbatch
 
    FOR /R "C:\dir name\file-name.ext" %%f IN (set) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
@@ -2184,12 +2184,12 @@ is a #@$虎" strange label
 ::                                  ^ punctuation.definition.string.end.dosbatch
 ::                                    ^^ punctuation.definition.variable.dosbatch
 ::                                    ^^^ variable.other.readwrite.dosbatch
-::                                        ^^ keyword.operator.iteration.in.dosbatch
+::                                        ^^ keyword.control.loop.in.dosbatch
 
    FOR /Z %%f IN (foo & bar | < baz > && no || false) DO command
 ::     ^^ invalid.illegal.parameter.dosbatch
 ::        ^^^ variable.other.readwrite.dosbatch
-::            ^^ keyword.operator.iteration.in.dosbatch
+::            ^^ keyword.control.loop.in.dosbatch
 ::                    ^ invalid.illegal.operator.dosbatch
 ::                          ^ invalid.illegal.operator.dosbatch
 ::                            ^ invalid.illegal.operator.dosbatch
@@ -2200,7 +2200,7 @@ is a #@$虎" strange label
    for %%i in (1, 2,  3) do (
       for %%j in (%%i) do (
 ::        ^^^ variable.other.readwrite.dosbatch
-::            ^^ keyword.operator.iteration.in.dosbatch
+::            ^^ keyword.control.loop.in.dosbatch
 ::               ^ punctuation.section.set.begin.dosbatch
 ::                ^^^  string.unquoted.dosbatch
 ::                ^^ constant.character.escape.dosbatch

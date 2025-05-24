@@ -2316,7 +2316,7 @@ contexts:
 
   foreach_var_assignment:
     - match: \bin\b
-      scope: keyword.operator.iteration.in.cs
+      scope: keyword.control.loop.in.cs
       set: line_of_code_in
     - match: (?=\)|\})
       pop: true
