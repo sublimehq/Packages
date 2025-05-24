@@ -1561,7 +1561,7 @@ contexts:
       scope: invalid.illegal.missing-in.python
       pop: 1
     - match: in\b
-      scope: keyword.operator.iteration.in.python
+      scope: keyword.control.loop.in.python
       set: for-statement-in
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1793,7 +1793,7 @@ contexts:
   for-expression-target-list:
     - meta_scope: meta.expression.generator.python
     - match: in\b
-      scope: keyword.operator.iteration.in.python
+      scope: keyword.control.loop.in.python
       pop: 1
     - match: (?=[)\]}])
       pop: 1

@@ -1646,7 +1646,7 @@ end
 
 for item in items do
 #^^ keyword.control.loop.for.ruby
-#        ^^ keyword.operator.iteration.in.ruby
+#        ^^ keyword.control.loop.in.ruby
 #                 ^^ keyword.control.block.do.ruby
 end
 #^^ keyword.control.block.end.ruby
