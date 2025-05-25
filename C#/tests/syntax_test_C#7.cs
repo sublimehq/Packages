@@ -494,7 +494,7 @@ class Foo {
 ///                       ^ punctuation.separator.sequence
 ///                         ^^^ variable.other
 ///                            ^ punctuation.section.sequence.end
-///                              ^^ keyword.operator.iteration.in.cs
+///                              ^^ keyword.control.loop.in.cs
         {
             Console.WriteLine($"{name} is {age} years old.");
         }
@@ -509,7 +509,7 @@ class Foo {
 ///                   ^ punctuation.separator.sequence
 ///                     ^ variable.other
 ///                      ^ punctuation.section.sequence.end
-///                        ^^ keyword.operator.iteration.in.cs
+///                        ^^ keyword.control.loop.in.cs
 ///                           ^^^^^^^^^ variable.other
 ///                                    ^ punctuation.section.group.end
         {
@@ -527,7 +527,7 @@ class Foo {
 ///                      ^^^ support.type
 ///                          ^ variable.other
 ///                           ^ punctuation.section.sequence.end
-///                             ^^ keyword.operator.iteration.in.cs
+///                             ^^ keyword.control.loop.in.cs
 ///                                ^^^^^^^^^ variable.other
 ///                                         ^ punctuation.section.group.end
         ; // empty statement

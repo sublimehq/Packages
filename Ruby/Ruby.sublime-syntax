@@ -595,7 +595,7 @@ contexts:
   for-variable:
     # note: variables are not scoped, currently
     - match: \bin\b
-      scope: keyword.operator.iteration.in.ruby
+      scope: keyword.control.loop.in.ruby
       set: after-keyword
     - match: (?=(?:end|do)\b(?![?!]))|$
       pop: true
