@@ -1,0 +1,16 @@
+{
+	"cmd": [
+//      https://www.sphinx-doc.org/en/master/man/sphinx-build.html
+		"sphinx-build",
+		"--fresh-env",
+		"--nitpicky",
+		"--verbose",
+		"--verbose",
+		"--verbose",
+		"${file_path}",                 // <sourcedir>
+		"${file_path}",                 // <outdir>
+		"${file}"                       // [filenames ...]
+	],
+	"file_regex": "",
+	"selector": "text.restructuredtext"
+}
