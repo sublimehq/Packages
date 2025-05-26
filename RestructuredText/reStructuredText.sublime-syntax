@@ -1,70 +1,1023 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
-name: reStructuredText
-comment: syntax highlighting for reStructuredText http://docutils.sourceforge.net, based on rst mode from jEdit
+# https://docutils.sourceforge.io/docs/user/rst/quickref.html
+# https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html
+# https://docutils.sourceforge.io/docs/ref/rst/directives.html
+# https://docutils.sourceforge.io/docs/ref/doctree.html
+# http://www.sublimetext.com/docs/syntax.html
+
+# NOTE: This syntax definition makes heavy use of backreferences.
+#       You might want to read the docs to make yourself familiar.
+
+name: reStructuredText (reST)
+scope: text.restructuredtext
+version: 2
+
 file_extensions:
   - rst
   - rest
-scope: text.restructuredtext
+
+###[ CONTEXTS ]################################################################
+
 contexts:
+
+  prototype:
+    # NOTE: Comments are not part of prototype, but regular explicit markup
+    #       blocks, i.e. body elements.
+    - include: merge-conflict-markers
+
   main:
-    - match: '^(?=(\s*)\S)'
-      push:
-        - meta_content_scope: meta.paragraph.restructuredtext
-        - match: ^(?!\1(?=\S))
-          pop: true
-        - include: inline
-  inline:
-    - match: '^(\s*)((\.\.)\s+raw(::)) html'
-      comment: directives.html
+    - include: restructuredtext
+
+###[ RESTRUCTUREDTEXT ]########################################################
+
+  restructuredtext:
+    - include: between-empty-lines
+    - include: paragraphs
+
+  paragraphs:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#paragraphs
+
+    - meta_include_prototype: false
+    - match: ^(?=([[:blank:]]*)\S)
+      push: paragraph-body
+
+  paragraph-body:
+    - meta_content_scope: meta.paragraph.restructuredtext
+    - match: '^(?!\1(?=\S))'
+      pop: 1
+    - include: body-elements
+    - include: inline-markup
+
+  between-empty-lines:
+    - match: ^\n
+      branch_point: between-empty-lines
+      branch:
+        - maybe-empty-comment-or-section-transition
+        - immediately-pop
+
+  maybe-empty-comment-or-section-transition:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#empty-comments
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#transitions
+
+    - meta_include_prototype: false
+    - match: ^(\.\.)\n
       captures:
-        2: meta.directive.restructuredtext
+        1:
+          comment.block.empty.restructuredtext
+          punctuation.definition.comment.restructuredtext
+      set: expect-empty-line
+    - match: ^({{section_title_adornment_or_transition_mark}}{4,})\n
+      captures:
+        1:
+          meta.separator.section-transition.restructuredtext
+          punctuation.separator.section.restructuredtext
+      set: expect-empty-line
+    - match: ^
+      fail: between-empty-lines
+
+  expect-empty-line:
+    - meta_include_prototype: false
+    - match: ^\n
+      pop: 1
+    - match: ^
+      fail: between-empty-lines
+
+###[ MERGE CONFLICT MARKERS ]##################################################
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: '^(<{7})(?:\s+(\S.*?))?{{end_of_line}}'
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: '^(>{7})(?:\s+(\S.*?))?{{end_of_line}}'
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: '^(\|{7}|={7})(?:\s+(\S.*?))?{{end_of_line}}'
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+###[ BODY ELEMENTS ]###########################################################
+
+  body-elements:
+    - include: explicit-markup-blocks
+    - include: block-quotes
+    - include: doctest-blocks
+    - include: tables
+    - include: lists
+    - include: line-blocks
+    - include: section-headings
+    - include: literal-blocks
+
+###[ BODY ELEMENTS / SECTIONS ]################################################
+
+  section-headings:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#sections
+
+    - match: '{{maybe_section_heading_ahead}}'
+      branch_point: section-headings
+      branch:
+        - section-adornment-heading-adornment-1
+        - section-heading-adornment-1
+
+  section-adornment-heading-adornment-1:
+    - match: '^({{section_title_adornment_or_transition_mark}}{3,})$\n'
+      scope: markup.heading.restructuredtext
+      captures:
+        1: punctuation.definition.heading.restructuredtext
+      set: section-adornment-heading-adornment-2
+    - match: '^'
+      fail: section-headings
+
+  section-adornment-heading-adornment-2:
+    # NOTE: Section headings with an overline and an underline may be inset,
+    #       i.e.have leading and trailing whitespace.
+
+    - match: '^(?=$|{{section_title_adornment_or_transition_mark}})'
+      fail: section-headings
+    # TODO: may be inset (i.e. have leading & trailing wspace)
+    - match: '^(.+)$\n'
+      scope: markup.heading.restructuredtext
+      captures:
+        1: entity.name.section.restructuredtext
+      set: section-adornment-heading-adornment-3
+    - match: '^'
+      fail: section-headings
+
+  section-adornment-heading-adornment-3:
+    - match: '^({{section_title_adornment_or_transition_mark}}{3,})$\n'
+      scope: markup.heading.restructuredtext
+      captures:
+        1: punctuation.definition.heading.restructuredtext
+      pop: 1
+    - match: '^'
+      fail: section-headings
+
+  section-heading-adornment-1:
+    # NOTE: Section headings that only have an underline may not have leading
+    #       whitespace.
+
+    - match: '^(?:$\n|(?=\S))'
+      set: section-heading-adornment-2
+    - match: '^'
+      fail: section-headings
+
+  section-heading-adornment-2:
+    - match: '^(.*)$\n'
+      scope: markup.heading.restructuredtext
+      captures:
+        1: entity.name.section.restructuredtext
+      set: section-heading-adornment-3
+    - match: '^'
+      fail: section-headings
+
+  section-heading-adornment-3:
+    - match: '^({{section_title_adornment_or_transition_mark}}{3,})$\n'
+      scope: markup.heading.restructuredtext
+      captures:
+        1: punctuation.definition.heading.restructuredtext
+      pop: 1
+    - match: '^'
+      fail: section-headings
+
+###[ BODY ELEMENTS / LITERAL BLOCKS ]##########################################
+
+  literal-blocks:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#literal-blocks
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#indented-literal-blocks
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#quoted-literal-blocks
+
+    # TODO: fix literal blocks
+    # TODO: expanded form
+    # TODO: partially minimized form
+    # TODO: fully minimized form
+    # TODO: when attached to the end of the preceding paragraph
+    # TODO: quoted form with same symbols as heading adornments
+
+    - match: '^([[:blank:]]*).*(::)'
+      captures:
+        2: punctuation.definition.raw.restructuredtext
+      push: literal-block-body
+
+  literal-block-body:
+    - meta_scope: meta.raw.block.restructuredtext
+    - meta_content_scope: markup.raw.block.restructuredtext
+    - match: '{{less_indentation_ahead}}'
+      pop: 1
+    - include: explicit-markup-block-pop
+
+###[ BODY ELEMENTS / BLOCK QUOTES ]############################################
+
+  block-quotes: []
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#block-quotes
+
+    # TODO: empty lines before and after block quotes
+    # TODO: may end with attribution
+    # TODO: multiple block quotes may occur consecutively if ended with attribution
+    # TODO: empty comments may be used to terminate preceding constructs or separate block quotes
+
+  block-quote-body: []
+
+###[ BODY ELEMENTS / DOCTEST BLOCKS ]##########################################
+
+  doctest-blocks:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#doctest-blocks
+
+    - match: '^(>>>)[ ]'
+      captures:
+        1: punctuation.definition.generic.begin.restructuredtext
+      embed: scope:source.python
+      escape: (?=^{{end_of_line}})                                              # empty-line-pop
+      embed_scope:
+        text.restructuredtext.embedded.python
+        source.python.embedded.restructuredtext
+
+###[ BODY ELEMENTS / TABLES ]##################################################
+
+  tables:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#tables
+
+    - include: grid-tables
+    - include: simple-tables
+
+  grid-tables:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#grid-tables
+
+    - match: '\+(?:[-=]+\+)+'
+      scope:
+        markup.other.table.restructuredtext
+        punctuation.definition.table.restructuredtext
+      push: grid-table-body
+
+  grid-table-body:
+    - meta_content_scope: markup.other.table.restructuredtext
+    - match: '^(?!\+|\|)'
+      pop: 1
+    - match: '\+(?:[-=]+\+)+'
+      scope: punctuation.definition.table.restructuredtext
+    - match: '(?:^|[^\\])(\|)'
+      captures:
+        1: punctuation.definition.table.restructuredtext
+    - include: inline-markup
+
+  simple-tables:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#simple-tables
+
+    # TODO: no empty line after header row separator in simple tables
+
+    - match: '\+=[+=]+'
+      scope:
+        markup.other.table.restructuredtext
+        punctuation.definition.table.restructuredtext
+
+###[ BODY ELEMENTS / LINE BLOCKS ]#############################################
+
+  line-blocks:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#line-blocks
+
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (\|)
+        (?=[ ]\S+)
+      captures:
+        2: punctuation.definition.generic.restructuredtext
+      push: line-block-body
+
+  line-block-body:
+    - meta_scope:
+        meta.block.restructuredtext
+        markup.quote.line-block.restructuredtext
+    - match: |-
+        (?x)
+        ^
+        (?!\1[[:blank:]]+)
+        (?=[[:blank:]]*\S+)
+      pop: 1
+    - include: explicit-markup-block-pop
+    - include: empty-line-pop
+    - include: inline-markup
+
+###[ BODY ELEMENTS / EXPLICIT MARKUP BLOCKS ]##################################
+
+  explicit-markup-blocks:
+    # TODO: empty line before other element following, optional if another explicit markup block
+    - include: footnotes
+    - include: citations
+    - include: explicit-hyperlink-targets
+    - include: directives
+    - include: substitution-definitions
+    - include: comments
+
+  footnotes:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#footnotes
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#auto-numbered-footnotes
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#auto-symbol-footnotes
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#mixed-manual-and-auto-numbered-footnotes
+
+    - match: |-
+        (?x)
+        ^
+        ({{two_dots}})[ ]
+        ((\[)
+          (
+            ( (\#)? [^\]]* )
+          | {{footnote_mark}}
+          )
+        (\]))
+        [[:blank:]]+
+        (?=\S+)
+      scope: meta.link.footnote.def.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: constant.other.footnote.link.restructuredtext
+        3: punctuation.definition.constant.begin.restructuredtext
+        6: punctuation.definition.constant.restructuredtext
+        7: punctuation.definition.constant.end.restructuredtext
+      push: footnote-body
+
+  footnote-body:
+    - meta_content_scope:
+        meta.link.footnote.def.restructuredtext
+        meta.string.restructuredtext
+        string.other.footnote.restructuredtext
+    - match: '^(?![[:blank:]]{3,})(?=[[:blank:]]{0,2}\S+)'
+      pop: 1
+    - include: explicit-markup-block-pop
+
+  citations:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#citations
+
+    - match: |-
+        (?x)
+        ^
+        ({{two_dots}})[ ]
+        ((\[)
+          [[:alpha:]][[:alnum:]]*
+        (\]_?))
+        [[:blank:]]+
+        (?=\S+)
+      scope: meta.link.citation.def.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: constant.other.citation.link.restructuredtext
+        3: punctuation.definition.constant.begin.restructuredtext
+        4: punctuation.definition.constant.end.restructuredtext
+      push: citation-body
+
+  citation-body:
+    - meta_content_scope:
+        meta.link.citation.def.restructuredtext
+        meta.string.restructuredtext
+        string.other.citation.restructuredtext
+    - match: '^(?![[:blank:]]{3,})(?=[[:blank:]]{0,2}\S+)'
+      pop: 1
+    - include: explicit-markup-block-pop
+
+  explicit-hyperlink-targets:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#hyperlink-targets
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#anonymous-hyperlinks
+
+    # NOTE: also compare: https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#implicit-hyperlink-targets
+
+    # TODO: add explicit hyperlink targets to symbol index
+
+    - match: |-
+        (?x)
+        ^
+        (_{2})
+        (?:
+          (?=$\n?)
+        | [[:blank:]]+ (?=\S)
+        )
+      scope: meta.link.target.restructuredtext
+      captures:
+        1: punctuation.definition.link-target.restructuredtext
+      push: explicit-hyperlink-target-body
+    - match: |-
+        (?x)
+        ^
+        ({{two_dots}})[ ]
+        (?:
+          (_{2})
+        | (_)([^:]+)
+        )
+        (:)
+        (?:
+          (?=$\n?)
+        | [[:blank:]]+ (?=\S)
+        )
+      scope: meta.link.target.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: punctuation.definition.link-target.restructuredtext
+        3: punctuation.definition.link-target.restructuredtext
+        4: meta.link.target.description.restructuredtext
+        5: punctuation.separator.key-value.restructuredtext
+      push: explicit-hyperlink-target-body
+
+  explicit-hyperlink-target-body:
+    # TODO: fix for links beginning with `../` on next line, should not be comment
+    # TODO: differentiate between link and paragraph
+    # TODO: do not highlight leading whitespace with `markup.underline.link`
+    # TODO: spaces must be escaped
+    # TODO: trailing underscore must be escaped
+    - meta_content_scope:
+        meta.link.target.address.restructuredtext
+        meta.string.restructuredtext
+        string.other.link-target-block.restructuredtext
+        markup.underline.link.restructuredtext
+    - include: explicit-markup-block-pop
+    - include: inline-markup
+
+  directives:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#directives
+    # https://docutils.sourceforge.io/docs/ref/rst/directives.html
+
+    - include: raw-code-directives
+    - include: other-directives
+
+  raw-code-directives:
+    # TODO: highlight metadata info before the code within the block, like:
+    #       - name
+    #       - caption
+    #       - line numbers
+    #       - line number of first line
+
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ( {{two_dots}} )
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( css )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
         3: punctuation.definition.directive.restructuredtext
         4: punctuation.separator.key-value.restructuredtext
-      push:
-        - match: '^(?!\1\s+)(?=\s*\S+)'
-          pop: true
-        - meta_content_scope: text.html.basic
-        - include: scope:text.html.basic
-    - match: '^(\s*)((\.\.)\s+[A-z][A-z0-9\-_]+(::))\s*'
-      comment: directives
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-css-directive-body
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}})
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( html )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-html-directive-body
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}})
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( javascript | js )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-javascript-directive-body
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}})
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( jsonc? )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-json-directive-body
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}})
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( python | py )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-python-directive-body
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}})
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( toml )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-toml-directive-body
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}})
+          [[:blank:]]+
+          (?: code-block | code | raw )
+          (::)
+          [[:blank:]]+
+          ( yaml | yml )
+          $\n?
+        )
+      captures:
+        2: meta.directive.raw-code.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5:
+          meta.fold.raw-code-directive.begin.restructuredtext
+          constant.other.language-name.restructuredtext
+      push: raw-yaml-directive-body
+
+  raw-css-directive-body:
+    - match: ''
+      embed: scope:source.css
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.css
+        source.css.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  raw-html-directive-body:
+    - match: ''
+      embed: scope:text.html.basic
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.html
+        text.html.basic.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  raw-javascript-directive-body:
+    - match: ''
+      embed: scope:source.js
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.javascript
+        source.javascript.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  raw-json-directive-body:
+    - match: ''
+      embed: scope:source.json
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.json
+        source.json.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  raw-python-directive-body:
+    - match: ''
+      embed: scope:source.python
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.python
+        source.python.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  raw-toml-directive-body:
+    - match: ''
+      embed: scope:source.toml
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.toml
+        source.toml.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  raw-yaml-directive-body:
+    - match: ''
+      embed: scope:source.yaml
+      embed_scope:
+        meta.directive.raw-code.restructuredtext
+        text.restructuredtext.embedded.yaml
+        source.yaml.embedded.restructuredtext
+      escape: '{{less_indentation_ahead}}|^(?=\.\.)'
+      escape_captures:
+        0: meta.fold.raw-code-directive.end.restructuredtext
+      pop: 1
+
+  other-directives:
+    - match: |-
+        (?x)
+        ^
+        ([[:blank:]]*)
+        (
+          ({{two_dots}}) [[:blank:]]+
+          (?: ( {{directive_known_name}} ) | ( {{directive_other_name}} ) )
+          (::)
+          [[:blank:]]*
+        )
       captures:
         2: meta.other.directive.restructuredtext
         3: punctuation.definition.directive.restructuredtext
-        4: punctuation.separator.key-value.restructuredtext
-      push:
-        - match: '^(?!\1\s+)(?=\s*\S+)'
-          pop: true
-        - include: inline
-    - match: '^(\s*).*?((::))'
-      comment: verbatim blocks
+        4: constant.language.directive-name.restructuredtext
+        5: constant.other.directive-name.restructuredtext
+        6: punctuation.separator.key-value.restructuredtext
+      push: other-directive-body
+
+  other-directive-body:
+    - meta_content_scope: meta.other.directive.restructuredtext
+    - match: '{{less_indentation_ahead}}'
+      pop: 1
+    - include: explicit-markup-block-pop
+    - include: body-elements
+    - include: inline-markup
+
+  substitution-definitions: []
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#substitution-definitions
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#inline-compatible-directive
+
+    # TODO: ...
+
+  comments:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#comments
+
+    # NOTE: Comments are not part of prototype, but regular explicit markup
+    #       blocks, i.e. body elements.
+
+    - match: '^([[:blank:]]*)({{two_dots}})'
       captures:
-        2: markup.raw.restructuredtext
-        3: punctuation.definition.raw.restructuredtext
-      push:
-        - meta_scope: meta.raw.block.restructuredtext
-        - match: '^(?!\1\s+)(?=\s*\S+)'
-          pop: true
-        - match: .+
-          scope: markup.raw.restructuredtext
-    - match: "::"
-      comment: directives
-      scope: meta.startraw.restructuredtext
-    - match: '(\*\*)[^*]+(\*\*)'
-      comment: strong emphasis
+        2: punctuation.definition.comment.restructuredtext
+      push: comment-body
+
+  comment-body:
+    - meta_scope: comment.block.double-dot.restructuredtext
+    - match: '{{less_indentation_ahead}}'
+      pop: 1
+    - include: explicit-markup-block-pop
+
+###[ BODY ELEMENTS / LISTS ]###################################################
+
+  lists:
+    - include: bullet-lists
+    - include: enumerated-lists
+    - include: definition-lists
+    - include: field-lists
+    - include: option-lists
+
+  bullet-lists:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bullet-lists
+
+    - match: '^([[:blank:]]*)({{bullet_mark}})[ ]'
+      captures:
+        2:
+          markup.list.unnumbered.bullet.restructuredtext
+          punctuation.definition.list_item.restructuredtext
+      push: bullet-list-body
+
+  bullet-list-body:
+    - meta_scope: markup.list.unnumbered.restructuredtext
+    - match: '{{less_indentation_ahead}}'
+      pop: 1
+    - include: explicit-markup-block-pop
+    - include: inline-markup
+
+  enumerated-lists:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enumerated-lists
+
+    - match: '^([[:blank:]]*)(?!\\)({{enumerated_bullet_mark}})(?!\\)[ ]'
+      captures:
+        2:
+          markup.list.numbered.bullet.restructuredtext
+          punctuation.definition.list_item.restructuredtext
+      push: enumerated-list-body
+
+  enumerated-list-body:
+    - meta_scope: markup.list.numbered.restructuredtext
+    - match: '{{less_indentation_ahead}}'
+      pop: 1
+    - include: explicit-markup-block-pop
+    - include: inline-markup
+
+  definition-lists: []
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#definition-lists
+
+    # TODO: no blank line between term and definition
+    # TODO: beware of escapes at beginning of term
+
+    # term : optional-classifier : optional-classifier
+    #     definition
+    #     definition
+
+    # - match: '^'
+    #   scope: ''
+    #   push: definition-list-body
+
+  definition-list-body: []
+    # - meta_scope: markup.list.definition.restructuredtext
+    # - match: '^'
+    #   pop: 1
+
+    # - include: explicit-markup-block-pop
+    # - include: inline-markup
+
+  field-lists:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#field-lists
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bibliographic-fields
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#rcs-keywords
+
+    # TODO: include inline markup parsed in field names
+
+    - match: '^(:)({{bibliographic_field}})(:)[ ]'
+      scope: meta.field-list-item.restructuredtext
+      captures:
+        1: punctuation.definition.generic.begin.restructuredtext
+        2: entity.name.tag.restructuredtext
+        3: punctuation.definition.generic.end.restructuredtext
+      push: field-list-body
+
+  field-list-body:
+    - meta_scope: markup.list.field.restructuredtext
+    - match: '^(?![[:blank:]]+)(?=[[:blank:]]*\S+)'
+      pop: 1
+    - include: explicit-markup-block-pop
+
+  option-lists: []
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#option-lists
+
+    # - match: 'option-list'
+    #   scope: ''
+    #   push: option-list-body
+
+  option-list-body: []
+    # - meta_scope: markup.list.option.restructuredtext
+    # - match: 'option-list'
+    #   pop: 1
+    # - include: explicit-markup-block-pop
+
+###[ INLINE MARKUP ]###########################################################
+
+  inline-markup:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#inline-markup
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#recognition-order
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#character-level-inline-markup
+
+    - include: inline-text-styles
+    - include: inline-literals
+    - include: inline-internal-targets
+    - include: inline-hyperlink-references
+    - include: inline-interpreted-text
+    - include: inline-footnote-references
+    - include: inline-substitution-references
+    - include: inline-standalone-links
+    - include: inline-replacements
+    - include: inline-citation-references
+
+  inline-text-styles:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#strong-emphasis
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#emphasis
+
+    - match: |-
+        (?x:
+          ({{bold_begin}})
+          [^*]+
+          ({{bold_end}})
+        )
       scope: markup.bold.restructuredtext
       captures:
-        1: punctuation.definition.italic.restructuredtext
-        2: punctuation.definition.italic.restructuredtext
-    - match: '(\*)\w[^*]+\w(\*)'
-      comment: emphasis
+        1: punctuation.definition.bold.begin.restructuredtext
+        2: punctuation.definition.bold.end.restructuredtext
+    - match: |-
+        (?x:
+          ({{italic_begin}})
+          [^*]+
+          ({{italic_end}})
+        )
       scope: markup.italic.restructuredtext
       captures:
-        1: punctuation.definition.italic.restructuredtext
-        2: punctuation.definition.italic.restructuredtext
-    - match: '(\.\.)\s+(_)([\w\s]+)(:)\s+(.*)'
-      comment: replacement
+        1: punctuation.definition.italic.begin.restructuredtext
+        2: punctuation.definition.italic.end.restructuredtext
+
+  inline-literals:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#inline-literals
+
+    - match: '{{literals_begin}}'
+      scope: punctuation.definition.raw.begin.restructuredtext
+      push: inline-literal-body
+
+  inline-literal-body:
+    - meta_include_prototype: false
+    - meta_scope: markup.raw.inline.restructuredtext
+    - match: '{{literals_end}}'
+      scope: punctuation.definition.raw.end.restructuredtext
+      pop: 1
+    - match: $\n?
+      scope: invalid.illegal.newline.restructuredtext
+      pop: 1
+
+  inline-internal-targets:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#inline-internal-targets
+
+    - match: '_`'
+      scope: punctuation.definition.generic.begin.restructuredtext
+      push: inline-internal-target-body
+
+  inline-internal-target-body:
+    - meta_include_prototype: false
+    - meta_scope: markup.underline.link.restructuredtext
+    - match: '`'
+      scope: punctuation.definition.generic.end.restructuredtext
+      pop: 1
+    - match: $\n?
+      scope: invalid.illegal.newline.restructuredtext
+      pop: 1
+
+  inline-hyperlink-references:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#hyperlink-references
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#embedded-uris-and-aliases
+
+    # `word word <link>`__
+    - match: '(`)([A-Za-z][A-Za-z''\(\)\.[:blank:]]*)[[:blank:]]+(<)([^>]*?)(>)(`_{1,2})'
+      scope:
+        meta.link.inline.restructuredtext
+      captures:
+        1: punctuation.definition.link.begin.restructuredtext
+        2: string.other.link.title.restructuredtext
+        3: punctuation.definition.location.begin.restructuredtext
+        4: markup.underline.link.restructuredtext
+        5: punctuation.definition.location.end.restructuredtext
+        6: punctuation.definition.link.end.restructuredtext
+    # `word word`__
+    - match: '(`)([A-Za-z][A-Za-z''\(\)\.[:blank:]]*)(`_{1,2})'
+      scope:
+        meta.link.reference.restructuredtext
+        string.other.link.title.restructuredtext
+      captures:
+        1: punctuation.definition.link.begin.restructuredtext
+        3: punctuation.definition.link.end.restructuredtext
+    # word_
+    - match: '\b[A-Za-z][A-Za-z'']*(_{1,2})\b'
+      scope:
+        meta.link.reference.restructuredtext
+        string.other.link.title.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+
+  inline-interpreted-text:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#interpreted-text
+
+    - match: |-
+        (?x)
+        (:{{interpreted_text_roles}}:)
+        ({{interpreted_text_begin}})
+        [^{{interpreted_text_mark}}]+
+        ({{interpreted_text_end}})
+        (?!_)
+      scope: markup.other.restructuredtext
+      captures:
+        1: storage.type.restructuredtext
+        2: punctuation.definition.markup.interpreted.begin.restructuredtext
+        3: punctuation.definition.markup.interpreted.end.restructuredtext
+    - match: |-
+        (?x)
+        ({{interpreted_text_begin}})
+        [^{{interpreted_text_mark}}]+
+        ({{interpreted_text_end}})
+        (?!_)
+        (:{{interpreted_text_roles}}:)
+      scope: markup.other.restructuredtext
+      captures:
+        1: punctuation.definition.markup.interpreted.begin.restructuredtext
+        2: punctuation.definition.markup.interpreted.end.restructuredtext
+        3: storage.type.restructuredtext
+    - match: |-
+        (?x)
+        ({{interpreted_text_begin}})
+        [^{{interpreted_text_mark}}]+
+        ({{interpreted_text_end}})
+        (?!_)
+      scope: markup.other.restructuredtext
+      captures:
+        1: punctuation.definition.markup.interpreted.begin.restructuredtext
+        2: punctuation.definition.markup.interpreted.end.restructuredtext
+
+  inline-footnote-references:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#footnote-references
+
+    - match: '(\[)(\d+)(\]_)'                                                    # "footnote reference: [0]_"
+      scope: meta.link.footnote.numeric.restructuredtext
+      captures:
+        1: punctuation.definition.footnote-reference.begin.restructuredtext
+        2: constant.other.footnote.link.restructuredtext
+        3: punctuation.definition.footnote-reference.end.restructuredtext
+    - match: '(\[#)([[:alnum:]_]*)(\]_)'                                        # "footnote reference [#]_ or [#foo]_"
+      scope: meta.link.footnote.auto.restructuredtext
+      captures:
+        1: punctuation.definition.footnote-reference.begin.restructuredtext
+        2: constant.other.footnote.link.restructuredtext
+        3: punctuation.definition.footnote-reference.end.restructuredtext
+    - match: '(\[)({{footnote_mark}})(\]_)'                                     # "footnote reference [*]_"
+      scope: meta.link.footnote.symbol.auto.restructuredtext
+      captures:
+        1: punctuation.definition.footnote-reference.begin.restructuredtext
+        2: constant.other.footnote.link.restructuredtext
+        3: punctuation.definition.footnote-reference.end.restructuredtext
+
+  inline-substitution-references:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#substitution-references
+
+    # TODO: scope for trailing underline?
+
+    - match: '(\|)[^|]+(\|_{0,2})'
+      scope: markup.underline.substitution.restructuredtext
+      captures:
+        1: punctuation.definition.substitution.begin.restructuredtext
+        2: punctuation.definition.substitution.end.restructuredtext
+
+  inline-standalone-links: []
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#standalone-hyperlinks
+
+    # TODO: ...
+
+  inline-replacements:
+    - match: '({{two_dots}})[[:blank:]]+(_)([\w\-\.:\+]+)(:)[[:blank:]]+(.*)'
       scope: meta.link.reference.def.restructuredtext
       captures:
         1: punctuation.definition.link.restructuredtext
@@ -72,149 +1025,213 @@ contexts:
         3: string.other.link.title.restructuredtext
         4: punctuation.separator.key-value.restructuredtext
         5: markup.underline.link.restructuredtext
-    - match: '(\|)[^|]+(\|_{0,2})'
-      comment: substitution
-      scope: markup.underline.substitution.restructuredtext
-      captures:
-        1: punctuation.definition.substitution.restructuredtext
-    - match: \b(\w+)(_)\b
-      comment: links `...`_ or `...`__
-      scope: meta.link.reference
-      captures:
-        1: string.other.link.title.restructuredtext
-        2: punctuation.definition.link.restructuredtext
-    - match: '(`)([\w\s]+)(`_)'
-      comment: links `...`_ or `...`__
-      scope: meta.link.reference
-      captures:
-        1: punctuation.definition.link.restructuredtext
-        2: string.other.link.title.restructuredtext
-        3: punctuation.definition.link.restructuredtext
-    - match: '(`)([\w\s]+)\s+(<)(.*?)(>)(`_)'
-      comment: links `...`_
-      scope: meta.link.inline.restructuredtext
-      captures:
-        1: punctuation.definition.link.restructuredtext
-        2: string.other.link.title.restructuredtext
-        3: punctuation.definition.location.restructuredtext
-        4: markup.underline.link.restructuredtext
-        5: punctuation.definition.location.restructuredtext
-        6: punctuation.definition.link.restructuredtext
-    - match: '^(\.\.)\s+((\[)(((#?)[^]]*?)|\*)(\]))\s+(.*)'
-      comment: replacement
-      scope: meta.link.footnote.def.restructuredtext
-      captures:
-        1: punctuation.definition.link.restructuredtext
-        2: constant.other.footnote.link.restructuredtext
-        3: punctuation.definition.constant.restructuredtext
-        6: punctuation.definition.constant.restructuredtext
-        7: punctuation.definition.constant.restructuredtext
-        8: string.other.footnote.restructuredtext
-    - match: '((\[)[0-9]+(\]))(_)'
-      comment: "footnote reference: [0]_"
-      scope: meta.link.footnote.numeric.restructuredtext
-      captures:
-        1: constant.other.footnote.link
-        2: punctuation.definition.constant.restructuredtext
-        3: punctuation.definition.constant.restructuredtext
-        4: punctuation.definition.constant.restructuredtext
-    - match: '((\[#)[A-z0-9_]*(\]))(_)'
-      comment: "footnote reference [#]_ or [#foo]_"
-      scope: meta.link.footnote.auto.restructuredtext
-      captures:
-        1: constant.other.footnote.link
-        2: punctuation.definition.constant.restructuredtext
-        3: punctuation.definition.constant.restructuredtext
-        4: punctuation.definition.constant.restructuredtext
-    - match: '((\[)\*(\]))(_)'
-      comment: "footnote reference [*]_"
-      scope: meta.link.footnote.symbol.auto.restructuredtext
-      captures:
-        1: constant.other.footnote.link.restructuredtext
-        2: punctuation.definition.constant.restructuredtext
-        3: punctuation.definition.constant.restructuredtext
-        4: punctuation.definition.constant.restructuredtext
-    - match: '^(\.\.)\s+((\[)[A-z][A-z0-9]*(\]))(_)\s+(.*)'
-      comment: replacement
-      scope: meta.link.citation.def.restructuredtext
-      captures:
-        1: punctuation.definition.link.restructuredtext
-        2: constant.other.citation.link.restructuredtext
-        3: punctuation.definition.constant.restructuredtext
-        4: punctuation.definition.constant.restructuredtext
-        5: punctuation.definition.constant.restructuredtext
-        6: string.other.citation.restructuredtext
-    - match: '((\[)[A-z][A-z0-9_-]*(\]))(_)'
-      comment: citation reference
+
+  inline-citation-references:
+    # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#citation-references
+
+    - match: '((\[)[[:alpha:]][[:alnum:]_-]*(\]))(_)'
       scope: meta.link.citation.restructuredtext
       captures:
         1: constant.other.citation.link.restructuredtext
         2: punctuation.definition.constant.restructuredtext
         3: punctuation.definition.constant.restructuredtext
         4: punctuation.definition.constant.restructuredtext
-    - match: "``"
-      comment: inline literal
-      captures:
-        0: punctuation.definition.raw.restructuredtext
-      push:
-        - meta_scope: markup.raw.restructuredtext
-        - match: "``"
-          captures:
-            0: punctuation.definition.raw.restructuredtext
-          pop: true
-    - match: "(`)[^`]+(`)(?!_)"
-      comment: interpreted text
-      scope: markup.other.command.restructuredtext
-      captures:
-        1: punctuation.definition.interpreted.restructuredtext
-        2: punctuation.definition.interpreted.restructuredtext
-    - match: '(:)[A-z][A-z0-9  =\s\t_]*(:)'
-      comment: field list
-      scope: entity.name.tag.restructuredtext
-      captures:
-        1: punctuation.definition.field.restructuredtext
-        2: punctuation.definition.field.restructuredtext
-    - match: '\+-[+-]+'
-      comment: table
-      scope: markup.other.table.restructuredtext
-      captures:
-        0: punctuation.definition.table.restructuredtext
-    - match: '\+=[+=]+'
-      comment: table
-      scope: markup.other.table.restructuredtext
-      captures:
-        0: punctuation.definition.table.restructuredtext
-    - match: '(^(=|-|~|`|#|"|\^|\+|\*){3,}$){1,1}?'
-      scope: markup.heading.restructuredtext
-      captures:
-        1: punctuation.definition.heading.restructuredtext
-    - match: ^(\s*)(\.\.)
-      comment: comment
-      captures:
-        2: punctuation.definition.comment.restructuredtext
-      push:
-        - meta_scope: comment.line.double-dot.restructuredtext
-        - match: '^(?!\1\s+)(?=\s*\S+)'
-          pop: true
-    - include: merge-conflict-markers
 
-###[ MERGE CONFLICT MARKERS ]##################################################
+###[ PROTOTYPES ]##############################################################
 
-  merge-conflict-markers:
-    # see also: Diff.sublime-syntax#conflict-markers
-    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.begin.diff
-      captures:
-        1: punctuation.section.block.begin.diff
-        2: entity.name.section.diff
-    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.end.diff
-      captures:
-        1: punctuation.section.block.end.diff
-        2: entity.name.section.diff
-    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.separator.diff
-      captures:
-        1: punctuation.section.block.diff
-        2: entity.name.section.diff
+  # else-pop:
+  #   - match: (?=\S)
+  #     pop: 1
 
+  empty-line-pop:
+    - match: $
+      branch_point: empty-line-pop
+      branch:
+        - check-empty-next-line
+        - immediately-pop2
+
+  check-empty-next-line:
+    - match: '(?=^{{end_of_line}})'
+      fail: empty-line-pop
+    - match: ^
+      pop: 1
+
+  # eol-pop:
+  #   - match: $
+  #     pop: 1
+
+  explicit-markup-block-pop:
+    - match: $
+      branch_point: explicit-markup-block-pop
+      branch:
+        - check-explicit-markup-block-next-line
+        - immediately-pop2
+
+  check-explicit-markup-block-next-line:
+    - match: '(?=^\s*\.\.)'
+      fail: explicit-markup-block-pop
+    - match: ^
+      pop: 1
+
+  immediately-pop:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
+
+  immediately-pop2:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  line_break: (?:\n)
+  end_of_line: (?:${{line_break}}?)
+
+  two_dots: (?:\.{2})
+
+  less_indentation_ahead: '^(?!\1[[:blank:]]+)(?=[[:blank:]]*\S+)'
+
+  directive_other_name: (?:[[:alpha:]][[:alnum:]\-_]+)
+  # https://docutils.sourceforge.io/docs/ref/rst/directives.html
+  directive_known_name: |-
+    (?xi:
+      # NOTE: code-block, code, raw should be in this list, but are handled
+      #       separately to correctly highlight the code blocks
+      attention
+    | caution
+    | danger
+    | error
+    | hint
+    | important
+    | note
+    | tip
+    | warning
+    | admonition
+    | image
+    | figure
+    | topic
+    | sidebar
+    | line-block
+    | parsed-literal
+    | math
+    | rubric
+    | epigraph
+    | highlights
+    | pull-quote
+    | compound
+    | container
+    | table
+    | csv-table
+    | list-table
+    | contents
+    | sectnum | section-numbering
+    | header | footer
+    | target-notes
+    | replace
+    | unicode
+    | date
+    | include
+    | class
+    | role | default-role
+    | meta
+    | title
+    | restructuredtext-test-directive
+    )
+
+  unescaped_backslash: (?:[^\\][\\])
+
+  section_title_adornment_or_transition_mark: (?:=|-|`|:|\.|'|"|~|\^|_|\*|\+|\#)
+
+  maybe_section_heading_ahead: |-
+    (?x:
+      (?=
+        (?:^(?:{{section_title_adornment_or_transition_mark}}{3,})$)
+      | (?:^$)
+      | (?:^\S)
+      )
+    )
+
+  bullet_mark: (?:[-+*\x{2022}\x{2023}\x{2043}])
+  roman_numeral: (?i:M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))
+  enumerated_any: (?:{{roman_numeral}}|[[:alpha:]]|\d{1,4})
+  enumerated_bullet_mark: (?:{{enumerated_any}}\.|\({{enumerated_any}}\)|{{enumerated_any}}\))
+
+  bold_mark: (?:\*{2})
+  bold_begin: (?:(?!{{unescaped_backslash}}){{bold_mark}}\b)
+  bold_end: (?:\b(?!{{unescaped_backslash}}){{bold_mark}})
+
+  italic_mark: (?:\*)
+  italic_begin: (?:(?!{{unescaped_backslash}}){{italic_mark}}\b)
+  italic_end: (?:\b(?!{{unescaped_backslash}}){{italic_mark}})
+
+  literals_mark: (?:`{2})
+  literals_begin: (?:(?!{{unescaped_backslash}}){{literals_mark}}\b)
+  literals_end: (?:\b{{literals_mark}})
+
+  interpreted_text_mark: (?:`)
+  interpreted_text_begin: (?:(?!{{unescaped_backslash}}){{interpreted_text_mark}}\b)
+  interpreted_text_end: (?:\b(?!{{unescaped_backslash}}){{interpreted_text_mark}})
+
+  # https://docutils.sourceforge.io/docs/ref/rst/roles.html
+  interpreted_text_roles: |-
+    (?x:
+      abbreviation | ab
+    | acronym | ac
+    | code
+    | emphasis
+    | literal
+    | math
+    | pep-reference | PEP
+    | rfc-reference | RFC
+    | strong
+    | subscript | sub
+    | superscript | super
+    | title-reference | title | t
+    | raw-(?:[a-z]+) | raw
+    )
+
+  bibliographic_field: |-
+    (?x:
+      Abstract
+    | Address
+    | Authors?
+    | Contact
+    | Copyright
+    | Date
+    | Dedication
+    | Organization
+    | Revision
+    | Status
+    | Version
+    )
+
+  # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#auto-symbol-footnotes
+  footnote_mark: (?:(?:†|‡|§|¶|\#|♠️|♥️|♦️|♣️)+)
+
+  # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#length-units
+  length_unit: |-
+    (?x:
+      em            # element's font size
+    | ex            # x-height of element's font size
+    | ch            # width of the 0 glyph in the element's font
+    | rem           # font size of the root element
+    | vw            # 1% of the viewport width
+    | vh            # 1% of the viewport height
+    | vmin          # 1% of the viewport's smaller dimension
+    | vmax          # 1% of the viewport's larger dimension
+    | cm            # centimeters
+    | mm            # millimeters
+    | Q             # quarter-millimeters
+    | in            # inches
+    | pc            # picas (= 1/6 inch = 12 pt)
+    | pt            # 1 pt (= 1/72 in)
+    | px            # 1 px (= 3/4 pt = 1/96 in)
+    )
+
+  # https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#percentage-unit
+  percentage_unit: |-
+    (?x:
+      %             # percent sign
+    )
