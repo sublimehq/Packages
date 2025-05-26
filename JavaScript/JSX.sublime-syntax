@@ -130,9 +130,9 @@ contexts:
     - match: '>'
       scope: meta.tag.js punctuation.definition.tag.end.js
       set: jsx-body
-    - match: '/'
+    - match: '/\s*>'
       scope: meta.tag.js punctuation.definition.tag.end.js
-      set: jsx-expect-tag-end
+      pop: 1
     - match: '{{jsx_identifier}}'
       scope: entity.other.attribute-name.js
     - match: '='
