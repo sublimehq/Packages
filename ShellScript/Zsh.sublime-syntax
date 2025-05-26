@@ -307,7 +307,9 @@ contexts:
     # additional flags
     - match: '[bn]'
       scope: storage.modifier.subscript.shell.zsh
-      push: zsh-modifier-expression
+      push:
+        - immediately-pop  # workaround https://github.com/sublimehq/sublime_text/issues/4069
+        - zsh-modifier-expression
     - match: s
       scope: storage.modifier.subscript.shell.zsh
       push: zsh-modifier-literal-string
