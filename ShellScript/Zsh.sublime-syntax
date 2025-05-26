@@ -266,7 +266,7 @@ contexts:
   subscript-content:
     # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Subscripts
     - match: ''
-      branch_point: subscript
+      branch_point: subscript-content
       branch:
         - zsh-subscript-flags
         - subscript-expression-content
@@ -279,7 +279,7 @@ contexts:
       set: zsh-subscript-flag-pattern-body
     - include: line-continuations
     - match: ''
-      fail: subscript
+      fail: subscript-content
 
   zsh-subscript-flag-pattern-body:
     - meta_content_scope: meta.modifier.subscript.shell.zsh
@@ -317,7 +317,7 @@ contexts:
       scope: storage.modifier.subscript.shell.zsh
     - include: line-continuations
     - match: ''
-      fail: subscript
+      fail: subscript-content
 
   zsh-subscript-pattern-content:
     - meta_include_prototype: false

@@ -1560,7 +1560,7 @@ contexts:
     # attempt to scope subscript content arithmetic expression
     # if anything unrecognized was found, fallback to plain string
     - match: ''
-      branch_point: subscript
+      branch_point: subscript-content
       branch:
         - subscript-expression-content
         - subscript-plain-content
@@ -1568,7 +1568,7 @@ contexts:
   subscript-else-fail:
     - include: line-continuations
     - match: (?=\S)
-      fail: subscript
+      fail: subscript-content
 
   subscript-expression-content:
     - meta_content_scope: meta.arithmetic.shell
