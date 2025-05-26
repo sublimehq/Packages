@@ -574,7 +574,9 @@ contexts:
     # flag:expr:
     - match: 'I'
       scope: storage.modifier.expansion.flag.shell.zsh
-      push: zsh-modifier-expression
+      push:
+        - immediately-pop  # workaround https://github.com/sublimehq/sublime_text/issues/4069
+        - zsh-modifier-expression
     # flag:string:
     - match: 'p[_gjsZ]'
       scope: storage.modifier.expansion.flag.shell.zsh
@@ -959,7 +961,9 @@ contexts:
         - zsh-modifier-subst-pattern
     - match: 'F'
       scope: storage.modifier.glob.shell.zsh
-      push: zsh-modifier-expression
+      push:
+        - immediately-pop  # workaround https://github.com/sublimehq/sublime_text/issues/4069
+        - zsh-modifier-expression
     - match: 'W'
       scope: storage.modifier.glob.shell.zsh
       push: zsh-modifier-literal-string
@@ -1078,8 +1082,13 @@ contexts:
       scope: punctuation.definition.quoted.begin.shell.zsh
       set: zsh-modifier-expression-paren-body
     - match: '{{glob_string_quote}}'
-      scope: punctuation.definition.quoted.begin.shell.zsh
-      set: zsh-modifier-expression-other-body
+      scope: meta.quoted.glob.shell.zsh punctuation.definition.quoted.begin.shell.zsh
+      embed: expression-content
+      embed_scope: meta.quoted.glob.shell.zsh meta.arithmetic.shell
+      escape: \1
+      escape_captures:
+        0: meta.quoted.glob.shell.zsh punctuation.definition.quoted.end.shell.zsh
+      pop: 1
     - include: immediately-pop
 
   zsh-modifier-expression-angle-body:
@@ -1114,15 +1123,6 @@ contexts:
     - meta_scope: meta.quoted.glob.shell.zsh
     - meta_content_scope: meta.arithmetic.shell
     - match: \)
-      scope: punctuation.definition.quoted.end.shell.zsh
-      pop: 1
-    - include: expression-content
-
-  zsh-modifier-expression-other-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.quoted.glob.shell.zsh
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \1
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
     - include: expression-content
