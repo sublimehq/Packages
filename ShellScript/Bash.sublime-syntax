@@ -740,7 +740,9 @@ contexts:
     - match: (!=|==?)\s*
       captures:
         1: keyword.operator.comparison.shell
-      push: compound-test-pattern
+      push:
+        - compound-test-pattern
+        - maybe-tilde-interpolation
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - include: line-continuations
@@ -778,7 +780,9 @@ contexts:
     - match: (!=|==?)\s*
       captures:
         1: keyword.operator.comparison.shell
-      push: compound-test-group-pattern
+      push:
+        - compound-test-group-pattern
+        - maybe-tilde-interpolation
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - include: line-continuations
