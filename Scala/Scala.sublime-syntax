@@ -215,9 +215,7 @@ contexts:
           scope: punctuation.section.block.end.scala
           pop: 1
         - match: '{{rightarrow}}'
-          scope:
-            meta.block.scala
-            keyword.declaration.function.arrow.lambda.scala
+          scope: keyword.declaration.function.arrow.lambda.scala
           set:
             - meta_content_scope: meta.block.scala
             - match: '\}'
