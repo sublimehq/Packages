@@ -7255,7 +7255,424 @@ _b=value
 # <- - meta.assignment
 #^^^^^^^ - meta.assignment
 
-### [ ARRAY VARIABLES ] #######################################################
+
+##############################################################################
+# 15.2 Array Parameters
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Parameters
+##############################################################################
+
+illegals=( | & ; < > )
+#          ^ invalid.illegal.unexpected-token.shell
+#            ^ invalid.illegal.unexpected-token.shell
+#              ^ invalid.illegal.unexpected-token.shell
+#                ^ invalid.illegal.unexpected-token.shell
+#                  ^ invalid.illegal.unexpected-token.shell
+
+
+##############################################################################
+# 15.2.1 Array Subscripts
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Subscripts
+##############################################################################
+
+echo $var[1] World
+#<- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#        ^^^ meta.item-access.shell - variable
+#        ^ punctuation.section.item-access.begin.shell
+#         ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+
+: $var[1][2]
+# ^^^^^^^^^^ meta.string.glob.shell
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^^^^ variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#     ^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^ punctuation.section.item-access.end.shell
+#        ^^^ string.unquoted.shell meta.set.regexp.shell
+#        ^ punctuation.definition.set.begin.regexp.shell
+#          ^ punctuation.definition.set.end.regexp.shell
+
+: "$var[1][2]"
+# ^ meta.string.glob.shell - meta.interpolation
+#  ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - string
+#         ^^^^ meta.string.glob.shell - meta.interpolation
+# ^ string.quoted.double.shell punctuation.definition.string.begin.shell
+#  ^^^^ variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#      ^^^ meta.item-access.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^^^^ string.quoted.double.shell
+#            ^ punctuation.definition.string.end.shell
+
+: $var[CURRENT - 1]
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#      ^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
+#                 ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                  ^ - meta.string
+# ^^^^ variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^ variable.other.readwrite.shell
+#              ^ keyword.operator.arithmetic.shell
+#                ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                 ^ punctuation.section.item-access.end.shell
+
+: $var[(CURRENT - 1)]
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell meta.group.shell
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                    ^ - meta.string
+# ^^^^ variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^^^^^^^ variable.other.readwrite.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ punctuation.section.group.end.shell
+#                   ^ punctuation.section.item-access.end.shell
+
+: $var["CURRENT - 1"]
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                    ^ - meta.string
+# ^^^^ variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^ punctuation.definition.quoted.begin.shell
+#       ^^^^^^^ variable.other.readwrite.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ punctuation.definition.quoted.end.shell
+#                   ^ punctuation.section.item-access.end.shell
+
+: $var['CURRENT - 1']
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                    ^ - meta.string
+# ^^^^ variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^ punctuation.definition.quoted.begin.shell
+#       ^^^^^^^ variable.other.readwrite.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ punctuation.definition.quoted.end.shell
+#                   ^ punctuation.section.item-access.end.shell
+
+# Everything not looking like an arithmetic
+# expression is scoped plain string
+# -----------------------------------------
+
+: $var[my.key]
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell
+# ^^^^ variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^ meta.string.shell string.unquoted.shell - meta.arithmetic
+#            ^ punctuation.section.item-access.end.shell
+
+: $var['my.key']  # quotes must be balanced
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#              ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#               ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^ string.quoted.single.shell
+#      ^ punctuation.definition.string.begin.shell
+#             ^ punctuation.definition.string.end.shell
+#              ^ punctuation.section.item-access.end.shell
+
+: $var["my.key"]  # quotes must be balanced
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#              ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#               ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^ string.quoted.double.shell
+#      ^ punctuation.definition.string.begin.shell
+#             ^ punctuation.definition.string.end.shell
+#              ^ punctuation.section.item-access.end.shell
+
+: $var[my".key"]  # quotes must be balanced
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#              ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#               ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^ meta.string.shell string.unquoted.shell
+#        ^^^^^^ string.quoted.double.shell
+#        ^ punctuation.definition.string.begin.shell
+#             ^ punctuation.definition.string.end.shell
+#              ^ punctuation.section.item-access.end.shell
+
+: $var[\"my\".key\"]  # odd number of quotes must be escaped
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                  ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                   ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^^^^ string.unquoted.shell
+#      ^^ constant.character.escape.shell
+#          ^^ constant.character.escape.shell
+#                ^^ constant.character.escape.shell
+#                  ^ punctuation.section.item-access.end.shell
+
+: $var[(my.{key[0]})]  # all sorts of brackets must be balanced
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                    ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^^^^^ string.unquoted.shell
+#                   ^ punctuation.section.item-access.end.shell
+
+: $var[{my.{key}]}}]  # nested stray brackets
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                  ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                   ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^^^^ string.unquoted.shell
+#                  ^ punctuation.section.item-access.end.shell
+
+: $var[{my.{key}\]\}}]  # unbalanced brackets must be escaped
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#      ^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                     ^ - meta.string.glob.shell
+#     ^ punctuation.section.item-access.begin.shell
+#               ^^^^ constant.character.escape.shell
+#                    ^ punctuation.section.item-access.end.shell
+
+# extended parameter expansions in braces
+# ---------------------------------------
+
+: ${var[1][2]}
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
+#         ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#             ^ - meta.string
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ punctuation.section.item-access.end.shell
+#            ^ punctuation.section.interpolation.end.shell
+
+: "${var[1][2]}"
+# ^ meta.string.glob.shell - meta.interpolation
+#  ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#       ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
+#          ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#              ^ meta.string.glob.shell - meta.interpolation
+# ^ string.quoted.double.shell punctuation.definition.string.begin.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.section.item-access.begin.shell
+#        ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ punctuation.section.item-access.end.shell
+#             ^ punctuation.section.interpolation.end.shell
+#              ^ punctuation.definition.string.end.shell
+
+: ${var[CURRENT - 1]}
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#       ^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
+#                  ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#                    ^ - meta.string
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^^ variable.other.readwrite.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ punctuation.section.item-access.end.shell
+#                   ^ punctuation.section.interpolation.end.shell
+
+: ${var[(CURRENT - 1)]}
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#       ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell meta.group.shell
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                     ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#                      ^ - meta.string
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ punctuation.section.group.begin.shell
+#        ^^^^^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.arithmetic.shell
+#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                   ^ punctuation.section.group.end.shell
+#                    ^ punctuation.section.item-access.end.shell
+#                     ^ punctuation.section.interpolation.end.shell
+
+: ${var["CURRENT - 1"]}
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#       ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                     ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#                      ^ - meta.string
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#        ^^^^^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.arithmetic.shell
+#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                   ^ punctuation.definition.quoted.end.shell
+#                    ^ punctuation.section.item-access.end.shell
+#                     ^ punctuation.section.interpolation.end.shell
+
+: ${var['CURRENT - 1']}
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#       ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.arithmetic.shell
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.arithmetic
+#                     ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#                      ^ - meta.string
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#        ^^^^^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.arithmetic.shell
+#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                   ^ punctuation.definition.quoted.end.shell
+#                    ^ punctuation.section.item-access.end.shell
+#                     ^ punctuation.section.interpolation.end.shell
+
+# Everything not looking like an arithmetic
+# expression is scoped plain string
+# -----------------------------------------
+
+: ${var[my.key]}
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell
+#              ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^ meta.string.shell string.unquoted.shell - meta.arithmetic
+#             ^ punctuation.section.item-access.end.shell
+#              ^ punctuation.section.interpolation.end.shell
+
+: ${var['my.key']}  # quotes must be balanced
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#               ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^^^ string.quoted.single.shell
+#       ^ punctuation.definition.string.begin.shell
+#              ^ punctuation.definition.string.end.shell
+#               ^ punctuation.section.item-access.end.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${var["my.key"]}  # quotes must be balanced
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#               ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^^^ string.quoted.double.shell
+#       ^ punctuation.definition.string.begin.shell
+#              ^ punctuation.definition.string.end.shell
+#               ^ punctuation.section.item-access.end.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${var[my".key"]}  # quotes must be balanced
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#               ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^ meta.string.shell string.unquoted.shell
+#         ^^^^^^ string.quoted.double.shell
+#         ^ punctuation.definition.string.begin.shell
+#              ^ punctuation.definition.string.end.shell
+#               ^ punctuation.section.item-access.end.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${var[\"my\".key\"]}  # odd number of quotes must be escaped
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^^^^^^^ string.unquoted.shell
+#       ^^ constant.character.escape.shell
+#           ^^ constant.character.escape.shell
+#                 ^^ constant.character.escape.shell
+#                   ^ punctuation.section.item-access.end.shell
+#                    ^ punctuation.section.interpolation.end.shell
+
+: ${var[(my.{key[0]})]}  # all sorts of brackets must be balanced
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                     ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^^^^^^^^ string.unquoted.shell
+#                    ^ punctuation.section.item-access.end.shell
+#                     ^ punctuation.section.interpolation.end.shell
+
+: ${var[{my.{key}]}}]}  # nested stray brackets
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                   ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                    ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^^^^^^^^^^^ string.unquoted.shell
+#                   ^ punctuation.section.item-access.end.shell
+#                    ^ punctuation.section.interpolation.end.shell
+
+: ${var[{my.{key}\]\}}]}  # unbalanced brackets must be escaped
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#       ^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.string.shell
+#                     ^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.item-access meta.string
+#                      ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#      ^ punctuation.section.item-access.begin.shell
+#                ^^^^ constant.character.escape.shell
+#                     ^ punctuation.section.item-access.end.shell
+#                      ^ punctuation.section.interpolation.end.shell
+
+
+##############################################################################
+# 15.2.2 Array Element Assignments
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Element-Assignment
+##############################################################################
 
 10[1]=value
 # <- meta.assignment.l-value.shell variable.language.positional.shell
@@ -7274,29 +7691,200 @@ var[1]=Hello
 #     ^ keyword.operator.assignment.shell
 #      ^^^^^ meta.string.glob.shell string.unquoted.shell
 
-echo $var[1] World
-#<- meta.function-call.identifier.shell support.function.shell
-#^^^ meta.function-call.identifier.shell support.function.shell
-#   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
-#        ^^^ meta.item-access.shell - variable
-#        ^ punctuation.section.item-access.begin.shell
-#         ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-#          ^ punctuation.section.item-access.end.shell
-#            ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
-
 
 ##############################################################################
-# 15.2 Array Parameters
-# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Parameters
+# 15.2.3 Subscript Flags
+# https://zsh.sourceforge.io/Doc/Release/Parameters.html#Subscript-Flags
 ##############################################################################
 
-illegals=( | & ; < > )
-#          ^ invalid.illegal.unexpected-token.shell
-#            ^ invalid.illegal.unexpected-token.shell
-#              ^ invalid.illegal.unexpected-token.shell
-#                ^ invalid.illegal.unexpected-token.shell
-#                  ^ invalid.illegal.unexpected-token.shell
+: $var[(w)idx]                  # Scalar subscript work on words instead of chars
+#     ^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.modifier
+#            ^ punctuation.section.item-access.end.shell
+
+: $var[(s:string:)key]          # This gives the string that separates words
+#     ^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^^^^^^^^ meta.quoted.glob.shell.zsh
+#        ^ punctuation.definition.quoted.begin.shell.zsh
+#         ^^^^^^ string.quoted.other.shell.zsh
+#               ^ punctuation.definition.quoted.end.shell.zsh
+#                ^ punctuation.definition.modifier.end.shell.zsh
+#                 ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.modifier
+#                    ^ punctuation.section.item-access.end.shell
+
+: $var[(p)key]                  # Recognize the same escape sequences as the print builtin in s-flag argument
+#     ^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.modifier
+#            ^ punctuation.section.item-access.end.shell
+
+: $var[(f)idx]                  # Scalar subscript work on lines instead of chars
+#     ^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.modifier
+#            ^ punctuation.section.item-access.end.shell
+
+: $var[(r)([^@]##@|)pat]        # Reverse subscripting: key is taken as a pattern
+#     ^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
+#                      ^ punctuation.section.item-access.end.shell
+
+: $var[(R)([^@]##@|)pat]        # Like ‘r’, but gives the last match.
+#     ^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
+#                      ^ punctuation.section.item-access.end.shell
+
+: $var[(i)([^@]##@|)pat]        # Like ‘r’, but gives the index of the match instead
+#     ^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
+#                      ^ punctuation.section.item-access.end.shell
+
+: $var[(I)([^@]##@|)pat]        # Like ‘i’, but gives the index of the last match
+#     ^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
+#                      ^ punctuation.section.item-access.end.shell
+
+: $var[(k)([^@]##@|)pat]        # keys are interpreted as patterns
+#     ^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
+#                      ^ punctuation.section.item-access.end.shell
+
+: $var[(K)([^@]##@|)pat]        # keys are interpreted as patterns
+#     ^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^ meta.string.glob.shell.zsh meta.group.regexp.shell string.unquoted.shell
+#                   ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.group - meta.modifier.subscript
+#                      ^ punctuation.section.item-access.end.shell
+
+: $var[(n:expr:)key]            # expr evaluates to nth last element,word or char
+#     ^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^^^^^^ meta.quoted.glob.shell.zsh
+#        ^ punctuation.definition.quoted.begin.shell.zsh
+#         ^^^^ meta.arithmetic.shell variable.other.readwrite.shell
+#             ^ punctuation.definition.quoted.end.shell.zsh
+#              ^ punctuation.definition.modifier.end.shell.zsh
+#               ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.modifier
+#                  ^ punctuation.section.item-access.end.shell
+
+: $var[(b:expr:)key]            # expr evaluates to nth last element,word or char
+#     ^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^^^^^^ meta.quoted.glob.shell.zsh
+#        ^ punctuation.definition.quoted.begin.shell.zsh
+#         ^^^^ meta.arithmetic.shell variable.other.readwrite.shell
+#             ^ punctuation.definition.quoted.end.shell.zsh
+#              ^ punctuation.definition.modifier.end.shell.zsh
+#               ^^^ meta.string.glob.shell.zsh string.unquoted.shell - meta.modifier
+#                  ^ punctuation.section.item-access.end.shell
+
+: $var[(e)([^@]##{@}|)plain]    # plain string matching
+#     ^^^^^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.group - meta.modifier - keyword - punctuation
+#                          ^ punctuation.section.item-access.end.shell
+
+: $var[(X)([^@]##@|)plain]      # unrecognized flags or plain text
+#     ^^^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell - meta.group - meta.modifier - keyword - punctuation
+#                        ^ punctuation.section.item-access.end.shell
+
+: $var[(X)i+i]                  # unrecognized flags fallback to arithmetic
+#     ^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell
+#      ^^^^^^ meta.arithmetic.shell
+#      ^^^ meta.group.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^ variable.other.readwrite.shell
+#        ^ punctuation.section.group.end.shell
+#         ^ variable.other.readwrite.shell
+#          ^ keyword.operator.arithmetic.shell
+#           ^ variable.other.readwrite.shell
+#            ^ punctuation.section.item-access.end.shell
+
+: $var[(i)^pat*,(e)^str*,-10]   # multi-dimensional (associative) arrays
+#     ^^^^^^^^^^^^^^^^^^^^^^^ meta.item-access.shell
+#     ^ punctuation.section.item-access.begin.shell - string
+#      ^^^ meta.modifier.subscript.shell.zsh
+#      ^ punctuation.definition.modifier.begin.shell.zsh
+#       ^ storage.modifier.subscript.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^^^^^ meta.string.glob.shell.zsh string.unquoted.shell
+#         ^ keyword.operator.logical.regexp.shell.zsh
+#             ^ constant.other.wildcard.asterisk.shell
+#              ^ punctuation.separator.sequence.shell - string
+#               ^^^ meta.modifier.subscript.shell.zsh
+#               ^ punctuation.definition.modifier.begin.shell.zsh
+#                ^ storage.modifier.subscript.shell.zsh
+#                 ^ punctuation.definition.modifier.end.shell.zsh
+#                  ^^^^^ meta.string.shell string.unquoted.shell
+#                       ^ punctuation.separator.sequence.shell
+#                        ^^^ meta.arithmetic.shell
+#                        ^ keyword.operator.arithmetic.shell
+#                         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                           ^ punctuation.section.item-access.end.shell - string
 
 
 ##############################################################################

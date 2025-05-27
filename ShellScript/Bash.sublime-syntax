@@ -302,6 +302,7 @@ contexts:
     - match: (?={{identifier}}(?:\[[^\]]*\])*{{varassign}})
       set:
         - literal-array-value-assignment
+        - subscript
         - variable-name-begin
 
   variable-name-begin:
@@ -318,32 +319,6 @@ contexts:
     - include: literal-unquoted-content
     - match: '{{identifier_break}}'
       pop: 1
-
-  variable-subscription:
-    - include: variable-subscriptions
-    - include: line-continuations
-    - include: immediately-pop
-
-  variable-subscriptions:
-    - match: (\[)([*@])(\])
-      scope: meta.item-access.shell
-      captures:
-        1: punctuation.section.item-access.begin.shell
-        2: variable.language.array.shell
-        3: punctuation.section.item-access.end.shell
-    - match: \[
-      scope: punctuation.section.item-access.begin.shell
-      push: variable-subscription-body
-
-  variable-subscription-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.item-access.shell
-    - meta_content_scope: meta.arithmetic.shell
-    - match: \]
-      scope: punctuation.section.item-access.end.shell
-      pop: 1
-    - include: eoc-pop
-    - include: expression-content
 
   assignment-value-meta:
     - meta_include_prototype: false
@@ -1031,6 +1006,7 @@ contexts:
     - match: '{{variable_begin}}'
       push:
         - arithmetic-mapping-value-assignment
+        - subscript
         - variable-name-begin
     - include: illegal-words
 
@@ -1046,6 +1022,7 @@ contexts:
     - match: '{{variable_begin}}'
       push:
         - arithmetic-array-value-assignment
+        - subscript
         - variable-name-begin
     - include: illegal-words
 
@@ -1061,6 +1038,7 @@ contexts:
     - match: '{{variable_begin}}'
       push:
         - literal-mapping-value-assignment
+        - subscript
         - variable-name-begin
     - include: illegal-words
 
@@ -1076,6 +1054,7 @@ contexts:
     - match: '{{variable_begin}}'
       push:
         - literal-array-value-assignment
+        - subscript
         - variable-name-begin
     - include: illegal-words
 
@@ -1328,7 +1307,8 @@ contexts:
       set:
         - assignment-value-meta
         - arithmetic-array-value
-    - include: variable-subscription
+    - include: line-continuations
+    - include: immediately-pop
 
   arithmetic-array-value:
     # maybe indexed array of or single arithmetic expression value
@@ -1348,7 +1328,8 @@ contexts:
       set:
         - assignment-value-meta
         - arithmetic-mapping-value
-    - include: variable-subscription
+    - include: line-continuations
+    - include: immediately-pop
 
   arithmetic-mapping-value:
     # maybe associative of or single arithmetic expression value
@@ -1404,7 +1385,8 @@ contexts:
       set:
         - assignment-value-meta
         - literal-array-value
-    - include: variable-subscription
+    - include: line-continuations
+    - include: immediately-pop
 
   literal-array-value:
     # maybe indexed array of or single literal/string value
@@ -1426,7 +1408,8 @@ contexts:
       set:
         - assignment-value-meta
         - literal-mapping-value
-    - include: variable-subscription
+    - include: line-continuations
+    - include: immediately-pop
 
   literal-mapping-value:
     # maybe associative array of or single literal/string value
@@ -1549,6 +1532,138 @@ contexts:
     - include: line-continuations
     - include: comments
 
+###[ SUBSCRIPTS ]##############################################################
+
+  subscript:
+    # 6.7 Arrays
+    # https://www.gnu.org/software/bash/manual/bash.html#Arrays
+    - match: (\[)([*@])(\])
+      scope: meta.item-access.shell
+      captures:
+        1: punctuation.section.item-access.begin.shell
+        2: variable.language.array.shell
+        3: punctuation.section.item-access.end.shell
+      pop: 1
+    - match: \[
+      scope: punctuation.section.item-access.begin.shell
+      set: subscript-body
+    - include: line-continuations
+    - include: immediately-pop
+
+  subscript-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.item-access.shell
+    - match: \]
+      scope: punctuation.section.item-access.end.shell
+      pop: 1
+    - include: eoc-pop
+    - include: comma-separators
+    - include: subscript-content
+
+  subscript-content:
+    # attempt to scope subscript content arithmetic expression
+    # if anything unrecognized was found, fallback to plain string
+    - match: ''
+      branch_point: subscript-content
+      branch:
+        - subscript-expression-content
+        - subscript-plain-content
+
+  subscript-else-fail:
+    - include: line-continuations
+    - match: (?=\S)
+      fail: subscript-content
+
+  subscript-expression-content:
+    - meta_content_scope: meta.arithmetic.shell
+    - match: (?=[],])
+      pop: 1
+    # arithmetic expression content without word boundary checks
+    - match: \"
+      scope: punctuation.definition.quoted.begin.shell
+      push: subscript-expression-double-quoted-body
+    - match: \'
+      scope: punctuation.definition.quoted.begin.shell
+      push: subscript-expression-single-quoted-body
+    - include: subscript-expression-groups
+    - include: expression-common
+    - include: subscript-else-fail
+
+  subscript-expression-double-quoted-body:
+    - match: \"
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - include: subscript-expression-double-quoted-groups
+    - include: expression-common
+    - include: subscript-else-fail
+
+  subscript-expression-double-quoted-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: subscript-expression-double-quoted-group-body
+
+  subscript-expression-double-quoted-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - match: (?=")
+      pop: 1
+    - include: subscript-expression-double-quoted-groups
+    - include: expression-common
+    - include: subscript-else-fail
+
+  subscript-expression-single-quoted-body:
+    - match: \'
+      scope: punctuation.definition.quoted.end.shell
+      pop: 1
+    - include: subscript-expression-single-quoted-groups
+    - include: expression-common
+    - include: subscript-else-fail
+
+  subscript-expression-single-quoted-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: subscript-expression-single-quoted-group-body
+
+  subscript-expression-single-quoted-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - match: (?=')
+      pop: 1
+    - include: subscript-expression-single-quoted-groups
+    - include: expression-common
+    - include: subscript-else-fail
+
+  subscript-expression-groups:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: subscript-expression-group-body
+
+  subscript-expression-group-body:
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: subscript-expression-groups
+    - include: expression-common
+    - include: subscript-else-fail
+
+  subscript-plain-content:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.shell string.unquoted.shell
+    - match: (?=[],])
+      pop: 1
+    - include: subscript-plain-common
+
+  subscript-plain-common:
+    - include: string-quotes
+    - include: string-prototype
+    - include: any-escapes
+    - include: string-interpolations
+
 ###[ ARITHMETIC EXPRESSIONS ]##################################################
 
   arithmetic-word:
@@ -1576,6 +1691,7 @@ contexts:
       scope: punctuation.section.group.begin.shell
       push: expression-group-body
     - include: expression-common
+    - include: expression-illegals
     - include: word-end
 
   expression-content:
@@ -1588,6 +1704,7 @@ contexts:
       push: expression-single-quoted-body
     - include: expression-groups
     - include: expression-common
+    - include: expression-illegals
 
   expression-double-quoted-body:
     - match: \"
@@ -1595,6 +1712,7 @@ contexts:
       pop: 1
     - include: expression-double-quoted-groups
     - include: expression-common
+    - include: expression-illegals
 
   expression-double-quoted-groups:
     - match: \(
@@ -1610,6 +1728,7 @@ contexts:
       pop: 1
     - include: expression-double-quoted-groups
     - include: expression-common
+    - include: expression-illegals
 
   expression-single-quoted-body:
     - match: \'
@@ -1617,6 +1736,7 @@ contexts:
       pop: 1
     - include: expression-single-quoted-groups
     - include: expression-common
+    - include: expression-illegals
 
   expression-single-quoted-groups:
     - match: \(
@@ -1632,6 +1752,7 @@ contexts:
       pop: 1
     - include: expression-single-quoted-groups
     - include: expression-common
+    - include: expression-illegals
 
   expression-groups:
     - match: \(
@@ -1645,6 +1766,7 @@ contexts:
       pop: 1
     - include: expression-groups
     - include: expression-common
+    - include: expression-illegals
 
   expression-common:
     # multi char operators
@@ -1674,7 +1796,6 @@ contexts:
     - include: booleans
     - include: expression-numbers
     - include: expression-variables
-    - include: expression-illegals
 
   expression-illegals:
     - match: '{{word_char}}'
@@ -1691,7 +1812,7 @@ contexts:
     # variables within arithmetic expressions must not contain quotes
     - match: (?=[{{identifier_first_char}}$%])
       push:
-        - variable-subscription
+        - subscript
         - expression-variable-chars
 
   expression-variable-chars:
@@ -2043,6 +2164,13 @@ contexts:
 ###[ STRINGS ]#################################################################
 
   string-unquoted-content:
+    - include: string-quotes
+    - include: string-prototype
+    - include: any-escapes
+    - include: brace-interpolations
+    - include: string-interpolations
+
+  string-quotes:
     # [Bash] 3.1.2.5
     - match: \$?\"
       scope: punctuation.definition.string.begin.shell
@@ -2054,10 +2182,6 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.shell
       push: string-single-quoted-body
-    - include: string-prototype
-    - include: any-escapes
-    - include: brace-interpolations
-    - include: string-interpolations
 
   string-ansi-c-body:
     - clear_scopes: 1  # clear `string.unquoted`
@@ -2798,30 +2922,39 @@ contexts:
       push:
         - parameter-expansion-meta
         - parameter-expansion-modifier
+        - subscript
         - parameter-expansion-name
         - parameter-expansion-operator
-    - include: simple-parameter-expansions
+    - match: (?=\${{word_char}})
+      push: simple-parmeter-expansion
 
-  simple-parameter-expansions:
+  simple-parmeter-expansion:
+    - meta_include_prototype: false
+    - meta_scope: meta.interpolation.parameter.shell
     # https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters
     - match: (\$)\d
-      scope: meta.interpolation.parameter.shell variable.language.positional.shell
+      scope: variable.language.positional.shell
       captures:
         1: punctuation.definition.variable.shell
+      pop: 1
     # https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
     - match: (\$){{builtin_variables}}
-      scope: meta.interpolation.parameter.shell variable.language.builtin.shell
+      scope: variable.language.builtin.shell
       captures:
         1: punctuation.definition.variable.shell
+      pop: 1
     # https://www.gnu.org/software/bash/manual/bash.html#Special-Parameters
     - match: (\$){{special_variables}}
-      scope: meta.interpolation.parameter.shell variable.language.special.shell
+      scope: variable.language.special.shell
       captures:
         1: punctuation.definition.variable.shell
+      pop: 1
     - match: (\$){{identifier}}
-      scope: meta.interpolation.parameter.shell variable.other.readwrite.shell
+      scope: variable.other.readwrite.shell
       captures:
         1: punctuation.definition.variable.shell
+      pop: 1
+    - include: immediately-pop
 
   parameter-expansion-meta:
     - meta_include_prototype: false
@@ -2905,7 +3038,6 @@ contexts:
       set:
         - parameter-expansion-pattern
         - maybe-tilde-interpolation
-    - include: variable-subscriptions
 
   parameter-expansion-substr-start:
     - meta_content_scope: meta.arithmetic.shell
