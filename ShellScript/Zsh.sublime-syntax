@@ -541,9 +541,9 @@ contexts:
         - zsh-glob-qualifier
         - pattern-group
 
-  pattern-group-groups:
-    - include: zsh-glob-flags
+  pattern-only-groups:
     - include: zsh-string-glob-ranges
+    - include: zsh-glob-flags
     # zsh glob range with string scope cleared
     # only groups are valid in groups, no glob qualifiers
     - match: \(

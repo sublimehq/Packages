@@ -2406,7 +2406,7 @@ contexts:
   pattern-main-content:
     # [3.5.8.1] Pattern Matching in arbitrary expressions
     - include: string-unquoted-content
-    - include: pattern-groups
+    - include: pattern-only-groups      # only groups, but no qualifiers (in Zsh)
     - include: pattern-charsets
     - include: pattern-common
 
@@ -2521,7 +2521,12 @@ contexts:
     - include: variable-expansions
     - include: eol-pop
 
+  pattern-only-groups:
+    # included in contexts, Zsh doesn't support bare glob qualifiers in
+    - include: pattern-groups
+
   pattern-groups:
+    # included in contexts, Zsh supports bare glob qualifiers in
     - match: '[?*+@!](?=\()'
       scope: keyword.operator.quantifier.regexp.shell
       push: pattern-group
@@ -2547,14 +2552,10 @@ contexts:
 
   pattern-group-content:
     - include: string-unquoted-content
-    - include: pattern-group-groups
+    - include: pattern-only-groups
     - include: pattern-group-charsets
     - include: pattern-group-operators
     - include: pattern-common
-
-  pattern-group-groups:
-    # required to distinguish nested groups in ZSH
-    - include: pattern-groups
 
   pattern-group-charsets:
     - match: (?=\[)

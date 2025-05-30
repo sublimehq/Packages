@@ -5511,6 +5511,56 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Glob-Qualifiers
 ###############################################################################
 
+## Bare Glob Qualifiers / Basic Rules
+## ----------------------------------------------------------------------------
+
+[ $var == ~/*(D) ]      # bare qualifiers can be appear in builtin tests but cause "too many arguments error"
+#         ^^^ meta.string.glob.shell - meta.modifier
+#            ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#            ^ punctuation.definition.modifier.begin.shell.zsh
+#             ^ storage.modifier.glob.shell.zsh
+#              ^ punctuation.definition.modifier.end.shell.zsh
+#                ^ punctuation.section.compound.end.shell
+
+[[ -f ~/*(D) ]]         # bare qualifiers are valid in compound test expressions
+#     ^^^ meta.string.glob.shell - meta.modifier
+#        ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#        ^ punctuation.definition.modifier.begin.shell.zsh
+#         ^ storage.modifier.glob.shell.zsh
+#          ^ punctuation.definition.modifier.end.shell.zsh
+#            ^^ punctuation.section.compound.end.shell
+
+[[ ! (-f ~/*(D)) ]]     # bare qualifiers are valid in compound test expressions
+#    ^^^^^^^^^^^ meta.group.shell
+#        ^^^ meta.string.glob.shell - meta.modifier
+#           ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#           ^ punctuation.definition.modifier.begin.shell.zsh
+#            ^ storage.modifier.glob.shell.zsh
+#             ^ punctuation.definition.modifier.end.shell.zsh
+#                ^^ punctuation.section.compound.end.shell
+
+[[ $var == ~/*(D) ]]    # bare qualifiers are not matched after pattern matching operators
+#          ^^^^^^ meta.string.regexp.shell - meta.modifier
+#                 ^^ punctuation.section.compound.end.shell
+
+[[ ($var != ~/*(D)) ]]  # bare qualifiers are not matched after pattern matching operators
+#  ^^^^^^^^^^^^^^^^ meta.group.shell
+#           ^^^^^^ meta.string.regexp.shell - meta.modifier
+#                   ^^ punctuation.section.compound.end.shell
+
+[[ $var =~ ~/*(D) ]]    # bare qualifiers are not matched after pattern matching operators
+#          ^^^^^^ meta.string.regexp.shell - meta.modifier
+#                 ^^ punctuation.section.compound.end.shell
+
+[[ ($var =~ ~/*(D)) ]]  # bare qualifiers are not matched after pattern matching operators
+#  ^^^^^^^^^^^^^^^^ meta.group.shell
+#           ^^^^^^ meta.string.regexp.shell - meta.modifier
+#                   ^^ punctuation.section.compound.end.shell
+
+
+## Known Glob Qualifiers
+## ----------------------------------------------------------------------------
+
 : /(/)   # directories
 #  ^^^ meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
