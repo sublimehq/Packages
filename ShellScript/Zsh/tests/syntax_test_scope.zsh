@@ -2745,6 +2745,72 @@ ip=10.10.20.14
 #                              ^^^ variable.other.readwrite.shell
 #                                 ^ punctuation.section.interpolation.end.shell
 
+: ${(r.10.)var}   # no floating point numbers within period enclosed arguments allowed
+# ^^ meta.interpolation.parameter.shell - meta.modifier
+#   ^^^^^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
+#          ^^^^ meta.interpolation.parameter.shell - meta.modifier
+#              ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^^^^ meta.quoted.glob.shell.zsh
+#     ^ punctuation.definition.quoted.begin.shell.zsh
+#      ^^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ punctuation.definition.quoted.end.shell.zsh
+#         ^ punctuation.definition.modifier.end.shell.zsh
+#          ^^^ variable.other.readwrite.shell
+#             ^ punctuation.section.interpolation.end.shell
+
+: ${(r.10.5.)var}   # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
+#      ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^^^ - meta.number - constant.numeric
+#         ^^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#            ^^^^ - meta.modifier
+
+: ${(r.'10.5'.)var} # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
+#       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^^ - meta.number - constant.numeric
+#          ^^^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#              ^^^^ - meta.modifier
+
+: ${(r.$( (( 10.5 )) ).)var} # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^^^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
+#            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^^ - meta.number - constant.numeric
+#               ^^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#                  ^^^^^^^^^ - meta.modifier
+
+: ${(r.(10.5).)var} # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
+#       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^^ - meta.number - constant.numeric
+#          ^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#            ^^^^^^ - meta.modifier
+
+: ${(r+(10+5)+)var} # enclosing characters take precedence over expression terms/operators
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^^^^^^^ meta.modifier.expansion.shell.zsh
+#   ^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.expansion.flag.shell.zsh
+#     ^^^^^ meta.quoted.glob.shell.zsh
+#     ^ punctuation.definition.quoted.begin.shell.zsh
+#      ^^^ meta.arithmetic.shell meta.group.shell
+#      ^ punctuation.section.group.begin.shell
+#       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ punctuation.definition.quoted.end.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#            ^ keyword.operator.expansion.valid.shell.zsh
+#                 ^ punctuation.section.interpolation.end.shell
+
 : ${(s.:.)var} ${(s:del$im:)var}  # Force field splitting at the separator string.
 # ^^ meta.interpolation.parameter.shell - meta.modifier
 #   ^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh - meta.quoted.glob
