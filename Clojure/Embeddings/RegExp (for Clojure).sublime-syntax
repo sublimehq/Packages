@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+name: Regular Expression (Clojure)
+scope: source.regexp.clojure
+version: 2
+hidden: true
+
+extends: Packages/Regular Expressions/RegExp.sublime-syntax
+
+###[ CONTEXTS ]################################################################
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - include: Clojure.sublime-syntax#merge-conflict-markers
