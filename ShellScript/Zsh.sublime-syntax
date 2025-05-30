@@ -760,6 +760,11 @@ contexts:
 
   tilde-interpolation:
     - meta_append: true
+    # As tilde expansion context always starts file generagation patterns,
+    # glob flags and pattern groups are included here in order to prevent bare
+    # glob qualifiers from being matched at the beginning of patterns
+    - include: zsh-glob-flags
+    - include: pattern-group
     # 14.7.3 '=' expansion
     # https://zsh.sourceforge.io/Doc/Release/Expansion.html#g_t_0060_003d_0027-expansion
     - match: (=)(\()
