@@ -562,7 +562,8 @@ contexts:
     #       type-hints in annotations, which share syntax with normal expressions
     - match: \|
       scope: keyword.operator.arithmetic.python
-    - include: sequence-separators
+    - match: ','
+      scope: punctuation.separator.sequence.python
 
 ###[ DECORATORS ]#############################################################
 

@@ -3770,6 +3770,15 @@ class TypeCommentTest:
 #                             ^^^^ support.type.python
 #                                 ^ punctuation.section.brackets.end.python
 
+# type: I.Literal("file"),
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
+class Test:
+#^^^^^^^^^^ meta.class.python
+#^^^^ keyword.declaration.class.python
+#     ^^^^ entity.name.class.python
+#         ^ punctuation.section.class.begin.python
+    pass
+
 
 ##################
 # Assignment Expressions
