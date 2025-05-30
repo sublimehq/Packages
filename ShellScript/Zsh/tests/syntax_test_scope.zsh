@@ -2762,16 +2762,40 @@ ip=10.10.20.14
 #          ^^^ variable.other.readwrite.shell
 #             ^ punctuation.section.interpolation.end.shell
 
-: ${(r.10.5.)var}   # no floating point numbers within period enclosed arguments allowed
+: ${(r.10.5.)var}   # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
 #      ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#        ^^ - meta.number - constant.numeric
+#        ^^^ - meta.number - constant.numeric
+#         ^^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#            ^^^^ - meta.modifier
 
-: ${(r.(10.5).)var} # no floating point numbers within period enclosed arguments allowed
+: ${(r.'10.5'.)var} # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
 #       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^^ - meta.number - constant.numeric
+#          ^^^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#              ^^^^ - meta.modifier
+
+: ${(r.$( (( 10.5 )) ).)var} # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^^^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
+#            ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^^ - meta.number - constant.numeric
+#               ^^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#                  ^^^^^^^^^ - meta.modifier
+
+: ${(r.(10.5).)var} # any period anywhere terminates a flag argument opened via period
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#     ^^^^^ meta.modifier.expansion.shell.zsh meta.quoted.glob.shell.zsh
+#       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^^ - meta.number - constant.numeric
+#          ^^ meta.modifier.expansion.shell.zsh - meta.quoted
+#            ^^^^^^ - meta.modifier
 
 : ${(r+(10+5)+)var} # enclosing characters take precedence over expression terms/operators
-# ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^^^^^^^ meta.modifier.expansion.shell.zsh
