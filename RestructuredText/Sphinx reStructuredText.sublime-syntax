@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+# https://www.sphinx-doc.org/en/master/
+# http://www.sublimetext.com/docs/syntax.html
+
+name: Sphinx reStructuredText
+scope: text.restructuredtext.sphinx
+version: 2
+
+extends: Packages/RestructuredText/reStructuredText.sublime-syntax
+
+###[ CONTEXTS ]################################################################
+
+contexts:
+
+  main:
+    - include: sphinx
+
+###[ SPHINX ]##################################################################
+
+  sphinx:
+    - include: restructuredtext
+
+###[ VARIABLES ]###############################################################
+
+# variables: {}
