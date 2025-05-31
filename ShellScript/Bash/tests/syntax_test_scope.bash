@@ -5007,6 +5007,14 @@ test $me -eq ~/~foo
 #           ^ meta.string.regexp.shell meta.interpolation.tilde.shell variable.language.tilde.shell
 #            ^^^^^ meta.string.regexp.shell string.unquoted.shell - meta.interpolation.tilde
 
+[[ $me =~ ~/~foo ]]
+#         ^ meta.string.regexp.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#          ^^^^^ meta.string.regexp.shell string.unquoted.shell - meta.interpolation.tilde
+
+[[ ( $me =~ ~/~foo ) ]]
+#           ^ meta.string.regexp.shell meta.interpolation.tilde.shell variable.language.tilde.shell
+#            ^^^^^ meta.string.regexp.shell string.unquoted.shell - meta.interpolation.tilde
+
 ~/.bin/~app
 # <- meta.function-call.identifier.shell meta.interpolation.tilde.shell variable.language.tilde.shell - variable.function
 #^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell

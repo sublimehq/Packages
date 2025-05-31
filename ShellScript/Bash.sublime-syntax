@@ -742,6 +742,7 @@ contexts:
       set:
         - compound-test-eregexp-body
         - eregexp-unexpected-quantifier
+        - maybe-tilde-interpolation
 
   compound-test-eregexp-body:
     - meta_include_prototype: false
