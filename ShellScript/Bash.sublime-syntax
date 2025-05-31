@@ -706,37 +706,8 @@ contexts:
       captures:
         1: punctuation.section.compound.end.shell
       pop: 1
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push:
-        - compound-test-eregexp
-        - eregexp-unexpected-quantifier
-    - match: (!=|==?)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push:
-        - compound-test-pattern
-        - maybe-tilde-interpolation
-    - include: compound-test-common
-
-  compound-test-eregexp:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: (?=[\s;])
-      pop: 1
-    - include: line-continuations
-    - include: eregexp-main-content
-    - include: illegal-pipeseps
-
-  compound-test-pattern:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: (?=[\s;])
-      pop: 1
-    - include: line-continuations
-    - include: pattern-main-content
-    - include: illegal-pipeseps
+    - include: illegal-stray
+    - include: compound-test-content
 
   compound-test-group-body:
     - meta_scope: meta.group.shell
@@ -746,48 +717,56 @@ contexts:
     # bailout from group at end of compound test
     - match: (?={{wspace}}\]\])
       pop: 1
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push:
-        - compound-test-group-eregexp
-        - eregexp-unexpected-quantifier
-    - match: (!=|==?)\s*
-      captures:
-        1: keyword.operator.comparison.shell
-      push:
-        - compound-test-group-pattern
-        - maybe-tilde-interpolation
-    - include: compound-test-common
+    - include: compound-test-content
 
-  compound-test-group-eregexp:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: (?=[\s;)])
-      pop: 1
-    - include: line-continuations
-    - include: eregexp-main-content
-    - include: illegal-pipeseps
-
-  compound-test-group-pattern:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - match: (?=[\s;)])
-      pop: 1
-    - include: line-continuations
-    - include: pattern-main-content
-    - include: illegal-pipeseps
-
-  compound-test-common:
+  compound-test-content:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: compound-test-group-body
+    - match: =~
+      scope: keyword.operator.comparison.shell
+      push: compound-test-eregexp
+    - match: '[=!]?='
+      scope: keyword.operator.comparison.shell
+      push: compound-test-pattern
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
-    - include: line-continuations
     - include: test-expression-operators
+    - include: line-continuations
     - include: comments
     - include: cmd-args-values
+
+  compound-test-eregexp:
+    - meta_include_prototype: false
+    - match: '{{word_begin}}'
+      set:
+        - compound-test-eregexp-body
+        - eregexp-unexpected-quantifier
+
+  compound-test-eregexp-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - include: eregexp-main-content
+    - include: compound-test-pattern-end
+
+  compound-test-pattern:
+    - meta_include_prototype: false
+    - match: '{{word_begin}}'
+      set:
+        - compound-test-pattern-body
+        - maybe-tilde-interpolation
+
+  compound-test-pattern-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - include: pattern-main-content
+    - include: compound-test-pattern-end
+
+  compound-test-pattern-end:
+    - match: '[<>]+'   # note: would otherwise match as comparison operators
+      scope: invalid.illegal.unexpected-token.shell
+      pop: 1
+    - include: word-end
 
   test-expression-operators:
     - match: ([-+])[bcdefghknprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
@@ -800,7 +779,8 @@ contexts:
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
-    - include: illegal-pipeseps
+    - match: '[{{pipe_seps}}]'
+      scope: invalid.illegal.unexpected-token.shell
 
 ###[ TRAP BUILTINS ]###########################################################
 
@@ -2698,8 +2678,6 @@ contexts:
   eregexp-literals:
     - match: \.
       scope: keyword.other.any.regexp.shell
-    - match: \)
-      scope: invalid.illegal.stray.regexp.shell
 
 ###[ EXPANSIONS ]##############################################################
 
@@ -3191,10 +3169,6 @@ contexts:
   illegal-options:
     - match: (--|[-+]){{identifier}}
       scope: invalid.illegal.parameter.shell
-
-  illegal-pipeseps:
-    - match: '[{{pipe_seps}}]'
-      scope: invalid.illegal.unexpected-token.shell
 
   illegal-stray:
     - match: '[)}\]]'

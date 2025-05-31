@@ -8903,14 +8903,16 @@ stash) || true)
 
 [[ abc == ^abc|bca$ ]]
 #^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#         ^^^^^^^^^ meta.string.regexp.shell - keyword
-#             ^ invalid.illegal.unexpected-token.shell
+#         ^^^^ meta.string.regexp.shell string.unquoted.shell - keyword
+#             ^ invalid.illegal.unexpected-token.shell - meta.string
+#              ^^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^^ punctuation.section.compound.end.shell
 
 [[ abc == ^abc&bca$ ]]
 #^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#         ^^^^^^^^^ meta.string.regexp.shell - keyword
-#             ^ invalid.illegal.unexpected-token.shell
+#         ^^^^ meta.string.regexp.shell string.unquoted.shell - keyword
+#             ^ invalid.illegal.unexpected-token.shell - meta.string
+#              ^^^^ meta.string.glob.shell string.unquoted.shell
 #                   ^^ punctuation.section.compound.end.shell
 
 [[ a\$b*c == a'$b*'? ]]
@@ -9355,8 +9357,9 @@ stash) || true)
 [[ "${foo}" =~ bar&baz ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
 #^^^^^^^^^^^^^^ - meta.string.regexp.shell
-#              ^^^^^^^ meta.string.regexp.shell - meta.interpolation
-#                     ^^^ - meta.string.regexp.shell
+#              ^^^ meta.string.regexp.shell - meta.interpolation
+#                 ^ - meta.string
+#                  ^^^ meta.string.glob.shell - meta.interpolation
 #           ^^ keyword.operator.comparison.shell
 #                 ^ invalid.illegal.unexpected-token.shell
 
@@ -9512,7 +9515,7 @@ stash) || true)
 
 [[ $foo =~ ) ]]
 #^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#          ^ meta.string.regexp.shell invalid.illegal.stray.regexp.shell
+#          ^ invalid.illegal.stray.shell
 
 [[ $foo =~ ( ) ]]
 #^^^^^^^^^^ meta.compound.conditional.shell - meta.string.regexp - meta.group
