@@ -697,7 +697,8 @@ contexts:
     - match: -[ao]{{opt_break}}(?!\s*(=~|!=|==?))
       scope: keyword.operator.logical.shell
     - include: cmd-args-end
-    - include: test-expression-common
+    - include: test-expression-operators
+    - include: cmd-args-values
 
   compound-test-body:
     - meta_scope: meta.compound.conditional.shell
@@ -720,10 +721,7 @@ contexts:
       push:
         - compound-test-pattern
         - maybe-tilde-interpolation
-    - match: '[<>]=?'
-      scope: keyword.operator.comparison.shell
-    - include: line-continuations
-    - include: test-expression-common
+    - include: compound-test-common
 
   compound-test-eregexp:
     - meta_include_prototype: false
@@ -760,10 +758,7 @@ contexts:
       push:
         - compound-test-group-pattern
         - maybe-tilde-interpolation
-    - match: '[<>]=?'
-      scope: keyword.operator.comparison.shell
-    - include: line-continuations
-    - include: test-expression-common
+    - include: compound-test-common
 
   compound-test-group-eregexp:
     - meta_include_prototype: false
@@ -791,7 +786,15 @@ contexts:
       pop: 1
     - include: line-continuations
 
-  test-expression-common:
+  compound-test-common:
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.shell
+    - include: line-continuations
+    - include: test-expression-operators
+    - include: comments
+    - include: cmd-args-values
+
+  test-expression-operators:
     - match: ([-+])[bcdefghknprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
       scope:
         meta.parameter.option.shell
@@ -803,8 +806,6 @@ contexts:
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
     - include: illegal-pipeseps
-    - include: comments
-    - include: cmd-args-values
 
 ###[ TRAP BUILTINS ]###########################################################
 
