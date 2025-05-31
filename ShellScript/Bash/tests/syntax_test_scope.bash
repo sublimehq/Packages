@@ -2678,6 +2678,30 @@ done
 #               ^^ keyword.operator.logical.shell
 #                       ^^ punctuation.section.compound.end.shell
 
+[[ ((  ) ) ]]
+#^^ meta.compound.conditional.shell - meta.group
+#  ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#   ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#       ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#         ^^^ meta.compound.conditional.shell - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^^ punctuation.section.group.begin.shell
+#      ^ punctuation.section.group.end.shell
+#        ^ punctuation.section.group.end.shell
+#          ^^ punctuation.section.compound.end.shell
+
+[[ ( (  )) ]]
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#    ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#        ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#         ^^^ meta.compound.conditional.shell - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^ punctuation.section.group.begin.shell
+#    ^ punctuation.section.group.begin.shell
+#       ^^ punctuation.section.group.end.shell
+#          ^^ punctuation.section.compound.end.shell
+
 [[ expr && ( expr || expr ) ]]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
@@ -2688,6 +2712,26 @@ done
 #                 ^^ keyword.operator.logical.shell
 #                         ^ punctuation.section.group.end.shell
 #                           ^^ punctuation.section.compound.end.shell
+
+[[ (expr && ( expr || !( expr && expr ))) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#           ^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                      ^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell meta.group.shell
+#                                      ^ meta.compound.conditional.shell meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                                       ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#                                        ^^^ meta.compound.conditional.shell - meta.group
+#                                           ^ - meta.compound
+#^ punctuation.section.compound.begin.shell
+#        ^^ keyword.operator.logical.shell
+#           ^ punctuation.section.group.begin.shell
+#                  ^^ keyword.operator.logical.shell
+#                     ^ keyword.operator.logical.shell
+#                      ^ punctuation.section.group.begin.shell
+#                             ^^ keyword.operator.logical.shell
+#                                     ^^^ punctuation.section.group.end.shell
+#                                         ^^ punctuation.section.compound.end.shell
 
 [[ expr -a expr -o expr ]]    # -a and -o arguments have no meaning
 #^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
@@ -2858,6 +2902,36 @@ done
 #                                             ^^ keyword.operator.comparison.shell
 #                                                ^^^ meta.string.regexp.shell
 #                                                    ^^ punctuation.section.compound.end.shell
+
+[[ ! ((( $foo == 'bar' ) || $foo == "baz" ) && ($bar == baz)) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^ meta.compound.conditional.shell - meta.group
+#    ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#     ^ meta.compound.conditional.shell meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#      ^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell meta.group.shell
+#                       ^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell - meta.group meta.group meta.group
+#                                          ^^^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#                                              ^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#                                                           ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#                                                            ^^^ meta.compound.conditional.shell - meta.group
+#                                                               ^ - meta.compound
+#    ^^^ punctuation.section.group.begin.shell
+#        ^^^^ variable.other.readwrite.shell
+#             ^^ keyword.operator.comparison.shell
+#                ^^^^^ meta.string.regexp.shell
+#                      ^ punctuation.section.group.end.shell
+#                        ^^ keyword.operator.logical.shell
+#                           ^^^^ variable.other.readwrite.shell
+#                                ^^ keyword.operator.comparison.shell
+#                                   ^^^^^ meta.string.regexp.shell
+#                                         ^ punctuation.section.group.end.shell
+#                                           ^^ keyword.operator.logical.shell
+#                                              ^ punctuation.section.group.begin.shell
+#                                               ^^^^ variable.other.readwrite.shell
+#                                                    ^^ keyword.operator.comparison.shell
+#                                                       ^^^ meta.string.regexp.shell
+#                                                          ^^ punctuation.section.group.end.shell
+#                                                             ^^ punctuation.section.compound.end.shell
 
 
 ###############################################################################
@@ -8881,23 +8955,30 @@ stash) || true)
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
 #            ^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
 #             ^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp invalid.illegal.unexpected-token.shell
+   )
+#^^^ meta.compound.conditional.shell meta.group.shell
+#  ^ punctuation.section.group.end.shell
+#   ^ meta.compound.conditional.shell - meta.group
+]]
+# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
+#^ meta.compound.conditional.shell punctuation.section.compound.end.shell
+# ^ - meta.compound
 
 [[ ( $foo == *\
-   [^0-9]? ) ]]   # note: line continuation is only valid without leading whitespace, but we ignore it
+[^0-9]? ) ]]   # note: line continuation is only valid without leading whitespace, but we ignore it
 # <- meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
-#^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell - meta.set
-#  ^^^^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell meta.set.regexp.shell
-#        ^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell - meta.set
-#         ^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
-#           ^^^ meta.compound.conditional.shell - meta.group
-#            ^^ punctuation.section.compound.end.shell
+#^^^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell meta.set.regexp.shell
+#     ^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell - meta.set
+#      ^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
+#        ^^^ meta.compound.conditional.shell - meta.group
+#         ^^ punctuation.section.compound.end.shell
 
-[[ ( $foo == ? ]]
+[[ ( $foo == ? ]] # incomplete group
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
 #            ^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
-#             ^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
-#              ^^ invalid.illegal.unexpected-token.shell
+#             ^^^ meta.compound.conditional.shell - meta.group - meta.string.regexp
+#              ^^ punctuation.section.compound.end.shell
 
 [[ ( $foo == ? ]]
    [^0-9]+ ) ]]
@@ -9389,21 +9470,29 @@ stash) || true)
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
 #            ^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
 #             ^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp invalid.illegal.unexpected-token.shell
+   )
+#^^^ meta.compound.conditional.shell meta.group.shell
+#  ^ punctuation.section.group.end.shell
+#   ^ meta.compound.conditional.shell - meta.group
+]]
+# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
+#^ meta.compound.conditional.shell punctuation.section.compound.end.shell
+# ^ - meta.compound
 
 [[ ( $foo =~ ^\
-   [^0-9]+ ) ]]
+[^0-9]+ ) ]]
 # <- meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
-#^^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
-#         ^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
-#           ^^^ meta.compound.conditional.shell - meta.group
-#            ^^ punctuation.section.compound.end.shell
+#^^^^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
+#      ^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
+#        ^^^ meta.compound.conditional.shell - meta.group
+#         ^^ punctuation.section.compound.end.shell
 
 [[ ( $foo =~ ^ ]]
 #^^ meta.compound.conditional.shell - meta.group
 #  ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
 #            ^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
-#             ^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
-#              ^^ invalid.illegal.unexpected-token.shell
+#             ^^^ meta.compound.conditional.shell - meta.group - meta.string.regexp
+#              ^^ punctuation.section.compound.end.shell
 
 [[ ( $foo =~ ^ ]]
    [^0-9]+ ) ]]

@@ -706,9 +706,6 @@ contexts:
       captures:
         1: punctuation.section.compound.end.shell
       pop: 1
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push: compound-test-group-body
     - match: (=~)\s*
       captures:
         1: keyword.operator.comparison.shell
@@ -746,6 +743,9 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.shell
       pop: 1
+    # bailout from group at end of compound test
+    - match: (?={{wspace}}\]\])
+      pop: 1
     - match: (=~)\s*
       captures:
         1: keyword.operator.comparison.shell
@@ -763,30 +763,25 @@ contexts:
   compound-test-group-eregexp:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - include: compound-test-group-pattern-end
+    - match: (?=[\s;)])
+      pop: 1
+    - include: line-continuations
     - include: eregexp-main-content
     - include: illegal-pipeseps
 
   compound-test-group-pattern:
     - meta_include_prototype: false
     - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - include: compound-test-group-pattern-end
+    - match: (?=[\s;)])
+      pop: 1
+    - include: line-continuations
     - include: pattern-main-content
     - include: illegal-pipeseps
 
-  compound-test-group-pattern-end:
-    - match: '{{wspace}}(\]\])'
-      captures:
-        1: invalid.illegal.unexpected-token.shell
-      pop: 3
-    - match: $\n?
-      scope: invalid.illegal.unexpected-token.shell
-      pop: 3
-    - match: (?=\s*(?:&&|\|\||;|\)))
-      pop: 1
-    - include: line-continuations
-
   compound-test-common:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: compound-test-group-body
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
     - include: line-continuations
