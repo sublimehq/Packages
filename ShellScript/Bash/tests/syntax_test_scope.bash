@@ -4981,6 +4981,23 @@ foo}
 #                                        ^ punctuation.section.item-access.end.shell
 #                                         ^ punctuation.section.interpolation.end.shell
 
+: ${var[1,-2,$x]} # more dimentional arrays
+# ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#      ^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
+#               ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#                ^ - meta.string
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ punctuation.separator.sequence.shell
+#         ^ keyword.operator.arithmetic.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#           ^ punctuation.separator.sequence.shell
+#            ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#            ^ punctuation.definition.variable.shell
+#              ^ punctuation.section.item-access.end.shell
+#               ^ punctuation.section.interpolation.end.shell
+
 : ${var[1][2]}
 # ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
 #      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
