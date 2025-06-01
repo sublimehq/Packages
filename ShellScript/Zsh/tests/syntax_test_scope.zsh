@@ -2141,6 +2141,28 @@ ip=10.10.20.14
 #                                       ^^^ meta.string.regexp.shell string.unquoted.shell
 #                                           ^^ punctuation.section.compound.end.shell
 
+[[ $var =~ bar&baz ]]   # top-level `&` not valid in ZSH or Bash
+#^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ meta.string.regexp.shell string.unquoted.shell
+#             ^ invalid.illegal.unexpected-token.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ $var =~ bar|baz ]]   # top-level `|` not valid in ZSH (but in Bash)
+#^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ meta.string.regexp.shell string.unquoted.shell
+#             ^ invalid.illegal.unexpected-token.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
+#                  ^^ punctuation.section.compound.end.shell
+
 
 ## Arithmetic Comparisons
 ## ----------------------
