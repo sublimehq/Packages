@@ -589,7 +589,7 @@ contexts:
       push:
         - parameter-expansion-meta
         - parameter-expansion-modifier
-        - subscript
+        - parameter-expansion-subscript
         - parameter-expansion-name
         - parameter-expansion-operator
         - zsh-parameter-flags
@@ -648,6 +648,21 @@ contexts:
     - match: \+
       scope: keyword.operator.expansion.valid.shell.zsh
       pop: 1
+
+  parameter-expansion-subscript:
+    # Extended Parameter Expansions can contain multiple subscripts
+    # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Array-Subscripts
+    - match: (\[)([*@])(\])
+      scope: meta.item-access.shell
+      captures:
+        1: punctuation.section.item-access.begin.shell
+        2: variable.language.array.shell
+        3: punctuation.section.item-access.end.shell
+    - match: \[
+      scope: punctuation.section.item-access.begin.shell
+      push: subscript-body
+    - include: line-continuations
+    - include: immediately-pop
 
   parameter-expansion-modifier:
     # 14.3 Parameter Expansion

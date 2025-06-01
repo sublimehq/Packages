@@ -7486,18 +7486,21 @@ echo $var[1] World
 #          ^ punctuation.section.item-access.end.shell
 #            ^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
 
-: $var[1][2]
-# ^^^^^^^^^^ meta.string.glob.shell
-# ^^^^^^^ meta.interpolation.parameter.shell
+: $var[4,1][2]
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#     ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell
+#         ^ meta.string.glob.shell meta.interpolation.parameter.shell
+#          ^^^ meta.string.glob.shell - meta.interpolation
 # ^^^^ variable.other.readwrite.shell
 # ^ punctuation.definition.variable.shell
-#     ^^^ meta.item-access.shell
 #     ^ punctuation.section.item-access.begin.shell
 #      ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-#       ^ punctuation.section.item-access.end.shell
-#        ^^^ string.unquoted.shell meta.set.regexp.shell
-#        ^ punctuation.definition.set.begin.regexp.shell
-#          ^ punctuation.definition.set.end.regexp.shell
+#       ^ punctuation.separator.sequence.shell
+#        ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ punctuation.section.item-access.end.shell
+#          ^^^ string.unquoted.shell meta.set.regexp.shell
+#          ^ punctuation.definition.set.begin.regexp.shell
+#            ^ punctuation.definition.set.end.regexp.shell
 
 : "$var[1][2]"
 # ^ meta.string.glob.shell - meta.interpolation
@@ -7671,30 +7674,41 @@ echo $var[1] World
 # extended parameter expansions in braces
 # ---------------------------------------
 
-: ${var[1][2]}
+: ${var[4,1][2]}
 # ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
-#      ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
-#         ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
-#             ^ - meta.string
+#      ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
+#              ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#               ^ - meta.string
 #   ^^^ variable.other.readwrite.shell
 #      ^ punctuation.section.item-access.begin.shell
 #       ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-#        ^ punctuation.section.item-access.end.shell
-#            ^ punctuation.section.interpolation.end.shell
+#        ^ punctuation.separator.sequence.shell
+#         ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ punctuation.section.item-access.begin.shell
+#            ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ punctuation.section.item-access.end.shell
+#              ^ punctuation.section.interpolation.end.shell
 
-: "${var[1][2]}"
+: "${var[5,-1][2]}"
 # ^ meta.string.glob.shell - meta.interpolation
 #  ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
-#       ^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
-#          ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
-#              ^ meta.string.glob.shell - meta.interpolation
+#       ^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - string
+#                ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
+#                 ^ meta.string.glob.shell - meta.interpolation
 # ^ string.quoted.double.shell punctuation.definition.string.begin.shell
 #    ^^^ variable.other.readwrite.shell
 #       ^ punctuation.section.item-access.begin.shell
 #        ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
-#         ^ punctuation.section.item-access.end.shell
-#             ^ punctuation.section.interpolation.end.shell
-#              ^ punctuation.definition.string.end.shell
+#         ^ punctuation.separator.sequence.shell
+#          ^ keyword.operator.arithmetic.shell
+#           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^ punctuation.section.item-access.end.shell
+#             ^ punctuation.section.item-access.begin.shell
+#              ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^ punctuation.section.item-access.end.shell
+#                ^ punctuation.section.interpolation.end.shell
+#                 ^ punctuation.definition.string.end.shell
 
 : ${var[CURRENT - 1]}
 # ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
@@ -8086,6 +8100,19 @@ var[1]=Hello
 #                        ^ keyword.operator.arithmetic.shell
 #                         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                           ^ punctuation.section.item-access.end.shell - string
+
+: ${${(s.:.)line}[5][(ws:<:)2,(ws:>:)1]}
+# ^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.interpolation.parameter meta.interpolation.parameter
+#   ^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.interpolation.parameter.shell - meta.item-access - meta.modifier
+#     ^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
+#           ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.interpolation.parameter.shell - meta.item-access - meta.modifier
+#                ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.interpolation.parameter meta.interpolation.parameter - meta.modifier
+#                    ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.modifier.subscript.shell.zsh
+#                           ^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.interpolation.parameter meta.interpolation.parameter - meta.modifier
+#                             ^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell meta.modifier.subscript.shell.zsh
+#                                    ^^ meta.string.glob.shell meta.interpolation.parameter.shell meta.item-access.shell - meta.interpolation.parameter meta.interpolation.parameter - meta.modifier
+#                                      ^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
+#                                       ^ - meta.string - meta.interpolation
 
 
 ##############################################################################
