@@ -9016,6 +9016,16 @@ stash) || true)
 #          ^ punctuation.section.group.end.regexp.shell
 #            ^^ punctuation.section.compound.end.shell
 
+[[ $path == /dev/null ]]
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^^^^^ meta.string.glob.shell meta.path.shell constant.language.null.shell
+#           ^ punctuation.separator.path.shell
+#               ^ punctuation.separator.path.shell
+#                     ^^ punctuation.section.compound.end.shell
 
 ###############################################################################
 # POSIX extended regular expression pattern matching                          #

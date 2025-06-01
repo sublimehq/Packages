@@ -752,6 +752,8 @@ contexts:
 
   compound-test-pattern:
     - meta_include_prototype: false
+    - include: boolean
+    - include: devnull
     - match: '{{word_begin}}'
       set:
         - compound-test-pattern-body
@@ -2010,6 +2012,14 @@ contexts:
       scope: constant.language.boolean.true.shell
       pop: 1
 
+  devnull:
+    - match: (/)dev(/)null{{word_break}}
+      scope: meta.string.glob.shell meta.path.shell constant.language.null.shell
+      captures:
+        1: punctuation.separator.path.shell
+        2: punctuation.separator.path.shell
+      pop: 1
+
   numbers:
     # strictly consume full numbers only, for use in contexts with strings
     - include: base-numbers
@@ -2233,12 +2243,7 @@ contexts:
       push: group-path-pattern
 
   group-path-pattern:
-    - match: (/)dev(/)null{{word_break}}
-      scope: meta.path.shell constant.language.null.shell
-      captures:
-        1: punctuation.separator.path.shell
-        2: punctuation.separator.path.shell
-      pop: 1
+    - include: devnull
     - match: '{{illegal_group_separators}}+'
       scope: invalid.illegal.unexpected-token.shell
       pop: 1
@@ -2260,12 +2265,7 @@ contexts:
       push: string-path-pattern
 
   string-path-pattern:
-    - match: (/)dev(/)null{{word_break}}
-      scope: meta.path.shell constant.language.null.shell
-      captures:
-        1: punctuation.separator.path.shell
-        2: punctuation.separator.path.shell
-      pop: 1
+    - include: devnull
     - match: '{{word_begin}}'
       set:
         - string-path-pattern-body
