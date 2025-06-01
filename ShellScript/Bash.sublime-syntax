@@ -679,28 +679,77 @@ contexts:
       set: cmd-test-args
 
   builtin-test-body:
+    - meta_include_prototype: false
     - meta_scope: meta.compound.conditional.shell
-    - match: '{{wspace}}(\])'
-      captures:
-        1: punctuation.section.compound.end.shell
+    - match: \]
+      scope: punctuation.section.compound.end.shell
       pop: 1
     - include: cmd-test-args
 
   cmd-test-args:
+    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
-    - match: =~|[<>]=
-      scope: invalid.illegal.operator.shell
-    - match: '!=|==?'
+    - include: eoc-pop
+    # logical operators
+    - match: '!'
+      scope: keyword.operator.logical.shell
+    - match: -[ao]{{opt_break}}
+      scope: keyword.operator.logical.shell
+    # test expressions like `-f file`
+    - match: '{{test_options}}'
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-test-pattern
+    # comparison expressions
+    - match: '{{word_begin}}'
+      branch_point: cmd-test-comparison
+      branch:
+        - cmd-test-string-comparison   # note: try string comparison first as it is more likely
+        - arithmetic-comparison        # note: built-in tests only support basic integer expressions
+
+  cmd-test-string-comparison:
+    # comparison like `string < string` or `string =~ pattern`
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cmd-test-string-operator
+        - cmd-test-pattern
+
+  cmd-test-string-operator:
+    - meta_include_prototype: false
+    - match: '{{file_comparison_operators}}'
       scope: keyword.operator.comparison.shell
+      set: cmd-test-pattern
+    - match: =~
+      scope: invalid.illegal.operator.shell
+      set: cmd-test-pattern
+    - match: '[=!]?='
+      scope: keyword.operator.comparison.shell
+      set: cmd-test-pattern
+    - match: '[<>]='
+      scope: invalid.illegal.operator.shell
+      set: cmd-test-pattern
     - match: '<(?!<)|>(?!>)'
       scope: keyword.operator.comparison.shell
-    - match: -[ao]{{opt_break}}(?!\s*(=~|!=|==?))
-      scope: keyword.operator.logical.shell
-    - include: cmd-args-end
-    - include: test-expression-operators
-    - include: cmd-args-values
+      set: cmd-test-pattern
+    - match: (?={{arithmetic_comparison_operators}})
+      fail: cmd-test-comparison
+    - include: eoc-pop
+    - include: else-pop
+
+  cmd-test-pattern:
+    - meta_include_prototype: false
+    - match: (?=\])
+      pop: 1
+    - include: eoc-pop
+    - include: redirection
+    - include: boolean
+    - include: string-path-pattern
+
 
   compound-test-body:
+    - meta_include_prototype: false
     - meta_scope: meta.compound.conditional.shell
     - match: '{{wspace}}(\]\])'
       captures:
@@ -710,34 +759,73 @@ contexts:
     - include: compound-test-content
 
   compound-test-group-body:
+    - meta_include_prototype: false
     - meta_scope: meta.group.shell
     - match: \)
       scope: punctuation.section.group.end.shell
       pop: 1
-    # bailout from group at end of compound test
-    - match: (?={{wspace}}\]\])
-      pop: 1
+    - include: compound-test-end-ahead
     - include: compound-test-content
 
+  compound-test-end-ahead:
+    - match: (?={{wspace}}\]\])
+      pop: 1
+
   compound-test-content:
+    - include: comments
+    # groups
     - match: \(
       scope: punctuation.section.group.begin.shell
       push: compound-test-group-body
+    # logical operators
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.shell
+    - match: '[&|;]'
+      scope: invalid.illegal.unexpected-token.shell
+    # test expressions like `-f file`
+    - match: '{{test_options}}'
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: compound-test-pattern
+    # comparison expressions
+    - match: '{{word_begin}}'
+      branch_point: compound-test-comparison
+      branch:
+        - compound-test-string-comparison  # note: try string comparison first as it is more likely
+        - arithmetic-comparison
+
+  compound-test-string-comparison:
+    # comparison like `string < string` or `string =~ pattern`
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - compound-test-string-operator
+        - compound-test-pattern
+
+  compound-test-string-operator:
+    - meta_include_prototype: false
+    - match: '{{file_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      set: compound-test-pattern
     - match: =~
       scope: keyword.operator.comparison.shell
-      push: compound-test-eregexp
+      set: compound-test-eregexp
     - match: '[=!]?='
       scope: keyword.operator.comparison.shell
-      push: compound-test-pattern
+      set: compound-test-pattern
     - match: '[<>]=?'
       scope: keyword.operator.comparison.shell
-    - include: test-expression-operators
-    - include: line-continuations
+      set: compound-test-pattern
+    - match: (?={{arithmetic_comparison_operators}})
+      fail: compound-test-comparison
     - include: comments
-    - include: cmd-args-values
+    - include: compound-test-end-ahead
+    - include: else-pop
 
   compound-test-eregexp:
     - meta_include_prototype: false
+    - include: compound-test-end-ahead
     - match: '{{word_begin}}'
       set:
         - compound-test-eregexp-body
@@ -752,6 +840,7 @@ contexts:
 
   compound-test-pattern:
     - meta_include_prototype: false
+    - include: compound-test-end-ahead
     - include: boolean
     - include: devnull
     - match: '{{word_begin}}'
@@ -761,7 +850,7 @@ contexts:
 
   compound-test-pattern-body:
     - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - meta_content_scope: meta.string.glob.shell string.unquoted.shell
     - include: pattern-main-content
     - include: compound-test-pattern-end
 
@@ -770,20 +859,6 @@ contexts:
       scope: invalid.illegal.unexpected-token.shell
       pop: 1
     - include: word-end
-
-  test-expression-operators:
-    - match: ([-+])[bcdefghknprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: -(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*(=~|!=|==?))
-      scope: keyword.operator.comparison.shell
-    - match: '&&|\|\||!'
-      scope: keyword.operator.logical.shell
-    - match: '[{{pipe_seps}}]'
-      scope: invalid.illegal.unexpected-token.shell
 
 ###[ TRAP BUILTINS ]###########################################################
 
@@ -1646,6 +1721,22 @@ contexts:
     - include: string-interpolations
 
 ###[ ARITHMETIC EXPRESSIONS ]##################################################
+
+  arithmetic-comparison:
+    # arithmetic comparison like `1+2 -eq 2+1`
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - arithmetic-operator
+        - arithmetic-word
+
+  arithmetic-operator:
+    - meta_include_prototype: false
+    - match: '{{arithmetic_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      set: arithmetic-word
+    - include: comments
+    - include: else-pop
 
   arithmetic-word:
     # A `word` which is interpreted as arithmetic expression
@@ -3299,6 +3390,11 @@ variables:
   hex_digit: \h
   oct_digit: '[0-7]'
   varassign: '[-+]?='
+
+  # 12 Test Expressions
+  arithmetic_comparison_operators: -(?:eq|ne|lt|le|gt|ge){{opt_break}}
+  file_comparison_operators: -(?:ef|nt|ot){{opt_break}}
+  test_options: ([-+])[bcdefghknprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
 
   # 3.3 Shell Functions
   # Implicit function definition without `function` keyword
