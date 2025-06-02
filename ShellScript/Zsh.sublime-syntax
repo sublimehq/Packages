@@ -432,6 +432,16 @@ contexts:
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
+  here-string-body:
+    - meta_prepend: true
+    - match: \{
+      push: zsh-here-string-braces-body
+
+  zsh-here-string-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: here-string-body
+
   redirection-input:
     # This context consumes patterns beginning with glob ranges (e.g.: `<1-20>`)
     # or input redirection (e.g.: <"/path/file").
@@ -532,6 +542,17 @@ contexts:
     - include: variable-expansions
     - include: immediately-pop
 
+  literal-unquoted-content:
+    - meta_append: true
+    - match: \{
+      push: zsh-literal-braces-body
+
+  zsh-literal-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: literal-unquoted-content
+    - include: word-end
+
 ###[ STRING PATH PATTERN MATCHING ]############################################
 
   group-path-pattern-body:
@@ -542,17 +563,43 @@ contexts:
     - meta_prepend: true
     - include: zsh-string-glob-ranges
 
+  string-path-pattern-content:
+    - meta_append: true
+    - match: \{
+      push: zsh-string-path-pattern-braces-body
+
+  zsh-string-path-pattern-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: string-path-pattern-content
+    - include: word-end
+
 ###[ PATH PATTERN MATCHING ]###################################################
 
   path-pattern-content:
-    - meta_prepend: true
+    - meta_append: true
     - include: zsh-string-glob-ranges
+    - match: \{
+      push: zsh-path-pattern-braces-body
+
+  zsh-path-pattern-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: path-pattern-content
+    - include: word-end
 
 ###[ SHELL PATTERN MATCHING ]##################################################
 
   pattern-main-content:
-    - meta_prepend: true
-    - include: zsh-string-glob-ranges
+    - meta_append: true
+    - match: \{
+      push: zsh-pattern-brace-body
+
+  zsh-pattern-brace-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: pattern-main-content
+    - include: word-end
 
   pattern-groups:
     - include: zsh-glob-flags
@@ -572,9 +619,17 @@ contexts:
       scope: punctuation.section.group.begin.regexp.shell
       push: pattern-group-body
 
-  pattern-group-body:
+  pattern-group-content:
     - meta_append: true
+    - match: \{
+      push: zsh-pattern-group-braces-body
     - include: pipesep-pop
+
+  zsh-pattern-group-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: pattern-group-content
+    - include: word-end
 
   pattern-common:
     - meta_prepend: true
@@ -594,6 +649,26 @@ contexts:
     - include: eregexp-groups
     - include: eregexp-anchors
     - include: eregexp-literals
+    - match: \{
+      push: zsh-eregexp-brace-body
+
+  zsh-eregexp-brace-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: eregexp-main-content
+    - include: word-end
+
+  eregexp-group-content:
+    - meta_append: true
+    - match: \{
+      push: zsh-eregexp-group-braces-body
+    - include: pipesep-pop
+
+  zsh-eregexp-group-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: eregexp-group-content
+    - include: word-end
 
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
@@ -611,6 +686,17 @@ contexts:
       scope: punctuation.section.interpolation.end.shell.zsh
       pop: 1
     - include: expression-content
+
+###[ BRACE EXPANSIONS ]########################################################
+
+  brace-interpolations:
+    # 1. use branching as valid brace expansions must not exceed word boundaries
+    # 2. exclude `brace-interpolation-fallback` as it is handled by balancers
+    - match: (?={)
+      branch_point: brace-interpolation
+      branch:
+        - brace-interpolation-sequence
+        - brace-interpolation-series
 
 ###[ PARAMETER EXPANSIONS ]####################################################
 
@@ -712,6 +798,16 @@ contexts:
         - parameter-expansion-pattern
         - maybe-tilde-interpolation
 
+  parameter-expansion-pattern:
+    - meta_append: true
+    - match: \{
+      push: zsh-parameter-expansion-pattern-braces-body
+
+  zsh-parameter-expansion-pattern-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: parameter-expansion-pattern
+
   parameter-expansion-pattern-groups:
     - include: zsh-glob-flags
     - include: zsh-parameter-glob-ranges
@@ -719,6 +815,26 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.regexp.shell
       push: parameter-expansion-pattern-group-body
+
+  parameter-expansion-pattern-group-content:
+    - meta_append: true
+    - match: \{
+      push: zsh-parameter-expansion-pattern-group-braces-body
+
+  zsh-parameter-expansion-pattern-group-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: parameter-expansion-pattern-group-content
+
+  parameter-expansion-string:
+    - meta_append: true
+    - match: \{
+      push: zsh-parameter-expansion-string-braces-body
+
+  zsh-parameter-expansion-string-braces-body:
+    - meta_include_prototype: false
+    - include: brace-end
+    - include: parameter-expansion-string
 
   zsh-parameter-flags:
     # 14.3.1 Parameter Expansion Flags
@@ -1476,6 +1592,12 @@ contexts:
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
     - include: string-prototype
+
+###[ PROTOTYPES ]##############################################################
+
+  brace-end:
+    - match: \}
+      pop: 1
 
 ###[ VARIABLES ]###############################################################
 
