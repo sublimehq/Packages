@@ -1847,90 +1847,14 @@ if !cmd
 # <- variable.language.history.shell punctuation.definition.history.shell
 #^^ variable.language.history.shell
 
-[[ ]]
-# <- punctuation.section.compound.begin.shell
-#^ punctuation.section.compound.begin.shell
-#  ^^ punctuation.section.compound.end.shell
-
-[[
-]]
-# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
-#^ meta.compound.conditional.shell punctuation.section.compound.end.shell
-
-! [[ ]]
-# <- keyword.operator.logical.shell
-# ^^ punctuation.section.compound.begin.shell
-#    ^^ punctuation.section.compound.end.shell
-
-![[ ]]
-# <- punctuation.definition.history.shell
-#^^^^^ meta.compound.conditional.shell
-#^^ punctuation.section.compound.begin.shell
-#   ^^ punctuation.section.compound.end.shell
-
-[[ ! ($line == ^0[1-9]$) ]]
-# <- meta.compound.conditional.shell - meta.group
-#^^^^ meta.compound.conditional.shell - meta.group
-#    ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
-#              ^^^^^^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
-#                      ^ meta.compound.conditional.shell meta.group.shell - meta.string
-#                       ^^^ meta.compound.conditional.shell - meta.group
-#
-
-[[ ! ($line != \() ]]
-# <- meta.compound.conditional.shell - meta.group
-#^^^^ meta.compound.conditional.shell - meta.group
-#    ^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
-#              ^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell constant.character.escape.shell
-#                ^ meta.compound.conditional.shell meta.group.shell - meta.string
-#                 ^^^ meta.compound.conditional.shell - meta.group
-#
-
-[[ '-e' == -e ]]   # -e undergoes pattern matching on the right
-#  ^^^^ meta.string.glob.shell string.quoted.single.shell
-#       ^^ keyword.operator.comparison.shell
-#          ^^ meta.compound.conditional.shell meta.string.regexp.shell string.unquoted.shell - variable
-
-[[ -e == -e ]]     # a syntax error in bash but allowed in zsh
-#  ^^ meta.string.glob.shell string.unquoted.shell - variable
-#     ^^ keyword.operator.comparison.shell
-#        ^^ meta.compound.conditional.shell meta.string.regexp.shell string.unquoted.shell - variable
-
-[[ $foo == 'bar' || $foo == "baz" && $bar == baz ]]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^ variable.other.readwrite.shell
-#       ^^ keyword.operator.comparison.shell
-#          ^^^^^ meta.string.regexp.shell
-#                ^^ keyword.operator.logical.shell
-#                   ^^^^ variable.other.readwrite.shell
-#                        ^^ keyword.operator.comparison.shell
-#                           ^^^^^ meta.string.regexp.shell
-#                                 ^^ keyword.operator.logical.shell
-#                                    ^^^^ variable.other.readwrite.shell
-#                                         ^^ keyword.operator.comparison.shell
-#                                            ^^^ meta.string.regexp.shell
-#                                                ^^ punctuation.section.compound.end.shell
-
-[[ ( $foo == 'bar' || $foo == "baz" ) && $bar == baz ]]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^ meta.compound.conditional.shell - meta.group
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
-#                                    ^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell - meta.group
-#  ^ punctuation.section.group.begin.shell
-#    ^^^^ variable.other.readwrite.shell
-#         ^^ keyword.operator.comparison.shell
-#            ^^^^^ meta.string.regexp.shell
-#                  ^^ keyword.operator.logical.shell
-#                     ^^^^ variable.other.readwrite.shell
-#                          ^^ keyword.operator.comparison.shell
-#                             ^^^^^ meta.string.regexp.shell
-#                                   ^ punctuation.section.group.end.shell
-#                                     ^^ keyword.operator.logical.shell
-#                                        ^^^^ variable.other.readwrite.shell
-#                                             ^^ keyword.operator.comparison.shell
-#                                                ^^^ meta.string.regexp.shell
-#                                                    ^^ punctuation.section.compound.end.shell
+if cmd ; then cmd ; fi
+#^ keyword.control.conditional.if.shell
+#  ^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#      ^ punctuation.terminator.statement.shell
+#        ^^^^ keyword.control.conditional.then.shell
+#             ^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#                 ^ punctuation.terminator.statement.shell
+#                   ^^ keyword.control.conditional.endif.shell
 
 if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^ meta.compound.conditional.shell
@@ -2623,6 +2547,308 @@ do
 #      ^ punctuation.terminator.statement.shell
 done
 # <- keyword.control.loop.end.shell
+
+
+###############################################################################
+# 3.2.5 Compound Commands                                                     #
+# 3.2.5.2 Conditional Constructs (( ... ))                                    #
+# https://www.gnu.org/software/bash/manual/bash.html                          #
+###############################################################################
+
+((  ))
+# <- meta.compound.arithmetic.shell punctuation.section.compound.begin.shell
+#^^^^^ meta.compound.arithmetic.shell
+#^ punctuation.section.compound.begin.shell
+#   ^^ punctuation.section.compound.end.shell
+#     ^ - meta.compound
+
+((
+))
+# <- meta.compound.arithmetic.shell punctuation.section.compound.end.shell
+#^ meta.compound.arithmetic.shell punctuation.section.compound.end.shell
+# ^ - meta.compound
+
+!(( ))
+# <- punctuation.definition.history.shell - meta.compound
+#^^^^^ meta.compound.arithmetic.shell
+#^^ punctuation.section.compound.begin.shell
+#   ^^ punctuation.section.compound.end.shell
+
+! (( ))
+# <- - meta.compound
+#^ - meta.compound
+# ^^^^^ meta.compound.arithmetic.shell
+# <- keyword.operator.logical.shell
+# ^^ punctuation.section.compound.begin.shell
+#    ^^ punctuation.section.compound.end.shell
+
+(( expr )) && (( expr )) || (( expr )) && cmd;
+# <- meta.compound.arithmetic.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^ meta.compound.arithmetic.shell
+#^ punctuation.section.compound.begin.shell
+#       ^^ punctuation.section.compound.end.shell
+#          ^^ keyword.operator.logical.shell
+#             ^^^^^^^^^^ meta.compound.arithmetic.shell
+#             ^^ punctuation.section.compound.begin.shell
+#                     ^^ punctuation.section.compound.end.shell
+#                        ^^ keyword.operator.logical.shell
+#                           ^^^^^^^^^^ meta.compound.arithmetic.shell
+#                           ^^ punctuation.section.compound.begin.shell
+#                                   ^^ punctuation.section.compound.end.shell
+#                                      ^^ keyword.operator.logical.shell
+#                                         ^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+
+(( expr && expr || expr ))
+# <- meta.compound.arithmetic.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#^ punctuation.section.compound.begin.shell
+#       ^^ keyword.operator.logical.shell
+#               ^^ keyword.operator.logical.shell
+#                       ^^ punctuation.section.compound.end.shell
+
+(( expr && ( expr || expr ) ))
+# <- meta.compound.arithmetic.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.arithmetic.shell
+#          ^^^^^^^^^^^^^^^^ meta.group.shell
+#^ punctuation.section.compound.begin.shell
+#       ^^ keyword.operator.logical.shell
+#          ^ punctuation.section.group.begin.shell
+#                 ^^ keyword.operator.logical.shell
+#                         ^ punctuation.section.group.end.shell
+#                           ^^ punctuation.section.compound.end.shell
+
+
+###############################################################################
+# 3.2.5 Compound Commands                                                     #
+# 3.2.5.2 Conditional Constructs [[ ... ]]                                    #
+# https://www.gnu.org/software/bash/manual/bash.html#index-_005b_005b         #
+###############################################################################
+
+[[ ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^ punctuation.section.compound.end.shell
+#    ^ - meta.compound
+
+[[
+]]
+# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
+#^ meta.compound.conditional.shell punctuation.section.compound.end.shell
+
+![[ ]]
+# <- punctuation.definition.history.shell - meta.compound
+#^^^^^ meta.compound.conditional.shell
+#^^ punctuation.section.compound.begin.shell
+#   ^^ punctuation.section.compound.end.shell
+
+! [[ ]]
+# <- - meta.compound
+#^ - meta.compound
+# ^^^^^ meta.compound.conditional.shell
+# <- keyword.operator.logical.shell
+# ^^ punctuation.section.compound.begin.shell
+#    ^^ punctuation.section.compound.end.shell
+
+
+## Logical Operators
+## -----------------
+
+[[ expr ]] && [[ expr ]] || [[ expr ]] && cmd;
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#       ^^ punctuation.section.compound.end.shell
+#          ^^ keyword.operator.logical.shell
+#             ^^^^^^^^^^ meta.compound.conditional.shell
+#             ^^ punctuation.section.compound.begin.shell
+#                     ^^ punctuation.section.compound.end.shell
+#                        ^^ keyword.operator.logical.shell
+#                           ^^^^^^^^^^ meta.compound.conditional.shell
+#                           ^^ punctuation.section.compound.begin.shell
+#                                   ^^ punctuation.section.compound.end.shell
+#                                      ^^ keyword.operator.logical.shell
+#                                         ^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+
+[[ expr && expr || expr ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#       ^^ keyword.operator.logical.shell
+#               ^^ keyword.operator.logical.shell
+#                       ^^ punctuation.section.compound.end.shell
+
+[[ expr && ( expr || expr ) ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#          ^^^^^^^^^^^^^^^^ meta.group.shell
+#^ punctuation.section.compound.begin.shell
+#       ^^ keyword.operator.logical.shell
+#          ^ punctuation.section.group.begin.shell
+#                 ^^ keyword.operator.logical.shell
+#                         ^ punctuation.section.group.end.shell
+#                           ^^ punctuation.section.compound.end.shell
+
+
+## File Comparisons
+## ----------------
+
+[[ file1 -ef file2 ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^^^ meta.string.glob.shell string.unquoted.shell
+#        ^^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ file1 -nt file2 ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^^^ meta.string.glob.shell string.unquoted.shell
+#        ^^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+[[ file1 -ot file2 ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^^^ meta.string.glob.shell string.unquoted.shell
+#        ^^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                  ^^ punctuation.section.compound.end.shell
+
+
+## String Comparison Operators
+## ---------------------------
+
+[[ ! str != str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^ keyword.operator.logical.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^ meta.string.regexp.shell string.unquoted.shell
+#               ^ punctuation.section.compound.end.shell
+
+[[ str != str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^^ keyword.operator.comparison.shell
+#         ^^^ meta.string.regexp.shell string.unquoted.shell
+#             ^ punctuation.section.compound.end.shell
+
+[[ str == str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^^ keyword.operator.comparison.shell
+#         ^^^ meta.string.regexp.shell string.unquoted.shell
+#             ^ punctuation.section.compound.end.shell
+
+[[ str = str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^ keyword.operator.comparison.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[[ str < str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^ keyword.operator.comparison.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[[ str > str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^ keyword.operator.comparison.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[[ str >= str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^^ keyword.operator.comparison.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
+#             ^ punctuation.section.compound.end.shell
+
+[[ str <= str ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^ meta.string.glob.shell string.unquoted.shell
+#      ^^ keyword.operator.comparison.shell
+#         ^^^ meta.string.glob.shell string.unquoted.shell
+#             ^ punctuation.section.compound.end.shell
+
+[[ -e == -e ]]     # a syntax error in bash but allowed in zsh
+#  ^^ meta.string.glob.shell string.unquoted.shell - variable
+#     ^^ keyword.operator.comparison.shell
+#        ^^ meta.string.regexp.shell string.unquoted.shell - variable
+
+[[ '-e' == -e ]]   # -e undergoes pattern matching on the right
+#  ^^^^ meta.string.glob.shell string.quoted.single.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^ meta.string.regexp.shell string.unquoted.shell - variable
+
+[[ ! ($foo == pat) ]]
+# <- meta.compound.conditional.shell - meta.group
+#^^^^ meta.compound.conditional.shell - meta.group
+#    ^^^^^^^^^ meta.compound.conditional.shell meta.group.shell - meta.string.regexp
+#             ^^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell
+#                ^ meta.compound.conditional.shell meta.group.shell - meta.string
+#                 ^^^ meta.compound.conditional.shell - meta.group
+
+[[ ! ($foo != \() ]]
+# <- meta.compound.conditional.shell - meta.group
+#^^^^ meta.compound.conditional.shell - meta.group
+#    ^ meta.compound.conditional.shell meta.group.shell - meta.string
+#     ^^^^ meta.compound.conditional.shell meta.group.shell meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^^^^ meta.compound.conditional.shell meta.group.shell - meta.string
+#             ^^ meta.compound.conditional.shell meta.group.shell meta.string.regexp.shell constant.character.escape.shell
+#               ^ meta.compound.conditional.shell meta.group.shell - meta.string
+#                ^^^ meta.compound.conditional.shell - meta.group
+
+[[ $foo == 'bar' || $foo == "baz" && $bar == baz ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^^ variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^^ meta.string.regexp.shell
+#                ^^ keyword.operator.logical.shell
+#                   ^^^^ variable.other.readwrite.shell
+#                        ^^ keyword.operator.comparison.shell
+#                           ^^^^^ meta.string.regexp.shell
+#                                 ^^ keyword.operator.logical.shell
+#                                    ^^^^ variable.other.readwrite.shell
+#                                         ^^ keyword.operator.comparison.shell
+#                                            ^^^ meta.string.regexp.shell
+#                                                ^^ punctuation.section.compound.end.shell
+
+[[ ( $foo == 'bar' || $foo == "baz" ) && $bar == baz ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell meta.group.shell
+#                                    ^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell - meta.group
+#  ^ punctuation.section.group.begin.shell
+#    ^^^^ variable.other.readwrite.shell
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^^ meta.string.regexp.shell
+#                  ^^ keyword.operator.logical.shell
+#                     ^^^^ variable.other.readwrite.shell
+#                          ^^ keyword.operator.comparison.shell
+#                             ^^^^^ meta.string.regexp.shell
+#                                   ^ punctuation.section.group.end.shell
+#                                     ^^ keyword.operator.logical.shell
+#                                        ^^^^ variable.other.readwrite.shell
+#                                             ^^ keyword.operator.comparison.shell
+#                                                ^^^ meta.string.regexp.shell
+#                                                    ^^ punctuation.section.compound.end.shell
 
 
 ###############################################################################
