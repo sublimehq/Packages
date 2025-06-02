@@ -12382,6 +12382,219 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 
 
 ###############################################################################
+# 4.2 Bash Builtin Commands ( [...] )                                         #
+# https://www.gnu.org/software/bash/manual/bash.html#index-test               #
+###############################################################################
+
+![ ]
+# <- punctuation.definition.history.shell
+#^ punctuation.section.compound.begin.shell
+#  ^ punctuation.section.compound.end.shell
+
+! [ ]
+# <- keyword.operator.logical.shell
+# ^ punctuation.section.compound.begin.shell
+#   ^ punctuation.section.compound.end.shell
+
+[  ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^ meta.compound.conditional.shell
+#  ^ punctuation.section.compound.end.shell
+
+[
+]
+# <- - meta.conditional - support.function
+
+[ \
+]
+# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
+
+[ # terminated by comments ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^ - meta.conditional - comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell - meta.conditional
+
+# <- - meta.compound
+
+[ ; cmd ]   # terminated by `;`
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^ - meta.conditional
+# ^ punctuation.terminator.statement.shell
+#   ^^^ variable.function.shell
+#       ^ string.unquoted.shell
+
+[ && cmd ]  # can't contain top-level `&&`
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ - meta.conditional
+# ^^ keyword.operator.logical.shell
+#    ^^^ variable.function.shell
+#        ^ string.unquoted.shell
+
+[ || cmd ]  # can't contain top-level `||`
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ - meta.conditional
+# ^^ keyword.operator.logical.shell
+#    ^^^ variable.function.shell
+#        ^ string.unquoted.shell
+
+[ ! expr ]
+#^^^^^^^^^ meta.compound.conditional.shell
+# ^ keyword.operator.logical.shell
+#   ^^^^ meta.string.glob.shell string.unquoted.shell
+#        ^ punctuation.section.compound.end.shell
+
+[ >>str ]   # may contain redirections
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^ meta.compound.conditional.shell
+# ^^^^^ meta.redirection.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^^^ string.unquoted.shell
+#       ^ punctuation.section.compound.end.shell
+
+# heredocs causing issues, but no way around it
+[ <<doc ]  # <- ] should close the conditional
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^ meta.compound.conditional.shell
+# ^^ keyword.operator.assignment.redirection.shell
+#   ^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
+doc
+# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
+
+
+## Test Expressions
+## ----------------
+
+[ -f file ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.conditional.shell
+
+[ -v varname ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+
+
+## File Comparisons
+## ----------------
+
+[ file1 -ef file2 ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
+#       ^^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                 ^ punctuation.section.compound.end.shell
+
+[ file1 -nt file2 ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
+#       ^^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                 ^ punctuation.section.compound.end.shell
+
+[ file1 -ot file2 ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
+#       ^^^ keyword.operator.comparison.shell
+#           ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                 ^ punctuation.section.compound.end.shell
+
+
+## String Comparison Operators
+## ---------------------------
+
+[ ! str != str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^ keyword.operator.logical.shell
+#   ^^^ meta.string.glob.shell string.unquoted.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^ meta.string.glob.shell string.unquoted.shell
+#              ^ punctuation.section.compound.end.shell
+
+[ str != str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^^ keyword.operator.comparison.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[ str == str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^^ keyword.operator.comparison.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[ str = str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^ keyword.operator.comparison.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
+#           ^ punctuation.section.compound.end.shell
+
+[ str < str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^ keyword.operator.comparison.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
+#           ^ punctuation.section.compound.end.shell
+
+[ str > str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^ keyword.operator.comparison.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
+#           ^ punctuation.section.compound.end.shell
+
+
+## Invalid Comparison Operators
+## ----------------------------
+
+[ str >= str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^^ invalid.illegal.operator.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[ str <= str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^^ invalid.illegal.operator.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+[ str =~ str ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^^ invalid.illegal.operator.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^ punctuation.section.compound.end.shell
+
+
+## Integer Comparisons
+## -------------------
+
+[ $arg -lt 2 ]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^^ variable.other.readwrite.shell
+#      ^^^ keyword.operator.comparison.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#            ^ punctuation.section.compound.end.shell
+
+
+###############################################################################
 # 4.2 Bash Builtin Commands (test)                                            #
 # https://www.gnu.org/software/bash/manual/bash.html#index-test               #
 # test expr                                                                   #
@@ -13328,192 +13541,6 @@ sudo --reset-timestamp -n -f -- rm -rf
 : $UID
 # ^^^^ variable.language.builtin.shell
 # ^ punctuation.definition.variable.shell
-
-
-###############################################################################
-# 6.4 Bash Conditional Expressions                                            #
-# https://www.gnu.org/software/bash/manual/bash.html#Bash-Conditional-Expressions
-###############################################################################
-
-![ ]
-# <- punctuation.definition.history.shell
-#^ punctuation.section.compound.begin.shell
-#  ^ punctuation.section.compound.end.shell
-
-! [ ]
-# <- keyword.operator.logical.shell
-# ^ punctuation.section.compound.begin.shell
-#   ^ punctuation.section.compound.end.shell
-
-[  ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^ meta.compound.conditional.shell
-#  ^ punctuation.section.compound.end.shell
-
-[
-]
-# <- - meta.conditional - support.function
-
-[ \
-]
-# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
-
-[ # comment ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^ - meta.conditional - comment
-# ^^^^^^^^^^^^ comment.line.number-sign.shell - meta.conditional
-
-[ ; cmd ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^ - meta.conditional
-# ^ punctuation.terminator.statement.shell
-#   ^^^ variable.function.shell
-#       ^ string.unquoted.shell
-
-[ && cmd ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^ - meta.conditional
-# ^^ keyword.operator.logical.shell
-#    ^^^ variable.function.shell
-#        ^ string.unquoted.shell
-
-[ || cmd ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^ - meta.conditional
-# ^^ keyword.operator.logical.shell
-#    ^^^ variable.function.shell
-#        ^ string.unquoted.shell
-
-[ >>cmd ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.redirection.shell
-# ^^ keyword.operator.assignment.redirection.shell
-#   ^^^ string.unquoted.shell
-#       ^ punctuation.section.compound.end.shell
-
-# heredocs causing issues, but no way around it
-[ <<cmd ]  # <- ] should close the conditional
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^ meta.compound.conditional.shell
-# ^^ keyword.operator.assignment.redirection.shell
-#   ^^^ meta.tag.heredoc.begin.shell entity.name.tag.heredoc.shell
-cmd
-# <- meta.tag.heredoc.end.shell entity.name.tag.heredoc.shell
-
-[ -a file ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^ meta.compound.conditional.shell
-
-[ -v varname ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-
-[ file1 -ef file2 ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.string.glob.shell string.unquoted.shell
-#       ^^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                 ^ punctuation.section.compound.end.shell
-
-[ file1 -nt file2 ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.string.glob.shell string.unquoted.shell
-#       ^^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                 ^ punctuation.section.compound.end.shell
-
-[ file1 -ot file2 ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^^ meta.string.glob.shell string.unquoted.shell
-#       ^^^ keyword.operator.comparison.shell
-#           ^^^^^ meta.string.glob.shell string.unquoted.shell
-#                 ^ punctuation.section.compound.end.shell
-
-[ ! str != str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^ keyword.operator.logical.shell
-#   ^^^ meta.string.glob.shell string.unquoted.shell
-#       ^^ keyword.operator.comparison.shell
-#          ^^^ meta.string.glob.shell string.unquoted.shell
-#              ^ punctuation.section.compound.end.shell
-
-[ str != str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^^ keyword.operator.comparison.shell
-#        ^^^ meta.string.glob.shell string.unquoted.shell
-#            ^ punctuation.section.compound.end.shell
-
-[ str == str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^^ keyword.operator.comparison.shell
-#        ^^^ meta.string.glob.shell string.unquoted.shell
-#            ^ punctuation.section.compound.end.shell
-
-[ str =~ str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^^ invalid.illegal.operator.shell
-#        ^^^ meta.string.glob.shell string.unquoted.shell
-#            ^ punctuation.section.compound.end.shell
-
-[ str >= str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^^ invalid.illegal.operator.shell
-#        ^^^ meta.string.glob.shell string.unquoted.shell
-#            ^ punctuation.section.compound.end.shell
-
-[ str <= str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^^ invalid.illegal.operator.shell
-#        ^^^ meta.string.glob.shell string.unquoted.shell
-#            ^ punctuation.section.compound.end.shell
-
-[ str = str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^ keyword.operator.comparison.shell
-#       ^^^ meta.string.glob.shell string.unquoted.shell
-#           ^ punctuation.section.compound.end.shell
-
-
-[ str < str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^ keyword.operator.comparison.shell
-#       ^^^ meta.string.glob.shell string.unquoted.shell
-#           ^ punctuation.section.compound.end.shell
-
-[ str > str ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^ meta.string.glob.shell string.unquoted.shell
-#     ^ keyword.operator.comparison.shell
-#       ^^^ meta.string.glob.shell string.unquoted.shell
-#           ^ punctuation.section.compound.end.shell
-
-[ $arg -lt 2 ]
-# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^^^^ meta.compound.conditional.shell
-# ^^^^ variable.other.readwrite.shell
-#      ^^^ keyword.operator.comparison.shell
-#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#            ^ punctuation.section.compound.end.shell
 
 ###############################################################################
 # Bash Numeric Constants                                                      #
