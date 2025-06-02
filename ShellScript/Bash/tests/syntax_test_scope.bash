@@ -1461,147 +1461,6 @@ in foo bar baz;
 
 ###############################################################################
 # 3.2.5 Compound Commands                                                     #
-# 3.2.5.1 Looping Constructs (select loops)                                   #
-# https://www.gnu.org/software/bash/manual/bash.html#index-select             #
-###############################################################################
-
-select;
-#^^^^^ keyword.control.loop.select.shell
-#     ^ - keyword.control.loop
-select&
-#^^^^^ keyword.control.loop.select.shell
-#     ^ - keyword.control.loop
-select|
-#^^^^^ keyword.control.loop.select.shell
-#     ^ - keyword.control.loop
-select>/dev/null
-#^^^^^ keyword.control.loop.select.shell
-#     ^ - keyword.control.loop
-select -
-#^^^^^ keyword.control.loop.select.shell
-#     ^ - keyword.control.loop
-select()
-#^^^^^ keyword.control.loop.select.shell
-#     ^ - keyword.control.loop
-select[]
-#^^^^^^^ - keyword.control
-select{}
-#^^^^^^^ - keyword.control
-select-
-#^^^^^^ - keyword.control
--select
-#^^^^^^ - keyword.control
-select+
-#^^^^^^ - keyword.control
-select$
-#^^^^^^ - keyword.control
-select$var
-#^^^^^^^^^ - keyword.control
-select=
-#^^^^^^ - keyword.control
-select-=
-#^^^^^^^ - keyword.control
-select+=
-#^^^^^^^ - keyword.control
-
-select select select select
-# <- meta.statement.loop.select.shell keyword.control.loop.select.shell
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.select.shell
-#                          ^ - meta.statement.loop
-#^^^^^ keyword.control.loop.select.shell
-#      ^^^^^^ variable.other.readwrite.shell
-#             ^^^^^^ keyword.control.loop.select.shell
-#                    ^^^^^^ variable.other.readwrite.shell
-
-select in in in select do done; do echo $in; done;
-# <- meta.statement.loop.select.shell keyword.control.loop.select.shell
-#^^^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
-#           ^^^^^^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell
-#                             ^^ - meta.statement.loop - meta.sequence
-#^^^^^ keyword.control.loop.select.shell
-#      ^^ variable.other.readwrite.shell
-#         ^^ keyword.control.loop.in.shell
-#           ^ - meta.string - string
-#            ^^ meta.string.glob.shell string.unquoted.shell
-#              ^ - meta.string - string
-#               ^^^^^^ meta.string.glob.shell string.unquoted.shell
-#                     ^ - meta.string - string
-#                      ^^ meta.string.glob.shell string.unquoted.shell
-#                        ^ - meta.string - string
-#                         ^^^^ meta.string.glob.shell string.unquoted.shell
-#                             ^ punctuation.terminator.statement.shell
-#                               ^^ keyword.control.loop.do.shell
-#                                  ^^^^ support.function.shell
-#                                       ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                                          ^ punctuation.terminator.statement.shell
-#                                            ^^^^ keyword.control.loop.end.shell
-#                                                ^ punctuation.terminator.statement.shell
-
-select \
-  fname in ~/**/*.~\$tmp; do rm -f $fname; done;
-# <- meta.statement.loop.select.shell
-#^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
-#         ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
-#          ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
-#                       ^^ - meta.statement.loop - meta.sequence
-# ^^^^^ variable.other.readwrite.shell
-#       ^^ keyword.control.loop.in.shell
-#          ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#           ^^^^^^^^^^^^ string.unquoted.shell
-#            ^^ constant.other.wildcard.asterisk.shell
-#               ^ constant.other.wildcard.asterisk.shell
-#                  ^^ constant.character.escape.shell
-
-select \
-  fname \
-  in ~/**/*.~\$tmp; do rm -f $fname; done;
-# <- meta.statement.loop.select.shell
-#^^^ meta.statement.loop.select.shell - meta.sequence
-#   ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
-#    ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
-#                 ^^ - meta.statement.loop - meta.sequence
-# ^^ keyword.control.loop.in.shell
-#    ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#     ^^^^^^^^^^^^ string.unquoted.shell
-#      ^^ constant.other.wildcard.asterisk.shell
-#         ^ constant.other.wildcard.asterisk.shell
-#            ^^ constant.character.escape.shell
-
-select \
-  fname \
-  in \
-  ~/**/*.~\$tmp; do rm -f $fname; done;
-# <- meta.statement.loop.select.shell
-#^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
-# ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
-#              ^^ - meta.statement.loop - meta.sequence
-# ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
-#  ^^^^^^^^^^^^ string.unquoted.shell
-#   ^^ constant.other.wildcard.asterisk.shell
-#      ^ constant.other.wildcard.asterisk.shell
-#         ^^ constant.character.escape.shell
-
-select fname in *;
-# <- keyword.control.loop.select.shell
-#^^^^^ keyword.control.loop.select.shell
-#            ^^ keyword.control.loop.in.shell
-#               ^ meta.string.glob.shell string.unquoted.shell
-#                ^ punctuation.terminator.statement.shell
-do
-# <- keyword.control.loop.do.shell
-  echo you picked $fname \($REPLY\)
-# ^^^^ meta.function-call.identifier.shell support.function.shell
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                  ^ - meta.function-call
-  break;
-# ^^^^^ keyword.control.flow.break.shell
-#      ^ punctuation.terminator.statement.shell
-done
-# <- keyword.control.loop.end.shell
-
-
-###############################################################################
-# 3.2.5 Compound Commands                                                     #
 # 3.2.5.1 Looping Constructs (until loops)                                    #
 # https://www.gnu.org/software/bash/manual/bash.html#index-until              #
 ###############################################################################
@@ -2623,6 +2482,147 @@ case $1 in
 *)
   _G_unquoted_arg=$1 ;;
 esac
+
+
+###############################################################################
+# 3.2.5 Compound Commands                                                     #
+# 3.2.5.2 Conditional Constructs (select)                                     #
+# https://www.gnu.org/software/bash/manual/bash.html#index-select             #
+###############################################################################
+
+select;
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select&
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select|
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select>/dev/null
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select -
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select()
+#^^^^^ keyword.control.loop.select.shell
+#     ^ - keyword.control.loop
+select[]
+#^^^^^^^ - keyword.control
+select{}
+#^^^^^^^ - keyword.control
+select-
+#^^^^^^ - keyword.control
+-select
+#^^^^^^ - keyword.control
+select+
+#^^^^^^ - keyword.control
+select$
+#^^^^^^ - keyword.control
+select$var
+#^^^^^^^^^ - keyword.control
+select=
+#^^^^^^ - keyword.control
+select-=
+#^^^^^^^ - keyword.control
+select+=
+#^^^^^^^ - keyword.control
+
+select select select select
+# <- meta.statement.loop.select.shell keyword.control.loop.select.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.select.shell
+#                          ^ - meta.statement.loop
+#^^^^^ keyword.control.loop.select.shell
+#      ^^^^^^ variable.other.readwrite.shell
+#             ^^^^^^ keyword.control.loop.select.shell
+#                    ^^^^^^ variable.other.readwrite.shell
+
+select in in in select do done; do echo $in; done;
+# <- meta.statement.loop.select.shell keyword.control.loop.select.shell
+#^^^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
+#           ^^^^^^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell
+#                             ^^ - meta.statement.loop - meta.sequence
+#^^^^^ keyword.control.loop.select.shell
+#      ^^ variable.other.readwrite.shell
+#         ^^ keyword.control.loop.in.shell
+#           ^ - meta.string - string
+#            ^^ meta.string.glob.shell string.unquoted.shell
+#              ^ - meta.string - string
+#               ^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                     ^ - meta.string - string
+#                      ^^ meta.string.glob.shell string.unquoted.shell
+#                        ^ - meta.string - string
+#                         ^^^^ meta.string.glob.shell string.unquoted.shell
+#                             ^ punctuation.terminator.statement.shell
+#                               ^^ keyword.control.loop.do.shell
+#                                  ^^^^ support.function.shell
+#                                       ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                                          ^ punctuation.terminator.statement.shell
+#                                            ^^^^ keyword.control.loop.end.shell
+#                                                ^ punctuation.terminator.statement.shell
+
+select \
+  fname in ~/**/*.~\$tmp; do rm -f $fname; done;
+# <- meta.statement.loop.select.shell
+#^^^^^^^^^ meta.statement.loop.select.shell - meta.sequence
+#         ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
+#          ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
+#                       ^^ - meta.statement.loop - meta.sequence
+# ^^^^^ variable.other.readwrite.shell
+#       ^^ keyword.control.loop.in.shell
+#          ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#           ^^^^^^^^^^^^ string.unquoted.shell
+#            ^^ constant.other.wildcard.asterisk.shell
+#               ^ constant.other.wildcard.asterisk.shell
+#                  ^^ constant.character.escape.shell
+
+select \
+  fname \
+  in ~/**/*.~\$tmp; do rm -f $fname; done;
+# <- meta.statement.loop.select.shell
+#^^^ meta.statement.loop.select.shell - meta.sequence
+#   ^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
+#    ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
+#                 ^^ - meta.statement.loop - meta.sequence
+# ^^ keyword.control.loop.in.shell
+#    ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#     ^^^^^^^^^^^^ string.unquoted.shell
+#      ^^ constant.other.wildcard.asterisk.shell
+#         ^ constant.other.wildcard.asterisk.shell
+#            ^^ constant.character.escape.shell
+
+select \
+  fname \
+  in \
+  ~/**/*.~\$tmp; do rm -f $fname; done;
+# <- meta.statement.loop.select.shell
+#^ meta.statement.loop.select.shell meta.sequence.list.shell - meta.string
+# ^^^^^^^^^^^^^ meta.statement.loop.select.shell meta.sequence.list.shell meta.string.glob.shell
+#              ^^ - meta.statement.loop - meta.sequence
+# ^ meta.interpolation.tilde.shell variable.language.tilde.shell - string
+#  ^^^^^^^^^^^^ string.unquoted.shell
+#   ^^ constant.other.wildcard.asterisk.shell
+#      ^ constant.other.wildcard.asterisk.shell
+#         ^^ constant.character.escape.shell
+
+select fname in *;
+# <- keyword.control.loop.select.shell
+#^^^^^ keyword.control.loop.select.shell
+#            ^^ keyword.control.loop.in.shell
+#               ^ meta.string.glob.shell string.unquoted.shell
+#                ^ punctuation.terminator.statement.shell
+do
+# <- keyword.control.loop.do.shell
+  echo you picked $fname \($REPLY\)
+# ^^^^ meta.function-call.identifier.shell support.function.shell
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                  ^ - meta.function-call
+  break;
+# ^^^^^ keyword.control.flow.break.shell
+#      ^ punctuation.terminator.statement.shell
+done
+# <- keyword.control.loop.end.shell
 
 
 ###############################################################################
