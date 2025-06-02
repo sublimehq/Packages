@@ -694,6 +694,8 @@ contexts:
       scope: keyword.operator.comparison.shell
     - match: '<(?!<)|>(?!>)'
       scope: keyword.operator.comparison.shell
+    - match: -[ao]{{opt_break}}(?!\s*(=~|!=|==?))
+      scope: keyword.operator.logical.shell
     - include: cmd-args-end
     - include: test-expression-common
 
@@ -790,13 +792,13 @@ contexts:
     - include: line-continuations
 
   test-expression-common:
-    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
+    - match: ([-+])[bcdefghknprstuvwxzGLNORS]{{opt_break}}(?!\s*(=~|!=|==?))
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*(=~|!=|==?))
+    - match: -(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*(=~|!=|==?))
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell

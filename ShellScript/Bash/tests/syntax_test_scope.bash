@@ -2012,7 +2012,7 @@ if [ "$1" != "" -a "$2" != "" ]; then
 #  ^ punctuation.section.compound.begin.shell
 #     ^^ variable.language.positional.shell
 #         ^^ keyword.operator.comparison.shell
-#               ^^ meta.compound.conditional.shell variable.parameter.option.shell
+#               ^^ keyword.operator.logical.shell
 #                   ^^ variable.language.positional.shell
 #                       ^^ keyword.operator.comparison.shell
 #                             ^ punctuation.section.compound.end.shell
@@ -2688,6 +2688,15 @@ done
 #                 ^^ keyword.operator.logical.shell
 #                         ^ punctuation.section.group.end.shell
 #                           ^^ punctuation.section.compound.end.shell
+
+[[ expr -a expr -o expr ]]    # -a and -o arguments have no meaning
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#  ^^^^ meta.string.glob.shell string.unquoted.shell
+#       ^^ - keyword.operator
+#          ^^^^ meta.string.glob.shell string.unquoted.shell
+#               ^^ - keyword.operator
+#                  ^^^^ meta.string.glob.shell string.unquoted.shell
+#                       ^ punctuation.section.compound.end.shell
 
 
 ## File Comparisons
@@ -12473,6 +12482,32 @@ doc
 #^^^^^^^^^^^^^ meta.compound.conditional.shell
 
 
+## Logical Operators
+## -----------------
+
+[ expr -a expr -o expr ]
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^^ meta.string.glob.shell string.unquoted.shell
+#      ^^ keyword.operator.logical.shell
+#         ^^^^ meta.string.glob.shell string.unquoted.shell
+#              ^^ keyword.operator.logical.shell
+#                 ^^^^ meta.string.glob.shell string.unquoted.shell
+#                      ^ punctuation.section.compound.end.shell
+
+[ $var = true -a $var != false ]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+# ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#      ^ keyword.operator.comparison.shell
+#        ^^^^ constant.language.boolean.true.shell
+#             ^^ keyword.operator.logical.shell
+#                ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                ^ punctuation.definition.variable.shell
+#                     ^^ keyword.operator.comparison.shell
+#                        ^^^^^ constant.language.boolean.false.shell
+#                              ^ punctuation.section.compound.end.shell
+
+
 ## File Comparisons
 ## ----------------
 
@@ -12637,6 +12672,18 @@ test-=
 test+=
 #^^^^^ - support.function
 
+test expr -a expr -o expr -- | cmd |& cmd
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                           ^^^ - meta.function-call
+#         ^^ keyword.operator.logical.shell
+#                 ^^ keyword.operator.logical.shell
+#                         ^^ - keyword
+#                            ^ keyword.operator.assignment.pipe.shell
+#                              ^^^ meta.function-call.identifier.shell variable.function.shell
+#                                  ^^ keyword.operator.assignment.pipe.shell
+
 test $var != 0
 #<- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell support.function.shell
@@ -12714,18 +12761,6 @@ test ${var[0]} != var[^0-9]*$
 #              ^^ keyword.operator.comparison.shell
 #                 ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.string.regexp
 
-test expr -a expr -o expr -- | cmd |& cmd
-# <- meta.function-call.identifier.shell support.function.shell
-#^^^ meta.function-call.identifier.shell support.function.shell
-#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                           ^^^ - meta.function-call
-#         ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                         ^^ - keyword
-#                            ^ keyword.operator.assignment.pipe.shell
-#                              ^^^ meta.function-call.identifier.shell variable.function.shell
-#                                  ^^ keyword.operator.assignment.pipe.shell
-
 test ! $line == ^[0-9]+$
 # <- meta.function-call.identifier.shell support.function.shell
 #^^^ meta.function-call.identifier.shell - meta.function-call.arguments
@@ -12754,7 +12789,7 @@ if test expr -a expr ; then echo "success"; fi
 #  ^^^^ meta.function-call.identifier.shell support.function.shell
 #      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                   ^^^^^^^^ - meta.function-call
-#            ^^ meta.parameter.option.shell variable.parameter.option.shell
+#            ^^ keyword.operator.logical.shell
 #                    ^ punctuation.terminator.statement.shell
 #                      ^^^^ keyword.control.conditional.then.shell
 #                           ^^^^ support.function.shell
