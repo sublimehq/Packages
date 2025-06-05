@@ -1051,6 +1051,24 @@ cmd
 # https://zsh.sourceforge.io/Doc/Release/Functions.html#Functions             #
 ###############################################################################
 
+function foo bar
+    cmd args
+#^^^ meta.function.shell
+#   ^^^^^^^^ meta.function.body.shell
+#   ^^^ variable.function.shell
+#       ^^^^ string.unquoted.shell
+
+function \
+    foo \
+    bar
+#^^^^^^ meta.function.identifier.shell
+#   ^^^ entity.name.function.shell
+    cmd args
+#^^^ meta.function.shell
+#   ^^^^^^^^ meta.function.body.shell
+#   ^^^ variable.function.shell
+#       ^^^^ string.unquoted.shell
+
 # function [ -T ] word ... [ () ] [ term ] { list }
 function func { echo foo; }
 # <- meta.function.shell keyword.declaration.function.shell
@@ -1066,8 +1084,8 @@ function func { echo foo; }
 
 function -T func { echo foo; }
 # <- meta.function.shell keyword.declaration.function.shell
-#^^^^^^^^^^ meta.function.shell
-#          ^^^^^^ meta.function.identifier.shell
+#^^^^^^^^^^^ meta.function.shell
+#           ^^^^^ meta.function.identifier.shell
 #                ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
 #^^^^^^^ keyword.declaration.function.shell
 #        ^^ variable.parameter.option.shell
@@ -1079,8 +1097,8 @@ function -T func { echo foo; }
 
 function -T func; { echo foo; }
 # <- meta.function.shell keyword.declaration.function.shell
-#^^^^^^^^^^ meta.function.shell
-#          ^^^^^ meta.function.identifier.shell
+#^^^^^^^^^^^ meta.function.shell
+#           ^^^^ meta.function.identifier.shell
 #               ^^ meta.function.shell - meta.block
 #                 ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
 #^^^^^^^ keyword.declaration.function.shell
@@ -1094,8 +1112,8 @@ function -T func; { echo foo; }
 
 function -T func() { echo foo; }
 # <- meta.function.shell keyword.declaration.function.shell
-#^^^^^^^^^^ meta.function.shell
-#          ^^^^^ meta.function.identifier.shell
+#^^^^^^^^^^^ meta.function.shell
+#           ^^^^ meta.function.identifier.shell
 #               ^^ meta.function.parameters.shell
 #                 ^ meta.function.shell - meta.block
 #                  ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
@@ -1112,7 +1130,7 @@ function -T func() { echo foo; }
 function -T func(); { echo foo; }
 # <- meta.function.shell keyword.declaration.function.shell
 #^^^^^^^^^^ meta.function.shell
-#          ^^^^^ meta.function.identifier.shell
+#           ^^^^ meta.function.identifier.shell
 #               ^^ meta.function.parameters.shell
 #                 ^^ meta.function.shell - meta.block
 #                   ^^^^^^^^^^^^^ meta.function.body.shell meta.block.shell
@@ -1278,6 +1296,32 @@ function foo bar() { : }
 #                  ^ punctuation.section.block.begin.shell
 #                    ^ meta.function-call.identifier.shell meta.command.shell support.function.shell
 #                      ^ punctuation.section.block.end.shell
+
+function foo \
+    bar baz
+#^^^^^^^^^^ meta.function.identifier.shell
+#   ^^^ entity.name.function.shell
+#       ^^^ entity.name.function.shell
+{ : }
+# <- meta.function.body.shell meta.block.shell punctuation.section.block.begin.shell
+#^^^^ meta.function.body.shell meta.block.shell
+# ^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#   ^ punctuation.section.block.end.shell
+
+function foo \
+    bar baz ()
+#^^^^^^^^^^^ meta.function.identifier.shell
+#           ^^ meta.function.parameters.shell
+#             ^ meta.function.shell
+#   ^^^ entity.name.function.shell
+#       ^^^ entity.name.function.shell
+#           ^ punctuation.section.parameters.begin.shell
+#            ^ punctuation.section.parameters.end.shell
+{ : }
+# <- meta.function.body.shell meta.block.shell punctuation.section.block.begin.shell
+#^^^^ meta.function.body.shell meta.block.shell
+# ^ meta.function-call.identifier.shell meta.command.shell support.function.shell
+#   ^ punctuation.section.block.end.shell
 
 time () {  }   # reserved words cannot be overwritten by local function definitions
 # <- - meta.function
@@ -1459,8 +1503,8 @@ var="no_func()"
 
 function -u func;
 # <- meta.function.shell keyword.declaration.function.shell
-#^^^^^^^^^^ meta.function.shell
-#          ^^^^^ meta.function.identifier.shell
+#^^^^^^^^^^^ meta.function.shell
+#           ^^^^ meta.function.identifier.shell
 #^^^^^^^ keyword.declaration.function.shell
 #        ^^ variable.parameter.option.shell
 #           ^^^^ entity.name.function.shell

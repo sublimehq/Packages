@@ -42,11 +42,28 @@ contexts:
         - def-anonymous-flag
 
   def-anonymous-flag:
-    - include: def-function-flag
+    - match: --{{word_break}}
+      scope: keyword.operator.end-of-options.shell
+      pop: 1
+    - match: ([-+])[tTuU]{{opt_break}}
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: line-continuations
+    - include: comments
+    - include: else-pop
 
   def-anonymous-body:
-    - meta_prepend: true
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.shell meta.function.anonymous.shell
+    - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
+      scope: punctuation.section.block.begin.shell
+      set: def-anonymous-block-body
+    - include: illegal-options
     - include: terminators
+    - include: line-continuations
+    - include: comments
+    - include: else-pop
 
 ###[ FUNCTION DEFINITIONS ]####################################################
 
@@ -63,34 +80,35 @@ contexts:
   def-function-flag:
     - clear_scopes: 1
     - meta_scope: meta.function.shell
-    - match: --{{word_break}}
-      scope: keyword.operator.end-of-options.shell
-      pop: 1
-    - match: ([-+])[tTuU]{{opt_break}}
-      scope: meta.parameter.option.shell variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-      pop: 1
-    - include: line-continuations
-    - include: comments
-    - include: else-pop
+    - include: def-anonymous-flag
+    - match: $
+      fail: function
 
   def-function-name:
-    - meta_prepend: true
+    - meta_include_prototype: false
+    - match: '{{cmd_begin}}'
+      set: def-function-name-list
+    - include: line-continuations
+    - match: (?=\S)
+      fail: function
+
+  def-function-name-list:
     - match: '{{hook_functions}}'
       scope: entity.name.function.shell support.function.shell.zsh
-      pop: 1
     - match: '{{trap_functions}}'
       scope: entity.name.function.shell support.function.shell.zsh
-      pop: 1
+    - match: '{{cmd_begin}}'
+      push: def-function-name-chars
+    - include: else-pop
+    - include: eol-pop
 
   def-function-body:
     - meta_include_prototype: false
     - meta_content_scope: meta.function.shell
     - include: def-function-body-braces
+    - include: terminators
     - include: line-continuations
     - include: comments
-    - include: terminators
     - match: (?=\S)
       set:
         - def-function-simple-body
