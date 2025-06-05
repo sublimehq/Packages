@@ -1051,6 +1051,52 @@ cmd
 # https://zsh.sourceforge.io/Doc/Release/Functions.html#Functions             #
 ###############################################################################
 
+function name ; echo "$0 called with $*!"
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^ meta.function.shell
+#        ^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.shell
+#               ^^^^ meta.function.body.shell meta.function-call.identifier.shell
+#                   ^ meta.function.body.shell meta.function-call.arguments.shell
+#                    ^^^^^^^^^^^^^^^^^^^^ meta.function.body.shell meta.function-call.arguments.shell meta.string.glob.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.terminator.statement.shell
+#               ^^^^ support.function.shell
+
+function name () echo "$0 called with $*!"
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^ meta.function.shell
+#        ^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^ meta.function.shell
+#                ^^^^ meta.function.body.shell meta.function-call.identifier.shell
+#                    ^ meta.function.body.shell meta.function-call.arguments.shell
+#                     ^^^^^^^^^^^^^^^^^^^^ meta.function.body.shell meta.function-call.arguments.shell meta.string.glob.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^^^^ support.function.shell
+
+function name () ; echo "$0 called with $*!" >file
+# <- meta.function.shell keyword.declaration.function.shell
+#^^^^^^^^ meta.function.shell
+#        ^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^ meta.function.shell
+#                  ^^^^ meta.function.body.shell meta.function-call.identifier.shell
+#                      ^ meta.function.body.shell meta.function-call.arguments.shell
+#                       ^^^^^^^^^^^^^^^^^^^^ meta.function.body.shell meta.function-call.arguments.shell meta.string.glob.shell
+#                                           ^ meta.function.body.shell meta.function-call.arguments.shell - meta.redirection meta.string
+#                                            ^^^^^ meta.function.body.shell meta.function-call.arguments.shell meta.redirection.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^ punctuation.terminator.statement.shell
+#                  ^^^^ support.function.shell
+
 function foo bar
     cmd args
 #^^^ meta.function.shell
@@ -1157,21 +1203,6 @@ function -- -T { echo foo; }
 #                ^^^^^^^^ meta.function-call
 #                        ^ punctuation.terminator.statement.shell
 #                          ^ punctuation.section.block.end.shell
-
-function name () echo "$0 called with $*!"
-# <- meta.function.shell keyword.declaration.function.shell
-#^^^^^^^^ meta.function.shell
-#        ^^^^^ meta.function.identifier.shell
-#             ^^ meta.function.parameters.shell
-#               ^ meta.function.shell
-#                ^^^^ meta.function.body.shell meta.function-call.identifier.shell
-#                    ^ meta.function.body.shell meta.function-call.arguments.shell
-#                     ^^^^^^^^^^^^^^^^^^^^ meta.function.body.shell meta.function-call.arguments.shell meta.string.glob.shell
-#^^^^^^^ keyword.declaration.function.shell
-#        ^^^^ entity.name.function.shell
-#             ^ punctuation.section.parameters.begin.shell
-#              ^ punctuation.section.parameters.end.shell
-#                ^^^^ support.function.shell
 
 function $foo() { : }
 # <- meta.function.shell keyword.declaration.function.shell
@@ -1600,6 +1631,32 @@ autoload $dir/*/*~*.zwc(#q.N:t)
 # ^^^^ meta.string.glob.shell string.unquoted.shell
 #      ^^^ meta.string.glob.shell string.unquoted.shell
 #          ^^^^ meta.string.glob.shell string.unquoted.shell
+
+function ; foo bar   # anonymous function with simple command body
+#^^^^^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^^^^ meta.function.anonymous.shell
+#          ^^^^^^^ meta.function.anonymous.body.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ punctuation.terminator.statement.shell
+#          ^^^ variable.function.shell
+#              ^^^ meta.string.glob.shell string.unquoted.shell
+
+function
+    foo bar         # anonymous function with simple command body
+#^^^^^^^^^^ meta.function-call.shell
+#^^^ meta.function.anonymous.shell
+#   ^^^^^^^ meta.function.anonymous.body.shell
+#   ^^^ variable.function.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
+
+function
+    # anonymous function with simple command body
+    foo bar
+#^^^^^^^^^^ meta.function-call.shell
+#^^^ meta.function.anonymous.shell
+#   ^^^^^^^ meta.function.anonymous.body.shell
+#   ^^^ variable.function.shell
+#       ^^^ meta.string.glob.shell string.unquoted.shell
 
 function {} arg
 # <- meta.function-call.shell meta.function.anonymous.shell keyword.declaration.function.shell

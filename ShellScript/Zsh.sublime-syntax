@@ -63,7 +63,15 @@ contexts:
     - include: terminators
     - include: line-continuations
     - include: comments
-    - include: else-pop
+    - match: (?=\S)
+      set:
+        - def-anonymous-body-meta
+        - statement
+
+  def-anonymous-body-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.shell meta.function.anonymous.body.shell
+    - include: immediately-pop
 
 ###[ FUNCTION DEFINITIONS ]####################################################
 
@@ -111,10 +119,10 @@ contexts:
     - include: comments
     - match: (?=\S)
       set:
-        - def-function-simple-body
+        - def-function-body-meta
         - statement
 
-  def-function-simple-body:
+  def-function-body-meta:
     - meta_include_prototype: false
     - meta_content_scope: meta.function.body.shell
     - include: immediately-pop
