@@ -6,6 +6,7 @@ version: 2
 
 file_extensions:
   - json
+  - jsonl
   - jsonc
   - sublime-build
   - sublime-color-scheme
