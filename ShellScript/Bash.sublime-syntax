@@ -50,10 +50,12 @@ contexts:
       push: statement
 
   statement:
-    # reserved words
+    # reserved words and builtin commands which
+    #  can't be augmented by function definitions
     - include: redirections
     - include: eoc-pop
     - include: operators
+    - include: cmd-compound-test
     - include: cmd-control
     # definitions
     - include: def-variable
@@ -665,12 +667,128 @@ contexts:
     - include: cmd-args-options
     - include: else-pop
 
+###[ COMPOUND TEST BUILTINS ]##################################################
+
+  cmd-compound-test:
+    - match: \[\[(?=\s)
+      scope: punctuation.section.compound.begin.shell
+      set: cmd-compound-test-body
+
+  cmd-compound-test-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.compound.conditional.shell
+    - match: '{{wspace}}(\]\])'
+      captures:
+        1: punctuation.section.compound.end.shell
+      pop: 1
+    - include: illegal-stray
+    - include: cmd-compound-test-content
+
+  cmd-compound-test-group-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.shell
+    - match: \)
+      scope: punctuation.section.group.end.shell
+      pop: 1
+    - include: cmd-compound-test-end-ahead
+    - include: cmd-compound-test-content
+
+  cmd-compound-test-end-ahead:
+    - match: (?={{wspace}}\]\])
+      pop: 1
+
+  cmd-compound-test-content:
+    - include: comments
+    # groups
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push: cmd-compound-test-group-body
+    # logical operators
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.shell
+    - match: '[&|;]'
+      scope: invalid.illegal.unexpected-token.shell
+    # test expressions like `-f file`
+    - match: '{{test_options}}'
+      scope: meta.parameter.option.shell variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      push: cmd-compound-test-pattern
+    # comparison expressions
+    - match: '{{word_begin}}'
+      branch_point: cmd-compound-test-comparison
+      branch:
+        - cmd-compound-test-string-comparison  # note: try string comparison first as it is more likely
+        - arithmetic-comparison
+
+  cmd-compound-test-string-comparison:
+    # comparison like `string < string` or `string =~ pattern`
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cmd-compound-test-string-operator
+        - cmd-compound-test-pattern
+
+  cmd-compound-test-string-operator:
+    - meta_include_prototype: false
+    - match: '{{file_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      set: cmd-compound-test-pattern
+    - match: =~
+      scope: keyword.operator.comparison.shell
+      set: cmd-compound-test-eregexp
+    - match: '[=!]?='
+      scope: keyword.operator.comparison.shell
+      set: cmd-compound-test-pattern
+    - match: '[<>]=?'
+      scope: keyword.operator.comparison.shell
+      set: cmd-compound-test-pattern
+    - match: (?={{arithmetic_comparison_operators}})
+      fail: cmd-compound-test-comparison
+    - include: comments
+    - include: cmd-compound-test-end-ahead
+    - include: else-pop
+
+  cmd-compound-test-eregexp:
+    - meta_include_prototype: false
+    - include: cmd-compound-test-end-ahead
+    - match: '{{word_begin}}'
+      set:
+        - cmd-compound-test-eregexp-body
+        - eregexp-unexpected-quantifier
+        - maybe-tilde-interpolation
+
+  cmd-compound-test-eregexp-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
+    - include: eregexp-main-content
+    - include: cmd-compound-test-pattern-end
+
+  cmd-compound-test-pattern:
+    - meta_include_prototype: false
+    - include: cmd-compound-test-end-ahead
+    - include: boolean
+    - include: devnull
+    - match: '{{word_begin}}'
+      set:
+        - cmd-compound-test-pattern-body
+        - maybe-tilde-interpolation
+
+  cmd-compound-test-pattern-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.glob.shell string.unquoted.shell
+    - include: pattern-main-content
+    - include: cmd-compound-test-pattern-end
+
+  cmd-compound-test-pattern-end:
+    - match: '[<>]+'   # note: would otherwise match as comparison operators
+      scope: invalid.illegal.unexpected-token.shell
+      pop: 1
+    - include: word-end
+
 ###[ TEST BUILTINS ]###########################################################
 
   cmd-test:
-    - match: \[\[(?=\s)
-      scope: punctuation.section.compound.begin.shell
-      set: compound-test-body
     - match: \[(?=\s)
       scope: punctuation.section.compound.begin.shell
       set: builtin-test-body
@@ -746,119 +864,6 @@ contexts:
     - include: redirection
     - include: boolean
     - include: string-path-pattern
-
-
-  compound-test-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.compound.conditional.shell
-    - match: '{{wspace}}(\]\])'
-      captures:
-        1: punctuation.section.compound.end.shell
-      pop: 1
-    - include: illegal-stray
-    - include: compound-test-content
-
-  compound-test-group-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.group.shell
-    - match: \)
-      scope: punctuation.section.group.end.shell
-      pop: 1
-    - include: compound-test-end-ahead
-    - include: compound-test-content
-
-  compound-test-end-ahead:
-    - match: (?={{wspace}}\]\])
-      pop: 1
-
-  compound-test-content:
-    - include: comments
-    # groups
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push: compound-test-group-body
-    # logical operators
-    - match: '&&|\|\||!'
-      scope: keyword.operator.logical.shell
-    - match: '[&|;]'
-      scope: invalid.illegal.unexpected-token.shell
-    # test expressions like `-f file`
-    - match: '{{test_options}}'
-      scope: meta.parameter.option.shell variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-      push: compound-test-pattern
-    # comparison expressions
-    - match: '{{word_begin}}'
-      branch_point: compound-test-comparison
-      branch:
-        - compound-test-string-comparison  # note: try string comparison first as it is more likely
-        - arithmetic-comparison
-
-  compound-test-string-comparison:
-    # comparison like `string < string` or `string =~ pattern`
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - compound-test-string-operator
-        - compound-test-pattern
-
-  compound-test-string-operator:
-    - meta_include_prototype: false
-    - match: '{{file_comparison_operators}}'
-      scope: keyword.operator.comparison.shell
-      set: compound-test-pattern
-    - match: =~
-      scope: keyword.operator.comparison.shell
-      set: compound-test-eregexp
-    - match: '[=!]?='
-      scope: keyword.operator.comparison.shell
-      set: compound-test-pattern
-    - match: '[<>]=?'
-      scope: keyword.operator.comparison.shell
-      set: compound-test-pattern
-    - match: (?={{arithmetic_comparison_operators}})
-      fail: compound-test-comparison
-    - include: comments
-    - include: compound-test-end-ahead
-    - include: else-pop
-
-  compound-test-eregexp:
-    - meta_include_prototype: false
-    - include: compound-test-end-ahead
-    - match: '{{word_begin}}'
-      set:
-        - compound-test-eregexp-body
-        - eregexp-unexpected-quantifier
-        - maybe-tilde-interpolation
-
-  compound-test-eregexp-body:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.regexp.shell string.unquoted.shell
-    - include: eregexp-main-content
-    - include: compound-test-pattern-end
-
-  compound-test-pattern:
-    - meta_include_prototype: false
-    - include: compound-test-end-ahead
-    - include: boolean
-    - include: devnull
-    - match: '{{word_begin}}'
-      set:
-        - compound-test-pattern-body
-        - maybe-tilde-interpolation
-
-  compound-test-pattern-body:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.string.glob.shell string.unquoted.shell
-    - include: pattern-main-content
-    - include: compound-test-pattern-end
-
-  compound-test-pattern-end:
-    - match: '[<>]+'   # note: would otherwise match as comparison operators
-      scope: invalid.illegal.unexpected-token.shell
-      pop: 1
-    - include: word-end
 
 ###[ TRAP BUILTINS ]###########################################################
 

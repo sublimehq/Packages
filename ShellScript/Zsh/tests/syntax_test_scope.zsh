@@ -1778,6 +1778,12 @@ ip=10.10.20.14
 # https://zsh.sourceforge.io/Doc/Release/Conditional-Expressions.html         #
 ###############################################################################
 
+[[ ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^ punctuation.section.compound.end.shell
+#    ^ - meta.compound
 
 [[
 ]]
@@ -1797,6 +1803,39 @@ ip=10.10.20.14
 # <- keyword.operator.logical.shell
 # ^^ punctuation.section.compound.begin.shell
 #    ^^ punctuation.section.compound.end.shell
+
+[[ () ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^ meta.group.shell
+#  ^ punctuation.section.group.begin.shell
+#   ^ punctuation.section.group.end.shell
+#     ^^ punctuation.section.compound.end.shell
+
+[[ ((  ) ) ]]
+#^^ meta.compound.conditional.shell - meta.group
+#  ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#   ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#       ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#         ^^^ meta.compound.conditional.shell - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^^ punctuation.section.group.begin.shell
+#      ^ punctuation.section.group.end.shell
+#        ^ punctuation.section.group.end.shell
+#          ^^ punctuation.section.compound.end.shell
+
+[[ ( (  )) ]]
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#    ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#        ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#         ^^^ meta.compound.conditional.shell - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^ punctuation.section.group.begin.shell
+#    ^ punctuation.section.group.begin.shell
+#       ^^ punctuation.section.group.end.shell
+#          ^^ punctuation.section.compound.end.shell
 
 
 ## Logical Operators
@@ -1825,30 +1864,6 @@ ip=10.10.20.14
 #       ^^ keyword.operator.logical.shell
 #               ^^ keyword.operator.logical.shell
 #                       ^^ punctuation.section.compound.end.shell
-
-[[ ((  ) ) ]]
-#^^ meta.compound.conditional.shell - meta.group
-#  ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#   ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
-#       ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#         ^^^ meta.compound.conditional.shell - meta.group
-#^ punctuation.section.compound.begin.shell
-#  ^^ punctuation.section.group.begin.shell
-#      ^ punctuation.section.group.end.shell
-#        ^ punctuation.section.group.end.shell
-#          ^^ punctuation.section.compound.end.shell
-
-[[ ( (  )) ]]
-#^^ meta.compound.conditional.shell - meta.group
-#  ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#    ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
-#        ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#         ^^^ meta.compound.conditional.shell - meta.group
-#^ punctuation.section.compound.begin.shell
-#  ^ punctuation.section.group.begin.shell
-#    ^ punctuation.section.group.begin.shell
-#       ^^ punctuation.section.group.end.shell
-#          ^^ punctuation.section.compound.end.shell
 
 [[ expr && ( expr || expr ) ]]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell

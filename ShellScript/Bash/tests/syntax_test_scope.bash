@@ -2652,6 +2652,39 @@ done
 # ^^ punctuation.section.compound.begin.shell
 #    ^^ punctuation.section.compound.end.shell
 
+[[ () ]]
+# <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
+#^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^ meta.group.shell
+#  ^ punctuation.section.group.begin.shell
+#   ^ punctuation.section.group.end.shell
+#     ^^ punctuation.section.compound.end.shell
+
+[[ ((  ) ) ]]
+#^^ meta.compound.conditional.shell - meta.group
+#  ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#   ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#       ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#         ^^^ meta.compound.conditional.shell - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^^ punctuation.section.group.begin.shell
+#      ^ punctuation.section.group.end.shell
+#        ^ punctuation.section.group.end.shell
+#          ^^ punctuation.section.compound.end.shell
+
+[[ ( (  )) ]]
+#^^ meta.compound.conditional.shell - meta.group
+#  ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#    ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
+#        ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
+#         ^^^ meta.compound.conditional.shell - meta.group
+#^ punctuation.section.compound.begin.shell
+#  ^ punctuation.section.group.begin.shell
+#    ^ punctuation.section.group.begin.shell
+#       ^^ punctuation.section.group.end.shell
+#          ^^ punctuation.section.compound.end.shell
+
 
 ## Logical Operators
 ## -----------------
@@ -2679,30 +2712,6 @@ done
 #       ^^ keyword.operator.logical.shell
 #               ^^ keyword.operator.logical.shell
 #                       ^^ punctuation.section.compound.end.shell
-
-[[ ((  ) ) ]]
-#^^ meta.compound.conditional.shell - meta.group
-#  ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#   ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
-#       ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#         ^^^ meta.compound.conditional.shell - meta.group
-#^ punctuation.section.compound.begin.shell
-#  ^^ punctuation.section.group.begin.shell
-#      ^ punctuation.section.group.end.shell
-#        ^ punctuation.section.group.end.shell
-#          ^^ punctuation.section.compound.end.shell
-
-[[ ( (  )) ]]
-#^^ meta.compound.conditional.shell - meta.group
-#  ^^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#    ^^^^ meta.compound.conditional.shell meta.group.shell meta.group.shell
-#        ^ meta.compound.conditional.shell meta.group.shell - meta.group meta.group
-#         ^^^ meta.compound.conditional.shell - meta.group
-#^ punctuation.section.compound.begin.shell
-#  ^ punctuation.section.group.begin.shell
-#    ^ punctuation.section.group.begin.shell
-#       ^^ punctuation.section.group.end.shell
-#          ^^ punctuation.section.compound.end.shell
 
 [[ expr && ( expr || expr ) ]]
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
@@ -3478,7 +3487,7 @@ time () {  }   # reserved words cannot be overwritten by local function definiti
 #      ^ meta.function-call.shell meta.function.anonymous.shell
 #       ^^^^ meta.function-call.shell meta.function.anonymous.body.shell meta.block.shell
 
-alias () {  }  # built-in functions/commands can be overwritten
+alias () {  }  # various built-in functions/commands can be overwritten
 #^^^^^ meta.function.identifier.shell
 #     ^^ meta.function.parameters.shell
 #       ^ meta.function.shell
@@ -3488,6 +3497,25 @@ alias () {  }  # built-in functions/commands can be overwritten
 #      ^ punctuation.section.parameters.end.shell
 #        ^ punctuation.section.block.begin.shell
 #           ^ punctuation.section.block.end.shell
+
+[ () ]
+# <- meta.function.identifier.shell entity.name.function.shell
+#^ meta.function.identifier.shell
+# ^^ meta.function.parameters.shell
+#   ^ meta.function.shell
+#    ^ variable.function.shell
+
+test () {  }  # various built-in functions/commands can be overwritten
+# <- meta.function.identifier.shell entity.name.function.shell
+#^^^^ meta.function.identifier.shell
+#    ^^ meta.function.parameters.shell
+#      ^ meta.function.shell
+#       ^^^^ meta.function.body.shell meta.block.shell
+#^^^ entity.name.function.shell
+#    ^ punctuation.section.parameters.begin.shell
+#     ^ punctuation.section.parameters.end.shell
+#       ^ punctuation.section.block.begin.shell
+#          ^ punctuation.section.block.end.shell
 
 function foo
 #^^^^^^^^^^^^ source.shell - meta.function meta.function
@@ -12622,6 +12650,10 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell - meta.conditional
 
 # <- - meta.compound
+
+[ () ]
+# <- - meta.conditional - support.function
+#^^^^^ - meta.conditional
 
 [ ; cmd ]   # terminated by `;`
 # <- meta.compound.conditional.shell punctuation.section.compound.begin.shell
