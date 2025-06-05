@@ -101,10 +101,6 @@ contexts:
     - meta_content_scope: meta.function.body.shell
     - include: immediately-pop
 
-  def-function-end:
-    - meta_prepend: true
-    - include: redirections
-
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   def-variable:

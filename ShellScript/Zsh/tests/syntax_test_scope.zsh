@@ -1306,7 +1306,8 @@ func() { ... } 2>&1
 #      ^ punctuation.section.block.begin.shell
 #        ^^^ meta.function-call.identifier.shell variable.function.shell
 #            ^ punctuation.section.block.end.shell
-#             ^^^^^^ - meta.function
+#             ^ meta.function.shell - meta.redirection
+#              ^^^^ meta.function.shell meta.redirection.shell
 #              ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #               ^^ keyword.operator.assignment.redirection.shell
 #                 ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell

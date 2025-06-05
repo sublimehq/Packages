@@ -2979,7 +2979,8 @@ function () ; {} arg
 #      ^^ meta.function.parameters.shell
 #        ^ meta.function.shell
 #         ^^ meta.function.body.shell meta.block.shell
-#            ^^^ meta.redirection.shell
+#           ^ meta.function.shell - meta.block - meta.redirection
+#            ^^^ meta.function.shell meta.redirection.shell
 #                 ^^^^^^^^^^ comment.line.number-sign.shell
 
   func () {} rest # comment
@@ -3126,9 +3127,11 @@ function foo
     # <- keyword.control.flow.return.shell
     #^^^^^ keyword.control.flow.return.shell
     #      ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
-}
+} > output.txt
 # <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
-#^ - meta.function
+#^ meta.function.shell - meta.redirection
+# ^^^^^^^^^^^^ meta.function.shell meta.redirection.shell
+#             ^ - meta.function
 
 # <- - meta.function
 
