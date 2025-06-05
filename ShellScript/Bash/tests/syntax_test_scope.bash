@@ -3151,7 +3151,7 @@ function foo (     ) {
 #       ^^^^^ meta.function.identifier.shell
 #            ^^^^^^^ meta.function.parameters.shell
 #                   ^ meta.function.shell
-#                    ^^ meta.function.body.shell meta.block.shell
+#                    ^^ meta.function.body.shell meta.block.shell - meta.block meta.block
 #       ^ - entity.name.function
 #        ^^^ entity.name.function.shell
 #           ^ - entity.name.function
@@ -3162,7 +3162,7 @@ function foo (     ) {
     # <- meta.function.body.shell meta.block.shell meta.function-call.identifier.shell
     # <- support.function.shell
 }
-# <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell - meta.block meta.block
 #^ - meta.function
 
 # <- - meta.function
@@ -3172,26 +3172,26 @@ f () (
 #^ meta.function.identifier.shell - entity - punctuation
 # ^^ meta.function.parameters.shell
 #   ^ meta.function.shell - meta.block
-#    ^ meta.function.body.shell meta.block.shell punctuation.section.block.begin.shell
+#    ^ meta.function.body.shell meta.block.shell punctuation.section.block.begin.shell - meta.block meta.block
   echo hello
   # <- meta.function.body.shell meta.block.shell meta.function-call.identifier.shell
   # <- support.function.shell
 )
-# <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell - meta.block meta.block
 #^ - meta.function
 
 function f (
 # <- meta.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^ meta.function.identifier.shell
-#          ^^ meta.function.body.shell meta.block.shell
+#          ^^ meta.function.body.shell meta.block.shell - meta.block meta.block
 #^^^^^^^ keyword.declaration.function.shell
 #        ^ entity.name.function.shell
 #          ^ punctuation.section.block.begin.shell
   echo hello
   # <- meta.function meta.function-call support.function
 )
-# <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.body.shell meta.block.shell punctuation.section.block.end.shell - meta.block meta.block
 #^ - meta.function
 
 function foo {

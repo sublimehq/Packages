@@ -281,7 +281,7 @@ contexts:
 
   def-function-body-parens:
     - match: \(
-      scope: meta.block.shell punctuation.section.block.begin.shell
+      scope: punctuation.section.block.begin.shell
       set: def-function-body-parens-body
 
   def-function-body-parens-body:
