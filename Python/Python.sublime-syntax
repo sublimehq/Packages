@@ -2593,6 +2593,7 @@ contexts:
     - match: '"""'
       scope: comment.block.documentation.python punctuation.definition.comment.end.python
       pop: 1
+    - include: merge-conflict-markers
 
   double-quoted-docstring-body:
     - meta_content_scope: comment.block.documentation.python
@@ -2633,6 +2634,7 @@ contexts:
     - match: "'''"
       scope: comment.block.documentation.python punctuation.definition.comment.end.python
       pop: 1
+    - include: merge-conflict-markers
 
   maybe-single-quoted-docstring-summery:
     - meta_content_scope: comment.block.documentation.python
@@ -2700,6 +2702,7 @@ contexts:
     - match: '"""'
       scope: meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
       set: after-expression
+    - include: merge-conflict-markers
 
   triple-double-quoted-string-pop:
     - match: (?=""")
@@ -3048,6 +3051,7 @@ contexts:
       scope: meta.string.python string.quoted.double.python invalid.illegal.unclosed-string.python
       set: after-expression
     - include: string-continuations
+    - include: merge-conflict-markers
 
   double-quoted-string-pop:
     - match: (?="|\n)
@@ -3384,6 +3388,7 @@ contexts:
     - match: "'''"
       scope: meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
       set: after-expression
+    - include: merge-conflict-markers
 
   triple-single-quoted-string-pop:
     - match: (?=''')
@@ -3731,6 +3736,7 @@ contexts:
       scope: meta.string.python string.quoted.single.python invalid.illegal.unclosed-string.python
       set: after-expression
     - include: string-continuations
+    - include: merge-conflict-markers
 
   single-quoted-string-pop:
     - match: (?='|\n)
@@ -4189,8 +4195,7 @@ contexts:
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string
-  string-prototype:
-    - include: merge-conflict-markers
+  string-prototype: []
 
 ###[ PROTOTYPES ]#############################################################
 
