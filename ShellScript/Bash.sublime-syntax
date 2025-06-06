@@ -281,7 +281,7 @@ contexts:
 
   def-function-body-parens:
     - match: \(
-      scope: meta.block.shell punctuation.section.block.begin.shell
+      scope: punctuation.section.block.begin.shell
       set: def-function-body-parens-body
 
   def-function-body-parens-body:
@@ -292,8 +292,8 @@ contexts:
     - include: statements
 
   def-function-end:
-    - include: eoc-pop
-    - include: redirections
+    - meta_content_scope: meta.function.shell
+    - include: cmd-args-end
     - include: illegal-words
 
 ###[ VARIABLE DEFINITIONS ]####################################################
