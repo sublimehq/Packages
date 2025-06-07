@@ -1639,16 +1639,17 @@ variables:
   # https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#Shell-Builtin-Commands
   builtin_cmds: |-
     (?x: \. | \: | autoload | bg | bindkey | bye | cap | cd | chdir | clone
-    | comparguments | compcall | compctl | compdescribe | compfiles | compgroups
-    | compquote | comptags | comptry | compvalues | dirs | disable | disown | echotc
-    | echoti | emulate | enable | eval | fc | fg | float | functions | getcap
-    | getln | getopts | hash | history | integer | job | jobs | kill | limit
-    | logout | popd | print | printf | pushd | pushln | pwd | r | read | rehash
-    | sched | set | setcap | setopt | shift | source | stat | suspend | times
-    | trap | ttyctl | type | typeset | ulimit | umask | unfunction | unhash
-    | unlimit | unsetopt | vared | wait | whence | where | which | zcompile
-    | zformat | zftp | zle | zmodload | zparseopts | zprof | zpty | zregexparse
-    | zsocket | zstyle | ztcp ){{cmd_break}}
+    | compadd | comparguments | compcall | compctl | compdescribe | compfiles
+    | compgen | compgroups | complete | compquote | comptags | comptry
+    | compvalues | dirs | disable | disown | echotc | echoti | emulate | enable
+    | eval | fc | fg | float | functions | getcap | getln | getopts | hash
+    | history | integer | job | jobs | kill | limit | logout | popd | print
+    | printf | pushd | pushln | pwd | r | read | rehash | sched | set | setcap
+    | setopt | shift | source | stat | suspend | times | trap | ttyctl | type
+    | typeset | ulimit | umask | unfunction | unhash | unlimit | unsetopt
+    | vared | wait | whence | where | which | zcompile | zformat | zftp | zle
+    | zmodload | zparseopts | zprof | zpty | zregexparse | zsocket | zstyle
+    | ztcp ){{cmd_break}}
 
   modifier_cmds: |-
     (?x: builtin | nocorrect | noglob ){{cmd_break}}
