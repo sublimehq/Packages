@@ -331,6 +331,37 @@ $double_quoted_string = "
 #^^^^^^ meta.string.perl string.quoted.double.perl
 "
 
+$pattern = /
+  (?x)
+  before
+#^^^^^^^ meta.string.perl string.regexp.perl
+<<<<<<< HEAD
+# <- meta.string.perl string.regexp.perl meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^ meta.string.perl string.regexp.perl meta.block.conflict.begin.diff
+#^^^^^^ punctuation.section.block.begin.diff
+#       ^^^^ entity.name.section.diff
+  [Oo]ours
+#^^^^^^^^^ meta.string.perl string.regexp.perl
+=======
+# <- meta.string.perl string.regexp.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.perl string.regexp.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+  base?
+#^^^^^^ meta.string.perl string.regexp.perl
+|||||||
+# <- meta.string.perl string.regexp.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^ meta.string.perl string.regexp.perl meta.block.conflict.separator.diff punctuation.section.block.diff
+  theires
+#^^^^^^^^ meta.string.perl string.regexp.perl
+>>>>>>> master
+# <- meta.string.perl string.regexp.perl meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^ meta.string.perl string.regexp.perl meta.block.conflict.end.diff
+#^^^^^^ punctuation.section.block.end.diff
+#       ^^^^^^ entity.name.section.diff
+  after
+#^^^^^^ meta.string.perl string.regexp.perl
+/
+
+
 ###[ FORMAT ]#################################################################
 
 format.

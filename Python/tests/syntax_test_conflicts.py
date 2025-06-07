@@ -165,6 +165,86 @@ after"
 #^^^^^ meta.string.python string.quoted.double.python
 #    ^ punctuation.definition.string.end.python
 
+in_string = b"before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.double.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.double.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after"
+#^^^^^ meta.string.python string.quoted.double.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = f"before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.double.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.double.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after"
+#^^^^^ meta.string.python string.quoted.double.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = r"before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.double.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.double.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after"
+#^^^^^ meta.string.python string.quoted.double.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = u"before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.double.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.double.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.double.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after"
+#^^^^^ meta.string.python string.quoted.double.python
+#    ^ punctuation.definition.string.end.python
+
 in_strings = """
 <<<<<<< HEAD
 # <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
@@ -251,8 +331,9 @@ in_strings = r"""
 #      ^ meta.block.conflict.begin.diff - entity - punctuation
 #       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
 #           ^ meta.block.conflict.begin.diff - entity - punctuation
-    ours
-#^^^^^^^ meta.string.python string.quoted.double.block.python
+    [Oo]urs
+#^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#   ^^^^ meta.set.regexp
 =======
 # <- meta.block.conflict.separator.diff punctuation.section.block.diff
 #^^^^^^^ meta.string.python string.quoted.double.block.python
@@ -268,3 +349,375 @@ in_strings = r"""
 #       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 #             ^ meta.block.conflict.end.diff - entity - punctuation
 """
+
+
+in_strings = r"""
+    SELECT * FROM `table`
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+#^^^^^^^ meta.string.python source.sql
+    WHERE id LIKE "foo"
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    WHERE id LIKE "bar"
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+"""
+
+in_strings = u"""
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+#^^^^^^^ meta.string.python string.quoted.double.block.python
+    ours
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python string.quoted.double.block.python
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    theirs
+#^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+"""
+
+in_strings = ur"""
+    SELECT * FROM `table`
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+#^^^^^^^ meta.string.python source.sql
+    WHERE id LIKE "foo"
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    WHERE id LIKE "bar"
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+"""
+
+in_string = 'before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.single.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.single.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after'
+#^^^^^ meta.string.python string.quoted.single.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = b'before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.single.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.single.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after'
+#^^^^^ meta.string.python string.quoted.single.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = f'before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.single.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.single.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after'
+#^^^^^ meta.string.python string.quoted.single.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = r'before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.single.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.single.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after'
+#^^^^^ meta.string.python string.quoted.single.python
+#    ^ punctuation.definition.string.end.python
+
+in_string = u'before \
+<<<<<<< HEAD
+# <- meta.string.python string.quoted.single.python meta.block.conflict.begin.diff punctuation.section.block.begin.diff \
+#^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.begin.diff \
+#^^^^^^ punctuation.section.block.begin.diff \
+#       ^^^^ entity.name.section.diff \
+ours \
+=======
+# <- meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+#^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.separator.diff punctuation.section.block.diff \
+theirs \
+>>>>>>> master
+# <- meta.string.python string.quoted.single.python meta.block.conflict.end.diff punctuation.section.block.end.diff \
+#^^^^^^^^^^^^^ meta.string.python string.quoted.single.python meta.block.conflict.end.diff \
+#^^^^^^ punctuation.section.block.end.diff \
+#       ^^^^^^ entity.name.section.diff \
+after'
+#^^^^^ meta.string.python string.quoted.single.python
+#    ^ punctuation.definition.string.end.python
+
+in_strings = '''
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+    ours
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    theirs
+#^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
+
+in_strings = b'''
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+    ours
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    theirs
+#^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
+
+in_strings = f'''
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+    ours
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    theirs
+#^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
+
+in_strings = r'''
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+    [Oo]urs
+#^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#   ^^^^ meta.set.regexp
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    theirs
+#^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
+
+
+in_strings = r'''
+    SELECT * FROM `table`
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+#^^^^^^^ meta.string.python source.sql
+    WHERE id LIKE 'foo'
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    WHERE id LIKE 'bar'
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
+
+in_strings = u'''
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+    ours
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    theirs
+#^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
+
+
+in_strings = ur'''
+    SELECT * FROM `table`
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+#^^^^^^^ meta.string.python source.sql
+    WHERE id LIKE 'foo'
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+#^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    WHERE id LIKE 'bar'
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.python source.sql
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+#^^^^^^^^^^^^^^ meta.string.python source.sql
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+'''
