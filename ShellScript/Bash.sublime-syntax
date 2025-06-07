@@ -163,7 +163,6 @@ contexts:
       set:
         - def-coproc-command-meta
         - statement
-    - include: line-continuations
     - include: eoc-pop
 
   def-coproc-command-meta:
