@@ -1,9 +1,14 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://clojure.org/reference/documentation
+# https://clojure.org/api/cheatsheet
+# https://github.com/clojure/clojure-cheatsheets/
+# https://github.com/clojure/clojure/tree/master/test/clojure
+# http://www.sublimetext.com/docs/syntax.html
 
 name: Clojure
 scope: source.clojure
+version: 2
 
 file_extensions:
   - clj
@@ -12,42 +17,95 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* ; .*? -\*- .*? \bclojure\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}}                                               # shebang
+  | ^ \s* ; .*? -\*- .*? {{shebang_language}} .*? -\*-                          # editorconfig
   )
 
-variables:
-  non_symbol_chars: \s,;\(\)\[\]{}\"`~@\^\\
-  non_symbol_start_chars: '{{non_symbol_chars}}\d#'':'
-  non_number_chars: '{{non_symbol_chars}}#'''
-  non_char_chars: '{{non_symbol_chars}}#'''
-  atom: '[^{{non_symbol_chars}}]+'
-  symbol: (?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)
-  # Slightly too permissive
-  keyword: (:):?[^:{{non_symbol_chars}}][^{{non_symbol_chars}}]*
-  constant: (?:nil|true|false)(?=[{{non_symbol_chars}}])
-  evil_octal: '[-+]?0\d+N?(?=[{{non_symbol_chars}}])'
-
-  # Similar to the number regexps in the Clojure reader.
-  # This doesn't include evil octals and dot-terminated decimals.
-  sign: '[-+]?'
-  dec_exponent: (?:[eE]{{sign}}\d+)
-  dec_integer: ({{sign}})(\d+)(N?)(?=[{{non_number_chars}}])
-  hex_integer: ({{sign}})(0[Xx])(\h+)(N?)(?=[{{non_number_chars}}])
-  other_integer: ({{sign}})((?:[2-9]|[1-9]\d+)[Rr])([0-9A-Za-z]+)(?=[{{non_number_chars}}])
-  rational: ({{sign}})(\d+)(/)(\d+)(?=[{{non_number_chars}}])
-  float: ({{sign}})(\d+)(?:((\.)\d+{{dec_exponent}}?|{{dec_exponent}})(M)?|(M))(?=[{{non_number_chars}}])
-
-  # no odd number of backslashes behind (`\` or `\\\`)
-  # note:
-  #  1. For use in `escape` commands only !!
-  #  2. ST's Regex Compatibility Check marks it as incompatible
-  #     as the real usage of the variable is not checked.
-  #     It's a false positive as long as (1.) is respected.
-  no_escape_behind: '(?<![^\\]\\)(?<![^\\][\\]{3})'
+###[ CONTEXTS ]################################################################
 
 contexts:
+
+  prototype:
+    - include: comments
+    - include: merge-conflict-markers
+
   main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [clojure, shebang]
+
+  clojure:
     - include: match-expr
+
+###[ COMMENTS ]################################################################
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.clojure
+      set: shebang-body
+    # NOTE: Ensure to highlight shebang if Clojure is embedded.
+    - match: ^|(?=\S)
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.clojure
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.clojure
+    - match: $\n?
+      pop: 1
+
+  comments:
+    - include: line-comments
+
+  line-comments:
+    - match: ;+
+      scope: punctuation.definition.comment.clojure
+      push: line-comment-body
+
+    # https://cljs.github.io/api/syntax/shebang
+    # https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/LispReader.java#L118
+    # https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/LispReader.java#L625-L636
+    - match: '#!'
+      scope: punctuation.definition.comment.clojure
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.clojure
+    - match: $\n?
+      pop: 1
+
+  merge-conflict-markers:
+    # see also: Diff.sublime-syntax#conflict-markers
+    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.begin.diff
+      captures:
+        1: punctuation.section.block.begin.diff
+        2: entity.name.section.diff
+    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.end.diff
+      captures:
+        1: punctuation.section.block.end.diff
+        2: entity.name.section.diff
+    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
+      scope: meta.block.conflict.separator.diff
+      captures:
+        1: punctuation.section.block.diff
+        2: entity.name.section.diff
+
+###[ NOISE ]###################################################################
+
+  match-noise:
+    - match: ','
+      scope: punctuation.comma.clojure comment.punctuation.comma.clojure
+    - match: \^
+      scope: keyword.operator.macro.clojure
+      push: pop-expr
+
+###[ EXPRESSIONS ]#############################################################
 
   match-expr:
     - include: match-noise
@@ -61,22 +119,22 @@ contexts:
       push:
         - match: \]
           scope: punctuation.section.brackets.end.clojure
-          pop: true
+          pop: 1
         - include: match-expr
     - match: '#?{'
       scope: punctuation.section.braces.begin.clojure
       push:
-        - match: '}'
+        - match: \}
           scope: punctuation.section.braces.end.clojure
-          pop: true
+          pop: 1
         - include: match-expr
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.clojure
       push: pop-string-tail
-    - match: '#'
+    - match: \#
       scope: keyword.operator.macro.clojure
       push: pop-dispatch-expr
-    - match: '''|`|~|@'
+    - match: "'|`|~|@"
       scope: keyword.operator.macro.clojure
       push: pop-expr
     - match: \\\S[^{{non_char_chars}}]*
@@ -130,7 +188,7 @@ contexts:
     - include: match-noise
     - match: '[)\]}]'
       scope: invalid.illegal.clojure
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.clojure
       set: pop-list-head
@@ -139,45 +197,45 @@ contexts:
       set:
         - match: \]
           scope: punctuation.section.brackets.end.clojure
-          pop: true
+          pop: 1
         - include: match-expr
     - match: '#?{'
       scope: punctuation.section.braces.begin.clojure
       set:
-        - match: '}'
+        - match: \}
           scope: punctuation.section.braces.end.clojure
-          pop: true
+          pop: 1
         - include: match-expr
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.clojure
       set: pop-string-tail
-    - match: '#'
+    - match: \#
       scope: keyword.operator.macro.clojure
       set: pop-dispatch-expr
-    - match: '''|`|~|@'
+    - match: "'|`|~|@"
       scope: keyword.operator.macro.clojure
       set: pop-expr
     - match: '\\\S[^{{non_char_chars}}]*'
       scope: constant.character.clojure
-      pop: true
+      pop: 1
     - match: '{{constant}}'
       scope: constant.language.clojure
-      pop: true
+      pop: 1
     - match: '{{keyword}}'
       scope: constant.other.keyword.clojure
       captures:
         1: punctuation.definition.keyword.clojure
-      pop: true
+      pop: 1
     - match: '{{evil_octal}}'
       scope: invalid.deprecated.clojure
-      pop: true
+      pop: 1
     - match: '{{dec_integer}}'
       scope: meta.number.integer.decimal.clojure
       captures:
         1: keyword.operator.arithmetic.clojure
         2: constant.numeric.value.clojure
         3: constant.numeric.suffix.clojure
-      pop: true
+      pop: 1
     - match: '{{hex_integer}}'
       scope: meta.number.integer.hexadecimal.clojure
       captures:
@@ -185,14 +243,14 @@ contexts:
         2: constant.numeric.base.clojure
         3: constant.numeric.value.clojure
         4: constant.numeric.suffix.clojure
-      pop: true
+      pop: 1
     - match: '{{other_integer}}'
       scope: meta.number.integer.other.clojure
       captures:
         1: keyword.operator.arithmetic.clojure
         2: constant.numeric.base.clojure
         3: constant.numeric.value.clojure
-      pop: true
+      pop: 1
     - match: '{{rational}}'
       scope: meta.number.rational.decimal.clojure
       captures:
@@ -200,7 +258,7 @@ contexts:
         2: constant.numeric.value.clojure
         3: punctuation.separator.rational.clojure
         4: constant.numeric.value.clojure
-      pop: true
+      pop: 1
     - match: '{{float}}'
       scope: meta.number.float.decimal.clojure
       captures:
@@ -210,41 +268,9 @@ contexts:
         4: punctuation.separator.decimal.clojure
         5: constant.numeric.suffix.clojure
         6: constant.numeric.suffix.clojure
-      pop: true
+      pop: 1
     - match: '{{atom}}'
-      pop: true
-
-  match-noise:
-    # Explicitly matching \s also captures end-of-line; this allows apostrophe
-    # pairing to work at the last cursor position in a comment line.
-    - match: (;+|#!)(.|\s)*
-      scope: comment.line.clojure
-      captures:
-        1: punctuation.definition.comment
-    - match: ','
-      scope: punctuation.comma.clojure comment.punctuation.comma.clojure
-    - match: \^
-      scope: keyword.operator.macro.clojure
-      push: pop-expr
-    - include: merge-conflict-markers
-
-  merge-conflict-markers:
-    # see also: Diff.sublime-syntax#conflict-markers
-    - match: ^(<{7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.begin.diff
-      captures:
-        1: punctuation.section.block.begin.diff
-        2: entity.name.section.diff
-    - match: ^(>{7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.end.diff
-      captures:
-        1: punctuation.section.block.end.diff
-        2: entity.name.section.diff
-    - match: ^(\|{7}|={7})(?:\s+(\S.*?))?$\n?
-      scope: meta.block.conflict.separator.diff
-      captures:
-        1: punctuation.section.block.diff
-        2: entity.name.section.diff
+      pop: 1
 
   pop-dispatch-expr:
     - match: (?=\s)
@@ -252,22 +278,22 @@ contexts:
     - match: _
       scope: keyword.operator.macro.clojure
       set: pop-expr
-    - match: '#'
+    - match: \#
       scope: keyword.operator.macro.clojure
       set: pop-symbolic-value
-    - match: "'"
+    - match: \'
       scope: keyword.operator.macro.clojure
-      pop: true
-    - match: '"'
-      scope: string.regexp.clojure punctuation.definition.string.begin.clojure
+      pop: 1
+    - match: \"
+      scope: meta.string.clojure string.regexp.clojure punctuation.definition.string.begin.clojure
       pop: 1
       embed: scope:source.regexp
-      embed_scope: string.regexp.clojure
+      embed_scope: meta.string.clojure string.regexp.clojure source.regexp
       escape: '{{no_escape_behind}}"'
       escape_captures:
-        0: string.regexp.clojure punctuation.definition.string.end.clojure
+        0: meta.string.clojure string.regexp.clojure punctuation.definition.string.end.clojure
     - match: (?=[\^:])
-      pop: true
+      pop: 1
     - match: (?=\S)
       set: pop-dispatch-tag-expr
 
@@ -275,25 +301,33 @@ contexts:
     - include: match-noise
     - match: '{{symbol}}'
       scope: keyword.operator.macro.clojure
-      pop: true
+      pop: 1
     - match: (?=\S)
       set: pop-expr
+
+###[ VALUES ]##################################################################
 
   pop-symbolic-value:
     - include: match-noise
     - match: '{{atom}}'
       scope: constant.other.symbolic.clojure
-      pop: true
+      pop: 1
     - match: (?=\S)
       set: pop-expr
 
+###[ STRINGS ]#################################################################
+
   pop-string-tail:
-    - meta_scope: string.quoted.double.clojure
+    - meta_include_prototype: false
+    - meta_scope: meta.string.clojure string.quoted.double.clojure
     - match: \\.
       scope: constant.character.escape.clojure
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.end.clojure
-      pop: true
+      pop: 1
+    - include: merge-conflict-markers
+
+###[ LISTS ]###################################################################
 
   pop-list-head:
     - include: match-noise
@@ -327,8 +361,10 @@ contexts:
   pop-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
-      pop: true
+      pop: 1
     - include: match-expr
+
+###[ LISTS / PROTOCOL LISTS ]##################################################
 
   pop-declare-protocol-list-tail:
     - include: match-constant-set-normal-list-tail
@@ -340,11 +376,13 @@ contexts:
   pop-protocol-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.clojure
       push: pop-declare-def-list-tail
     - include: match-expr
+
+###[ LISTS / INTERFACE LISTS ]#################################################
 
   pop-declare-interface-list-tail:
     - include: match-constant-set-normal-list-tail
@@ -356,11 +394,13 @@ contexts:
   pop-interface-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.clojure
       push: pop-fn-list-tail
     - include: match-expr
+
+###[ LISTS / TYPE LISTS ]######################################################
 
   pop-declare-type-list-tail:
     - include: match-constant-set-normal-list-tail
@@ -372,7 +412,7 @@ contexts:
   pop-type-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.clojure
       push: pop-fn-list-tail
@@ -422,3 +462,37 @@ contexts:
   set-normal-list-tail:
     - match: (?=\S)
       set: pop-list-tail
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  shebang_language: (?:\bclojure\b)
+
+  non_symbol_chars: \s,;\(\)\[\]{}\"`~@\^\\
+  non_symbol_start_chars: '{{non_symbol_chars}}\d#'':'
+  non_number_chars: '{{non_symbol_chars}}#'''
+  non_char_chars: '{{non_symbol_chars}}#'''
+  atom: '[^{{non_symbol_chars}}]+'
+  symbol: (?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)
+  # Slightly too permissive
+  keyword: (:):?[^:{{non_symbol_chars}}][^{{non_symbol_chars}}]*
+  constant: (?:nil|true|false)(?=[{{non_symbol_chars}}])
+  evil_octal: '[-+]?0\d+N?(?=[{{non_symbol_chars}}])'
+
+  # Similar to the number regexps in the Clojure reader.
+  # This doesn't include evil octals and dot-terminated decimals.
+  sign: '[-+]?'
+  dec_exponent: (?:[eE]{{sign}}\d+)
+  dec_integer: ({{sign}})(\d+)(N?)(?=[{{non_number_chars}}])
+  hex_integer: ({{sign}})(0[Xx])(\h+)(N?)(?=[{{non_number_chars}}])
+  other_integer: ({{sign}})((?:[2-9]|[1-9]\d+)[Rr])([0-9A-Za-z]+)(?=[{{non_number_chars}}])
+  rational: ({{sign}})(\d+)(/)(\d+)(?=[{{non_number_chars}}])
+  float: ({{sign}})(\d+)(?:((\.)\d+{{dec_exponent}}?|{{dec_exponent}})(M)?|(M))(?=[{{non_number_chars}}])
+
+  # no odd number of backslashes behind (`\` or `\\\`)
+  # note:
+  #  1. For use in `escape` commands only !!
+  #  2. ST's Regex Compatibility Check marks it as incompatible
+  #     as the real usage of the variable is not checked.
+  #     It's a false positive as long as (1.) is respected.
+  no_escape_behind: '(?<![^\\]\\)(?<![^\\][\\]{3})'
