@@ -27,9 +27,9 @@
             </dict>
             <dict>
                 <key>begin</key>
-                <string>punctuation.section.string.begin</string>
+                <string>punctuation.definition.string.begin</string>
                 <key>end</key>
-                <string>punctuation.section.string.end</string>
+                <string>punctuation.definition.string.end</string>
             </dict>
         </array>
     </dict>
