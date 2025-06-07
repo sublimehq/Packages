@@ -155,15 +155,21 @@ contexts:
       set: def-coproc-identifier
 
   def-coproc-identifier:
-    - match: (\s*)(?:(({{cmd_literal}})\s*)?(?=\(|{\s))?
+    - meta_content_scope: meta.coproc.shell
+    - include: eoc-pop
+    # named coproc
+    - match: ({{cmd_literal}})\s*(?=\(|{\s)
+      scope: meta.coproc.identifier.shell
       captures:
-        1: meta.coproc.shell
-        2: meta.coproc.identifier.shell
-        3: entity.name.function.shell
+        1: entity.name.function.shell
       set:
         - def-coproc-command-meta
         - statement
-    - include: eoc-pop
+    # anonymous coproc
+    - match: (?=\S)
+      set:
+        - def-coproc-command-meta
+        - statement
 
   def-coproc-command-meta:
     - meta_include_prototype: false
