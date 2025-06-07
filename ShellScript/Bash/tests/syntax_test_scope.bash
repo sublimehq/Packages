@@ -11734,7 +11734,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #          ^^^^^^^^^^^^^^^^ meta.command.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
-#                                          ^^^^^^^^ variable.function.shell
+#                                          ^^^^^^^^ support.function.shell
 #                                                   ^^ variable.parameter.option.shell
 
 # declare called in command substitutions
@@ -12769,7 +12769,7 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #          ^^^^^^^^^^^^^^^^ meta.command.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
-#                                          ^^^^^^^^ variable.function.shell
+#                                          ^^^^^^^^ support.function.shell
 #                                                   ^^ variable.parameter.option.shell
 
 
