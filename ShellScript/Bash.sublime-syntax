@@ -155,7 +155,7 @@ contexts:
       set: def-coproc-identifier
 
   def-coproc-identifier:
-    - match: (?:(\s*)(({{cmd_literal}})\s*)?(?=\{))?
+    - match: (\s*)(?:(({{cmd_literal}})\s*)?(?=\(|{\s))?
       captures:
         1: meta.coproc.shell
         2: meta.coproc.identifier.shell
@@ -163,6 +163,8 @@ contexts:
       set:
         - def-coproc-command-meta
         - statement
+    - include: line-continuations
+    - include: eoc-pop
 
   def-coproc-command-meta:
     - meta_include_prototype: false
