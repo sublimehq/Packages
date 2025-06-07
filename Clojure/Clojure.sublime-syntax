@@ -134,7 +134,7 @@ contexts:
     - match: \#
       scope: keyword.operator.macro.clojure
       push: pop-dispatch-expr
-    - match: "'|`|~|@"
+    - match: '[''`~@]'
       scope: keyword.operator.macro.clojure
       push: pop-expr
     - match: \\\S[^{{non_char_chars}}]*
