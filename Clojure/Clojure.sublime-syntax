@@ -110,7 +110,7 @@ contexts:
   match-expr:
     - include: match-noise
     - match: '[)\]}]'
-      scope: invalid.illegal.clojure
+      scope: invalid.illegal.stray.clojure
     - match: \(
       scope: punctuation.section.parens.begin.clojure
       push: pop-list-head
@@ -187,7 +187,7 @@ contexts:
   pop-expr:
     - include: match-noise
     - match: '[)\]}]'
-      scope: invalid.illegal.clojure
+      scope: invalid.illegal.stray.clojure
       pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.clojure

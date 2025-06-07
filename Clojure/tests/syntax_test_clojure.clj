@@ -1076,7 +1076,7 @@
 ;  ^^^ meta.number
   (blah #) )
 ;       ^ keyword.operator.macro.clojure
-;        ^ invalid.illegal.clojure
+;        ^ invalid.illegal.stray.clojure
 
   # #NaN
 ; ^ keyword.operator.macro.clojure
@@ -1207,25 +1207,25 @@
   ( ') )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^ keyword.operator.macro.clojure
-;    ^ invalid.illegal.clojure
+;    ^ invalid.illegal.stray.clojure
 ;      ^ punctuation.section.parens.end.clojure
 
   ( `) )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^ keyword.operator.macro.clojure
-;    ^ invalid.illegal.clojure
+;    ^ invalid.illegal.stray.clojure
 ;      ^ punctuation.section.parens.end.clojure
 
   ( `) )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^ keyword.operator.macro.clojure
-;    ^ invalid.illegal.clojure
+;    ^ invalid.illegal.stray.clojure
 ;      ^ punctuation.section.parens.end.clojure
 
   ( ~@) )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^^ keyword.operator.macro.clojure
-;     ^ invalid.illegal.clojure
+;     ^ invalid.illegal.stray.clojure
 ;       ^ punctuation.section.parens.end.clojure
 
 
@@ -1284,7 +1284,7 @@
   ( @) )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^ keyword.operator.macro.clojure
-;    ^ invalid.illegal.clojure
+;    ^ invalid.illegal.stray.clojure
 ;      ^ punctuation.section.parens.end.clojure
 
 
@@ -1348,7 +1348,7 @@
   ( ^) )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^ keyword.operator.macro.clojure
-;    ^ invalid.illegal.clojure
+;    ^ invalid.illegal.stray.clojure
 ;      ^ punctuation.section.parens.end.clojure
 
 
@@ -1387,7 +1387,7 @@
   [ ] ]
 ; ^ punctuation.section.brackets.begin.clojure
 ;   ^ punctuation.section.brackets.end.clojure
-;     ^ invalid.illegal.clojure
+;     ^ invalid.illegal.stray.clojure
 
 
 
@@ -1452,12 +1452,12 @@
   #{ } }
 ; ^^ punctuation.section.braces.begin.clojure
 ;    ^ punctuation.section.braces.end.clojure
-;      ^ invalid.illegal.clojure
+;      ^ invalid.illegal.stray.clojure
 
   { } }
 ; ^ punctuation.section.braces.begin.clojure
 ;   ^ punctuation.section.braces.end.clojure
-;     ^ invalid.illegal.clojure
+;     ^ invalid.illegal.stray.clojure
 
 
 
@@ -1530,7 +1530,7 @@
   ( ) )
 ; ^ punctuation.section.parens.begin.clojure
 ;   ^ punctuation.section.parens.end.clojure
-;     ^ invalid.illegal.clojure
+;     ^ invalid.illegal.stray.clojure
 
 
 
@@ -1772,7 +1772,7 @@
   (def ^ ) )
 ;  ^^^ storage.modifier.def.clojure
 ;      ^ keyword.operator.macro.clojure
-;        ^ invalid.illegal.clojure
+;        ^ invalid.illegal.stray.clojure
 ;          ^ punctuation.section.parens.end.clojure
 
 
