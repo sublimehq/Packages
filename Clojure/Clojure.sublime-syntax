@@ -17,8 +17,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* {{shebang_language}}                                               # shebang
-  | ^ \s* ; .*? -\*- .*? {{shebang_language}} .*? -\*-                          # editorconfig
+    ^ \#! .* {{shebang_language}}                        # shebang
+  | ^ \s* ; .*? -\*- .*? {{shebang_language}} .*? -\*-   # editorconfig
   )
 
 ###[ CONTEXTS ]################################################################
