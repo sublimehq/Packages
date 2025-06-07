@@ -584,6 +584,17 @@ contexts:
     - match: \#{1,2}
       scope: keyword.operator.quantifier.regexp.shell.zsh
 
+###[ POSIX EXTENDED REGULAR EXPRESSIONS ]######################################
+
+  eregexp-main-content:
+    # ZSH doesn't allow alternation operator in top-level patterns
+    - include: eregexp-quantifiers
+    - include: string-unquoted-content
+    - include: eregexp-charsets
+    - include: eregexp-groups
+    - include: eregexp-anchors
+    - include: eregexp-literals
+
 ###[ ARITHMETIC EXPANSIONS ]###################################################
 
   arithmetic-expansions:
