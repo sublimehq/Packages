@@ -113,21 +113,15 @@ contexts:
       scope: invalid.illegal.clojure
     - match: \(
       scope: punctuation.section.parens.begin.clojure
-      push: pop-list-head
+      push:
+        - pop-list-meta
+        - pop-list-head
     - match: \[
       scope: punctuation.section.brackets.begin.clojure
-      push:
-        - match: \]
-          scope: punctuation.section.brackets.end.clojure
-          pop: 1
-        - include: match-expr
+      push: pop-brackets-tail
     - match: '#?{'
       scope: punctuation.section.braces.begin.clojure
-      push:
-        - match: \}
-          scope: punctuation.section.braces.end.clojure
-          pop: 1
-        - include: match-expr
+      push: pop-braces-tail
     - match: \"
       scope: punctuation.definition.string.begin.clojure
       push: pop-string-tail
@@ -191,21 +185,15 @@ contexts:
       pop: 1
     - match: \(
       scope: punctuation.section.parens.begin.clojure
-      set: pop-list-head
+      set:
+        - pop-list-meta
+        - pop-list-head
     - match: \[
       scope: punctuation.section.brackets.begin.clojure
-      set:
-        - match: \]
-          scope: punctuation.section.brackets.end.clojure
-          pop: 1
-        - include: match-expr
+      set: pop-brackets-tail
     - match: '#?{'
       scope: punctuation.section.braces.begin.clojure
-      set:
-        - match: \}
-          scope: punctuation.section.braces.end.clojure
-          pop: 1
-        - include: match-expr
+      set: pop-braces-tail
     - match: \"
       scope: punctuation.definition.string.begin.clojure
       set: pop-string-tail
@@ -271,6 +259,20 @@ contexts:
       pop: 1
     - match: '{{atom}}'
       pop: 1
+
+  pop-braces-tail:
+    - meta_scope: meta.braces.clojure
+    - match: \}
+      scope: punctuation.section.braces.end.clojure
+      pop: 1
+    - include: match-expr
+
+  pop-brackets-tail:
+    - meta_scope: meta.brackets.clojure
+    - match: \]
+      scope: punctuation.section.brackets.end.clojure
+      pop: 1
+    - include: match-expr
 
   pop-dispatch-expr:
     - match: (?=\s)
@@ -357,6 +359,12 @@ contexts:
       set: pop-declare-list-tail
     - match: (?=\S)
       set: pop-invoke-list-tail
+
+  pop-list-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.parens.clojure
+    - match: ''
+      pop: 1
 
   pop-list-tail:
     - match: \)
