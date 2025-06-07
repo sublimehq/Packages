@@ -1015,6 +1015,15 @@ if opam upgrade --check; then
 fi
 # <- keyword.control.conditional.endif.shell - string
 
+cat <<<{{str\}{{str}}}str}}     # ensure balanced braces in unquoted strings
+#^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^^^ meta.redirection.shell - meta.string - string
+#      ^^^^^^^^^^^^^^^^^^^ meta.redirection.shell meta.string.herestring.shell string.unquoted.shell
+#   ^^^ keyword.operator.assignment.herestring.shell
+#           ^^ constant.character.escape.shell
+#                         ^ invalid.illegal.stray.shell - meta.redirection - meta.string
+
 
 ###############################################################################
 # 8 Command Execution                                                         #
@@ -1044,6 +1053,10 @@ cmd
 # ^ punctuation.separator.path.shell
 #  ^ - constant
 #      ^ punctuation.separator.path.shell
+
+co{{mm{and}}}}  # verify balanced braces in command names (ZSH only)
+#^^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#            ^ invalid.illegal.stray.shell
 
 
 ###############################################################################
@@ -1310,6 +1323,18 @@ function 'foo() \($bar\)[ba-z]'() { : }  # nonsense just to verify theoretical r
 #                                 ^ punctuation.section.block.begin.shell
 #                                   ^ meta.function-call.identifier.shell meta.command.shell support.function.shell
 #                                     ^ punctuation.section.block.end.shell
+
+function co{{mm{and}}}() {}
+#^^^^^^^^ meta.function.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^^^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell
+#                     ^^ meta.function.parameters.shell
+#                     ^ punctuation.section.parameters.begin.shell
+#                      ^ punctuation.section.parameters.end.shell
+#                       ^ meta.function.shell
+#                        ^^ meta.function.body.shell meta.block.shell
+#                        ^ punctuation.section.block.begin.shell
+#                         ^ punctuation.section.block.end.shell
 
 function foo bar() { : }
 # <- meta.function.shell keyword.declaration.function.shell
@@ -2377,6 +2402,21 @@ ip=10.10.20.14
 #              ^^^ meta.string.glob.shell string.unquoted.shell
 #                  ^^ punctuation.section.compound.end.shell
 
+[[ $foo == co{{mm{[a-d]?}}}{} ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                 ^^^^^ meta.set.regexp.shell
+#                 ^ punctuation.definition.set.begin.regexp.shell
+#                  ^^^ constant.other.range.regexp.shell
+#                   ^ punctuation.separator.sequence.regexp.shell
+#                     ^ punctuation.definition.set.end.regexp.shell
+#                      ^ constant.other.wildcard.questionmark.shell
+#                             ^^ punctuation.section.compound.end.shell
+
 
 ## Extended Regular Expressions
 ## ----------------------------
@@ -2420,6 +2460,22 @@ ip=10.10.20.14
 #             ^ invalid.illegal.unexpected-token.shell
 #              ^^^ meta.string.glob.shell string.unquoted.shell
 #                  ^^ punctuation.section.compound.end.shell
+
+[[ $var =~ co{{mm{[a-d]?}}}} ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
+#^ punctuation.section.compound.begin.shell
+#  ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^^^^^^^^^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                 ^^^^^ meta.set.regexp.shell
+#                 ^ punctuation.definition.set.begin.regexp.shell
+#                  ^^^ constant.other.range.regexp.shell
+#                   ^ punctuation.separator.sequence.regexp.shell
+#                     ^ punctuation.definition.set.end.regexp.shell
+#                      ^ keyword.operator.quantifier.regexp.shell
+#                          ^ invalid.illegal.stray.shell - meta.string - string
+#                            ^^ punctuation.section.compound.end.shell
 
 
 ## Arithmetic Comparisons
@@ -4003,6 +4059,24 @@ ip=10.10.20.14
 #            ^ meta.string.regexp.shell string.unquoted.shell
 #             ^ punctuation.section.interpolation.end.shell
 
+: ${${var%{p}}#{q}}  # Ensure balanced braces (ZSH only)
+# ^^ meta.interpolation.parameter.shell
+#   ^^^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell
+#             ^^^^^ meta.interpolation.parameter.shell
+#                  ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ punctuation.definition.variable.shell
+#    ^ punctuation.section.interpolation.begin.shell
+#     ^^^ variable.other.readwrite.shell
+#        ^ keyword.operator.expansion.shell
+#         ^^^ meta.string.regexp.shell string.unquoted.shell
+#            ^ punctuation.section.interpolation.end.shell
+#             ^ keyword.operator.expansion.shell
+#              ^^^ meta.string.regexp.shell string.unquoted.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+
 ################################
 # ${parameter/pattern/word}
 
@@ -4331,6 +4405,15 @@ a\/b/c/d}
 #          ^ keyword.operator.substitution.shell
 #              ^ punctuation.section.interpolation.end.shell
 
+: ${foo//{\}}/foo}  # brace are balanced in patterns (ZSH only)
+# ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword.operator.substitution.shell
+#         ^^ constant.character.escape.shell
+#            ^ keyword.operator.substitution.shell
+#                ^ punctuation.section.interpolation.end.shell
+
 : ${foo//:/[}]
 # ^^^^^^^^^^^ meta.interpolation.parameter.shell
 #          ^^^ - meta.string.regexp - meta.set
@@ -4353,6 +4436,18 @@ a\/b/c/d}
 #          ^^^^ - meta.string.regexp - meta.set - punctuation
 #           ^^ constant.character.escape.shell
 #              ^ punctuation.section.interpolation.end.shell
+
+: ${foo//:/[{\}}]} # brace are balanced in plain strings (ZSH only)
+# ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#                 ^ - meta.interpolation
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.substitution.shell
+#         ^ keyword.operator.substitution.shell
+#          ^^^^^^ - meta.string.regexp - meta.set - punctuation
+#            ^^ constant.character.escape.shell
+#                ^ punctuation.section.interpolation.end.shell
 
 : ${foo//[a-/\}} # incomplete charset
 # ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
@@ -4449,6 +4544,23 @@ a\/b/c/d}
 #           ^ keyword.operator.substitution.shell
 #            ^^^^ meta.string.glob.shell string.unquoted.shell - keyword - punctuation
 #                ^ punctuation.section.interpolation.end.shell
+
+: ${foo/{{\}[a-z]}({b[a-z]} | ({{([0-9])}}))}/[]]{{\}}}}  # advanced brace balancing in patterns (ZSH only)
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^ constant.character.escape.shell
+#           ^^^^^ meta.set.regexp.shell
+#                 ^^^^^^^^^^^^ meta.group.regexp.shell - meta.group meta.group
+#                    ^^^^^ meta.set.regexp.shell
+#                           ^ keyword.operator.alternation.regexp.shell
+#                             ^^^ meta.group.regexp.shell meta.group.regexp.shell - meta.group meta.group meta.group
+#                                ^^^^^^^ meta.group.regexp.shell meta.group.regexp.shell meta.group.regexp.shell
+#                                 ^^^^^ meta.set.regexp.shell
+#                                       ^^^ meta.group.regexp.shell meta.group.regexp.shell - meta.group meta.group meta.group
+#                                          ^ meta.group.regexp.shell - meta.group meta.group
+#                                            ^ keyword.operator.substitution.shell
+#                                             ^^^^^^^^^ meta.string.shell string.unquoted.shell
+#                                                      ^ punctuation.section.interpolation.end.shell
 
 # tilde expansion in pattern
 
@@ -4960,22 +5072,59 @@ any --arg{1,2,3} ={1,2,3}
 
 # invalid brace expansions due to whitespace
 
-: {} {*} {1} {a} {foo} {'bar'} {"baz"}
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+: {} {*} {1} {a} {foo} {'bar'} {"baz"} {{} {}}
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+# ^^ meta.string.glob.shell string.unquoted.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
+#     ^ constant.other.wildcard.asterisk.shell
+#        ^^^ meta.string.glob.shell string.unquoted.shell
+#            ^^^ meta.string.glob.shell string.unquoted.shell
+#                ^^^^^ meta.string.glob.shell string.unquoted.shell
+#                      ^^^^^^^ meta.string.glob.shell
+#                      ^ string.unquoted.shell
+#                       ^^^^^ string.quoted.single.shell
+#                       ^ punctuation.definition.string.begin.shell
+#                           ^ punctuation.definition.string.end.shell
+#                            ^ string.unquoted.shell
+#                              ^^^^^^^ meta.string.glob.shell
+#                              ^ string.unquoted.shell
+#                               ^^^^^ string.quoted.double.shell
+#                               ^ punctuation.definition.string.begin.shell
+#                                   ^ punctuation.definition.string.end.shell
+#                                    ^ string.unquoted.shell
+#                                      ^^^ meta.string.glob.shell string.unquoted.shell
+#                                          ^^ meta.string.glob.shell string.unquoted.shell
+#                                            ^ invalid.illegal.stray.shell
 
-: { 1..9} {1..9 } {1.. 9} {1 ..9} {a, b, c}
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+: {f{o} {"b}r"} {{foo}bar}}
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+# ^^^^^ meta.string.glob.shell string.unquoted.shell
+#      ^ - meta.string - string
+#       ^^^^^^^ meta.string.glob.shell
+#       ^ string.unquoted.shell
+#        ^^^^^ string.quoted.double.shell
+#        ^ punctuation.definition.string.begin.shell
+#            ^ punctuation.definition.string.end.shell
+#             ^ string.unquoted.shell
+#              ^ - meta.string - string
+#               ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                         ^ invalid.illegal.stray.shell - meta.string - string
 
-: {1..&} {1..|} {1..<} {1..>} {(..)} {a..)}
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+: { 1..9} : {1..9 } : {1.. 9} : {1 ..9} : {a, b, c}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
+
+: {1..&} : {1..|} : {1..<} : {1..>} : {(..)} : {a..)}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
 
 : {a..z\
   ..2}
-#^^^^^ - meta.interpolation
+# ^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#    ^ invalid.illegal.stray.shell - meta.string - string - meta.interpolation
 
 : {foo\
   bar,baz}
-#^^^^^^^^^^ - meta.interpolation
+# ^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.interpolation
+#        ^ invalid.illegal.stray.shell - meta.string - string - meta.interpolation
 
 : '{foo,bar,baz}' '{1..10}'
 # ^^^^^^^^^^^^^^^ meta.string.glob.shell string.quoted.single.shell - meta.interpolation
