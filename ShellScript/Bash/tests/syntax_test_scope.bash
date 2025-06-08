@@ -3023,6 +3023,47 @@ done
 #                       ^^ variable.other.readwrite.shell
 #                          ^^ punctuation.section.compound.end.shell
 
+## multi-line arithmetic comparisons
+
+[[
+    # comment
+#   ^^^^^^^^^^ meta.compound.conditional.shell comment.line.number-sign.shell
+    "a"+"b"+(
+#^^^ meta.compound.conditional.shell - meta.arithmetic
+#   ^^^^^^^^^^ meta.compound.conditional.shell meta.arithmetic.shell
+#   ^^^ meta.quoted.shell
+#   ^ punctuation.definition.quoted.begin.shell
+#    ^ variable.other.readwrite.shell
+#     ^ punctuation.definition.quoted.end.shell
+#      ^ keyword.operator.arithmetic.shell
+#       ^^^ meta.quoted.shell
+#       ^ punctuation.definition.quoted.begin.shell
+#        ^ variable.other.readwrite.shell
+#         ^ punctuation.definition.quoted.end.shell
+#          ^ keyword.operator.arithmetic.shell
+#           ^  punctuation.section.group.begin.shell
+
+    # not a comment
+#   ^^^^^^^^^^^^^^^^ - comment
+    1
+#   ^ constant.numeric.value.shell
+    )
+# ^^^ meta.compound.conditional.shell meta.arithmetic.shell meta.group.shell
+#   ^ punctuation.section.group.end.shell
+    # comment
+#   ^^^^^^^^^^ meta.compound.conditional.shell comment.line.number-sign.shell
+    -lt
+#^^^^^^ meta.compound.conditional.shell
+#   ^^^ keyword.operator.comparison.shell
+    # comment
+#   ^^^^^^^^^^ meta.compound.conditional.shell comment.line.number-sign.shell
+    5
+#^^^^ meta.compound.conditional.shell
+#   ^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+    # comment
+#   ^^^^^^^^^^ meta.compound.conditional.shell comment.line.number-sign.shell
+]]
+
 
 ###############################################################################
 # 3.2.5 Compound Commands                                                     #
@@ -13084,6 +13125,25 @@ doc
 #                     ^ keyword.operator.arithmetic.shell
 #                      ^^ variable.other.readwrite.shell
 #                         ^ punctuation.section.compound.end.shell
+
+## arithmetic multi-line test expressions
+
+[ 4 \
+  -lt \
+# ^^^ keyword.operator.comparison.shell
+#     ^ punctuation.separator.continuation.line.shell
+
+[ 4 \
+  -lt \
+  a \
+# ^ meta.arithmetic.shell variable.other.readwrite.shell
+#   ^ punctuation.separator.continuation.line.shell
+
+[ 4 \
+  -lt \
+  a \
+]
+# <- meta.compound.conditional.shell punctuation.section.compound.end.shell
 
 
 ###############################################################################

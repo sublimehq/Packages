@@ -728,7 +728,28 @@ contexts:
       branch_point: cmd-compound-test-comparison
       branch:
         - cmd-compound-test-string-comparison  # note: try string comparison first as it is more likely
-        - arithmetic-comparison
+        - cmd-compound-test-arithmetic-comparison
+
+  cmd-compound-test-arithmetic-comparison:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cmd-compound-test-arithmetic-word
+        - cmd-compound-test-arithmetic-operator
+        - arithmetic-word-body
+
+  cmd-compound-test-arithmetic-operator:
+    - meta_include_prototype: false
+    - match: '{{arithmetic_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  cmd-compound-test-arithmetic-word:
+    - meta_include_prototype: false
+    - include: comments
+    - include: arithmetic-word
 
   cmd-compound-test-string-comparison:
     # comparison like `string < string` or `string =~ pattern`
@@ -832,8 +853,28 @@ contexts:
     - match: '{{word_begin}}'
       branch_point: cmd-test-comparison
       branch:
-        - cmd-test-string-comparison   # note: try string comparison first as it is more likely
-        - arithmetic-comparison        # note: built-in tests only support basic integer expressions
+        - cmd-test-string-comparison      # note: try string comparison first as it is more likely
+        - cmd-test-arithmetic-comparison  # note: built-in tests only support basic integer expressions
+
+  cmd-test-arithmetic-comparison:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cmd-test-arithmetic-word
+        - cmd-test-arithmetic-operator
+        - arithmetic-word-body
+
+  cmd-test-arithmetic-operator:
+    - meta_include_prototype: false
+    - match: '{{arithmetic_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      pop: 1
+    - include: eoc-pop
+
+  cmd-test-arithmetic-word:
+    - meta_include_prototype: false
+    - include: eoc-pop
+    - include: arithmetic-word
 
   cmd-test-string-comparison:
     # comparison like `string < string` or `string =~ pattern`
@@ -1735,22 +1776,6 @@ contexts:
     - include: string-interpolations
 
 ###[ ARITHMETIC EXPRESSIONS ]##################################################
-
-  arithmetic-comparison:
-    # arithmetic comparison like `1+2 -eq 2+1`
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - arithmetic-operator
-        - arithmetic-word
-
-  arithmetic-operator:
-    - meta_include_prototype: false
-    - match: '{{arithmetic_comparison_operators}}'
-      scope: keyword.operator.comparison.shell
-      set: arithmetic-word
-    - include: comments
-    - include: else-pop
 
   arithmetic-word:
     - meta_include_prototype: false
