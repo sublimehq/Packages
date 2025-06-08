@@ -3415,8 +3415,9 @@ variables:
   # https://www.gnu.org/software/bash/manual/bash.html#Bash-Builtins
   # Note: Contains items which are not present as dedicated contexts
   builtin_cmds: |-
-    (?x: \. | \: | bg | bind | caller | cd | disown | enable | eval | fg
-    | getopts | hash | help | jobs | kill | logout | printf | pwd | set
+    (?x: \. | \: | bg | bind | caller | cd | compgen | complete | compopt
+    | dirs | disown | enable | eval | fc | fg | getopts | hash | help
+    | history | jobs | kill | logout | popd | printf | pushd | pwd | set
     | shift | shopt | source | su | suspend | times | type | ulimit | umask
     | wait ){{cmd_break}}
 
