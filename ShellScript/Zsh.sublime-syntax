@@ -686,6 +686,7 @@ contexts:
       scope: punctuation.section.interpolation.end.shell.zsh
       pop: 1
     - include: expression-content
+    - include: expression-illegals
 
 ###[ BRACE EXPANSIONS ]########################################################
 
@@ -1187,6 +1188,7 @@ contexts:
       pop: 1
     - include: line-continuations
     - include: expression-content
+    - include: expression-illegals
 
   zsh-qualifier-fspec:
     # credentials given as octal number without base
@@ -1361,7 +1363,7 @@ contexts:
       set: zsh-modifier-expression-paren-body
     - match: '{{glob_string_quote}}'
       scope: meta.quoted.glob.shell.zsh punctuation.definition.quoted.begin.shell.zsh
-      embed: expression-content
+      embed: zsh-modifier-expression-content
       embed_scope: meta.quoted.glob.shell.zsh meta.arithmetic.shell
       escape: \1
       escape_captures:
@@ -1376,7 +1378,7 @@ contexts:
     - match: \>
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
-    - include: expression-content
+    - include: zsh-modifier-expression-content
 
   zsh-modifier-expression-brace-body:
     - meta_include_prototype: false
@@ -1385,7 +1387,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
-    - include: expression-content
+    - include: zsh-modifier-expression-content
 
   zsh-modifier-expression-bracket-body:
     - meta_include_prototype: false
@@ -1394,7 +1396,7 @@ contexts:
     - match: \]
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
-    - include: expression-content
+    - include: zsh-modifier-expression-content
 
   zsh-modifier-expression-paren-body:
     - meta_include_prototype: false
@@ -1403,7 +1405,11 @@ contexts:
     - match: \)
       scope: punctuation.definition.quoted.end.shell.zsh
       pop: 1
+    - include: zsh-modifier-expression-content
+
+  zsh-modifier-expression-content:
     - include: expression-content
+    - include: expression-illegals
 
 ###[ ZSH MODIFIER INTERPOLATED STRINGS ]#######################################
 
