@@ -2971,15 +2971,17 @@ done
 #                    ^ punctuation.section.group.end.shell
 #                      ^^ punctuation.section.compound.end.shell
 
-[[ "c + $d" -eq "1 * ( a % ( b * 5) )" ]]
+[[ "c"+"$d" -eq "1 * ( a % ( b * 5) )" ]]
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^^^^^ meta.quoted.shell meta.arithmetic.shell
+#  ^^^ meta.arithmetic.shell meta.quoted.shell
+#     ^ meta.arithmetic.shell - meta.quoted
+#      ^^^ meta.arithmetic.shell meta.quoted.shell
 #          ^^^^^ - meta.arithmetic
-#               ^^^^^ meta.quoted.shell meta.arithmetic.shell - meta.group
-#                    ^^^^^^ meta.quoted.shell meta.arithmetic.shell meta.group.shell - meta.group meta.group
-#                          ^^^^^^^^ meta.quoted.shell meta.arithmetic.shell meta.group.shell meta.group.shell
-#                                  ^^ meta.quoted.shell meta.arithmetic.shell meta.group.shell - meta.group meta.group
-#                                    ^ meta.quoted.shell meta.arithmetic.shell - meta.group
+#               ^^^^^ meta.arithmetic.shell meta.quoted.shell - meta.group
+#                    ^^^^^^ meta.arithmetic.shell meta.quoted.shell meta.group.shell - meta.group meta.group
+#                          ^^^^^^^^ meta.arithmetic.shell meta.quoted.shell meta.group.shell meta.group.shell
+#                                  ^^ meta.arithmetic.shell meta.quoted.shell meta.group.shell - meta.group meta.group
+#                                    ^ meta.arithmetic.shell meta.quoted.shell - meta.group
 #                                     ^^ - meta.arithmetic
 #  ^ punctuation.definition.quoted.begin.shell
 #   ^ variable.other.readwrite.shell

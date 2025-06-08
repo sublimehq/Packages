@@ -1753,29 +1753,13 @@ contexts:
     - include: else-pop
 
   arithmetic-word:
-    # A `word` which is interpreted as arithmetic expression
-    - match: \"
-      scope: punctuation.definition.quoted.begin.shell
-      set: arithmetic-word-double-quoted-body
-    - match: \'
-      scope: punctuation.definition.quoted.begin.shell
-      set: arithmetic-word-single-quoted-body
+    - meta_include_prototype: false
     - match: '{{word_begin}}'
-      set: arithmetic-word-unquoted-body
+      set: arithmetic-word-body
 
-  arithmetic-word-double-quoted-body:
-    - meta_scope: meta.quoted.shell meta.arithmetic.shell
-    - include: expression-double-quoted-body
-
-  arithmetic-word-single-quoted-body:
-    - meta_scope: meta.quoted.shell meta.arithmetic.shell
-    - include: expression-single-quoted-body
-
-  arithmetic-word-unquoted-body:
+  arithmetic-word-body:
     - meta_scope: meta.arithmetic.shell
-    - include: expression-groups
-    - include: expression-common
-    - include: expression-illegals
+    - include: expression-content
     - include: word-end
 
   expression-content:
@@ -1790,6 +1774,7 @@ contexts:
     - include: expression-common
 
   expression-double-quoted-body:
+    - meta_scope: meta.quoted.shell
     - match: \"
       scope: punctuation.definition.quoted.end.shell
       pop: 1
@@ -1814,6 +1799,7 @@ contexts:
     - include: expression-illegals
 
   expression-single-quoted-body:
+    - meta_scope: meta.quoted.shell
     - match: \'
       scope: punctuation.definition.quoted.end.shell
       pop: 1
