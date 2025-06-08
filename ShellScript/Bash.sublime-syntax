@@ -3462,6 +3462,7 @@ variables:
     | COMPREPLY
     | COPROC
     | DIRSTACK
+    | EMACS
     | ENV
     | EPOCHREALTIME
     | EPOCHSECONDS
@@ -3533,6 +3534,7 @@ variables:
     | SRANDOM
     | TIMEFORMAT
     | TMOUT
+    | TMPDIR
     | UID
     ){{identifier_break}}
 

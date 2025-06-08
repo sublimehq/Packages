@@ -1682,6 +1682,7 @@ variables:
     | CPUTYPE
     | DIRSTACKSIZE
     | EGID
+    | EMACS
     | ENV
     | ERRNO
     | EUID
@@ -1769,6 +1770,7 @@ variables:
     | TERMINFO_DIRS
     | TIMEFMT
     | TMOUT
+    | TMPDIR
     | TMPPREFIX
     | TMPSUFFIX
     | TRY_BLOCK_ERROR
