@@ -2705,7 +2705,7 @@ goto Label2;
     default: ;
 //  ^^^^^^^ keyword.control.conditional.default.php - entity.name
     die: ;
-//  ^^^ keyword.control.flow.panic.php - entity.name
+//  ^^^ support.function.builtin.php - entity.name
     do: ;
 //  ^^ keyword.control.loop.do-while.php - entity.name
     echo: ;
@@ -2731,7 +2731,7 @@ goto Label2;
     eval:  ;
 //  ^^^^ support.function.builtin.php - entity.name
     exit: ;
-//  ^^^^ keyword.control.flow.panic.php - entity.name
+//  ^^^^ support.function.builtin.php - entity.name
     extends: ;
 //  ^^^^^^^ storage.modifier.extends.php - entity.name
     final: ;
@@ -3264,6 +3264,21 @@ define("MY_CONST", value);
 //                  ^^^^^ constant.other.php
 //                       ^ punctuation.section.group.end.php
 //                        ^ punctuation.terminator.statement.php
+
+die ;
+// <- meta.function-call.identifier.php support.function.builtin.php
+//^^ meta.function-call.identifier.php
+//^ support.function.builtin.php
+// ^ meta.function-call.identifier.php
+//  ^ punctuation.terminator.statement.php
+
+die();
+// <- meta.function-call.identifier.php support.function.builtin.php
+//^ meta.function-call.identifier.php support.function.builtin.php
+// ^^ meta.function-call.arguments.php meta.group.php
+// ^ punctuation.section.group.begin.php
+//  ^ punctuation.section.group.end.php
+//   ^ punctuation.terminator.statement.php
 
 echo ;
 // <- meta.function-call.identifier.php - meta.path.php
