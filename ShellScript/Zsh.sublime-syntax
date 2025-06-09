@@ -793,15 +793,14 @@ contexts:
     - match: :(?:[*|]|\^\^?)
       scope: keyword.operator.arithmetic.shell
       set: zsh-parameter-array-name
+    # ${parameter:#pattern}
     # ${parameter::=pattern}
-    # $parameter if non-null, else str and set parameter to it.
     - match: :(?:#|:=)
       scope: keyword.operator.assignment.shell.zsh
       set:
         - parameter-expansion-pattern
         - maybe-tilde-interpolation
     # ${parameter:/pattern/word}
-    # Substitute <pattern> with <word>, if pattern match the whole value of <parameter>.
     - match: :/
       scope: keyword.operator.substitution.shell
       set:
