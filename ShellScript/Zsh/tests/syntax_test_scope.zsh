@@ -4021,6 +4021,42 @@ ip=10.10.20.14
 #        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
 
+: ${var:|arr}    # Remove all elements of array `arr` from `var`.
+#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.arithmetic.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:*arr}    # Retain all elements which appear in both arrays `var` and `arr`.
+#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.arithmetic.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:^arr}    # Zip arrays `var` and `arr`.
+#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.arithmetic.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:^^arr}   # Zip arrays `var` and `arr`.
+#^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ keyword.operator.arithmetic.shell
+#         ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
+
 : ${var/p/r}     # One occurrence of p replaced by r
 # ^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
@@ -4033,6 +4069,17 @@ ip=10.10.20.14
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var//p/r}    # All occurrences of p replaced by r
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.substitution.shell
+#        ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ keyword.operator.substitution.shell
+#          ^ meta.string.glob.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:/p/r}    # All p replaced by r if p matches var
 # ^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
