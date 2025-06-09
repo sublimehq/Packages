@@ -71,13 +71,13 @@ variables:
     (?xi: case | catch | default | do | (?: end )? (?: for(?:each)? | if | switch | while )
     | else | elseif | finally | switch | try )\b
   flow_keywords: |-
-    (?xi: break | continue | die | exit | finally | goto | return )\b
+    (?xi: break | continue | finally | goto | return )\b
 
   # Expression Level Keywords
   expression_keywords: |-
     (?xi: as | throw | yield )\b
   builtin_functions: |-
-    (?xi: echo | print | empty | eval | isset | list | unset )\b
+    (?xi: die | echo | empty | eval | exit | isset | list | print | unset )\b
   builtin_variables: |-
     (?xi: parent | self )\b
   include_directives: |-
@@ -1326,8 +1326,6 @@ contexts:
     - match: (?i:goto)\b
       scope: keyword.control.flow.goto.php
       push: goto-label
-    - match: (?i:die|exit)\b
-      scope: keyword.control.flow.panic.php
     - match: (?i:return)\b
       scope: keyword.control.flow.return.php
 
