@@ -1605,7 +1605,7 @@ autoload $dir/*/*~*.zwc(#q.N:t)
 #                      ^^ punctuation.definition.modifier.begin.shell.zsh
 #                        ^ storage.modifier.mode.glob.shell.zsh
 #                         ^^ storage.modifier.glob.shell.zsh
-#                           ^ punctuation.separator.sequence.shell.zsh
+#                           ^ punctuation.separator.modifier.shell.zsh
 #                            ^ storage.modifier.glob.shell.zsh
 #                             ^ punctuation.definition.modifier.end.shell.zsh
 
@@ -2565,35 +2565,35 @@ ip=10.10.20.14
 : /(:a) # Turn a file name into an absolute path
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:A) # Turn a file name into an real path (resolve symlinks)
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:c) # Resolve a command name into an absolute path
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:e) # Remove all but the part of the filename extension following the '.'
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:h10) # Remove a trailing pathname components
 #  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ punctuation.definition.modifier.end.shell.zsh
@@ -2601,42 +2601,42 @@ ip=10.10.20.14
 : /(:l) # Convert the words to all lowercase.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:p) # Print the new command but do not execute it.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:P) # Turn a file name into an absolute path, permit non-existing
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:q) # Quote the substituted words, escaping further substitutions.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:Q) # Remove one level of quotes from the substituted words.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:r) # Remove a filename extension leaving the root name.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
@@ -2674,21 +2674,21 @@ ip=10.10.20.14
 #                                                   ^ keyword.operator.substitution.shell.zsh
 #                                                    ^^^^ meta.string.regexp.shell string.unquoted.shell
 #                                                        ^ keyword.operator.substitution.shell.zsh
-#                                                         ^ punctuation.separator.sequence.shell.zsh
+#                                                         ^ punctuation.separator.modifier.shell.zsh
 #                                                          ^ constant.other.flag.regexp.shell.zsh
 #                                                           ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:&) # Repeat the previous s substitution.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:t10) # Remove all leading pathname components
 #  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ punctuation.definition.modifier.end.shell.zsh
@@ -2696,21 +2696,21 @@ ip=10.10.20.14
 : /(:u) # Convert the words to all uppercase.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:x) # Like q, but break into words at whitespace.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(:f) # Repeats the immediately (without a colon) following modifier
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
@@ -2720,7 +2720,7 @@ ip=10.10.20.14
 #     ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #          ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.quoted.begin.shell.zsh
 #      ^^^ meta.arithmetic.shell
@@ -2731,7 +2731,7 @@ ip=10.10.20.14
 #                ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #             ^ punctuation.definition.modifier.begin.shell.zsh
-#              ^ punctuation.separator.sequence.shell.zsh
+#              ^ punctuation.separator.modifier.shell.zsh
 #               ^ storage.modifier.glob.shell.zsh
 #                ^ punctuation.definition.quoted.begin.shell.zsh
 #                 ^^^ meta.arithmetic.shell
@@ -2742,7 +2742,7 @@ ip=10.10.20.14
 #                           ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                         ^ punctuation.separator.sequence.shell.zsh
+#                         ^ punctuation.separator.modifier.shell.zsh
 #                          ^ storage.modifier.glob.shell.zsh
 #                           ^ punctuation.definition.quoted.begin.shell.zsh
 #                            ^^^ meta.arithmetic.shell
@@ -2753,7 +2753,7 @@ ip=10.10.20.14
 #                                      ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                   ^ punctuation.definition.modifier.begin.shell.zsh
-#                                    ^ punctuation.separator.sequence.shell.zsh
+#                                    ^ punctuation.separator.modifier.shell.zsh
 #                                     ^ storage.modifier.glob.shell.zsh
 #                                      ^ punctuation.definition.quoted.begin.shell.zsh
 #                                       ^^^ meta.arithmetic.shell
@@ -2764,7 +2764,7 @@ ip=10.10.20.14
 #                                                 ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                                      ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                              ^ punctuation.definition.modifier.begin.shell.zsh
-#                                               ^ punctuation.separator.sequence.shell.zsh
+#                                               ^ punctuation.separator.modifier.shell.zsh
 #                                                ^ storage.modifier.glob.shell.zsh
 #                                                 ^ punctuation.definition.quoted.begin.shell.zsh
 #                                                  ^^^ meta.arithmetic.shell
@@ -2775,7 +2775,7 @@ ip=10.10.20.14
 #                                                            ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                                                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                                         ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                          ^ punctuation.separator.sequence.shell.zsh
+#                                                          ^ punctuation.separator.modifier.shell.zsh
 #                                                           ^ storage.modifier.glob.shell.zsh
 #                                                            ^ punctuation.definition.quoted.begin.shell.zsh
 #                                                             ^^^ meta.arithmetic.shell
@@ -2786,7 +2786,7 @@ ip=10.10.20.14
 : /(:w) # Makes the immediately following modifier work on each word in the string.
 #  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
@@ -2796,7 +2796,7 @@ ip=10.10.20.14
 #     ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #          ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.quoted.begin.shell.zsh
 #      ^^^ string.quoted.other.shell.zsh
@@ -2807,7 +2807,7 @@ ip=10.10.20.14
 #                ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #             ^ punctuation.definition.modifier.begin.shell.zsh
-#              ^ punctuation.separator.sequence.shell.zsh
+#              ^ punctuation.separator.modifier.shell.zsh
 #               ^ storage.modifier.glob.shell.zsh
 #                ^ punctuation.definition.quoted.begin.shell.zsh
 #                 ^^^ string.quoted.other.shell.zsh
@@ -2818,7 +2818,7 @@ ip=10.10.20.14
 #                           ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                         ^ punctuation.separator.sequence.shell.zsh
+#                         ^ punctuation.separator.modifier.shell.zsh
 #                          ^ storage.modifier.glob.shell.zsh
 #                           ^ punctuation.definition.quoted.begin.shell.zsh
 #                            ^^^ string.quoted.other.shell.zsh
@@ -2829,7 +2829,7 @@ ip=10.10.20.14
 #                                      ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                   ^ punctuation.definition.modifier.begin.shell.zsh
-#                                    ^ punctuation.separator.sequence.shell.zsh
+#                                    ^ punctuation.separator.modifier.shell.zsh
 #                                     ^ storage.modifier.glob.shell.zsh
 #                                      ^ punctuation.definition.quoted.begin.shell.zsh
 #                                       ^^^ string.quoted.other.shell.zsh
@@ -2840,7 +2840,7 @@ ip=10.10.20.14
 #                                                 ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                                      ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                              ^ punctuation.definition.modifier.begin.shell.zsh
-#                                               ^ punctuation.separator.sequence.shell.zsh
+#                                               ^ punctuation.separator.modifier.shell.zsh
 #                                                ^ storage.modifier.glob.shell.zsh
 #                                                 ^ punctuation.definition.quoted.begin.shell.zsh
 #                                                  ^^^ string.quoted.other.shell.zsh
@@ -2851,7 +2851,7 @@ ip=10.10.20.14
 #                                                            ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                                                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                                         ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                          ^ punctuation.separator.sequence.shell.zsh
+#                                                          ^ punctuation.separator.modifier.shell.zsh
 #                                                           ^ storage.modifier.glob.shell.zsh
 #                                                            ^ punctuation.definition.quoted.begin.shell.zsh
 #                                                             ^^^ string.quoted.other.shell.zsh
@@ -7614,7 +7614,7 @@ a=(/*(/:t)) # qualifiers are valid in arrays
 #   ^ constant.other.wildcard.asterisk.shell
 #    ^ punctuation.definition.modifier.begin.shell.zsh
 #     ^ storage.modifier.glob.shell.zsh
-#      ^ punctuation.separator.sequence.shell.zsh
+#      ^ punctuation.separator.modifier.shell.zsh
 #       ^ storage.modifier.glob.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
 #         ^ punctuation.section.sequence.end.shell
@@ -8236,7 +8236,7 @@ print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directorie
 #                                              ^ keyword.operator.arithmetic.shell
 #                                               ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                                ^ punctuation.definition.range.end.shell.zsh
-#                                                 ^ punctuation.separator.sequence.shell.zsh
+#                                                 ^ punctuation.separator.modifier.shell.zsh
 #                                                  ^ storage.modifier.glob.shell.zsh
 #                                                   ^ punctuation.definition.modifier.end.shell.zsh
 #                                                    ^ punctuation.section.sequence.end.shell
@@ -8371,7 +8371,7 @@ print -rl -- **/*.c(D.OL[1,10]:h) | sort -u # Print the path of the directories 
 #                         ^ punctuation.separator.sequence.shell
 #                          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                            ^ punctuation.definition.range.end.shell.zsh
-#                             ^ punctuation.separator.sequence.shell.zsh
+#                             ^ punctuation.separator.modifier.shell.zsh
 #                              ^ storage.modifier.glob.shell.zsh
 #                               ^ punctuation.definition.modifier.end.shell.zsh
 #                                 ^ keyword.operator.assignment.pipe.shell
