@@ -1159,7 +1159,7 @@ contexts:
     - include: zsh-glob-numbers
     # begin of history expansion modifiers
     - match: ':'
-      scope: punctuation.separator.sequence.shell.zsh
+      scope: punctuation.separator.modifier.shell.zsh
       push: zsh-glob-qualifier-modifier
     # restrict which matches are returned
     - match: \[
@@ -1270,7 +1270,7 @@ contexts:
     - match: '[&aAcefhlpPqQrtuwx]'
       scope: storage.modifier.glob.shell.zsh
     - match: ':'
-      scope: punctuation.separator.sequence.shell.zsh
+      scope: punctuation.separator.modifier.shell.zsh
 
   zsh-modifier-subst-pattern:
     - match: \2
@@ -1287,7 +1287,7 @@ contexts:
     - meta_scope: meta.substitution.shell.zsh
     - match: (:)(G)
       captures:
-        1: punctuation.separator.sequence.shell.zsh
+        1: punctuation.separator.modifier.shell.zsh
         2: constant.other.flag.regexp.shell.zsh
       pop: 1
     - include: immediately-pop
