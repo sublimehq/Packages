@@ -4022,7 +4022,7 @@ ip=10.10.20.14
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var:|arr}    # Remove all elements of array `arr` from `var`.
-#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
@@ -4031,7 +4031,7 @@ ip=10.10.20.14
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var:*arr}    # Retain all elements which appear in both arrays `var` and `arr`.
-#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
@@ -4040,7 +4040,7 @@ ip=10.10.20.14
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var:^arr}    # Zip arrays `var` and `arr`.
-#^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
@@ -4049,7 +4049,7 @@ ip=10.10.20.14
 #           ^ punctuation.section.interpolation.end.shell
 
 : ${var:^^arr}   # Zip arrays `var` and `arr`.
-#^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
