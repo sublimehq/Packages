@@ -806,6 +806,12 @@ contexts:
       set:
         - parameter-expansion-substitution-pattern
         - maybe-tilde-interpolation
+    # Legal in Bash, but illegal in Zsh
+    # ${parameter~pattern}
+    # ${parameter~~pattern}
+    - match: ~~?
+      scope: invalid.illegal.unexpacted-token.shell
+      set: parameter-expansion-pattern
 
   zsh-parameter-array-name:
     - meta_content_scope: variable.other.readwrite.shell

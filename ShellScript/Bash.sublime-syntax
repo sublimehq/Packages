@@ -3048,11 +3048,11 @@ contexts:
     - meta_include_prototype: false
     # Expansion result is used as new parameter name to expand
     # Adds a level of indirection to name resolution
-    - match: \!(?![/%,:=^}]|[-+?@][^}])
+    - match: \!(?![/%,~:=^}]|[-+?@][^}])
       scope: keyword.operator.expansion.indirection.shell
       pop: 1
     # Length of var in words (array) or bytes
-    - match: \#(?![/%,:=^}]|[-+?@#][^}])
+    - match: \#(?![/%,~:=^}]|[-+?@#][^}])
       scope: keyword.operator.expansion.length.shell
       pop: 1
     - include: line-continuations
@@ -3063,10 +3063,10 @@ contexts:
     - match: \d+
       scope: variable.language.positional.shell
       pop: 1
-    - match: '{{builtin_variables}}(?=[-+*/%?,:=#^@}\[])'
+    - match: '{{builtin_variables}}(?=[-+*/%?,~:=#^@}\[])'
       scope: variable.language.builtin.shell
       pop: 1
-    - match: '{{special_variables}}(?=[-+*/%?,:=#^@}\[])'
+    - match: '{{special_variables}}(?=[-+*/%?,~:=#^@}\[])'
       scope: variable.language.special.shell
       pop: 1
     - match: ''
@@ -3108,15 +3108,20 @@ contexts:
     # ${parameter##pattern}
     # ${parameter%pattern}
     # ${parameter%%pattern}
-    # ${parameter^pattern}
-    # ${parameter^^pattern}
-    # ${parameter,pattern}
-    # ${parameter,,pattern}
-    - match: (?:##?|%%?|\^\^?|,,?)
+    - match: (?:##?|%%?)
       scope: keyword.operator.expansion.shell
       set:
         - parameter-expansion-pattern
         - maybe-tilde-interpolation
+    # ${parameter^pattern}
+    # ${parameter^^pattern}
+    # ${parameter,pattern}
+    # ${parameter,,pattern}
+    # ${parameter~pattern}
+    # ${parameter~~pattern}
+    - match: (?:\^\^?|,,?|~~?)
+      scope: keyword.operator.expansion.shell
+      set: parameter-expansion-pattern
 
   parameter-expansion-substr-start:
     - meta_content_scope: meta.arithmetic.shell

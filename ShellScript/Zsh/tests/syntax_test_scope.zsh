@@ -4012,6 +4012,60 @@ ip=10.10.20.14
 #        ^^^ meta.string.regexp.shell
 #           ^ punctuation.section.interpolation.end.shell
 
+: ${var^pat}    # upper case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var^^pat}   # upper case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var,pat}    # lower case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var,,pat}   # lower case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var~pat}    # toggle case all chars matching `pat` (Bash only)
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ invalid.illegal.unexpacted-token.shell
+#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var~~pat}   # toggle case all chars matching `pat` (Bash only)
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ invalid.illegal.unexpacted-token.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
 : ${var:#pat}    # $var unless pat matches, then empty
 # ^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
