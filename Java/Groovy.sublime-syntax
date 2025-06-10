@@ -1,0 +1,470 @@
+%YAML 1.2
+---
+# https://docs.groovy-lang.org/latest/html/documentation/
+# https://groovy-lang.org/documentation.html
+# https://www.sublimetext.com/docs/syntax.html
+
+name: Groovy
+scope: source.groovy
+version: 2
+
+extends: Packages/Java/Java.sublime-syntax
+
+file_extensions:
+  - groovy
+  - gvy
+  - gradle
+
+hidden_file_extensions:
+  - Jenkinsfile
+
+first_line_match: |-
+  (?x:
+    ^ \#! .* {{shebang_language}}                                               # shebang
+  | ^ \s* // .*? -\*- .*? \bgroovy\b .*? -\*-                                   # editorconfig
+  )
+
+###[ CONTEXTS ]################################################################
+
+contexts:
+
+  main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [groovy, shebang]
+
+###[ GROOVY ]##################################################################
+
+  groovy:
+    - include: java
+
+###[ COMMENTS ]################################################################
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.groovy
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.groovy
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.groovy
+    - match: $\n?
+      pop: 1
+
+  # TODO: groovy doc
+
+###[ LITERALS / VARIABLES ]####################################################
+
+  literal-variables:
+    - meta_prepend: true
+    - match: \b(assertScript)\s+(\'{3})                                         # assertScript '''...'''
+      captures:
+        1: support.function.groovy
+        2:
+          meta.string.groovy
+          string.quoted.single.block.groovy
+          punctuation.definition.string.begin.groovy
+          meta.groovy.groovy
+      embed: scope:source.groovy
+      embed_scope:
+        meta.groovy.groovy
+        source.groovy.embedded.groovy
+      escape: \'{3}
+      escape_captures:
+        0:
+          meta.string.groovy
+          string.quoted.single.block.groovy
+          punctuation.definition.string.end.groovy
+          meta.groovy.groovy
+    - match: \b(sh)\s+(\"{3})                                                   # sh """..."""
+      captures:
+        1: support.function.groovy
+        2:
+          meta.string.groovy
+          string.quoted.double.block.groovy
+          punctuation.definition.string.begin.groovy
+          meta.shell.groovy
+      embed: scope:source.shell.bash
+      embed_scope:
+        meta.shell.groovy
+        source.shell.bash.embedded.groovy
+      escape: \"{3}
+      escape_captures:
+        0:
+          meta.string.groovy
+          string.quoted.double.block.groovy
+          punctuation.definition.string.end.groovy
+          meta.shell.groovy
+    - match: \b(sh)\s+(\'{3})                                                   # sh '''...'''
+      captures:
+        1: support.function.groovy
+        2:
+          meta.string.groovy
+          string.quoted.single.block.groovy
+          punctuation.definition.string.begin.groovy
+          meta.shell.groovy
+      embed: scope:source.shell.bash
+      embed_scope:
+        meta.shell.groovy
+        source.shell.bash.embedded.groovy
+      escape: \'{3}
+      escape_captures:
+        0:
+          meta.string.groovy
+          string.quoted.single.block.groovy
+          punctuation.definition.string.end.groovy
+          meta.shell.groovy
+    - match: \b(sh)\s+(\')                                                      # sh '...'
+      captures:
+        1: support.function.groovy
+        2:
+          meta.string.groovy
+          string.quoted.single.groovy
+          punctuation.definition.string.begin.groovy
+          meta.shell.groovy
+      embed: scope:source.shell.bash
+      embed_scope:
+        meta.shell.groovy
+        source.shell.bash.embedded.groovy
+      escape: \'
+      escape_captures:
+        0:
+          meta.string.groovy
+          string.quoted.single.groovy
+          punctuation.definition.string.end.groovy
+          meta.shell.groovy
+
+###[ LITERALS / STRINGS ]######################################################
+
+  literal-strings:
+    # https://docs.groovy-lang.org/latest/html/documentation/#all-strings
+    - include: literal-double-quoted-textblocks
+    - include: literal-double-quoted-strings
+    - include: literal-single-quoted-textblocks
+    - include: literal-single-quoted-strings
+    - include: dollar-slashy-strings
+    - include: slashy-regexp-strings
+
+  literal-double-quoted-textblocks:
+    - match: \"{3}
+      scope: punctuation.definition.string.begin.groovy
+      push: literal-double-quoted-textblock-body
+
+  literal-double-quoted-textblock-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.groovy string.quoted.double.block.groovy
+    - match: \"{3}
+      scope: punctuation.definition.string.end.groovy
+      pop: 1
+    - include: literal-string-escapes
+    - include: string-interpolations-single-dollar
+    - include: string-interpolations-multiline
+    - include: illegal-interpolations
+    - include: merge-conflict-markers
+
+  literal-double-quoted-strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.groovy
+      push: literal-double-quoted-string-body
+
+  literal-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.groovy string.quoted.double.groovy
+    - match: \"
+      scope: punctuation.definition.string.end.groovy
+      pop: 1
+    - include: illegal-newline
+    - include: literal-string-escapes
+    - include: string-interpolations-single-dollar
+    - include: string-interpolations
+    - include: illegal-interpolations
+
+  literal-single-quoted-textblocks:
+    - match: \'{3}(?=#!/bin/bash)
+      captures:
+        0:
+          meta.string.groovy
+          string.quoted.single.block.groovy
+          punctuation.definition.string.begin.groovy
+          meta.shell.groovy
+      embed: scope:source.shell.bash
+      embed_scope:
+        meta.shell.groovy
+        source.shell.bash.embedded.groovy
+      escape: \'{3}
+      escape_captures:
+        0:
+          meta.string.groovy
+          string.quoted.single.block.groovy
+          punctuation.definition.string.end.groovy
+          meta.shell.groovy
+    - match: \'{3}
+      scope: punctuation.definition.string.begin.groovy
+      push: literal-single-quoted-textblock-body
+
+  literal-single-quoted-textblock-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.groovy string.quoted.single.block.groovy
+    - match: \'{3}
+      scope: punctuation.definition.string.end.groovy
+      pop: 1
+    - include: literal-string-escapes
+    - include: merge-conflict-markers
+
+  literal-single-quoted-strings:
+    - match: \'
+      scope: punctuation.definition.string.begin.groovy
+      push: literal-single-quoted-string-body
+
+  literal-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.groovy string.quoted.single.groovy
+    - match: \'
+      scope: punctuation.definition.string.end.groovy
+      pop: 1
+    - include: illegal-newline
+    - include: literal-string-escapes
+
+  dollar-slashy-strings:
+    # https://docs.groovy-lang.org/latest/html/documentation/#_dollar_slashy_string
+
+    - match: '\$/'
+      scope: punctuation.definition.string.begin.groovy
+      push: dollar-slashy-string-body
+
+  dollar-slashy-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.groovy string.other.dollar-slashy.block.groovy
+    - match: '/\$'
+      scope: punctuation.definition.string.end.groovy
+      pop: 1
+    - match: '\$/|\$\$'
+      scope: constant.character.escape.groovy
+    - include: literal-string-escape-eol
+    - match: '{{escape_unicode}}'
+      scope: constant.character.escape.unicode.java
+    - include: string-interpolations-single-dollar
+    - include: string-interpolations-multiline
+    - include: merge-conflict-markers
+
+  slashy-regexp-strings:
+    # https://docs.groovy-lang.org/latest/html/documentation/#_slashy_string
+    # FIXME: find a better way to distinguish operators / and /= vs slashy strings
+    - match: '/(?=[^/= ])'
+      scope: punctuation.definition.string.begin.groovy
+      push:
+        - slashy-regexp-string-meta
+        - slashy-regexp-string-body
+
+  slashy-regexp-string-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.groovy string.regexp.groovy
+    - match: '/'
+      scope: punctuation.definition.string.end.groovy
+      pop: 1
+
+  slashy-regexp-string-body:
+    - meta_include_prototype: false
+    - include: scope:source.regexp.groovy
+    - include: merge-conflict-markers
+    - include: immediately-pop
+
+###[ LITERALS / STRING ESCAPES ]###############################################
+
+  literal-string-escapes:
+    - match: '{{escape_unicode}}'
+      scope: constant.character.escape.unicode.java
+    - include: literal-string-escape-eol
+    - match: '{{escape_other}}'
+      scope: constant.character.escape.other.java
+
+  literal-string-escape-eol:
+    - match: \\\n
+      scope: constant.character.escape.groovy
+
+###[ LITERALS / STRING INTERPOLTATIONS ]#######################################
+
+  string-interpolations-multiline:
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
+      push: string-interpolation-multiline-body
+
+  string-interpolation-multiline-body:
+    - meta_include_prototype: false
+    - meta_scope: source.groovy.embedded.groovy
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.groovy
+      pop: 1
+    - include: literal-string-escape-eol
+    - include: groovy
+
+  string-interpolations:
+    - match: '\$\{'
+      scope: punctuation.section.interpolation.begin.groovy
+      push: string-interpolation-body
+
+  string-interpolation-body:
+    - meta_include_prototype: false
+    - meta_scope: source.groovy.embedded.groovy
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.groovy
+      pop: 1
+    - include: literal-string-escape-eol
+    # NOTE: not consuming the newline here, so that the outer scope handles it
+    #       and pops correctly
+    - match: (?=\n)
+      pop: 1
+    - include: groovy
+
+  string-interpolations-single-dollar:
+    - match: \${{single_dollar_interpolation_identifier}}
+      scope: variable.other.interpolated.groovy
+      push: string-interpolation-single-dollar-body
+
+  string-interpolation-single-dollar-body:
+    - meta_include_prototype: false
+    - match: \.(?={{single_dollar_interpolation_identifier}})
+      scope: punctuation.accessor.dot.groovy
+    - match: '{{single_dollar_interpolation_identifier}}'
+      scope: variable.other.interpolated.groovy
+    - match: \b
+      pop: 1
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    - include: word-operators
+    - include: range-operators
+
+    # FIXME: sregex-compatibility, see https://github.com/sublimehq/Packages/issues/481
+
+    - match: '\->'
+      scope: keyword.operator.arrow.groovy
+    - match: (?<=\S)\.(?=\S)
+      scope: punctuation.accessor.dot.groovy
+    - match: (?<=\S)\?\.(?=\S)
+      scope: punctuation.accessor.null-coalescing.groovy
+
+    - include: match-and-find-operators
+    - include: spaceship-and-diamond-operators
+
+    - include: assignment-augmented-bitwise-shift-operators
+    - include: bitwise-shift-operators
+    - include: relational-operators
+    - include: assignment-augmented-operators
+    - include: arithmetic-operators
+    - include: logical-operators
+    - include: bitwise-operators
+    - include: comparison-operators
+    - include: assignment-operators
+    - include: elvis-and-ternary-operators
+
+  word-operators:
+    - match: \bas\b
+      scope: keyword.operator.coercion.groovy
+    - match: (?:!|\b)in\b
+      scope: keyword.operator.membership.groovy
+    - match: (?:!|\b)instanceof\b
+      scope: keyword.operator.instanceof.groovy
+
+  range-operators:
+    - match: '<\.\.>'
+      scope: keyword.operator.range.exclusive.both.groovy
+    - match: '<\.\.'
+      scope: keyword.operator.range.exclusive.lower.groovy
+    - match: '\.\.>'
+      scope: keyword.operator.range.exclusive.upper.groovy
+    - match: '\.\.'
+      scope: keyword.operator.range.inclusive.groovy
+
+  match-and-find-operators:
+    - match: '==~'
+      scope: keyword.operator.match.groovy
+    - match: '=~'
+      scope: keyword.operator.find.groovy
+
+  spaceship-and-diamond-operators:
+    - match: '<=>'
+      scope: keyword.operator.comparison.groovy
+    - match: '<>'
+      scope: keyword.operator.comparison.groovy
+
+  assignment-augmented-operators:
+    - meta_prepend: true
+    - match: '\*\*='
+      scope: keyword.operator.assignment.augmented.power.groovy
+
+  arithmetic-operators:
+    - meta_prepend: true
+    - match: '\*\*'
+      scope: keyword.operator.arithmetic.power.groovy
+
+  comparison-operators:
+    - meta_prepend: true
+    - match: '==='
+      scope: keyword.operator.comparison.equal.value.strict.groovy
+    - match: '!=='
+      scope: keyword.operator.comparison.not-equal.value.strict.groovy
+
+  elvis-and-ternary-operators:
+    # https://docs.groovy-lang.org/latest/html/documentation/#_elvis_operator
+    - match: '\?\:'
+      scope: keyword.operator.elvis.groovy
+
+    - include: ternary-operators
+
+###[ TYPE IMPORT ]#############################################################
+
+  type-import-package:
+    # https://docs.groovy-lang.org/latest/html/documentation/#_default_imports
+    - meta_prepend: true
+    - match: 'java\.math\.Big(?:Decimal|Integer){{break}}'
+      scope: invalid.illegal.import-of-default-import.groovy
+      pop: 1
+    - match: 'java\.(?:io|lang|net|util)(?:{{break}}|(?:\.{{lowercase_id}})*)'
+      scope: invalid.illegal.import-of-default-import.groovy
+      pop: 1
+    - match: 'groovy\.(?:lang|util)(?:{{break}}|(?:\.{{lowercase_id}})*)'
+      scope: invalid.illegal.import-of-default-import.groovy
+      pop: 1
+
+###[ ILLEGALS ]################################################################
+
+  illegal-interpolations:
+    - match: \$(?=")
+      scope: invalid.illegal.stray-dollar-sign.groovy
+    - match: \$[^"]+
+      scope: invalid.illegal.malformatted-interpolation.groovy
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  shebang_language: \b(?:groovy)\b
+
+  float_suffix: '[dDfFgGiIlL]{{break}}'
+  int_suffix: '[dDfFgGiIlL]{{break}}'
+
+  escape_other: \\[btnfr"'\\\$]
+
+  single_dollar_id_char: |-
+    (?xi:
+      # Valid unicode letters according to:
+      # http://groovy-lang.org/syntax.html#_normal_identifiers
+      #   Literal Unicode         Escaped Unicode
+          [\x{00C0}-\x{00D6}]  |  \\u00C[0-9A-F] | \\u00D[0-6]
+        | [\x{00D8}-\x{00F6}]  |  \\u00D[89A-F]  | \\u00E[0-9A-F] | \\u00F[0-6]
+        | [\x{00F8}-\x{00FF}]  |  \\u00F[89A-F]
+        | [\x{0100}-\x{FFFE}]  |  \\u0[1-9A-F][0-9A-F]{2} | \\u(?!FFFF)[1-9A-F][0-9A-F]{3}
+    )
+
+  # dollars aren't allowed in the single dollar interpolated identifiers
+  # (dotted expressions), but they are supposed to be valid characters
+  # in identifiers in other contexts
+  # e.g. `"$$a"` is invalid, but `"${$a}"` is fine.
+  single_dollar_interpolation_identifier: (?:{{single_dollar_id_char}}|[[:alpha:]_])(?:{{single_dollar_id_char}}|[[:alnum:]_])*

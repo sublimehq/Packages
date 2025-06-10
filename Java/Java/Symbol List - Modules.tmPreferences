@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.java meta.namespace.module.identifier &amp; (meta.path, entity.name.namespace)</string>
+	<string><![CDATA[source.java meta.namespace.module.identifier & (meta.path, entity.name.namespace)]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
