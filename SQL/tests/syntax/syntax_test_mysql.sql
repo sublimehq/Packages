@@ -1668,6 +1668,38 @@ CREATE
 -- ^^ meta.statement.create.sql meta.table.sql meta.group.partitions.sql
 --  ^ punctuation.section.group.end.sql
 
+CREATE TABLE contacts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    fullname varchar(101) GENERATED ALWAYS AS (CONCAT(first_name,' ',last_name)),
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--  ^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--           ^^^^^^^^^^^^ storage.type.sql
+--                  ^^^^^ meta.parens.sql
+--                  ^ punctuation.definition.parens.begin.sql
+--                   ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                      ^ punctuation.definition.parens.end.sql
+--                        ^^^^^^^^^^^^^^^^^^^ storage.modifier.mysql
+--                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                            ^ punctuation.section.group.begin.sql
+--                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                                             ^^^^^^ support.function.sql
+--                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                                   ^ punctuation.section.arguments.begin.sql
+--                                                    ^^^^^^^^^^ meta.column-name.sql
+--                                                              ^ punctuation.separator.arguments.sql
+--                                                               ^^^ meta.string.sql string.quoted.single.sql
+--                                                               ^ punctuation.definition.string.begin.sql
+--                                                                 ^ punctuation.definition.string.end.sql
+--                                                                  ^ punctuation.separator.arguments.sql
+--                                                                   ^^^^^^^^^ meta.column-name.sql
+--                                                                            ^ punctuation.section.arguments.end.sql
+--                                                                             ^ punctuation.section.group.end.sql
+--                                                                              ^ punctuation.separator.sequence.sql
+    email VARCHAR(100) NOT NULL
+);
+
 
 -- ----------------------------------------------------------------------------
 -- Create User Statements
@@ -2295,6 +2327,20 @@ ALTER ONLINE IGNORE TABLE IF EXISTS tbl_name WAIT 100
 --                                                    ^ punctuation.section.group.end.sql
 --                                                      ^^^^^ keyword.other.position.sql
 --                                                            ^^^ meta.column-name.sql
+
+ALTER TABLE products
+ADD COLUMN stockValue DEC(10,2)
+GENERATED ALWAYS AS (buyprice*quantityinstock) STORED;
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+-- ^^^^^^^^^^^^^^^^ storage.modifier.mysql
+--                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                  ^ punctuation.section.group.begin.sql
+--                   ^^^^^^^^ meta.column-name.sql
+--                           ^ keyword.operator.arithmetic.sql
+--                            ^^^^^^^^^^^^^^^ meta.column-name.sql
+--                                           ^ punctuation.section.group.end.sql
+--                                             ^^^^^^ storage.modifier.mysql
+--                                                   ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
 --  ADD {INDEX|KEY} [IF NOT EXISTS] [index_name]

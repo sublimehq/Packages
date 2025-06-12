@@ -1050,6 +1050,14 @@ contexts:
     - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
       scope: keyword.other.object-comments.sql
 
+  column-modifiers:
+    - meta_prepend: true
+    - match: \b(?i:generated\s+always\s+as)\b
+      scope: storage.modifier.mysql
+      push: group
+    - match: \b(?i:stored|virtual)\b
+      scope: storage.modifier.mysql
+
 ###[ EVENT EXPRESSIONS ]#######################################################
 
   event-options:
