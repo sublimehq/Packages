@@ -12,6 +12,11 @@
 			"details": "bash built-in",
 		},
 		{
+			"trigger": "compopt",
+			"kind": ["function", "f", "command"],
+			"details": "bash built-in",
+		},
+		{
 			"trigger": "help",
 			"kind": ["function", "f", "command"],
 			"details": "bash built-in",

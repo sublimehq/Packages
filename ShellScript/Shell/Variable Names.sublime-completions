@@ -12,6 +12,11 @@
             "details": "shell built-in variable",
         },
         {
+            "trigger": "EMACS",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
             "trigger": "ENV",
             "kind": "variable",
             "details": "shell built-in variable",
@@ -198,6 +203,11 @@
         },
         {
             "trigger": "TMOUT",
+            "kind": "variable",
+            "details": "shell built-in variable",
+        },
+        {
+            "trigger": "TMPDIR",
             "kind": "variable",
             "details": "shell built-in variable",
         },

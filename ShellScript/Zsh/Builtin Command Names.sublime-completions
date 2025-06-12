@@ -37,6 +37,11 @@
 			"details": "zsh built-in"
 		},
 		{
+			"trigger": "compadd",
+			"kind": ["function", "f", "command"],
+			"details": "zsh built-in"
+		},
+		{
 			"trigger": "comparguments",
 			"kind": ["function", "f", "command"],
 			"details": "zsh built-in"
@@ -87,11 +92,6 @@
 			"details": "zsh built-in"
 		},
 		{
-			"trigger": "dirs",
-			"kind": ["function", "f", "command"],
-			"details": "zsh built-in"
-		},
-		{
 			"trigger": "disable",
 			"kind": ["function", "f", "command"],
 			"details": "zsh built-in"
@@ -122,16 +122,6 @@
 			"details": "zsh built-in"
 		},
 		{
-			"trigger": "fc",
-			"kind": ["function", "f", "command"],
-			"details": "zsh built-in"
-		},
-		{
-			"trigger": "fg",
-			"kind": ["function", "f", "command"],
-			"details": "zsh built-in"
-		},
-		{
 			"trigger": "float",
 			"kind": ["function", "f", "command"],
 			"details": "zsh built-in"
@@ -148,11 +138,6 @@
 		},
 		{
 			"trigger": "getln",
-			"kind": ["function", "f", "command"],
-			"details": "zsh built-in"
-		},
-		{
-			"trigger": "history",
 			"kind": ["function", "f", "command"],
 			"details": "zsh built-in"
 		},
@@ -187,17 +172,7 @@
 			"details": "zsh built-in"
 		},
 		{
-			"trigger": "popd",
-			"kind": ["function", "f", "command"],
-			"details": "zsh built-in"
-		},
-		{
 			"trigger": "print",
-			"kind": ["function", "f", "command"],
-			"details": "zsh built-in"
-		},
-		{
-			"trigger": "pushd",
 			"kind": ["function", "f", "command"],
 			"details": "zsh built-in"
 		},
