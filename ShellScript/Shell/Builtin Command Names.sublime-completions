@@ -27,6 +27,16 @@
 			"details": "shell built-in",
 		},
 		{
+			"trigger": "compgen",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
+			"trigger": "complete",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in",
+		},
+		{
 			"trigger": "continue",
 			"kind": ["function", "f", "command"],
 			"details": "shell built-in",
@@ -35,6 +45,11 @@
 			"trigger": "declare",
 			"kind": ["function", "f", "command"],
 			"details": "shell built-in",
+		},
+		{
+			"trigger": "dirs",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in"
 		},
 		{
 			"trigger": "echo",
@@ -67,6 +82,16 @@
 			"details": "shell built-in",
 		},
 		{
+			"trigger": "fc",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in"
+		},
+		{
+			"trigger": "fg",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in"
+		},
+		{
 			"trigger": "getopts",
 			"kind": ["function", "f", "command"],
 			"details": "shell built-in",
@@ -75,6 +100,11 @@
 			"trigger": "hash",
 			"kind": ["function", "f", "command"],
 			"details": "shell built-in",
+		},
+		{
+			"trigger": "history",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in"
 		},
 		{
 			"trigger": "let",
@@ -92,9 +122,19 @@
 			"details": "shell built-in",
 		},
 		{
+			"trigger": "popd",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in"
+		},
+		{
 			"trigger": "printf",
 			"kind": ["function", "f", "command"],
 			"details": "shell built-in",
+		},
+		{
+			"trigger": "pushd",
+			"kind": ["function", "f", "command"],
+			"details": "shell built-in"
 		},
 		{
 			"trigger": "pwd",
