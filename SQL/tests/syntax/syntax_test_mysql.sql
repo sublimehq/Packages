@@ -5227,7 +5227,7 @@ left join lateral (
 -- ----------------------------------------------------------------------------
 
 -- Getting the params.name string value from events table
-SELECT params->>'$.name'
+SELECT params->>'$.name',
 -- ^^^ keyword.other.dml.sql
 --     ^^^^^^ meta.column-name.sql
 --           ^^^ punctuation.accessor.arrow.mysql
@@ -5237,13 +5237,10 @@ SELECT params->>'$.name'
 --               ^^ punctuation.accessor.mysql
 --                 ^^^^ variable.other.member.mysql
 --                     ^ punctuation.definition.string.end.mysql
-FROM events;
 
--- Getting rows where the browser.name is Chrome
 -- This also shows the difference of using -> vs ->>
 -- Using -> will cause strings to be enclosed in quotes
-SELECT browser->>'$.name', browser->'$.name'
--- ^^^ keyword.other.dml.sql
+       browser->>'$.name', browser->'$.name',
 --     ^^^^^^^ meta.column-name.sql
 --            ^^^ punctuation.accessor.arrow.mysql
 --               ^^^^^^^^ meta.string.mysql
@@ -5261,12 +5258,9 @@ SELECT browser->>'$.name', browser->'$.name'
 --                                   ^^ punctuation.accessor.mysql
 --                                     ^^^^ variable.other.member.mysql
 --                                         ^ punctuation.definition.string.end.mysql
-FROM events
-WHERE browser->>'$.name' = 'Chrome';
 
 -- Give me the first index of a JSON array
-SELECT properties->>'$.my_array[0]'
--- ^^^ keyword.other.dml.sql
+       properties->>'$.my_array[0]',
 --     ^^^^^^^^^^ meta.column-name.sql
 --               ^^^ punctuation.accessor.arrow.mysql
 --                  ^^^^^^^^^^^^^^^ meta.string.mysql
@@ -5278,11 +5272,9 @@ SELECT properties->>'$.my_array[0]'
 --                              ^ variable.other.member.mysql
 --                               ^ punctuation.accessor.mysql
 --                                ^ punctuation.definition.string.end.mysql
-FROM events;
 
 -- Going deeper to get the X resolution only
-SELECT properties->'$.resolution.x'
--- ^^^ keyword.other.dml.sql
+       properties->'$.resolution.x'
 --     ^^^^^^^^^^ meta.column-name.sql
 --               ^^ punctuation.accessor.arrow.mysql
 --                 ^^^^^^^^^^^^^^^^ meta.string.mysql
@@ -5293,7 +5285,22 @@ SELECT properties->'$.resolution.x'
 --                              ^ punctuation.accessor.mysql
 --                               ^ variable.other.member.mysql
 --                                ^ punctuation.definition.string.end.mysql
-FROM events;
+FROM events
+WHERE browser->>'$.name' = 'Chrome';
+-- ^^ keyword.other.dml.sql
+--    ^^^^^^^ meta.column-name.sql
+--           ^^^ punctuation.accessor.arrow.mysql
+--              ^^^^^^^^ meta.string.mysql
+--              ^ punctuation.definition.string.begin.mysql
+--               ^^^^^^ meta.json-accessor.mysql
+--               ^^ punctuation.accessor.mysql
+--                 ^^^^ variable.other.member.mysql
+--                     ^ punctuation.definition.string.end.mysql
+--                       ^ keyword.operator.comparison.sql
+--                         ^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                         ^ punctuation.definition.string.begin.sql
+--                                ^ punctuation.definition.string.end.sql
+--                                 ^ punctuation.terminator.statement.sql
 
 
 -- ----------------------------------------------------------------------------
