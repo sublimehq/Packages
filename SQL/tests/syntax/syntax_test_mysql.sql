@@ -5220,6 +5220,88 @@ left join lateral (
     order by col7
 )
 
+-- ----------------------------------------------------------------------------
+-- Starting with version 5.7.8, MySQL supports JSON columns.
+-- This gives the advantage of storing and querying unstructured data.
+-- Here's how you can query a JSON column in MySQL:
+-- ----------------------------------------------------------------------------
+
+-- Getting the params.name string value from events table
+SELECT params->>'$.name',
+-- ^^^ keyword.other.dml.sql
+--     ^^^^^^ meta.column-name.sql
+--           ^^^ punctuation.accessor.arrow.mysql
+--              ^^^^^^^^ meta.string.mysql
+--              ^ punctuation.definition.string.begin.mysql
+--               ^^^^^^ meta.json-accessor.mysql
+--               ^^ punctuation.accessor.mysql
+--                 ^^^^ variable.other.member.mysql
+--                     ^ punctuation.definition.string.end.mysql
+
+-- This also shows the difference of using -> vs ->>
+-- Using -> will cause strings to be enclosed in quotes
+       browser->>'$.name', browser->'$.name',
+--     ^^^^^^^ meta.column-name.sql
+--            ^^^ punctuation.accessor.arrow.mysql
+--               ^^^^^^^^ meta.string.mysql
+--               ^ punctuation.definition.string.begin.mysql
+--                ^^^^^^ meta.json-accessor.mysql
+--                ^^ punctuation.accessor.mysql
+--                  ^^^^ variable.other.member.mysql
+--                      ^ punctuation.definition.string.end.mysql
+--                       ^ punctuation.separator.sequence.sql
+--                         ^^^^^^^ meta.column-name.sql
+--                                ^^ punctuation.accessor.arrow.mysql
+--                                  ^^^^^^^^ meta.string.mysql
+--                                  ^ punctuation.definition.string.begin.mysql
+--                                   ^^^^^^ meta.json-accessor.mysql
+--                                   ^^ punctuation.accessor.mysql
+--                                     ^^^^ variable.other.member.mysql
+--                                         ^ punctuation.definition.string.end.mysql
+
+-- Give me the first index of a JSON array
+       properties->>'$.my_array[0]',
+--     ^^^^^^^^^^ meta.column-name.sql
+--               ^^^ punctuation.accessor.arrow.mysql
+--                  ^^^^^^^^^^^^^^^ meta.string.mysql
+--                  ^ punctuation.definition.string.begin.mysql
+--                   ^^^^^^^^^^^^^ meta.json-accessor.mysql
+--                   ^^ punctuation.accessor.mysql
+--                     ^^^^^^^^ variable.other.member.mysql
+--                             ^ punctuation.accessor.mysql
+--                              ^ variable.other.member.mysql
+--                               ^ punctuation.accessor.mysql
+--                                ^ punctuation.definition.string.end.mysql
+
+-- Going deeper to get the X resolution only
+       properties->'$.resolution.x'
+--     ^^^^^^^^^^ meta.column-name.sql
+--               ^^ punctuation.accessor.arrow.mysql
+--                 ^^^^^^^^^^^^^^^^ meta.string.mysql
+--                 ^ punctuation.definition.string.begin.mysql
+--                  ^^^^^^^^^^^^^^ meta.json-accessor.mysql
+--                  ^^ punctuation.accessor.mysql
+--                    ^^^^^^^^^^ variable.other.member.mysql
+--                              ^ punctuation.accessor.mysql
+--                               ^ variable.other.member.mysql
+--                                ^ punctuation.definition.string.end.mysql
+FROM events
+WHERE browser->>'$.name' = 'Chrome';
+-- ^^ keyword.other.dml.sql
+--    ^^^^^^^ meta.column-name.sql
+--           ^^^ punctuation.accessor.arrow.mysql
+--              ^^^^^^^^ meta.string.mysql
+--              ^ punctuation.definition.string.begin.mysql
+--               ^^^^^^ meta.json-accessor.mysql
+--               ^^ punctuation.accessor.mysql
+--                 ^^^^ variable.other.member.mysql
+--                     ^ punctuation.definition.string.end.mysql
+--                       ^ keyword.operator.comparison.sql
+--                         ^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                         ^ punctuation.definition.string.begin.sql
+--                                ^ punctuation.definition.string.end.sql
+--                                 ^ punctuation.terminator.statement.sql
+
 
 -- ----------------------------------------------------------------------------
 -- Diff Conflict Markers
