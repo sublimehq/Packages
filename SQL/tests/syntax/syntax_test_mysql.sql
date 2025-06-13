@@ -1338,6 +1338,30 @@ create table fancy_table (
 --                                                     ^ punctuation.separator.sequence
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone, -- TODO: seems like :: is a postgresql cast operator
 --                       ^^^^^^^^^^^^^^^^^^^ storage.modifier.sql
+    fullname varchar(101) GENERATED ALWAYS AS (CONCAT(first_name,' ',last_name)),
+--  ^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--           ^^^^^^^^^^^^ storage.type.sql
+--                  ^^^^^ meta.parens.sql
+--                  ^ punctuation.definition.parens.begin.sql
+--                   ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                      ^ punctuation.definition.parens.end.sql
+--                        ^^^^^^^^^^^^^^^^^^^ storage.modifier.mysql
+--                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                            ^ punctuation.section.group.begin.sql
+--                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                                             ^^^^^^ support.function.sql
+--                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                                   ^ punctuation.section.arguments.begin.sql
+--                                                    ^^^^^^^^^^ meta.column-name.sql
+--                                                              ^ punctuation.separator.arguments.sql
+--                                                               ^^^ meta.string.sql string.quoted.single.sql
+--                                                               ^ punctuation.definition.string.begin.sql
+--                                                                 ^ punctuation.definition.string.end.sql
+--                                                                  ^ punctuation.separator.arguments.sql
+--                                                                   ^^^^^^^^^ meta.column-name.sql
+--                                                                            ^ punctuation.section.arguments.end.sql
+--                                                                             ^ punctuation.section.group.end.sql
+--                                                                              ^ punctuation.separator.sequence.sql
     some_number numeric(5, 2) DEFAULT 0,
 --  ^^^^^^^^^^^ meta.column-name
 --              ^^^^^^^^^^^^^ storage.type
@@ -2295,6 +2319,28 @@ ALTER ONLINE IGNORE TABLE IF EXISTS tbl_name WAIT 100
 --                                                    ^ punctuation.section.group.end.sql
 --                                                      ^^^^^ keyword.other.position.sql
 --                                                            ^^^ meta.column-name.sql
+
+    ADD COLUMN stockValue DEC(10,2) GENERATED ALWAYS AS (buyprice*quantityinstock) STORED;
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                        ^^^^^^^^^ storage.type.sql
+--                           ^^^^^^ meta.parens.sql
+--                           ^ punctuation.definition.parens.begin.sql
+--                            ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                              ^ punctuation.separator.sequence.sql
+--                               ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                ^ punctuation.definition.parens.end.sql
+--                                  ^^^^^^^^^^^^^^^^^^^ storage.modifier.mysql
+--                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--                                                      ^ punctuation.section.group.begin.sql
+--                                                       ^^^^^^^^ meta.column-name.sql
+--                                                               ^ keyword.operator.arithmetic.sql
+--                                                                ^^^^^^^^^^^^^^^ meta.column-name.sql
+--                                                                               ^ punctuation.section.group.end.sql
+--                                                                                 ^^^^^^ storage.modifier.mysql
+--                                                                                       ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------
 --  ADD {INDEX|KEY} [IF NOT EXISTS] [index_name]
