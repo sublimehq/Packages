@@ -1002,6 +1002,28 @@ contexts:
 
 ###[ OPERATORS ]###############################################################
 
+  operators:
+    - meta_append: true
+    - match: \|\|
+      scope: keyword.operator.concatenation.sql
+    - match: \!
+      scope: keyword.operator.logical.sql
+    - match: \b(?i:div|mod)\b
+      scope: keyword.operator.arithmetic.sql
+    - match: (->>?)(')
+      captures:
+        1: punctuation.accessor.arrow.mysql
+        2: meta.string.mysql punctuation.definition.string.begin.mysql
+      push: inside-json-accessor-string
+
+  maybe-operator:
+    - meta_prepend: true
+    - match: (->>?)(')
+      captures:
+        1: punctuation.accessor.arrow.mysql
+        2: meta.string.mysql punctuation.definition.string.begin.mysql
+      set: inside-json-accessor-string
+
   statement-terminators:
     - meta_append: true
     - match: '\$\$'
@@ -1798,6 +1820,17 @@ contexts:
         3: punctuation.section.interpolation.end.sql
       push: clear-scope-immediately-pop
 
+  inside-json-accessor-string:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.mysql meta.json-accessor.mysql
+    - match: \'
+      scope: meta.string.mysql punctuation.definition.string.end.mysql
+      pop: 1
+    - match: '[$.\[\]]'
+      scope: punctuation.accessor.mysql
+    - match: \w+
+      scope: variable.other.member.mysql
+
 ###[ LIKE EXPRESSIONS ]########################################################
 
   like-string-not-followed-by-escape:
@@ -1819,17 +1852,6 @@ contexts:
         3: punctuation.definition.string.end.sql
       pop: 1
     - include: like-else-fail
-
-###[ OPERATORS ]###############################################################
-
-  operators:
-    - meta_append: true
-    - match: \|\|
-      scope: keyword.operator.concatenation.sql
-    - match: \!
-      scope: keyword.operator.logical.sql
-    - match: \b(?i:div|mod)\b
-      scope: keyword.operator.arithmetic.sql
 
 ###[ PROTOTYPES ]##############################################################
 

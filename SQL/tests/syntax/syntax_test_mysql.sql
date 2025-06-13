@@ -5220,6 +5220,81 @@ left join lateral (
     order by col7
 )
 
+-- ----------------------------------------------------------------------------
+-- Starting with version 5.7.8, MySQL supports JSON columns.
+-- This gives the advantage of storing and querying unstructured data.
+-- Here's how you can query a JSON column in MySQL:
+-- ----------------------------------------------------------------------------
+
+-- Getting the params.name string value from events table
+SELECT params->>'$.name'
+-- ^^^ keyword.other.dml.sql
+--     ^^^^^^ meta.column-name.sql
+--           ^^^ punctuation.accessor.arrow.mysql
+--              ^^^^^^^^ meta.string.mysql
+--              ^ punctuation.definition.string.begin.mysql
+--               ^^^^^^ meta.json-accessor.mysql
+--               ^^ punctuation.accessor.mysql
+--                 ^^^^ variable.other.member.mysql
+--                     ^ punctuation.definition.string.end.mysql
+FROM events;
+
+-- Getting rows where the browser.name is Chrome
+-- This also shows the difference of using -> vs ->>
+-- Using -> will cause strings to be enclosed in quotes
+SELECT browser->>'$.name', browser->'$.name'
+-- ^^^ keyword.other.dml.sql
+--     ^^^^^^^ meta.column-name.sql
+--            ^^^ punctuation.accessor.arrow.mysql
+--               ^^^^^^^^ meta.string.mysql
+--               ^ punctuation.definition.string.begin.mysql
+--                ^^^^^^ meta.json-accessor.mysql
+--                ^^ punctuation.accessor.mysql
+--                  ^^^^ variable.other.member.mysql
+--                      ^ punctuation.definition.string.end.mysql
+--                       ^ punctuation.separator.sequence.sql
+--                         ^^^^^^^ meta.column-name.sql
+--                                ^^ punctuation.accessor.arrow.mysql
+--                                  ^^^^^^^^ meta.string.mysql
+--                                  ^ punctuation.definition.string.begin.mysql
+--                                   ^^^^^^ meta.json-accessor.mysql
+--                                   ^^ punctuation.accessor.mysql
+--                                     ^^^^ variable.other.member.mysql
+--                                         ^ punctuation.definition.string.end.mysql
+FROM events
+WHERE browser->>'$.name' = 'Chrome';
+
+-- Give me the first index of a JSON array
+SELECT properties->>'$.my_array[0]'
+-- ^^^ keyword.other.dml.sql
+--     ^^^^^^^^^^ meta.column-name.sql
+--               ^^^ punctuation.accessor.arrow.mysql
+--                  ^^^^^^^^^^^^^^^ meta.string.mysql
+--                  ^ punctuation.definition.string.begin.mysql
+--                   ^^^^^^^^^^^^^ meta.json-accessor.mysql
+--                   ^^ punctuation.accessor.mysql
+--                     ^^^^^^^^ variable.other.member.mysql
+--                             ^ punctuation.accessor.mysql
+--                              ^ variable.other.member.mysql
+--                               ^ punctuation.accessor.mysql
+--                                ^ punctuation.definition.string.end.mysql
+FROM events;
+
+-- Going deeper to get the X resolution only
+SELECT properties->'$.resolution.x'
+-- ^^^ keyword.other.dml.sql
+--     ^^^^^^^^^^ meta.column-name.sql
+--               ^^ punctuation.accessor.arrow.mysql
+--                 ^^^^^^^^^^^^^^^^ meta.string.mysql
+--                 ^ punctuation.definition.string.begin.mysql
+--                  ^^^^^^^^^^^^^^ meta.json-accessor.mysql
+--                  ^^ punctuation.accessor.mysql
+--                    ^^^^^^^^^^ variable.other.member.mysql
+--                              ^ punctuation.accessor.mysql
+--                               ^ variable.other.member.mysql
+--                                ^ punctuation.definition.string.end.mysql
+FROM events;
+
 
 -- ----------------------------------------------------------------------------
 -- Diff Conflict Markers
