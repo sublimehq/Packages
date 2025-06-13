@@ -395,11 +395,13 @@ contexts:
     - match: (?=\))
       fail: cmd-arithmetic
     - include: expression-content
+    - include: expression-illegals
 
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell meta.arithmetic.shell
     - include: cmd-args-end
     - include: expression-content
+    - include: expression-illegals
 
 ###[ COMMAND BUILTINS ]########################################################
 
@@ -726,7 +728,28 @@ contexts:
       branch_point: cmd-compound-test-comparison
       branch:
         - cmd-compound-test-string-comparison  # note: try string comparison first as it is more likely
-        - arithmetic-comparison
+        - cmd-compound-test-arithmetic-comparison
+
+  cmd-compound-test-arithmetic-comparison:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cmd-compound-test-arithmetic-word
+        - cmd-compound-test-arithmetic-operator
+        - arithmetic-word-body
+
+  cmd-compound-test-arithmetic-operator:
+    - meta_include_prototype: false
+    - match: '{{arithmetic_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  cmd-compound-test-arithmetic-word:
+    - meta_include_prototype: false
+    - include: comments
+    - include: arithmetic-word
 
   cmd-compound-test-string-comparison:
     # comparison like `string < string` or `string =~ pattern`
@@ -830,8 +853,28 @@ contexts:
     - match: '{{word_begin}}'
       branch_point: cmd-test-comparison
       branch:
-        - cmd-test-string-comparison   # note: try string comparison first as it is more likely
-        - arithmetic-comparison        # note: built-in tests only support basic integer expressions
+        - cmd-test-string-comparison      # note: try string comparison first as it is more likely
+        - cmd-test-arithmetic-comparison  # note: built-in tests only support basic integer expressions
+
+  cmd-test-arithmetic-comparison:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - cmd-test-arithmetic-word
+        - cmd-test-arithmetic-operator
+        - arithmetic-word-body
+
+  cmd-test-arithmetic-operator:
+    - meta_include_prototype: false
+    - match: '{{arithmetic_comparison_operators}}'
+      scope: keyword.operator.comparison.shell
+      pop: 1
+    - include: eoc-pop
+
+  cmd-test-arithmetic-word:
+    - meta_include_prototype: false
+    - include: eoc-pop
+    - include: arithmetic-word
 
   cmd-test-string-comparison:
     # comparison like `string < string` or `string =~ pattern`
@@ -1734,46 +1777,14 @@ contexts:
 
 ###[ ARITHMETIC EXPRESSIONS ]##################################################
 
-  arithmetic-comparison:
-    # arithmetic comparison like `1+2 -eq 2+1`
-    - meta_include_prototype: false
-    - match: ''
-      set:
-        - arithmetic-operator
-        - arithmetic-word
-
-  arithmetic-operator:
-    - meta_include_prototype: false
-    - match: '{{arithmetic_comparison_operators}}'
-      scope: keyword.operator.comparison.shell
-      set: arithmetic-word
-    - include: comments
-    - include: else-pop
-
   arithmetic-word:
-    # A `word` which is interpreted as arithmetic expression
-    - match: \"
-      scope: punctuation.definition.quoted.begin.shell
-      set: arithmetic-word-double-quoted-body
-    - match: \'
-      scope: punctuation.definition.quoted.begin.shell
-      set: arithmetic-word-single-quoted-body
+    - meta_include_prototype: false
     - match: '{{word_begin}}'
-      set: arithmetic-word-unquoted-body
+      set: arithmetic-word-body
 
-  arithmetic-word-double-quoted-body:
-    - meta_scope: meta.quoted.shell meta.arithmetic.shell
-    - include: expression-double-quoted-body
-
-  arithmetic-word-single-quoted-body:
-    - meta_scope: meta.quoted.shell meta.arithmetic.shell
-    - include: expression-single-quoted-body
-
-  arithmetic-word-unquoted-body:
+  arithmetic-word-body:
     - meta_scope: meta.arithmetic.shell
-    - include: expression-groups
-    - include: expression-common
-    - include: expression-illegals
+    - include: expression-content
     - include: word-end
 
   expression-content:
@@ -1786,9 +1797,9 @@ contexts:
       push: expression-single-quoted-body
     - include: expression-groups
     - include: expression-common
-    - include: expression-illegals
 
   expression-double-quoted-body:
+    - meta_scope: meta.quoted.shell
     - match: \"
       scope: punctuation.definition.quoted.end.shell
       pop: 1
@@ -1813,6 +1824,7 @@ contexts:
     - include: expression-illegals
 
   expression-single-quoted-body:
+    - meta_scope: meta.quoted.shell
     - match: \'
       scope: punctuation.definition.quoted.end.shell
       pop: 1
@@ -2812,6 +2824,7 @@ contexts:
     - match: (?=\))
       fail: arithmetic-expansion
     - include: expression-content
+    - include: expression-illegals
 
 ###[ BRACE EXPANSIONS ]########################################################
 
@@ -3134,6 +3147,7 @@ contexts:
     - meta_content_scope: meta.arithmetic.shell
     - include: parameter-expansion-end
     - include: expression-content
+    - include: expression-illegals
 
   parameter-expansion-substitution-pattern:
     # [3.5.8.1] Pattern Matching in parameter expansions' substitutions
