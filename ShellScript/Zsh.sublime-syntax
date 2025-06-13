@@ -784,19 +784,39 @@ contexts:
     - include: immediately-pop
 
   parameter-expansion-modifier:
-    # 14.3 Parameter Expansion
     - meta_prepend: true
-    # $var if non-null, else str and set var to it
-    - match: ::=
+    # 14.3 Parameter Expansion
+    # ${parameter:|arrayname}
+    # ${parameter:*arrayname}
+    # ${parameter:^arrayname}
+    # ${parameter:^^arrayname}
+    - match: :(?:[*|]|\^\^?)
+      scope: keyword.operator.arithmetic.shell
+      set: zsh-parameter-array-name
+    # ${parameter:#pattern}
+    # ${parameter::=pattern}
+    - match: :(?:#|:=)
       scope: keyword.operator.assignment.shell.zsh
       set:
         - parameter-expansion-pattern
         - maybe-tilde-interpolation
-    - match: :#
-      scope: keyword.operator.assignment.shell.zsh
+    # ${parameter:/pattern/word}
+    - match: :/
+      scope: keyword.operator.substitution.shell
       set:
-        - parameter-expansion-pattern
+        - parameter-expansion-substitution-pattern
         - maybe-tilde-interpolation
+    # Legal in Bash, but illegal in Zsh
+    # ${parameter~pattern}
+    # ${parameter~~pattern}
+    - match: ~~?
+      scope: invalid.illegal.unexpacted-token.shell
+      set: parameter-expansion-pattern
+
+  zsh-parameter-array-name:
+    - meta_content_scope: variable.other.readwrite.shell
+    - include: parameter-expansion-end
+    - include: literal-unquoted-content
 
   parameter-expansion-pattern:
     - meta_append: true

@@ -8023,20 +8023,16 @@ a\/b/c/d}
 #           ^ punctuation.section.interpolation.end.shell
 #             ^ comment.line punctuation
 
-: ${foo,~+/*bar}
-# ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo,~}
+# ^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^ meta.string.regexp.shell meta.interpolation.tilde.shell variable.language.tilde.shell
-#         ^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell
-#          ^ constant.other.wildcard.asterisk.shell
-#              ^ punctuation.section.interpolation.end.shell
+#       ^ meta.string.regexp.shell string.unquoted.shell
+#        ^ punctuation.section.interpolation.end.shell
 
-: ${foo,m~+/*bar}
-# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo,[abx]}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^^^^^^^ meta.string.regexp.shell
-#        ^^ - variable
-#           ^ constant.other.wildcard.asterisk.shell
+#       ^^^^^ meta.string.regexp.shell string.unquoted.shell meta.set.regexp.shell
 
 ################################
 # ${parameter,,pattern}
@@ -8159,20 +8155,16 @@ a\/b/c/d}
 #           ^^^^^^^ meta.string.regexp.shell
 #                  ^ punctuation.section.interpolation.end.shell
 
-: ${foo,,~+/*bar}
-# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo,,~}
+# ^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.expansion.shell
-#        ^^^^^^^ meta.string.regexp.shell
-#        ^^ variable.language.tilde.shell
-#           ^ constant.other.wildcard.asterisk.shell
-#               ^ punctuation.section.interpolation.end.shell
+#        ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ punctuation.section.interpolation.end.shell
 
-: ${foo,,m~+/*bar}
-# ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo,,[abx]}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.expansion.shell
-#        ^^^^^^^^ meta.string.regexp.shell
-#         ^^ - variable
-#            ^ constant.other.wildcard.asterisk.shell
+#        ^^^^^ meta.string.regexp.shell string.unquoted.shell meta.set.regexp.shell
 
 ################################
 # ${parameter^pattern}
@@ -8310,20 +8302,16 @@ a\/b/c/d}
 #           ^ punctuation.section.interpolation.end.shell
 #             ^ comment.line punctuation
 
-: ${foo^~+/*bar}
-# ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo^~}
+# ^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^ meta.string.regexp.shell meta.interpolation.tilde.shell variable.language.tilde.shell
-#         ^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell
-#          ^ constant.other.wildcard.asterisk.shell
-#              ^ punctuation.section.interpolation.end.shell
+#       ^ meta.string.regexp.shell string.unquoted.shell
+#        ^ punctuation.section.interpolation.end.shell
 
-: ${foo^m~+/*bar}
-# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo^[abx]}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.expansion.shell
-#       ^^^^^^^^ meta.string.regexp.shell
-#        ^^ - variable
-#           ^ constant.other.wildcard.asterisk.shell
+#       ^^^^^ meta.string.regexp.shell string.unquoted.shell meta.set.regexp.shell
 
 ################################
 # ${parameter^^pattern}
@@ -8446,20 +8434,294 @@ a\/b/c/d}
 #           ^^^^^^^ meta.string.regexp.shell
 #                  ^ punctuation.section.interpolation.end.shell
 
-: ${foo^^~+/*bar}
-# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+: ${foo^^~}
+# ^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^^ keyword.operator.expansion.shell
+#        ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${foo^^[abx]}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^^^ meta.string.regexp.shell string.unquoted.shell meta.set.regexp.shell
+
+################################
+# ${parameter~pattern}
+
+: ${@~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${*~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${#~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${?~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${$~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${-~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${!~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${_~pattern}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.builtin.shell
+#    ^ keyword.operator.expansion.shell
+#     ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${foo~}
+# ^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^ keyword.operator.expansion.shell
+#       ^ punctuation.section.interpolation.end.shell
+
+: ${foo~pattern}
+# ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#              ^ punctuation.section.interpolation.end.shell
+
+: ${foo@~pattern}
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ variable.language.special.shell
+#       ^ keyword.operator.expansion.shell
 #        ^^^^^^^ meta.string.regexp.shell
-#        ^^ variable.language.tilde.shell
-#           ^ constant.other.wildcard.asterisk.shell
 #               ^ punctuation.section.interpolation.end.shell
 
-: ${foo^^m~+/*bar}
+: ${foo*~pattern}
+# ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ variable.language.special.shell
+#       ^ keyword.operator.expansion.shell
+#        ^^^^^^^ meta.string.regexp.shell
+#               ^ punctuation.section.interpolation.end.shell
+
+: ${foo[@]~pattern}
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ meta.item-access.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ variable.language.array.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^ keyword.operator.expansion.shell
+#          ^^^^^^^ meta.string.regexp.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${foo[@]~pattern}
+# ^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ meta.item-access.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ variable.language.array.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^ keyword.operator.expansion.shell
+#          ^^^^^^^ meta.string.regexp.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${foo~ #pattern} # comment
 # ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^^^^^^^ meta.string.regexp.shell
+#        ^ - comment - keyword
+#                ^ punctuation.section.interpolation.end.shell
+#                  ^^^^^^^^^^ comment.line.number-sign.shell
+
+: ${foo~ #} # hello
+#      ^ keyword.operator.expansion.shell
+#       ^^ meta.string.regexp.shell
+#        ^ - comment.line
+#         ^ punctuation.section.interpolation.end.shell
+#           ^ comment.line punctuation
+
+: ${foo~\ \#} # hello
+#      ^ keyword.operator.expansion.shell
+#       ^^^^ meta.string.regexp.shell constant.character.escape.shell
+#          ^ - comment.line
+#           ^ punctuation.section.interpolation.end.shell
+#             ^ comment.line punctuation
+
+: ${foo~~}
+# ^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${foo~[abx]}
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^^^ meta.string.regexp.shell string.unquoted.shell meta.set.regexp.shell
+
+################################
+# ${parameter~~pattern}
+
+: ${@~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${*~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${#~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${?~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${$~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${-~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${!~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.special.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${_~~pattern}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#   ^ variable.language.builtin.shell
+#    ^^ keyword.operator.expansion.shell
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+
+: ${foo~~}
+# ^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${foo~~pattern}
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^^^^^ meta.string.regexp.shell
+#               ^ punctuation.section.interpolation.end.shell
+
+: ${foo~~~pattern}
+# ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
 #      ^^ keyword.operator.expansion.shell
 #        ^^^^^^^^ meta.string.regexp.shell
-#         ^^ - variable
-#            ^ constant.other.wildcard.asterisk.shell
+#        ^ - keyword
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${foo@~~pattern}
+# ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ variable.language.special.shell
+#       ^^ keyword.operator.expansion.shell
+#         ^^^^^^^ meta.string.regexp.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${foo*~~pattern}
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ variable.language.special.shell
+#       ^^ keyword.operator.expansion.shell
+#         ^^^^^^^ meta.string.regexp.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${foo[@]~~pattern}
+# ^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ meta.item-access.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ variable.language.array.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^^ keyword.operator.expansion.shell
+#           ^^^^^^^ meta.string.regexp.shell
+#                  ^ punctuation.section.interpolation.end.shell
+
+: ${foo[@]~~pattern}
+# ^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ meta.item-access.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^ variable.language.array.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^^ keyword.operator.expansion.shell
+#           ^^^^^^^ meta.string.regexp.shell
+#                  ^ punctuation.section.interpolation.end.shell
+
+: ${foo~~~}
+# ^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+: ${foo~~[abx]}
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^^^ meta.string.regexp.shell string.unquoted.shell meta.set.regexp.shell
 
 ################################
 # ${parameter@operator}

@@ -4012,6 +4012,60 @@ ip=10.10.20.14
 #        ^^^ meta.string.regexp.shell
 #           ^ punctuation.section.interpolation.end.shell
 
+: ${var^pat}    # upper case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var^^pat}   # upper case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var,pat}    # lower case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ keyword.operator.expansion.shell
+#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var,,pat}   # lower case all chars matching `pat`
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.expansion.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var~pat}    # toggle case all chars matching `pat` (Bash only)
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ invalid.illegal.unexpacted-token.shell
+#       ^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var~~pat}   # toggle case all chars matching `pat` (Bash only)
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ invalid.illegal.unexpacted-token.shell
+#        ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
 : ${var:#pat}    # $var unless pat matches, then empty
 # ^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
@@ -4020,6 +4074,42 @@ ip=10.10.20.14
 #      ^^ keyword.operator.assignment.shell
 #        ^^^ meta.string.glob.shell string.unquoted.shell
 #           ^ punctuation.section.interpolation.end.shell
+
+: ${var:|arr}    # Remove all elements of array `arr` from `var`.
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.arithmetic.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:*arr}    # Retain all elements which appear in both arrays `var` and `arr`.
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.arithmetic.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:^arr}    # Zip arrays `var` and `arr`.
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.arithmetic.shell
+#        ^^^ variable.other.readwrite.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:^^arr}   # Zip arrays `var` and `arr`.
+# ^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^ keyword.operator.arithmetic.shell
+#         ^^^ variable.other.readwrite.shell
+#            ^ punctuation.section.interpolation.end.shell
 
 : ${var/p/r}     # One occurrence of p replaced by r
 # ^^^^^^^^^^ meta.interpolation.parameter.shell
@@ -4033,6 +4123,17 @@ ip=10.10.20.14
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${var//p/r}    # All occurrences of p replaced by r
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^ keyword.operator.substitution.shell
+#        ^ meta.string.regexp.shell string.unquoted.shell
+#         ^ keyword.operator.substitution.shell
+#          ^ meta.string.glob.shell string.unquoted.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+: ${var:/p/r}    # All p replaced by r if p matches var
 # ^^^^^^^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
 #  ^ punctuation.section.interpolation.begin.shell
