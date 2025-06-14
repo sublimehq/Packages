@@ -1012,112 +1012,6 @@ contexts:
     - include: zsh-modifier-end-ahead
     - include: zsh-glob-qualifier-content
 
-###[ ZSH GLOB RANGES ]#########################################################
-
-  zsh-group-glob-ranges:
-    # This context consumes glob ranges (e.g.: `<1-20>`) in groups or sequences
-    # or scopes `<` invalid illegal otherwise without popping owning context.
-    - match: (?=<)
-      branch_point: zsh-group-glob-range
-      branch:
-        - zsh-group-glob-range-begin
-        - zsh-group-glob-range-fallback
-
-  zsh-group-glob-range-begin:
-    - clear_scopes: 1  # clear `string.unquoted`
-    - meta_include_prototype: false
-    - match: \<
-      scope: punctuation.definition.range.begin.shell.zsh
-      push:
-        - zsh-group-glob-range-end
-        - zsh-glob-range-number
-        - zsh-group-glob-range-operator
-        - zsh-glob-range-number
-
-  zsh-group-glob-range-end:
-    - meta_include_prototype: false
-    - meta_scope: meta.range.shell.zsh
-    - match: \>
-      scope: punctuation.definition.range.end.shell.zsh
-      pop: 2
-    - include: zsh-group-glob-range-fail
-
-  zsh-group-glob-range-fail:
-    - include: line-continuations
-    - match: ''
-      fail: zsh-group-glob-range
-
-  zsh-group-glob-range-fallback:
-    - meta_include_prototype: false
-    - match: \<+
-      scope: invalid.illegal.unexpected-token.shell.zsh
-      pop: 1
-
-  zsh-group-glob-range-operator:
-    # range operator is crucial
-    - meta_include_prototype: false
-    - include: zsh-glob-range-operator
-    - include: zsh-group-glob-range-fail
-
-  zsh-string-glob-ranges:
-    # This context consumes glob ranges (e.g.: `<1-20>`)
-    # within top-level patterns or strings
-    # or pops owning context off stack to consume input redirection.
-    - match: (?=<)
-      branch_point: zsh-string-glob-range
-      branch:
-        - zsh-string-glob-range-begin
-        - zsh-string-glob-range-fallback
-
-  zsh-string-glob-range-begin:
-    - clear_scopes: 1  # clear `string.unquoted`
-    - meta_include_prototype: false
-    - match: \<
-      scope: punctuation.definition.range.begin.shell.zsh
-      push:
-        - zsh-string-glob-range-end
-        - zsh-glob-range-number
-        - zsh-string-glob-range-operator
-        - zsh-glob-range-number
-
-  zsh-string-glob-range-end:
-    - meta_include_prototype: false
-    - meta_scope: meta.range.shell.zsh
-    - match: \>
-      scope: punctuation.definition.range.end.shell.zsh
-      pop: 2
-    - include: zsh-string-glob-range-fail
-
-  zsh-string-glob-range-fail:
-    - include: line-continuations
-    - match: ''
-      fail: zsh-string-glob-range
-
-  zsh-string-glob-range-fallback:
-    # also pop parent context off stack
-    - meta_include_prototype: false
-    - match: ''
-      pop: 2
-
-  zsh-string-glob-range-operator:
-    # range operator is crucial
-    - meta_include_prototype: false
-    - include: zsh-glob-range-operator
-    - include: zsh-string-glob-range-fail
-
-  zsh-glob-range-number:
-    # range numbers are optional
-    - meta_include_prototype: false
-    - match: (?=[\d$])
-      set: dec-number-body
-    - include: line-continuations
-    - include: immediately-pop
-
-  zsh-glob-range-operator:
-    - match: \-
-      scope: keyword.operator.range.shell.zsh
-      pop: 1
-
 ###[ ZSH GLOB QUALIFIERS ]#####################################################
 
   zsh-glob-qualifier:
@@ -1231,6 +1125,112 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.shell
         2: constant.numeric.value.shell
+
+###[ ZSH GLOB RANGES ]#########################################################
+
+  zsh-group-glob-ranges:
+    # This context consumes glob ranges (e.g.: `<1-20>`) in groups or sequences
+    # or scopes `<` invalid illegal otherwise without popping owning context.
+    - match: (?=<)
+      branch_point: zsh-group-glob-range
+      branch:
+        - zsh-group-glob-range-begin
+        - zsh-group-glob-range-fallback
+
+  zsh-group-glob-range-begin:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - match: \<
+      scope: punctuation.definition.range.begin.shell.zsh
+      push:
+        - zsh-group-glob-range-end
+        - zsh-glob-range-number
+        - zsh-group-glob-range-operator
+        - zsh-glob-range-number
+
+  zsh-group-glob-range-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.range.shell.zsh
+    - match: \>
+      scope: punctuation.definition.range.end.shell.zsh
+      pop: 2
+    - include: zsh-group-glob-range-fail
+
+  zsh-group-glob-range-fail:
+    - include: line-continuations
+    - match: ''
+      fail: zsh-group-glob-range
+
+  zsh-group-glob-range-fallback:
+    - meta_include_prototype: false
+    - match: \<+
+      scope: invalid.illegal.unexpected-token.shell.zsh
+      pop: 1
+
+  zsh-group-glob-range-operator:
+    # range operator is crucial
+    - meta_include_prototype: false
+    - include: zsh-glob-range-operator
+    - include: zsh-group-glob-range-fail
+
+  zsh-string-glob-ranges:
+    # This context consumes glob ranges (e.g.: `<1-20>`)
+    # within top-level patterns or strings
+    # or pops owning context off stack to consume input redirection.
+    - match: (?=<)
+      branch_point: zsh-string-glob-range
+      branch:
+        - zsh-string-glob-range-begin
+        - zsh-string-glob-range-fallback
+
+  zsh-string-glob-range-begin:
+    - clear_scopes: 1  # clear `string.unquoted`
+    - meta_include_prototype: false
+    - match: \<
+      scope: punctuation.definition.range.begin.shell.zsh
+      push:
+        - zsh-string-glob-range-end
+        - zsh-glob-range-number
+        - zsh-string-glob-range-operator
+        - zsh-glob-range-number
+
+  zsh-string-glob-range-end:
+    - meta_include_prototype: false
+    - meta_scope: meta.range.shell.zsh
+    - match: \>
+      scope: punctuation.definition.range.end.shell.zsh
+      pop: 2
+    - include: zsh-string-glob-range-fail
+
+  zsh-string-glob-range-fail:
+    - include: line-continuations
+    - match: ''
+      fail: zsh-string-glob-range
+
+  zsh-string-glob-range-fallback:
+    # also pop parent context off stack
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+
+  zsh-string-glob-range-operator:
+    # range operator is crucial
+    - meta_include_prototype: false
+    - include: zsh-glob-range-operator
+    - include: zsh-string-glob-range-fail
+
+  zsh-glob-range-number:
+    # range numbers are optional
+    - meta_include_prototype: false
+    - match: (?=[\d$])
+      set: dec-number-body
+    - include: line-continuations
+    - include: immediately-pop
+
+  zsh-glob-range-operator:
+    - match: \-
+      scope: keyword.operator.range.shell.zsh
+      pop: 1
 
 ###[ ZSH MODIFIERS ]###########################################################
 
