@@ -1434,7 +1434,7 @@ contexts:
   string-content:
     - match: \\\n
       scope: constant.character.escape.newline.js
-    - match: \\(?:x\h\h|u\h\h\h\h|.)
+    - match: \\(?:x\h{2}|u\h{4}|.)
       scope: constant.character.escape.js
 
   string-interpolations:
