@@ -241,7 +241,7 @@ contexts:
       push: line-comment-double-slash-body
 
   line-comment-end:
-    - match: (//+)?\n
+    - match: (//+)?$\n?
       captures:
         1: punctuation.definition.comment.js
       pop: 1
