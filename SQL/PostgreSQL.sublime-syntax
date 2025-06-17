@@ -7,6 +7,7 @@ version: 2
 extends: Packages/SQL/MySQL.sublime-syntax
 
 file_extensions:
+  - pgsql
   - psql
 
 variables:
