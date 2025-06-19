@@ -265,7 +265,7 @@ contexts:
         - match: '\}'
           scope: punctuation.section.block.end.cs
           pop: true
-        - include: main
+        - include: statements
     - include: attribute
     - include: using
     - include: class_declaration
@@ -381,7 +381,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: true
-    - include: main
+    - include: statements
 
   class_declaration:
     - match: \b(static|unsafe|abstract|partial|readonly|required|sealed)\b
