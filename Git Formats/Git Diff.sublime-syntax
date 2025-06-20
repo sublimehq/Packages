@@ -392,6 +392,8 @@ contexts:
         # Combined mode can have multiple pre-commits
         - include: separator-comma
 
+    - include: pop-before-diff-header
+
   diff-content:
     - meta_content_scope: meta.block.delta.diff
     - include: pop-before-diff-header
