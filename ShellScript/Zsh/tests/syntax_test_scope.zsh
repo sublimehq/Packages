@@ -2503,13 +2503,13 @@ ip=10.10.20.14
 
 [[ "c + $d" -eq "1 * ( a % ( b * 5) )" ]]   # quoted arithmetic comparison
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.conditional.shell
-#  ^^^^^^^^ meta.quoted.shell meta.arithmetic.shell
+#  ^^^^^^^^ meta.arithmetic.shell meta.quoted.shell
 #          ^^^^^ - meta.arithmetic
-#               ^^^^^ meta.quoted.shell meta.arithmetic.shell - meta.group
-#                    ^^^^^^ meta.quoted.shell meta.arithmetic.shell meta.group.shell - meta.group meta.group
-#                          ^^^^^^^^ meta.quoted.shell meta.arithmetic.shell meta.group.shell meta.group.shell
-#                                  ^^ meta.quoted.shell meta.arithmetic.shell meta.group.shell - meta.group meta.group
-#                                    ^ meta.quoted.shell meta.arithmetic.shell - meta.group
+#               ^^^^^ meta.arithmetic.shell meta.quoted.shell - meta.group
+#                    ^^^^^^ meta.arithmetic.shell meta.quoted.shell meta.group.shell - meta.group meta.group
+#                          ^^^^^^^^ meta.arithmetic.shell meta.quoted.shell meta.group.shell meta.group.shell
+#                                  ^^ meta.arithmetic.shell meta.quoted.shell meta.group.shell - meta.group meta.group
+#                                    ^ meta.arithmetic.shell meta.quoted.shell - meta.group
 #                                     ^^ - meta.arithmetic
 #  ^ punctuation.definition.quoted.begin.shell
 #   ^ variable.other.readwrite.shell
