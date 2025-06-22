@@ -14,8 +14,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
-  | ^ \#! .* {{shebang_language}}                       # shebang
+    ^ \#! .* {{shebang_language}}                       # shebang
+  | ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
   )
 
 variables:
@@ -60,6 +60,11 @@ contexts:
         1: keyword.other.preprocessor.cs
         2: punctuation.definition.preprocessor.cs
       push: preprocessor_option
+
+  main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [statements, shebang]
 
     # comments
   comments:
@@ -250,11 +255,6 @@ contexts:
       pop: true
     - match: \S
       scope: invalid.illegal.cs
-
-  main:
-    - meta_include_prototype: false
-    - match: ''
-      push: [statements, shebang]
 
   statements:
     - include: stray_close_bracket
