@@ -239,7 +239,7 @@ contexts:
 
   commit-commands:
     # e.g. pick d284bb2 Initial commit
-    - match: ^\s*
+    - match: ^
       push: [commit-subject, commit-hash, commit-command]
 
   commit-command:
@@ -264,32 +264,35 @@ contexts:
     - match: (?:s|squash)\b
       scope: keyword.operator.commit.squash.git.rebase
       pop: 1
-    - include: comments
-    - include: line-end
+    - match: $|(?=#)
+      pop: 1
     - match: \S+
       scope: invalid.illegal.command-expected.git.rebase
       pop: 1
 
   commit-hash:
+    - include: cmd-options
     - match: '{{hash}}' # e.g. d284bb2
       scope: constant.other.hash.git.rebase
       pop: 1
-    - include: cmd-options
-    - include: line-end
+    - match: $|(?=#)
+      pop: 1
     - match: \S+
       scope: invalid.illegal.hash-expected.git.rebase
       pop: 1
 
   commit-subject:
-    - meta_scope: meta.commit.git.rebase
-    - include: line-end
-    - match: (?=\S)  # subject begins with first none whitespace
+    - meta_content_scope: meta.commit.git.rebase
+    # subject comment begins with first none whitespace
+    - match: '{{comment_char}}'
+      scope: punctuation.definition.comment.git.rebase
       set: commit-subject-content
+    - match: (?=\S)
+      set: commit-subject-content
+    - include: line-end
 
   commit-subject-content:
-    - meta_scope: meta.commit.git.rebase
-    - meta_content_scope: meta.subject.git.commit
-    - include: Git Common.sublime-syntax#references
+    - meta_scope: meta.commit.git.rebase comment.line.git.rebase
     - include: line-end
 
   shell-commands:
