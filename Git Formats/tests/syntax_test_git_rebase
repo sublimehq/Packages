@@ -16,7 +16,6 @@ reset 9698953 # Fix form submission
 pick d284bb2 Initial commit
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                           ^ - meta.commit
 # <- keyword.operator.commit.pick
 #^^^ keyword.operator.commit.pick
 #   ^ - storage.type.commit
@@ -27,7 +26,6 @@ pick d284bb2 Initial commit
 p 6746220 Second pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                                         ^ - meta.commit
 # <- keyword.operator.commit.pick
 #^ - keyword.operator.commit
 # ^^^^^^^ constant.other.hash
@@ -38,7 +36,6 @@ p 6746220 Second pick commit # no comment
    p 6746220 Third pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                                            ^ - meta.commit
 # ^ - keyword.operator.commit
 #  ^ keyword.operator.commit.pick
 #   ^ - keyword.operator.commit -constant.other.hash
