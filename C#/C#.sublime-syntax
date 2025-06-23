@@ -200,9 +200,6 @@ contexts:
         2: keyword.other.preprocessor.cs
         3: keyword.other.preprocessor.cs
 
-    - match: '!'
-      scope: punctuation.definition.comment.cs
-      set: shebang-body
     - match: (:)(\w+)
       captures:
         1: punctuation.definition.preprocessor.cs

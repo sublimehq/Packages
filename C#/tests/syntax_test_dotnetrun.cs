@@ -5,9 +5,6 @@
 
 // https://devblogs.microsoft.com/dotnet/announcing-dotnet-run-app/
 
-#!/usr/bin/dotnet run
-#!^^^^^^^^^^^^^^^^^^^ comment.line.shebang.cs
-#!         ^^^^^^^^^^ constant.language.shebang.cs
 #:package Humanizer@2.14.1
 #!^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
 #!^^^^^^^ variable.language.cs
