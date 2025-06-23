@@ -14,10 +14,12 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}}                       # shebang
+  | ^ \s* // .*? -\*- .*? \b(c\#|cs|csharp)\b .*? -\*-  # editorconfig
   )
 
 variables:
+  shebang_language: \bdotnet\s+run\b
 
   bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
   unary_op: '(?:\+\+|--|-|~|!|&|\*)'
@@ -58,6 +60,11 @@ contexts:
         1: keyword.other.preprocessor.cs
         2: punctuation.definition.preprocessor.cs
       push: preprocessor_option
+
+  main:
+    - meta_include_prototype: false
+    - match: ''
+      push: [statements, shebang]
 
     # comments
   comments:
@@ -192,8 +199,11 @@ contexts:
         1: keyword.other.preprocessor.cs
         2: keyword.other.preprocessor.cs
         3: keyword.other.preprocessor.cs
-    - match: .*
-      scope: invalid.illegal.cs
+
+    - match: (:)(\w+)
+      captures:
+        1: punctuation.definition.preprocessor.cs
+        2: variable.language.cs
     - match: $
       pop: true
 
@@ -217,6 +227,23 @@ contexts:
         3: variable.other.section.cs
         4: meta.fold.end.cs
 
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.cs
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if C# is embedded.
+      pop: 1
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.cs
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.cs
+    - match: $\n?
+      pop: 1
+
   # Pops out at the end of the line and handles comments.
   # Marks the rest of the line as invalid.
   option_done:
@@ -226,7 +253,7 @@ contexts:
     - match: \S
       scope: invalid.illegal.cs
 
-  main:
+  statements:
     - include: stray_close_bracket
     - match: '\{'
       scope: punctuation.section.block.begin.cs
@@ -235,7 +262,7 @@ contexts:
         - match: '\}'
           scope: punctuation.section.block.end.cs
           pop: true
-        - include: main
+        - include: statements
     - include: attribute
     - include: using
     - include: class_declaration
@@ -351,7 +378,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.cs
       pop: true
-    - include: main
+    - include: statements
 
   class_declaration:
     - match: \b(static|unsafe|abstract|partial|readonly|required|sealed)\b
