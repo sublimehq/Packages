@@ -427,7 +427,7 @@ variables:
   # not followed by Unicode whitespace and followed by a Unicode punctuation character
   no_space_but_punct: (?=[[^\s*]&&\p{P}])
 
-  # BOL for ST specific newline treatement or unicode whitespace
+  # BOL for ST specific newline treatment or unicode whitespace
   wspace: (?:^|\s+)
 
 ##############################################################################
