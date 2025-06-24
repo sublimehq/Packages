@@ -117,6 +117,41 @@ $((
 # ^^^^^^^^^^ - comment
 ))
 
+cmd \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd ; \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd | \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd || \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd & \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd && \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd arg \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
 
 ###############################################################################
 # Git Conflict Marker Tests

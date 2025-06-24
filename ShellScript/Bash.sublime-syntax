@@ -3321,7 +3321,7 @@ contexts:
     - include: eol-pop
 
   eol-pop:
-    - match: $|(?=\s+[#\n])
+    - match: $|(?={{wspace}}[#\n])
       pop: 1
     - include: line-continuations
 
