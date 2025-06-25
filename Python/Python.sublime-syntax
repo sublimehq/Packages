@@ -368,6 +368,20 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
+    # PEP 723 Inline script metadata
+    - match: ^\s*(#)\s+(///)\s+(script)\b
+      scope: comment.line.number-sign.python
+      captures:
+        1: punctuation.definition.comment.python
+        2: punctuation.section.raw.begin.python
+        3: constant.other.lanugage-name.python
+      embed: scope:source.toml.embedded.python#toml
+      embed_scope: comment.line.number-sign.python source.toml.embedded.python
+      escape: ^(?:\s*(#)\s+(///)$\n?|(?!\s*#))
+      escape_captures:
+        0: comment.line.number-sign.python
+        1: punctuation.definition.comment.python
+        2: punctuation.section.raw.end.python
     # Special Sphinx comment syntax to denote documentation
     # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoattribute
     - match: '#:'
