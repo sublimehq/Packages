@@ -69,21 +69,27 @@ l feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
 # ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#        ^ punctuation.separator.path.git.commit
 label feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
 #^^^^ keyword.other.label.git.rebase
 #     ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#            ^ punctuation.separator.path.git.commit
 update-ref refs/heads/feature-branch
 # <- meta.branch.update-ref.git.rebase keyword.operator.update-ref.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.update-ref.git.rebase
 #^^^^^^^^^ keyword.operator.update-ref.git.rebase
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.ref.git.commit
+#              ^ punctuation.separator.path.git.commit
+#                    ^ punctuation.separator.path.git.commit
 u refs/heads/feature-branch
 # <- meta.branch.update-ref.git.rebase keyword.operator.update-ref.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.update-ref.git.rebase
 # <- keyword.operator.update-ref.git.rebase
-#          ^^^^^^^^^^^^^^^^ constant.language.ref.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.ref.git.commit
+#     ^ punctuation.separator.path.git.commit
+#           ^ punctuation.separator.path.git.commit
 t onto
 # <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
 #^^^^^ meta.branch.reset.git.rebase
@@ -96,6 +102,7 @@ reset onto
 m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
+#                   ^ punctuation.separator.path.git.commit
 #                               ^ - meta.branch - comment
 #                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                                ^ punctuation.definition.comment.git.rebase
@@ -107,6 +114,7 @@ m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
+#                       ^ punctuation.separator.path.git.commit
 #                                   ^ - meta.branch - comment
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                                    ^ punctuation.definition.comment.git.rebase
@@ -115,6 +123,23 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #     ^ punctuation.definition.variable.git.rebase
 #        ^^^^^^^ constant.other.hash.git.rebase
 #                ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+
+# highlight illegal reference characters
+l ~/.foo.bar..baz:buuz/.br^an~ch/.br\anch-#name.lock
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+# ^ invalid.illegal.unexpected-token.git.commit
+#  ^ punctuation.separator.path.git.commit
+#   ^ invalid.illegal.unexpected-token.git.commit
+#           ^^ invalid.illegal.unexpected-token.git.commit
+#                ^ invalid.illegal.unexpected-token.git.commit
+#                     ^ punctuation.separator.path.git.commit
+#                      ^ invalid.illegal.unexpected-token.git.commit
+#                         ^ invalid.illegal.unexpected-token.git.commit
+#                            ^ invalid.illegal.unexpected-token.git.commit
+#                               ^ punctuation.separator.path.git.commit
+#                                ^ invalid.illegal.unexpected-token.git.commit
+#                                   ^ invalid.illegal.unexpected-token.git.commit
+#                                              ^^^^^ invalid.illegal.unexpected-token.git.commit
 
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase

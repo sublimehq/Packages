@@ -344,12 +344,25 @@ contexts:
     - match: '{{hash}}' # e.g. d284bb2
       scope: constant.other.hash.git.rebase
       pop: 1
-    - match: refs/\S+
-      scope: constant.language.ref.git.commit
-      pop: 1
-    - match: \S+
-      scope: constant.language.branch-name.git.commit
-      pop: 1
+    - match: (?=refs/)
+      push: ref-name-body
+    - match: (?=\S)
+      push: branch-name-body
+
+  branch-name-body:
+    - meta_scope: constant.language.branch-name.git.commit
+    - include: ref-name-body
+
+  ref-name-body:
+    - meta_scope: constant.language.ref.git.commit
+    - match: (?=\s)
+      pop: 2
+    - match: (/)(\.*)
+      captures:
+        1: punctuation.separator.path.git.commit
+        2: invalid.illegal.unexpected-token.git.commit
+    - match: \.(?:\.|(?:lock)?(?=\s))|[:?\[\\^~]
+      scope: invalid.illegal.unexpected-token.git.commit
 
   maybe-cmd-options:
     - include: cmd-options
