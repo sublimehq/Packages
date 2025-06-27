@@ -144,43 +144,78 @@ l ~/.foo.bar..baz:buuz/.br^an~ch/.br\anch-#name.lock
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
   b
+# <- meta.commit.git.rebase
+#^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.break
   break
+# <- meta.commit.git.rebase
+#^^^^^^^ meta.commit.git.rebase
 # ^^^^^ keyword.operator.commit.break
   d d284bb2 Drop commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.drop
 #   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^ comment.line.git.rebase
   drop d284bb2 Drop commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^ keyword.operator.commit.drop
 #      ^^^^^^^ constant.other.hash.git.rebase
+#              ^^^^^^^^^^^^ comment.line.git.rebase
   e d284bb2 Edit commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.edit
 #   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^ comment.line.git.rebase
   edit d284bb2 Edit commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^ keyword.operator.commit.edit
 #      ^^^^^^^ constant.other.hash.git.rebase
+#              ^^^^^^^^^^^^ comment.line.git.rebase
   f d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.fixup
 #   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^^ comment.line.git.rebase
   fixup d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^^ keyword.operator.commit.fixup
 #       ^^^^^^^ constant.other.hash.git.rebase
+#               ^^^^^^^^^^^^^ comment.line.git.rebase
   f -c d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.fixup
 #   ^^ variable.parameter.option.git.rebase
 #      ^^^^^^^ constant.other.hash.git.rebase
+#              ^^^^^^^^^^^^^ comment.line.git.rebase
   fixup -C d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^^ keyword.operator.commit.fixup
 #       ^^ variable.parameter.option.git.rebase
 #          ^^^^^^^ constant.other.hash.git.rebase
+#                  ^^^^^^^^^^^^^ comment.line.git.rebase
   r d284bb2 Reword commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.reword
 #   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^^^ comment.line.git.rebase
   reword d284bb2 Reword commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^^^ keyword.operator.commit.reword
 #        ^^^^^^^ constant.other.hash.git.rebase
+#                ^^^^^^^^^^^^^^ comment.line.git.rebase
   x git tag -d 0.1.0
-# ^ meta.shell.git.rebase - source.shell
+# <- meta.shell.git.rebase
+#^^ meta.shell.git.rebase - source.shell
 #  ^^^^^^^^^^^^^^^^^ meta.shell.git.rebase source.shell.embedded.git.rebase
 #   ^^^ meta.function-call.identifier.shell
 #      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -189,7 +224,8 @@ l ~/.foo.bar..baz:buuz/.br^an~ch/.br\anch-#name.lock
 #   ^^^ variable.function.shell
 #           ^^ variable.parameter.option.shell
   exec git tag -d 0.1.0
-# ^^^^ meta.shell.git.rebase - source.shell
+# <- meta.shell.git.rebase
+#^^^^^ meta.shell.git.rebase - source.shell
 #     ^^^^^^^^^^^^^^^^^ meta.shell.git.rebase source.shell.embedded.git.rebase
 #      ^^^ meta.function-call.identifier.shell
 #         ^^^^^^^^^^^^^ meta.function-call.arguments.shell
