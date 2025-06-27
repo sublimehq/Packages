@@ -52,14 +52,8 @@ p 6746220 Second pick commit # no comment
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                  ^^^^ - keyword
 puck 6746220 Invalid command
-# <- meta.commit
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-# <- invalid.illegal.command-expected
-#^^^ invalid.illegal.command-expected
-#   ^ - storage.type.commit - invalid
-#    ^^^^^^^ constant.other.hash
-#           ^ - constant - comment
-#            ^^^^^^^^^^^^^^^^ comment.line.git.rebase
+# <- - meta - constant - keyword
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - constant - keyword
 p 6746x20 Invalid hash # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
@@ -69,13 +63,8 @@ p 6746x20 Invalid hash # no comment
 #        ^ - constant - comment
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 a 6746x20 Invalid command and hash # no comment (#403)
-# <- meta.commit
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-# <- invalid.illegal.command-expected
-#^ - storage.type.commit
-# ^^^^^^^ invalid.illegal.hash-expected
-#        ^ - constant - comment
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+# <- - meta.commit - constant - keyword
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - constant - keyword
 l feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase

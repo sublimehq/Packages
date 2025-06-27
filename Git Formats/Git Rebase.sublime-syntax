@@ -20,9 +20,7 @@ contexts:
 
   main:
     - include: comments
-    - include: shell-commands
-    - include: branch-commands
-    - include: commit-commands
+    - include: commands
 
 ###[ COMMENTS ]################################################################
 
@@ -164,8 +162,7 @@ contexts:
     - include: help-cmd-brackets
     - include: help-cmd-parameters
     - include: cmd-options
-    - match: \n
-      pop: 1
+    - include: line-end
 
   help-cmd-brackets:
     - match: \[
@@ -211,91 +208,81 @@ contexts:
 
 ###[ COMMANDS ]################################################################
 
-  branch-commands:
-    - match: ^\s*(l|label)\s+(\S+)
+  commands:
+    # branch commands
+    - match: ^\s*(l|label)\b
       captures:
-        0: meta.branch.label.git.rebase
         1: keyword.other.label.git.rebase
-        2: constant.language.branch-name.git.commit
-    - match: ^\s*(u|update-ref)\s+(\S+)
+      push:
+        - cmd-end
+        - label-ref
+    - match: ^\s*(m|merge)\b
       captures:
-        0: meta.branch.update-ref.git.rebase
-        1: keyword.operator.update-ref.git.rebase
-        2: constant.language.ref.git.commit
-    - match: ^\s*(m|merge)\s+({{option}})\s+({{hash}})\s+(\S+)
-      captures:
-        0: meta.branch.merge.git.rebase
         1: keyword.operator.branch.merge.git.rebase
-        2: variable.parameter.option.git.rebase
-        3: punctuation.definition.variable.git.rebase
-        4: constant.other.hash.git.rebase
-        5: constant.language.branch-name.git.commit
-    - match: ^\s*(t|reset)\s+(?:({{hash}})|(\S+))
+      push:
+        - cmd-end
+        - merge-ref
+        - ref-name
+        - maybe-cmd-options
+    - match: ^\s*(t|reset)\b
       captures:
-        0: meta.branch.reset.git.rebase
         1: keyword.operator.branch.reset.git.rebase
-        2: constant.other.hash.git.rebase
-        3: constant.language.branch-name.git.commit
+      push:
+        - cmd-end
+        - reset-ref
+    - match: ^\s*(u|update-ref)\b
+      captures:
+        1: keyword.operator.update-ref.git.rebase
+      push:
+        - cmd-end
+        - update-ref
 
-  commit-commands:
-    # e.g. pick d284bb2 Initial commit
-    - match: ^
-      push: [commit-subject, commit-hash, commit-command]
+    # commit commands
+    - match: ^\s*(b|break)\b
+      captures:
+        1: keyword.operator.commit.break.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
+    - match: ^\s*(d|drop)\b
+      captures:
+        1: keyword.operator.commit.drop.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
+    - match: ^\s*(e|edit)\b
+      captures:
+        1: keyword.operator.commit.edit.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
+    - match: ^\s*(f|fixup)\b
+      captures:
+        1: keyword.operator.commit.fixup.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
+        - maybe-cmd-options
+    - match: ^\s*(p|pick)\b
+      captures:
+        1: keyword.operator.commit.pick.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
+    - match: ^\s*(r|reword)\b
+      captures:
+        1: keyword.operator.commit.reword.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
+    - match: ^\s*(s|squash)\b
+      captures:
+        1: keyword.operator.commit.squash.git.rebase
+      push:
+        - commit-subject
+        - commit-hash
 
-  commit-command:
-    - match: (?:b|break)\b
-      scope: keyword.operator.commit.break.git.rebase
-      pop: 1
-    - match: (?:d|drop)\b
-      scope: keyword.operator.commit.drop.git.rebase
-      pop: 1
-    - match: (?:e|edit)\b
-      scope: keyword.operator.commit.edit.git.rebase
-      pop: 1
-    - match: (?:f|fixup)\b
-      scope: keyword.operator.commit.fixup.git.rebase
-      pop: 1
-    - match: (?:p|pick)\b
-      scope: keyword.operator.commit.pick.git.rebase
-      pop: 1
-    - match: (?:r|reword)\b
-      scope: keyword.operator.commit.reword.git.rebase
-      pop: 1
-    - match: (?:s|squash)\b
-      scope: keyword.operator.commit.squash.git.rebase
-      pop: 1
-    - match: $|(?=#)
-      pop: 1
-    - match: \S+
-      scope: invalid.illegal.command-expected.git.rebase
-      pop: 1
-
-  commit-hash:
-    - include: cmd-options
-    - match: '{{hash}}' # e.g. d284bb2
-      scope: constant.other.hash.git.rebase
-      pop: 1
-    - match: $|(?=#)
-      pop: 1
-    - match: \S+
-      scope: invalid.illegal.hash-expected.git.rebase
-      pop: 1
-
-  commit-subject:
-    - meta_content_scope: meta.commit.git.rebase
-    # subject comment begins with first none whitespace
-    - match: '{{comment_char}}'
-      scope: punctuation.definition.comment.git.rebase
-      set: commit-subject-content
-    - match: (?=\S)
-      set: commit-subject-content
-    - include: line-end
-
-  commit-subject-content:
-    - meta_scope: meta.commit.git.rebase comment.line.git.rebase
-    - include: line-end
-
-  shell-commands:
+    # shell commands
     - match: ^\s*(x|exec)\b
       captures:
         0: meta.shell.git.rebase
@@ -305,6 +292,68 @@ contexts:
       escape: $\n?
       escape_captures:
         0: meta.shell.git.rebase
+
+  commit-hash:
+    - match: $|(?=#)
+      pop: 1
+    - match: '{{hash}}' # e.g. d284bb2
+      scope: constant.other.hash.git.rebase
+      pop: 1
+    - match: \S+
+      scope: invalid.illegal.hash-expected.git.rebase
+      pop: 1
+
+  commit-subject:
+    - meta_scope: meta.commit.git.rebase
+    - match: '{{comment_char}}'
+      scope: punctuation.definition.comment.git.rebase
+      push: cmd-comment-body
+    - match: (?=\S)
+      push: cmd-comment-body
+    - include: line-end
+
+  cmd-end:
+    - match: '{{comment_char}}'
+      scope: punctuation.definition.comment.git.rebase
+      set: cmd-comment-body
+    - include: line-end
+
+  cmd-comment-body:
+    - meta_scope: comment.line.git.rebase
+    - include: line-end
+
+  label-ref:
+    - meta_scope: meta.branch.label.git.rebase
+    - include: ref-name
+
+  merge-ref:
+    - meta_scope: meta.branch.merge.git.rebase
+    - include: ref-name
+
+  reset-ref:
+    - meta_scope: meta.branch.reset.git.rebase
+    - include: ref-name
+
+  update-ref:
+    - meta_scope: meta.branch.update-ref.git.rebase
+    - include: ref-name
+
+  ref-name:
+    - match: $|(?=#)
+      pop: 1
+    - match: '{{hash}}' # e.g. d284bb2
+      scope: constant.other.hash.git.rebase
+      pop: 1
+    - match: refs/\S+
+      scope: constant.language.ref.git.commit
+      pop: 1
+    - match: \S+
+      scope: constant.language.branch-name.git.commit
+      pop: 1
+
+  maybe-cmd-options:
+    - include: cmd-options
+    - include: else-pop
 
   cmd-options:
     - match: '{{option}}'
@@ -316,4 +365,8 @@ contexts:
 
   line-end:
     - match: $\n?
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
       pop: 1
