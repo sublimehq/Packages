@@ -485,5 +485,3 @@ var html = html`
 /*^^^ meta.string.template.js string.quoted.other.js */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string - string */
-
-    html`<p>${html`<p>${html`<p>${html`<p>${}</p>`}</p>`}</p>`}</p>`
