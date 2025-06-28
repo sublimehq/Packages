@@ -4,9 +4,7 @@ name: TSX
 scope: source.tsx
 version: 2
 
-extends:
-  - JSX.sublime-syntax
-  - TypeScript.sublime-syntax
+extends: TSX (Plain).sublime-syntax
 
 file_extensions:
   - tsx
@@ -18,57 +16,100 @@ first_line_match: |-
 
 contexts:
 
-  ts-old-type-assertion:
-    # old type assertions are replaced by JSX tags
-    - match: <
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - jsx-meta
-        - jsx-tag-begin
+  literal-string-template-begin:
+    - meta_prepend: true
+    - include: literal-string-template-css
+    - include: literal-string-template-html
+    - include: literal-string-template-js
+    - include: literal-string-template-json
+    - include: literal-string-template-sql
 
-  jsx-tag: []  # replaced by `ts-old-type-assertion`
+  literal-string-template-css:
+    - match: (?i:((/\*)\s*css\s*(\*/))|(css))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+      captures:
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
+      set: literal-string-template-css-body
 
-  jsx-tag-begin:
+  literal-string-template-css-body:
     - meta_include_prototype: false
-    - meta_scope: meta.tag.js
-    # note: type parameter modifiers indicate generic lambda
-    - match: (?=(?:in|out|const){{identifier_break}})
-      fail: arrow-function
-    - match: /
-      scope: punctuation.definition.tag.begin.js
-      set:
-        - jsx-expect-unmatched-tag-end
-        - jsx-tag-name
-    - match: (?=\S)
-      set:
-        - jsx-tag-attributes
-        - tsx-tag-check
-        - jsx-tag-name
+    - meta_content_scope: meta.string.template.js source.css.embedded.js
+    - include: literal-string-template-end
+    - include: scope:source.css.ts-template
+      apply_prototype: true
 
-  jsx-tag-name:
+  literal-string-template-html:
+    - match: (?i:((/\*)\s*html\s*(\*/))|(html))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+      captures:
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
+      set: literal-string-template-html-body
+
+  literal-string-template-html-body:
     - meta_include_prototype: false
-    - match: ''
-      set:
-        - jsx-tag-name-meta
-        - tsx-tag-generic-arguments
-        - jsx-tag-name-end
-        - jsx-tag-name-component-possibly-native
+    - meta_content_scope: meta.string.template.js text.html.embedded.js
+    - include: literal-string-template-end
+    - include: scope:text.html.ts-template
+      apply_prototype: true
 
-  tsx-tag-generic-arguments:
-    - include: ts-generic-type-arguments
-    - include: else-pop
+  literal-string-template-js:
+    - match: (?i:((/\*)\s*js\s*(\*/))|(js))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+      captures:
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
+      set: literal-string-template-js-body
 
-  tsx-tag-check:
-    - match: extends{{jsx_identifier_break}}
-      scope: entity.other.attribute-name.js
-      set:
-        - meta_include_prototype: false
-        - match: (?=[>=])
-          pop: 1
-        - match: (?=\S)
-          fail: arrow-function
+  literal-string-template-js-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.template.js source.js.embedded.js
+    - include: literal-string-template-end
+    - include: scope:source.js.ts-template
+      apply_prototype: true
 
-    - match: (?=[/>{]|{{identifier_start}})
-      pop: 1
-    - match: (?=\S)
-      fail: arrow-function
+  literal-string-template-json:
+    - match: (?i:((/\*)\s*json\s*(\*/))|(json))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+      captures:
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
+      set: literal-string-template-json-body
+
+  literal-string-template-json-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.template.js source.json.embedded.js
+    - include: literal-string-template-end
+    - include: scope:source.json.ts-template
+      apply_prototype: true
+
+  literal-string-template-sql:
+    - match: (?i:((/\*)\s*sql\s*(\*/))|(sql))\s*(({{tagged_template_quote_begin}}){{trailing_wspace}}?)
+      captures:
+        1: comment.block.js
+        2: punctuation.definition.comment.begin.js
+        3: punctuation.definition.comment.end.js
+        4: variable.function.tagged-template.js
+        5: meta.string.template.js string.quoted.other.js
+        6: punctuation.definition.string.begin.js
+      set: literal-string-template-sql-body
+
+  literal-string-template-sql-body:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.template.js source.sql.embedded.js
+    - include: literal-string-template-end
+    - include: scope:source.sql.ts-template
+      apply_prototype: true
