@@ -20,14 +20,6 @@
 		[^}"']*                                  # followed by any number of characters that isn't a close brace or a string
 		$                                        # the end of the line
 		</string>
-		<key>indentNextLinePattern</key>
-		<string>(?x)^
-		(?! .* [;:{}]                   # do not indent when line ends with ;, :, {, or }
-		    \s* (//|/[*] .* [*]/ \s* $) #  …account for potential trailing comment
-		)
-		.* [^\s;:{}] \s* $              # indent next if this one isn’t
-		                                #  terminated with ;, :, {, or }
-		</string>
 		<key>unIndentedLinePattern</key>
 		<string>^\s*((/\*|\*/|//|#).*)?$</string>
 	</dict>
