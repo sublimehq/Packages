@@ -1244,12 +1244,8 @@ contexts:
   if-statement:
     - match: '\bif\b'
       scope: keyword.control.flow.scala
-      push:
-        - match: '$'
-          pop: 1
-        - match: '\bthen\b'
-          scope: keyword.control.flow.scala
-        - include: main
+    - match: '\bthen\b'
+      scope: keyword.control.flow.scala
 
   for-comprehension:
     - match: '\bfor\b'
