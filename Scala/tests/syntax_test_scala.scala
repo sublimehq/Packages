@@ -419,6 +419,24 @@ type Foo = Bar[A] forSome { type A }
 //                    ^ variable.other.scala
 //                      ^^ constant.other.formatting.scala
 
+   s"${if (n == 1) "" else "s" }"
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.scala
+//  ^ punctuation.definition.string.begin.scala
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.scala
+//   ^ punctuation.definition.variable.scala
+//    ^ punctuation.section.interpolation.begin.scala
+//     ^^ keyword.control.flow.scala
+//        ^^^^^^^^ meta.group.scala
+//        ^ punctuation.section.group.begin.scala
+//           ^^ keyword.operator.comparison.scala
+//              ^ meta.number.integer.decimal.scala constant.numeric.value.scala
+//               ^ punctuation.section.group.end.scala
+//                 ^^ meta.string.scala string.quoted.double.scala
+//                    ^^^^ keyword.control.flow.scala
+//                         ^^^ meta.string.scala string.quoted.double.scala
+//                             ^ punctuation.section.interpolation.end.scala
+//                              ^ string.quoted.double.scala punctuation.definition.string.end.scala
+
    Unit
 // ^^^^ storage.type.primitive.scala
 
