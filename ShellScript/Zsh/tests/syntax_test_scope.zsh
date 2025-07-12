@@ -9696,6 +9696,74 @@ cmd
 #         ^ punctuation.section.compound.end.shell
 
 
+###############################################################################
+# 17 "echo" Shell Builtin Command
+###############################################################################
+
+echo
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+
+echo not a function () {}
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^ meta.string.glob.shell string.unquoted.shell
+#        ^ meta.string.glob.shell string.unquoted.shell
+#          ^^^^^^^^ meta.string.glob.shell string.unquoted.shell
+#                   ^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#                   ^ punctuation.section.group.begin.regexp.shell
+#                    ^ punctuation.section.group.end.regexp.shell
+#                      ^^ meta.string.glob.shell string.unquoted.shell
+
+echo 'ssl-cert-'${sh}'() {
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+#    ^^^^^^^^^^^ string.quoted.single.shell
+#               ^^^^^ meta.interpolation.parameter.shell
+#                    ^^^^^ string.quoted.single.shell
+}'
+#^ meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell
+#^ punctuation.definition.string.end.shell
+
+###############################################################################
+# 17 "eval" Shell Builtin Command
+###############################################################################
+
+eval
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+
+eval ls .
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^ meta.function-call.arguments.shell
+#    ^^ meta.string.glob.shell string.unquoted.shell
+#       ^ meta.string.glob.shell string.unquoted.shell
+
+eval "echo Helo ${name:z " + 2":$len}" !
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^^^^^^^^^^ meta.string.glob.shell string.quoted.double.shell
+#               ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+#                                    ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                      ^ meta.string.glob.shell string.unquoted.shell
+
+eval 'ssl-cert-'${sh}'() {
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell - meta.string
+#    ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell
+#    ^^^^^^^^^^^ string.quoted.single.shell
+#               ^^^^^ meta.interpolation.parameter.shell - string
+#                    ^^^^^^ string.quoted.single.shell
+}'
+# <- meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell
+#^ meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell punctuation.definition.string.end.shell
+# ^ - meta - string
+
+
 ##############################################################################
 # 17 "typeset" Shell Builtin Command
 ##############################################################################
