@@ -9726,6 +9726,7 @@ echo 'ssl-cert-'${sh}'() {
 #^ meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell
 #^ punctuation.definition.string.end.shell
 
+
 ###############################################################################
 # 17 "eval" Shell Builtin Command
 ###############################################################################
