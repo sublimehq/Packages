@@ -245,7 +245,7 @@ variables:
     | aenter | aexit
     # other class magic
     | call | del | init | new | init_subclass
-    | instancecheck | subclasscheck
+    | instancecheck | sizeof | subclasscheck | subclasshook
     # pickling
     | getnewargs | getnewargs_ex | getstate | setstate | reduce | reduce_ex
     # descriptors
@@ -267,7 +267,7 @@ variables:
     # functions & methods
     | annotations | closure | code | defaults | func | globals | kwdefaults | self | qualname
     # classes (attributes)
-    | bases | prepare | slots | metaclass | mro
+    | bases | prepare | slots | metaclass | mro | weakref
     # Python 2
     | members | methods
     # Python 3.12 (PEP 698)
