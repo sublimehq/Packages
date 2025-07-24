@@ -451,9 +451,22 @@ async
 #^^^^ - invalid.illegal.name
 
 __all__
-#^^^^^^ meta.path support.variable.magic - meta.generic-name
+#^^^^^^ meta.path.python support.variable.magic.python
+__builtins__
+#^^^^^^^^^^^ meta.path.python support.variable.magic.python
+__cached__
+#^^^^^^^^^ meta.path.python support.variable.magic.python
 __file__
-#^^^^^^^ support.variable.magic
+#^^^^^^^ meta.path.python support.variable.magic.python
+__loader__
+#^^^^^^^^^ meta.path.python support.variable.magic.python
+__package__
+#^^^^^^^^^^ meta.path.python support.variable.magic.python
+__path__
+#^^^^^^^ meta.path.python support.variable.magic.python
+__spec__
+#^^^^^^^ meta.path.python support.variable.magic.python
+
 __missing__
 #^^^^^^^^^^ support.function.magic
 __bool__ abc.__nonzero__

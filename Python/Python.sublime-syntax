@@ -263,7 +263,7 @@ variables:
     # generic object
     class | dict | doc | module | name
     # module-specific / global
-    | all | file | package
+    | all | builtins | cached | file | loader | package | path | spec
     # functions & methods
     | annotations | closure | code | defaults | func | globals | kwdefaults | self | qualname
     # classes (attributes)
