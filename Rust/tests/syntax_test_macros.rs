@@ -69,6 +69,8 @@ my_var = format!("Hello {name}, how are you?",
 //                            ^ punctuation.section.group.end
         write!(f, "{:10}", self.0)
 //                 ^^^^^ constant.other.placeholder
+        write!(f, "var = {var:0width$x?}", self.0) // Test named width, zero padded in hexa decimal with debug mode
+//                       ^^^^^^^^^^^^^^ constant.other.placeholder
         eprint!("{:^10}", self.0)
 //      ^^^^^^^ support.macro
 //               ^^^^^^ constant.other.placeholder
