@@ -189,6 +189,10 @@ variables:
 
 contexts:
 
+  preprocessor-content:
+    - meta_prepend: true
+    - include: tag-href-attribute
+
   tag:
     - include: tag-html
     - include: tag-other
