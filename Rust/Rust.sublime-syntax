@@ -1672,9 +1672,9 @@ contexts:
             [+-]?                 # [sign]
             \#?                   # ['#']
             0?                    # [0]
-            (\d+\$?)?             # [width]
-            (\.(\d+\$?|\*)?)?     # ['.' precision]
-            (\?|{{identifier}})?  # [type]
+            ((\d+\$?)|{{identifier}}\$)?           # [width]
+            (\.(\d+\$?|\*|{{identifier}}\$)?)?     # ['.' precision]
+            (([xX]?\?)|{{identifier}})?  # [type]
           )?
         \}
       scope: constant.other.placeholder.rust
