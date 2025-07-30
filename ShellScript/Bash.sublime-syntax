@@ -57,6 +57,7 @@ contexts:
     - include: operators
     - include: cmd-compound-test
     - include: cmd-control
+    - include: cmd-echo
     # definitions
     - include: def-variable
     - include: def-coproc
@@ -70,7 +71,6 @@ contexts:
     - include: cmd-compound-brace
     - include: cmd-compound-paren
     - include: cmd-declare
-    - include: cmd-echo
     - include: cmd-exec
     - include: cmd-export
     - include: cmd-historic
