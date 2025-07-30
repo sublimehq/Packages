@@ -16,85 +16,80 @@ reset 9698953 # Fix form submission
 pick d284bb2 Initial commit
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                           ^ - meta.commit
 # <- keyword.operator.commit.pick
 #^^^ keyword.operator.commit.pick
 #   ^ - storage.type.commit
 #    ^^^^^^^ constant.other.hash
-#           ^ - constant.other.hash -meta.subject.git.commit
-#            ^^^^^^^^^^^^^^ meta.subject.git.commit
-#                          ^ - meta.subject.git.commit
+#           ^ - constant - comment
+#            ^^^^^^^^^^^^^^^ comment.line.git.rebase
+pick d284bb2 # Initial commit
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- keyword.operator.commit.pick
+#^^^ keyword.operator.commit.pick
+#   ^ - storage.type.commit
+#    ^^^^^^^ constant.other.hash
+#           ^ - constant - comment
+#            ^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+#            ^ punctuation.definition.comment.git.rebase
 p 6746220 Second pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                                         ^ - meta.commit
 # <- keyword.operator.commit.pick
 #^ - keyword.operator.commit
 # ^^^^^^^ constant.other.hash
-#        ^ - constant.other.hash -meta.subject.git.commit
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                        ^ - meta.subject.git.commit
+#        ^ - constant - comment
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                ^^^^ - keyword
    p 6746220 Third pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                                            ^ - meta.commit
 # ^ - keyword.operator.commit
 #  ^ keyword.operator.commit.pick
-#   ^ - keyword.operator.commit -constant.other.hash
+#   ^ - keyword.operator.commit - constant
 #    ^^^^^^^ constant.other.hash
-#           ^ - constant.other.hash -meta.subject.git.commit
-#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                          ^ - meta.subject.git.commit
+#           ^ - constant - comment
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                  ^^^^ - keyword
 puck 6746220 Invalid command
-# <- meta.commit
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-# <- invalid.illegal.command-expected
-#^^^ invalid.illegal.command-expected
-#   ^ - storage.type.commit -invalid.illegal.command-expected
-#    ^^^^^^^ constant.other.hash
-#           ^ - constant.other.hash -meta.subject.git.commit
-#            ^^^^^^^^^^^^^^^ meta.subject.git.commit
+# <- - meta - constant - keyword
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - constant - keyword
 p 6746x20 Invalid hash # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- keyword.operator.commit.pick
 #^ - storage.type.commit
 # ^^^^^^^ invalid.illegal.hash-expected
-#        ^ - constant.other.hash -meta.subject.git.commit
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                  ^ - meta.subject.git.commit
+#        ^ - constant - comment
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 a 6746x20 Invalid command and hash # no comment (#403)
-# <- meta.commit
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-# <- invalid.illegal.command-expected
-#^ - storage.type.commit
-# ^^^^^^^ invalid.illegal.hash-expected
-#        ^ - constant.other.hash -meta.subject.git.commit
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                                ^ punctuation.definition.reference.issue.git
-#                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
-#                                                     ^ - meta.subject.git.commit
+# <- - meta.commit - constant - keyword
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - constant - keyword
 l feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
 # ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#        ^ punctuation.separator.path.git.commit
 label feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
 #^^^^ keyword.other.label.git.rebase
 #     ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#            ^ punctuation.separator.path.git.commit
 update-ref refs/heads/feature-branch
 # <- meta.branch.update-ref.git.rebase keyword.operator.update-ref.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.update-ref.git.rebase
 #^^^^^^^^^ keyword.operator.update-ref.git.rebase
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.ref.git.commit
+#              ^ punctuation.separator.path.git.commit
+#                    ^ punctuation.separator.path.git.commit
 u refs/heads/feature-branch
 # <- meta.branch.update-ref.git.rebase keyword.operator.update-ref.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.update-ref.git.rebase
 # <- keyword.operator.update-ref.git.rebase
-#          ^^^^^^^^^^^^^^^^ constant.language.ref.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.ref.git.commit
+#     ^ punctuation.separator.path.git.commit
+#           ^ punctuation.separator.path.git.commit
 t onto
 # <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
 #^^^^^ meta.branch.reset.git.rebase
@@ -107,6 +102,7 @@ reset onto
 m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
+#                   ^ punctuation.separator.path.git.commit
 #                               ^ - meta.branch - comment
 #                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                                ^ punctuation.definition.comment.git.rebase
@@ -118,6 +114,7 @@ m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
+#                       ^ punctuation.separator.path.git.commit
 #                                   ^ - meta.branch - comment
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 #                                    ^ punctuation.definition.comment.git.rebase
@@ -127,34 +124,98 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #        ^^^^^^^ constant.other.hash.git.rebase
 #                ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
 
+# highlight illegal reference characters
+l ~/.foo.bar..baz:buuz/.br^an~ch/.br\anch-#name.lock
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+# ^ invalid.illegal.unexpected-token.git.commit
+#  ^ punctuation.separator.path.git.commit
+#   ^ invalid.illegal.unexpected-token.git.commit
+#           ^^ invalid.illegal.unexpected-token.git.commit
+#                ^ invalid.illegal.unexpected-token.git.commit
+#                     ^ punctuation.separator.path.git.commit
+#                      ^ invalid.illegal.unexpected-token.git.commit
+#                         ^ invalid.illegal.unexpected-token.git.commit
+#                            ^ invalid.illegal.unexpected-token.git.commit
+#                               ^ punctuation.separator.path.git.commit
+#                                ^ invalid.illegal.unexpected-token.git.commit
+#                                   ^ invalid.illegal.unexpected-token.git.commit
+#                                              ^^^^^ invalid.illegal.unexpected-token.git.commit
+
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
   b
+# <- meta.commit.git.rebase
+#^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.break
   break
+# <- meta.commit.git.rebase
+#^^^^^^^ meta.commit.git.rebase
 # ^^^^^ keyword.operator.commit.break
   d d284bb2 Drop commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.drop
+#   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^ comment.line.git.rebase
   drop d284bb2 Drop commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^ keyword.operator.commit.drop
+#      ^^^^^^^ constant.other.hash.git.rebase
+#              ^^^^^^^^^^^^ comment.line.git.rebase
   e d284bb2 Edit commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.edit
+#   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^ comment.line.git.rebase
   edit d284bb2 Edit commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^ keyword.operator.commit.edit
+#      ^^^^^^^ constant.other.hash.git.rebase
+#              ^^^^^^^^^^^^ comment.line.git.rebase
   f d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.fixup
+#   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^^ comment.line.git.rebase
   fixup d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^^ keyword.operator.commit.fixup
+#       ^^^^^^^ constant.other.hash.git.rebase
+#               ^^^^^^^^^^^^^ comment.line.git.rebase
   f -c d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.fixup
+#   ^^ variable.parameter.option.git.rebase
+#      ^^^^^^^ constant.other.hash.git.rebase
+#              ^^^^^^^^^^^^^ comment.line.git.rebase
   fixup -C d284bb2 Fixup commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^^ keyword.operator.commit.fixup
+#       ^^ variable.parameter.option.git.rebase
+#          ^^^^^^^ constant.other.hash.git.rebase
+#                  ^^^^^^^^^^^^^ comment.line.git.rebase
   r d284bb2 Reword commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^ keyword.operator.commit.reword
+#   ^^^^^^^ constant.other.hash.git.rebase
+#           ^^^^^^^^^^^^^^ comment.line.git.rebase
   reword d284bb2 Reword commit
+# <- meta.commit.git.rebase
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit.git.rebase
 # ^^^^^^ keyword.operator.commit.reword
+#        ^^^^^^^ constant.other.hash.git.rebase
+#                ^^^^^^^^^^^^^^ comment.line.git.rebase
   x git tag -d 0.1.0
-# ^ meta.shell.git.rebase - source.shell
+# <- meta.shell.git.rebase
+#^^ meta.shell.git.rebase - source.shell
 #  ^^^^^^^^^^^^^^^^^ meta.shell.git.rebase source.shell.embedded.git.rebase
 #   ^^^ meta.function-call.identifier.shell
 #      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -163,7 +224,8 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #   ^^^ variable.function.shell
 #           ^^ variable.parameter.option.shell
   exec git tag -d 0.1.0
-# ^^^^ meta.shell.git.rebase - source.shell
+# <- meta.shell.git.rebase
+#^^^^^ meta.shell.git.rebase - source.shell
 #     ^^^^^^^^^^^^^^^^^ meta.shell.git.rebase source.shell.embedded.git.rebase
 #      ^^^ meta.function-call.identifier.shell
 #         ^^^^^^^^^^^^^ meta.function-call.arguments.shell

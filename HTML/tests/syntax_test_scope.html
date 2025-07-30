@@ -3,6 +3,20 @@
 ## <- meta.tag.preprocessor punctuation.definition.tag.begin
 ##^^^entity.name.tag.xml
 ##                                   ^ punctuation.definition.tag.end
+
+<?xml-model>
+## <- meta.tag.preprocessor.xml.html punctuation.definition.tag.begin.html
+##^^^^^^^^^^ meta.tag.preprocessor.xml.html
+##^^^^^^^^^ entity.name.tag.xml.html
+##         ^ punctuation.definition.tag.end.html
+
+<?xml-model  href="schemas/xhtml-strict.xsd" ?>
+## <- meta.tag.preprocessor.xml.html punctuation.definition.tag.begin.html
+##^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor.xml.html
+##^^^^^^^^^ entity.name.tag.xml.html
+##           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.href.html
+##                                           ^^ punctuation.definition.tag.end.html
+
 <!DOCTYPE html SYSTEM "html5.dtd" [ <!-- comment -->
 ## <- meta.tag.sgml.doctype punctuation.definition.tag.begin
 ##^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype

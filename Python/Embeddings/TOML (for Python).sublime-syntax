@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+scope: source.toml.embedded.python
+version: 2
+hidden: true
+
+extends: Packages/TOML/TOML.sublime-syntax
+
+contexts:
+
+  prototype:
+    - meta_prepend: true
+    - match: ^\s*(#)[ ]?
+      captures:
+        1: punctuation.definition.comment.python
+
+  string-prototype:
+    - meta_prepend: true
+    - match: ^\s*(#)[ ]?
+      captures:
+        1: punctuation.definition.comment.python

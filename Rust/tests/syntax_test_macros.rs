@@ -69,6 +69,44 @@ my_var = format!("Hello {name}, how are you?",
 //                            ^ punctuation.section.group.end
         write!(f, "{:10}", self.0)
 //                 ^^^^^ constant.other.placeholder
+        write!(f, "var = {var:0width$x?}") // Test named width, zero padded in hexa decimal with debug mode
+//                       ^^^^^^^^^^^^^^^ constant.other.placeholder
+        write!(f, "var = {:width$.prec$}", self.0) // Test named width and precision
+//                       ^^^^^^^^^^^^^^^ constant.other.placeholder
+        write!(f, "var = {:1$.2$}", self.0, width, prec) // Test numbered width, and precision
+//                       ^^^^^^^^ constant.other.placeholder
+        println!("Hello {} is {2:.*}",   "x", 5, 0.01);
+//                      ^^ constant.other.placeholder
+//                            ^^^^^^ constant.other.placeholder
+        println!("Hello {} is {number:.prec$}", "x", prec = 5, number = 0.01);
+//                      ^^ constant.other.placeholder
+//                            ^^^^^^^^^^^^^^^ constant.other.placeholder
+//                                                   ^^^^ variable.other.rust
+//                                                        ^ keyword.operator.assignment.rust
+//                                                                      ^^^^ constant.numeric.float.rust
+// Alignement from https://doc.rust-lang.org/std/fmt/
+        assert_eq!(format!("Hello {:<5}!", "x"),  "Hello x    !");
+//      ^^^^^^^^^^ support.macro
+//                 ^^^^^^^ support.macro
+//                                ^^^^^ constant.other.placeholder
+        assert_eq!(format!("Hello {:-<5}!", "x"), "Hello x----!");
+//                                ^^^^^ constant.other.placeholder
+        assert_eq!(format!("Hello {:^5}!", "x"),  "Hello   x  !");
+//                                ^^^^^ constant.other.placeholder
+        assert_eq!(format!("Hello {:>5}!", "x"),  "Hello     x!");
+//                                ^^^^^ constant.other.placeholder
+// Sign/#/0 from https://doc.rust-lang.org/std/fmt/
+        assert_eq!(format!("Hello {:+}!", 5), "Hello +5!");
+//                                ^^^^ constant.other.placeholder
+        assert_eq!(format!("{:#x}!", 27), "0x1b!");
+//                          ^^^^^ constant.other.placeholder
+        assert_eq!(format!("Hello {:05}!", 5),  "Hello 00005!");
+//                                ^^^^^ constant.other.placeholder
+        assert_eq!(format!("{:#010b}!", 27), "0b00011011!");
+//                          ^^^^^^^ constant.other.placeholder
+        assert_eq!(format!("{:#06o}!", 27), "0o0033!");
+//                          ^^^^^^^ constant.other.placeholder
+
         eprint!("{:^10}", self.0)
 //      ^^^^^^^ support.macro
 //               ^^^^^^ constant.other.placeholder

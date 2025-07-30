@@ -117,6 +117,41 @@ $((
 # ^^^^^^^^^^ - comment
 ))
 
+cmd \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd ; \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd | \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd || \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd & \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd && \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+cmd arg \
+# comment after line continuation
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
 
 ###############################################################################
 # Git Conflict Marker Tests
@@ -12096,6 +12131,19 @@ eval "echo Helo ${name:a " + 2":$len}" !
 #               ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
 #                                    ^ meta.string.glob.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                      ^ meta.string.glob.shell string.unquoted.shell
+
+eval 'ssl-cert-'${sh}'() {
+# <- meta.function-call.identifier.shell support.function.shell
+#^^^ meta.function-call.identifier.shell support.function.shell
+#   ^ meta.function-call.arguments.shell - meta.string
+#    ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.glob.shell
+#    ^^^^^^^^^^^ string.quoted.single.shell
+#               ^^^^^ meta.interpolation.parameter.shell - string
+#                    ^^^^^^ string.quoted.single.shell
+}'
+# <- meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell
+#^ meta.function-call.arguments.shell meta.string.glob.shell string.quoted.single.shell punctuation.definition.string.end.shell
+# ^ - meta - string
 
 
 ###############################################################################

@@ -1778,9 +1778,9 @@ variables:
 
   illegal_group_separators: '[|&;>]'
 
-  # Function Definitions
+  # Bare Function Definitions
 
-  is_bare_function_definition: (?={{bare_function_name_char}}+(?:\s+{{bare_function_name_char}}+)*\s*\(\s*\))
+  is_bare_function_definition: (?=(?!(?:eval|printf?){{cmd_break}}){{bare_function_name_char}}+(?:\s+{{bare_function_name_char}}+)*\s*\(\s*\))
   bare_function_name_char: (?:\{.+?\}|\".*?\"|\'.*?\'|[^='"{{metachar}}])
 
   # 9.3.1 Hook Functions

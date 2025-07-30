@@ -20,7 +20,7 @@ variables:
   # consumed, to prevent catastrophic backtracking
   identifier: '(?:(?:r\#)?{{non_raw_ident}}\b)'
   camel_ident: '\b_*[A-Z][a-zA-Z0-9_]*[a-z][a-zA-Z0-9_]*\b'
-  lifetime: '''(?:_|{{non_raw_ident}})(?!\'')\b'
+  lifetime: '''(?:_|{{identifier}})(?!\'')\b'
   escaped_char: '\\([nrt0\"''\\]|x[0-7]\h|u\{(?:\h_*){1,6}\})'
   int_suffixes: '[iu](?:8|16|32|64|128|size)'
   float_suffixes: 'f(32|64)'
@@ -147,7 +147,7 @@ contexts:
 
     - include: terminators
 
-    - match: '(''(?:{{non_raw_ident}}))\s*(:)'
+    - match: '(''(?:{{identifier}}))\s*(:)'
       captures:
         1: entity.name.label.rust
         2: punctuation.separator.rust
@@ -294,7 +294,7 @@ contexts:
         2: storage.modifier.rust
       push: declaration-identifier
 
-    - match: '\b(break|continue)\b(?:\s+(''{{non_raw_ident}}))?'
+    - match: '\b(break|continue)\b(?:\s+(''{{identifier}}))?'
       captures:
         1: keyword.control.rust
         2: entity.name.label.rust
@@ -1672,9 +1672,9 @@ contexts:
             [+-]?                 # [sign]
             \#?                   # ['#']
             0?                    # [0]
-            (\d+\$?)?             # [width]
-            (\.(\d+\$?|\*)?)?     # ['.' precision]
-            (\?|{{identifier}})?  # [type]
+            ((\d+\$?)|{{identifier}}\$)?           # [width]
+            (\.(\d+\$?|\*|{{identifier}}\$)?)?     # ['.' precision]
+            (([xX]?\?)|{{identifier}})?  # [type]
           )?
         \}
       scope: constant.other.placeholder.rust

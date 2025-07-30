@@ -1,6 +1,25 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 # <- source.python comment.line.number-sign punctuation.definition.comment
 
+# /// script
+# ^^^^^^^^^^^ comment.line.number-sign.python
+# ^^^ punctuation.section.raw.begin.python
+#     ^^^^^^ constant.other.lanugage-name.python
+# requires-python = ">=3.8"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.toml.embedded.python
+# dependencies = [
+#     "requests",
+#     ^^^^^^^^^^ source.toml.embedded.python meta.mapping.value.toml meta.sequence.array.toml meta.string.toml string.quoted.double.toml
+# ]
+#
+# [tools.black]
+# ^^^^^^^^^^^^^ comment.line.number-sign.python source.toml.embedded.python meta.section.toml meta.brackets.toml
+#
+# ///
+# <- comment.line.number-sign.python punctuation.definition.comment.python
+#^^^^^ comment.line.number-sign.python
+# ^^^ punctuation.section.raw.end.python
+
 r"""This is a syntax test file.
 # <- storage.type.string - comment
 #^^^ comment.block.documentation.python punctuation.definition.comment.begin.python
@@ -432,9 +451,22 @@ async
 #^^^^ - invalid.illegal.name
 
 __all__
-#^^^^^^ meta.path support.variable.magic - meta.generic-name
+#^^^^^^ meta.path.python support.variable.magic.python
+__builtins__
+#^^^^^^^^^^^ meta.path.python support.variable.magic.python
+__cached__
+#^^^^^^^^^ meta.path.python support.variable.magic.python
 __file__
-#^^^^^^^ support.variable.magic
+#^^^^^^^ meta.path.python support.variable.magic.python
+__loader__
+#^^^^^^^^^ meta.path.python support.variable.magic.python
+__package__
+#^^^^^^^^^^ meta.path.python support.variable.magic.python
+__path__
+#^^^^^^^ meta.path.python support.variable.magic.python
+__spec__
+#^^^^^^^ meta.path.python support.variable.magic.python
+
 __missing__
 #^^^^^^^^^^ support.function.magic
 __bool__ abc.__nonzero__

@@ -17,6 +17,7 @@ for i in 1..10 {
 // <- meta.block punctuation.section.block.end
 
 'label_name: loop {
+// <- entity.name.label.rust
 // ^^^^^^^^ entity.name.label
 //         ^ punctuation.separator
 //           ^^^^ keyword.control
@@ -47,6 +48,26 @@ for i in 1..10 {
         continue 'label1;
 //               ^^^^^^^ entity.name.label
 //                      ^ punctuation.terminator
+    }
+}
+
+// raw labels (requires Rust 2021)
+'r#for: for _ in 0..100 {
+// <- entity.name.label.rust
+//^^^^ entity.name.label
+    'r#for : loop {
+//  ^^^^^^ entity.name.label
+//         ^ punctuation.separator
+        'r#for: while true {
+//      ^^^^^^ entity.name.label
+//            ^ punctuation.separator
+            break 'r#for;
+//                ^^^^^^ entity.name.label
+//                      ^ punctuation.terminator
+        }
+        continue 'r#for;
+//               ^^^^^^ entity.name.label
+//                     ^ punctuation.terminator
     }
 }
 

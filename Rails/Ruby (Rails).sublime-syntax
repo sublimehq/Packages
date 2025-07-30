@@ -73,6 +73,7 @@ contexts:
         | scope
         | after_create
         | after_destroy
+        | after_initialize
         | after_save
         | after_update
         | after_validation
@@ -82,6 +83,7 @@ contexts:
         | after_(create_|destroy_|update_)?commit
         | before_create
         | before_destroy
+        | before_initialize
         | before_save
         | before_update
         | before_validation
