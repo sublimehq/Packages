@@ -9639,12 +9639,3 @@ their paragraph
 |      ^ meta.block.conflict.end.diff - entity - punctuation
 |       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 |             ^ meta.block.conflict.end.diff - entity - punctuation
-
-[ref]: /url
-[ref]: /url "definition"
-[ref]: /url {#id}
-[ref]: /url (definition) {#id}
-[ref]: 
-  /url 
-  (definition) {#id}
-[ref]: /url
