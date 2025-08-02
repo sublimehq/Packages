@@ -1467,23 +1467,23 @@ contexts:
       set: regexp
 
   regexp:
-      - meta_include_prototype: false
-      - meta_scope: meta.string.js string.regexp.js
-      - match: "/"
-        scope: punctuation.definition.string.end.js
-        set:
-          - meta_include_prototype: false
-          - meta_content_scope: meta.string.js string.regexp.js
-          - match: '[gimyus]'
-            scope: keyword.other.js
-          - match: '[A-Za-z0-9]' # Ignore unknown flags for future-compatibility
-          - include: immediately-pop
-      - match: '(?=.|\n)'
-        push:
-          - meta_include_prototype: false
-          - match: '(?=/)'
-            pop: 1
-          - include: scope:source.regexp.js
+    - meta_include_prototype: false
+    - meta_scope: meta.string.js string.regexp.js
+    - match: (?<![\\\/])/
+      scope: punctuation.definition.string.end.js
+      set:
+        - meta_include_prototype: false
+        - meta_content_scope: meta.string.js string.regexp.js
+        - match: '[gimyus]'
+          scope: keyword.other.js
+        - match: '[A-Za-z0-9]' # Ignore unknown flags for future-compatibility
+        - include: immediately-pop
+    - match: '(?=.|\n)'
+      push:
+        - meta_include_prototype: false
+        - match: '(?=/)'
+          pop: 1
+        - include: scope:source.regexp.js
 
   constructor:
     - match: new{{identifier_break}}
