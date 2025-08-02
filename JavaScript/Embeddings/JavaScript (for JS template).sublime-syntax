@@ -6,7 +6,7 @@ scope: source.js.js-template
 version: 2
 hidden: true
 
-extends: Packages/JavaScript/JavaScript.sublime-syntax
+extends: Packages/JavaScript/JavaScript (Plain).sublime-syntax
 
 variables:
     tagged_template_quote_begin: \\\`
@@ -19,13 +19,10 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: scope:source.js.plain#literal-string-template-end-ahead
+    - include: scope:source.js.plain#text-interpolations
 
   string-content:
     - meta_prepend: true
-    - include: scope:source.js#string-interpolations
-
-  literal-string-template-begin:
-    - meta_include_prototype: false
-    - include: literal-string-template-raw
-    - include: immediately-pop
+    - include: scope:source.js.plain#literal-string-template-end-ahead
+    - include: scope:source.js.plain#string-interpolations
