@@ -587,6 +587,9 @@ tss_dtor_t tss_dtor_t_var;
 once_flag once_flag_var;
 /* <- support.type.threads */
 
+some_arbitrary_type_t arbitrary_type_var;
+/* <- support.type.posix-reserved */
+
 void *null_pointer1 = NULL;
                     /* ^ constant.language.null */
 
