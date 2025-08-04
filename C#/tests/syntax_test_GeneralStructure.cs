@@ -1449,3 +1449,23 @@ public class MyClass
 }
 /// <- meta.class.body meta.block punctuation.section.block.end
 /// ^ - meta
+
+public class TestModifierOrder
+{
+    async static Task OnExportCommand(FileInfo outputfile, CancellationToken token) => await Task.CompletedTask;
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid
+/// ^^^^^ storage.modifier
+///       ^^^^^^ storage.modifier
+///              ^^^^ support.type
+///                   ^^^^^^^^^^^^^^^ entity.name.function
+///                                  ^ punctuation.section.parameters.begin.cs
+///                                                                               ^ punctuation.section.parameters.end.cs
+    static async Task OnExportCommand(FileInfo outputfile, CancellationToken token) => await Task.CompletedTask;
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid
+/// ^^^^^^ storage.modifier
+///        ^^^^^ storage.modifier
+///              ^^^^ support.type
+///                   ^^^^^^^^^^^^^^^ entity.name.function
+///                                  ^ punctuation.section.parameters.begin.cs
+///                                                                               ^ punctuation.section.parameters.end.cs
+}
