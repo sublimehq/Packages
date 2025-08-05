@@ -1460,14 +1460,17 @@ public class TestModifierOrder
 ///                   ^^^^^^^^^^^^^^^ entity.name.function
 ///                                  ^ punctuation.section.parameters.begin.cs
 ///                                                                               ^ punctuation.section.parameters.end.cs
-    static async Task OnExportCommand(FileInfo outputfile, CancellationToken token) => await Task.CompletedTask {
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid
+    static async Task OnExportCommand(FileInfo outputfile, CancellationToken token)
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid
 /// ^^^^^^ storage.modifier
 ///        ^^^^^ storage.modifier
 ///              ^^^^ support.type
 ///                   ^^^^^^^^^^^^^^^ entity.name.function
 ///                                  ^ punctuation.section.parameters.begin.cs
 ///                                                                               ^ punctuation.section.parameters.end.cs
+    {
+        await NestedMethod();
+
         async static Task NestedMethod();
 ///     ^^^^^ storage.modifier.cs
 ///           ^^^^^^ storage.modifier.cs
