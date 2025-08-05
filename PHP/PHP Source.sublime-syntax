@@ -2889,6 +2889,8 @@ contexts:
       scope: punctuation.section.embedded.begin.php
     - match: =>
       scope: punctuation.separator.key-value.php
+    - match: \|>
+      scope: keyword.operator.assignment.pipe.php
     - match: (?:\+|-|\*|/|%|&|\||\^|>>|<<|\.|\?\?)=
       scope: keyword.operator.assignment.augmented.php
     - match: (?:(=)(&))|(&(?=[[:alpha:]$_]))

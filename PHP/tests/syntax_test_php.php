@@ -3755,6 +3755,9 @@ $foo = (unset) $bar;
  * Operators Tests
  *****************************************************************************/
 
+   |>
+// ^^ keyword.operator.assignment.pipe.php
+
     += -= *= /= %= &= |= ^= >>= <<= .= ??=
 // ^ - keyword
 //  ^^ keyword.operator.assignment.augmented.php
