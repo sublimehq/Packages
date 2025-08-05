@@ -1099,7 +1099,7 @@ contexts:
       pop: true
     - include: keywords
     # C#7/9, nested method
-    - match: (?=(?:\b(?:async|ref)\s+)?(?:\bstatic\s+)?{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
+    - match: (?=(?:\b(?:async|ref|static)\s+)*{{namespaced_name}}{{type_suffix}}\s+{{namespaced_name}}\s*\()
       push:
         - include: method_declaration
         - match: ''
