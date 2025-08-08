@@ -467,92 +467,6 @@
 
 
 /******************************************************************************
- * Git Conflict Marker Tests
- *****************************************************************************/
-
-<<<<<<< HEAD
-// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
-//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
-//     ^ meta.block.conflict.begin.diff - entity - punctuation
-//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
-//          ^ meta.block.conflict.begin.diff - entity - punctuation
-
-=======
-// <- meta.block.conflict.separator.diff punctuation.section.block.diff
-//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
-//     ^ meta.block.conflict.separator.diff - punctuation
-
->>>>>>> master
-// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
-//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
-//     ^ meta.block.conflict.end.diff - entity - punctuation
-//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
-//            ^ meta.block.conflict.end.diff - entity - punctuation
-
-/* merge conflict in blocks */
-
-{
-// <- meta.block.java punctuation.section.block.begin.java
-<<<<<<< HEAD
-// <- meta.block.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
-//^^^^^ meta.block.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
-//     ^ meta.block.java meta.block.conflict.begin.diff - entity - punctuation
-//      ^^^^ meta.block.java meta.block.conflict.begin.diff entity.name.section.diff
-//          ^ meta.block.java meta.block.conflict.begin.diff - entity - punctuation
-
-=======
-// <- meta.block.java meta.block.conflict.separator.diff punctuation.section.block.diff
-//^^^^^ meta.block.java meta.block.conflict.separator.diff punctuation.section.block.diff
-//     ^ meta.block.java meta.block.conflict.separator.diff - punctuation
-
->>>>>>> master
-// <- meta.block.java meta.block.conflict.end.diff punctuation.section.block.end.diff
-//^^^^^ meta.block.java meta.block.conflict.end.diff punctuation.section.block.end.diff
-//     ^ meta.block.java meta.block.conflict.end.diff - entity - punctuation
-//      ^^^^^^ meta.block.java meta.block.conflict.end.diff entity.name.section.diff
-//            ^ meta.block.java meta.block.conflict.end.diff - entity - punctuation
-}
-// <- meta.block.java punctuation.section.block.end.java
-
-/* merge conflict in multiline strings */
-
-string = """
-before
-<<<<<<< HEAD
-// <- meta.string.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
-//^^^^^ meta.string.java meta.block.conflict.begin.diff punctuation.section.block.begin.diff
-//     ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
-//      ^^^^ meta.string.java meta.block.conflict.begin.diff entity.name.section.diff
-//          ^ meta.string.java meta.block.conflict.begin.diff - entity - punctuation
-ours
-// <- meta.string.java string.quoted.triple.java
-//^^ meta.string.java string.quoted.triple.java
-=======
-// <- meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
-//^^^^^ meta.string.java meta.block.conflict.separator.diff punctuation.section.block.diff
-//     ^ meta.string.java meta.block.conflict.separator.diff - punctuation
-theirs
-// <- meta.string.java string.quoted.triple.java
-//^^^^ meta.string.java string.quoted.triple.java
-|||||||
-base
-// <- meta.string.java string.quoted.triple.java
-//^^ meta.string.java string.quoted.triple.java
->>>>>>> master
-// <- meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
-//^^^^^ meta.string.java meta.block.conflict.end.diff punctuation.section.block.end.diff
-//     ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
-//      ^^^^^^ meta.string.java meta.block.conflict.end.diff entity.name.section.diff
-//            ^ meta.string.java meta.block.conflict.end.diff - entity - punctuation
-after
-// <- meta.string.java string.quoted.triple.java
-//^^^ meta.string.java string.quoted.triple.java
-"""
-// <- meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
-//^ meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
-
-
-/******************************************************************************
  * Package Declaration Tests
  *****************************************************************************/
 
@@ -5668,7 +5582,7 @@ class IfStatementTests {
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.function.java
-//            ^^ keyword.operator.comparison.java
+//            ^^ keyword.operator.comparison.equal.value.java
 //               ^^^^ constant.language.boolean.true.java
 //                   ^ punctuation.section.group.end.java
 //                     ^^^ variable.function.java
@@ -5769,12 +5683,12 @@ class AssertStatementTests {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.assertion.java
 //  ^^^^^^ keyword.control.flow.assert.java
 //         ^^^^^ variable.other.java
-//               ^ keyword.operator.comparison.java
-//                 ^ keyword.operator.arithmetic.java
+//               ^ keyword.operator.relational.greater.java
+//                 ^ keyword.operator.arithmetic.subtraction.java
 //                  ^^^ constant.numeric.value.java
 //                      ^ punctuation.separator.expressions.java
 //                        ^^^ variable.other.java
-//                            ^^ keyword.operator.comparison.java
+//                            ^^ keyword.operator.comparison.equal.value.java
 //                               ^^^^ constant.language.boolean.true.java
 //                                   ^ punctuation.terminator.java
 
@@ -5954,7 +5868,7 @@ class SwitchStatementTests {
 //         ^ punctuation.definition.string.begin.java
 //          ^^ constant.character.escape.other.java
 //            ^ punctuation.definition.string.end.java
-//              ^ keyword.operator.arithmetic.java
+//              ^ keyword.operator.arithmetic.addition.java
 //                ^^^ variable.function.java
 //                     ^ punctuation.separator.expressions.java
 
@@ -5966,7 +5880,7 @@ class SwitchStatementTests {
 //                      ^ meta.statement.conditional.switch.java meta.block.java - meta.statement.conditional.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ variable.other.java
-//                  ^ keyword.operator.arithmetic.java
+//                  ^ keyword.operator.arithmetic.addition.java
 //                    ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                     ^ punctuation.separator.expressions.java
 
@@ -5980,7 +5894,7 @@ class SwitchStatementTests {
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^^^^^^ variable.other.java
-//                   ^^ keyword.operator.bitwise.java
+//                   ^^ keyword.operator.bitwise.shift.left.signed.java
 //                      ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                        ^ meta.number.integer.hexadecimal.java constant.numeric.value.java
 //                         ^ punctuation.section.group.end.java
@@ -6376,7 +6290,7 @@ class SwitchExpressionsTests {
 //                    ^^^^^^^^^^^^^^^^^^^^^ support.class.java
 //                                         ^ punctuation.section.group.begin.java
 //                                          ^^^^^^^^^^^^^^^ string.quoted.double.java
-//                                                          ^ keyword.operator.arithmetic.java
+//                                                          ^ keyword.operator.arithmetic.addition.java
 //                                                            ^^^ variable.other.java
 //                                                               ^ punctuation.section.group.end.java
 //                                                                ^ punctuation.terminator.java
@@ -6486,7 +6400,7 @@ class SwitchExpressionsTests {
 //                         ^ meta.variable.identifier.java variable.other.java
 //                          ^ punctuation.accessor.dot.java
 //                           ^^^^^^ variable.function.java
-//                                    ^^ keyword.operator.comparison.java
+//                                    ^^ keyword.operator.comparison.equal.value.java
 //                                       ^^^^^^^ constant.other.java
 //                                               ^^  punctuation.separator.expressions.java
 //                                                  ^^^^^^^^^^ string.quoted.double.java
@@ -6508,7 +6422,7 @@ class SwitchExpressionsTests {
 //             ^ variable.other.java
 //              ^ punctuation.accessor.dot.java
 //               ^^^^^^ variable.function.java
-//                        ^ keyword.operator.comparison.java
+//                        ^ keyword.operator.relational.greater.java
 //                          ^^^^^^^ constant.other.java
 //                                  ^^ punctuation.separator.expressions.java
              System.out.println("weekend");
@@ -6532,14 +6446,14 @@ class SwitchExpressionsTests {
 //                  ^ variable.other.java
 //                    ^^^^ keyword.control.conditional.when.java
 //                         ^ variable.other.java
-//                           ^^ keyword.operator.comparison.java
+//                           ^^ keyword.operator.comparison.equal.value.java
 //                              ^^^^^^^ constant.other.java
 //                                     ^ punctuation.separator.comma.java
 //                                       ^^^^ support.class.java
 //                                            ^ variable.other.java
 //                                              ^^^^ keyword.control.conditional.when.java
 //                                                   ^ variable.other.java
-//                                                     ^^ keyword.operator.comparison.java
+//                                                     ^^ keyword.operator.comparison.equal.value.java
 //                                                        ^^^^ support.class.java
 //                                                            ^ punctuation.accessor.dot.java
 //                                                             ^^^^^^ constant.other.java
@@ -6580,13 +6494,13 @@ class SwitchExpressionsTests {
 //                                                                      ^^ punctuation.section.group.end.java
 //                                                                         ^^^^ keyword.control.conditional.when.java
 //                                                                              ^ meta.variable.identifier.java variable.other.java
-//                                                                                ^^ keyword.operator.comparison.java
+//                                                                                ^^ keyword.operator.comparison.equal.value.java
 //                                                                                   ^^^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                                                        ^^ punctuation.separator.expressions.java
 //                                                                                           ^ meta.variable.identifier.java variable.other.java
-//                                                                                             ^ keyword.operator.arithmetic.java
+//                                                                                             ^ keyword.operator.arithmetic.addition.java
 //                                                                                               ^ meta.variable.identifier.java variable.other.java
-//                                                                                                 ^ keyword.operator.arithmetic.java
+//                                                                                                 ^ keyword.operator.arithmetic.addition.java
 //                                                                                                   ^ meta.variable.identifier.java variable.other.java
 //                                                                                                    ^ punctuation.terminator.java
     };
@@ -6766,11 +6680,11 @@ class ForStatementTests {
 //           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //            ^ punctuation.terminator.java
 //              ^ variable.other.java
-//                ^ keyword.operator.comparison.java
+//                ^ keyword.operator.relational.less.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                    ^ punctuation.terminator.java
 //                      ^ variable.other.java
-//                        ^^ keyword.operator.assignment.augmented.java
+//                        ^^ keyword.operator.assignment.augmented.addition.java
 //                           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                            ^ punctuation.section.group.end.java
 //                              ^ punctuation.section.block.begin.java
@@ -6791,11 +6705,11 @@ class ForStatementTests {
 //                ^ punctuation.separator.comma.java
 //                  ^ constant.numeric.value.java
 //                   ^ punctuation.terminator.java
-//                     ^ keyword.operator.comparison.java
+//                     ^ keyword.operator.relational.less.java
 //                       ^^ constant.numeric.value.java
-//                          ^^ keyword.operator.logical.java
+//                          ^^ keyword.operator.logical.and.java
 //                            ^ punctuation.terminator.java
-//                              ^^ keyword.operator.assignment.augmented.java
+//                              ^^ keyword.operator.assignment.augmented.addition.java
 //                                 ^ constant.numeric.value.java
 //                                  ^ punctuation.section.group.end.java
 //                                    ^ punctuation.section.block.begin.java
@@ -6817,16 +6731,17 @@ class ForStatementTests {
 //                  ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                   ^ punctuation.terminator.java
 //                     ^ variable.other.java
-//                       ^ keyword.operator.comparison.java
+//                       ^ keyword.operator.relational.less.java
 //                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                            ^^ keyword.operator.logical.java
+//                            ^^ keyword.operator.logical.and.java
 //                               ^ variable.other.java
-//                                 ^ keyword.operator.comparison.java
+//                                 ^ keyword.operator.relational.less.java
 //                                   ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                    ^ punctuation.terminator.java
 //                                      ^ variable.other.java
-//                                        ^^ keyword.operator.assignment.augmented.java
+//                                        ^^ keyword.operator.assignment.augmented.addition.java
 //                                           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                              ^^ keyword.operator.arithmetic.increment.java
 //                                                 ^ punctuation.section.group.end.java
 //                                                   ^ punctuation.section.block.begin.java
 
@@ -6843,11 +6758,11 @@ class ForStatementTests {
 //               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                ^ punctuation.terminator.java
 //                  ^ variable.other.java
-//                    ^ keyword.operator.comparison.java
+//                    ^ keyword.operator.relational.less.java
 //                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                        ^ punctuation.terminator.java
 //                          ^ variable.other.java
-//                            ^^ keyword.operator.assignment.augmented.java
+//                            ^^ keyword.operator.assignment.augmented.addition.java
 //                               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                ^ punctuation.section.group.end.java
 //                                  ^ punctuation.section.block.begin.java
@@ -6868,11 +6783,11 @@ class ForStatementTests {
 //                    ^ punctuation.separator.comma.java
 //                      ^ constant.numeric.value.java
 //                       ^ punctuation.terminator.java
-//                         ^ keyword.operator.comparison.java
+//                         ^ keyword.operator.relational.less.java
 //                           ^^ constant.numeric.value.java
-//                              ^^ keyword.operator.logical.java
+//                              ^^ keyword.operator.logical.and.java
 //                                ^ punctuation.terminator.java
-//                                  ^^ keyword.operator.assignment.augmented.java
+//                                  ^^ keyword.operator.assignment.augmented.addition.java
 //                                     ^ constant.numeric.value.java
 //                                      ^ punctuation.section.group.end.java
 //                                        ^ punctuation.section.block.begin.java
@@ -6895,15 +6810,15 @@ class ForStatementTests {
 //                      ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                       ^ punctuation.terminator.java
 //                         ^ variable.other.java
-//                           ^ keyword.operator.comparison.java
+//                           ^ keyword.operator.relational.less..java
 //                             ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                ^^ keyword.operator.logical.java
+//                                ^^ keyword.operator.logical.and.java
 //                                   ^ variable.other.java
-//                                     ^ keyword.operator.comparison.java
+//                                     ^ keyword.operator.relational.less..java
 //                                       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
 //                                          ^ variable.other.java
-//                                            ^^ keyword.operator.assignment.augmented.java
+//                                            ^^ keyword.operator.assignment.augmented.addition.java
 //                                               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                     ^ punctuation.section.group.end.java
 //                                                       ^ punctuation.section.block.begin.java
@@ -7200,7 +7115,7 @@ class ReturnStatementTests {
 //                            ^ - meta.statement.flow.return
 //  ^^^^^^ keyword.control.flow.return.java
 //         ^^^^^^^^ variable.other.java
-//                  ^ keyword.operator.arithmetic.java
+//                  ^ keyword.operator.arithmetic.addition.java
 //                    ^^^^ variable.function.java
 //                        ^ punctuation.section.group.begin.java
 //                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -7216,7 +7131,7 @@ class ReturnStatementTests {
 //      ^^^^^^^^ variable.other.java
         +
 //     ^^^ meta.statement.flow.return.java
-//      ^ keyword.operator.arithmetic.java
+//      ^ keyword.operator.arithmetic.addition.java
         func
 //     ^^^^^^ meta.statement.flow.return.java
 //      ^^^^ variable.function.java
@@ -7259,7 +7174,7 @@ class ReturnStatementTests {
 //                  ^ punctuation.section.group.end.java
 //                    ^^ keyword.declaration.function.arrow.java
 //                       ^ variable.other.java
-//                         ^ keyword.operator.arithmetic.java
+//                         ^ keyword.operator.arithmetic.addition.java
 //                           ^ variable.other.java
 //                            ^ punctuation.terminator.java
   }
@@ -7304,7 +7219,7 @@ class ThrowStatementTests {
 //                           ^ - meta.statement.flow.throw
 //  ^^^^^ keyword.control.flow.throw.java
 //        ^^^^^^^^ variable.other.java
-//                 ^ keyword.operator.arithmetic.java
+//                 ^ keyword.operator.arithmetic.addition.java
 //                   ^^^^ variable.function.java
 //                       ^ punctuation.section.group.begin.java
 //                        ^^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -7320,7 +7235,7 @@ class ThrowStatementTests {
 //      ^^^^^^^^ variable.other.java
         +
 //     ^^^ meta.statement.flow.throw.java
-//      ^ keyword.operator.arithmetic.java
+//      ^ keyword.operator.arithmetic.addition.java
         func
 //     ^^^^^^ meta.statement.flow.throw.java
 //      ^^^^ variable.function.java
@@ -7363,7 +7278,7 @@ class ThrowStatementTests {
 //                 ^ punctuation.section.group.end.java
 //                   ^^ keyword.declaration.function.arrow.java
 //                      ^ variable.other.java
-//                        ^ keyword.operator.arithmetic.java
+//                        ^ keyword.operator.arithmetic.addition.java
 //                          ^ variable.other.java
 //                           ^ punctuation.terminator.java
   }
@@ -8304,7 +8219,7 @@ class InstanceCreationExpressionsTests {
 //      ^^ invalid.illegal.unexpected-keyword.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.java
-//              ^^ keyword.operator.comparison.java
+//              ^^ keyword.operator.comparison.equal.value.java
 //                 ^^^^ constant.language.boolean.true.java
 //                     ^ punctuation.section.group.end.java
 //                       ^ punctuation.section.block.begin.java
@@ -8499,7 +8414,7 @@ class InstanceCreationExpressionsTests {
 //                         ^^^^^ variable.annotation.java
 //                               ^ punctuation.section.brackets.begin.java
 //                                ^^^^ variable.other.java
-//                                     ^ keyword.operator.arithmetic.java
+//                                     ^ keyword.operator.arithmetic.addition.java
 //                                       ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                         ^ punctuation.section.brackets.end.java
 //                                           ^ punctuation.definition.annotation.java
@@ -8527,7 +8442,7 @@ class InstanceCreationExpressionsTests {
 //                         ^^^^^ variable.annotation.java
 //                               ^ punctuation.section.brackets.begin.java
 //                                ^^^^ variable.other.java
-//                                     ^ keyword.operator.arithmetic.java
+//                                     ^ keyword.operator.arithmetic.addition.java
 //                                       ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                         ^ punctuation.section.brackets.end.java
 //                                           ^ punctuation.definition.annotation.java
@@ -9157,7 +9072,7 @@ class CastExpressionsTests {
 //             ^ punctuation.section.group.end.java
 //               ^ punctuation.section.group.begin.java
 //                ^^^ variable.other.java
-//                    ^ keyword.operator.arithmetic.java
+//                    ^ keyword.operator.arithmetic.addition.java
 //                      ^^ constant.numeric.value.java
 //                        ^ punctuation.section.group.end.java
 
@@ -9177,7 +9092,7 @@ class CastExpressionsTests {
 //   ^^^ storage.type.primitive.java
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.logical.java
+//          ^ keyword.operator.logical.not.java
 //            ^^^ variable.other.java
 
     (int[]) ~ foo;
@@ -9187,7 +9102,7 @@ class CastExpressionsTests {
 //   ^^^ storage.type.primitive.java
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.bitwise.java
+//          ^ keyword.operator.bitwise.not.java
 //            ^^^ variable.other.java
 
     (var) foo;
@@ -9286,7 +9201,7 @@ class CastExpressionsTests {
 //     ^ punctuation.definition.generic.begin.java
 //       ^ support.class.java
 //        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.bitwise.java
+//          ^ keyword.operator.bitwise.not.java
 //            ^^^ variable.other.java
 
     (List<T>) foo;
@@ -9418,7 +9333,7 @@ class CastExpressionsTests {
 //  ^^^^^^^ meta.group.java
 //  ^ punctuation.section.group.begin.java
 //   ^ variable.other.java
-//     ^ keyword.operator.arithmetic.java
+//     ^ keyword.operator.arithmetic.addition.java
 //       ^ variable.other.java
 //        ^ punctuation.section.group.end.java
 //          ^^^ variable.other.java
@@ -9427,10 +9342,10 @@ class CastExpressionsTests {
 //  ^^^^^^^ meta.group.java
 //  ^ punctuation.section.group.begin.java
 //   ^ variable.other.java
-//     ^ keyword.operator.comparison.java
+//     ^ keyword.operator.relational.less..java
 //       ^ variable.other.java
 //        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.bitwise.java
+//          ^ keyword.operator.bitwise.and.java
 //            ^^^ variable.other.java
 
     (0) foo;
@@ -9666,12 +9581,12 @@ class TypeComparisonExpressionsTests {
 //      ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //                 ^^^^^^ support.class.java
 //                        ^ variable.other.java
-//                          ^^ keyword.operator.logical.java
+//                          ^^ keyword.operator.logical.and.java
 //                             ^ variable.other.java
 //                              ^ punctuation.accessor.dot.java
 //                               ^^^^^^ variable.function.java
 //                                     ^^ meta.group.java
-//                                        ^ keyword.operator.comparison.java
+//                                        ^ keyword.operator.relational.greater.java
 //                                          ^ constant.numeric.value.java
 
     obj instanceof ( String[] s ) s == 5
@@ -9686,7 +9601,7 @@ class TypeComparisonExpressionsTests {
 //                            ^ variable.other.java
 //                              ^ punctuation.section.group.end.java
 //                                ^ variable.other.java
-//                                  ^^ keyword.operator.comparison.java
+//                                  ^^ keyword.operator.comparison.equal.value.java
 //                                     ^ constant.numeric.value.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
@@ -9752,12 +9667,12 @@ class TypeComparisonExpressionsTests {
 //                                                         ^ punctuation.section.group.end.java
 //                                                            ^ punctuation.section.group.end.java
 //                                                              ^ variable.other.java
-//                                                                ^^ keyword.operator.logical.java
+//                                                                ^^ keyword.operator.logical.and.java
 //                                                                   ^ variable.other.java
 //                                                                    ^ punctuation.accessor.dot.java
 //                                                                     ^^^^^^ variable.function.java
 //                                                                           ^^ meta.group.java
-//                                                                              ^ keyword.operator.comparison.java
+//                                                                              ^ keyword.operator.relational.greater.java
 //                                                                                ^ constant.numeric.value.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
@@ -9926,7 +9841,7 @@ class LambdasExpressionsTests {
 //       ^^^ storage.type.primitive.java
 //          ^ punctuation.section.group.end.java
 //            ^ variable.other.java
-//              ^ keyword.operator.arithmetic.java
+//              ^ keyword.operator.arithmetic.addition.java
 //                ^ punctuation.section.group.begin.java
 //                 ^ variable.parameter.java
 //                  ^ punctuation.separator.comma.java
@@ -9953,7 +9868,7 @@ class LambdasExpressionsTests {
 //        ^^^ storage.type.primitive.java
 //           ^ punctuation.section.group.end.java
 //             ^ variable.other.java
-//               ^ keyword.operator.arithmetic.java
+//               ^ keyword.operator.arithmetic.addition.java
 //                 ^ punctuation.section.group.begin.java
 //                  ^ variable.parameter.java
 //                   ^ punctuation.separator.comma.java
@@ -10401,64 +10316,64 @@ public class Foo {
   int operatorsTests() {
 
     ==  !=  <=  >=  <>  <  >
-//  ^^ keyword.operator.comparison.java
-//      ^^ keyword.operator.comparison.java
-//          ^^ keyword.operator.comparison.java
-//              ^^ keyword.operator.comparison.java
+//  ^^ keyword.operator.comparison.equal.value.java
+//      ^^ keyword.operator.comparison.not-equal.value.java
+//          ^^ keyword.operator.relational.less-equal.java
+//              ^^ keyword.operator.relational.greater-equal.java
 //                  ^^ keyword.operator.comparison.java
-//                      ^ keyword.operator.comparison.java
-//                         ^ keyword.operator.comparison.java
+//                      ^ keyword.operator.relational.less.java
+//                         ^ keyword.operator.relational.greater.java
 
     !  &&  ||
-//  ^ keyword.operator.logical.java
-//     ^^ keyword.operator.logical.java
-//         ^^ keyword.operator.logical.java
+//  ^ keyword.operator.logical.not.java
+//     ^^ keyword.operator.logical.and.java
+//         ^^ keyword.operator.logical.or.java
 
     <<  >>  >>>  ~   &   |   ^
-//  ^^ keyword.operator.bitwise.java
-//      ^^ keyword.operator.bitwise.java
-//          ^^^ keyword.operator.bitwise.java
-//               ^ keyword.operator.bitwise.java
-//                   ^ keyword.operator.bitwise.java
-//                       ^ keyword.operator.bitwise.java
-//                           ^ keyword.operator.bitwise.java
+//  ^^ keyword.operator.bitwise.shift.left.signed.java
+//      ^^ keyword.operator.bitwise.shift.right.signed.java
+//          ^^^ keyword.operator.bitwise.shift.right.unsigned.java
+//               ^ keyword.operator.bitwise.not.java
+//                   ^ keyword.operator.bitwise.and.java
+//                       ^ keyword.operator.bitwise.or.java
+//                           ^ keyword.operator.bitwise.xor.java
 
       ++  --  +   -   *   /   %
-//    ^^ keyword.operator.arithmetic.java
-//        ^^ keyword.operator.arithmetic.java
-//            ^ keyword.operator.arithmetic.java
-//                ^ keyword.operator.arithmetic.java
-//                    ^ keyword.operator.arithmetic.java
-//                        ^ keyword.operator.arithmetic.java
-//                            ^ keyword.operator.arithmetic.java
+//    ^^ keyword.operator.arithmetic.increment.java
+//        ^^ keyword.operator.arithmetic.decrement.java
+//            ^ keyword.operator.arithmetic.addition.java
+//                ^ keyword.operator.arithmetic.subtraction.java
+//                    ^ keyword.operator.arithmetic.multiplication.java
+//                        ^ keyword.operator.arithmetic.division.java
+//                            ^ keyword.operator.arithmetic.remainder.java
 
     x = (e & 1) << c^2 >> 10;
 //    ^ keyword.operator.assignment.java
-//         ^ keyword.operator.bitwise.java
-//              ^^ keyword.operator.bitwise.java
-//                  ^ keyword.operator.bitwise.java
-//                     ^^ keyword.operator.bitwise.java
+//         ^ keyword.operator.bitwise.and.java
+//              ^^ keyword.operator.bitwise.shift.left.signed.java
+//                  ^ keyword.operator.bitwise.xor.java
+//                     ^^ keyword.operator.bitwise.shift.right.signed.java
 
     y = ~e >>> (c | 2);
 //    ^ keyword.operator.assignment.java
-//      ^ keyword.operator.bitwise.java
-//         ^^^ keyword.operator.bitwise.java
-//                ^ keyword.operator.bitwise.java
+//      ^ keyword.operator.bitwise.not.java
+//         ^^^ keyword.operator.bitwise.shift.right.unsigned.java
+//                ^ keyword.operator.bitwise.or.java
 
     z += x; z -= x; z *= x; z /= x; z %= x;
-//    ^^ keyword.operator.assignment.augmented.java
-//            ^^ keyword.operator.assignment.augmented.java
-//                    ^^ keyword.operator.assignment.augmented.java
-//                            ^^ keyword.operator.assignment.augmented.java
-//                                    ^^ keyword.operator.assignment.augmented.java
+//    ^^ keyword.operator.assignment.augmented.addition.java
+//            ^^ keyword.operator.assignment.augmented.subtraction.java
+//                    ^^ keyword.operator.assignment.augmented.multiplication.java
+//                            ^^ keyword.operator.assignment.augmented.division.java
+//                                    ^^ keyword.operator.assignment.augmented.remainder.java
 
     z &= x; z ^= x; z |= x; z <<= x; z >>= x; z >>>= x;
 //    ^^ keyword.operator.assignment.augmented.java
 //            ^^ keyword.operator.assignment.augmented.java
 //                    ^^ keyword.operator.assignment.augmented.java
-//                            ^^^ keyword.operator.assignment.augmented.java
-//                                     ^^^ keyword.operator.assignment.augmented.java
-//                                              ^^^^ keyword.operator.assignment.augmented.java
+//                            ^^^ keyword.operator.assignment.augmented.bitwise.shift.left.signed.java
+//                                     ^^^ keyword.operator.assignment.augmented.bitwise.shift.right.signed.java
+//                                              ^^^^ keyword.operator.assignment.augmented.bitwise.shift.right.unsigned.java
 
     b=e.a(b<b)> b?b:b;
 //      ^ meta.function-call.identifier.java
@@ -10469,10 +10384,10 @@ public class Foo {
 //      ^ variable.function.java
 //       ^ punctuation.section.group.begin.java
 //        ^ variable.other.java
-//         ^ keyword.operator.comparison.java
+//         ^ keyword.operator.relational.less.java
 //          ^ variable.other.java
 //           ^ punctuation.section.group.end.java
-//            ^ keyword.operator.comparison.java
+//            ^ keyword.operator.relational.greater.java
 //              ^ variable.other.java
 //               ^ keyword.operator.ternary.java
 //                ^ variable.other.java
@@ -10488,10 +10403,10 @@ public class Foo {
 //      ^ variable.function.java
 //       ^ punctuation.section.group.begin.java
 //        ^ variable.other.java
-//         ^ keyword.operator.comparison.java
+//         ^ keyword.operator.relational.less.java
 //          ^ variable.other.java
 //           ^ punctuation.section.group.end.java
-//            ^ keyword.operator.comparison.java
+//            ^ keyword.operator.relational.greater.java
 //             ^ variable.other.java
 //              ^ keyword.operator.ternary.java
 //               ^ variable.other.java
@@ -10624,19 +10539,19 @@ public class Foo {
 //                        ^ punctuation.terminator.java
 
     if (a == false) {}
-//        ^^ keyword.operator.comparison.java
+//        ^^ keyword.operator.comparison.equal.value.java
 
     if (this.scale<0) {
 //  ^^ keyword.control.conditional.if.java
 //     ^^^^^^^^^^^^^^ meta.group.java
 //     ^ punctuation.section.group.begin
 //          ^ punctuation.accessor.dot.java
-//                ^ keyword.operator.comparison.java
+//                ^ keyword.operator.relational.less.java
 //                 ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                   ^ - meta.group.java
     return foo<<32;
 //  ^^^^^^ keyword.control.flow.return.java
-//            ^^ keyword.operator.bitwise.java
+//            ^^ keyword.operator.bitwise.shift.left.signed.java
 //              ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                ^ punctuation.terminator.java
     }
@@ -10644,7 +10559,7 @@ public class Foo {
 
     return foo<bar;
 //  ^^^^^^ keyword.control.flow.return.java
-//            ^ keyword.operator.comparison.java
+//            ^ keyword.operator.relational.less.java
   }
 //^ meta.function.java punctuation.section.block.end.java
 }
@@ -11046,39 +10961,39 @@ class LiteralsTests {
     a = 0xABCD + 0xAB_CD + 0xAB_CD_ + 0x_AB_CD - 0_xAB_CD - 0x;
 //      ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //        ^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
-//             ^ keyword.operator.arithmetic.java
+//             ^ keyword.operator.arithmetic.addition.java
 //               ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                 ^^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
-//                       ^ keyword.operator.arithmetic.java
+//                       ^ keyword.operator.arithmetic.addition.java
 //                         ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                           ^^^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
-//                                  ^ keyword.operator.arithmetic.java
+//                                  ^ keyword.operator.arithmetic.addition.java
 //                                    ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                                      ^^^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
-//                                             ^ keyword.operator.arithmetic.java
+//                                             ^ keyword.operator.arithmetic.subtraction.java
 //                                               ^ meta.number.integer.octal.java constant.numeric.base.java
 //                                                ^ meta.number.integer.octal.java constant.numeric.value.java
 //                                                 ^^^^^^ - constant.numeric
-//                                                        ^ keyword.operator.arithmetic.java
+//                                                        ^ keyword.operator.arithmetic.subtraction.java
 //                                                          ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 
     a = 0xABCDl + 0xAB_CDl + 0xAB_CD_l + 0x_AB_CDl - 0_xAB_CDl;
 //      ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //        ^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
 //            ^ meta.number.integer.hexadecimal.java constant.numeric.suffix.java
-//              ^ keyword.operator.arithmetic.java
+//              ^ keyword.operator.arithmetic.addition.java
 //                ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                  ^^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
 //                       ^ meta.number.integer.hexadecimal.java constant.numeric.suffix.java
-//                         ^ keyword.operator.arithmetic.java
+//                         ^ keyword.operator.arithmetic.addition.java
 //                           ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                             ^^^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
 //                                   ^ meta.number.integer.hexadecimal.java constant.numeric.suffix.java
-//                                     ^ keyword.operator.arithmetic.java
+//                                     ^ keyword.operator.arithmetic.addition.java
 //                                       ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                                         ^^^^^^ meta.number.integer.hexadecimal.java constant.numeric.value.java
 //                                               ^ meta.number.integer.hexadecimal.java constant.numeric.suffix.java
-//                                                 ^ keyword.operator.arithmetic.java
+//                                                 ^ keyword.operator.arithmetic.subtraction.java
 //                                                   ^ meta.number.integer.octal.java constant.numeric.base.java
 //                                                    ^ meta.number.integer.octal.java constant.numeric.value.java
 //                                                     ^^^^^^^ - constant.numeric
@@ -11475,3 +11390,97 @@ open module
 //  ^ meta.namespace.module.java meta.block.java punctuation.section.block.begin.java
     }
 //  ^ meta.namespace.module.java meta.block.java punctuation.section.block.end.java
+
+
+/******************************************************************************
+ * Merge Conflict Markers Tests
+ *****************************************************************************/
+
+class MergeConflictMarkersTests {
+
+   void mergeConflictMarkersTests() {
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+ // <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+======= branchname
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation
+
+|||||||
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+||||||| branchname
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+ // <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
+
+     String multilineMergeConflictMarkersTest = """
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+ // <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+======= branchname
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation
+
+|||||||
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+||||||| branchname
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+ // <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^^^^^^^^^^^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+ // <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+     """
+   }
+}
