@@ -1,7 +1,8 @@
 name: Syntax Highlighting problem
 description: Create a bug report for mis-highlighted code in one of the default languages.
 title: '[PackageName] Title'
-labels: ['T: bug', 'C: Syntax']
+labels: ['C: Syntax']
+type: Bug
 body:
 
   - type: markdown

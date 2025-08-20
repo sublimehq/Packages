@@ -1,7 +1,7 @@
 name: Snippet, Completion, Indentation, or Build problem
 description: Suggest improvements for one of the default language support files.
 title: '[PackageName] Title'
-labels: ['T: bug']
+# type might be Bug or Feature
 body:
 
   - type: markdown
