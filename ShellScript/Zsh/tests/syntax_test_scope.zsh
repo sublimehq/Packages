@@ -8927,6 +8927,20 @@ var[1]=Hello
 #     ^ keyword.operator.assignment.shell
 #      ^^^^^ meta.string.glob.shell string.unquoted.shell
 
+foo[${bar[$baz]}]=buz
+#^^^^^^^^^^^^^^^^ meta.assignment.l-value.shell
+#                ^ meta.assignment.shell
+#                 ^^^ meta.assignment.r-value.shell
+#^^ - meta.item-access
+#  ^^^^^^ meta.item-access.shell - meta.item-access meta.item-access
+#        ^^^^^^ meta.item-access.shell meta.item-access.shell
+#              ^^ meta.item-access.shell - meta.item-access meta.item-access
+#                ^^^^ - meta.item-access
+#^^ variable.other.readwrite.shell
+#     ^^^ variable.other.readwrite.shell
+#          ^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.assignment.shell
+
 
 ##############################################################################
 # 15.2.3 Subscript Flags

@@ -4381,6 +4381,20 @@ array[foo]=bar
 #         ^ keyword.operator.assignment.shell
 #          ^^^ meta.string.glob.shell string.unquoted.shell
 
+foo[${bar[$baz]}]=buz
+#^^^^^^^^^^^^^^^^ meta.assignment.l-value.shell
+#                ^ meta.assignment.shell
+#                 ^^^ meta.assignment.r-value.shell
+#^^ - meta.item-access
+#  ^^^^^^ meta.item-access.shell - meta.item-access meta.item-access
+#        ^^^^^^ meta.item-access.shell meta.item-access.shell
+#              ^^ meta.item-access.shell - meta.item-access meta.item-access
+#                ^^^^ - meta.item-access
+#^^ variable.other.readwrite.shell
+#     ^^^ variable.other.readwrite.shell
+#          ^^^ variable.other.readwrite.shell
+#                ^ keyword.operator.assignment.shell
+
 foo[${j}+10]="`foo`"
 #<- meta.assignment.l-value.shell variable.other.readwrite.shell
 #^^ meta.assignment.l-value.shell - meta.item-access

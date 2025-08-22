@@ -308,7 +308,7 @@ contexts:
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   def-variable:
-    - match: (?={{identifier}}(?:\[[^\]]*\])*{{varassign}})
+    - match: (?={{identifier}}(?:\[.*\])*{{varassign}})
       set:
         - literal-array-value-assignment
         - subscript
