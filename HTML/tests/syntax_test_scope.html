@@ -207,6 +207,12 @@
 ##^^^^^^ - source.json.embedded
 ##      ^^^^^^^^^ meta.tag.script.end.html
 
+        <script type="importmap"> { "imports": {"circle": "https://example.com/shapes/circle.js" } }</script>
+        ## <- meta.tag.script.begin.html punctuation.definition.tag.begin.html
+        ##^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
+        ##                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.embedded.html
+        ##                                                                                          ^^^^^^^^^ meta.tag.script.end.html
+
         <script type = "text/html"> <!--
         ##^^^^^^ meta.tag.script.begin.html - meta.tag meta.tag - meta.attribute-with-value
         ##      ^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html meta.attribute-with-value.type.html - meta.tag meta.tag - meta.attribute-with-value meta.attribute-with-value

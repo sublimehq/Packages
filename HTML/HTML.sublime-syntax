@@ -125,8 +125,9 @@ variables:
   # or whose essence is "application/json" or "text/json".
   # https://mimesniff.spec.whatwg.org/#understanding-mime-types
   # https://mimesniff.spec.whatwg.org/#json-mime-type
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap
   json_mime_type: |-
-     (?xi: (?: application/ | text/ | [[:ascii:]]+\+ ) json {{mime_type_parameters}}? )
+     (?xi: (?: (?: application/ | text/ | [[:ascii:]]+\+ ) json | importmap ) {{mime_type_parameters}}? )
 
   # A MIME type’s parameters is an ordered map whose keys are ASCII strings and values are strings
   # limited to HTTP quoted-string token code points. It is initially empty.
