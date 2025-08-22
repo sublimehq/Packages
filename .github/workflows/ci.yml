@@ -60,7 +60,7 @@ jobs:
 
       # https://github.com/actions/checkout
       - name: Checkout Packages
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: st_syntax_tests/Data/Packages
 
