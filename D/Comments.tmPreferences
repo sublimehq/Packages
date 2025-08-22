@@ -11,7 +11,7 @@
 				<key>name</key>
 				<string>TM_COMMENT_START</string>
 				<key>value</key>
-				<string>//</string>
+				<string>// </string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -65,7 +65,7 @@
 				<key>name</key>
 				<string>TM_COMMENT_START_4</string>
 				<key>value</key>
-				<string>///</string>
+				<string>/// </string>
 			</dict>
 			<dict>
 				<key>name</key>
