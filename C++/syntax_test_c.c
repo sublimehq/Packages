@@ -114,7 +114,7 @@ int main(){
 }
 
 enum Foo { kFoo, kBar };
-/* <- keyword.declaration */
+/* <- keyword.declaration.enum */
 /*   ^ entity.name.enum */
 /*         ^ entity.name.constant.c */
 /*               ^ entity.name.constant.c */
@@ -130,12 +130,12 @@ static enum APIC_CAPABILITY apic_capabilities(void) { return kFoo; };
 /*                                            ^ storage.type */
 
 enum { kFoo, kBar };
-/* <- keyword.declaration */
+/* <- keyword.declaration.enum */
 /*     ^ entity.name.constant.c */
 /*           ^ entity.name.constant.c */
 
 enum { kFoo = FOO, kBar = BAR };
-/* <- keyword.declaration */
+/* <- keyword.declaration.enum */
 /*     ^^^^ entity.name.constant.c */
 /*          ^ keyword.operator.assignment.c */
 /*            ^^^ - entity.name.constant */
@@ -153,7 +153,8 @@ enum {
 };
 
 typedef enum state { DEAD, ALIVE } State;
-/* <- keyword.declaration
+/* <- keyword.declaration.type */
+/*      ^^^^ keyword.declaration.enum */
 /*           ^ entity.name.enum */
 /*                   ^ entity.name.constant.c */
 /*                         ^ entity.name.constant.c */
@@ -169,9 +170,9 @@ struct __declspec(dllimport) baz X {};
 struct foo {
 /*     ^ entity.name.struct */
     union {
-/*  ^ keyword.declaration */
+/*  ^ keyword.declaration.union */
         struct {
-/*      ^ keyword.declaration */
+/*      ^ keyword.declaration.struct */
             int a;
 /*          ^ storage.type */
             int b;
@@ -188,7 +189,7 @@ struct foo {
 /*      ^ entity.name.constant.preprocessor */
 /*                                        ^ comment.block */
 /*                                                              ^ keyword.operator.word */
-/*                                                                     ^ keyword.declaration */
+/*                                                                     ^ keyword.declaration.struct */
 /*                                                                                              ^ comment.line */
 
 #pragma foo(bar, \
@@ -759,11 +760,11 @@ if (4) {
 /////////////////////////////////////////////
 
 typedef int myint;
-/* <- keyword.declaration */
+/* <- keyword.declaration.type */
 /*          ^ entity.name.type */
 
 typedef struct mystruct {
-/* <- keyword.declaration */
+/* <- keyword.declaration.type */
 /*      ^ keyword.declaration.struct.c */
 /*             ^ entity.name.struct.c */
 } mystruct;
@@ -805,14 +806,26 @@ struct point get_point() {}
 /*           ^^^^^^^^^^^^^^ meta.function */
 /*                    ^^ meta.function.parameters */
 /*                       ^^ meta.block */
-/*                       ^ punctuation.section.block.begin
-/*                        ^ punctuation.section.block.end
-/* ^ keyword.declaration */
+/*                       ^ punctuation.section.block.begin  */
+/*                        ^ punctuation.section.block.end  */
+
+struct point get_point() {}
+/* ^ keyword.declaration.struct */
 /*     ^ - entity.name.struct */
 /*           ^ entity.name.function */
 
+enum point get_point() {}
+/* <- keyword.declaration.enum */
+/*   ^ - entity.name.struct */
+/*         ^ entity.name.function */
+
+union point get_point() {}
+/* <- keyword.declaration.union */
+/*    ^ - entity.name.union */
+/*          ^ entity.name.function */
+
 struct point **alloc_points();
-/* ^ keyword.declaration */
+/* <- keyword.declaration.struct */
 /*     ^ - entity.name.struct */
 /*           ^^ keyword.operator */
 /*             ^ entity.name.function */
@@ -839,8 +852,11 @@ struct foo MACRO {
 struct foo
 /*     ^ entity.name */
 
+struct UI_BoundingBox position;
+/* <- keyword.declaration.struct */
+
 struct UI_MenuBoxData
-/* <- keyword.declaration */
+/* <- keyword.declaration.struct */
 /*     ^ entity.name.struct */
 {
     struct UI_BoundingBox position;
@@ -1020,15 +1036,15 @@ MACRO1 void * MACRO2 myfuncname () {
     }
 
     struct Args {
-/*  ^ keyword.declaration */
+/*  ^ keyword.declaration.struct */
 /*         ^ entity.name.struct */
         void* hello;
         void* foobar;
     };
 
     struct Args args;
-/*  ^ keyword.declaration */
-/*         ^ - entity */
+/*  ^ keyword.declaration.struct */
+/*         ^ - entity.name.struct */
 
 }
 
