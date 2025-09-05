@@ -5350,6 +5350,13 @@ WHERE browser->>'$.name' = 'Chrome';
 --                                 ^ punctuation.terminator.statement.sql
 
 SET @ids = JSON_ARRAY(
+-- <- meta.statement.set.sql keyword.other.dml.sql
+--  ^^^^ variable.other.sql
+--  ^ punctuation.definition.variable.sql
+--       ^ keyword.operator.assignment.sql
+--         ^^^^^^^^^^^ meta.function-call.sql
+--         ^^^^^^^^^^ support.function.sql
+--                   ^ meta.group.sql punctuation.section.arguments.begin.sql
         1234,
         5678,
         9012);

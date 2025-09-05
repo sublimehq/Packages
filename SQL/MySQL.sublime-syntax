@@ -699,6 +699,8 @@ contexts:
         2: punctuation.definition.variable.mysql
         3: punctuation.accessor.dot.mysql
       set: set-other-assignment
+    - include: variables
+    - include: assignment-operators
 
   set-password:
     # https://mariadb.com/kb/en/set-password
