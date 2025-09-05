@@ -1082,8 +1082,11 @@ contexts:
       scope: storage.modifier.sql
     - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
       scope: keyword.other.object-comments.sql
-    - match: \b(?i:path)\b
-      scope: keyword.context.resource.mysql
+    - match: \b(?i:(path))\s+(')
+      captures:
+        1: keyword.context.resource.mysql
+        2: meta.string.mysql punctuation.definition.string.begin.mysql
+      push: inside-json-accessor-string
 
   column-modifiers:
     - meta_prepend: true

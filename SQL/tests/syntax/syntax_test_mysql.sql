@@ -5381,9 +5381,10 @@ from
 --              ^^ meta.column-name.sql variable.other.member.declaration.sql
 --                 ^^^ storage.type.sql
 --                      ^^^^ keyword.context.resource.mysql
---                           ^^^ meta.string.sql string.quoted.single.sql
---                           ^ punctuation.definition.string.begin.sql
---                             ^ punctuation.definition.string.end.sql
+--                           ^^^ meta.string
+--                           ^ punctuation.definition.string.begin
+--                            ^ meta.json-accessor.mysql punctuation.accessor.mysql
+--                             ^ punctuation.definition.string.end
 --                              ^ punctuation.section.group.end.sql
      ) ids
 -- ^^^ meta.function-call.sql meta.group.sql
