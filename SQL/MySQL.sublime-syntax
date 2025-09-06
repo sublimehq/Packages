@@ -699,6 +699,8 @@ contexts:
         2: punctuation.definition.variable.mysql
         3: punctuation.accessor.dot.mysql
       set: set-other-assignment
+    - include: variables
+    - include: assignment-operators
 
   set-password:
     # https://mariadb.com/kb/en/set-password
@@ -870,12 +872,15 @@ contexts:
     - include: show-create
     - include: show-grants
     - include: show-columns
+    - include: show-table
     - include: show-index
     - match: \b(?i:processlist)\b
       scope: constant.language.mysql
-    - match: \b(?i:engine\s+innodb\s+status)\b
+    - match: \b(?i:engine\s+innodb)\b
       scope: constant.language.mysql
     - match: \b(?i:open\s+tables)\b
+      scope: constant.language.mysql
+    - match: \b(?i:status)\b
       scope: constant.language.mysql
     - include: else-pop
 
@@ -921,6 +926,10 @@ contexts:
     - match: \b(?i:from|in)\b
       scope: keyword.other.mysql
       set: expect-table-name
+
+  show-table:
+    - match: \b(?i:table)\b
+      scope: keyword.other.ddl.mysql
 
   show-index:
     - match: \b(?i:index)\b
@@ -998,7 +1007,9 @@ contexts:
     - match: \b(?i:using)\b
       scope: keyword.other.dml.sql
     - include: like-expressions
-
+    - match: \b(?i:columns)\s*(?=\()
+      scope: keyword.context.block.mysql
+      push: column-declaration-list
 
 ###[ OPERATORS ]###############################################################
 
@@ -1071,6 +1082,11 @@ contexts:
       scope: storage.modifier.sql
     - match: \b(?i:(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is))
       scope: keyword.other.object-comments.sql
+    - match: \b(?i:(path))\s+(')
+      captures:
+        1: keyword.context.resource.mysql
+        2: meta.string.mysql punctuation.definition.string.begin.mysql
+      push: inside-json-accessor-string
 
   column-modifiers:
     - meta_prepend: true
@@ -1513,6 +1529,9 @@ contexts:
       set:
         - table-braced-subquery-body
         - maybe-on-table
+    - match: \b(?i:json_table)\b
+      scope: meta.table-valued-function-name.sql support.function.tsql
+      set: function-call-arguments
 
   table-braced-subquery-body:
     - meta_scope: meta.braces.mysql

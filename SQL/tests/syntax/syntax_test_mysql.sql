@@ -4948,7 +4948,8 @@ show processlist;
 SHOW ENGINE INNODB STATUS;
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.show.sql
 -- ^ keyword.other.dml.sql
---   ^^^^^^^^^^^^^^^^^^^^ constant.language.mysql
+--   ^^^^^^^^^^^^^ constant.language.mysql
+--                 ^^^^^^ constant.language.mysql
 --                       ^ punctuation.terminator.statement.sql
 
 CREATE TABLE jokes
@@ -5347,6 +5348,69 @@ WHERE browser->>'$.name' = 'Chrome';
 --                         ^ punctuation.definition.string.begin.sql
 --                                ^ punctuation.definition.string.end.sql
 --                                 ^ punctuation.terminator.statement.sql
+
+SET @ids = JSON_ARRAY(
+-- <- meta.statement.set.sql keyword.other.dml.sql
+--  ^^^^ variable.other.sql
+--  ^ punctuation.definition.variable.sql
+--       ^ keyword.operator.assignment.sql
+--         ^^^^^^^^^^^ meta.function-call.sql
+--         ^^^^^^^^^^ support.function.sql
+--                   ^ meta.group.sql punctuation.section.arguments.begin.sql
+        1234,
+        5678,
+        9012);
+
+select *
+from
+    JSON_TABLE(@ids, '$[*]' COLUMNS (
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--  ^^^^^^^^^^ meta.table-valued-function-name.sql support.function.tsql
+--            ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
+--            ^ punctuation.section.arguments.begin.sql
+--             ^^^^ variable.other.sql
+--             ^ punctuation.definition.variable.sql
+--                 ^ punctuation.separator.arguments.sql
+--                   ^^^^^^ meta.string.sql string.quoted.single.sql
+--                   ^ punctuation.definition.string.begin.sql
+--                        ^ punctuation.definition.string.end.sql
+--                          ^^^^^^^^ keyword.context.block.mysql
+--                                  ^ meta.group.table-columns.sql punctuation.section.group.begin.sql
+                id int  PATH '$')
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql meta.group.sql meta.group.table-columns.sql
+--              ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                 ^^^ storage.type.sql
+--                      ^^^^ keyword.context.resource.mysql
+--                           ^^^ meta.string
+--                           ^ punctuation.definition.string.begin
+--                            ^ meta.json-accessor.mysql punctuation.accessor.mysql
+--                             ^ punctuation.definition.string.end
+--                              ^ punctuation.section.group.end.sql
+     ) ids
+-- ^^^ meta.function-call.sql meta.group.sql
+--   ^ punctuation.section.arguments.end.sql
+--     ^^^ meta.column-name.sql
+left join another_table.id = ids.id;
+-- ^^^^^^ keyword.other.dml.sql
+--        ^^^^^^^^^^^^^^^^ meta.table-name.sql
+--                     ^ punctuation.accessor.dot.sql
+--                         ^ keyword.operator.comparison.sql
+--                           ^^^^^^ meta.column-name.sql
+--                              ^ punctuation.accessor.dot.sql
+--                                 ^ punctuation.terminator.statement.sql
+
+show table status where Name = 'another_table';
+-- ^^^^^^^^^^^^^^^ meta.statement.show.sql
+-- ^ keyword.other.dml.sql
+--   ^^^^^ keyword.other.ddl.mysql
+--         ^^^^^^ constant.language.mysql
+--                ^^^^^ keyword.other.dml.sql
+--                      ^^^^ meta.column-name.sql
+--                           ^ keyword.operator.comparison.sql
+--                             ^^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                             ^ punctuation.definition.string.begin.sql
+--                                           ^ punctuation.definition.string.end.sql
+--                                            ^ punctuation.terminator.statement.sql
 
 
 -- ----------------------------------------------------------------------------
