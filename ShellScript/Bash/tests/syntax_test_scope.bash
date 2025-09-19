@@ -9173,6 +9173,37 @@ stash) || true)
 #  ^^ punctuation.section.interpolation.begin.shell
 #      ^^ punctuation.section.interpolation.end.shell
 
+: $(( `date +%Y`[2] ))   # nested command expansion
+# ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^^^^^^^^ meta.interpolation.command.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#              ^ punctuation.section.interpolation.end.shell
+#               ^^^ meta.item-access.shell
+#                   ^^ punctuation.section.interpolation.end.shell
+
+: $(( $(date +%Y)[2] ))
+# ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^^^^^^^^^ meta.interpolation.command.shell
+#     ^ punctuation.definition.variable.shell
+#      ^ punctuation.section.interpolation.begin.shell
+#               ^ punctuation.section.interpolation.end.shell
+#                ^^^ meta.item-access.shell
+#                    ^^ punctuation.section.interpolation.end.shell
+
+: $(( ${var} ))
+# ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^^^^ meta.interpolation.parameter.shell
+#     ^ punctuation.definition.variable.shell
+#      ^ punctuation.section.interpolation.begin.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.interpolation.end.shell
+#            ^^ punctuation.section.interpolation.end.shell
 
 ###############################################################################
 # 3.5.8.1 Pattern Matching                                                    #
