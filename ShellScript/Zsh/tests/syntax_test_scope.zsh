@@ -4844,6 +4844,38 @@ stash) || true)
 #      ^^^ variable.other.readwrite.shell
 #          ^^ punctuation.section.interpolation.end.shell
 
+: $(( `date +%Y`[2] ))   # nested command expansion
+# ^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^^^^^^^^ meta.interpolation.command.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#              ^ punctuation.section.interpolation.end.shell
+#               ^^^ meta.item-access.shell
+#                   ^^ punctuation.section.interpolation.end.shell
+
+: $(( $(date +%Y)[2] ))
+# ^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^^^^^^^^^ meta.interpolation.command.shell
+#     ^ punctuation.definition.variable.shell
+#      ^ punctuation.section.interpolation.begin.shell
+#               ^ punctuation.section.interpolation.end.shell
+#                ^^^ meta.item-access.shell
+#                    ^^ punctuation.section.interpolation.end.shell
+
+: $(( ${var} ))
+# ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#     ^^^^^^ meta.interpolation.parameter.shell
+#     ^ punctuation.definition.variable.shell
+#      ^ punctuation.section.interpolation.begin.shell
+#       ^^^ variable.other.readwrite.shell
+#          ^ punctuation.section.interpolation.end.shell
+#            ^^ punctuation.section.interpolation.end.shell
+
 # Zsh Style
 : $[ a = b + (2 % c) ]
 # ^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell - meta.group
@@ -4878,6 +4910,37 @@ stash) || true)
 #    ^ keyword.operator.arithmetic.shell.zsh
 #     ^^^ variable.other.readwrite.shell
 #         ^ punctuation.section.interpolation.end.shell
+
+
+: $[ `date +%Y` ]   # nested command expansion
+# ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^^^ meta.interpolation.command.shell
+#    ^ punctuation.section.interpolation.begin.shell
+#             ^ punctuation.section.interpolation.end.shell
+#               ^ punctuation.section.interpolation.end.shell
+
+: $[ $(date +%Y) ]
+# ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^^^^ meta.interpolation.command.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#              ^ punctuation.section.interpolation.end.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: $[ ${var} ]
+# ^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^^^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+#           ^ punctuation.section.interpolation.end.shell
 
 
 ###############################################################################

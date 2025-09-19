@@ -1904,7 +1904,7 @@ contexts:
 
   expression-variables:
     # variables within arithmetic expressions must not contain quotes
-    - match: (?=[{{identifier_first_char}}$%])
+    - match: (?=[{{identifier_first_char}}$%`])
       push:
         - subscript
         - expression-variable-chars
