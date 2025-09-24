@@ -125,7 +125,7 @@ contexts:
     - include: variable-substitutions
     - include: control-flow
     - include: line-continuation
-    - match: ^\s*(endef)
+    - match: ^\s*(endef)\b
       captures:
         1: invalid.illegal.stray.endef.makefile
 
@@ -256,7 +256,7 @@ contexts:
   recipe-junction-between-spaces-or-tabs:
     - meta_content_scope: meta.function.body.makefile
     - include: comments
-    - match: ^\s*({{startdirective}})
+    - match: ^\s*({{startdirective}})\b
       captures:
         1: keyword.control.conditional.makefile
       push:
@@ -529,13 +529,16 @@ contexts:
         - include: shell-content
 
   variable-definitions:
-    - match: \s*(override)\b
+    - match: \s*\b(override)\b
       captures:
         1: keyword.control.makefile
-    - match: \s*(define)\b
+    - match: \s*\b(define)\b
       captures:
         1: keyword.control.makefile
       push: inside-define-directive-context
+    - match: \s*\b(undefine)\b
+      captures:
+        1: keyword.control.makefile
     - match: ^\s*(export)\b
       captures:
         1: keyword.control.makefile

@@ -172,6 +172,14 @@ endef   # comment
 #^^^^ keyword.control.makefile
 #       ^^^ comment.line.number-sign.makefile
 
+# Avoid false positives such as partial matches.
+
+foodefine
+#^^^^^^^^^ - keyword
+
+definefoo
+#^^^^^^^^^ - keyword
+
 #########################
 # 6.5 setting variables #
 #########################
@@ -255,6 +263,26 @@ override \
 endef
 # <- keyword.control.makefile
 
+
+#############################
+# 6.11 undefining variables #
+#############################
+
+undefine foo
+#^^^^^^^ keyword.control.makefile
+#       ^^^^ -keyword
+
+  undefine foo
+# ^^^^^^^^ keyword.control.makefile
+#         ^^^^ -keyword
+
+# Avoid false positives such as partial matches.
+
+undefined
+#^^^^^^^^^ - keyword
+
+nundefine
+#^^^^^^^^^ - keyword
 
 ########################################
 # 6.11 target-specific variable values #
