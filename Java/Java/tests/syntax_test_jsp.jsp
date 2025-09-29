@@ -369,8 +369,8 @@
 //    ^ source.java.embedded.jsp - source.java source.java
     if (!foo && !bar) {
 //  ^^ keyword.control.conditional.if.java
-//      ^ keyword.operator.logical.java
-//           ^^ keyword.operator.logical.java
+//      ^ keyword.operator.logical.not.java
+//           ^^ keyword.operator.logical.and.java
     %><div style="width: <%=with%>"></div><%
 //  ^^ punctuation.section.embedded.end.jsp - source.java.embedded.jsp
 //    ^^^^^ meta.tag.block.any.html - meta.attribute-with-value
