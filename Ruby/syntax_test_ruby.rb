@@ -1738,6 +1738,42 @@ _query = <<-SQL
 SQL
 
 __END__
-#^^^^^^ meta.string.ruby
+# <- keyword.control.flow.end.ruby
+# ^^^^^ keyword.control.flow.end.ruby
+
+# no more syntax highlighting after __END__
+# <- text.plain - source - comment
+
+__END__
+# <- text.plain - source - entity
+#^^^^^^ text.plain - source - entity
+
   if end
-# ^^^^^^ text.plain
+# ^^^^^^ text.plain - keyword
+
+<<<<<<< HEAD
+#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+
+<html>
+# <- text.html meta.tag.structure.any.html punctuation.definition.tag.begin.html
+#^^^^^ meta.tag.structure.any.html
+#^^^^ entity.name.tag.structure.any.html
+#    ^ punctuation.definition.tag.end.html
+
+# <- text.html - text.plain

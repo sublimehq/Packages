@@ -139,6 +139,7 @@ contexts:
     - include: expressions-common
 
   expressions-common:
+    - include: data-section
     - include: merge-conflict-markers
     - include: sub
     - include: quoted-like
@@ -380,6 +381,19 @@ contexts:
       captures:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
+
+###[ DATA SECTION ]############################################################
+
+  data-section:
+    - match: ^__END__$
+      scope: keyword.control.flow.end.perl
+      set: data-section-body
+
+  data-section-body:
+    - clear_scopes: true
+    - meta_include_prototype: false
+    - meta_content_scope: text.plain
+    - include: merge-conflict-markers
 
 ###[ PACKAGE DEFINITION ]#####################################################
 
@@ -782,7 +796,7 @@ contexts:
       scope: meta.number.integer.decimal.perl constant.numeric.value.perl
 
   constants-language:
-    - match: \b__(?:END|DATA|FILE|LINE|PACKAGE|SUB)__\b
+    - match: \b__(?:FILE|LINE|PACKAGE|SUB)__\b
       scope: constant.language.perl
     - match: \b(?:ARGV|ARGVOUT|STDERR|STDIN|STDOUT|DATA|IN|OUT)\b
       scope: constant.language.filehandle.perl

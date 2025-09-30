@@ -2403,11 +2403,21 @@ contexts:
 ###[ DATA SECTION ]############################################################
 
   data-section:
-    - match: ^__END__\n
-      scope: meta.string.ruby string.unquoted.program-block.ruby
-      push:
-        - meta_content_scope: text.plain
-        - match: (?=<?xml|<(?i:html\b)|!DOCTYPE (?i:html\b))
-          push:
-            - meta_scope: text.html.embedded.ruby
-            - include: scope:text.html.basic
+    - match: ^__END__$
+      scope: keyword.control.flow.end.ruby
+      set: data-section-body
+
+  data-section-body:
+    - clear_scopes: true
+    - meta_include_prototype: false
+    - meta_content_scope: text.plain
+    - match: (?=<?xml|<(?i:html\b)|!DOCTYPE (?i:html\b))
+      set: data-section-html-body
+    - include: merge-conflict-markers
+
+  data-section-html-body:
+    - clear_scopes: true
+    - meta_include_prototype: false
+    - meta_scope: text.html.embedded.ruby
+    - include: scope:text.html.basic
+      apply_prototype: true
