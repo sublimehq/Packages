@@ -496,6 +496,12 @@ where escape characters are ignored.\).
 #                                        ^ punctuation.definition.capture-group-name.end.regexp
 #                                         ^ punctuation.definition.modifier.begin.regexp
 
+{((?:[^{}]+|(?R))*)}  # match balanced braces in e.g. "{1, {2, 3}} {4, 5}"
+#           ^^^^ meta.group.regexp meta.group.regexp meta.group.regexp meta.mode.basic.regexp
+#           ^ punctuation.section.group.begin.regexp
+#            ^^ keyword.other.backref-and-recursion.regexp
+#              ^ punctuation.section.group.end.regexp
+
 ###################
 ## Assertions
 ###################

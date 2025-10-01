@@ -28,6 +28,11 @@ contexts:
 
   group-start:
     - meta_prepend: true
+    - match: (\?R)(\))
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: punctuation.section.group.end.regexp
+      pop: 3
     - match: (\?([+-]?\d+))(\))
       captures:
         1: keyword.other.backref-and-recursion.regexp
