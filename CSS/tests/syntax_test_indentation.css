@@ -5,7 +5,8 @@
 .class { color: red;
 }
 
-.class { color: red;
+.class {
+    color: red;
     background: beige;
 }
 
@@ -13,7 +14,8 @@
     background: beige;
 }
 
-.class { color: rgb(0, 0, 0);
+.class {
+    color: rgb(0, 0, 0);
     background: beige;
 }
 
@@ -338,12 +340,14 @@ abbr[                           /* ] }
     color: red;                 /* ; } */
 }                               /* ; } */
 
-.class { color: red;            /* ; } */
+.class {                        /* ; } */
+    color: red;                 /* ; } */
     background: beige;          /* ; } */
 }                               /* ; } */
 
 /* ignore closing brace in strings and comments */
-.class { font: "\"}";           /* ; } */
+.class {                        /* ; } */
+    font: "\"}";                /* ; } */
     background: beige;          /* ; } */
 }                               /* ; } */
 
@@ -351,12 +355,13 @@ abbr[                           /* ] }
     background: beige;          /* ; } */
 }                               /* ; } */
 
-.class { color: rgb(0, 0, 0);   /* ; } */
+.class {                        /* ; } */
+    color: rgb(0, 0, 0);        /* ; } */
     background: beige;          /* ; } */
 }                               /* ; } */
 
 abbr[title],                    /* ; } */
-abbr[                           /* ; } */
+abbr[                           /* ; ] */
     data-title                  /* ; } */
 ] {                             /* ; } */
     color: red;                 /* ; } */
@@ -439,4 +444,12 @@ abbr[                           /* ; */ /* ] /* comment
 .class {
 /**/ color: red;
 /**/ color /**/ : /**/ red /**/ ; /**/
+}
+
+/*
+ * issue: https://github.com/sublimehq/Packages/issues/4344
+ */
+a::after {
+    content: ' (' attr(href) ')';
+    color: red;
 }
