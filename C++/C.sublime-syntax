@@ -713,18 +713,12 @@ contexts:
 
   data-structures:
     # Detect variable type definitions using struct/enum/union followed by a tag
-    - match: '\b(struct)(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: keyword.declaration.c
-      captures:
-        1: keyword.declaration.struct.c
-    - match: '\b(enum)(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: keyword.declaration.c
-      captures:
-        1: keyword.declaration.enum.c
-    - match: '\b(union)(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: keyword.declaration.c
-      captures:
-        1: keyword.declaration.union.c
+    - match: '\bstruct(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
+      scope: keyword.declaration.struct.c
+    - match: '\benum(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
+      scope: keyword.declaration.enum.c
+    - match: '\bunion(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
+      scope: keyword.declaration.union.c
     - match: '\bstruct\b'
       scope: keyword.declaration.struct.c
       set: data-structures-struct-definition
