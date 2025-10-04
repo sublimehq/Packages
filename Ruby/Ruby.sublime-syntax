@@ -111,6 +111,7 @@ contexts:
       pop: 1
 
   expressions:
+    - include: data-section
     - include: constants
     - include: class
     - include: module
@@ -122,7 +123,6 @@ contexts:
     - include: method
     - include: strings
     - include: comments
-    - include: data-section
     - include: heredocs
     - include: punctuation
     - include: operators
