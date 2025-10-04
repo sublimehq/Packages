@@ -1605,7 +1605,7 @@ autoload $dir/*/*~*.zwc(#q.N:t)
 #                      ^^ punctuation.definition.modifier.begin.shell.zsh
 #                        ^ storage.modifier.mode.glob.shell.zsh
 #                         ^^ storage.modifier.glob.shell.zsh
-#                           ^ punctuation.separator.sequence.shell.zsh
+#                           ^ punctuation.separator.modifier.shell.zsh
 #                            ^ storage.modifier.glob.shell.zsh
 #                             ^ punctuation.definition.modifier.end.shell.zsh
 
@@ -2550,6 +2550,671 @@ ip=10.10.20.14
 #                      ^ keyword.operator.arithmetic.shell
 #                       ^^ variable.other.readwrite.shell
 #                          ^^ punctuation.section.compound.end.shell
+
+
+###############################################################################
+# 14.1.4 Modifiers
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Modifiers
+###############################################################################
+
+: /(:v) # not a valid modifier, fallback to normal regexp group
+#  ^^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
+#  ^ punctuation.section.group.begin.regexp.shell
+#     ^ punctuation.section.group.end.regexp.shell
+
+: /(:a) # Turn a file name into an absolute path
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:A) # Turn a file name into an real path (resolve symlinks)
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:c) # Resolve a command name into an absolute path
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:e) # Remove all but the part of the filename extension following the '.'
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:h10) # Remove a trailing pathname components
+#  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:l) # Convert the words to all lowercase.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:p) # Print the new command but do not execute it.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:P) # Turn a file name into an absolute path, permit non-existing
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:q) # Quote the substituted words, escaping further substitutions.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:Q) # Remove one level of quotes from the substituted words.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:r) # Remove a filename extension leaving the root name.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:gs/pa*t?rn/repl) /(:gs:#pa\:ern:rep&) /(:gs\;%pat;ern\;repl)
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#    ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                   ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                    ^ - meta.string - meta.modifier
+#    ^^ support.function.substitution.shell.zsh
+#      ^ keyword.operator.substitution.shell.zsh - string
+#       ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#              ^ keyword.operator.substitution.shell.zsh
+#               ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                   ^ punctuation.definition.modifier.end.shell.zsh
+#                     ^ meta.string.glob.shell - meta.modifier
+#                      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                        ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                                        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                         ^ - meta.string - meta.modifier
+#                        ^^ support.function.substitution.shell.zsh
+#                          ^^ keyword.operator.substitution.shell.zsh - string
+#                            ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                   ^ keyword.operator.substitution.shell.zsh
+#                                    ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                       ^ variable.language.reference.shell.zsh
+#                                        ^ punctuation.definition.modifier.end.shell.zsh
+#                                          ^ meta.string.glob.shell - meta.modifier
+#                                           ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                             ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                                                               ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                                                ^ - meta.string - meta.modifier
+#                                             ^^ support.function.substitution.shell.zsh
+#                                               ^^^ keyword.operator.substitution.shell.zsh - string
+#                                                  ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                         ^^ keyword.operator.substitution.shell.zsh
+#                                                           ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                               ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:s/pa*t?rn/repl) /(:s:pattern:repl) /(:s;pattern;repl;:G)
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#    ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                  ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                   ^ - meta.string - meta.modifier
+#    ^ support.function.substitution.shell.zsh
+#     ^ keyword.operator.substitution.shell.zsh - string
+#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#             ^ keyword.operator.substitution.shell.zsh
+#              ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                  ^ punctuation.definition.modifier.end.shell.zsh
+#                    ^ meta.string.glob.shell - meta.modifier
+#                     ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                       ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                      ^ - meta.string - meta.modifier
+#                       ^ support.function.substitution.shell.zsh
+#                        ^ keyword.operator.substitution.shell.zsh - string
+#                         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                ^ keyword.operator.substitution.shell.zsh
+#                                 ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                     ^ punctuation.definition.modifier.end.shell.zsh
+#                                       ^ meta.string.glob.shell - meta.modifier
+#                                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                          ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
+#                                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
+#                                                            ^ - meta.string - meta.modifier
+#                                          ^ support.function.substitution.shell.zsh
+#                                           ^ keyword.operator.substitution.shell.zsh - string
+#                                            ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                   ^ keyword.operator.substitution.shell.zsh
+#                                                    ^^^^ meta.string.regexp.shell string.unquoted.shell
+#                                                        ^ keyword.operator.substitution.shell.zsh
+#                                                         ^ punctuation.separator.modifier.shell.zsh
+#                                                          ^ constant.other.flag.regexp.shell.zsh
+#                                                           ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:s(pattern)repl)
+# ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(:s|pattern|repl)
+# ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(:s~pattern~repl)
+# ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(:&) # Repeat the previous s substitution.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:t10) # Remove all leading pathname components
+#  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#       ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:u) # Convert the words to all uppercase.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:x) # Like q, but break into words at whitespace.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(:f) # Repeats the immediately (without a colon) following modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+# Like f, but repeats only n times if the expression expr evaluates to n
+: /(:F"1+p") /(:F{1+p}) /(:F[1+p]) /(:F:1+p:)
+#  ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#     ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#          ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.quoted.begin.shell.zsh
+#      ^^^ meta.arithmetic.shell
+#         ^ punctuation.definition.quoted.end.shell.zsh
+#          ^ punctuation.definition.modifier.end.shell.zsh
+#           ^ - meta.string - meta.modifier
+#             ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#             ^ punctuation.definition.modifier.begin.shell.zsh
+#              ^ punctuation.separator.modifier.shell.zsh
+#               ^ storage.modifier.glob.shell.zsh
+#                ^ punctuation.definition.quoted.begin.shell.zsh
+#                 ^^^ meta.arithmetic.shell
+#                    ^ punctuation.definition.quoted.end.shell.zsh
+#                     ^ punctuation.definition.modifier.end.shell.zsh
+#                      ^ - meta.string - meta.modifier
+#                        ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                           ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                                ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                        ^ punctuation.definition.modifier.begin.shell.zsh
+#                         ^ punctuation.separator.modifier.shell.zsh
+#                          ^ storage.modifier.glob.shell.zsh
+#                           ^ punctuation.definition.quoted.begin.shell.zsh
+#                            ^^^ meta.arithmetic.shell
+#                               ^ punctuation.definition.quoted.end.shell.zsh
+#                                ^ punctuation.definition.modifier.end.shell.zsh
+#                                 ^ - meta.string - meta.modifier
+#                                   ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                                      ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                                   ^ punctuation.definition.modifier.begin.shell.zsh
+#                                    ^ punctuation.separator.modifier.shell.zsh
+#                                     ^ storage.modifier.glob.shell.zsh
+#                                      ^ punctuation.definition.quoted.begin.shell.zsh
+#                                       ^^^ meta.arithmetic.shell
+#                                          ^ punctuation.definition.quoted.end.shell.zsh
+#                                           ^ punctuation.definition.modifier.end.shell.zsh
+#                                            ^ - meta.string - meta.modifier
+
+: /(:F(1+p))    # not a bare qualifier due to parentheses inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(:F|1+p|)    # not a bare qualifier due to pipes inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(:F~1+p~)    # not a bare qualifier due to termination by ambersand
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(:w) # Makes the immediately following modifier work on each word in the string.
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.modifier.end.shell.zsh
+
+# Like w but words are considered to be the parts of the string that are separated by sep.
+: /(:W"sep") /(:W{sep}) /(:W[sep]) /(:W:sep:)
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#     ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#          ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#  ^ punctuation.definition.modifier.begin.shell.zsh
+#   ^ punctuation.separator.modifier.shell.zsh
+#    ^ storage.modifier.glob.shell.zsh
+#     ^ punctuation.definition.quoted.begin.shell.zsh
+#      ^^^ string.quoted.other.shell.zsh
+#         ^ punctuation.definition.quoted.end.shell.zsh
+#          ^ punctuation.definition.modifier.end.shell.zsh
+#           ^ - meta.string - meta.modifier
+#            ^ meta.string.glob.shell - meta.modifier
+#             ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#             ^ punctuation.definition.modifier.begin.shell.zsh
+#              ^ punctuation.separator.modifier.shell.zsh
+#               ^ storage.modifier.glob.shell.zsh
+#                ^ punctuation.definition.quoted.begin.shell.zsh
+#                 ^^^ string.quoted.other.shell.zsh
+#                    ^ punctuation.definition.quoted.end.shell.zsh
+#                     ^ punctuation.definition.modifier.end.shell.zsh
+#                      ^ - meta.string - meta.modifier
+#                       ^ meta.string.glob.shell - meta.modifier
+#                        ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                           ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                                ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                        ^ punctuation.definition.modifier.begin.shell.zsh
+#                         ^ punctuation.separator.modifier.shell.zsh
+#                          ^ storage.modifier.glob.shell.zsh
+#                           ^ punctuation.definition.quoted.begin.shell.zsh
+#                            ^^^ string.quoted.other.shell.zsh
+#                               ^ punctuation.definition.quoted.end.shell.zsh
+#                                ^ punctuation.definition.modifier.end.shell.zsh
+#                                 ^ - meta.string - meta.modifier
+#                                  ^ meta.string.glob.shell - meta.modifier
+#                                   ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                                      ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#                                   ^ punctuation.definition.modifier.begin.shell.zsh
+#                                    ^ punctuation.separator.modifier.shell.zsh
+#                                     ^ storage.modifier.glob.shell.zsh
+#                                      ^ punctuation.definition.quoted.begin.shell.zsh
+#                                       ^^^ string.quoted.other.shell.zsh
+#                                          ^ punctuation.definition.quoted.end.shell.zsh
+#                                           ^ punctuation.definition.modifier.end.shell.zsh
+#                                            ^ - meta.string - meta.modifier
+
+: /(:W(sep))    # not a bare qualifier due to parentheses inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(:W|sep|)    # not a bare qualifier due to pipes inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(:W~sep~)    # not a bare qualifier due to tildes inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+
+## Modifiers in extended glob qualifiers
+## ----------------------------------------------------------------------------
+
+: /(#q:F(1+p))  # extended qualifier allow nested parentheses
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+# ^ string.unquoted.shell
+#  ^^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.separator.modifier.shell.zsh
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^ meta.arithmetic.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ keyword.operator.arithmetic.shell
+#          ^ variable.other.readwrite.shell
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(#q:F|1+p|)  # extended qualifier allow pipes
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+# ^ string.unquoted.shell
+#  ^^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.separator.modifier.shell.zsh
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^ meta.arithmetic.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ keyword.operator.arithmetic.shell
+#          ^ variable.other.readwrite.shell
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(#q:F~1+p~)  # extended qualifier allow tildes
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+# ^ string.unquoted.shell
+#  ^^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.separator.modifier.shell.zsh
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^ meta.arithmetic.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#         ^ keyword.operator.arithmetic.shell
+#          ^ variable.other.readwrite.shell
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(#q:W(sep))  # extended qualifier allow nested parentheses
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+# ^ string.unquoted.shell
+#  ^^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.separator.modifier.shell.zsh
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^ string.quoted.other.shell.zsh
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(#q:W|sep|)  # extended qualifier allow pipes
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+# ^ string.unquoted.shell
+#  ^^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.separator.modifier.shell.zsh
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^ string.quoted.other.shell.zsh
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(#q:W~sep~)  # extended qualifier allow tildes
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+# ^ string.unquoted.shell
+#  ^^ punctuation.definition.modifier.begin.shell.zsh
+#    ^ storage.modifier.mode.glob.shell.zsh
+#     ^ punctuation.separator.modifier.shell.zsh
+#      ^ storage.modifier.glob.shell.zsh
+#       ^^^^^ meta.quoted.glob.shell.zsh
+#       ^ punctuation.definition.quoted.begin.shell.zsh
+#        ^^^ string.quoted.other.shell.zsh
+#           ^ punctuation.definition.quoted.end.shell.zsh
+#            ^ punctuation.definition.modifier.end.shell.zsh
+
+
+## Modifiers in parmeter expansions
+## ----------------------------------------------------------------------------
+
+: ${var:a}
+# ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${var:A}
+# ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${foo:&}
+# ^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^ punctuation.section.interpolation.end.shell
+
+: ${var:h10}
+# ^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^^ meta.number.integer.decimal.shell.zsh constant.numeric.value.shell.zsh
+#          ^ punctuation.section.interpolation.end.shell
+
+: ${var:s/\}\\}     # incomplete substitution
+# ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^ meta.substitution.shell.zsh
+#       ^ support.function.substitution.shell.zsh
+#        ^ keyword.operator.substitution.shell.zsh
+#         ^^^^ meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+#             ^ punctuation.section.interpolation.end.shell
+
+: ${var:s/\\/\\\\}  # substitution without optional trailing `/`
+# ^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^ meta.substitution.shell.zsh
+#       ^ support.function.substitution.shell.zsh
+#        ^ keyword.operator.substitution.shell.zsh
+#         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^ constant.character.escape.shell
+#           ^ keyword.operator.substitution.shell.zsh
+#            ^^^^ constant.character.escape.shell
+#                ^ punctuation.section.interpolation.end.shell
+
+: ${var:s/\\/\{\\/}  # substitution with optional trailing `/`
+# ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^^ meta.substitution.shell.zsh
+#       ^ support.function.substitution.shell.zsh
+#        ^ keyword.operator.substitution.shell.zsh
+#         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^ constant.character.escape.shell
+#           ^ keyword.operator.substitution.shell.zsh
+#            ^^^^ constant.character.escape.shell
+#                ^ keyword.operator.substitution.shell.zsh
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${var:s/\\/\\\}/:G} # substitution with flag
+# ^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^^^^ meta.substitution.shell.zsh
+#       ^ support.function.substitution.shell.zsh
+#        ^ keyword.operator.substitution.shell.zsh
+#         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#         ^^ constant.character.escape.shell
+#           ^ keyword.operator.substitution.shell.zsh
+#            ^^^^ constant.character.escape.shell
+#                ^ keyword.operator.substitution.shell.zsh
+#                 ^ punctuation.separator.modifier.shell.zsh
+#                  ^ constant.other.flag.regexp.shell.zsh
+#                   ^ punctuation.section.interpolation.end.shell
+
+: ${var:s/\\/\\
+\}/:G} # substitution with flag
+# <- meta.interpolation.parameter.shell meta.substitution.shell.zsh meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+#^^^^^ meta.interpolation.parameter.shell
+#^^^^ meta.substitution.shell.zsh
+#^ meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+# ^ keyword.operator.substitution.shell.zsh
+#  ^ punctuation.separator.modifier.shell.zsh
+#   ^ constant.other.flag.regexp.shell.zsh
+#    ^ punctuation.section.interpolation.end.shell
+
+: ${var:s/\\/\\\
+#              ^ punctuation.separator.continuation.line.shell
+\}/:G} # substitution with flag
+# <- meta.interpolation.parameter.shell meta.substitution.shell.zsh meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+#^^^^^ meta.interpolation.parameter.shell
+#^^^^ meta.substitution.shell.zsh
+#^ meta.string.regexp.shell string.unquoted.shell constant.character.escape.shell
+# ^ keyword.operator.substitution.shell.zsh
+#  ^ punctuation.separator.modifier.shell.zsh
+#   ^ constant.other.flag.regexp.shell.zsh
+#    ^ punctuation.section.interpolation.end.shell
+
+: ${var:gs/\//\/\/}  # alternative representation of global flag
+# ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^^ meta.substitution.shell.zsh
+#       ^^ support.function.substitution.shell.zsh
+#         ^ keyword.operator.substitution.shell.zsh
+#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^ constant.character.escape.shell
+#            ^ keyword.operator.substitution.shell.zsh
+#             ^^^^ constant.character.escape.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${var:gs|\}|\}\/}  # `|` substitution separator
+# ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^^ meta.substitution.shell.zsh
+#       ^^ support.function.substitution.shell.zsh
+#         ^ keyword.operator.substitution.shell.zsh
+#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^ constant.character.escape.shell
+#            ^ keyword.operator.substitution.shell.zsh
+#             ^^^^ constant.character.escape.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${var:gs:\}:\}\/}  # `:` substitution separator
+# ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^^ meta.substitution.shell.zsh
+#       ^^ support.function.substitution.shell.zsh
+#         ^ keyword.operator.substitution.shell.zsh
+#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^ constant.character.escape.shell
+#            ^ keyword.operator.substitution.shell.zsh
+#             ^^^^ constant.character.escape.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${var:gs~\}~\}\/}  # `:` substitution separator
+# ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^^^^^ meta.substitution.shell.zsh
+#       ^^ support.function.substitution.shell.zsh
+#         ^ keyword.operator.substitution.shell.zsh
+#          ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
+#          ^^ constant.character.escape.shell
+#            ^ keyword.operator.substitution.shell.zsh
+#             ^^^^ constant.character.escape.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${foo:s/#x/X}
+# ^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^^^^^^ meta.substitution.shell.zsh
+#       ^ support.function.substitution.shell.zsh
+#        ^^ keyword.operator.substitution.shell.zsh
+#          ^^^ meta.string.regexp.shell string.unquoted.shell
+#           ^ keyword.operator.substitution.shell.zsh
+#             ^ punctuation.section.interpolation.end.shell
+
+: ${var:F<:>:W:\:::W<}>}
+# ^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^ punctuation.separator.modifier.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^^^ meta.quoted.glob.shell.zsh
+#        ^ punctuation.definition.quoted.begin.shell.zsh
+#         ^ meta.arithmetic.shell keyword.operator.ternary.shell
+#          ^ punctuation.definition.quoted.end.shell.zsh
+#           ^ punctuation.separator.modifier.shell.zsh
+#            ^ storage.modifier.glob.shell.zsh
+#             ^^^^ meta.quoted.glob.shell.zsh
+#             ^ punctuation.definition.quoted.begin.shell.zsh
+#              ^^ string.quoted.other.shell.zsh constant.character.escape.shell
+#                ^ punctuation.definition.quoted.end.shell.zsh
+#                 ^ punctuation.separator.modifier.shell.zsh
+#                  ^ storage.modifier.glob.shell.zsh
+#                   ^^^ meta.quoted.glob.shell.zsh
+#                   ^ punctuation.definition.quoted.begin.shell.zsh
+#                    ^ string.quoted.other.shell.zsh
+#                     ^ punctuation.definition.quoted.end.shell.zsh
+#                      ^ punctuation.section.interpolation.end.shell
+
+: "${(@)${(@)match:#*[^\\]:*}:s/\\:/:/}"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell
+# ^ string.quoted.double.shell punctuation.definition.string.begin.shell - meta.interpolation
+#  ^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation - meta.modifier
+#    ^^^ meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh - meta.interpolation meta.interpolation
+#       ^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell - meta.modifier
+#         ^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell meta.modifier.expansion.shell.zsh
+#            ^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell - meta.modifier
+#                            ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation - meta.modifier
+#                             ^^^^^^^^ meta.interpolation.parameter.shell meta.substitution.shell.zsh
+#                                     ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation - meta.modifier
+#                                      ^ string.quoted.double.shell punctuation.definition.string.end.shell - meta.interpolation
+#                                       ^ - meta.string
 
 
 ###############################################################################
@@ -5300,314 +5965,6 @@ any --arg{1,2,3} ={1,2,3}
 
 
 ###############################################################################
-# 14.1.4 Modifiers
-# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Modifiers
-###############################################################################
-
-: /(:v) # not a valid modifier, fallback to normal regexp group
-#  ^^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell
-#  ^ punctuation.section.group.begin.regexp.shell
-#     ^ punctuation.section.group.end.regexp.shell
-
-: /(:a) # Turn a file name into an absolute path
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:A) # Turn a file name into an real path (resolve symlinks)
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:c) # Resolve a command name into an absolute path
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:e) # Remove all but the part of the filename extension following the '.'
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:h10) # Remove a trailing pathname components
-#  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#       ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:l) # Convert the words to all lowercase.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:p) # Print the new command but do not execute it.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:P) # Turn a file name into an absolute path, permit non-existing
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:q) # Quote the substituted words, escaping further substitutions.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:Q) # Remove one level of quotes from the substituted words.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:r) # Remove a filename extension leaving the root name.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:s/pa*t?rn/repl) /(:s|pattern|repl) /(:s;pattern;repl;:G)
-# ^ meta.string.glob.shell - meta.modifier
-#  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#    ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
-#                  ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                   ^ - meta.string - meta.modifier
-#    ^ support.function.substitution.shell.zsh
-#     ^ keyword.operator.substitution.shell.zsh - string
-#      ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
-#             ^ keyword.operator.substitution.shell.zsh
-#              ^^^^ meta.string.regexp.shell string.unquoted.shell
-#                  ^ punctuation.definition.modifier.end.shell.zsh
-#                    ^ meta.string.glob.shell - meta.modifier
-#                     ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                       ^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
-#                                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                                      ^ - meta.string - meta.modifier
-#                       ^ support.function.substitution.shell.zsh
-#                        ^ keyword.operator.substitution.shell.zsh - string
-#                         ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
-#                                ^ keyword.operator.substitution.shell.zsh
-#                                 ^^^^ meta.string.regexp.shell string.unquoted.shell
-#                                     ^ punctuation.definition.modifier.end.shell.zsh
-#                                       ^ meta.string.glob.shell - meta.modifier
-#                                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                                          ^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.substitution.shell.zsh
-#                                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
-#                                                            ^ - meta.string - meta.modifier
-#                                          ^ support.function.substitution.shell.zsh
-#                                           ^ keyword.operator.substitution.shell.zsh - string
-#                                            ^^^^^^^ meta.string.regexp.shell string.unquoted.shell
-#                                                   ^ keyword.operator.substitution.shell.zsh
-#                                                    ^^^^ meta.string.regexp.shell string.unquoted.shell
-#                                                        ^ keyword.operator.substitution.shell.zsh
-#                                                         ^ punctuation.separator.sequence.shell.zsh
-#                                                          ^ constant.other.flag.regexp.shell.zsh
-#                                                           ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:&) # Repeat the previous s substitution.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:t10) # Remove all leading pathname components
-#  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
-#       ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:u) # Convert the words to all uppercase.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:x) # Like q, but break into words at whitespace.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(:f) # Repeats the immediately (without a colon) following modifier
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-# Like f, but repeats only n times if the expression expr evaluates to n
-: /(:F"1+p") /(:F<1+p>) /(:F{1+p}) /(:F[1+p]) /(:F(1+p)) /(:F:1+p:)
-#  ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#     ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#          ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.quoted.begin.shell.zsh
-#      ^^^ meta.arithmetic.shell
-#         ^ punctuation.definition.quoted.end.shell.zsh
-#          ^ punctuation.definition.modifier.end.shell.zsh
-#           ^ - meta.string - meta.modifier
-#             ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#             ^ punctuation.definition.modifier.begin.shell.zsh
-#              ^ punctuation.separator.sequence.shell.zsh
-#               ^ storage.modifier.glob.shell.zsh
-#                ^ punctuation.definition.quoted.begin.shell.zsh
-#                 ^^^ meta.arithmetic.shell
-#                    ^ punctuation.definition.quoted.end.shell.zsh
-#                     ^ punctuation.definition.modifier.end.shell.zsh
-#                      ^ - meta.string - meta.modifier
-#                        ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                           ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                         ^ punctuation.separator.sequence.shell.zsh
-#                          ^ storage.modifier.glob.shell.zsh
-#                           ^ punctuation.definition.quoted.begin.shell.zsh
-#                            ^^^ meta.arithmetic.shell
-#                               ^ punctuation.definition.quoted.end.shell.zsh
-#                                ^ punctuation.definition.modifier.end.shell.zsh
-#                                 ^ - meta.string - meta.modifier
-#                                   ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                      ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                   ^ punctuation.definition.modifier.begin.shell.zsh
-#                                    ^ punctuation.separator.sequence.shell.zsh
-#                                     ^ storage.modifier.glob.shell.zsh
-#                                      ^ punctuation.definition.quoted.begin.shell.zsh
-#                                       ^^^ meta.arithmetic.shell
-#                                          ^ punctuation.definition.quoted.end.shell.zsh
-#                                           ^ punctuation.definition.modifier.end.shell.zsh
-#                                            ^ - meta.string - meta.modifier
-#                                              ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                 ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                      ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                              ^ punctuation.definition.modifier.begin.shell.zsh
-#                                               ^ punctuation.separator.sequence.shell.zsh
-#                                                ^ storage.modifier.glob.shell.zsh
-#                                                 ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                  ^^^ meta.arithmetic.shell
-#                                                     ^ punctuation.definition.quoted.end.shell.zsh
-#                                                      ^ punctuation.definition.modifier.end.shell.zsh
-#                                                       ^ - meta.string - meta.modifier
-#                                                         ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                            ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                         ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                          ^ punctuation.separator.sequence.shell.zsh
-#                                                           ^ storage.modifier.glob.shell.zsh
-#                                                            ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                             ^^^ meta.arithmetic.shell
-#                                                                ^ punctuation.definition.quoted.end.shell.zsh
-#                                                                 ^ punctuation.definition.modifier.end.shell.zsh
-#                                                                  ^ - meta.string - meta.modifier
-
-: /(:w) # Makes the immediately following modifier work on each word in the string.
-#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.modifier.end.shell.zsh
-
-# Like w but words are considered to be the parts of the string that are separated by sep.
-: /(:W"sep") /(:W<sep>) /(:W{sep}) /(:W[sep]) /(:W(sep)) /(:W:sep:)
-#  ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#     ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#          ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ punctuation.separator.sequence.shell.zsh
-#    ^ storage.modifier.glob.shell.zsh
-#     ^ punctuation.definition.quoted.begin.shell.zsh
-#      ^^^ string.quoted.other.shell.zsh
-#         ^ punctuation.definition.quoted.end.shell.zsh
-#          ^ punctuation.definition.modifier.end.shell.zsh
-#           ^ - meta.string - meta.modifier
-#             ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#             ^ punctuation.definition.modifier.begin.shell.zsh
-#              ^ punctuation.separator.sequence.shell.zsh
-#               ^ storage.modifier.glob.shell.zsh
-#                ^ punctuation.definition.quoted.begin.shell.zsh
-#                 ^^^ string.quoted.other.shell.zsh
-#                    ^ punctuation.definition.quoted.end.shell.zsh
-#                     ^ punctuation.definition.modifier.end.shell.zsh
-#                      ^ - meta.string - meta.modifier
-#                        ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                           ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                         ^ punctuation.separator.sequence.shell.zsh
-#                          ^ storage.modifier.glob.shell.zsh
-#                           ^ punctuation.definition.quoted.begin.shell.zsh
-#                            ^^^ string.quoted.other.shell.zsh
-#                               ^ punctuation.definition.quoted.end.shell.zsh
-#                                ^ punctuation.definition.modifier.end.shell.zsh
-#                                 ^ - meta.string - meta.modifier
-#                                   ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                      ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                   ^ punctuation.definition.modifier.begin.shell.zsh
-#                                    ^ punctuation.separator.sequence.shell.zsh
-#                                     ^ storage.modifier.glob.shell.zsh
-#                                      ^ punctuation.definition.quoted.begin.shell.zsh
-#                                       ^^^ string.quoted.other.shell.zsh
-#                                          ^ punctuation.definition.quoted.end.shell.zsh
-#                                           ^ punctuation.definition.modifier.end.shell.zsh
-#                                            ^ - meta.string - meta.modifier
-#                                              ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                 ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                      ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                              ^ punctuation.definition.modifier.begin.shell.zsh
-#                                               ^ punctuation.separator.sequence.shell.zsh
-#                                                ^ storage.modifier.glob.shell.zsh
-#                                                 ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                  ^^^ string.quoted.other.shell.zsh
-#                                                     ^ punctuation.definition.quoted.end.shell.zsh
-#                                                      ^ punctuation.definition.modifier.end.shell.zsh
-#                                                       ^ - meta.string - meta.modifier
-#                                                         ^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                            ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                         ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                          ^ punctuation.separator.sequence.shell.zsh
-#                                                           ^ storage.modifier.glob.shell.zsh
-#                                                            ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                             ^^^ string.quoted.other.shell.zsh
-#                                                                ^ punctuation.definition.quoted.end.shell.zsh
-#                                                                 ^ punctuation.definition.modifier.end.shell.zsh
-#                                                                  ^ - meta.string - meta.modifier
-
-
-###############################################################################
 # 14.7 Filename Expansion
 # https://zsh.sourceforge.io/Doc/Release/Expansion.html#Filename-Expansion
 ###############################################################################
@@ -6524,25 +6881,33 @@ esac
 : (#c1)      # requires exactly N matches
 # ^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
-#   ^^ storage.modifier.mode.glob.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : (#c,4)     # requires maximum M matches
 # ^^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
-#   ^^^ storage.modifier.mode.glob.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ punctuation.separator.sequence.shell
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #      ^ punctuation.definition.modifier.end.shell.zsh
 
 : (#c1,)     # requires at least N matches
 # ^^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
-#   ^^^ storage.modifier.mode.glob.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^ punctuation.separator.sequence.shell
 #      ^ punctuation.definition.modifier.end.shell.zsh
 
 : (#c1,4)    # requires between N and M matches
 # ^^^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
-#   ^^^^ storage.modifier.mode.glob.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#     ^ punctuation.separator.sequence.shell
+#      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ punctuation.definition.modifier.end.shell.zsh
 
 : (#c$start,$end)    # requires between N and M matches
@@ -6573,7 +6938,8 @@ esac
 : (#a3)      #  Match with num approximations
 # ^^^^^ meta.modifier.glob.shell.zsh
 # ^^ punctuation.definition.modifier.begin.shell.zsh
-#   ^^ storage.modifier.mode.glob.shell.zsh
+#   ^ storage.modifier.mode.glob.shell.zsh
+#    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #     ^ punctuation.definition.modifier.end.shell.zsh
 
 : (#s)       #  Match only at start of test string
@@ -6612,7 +6978,64 @@ esac
 #   ^ storage.modifier.mode.glob.shell.zsh
 #    ^ punctuation.definition.modifier.end.shell.zsh
 
-# examples
+
+## Globbing Flags in Parameter Expansions
+## ----------------------------------------------------------------------------
+
+: ${var##(#c$start,$end)pat}    # requires between N and M matches
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.string
+#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#           ^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
+#                 ^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#                  ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh meta.interpolation.parameter.shell
+#                      ^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#                       ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#                          ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
+#                           ^ - meta.interpolation.parameter
+
+: ${var##(#b)}      # terminate on invalid flag to ensure proper bailouts
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.string
+#        ^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh - meta.interpolation.parameter meta.interpolation.parameter
+#            ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
+#             ^ - meta.interpolation.parameter
+#        ^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#        ^^ punctuation.definition.modifier.begin.shell.zsh
+#          ^ storage.modifier.mode.glob.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#            ^ punctuation.section.interpolation.end.shell
+
+: ${var##(#b)(d|b)}	# globbing flags and groups
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.string meta.string
+#        ^^^^^^^^^ meta.interpolation.parameter.shell meta.string.regexp.shell
+#                 ^ meta.interpolation.parameter.shell - meta.modifier
+#        ^^^^ meta.modifier.glob.shell.zsh
+#        ^^ punctuation.definition.modifier.begin.shell.zsh
+#          ^ storage.modifier.mode.glob.shell.zsh
+#           ^ punctuation.definition.modifier.end.shell.zsh
+#            ^^^^^ meta.group.regexp.shell string.unquoted.shell
+#            ^ punctuation.section.group.begin.regexp.shell
+#              ^ keyword.operator.alternation.regexp.shell
+#                ^ punctuation.section.group.end.regexp.shell
+#                 ^ punctuation.section.interpolation.end.shell
+
+: ${var##(#bd)}     # terminate on invalid flag to ensure proper bailouts
+#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#           ^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#             ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
+
+: ${var##(#b})      # glob flags are terminated together with expansion by closing brace
+#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#           ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
+#            ^ invalid.illegal.stray.shell
+
+: ${var##(#b\})}    # glob flags are terminated by escaped braces, but expansion isn't
+#        ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#           ^^^ meta.interpolation.parameter.shell meta.string.regexp.shell string.unquoted.shell - meta.modifier
+#              ^ meta.interpolation.parameter.shell punctuation.section.interpolation.end.shell - meta.modifier
+
+
+## Examples
+## ----------------------------------------------------------------------------
 
 : (#ia2)readme # case-insensitive matching of readme with up to two errors.
 # ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - string
@@ -6654,7 +7077,6 @@ print ${arr//(#m)[aeiou]/${(U)MATCH}}
 #               ^^^^ meta.group.regexp.shell meta.modifier.glob.shell.zsh - string
 #                   ^^^ meta.group.regexp.shell string.unquoted.shell - meta.modifier
 #                      ^ constant.other.wildcard.asterisk.shell
-
 
 ###############################################################################
 # 14.8.7 Glob Qualifiers
@@ -6727,6 +7149,18 @@ a=(/*(D))   # bare qualifiers are valid in arrays
 # ^ meta.string.glob.shell - meta.modifier
 #  ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 
+: /(e())    # bare qualifiers can't contain parentheses
+# ^^^^^^ meta.string.glob.shell string.unquoted.shell
+#  ^^^^^ meta.group.regexp.shell - meta.modifier
+
+: /(e~~)    # bare qualifiers can't contain tildes
+# ^ meta.string.glob.shell - meta.group - meta.modifier
+#  ^^^^^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+
+: /(e||)    # bare qualifiers can't contain pipes
+# ^^^^^^ meta.string.glob.shell string.unquoted.shell
+#  ^^^^^ meta.group.regexp.shell - meta.modifier
+
 : /(e.'( ) << >> | ; &'.) # bare qualifiers' quoted arguments' can contain any character
 # ^ meta.string.glob.shell string.unquoted.shell
 #  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
@@ -6789,6 +7223,110 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #  ^^^^^^^^^^^^^^^^ meta.group.shell
 #           ^^^^^^ meta.string.regexp.shell - meta.modifier
 #                   ^^ punctuation.section.compound.end.shell
+
+## Extended Glob Qualifiers / Basic Rules
+## ----------------------------------------------------------------------------
+
+: (#qD)       # extended glob qualifiers are highlighted, but ignored at start of words
+# ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+
+: /(#qD)/     # extended glob qualifiers are highlighted, but ignored in middle of words
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#       ^ meta.string.glob.shell - meta.modifier
+
+: /(#qD)      # extended glob qualifiers always appear at the end of words
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+
+# extended glob qualifiers are highlighted everywhere, even if ignored
+: /(#qD)~/*(#qD)
+# ^ meta.string.glob.shell - meta.group - meta.modifier
+#  ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#       ^^^ meta.string.glob.shell - meta.group - meta.modifier
+#          ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
+#               ^ - meta.string - meta.group - meta.modifier
+
+: '/(#qD)'    # extended glob qualifiers don't appear in quoted strings
+# ^^^^^^^^ meta.string.glob.shell string.quoted.single.shell - meta.group - meta.modifier
+
+: "/(#qD)"    # extended glob qualifiers don't appear in quoted strings
+# ^^^^^^^^ meta.string.glob.shell string.quoted.double.shell - meta.group - meta.modifier
+
+: /((#qD))    # extended glob qualifiers are valid in groups
+# ^ meta.string.glob.shell - meta.group - meta.modifier
+#  ^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+#   ^^^^^ meta.string.glob.shell meta.group.regexp.shell meta.modifier.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+
+: (/*(#qD))   # extended glob qualifiers are valid in groups
+# ^^^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+#    ^^^^^ meta.string.glob.shell meta.group.regexp.shell meta.modifier.glob.shell.zsh
+#         ^ meta.string.glob.shell meta.group.regexp.shell - meta.modifier
+
+a=(/*(#qD))   # extended glob qualifiers are valid in arrays
+# ^ meta.sequence.list.shell - meta.string
+#  ^^ meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
+#    ^^^^^ meta.sequence.list.shell meta.string.glob.shell meta.modifier.glob.shell.zsh
+#         ^ meta.sequence.list.shell - meta.string
+# ^ punctuation.section.sequence.begin.shell
+#   ^ constant.other.wildcard.asterisk.shell
+#    ^^ punctuation.definition.modifier.begin.shell.zsh
+#      ^ storage.modifier.mode.glob.shell.zsh
+#       ^ storage.modifier.glob.shell.zsh
+#        ^ punctuation.definition.modifier.end.shell.zsh
+#         ^ punctuation.section.sequence.end.shell
+
+: /(#qe{})    # extended glob qualifiers can contain curly braces
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#         ^ - meta.string - meta.modifier
+
+: /(#qe[])    # extended glob qualifiers can contain square brackets
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#         ^ - meta.string - meta.modifier
+
+: /(#qe())    # extended glob qualifiers can contain parentheses
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#         ^ - meta.string - meta.modifier
+
+: /(#qe~~)    # extended glob qualifiers can't contain tildes
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#         ^ - meta.string - meta.modifier
+
+: /(#qe||)    # extended glob qualifiers can't contain pipes
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#      ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#        ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#         ^ - meta.string - meta.modifier
+
+: /(#qe.'( ) << >> | ; &'.) # extended glob qualifiers' quoted arguments' can contain any character
+# ^ meta.string.glob.shell - meta.modifier
+#  ^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+#      ^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
+#                         ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
+
+: ${var##/(#qD)}            # extended glob qualifiers are syntectically valid in parameter expansions
+#         ^^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+
+: ${var:-/(#qD)}            # extended glob qualifiers are syntectically valid in parameter expansions
+#         ^^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+
+: ${var/\/(#qD)/\/(#qD)}    # extended glob qualifiers are syntectically valid in parameter expansions
+#         ^^^^^ meta.string.regexp.shell meta.modifier.glob.shell.zsh
+#               ^^^^^^^ meta.interpolation.parameter.shell meta.string.shell string.unquoted.shell
 
 
 ## Known Glob Qualifiers
@@ -6937,7 +7475,7 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                    ^ keyword.operator.logical.shell.zsh
 #                                     ^^^^^ meta.number.integer.octal.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 
-: /(f<gu+w,0-rx>) /(f{gu+w,0-rx}) /(f[gu+w,0-rx]) /(f(gu+w,0-rx)) /(f:gu+w,0-rx:)
+: /(f{gu+w,0-rx}) /(f[gu+w,0-rx]) /(f:gu+w,0-rx:)
 #  ^^ meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
 #    ^^^^^^^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
@@ -6961,67 +7499,16 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                     ^^^^^^^^^ string.quoted.other.shell.zsh
 #                                              ^ punctuation.definition.quoted.end.shell.zsh
 #                                               ^ meta.modifier.glob.shell.zsh punctuation.definition.modifier.end.shell.zsh
-#                                                  ^^ meta.modifier.glob.shell.zsh
-#                                                  ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                    ^^^^^^^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                    ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                     ^^^^^^^^^ string.quoted.other.shell.zsh
-#                                                              ^ punctuation.definition.quoted.end.shell.zsh
-#                                                               ^ meta.modifier.glob.shell.zsh punctuation.definition.modifier.end.shell.zsh
-#                                                                  ^^ meta.modifier.glob.shell.zsh
-#                                                                  ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                                    ^^^^^^^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                                    ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                                     ^^^^^^^^^ string.quoted.other.shell.zsh
-#                                                                              ^ punctuation.definition.quoted.end.shell.zsh
-#                                                                               ^ meta.modifier.glob.shell.zsh punctuation.definition.modifier.end.shell.zsh
+#                                                ^ - meta.modifier
 
-: /(e<foo -a | bar $v>) /(e<"foo -a | bar $v">) /(e<'foo -a | bar $v'>)
-#  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#    ^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#     ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
-#                    ^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ storage.modifier.glob.shell.zsh
-#    ^ punctuation.definition.quoted.begin.shell.zsh
-#     ^^^ meta.function-call.identifier.shell meta.command.shell
-#        ^^^ meta.function-call.arguments.shell
-#           ^^^ - meta.modifier meta.function-call
-#              ^^^ meta.function-call.identifier.shell meta.command.shell
-#                 ^^^ meta.function-call.arguments.shell
-#                    ^ punctuation.definition.quoted.end.shell.zsh
-#                     ^ punctuation.definition.modifier.end.shell.zsh
-#                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                          ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                            ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
-#                                           ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                         ^ storage.modifier.glob.shell.zsh
-#                          ^^ punctuation.definition.quoted.begin.shell
-#                            ^^^ meta.function-call.identifier.shell meta.command.shell
-#                               ^^^ meta.function-call.arguments.shell
-#                                  ^^^ - meta.modifier meta.function-call
-#                                     ^^^ meta.function-call.identifier.shell meta.command.shell
-#                                        ^^^ meta.function-call.arguments.shell
-#                                           ^^ punctuation.definition.quoted.end.shell
-#                                             ^ punctuation.definition.modifier.end.shell.zsh
-#                                                ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                                                  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                                                    ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
-#                                                                   ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                                                                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                                                ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                 ^ storage.modifier.glob.shell.zsh
-#                                                  ^^ punctuation.definition.quoted.begin.shell
-#                                                    ^^^ meta.function-call.identifier.shell meta.command.shell
-#                                                       ^^^ meta.function-call.arguments.shell
-#                                                          ^^^ - meta.modifier meta.function-call
-#                                                             ^^^ meta.function-call.identifier.shell meta.command.shell
-#                                                                ^^^ meta.function-call.arguments.shell
-#                                                                   ^^ punctuation.definition.quoted.end.shell
-#                                                                     ^ punctuation.definition.modifier.end.shell.zsh
+: /(f(gu+w,0-rx))   # not a bare qualifier due to parentheses inside
+# ^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(f|gu+w,0-rx|)   # not a bare qualifier due to redirections inside
+# ^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+: /(f~gu+w,0-rx~)   # not a bare qualifier due to redirections inside
+# ^^^^^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
 
 : /(e{foo -a | bar $v}) /(e{"foo -a | bar $v"}) /(e{'foo -a | bar $v'})
 #  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
@@ -7071,53 +7558,6 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                                                     ^ punctuation.definition.modifier.end.shell.zsh
 
 : /(e[foo -a | bar $v]) /(e["foo -a | bar $v"]) /(e['foo -a | bar $v'])
-#  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#    ^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#     ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
-#                    ^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#  ^ punctuation.definition.modifier.begin.shell.zsh
-#   ^ storage.modifier.glob.shell.zsh
-#    ^ punctuation.definition.quoted.begin.shell.zsh
-#     ^^^ meta.function-call.identifier.shell meta.command.shell
-#        ^^^ meta.function-call.arguments.shell
-#           ^^^ - meta.modifier meta.function-call
-#              ^^^ meta.function-call.identifier.shell meta.command.shell
-#                 ^^^ meta.function-call.arguments.shell
-#                    ^ punctuation.definition.quoted.end.shell.zsh
-#                     ^ punctuation.definition.modifier.end.shell.zsh
-#                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                          ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                            ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
-#                                           ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                         ^ storage.modifier.glob.shell.zsh
-#                          ^^ punctuation.definition.quoted.begin.shell
-#                            ^^^ meta.function-call.identifier.shell meta.command.shell
-#                               ^^^ meta.function-call.arguments.shell
-#                                  ^^^ - meta.modifier meta.function-call
-#                                     ^^^ meta.function-call.identifier.shell meta.command.shell
-#                                        ^^^ meta.function-call.arguments.shell
-#                                           ^^ punctuation.definition.quoted.end.shell
-#                                             ^ punctuation.definition.modifier.end.shell.zsh
-#                                                ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                                                  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                                                    ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
-#                                                                   ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
-#                                                                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh
-#                                                ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                 ^ storage.modifier.glob.shell.zsh
-#                                                  ^^ punctuation.definition.quoted.begin.shell
-#                                                    ^^^ meta.function-call.identifier.shell meta.command.shell
-#                                                       ^^^ meta.function-call.arguments.shell
-#                                                          ^^^ - meta.modifier meta.function-call
-#                                                             ^^^ meta.function-call.identifier.shell meta.command.shell
-#                                                                ^^^ meta.function-call.arguments.shell
-#                                                                   ^^ punctuation.definition.quoted.end.shell
-#                                                                     ^ punctuation.definition.modifier.end.shell.zsh
-
-: /(e(foo -a | bar $v)) /(e("foo -a | bar $v")) /(e('foo -a | bar $v'))
 #  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #    ^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh - meta.interpolation
 #     ^^^^^^^^^^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh meta.interpolation.command.shell
@@ -7258,7 +7698,7 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                                                   ^^ punctuation.definition.quoted.end.shell
 #                                                                     ^ punctuation.definition.modifier.end.shell.zsh
 
-: /(G120) /(G<gid>) /(G{gid}) /(G[gid]) /(G(gid)) /(G:gid:)
+: /(G120) /(G{gid}) /(G[gid]) /(G:gid:)
 #  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.glob.shell.zsh
@@ -7289,34 +7729,17 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                      ^ - meta.string - meta.modifier
-#                              ^ punctuation.definition.modifier.begin.shell.zsh
-#                               ^ storage.modifier.glob.shell.zsh
-#                                ^ punctuation.definition.quoted.begin.shell.zsh
-#                                 ^^^ string.quoted.other.shell.zsh
-#                                    ^ punctuation.definition.quoted.end.shell.zsh
-#                                     ^ punctuation.definition.modifier.end.shell.zsh
-#                                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                          ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                               ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                ^ - meta.string - meta.modifier
-#                                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                                         ^ storage.modifier.glob.shell.zsh
-#                                          ^ punctuation.definition.quoted.begin.shell.zsh
-#                                           ^^^ string.quoted.other.shell.zsh
-#                                              ^ punctuation.definition.quoted.end.shell.zsh
-#                                               ^ punctuation.definition.modifier.end.shell.zsh
-#                                                  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                    ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                         ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                          ^ - meta.string - meta.modifier
-#                                                  ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                   ^ storage.modifier.glob.shell.zsh
-#                                                    ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                     ^^^ string.quoted.other.shell.zsh
-#                                                        ^ punctuation.definition.quoted.end.shell.zsh
-#                                                         ^ punctuation.definition.modifier.end.shell.zsh
 
-: /(U123) /(U<uid>) /(U{uid}) /(U[uid]) /(U(uid)) /(U:uid:)
+: /(G(gid)) # not a bare qualifier due to parens inside
+# ^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(G|gid|) # not a bare qualifier due to redirections inside
+# ^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(G~gid~) # not a bare qualifier due to redirections inside
+# ^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(U123) /(U{uid}) /(U[uid]) /(U:uid:)
 #  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
 #  ^ punctuation.definition.modifier.begin.shell.zsh
 #   ^ storage.modifier.glob.shell.zsh
@@ -7347,32 +7770,15 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                     ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                      ^ - meta.string - meta.modifier
-#                              ^ punctuation.definition.modifier.begin.shell.zsh
-#                               ^ storage.modifier.glob.shell.zsh
-#                                ^ punctuation.definition.quoted.begin.shell.zsh
-#                                 ^^^ string.quoted.other.shell.zsh
-#                                    ^ punctuation.definition.quoted.end.shell.zsh
-#                                     ^ punctuation.definition.modifier.end.shell.zsh
-#                                        ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                          ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                               ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                ^ - meta.string - meta.modifier
-#                                        ^ punctuation.definition.modifier.begin.shell.zsh
-#                                         ^ storage.modifier.glob.shell.zsh
-#                                          ^ punctuation.definition.quoted.begin.shell.zsh
-#                                           ^^^ string.quoted.other.shell.zsh
-#                                              ^ punctuation.definition.quoted.end.shell.zsh
-#                                               ^ punctuation.definition.modifier.end.shell.zsh
-#                                                  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                    ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                         ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                          ^ - meta.string - meta.modifier
-#                                                  ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                   ^ storage.modifier.glob.shell.zsh
-#                                                    ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                     ^^^ string.quoted.other.shell.zsh
-#                                                        ^ punctuation.definition.quoted.end.shell.zsh
-#                                                         ^ punctuation.definition.modifier.end.shell.zsh
+
+: /(U(uid)) # not a bare qualifier due to parens inside
+# ^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(U|uid|) # not a bare qualifier due to redirections inside
+# ^^^^^^^^^ meta.string.glob.shell - meta.modifier
+
+: /(U~uid~) # not a bare qualifier due to redirections inside
+# ^^^^^^^^^ meta.string.glob.shell - meta.modifier
 
 : /(aM-5) /(mm+5) /(cs100) # access time, modification time, creation time
 #  ^^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh
@@ -7606,7 +8012,7 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                         ^ punctuation.definition.range.end.shell.zsh
 #                          ^ punctuation.definition.modifier.end.shell.zsh
 
-: /(P"pre") /(P<pre>) /(P{pre}) /(P[pre]) /(P(pre)) /(P:pre:)
+: /(P"pre") /(P{pre}) /(P[pre]) /(P:pre:)
 #  ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #    ^^^^^ meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #         ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
@@ -7641,59 +8047,19 @@ test $var == ~/*(D)     # bare qualifiers can be appear in test arguments, but c
 #                                  ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
 #                                       ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
 #                                        ^ - meta.string - meta.modifier
-#                                ^ punctuation.definition.modifier.begin.shell.zsh
-#                                 ^ storage.modifier.glob.shell.zsh
-#                                  ^ punctuation.definition.quoted.begin.shell.zsh
-#                                   ^^^ string.quoted.other.shell.zsh
-#                                      ^ punctuation.definition.quoted.end.shell.zsh
-#                                       ^ punctuation.definition.modifier.end.shell.zsh
-#                                          ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                            ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                 ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                  ^ - meta.string - meta.modifier
-#                                          ^ punctuation.definition.modifier.begin.shell.zsh
-#                                           ^ storage.modifier.glob.shell.zsh
-#                                            ^ punctuation.definition.quoted.begin.shell.zsh
-#                                             ^^^ string.quoted.other.shell.zsh
-#                                                ^ punctuation.definition.quoted.end.shell.zsh
-#                                                 ^ punctuation.definition.modifier.end.shell.zsh
-#                                                    ^^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                      ^^^^^ meta.string.glob.shell meta.modifier.glob.shell.zsh meta.quoted.glob.shell.zsh
-#                                                           ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.quoted
-#                                                            ^ - meta.string - meta.modifier
-#                                                    ^ punctuation.definition.modifier.begin.shell.zsh
-#                                                     ^ storage.modifier.glob.shell.zsh
-#                                                      ^ punctuation.definition.quoted.begin.shell.zsh
-#                                                       ^^^ string.quoted.other.shell.zsh
-#                                                          ^ punctuation.definition.quoted.end.shell.zsh
-#                                                           ^ punctuation.definition.modifier.end.shell.zsh
 
-a=(/*(/:t)) # qualifiers are valid in arrays
-# ^ meta.sequence.list.shell - meta.string
-#  ^^ meta.sequence.list.shell meta.string.glob.shell string.unquoted.shell
-#    ^^^^^ meta.sequence.list.shell meta.string.glob.shell meta.modifier.glob.shell.zsh
-#         ^ meta.sequence.list.shell - meta.string
-# ^ punctuation.section.sequence.begin.shell
-#   ^ constant.other.wildcard.asterisk.shell
-#    ^ punctuation.definition.modifier.begin.shell.zsh
-#     ^ storage.modifier.glob.shell.zsh
-#      ^ punctuation.separator.sequence.shell.zsh
-#       ^ storage.modifier.glob.shell.zsh
-#        ^ punctuation.definition.modifier.end.shell.zsh
-#         ^ punctuation.section.sequence.end.shell
+: /(:P(pre))    # not a bare qualifier due to parentheses inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
 
-: (/*(/:t)) # qualifiers are not valid in groups
-# ^^^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-#    ^^^^^ meta.string.glob.shell meta.group.regexp.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-#         ^ meta.string.glob.shell meta.group.regexp.shell string.unquoted.shell - meta.modifier
-# ^ meta.group.regexp.shell string.unquoted.shell punctuation.section.group.begin.regexp.shell
-#   ^ constant.other.wildcard.asterisk.shell
-#    ^ punctuation.section.group.begin.regexp.shell
-#        ^^ punctuation.section.group.end.regexp.shell
+: /(:P|pre|)    # not a bare qualifier due to pipes inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
 
-ls /(D)/  # qualifiers are always located at the end
-#  ^^^^^ meta.string.glob.shell string.unquoted.shell
-#   ^^^ meta.group.regexp.shell - meta.modifier
+: /(:P~pre~)    # not a bare qualifier due to redirections inside
+# ^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell - meta.modifier
+
+
+## Examples of common glob qualifier expressions
+## ----------------------------------------------------------------------------
 
 #  lists all directories and symbolic links that point to directories, and
 ls -ld -- *(-/)
@@ -7757,9 +8123,6 @@ print -rC1 b*.pro(#q:s/pro/shmo/)(#q.:s@builtin@"sh${mi}ltin"@)
 #                                                             ^ meta.string.glob.shell meta.modifier.glob.shell.zsh - meta.substitution
 #                                                              ^ - meta.string - meta.modifier
 
-
-###[ COMMON EXPANSIONS ]#######################################################
-
 # https://wiki.zshell.dev/community/zsh_guide/roadmap/expansion
 ls *(.)                              # List just regular files
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7770,8 +8133,6 @@ ls *(.)                              # List just regular files
 #   ^ punctuation.definition.modifier.begin.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -ld *(/om[1,3])                   # Show three newest directories, "om" orders by modification. "[1,3]" works like Python slice
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7791,8 +8152,6 @@ ls -ld *(/om[1,3])                   # Show three newest directories, "om" order
 #              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #               ^ punctuation.definition.range.end.shell.zsh
 #                ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 rm -i *(.L0)                         # Remove zero length files, prompt for each file
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7806,8 +8165,6 @@ rm -i *(.L0)                         # Remove zero length files, prompt for each
 #       ^^ storage.modifier.glob.shell.zsh
 #         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls *(^m0)                            # Files not modified today
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7820,8 +8177,6 @@ ls *(^m0)                            # Files not modified today
 #     ^ storage.modifier.glob.shell.zsh
 #      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls **/*(.x)                          # List all executable files in this tree
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7833,8 +8188,6 @@ ls **/*(.x)                          # List all executable files in this tree
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^^ storage.modifier.glob.shell.zsh
 #         ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls *~*.*(.)                          # List all files that does not have a dot in the filename
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7849,8 +8202,6 @@ ls *~*.*(.)                          # List all files that does not have a dot i
 #       ^ punctuation.definition.modifier.begin.shell.zsh
 #        ^ storage.modifier.glob.shell.zsh
 #         ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l */**(Lk+100)                   # List all files larger than 100kb in this tree
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7868,8 +8219,6 @@ ls -l */**(Lk+100)                   # List all files larger than 100kb in this 
 #            ^ keyword.operator.arithmetic.shell
 #             ^^^ constant.numeric.value.shell
 #                ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls DATA_[0-9](#c4,7).csv             # List DATA_nnnn.csv to DATA_nnnnnnn.csv
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7883,12 +8232,12 @@ ls DATA_[0-9](#c4,7).csv             # List DATA_nnnn.csv to DATA_nnnnnnn.csv
 #           ^ punctuation.definition.set.end.regexp.shell
 #            ^^^^^^^ meta.modifier.glob.shell.zsh
 #            ^^ punctuation.definition.modifier.begin.shell.zsh
-#              ^^^^ storage.modifier.mode.glob.shell.zsh
+#              ^ storage.modifier.mode.glob.shell.zsh
+#               ^ constant.numeric.value.shell
 #                ^ punctuation.separator.sequence.shell
+#                 ^ constant.numeric.value.shell
 #                  ^ punctuation.definition.modifier.end.shell.zsh
 #                   ^^^^ string.unquoted.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 rm ../debianpackage(.)               # Remove files only
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7913,8 +8262,6 @@ ls -d *(/)                           # List directories only
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.glob.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls /etc/*(@)                         # List symlinks only
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7954,16 +8301,12 @@ ls *(*)                              # List executables only
 #   ^ punctuation.definition.modifier.begin.shell.zsh
 #    ^ storage.modifier.glob.shell.zsh
 #     ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls /etc/**/zsh                       # Which directories contain zsh?
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
 # ^^^^^^^^^^^^ meta.function-call.arguments.shell
 #  ^^^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #       ^^ constant.other.wildcard.asterisk.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls **/*(-@)                          # List dangling symlinks (** recurses down directory trees)
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7977,8 +8320,6 @@ ls **/*(-@)                          # List dangling symlinks (** recurses down 
 #       ^ keyword.operator.logical.shell.zsh
 #        ^ storage.modifier.glob.shell.zsh
 #         ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls foo*~*bar*                        # Match everything that starts with foo but doesn't contain bar
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -7988,8 +8329,6 @@ ls foo*~*bar*                        # Match everything that starts with foo but
 #      ^ keyword.operator.logical.regexp.shell.zsh
 #       ^ constant.other.wildcard.asterisk.shell
 #           ^ constant.other.wildcard.asterisk.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls *(e:'file $REPLY | grep -q JPEG':) # Match all files of which file says that they are JPEGs
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8016,8 +8355,6 @@ ls *(e:'file $REPLY | grep -q JPEG':) # Match all files of which file says that 
 #                                 ^ punctuation.definition.quoted.end.shell
 #                                  ^ punctuation.definition.quoted.end.shell.zsh
 #                                   ^ punctuation.definition.modifier.end.shell.zsh
-#                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                     ^ punctuation.definition.comment.shell
 
 ls -ldrt -- *(mm+15)                 # List all files older than 15mins
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8034,8 +8371,6 @@ ls -ldrt -- *(mm+15)                 # List all files older than 15mins
 #               ^ keyword.operator.arithmetic.shell
 #                ^^ constant.numeric.value.shell
 #                  ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -ldrt -- *(.mm+15)                # List just regular files
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8052,8 +8387,6 @@ ls -ldrt -- *(.mm+15)                # List just regular files
 #                ^ keyword.operator.arithmetic.shell
 #                 ^^ constant.numeric.value.shell
 #                   ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -ld /my/path/**/*(D@-^@)          # List the unbroken symlinks under a directory
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8070,8 +8403,6 @@ ls -ld /my/path/**/*(D@-^@)          # List the unbroken symlinks under a direct
 #                      ^^ keyword.operator.logical.shell.zsh
 #                        ^ storage.modifier.glob.shell.zsh
 #                         ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -Lldrt -- *(-mm+15)               # List the age of the pointed-to file for symlinks
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8089,8 +8420,6 @@ ls -Lldrt -- *(-mm+15)               # List the age of the pointed-to file for s
 #                 ^ keyword.operator.arithmetic.shell
 #                  ^^ constant.numeric.value.shell
 #                    ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l **/README                      # Search for README in all Subdirectories
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8099,8 +8428,6 @@ ls -l **/README                      # Search for README in all Subdirectories
 #  ^ punctuation.definition.parameter.shell
 #     ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #     ^^ constant.other.wildcard.asterisk.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l foo<23->                       # List files beginning at foo23 upwards (foo23, foo24, foo25, ..)
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8114,8 +8441,6 @@ ls -l foo<23->                       # List files beginning at foo23 upwards (fo
 #         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #           ^ keyword.operator.range.shell.zsh
 #            ^ punctuation.definition.range.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l 200406{04..10}*(N)             # List all files that begin with the date strings from June 4 through June 9 of 2004
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8135,8 +8460,6 @@ ls -l 200406{04..10}*(N)             # List all files that begin with the date s
 #                    ^ punctuation.definition.modifier.begin.shell.zsh
 #                     ^ storage.modifier.glob.shell.zsh
 #                      ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l 200406<4-10>.*                 # List will match the form of 200406XX
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8153,8 +8476,6 @@ ls -l 200406<4-10>.*                 # List will match the form of 200406XX
 #                ^ punctuation.definition.range.end.shell.zsh
 #                 ^^ string.unquoted.shell
 #                  ^ constant.other.wildcard.asterisk.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l *.(c|h)                        # Show only all *.c and *.h files
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8168,8 +8489,6 @@ ls -l *.(c|h)                        # Show only all *.c and *.h files
 #       ^ punctuation.section.group.begin.regexp.shell
 #         ^ keyword.operator.alternation.regexp.shell
 #           ^ punctuation.section.group.end.regexp.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l *(R)                           # Show only world-readable files
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8182,8 +8501,6 @@ ls -l *(R)                           # Show only world-readable files
 #      ^ punctuation.definition.modifier.begin.shell.zsh
 #       ^ storage.modifier.glob.shell.zsh
 #        ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -fld *(OL)                        # Sort the output from ls -l by file size
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8196,8 +8513,6 @@ ls -fld *(OL)                        # Sort the output from ls -l by file size
 #        ^ punctuation.definition.modifier.begin.shell.zsh
 #         ^^ storage.modifier.glob.shell.zsh
 #           ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -fl *(DOL[1,5])                   # Print only 5 lines by the ls command (is equal to: ls -laS | head -n 5)
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8217,8 +8532,6 @@ ls -fl *(DOL[1,5])                   # Print only 5 lines by the ls command (is 
 #              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #               ^ punctuation.definition.range.end.shell.zsh
 #                ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls -l *(G[users])                    # Show only files are owned from group users
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8235,8 +8548,6 @@ ls -l *(G[users])                    # Show only files are owned from group user
 #         ^^^^^ string.quoted.other.shell.zsh
 #              ^ punctuation.definition.quoted.end.shell.zsh
 #               ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls *(L0f.go-w.)                      # Show only empty files which nor group or world writable
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8253,8 +8564,6 @@ ls *(L0f.go-w.)                      # Show only empty files which nor group or 
 #        ^^^^ string.quoted.other.shell.zsh
 #            ^ punctuation.definition.quoted.end.shell.zsh
 #             ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 ls *.c~foo.c                         # Show only all *.c files and ignore foo.c
 #^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
@@ -8262,8 +8571,6 @@ ls *.c~foo.c                         # Show only all *.c files and ignore foo.c
 #  ^^^^^^^^^ meta.string.glob.shell string.unquoted.shell
 #  ^ constant.other.wildcard.asterisk.shell
 #     ^ keyword.operator.logical.regexp.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directories, list their contents, and output the first item in the above list
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8299,15 +8606,13 @@ print -rl /home/me/**/*(D/e{'reply=($REPLY/*(N[-1]:t))'})  # Find all directorie
 #                                              ^ keyword.operator.arithmetic.shell
 #                                               ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                                ^ punctuation.definition.range.end.shell.zsh
-#                                                 ^ punctuation.separator.sequence.shell.zsh
+#                                                 ^ punctuation.separator.modifier.shell.zsh
 #                                                  ^ storage.modifier.glob.shell.zsh
 #                                                   ^ punctuation.definition.modifier.end.shell.zsh
 #                                                    ^ punctuation.section.sequence.end.shell
 #                                                     ^ punctuation.definition.quoted.end.shell
 #                                                      ^ punctuation.definition.quoted.end.shell.zsh
 #                                                       ^ punctuation.definition.modifier.end.shell.zsh
-#                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                                          ^ punctuation.definition.comment.shell
 
 print -rl /**/*~^*/path(|/*)         # Find command to search for directory name instead of basename
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8325,8 +8630,6 @@ print -rl /**/*~^*/path(|/*)         # Find command to search for directory name
 #                       ^ keyword.operator.alternation.regexp.shell
 #                         ^ constant.other.wildcard.asterisk.shell
 #                          ^ punctuation.section.group.end.regexp.shell
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 print -l ~/*(ND.^w)                  # List files in the current directory that are not writable by the owner
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8343,8 +8646,6 @@ print -l ~/*(ND.^w)                  # List files in the current directory that 
 #               ^ keyword.operator.logical.shell.zsh
 #                ^ storage.modifier.glob.shell.zsh
 #                 ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 print -rl -- *(Dmh+10^/)             # List all files which have not been updated in the last 10 hours
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8363,8 +8664,6 @@ print -rl -- *(Dmh+10^/)             # List all files which have not been update
 #                    ^ keyword.operator.logical.shell.zsh
 #                     ^ storage.modifier.glob.shell.zsh
 #                      ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 print -rl -- **/*(Dom[1,10])         # List the ten newest files in directories and subdirectories (recursive)
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8387,8 +8686,6 @@ print -rl -- **/*(Dom[1,10])         # List the ten newest files in directories 
 #                       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                         ^ punctuation.definition.range.end.shell.zsh
 #                          ^ punctuation.definition.modifier.end.shell.zsh
-#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                    ^ punctuation.definition.comment.shell
 
 print -rl -- /path/to/dir/**/*(D.om[5,10])  # Display the 5-10 last modified files
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8411,8 +8708,6 @@ print -rl -- /path/to/dir/**/*(D.om[5,10])  # Display the 5-10 last modified fil
 #                                     ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                       ^ punctuation.definition.range.end.shell.zsh
 #                                        ^ punctuation.definition.modifier.end.shell.zsh
-#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                           ^ punctuation.definition.comment.shell
 
 print -rl -- **/*.c(D.OL[1,10]:h) | sort -u # Print the path of the directories holding the ten biggest C regular files in the current directory and subdirectories
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8434,7 +8729,7 @@ print -rl -- **/*.c(D.OL[1,10]:h) | sort -u # Print the path of the directories 
 #                         ^ punctuation.separator.sequence.shell
 #                          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                            ^ punctuation.definition.range.end.shell.zsh
-#                             ^ punctuation.separator.sequence.shell.zsh
+#                             ^ punctuation.separator.modifier.shell.zsh
 #                              ^ storage.modifier.glob.shell.zsh
 #                               ^ punctuation.definition.modifier.end.shell.zsh
 #                                 ^ keyword.operator.assignment.pipe.shell
@@ -8442,8 +8737,6 @@ print -rl -- **/*.c(D.OL[1,10]:h) | sort -u # Print the path of the directories 
 #                                       ^^^ meta.function-call.arguments.shell
 #                                        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                        ^ punctuation.definition.parameter.shell
-#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                           ^ punctuation.definition.comment.shell
 
 print directory/**/*(om[1])                 # Find most recent file in a directory
 #^^^^ meta.function-call.identifier.shell meta.command.shell support.function.shell
@@ -8490,27 +8783,25 @@ for a in ./**/*\ *(Dod); do mv $a ${a:h}/${a:t:gs/ /_}; done   # Remove spaces f
 #                                 ^ punctuation.definition.variable.shell
 #                                  ^ punctuation.section.interpolation.begin.shell
 #                                   ^ variable.other.readwrite.shell
-#                                    ^ keyword.operator.substring.begin.shell
-#                                     ^ meta.arithmetic.shell variable.other.readwrite.shell
+#                                    ^ punctuation.separator.modifier.shell.zsh
+#                                     ^ storage.modifier.glob.shell.zsh
 #                                      ^ punctuation.section.interpolation.end.shell
 #                                       ^ string.unquoted.shell
 #                                        ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
 #                                        ^ punctuation.definition.variable.shell
 #                                         ^ punctuation.section.interpolation.begin.shell
 #                                          ^ variable.other.readwrite.shell
-#                                           ^ keyword.operator.substring.begin.shell
-#                                            ^ meta.arithmetic.shell variable.other.readwrite.shell
-#                                             ^ keyword.operator.substring.end.shell
-#                                              ^^^^^^ meta.arithmetic.shell
-#                                              ^^ variable.other.readwrite.shell
-#                                                ^ keyword.operator.arithmetic.shell
-#                                                  ^ keyword.operator.arithmetic.shell
-#                                                   ^ variable.other.readwrite.shell
+#                                           ^ punctuation.separator.modifier.shell.zsh
+#                                            ^ storage.modifier.glob.shell.zsh
+#                                             ^ punctuation.separator.modifier.shell.zsh
+#                                              ^^^^^^ meta.substitution.shell.zsh
+#                                              ^^ support.function.substitution.shell.zsh
+#                                                ^ keyword.operator.substitution.shell.zsh
+#                                                  ^ keyword.operator.substitution.shell.zsh
+#                                                   ^ meta.string.regexp.shell string.unquoted.shell
 #                                                    ^ punctuation.section.interpolation.end.shell
 #                                                     ^ punctuation.terminator.statement.shell
 #                                                       ^^^^ keyword.control.loop.end.shell
-#                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-#                                                              ^ punctuation.definition.comment.shell
 
 
 ##############################################################################
@@ -8662,9 +8953,9 @@ echo $var[1] World
 #                  ^ punctuation.definition.quoted.end.shell
 #                   ^ punctuation.section.item-access.end.shell
 
-# Everything not looking like an arithmetic
-# expression is scoped plain string
-# -----------------------------------------
+
+## Everything not looking like an arithmetic expression is scoped plain string
+## ----------------------------------------------------------------------------
 
 : $var[my.key]
 # ^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
@@ -8755,8 +9046,9 @@ echo $var[1] World
 #               ^^^^ constant.character.escape.shell
 #                    ^ punctuation.section.item-access.end.shell
 
-# extended parameter expansions in braces
-# ---------------------------------------
+
+## extended parameter expansions in braces
+## ----------------------------------------------------------------------------
 
 : ${var[4,1][2]}
 # ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access - string
@@ -8860,9 +9152,9 @@ echo $var[1] World
 #                    ^ punctuation.section.item-access.end.shell
 #                     ^ punctuation.section.interpolation.end.shell
 
-# Everything not looking like an arithmetic
-# expression is scoped plain string
-# -----------------------------------------
+
+## Everything not looking like an arithmetic expression is scoped plain string
+## ----------------------------------------------------------------------------
 
 : ${var[my.key]}
 # ^^^^^ meta.string.glob.shell meta.interpolation.parameter.shell - meta.item-access
