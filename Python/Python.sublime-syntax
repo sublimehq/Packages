@@ -59,9 +59,6 @@ variables:
 
   string_prefix: '[bBfFrRtTuU]{,2}'
 
-  # Prefer ranged quantifiers over python interpolation in raw f-strings
-  fstring_regexp_interpolation_begin: '\{(?!\d+(?:,\d*)?\})'
-
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
@@ -3012,7 +3009,7 @@ contexts:
   triple-double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: '{{fstring_regexp_interpolation_begin}}'
+    - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3357,7 +3354,7 @@ contexts:
   double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: '{{fstring_regexp_interpolation_begin}}'
+    - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3697,7 +3694,7 @@ contexts:
   triple-single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: '{{fstring_regexp_interpolation_begin}}'
+    - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -4042,7 +4039,7 @@ contexts:
   single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
     - include: f-string-replacements-regexp
-    - match: '{{fstring_regexp_interpolation_begin}}'
+    - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
