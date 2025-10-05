@@ -1736,3 +1736,8 @@ _query = <<-SQL
 #             ^^^^^ meta.table-name.sql
   VALUES (1, 2, 3)
 SQL
+
+__END__
+#^^^^^^ meta.string.ruby
+  if end
+# ^^^^^^ text.plain
