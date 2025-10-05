@@ -683,7 +683,9 @@ contexts:
   imports-from-body:
     - meta_scope: meta.statement.import.python
     - meta_content_scope: meta.import-source.python
-    - include: imports-from-import
+    - match: import\b
+      scope: keyword.control.import.python
+      set: imports-from-import-body
     - match: as\b
       scope: keyword.control.import.as.python
       set: imports-from-import-names
@@ -702,28 +704,17 @@ contexts:
     - include: line-continuation-or-pop
     - include: else-pop
 
-  imports-from-import:
-    - meta_include_prototype: false
-    - match: import\b
-      scope: keyword.control.import.python
-      set: imports-from-import-body
-
   imports-from-import-body:
-    - meta_scope: meta.statement.import.python
+    - meta_content_scope: meta.statement.import.python
     - include: line-continuation-or-pop
     - match: \*
-      scope: constant.other.wildcard.asterisk.python
+      scope: meta.statement.import.python constant.other.wildcard.asterisk.python
       set: expect-import-end
-    - match: (?=\()
-      set: imports-from-import-list
-    - match: (?=\S)
-      set: imports-from-import-names
-
-  imports-from-import-list:
-    - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.import-list.begin.python
       set: imports-from-import-list-body
+    - match: (?=\S)
+      set: imports-from-import-names
 
   imports-from-import-list-body:
     - meta_scope: meta.statement.import.python meta.import-list.python
@@ -751,7 +742,7 @@ contexts:
       scope: invalid.illegal.name.import.python
 
   imports-from-import-names:
-    - meta_scope: meta.statement.import.python
+    - meta_content_scope: meta.statement.import.python
     - include: line-continuation-or-pop
     - include: imports-as
     - include: import-names
