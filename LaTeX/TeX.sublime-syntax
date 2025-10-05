@@ -140,14 +140,14 @@ contexts:
     - include: general-constants
     - include: general-commands
 
-###[ COMMENTS ]#################################################################
+###[ COMMENTS ]################################################################
 
   comments:
     - match: '%.*$\n?'
       scope: comment.line.percentage.tex
     - include: merge-conflict-markers
 
-###[ MERGE CONFLICT MARKERS ]###################################################
+###[ MERGE CONFLICT MARKERS ]##################################################
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
@@ -167,7 +167,7 @@ contexts:
         1: punctuation.section.block.diff
         2: entity.name.section.diff
 
-###[ BLOCKS ]###################################################################
+###[ BLOCKS ]##################################################################
 
   braces:
     - match: \{
@@ -203,7 +203,7 @@ contexts:
     - include: brace-group-end
     - include: main
 
-###[ CHARACTER CODES ]##########################################################
+###[ CHARACTER CODES ]#########################################################
 
   character-codes:
     - match: (\\)(?:cat|math|uc|lc|del|sf)code{{endcs}}
@@ -238,7 +238,7 @@ contexts:
     - include: else-pop
     - include: paragraph-pop
 
-###[ CONTROLS ]#################################################################
+###[ CONTROLS ]################################################################
 
   controls:
     - match: (\\)ifcase{{endcs}}
@@ -282,7 +282,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-###[ COMMANDS ]#################################################################
+###[ COMMANDS ]################################################################
 
   general-commands:
     - match: (\\){{letter}}+
@@ -290,7 +290,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-###[ CONSTANTS ]################################################################
+###[ CONSTANTS ]###############################################################
 
   general-constants:
     - match: \\\\
@@ -320,7 +320,7 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-###[ REGISTERS ]################################################################
+###[ REGISTERS ]###############################################################
 
   registers:
     - include: register-allocations
@@ -376,7 +376,7 @@ contexts:
     - include: paragraph-pop
     - include: else-pop
 
-###[ NUMBERS ]##################################################################
+###[ NUMBERS ]#################################################################
 
   # These match integers/floats that are written in a simple form, i.e. not extending
   # across lines
@@ -407,8 +407,7 @@ contexts:
         4: constant.character.tex
       pop: 1
 
-
-###[ DIMENSIONS ]###############################################################
+###[ DIMENSIONS ]##############################################################
 
   tex-assignment:
     - match: =
