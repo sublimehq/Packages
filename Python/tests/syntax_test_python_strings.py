@@ -1427,8 +1427,12 @@ fr"{var}? {var}* [{foo}-{bar},{{}}]+ {var}{2,3} {var}{{2,3}} {var}{{{beg},{end}}
 #              ^ keyword.operator.quantifier.regexp
 #                                  ^ keyword.operator.quantifier.regexp
 #                                         ^^^^^ - keyword.operator
-#                                                    ^^^^^^^ - keyword.operator
-#                                                                 ^^^^^^^^^^^^^^^ - keyword.operator
+#                                                    ^^^^^^^ keyword.operator.quantifier.regexp
+#                                                                 ^^ keyword.operator.quantifier.regexp
+#                                                                   ^^^^^ - keyword.operator
+#                                                                        ^ keyword.operator.quantifier.regexp
+#                                                                         ^^^^^ - keyword.operator
+#                                                                              ^^ keyword.operator.quantifier.regexp
 
 fr'{var}? {var}* [{foo}-{bar},{{}}]+ {var}{2,3} {var}{{2,3}} {var}{{{beg},{end}}}'
 # ^ meta.string.python string.quoted
@@ -1454,8 +1458,12 @@ fr'{var}? {var}* [{foo}-{bar},{{}}]+ {var}{2,3} {var}{{2,3}} {var}{{{beg},{end}}
 #              ^ keyword.operator.quantifier.regexp
 #                                  ^ keyword.operator.quantifier.regexp
 #                                         ^^^^^ - keyword.operator
-#                                                    ^^^^^^^ - keyword.operator
-#                                                                 ^^^^^^^^^^^^^^^ - keyword.operator
+#                                                    ^^^^^^^ keyword.operator.quantifier.regexp
+#                                                                 ^^ keyword.operator.quantifier.regexp
+#                                                                   ^^^^^ - keyword.operator
+#                                                                        ^ keyword.operator.quantifier.regexp
+#                                                                         ^^^^^ - keyword.operator
+#                                                                              ^^ keyword.operator.quantifier.regexp
 
 # Most of these were inspired by
 # https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
@@ -1797,8 +1805,12 @@ fr"""
 #        ^ keyword.operator.quantifier.regexp
 #               ^ keyword.operator.quantifier.regexp
 #                                     ^^^^^ - keyword.operator
-#                                                ^^^^^^^ - keyword.operator
-#                                                             ^^^^^^^^^^^^^^^ - keyword.operator
+#                                                ^^^^^^^ keyword.operator.quantifier.regexp
+#                                                             ^^ keyword.operator.quantifier.regexp
+#                                                               ^^^^^ - keyword.operator
+#                                                                    ^ keyword.operator.quantifier.regexp
+#                                                                     ^^^^^ - keyword.operator
+#                                                                          ^^ keyword.operator.quantifier.regexp
 """
 # <- meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
 #^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
@@ -1835,8 +1847,12 @@ fr'''
 #        ^ keyword.operator.quantifier.regexp
 #               ^ keyword.operator.quantifier.regexp
 #                                     ^^^^^ - keyword.operator
-#                                                ^^^^^^^ - keyword.operator
-#                                                             ^^^^^^^^^^^^^^^ - keyword.operator
+#                                                ^^^^^^^ keyword.operator.quantifier.regexp
+#                                                             ^^ keyword.operator.quantifier.regexp
+#                                                               ^^^^^ - keyword.operator
+#                                                                    ^ keyword.operator.quantifier.regexp
+#                                                                     ^^^^^ - keyword.operator
+#                                                                          ^^ keyword.operator.quantifier.regexp
 '''
 # <- meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
 #^^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python

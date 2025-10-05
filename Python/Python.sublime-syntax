@@ -2790,7 +2790,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.block.python source.regexp.python
     - include: triple-double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal-extended
+      push: scope:source.regexp.python.embedded.raw-f-string#base-literal-extended
       with_prototype:
         - include: triple-double-quoted-string-pop
         - include: triple-double-quoted-raw-f-string-content
@@ -2998,7 +2998,8 @@ contexts:
       fail: triple-double-quoted-string-replacement
 
   triple-double-quoted-f-string-replacements:
-    - include: f-string-replacements
+    - include: escaped-f-string-braces
+    - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
@@ -3008,8 +3009,9 @@ contexts:
 
   triple-double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
-    - include: f-string-replacements-regexp
-    - match: \{
+    # Escaped f-string characters are handled by regexp syntax.
+    - include: invalid-f-string-replacements
+    - match: \{(?!{)
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3140,7 +3142,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.double.python source.regexp.python
     - include: double-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python.embedded.raw-f-string#base-literal
       with_prototype:
         - include: double-quoted-string-pop
         - include: double-quoted-raw-f-string-content
@@ -3343,7 +3345,8 @@ contexts:
       fail: double-quoted-string-replacement
 
   double-quoted-f-string-replacements:
-    - include: f-string-replacements
+    - include: escaped-f-string-braces
+    - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
@@ -3353,8 +3356,9 @@ contexts:
 
   double-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
-    - include: f-string-replacements-regexp
-    - match: \{
+    # Escaped f-string characters are handled by regexp syntax.
+    - include: invalid-f-string-replacements
+    - match: \{(?!{)
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3476,7 +3480,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.block.python source.regexp.python
     - include: triple-single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal-extended
+      push: scope:source.regexp.python.embedded.raw-f-string#base-literal-extended
       with_prototype:
         - include: triple-single-quoted-string-pop
         - include: triple-single-quoted-raw-f-string-content
@@ -3683,7 +3687,8 @@ contexts:
       fail: triple-single-quoted-string-replacement
 
   triple-single-quoted-f-string-replacements:
-    - include: f-string-replacements
+    - include: escaped-f-string-braces
+    - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
@@ -3693,8 +3698,9 @@ contexts:
 
   triple-single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
-    - include: f-string-replacements-regexp
-    - match: \{
+    # Escaped f-string characters are handled by regexp syntax.
+    - include: invalid-f-string-replacements
+    - match: \{(?!{)
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -3893,7 +3899,7 @@ contexts:
     - meta_content_scope: meta.string.python string.quoted.single.python source.regexp.python
     - include: single-quoted-string-end
     - match: ''
-      push: scope:source.regexp.python#base-literal
+      push: scope:source.regexp.python.embedded.raw-f-string#base-literal
       with_prototype:
         - include: single-quoted-string-pop
         - include: single-quoted-raw-f-string-content
@@ -4028,7 +4034,8 @@ contexts:
       fail: single-quoted-string-replacement
 
   single-quoted-f-string-replacements:
-    - include: f-string-replacements
+    - include: escaped-f-string-braces
+    - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
       push:
@@ -4038,8 +4045,9 @@ contexts:
 
   single-quoted-f-string-replacements-regexp:
     # Same as f-string-replacements, but will reset the entire scope stack.
-    - include: f-string-replacements-regexp
-    - match: \{
+    # Escaped f-string characters are handled by regexp syntax.
+    - include: invalid-f-string-replacements
+    - match: \{(?!{)
       scope: punctuation.section.interpolation.begin.python
       push:
         - f-string-replacement-regexp-meta
@@ -4100,6 +4108,15 @@ contexts:
     # but don't scope them as escapes as they are treated literal
     - match: \\[\\'"]
 
+  escaped-f-string-braces:
+    # https://peps.python.org/pep-0498
+    # https://peps.python.org/pep-0701
+    # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
+    - match: (\\)?(?:\{\{|\}\})
+      scope: constant.character.escape.python
+      captures:
+        1: invalid.deprecated.character.escape.python
+
   escaped-string-braces:
     - match: \{\{|\}\}
       scope: constant.character.escape.python
@@ -4152,30 +4169,11 @@ contexts:
     - match: \{
       pop: 1
 
-  f-string-replacements:
-    # https://peps.python.org/pep-0498
-    # https://peps.python.org/pep-0701
-    # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
-    - match: (\\)?(?:\{\{|\}\})
-      scope: constant.character.escape.python
-      captures:
-        1: invalid.deprecated.character.escape.python
-    - include: invalid-f-string-replacements
-
   f-string-replacement-meta:
     - clear_scopes: 1
     - meta_include_prototype: false
     - meta_scope: meta.interpolation.python
     - include: immediately-pop
-
-  f-string-replacements-regexp:
-    # Same as f-string-replacements, but will reset the entire scope stack
-    # and has an additional match.
-    - match: \\?(\{\{|\}\})
-      scope: constant.character.escape.regexp
-      captures:
-        1: constant.character.escape.python
-    - include: invalid-f-string-replacements
 
   f-string-replacement-regexp-meta:
     # Same as f-string-replacement, but with clear_scopes: true
@@ -4202,7 +4200,8 @@ contexts:
   invalid-f-string-replacements:
     - match: \{\s*\}
       scope: invalid.illegal.empty-expression.python
-    - include: illegal-stray-braces
+    - match: \}(?!})
+      scope: invalid.illegal.stray.python
 
   # for use by inheriting syntaxes to easily inject string interpolation
   # in any kind of quoted or unquoted string

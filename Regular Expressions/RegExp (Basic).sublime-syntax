@@ -71,9 +71,10 @@ contexts:
     - include: anchors
     - include: backrefs
     - include: switches
-    - include: escaped-chars
     - include: charsets
     - include: operators
+    - include: quantifiers
+    - include: escaped-chars
 
   extended-patterns:
     - include: line-comments
@@ -301,7 +302,6 @@ contexts:
       push: maybe-unexpected-quantifiers
 
   literals:
-    - include: quantifiers
     - match: \.
       scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
     - match: \)
