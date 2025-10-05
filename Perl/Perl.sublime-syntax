@@ -385,7 +385,7 @@ contexts:
 ###[ DATA SECTION ]############################################################
 
   data-section:
-    - match: ^__END__$
+    - match: ^__(?:DATA|END)__$
       scope: keyword.control.flow.end.perl
       set: data-section-body
 
