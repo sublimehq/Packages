@@ -11,8 +11,10 @@ extends: Packages/JSON/JSON.sublime-syntax
 contexts:
   prototype:
     - meta_prepend: true
-    - include: scope:source.ts#text-interpolations
+    - include: scope:source.ts.plain#literal-string-template-end-ahead
+    - include: scope:source.ts.plain#text-interpolations
 
   string-prototype:
     - meta_prepend: true
-    - include: scope:source.ts#string-interpolations
+    - include: scope:source.ts.plain#literal-string-template-end-ahead
+    - include: scope:source.ts.plain#string-interpolations
