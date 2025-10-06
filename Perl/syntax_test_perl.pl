@@ -1656,8 +1656,6 @@ $var = <<~"EOF" # comment
 # ^^^^^^^^ constant.language.perl
   __LINE__
 # ^^^^^^^^ constant.language.perl
-  __END__
-# ^^^^^^^ constant.language.perl
 
   # note: language constants keep their scope
   ARGV
@@ -5824,3 +5822,36 @@ _EOT_
 #                                                            ^^^^ keyword.control.flow.redo.perl
 #                                                                 ^^^^ variable.label.perl
 #                                                                      ^^ keyword.control.conditional.if.perl
+
+__END__
+# <- keyword.control.flow.end.perl
+# ^^^^^ keyword.control.flow.end.perl
+
+# no more syntax highlighting after __END__
+# <- text.plain - source - comment
+
+__END__
+# <- text.plain - source - entity
+#^^^^^^ text.plain - source - entity
+
+  if else
+# ^^^^^^^ text.plain - keyword
+
+<<<<<<< HEAD
+#  <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+#  <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+#  <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
