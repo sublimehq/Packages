@@ -144,3 +144,80 @@ trait t {}
 //    ^ meta.trait entity.name.trait
 
 // <- - meta
+
+
+// trait aliases
+pub trait RKey = redb::Key + 'static + for<'a> From<<Self as redb::Value>::SelfType<'a>>;
+//^ storage.modifier.rust
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait.rust
+//  ^^^^^ keyword.declaration.trait.rust
+//        ^^^^ entity.name.trait.rust
+//             ^ keyword.operator.assignment.rust
+//               ^^^^^^^^^ meta.path.rust
+//               ^^^^ variable.other.rust
+//                   ^^ meta.path.rust punctuation.accessor.rust
+//                     ^^^ storage.type.rust
+//                         ^ keyword.operator.arithmetic.union.rust
+//                           ^^^^^^^ storage.modifier.lifetime.rust
+//                                   ^ keyword.operator.arithmetic.union.rust
+//                                     ^^^ keyword.other.rust
+//                                        ^^^^^ meta.generic.rust
+//                                        ^ punctuation.definition.generic.begin.rust
+//                                         ^^ storage.modifier.lifetime.rust
+//                                           ^ punctuation.definition.generic.end.rust
+//                                             ^^^^ support.type.rust
+//                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
+//                                                 ^ punctuation.definition.generic.begin.rust
+//                                                  ^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
+//                                                  ^ punctuation.definition.generic.begin.rust
+//                                                   ^^^^ storage.type.rust
+//                                                        ^^ keyword.operator.rust
+//                                                           ^^^^^^^^^^^ meta.path.rust
+//                                                           ^^^^ variable.other.rust
+//                                                               ^^ meta.path.rust punctuation.accessor.rust
+//                                                                 ^^^^^ storage.type.rust
+//                                                                      ^ punctuation.definition.generic.end.rust
+//                                                                       ^^^^^^^^^^ meta.path.rust
+//                                                                       ^^ punctuation.accessor.rust
+//                                                                         ^^^^^^^^ storage.type.rust
+//                                                                                 ^^^^ meta.generic.rust
+//                                                                                 ^ punctuation.definition.generic.begin.rust
+//                                                                                  ^^ storage.modifier.lifetime.rust
+//                                                                                    ^ punctuation.definition.generic.end.rust
+//                                                                                     ^ punctuation.definition.generic.end.rust
+//                                                                                      ^ punctuation.terminator.rust
+
+pub trait RKeyBorrowed = RKey + for<'a> Borrow<<Self as redb::Value>::SelfType<'a>>;
+//^ storage.modifier.rust
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.trait.rust
+//  ^^^^^ keyword.declaration.trait.rust
+//        ^^^^^^^^^^^^ entity.name.trait.rust
+//                     ^ keyword.operator.assignment.rust
+//                       ^^^^ storage.type.rust
+//                            ^ keyword.operator.arithmetic.union.rust
+//                              ^^^ keyword.other.rust
+//                                 ^^^^^ meta.generic.rust
+//                                 ^ punctuation.definition.generic.begin.rust
+//                                  ^^ storage.modifier.lifetime.rust
+//                                    ^ punctuation.definition.generic.end.rust
+//                                      ^^^^^^ storage.type.rust
+//                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
+//                                            ^ punctuation.definition.generic.begin.rust
+//                                             ^^^^^^^^^^^^^^^^^^^^^ meta.generic.rust
+//                                             ^ punctuation.definition.generic.begin.rust
+//                                              ^^^^ storage.type.rust
+//                                                   ^^ keyword.operator.rust
+//                                                      ^^^^^^^^^^^ meta.path.rust
+//                                                      ^^^^ variable.other.rust
+//                                                          ^^ meta.path.rust punctuation.accessor.rust
+//                                                            ^^^^^ storage.type.rust
+//                                                                 ^ punctuation.definition.generic.end.rust
+//                                                                  ^^^^^^^^^^ meta.path.rust
+//                                                                  ^^ punctuation.accessor.rust
+//                                                                    ^^^^^^^^ storage.type.rust
+//                                                                            ^^^^ meta.generic.rust
+//                                                                            ^ punctuation.definition.generic.begin.rust
+//                                                                             ^^ storage.modifier.lifetime.rust
+//                                                                               ^ punctuation.definition.generic.end.rust
+//                                                                                ^ punctuation.definition.generic.end.rust
+//                                                                                 ^ punctuation.terminator.rust

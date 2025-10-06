@@ -259,6 +259,10 @@ contexts:
         - match: '(?=<)'
           push: generic-angles
         - include: trait-block
+        - include: terminator
+        - match: '='
+          scope: keyword.operator.assignment.rust
+          push: impl-where
 
     - match: '\bimpl\b'
       scope: keyword.declaration.impl.rust
