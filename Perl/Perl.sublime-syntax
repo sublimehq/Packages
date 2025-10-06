@@ -362,7 +362,6 @@ contexts:
     - include: literal-angle-nested
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
-###[ MERGE CONFLICT MARKERS ]##################################################
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
