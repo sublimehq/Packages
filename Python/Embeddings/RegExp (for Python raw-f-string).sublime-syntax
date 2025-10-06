@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+scope: source.regexp.python.embedded.raw-f-string
+version: 2
+hidden: true
+
+extends: RegExp (for Python).sublime-syntax
+
+variables:
+  brace_start: \{\{
+  brace_end: \}\}
+
+contexts:
+  escaped-chars:
+    - meta_prepend: true
+    - match: \\({{brace_start}}|{{brace_end}})
+      scope: constant.character.escape.regexp
+      captures:
+        1: constant.character.escape.python
+    - match: (?:{{brace_start}}|{{brace_end}})
+      scope: constant.character.escape.python

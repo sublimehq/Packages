@@ -17,6 +17,11 @@ variables:
   capture_group_name: (?:[[:alpha:]_]\w*)
   capture_group: (?:[1-9][0-9]*|{{capture_group_name}})
 
+  # quantifiers
+  ranged_quantifier: '{{brace_start}}\d+(?:,\d*)?{{brace_end}}'
+  brace_start: \{
+  brace_end: \}
+
 contexts:
   base:
     - meta_prepend: true
@@ -64,3 +69,39 @@ contexts:
       scope: punctuation.definition.set.end.regexp
     - match: \)
       scope: punctuation.section.group.end.regexp
+
+  quantifiers:
+    - match: (?={{brace_start}}[\d{])
+      branch_point: ranged-quantifier
+      branch:
+        - ranged-quantifier
+        - ranged-quantifier-fallback
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: keyword.operator.quantifier.regexp
+      push: maybe-unexpected-quantifiers
+
+  ranged-quantifier:
+    - meta_include_prototype: false
+    - match: '{{brace_start}}'
+      scope: keyword.operator.quantifier.regexp
+      set: ranged-quantifier-min
+
+  ranged-quantifier-min:
+    - meta_content_scope: keyword.operator.quantifier.regexp
+    - match: ','
+      scope: keyword.operator.quantifier.regexp
+      set: ranged-quantifier-max
+    - include: ranged-quantifier-max
+
+  ranged-quantifier-max:
+    - meta_content_scope: keyword.operator.quantifier.regexp
+    - match: '{{brace_end}}'
+      scope: keyword.operator.quantifier.regexp
+      set: maybe-unexpected-quantifiers
+    - match: (?!\d)
+      fail: ranged-quantifier
+
+  ranged-quantifier-fallback:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 1
