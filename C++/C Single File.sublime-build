@@ -1,15 +1,28 @@
 {
-	"shell_cmd": "gcc \"${file}\" -o \"${file_path}/${file_base_name}\"",
-	"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-	"working_dir": "${file_path}",
-	"selector": "source.c",
+    "working_dir": "${file_path}",
+    "selector": "source.c",
+    "windows": {
+        "shell_cmd": "cl \"${file}\"",
+        "file_regex": "^(.*)\\(([0-9]*)\\):( )(.*)",
+    },
+    "linux": {
+        "shell_cmd": "gcc \"${file}\" -o \"${file_path}/${file_base_name}\"",
+        "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+    },
 
-	"variants":
-	[
-		{
-			"name": "Run",
-			"shell_cmd": "gcc \"${file}\" -o \"${file_path}/${file_base_name}\" && \"${file_path}/${file_base_name}\"",
-			"interactive": true,
-		}
-	]
+    "variants":
+    [
+        {
+            "name": "Run",
+            "interactive": true,
+            "windows": {
+                "shell_cmd": "cl \"${file}\" && ${file_base_name}",
+                "file_regex": "^(.*)\\(([0-9]*)\\):( )(.*)",
+            },
+            "linux": {
+                "shell_cmd": "gcc \"${file}\" -o \"${file_path}/${file_base_name}\" && \"${file_path}/${file_base_name}\"",
+                "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+            },
+        }
+    ]
 }
