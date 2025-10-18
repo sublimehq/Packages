@@ -1530,7 +1530,7 @@ contexts:
         - table-braced-subquery-body
         - maybe-on-table
     - match: \b(?i:json_table)\b
-      scope: meta.table-valued-function-name.sql support.function.tsql
+      scope: meta.table-valued-function-name.sql support.function.mysql
       set: function-call-arguments
 
   table-braced-subquery-body:

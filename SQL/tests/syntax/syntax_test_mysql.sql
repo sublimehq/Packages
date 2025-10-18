@@ -5365,7 +5365,7 @@ select *
 from
     JSON_TABLE(@ids, '$[*]' COLUMNS (
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
---  ^^^^^^^^^^ meta.table-valued-function-name.sql support.function.tsql
+--  ^^^^^^^^^^ meta.table-valued-function-name.sql support.function.mysql
 --            ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
 --            ^ punctuation.section.arguments.begin.sql
 --             ^^^^ variable.other.sql
