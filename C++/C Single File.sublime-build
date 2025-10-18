@@ -7,6 +7,19 @@
 	"variants":
 	[
 		{
+			"name": "MSVC",
+			"shell_cmd": "cl /nologo \"${file}\"",
+			"file_regex": "^(.*)\\(([0-9]*)\\):( )(.*)",
+			"windows": true,
+		},
+		{
+			"name": "MSVC Run",
+			"shell_cmd": "cl /nologo \"${file}\" && ${file_base_name}",
+			"file_regex": "^(.*)\\(([0-9]*)\\):( )(.*)",
+			"interactive": true,
+			"windows": true,
+		},
+		{
 			"name": "Run",
 			"shell_cmd": "gcc \"${file}\" -o \"${file_path}/${file_base_name}\" && \"${file_path}/${file_base_name}\"",
 			"interactive": true,
