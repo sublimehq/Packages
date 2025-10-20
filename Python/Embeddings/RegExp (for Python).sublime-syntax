@@ -13,10 +13,6 @@ variables:
   deactivate_x_mode: (?:\?[imsLua]*-[imsLua]*x[imxsLua]*)
   other_modifiers: \?(?:[ixmsLua]*-)?[ixmsLua]+
 
-  # capture group identifiers
-  capture_group_name: (?:[[:alpha:]_]\w*)
-  capture_group: (?:[1-9][0-9]*|{{capture_group_name}})
-
   # quantifiers
   ranged_quantifier: '{{brace_start}}\d+(?:,\d*)?{{brace_end}}'
   brace_start: \{
@@ -34,33 +30,64 @@ contexts:
 
   group-start:
     - meta_prepend: true
-    - match: (\?P=)({{capture_group_name}})(?=\))
+    # named capture group back-reference assertion (lookahead)
+    - match: \?P=
+      scope: keyword.other.backref-and-recursion.regexp
+      set: group-assertion-name
+    # named capture group back-reference match (for: regex package)
+    - match: \?&
+      scope: keyword.other.backref-and-recursion.regexp
+      set: group-capturing-name
+    # conditional capture group back-reference
+    - match: \?(\()
       captures:
-        1: keyword.other.back-reference.named.regexp
-        2: variable.other.backref-and-recursion.regexp
-    - match: (\?P)(<)({{capture_group_name}})(>)
+        1: punctuation.definition.capture-group-name.begin.regexp
+      set: group-conditional-name
+    # named capture group definition
+    - match: \?P(<)
       captures:
-        1: keyword.other.backref-and-recursion.regexp
-        2: punctuation.definition.capture-group-name.begin.regexp
-        3: entity.name.capture-group.regexp
-        4: punctuation.definition.capture-group-name.end.regexp
-    # We can make this more sophisticated to match the | character that separates
-    # yes-pattern from no-pattern, but it's not really necessary.
-    - match: (\?)(\()({{capture_group}})(\))
-      captures:
-        1: keyword.other.backref-and-recursion.conditional.regexp
-        2: punctuation.definition.group.begin.assertion.conditional.regexp
-        3: variable.other.back-reference.regexp
-        4: punctuation.definition.group.end.assertion.conditional.regexp
+        1: punctuation.definition.capture-group-name.begin.regexp
+      set: group-definition-name
+
+  group-assertion-name:
+    - meta_content_scope: keyword.other.backref-and-recursion.regexp variable.other.capture-group.regexp
+    - match: \)
+      scope: punctuation.section.group.end.regexp
+      pop: 3
+
+  group-capturing-name:
+    - meta_content_scope: keyword.other.backref-and-recursion.regexp variable.other.capture-group.regexp
+    - match: \)
+      scope: punctuation.section.group.end.regexp
+      pop: 3
+
+  group-conditional-name:
+    - meta_scope: keyword.other.backref-and-recursion.regexp
+    - meta_content_scope: variable.other.capture-group.regexp
+    - match: \)
+      scope: punctuation.definition.capture-group-name.end.regexp
+      pop: 1
+
+  group-definition-name:
+    - meta_scope: keyword.other.backref-and-recursion.regexp
+    - meta_content_scope: entity.name.capture-group.regexp
+    - match: \>
+      scope: punctuation.definition.capture-group-name.end.regexp
+      pop: 1
 
   backrefs:
     - meta_prepend: true
-    - match: \\g(<)({{capture_group}})(>)
-      scope: keyword.other.backref-and-recursion.regexp
+    - match: \\g(<)
       captures:
         1: punctuation.definition.capture-group-name.begin.regexp
-        2: variable.other.backref-and-recursion.regexp
-        3: punctuation.definition.capture-group-name.end.regexp
+      push: backref-name
+
+  backref-name:
+    - meta_scope: keyword.other.backref-and-recursion.regexp
+    - meta_content_scope: variable.other.capture-group.regexp
+    - match: \>
+      scope: punctuation.definition.capture-group-name.end.regexp
+      pop: 1
 
   literals:
     - meta_prepend: true
