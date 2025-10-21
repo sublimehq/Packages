@@ -2,12 +2,21 @@
 ---
 name: Make Output
 hidden: true
-scope: source.build_output
+scope: text.build-results.make
 contexts:
   main:
     - match: '^(..[^:\n]*):([0-9]+):?([0-9]+)?:? '
-      scope: entity.name.filename
-    - match: '\b(warning|error): '
-      scope: message.error
+      captures:
+        1: entity.name.filename.build-results
+        2: constant.numeric.line-number.build-results
+        3: constant.numeric.column-number.build-results
+    - match: '\b(error)(:) '
+      captures:
+        1: message.error.build-results markup.error.build-results
+        2: punctuation.separator.build-results
+    - match: '\b(warning)(:) '
+      captures:
+        1: message.warning.build-results markup.warning.build-results
+        2: punctuation.separator.build-results
     - match: '^\[.+\]$'
-      scope: comment
+      scope: comment.line.build-results
