@@ -1,28 +1,4 @@
 [
-    // Auto-pair asterisks
-    {
-        "keys": ["*"],
-        "command": "insert_snippet",
-        "args": {"contents": "*${0:$SELECTION}*"},
-        "context": [
-            { "key": "setting.auto_match_enabled"},
-            { "key": "selection_empty", "operand": false, "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown - markup.raw" }
-        ]
-    },
-
-    // Auto-pair underscore
-    {
-        "keys": ["_"],
-        "command": "insert_snippet",
-        "args": {"contents": "_${0:$SELECTION}_"},
-        "context": [
-            { "key": "setting.auto_match_enabled"},
-            { "key": "selection_empty", "operand": false, "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown - markup.raw" }
-        ]
-    },
-
     // Auto-pair backticks
     {
         "keys": ["`"],
