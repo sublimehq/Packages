@@ -120,37 +120,48 @@ regex = r"(backref) \1 "
 #                    ^ variable.other.backref-and-recursion.regexp
 #                     ^ - keyword
 
-regex = r'(?P<quote>[\'"]).*?(?P=quote)'
-#          ^^ keyword.other.backref-and-recursion.regexp
+regex = r'(?P<quote>[\'"]).*?(?&quote)'   # `?&` is for the regex package
+#          ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
 #            ^ punctuation.definition.capture-group-name.begin.regexp
 #             ^^^^^ entity.name.capture-group.regexp - invalid
 #                  ^ punctuation.definition.capture-group-name.end.regexp
-#                             ^^^ keyword.other.back-reference.named.regexp
-#                                ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+#                             ^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                               ^^^^^ variable.other.capture-group.regexp
+#                                    ^ - keyword - variable
+
+regex = r'(?P<quote>[\'"]).*?(?P=quote)'
+#          ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#            ^ punctuation.definition.capture-group-name.begin.regexp
+#             ^^^^^ entity.name.capture-group.regexp - invalid
+#                  ^ punctuation.definition.capture-group-name.end.regexp
+#                             ^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#                                ^^^^^ variable.other.capture-group.regexp - invalid
+#                                     ^ - keyword - variable
 
 regex = r'(?P<Quote>[\'"]).*?(?P=Quote)'
-#          ^^ keyword.other.backref-and-recursion.regexp
+#          ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
 #            ^ punctuation.definition.capture-group-name.begin.regexp
 #             ^^^^^ entity.name.capture-group.regexp - invalid
 #                  ^ punctuation.definition.capture-group-name.end.regexp
-#                             ^^^ keyword.other.back-reference.named.regexp
-#                                ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+#                             ^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#                                ^^^^^ variable.other.capture-group.regexp - invalid
+#                                     ^ - keyword - variable
 
 regex = r'(?P<quote>[\'"]).*?\g<quote>'
-#          ^^ keyword.other.backref-and-recursion.regexp
+#          ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
 #            ^ punctuation.definition.capture-group-name.begin.regexp
 #             ^^^^^ entity.name.capture-group.regexp - invalid
 #                  ^ punctuation.definition.capture-group-name.end.regexp
-#                            ^^ keyword.other.backref-and-recursion.regexp
-#                               ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+#                            ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#                               ^^^^^ variable.other.capture-group.regexp - invalid
 
 regex = r'(?P<Quote>[\'"]).*?\g<Quote>'
-#          ^^ keyword.other.backref-and-recursion.regexp
+#          ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
 #            ^ punctuation.definition.capture-group-name.begin.regexp
 #             ^^^^^ entity.name.capture-group.regexp - invalid
 #                  ^ punctuation.definition.capture-group-name.end.regexp
-#                            ^^ keyword.other.backref-and-recursion.regexp
-#                               ^^^^^ variable.other.backref-and-recursion.regexp - invalid
+#                            ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#                               ^^^^^ variable.other.capture-group.regexp - invalid
 
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
 #           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mode.extended.regexp
@@ -1263,19 +1274,19 @@ line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
 #                                           ^^ constant.character.escape.regexp constant.character.escape.python
 
 match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
-#                  ^^^^^^^^^^ meta.group.regexp
+#                  ^^^^^^^^^^^ meta.group.regexp
 #                  ^ punctuation.section.group.begin
-#                   ^^ keyword.other.backref-and-recursion
+#                   ^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
 #                     ^ punctuation.definition.capture-group-name.begin
 #                      ^^^^ entity.name.capture-group
 #                          ^ punctuation.definition.capture-group-name.end
 #                            ^ punctuation.section.group.end
 #                             ^ keyword.operator.quantifier
 #                               ^ punctuation.section.group.begin
-#                                ^ keyword.other.backref-and-recursion.conditional
-#                                 ^ punctuation.definition.group.begin.assertion.conditional
-#                                  ^^^^ variable.other.back-reference
-#                                      ^ punctuation.definition.group.end.assertion.conditional
+#                                ^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#                                 ^ punctuation.definition.capture-group-name.begin.regexp
+#                                  ^^^^ variable.other.capture-group.regexp
+#                                      ^ punctuation.definition.capture-group-name.end.regexp
 #                                        ^ keyword.operator.alternation
 #                                          ^ punctuation.section.group.end
 match = re.match(r'(a)?b(?(1)c|d)', line)
@@ -1284,16 +1295,16 @@ match = re.match(r'(a)?b(?(1)c|d)', line)
 #                    ^ punctuation.section.group.end
 #                     ^ keyword.operator.quantifier
 #                       ^ punctuation.section.group.begin
-#                        ^ keyword.other.backref-and-recursion.conditional
-#                         ^ punctuation.definition.group.begin.assertion.conditional
-#                          ^ variable.other.back-reference - punctuation - keyword
-#                           ^ punctuation.definition.group.end.assertion.conditional
+#                        ^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
+#                         ^ punctuation.definition.capture-group-name.begin.regexp
+#                          ^ variable.other.capture-group.regexp
+#                           ^ punctuation.definition.capture-group-name.end.regexp
 #                             ^ keyword.operator.alternation
 #                               ^ punctuation.section.group.end
 match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
 #                     ^^^^^^^^^^^^^^^ meta.group.regexp
 #                     ^ punctuation.section.group.begin
-#                      ^^ keyword.other.backref-and-recursion
+#                      ^^^^^^^^^ keyword.other.backref-and-recursion.regexp - keyword keyword
 #                        ^ punctuation.definition.capture-group-name.begin
 #                         ^^^^^ entity.name.capture-group
 #                              ^ punctuation.definition.capture-group-name.end
@@ -1303,8 +1314,8 @@ match = re.search(r'''(?P<quote>['"]).*?(?P=quote)''', line)
 #                                   ^ punctuation.section.group.end
 #                                    ^ keyword.other.any - meta.group
 #                                     ^^ keyword.operator.quantifier
-#                                        ^^^ keyword.other.back-reference.named
-#                                           ^^^^^ variable.other.backref-and-recursion - keyword
+#                                        ^^^ keyword.other.backref-and-recursion.regexp - keyword keyword - variable
+#                                           ^^^^^ keyword.other.backref-and-recursion.regexp variable.other.capture-group.regexp - keyword keyword
 match = re.search(r'''(?ix)some text(?-i)''', line)
 #                     ^ punctuation.definition.modifier.begin
 #                       ^^ storage.modifier.mode
@@ -1464,6 +1475,96 @@ fr'{var}? {var}* [{foo}-{bar},{{}}]+ {var}{2,3} {var}{{2,3}} {var}{{{beg},{end}}
 #                                                                        ^ keyword.operator.quantifier.regexp
 #                                                                         ^^^^^ - keyword.operator
 #                                                                              ^^ keyword.operator.quantifier.regexp
+
+fr"(?P<{name!s}>.*(?&{name})"
+#   ^^^ keyword.other.backref-and-recursion.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^^^^^ meta.string.python meta.interpolation.python
+#      ^ punctuation.section.interpolation.begin.python
+#       ^^^^ meta.generic-name.python
+#           ^^ storage.modifier.conversion.python
+#             ^ punctuation.section.interpolation.end.python
+#              ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
+#                  ^^ keyword.other.backref-and-recursion.regexp
+#                    ^^^^^^ meta.string.python meta.interpolation.python
+#                    ^ punctuation.section.interpolation.begin.python
+#                     ^^^^ meta.generic-name.python
+#                         ^ punctuation.section.interpolation.end.python
+#                          ^ punctuation.section.group.end.regexp
+
+fr'(?P<{name!s}>.*(?&{name})'
+#   ^^^ keyword.other.backref-and-recursion.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^^^^^^^^ meta.string.python meta.interpolation.python
+#      ^ punctuation.section.interpolation.begin.python
+#       ^^^^ meta.generic-name.python
+#           ^^ storage.modifier.conversion.python
+#             ^ punctuation.section.interpolation.end.python
+#              ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
+#                  ^^ keyword.other.backref-and-recursion.regexp
+#                    ^^^^^^ meta.string.python meta.interpolation.python
+#                    ^ punctuation.section.interpolation.begin.python
+#                     ^^^^ meta.generic-name.python
+#                         ^ punctuation.section.interpolation.end.python
+#                          ^ punctuation.section.group.end.regexp
+
+fr"(?P={name!s})"
+#   ^^^ keyword.other.backref-and-recursion.regexp
+#      ^^^^^^^^ meta.string.python meta.interpolation.python
+#      ^ punctuation.section.interpolation.begin.python
+#       ^^^^ meta.generic-name.python
+#           ^^ storage.modifier.conversion.python
+#             ^ punctuation.section.interpolation.end.python
+#              ^ punctuation.section.group.end.regexp
+
+fr'(?P={name!s})'
+#   ^^^ keyword.other.backref-and-recursion.regexp
+#      ^^^^^^^^ meta.string.python meta.interpolation.python
+#      ^ punctuation.section.interpolation.begin.python
+#       ^^^^ meta.generic-name.python
+#           ^^ storage.modifier.conversion.python
+#             ^ punctuation.section.interpolation.end.python
+#              ^ punctuation.section.group.end.regexp
+
+fr"(?({name!s})yes|no)"
+#   ^ keyword.other.backref-and-recursion.regexp
+#    ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.begin.regexp
+#     ^^^^^^^^ meta.string.python meta.interpolation.python
+#     ^ punctuation.section.interpolation.begin.python
+#      ^^^^ meta.generic-name.python
+#          ^^ storage.modifier.conversion.python
+#            ^ punctuation.section.interpolation.end.python
+#             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
+
+fr'(?({name!s})yes|no)'
+#   ^ keyword.other.backref-and-recursion.regexp
+#    ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.begin.regexp
+#     ^^^^^^^^ meta.string.python meta.interpolation.python
+#     ^ punctuation.section.interpolation.begin.python
+#      ^^^^ meta.generic-name.python
+#          ^^ storage.modifier.conversion.python
+#            ^ punctuation.section.interpolation.end.python
+#             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
+
+fr"\g<{name!s}>"
+#   ^^ keyword.other.backref-and-recursion.regexp
+#    ^ punctuation.definition.capture-group-name.begin.regexp
+#     ^^^^^^^^ meta.string.python meta.interpolation.python
+#     ^ punctuation.section.interpolation.begin.python
+#      ^^^^ meta.generic-name.python
+#          ^^ storage.modifier.conversion.python
+#            ^ punctuation.section.interpolation.end.python
+#             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
+
+fr'\g<{name!s}>'
+#   ^^ keyword.other.backref-and-recursion.regexp
+#    ^ punctuation.definition.capture-group-name.begin.regexp
+#     ^^^^^^^^ meta.string.python meta.interpolation.python
+#     ^ punctuation.section.interpolation.begin.python
+#      ^^^^ meta.generic-name.python
+#          ^^ storage.modifier.conversion.python
+#            ^ punctuation.section.interpolation.end.python
+#             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
 
 # Most of these were inspired by
 # https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
