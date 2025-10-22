@@ -2,13 +2,18 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Cargo Build Results
-scope: source.build_results
+scope: text.build-output.cargo
 hidden: true
 contexts:
   main:
     - match: '^(..[^:\n]*):([0-9]+):?([0-9]+)?:? '
-      scope: entity.name.filename
-    - match: '\berror: '
-      scope: message.error
+      captures:
+        1: entity.name.filename.build-output
+        2: constant.numeric.line-number.build-output
+        3: constant.numeric.column-number.build-output
+    - match: '\b(error)(:) '
+      captures:
+        1: message.error.build-output markup.error.build-output
+        2: punctuation.separator.build-output
     - match: '^\[.+\]$'
-      scope: comment
+      scope: comment.line.result.build-output
