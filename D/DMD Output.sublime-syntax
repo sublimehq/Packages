@@ -18,3 +18,5 @@ contexts:
       captures:
         1: message.warning.build-output markup.warning.build-output
         2: punctuation.separator.build-output
+    - match: '^\[.+\]$'
+      scope: comment.line.result.build-output
