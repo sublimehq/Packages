@@ -2,19 +2,19 @@
 ---
 name: DMD Output
 hidden: true
-scope: text.build-results.dmd
+scope: text.build-output.dmd
 contexts:
   main:
     - match: '^(.*?)\(([0-9]+)(?:,\s*([0-9]+))?\): '
       captures:
-        1: entity.name.filename.build-results
-        2: constant.numeric.line-number.build-results
-        3: constant.numeric.column-number.build-results
+        1: entity.name.filename.build-output
+        2: constant.numeric.line-number.build-output
+        3: constant.numeric.column-number.build-output
     - match: '\b(Error)(:) '
       captures:
-        1: message.error.build-results markup.error.build-results
-        2: punctuation.separator.build-results
+        1: message.error.build-output markup.error.build-output
+        2: punctuation.separator.build-output
     - match: '\b(Warning)(:) '
       captures:
-        1: message.warning.build-results markup.warning.build-results
-        2: punctuation.separator.build-results
+        1: message.warning.build-output markup.warning.build-output
+        2: punctuation.separator.build-output
