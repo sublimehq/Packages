@@ -16,118 +16,19 @@ first_line_match: |-
   | ^ \s* // .*? -\*- .*? \bjava\b .*? -\*-  # editorconfig
   )
 
-###############################################################################
-
-variables:
-  shebang_language: \b(?:bsh|java)\b
-
-  # Reserved keywords
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
-  reserved_words: |-
-    (?x:
-      {{keywords}}
-    | {{storage_types}}
-    | {{storage_modifiers}}
-    | {{constants}}
-    | {{variables}}
-    )
-  keywords: |-
-    (?x:
-      {{declaration_keywords}}
-    | {{control_keywords}}
-    | {{operator_keywords}}
-    | {{illegal_keywords}}
-    )
-  declaration_keywords: |-
-    (?x: class | enum | @?interface | var | void | extends | implements | import | package )
-  control_keywords: |-
-    (?x: assert | break | case | catch | continue | do | else | finally | for
-    | if | return | switch | throw | throws | try | while | yield )
-  operator_keywords: |-
-    (?x: new | instanceof )
-  illegal_keywords: |-
-    (?x: const | goto )
-
-  # Storage Modifiers
-  storage_modifiers: |-
-    (?x:
-      {{class_modifier}}
-    | {{class_no_modifier}}
-    )
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
-  class_modifier: |-
-    (?x: public | protected | private | abstract | final | sealed | static | strictfp )
-  class_no_modifier: |-
-    (?x: default | native | synchronized | transient | volatile )
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
-  constructor_modifier: |-
-    (?x: public | protected | private )
-  constructor_no_modifier: |-
-    (?x: abstract | default | final | native | sealed | static | strictfp | synchronized | transient | volatile )
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3.1
-  field_modifier: |-
-    (?x: public | protected | private | final | static | transient | volatile )
-  field_no_modifier: |-
-    (?x: abstract | default | native | sealed | strictfp | synchronized )
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
-  interface_modifier: |-
-    (?x: public | protected | private | abstract | sealed | static | strictfp )
-  interface_no_modifier: |-
-    (?x: default | final | native | synchronized | transient | volatile )
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
-  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.4
-  method_modifier: |-
-    (?x: public | protected | private | abstract | default | final | native | static | strictfp | synchronized )
-  method_no_modifier: |-
-    (?x: sealed | transient | volatile )
-
-  # Storage Types
-  storage_types: |-
-    (?x: boolean | byte | char | short | int | float | long | double )
-
-  # Literals
-  constants: |-
-    (?x: false | null | true )
-  variables: |-
-    (?x: _ | super | this )
-
-  # Identifiers
-  break: (?!{{id_char}})
-
-  identifier: (?!{{reserved_words}}[^{{id_char}}]){{id}}
-
-  id: (?:{{id_first_char}}{{id_char}}*)
-  id_first_char: '[\p{L}_$]'
-  id_char: '[\p{L}\p{N}_$]'
-
-  classcase_id: (?:\p{Lu}{{id_char}}*)
-  lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*{{break}})
-  uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*{{break}})
-
-  # digits
-  bin_digit: '[01_]'
-  oct_digit: '[0-7_]'
-  dec_digit: '[\d_]'
-  hex_digit: '[\h_]'
-  dec_exponent: '[eE][-+]?{{dec_digit}}*'
-  hex_exponent: '[pP][-+]?{{dec_digit}}*'
-  float_suffix: '[dDfF]{{break}}'
-  int_suffix: '[lL]{{break}}'
-
-  escape_octal: \\[0-3]?[0-7]{1,2}
-  escape_other: \\[btnfr"'\\]
-  escape_unicode: \\u+\h{4}
-
-  # accessor but no variadic operator
-  single_dot: \.(?!\.)
-
-###############################################################################
+###[ CONTEXTS ]################################################################
 
 contexts:
+  prototype:
+    - include: comments
+    - include: illegal-keywords
+
   main:
     - meta_include_prototype: false
     - match: ''
       push: [java, shebang]
+
+###[ JAVA ]####################################################################
 
   java:
     - include: import
@@ -187,7 +88,7 @@ contexts:
       scope:
         comment.block.documentation.java
         punctuation.definition.comment.begin.java
-      embed: Packages/Java/Embeddings/JavaDoc.sublime-syntax#javadoc
+      embed: Packages/Java/Java/Embeddings/JavaDoc.sublime-syntax#javadoc
       embed_scope: comment.block.documentation.java
       escape: \*+/
       escape_captures:
@@ -2522,7 +2423,6 @@ contexts:
       scope: punctuation.definition.string.end.java
       pop: 1
     - include: illegal-newline
-    - include: merge-conflict-markers
     - include: literal-string-escapes
 
   literal-double-quoted-textblocks:
@@ -2539,8 +2439,8 @@ contexts:
     - match: \"{3}
       scope: punctuation.definition.string.end.java
       pop: 1
-    - include: merge-conflict-markers
     - include: literal-string-escapes
+    - include: merge-conflict-markers
 
   literal-string-escapes:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
@@ -2556,21 +2456,115 @@ contexts:
 
   operators:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.12
-    - match: (<<|>>>?|[-+*/%|&\^])=
-      scope: keyword.operator.assignment.augmented.java
-    - match: '<<|>>>?'
-      scope: keyword.operator.bitwise.java
-    - match: '==|!=|<=|>=|<>|<|>'
+    - include: diamond-operators
+    - include: assignment-augmented-bitwise-shift-operators
+    - include: bitwise-shift-operators
+    - include: relational-operators
+    - include: assignment-augmented-operators
+    - include: arithmetic-operators
+    - include: logical-operators
+    - include: bitwise-operators
+    - include: comparison-operators
+    - include: assignment-operators
+    - include: ternary-operators
+
+  diamond-operators:
+    - match: '<>'
       scope: keyword.operator.comparison.java
+
+  assignment-augmented-bitwise-shift-operators:
+    # NOTE: no unsigned shift left augmented assignment in Java
+    - match: '>>>='
+      scope: keyword.operator.assignment.augmented.bitwise.shift.right.unsigned.java
+
+    - match: '<<='
+      scope: keyword.operator.assignment.augmented.bitwise.shift.left.signed.java
+    - match: '>>='
+      scope: keyword.operator.assignment.augmented.bitwise.shift.right.signed.java
+
+  bitwise-shift-operators:
+    # NOTE: no unsigned shift left in Java
+    - match: '>>>'
+      scope: keyword.operator.bitwise.shift.right.unsigned.java
+
+    - match: '<<'
+      scope: keyword.operator.bitwise.shift.left.signed.java
+    - match: '>>'
+      scope: keyword.operator.bitwise.shift.right.signed.java
+
+  relational-operators:
+    - match: '<='
+      scope: keyword.operator.relational.less-equal.java
+    - match: '>='
+      scope: keyword.operator.relational.greater-equal.java
+
+    - match: '<'
+      scope: keyword.operator.relational.less.java
+    - match: '>'
+      scope: keyword.operator.relational.greater.java
+
+  assignment-augmented-operators:
+    - match: '\+='
+      scope: keyword.operator.assignment.augmented.addition.java
+    - match: '-='
+      scope: keyword.operator.assignment.augmented.subtraction.java
+    - match: '\*='
+      scope: keyword.operator.assignment.augmented.multiplication.java
+    - match: '/='
+      scope: keyword.operator.assignment.augmented.division.java
+    - match: '%='
+      scope: keyword.operator.assignment.augmented.remainder.java
+
+    - match: ([|&\^])=
+      scope: keyword.operator.assignment.augmented.java
+
+  arithmetic-operators:
+    - match: '\+\+'
+      scope: keyword.operator.arithmetic.increment.java
+    - match: '\-\-'
+      scope: keyword.operator.arithmetic.decrement.java
+
+    - match: '\+'
+      scope: keyword.operator.arithmetic.addition.java
+    - match: '\-'
+      scope: keyword.operator.arithmetic.subtraction.java
+    - match: '\*'
+      scope: keyword.operator.arithmetic.multiplication.java
+    - match: '/'
+      scope: keyword.operator.arithmetic.division.java
+    - match: '%'
+      scope: keyword.operator.arithmetic.remainder.java
+
+  logical-operators:
+    - match: '&&'
+      scope: keyword.operator.logical.and.java
+    - match: '\|\|'
+      scope: keyword.operator.logical.or.java
+    - match: '!(?!=)'
+      scope: keyword.operator.logical.not.java
+
+  bitwise-operators:
+    - match: '~'
+      scope: keyword.operator.bitwise.not.java
+    - match: '\^'
+      scope: keyword.operator.bitwise.xor.java
+    - match: '&'
+      scope: keyword.operator.bitwise.and.java
+    - match: '\|'
+      scope: keyword.operator.bitwise.or.java
+
+  comparison-operators:
+    - match: '=='
+      scope: keyword.operator.comparison.equal.value.java
+    - match: '!='
+      scope: keyword.operator.comparison.not-equal.value.java
+
+  assignment-operators:
     - match: '='
       scope: keyword.operator.assignment.java
       push: variable-initializer
-    - match: '\+\+?|\-\-?|[*/%]'
-      scope: keyword.operator.arithmetic.java
-    - match: '!|&&|\|\|'
-      scope: keyword.operator.logical.java
-    - match: '[~|&\^]'
-      scope: keyword.operator.bitwise.java
+
+  ternary-operators:
     - match: '\?'
       scope: keyword.operator.ternary.java
       push: ternary-expression
@@ -3362,10 +3356,6 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
-  prototype:
-    - include: comments
-    - include: illegal-keywords
-
   annotation-else-pop:
     - include: annotations
     - include: else-pop
@@ -3473,3 +3463,108 @@ contexts:
   stray-group:
     - match: \)
       scope: invalid.illegal.stray.java
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  shebang_language: \b(?:bsh|java)\b
+
+  # Reserved keywords
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
+  reserved_words: |-
+    (?x:
+      {{keywords}}
+    | {{storage_types}}
+    | {{storage_modifiers}}
+    | {{constants}}
+    | {{variables}}
+    )
+  keywords: |-
+    (?x:
+      {{declaration_keywords}}
+    | {{control_keywords}}
+    | {{operator_keywords}}
+    | {{illegal_keywords}}
+    )
+  declaration_keywords: |-
+    (?x: class | enum | @?interface | var | void | extends | implements | import | package )
+  control_keywords: |-
+    (?x: assert | break | case | catch | continue | do | else | finally | for
+    | if | return | switch | throw | throws | try | while | yield )
+  operator_keywords: |-
+    (?x: new | instanceof )
+  illegal_keywords: |-
+    (?x: const | goto )
+
+  # Storage Modifiers
+  storage_modifiers: |-
+    (?x:
+      {{class_modifier}}
+    | {{class_no_modifier}}
+    )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
+  class_modifier: |-
+    (?x: public | protected | private | abstract | final | sealed | static | strictfp )
+  class_no_modifier: |-
+    (?x: default | native | synchronized | transient | volatile )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
+  constructor_modifier: |-
+    (?x: public | protected | private )
+  constructor_no_modifier: |-
+    (?x: abstract | default | final | native | sealed | static | strictfp | synchronized | transient | volatile )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3.1
+  field_modifier: |-
+    (?x: public | protected | private | final | static | transient | volatile )
+  field_no_modifier: |-
+    (?x: abstract | default | native | sealed | strictfp | synchronized )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
+  interface_modifier: |-
+    (?x: public | protected | private | abstract | sealed | static | strictfp )
+  interface_no_modifier: |-
+    (?x: default | final | native | synchronized | transient | volatile )
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.3
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.4
+  method_modifier: |-
+    (?x: public | protected | private | abstract | default | final | native | static | strictfp | synchronized )
+  method_no_modifier: |-
+    (?x: sealed | transient | volatile )
+
+  # Storage Types
+  storage_types: |-
+    (?x: boolean | byte | char | short | int | float | long | double )
+
+  # Literals
+  constants: |-
+    (?x: false | null | true )
+  variables: |-
+    (?x: _ | super | this )
+
+  # Identifiers
+  break: (?!{{id_char}})
+
+  identifier: (?!{{reserved_words}}[^{{id_char}}]){{id}}
+
+  id: (?:{{id_first_char}}{{id_char}}*)
+  id_first_char: '[\p{L}_$]'
+  id_char: '[\p{L}\p{N}_$]'
+
+  classcase_id: (?:\p{Lu}{{id_char}}*)
+  lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*{{break}})
+  uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*{{break}})
+
+  # digits
+  bin_digit: '[01_]'
+  oct_digit: '[0-7_]'
+  dec_digit: '[\d_]'
+  hex_digit: '[\h_]'
+  dec_exponent: '[eE][-+]?{{dec_digit}}*'
+  hex_exponent: '[pP][-+]?{{dec_digit}}*'
+  float_suffix: '[dDfF]{{break}}'
+  int_suffix: '[lL]{{break}}'
+
+  escape_octal: \\[0-3]?[0-7]{1,2}
+  escape_other: \\[btnfr"'\\]
+  escape_unicode: \\u+\h{4}
+
+  # accessor but no variadic operator
+  single_dot: \.(?!\.)
