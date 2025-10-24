@@ -2808,6 +2808,7 @@ contexts:
     - include: string-prototype
     - include: escaped-raw-quotes
     - include: escaped-unicode-chars
+    - include: string-placeholders
 
   triple-double-quoted-raw-u-string:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -2842,6 +2843,7 @@ contexts:
   triple-double-quoted-regexp-raw-u-string-content:
     - include: string-prototype
     - include: escaped-unicode-chars
+    - include: string-placeholders
 
   triple-double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3159,6 +3161,7 @@ contexts:
   double-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: escaped-raw-quotes
+    - include: string-placeholders
 
   double-quoted-raw-u-string:
     - match: ([uU]?r)(")
@@ -3193,6 +3196,7 @@ contexts:
 
   double-quoted-regexp-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
 
   double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3497,6 +3501,7 @@ contexts:
   triple-single-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: escaped-raw-quotes
+    - include: string-placeholders
 
   triple-single-quoted-raw-u-string:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -3531,6 +3536,7 @@ contexts:
   triple-single-quoted-regexp-raw-u-string-content:
     - include: string-prototype
     - include: escaped-unicode-chars
+    - include: string-placeholders
 
   triple-single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3807,6 +3813,7 @@ contexts:
   single-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: escaped-raw-quotes
+    - include: string-placeholders
 
   single-quoted-raw-u-string:
     - match: ([uU]?r)(')
@@ -3841,6 +3848,7 @@ contexts:
 
   single-quoted-regexp-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
 
   single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
