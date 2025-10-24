@@ -2806,8 +2806,9 @@ contexts:
 
   triple-double-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
+    - include: triple-double-quoted-string-replacements
     - include: escaped-raw-quotes
-    - include: escaped-unicode-chars
 
   triple-double-quoted-raw-u-string:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -2841,7 +2842,7 @@ contexts:
 
   triple-double-quoted-regexp-raw-u-string-content:
     - include: string-prototype
-    - include: escaped-unicode-chars
+    - include: string-placeholders
 
   triple-double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2855,10 +2856,9 @@ contexts:
 
   triple-double-quoted-sql-raw-u-string-content:
     - include: string-prototype
-    - include: escaped-raw-quotes
-    - include: escaped-unicode-chars
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
+    - include: escaped-raw-quotes
 
   triple-double-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
@@ -2877,9 +2877,8 @@ contexts:
   triple-double-quoted-b-string-content:
     - include: string-prototype
     - include: string-continuations
-    - include: escaped-chars
     - include: string-placeholders
-    - include: triple-double-quoted-string-replacements
+    - include: escaped-chars
 
   triple-double-quoted-f-string:
     # Triple-quoted f-string or t-string
@@ -2942,10 +2941,10 @@ contexts:
   triple-double-quoted-u-string-content:
     - include: string-prototype
     - include: string-continuations
-    - include: escaped-unicode-chars
-    - include: escaped-chars
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
+    - include: escaped-unicode-chars
+    - include: escaped-chars
 
   triple-double-quoted-string-replacements:
     - include: escaped-string-braces
@@ -2989,7 +2988,7 @@ contexts:
       fail: triple-double-quoted-string-replacement
 
   triple-double-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -3158,6 +3157,8 @@ contexts:
 
   double-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
+    - include: double-quoted-string-replacements
     - include: escaped-raw-quotes
 
   double-quoted-raw-u-string:
@@ -3193,6 +3194,7 @@ contexts:
 
   double-quoted-regexp-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
 
   double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3206,9 +3208,9 @@ contexts:
 
   double-quoted-sql-raw-u-string-content:
     - include: string-prototype
-    - include: escaped-raw-quotes
     - include: string-placeholders
     - include: double-quoted-string-replacements
+    - include: escaped-raw-quotes
 
   double-quoted-b-string:
     # Single-line string, bytes
@@ -3226,9 +3228,8 @@ contexts:
 
   double-quoted-b-string-content:
     - include: string-prototype
-    - include: escaped-chars
     - include: string-placeholders
-    - include: double-quoted-string-replacements
+    - include: escaped-chars
 
   double-quoted-f-string:
     # Single-line f-string or t-string
@@ -3289,10 +3290,10 @@ contexts:
 
   double-quoted-u-string-content:
     - include: string-prototype
-    - include: escaped-unicode-chars
-    - include: escaped-chars
     - include: string-placeholders
     - include: double-quoted-string-replacements
+    - include: escaped-unicode-chars
+    - include: escaped-chars
 
   double-quoted-string-replacements:
     - include: escaped-string-braces
@@ -3336,7 +3337,7 @@ contexts:
       fail: double-quoted-string-replacement
 
   double-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -3496,6 +3497,8 @@ contexts:
 
   triple-single-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
+    - include: triple-single-quoted-string-replacements
     - include: escaped-raw-quotes
 
   triple-single-quoted-raw-u-string:
@@ -3530,7 +3533,7 @@ contexts:
 
   triple-single-quoted-regexp-raw-u-string-content:
     - include: string-prototype
-    - include: escaped-unicode-chars
+    - include: string-placeholders
 
   triple-single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3544,10 +3547,9 @@ contexts:
 
   triple-single-quoted-sql-raw-u-string-content:
     - include: string-prototype
-    - include: escaped-raw-quotes
-    - include: escaped-unicode-chars
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
+    - include: escaped-raw-quotes
 
   triple-single-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
@@ -3566,9 +3568,8 @@ contexts:
   triple-single-quoted-b-string-content:
     - include: string-prototype
     - include: string-continuations
-    - include: escaped-chars
     - include: string-placeholders
-    - include: triple-single-quoted-string-replacements
+    - include: escaped-chars
 
   triple-single-quoted-f-string:
     # Triple-quoted f-string or t-string
@@ -3631,10 +3632,10 @@ contexts:
   triple-single-quoted-u-string-content:
     - include: string-prototype
     - include: string-continuations
-    - include: escaped-unicode-chars
-    - include: escaped-chars
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
+    - include: escaped-unicode-chars
+    - include: escaped-chars
 
   triple-single-quoted-string-replacements:
     - include: escaped-string-braces
@@ -3678,7 +3679,7 @@ contexts:
       fail: triple-single-quoted-string-replacement
 
   triple-single-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -3806,6 +3807,8 @@ contexts:
 
   single-quoted-plain-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
+    - include: single-quoted-string-replacements
     - include: escaped-raw-quotes
 
   single-quoted-raw-u-string:
@@ -3841,6 +3844,7 @@ contexts:
 
   single-quoted-regexp-raw-u-string-content:
     - include: string-prototype
+    - include: string-placeholders
 
   single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3854,9 +3858,9 @@ contexts:
 
   single-quoted-sql-raw-u-string-content:
     - include: string-prototype
-    - include: escaped-raw-quotes
     - include: string-placeholders
     - include: single-quoted-string-replacements
+    - include: escaped-raw-quotes
 
   single-quoted-plain-raw-f-string:
     # Single-line raw f-string
@@ -3915,9 +3919,8 @@ contexts:
 
   single-quoted-b-string-content:
     - include: string-prototype
-    - include: escaped-chars
     - include: string-placeholders
-    - include: single-quoted-string-replacements
+    - include: escaped-chars
 
   single-quoted-f-string:
     # Single-line f-string or t-string
@@ -3978,10 +3981,10 @@ contexts:
 
   single-quoted-u-string-content:
     - include: string-prototype
-    - include: escaped-unicode-chars
-    - include: escaped-chars
     - include: string-placeholders
     - include: single-quoted-string-replacements
+    - include: escaped-unicode-chars
+    - include: escaped-chars
 
   single-quoted-string-replacements:
     - include: escaped-string-braces
@@ -4025,7 +4028,7 @@ contexts:
       fail: single-quoted-string-replacement
 
   single-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -4099,7 +4102,7 @@ contexts:
     # but don't scope them as escapes as they are treated literal
     - match: \\[\\'"]
 
-  escaped-f-string-braces:
+  escaped-string-braces:
     # https://peps.python.org/pep-0498
     # https://peps.python.org/pep-0701
     # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
@@ -4107,10 +4110,6 @@ contexts:
       scope: constant.character.escape.python
       captures:
         1: invalid.deprecated.character.escape.python
-
-  escaped-string-braces:
-    - match: \{\{|\}\}
-      scope: constant.character.escape.python
 
   string-placeholders:
     - match: |- # printf style
