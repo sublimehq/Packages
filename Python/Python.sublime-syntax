@@ -2988,7 +2988,7 @@ contexts:
       fail: triple-double-quoted-string-replacement
 
   triple-double-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -3337,7 +3337,7 @@ contexts:
       fail: double-quoted-string-replacement
 
   double-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -3679,7 +3679,7 @@ contexts:
       fail: triple-single-quoted-string-replacement
 
   triple-single-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -4028,7 +4028,7 @@ contexts:
       fail: single-quoted-string-replacement
 
   single-quoted-f-string-replacements:
-    - include: escaped-f-string-braces
+    - include: escaped-string-braces
     - include: invalid-f-string-replacements
     - match: \{
       scope: punctuation.section.interpolation.begin.python
@@ -4102,7 +4102,7 @@ contexts:
     # but don't scope them as escapes as they are treated literal
     - match: \\[\\'"]
 
-  escaped-f-string-braces:
+  escaped-string-braces:
     # https://peps.python.org/pep-0498
     # https://peps.python.org/pep-0701
     # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
@@ -4110,10 +4110,6 @@ contexts:
       scope: constant.character.escape.python
       captures:
         1: invalid.deprecated.character.escape.python
-
-  escaped-string-braces:
-    - match: \{\{|\}\}
-      scope: constant.character.escape.python
 
   string-placeholders:
     - match: |- # printf style
