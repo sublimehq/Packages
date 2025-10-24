@@ -1210,6 +1210,319 @@ bar = "}}" # Comment
 '{foo!a:ran{d}om}'  # nested specification
 #^^^^^^^^^^^^^^^^ constant.other.placeholder
 
+#########################################
+# Escaped braces and string replacements
+#########################################
+
+fmt = BR"""string \r \n \u2040 %s \{{ {x} \}}"""
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python - constant
+
+fmt = br"""string \r \n \u2040 %s \{{ {x} \}}"""
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                 ^^ constant.character.escape.regexp
+#                    ^^ constant.character.escape.regexp
+#                       ^^ constant.character.escape.regexp
+#                         ^^^^^^^^ - constant
+#                                 ^^ constant.character.escape.regexp
+#                                   ^^^^^^ - constant
+#                                         ^^ constant.character.escape.regexp
+#                                           ^ - constant
+
+fmt = B"""string \r \n \u2040 %s \{{ {x} \}}"""
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                     ^^^^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                               ^^^^^^^^^^^^ - constant
+
+fmt = b"""string \r \n \u2040 %s \{{ {x} \}}"""
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                     ^^^^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                               ^^^^^^^^^^^^ - constant
+
+fmt = R"""string \r \n \u2040 %s \{{ {x} \}}"""
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                ^^^^^^^^^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                    ^^^ constant.other.placeholder.python
+#                                        ^ invalid.deprecated.character.escape.python
+#                                        ^^^ constant.character.escape.python
+
+fmt = r"""string \r \n \u2040 %s \{{ {x} \}}"""
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                ^^ constant.character.escape.regexp
+#                   ^^ constant.character.escape.regexp
+#                      ^^ constant.character.escape.regexp
+#                        ^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                                ^^ constant.character.escape.regexp
+#                                  ^^^^^^ - constant
+#                                        ^^ constant.character.escape.regexp
+#                                          ^ - constant
+
+fmt = U"""string \r \n \u2040 %s \{{ {x} \}}"""
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                      ^^^^^^ constant.character.escape.unicode.16bit.python
+#                             ^^ constant.other.placeholder.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                    ^^^ constant.other.placeholder.python
+#                                        ^ invalid.deprecated.character.escape.python
+#                                        ^^^ constant.character.escape.python
+
+fmt = u"""string \r \n \u2040 %s \{{ {x} \}}"""
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                      ^^^^^^ constant.character.escape.unicode.16bit.python
+#                             ^^ constant.other.placeholder.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                    ^^^ constant.other.placeholder.python
+#                                        ^ invalid.deprecated.character.escape.python
+#                                        ^^^ constant.character.escape.python
+
+
+fmt = BR'''string \r \n \u2040 %s \{{ {x} \}}'''
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python - constant
+
+fmt = br'''string \r \n \u2040 %s \{{ {x} \}}'''
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                 ^^ constant.character.escape.regexp
+#                    ^^ constant.character.escape.regexp
+#                       ^^ constant.character.escape.regexp
+#                         ^^^^^^^^ - constant
+#                                 ^^ constant.character.escape.regexp
+#                                   ^^^^^^ - constant
+#                                         ^^ constant.character.escape.regexp
+#                                           ^ - constant
+
+fmt = B'''string \r \n \u2040 %s \{{ {x} \}}'''
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                     ^^^^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                               ^^^^^^^^^^^^ - constant
+
+fmt = b'''string \r \n \u2040 %s \{{ {x} \}}'''
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                     ^^^^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                               ^^^^^^^^^^^^ - constant
+
+fmt = R'''string \r \n \u2040 %s \{{ {x} \}}'''
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                ^^^^^^^^^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                    ^^^ constant.other.placeholder.python
+#                                        ^ invalid.deprecated.character.escape.python
+#                                        ^^^ constant.character.escape.python
+
+fmt = r'''string \r \n \u2040 %s \{{ {x} \}}'''
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                ^^ constant.character.escape.regexp
+#                   ^^ constant.character.escape.regexp
+#                      ^^ constant.character.escape.regexp
+#                        ^^^^^ - constant
+#                             ^^ constant.other.placeholder.python
+#                                ^^ constant.character.escape.regexp
+#                                  ^^^^^^ - constant
+#                                        ^^ constant.character.escape.regexp
+#                                          ^ - constant
+
+fmt = U'''string \r \n \u2040 %s \{{ {x} \}}'''
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                      ^^^^^^ constant.character.escape.unicode.16bit.python
+#                             ^^ constant.other.placeholder.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                    ^^^ constant.other.placeholder.python
+#                                        ^ invalid.deprecated.character.escape.python
+#                                        ^^^ constant.character.escape.python
+
+fmt = u'''string \r \n \u2040 %s \{{ {x} \}}'''
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.block.python
+#                ^^ constant.character.escape.python
+#                   ^^ constant.character.escape.python
+#                      ^^^^^^ constant.character.escape.unicode.16bit.python
+#                             ^^ constant.other.placeholder.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                    ^^^ constant.other.placeholder.python
+#                                        ^ invalid.deprecated.character.escape.python
+#                                        ^^^ constant.character.escape.python
+
+fmt = BR"string \r \n \u2040 %s \{{ {x} \}}"
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python - constant
+
+fmt = br"string \r \n \u2040 %s \{{ {x} \}}"
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#               ^^ constant.character.escape.regexp
+#                  ^^ constant.character.escape.regexp
+#                     ^^ constant.character.escape.regexp
+#                       ^^^^^^^^ - constant
+#                               ^^ constant.character.escape.regexp
+#                                 ^^^^^^ - constant
+#                                       ^^ constant.character.escape.regexp
+#                                         ^ - constant
+
+fmt = B"string \r \n \u2040 %s \{{ {x} \}}"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                   ^^^^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                             ^^^^^^^^^^^^ - constant
+
+fmt = b"string \r \n \u2040 %s \{{ {x} \}}"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                   ^^^^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                             ^^^^^^^^^^^^ - constant
+
+fmt = R"string \r \n \u2040 %s \{{ {x} \}}"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#              ^^^^^^^^^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                              ^ invalid.deprecated.character.escape.python
+#                              ^^^ constant.character.escape.python
+#                                  ^^^ constant.other.placeholder.python
+#                                      ^ invalid.deprecated.character.escape.python
+#                                      ^^^ constant.character.escape.python
+
+fmt = r"string \r \n \u2040 %s \{{ {x} \}}"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#              ^^ constant.character.escape.regexp
+#                 ^^ constant.character.escape.regexp
+#                    ^^ constant.character.escape.regexp
+#                      ^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                              ^^ constant.character.escape.regexp
+#                                ^^^^^^ - constant
+#                                      ^^ constant.character.escape.regexp
+#                                        ^ - constant
+
+fmt = U"string \r \n \u2040 %s \{{ {x} \}}"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                    ^^^^^^ constant.character.escape.unicode.16bit.python
+#                           ^^ constant.other.placeholder.python
+#                              ^ invalid.deprecated.character.escape.python
+#                              ^^^ constant.character.escape.python
+#                                  ^^^ constant.other.placeholder.python
+#                                      ^ invalid.deprecated.character.escape.python
+#                                      ^^^ constant.character.escape.python
+
+fmt = u"string \r \n \u2040 %s \{{ {x} \}}"
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.double.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                    ^^^^^^ constant.character.escape.unicode.16bit.python
+#                           ^^ constant.other.placeholder.python
+#                              ^ invalid.deprecated.character.escape.python
+#                              ^^^ constant.character.escape.python
+#                                  ^^^ constant.other.placeholder.python
+#                                      ^ invalid.deprecated.character.escape.python
+#                                      ^^^ constant.character.escape.python
+
+
+fmt = BR'string \r \n \u2040 %s \{{ {x} \}}'
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python - constant
+
+fmt = br'string \r \n \u2040 %s \{{ {x} \}}'
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#               ^^ constant.character.escape.regexp
+#                  ^^ constant.character.escape.regexp
+#                     ^^ constant.character.escape.regexp
+#                       ^^^^^^^^ - constant
+#                               ^^ constant.character.escape.regexp
+#                                 ^^^^^^ - constant
+#                                       ^^ constant.character.escape.regexp
+#                                         ^ - constant
+
+fmt = B'string \r \n \u2040 %s \{{ {x} \}}'
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                   ^^^^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                             ^^^^^^^^^^^^ - constant
+
+fmt = b'string \r \n \u2040 %s \{{ {x} \}}'
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                   ^^^^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                             ^^^^^^^^^^^^ - constant
+
+fmt = R'string \r \n \u2040 %s \{{ {x} \}}'
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#              ^^^^^^^^^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                              ^ invalid.deprecated.character.escape.python
+#                              ^^^ constant.character.escape.python
+#                                  ^^^ constant.other.placeholder.python
+#                                      ^ invalid.deprecated.character.escape.python
+#                                      ^^^ constant.character.escape.python
+
+fmt = r'string \r \n \u2040 %s \{{ {x} \}}'
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#              ^^ constant.character.escape.regexp
+#                 ^^ constant.character.escape.regexp
+#                    ^^ constant.character.escape.regexp
+#                      ^^^^^ - constant
+#                           ^^ constant.other.placeholder.python
+#                              ^^ constant.character.escape.regexp
+#                                ^^^^^^ - constant
+#                                      ^^ constant.character.escape.regexp
+#                                        ^ - constant
+
+fmt = U'string \r \n \u2040 %s \{{ {x} \}}'
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                    ^^^^^^ constant.character.escape.unicode.16bit.python
+#                           ^^ constant.other.placeholder.python
+#                              ^ invalid.deprecated.character.escape.python
+#                              ^^^ constant.character.escape.python
+#                                  ^^^ constant.other.placeholder.python
+#                                      ^ invalid.deprecated.character.escape.python
+#                                      ^^^ constant.character.escape.python
+
+fmt = u'string \r \n \u2040 %s \{{ {x} \}}'
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python string.quoted.single.python
+#              ^^ constant.character.escape.python
+#                 ^^ constant.character.escape.python
+#                    ^^^^^^ constant.character.escape.unicode.16bit.python
+#                           ^^ constant.other.placeholder.python
+#                              ^ invalid.deprecated.character.escape.python
+#                              ^^^ constant.character.escape.python
+#                                  ^^^ constant.other.placeholder.python
+#                                      ^ invalid.deprecated.character.escape.python
+#                                      ^^^ constant.character.escape.python
+
+################################
+# regular expression backrefs
+################################
 
 match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
 #                  ^^^^^^^^^^^ meta.group.regexp
