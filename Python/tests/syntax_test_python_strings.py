@@ -1210,68 +1210,6 @@ bar = "}}" # Comment
 '{foo!a:ran{d}om}'  # nested specification
 #^^^^^^^^^^^^^^^^ constant.other.placeholder
 
-f"string"
-# <- storage.type.string
-#^^^^^^^^ string.quoted.double
-
- RF"""string"""
-#^^ storage.type.string - string
-#  ^^^^^^^^^^^^ meta.string string.quoted.double.block
-
-F'''string'''
-# <- storage.type.string
-#^^^^^^^^^^^^ meta.string string.quoted.single.block
-#^ meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
-#         ^ meta.string.python string.quoted.single.block.python punctuation.definition.string.end.python
-
-    f"{size:.2f}"
-#    ^ meta.string.python - meta.interpolation
-#     ^^^^^^ meta.string.python meta.interpolation.python - meta.format-spec
-#           ^^^ meta.string.python meta.interpolation.python meta.format-spec.python - meta.format-spec meta.format-spec
-#              ^ meta.string.python meta.interpolation.python - meta.format-spec
-#               ^ meta.string.python string.quoted.double.python - meta.interpolation
-#    ^ punctuation.definition.string.begin.python
-#     ^ punctuation.section.interpolation.begin.python
-#      ^^^^ meta.path.python meta.generic-name.python
-#          ^ punctuation.separator.format-spec.python
-#           ^^^ constant.other.format-spec.python
-#              ^ punctuation.section.interpolation.end.python
-#               ^ punctuation.definition.string.end.python
-
- rf'string'
-#^^ storage.type.string - string
-#  ^^^^^^^^ meta.string string.quoted.single
-
-rf'\r\n' f'\r\n' Rf'\r\n'
-#  ^^^^ source.regexp constant.character.escape.regexp
-#          ^^^^ constant.character.escape.python
-#                   ^^^^ - constant
-
-rf"\r\n" f"\r\n" Rf'\r\n'
-#  ^^^^ source.regexp constant.character.escape.regexp
-#          ^^^^ constant.character.escape.python
-#                   ^^^^ - constant
-
-expr = fr"^\s*({label}|{notlabel})"
-#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
-#         ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
-#             ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
-#              ^^^^^^^ source.python meta.string.python meta.interpolation.python
-#               ^^^^^ meta.path.python meta.generic-name.python
-#                                ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
-
-line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
-#                  ^ constant.character.escape.regexp - constant.character.escape.python
-#                   ^^ constant.character.escape.regexp constant.character.escape.python
-#                     ^^ constant.character.escape.regexp
-#                          ^ constant.character.escape.regexp - constant.character.escape.python
-#                           ^^ constant.character.escape.regexp constant.character.escape.python
-#                              ^ punctuation.section.interpolation.begin.python
-#                                  ^ constant.character.escape.regexp - constant.character.escape.python
-#                                   ^^ constant.character.escape.regexp constant.character.escape.python
-#                                     ^^ constant.character.escape.regexp
-#                                          ^ constant.character.escape.regexp - constant.character.escape.python
-#                                           ^^ constant.character.escape.regexp constant.character.escape.python
 
 match = re.match(r'(?P<test>a)?b(?(test)c|d)', line)
 #                  ^^^^^^^^^^^ meta.group.regexp
@@ -1341,10 +1279,297 @@ match = re.match(r"([^" + charset + r"]*)", line)
 # f-strings
 ###############################
 
-f"\{{{x}\}} test"
-# ^ invalid.deprecated.character.escape.python
-# ^^^ constant.character.escape.python
-#    ^ punctuation.section.interpolation.begin.python
+RF"""string \r \n \u2040 %s \{{ {x} \}}"""
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block.python - meta.interpolation
+#                               ^^^ meta.interpolation.python - string
+#                                  ^^^^^^^ string.quoted.double.block.python - meta.interpolation
+# ^^^ punctuation.definition.string.begin.python
+#           ^^^^^^^^^^^^^^^ - constant
+#                           ^ invalid.deprecated.character.escape.python
+#                           ^^^ constant.character.escape.python
+#                               ^ punctuation.section.interpolation.begin.python
+#                                 ^ punctuation.section.interpolation.end.python
+#                                   ^ invalid.deprecated.character.escape.python
+#                                   ^^^ constant.character.escape.python
+#                                      ^^^ punctuation.definition.string.end.python
+
+rf"""string \r \n \u2040 %s \{{ {x} \}}"""
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block.python - meta.interpolation
+#                               ^^^ meta.interpolation.python - string
+#                                  ^^^^^^^ string.quoted.double.block.python - meta.interpolation
+# ^^^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape.regexp
+#              ^^ constant.character.escape.regexp
+#                 ^^ constant.character.escape.regexp
+#                   ^^^^^^^ - constant
+#                           ^^^ constant.character.escape.regexp - invalid
+#                               ^ punctuation.section.interpolation.begin.python
+#                                 ^ punctuation.section.interpolation.end.python
+#                                   ^^^ constant.character.escape.regexp - invalid
+#                                      ^^^ punctuation.definition.string.end.python
+
+F"""string \r \n \u2040 %s \{{ {x} \}}"""
+# <- storage.type.string.python - string
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block.python - meta.interpolation
+#                              ^^^ meta.interpolation.python - string
+#                                 ^^^^^^^ string.quoted.double.block.python - meta.interpolation
+#^^^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape.python
+#             ^^ constant.character.escape.python
+#                ^^^^^^ constant.character.escape.unicode.16bit.python
+#                       ^^ - constant
+#                          ^ invalid.deprecated.character.escape.python
+#                          ^^^ constant.character.escape.python
+#                              ^ punctuation.section.interpolation.begin.python
+#                                ^ punctuation.section.interpolation.end.python
+#                                  ^ invalid.deprecated.character.escape.python
+#                                  ^^^ constant.character.escape.python
+#                                     ^^^ punctuation.definition.string.end.python
+
+f"""string \r \n \u2040 %s \{{ {x} \}}"""
+# <- storage.type.string.python - string
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block.python - meta.interpolation
+#                              ^^^ meta.interpolation.python - string
+#                                 ^^^^^^^ string.quoted.double.block.python - meta.interpolation
+#^^^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape.python
+#             ^^ constant.character.escape.python
+#                ^^^^^^ constant.character.escape.unicode.16bit.python
+#                       ^^ - constant
+#                          ^ invalid.deprecated.character.escape.python
+#                          ^^^ constant.character.escape.python
+#                              ^ punctuation.section.interpolation.begin.python
+#                                ^ punctuation.section.interpolation.end.python
+#                                  ^ invalid.deprecated.character.escape.python
+#                                  ^^^ constant.character.escape.python
+#                                     ^^^ punctuation.definition.string.end.python
+
+RF'''string \r \n \u2040 %s \{{ {x} \}}'''
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.block.python - meta.interpolation
+#                               ^^^ meta.interpolation.python - string
+#                                  ^^^^^^^ string.quoted.single.block.python - meta.interpolation
+# ^^^ punctuation.definition.string.begin.python
+#           ^^^^^^^^^^^^^^^ - constant
+#                           ^ invalid.deprecated.character.escape.python
+#                           ^^^ constant.character.escape.python
+#                               ^ punctuation.section.interpolation.begin.python
+#                                 ^ punctuation.section.interpolation.end.python
+#                                   ^ invalid.deprecated.character.escape.python
+#                                   ^^^ constant.character.escape.python
+#                                      ^^^ punctuation.definition.string.end.python
+
+rf'''string \r \n \u2040 %s \{{ {x} \}}'''
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.block.python - meta.interpolation
+#                               ^^^ meta.interpolation.python - string
+#                                  ^^^^^^^ string.quoted.single.block.python - meta.interpolation
+# ^^^ punctuation.definition.string.begin.python
+#           ^^ constant.character.escape.regexp
+#              ^^ constant.character.escape.regexp
+#                 ^^ constant.character.escape.regexp
+#                   ^^^^^^^ - constant
+#                           ^^^ constant.character.escape.regexp - invalid
+#                               ^ punctuation.section.interpolation.begin.python
+#                                 ^ punctuation.section.interpolation.end.python
+#                                   ^^^ constant.character.escape.regexp - invalid
+#                                      ^^^ punctuation.definition.string.end.python
+
+F'''string \r \n \u2040 %s \{{ {x} \}}'''
+# <- storage.type.string
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.block.python - meta.interpolation
+#                              ^^^ meta.interpolation.python - string
+#                                 ^^^^^^^ string.quoted.single.block.python - meta.interpolation
+#^^^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape.python
+#             ^^ constant.character.escape.python
+#                ^^^^^^ constant.character.escape.unicode.16bit.python
+#                       ^^ - constant
+#                          ^ invalid.deprecated.character.escape.python
+#                          ^^^ constant.character.escape.python
+#                              ^ punctuation.section.interpolation.begin.python
+#                                ^ punctuation.section.interpolation.end.python
+#                                  ^ invalid.deprecated.character.escape.python
+#                                  ^^^ constant.character.escape.python
+#                                     ^^^ punctuation.definition.string.end.python
+
+f'''string \r \n \u2040 %s \{{ {x} \}}'''
+# <- storage.type.string
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.block.python - meta.interpolation
+#                              ^^^ meta.interpolation.python - string
+#                                 ^^^^^^^ string.quoted.single.block.python - meta.interpolation
+#^^^ punctuation.definition.string.begin.python
+#          ^^ constant.character.escape.python
+#             ^^ constant.character.escape.python
+#                ^^^^^^ constant.character.escape.unicode.16bit.python
+#                       ^^ - constant
+#                          ^ invalid.deprecated.character.escape.python
+#                          ^^^ constant.character.escape.python
+#                              ^ punctuation.section.interpolation.begin.python
+#                                ^ punctuation.section.interpolation.end.python
+#                                  ^ invalid.deprecated.character.escape.python
+#                                  ^^^ constant.character.escape.python
+#                                     ^^^ punctuation.definition.string.end.python
+
+RF"string \r \n \u2040 %s \{{ {x} \}}"
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.python - meta.interpolation
+#                             ^^^ meta.interpolation.python - string
+#                                ^^^^^ string.quoted.double.python - meta.interpolation
+# ^ punctuation.definition.string.begin.python
+#         ^^^^^^^^^^^^^^^ - constant
+#                         ^ invalid.deprecated.character.escape.python
+#                         ^^^ constant.character.escape.python
+#                             ^ punctuation.section.interpolation.begin.python
+#                               ^ punctuation.section.interpolation.end.python
+#                                 ^ invalid.deprecated.character.escape.python
+#                                 ^^^ constant.character.escape.python
+#                                    ^ punctuation.definition.string.end.python
+
+rf"string \r \n \u2040 %s \{{ {x} \}}"
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.python - meta.interpolation
+#                             ^^^ meta.interpolation.python - string
+#                                ^^^^^ string.quoted.double.python - meta.interpolation
+# ^ punctuation.definition.string.begin.python
+#         ^^ constant.character.escape.regexp
+#            ^^ constant.character.escape.regexp
+#               ^^ constant.character.escape.regexp
+#                 ^^^^^^^ - constant
+#                         ^^^ constant.character.escape.regexp - invalid
+#                             ^ punctuation.section.interpolation.begin.python
+#                               ^ punctuation.section.interpolation.end.python
+#                                 ^^^ constant.character.escape.regexp - invalid
+#                                    ^ punctuation.definition.string.end.python
+
+RF'string \r \n \u2040 %s \{{ {x} \}}'
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.python - meta.interpolation
+#                             ^^^ meta.interpolation.python - string
+#                                ^^^^^ string.quoted.single.python - meta.interpolation
+# ^ punctuation.definition.string.begin.python
+#         ^^^^^^^^^^^^^^^ - constant
+#                         ^ invalid.deprecated.character.escape.python
+#                         ^^^ constant.character.escape.python
+#                             ^ punctuation.section.interpolation.begin.python
+#                               ^ punctuation.section.interpolation.end.python
+#                                 ^ invalid.deprecated.character.escape.python
+#                                 ^^^ constant.character.escape.python
+#                                    ^ punctuation.definition.string.end.python
+
+rf'string \r \n \u2040 %s \{{ {x} \}}'
+# <- storage.type.string.python - string
+#^ storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.python - meta.interpolation
+#                             ^^^ meta.interpolation.python - string
+#                                ^^^^^ string.quoted.single.python - meta.interpolation
+# ^ punctuation.definition.string.begin.python
+#         ^^ constant.character.escape.regexp
+#            ^^ constant.character.escape.regexp
+#               ^^ constant.character.escape.regexp
+#                 ^^^^^^^ - constant
+#                         ^^^ constant.character.escape.regexp - invalid
+#                             ^ punctuation.section.interpolation.begin.python
+#                               ^ punctuation.section.interpolation.end.python
+#                                 ^^^ constant.character.escape.regexp - invalid
+#                                    ^ punctuation.definition.string.end.python
+
+F"string \r \n \u2040 %s \{{ {x} \}}"
+# <- storage.type.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.python - meta.interpolation
+#                            ^^^ meta.interpolation.python - string
+#                               ^^^^^ string.quoted.double.python - meta.interpolation
+#^ punctuation.definition.string.begin.python
+#        ^^ constant.character.escape.python
+#           ^^ constant.character.escape.python
+#              ^^^^^^ constant.character.escape.unicode.16bit.python
+#                     ^^ - constant
+#                        ^ invalid.deprecated.character.escape.python
+#                        ^^^ constant.character.escape.python
+#                            ^ punctuation.section.interpolation.begin.python
+#                              ^ punctuation.section.interpolation.end.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                   ^ punctuation.definition.string.end.python
+
+f"string \r \n \u2040 %s \{{ {x} \}}"
+# <- storage.type.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.python - meta.interpolation
+#                            ^^^ meta.interpolation.python - string
+#                               ^^^^^ string.quoted.double.python - meta.interpolation
+#^ punctuation.definition.string.begin.python
+#        ^^ constant.character.escape.python
+#           ^^ constant.character.escape.python
+#              ^^^^^^ constant.character.escape.unicode.16bit.python
+#                     ^^ - constant
+#                        ^ invalid.deprecated.character.escape.python
+#                        ^^^ constant.character.escape.python
+#                            ^ punctuation.section.interpolation.begin.python
+#                              ^ punctuation.section.interpolation.end.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                   ^ punctuation.definition.string.end.python
+
+F'string \r \n \u2040 %s \{{ {x} \}}'
+# <- storage.type.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.python - meta.interpolation
+#                            ^^^ meta.interpolation.python - string
+#                               ^^^^^ string.quoted.single.python - meta.interpolation
+#^ punctuation.definition.string.begin.python
+#        ^^ constant.character.escape.python
+#           ^^ constant.character.escape.python
+#              ^^^^^^ constant.character.escape.unicode.16bit.python
+#                     ^^ - constant
+#                        ^ invalid.deprecated.character.escape.python
+#                        ^^^ constant.character.escape.python
+#                            ^ punctuation.section.interpolation.begin.python
+#                              ^ punctuation.section.interpolation.end.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                   ^ punctuation.definition.string.end.python
+
+f'string \r \n \u2040 %s \{{ {x} \}}'
+# <- storage.type.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.python - meta.interpolation
+#                            ^^^ meta.interpolation.python - string
+#                               ^^^^^ string.quoted.single.python - meta.interpolation
+#^ punctuation.definition.string.begin.python
+#        ^^ constant.character.escape.python
+#           ^^ constant.character.escape.python
+#              ^^^^^^ constant.character.escape.unicode.16bit.python
+#                     ^^ - constant
+#                        ^ invalid.deprecated.character.escape.python
+#                        ^^^ constant.character.escape.python
+#                            ^ punctuation.section.interpolation.begin.python
+#                              ^ punctuation.section.interpolation.end.python
+#                                ^ invalid.deprecated.character.escape.python
+#                                ^^^ constant.character.escape.python
+#                                   ^ punctuation.definition.string.end.python
 
 f"{something}"
 # <- storage.type.string.python
@@ -1393,6 +1618,27 @@ f"result: {value:{width}.{precision}}\n"
 #                                    ^^^ string.quoted.double.python
 #                                    ^^ constant.character.escape.python
 #                                      ^ punctuation.definition.string.end.python
+
+fr"^\s*({label}|{notlabel})"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+#  ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
+#      ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
+#       ^^^^^^^ source.python meta.string.python meta.interpolation.python
+#        ^^^^^ meta.path.python meta.generic-name.python
+#                         ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
+
+re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
+#           ^ constant.character.escape.regexp - constant.character.escape.python
+#            ^^ constant.character.escape.regexp constant.character.escape.python
+#              ^^ constant.character.escape.regexp
+#                   ^ constant.character.escape.regexp - constant.character.escape.python
+#                    ^^ constant.character.escape.regexp constant.character.escape.python
+#                       ^ punctuation.section.interpolation.begin.python
+#                           ^ constant.character.escape.regexp - constant.character.escape.python
+#                            ^^ constant.character.escape.regexp constant.character.escape.python
+#                              ^^ constant.character.escape.regexp
+#                                   ^ constant.character.escape.regexp - constant.character.escape.python
+#                                    ^^ constant.character.escape.regexp constant.character.escape.python
 
 rf"{value:{width!s:d}}"
 # <- storage.type.string.python
