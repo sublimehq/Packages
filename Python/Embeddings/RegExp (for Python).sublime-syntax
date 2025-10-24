@@ -8,6 +8,9 @@ hidden: true
 extends: Packages/Regular Expressions/RegExp (Basic).sublime-syntax
 
 variables:
+  # escapes
+  known_char_escape: \\(?:[0-7]{3}|x\{\h{1,7}\}|x\h\h)
+
   # modifiers
   activate_x_mode: (?:\?[imsLua]*x[ixmsLua]*(?:-[imsLua]+)?)
   deactivate_x_mode: (?:\?[imsLua]*-[imsLua]*x[imxsLua]*)

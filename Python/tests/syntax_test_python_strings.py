@@ -1588,6 +1588,13 @@ match = re.match(r"([^" + charset + r"]*)", line)
 #                                     ^ punctuation.definition.set.end.regexp
 #                                       ^ punctuation.section.group.end.regexp
 
+match = re.match(r"\c \c20 \x20 \040", line)
+#                  ^^^^^^^^ - constant
+#                  ^^ invalid.illegal.character.escape.regexp
+#                     ^^ invalid.illegal.character.escape.regexp
+#                          ^^^^ constant.character.escape.regexp
+#                               ^^^^ constant.character.escape.regexp
+
 ###############################
 # f-strings
 ###############################
