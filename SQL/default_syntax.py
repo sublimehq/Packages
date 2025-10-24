@@ -111,10 +111,5 @@ class SqlSetDefaultSyntaxCommand(sublime_plugin.WindowCommand):
             return
 
         # write modified default syntax to extracted Packages path
-        with open(
-            file=Path(sublime.packages_path()).parent / default_syntax.path,
-            mode="w",
-            encoding="utf-8",
-            newline="\n",
-        ) as out:
-            out.write(new_content)
+        file = Path(sublime.packages_path()).parent / default_syntax.path
+        file.write_text(new_content, encoding="utf-8", newline="\n")
