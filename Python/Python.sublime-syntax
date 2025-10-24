@@ -2809,7 +2809,6 @@ contexts:
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
     - include: escaped-raw-quotes
-    - include: escaped-unicode-chars
 
   triple-double-quoted-raw-u-string:
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
@@ -2844,7 +2843,6 @@ contexts:
   triple-double-quoted-regexp-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
-    - include: escaped-unicode-chars
 
   triple-double-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -2861,7 +2859,6 @@ contexts:
     - include: string-placeholders
     - include: triple-double-quoted-string-replacements
     - include: escaped-raw-quotes
-    - include: escaped-unicode-chars
 
   triple-double-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
@@ -3537,7 +3534,6 @@ contexts:
   triple-single-quoted-regexp-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
-    - include: escaped-unicode-chars
 
   triple-single-quoted-sql-raw-u-string-body:
     - meta_include_prototype: false
@@ -3554,7 +3550,6 @@ contexts:
     - include: string-placeholders
     - include: triple-single-quoted-string-replacements
     - include: escaped-raw-quotes
-    - include: escaped-unicode-chars
 
   triple-single-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
