@@ -2807,6 +2807,7 @@ contexts:
   triple-double-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: triple-double-quoted-string-replacements
     - include: escaped-raw-quotes
     - include: escaped-unicode-chars
 
@@ -2858,9 +2859,9 @@ contexts:
   triple-double-quoted-sql-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: triple-double-quoted-string-replacements
     - include: escaped-raw-quotes
     - include: escaped-unicode-chars
-    - include: triple-double-quoted-string-replacements
 
   triple-double-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
@@ -2881,7 +2882,6 @@ contexts:
     - include: string-continuations
     - include: string-placeholders
     - include: escaped-chars
-    - include: triple-double-quoted-string-replacements
 
   triple-double-quoted-f-string:
     # Triple-quoted f-string or t-string
@@ -2945,9 +2945,9 @@ contexts:
     - include: string-prototype
     - include: string-continuations
     - include: string-placeholders
+    - include: triple-double-quoted-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: triple-double-quoted-string-replacements
 
   triple-double-quoted-string-replacements:
     - include: escaped-string-braces
@@ -3161,6 +3161,7 @@ contexts:
   double-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: double-quoted-string-replacements
     - include: escaped-raw-quotes
 
   double-quoted-raw-u-string:
@@ -3211,8 +3212,8 @@ contexts:
   double-quoted-sql-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
-    - include: escaped-raw-quotes
     - include: double-quoted-string-replacements
+    - include: escaped-raw-quotes
 
   double-quoted-b-string:
     # Single-line string, bytes
@@ -3232,7 +3233,6 @@ contexts:
     - include: string-prototype
     - include: string-placeholders
     - include: escaped-chars
-    - include: double-quoted-string-replacements
 
   double-quoted-f-string:
     # Single-line f-string or t-string
@@ -3294,9 +3294,9 @@ contexts:
   double-quoted-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: double-quoted-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: double-quoted-string-replacements
 
   double-quoted-string-replacements:
     - include: escaped-string-braces
@@ -3501,6 +3501,7 @@ contexts:
   triple-single-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: triple-single-quoted-string-replacements
     - include: escaped-raw-quotes
 
   triple-single-quoted-raw-u-string:
@@ -3551,9 +3552,9 @@ contexts:
   triple-single-quoted-sql-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: triple-single-quoted-string-replacements
     - include: escaped-raw-quotes
     - include: escaped-unicode-chars
-    - include: triple-single-quoted-string-replacements
 
   triple-single-quoted-b-string:
     # Triple-quoted string, bytes, no syntax embedding
@@ -3574,7 +3575,6 @@ contexts:
     - include: string-continuations
     - include: string-placeholders
     - include: escaped-chars
-    - include: triple-single-quoted-string-replacements
 
   triple-single-quoted-f-string:
     # Triple-quoted f-string or t-string
@@ -3638,9 +3638,9 @@ contexts:
     - include: string-prototype
     - include: string-continuations
     - include: string-placeholders
+    - include: triple-single-quoted-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: triple-single-quoted-string-replacements
 
   triple-single-quoted-string-replacements:
     - include: escaped-string-braces
@@ -3813,6 +3813,7 @@ contexts:
   single-quoted-plain-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: single-quoted-string-replacements
     - include: escaped-raw-quotes
 
   single-quoted-raw-u-string:
@@ -3863,8 +3864,8 @@ contexts:
   single-quoted-sql-raw-u-string-content:
     - include: string-prototype
     - include: string-placeholders
-    - include: escaped-raw-quotes
     - include: single-quoted-string-replacements
+    - include: escaped-raw-quotes
 
   single-quoted-plain-raw-f-string:
     # Single-line raw f-string
@@ -3925,7 +3926,6 @@ contexts:
     - include: string-prototype
     - include: string-placeholders
     - include: escaped-chars
-    - include: single-quoted-string-replacements
 
   single-quoted-f-string:
     # Single-line f-string or t-string
@@ -3987,9 +3987,9 @@ contexts:
   single-quoted-u-string-content:
     - include: string-prototype
     - include: string-placeholders
+    - include: single-quoted-string-replacements
     - include: escaped-unicode-chars
     - include: escaped-chars
-    - include: single-quoted-string-replacements
 
   single-quoted-string-replacements:
     - include: escaped-string-braces
