@@ -12535,10 +12535,11 @@ let-=
 let+=
 #^^^^ - storage - keyword.declaration
 
-let expr 'expr' "expr"
+let expr 'expr' "expr" \expr $expr `expr` {expr}
 # <- meta.function-call.identifier.shell support.function.shell
 #^^ meta.function-call.identifier.shell
-#  ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#                                              ^ - meta.function-call.arguments - meta.arithmetic
 #^^ support.function.shell
 #   ^^^^ variable.other.readwrite.shell
 #        ^ punctuation.definition.quoted.begin.shell
@@ -12547,6 +12548,16 @@ let expr 'expr' "expr"
 #               ^ punctuation.definition.quoted.begin.shell
 #                ^^^^ variable.other.readwrite.shell
 #                    ^ punctuation.definition.quoted.end.shell
+#                      ^^^^^ variable.other.readwrite.shell
+#                      ^^ constant.character.escape.shell
+#                            ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                            ^ punctuation.definition.variable.shell
+#                                  ^^^^^^ meta.interpolation.command.shell
+#                                  ^ punctuation.section.interpolation.begin.shell
+#                                   ^^^^ meta.function-call.identifier.shell meta.command.shell variable.function.shell
+#                                       ^ punctuation.section.interpolation.end.shell
+#                                         ^ invalid.illegal.unexpected-token.shell
+#                                          ^^^^ variable.other.readwrite.shell
 
 let 5 \
     + 5
