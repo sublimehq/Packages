@@ -54,6 +54,11 @@ jobs:
           # https://www.sublimetext.com/dev
           - sublime-channel: dev
             sublime-build: latest
+            optional: true
+
+          # PRIVATE BETA
+          - sublime-channel: PRIVATE BETA
+            sublime-build: 4202
             optional: false
 
     steps:
