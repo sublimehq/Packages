@@ -1,9 +1,11 @@
-import re
 import sublime
 import sublime_plugin
+
+import re
 import timeit
 
 from functools import cached_property, wraps
+from typing import List, Optional, Tuple
 
 from . import completions
 
@@ -29,41 +31,41 @@ def timing(func):
     return wrap
 
 
-def match_selector(view, pt, scope):
+def match_selector(view: sublime.View, pt: int, scope: str) -> bool:
     # This will catch scenarios like:
     # - .foo {font-style: |}
     # - <style type="text/css">.foo { font-weight: b|</style>
     return any(view.match_selector(p, scope) for p in (pt, pt - 1))
 
 
-def next_none_whitespace(view, pt):
+def next_none_whitespace(view: sublime.View, pt: int) -> Optional[str]:
     for pt in range(pt, view.size()):
         ch = view.substr(pt)
         if ch not in ' \t':
             return ch
+    return None
 
 
 class CSSCompletions(sublime_plugin.EventListener):
 
     @cached_property
-    def func_args(self):
+    def func_args(self) -> dict:
         return completions.get_func_args()
 
     @cached_property
-    def props(self):
+    def props(self) -> dict:
         return completions.get_properties()
 
     @cached_property
-    def re_name(self):
+    def re_name(self) -> re.Pattern:
         return re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
 
     @cached_property
-    def re_value(self):
+    def re_value(self) -> re.Pattern:
         return re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
 
     @timing
-    def on_query_completions(self, view, prefix, locations):
-
+    def on_query_completions(self, view: sublime.View, prefix: str, locations: List[int]) -> Optional[sublime.CompletionList]:
         settings = sublime.load_settings('CSS.sublime-settings')
         if settings.get('disable_default_completions'):
             return None
@@ -87,7 +89,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             return sublime.CompletionList(items)
         return None
 
-    def complete_property_name(self, view, prefix, pt):
+    def complete_property_name(self, view: sublime.View, prefix: str, pt: int) -> List[sublime.CompletionItem]:
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
@@ -111,16 +113,16 @@ class CSSCompletions(sublime_plugin.EventListener):
             if not value and not term and not match_selector(view, pt, "meta.group"):
                 suffix += ";"
 
-        return (
+        return [
             sublime.CompletionItem(
                 trigger=prop,
                 completion=prop + suffix,
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                 kind=KIND_CSS_PROPERTY
             ) for prop in self.props
-        )
+        ]
 
-    def complete_property_value(self, view, prefix, pt):
+    def complete_property_value(self, view: sublime.View, prefix: str, pt: int) -> List[sublime.CompletionItem]:
         completions = [
             sublime.CompletionItem(
                 trigger="!important",
@@ -161,7 +163,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         return completions
 
-    def complete_function_argument(self, view: sublime.View, prefix, pt):
+    def complete_function_argument(self, view: sublime.View, prefix: str, pt: int) -> List[sublime.CompletionItem]:
         func_name = ""
         nest_level = 1
         # Look for the beginning of the current function call's arguments list,
@@ -199,7 +201,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         args = self.func_args.get(func_name)
         if not args:
-            return None
+            return []
 
         completions = []
         details = f"{func_name}() argument"
