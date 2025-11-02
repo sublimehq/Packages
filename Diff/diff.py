@@ -1,7 +1,7 @@
 import difflib
 import time
 from pathlib import Path
-from typing import Iterable, Iterator, List, Optional
+from typing import Iterable, Iterator, List
 
 import sublime
 import sublime_plugin
@@ -71,7 +71,8 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
 class DiffChangesCommand(sublime_plugin.TextCommand):
     def run(self, edit: sublime.Edit) -> None:
         fname = self.view.file_name()
-        if not fname or not Path(fname).exists():
+        fpath = Path(fname)
+        if not fname or not fpath.exists():
             sublime.status_message("Unable to diff changes because the file does not exist")
             return
 
@@ -84,11 +85,11 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
         b = get_lines_for_view(self.view)
         add_no_eol_warning_if_applicable(b)
 
-        adate = time.ctime(Path(fname).stat().st_mtime)
+        adate = time.ctime(fpath.stat().st_mtime)
         bdate = time.ctime()
 
         diff = difflib.unified_diff(a, b, fname, fname, adate, bdate, lineterm="")
-        name = f"Unsaved Changes: {Path(fname).name}"
+        name = f"Unsaved Changes: {fpath.name}"
         show_diff_output(diff, self.view, self.view.window(), name, "unsaved_changes", "diff_changes_to_buffer")
 
     def is_enabled(self) -> bool:
@@ -97,7 +98,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
 
 def show_diff_output(
     diff: Iterable[str],
-    view: Optional[sublime.View],
+    view: sublime.View | None,
     win: sublime.Window,
     name: str,
     panel_name: str,
