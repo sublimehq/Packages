@@ -5,7 +5,6 @@ import re
 import timeit
 
 from functools import cached_property, wraps
-from typing import List, Tuple
 
 from . import completions
 
@@ -65,7 +64,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         return re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
 
     @timing
-    def on_query_completions(self, view: sublime.View, prefix: str, locations: List[int]) -> sublime.CompletionList | None:
+    def on_query_completions(self, view: sublime.View, prefix: str, locations: list[int]) -> sublime.CompletionList | None:
         settings = sublime.load_settings('CSS.sublime-settings')
         if settings.get('disable_default_completions'):
             return None
@@ -89,7 +88,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             return sublime.CompletionList(items)
         return None
 
-    def complete_property_name(self, view: sublime.View, prefix: str, pt: int) -> List[sublime.CompletionItem]:
+    def complete_property_name(self, view: sublime.View, prefix: str, pt: int) -> list[sublime.CompletionItem]:
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
@@ -122,7 +121,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             ) for prop in self.props
         ]
 
-    def complete_property_value(self, view: sublime.View, prefix: str, pt: int) -> List[sublime.CompletionItem]:
+    def complete_property_value(self, view: sublime.View, prefix: str, pt: int) -> list[sublime.CompletionItem]:
         completions = [
             sublime.CompletionItem(
                 trigger="!important",
@@ -163,7 +162,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         return completions
 
-    def complete_function_argument(self, view: sublime.View, prefix: str, pt: int) -> List[sublime.CompletionItem]:
+    def complete_function_argument(self, view: sublime.View, prefix: str, pt: int) -> list[sublime.CompletionItem]:
         func_name = ""
         nest_level = 1
         # Look for the beginning of the current function call's arguments list,
