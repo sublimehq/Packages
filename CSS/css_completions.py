@@ -21,10 +21,10 @@ def timing(func):
     @wraps(func)
     def wrap(*args, **kw):
         if ENABLE_TIMING:
-            ts = timeit.default_timer()
+            ts: float = timeit.default_timer()
         result = func(*args, **kw)
         if ENABLE_TIMING:
-            te = timeit.default_timer()
+            te: float = timeit.default_timer()
             print(f"{func.__name__}({args}, {kw}) took: {1000.0 * (te - ts):2.3f} ms")
         return result
     return wrap
@@ -56,11 +56,11 @@ class CSSCompletions(sublime_plugin.EventListener):
         return completions.get_properties()
 
     @cached_property
-    def re_name(self) -> re.Pattern:
+    def re_name(self) -> re.Pattern[str]:
         return re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
 
     @cached_property
-    def re_value(self) -> re.Pattern:
+    def re_value(self) -> re.Pattern[str]:
         return re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
 
     @timing
@@ -73,7 +73,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         if isinstance(selector, list):
             selector = ''.join(selector)
 
-        pt = locations[0]
+        pt: int = locations[0]
         if not match_selector(view, pt, selector):
             return None
 
@@ -100,7 +100,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             term = ""
 
         # don't append anything if next character is a colon
-        suffix = ""
+        suffix: str = ""
         if not colon:
             # add space after colon if smart typing is enabled
             if not space and view.settings().get("auto_complete_trailing_spaces"):
@@ -130,7 +130,7 @@ class CSSCompletions(sublime_plugin.EventListener):
                 details="override any other declaration"
             )
         ]
-        text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
+        text: str = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
         matches = self.re_name.search(text)
         if matches:
             prop = matches.group(1)
