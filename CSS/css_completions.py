@@ -5,7 +5,7 @@ import re
 import timeit
 
 from functools import cached_property, wraps
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 from . import completions
 
@@ -38,7 +38,7 @@ def match_selector(view: sublime.View, pt: int, scope: str) -> bool:
     return any(view.match_selector(p, scope) for p in (pt, pt - 1))
 
 
-def next_none_whitespace(view: sublime.View, pt: int) -> Optional[str]:
+def next_none_whitespace(view: sublime.View, pt: int) -> str | None:
     for pt in range(pt, view.size()):
         ch = view.substr(pt)
         if ch not in ' \t':
@@ -65,7 +65,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         return re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
 
     @timing
-    def on_query_completions(self, view: sublime.View, prefix: str, locations: List[int]) -> Optional[sublime.CompletionList]:
+    def on_query_completions(self, view: sublime.View, prefix: str, locations: List[int]) -> sublime.CompletionList | None:
         settings = sublime.load_settings('CSS.sublime-settings')
         if settings.get('disable_default_completions'):
             return None
