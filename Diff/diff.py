@@ -1,194 +1,229 @@
-import difflib
-import os
-import time
-
 import sublime
 import sublime_plugin
 
+import difflib
+import time
 
-def splitlines_keep_ends(text):
-    lines = text.split('\n')
+from pathlib import Path
+from typing import Iterable, Iterator
 
-    # Need to insert back the newline characters between lines, difflib
-    # requires this.
-    if len(lines) > 0:
-        for i in range(len(lines) - 1):
-            lines[i] += '\n'
 
+def splitlines_keep_ends(text: str) -> list[str]:
+    """
+    Split text into lines but preserve newline endings.
+    Required for difflib to work correctly.
+    """
+    lines: list[str] = text.split(sep='\n')
+    for i in range(len(lines) - 1):
+        lines[i] += '\n'
     return lines
 
 
-def read_file_lines(fname):
-    with open(fname, mode='rt', encoding='utf-8') as f:
-        lines = splitlines_keep_ends(f.read())
-
-    # as `difflib` doesn't work properly when the file does not end
-    # with a new line character (https://bugs.python.org/issue2142),
-    # we add a warning ourselves to fix it
+def read_file_lines(fname: str | Path) -> list[str]:
+    """Read a UTF-8 file and return its lines with newline endings preserved."""
+    path: Path = Path(fname)
+    text: str = path.read_text(encoding="utf-8")
+    lines: list[str] = splitlines_keep_ends(text)
     add_no_eol_warning_if_applicable(lines)
-
     return lines
 
 
-def add_no_eol_warning_if_applicable(lines):
-    if len(lines) > 0 and lines[-1]:
-        # note we update the last line rather than adding a new one
-        # so that the diff will show the warning with the last line
+def add_no_eol_warning_if_applicable(lines: list[str]) -> None:
+    """
+    Append a note if file doesn't end with newline.
+    difflib misbehaves otherwise.
+    """
+    if lines and lines[-1] and not lines[-1].endswith('\n'):
         lines[-1] += '\n\\ No newline at end of file\n'
 
 
 class DiffFilesCommand(sublime_plugin.WindowCommand):
-
-    def run(self, files):
+    def run(self, files: list[str]) -> None:
         if len(files) != 2:
             return
 
         try:
-            a = read_file_lines(files[1])
-            b = read_file_lines(files[0])
+            a: list[str] = read_file_lines(fname=files[1])
+            b: list[str] = read_file_lines(fname=files[0])
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        adate = time.ctime(os.stat(files[1]).st_mtime)
-        bdate = time.ctime(os.stat(files[0]).st_mtime)
+        a_path, b_path = Path(files[1]), Path(files[0])
+        adate: str = time.ctime(a_path.stat().st_mtime)
+        bdate: str = time.ctime(b_path.stat().st_mtime)
 
-        diff = difflib.unified_diff(a, b, files[1], files[0], adate, bdate)
-        show_diff_output(diff, None, self.window, f"{os.path.basename(files[1])} -> {os.path.basename(files[0])}", 'diff_files', 'diff_files_to_buffer')
+        diff = difflib.unified_diff(
+            a,
+            b,
+            fromfile=files[1],
+            tofile=files[0],
+            fromfiledate=adate,
+            tofiledate=bdate,
+            lineterm=""
+        )
+        show_diff_output(
+            diff,
+            view=None,
+            win=self.window,
+            name=f"{a_path.name} -> {b_path.name}",
+            panel_name="diff_files",
+            buffer_setting_name="diff_files_to_buffer",
+        )
 
-    def is_visible(self, files):
+    def is_visible(self, files: list[str]) -> bool:
         return len(files) == 2
 
 
 class DiffChangesCommand(sublime_plugin.TextCommand):
-
-    def run(self, edit):
-
-        fname = self.view.file_name()
-
-        if not fname or not os.path.exists(fname):
+    def run(self, edit: sublime.Edit) -> None:
+        fname: str | None = self.view.file_name()
+        fpath: Path = Path(fname)
+        if not fname or not fpath.exists():
             sublime.status_message("Unable to diff changes because the file does not exist")
             return
 
         try:
-            a = read_file_lines(fname)
+            a: list[str] = read_file_lines(fname)
         except UnicodeDecodeError:
-            sublime.status_message("Diff only works with UTF-8 files")
+            sublime.status_message(msg="Diff only works with UTF-8 files")
             return
 
-        b = get_lines_for_view(self.view)
+        b: list[str] = get_lines_for_view(self.view)
+        add_no_eol_warning_if_applicable(lines=b)
 
-        add_no_eol_warning_if_applicable(b)
+        adate: str = time.ctime(fpath.stat().st_mtime)
+        bdate: str = time.ctime()
 
-        adate = time.ctime(os.stat(fname).st_mtime)
-        bdate = time.ctime()
+        diff = difflib.unified_diff(
+            a,
+            b,
+            fromfile=fname,
+            tofile=fname,
+            fromfiledate=adate,
+            tofiledate=bdate,
+            lineterm=""
+        )
+        name: str = f"Unsaved Changes: {fpath.name}"
+        show_diff_output(
+            diff,
+            self.view,
+            win=self.view.window(),
+            name=name,
+            panel_name="unsaved_changes",
+            buffer_setting_name="diff_changes_to_buffer"
+        )
 
-        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
-        name = "Unsaved Changes: " + os.path.basename(fname)
-        show_diff_output(diff, self.view, self.view.window(), name, 'unsaved_changes', 'diff_changes_to_buffer')
-
-    def is_enabled(self):
+    def is_enabled(self) -> bool:
         return self.view.is_dirty() and self.view.file_name() is not None
 
 
-def show_diff_output(diff, view, win, name, panel_name, buffer_setting_name):
-    difftxt = u"".join(line for line in diff)
+def show_diff_output(
+    diff: Iterable[str],
+    view: sublime.View | None,
+    win: sublime.Window,
+    name: str,
+    panel_name: str,
+    buffer_setting_name: str,
+) -> None:
+    """Display the unified diff either in a scratch buffer or an output panel."""
+    difftxt: str = "".join(diff)
 
-    if difftxt == "":
-        sublime.status_message("No changes")
+    if not difftxt:
+        sublime.status_message(msg="No changes")
         return
 
-    use_buffer = not view or view.settings().get(buffer_setting_name)
+    use_buffer = not view or view.settings().get(key=buffer_setting_name)
 
     if use_buffer:
-        v = win.new_file()
+        v: sublime.View = win.new_file()
         v.set_name(name)
-        v.set_scratch(True)
+        v.set_scratch(scratch=True)
     else:
-        v = win.create_output_panel(panel_name)
+        v: sublime.View = win.create_output_panel(name=panel_name)
         if view:
-            v.settings().set('word_wrap', view.settings().get('word_wrap'))
+            v.settings().set(key="word_wrap", value=view.settings().get(key="word_wrap"))
 
-    v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
-    v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
+    v.assign_syntax(syntax="Packages/Diff/Diff.sublime-syntax")
+    v.run_command(cmd="append", args={"characters": difftxt, "disable_tab_translation": True})
 
     if not use_buffer:
-        win.run_command('show_panel', {'panel': f'output.{panel_name}'})
+        win.run_command(cmd="show_panel", args={"panel": f"output.{panel_name}"})
 
 
-def get_view_from_tab_context(active_view, **kwargs):
-    view = active_view
-    if 'group' in kwargs and 'index' in kwargs:
-        view = view.window().views_in_group(kwargs['group'])[kwargs['index']]
-    return view
+def get_view_from_tab_context(active_view: sublime.View, **kwargs) -> sublime.View:
+    """Return the view associated with the clicked tab."""
+    if "group" in kwargs and "index" in kwargs:
+        return active_view.window().views_in_group(group=kwargs["group"])[kwargs["index"]]
+    return active_view
 
 
-def get_views_from_tab_context(active_view, **kwargs):
-    selected_views = list(get_selected_views(active_view.window()))
-    if 'group' in kwargs and 'index' in kwargs:
-        tab_context_view = get_view_from_tab_context(active_view, **kwargs)
-        # if the tab which was right clicked on is selected, exclude it from the selected views and re-add it afterwards
-        # so that the order of the diff will be determined by which tab was right-clicked on
-        return [view for view in selected_views if view.id() != tab_context_view.id()] + [tab_context_view]
+def get_views_from_tab_context(active_view: sublime.View, **kwargs) -> list[sublime.View]:
+    """Return selected views, preserving right-click order."""
+    selected_views: list[sublime.View] = list(get_selected_views(window=active_view.window()))
+    if "group" in kwargs and "index" in kwargs:
+        tab_view: sublime.View = get_view_from_tab_context(active_view, **kwargs)
+        return [v for v in selected_views if v.id() != tab_view.id()] + [tab_view]
     return selected_views
 
 
-def get_selected_views(window):
-    return filter(lambda view: view, map(lambda sheet: sheet.view(), window.selected_sheets()))
+def get_selected_views(window: sublime.Window) -> Iterator[sublime.View]:
+    """Yield selected views from the given window."""
+    return filter(None, (sheet.view() for sheet in window.selected_sheets()))
 
 
-def get_name_for_view(view):
-    return view.file_name() or view.name() or "Unsaved view ({})".format(view.id())
+def get_name_for_view(view: sublime.View) -> str:
+    return view.file_name() or view.name() or f"Unsaved view ({view.id()})"
 
 
-def get_lines_for_view(view):
-    return splitlines_keep_ends(view.substr(sublime.Region(0, view.size())))
+def get_lines_for_view(view: sublime.View) -> list[str]:
+    """Return the full text of a view split into lines."""
+    return splitlines_keep_ends(text=view.substr(x=sublime.Region(a=0, b=view.size())))
 
 
 class DiffViewsCommand(sublime_plugin.TextCommand):
-    def run(self, edit, **kwargs):
-        views = get_views_from_tab_context(self.view, **kwargs)
+    def run(self, edit: sublime.Edit, **kwargs) -> None:
+        views: list[sublime.View] = get_views_from_tab_context(active_view=self.view, **kwargs)
         if len(views) != 2:
             return
 
-        view_names = (
-            get_name_for_view(views[0]),
-            get_name_for_view(views[1])
-        )
-
-        from_lines = get_lines_for_view(views[0])
-        to_lines = get_lines_for_view(views[1])
-        add_no_eol_warning_if_applicable(from_lines)
-        add_no_eol_warning_if_applicable(to_lines)
+        view_names: list[str] = [get_name_for_view(view=v) for v in views]
+        from_lines, to_lines = map(get_lines_for_view, views)
+        add_no_eol_warning_if_applicable(lines=from_lines)
+        add_no_eol_warning_if_applicable(lines=to_lines)
 
         diff = difflib.unified_diff(
-            from_lines,
-            to_lines,
+            a=from_lines,
+            b=to_lines,
             fromfile=view_names[0],
-            tofile=view_names[1]
+            tofile=view_names[1],
+            lineterm="",
         )
 
+        # Try to shorten common path prefix
         try:
-            common_path_length = len(os.path.commonpath(view_names))
-            if common_path_length <= 1:
-                common_path_length = 0
-            else:
-                common_path_length += 1
-        except ValueError:
-            common_path_length = 0
-        view_names = list(map(lambda name: name[common_path_length:], view_names))
-        show_diff_output(diff, views[0], views[0].window(), f'{view_names[0]} -> {view_names[1]}', 'diff_views', 'diff_tabs_to_buffer')
+            common_path: Path = Path(*Path(view_names[0]).parts).parent
+            common_prefix: str = str(common_path)
+            if common_prefix and all(name.startswith(common_prefix) for name in view_names):
+                view_names: list[str] = [name[len(common_prefix) + 1 :] for name in view_names]
+        except Exception:
+            pass
 
-    def is_enabled(self, **kwargs):
+        show_diff_output(
+            diff,
+            view=views[0],
+            win=views[0].window(),
+            name=f"{view_names[0]} -> {view_names[1]}",
+            panel_name="diff_views",
+            buffer_setting_name="diff_tabs_to_buffer",
+        )
+
+    def is_enabled(self, **kwargs) -> bool:
         return self.is_visible(**kwargs)
 
-    def is_visible(self, **kwargs):
-        views = get_views_from_tab_context(self.view, **kwargs)
-        return len(views) == 2
+    def is_visible(self, **kwargs) -> bool:
+        return len(get_views_from_tab_context(active_view=self.view, **kwargs)) == 2
 
-    def description(self, **kwargs):
-        selected_views = list(get_selected_views(self.view.window()))
-        if len(selected_views) == 2:
-            return 'Diff Selected Tabs...'
-
-        return 'Diff With Current Tab...'
+    def description(self, **kwargs) -> str:
+        selected_views: list[sublime.View] = list(get_selected_views(window=self.view.window()))
+        return "Diff Selected Tabs..." if len(selected_views) == 2 else "Diff With Current Tab..."
