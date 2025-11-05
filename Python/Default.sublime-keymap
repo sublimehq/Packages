@@ -107,4 +107,13 @@
             { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|}|,|;|'|\"|$)", "match_all": true }
         ]
     },
+
+    // Insert dedented line after certain keywords
+    { "keys": ["enter"], "command": "run_macro_file", "args": {"file": "Packages/Python/Add Dedented Line.sublime-macro"}, "context":
+        [
+            { "key": "selector", "operand": "source.python - source.python comment - source.python string" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s+(?:break|continue|pass|return\\b.*)$", "match_all": true }
+        ],
+    },
 ]
