@@ -953,11 +953,41 @@ function testWhileIndentationWithBraces(v)  {
     }
     while (
         v == foo( bar("") + "" )
-        )
+    )
     {
         v++;
         v++;
     }
+}
+
+function testParenthesisIndentation() {
+    myFunc(
+        
+    );
+
+    myFunc(
+        'arg1',
+        'arg2',
+        'arg3'
+    );
+
+    if (
+        (conditionA && conditionB) ||
+        (conditionC && conditionD)
+    ) {
+    }
+
+    outerFunc(
+        innerFunc(
+            'arg'
+        )
+    );
+
+    const myArrowFunc = (
+        param1,
+        param2
+    ) => {
+    };
 }
 
 function testWhileIndentationWithBracesAndComments(v)  {

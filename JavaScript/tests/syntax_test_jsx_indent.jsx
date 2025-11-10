@@ -41,7 +41,7 @@ function Layout({ env }) {
             </p>
         </body>
         </html>
-        );
+    );
 }
 
 function Video({ video }) {
@@ -58,7 +58,7 @@ function Video({ video }) {
                 video={video}
             />
         </div>
-        );
+    );
 }
 
 function VideoList({ videos, emptyHeading }) {
@@ -87,8 +87,8 @@ function VideoList({ videos, emptyHeading }) {
                             }
                         </p>
                     </div>
-                    )
+                )
             }
         </section>
-        );
+    );
 }
