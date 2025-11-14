@@ -30,6 +30,8 @@
 			  \}
 			# dedent closing brackets
 			| \]
+			# dedent closing parentheses
+			| \)
 			# dedent closing tagged templates
 			| `
 			# detent `case ... :`
@@ -46,9 +48,9 @@
 			# line beginning with whitespace or block comments
 			^ (.*\*/)? \s*
 			(?:
-			# indent after opening braces (may be followed by whitespace or comments)
+			# indent after opening braces, brackets, and parentheses (may be followed by whitespace or comments)
 			# but exclude lines such as `extern "C" {`
-			  .* \{ (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
+			  .* [\{\[\(] (?: \s* /\*.*\*/ )* \s* (?: //.* )? $
 			# indent after opening tagged template: e.g.: "css`"
 			# see: Indentation Rules - Template Strings.tmPreferences
 			# indent after `case ... :`
