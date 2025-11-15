@@ -178,7 +178,8 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^ variable.parameter.cs
 //                          ^ punctuation.separator.parameter.function.cs
-//                            ^^^^ storage.modifier.parameter.cs
+//                            ^^^ storage.modifier.parameter.cs
+//                               ^^^^^^^^^^^ - storage
 //                                ^^^^^^ variable.parameter.cs
 //                                      ^ meta.group.cs punctuation.section.group.end.cs
 //                                        ^^ keyword.declaration.function.arrow.cs
@@ -208,7 +209,8 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //                     ^ punctuation.section.group.begin.cs
 //                      ^^^^ variable.parameter.cs
 //                          ^ punctuation.separator.parameter.function.cs
-//                            ^^^^ storage.modifier.parameter.cs
+//                            ^^^ storage.modifier.parameter.cs
+//                               ^^^^^^^^^^^^^^ - storage
 //                                ^^^^^ support.type.cs
 //                                      ^^^^^^ variable.parameter.cs
 //                                            ^ meta.group.cs punctuation.section.group.end.cs

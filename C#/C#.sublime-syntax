@@ -51,7 +51,7 @@ variables:
   name_normal: '{{start_char}}{{other_char}}*\b'
   cap_name: '(\p{Lu}{{other_char}})'
 
-  method_param_type_modifier: \b(out|ref|this|params|in)\s+
+  method_param_type_modifier: \b(?:out|ref|this|params|in)\b
 
 contexts:
   prototype:
@@ -895,7 +895,7 @@ contexts:
       pop: true
 
   method_param_type_modifier:
-    - match: '\s*{{method_param_type_modifier}}'
+    - match: '\s*({{method_param_type_modifier}})\s'
       captures:
         1: storage.modifier.parameter.cs
     - match: \s
@@ -1175,7 +1175,7 @@ contexts:
 
   inside_parenthesized_lambda:
     - meta_content_scope: meta.function.anonymous.cs meta.group.cs
-    - match: '{{method_param_type_modifier}}'
+    - match: '{{method_param_type_modifier}}(?=\s)'
       scope: storage.modifier.parameter.cs
     - match: '{{name}}(?=\s*[\),/])'
       scope: variable.parameter.cs
