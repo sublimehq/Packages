@@ -1903,8 +1903,9 @@ contexts:
       push: dec-number-body
 
   expression-variables:
-    # variables within arithmetic expressions must not contain quotes
-    - match: (?=[{{identifier_first_char}}$%`])
+    # variables within arithmetic expressions must not contain brace expansions
+    # or quotes, as expressions itself are partitioned by quotation marks
+    - match: (?=[{{identifier_first_char}}\\`%$])
       push:
         - subscript
         - expression-variable-chars
@@ -1913,6 +1914,7 @@ contexts:
     - meta_scope: variable.other.readwrite.shell
     - include: line-continuations
     - include: string-interpolations
+    - include: any-escapes
     - match: '{{identifier_break}}'
       pop: 1
 
