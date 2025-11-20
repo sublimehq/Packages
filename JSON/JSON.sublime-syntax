@@ -79,6 +79,7 @@ contexts:
     - match: ^\s*(\*)(?![*/])
       captures:
         1: punctuation.definition.comment.json
+    - include: merge-conflict-markers
 
   block-comment-body:
     - meta_include_prototype: false
@@ -89,6 +90,7 @@ contexts:
     - match: ^\s*(\*)(?![*/])
       captures:
         1: punctuation.definition.comment.json
+    - include: merge-conflict-markers
 
   line-comments:
     - match: //
