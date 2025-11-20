@@ -210,6 +210,7 @@ contexts:
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.js
+    - include: merge-conflict-markers
 
   jsdoc-comment-body:
     - meta_include_prototype: false
@@ -221,6 +222,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.js
       push: jsdoc-block-tag
+    - include: merge-conflict-markers
 
   jsdoc-block-tag:
     - match: '{{jsdoc_block_tag}}'
