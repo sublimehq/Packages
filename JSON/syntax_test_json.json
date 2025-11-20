@@ -50,8 +50,77 @@
 //      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 //            ^ meta.block.conflict.end.diff - entity - punctuation
 
+/* Merge conflicts in comments
+// <- comment.block.json punctuation.definition.comment.begin.json
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.json
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+*/
+
+/** Merge conflicts in docblock comments
+// <- comment.block.documentation.json punctuation.definition.comment.begin.json
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.json
+//^ punctuation.definition.comment.begin.json
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+*/
+
 {
 // <- meta.mapping.json punctuation.section.mapping.begin.json
+
+<<<<<<< HEAD
+// <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+//     ^ meta.block.conflict.begin.diff - entity - punctuation
+//      ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+//          ^ meta.block.conflict.begin.diff - entity - punctuation
+
+=======
+// <- meta.block.conflict.separator.diff punctuation.section.block.diff
+//^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+//     ^ meta.block.conflict.separator.diff - punctuation
+
+>>>>>>> master
+// <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+//^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+//     ^ meta.block.conflict.end.diff - entity - punctuation
+//      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+//            ^ meta.block.conflict.end.diff - entity - punctuation
+
   "bool": false,
 //^^^^^^ meta.mapping.key.json
 //^^^^^^^^^^^^^^ - meta.mapping meta.mapping
