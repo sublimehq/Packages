@@ -440,3 +440,349 @@ using IDisposable sub = pageContentObservable.Subscribe(Console.WriteLine);
 ///               ^^^ variable.other
 ///                   ^ keyword.operator.assignment
 ///                     ^^^^^^^^^^^^^^^^^^^^^ variable.other
+
+
+// https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+
+delegate*<delegate*<string, int>, delegate*<string, int>>;
+///^^^^^^ meta.type.funcptr.cs - meta.generic
+///      ^ meta.type.funcptr.cs meta.generic.cs - meta.type.funcptr meta.type.funcptr
+///       ^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs meta.type.funcptr.cs
+///                ^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs meta.type.funcptr.cs meta.generic.cs
+///                             ^^ meta.type.funcptr.cs meta.generic.cs - meta.type.funcptr meta.type.funcptr
+///                               ^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs meta.type.funcptr.cs
+///                                        ^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs meta.type.funcptr.cs meta.generic.cs
+///                                                     ^ meta.type.funcptr.cs meta.generic.cs - meta.type.funcptr meta.type.funcptr
+///                                                      ^ - meta.type
+///^^^^^ storage.type.delegate.cs
+///     ^ keyword.operator.pointer.cs
+///      ^ punctuation.definition.generic.begin.cs
+///       ^^^^^^^^ storage.type.delegate.cs
+///               ^ keyword.operator.pointer.cs
+///                ^ punctuation.definition.generic.begin.cs
+///                 ^^^^^^ storage.type.cs
+///                       ^ punctuation.separator.type.cs
+///                         ^^^ storage.type.cs
+///                            ^ punctuation.definition.generic.end.cs
+///                             ^ punctuation.separator.type.cs
+///                               ^^^^^^^^ storage.type.delegate.cs
+///                                       ^ keyword.operator.pointer.cs
+///                                        ^ punctuation.definition.generic.begin.cs
+///                                         ^^^^^^ storage.type.cs
+///                                               ^ punctuation.separator.type.cs
+///                                                 ^^^ storage.type.cs
+///                                                    ^ punctuation.definition.generic.end.cs
+///                                                     ^ punctuation.definition.generic.end.cs
+///                                                      ^ punctuation.terminator.statement.cs
+
+//This method has a managed calling convention. This is the same as leaving the managed keyword off.
+delegate* managed<int, int>;
+/// <- meta.type.funcptr.cs storage.type.delegate.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///^^^^^ storage.type.delegate.cs
+///     ^ keyword.operator.pointer.cs
+///      ^^^^^^^^ storage.modifier.delegate.cs
+///              ^^^^^^^^^^ meta.generic.cs
+///              ^ punctuation.definition.generic.begin.cs
+///               ^^^ storage.type.cs
+///                  ^ punctuation.separator.type.cs
+///                    ^^^ storage.type.cs
+///                       ^ punctuation.definition.generic.end.cs
+///                        ^ punctuation.terminator.statement.cs
+
+// This method will be invoked using whatever the default unmanaged calling convention on the runtime
+// platform is. This is platform and architecture dependent and is determined by the CLR at runtime.
+delegate* unmanaged<int, int>;
+/// <- meta.type.funcptr.cs storage.type.delegate.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///^^^^^ storage.type.delegate.cs
+///     ^ keyword.operator.pointer.cs
+///      ^^^^^^^^^^ storage.modifier.delegate.cs
+///                ^^^^^^^^^^ meta.generic.cs
+///                ^ punctuation.definition.generic.begin.cs
+///                 ^^^ storage.type.cs
+///                    ^ punctuation.separator.type.cs
+///                      ^^^ storage.type.cs
+///                         ^ punctuation.definition.generic.end.cs
+///                          ^ punctuation.terminator.statement.cs
+
+// This method will be invoked using the cdecl calling convention
+// Cdecl maps to System.Runtime.CompilerServices.CallConvCdecl
+delegate* unmanaged[Cdecl] <int, int>;
+/// <- meta.type.funcptr.cs storage.type.delegate.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///^^^^^ storage.type.delegate.cs
+///     ^ keyword.operator.pointer.cs
+///      ^^^^^^^^^^ storage.modifier.delegate.cs
+///                ^^^^^^^ meta.brackets.cs
+///                ^ punctuation.section.brackets.begin.cs
+///                 ^^^^^ storage.modifier.funcptr.cs
+///                      ^ punctuation.section.brackets.begin.cs
+///                        ^^^^^^^^^^ meta.generic.cs
+///                        ^ punctuation.definition.generic.begin.cs
+///                         ^^^ storage.type.cs
+///                            ^ punctuation.separator.type.cs
+///                              ^^^ storage.type.cs
+///                                 ^ punctuation.definition.generic.end.cs
+///                                  ^ punctuation.terminator.statement.cs
+
+// This method will be invoked using the stdcall calling convention, and suppresses GC transition
+// Stdcall maps to System.Runtime.CompilerServices.CallConvStdcall
+// SuppressGCTransition maps to System.Runtime.CompilerServices.CallConvSuppressGCTransition
+delegate* unmanaged[Stdcall, SuppressGCTransition] <in int, out int, readonly ref char>;
+/// <- meta.type.funcptr.cs storage.type.delegate.cs
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///^^^^^ storage.type.delegate.cs
+///     ^ keyword.operator.pointer.cs
+///      ^^^^^^^^^^ storage.modifier.delegate.cs
+///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.cs
+///                ^ punctuation.section.brackets.begin.cs
+///                 ^^^^^^^ storage.modifier.funcptr.cs
+///                        ^ punctuation.separator.type.cs
+///                          ^^^^^^^^^^^^^^^^^^^^ support.type.cs
+///                                              ^ punctuation.section.brackets.begin.cs
+///                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
+///                                                ^ punctuation.definition.generic.begin.cs
+///                                                 ^^ storage.modifier.cs
+///                                                    ^^^ storage.type.cs
+///                                                       ^ punctuation.separator.type.cs
+///                                                         ^^^ storage.modifier.cs
+///                                                             ^^^ storage.type.cs
+///                                                                ^ punctuation.separator.type.cs
+///                                                                  ^^^^^^^^ storage.modifier.cs
+///                                                                           ^^^ storage.modifier.cs
+///                                                                               ^^^^ storage.type.cs
+///                                                                                   ^ punctuation.definition.generic.end.cs
+///                                                                                    ^ punctuation.terminator.statement.cs
+
+delegate*
+///^^^^^^^ meta.type.funcptr.cs
+///^^^^^ storage.type.delegate.cs
+///     ^ keyword.operator.pointer.cs
+    unmanaged
+///^^^^^^^^^^^ meta.type.funcptr.cs
+/// ^^^^^^^^^ storage.modifier.delegate.cs
+    [
+///^ meta.type.funcptr.cs - meta.brackets
+/// ^^ meta.type.funcptr.cs meta.brackets.cs
+/// ^ punctuation.section.brackets.begin.cs
+        Cdecl,
+///^^^^^^^^^^^^ meta.type.funcptr.cs meta.brackets.cs
+///     ^^^^^ storage.modifier.funcptr.cs
+///          ^ punctuation.separator.type.cs
+        SuppressGCTransition
+///^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs meta.brackets.cs
+///     ^^^^^^^^^^^^^^^^^^^^ support.type.cs
+    ]
+///^^ meta.type.funcptr.cs meta.brackets.cs
+/// ^ punctuation.section.brackets.begin.cs
+///  ^ meta.type.funcptr.cs - meta.brackets
+    <
+/// <- meta.type.funcptr.cs - meta.brackets - meta.generic
+///^ meta.type.funcptr.cs - meta.brackets - meta.generic
+/// ^^ meta.type.funcptr.cs meta.generic.cs
+/// ^ punctuation.definition.generic.begin.cs
+        in int,
+///^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs
+///     ^^ storage.modifier.cs
+///        ^^^ storage.type.cs
+///           ^ punctuation.separator.type.cs
+        out int
+///^^^^^^^^^^^^^ meta.type.funcptr.cs meta.generic.cs
+///     ^^^ storage.modifier.cs
+///         ^^^ storage.type.cs
+    >;
+///^^ meta.type.funcptr.cs meta.generic.cs
+/// ^ punctuation.definition.generic.end.cs
+///  ^ punctuation.terminator.statement.cs
+
+unsafe class TestFunctionPointers {
+    public static void Log() { }
+
+    void M(Action<int> a, delegate*<int, void> f) {
+///                       ^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///                       ^^^^^^^^ storage.type.delegate.cs
+///                               ^ keyword.operator.pointer.cs
+///                                ^^^^^^^^^^^ meta.generic.cs
+///                                ^ punctuation.definition.generic.begin.cs
+///                                 ^^^ storage.type.cs
+///                                    ^ punctuation.separator.type.cs
+///                                      ^^^^ storage.type.cs
+///                                          ^ punctuation.definition.generic.end.cs
+///                                            ^ variable.parameter.cs
+///                                             ^ punctuation.section.parameters.end.cs
+
+        delegate*<int, int, int> p1 = &TestFunctionPointers.Log;
+///     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///     ^^^^^^^^ storage.type.delegate.cs
+///             ^ keyword.operator.pointer.cs
+///              ^^^^^^^^^^^^^^^ meta.generic.cs
+///              ^ punctuation.definition.generic.begin.cs
+///               ^^^ storage.type.cs
+///                  ^ punctuation.separator.type.cs
+///                    ^^^ storage.type.cs
+///                       ^ punctuation.separator.type.cs
+///                         ^^^ storage.type.cs
+///                            ^ punctuation.definition.generic.end.cs
+///                              ^^ variable.other.cs
+///                                 ^ keyword.operator.assignment.cs
+///                                   ^ keyword.operator.cs
+///                                    ^^^^^^^^^^^^^^^^^^^^ variable.other.cs
+///                                                        ^ punctuation.accessor.dot.cs
+///                                                         ^^^ variable.other.cs
+///                                                            ^ punctuation.terminator.statement.cs
+
+        delegate* managed<int, int, int> p2 = &TestFunctionPointers.Log;
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///     ^^^^^^^^ storage.type.delegate.cs
+///             ^ keyword.operator.pointer.cs
+///              ^^^^^^^^ storage.modifier.delegate.cs
+///                      ^^^^^^^^^^^^^^^ meta.generic.cs
+///                      ^ punctuation.definition.generic.begin.cs
+///                       ^^^ storage.type.cs
+///                          ^ punctuation.separator.type.cs
+///                            ^^^ storage.type.cs
+///                               ^ punctuation.separator.type.cs
+///                                 ^^^ storage.type.cs
+///                                    ^ punctuation.definition.generic.end.cs
+///                                      ^^ variable.other.cs
+///                                         ^ keyword.operator.assignment.cs
+///                                           ^ keyword.operator.cs
+///                                            ^^^^^^^^^^^^^^^^^^^^ variable.other.cs
+///                                                                ^ punctuation.accessor.dot.cs
+///                                                                 ^^^ variable.other.cs
+///                                                                    ^ punctuation.terminator.statement.cs
+
+        delegate* unmanaged<int, int, int> p3 = &TestFunctionPointers.Log;
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///     ^^^^^^^^ storage.type.delegate.cs
+///             ^ keyword.operator.pointer.cs
+///              ^^^^^^^^^^ storage.modifier.delegate.cs
+///                        ^^^^^^^^^^^^^^^ meta.generic.cs
+///                        ^ punctuation.definition.generic.begin.cs
+///                         ^^^ storage.type.cs
+///                            ^ punctuation.separator.type.cs
+///                              ^^^ storage.type.cs
+///                                 ^ punctuation.separator.type.cs
+///                                   ^^^ storage.type.cs
+///                                      ^ punctuation.definition.generic.end.cs
+///                                        ^^ variable.other.cs
+///                                           ^ keyword.operator.assignment.cs
+///                                             ^ keyword.operator.cs
+///                                              ^^^^^^^^^^^^^^^^^^^^ variable.other.cs
+///                                                                  ^ punctuation.accessor.dot.cs
+///                                                                   ^^^ variable.other.cs
+///                                                                      ^ punctuation.terminator.statement.cs
+
+        delegate* instance<Instance, string> f = &ToString;
+///     ^^^^^^^^^ meta.type.funcptr.cs
+///     ^^^^^^^^ storage.type.delegate.cs
+///             ^ keyword.operator.pointer.cs
+///               ^^^^^^^^ support.type.cs
+///                       ^^^^^^^^^^^^^^^^^^ meta.generic.cs
+///                       ^ punctuation.definition.generic.begin.cs
+///                        ^^^^^^^^ support.type.cs
+///                                ^ punctuation.separator.type.cs
+///                                  ^^^^^^ storage.type.cs
+///                                        ^ punctuation.definition.generic.end.cs
+///                                          ^ variable.other.cs
+///                                            ^ keyword.operator.assignment.variable.cs
+///                                              ^ keyword.operator.cs
+///                                               ^^^^^^^^ variable.other.cs
+///                                                       ^ punctuation.terminator.statement.cs
+    }
+/// <- meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+///^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
+/// ^ punctuation.section.block.end.cs
+
+    static IntPtr X (delegate*<void> callback) {}
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                 ^ punctuation.section.parameters.begin.cs
+///                  ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///                  ^^^^^^^^ storage.type.delegate.cs
+///                          ^ keyword.operator.pointer.cs
+///                           ^^^^^^ meta.generic.cs
+///                           ^ punctuation.definition.generic.begin.cs
+///                            ^^^^ storage.type.cs
+///                                ^ punctuation.definition.generic.end.cs
+///                                  ^^^^^^^^ variable.parameter.cs
+///                                          ^ punctuation.section.parameters.end.cs
+
+    static IntPtr X (delegate* <void> callback) {}
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                 ^ punctuation.section.parameters.begin.cs
+///                  ^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///                  ^^^^^^^^ storage.type.delegate.cs
+///                          ^ keyword.operator.pointer.cs
+///                            ^^^^^^ meta.generic.cs
+///                            ^ punctuation.definition.generic.begin.cs
+///                             ^^^^ storage.type.cs
+///                                 ^ punctuation.definition.generic.end.cs
+///                                   ^^^^^^^^ variable.parameter.cs
+///                                           ^ punctuation.section.parameters.end.cs
+
+    static IntPtr X (delegate* unmanaged<void> callback) {}
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                 ^ punctuation.section.parameters.begin.cs
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///                  ^^^^^^^^ storage.type.delegate.cs
+///                          ^ keyword.operator.pointer.cs
+///                           ^^^^^^^^^^ storage.modifier.delegate.cs
+///                                     ^^^^^^ meta.generic.cs
+///                                     ^ punctuation.definition.generic.begin.cs
+///                                      ^^^^ storage.type.cs
+///                                          ^ punctuation.definition.generic.end.cs
+///                                            ^^^^^^^^ variable.parameter.cs
+///                                                    ^ punctuation.section.parameters.end.cs
+
+    // Don't require unsafe at declaration
+    // -----------------------------------
+
+    delegate*<void> _ptr;
+/// ^^^^^^^^^ meta.type.funcptr.cs - meta.generic
+///          ^^^^^^ meta.type.funcptr.cs meta.generic.cs
+/// ^^^^^^^^ storage.type.delegate.cs
+///         ^ keyword.operator.pointer.cs
+///          ^ punctuation.definition.generic.begin.cs
+///           ^^^^ storage.type.cs
+///               ^ punctuation.definition.generic.end.cs
+///                 ^^^^ variable.other.cs
+///                     ^ punctuation.terminator.statement.cs
+
+    TestFunctionPointers(delegate*<void> ptr) => _ptr = ptr;
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor.cs
+/// ^^^^^^^^^^^^^^^^^^^^ entity.name.function.constructor.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                     ^ punctuation.section.parameters.begin.cs
+///                      ^^^^^^^^^^^^^^^ meta.type.funcptr.cs
+///                      ^^^^^^^^ storage.type.delegate.cs
+///                              ^ keyword.operator.pointer.cs
+///                               ^^^^^^ meta.generic.cs
+///                               ^ punctuation.definition.generic.begin.cs
+///                                ^^^^ storage.type.cs
+///                                    ^ punctuation.definition.generic.end.cs
+///                                      ^^^ variable.parameter.cs
+///                                         ^ punctuation.section.parameters.end.cs
+///                                           ^^ keyword.declaration.function.arrow.cs
+///                                              ^^^^ variable.other.cs
+///                                                   ^ keyword.operator.assignment.cs
+///                                                     ^^^ variable.other.cs
+///                                                        ^ punctuation.terminator.statement.cs
+
+    public void Invoke() => _ptr();
+/// ^^^^^^ storage.modifier.access.cs
+///        ^^^^ storage.type.cs
+///             ^^^^^^ entity.name.function.cs
+///                   ^^ meta.method.parameters.cs
+///                   ^ punctuation.section.parameters.begin.cs
+///                    ^ punctuation.section.parameters.end.cs
+///                      ^^ keyword.declaration.function.arrow.cs
+///                         ^^^^^^ meta.function-call.cs
+///                         ^^^^ variable.function.cs
+///                             ^^ meta.group.cs
+///                             ^ punctuation.section.group.begin.cs
+///                              ^ punctuation.section.group.end.cs
+///                               ^ punctuation.terminator.statement.cs
+
+}
+/// <- meta.class.body.cs meta.block.cs punctuation.section.block.end.cs

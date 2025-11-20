@@ -459,7 +459,18 @@ contexts:
       pop: true
 
   delegate_declaration:
-    - match: \b(delegate)\b\s+
+    # delegate function pointer declaration
+    - match: \b(delegate)\s*(\*)
+      captures:
+        1: storage.type.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - variables_declaration
+        - funcptr_type_meta
+        - funcptr_parameter_list
+        - funcptr_type_modifier
+    # delegate function declaration
+    - match: \b(delegate)\s+
       captures:
         1: storage.type.delegate.cs
       push: delegate_type
@@ -1237,7 +1248,8 @@ contexts:
       pop: true
 
   keywords:
-    - match: '\b(this|base)\s*(\[)'
+    - include: funcptr_types
+    - match: \b(this|base)\s*(\[)
       captures:
         1: variable.language.cs
         2: meta.brackets.cs punctuation.section.brackets.begin.cs
@@ -1664,6 +1676,71 @@ contexts:
       pop: true
     - include: line_of_code_in
 
+  funcptr_types:
+    # https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+    - match: (delegate)\s*(\*)
+      captures:
+        1: storage.type.delegate.cs
+        2: keyword.operator.pointer.cs
+      push:
+        - funcptr_type_meta
+        - funcptr_parameter_list
+        - funcptr_type_modifier
+
+  funcptr_type_meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.type.funcptr.cs
+    - match: ''
+      pop: true
+
+  funcptr_type_modifier:
+    - match: \s*(managed)\b
+      scope: storage.modifier.delegate.cs
+      pop: 1
+    - match: \s*(unmanaged)\b
+      scope: storage.modifier.delegate.cs
+      set: funcptr_type_calling_convention
+    - match: (?=[^\n])
+      pop: true
+
+  funcptr_type_calling_convention:
+    - match: \s*(\[)
+      captures:
+        1: meta.brackets.cs punctuation.section.brackets.begin.cs
+      set: inside_funcptr_type_calling_convention
+    - match: (?=[^\n])
+      pop: true
+
+  inside_funcptr_type_calling_convention:
+    - meta_content_scope: meta.brackets.cs
+    - match: \]
+      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      pop: true
+    - match: ','
+      scope: punctuation.separator.type.cs
+    - match: (?:Cdecl|Stdcall|Thiscall|Fastcall)\b
+      scope: storage.modifier.funcptr.cs
+    - include: type
+
+  funcptr_parameter_list:
+    - match: \s*(<)
+      captures:
+        1: meta.generic.cs punctuation.definition.generic.begin.cs
+      set: inside_funcptr_parameter_list
+    - match: (?=[^\n])
+      pop: true
+
+  inside_funcptr_parameter_list:
+    - meta_content_scope: meta.generic.cs
+    - match: '>'
+      scope: meta.generic.cs punctuation.definition.generic.end.cs
+      pop: true
+    - match: (?:in|out|ref|readonly)\b
+      scope: storage.modifier.cs
+    - match: ','
+      scope: punctuation.separator.type.cs
+    - include: type
+
   type:
     - include: type_common
     - match: (?=\()
@@ -1686,7 +1763,8 @@ contexts:
 
   type_common:
     - include: namespace_variables
-    - match: '(class|struct|enum)'
+    - include: funcptr_types
+    - match: (?:class|struct|enum)\b
       scope: storage.type.other.cs
     - match: 'new\s*\(\s*\)'
       scope: keyword.operator.new.cs
