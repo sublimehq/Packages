@@ -610,9 +610,7 @@ contexts:
   data_type_parameter:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push:
-        - meta_content_scope: meta.generic.cs
-        - include: type_parameter
+      push: type_parameter
     - match: (?=\S)
       pop: true
 
@@ -1735,10 +1733,10 @@ contexts:
     - match: '>'
       scope: meta.generic.cs punctuation.definition.generic.end.cs
       pop: true
-    - match: (?:in|out|ref|readonly)\b
-      scope: storage.modifier.cs
     - match: ','
       scope: punctuation.separator.type.cs
+    - match: (?:in|out|ref|readonly)\b
+      scope: storage.modifier.cs
     - include: type
 
   type:
@@ -1794,8 +1792,6 @@ contexts:
       pop: true
 
   type_arg_param_common:
-    - match: ','
-      scope: punctuation.separator.type.cs
     - match: '(>){{type_suffix_capture}}'
       captures:
         1: meta.generic.cs punctuation.definition.generic.end.cs
@@ -1806,6 +1802,8 @@ contexts:
         6: punctuation.section.brackets.end.cs
         7: keyword.operator.pointer.cs
       pop: true
+    - match: ','
+      scope: punctuation.separator.type.cs
     - include: type
 
   type_argument:
@@ -1813,11 +1811,10 @@ contexts:
     - include: type_arg_param_common
 
   type_parameter:
-    - match: '(in|out)\b'
+    - meta_content_scope: meta.generic.cs
+    - match: (?:in|out)\b
       scope: storage.modifier.cs
     - include: type_arg_param_common
-    - match: '{{name}}'
-      scope: support.type.cs
 
   type_no_space:
     - include: type
