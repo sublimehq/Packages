@@ -206,6 +206,7 @@ contexts:
       pop: 1
     - match: ^\s*(\*)(?![*/])
       scope: punctuation.definition.comment.java
+    - include: merge-conflict-markers
 
   line-comments:
     - match: //+
