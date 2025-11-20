@@ -88,6 +88,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.java
       push: javadoc-block-tag
+    - include: merge-conflict-markers
     - include: javadoc-inline-formatting
 
   javadoc-asterisk:
@@ -95,6 +96,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.java
       pop: 1
+    - include: merge-conflict-markers
 
 ###[ JAVADOC BLOCK TAGS ]######################################################
 
@@ -125,6 +127,7 @@ contexts:
     - match: \@(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
       scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
       set: javadoc-block-tag-common
+    - include: merge-conflict-markers
     - match: (?=\S)|$
       pop: 1
 
