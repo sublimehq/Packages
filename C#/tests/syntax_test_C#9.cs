@@ -517,7 +517,7 @@ delegate* unmanaged[Cdecl] <int, int>;
 ///                ^^^^^^^ meta.brackets.cs
 ///                ^ punctuation.section.brackets.begin.cs
 ///                 ^^^^^ storage.modifier.funcptr.cs
-///                      ^ punctuation.section.brackets.begin.cs
+///                      ^ punctuation.section.brackets.end.cs
 ///                        ^^^^^^^^^^ meta.generic.cs
 ///                        ^ punctuation.definition.generic.begin.cs
 ///                         ^^^ storage.type.cs
@@ -540,7 +540,7 @@ delegate* unmanaged[Stdcall, SuppressGCTransition] <in int, out int, readonly re
 ///                 ^^^^^^^ storage.modifier.funcptr.cs
 ///                        ^ punctuation.separator.type.cs
 ///                          ^^^^^^^^^^^^^^^^^^^^ support.type.cs
-///                                              ^ punctuation.section.brackets.begin.cs
+///                                              ^ punctuation.section.brackets.end.cs
 ///                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.cs
 ///                                                ^ punctuation.definition.generic.begin.cs
 ///                                                 ^^ storage.modifier.cs
@@ -575,7 +575,7 @@ delegate*
 ///     ^^^^^^^^^^^^^^^^^^^^ support.type.cs
     ]
 ///^^ meta.type.funcptr.cs meta.brackets.cs
-/// ^ punctuation.section.brackets.begin.cs
+/// ^ punctuation.section.brackets.end.cs
 ///  ^ meta.type.funcptr.cs - meta.brackets
     <
 /// <- meta.type.funcptr.cs - meta.brackets - meta.generic

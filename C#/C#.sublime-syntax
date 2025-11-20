@@ -1712,7 +1712,7 @@ contexts:
   inside_funcptr_type_calling_convention:
     - meta_content_scope: meta.brackets.cs
     - match: \]
-      scope: meta.brackets.cs punctuation.section.brackets.begin.cs
+      scope: meta.brackets.cs punctuation.section.brackets.end.cs
       pop: true
     - match: ','
       scope: punctuation.separator.type.cs
