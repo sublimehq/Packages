@@ -768,33 +768,55 @@ contexts:
     - match: (?={{name}})
       branch_point: method_or_member_variable_name
       branch:
-        - member_lambda_or_plain
+        - member_plain
+        - member_lambda
         - method_name
       pop: true
 
-  member_lambda_or_plain:
-    - match: ({{name}})\s*(=>)
-      scope: meta.method.cs
-      captures:
-        1: variable.other.member.cs
-        2: keyword.declaration.function.accessor.get.cs
-      set:
-        - meta_scope: meta.property.cs
-        - meta_content_scope: meta.method.cs
-        - include: line_of_code_in
-    - match: (?={{namespaced_name}}\s+{{name}}\s+=>)
-      pop: true
+  member_plain:
+    - meta_include_prototype: false
     - match: '{{name}}'
       scope: variable.other.member.cs
-    - match: (?==[^>])
+      set: member_plain_value
+    - match: (?=\S)
+      pop: true
+
+  member_plain_value:
+    - match: '[.<\{\[\(]|=>'
+      fail: method_or_member_variable_name
+    - match: (?==)
       set: member_variables_declaration
+    - match: ','
+      scope: punctuation.separator.variables.cs
+      set: member_plain
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
     - match: (?=\})
       pop: true
     - match: (?=\S)
+      pop: true
+
+  member_lambda:
+    - meta_include_prototype: false
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+      set:
+        - member_lambda_value
+        - member_lambda_operator
+    - match: (?=\S)
+      pop: true
+
+  member_lambda_operator:
+    - match: =>
+      scope: keyword.declaration.function.accessor.get.cs
+      pop: 1
+    - match: (?=\S)
       fail: method_or_member_variable_name
+
+  member_lambda_value:
+    - meta_scope: meta.property.cs meta.method.cs
+    - include: line_of_code_in
 
   method_name:
     - match: '({{name}})?\s*(\()'

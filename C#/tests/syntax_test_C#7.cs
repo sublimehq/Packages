@@ -663,6 +663,16 @@ public readonly struct S
 ///                        ^ variable.other.member
 ///                         ^ punctuation.terminator.statement
 
+    public readonly int X = 0, Y = 1;    // All fields must be readonly
+///                     ^ variable.other.member
+///                       ^ keyword.operator.assignment.variable.cs
+///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                          ^ punctuation.separator.variables
+///                            ^ variable.other.member
+///                              ^ keyword.operator.assignment.variable.cs
+///                                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                 ^ punctuation.terminator.statement
+
     public S(int age, string name)
     {
         this.Age = age;
