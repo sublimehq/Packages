@@ -192,6 +192,7 @@ contexts:
         - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.d
+        - include: merge-conflict-markers
     - match: (///?).*$\n?
       scope: comment.line.double-slash.d
       captures:
@@ -210,6 +211,7 @@ contexts:
           captures:
             1: punctuation.definition.comment.d
         - include: nested-comment
+        - include: merge-conflict-markers
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
