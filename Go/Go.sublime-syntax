@@ -318,6 +318,7 @@ contexts:
     - match: ^(?:\t|[ ]{2}|[ ]{4}|[ ]{8})*[ ](\*)(?!/)
       captures:
         1: punctuation.definition.comment.go
+    - include: merge-conflict-markers
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
