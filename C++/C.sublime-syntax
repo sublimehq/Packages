@@ -110,6 +110,7 @@ contexts:
     - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.c
+    - include: merge-conflict-markers
 
   block-comment-body:
     - meta_include_prototype: false
@@ -120,6 +121,7 @@ contexts:
     - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.c
+    - include: merge-conflict-markers
 
   line-comments:
     - match: ^(//) =\s*(.*?)\s*=\s*$\n?
