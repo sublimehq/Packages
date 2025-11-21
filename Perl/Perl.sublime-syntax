@@ -243,6 +243,7 @@ contexts:
     - meta_scope: comment.block.documentation.perl
     - match: ^(?={{pod}})
       pop: true
+    - include: merge-conflict-markers
     - include: comment-pod-formatting
 
   comment-pod-verbatim-body:
