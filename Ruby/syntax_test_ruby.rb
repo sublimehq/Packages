@@ -1618,6 +1618,22 @@ end
 
 ['a()', 'b()'].select { |var| /^a\(/ =~ var }
 #                             ^^^^^^ string.regexp
+#                                    ^^ keyword.operator.comparison.ruby
+#                                           ^ punctuation.section.scope
+
+['a()', 'b()'].select { /^a\(/ =~ var }
+#                       ^^^^^^ string.regexp
+#                              ^^ keyword.operator.comparison.ruby
+#                                     ^ punctuation.section.scope
+
+# issue 3817
+let(:error_msg) { /can't be blank/ }
+#                 ^^^^^^^^^^^^^^^^ string.regexp
+#                                  ^ punctuation.section.scope
+
+let(:error_msg) { |var| /can't be blank/ }
+#                       ^^^^^^^^^^^^^^^^ string.regexp
+#                                        ^ punctuation.section.scope
 
 {foo: /bar/}
 #     ^^^^^ string.regexp
