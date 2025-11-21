@@ -275,7 +275,7 @@ contexts:
         - include: template
         - match: (?=\S)
           set: global-modifier
-    - include: using-namespace
+    - include: using-namespace-enum
     - include: namespace
     - include: module
     - include: keywords-angle-brackets
@@ -378,7 +378,7 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: using-namespace
+    - include: using-namespace-enum
     - include: typedef
     - include: using-alias
     - include: keywords-angle-brackets
@@ -575,11 +575,12 @@ contexts:
           pop: true
         - include: expressions
 
-  using-namespace:
-    - match: '\b(using)\s+(namespace)\b'
+  using-namespace-enum:
+    - match: '\b(using)\s+(?:(namespace)|(enum))\b'
       captures:
         1: keyword.control.c++
         2: keyword.control.c++
+        3: keyword.declaration.c++
       push:
         - include: identifiers
         - match: ''
@@ -1546,7 +1547,7 @@ contexts:
         - include: template
         - match: (?=\S)
           set: data-structures-modifier
-    - include: using-namespace
+    - include: using-namespace-enum
     - include: typedef
     - include: using-alias
     - match: \b({{visibility_modifiers}})\s*(:)(?!:)
