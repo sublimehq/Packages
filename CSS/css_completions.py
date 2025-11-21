@@ -1,6 +1,7 @@
-import re
 import sublime
 import sublime_plugin
+
+import re
 import timeit
 
 from functools import cached_property, wraps
@@ -17,63 +18,63 @@ ENABLE_TIMING = False
 
 
 def timing(func):
-    @wraps(func)
+    @wraps(wrapped=func)
     def wrap(*args, **kw):
         if ENABLE_TIMING:
-            ts = timeit.default_timer()
+            ts: float = timeit.default_timer()
         result = func(*args, **kw)
         if ENABLE_TIMING:
-            te = timeit.default_timer()
+            te: float = timeit.default_timer()
             print(f"{func.__name__}({args}, {kw}) took: {1000.0 * (te - ts):2.3f} ms")
         return result
     return wrap
 
 
-def match_selector(view, pt, scope):
+def match_selector(view: sublime.View, pt: int, scope: str) -> bool:
     # This will catch scenarios like:
     # - .foo {font-style: |}
     # - <style type="text/css">.foo { font-weight: b|</style>
-    return any(view.match_selector(p, scope) for p in (pt, pt - 1))
+    return any(view.match_selector(pt=p, selector=scope) for p in (pt, pt - 1))
 
 
-def next_none_whitespace(view, pt):
+def next_none_whitespace(view: sublime.View, pt: int) -> str | None:
     for pt in range(pt, view.size()):
         ch = view.substr(pt)
         if ch not in ' \t':
             return ch
+    return None
 
 
 class CSSCompletions(sublime_plugin.EventListener):
 
     @cached_property
-    def func_args(self):
+    def func_args(self) -> dict:
         return completions.get_func_args()
 
     @cached_property
-    def props(self):
+    def props(self) -> dict:
         return completions.get_properties()
 
     @cached_property
-    def re_name(self):
+    def re_name(self) -> re.Pattern[str]:
         return re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
 
     @cached_property
-    def re_value(self):
+    def re_value(self) -> re.Pattern[str]:
         return re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
 
     @timing
-    def on_query_completions(self, view, prefix, locations):
-
-        settings = sublime.load_settings('CSS.sublime-settings')
-        if settings.get('disable_default_completions'):
+    def on_query_completions(self, view: sublime.View, prefix: str, locations: list[int]) -> sublime.CompletionList | None:
+        settings: sublime.Settings = sublime.load_settings(base_name='CSS.sublime-settings')
+        if settings.get(key='disable_default_completions'):
             return None
 
-        selector = settings.get('default_completions_selector', '')
+        selector = settings.get(key='default_completions_selector', default='')
         if isinstance(selector, list):
             selector = ''.join(selector)
 
-        pt = locations[0]
-        if not match_selector(view, pt, selector):
+        pt: int = locations[0]
+        if not match_selector(view, pt, scope=selector):
             return None
 
         if match_selector(view, pt, "meta.property-value.css meta.function-call.arguments"):
@@ -84,11 +85,11 @@ class CSSCompletions(sublime_plugin.EventListener):
             items = self.complete_property_name(view, prefix, pt)
 
         if items:
-            return sublime.CompletionList(items)
+            return sublime.CompletionList(completions=items)
         return None
 
-    def complete_property_name(self, view, prefix, pt):
-        text = view.substr(sublime.Region(pt, view.line(pt).end()))
+    def complete_property_name(self, view: sublime.View, prefix: str, pt: int) -> list[sublime.CompletionItem]:
+        text = view.substr(x=sublime.Region(a=pt, b=view.line(x=pt).end()))
         matches = self.re_value.search(text)
         if matches:
             colon, space, value, term = matches.groups()
@@ -99,28 +100,28 @@ class CSSCompletions(sublime_plugin.EventListener):
             term = ""
 
         # don't append anything if next character is a colon
-        suffix = ""
+        suffix: str = ""
         if not colon:
             # add space after colon if smart typing is enabled
-            if not space and view.settings().get("auto_complete_trailing_spaces"):
+            if not space and view.settings().get(key="auto_complete_trailing_spaces"):
                 suffix = ": $0"
             else:
                 suffix = ":$0"
 
             # terminate empty value if not within parentheses
-            if not value and not term and not match_selector(view, pt, "meta.group"):
+            if not value and not term and not match_selector(view, pt, scope="meta.group"):
                 suffix += ";"
 
-        return (
+        return [
             sublime.CompletionItem(
                 trigger=prop,
                 completion=prop + suffix,
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                 kind=KIND_CSS_PROPERTY
             ) for prop in self.props
-        )
+        ]
 
-    def complete_property_value(self, view, prefix, pt):
+    def complete_property_value(self, view: sublime.View, prefix: str, pt: int) -> list[sublime.CompletionItem]:
         completions = [
             sublime.CompletionItem(
                 trigger="!important",
@@ -129,7 +130,7 @@ class CSSCompletions(sublime_plugin.EventListener):
                 details="override any other declaration"
             )
         ]
-        text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
+        text: str = view.substr(x=sublime.Region(a=view.line(x=pt).begin(), b=pt - len(prefix)))
         matches = self.re_name.search(text)
         if matches:
             prop = matches.group(1)
@@ -137,7 +138,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if match_selector(view, pt, "meta.group") or next_none_whitespace(view, pt) == ";":
+                if match_selector(view, pt, scope="meta.group") or next_none_whitespace(view, pt) == ";":
                     suffix = ""
                 else:
                     suffix = "$0;"
@@ -161,25 +162,25 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         return completions
 
-    def complete_function_argument(self, view: sublime.View, prefix, pt):
+    def complete_function_argument(self, view: sublime.View, prefix: str, pt: int) -> list[sublime.CompletionItem]:
         func_name = ""
         nest_level = 1
         # Look for the beginning of the current function call's arguments list,
         # while ignoring any nested function call or group.
         for i in range(pt - 1, pt - 32 * 1024, -1):
-            ch = view.substr(i)
+            ch: str = view.substr(x=i)
             # end of nested arguments list or group before caret
-            if ch == ")" and not view.match_selector(i, "string, comment"):
+            if ch == ")" and not view.match_selector(pt=i, selector="string, comment"):
                 nest_level += 1
                 continue
             # begin of maybe nested arguments list or group before caret
-            if ch == "(" and not view.match_selector(i, "string, comment"):
+            if ch == "(" and not view.match_selector(pt=i, selector="string, comment"):
                 nest_level -= 1
                 # Stop, if nesting level drops below start value as this indicates the
                 # beginning of the arguments list the function name is of interest for.
                 if nest_level <= 0:
-                    func_name = view.substr(view.expand_by_class(
-                        i - 1, sublime.CLASS_WORD_START | sublime.CLASS_WORD_END))
+                    func_name:  str = view.substr(x=view.expand_by_class(
+                        x=i - 1, classes=sublime.CLASS_WORD_START | sublime.CLASS_WORD_END))
                     break
 
         if func_name == "var":
@@ -191,18 +192,18 @@ class CSSCompletions(sublime_plugin.EventListener):
                     details="var() argument"
                 )
                 for symbol in set(
-                    view.substr(symbol_region)
-                    for symbol_region in view.find_by_selector("entity.other.custom-property")
+                    view.substr(x=symbol_region)
+                    for symbol_region in view.find_by_selector(selector="entity.other.custom-property")
                 )
                 if not prefix or symbol.startswith(prefix)
             ]
 
         args = self.func_args.get(func_name)
         if not args:
-            return None
+            return []
 
         completions = []
-        details = f"{func_name}() argument"
+        details: str = f"{func_name}() argument"
         for arg in args:
             if isinstance(arg, list):
                 completions.append(sublime.CompletionItem(
