@@ -1,0 +1,15 @@
+[
+	{
+		"caption": "SQL: Set Default Syntax",
+		"command": "sql_set_default_syntax",
+		"args": {
+			"syntax_file": "Packages/SQL/SQL.sublime-syntax",
+			"dialect_file": [
+				"Packages/SQL/Cassandra.sublime-syntax",
+				"Packages/SQL/MySQL.sublime-syntax",
+				"Packages/SQL/PostgreSQL.sublime-syntax",
+				"Packages/SQL/TSQL.sublime-syntax",
+			]
+		}
+	}
+]
