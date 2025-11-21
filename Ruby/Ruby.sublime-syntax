@@ -137,6 +137,7 @@ contexts:
         - match: ^=end
           scope: punctuation.definition.comment.end.ruby
           pop: true
+        - include: merge-conflict-markers
     - match: \#+
       scope: punctuation.definition.comment.ruby
       push:
