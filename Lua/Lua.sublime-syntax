@@ -114,6 +114,7 @@ contexts:
     - match: ^\s*({{doc_comment_custom_tag}})
       captures:
         1: entity.name.tag.documentation.custom.lua
+    - include: merge-conflict-markers
 
   block-comment-body:
     - meta_include_prototype: false
@@ -121,6 +122,7 @@ contexts:
     - match: \]\1\]
       scope: punctuation.definition.comment.end.lua
       pop: 1
+    - include: merge-conflict-markers
 
   line-comments:
     - match: -{3,}
