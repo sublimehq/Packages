@@ -143,9 +143,15 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
-    - match: '%.*$\n?'
-      scope: comment.line.percentage.tex
+    - match: \%
+      scope: punctuation.definition.comment.tex
+      push: comment-body
     - include: merge-conflict-markers
+
+  comment-body:
+    - meta_scope: comment.line.percentage.tex
+    - match: $\n?
+      pop: 1
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
 
