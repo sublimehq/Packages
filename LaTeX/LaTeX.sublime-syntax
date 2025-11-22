@@ -83,7 +83,7 @@ contexts:
 
   latex-newcommand-macros:
     - match: (\\)(?:new|renew|provide)command(?:\*|(?![A-Za-z@]))
-      scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
+      scope: meta.function.latex keyword.declaration.function.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:
@@ -92,7 +92,7 @@ contexts:
         - latex-newcommand-argspec
         - latex-newcommand-commandname
     - match: (\\)DeclareMathOperator(?:\*|(?![A-Za-z@]))
-      scope: support.function.declare-math-operator.latex storage.modifier.newcommand.latex
+      scope: meta.function.latex support.function.declare-math-operator.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:
@@ -170,13 +170,10 @@ contexts:
   # we need a separate context for command definitions, because they can contain
   # un-balanced elements.
   latex-newcommand-definition:
-    - meta_scope: meta.function.latex
-    - match: (?=\{)
-      set:
-        - def-function-body-meta
-        - macro-braces-begin
+    - meta_content_scope: meta.function.latex
     - match: (?=\\)
       set: latex-newcommand-expression
+    - include: def-function-block
     - include: paragraph-pop
     - include: else-pop
 
@@ -204,7 +201,7 @@ contexts:
   xparse-newcommand-macros:
     # https://www.ctan.org/pkg/xparse
     - match: (\\)(?:(?:New|Renew|Provide|Declare)(:?Expandable)?DocumentCommand){{endcs}}
-      scope: keyword.declaration.function.latex storage.modifier.newcommand.latex
+      scope: meta.function.latex keyword.declaration.function.latex
       captures:
         1: punctuation.definition.backslash.latex
       push:

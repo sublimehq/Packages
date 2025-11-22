@@ -470,27 +470,19 @@ contexts:
 
   macros:
     - match: (\\)[gex]?def{{endcs}}
-      scope: keyword.declaration.function.tex storage.modifier.definition.tex
+      scope: meta.function.tex keyword.declaration.function.tex
       captures:
         1: punctuation.definition.backslash.tex
-      push: def-function-expect-identifier
-
+      push: def-function-identifier
     - match: (\\)(?:outer|long|global){{endcs}}
       scope: storage.modifier.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
 
-  def-function-expect-identifier:
-    - meta_scope: meta.function.tex
-    - match: (?=\\)
-      set: def-function-identifier
-    - include: paragraph-pop
-    - include: else-pop
-
   def-function-identifier:
-    - meta_scope: meta.function.identifier.tex
+    - meta_content_scope: meta.function.tex
     - match: (\\){{cmdname}}
-      scope: entity.name.definition.tex
+      scope: meta.function.identifier.tex entity.name.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
       set: def-function-parameters
@@ -499,31 +491,40 @@ contexts:
 
   def-function-parameters:
     - meta_content_scope: meta.function.parameters.tex
-    - match: (?=\{)
-      set:
-        - def-function-body-meta
-        - macro-braces-begin
-    - match: (\#)[0-9]
-      scope: variable.parameter.tex
-      captures:
-        1: punctuation.definition.variable.tex
+    - include: def-function-block
+    - include: def-function-parameter-brackets
+    - include: macro-parameters
     - include: escaped-character
     - include: paragraph-pop
 
-  def-function-body-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.body.tex
-    - include: immediately-pop
+  def-function-parameter-brackets:
+    - match: \[
+      scope: punctuation.definition.group.bracket.begin.tex
+      push: def-function-parameter-bracket-body
+
+  def-function-parameter-bracket-body:
+    - meta_scope: meta.group.bracket.tex
+    - match: \]
+      scope: punctuation.definition.group.bracket.end.tex
+      pop: 1
+    - include: macro-parameters
+    - include: general-constants
+    - include: general-commands
+
+  def-function-block:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      set: def-function-block-body
+
+  def-function-block-body:
+    - meta_scope: meta.function.body.tex meta.group.brace.tex
+    - include: macro-braces-end
+    - include: macro-braces-content
 
   macro-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
       push: macro-braces-body
-
-  macro-braces-begin:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      set: macro-braces-body
 
   macro-braces-end:
      - match: \}
@@ -540,7 +541,7 @@ contexts:
   # only partially matched.
   macro-braces-content:
     - include: macro-braces
-    - include: macro-placeholders
+    - include: macro-variables
     - include: controls
     - include: registers
     - include: math-builtin
@@ -548,12 +549,19 @@ contexts:
     - include: general-constants
     - include: general-commands
 
-  macro-placeholders:
-    - match: '(#+)(\d)'
+  macro-parameters:
+    # parameter declarations in macro signatures
+    - match: (\#+)[0-9]
       scope: variable.parameter.tex
       captures:
-        1: punctuation.definition.placeholder.tex
-        2: meta.number.integer.decimal.tex constant.numeric.value.tex
+        1: punctuation.definition.variable.tex
+
+  macro-variables:
+    # parameter references in macro code
+    - match: (\#+)[0-9]
+      scope: variable.other.readwrite.tex
+      captures:
+        1: punctuation.definition.variable.tex
 
 ###[ MATH ]####################################################################
 

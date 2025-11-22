@@ -88,9 +88,8 @@
 %           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                    ^^^^ support.function.general.latex
-%                         ^ punctuation.definition.placeholder.tex
-%                         ^^ variable.parameter.tex
-%                          ^ meta.number.integer.decimal constant.numeric.value.tex
+%                         ^^ variable.other.readwrite.tex
+%                         ^ punctuation.definition.variable.tex
 
 \newcommand{\foo}[2][default]{\baz #1 #2}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -103,6 +102,8 @@
 %           ^^^^ entity.name.newcommand.latex
 %                 ^ constant.numeric.value.latex
 %                             ^^^^ support.function.general.latex
+%                                  ^^ variable.other.readwrite.tex
+%                                     ^^ variable.other.readwrite.tex
 
 \renewcommand{\foo}[1]{\baz #1}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -113,6 +114,7 @@
 %^^^^^^^^^^^^ keyword.declaration.function.latex
 %             ^^^^ entity.name.newcommand.latex
 %                      ^^^^ support.function.general.latex
+%                           ^^ variable.other.readwrite.tex
 
   \providecommand{\f@o}[2][default]{\baz #1 #2}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -126,6 +128,8 @@
 %                 ^^^^ entity.name.newcommand.latex
 %                       ^ constant.numeric.value.latex
 %                                   ^^^^ support.function.general.latex
+%                                        ^^ variable.other.readwrite.tex
+%                                           ^^ variable.other.readwrite.tex
 
 \newcommand\foo{\baz}
 %^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
@@ -183,7 +187,7 @@
 
 \newcommand \baz [1] [def] {\textbf{#1}}
 %^^^^^^^^^^^ meta.function.latex
-%^^^^^^^^^^ keyword.declaration.function.latex storage.modifier.newcommand.latex
+%^^^^^^^^^^ keyword.declaration.function.latex
 %           ^^^^ meta.function.identifier.latex entity.name.newcommand.latex
 %           ^ punctuation.definition.backslash.latex
 %               ^ meta.function.latex
@@ -202,9 +206,8 @@
 %                           ^ punctuation.definition.backslash.latex
 %                                  ^^^^ meta.group.brace.tex
 %                                  ^ punctuation.definition.group.brace.begin.tex
-%                                   ^^ variable.parameter.tex
-%                                   ^ punctuation.definition.placeholder.tex
-%                                    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                                   ^^ variable.other.readwrite.tex
+%                                   ^ punctuation.definition.variable.tex
 %                                     ^ punctuation.definition.group.brace.end.tex
 %                                      ^ punctuation.definition.group.brace.end.tex
 
@@ -220,7 +223,11 @@
 %      ^^^^^^^^ meta.function.parameters.default-value.latex comment.line.percentage.tex
   cu{]}t] {\textbf{#1}}
 % ^^^^^^^ meta.function.parameters.default-value.latex
-%         ^^^^^^^^^^^^^ meta.function.body
+%         ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%                 ^ punctuation.definition.group.brace.begin.tex
+%                  ^^ variable.other.readwrite.tex
+%                    ^^ punctuation.definition.group.brace.end.tex
 
 % The argument count can also be based on another macro. Check that we accept this
 \def\one{1}
@@ -242,7 +249,7 @@
 
 \DeclareMathOperator{\op } {op}
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
-%^^^^^^^^^^^^^^^^^^^ meta.function.latex support.function.declare-math-operator.latex storage.modifier.newcommand.latex
+%^^^^^^^^^^^^^^^^^^^ meta.function.latex support.function.declare-math-operator.latex
 %^^^^^^^^^^^^^^^^^^^ meta.function.latex
 %                   ^^^^^^ meta.function.identifier.latex
 %                         ^ meta.function.latex
@@ -262,7 +269,7 @@
 % ^^^^^^ support.function.general.latex
 
 \newcommand\"{quote}
-%^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex storage.modifier.newcommand.latex
+%^^^^^^^^^^ meta.function.latex keyword.declaration.function.latex
 %          ^^ meta.function.identifier.latex entity.name.newcommand.latex
 %            ^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %          ^ punctuation.definition.backslash.latex

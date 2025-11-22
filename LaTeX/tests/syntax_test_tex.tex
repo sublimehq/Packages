@@ -29,7 +29,7 @@
 
 % Check the main scopes
   \def\macro{replacement}
-% ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+% ^^^^ meta.function.tex keyword.declaration.function.tex
 %     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
 %            ^^^^^^^^^^^^ meta.function.body.tex
 
@@ -45,17 +45,23 @@
 
 % With spaces and parameter specification
  \def \foo [#1]#2{The first argument is ``#1'', the second one is ``#2''}
-%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
 %^^^^^ meta.function.tex
-%     ^^^^ meta.function.identifier.tex entity.name.definition.tex
-%         ^^^^^^^ meta.function.parameters.tex -meta.function.tex
-%           ^^ variable.parameter.tex
-%              ^^ variable.parameter.tex
+%     ^^^^ meta.function.identifier.tex
+%         ^^^^^^^ meta.function.parameters.tex - meta.function.tex
 %                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex
+%^^^^ keyword.declaration.function.tex
+%^ punctuation.definition.backslash.tex
+%     ^^^^ entity.name.definition.tex
+%     ^ punctuation.definition.backslash.tex
+%          ^^^^ meta.group.bracket.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ variable.parameter.tex
+%             ^ punctuation.definition.group.bracket.end.tex
+%              ^^ variable.parameter.tex
 
 % With line continuation
  \def \foo [#1]#2%
-%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^ keyword.declaration.function.tex
 %^^^^^meta.function.tex
 %     ^^^^ meta.function.identifier.tex entity.name.definition.tex
 %         ^^^^^^^ meta.function.parameters.tex
@@ -67,7 +73,7 @@
 
 % With nested braces
  \def \author {William {\sc Smith}}
-%^^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^ keyword.declaration.function.tex
 %^^^^^ meta.function.tex
 %     ^^^^^^^ meta.function.identifier.tex entity.name.definition.tex
 %            ^ meta.function.parameters.tex
@@ -76,18 +82,26 @@
 
 % gdef as a global variation of def
  \gdef\macro{replacement}
-%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex keyword.declaration.function.tex
 %     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
 %            ^^^^^^^^^^^^ meta.function.body.tex
 
 % edef as an immediately expanded version of def. Note that here,
 % argument specifications would not be allowed by TeX.
  \edef\macro{replacement}
-%^^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^^ meta.function.tex keyword.declaration.function.tex
 %     ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
 %            ^^^^^^^^^^^^ meta.function.body.tex
 
-
+% parameter definition and references
+\def\macro##1##2{\>\textbf{##1}\>##2\\}
+%         ^^^^^^ meta.function.parameters.tex variable.parameter.tex
+%         ^^ punctuation.definition.variable.tex
+%            ^^ punctuation.definition.variable.tex
+%                          ^^^ variable.other.readwrite.tex
+%                          ^^ punctuation.definition.variable.tex
+%                                ^^^ variable.other.readwrite.tex
+%                                ^^ punctuation.definition.variable.tex
 
 % And now, the really weird cases
 %  escaped characters in the argument specification
@@ -115,7 +129,7 @@
 
 %  defining special character macros
  \def\_{underscore}
-%^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^^ meta.function.tex keyword.declaration.function.tex
 %    ^^ meta.function.identifier.tex entity.name.definition.tex
 %      ^^^^^^^^^^^^ meta.function.body.tex
 
@@ -143,17 +157,17 @@ some other text
  \long\def\test#1{#1}
 %^^^^^ storage.modifier.definition.tex
 %^ punctuation.definition.backslash.tex
-%     ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%     ^^^^ meta.function.tex keyword.declaration.function.tex
 
  \outer\def\test#1{#1}
 %^^^^^^ storage.modifier.definition.tex
 %^ punctuation.definition.backslash.tex
-%      ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%      ^^^^ meta.function.tex keyword.declaration.function.tex
 
  \global\def\test#1{#1}
 %^^^^^^^ storage.modifier.definition.tex
 %^ punctuation.definition.backslash.tex
-%       ^^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%       ^^^^ meta.function.tex keyword.declaration.function.tex
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,14 +180,13 @@ some other text
 %^^^ meta.function.tex
 %   ^^^^^ meta.function.identifier.tex
 %        ^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
-%^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^ keyword.declaration.function.tex
 %   ^^^^^ entity.name.definition.tex
 %        ^ punctuation.definition.group.brace.begin.tex
 %         ^^^^^^^^ keyword.control.conditional.if.tex
 %         ^ punctuation.definition.backslash.tex
-%                  ^^ variable.parameter.tex
-%                  ^ punctuation.definition.placeholder.tex
-%                   ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                  ^^ variable.other.readwrite.tex
+%                  ^ punctuation.definition.variable.tex
 %                     ^^ constant.character.escape.tex
 %                     ^ punctuation.definition.backslash.tex
 %                        ^ punctuation.definition.group.brace.end.tex
@@ -187,11 +200,11 @@ some other text
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %         ^^^^^^^ meta.register.tex
 %                 ^^^^ meta.group.brace.tex meta.group.brace.tex
-%^^^ keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^ keyword.declaration.function.tex
 %   ^^^^^ entity.name.definition.tex
 %        ^ punctuation.definition.group.brace.begin.tex
 %               ^ meta.number.integer.decimal.tex constant.numeric.value.tex
-%                  ^^ variable.parameter.tex
+%                  ^^ variable.other.readwrite.tex
 %                      ^^^^^^ keyword.other.math.greek.tex
 
 
@@ -876,7 +889,7 @@ some other text
 % No assignment, the = is outside of the macro
 \def\macro{\abovedisplayskip}=5pt
 %                            ^ - keyword.operator.assignment.tex
-%^^^ meta.function.tex keyword.declaration.function.tex storage.modifier.definition.tex
+%^^^ meta.function.tex keyword.declaration.function.tex
 %   ^^^^^^ meta.function.identifier.tex entity.name.definition.tex
 %   ^ punctuation.definition.backslash.tex
 %         ^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
