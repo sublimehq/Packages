@@ -399,7 +399,7 @@ contexts:
     - match: ''
       push:
         - pop-twice
-        - enclosure.block
+        - enclosure.outer-block
         - type.struct-body
         - likely-macro
         - type.struct-name
@@ -424,7 +424,7 @@ contexts:
     - match: ''
       push:
         - pop-twice
-        - enclosure.block
+        - enclosure.outer-block
         - type.union-body
         - likely-macro
         - type.union-name
@@ -456,7 +456,7 @@ contexts:
       push: enclosure.brackets
     - match: \{
       scope: meta.block.c punctuation.section.block.begin.c
-      push: enclosure.block
+      push: enclosure.inner-block
   enclosure.parenthesis:
     - meta_content_scope: meta.group.c
     - include: expression
@@ -475,12 +475,21 @@ contexts:
     - match: \)|\} # Fallback
       scope: invalid.illegal.stray-bracket-end.c
       pop: 1
-  enclosure.block:
+  enclosure.outer-block:
     - meta_content_scope: meta.block.c
     - include: function
     - include: expression
     - match: \}
       scope: meta.block.c punctuation.section.block.end.c
+      pop: 1
+    - match: \)|\] # Fallback
+      scope: invalid.illegal.stray-bracket-end.c
+      pop: 1
+  enclosure.inner-block:
+    - meta_content_scope: meta.block.c
+    - include: expression
+    - match: \}
+      scope: meta.brackets.square.c punctuation.section.brackets.end.c
       pop: 1
     - match: \)|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c

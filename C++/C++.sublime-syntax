@@ -142,7 +142,7 @@ contexts:
       set: enclosure.parenthesis
     - match: \{
       scope: meta.block.c++ punctuation.section.block.begin.c++
-      set: enclosure.block
+      set: enclosure.inner-block
     - include: else-pop
 
   call:
@@ -216,7 +216,7 @@ contexts:
       scope: keyword.declaration.namesace.c++
       branch_point: namespace
       branch: [type.namespace, pop-immediately]
-    - match: \b(using)\s+(namespace)\b
+    - match: \b(using)\s+(namespace|enum)\b
       captures:
         1: keyword.declaration.c++
         2: keyword.declaration.c++
@@ -425,7 +425,7 @@ contexts:
       captures:
         1: variable.function.c++
         2: meta.block.c punctuation.section.block.begin.c++
-      push: enclosure.block
+      push: enclosure.inner-block
 
   class:
     - match: ({{identifier}})(?=\s*;)
