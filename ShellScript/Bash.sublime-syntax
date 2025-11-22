@@ -1791,10 +1791,16 @@ contexts:
     # arithmetic expression content without word boundary checks
     - match: \"
       scope: punctuation.definition.quoted.begin.shell
-      push: expression-double-quoted-body
+      push:
+        - subscript
+        - expression-double-quoted-body
+        - subscript
     - match: \'
       scope: punctuation.definition.quoted.begin.shell
-      push: expression-single-quoted-body
+      push:
+        - subscript
+        - expression-single-quoted-body
+        - subscript
     - include: expression-groups
     - include: expression-common
 

@@ -12594,6 +12594,139 @@ let var[10]=5*(20+$idx)
 #                 ^^^^ variable.other.readwrite.shell
 #                     ^ punctuation.section.group.end.shell
 
+let "var"[10]=5*(20+$idx)
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^^^^ meta.quoted.shell
+#   ^ punctuation.definition.quoted.begin.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^ punctuation.definition.quoted.end.shell
+#        ^^^^ meta.item-access.shell
+#        ^ punctuation.section.item-access.begin.shell
+#         ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#           ^ punctuation.section.item-access.end.shell
+#            ^ keyword.operator.assignment.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#               ^^^^^^^^^ meta.group.shell
+#               ^ punctuation.section.group.begin.shell
+#                ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ keyword.operator.arithmetic.shell
+#                   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^ punctuation.definition.variable.shell
+#                       ^ punctuation.section.group.end.shell
+
+let var"[10]"=5*(20+$idx)
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^^ variable.other.readwrite.shell
+#      ^^^^^^ meta.quoted.shell
+#      ^ punctuation.definition.quoted.begin.shell
+#       ^^^^ meta.item-access.shell
+#       ^ punctuation.section.item-access.begin.shell
+#        ^^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ punctuation.definition.quoted.end.shell
+#            ^ keyword.operator.assignment.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#               ^^^^^^^^^ meta.group.shell
+#               ^ punctuation.section.group.begin.shell
+#                ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ keyword.operator.arithmetic.shell
+#                   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^ punctuation.definition.variable.shell
+#                       ^ punctuation.section.group.end.shell
+
+let va"r[10]"=5*(20+$idx)
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^ variable.other.readwrite.shell
+#     ^^^^^^^ meta.quoted.shell
+#     ^ punctuation.definition.quoted.begin.shell
+#      ^ variable.other.readwrite.shell
+#       ^^^^ meta.item-access.shell
+#       ^ punctuation.section.item-access.begin.shell
+#        ^^ meta.arithmetic.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ punctuation.definition.quoted.end.shell
+#            ^ keyword.operator.assignment.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#               ^^^^^^^^^ meta.group.shell
+#               ^ punctuation.section.group.begin.shell
+#                ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ keyword.operator.arithmetic.shell
+#                   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^ punctuation.definition.variable.shell
+#                       ^ punctuation.section.group.end.shell
+
+let "var[10]"=5*(20+$idx)
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^^^^^^^^ meta.quoted.shell
+#   ^ punctuation.definition.quoted.begin.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^^^^ meta.item-access.shell
+#       ^ punctuation.section.item-access.begin.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ punctuation.definition.quoted.end.shell
+#            ^ keyword.operator.assignment.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#               ^^^^^^^^^ meta.group.shell
+#               ^ punctuation.section.group.begin.shell
+#                ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ keyword.operator.arithmetic.shell
+#                   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^ punctuation.definition.variable.shell
+#                       ^ punctuation.section.group.end.shell
+
+let "var[10]="5*(20+$idx)
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^^^^^^^^^ meta.quoted.shell
+#   ^ punctuation.definition.quoted.begin.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^^^^ meta.item-access.shell
+#       ^ punctuation.section.item-access.begin.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ keyword.operator.assignment.shell
+#            ^ punctuation.definition.quoted.end.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#              ^ keyword.operator.arithmetic.shell
+#               ^^^^^^^^^ meta.group.shell
+#               ^ punctuation.section.group.begin.shell
+#                ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                  ^ keyword.operator.arithmetic.shell
+#                   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                   ^ punctuation.definition.variable.shell
+#                       ^ punctuation.section.group.end.shell
+
+let "var[10]=5*(20+$idx)"
+#^^ meta.function-call.identifier.shell support.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.arithmetic.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.quoted.shell
+#   ^ punctuation.definition.quoted.begin.shell
+#    ^^^ variable.other.readwrite.shell
+#       ^^^^ meta.item-access.shell
+#       ^ punctuation.section.item-access.begin.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ keyword.operator.assignment.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#             ^ keyword.operator.arithmetic.shell
+#              ^^^^^^^^^ meta.group.shell
+#              ^ punctuation.section.group.begin.shell
+#               ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                 ^ keyword.operator.arithmetic.shell
+#                  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^ punctuation.definition.variable.shell
+#                      ^ punctuation.section.group.end.shell
+#                       ^ punctuation.definition.quoted.end.shell
+
 let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 # <- meta.function-call.identifier.shell support.function.shell
 #^^ meta.function-call.identifier.shell
