@@ -484,7 +484,7 @@ contexts:
       scope: meta.block.parameters.ruby punctuation.definition.parameters.begin.ruby
       set: block-parameters
     - match: (?=\s*[^\s\|])
-      pop: true
+      set: try-regex
 
   block-parameters:
     - meta_content_scope: meta.block.parameters.ruby
