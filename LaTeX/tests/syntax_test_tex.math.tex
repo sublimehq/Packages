@@ -9,13 +9,11 @@
 %^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
 % ^^^^^^^^^^ markup.math.inline - string
 %           ^ string.other.math.tex punctuation.definition.string.end.tex - markup.math.inline
-% ^ variable.other.math.tex markup.italic.math.tex
-%  ^ punctuation.section.parens.begin.tex - markup.italic
-%   ^ variable.other.math.tex markup.italic.math.tex
-%    ^ punctuation.section.parens.end.tex - markup.italic
-%     ^^^ - markup.italic
-%        ^ variable.other.math.tex markup.italic.math.tex
-%         ^ - markup.italic
+% ^ variable.other.math.tex
+%  ^ punctuation.section.parens.begin.tex
+%   ^ variable.other.math.tex
+%    ^ punctuation.section.parens.end.tex
+%        ^ variable.other.math.tex
 
 $\iota$
 %^^^^^ keyword.other.math.greek.tex
@@ -40,8 +38,8 @@ $\alpha_$
 % ^^^^^^^^^^^^^^^^^^ markup.math.inline - string
 % ^ punctuation.definition.backslash.tex
 % ^^^^ keyword.other.math.large-operator.tex
-%       ^ variable.other.math.tex markup.italic.math.tex
-%                ^ variable.other.math.tex markup.italic.math.tex
+%       ^ variable.other.math.tex
+%                ^ variable.other.math.tex
 %        ^ keyword.operator.comparison.tex
 %         ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %       ^^^^ meta.group.brace.tex
@@ -54,14 +52,14 @@ $\lim_{x \rightarrow 0} \sin x$
 %    ^ punctuation.separator.subscript.tex
 %     ^^^^^^^^^^^^^^^^^ meta.group.brace.tex
 %     ^ punctuation.definition.group.brace.begin.tex
-%      ^ variable.other.math.tex markup.italic.math.tex
+%      ^ variable.other.math.tex
 %        ^^^^^^^^^^^ keyword.other.math.arrow.tex
 %        ^ punctuation.definition.backslash.tex
 %                    ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 %                     ^ punctuation.definition.group.brace.end.tex
 %                       ^^^^ keyword.other.math.function.tex
 %                       ^ punctuation.definition.backslash.tex
-%                            ^ variable.other.math.tex markup.italic.math.tex
+%                            ^ variable.other.math.tex
 %                             ^ string.other.math.tex punctuation.definition.string.end.tex
 
 
@@ -69,11 +67,11 @@ $\lim_{x \rightarrow 0} \sin x$
  $x$$y$
 %^^^^^^ meta.environment.math.inline.dollar.tex
 %^ string.other.math.tex punctuation.definition.string.begin.tex
-% ^ markup.math.inline variable.other.math.tex markup.italic.math.tex
+% ^ markup.math.inline variable.other.math.tex
 %  ^^ string.other.math.tex - markup.math.inline
 %  ^ punctuation.definition.string.end.tex
 %   ^ punctuation.definition.string.begin.tex
-%    ^ markup.math.inline variable.other.math.tex markup.italic.math.tex
+%    ^ markup.math.inline variable.other.math.tex
 %     ^ string.other.math.tex punctuation.definition.string.end.tex
 %      ^ - meta.environment.math
 
@@ -169,7 +167,7 @@ $$
 %          ^ variable.other.math.tex
 
   a_n^2
-% ^ variable.other.math.tex markup.italic.math.tex
+% ^ variable.other.math.tex
 %  ^ punctuation.separator.subscript.tex
 %   ^ variable.other.math.tex
 %    ^ punctuation.separator.superscript.tex
