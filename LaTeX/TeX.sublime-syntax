@@ -673,9 +673,9 @@ contexts:
   math-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: math-brace-group-body
+      push: math-braces-body
 
-  math-brace-group-body:
+  math-braces-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
     - include: math-content
