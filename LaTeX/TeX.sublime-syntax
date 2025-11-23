@@ -735,7 +735,7 @@ contexts:
 
   math-variables:
     - match: '[A-Za-z]+'
-      scope: variable.other.math.tex markup.italic.math.tex
+      scope: variable.other.math.tex
 
 ###[ PROTOTYPES ]##############################################################
 
