@@ -550,7 +550,7 @@ contexts:
     - include: macro-variables
     - include: controls
     - include: registers
-    - include: math-builtin
+    - include: math-builtins
     - include: tex-constants
     - include: general-constants
     - include: general-commands
@@ -604,7 +604,7 @@ contexts:
       pop: 1
 
   math-content:
-    - include: math-builtin
+    - include: math-builtins
     - include: math-brackets
     - include: math-braces
     - include: boxes
@@ -614,66 +614,39 @@ contexts:
     - include: math-numbers
     - include: general-constants
 
-  math-builtin:
-    - include: math-greeks
-    - include: math-functions
-    - include: math-relations
-    - include: math-largeops
-    - include: math-binops
-    - include: math-symbols
-    - include: math-accents
-    - include: math-arrows
-    - include: math-delimiters
-
-  math-greeks:
+  math-builtins:
     - match: (\\){{greeks}}{{endcs}}
       scope: keyword.other.math.greek.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-functions:
     - match: (\\){{mathfun}}{{endcs}}
       scope: keyword.other.math.function.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-relations:
     - match: (\\){{relations}}{{endcs}}
       scope: keyword.other.math.relation.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-largeops:
     - match: (\\){{largeops}}{{endcs}}
       scope: keyword.other.math.large-operator.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-binops:
     - match: (\\){{binops}}{{endcs}}
       scope: keyword.other.math.binary-operator.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-symbols:
     - match: (\\){{symbols}}{{endcs}}
       scope: keyword.other.math.symbol.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-accents:
     - match: (\\){{accents}}{{endcs}}
       scope: keyword.other.math.accent.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-arrows:
     - match: (\\){{arrows}}{{endcs}}
       scope: keyword.other.math.arrow.tex
       captures:
         1: punctuation.definition.backslash.tex
-
-  math-delimiters:
     - match: (\\){{delimiters}}{{endcs}}
       scope: keyword.other.math.delimiter.tex
       captures:
@@ -700,9 +673,9 @@ contexts:
   math-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: math-brace-group-body
+      push: math-braces-body
 
-  math-brace-group-body:
+  math-braces-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
     - include: math-content
