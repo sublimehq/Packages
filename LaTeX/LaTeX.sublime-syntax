@@ -181,6 +181,11 @@ contexts:
     - meta_scope: meta.function.body.latex
     # but in principle, a single token is also valid,
     # thus either a command sequence ...
+    - match: (\\){{macroname}}
+      scope: support.function.internal.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      pop: 1
     - match: (\\){{cmdname}}
       scope: support.function.general.latex
       captures:
@@ -347,7 +352,11 @@ contexts:
 
   general-commands:
     - include: begin-end-commands
-    - match: (\\)[A-Za-z@]+
+    - match: (\\){{macroname}}
+      scope: support.function.internal.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+    - match: (\\){{letter}}+
       scope: support.function.general.latex
       captures:
         1: punctuation.definition.backslash.latex
