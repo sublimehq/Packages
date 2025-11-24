@@ -527,7 +527,7 @@ contexts:
 ###[ COMPONENTS ]##############################################################
 
   hash-empty-content:
-    - match: '0{7,64}'
+    - match: \b0{7,64}\b
       scope: constant.language.null.git
 
   hash:
