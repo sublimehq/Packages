@@ -581,7 +581,7 @@ contexts:
 ###############################################################################
 
 variables:
-  git_hash: '[0-9a-fA-F]{7,64}'
+  git_hash: \b[0-9a-fA-F]{7,64}\b
   day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
   month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
   base85: '[0-9a-zA-Z!#$%&()*+\-;<=>?@^_`{|}~]'
