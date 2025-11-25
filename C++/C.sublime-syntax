@@ -179,7 +179,7 @@ contexts:
     # priority issues with matching ^\s*{{identifier}}
     - match: ^\s+
       branch_point: try-function
-      branch: [try-function, pop-immediately]
+      branch: [try-function, else-pop]
     - include: keyword.control-flow
     - include: keyword.control
     - match: (?=^{{identifier}}\s+{{identifier}}\s*\()
@@ -247,7 +247,7 @@ contexts:
     - match: ({{identifier}})\s*(\()
       captures:
         1: entity.name.function.c
-        2: meta.group.c punctuation.section.group.begin.c
+        2: meta.function.parameters.c meta.group.c punctuation.section.group.begin.c
       push:
         - function-tail
         - function-params
@@ -295,25 +295,24 @@ contexts:
     - match: (?=;)
       pop: 1
     - match: \{
-      scope: punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c meta.block.c
       set: function-body
     - include: expression-identifiers
     - match: \[\[
       scope: meta.brackets.square.c punctuation.section.brackts.begin.c
       push: enclosure.attribute
   function-body:
-    - meta_scope: meta.function.c meta.block.c
-    - match: \}
-      scope: punctuation.section.block.end.c
-      pop: 1
-    - include: expression
+    - meta_scope: meta.function.c
+    - include: enclosure.inner-block
     - include: label
 
   expression-identifiers:
+    - include: operator.pointer
     - include: operator.word
     - include: type
     - include: keyword
     - include: constant
+    - include: number
 
 ###[ SIMPLE STRUCTURES ]############################################################
 
@@ -489,7 +488,7 @@ contexts:
     - meta_content_scope: meta.block.c
     - include: expression
     - match: \}
-      scope: meta.brackets.square.c punctuation.section.brackets.end.c
+      scope: meta.block.c punctuation.section.block.end.c
       pop: 1
     - match: \)|\] # Fallback
       scope: invalid.illegal.stray-bracket-end.c
@@ -787,7 +786,7 @@ contexts:
     - match: \b(__declspec)(\()
       captures:
         1: storage.modifier.c
-        2: punctuation.section.group.begin.c
+        2: meta.group.c punctuation.section.group.begin.c
       push: declspec
     - match: \b__declspec\b
       scope: storage.modifier.c
@@ -836,7 +835,7 @@ contexts:
       scope: keyword.declaration.type.c
 
   declspec:
-    - meta_scope: meta.group.c
+    - meta_content_scope: meta.group.c
     - match: \b{{declspec_item}}\b
       scope: constant.other.c
     - match: \b({{declspec_func}})\s*(\()
@@ -851,7 +850,7 @@ contexts:
       push: declspec-proprty
     - include: expression
     - match: \)
-      scope: punctuation.section.group.end.c
+      scope: meta.group.c punctuation.section.group.end.c
       pop: 1
   declspec-proprty:
     - meta_content_scope: meta.group.c
