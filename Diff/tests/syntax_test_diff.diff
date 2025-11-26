@@ -339,7 +339,7 @@ Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#S
 \ <- meta.hunk.diff punctuation.terminator.hunk.diff
 
 
-SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
+SVN patch sample https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
 Index: deleted-file
 \      @@@@@@@@@@@@ local-definition
 \^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
