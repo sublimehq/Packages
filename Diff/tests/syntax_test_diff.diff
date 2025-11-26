@@ -399,6 +399,12 @@ Added: propname
 \    ^ punctuation.separator.key-value.diff
 \      ^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
 ## -0,0 +1 ##
+\^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+\^ punctuation.definition.range.begin.diff
+\  ^ support.function.diff
+\    ^ punctuation.separator.sequence.diff
+\       ^ support.function.diff
+\          ^^ punctuation.definition.range.end.diff
 +propvalue
 \^^^^^^^^^ markup.inserted.diff
 Index: added-file
