@@ -113,9 +113,12 @@ variables:
   letter: '[A-Za-z@]'
   nonletter: '[^A-Za-z@]'
   # look-ahead for end of command sequence
-  endcs: '(?!{{letter}})'
+  endcs: '(?!{{macrosep}}?{{letter}})'
   # a command name: either a sequence of letters, or a single non-letter
   cmdname: '(?x: {{letter}}+ | {{nonletter}})'
+  # internal macro name: a sequence of letters containing `_` and `:` for structure
+  macroname: '_*{{letter}}+(?:{{macrosep}}+{{letter}}+)+'
+  macrosep: '[_:]'
   # hexadecimal digits in different casing
   lchexdigit: (?:[0-9a-f])
   uchexdigit: (?:[0-9A-F])
@@ -291,6 +294,10 @@ contexts:
 ###[ COMMANDS ]################################################################
 
   general-commands:
+    - match: (\\){{macroname}}
+      scope: support.function.internal.tex
+      captures:
+        1: punctuation.definition.backslash.tex
     - match: (\\){{letter}}+
       scope: support.function.general.tex
       captures:
@@ -308,7 +315,7 @@ contexts:
     - include: escaped-character
 
   escaped-character:
-    - match: (\\){{nonletter}}
+    - match: (\\)(?!{{macroname}}){{nonletter}}
       scope: constant.character.escape.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -487,8 +494,13 @@ contexts:
 
   def-function-identifier:
     - meta_content_scope: meta.function.tex
+    - match: (\\){{macroname}}
+      scope: meta.function.identifier.tex entity.name.function.internal.tex
+      captures:
+        1: punctuation.definition.backslash.tex
+      set: def-function-parameters
     - match: (\\){{cmdname}}
-      scope: meta.function.identifier.tex entity.name.definition.tex
+      scope: meta.function.identifier.tex entity.name.function.tex
       captures:
         1: punctuation.definition.backslash.tex
       set: def-function-parameters
