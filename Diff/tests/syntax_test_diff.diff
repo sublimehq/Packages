@@ -339,7 +339,7 @@ Diff3 Edit Format https://www.gnu.org/software/diffutils/manual/diffutils.html#S
 \ <- meta.hunk.diff punctuation.terminator.hunk.diff
 
 
-SVN sample https://svnbook.red-bean.com/en/1.7/svn-book.html#idm10685
+SVN patch sample https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.ref.svn.c.patch
 Index: deleted-file
 \      @@@@@@@@@@@@ local-definition
 \^^^^^^^^^^^^^^^^^^ meta.mapping.diff meta.diff.index meta.index.diff
@@ -399,6 +399,12 @@ Added: propname
 \    ^ punctuation.separator.key-value.diff
 \      ^^^^^^^^ meta.mapping.value.diff meta.toc-list.file-name.diff
 ## -0,0 +1 ##
+\^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff meta.toc-list.hunk.diff
+\^ punctuation.definition.range.begin.diff
+\  ^ support.function.diff
+\    ^ punctuation.separator.sequence.diff
+\       ^ support.function.diff
+\          ^^ punctuation.definition.range.end.diff
 +propvalue
 \^^^^^^^^^ markup.inserted.diff
 Index: added-file

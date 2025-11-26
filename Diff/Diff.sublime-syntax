@@ -141,6 +141,13 @@ contexts:
       scope: punctuation.definition.range.begin.diff
       push: inside-diff-line-ranges-context
 
+    # SVN Properties
+    # https://svnbook.red-bean.com/en/1.7/svn-book.html#svn.advanced.props.workflow
+    - match: '{{bol}}(##)(?=[^#\n]+##(?:\s|$))'
+      captures:
+        1: punctuation.definition.range.begin.diff
+      push: [hunk-name, inside-diff-line-ranges-unified]
+
   inside-diff-line-ranges-context:
     - meta_scope: meta.diff.range.context meta.range.context.diff meta.toc-list.hunk.diff
     - include: pop-eol
