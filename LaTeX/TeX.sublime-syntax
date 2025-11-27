@@ -485,7 +485,8 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       set: def-function-parameters
-    - include: paragraph-pop
+    - match: (?=[#\[\{])
+      set: def-function-parameters
     - include: else-pop
 
   def-function-parameters:
@@ -493,8 +494,7 @@ contexts:
     - include: def-function-block
     - include: def-function-parameter-brackets
     - include: macro-parameters
-    - include: escaped-character
-    - include: paragraph-pop
+    - include: general-constants
 
   def-function-parameter-brackets:
     - match: \[
