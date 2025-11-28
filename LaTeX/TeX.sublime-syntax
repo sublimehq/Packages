@@ -352,10 +352,9 @@ contexts:
 
   register-allocation-identifier:
     - meta_scope: meta.register.tex
-    - match: (?=\{)
-      set:
-        - register-allocation-wrapped-identifier
-        - brace-group-begin
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: register-allocation-wrapped-identifier
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
@@ -364,8 +363,10 @@ contexts:
     - include: else-pop
 
   register-allocation-wrapped-identifier:
-    - meta_scope: meta.register.tex meta.group.brace.tex
-    - include: brace-group-end
+    - meta_scope: meta.group.brace.tex
+    - match: \}
+      scope: punctuation.definition.group.brace.end.tex
+      pop: 2
     - match: (\\){{cmdname}}
       scope: entity.name.constant.tex
       captures:
