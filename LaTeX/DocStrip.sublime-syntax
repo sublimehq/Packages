@@ -71,7 +71,7 @@ contexts:
 
   docstrip-file-argument-path:
     - meta_content_scope: meta.path.tex.docstrip
-    - include: macro-braces-body
+    - include: brace-group-body
 
   docstrip-config:
     - match: (\\)(?:usedir|showdirectory|BaseDirectory|DeclareDir|UseTDS|maxfiles|maxoutfiles){{endcs}}
