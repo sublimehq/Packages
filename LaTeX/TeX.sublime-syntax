@@ -510,7 +510,6 @@ contexts:
       pop: 1
     - include: macro-parameters
     - include: general-constants
-    - include: general-commands
     - include: stray-brace-pop
 
   def-function-block:

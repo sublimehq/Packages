@@ -136,6 +136,46 @@
 %          ^^ constant.character.newline.tex
 %            ^^ variable.parameter.tex
 
+%     hash in brackets
+\def \macro[\#1A]{replacement}
+%          ^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ constant.character.escape.tex
+%           ^ punctuation.definition.backslash.tex
+%             ^^ - variable
+%               ^ punctuation.definition.group.bracket.end.tex
+
+%     open-brace in brackets
+\def \macro[\{#1A]{replacement}
+%          ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                 ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ constant.character.escape.tex
+%           ^ punctuation.definition.backslash.tex
+%             ^^ variable.parameter.tex
+%                ^ punctuation.definition.group.bracket.end.tex
+
+%     double escape in brackets
+\def \macro[\\#1A]{replacement}
+%          ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                 ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ constant.character.newline.tex
+%             ^^ variable.parameter.tex
+%                ^ punctuation.definition.group.bracket.end.tex
+
+%     no commands in parameter text
+\def \macro\A[\A#1A]{replacement}
+%          ^^ meta.function.parameters.tex - meta.group
+%            ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                   ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^^ - support - punctuation
+%            ^ punctuation.definition.group.bracket.begin.tex
+%             ^^ - support - punctuation
+%               ^^ variable.parameter.tex
+%                  ^ punctuation.definition.group.bracket.end.tex
+
 %  defining special character macros
  \def\_{underscore}
 %^^^^ meta.function.tex keyword.declaration.function.tex
