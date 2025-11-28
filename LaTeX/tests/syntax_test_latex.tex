@@ -279,6 +279,45 @@
 \newcommandprefix
 %^^^^^^^^^^^^^^^^ support.function.general.latex
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MACRO VARIABLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{#1} \end{#1}
+%      ^^ variable.other.readwrite.tex
+%      ^ punctuation.definition.variable.tex
+%               ^^ variable.other.readwrite.tex
+%               ^ punctuation.definition.variable.tex
+
+\cite{#1##2###3}
+%     ^^^^^^^^^ variable.other.readwrite.tex
+%     ^ punctuation.definition.variable.tex
+%       ^^ punctuation.definition.variable.tex
+%          ^^^ punctuation.definition.variable.tex
+
+\cref{#1##2###3}
+%     ^^^^^^^^^ variable.other.readwrite.tex
+%     ^ punctuation.definition.variable.tex
+%       ^^ punctuation.definition.variable.tex
+%          ^^^ punctuation.definition.variable.tex
+
+\label{#1##2###3}
+%      ^^^^^^^^^ variable.other.readwrite.tex
+%      ^ punctuation.definition.variable.tex
+%        ^^ punctuation.definition.variable.tex
+%           ^^^ punctuation.definition.variable.tex
+
+$$
+\crot{#1} \{ { { #2 (#3) } } \}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.math.block.dollar.tex markup.math.block
+%     ^^ variable.other.readwrite.tex
+%     ^ punctuation.definition.variable.tex
+%                ^^ variable.other.readwrite.tex
+%                ^ punctuation.definition.variable.tex
+%                    ^^ variable.other.readwrite.tex
+%                    ^ punctuation.definition.variable.tex
+$$
+
 \newcolumntype{x}{>{$}c<{$}}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
 % ^ support.function.newcolumntype.latex

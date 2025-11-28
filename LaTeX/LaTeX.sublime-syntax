@@ -166,6 +166,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.identifier.latex
     - include: brace-group-end
+    - include: macro-variables
     - match: (\\){{cmdname}}
       scope: entity.name.newcommand.latex
       captures:
@@ -232,6 +233,7 @@ contexts:
     - include: brace-group-end
     - include: macro-braces
     - include: xparse-newcommand-single-argspec
+    - include: macro-variables
     # not actually allowed, but included here to future-proof highlighting
     - include: general-constants
     - include: general-commands
@@ -304,6 +306,7 @@ contexts:
   xparse-newcommand-args-wrapped-token:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
+    - include: macro-variables
     # either a command
     - match: (\\){{cmdname}}{{endcs}}
       scope: constant.other.token.latex
@@ -419,6 +422,7 @@ contexts:
           set:
             - meta_scope: meta.preamble.documentclass.latex meta.group.brace.tex
             - include: brace-group-end
+            - include: macro-variables
             - match: '[A-Za-z[:digit:]-]'
               scope: support.class.latex
         - include: immediately-pop
@@ -435,6 +439,7 @@ contexts:
           set:
             - meta_scope: meta.preamble.usepackage.latex meta.group.brace.tex
             - include: brace-group-end
+            - include: macro-variables
             - match: '[A-Za-z[:digit:]-]*'
               scope: support.class.latex
         - include: immediately-pop
@@ -449,6 +454,7 @@ contexts:
       push:
         - meta_scope: meta.include.latex
         - include: brace-group-end
+        - include: macro-variables
 
   sections:
     - match: |-
@@ -1185,6 +1191,7 @@ contexts:
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.citation.latex
             - include: brace-group-end
+            - include: macro-variables
         - match: ''
           pop: 1
     - match: |-
@@ -1207,6 +1214,7 @@ contexts:
             - match: '[a-zA-Z0-9\.:/*!^_-]+'
               scope: constant.other.reference.latex
             - include: brace-group-end
+            - include: macro-variables
         - match: ''
           pop: 1
     - match: ((\\)label)(\{)
@@ -1219,6 +1227,7 @@ contexts:
         - match: '[a-zA-Z0-9\.:/*!^_-]+'
           scope: entity.name.label.latex
         - include: brace-group-end
+        - include: macro-variables
 
   begin-end-commands:
     - match: ((\\)begin)(\{)\s*(\w*)\*?\s*(\})
@@ -2046,6 +2055,7 @@ contexts:
         - meta_scope: meta.function.newcolumntype.latex
         - include: brace-group-end
         - include: array-preamble
+        - include: macro-variables
 
 
     - match: |-
