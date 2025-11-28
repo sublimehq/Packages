@@ -176,6 +176,20 @@
 %               ^^ variable.parameter.tex
 %                  ^ punctuation.definition.group.bracket.end.tex
 
+% nested brackets in parameter text
+\def\macro[#1={#2,{key=[#4,#5]}}] {replacement}
+%^^^ meta.function.tex keyword.declaration.function.tex
+%   ^^^^^^ meta.function.identifier.tex entity.name.function.tex
+%         ^^^^ meta.function.parameters.tex meta.group.bracket.tex - meta.group meta.group
+%             ^^^^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex - meta.group meta.group meta.group
+%                 ^^^^^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex meta.group.brace.tex - meta.group meta.group meta.group meta.group
+%                      ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex meta.group.brace.tex meta.group.bracket.tex
+%                             ^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex meta.group.brace.tex - meta.group meta.group meta.group meta.group
+%                              ^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex - meta.group meta.group meta.group
+%                               ^ meta.function.parameters.tex meta.group.bracket.tex - meta.group meta.group
+%                                ^ meta.function.parameters.tex - meta.group
+%                                 ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+
 %  defining special character macros
  \def\_{underscore}
 %^^^^ meta.function.tex keyword.declaration.function.tex
@@ -209,16 +223,6 @@ any delimiter token
 %  command just prefixed with def. Needs to be picked up as a custom command
 \deftext
 %^^^^^^^ support.function.general.tex
-
-\def \macro #1 { \def \incomplete #1 }
-%              ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
-%              ^ punctuation.definition.group.brace.begin.tex
-%                                    ^ punctuation.definition.group.brace.end.tex
-
-\def \macro #1 { \def \incomplete [#1 }
-%              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
-%              ^ punctuation.definition.group.brace.begin.tex
-%                                     ^ punctuation.definition.group.brace.end.tex
 
 % internal macro definition
 \def\internal_macro{}
@@ -310,6 +314,16 @@ any delimiter token
 %                  ^^ variable.other.readwrite.tex
 %                      ^^^^^^ keyword.other.math.greek.tex
 
+% incomplete nested macro definitions
+\def \macro #1 { \def \incomplete #1 }
+%              ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%                                    ^ punctuation.definition.group.brace.end.tex
+
+\def \macro #1 { \def \incomplete [#1 }
+%              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
 
 % testing incomplete register specification
 \def\test{\dimen} other text
