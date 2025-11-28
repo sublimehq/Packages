@@ -332,12 +332,14 @@ some other text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \muskip5
-%^^^^^^ storage.type.tex
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
+%^^^^^^ storage.type.register.tex
 %^^^^^^^ meta.register.tex
 %      ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
 \box 60
-%^^^ storage.type.tex
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
+%^^^ storage.type.register.tex
 %^^^^^^ meta.register.tex
 %    ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
@@ -409,24 +411,26 @@ some other text
 % we just scope the macro like we would any other.
 \def\five{5}
 \toks \five = 8
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
 %^^^^^^^^^^ meta.register.tex
-%^^^^ storage.type.tex
+%^^^^ storage.type.register.tex
 %     ^^^^^ support.function.general.tex
 %     ^ punctuation.definition.backslash.tex
 %           ^ keyword.operator.assignment.tex
 %             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
-
 \count255 = 1
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
 %^^^^^^^^ meta.register.tex
-%^^^^^ storage.type.tex
+%^^^^^ storage.type.register.tex
 %     ^^^ meta.number.integer.decimal constant.numeric.value.tex
 %         ^ keyword.operator.assignment.tex
 %           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
 \dimen\dim50em plus 1ex
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
 %^^^^^^^^^ meta.register.tex
-%^^^^^ storage.type.tex
+%^^^^^ storage.type.register.tex
 %     ^^^^ support.function.general.tex
 %     ^ punctuation.definition.backslash.tex
 %         ^^^^ meta.number.integer.decimal.tex

@@ -341,10 +341,10 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       push: register-allocation-identifier
-    - match: (\\)({{registers}}){{endcs}}
+    - match: (\\){{registers}}{{endcs}}
+      scope: storage.type.register.tex
       captures:
         1: punctuation.definition.backslash.tex
-        2: storage.type.tex
       push:
         - tex-dimension-value
         - tex-assignment
