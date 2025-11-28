@@ -49,9 +49,7 @@ contexts:
         - match: \]
           scope: punctuation.definition.group.bracket.end.latex
           pop: 1
-        - include: general-constants
-        - include: general-commands
-        - include: braces
+        - include: main
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
 
@@ -114,9 +112,9 @@ contexts:
       pop: 2
     - match: \d+\b
       scope: meta.number.integer.decimal.latex constant.numeric.value.latex
+    - include: braces
     - include: general-constants
     - include: general-commands
-    - include: macro-braces
 
   latex-newcommand-optarg:
     - match: \[
@@ -131,9 +129,9 @@ contexts:
     - match: \]
       scope: punctuation.definition.group.bracket.end.latex
       pop: 2
+    - include: braces
     - include: general-constants
     - include: general-commands
-    - include: macro-braces
 
   latex-newcommand-commandname:
     # version one: brace-wrapped command name
@@ -226,7 +224,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.latex
     - include: brace-group-end
-    - include: macro-braces
+    - include: braces
     - include: xparse-newcommand-single-argspec
     # not actually allowed, but included here to future-proof highlighting
     - include: general-constants
@@ -336,7 +334,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.tex
     - include: brace-group-end
-    - include: macro-braces-content
+    - include: main
 
 ###[ CONSTANTS ]###############################################################
 
@@ -2086,9 +2084,8 @@ contexts:
       scope: punctuation.definition.group.brace.begin.tex
       push:
         - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
         - include: array-preamble
+        - include: main
 
     - match: l|r|c
       scope: keyword.other.column-type.latex
@@ -2106,9 +2103,7 @@ contexts:
       push:
         - meta_scope: meta.function.before-column-decl.latex
         - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: main
 
     - match: (<)\s*(\{)
       captures:
@@ -2117,9 +2112,7 @@ contexts:
       push:
         - meta_scope: meta.function.after-column-decl.latex
         - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: main
 
     - match: \|
       scope: keyword.operator.inter-column-line.latex
@@ -2131,9 +2124,7 @@ contexts:
       push:
         - meta_scope: meta.function.inter-column-decl.latex
         - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: main
 
     - match: (!)\s*(\{)
       captures:
@@ -2142,9 +2133,7 @@ contexts:
       push:
         - meta_scope: meta.function.inter-column-decl.latex
         - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: main
 
     - match: (\*)\s*(\{)
       captures:

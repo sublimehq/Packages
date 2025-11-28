@@ -131,14 +131,18 @@ contexts:
     - include: comments
 
   main:
-    - include: macros
-    - include: controls
-    - include: character-codes
+    # blocks
     - include: braces
-    - include: boxes
     - include: block-math
     - include: inline-math
+    # commands
+    - include: boxes
+    - include: controls
+    - include: character-codes
+    - include: macros
     - include: registers
+    - include: math-builtins
+    - include: macro-variables
     - include: tex-constants
     - include: general-constants
     - include: general-commands
@@ -517,36 +521,8 @@ contexts:
 
   def-function-block-body:
     - meta_scope: meta.function.body.tex meta.group.brace.tex
-    - include: macro-braces-end
-    - include: macro-braces-content
-
-  macro-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: macro-braces-body
-
-  macro-braces-end:
-     - match: \}
-       scope: punctuation.definition.group.brace.end.tex
-       pop: 1
-
-  macro-braces-body:
-    - meta_scope: meta.group.brace.tex
-    - include: macro-braces-end
-    - include: macro-braces-content
-
-  # within macros, it is possible that only part of some nested structure
-  # is present. Don't include any context's here that break if they are
-  # only partially matched.
-  macro-braces-content:
-    - include: macro-braces
-    - include: macro-variables
-    - include: controls
-    - include: registers
-    - include: math-builtins
-    - include: tex-constants
-    - include: general-constants
-    - include: general-commands
+    - include: brace-group-end
+    - include: main
 
   macro-parameters:
     # parameter declarations in macro signatures
@@ -600,12 +576,12 @@ contexts:
     - include: math-builtins
     - include: math-brackets
     - include: math-braces
-    - include: boxes
     - include: math-commands
     - include: math-operators
     - include: math-variables
     - include: math-numbers
     - include: general-constants
+    - include: boxes
 
   math-builtins:
     - match: (\\){{greeks}}{{endcs}}
