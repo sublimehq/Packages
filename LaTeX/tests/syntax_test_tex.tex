@@ -389,6 +389,22 @@ some other text
 %           ^ punctuation.definition.backslash.tex
 %                      ^ punctuation.definition.group.brace.end.tex
 
+\newdimen % any whitespace and comments are allowed here
+
+  \mydimen
+%^^^^^^^^^ meta.register.tex
+% ^^^^^^^^ entity.name.constant.tex
+% ^ punctuation.definition.backslash.tex
+
+\newcount % any whitespace and comments are allowed here
+
+  { \mycounter }
+% ^^^^^^^^^^^^^^ meta.register.tex meta.group.brace.tex
+%   ^^^^^^^^^^ entity.name.constant.tex
+% ^ punctuation.definition.group.brace.begin.tex
+%   ^ punctuation.definition.backslash.tex
+%              ^ punctuation.definition.group.brace.end.tex
+
 % A very weird case where we use a macro for the register id. In this case
 % we just scope the macro like we would any other.
 \def\five{5}

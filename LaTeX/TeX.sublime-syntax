@@ -336,15 +336,19 @@ contexts:
 ###[ REGISTERS ]###############################################################
 
   registers:
-    - include: register-allocations
-    - include: register-definitions
-
-  register-allocations:
     - match: (\\)new{{registers}}{{endcs}}
       scope: keyword.declaration.register.tex storage.modifier.register.tex
       captures:
         1: punctuation.definition.backslash.tex
       push: register-allocation-identifier
+    - match: (\\)({{registers}}){{endcs}}
+      captures:
+        1: punctuation.definition.backslash.tex
+        2: storage.type.tex
+      push:
+        - tex-dimension-value
+        - tex-assignment
+        - register-definition-identifier
 
   register-allocation-identifier:
     - meta_scope: meta.register.tex
@@ -357,7 +361,6 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       pop: 1
-    - include: paragraph-pop
     - include: else-pop
 
   register-allocation-wrapped-identifier:
@@ -368,16 +371,6 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-  register-definitions:
-    - match: (\\)({{registers}}){{endcs}}
-      captures:
-        1: punctuation.definition.backslash.tex
-        2: storage.type.tex
-      push: 
-        - tex-dimension-value
-        - tex-assignment
-        - register-definition-identifier
-
   register-definition-identifier:
     - meta_scope: meta.register.tex
     - match: (\\){{cmdname}}
@@ -386,7 +379,6 @@ contexts:
         1: punctuation.definition.backslash.tex
       pop: 1
     - include: tex-simple-integer
-    - include: paragraph-pop
     - include: else-pop
 
 ###[ NUMBERS ]#################################################################
