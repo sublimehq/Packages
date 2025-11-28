@@ -170,6 +170,16 @@ any delimiter token
 \deftext
 %^^^^^^^ support.function.general.tex
 
+\def \macro #1 { \def \incomplete #1 }
+%              ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%                                    ^ punctuation.definition.group.brace.end.tex
+
+\def \macro #1 { \def \incomplete [#1 }
+%              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
+
 % internal macro definition
 \def\internal_macro{}
 %^^^ meta.function.tex keyword.declaration.function.tex

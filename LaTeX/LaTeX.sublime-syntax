@@ -54,6 +54,7 @@ contexts:
         - include: braces
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
+        - include: stray-brace-pop
 
   argument-brace:
     - meta_scope: meta.group.brace.tex
@@ -109,9 +110,7 @@ contexts:
   latex-newcommand-argspec-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.latex
-    - match: \]
-      scope: punctuation.definition.group.bracket.end.latex
-      pop: 2
+    - include: latex-newcommand-optarg-end
     - match: \d+\b
       scope: meta.number.integer.decimal.latex constant.numeric.value.latex
     - include: general-constants
@@ -128,12 +127,17 @@ contexts:
   latex-newcommand-optarg-body:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex
-    - match: \]
-      scope: punctuation.definition.group.bracket.end.latex
-      pop: 2
+    - include: latex-newcommand-optarg-end
     - include: general-constants
     - include: general-commands
     - include: macro-braces
+
+  latex-newcommand-optarg-end:
+    - match: \]
+      scope: punctuation.definition.group.bracket.end.latex
+      pop: 2
+    - match: (?=})
+      pop: 2
 
   latex-newcommand-commandname:
     # version one: brace-wrapped command name
@@ -275,7 +279,7 @@ contexts:
 
   xparse-newcommand-args-token:
     - meta_include_prototype: false
-    - include: unmatched-brace-pop
+    - include: stray-brace-pop
     - match: (?=\{)
       set:
         - xparse-newcommand-args-wrapped-token
@@ -311,7 +315,7 @@ contexts:
 
   xparse-newcommand-optarg-value:
     - meta_include_prototype: false
-    - include: unmatched-brace-pop
+    - include: stray-brace-pop
     - match: (?=\{)
       set:
         - xparse-newcommand-optarg-wrapped-value
