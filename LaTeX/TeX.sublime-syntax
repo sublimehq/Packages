@@ -337,7 +337,7 @@ contexts:
 
   registers:
     - match: (\\)new{{registers}}{{endcs}}
-      scope: keyword.declaration.register.tex storage.modifier.register.tex
+      scope: keyword.declaration.register.tex
       captures:
         1: punctuation.definition.backslash.tex
       push: register-allocation-identifier
