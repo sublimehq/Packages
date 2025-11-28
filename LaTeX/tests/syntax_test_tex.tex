@@ -332,12 +332,14 @@ some other text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \muskip5
-%^^^^^^ storage.type.tex
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
+%^^^^^^ storage.type.register.tex
 %^^^^^^^ meta.register.tex
 %      ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
 \box 60
-%^^^ storage.type.tex
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
+%^^^ storage.type.register.tex
 %^^^^^^ meta.register.tex
 %    ^^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
@@ -376,41 +378,59 @@ some other text
 
 \newdimen\mydimen
 %^^^^^^^^^^^^^^^^ meta.register.tex - meta.register meta.register
-%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%^^^^^^^^ keyword.declaration.register.tex
 %        ^^^^^^^^ entity.name.constant.tex
 %        ^ punctuation.definition.backslash.tex
 
 \newcount { \mycounter }
 %^^^^^^^^^^^^^^^^^^^^^^^ meta.register.tex - meta.register meta.register
-%^^^^^^^^ keyword.declaration.register.tex storage.modifier.register.tex
+%^^^^^^^^ keyword.declaration.register.tex
 %         ^^^^^^^^^^^^^^ meta.group.brace.tex
 %           ^^^^^^^^^^ entity.name.constant.tex
 %         ^ punctuation.definition.group.brace.begin.tex
 %           ^ punctuation.definition.backslash.tex
 %                      ^ punctuation.definition.group.brace.end.tex
 
+\newdimen % any whitespace and comments are allowed here
+
+  \mydimen
+%^^^^^^^^^ meta.register.tex
+% ^^^^^^^^ entity.name.constant.tex
+% ^ punctuation.definition.backslash.tex
+
+\newcount % any whitespace and comments are allowed here
+
+  { \mycounter }
+% ^^^^^^^^^^^^^^ meta.register.tex meta.group.brace.tex
+%   ^^^^^^^^^^ entity.name.constant.tex
+% ^ punctuation.definition.group.brace.begin.tex
+%   ^ punctuation.definition.backslash.tex
+%              ^ punctuation.definition.group.brace.end.tex
+
 % A very weird case where we use a macro for the register id. In this case
 % we just scope the macro like we would any other.
 \def\five{5}
 \toks \five = 8
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
 %^^^^^^^^^^ meta.register.tex
-%^^^^ storage.type.tex
+%^^^^ storage.type.register.tex
 %     ^^^^^ support.function.general.tex
 %     ^ punctuation.definition.backslash.tex
 %           ^ keyword.operator.assignment.tex
 %             ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
-
 \count255 = 1
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
 %^^^^^^^^ meta.register.tex
-%^^^^^ storage.type.tex
+%^^^^^ storage.type.register.tex
 %     ^^^ meta.number.integer.decimal constant.numeric.value.tex
 %         ^ keyword.operator.assignment.tex
 %           ^ meta.number.integer.decimal.tex constant.numeric.value.tex
 
 \dimen\dim50em plus 1ex
+% <- meta.register.tex storage.type.register.tex punctuation.definition.backslash.tex
 %^^^^^^^^^ meta.register.tex
-%^^^^^ storage.type.tex
+%^^^^^ storage.type.register.tex
 %     ^^^^ support.function.general.tex
 %     ^ punctuation.definition.backslash.tex
 %         ^^^^ meta.number.integer.decimal.tex
