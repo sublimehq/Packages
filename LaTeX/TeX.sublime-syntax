@@ -220,29 +220,17 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       push:
-        - character-code-meta
         - character-code-value
         - tex-assignment
         - character-code-number
-
-  character-code-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.character-code.tex
-    - include: immediately-pop
 
   character-code-number:
     - include: tex-simple-integer
     - include: else-pop
     - include: paragraph-pop
 
-  character-code-assignment:
-    - match: =
-      scope: keyword.operator.assignment.tex
-      pop: 1
-    - include: else-pop
-    - include: paragraph-pop
-
   character-code-value:
+    - meta_scope: meta.function.character-code.tex
     - include: tex-simple-integer
     - include: else-pop
     - include: paragraph-pop
