@@ -832,7 +832,6 @@ The \emph{verbatim} environment sets everything in verbatim.
 %^^ string.other.math.latex punctuation.definition.string.begin.latex
 %            ^^ string.other.math.latex punctuation.definition.string.end.latex - markup.math.inline
 
-
  \[
 %^^ string.other.math.latex punctuation.definition.string.begin.latex
   f(x) = x^2 \text{ $f$ is a function}
@@ -841,6 +840,74 @@ The \emph{verbatim} environment sets everything in verbatim.
  \]
 %^^ meta.environment.math.block.bracket.latex punctuation.definition.string.end.latex - markup.math.inline
 %  ^ - meta.environment.math
+
+% Check math termination on closing braces
+
+\macro{ $$f(x) = x^2 }
+%     ^^ meta.group.brace.tex - meta.environment
+%       ^^^^^^^^^^^^^ meta.group.brace.tex meta.environment.math.block.dollar.tex
+%                    ^ meta.group.brace.tex - meta.environment
+%       ^^ string.other.math.tex punctuation.definition.string.begin.tex
+%                    ^ punctuation.definition.group.brace.end.tex
+
+\macro{ $$f(x) = { ( x^2 + a - 2 } }
+%     ^^ meta.group.brace.tex - meta.environment
+%       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex meta.environment.math.block.dollar.tex
+%                                  ^ meta.group.brace.tex - meta.environment
+%       ^^ string.other.math.tex punctuation.definition.string.begin.tex
+%                                  ^ punctuation.definition.group.brace.end.tex
+
+\macro{ \(f(x) = x^2 }
+%     ^^ meta.group.brace.tex - meta.environment
+%       ^^^^^^^^^^^^^ meta.group.brace.tex meta.environment.math.inline.paren.latex
+%                    ^ meta.group.brace.tex - meta.environment
+%       ^^ string.other.math.latex punctuation.definition.string.begin.latex
+%                    ^ punctuation.definition.group.brace.end.tex
+
+\macro{ \(f(x) = { ( x^2 + a - 2 } }
+%     ^^ meta.group.brace.tex - meta.environment
+%       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex meta.environment.math.inline.paren.latex
+%                                  ^ meta.group.brace.tex - meta.environment
+%       ^^ string.other.math.latex punctuation.definition.string.begin.latex
+%                                  ^ punctuation.definition.group.brace.end.tex
+
+\macro{ \[f(x) = x^2 }
+%     ^^ meta.group.brace.tex - meta.environment
+%       ^^^^^^^^^^^^^ meta.group.brace.tex meta.environment.math.block.bracket.latex
+%                    ^ meta.group.brace.tex - meta.environment
+%       ^^ string.other.math.latex punctuation.definition.string.begin.latex
+%                    ^ punctuation.definition.group.brace.end.tex
+
+\macro{ \[f(x) = { ( x^2 + a - 2 } }
+%     ^^ meta.group.brace.tex - meta.environment
+%       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex meta.environment.math.block.bracket.latex
+%                                  ^ meta.group.brace.tex - meta.environment
+%       ^^ string.other.math.latex punctuation.definition.string.begin.latex
+%                                  ^ punctuation.definition.group.brace.end.tex
+
+\macro{\begin{equation}}
+%^^^^^ support.function.general.latex
+%     ^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%      ^ punctuation.definition.backslash.latex
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^^^^^ variable.parameter.function.latex
+%                     ^^ punctuation.definition.group.brace.end.tex
+
+\macro{\begin{equation}f(x) = x^2}
+%^^^^^ support.function.general.latex
+%     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%      ^ punctuation.definition.backslash.latex
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^^^^^ variable.parameter.function.latex
+%                     ^ punctuation.definition.group.brace.end.tex
+%                      ^^^^^^^^^^ meta.environment.math.block.latex markup.math.block
+%                                ^ punctuation.definition.group.brace.end.tex
+
+% Ensuremath
 
 \ensuremath{f(x) = x^2}
 % <- meta.function.ensuremath.latex support.function.ensuremath.latex punctuation.definition.backslash.latex
@@ -866,6 +933,8 @@ The \emph{verbatim} environment sets everything in verbatim.
 
 \ensuremaths{5}
 %            ^ - meta.function.ensuremath.latex
+
+% Math Environments
 
 \begin{equation}
 % <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
@@ -929,6 +998,7 @@ f(x) = x^2
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^^^^ variable.parameter.function.latex
 %                ^ punctuation.definition.group.brace.end.tex
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 Boxes
