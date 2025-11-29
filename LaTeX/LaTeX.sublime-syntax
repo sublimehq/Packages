@@ -579,47 +579,6 @@ contexts:
 
 ###[ MATH ]####################################################################
 
-  inline-math:
-    - meta_append: true
-    - include: inline-math-parens
-    - include: inline-math-ensuremath
-
-  inline-math-ensuremath:
-    - match: (\\)ensuremath{{endcs}}
-      scope: meta.function.ensuremath.latex support.function.ensuremath.latex
-      captures:
-        1: punctuation.definition.backslash.latex
-      push: inline-math-ensuremath-begin
-
-  inline-math-ensuremath-begin:
-    - meta_content_scope: meta.function.ensuremath.latex
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      set: inline-math-ensuremath-body
-    - include: paragraph-pop
-
-  inline-math-ensuremath-body:
-    - meta_scope: meta.function.ensuremath.latex meta.group.brace.tex
-    - meta_content_scope: meta.environment.math.inline.ensuremath.latex markup.math.inline
-    - include: brace-group-end
-    - include: math-content
-
-  inline-math-parens:
-    - match: \\\(
-      scope: string.other.math.latex punctuation.definition.string.begin.latex
-      push: inline-math-parens-body
-
-  inline-math-parens-body:
-    - meta_scope: meta.environment.math.inline.paren.latex
-    - meta_content_scope: markup.math.inline
-    - include: inline-math-parens-end
-    - include: math-content
-
-  inline-math-parens-end:
-    - match: \\\)
-      scope: string.other.math.latex punctuation.definition.string.end.latex
-      pop: 1
-
   block-math:
     - meta_append: true
     - include: block-math-brackets
@@ -684,6 +643,47 @@ contexts:
 
   block-math-brackets-end:
     - match: \\\]
+      scope: string.other.math.latex punctuation.definition.string.end.latex
+      pop: 1
+
+  inline-math:
+    - meta_append: true
+    - include: inline-math-parens
+    - include: inline-math-ensuremath
+
+  inline-math-ensuremath:
+    - match: (\\)ensuremath{{endcs}}
+      scope: meta.function.ensuremath.latex support.function.ensuremath.latex
+      captures:
+        1: punctuation.definition.backslash.latex
+      push: inline-math-ensuremath-begin
+
+  inline-math-ensuremath-begin:
+    - meta_content_scope: meta.function.ensuremath.latex
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      set: inline-math-ensuremath-body
+    - include: paragraph-pop
+
+  inline-math-ensuremath-body:
+    - meta_scope: meta.function.ensuremath.latex meta.group.brace.tex
+    - meta_content_scope: meta.environment.math.inline.ensuremath.latex markup.math.inline
+    - include: brace-group-end
+    - include: math-content
+
+  inline-math-parens:
+    - match: \\\(
+      scope: string.other.math.latex punctuation.definition.string.begin.latex
+      push: inline-math-parens-body
+
+  inline-math-parens-body:
+    - meta_scope: meta.environment.math.inline.paren.latex
+    - meta_content_scope: markup.math.inline
+    - include: inline-math-parens-end
+    - include: math-content
+
+  inline-math-parens-end:
+    - match: \\\)
       scope: string.other.math.latex punctuation.definition.string.end.latex
       pop: 1
 
