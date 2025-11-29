@@ -75,6 +75,37 @@ $\lim_{x \rightarrow 0} \sin x$
 %     ^ string.other.math.tex punctuation.definition.string.end.tex
 %      ^ - meta.environment.math
 
+% verify closing brace terminates inline math equation
+\macro{$}{$f=}{$f(x)={2\cdot x}}
+%     ^^^^^^^^^^^^^^^ meta.group.brace.tex - meta.group meta.group
+%                    ^^^^^^^^^^ meta.group.brace.tex meta.group.brace.tex
+%                              ^ meta.group.brace.tex
+%                               ^ - meta.group
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%       ^ punctuation.definition.group.brace.end.tex
+%        ^ punctuation.definition.group.brace.begin.tex
+%         ^^^ meta.environment.math.inline.dollar.tex
+%         ^ string.other.math.tex punctuation.definition.string.begin.tex
+%          ^^ markup.math.inline
+%          ^ variable.other.math.tex
+%           ^ keyword.operator.comparison.tex
+%            ^ punctuation.definition.group.brace.end.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^^^^^^^^^^^^^^ meta.environment.math.inline.dollar.tex
+%              ^ string.other.math.tex punctuation.definition.string.begin.tex
+%               ^^^^^^^^^^^^^^^ markup.math.inline
+%               ^ variable.other.math.tex
+%                ^ punctuation.section.parens.begin.tex
+%                 ^ variable.other.math.tex
+%                  ^ punctuation.section.parens.end.tex
+%                   ^ keyword.operator.comparison.tex
+%                    ^ punctuation.definition.group.brace.begin.tex
+%                     ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                      ^^^^^ keyword.other.math.binary-operator.tex
+%                      ^ punctuation.definition.backslash.tex
+%                             ^^ punctuation.definition.group.brace.end.tex
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                Display Math
@@ -85,6 +116,37 @@ $\lim_{x \rightarrow 0} \sin x$
 %^^^^^^^^^^^^^^ meta.environment.math.block.dollar.tex
 %  ^^^^^^^^^^ markup.math.block - string
 %            ^^ string.other.math.tex punctuation.definition.string.end.tex - markup.math.block
+
+% verify closing brace terminates block math equation
+\macro{$$}{$$f=}{$$f(x)={2\cdot x}}
+%     ^^^^^^^^^^^^^^^^^^ meta.group.brace.tex - meta.group meta.group
+%                       ^^^^^^^^^^ meta.group.brace.tex meta.group.brace.tex
+%                                 ^ meta.group.brace.tex
+%                                  ^ - meta.group
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^ meta.environment.math.block.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%        ^ punctuation.definition.group.brace.end.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%          ^^^^ meta.environment.math.block.dollar.tex
+%          ^^ string.other.math.tex punctuation.definition.string.begin.tex
+%            ^^ markup.math.block
+%            ^ variable.other.math.tex
+%             ^ keyword.operator.comparison.tex
+%              ^ punctuation.definition.group.brace.end.tex
+%               ^ punctuation.definition.group.brace.begin.tex
+%                ^^^^^^^^^^^^^^^^^ meta.environment.math.block.dollar.tex
+%                ^^ string.other.math.tex punctuation.definition.string.begin.tex
+%                  ^^^^^^^^^^^^^^^ markup.math.block
+%                  ^ variable.other.math.tex
+%                   ^ punctuation.section.parens.begin.tex
+%                    ^ variable.other.math.tex
+%                     ^ punctuation.section.parens.end.tex
+%                      ^ keyword.operator.comparison.tex
+%                       ^ punctuation.definition.group.brace.begin.tex
+%                        ^ meta.number.integer.decimal.tex constant.numeric.value.tex
+%                         ^^^^^ keyword.other.math.binary-operator.tex
+%                         ^ punctuation.definition.backslash.tex
+%                                ^^ punctuation.definition.group.brace.end.tex
 
 $$
 % <- meta.environment.math.block.dollar.tex punctuation.definition.string.begin.tex

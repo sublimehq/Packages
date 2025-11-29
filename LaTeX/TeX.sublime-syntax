@@ -606,6 +606,7 @@ contexts:
     - include: math-variables
     - include: math-numbers
     - include: general-constants
+    - include: stray-brace-pop
 
   math-builtins:
     - match: (\\){{greeks}}{{endcs}}
@@ -719,6 +720,6 @@ contexts:
     - match: ^(?=\s*$)
       pop: 1
 
-  unmatched-brace-pop:
+  stray-brace-pop:
     - match: (?=})
       pop: 1
