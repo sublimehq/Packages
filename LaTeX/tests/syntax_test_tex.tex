@@ -38,18 +38,20 @@
 % Check the main scopes
   \def\macro{replacement}
 % ^^^^ meta.function.tex keyword.declaration.function.tex
-%     ^^^^^^ meta.function.identifier.tex entity.name.function.tex
-%            ^^^^^^^^^^^^ meta.function.body.tex
-
-% Check punctuation scopes
-  \def\macro{replacement}
 % ^ punctuation.definition.backslash.tex
+%     ^^^^^^ meta.function.identifier.tex entity.name.function.tex
 %     ^ punctuation.definition.backslash.tex
+%           ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %           ^ punctuation.definition.group.brace.begin.tex
 %                       ^ punctuation.definition.group.brace.end.tex
 
-
-% examples taken from https://en.wikibooks.org/wiki/TeX/def
+% Check missing macro name
+  \def{replacement}
+% ^^^^ meta.function.tex keyword.declaration.function.tex
+% ^ punctuation.definition.backslash.tex
+%     ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%                 ^ punctuation.definition.group.brace.end.tex
 
 % With spaces and parameter specification
  \def \foo [#1]#2{The first argument is ``#1'', the second one is ``#2''}
@@ -116,24 +118,77 @@
 %   hash
  \def\macro\#1#1{replacement}
 %          ^^^^^ meta.function.parameters.tex
+%               ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %          ^^ constant.character.escape.tex
-%            ^ - variable.parameter.tex
 %             ^^ variable.parameter.tex
 
 %   open-brace
  \def\macro\{#1{replacement}
 %          ^^^^ meta.function.parameters.tex
+%              ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 %          ^^ constant.character.escape.tex
 %            ^^ variable.parameter.tex
-%              ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
-
 
 %    double escape
  \def\macro\\#1{replacement}
 %          ^^^^ meta.function.parameters.tex
-%          ^^constant.character.escape.tex
+%              ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^^ constant.character.newline.tex
 %            ^^ variable.parameter.tex
 
+%     hash in brackets
+\def \macro[\#1A]{replacement}
+%          ^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ constant.character.escape.tex
+%           ^ punctuation.definition.backslash.tex
+%             ^^ - variable
+%               ^ punctuation.definition.group.bracket.end.tex
+
+%     open-brace in brackets
+\def \macro[\{#1A]{replacement}
+%          ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                 ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ constant.character.escape.tex
+%           ^ punctuation.definition.backslash.tex
+%             ^^ variable.parameter.tex
+%                ^ punctuation.definition.group.bracket.end.tex
+
+%     double escape in brackets
+\def \macro[\\#1A]{replacement}
+%          ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                 ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^ punctuation.definition.group.bracket.begin.tex
+%           ^^ constant.character.newline.tex
+%             ^^ variable.parameter.tex
+%                ^ punctuation.definition.group.bracket.end.tex
+
+%     no commands in parameter text
+\def \macro\A[\A#1A]{replacement}
+%          ^^ meta.function.parameters.tex - meta.group
+%            ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex
+%                   ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%          ^^ - support - punctuation
+%            ^ punctuation.definition.group.bracket.begin.tex
+%             ^^ - support - punctuation
+%               ^^ variable.parameter.tex
+%                  ^ punctuation.definition.group.bracket.end.tex
+
+% nested brackets in parameter text
+\def\macro[#1={#2,{key=[#4,#5]}}] {replacement}
+%^^^ meta.function.tex keyword.declaration.function.tex
+%   ^^^^^^ meta.function.identifier.tex entity.name.function.tex
+%         ^^^^ meta.function.parameters.tex meta.group.bracket.tex - meta.group meta.group
+%             ^^^^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex - meta.group meta.group meta.group
+%                 ^^^^^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex meta.group.brace.tex - meta.group meta.group meta.group meta.group
+%                      ^^^^^^^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex meta.group.brace.tex meta.group.bracket.tex
+%                             ^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex meta.group.brace.tex - meta.group meta.group meta.group meta.group
+%                              ^ meta.function.parameters.tex meta.group.bracket.tex meta.group.brace.tex - meta.group meta.group meta.group
+%                               ^ meta.function.parameters.tex meta.group.bracket.tex - meta.group meta.group
+%                                ^ meta.function.parameters.tex - meta.group
+%                                 ^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
 
 %  defining special character macros
  \def\_{underscore}
@@ -144,14 +199,26 @@
 %  stop scope for incomplete defs
 \def\text
 
-some other text
-% ^^^^^^^^^^^^^^ - meta.function%
+any delimiter token
+%^^^^^^^^^^^^^^^^^^ meta.function.parameters.tex
+
+{replacement}
+% <- meta.function.body.tex meta.group.brace.tex punctuation.definition.group.brace.begin.tex
+%^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%           ^ punctuation.definition.group.brace.end.tex
 
 %  incomplete but with parameters; the { comes too late to open the function definition
-\def\text A#1A
+\def\text \A#1A
+%        ^^^^^^ meta.function.parameters.tex
+%         ^^ - support
+%           ^^ variable.parameter.tex
 
-  { some other text}
-% ^^^^^^^^^^^^^^ - meta.function
+  { some other text }
+% <- meta.function.parameters.tex
+%^ meta.function.parameters.tex
+% ^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+% ^ punctuation.definition.group.brace.begin.tex
+%                   ^ punctuation.definition.group.brace.end.tex
 
 %  command just prefixed with def. Needs to be picked up as a custom command
 \deftext
@@ -247,6 +314,16 @@ some other text
 %                  ^^ variable.other.readwrite.tex
 %                      ^^^^^^ keyword.other.math.greek.tex
 
+% incomplete nested macro definitions
+\def \macro #1 { \def \incomplete #1 }
+%              ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%                                    ^ punctuation.definition.group.brace.end.tex
+
+\def \macro #1 { \def \incomplete [#1 }
+%              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.tex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
 
 % testing incomplete register specification
 \def\test{\dimen} other text

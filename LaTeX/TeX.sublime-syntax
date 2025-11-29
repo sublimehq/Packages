@@ -485,7 +485,8 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
       set: def-function-parameters
-    - include: paragraph-pop
+    - match: (?=[#\[\{])
+      set: def-function-parameters
     - include: else-pop
 
   def-function-parameters:
@@ -493,8 +494,9 @@ contexts:
     - include: def-function-block
     - include: def-function-parameter-brackets
     - include: macro-parameters
-    - include: escaped-character
-    - include: paragraph-pop
+    - include: general-constants
+    - include: stray-brace-pop
+    - include: stray-bracket-pop
 
   def-function-parameter-brackets:
     - match: \[
@@ -506,9 +508,25 @@ contexts:
     - match: \]
       scope: punctuation.definition.group.bracket.end.tex
       pop: 1
+    - include: def-function-parameter-brackets
+    - include: def-function-parameter-braces
     - include: macro-parameters
     - include: general-constants
-    - include: general-commands
+    - include: stray-brace-pop
+
+  def-function-parameter-braces:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: def-function-parameter-braces-body
+
+  def-function-parameter-braces-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: def-function-parameter-brackets
+    - include: def-function-parameter-braces
+    - include: macro-parameters
+    - include: general-constants
+    - include: stray-bracket-pop
 
   def-function-block:
     - match: \{
@@ -722,4 +740,8 @@ contexts:
 
   stray-brace-pop:
     - match: (?=})
+      pop: 1
+
+  stray-bracket-pop:
+    - match: (?=])
       pop: 1
