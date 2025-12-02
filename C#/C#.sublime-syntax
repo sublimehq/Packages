@@ -56,13 +56,13 @@ variables:
   sql_indicator: |-
     (?x: \s* (?:
     # dml statements
-      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE
+      SELECT | INSERT | REPLACE | DELETE | TRUNCATE | UPDATE | MERGE\s+INTO
     # ddl statements
     | ADD | ALTER | CREATE | DROP
     # conditional
     | IF \s+ (?: NOT \s+ )? EXISTS
     # declaration
-    | DECLARE | WITH
+    | DECLARE | WITH | BEGIN
     ) \s )
 
 contexts:
@@ -1837,6 +1837,11 @@ contexts:
     - include: strings
 
   strings:
+    - match: '"""(?!")'
+      scope: punctuation.definition.string.begin.cs
+      push:
+        - inside_raw_string_literal
+        - inside_raw_string_literal_syntax
     - match: '("""+)'
       scope: punctuation.definition.string.begin.cs
       push: inside_raw_string_literal
@@ -1874,13 +1879,41 @@ contexts:
 
   inside_raw_string_literal:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.triple.cs
+    - meta_scope: meta.string.cs string.quoted.triple.cs
     - include: string_escaped
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_placeholders
     - include: extended_string_placeholders
+
+  inside_raw_string_literal_syntax:
+    - meta_include_prototype: false
+    - match: (?={{sql_indicator}})
+      set:
+        - close_raw_string_literal
+        - scope:source.sql
+      with_prototype:
+        - match: (?=""")
+          pop: 1
+    - match: (?=\S)
+      set: inside_raw_string_literal_raw
+
+  inside_raw_string_literal_raw:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cs string.quoted.triple.cs
+    - include: string_escaped
+    - match: '"""'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_placeholders
+    - include: extended_string_placeholders
+
+  close_raw_string_literal:
+    - meta_include_prototype: false
+    - match: '"""'
+      scope: punctuation.definition.string.end.cs
+      pop: true
 
   inside_string:
     - meta_include_prototype: false

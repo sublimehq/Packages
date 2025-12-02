@@ -106,3 +106,14 @@ var verbatim_singleline_sql_interpolated = $@"
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 ///  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.guid
 
+"""
+    SELECT *
+    FROM some_table
+/// ^^^^ meta.string.cs string.quoted.triple.cs source.sql keyword.other.dml.sql
+""";
+/// <- meta.string.cs string.quoted.triple.cs punctuation.definition.string.end.cs
+
+"""
+    no sql here
+/// ^^^^^^^^^^^^ meta.string.cs string.quoted.triple.cs meta.string.cs string.quoted.triple.cs - source.sql
+""";
