@@ -1867,11 +1867,15 @@ contexts:
     # multi-line strings
     - match: '@"'
       scope: punctuation.definition.string.begin.cs
-      push: inside_long_string
+      push:
+        - inside_long_string
+        - inside_long_string_syntax
     # interpolated multi-line strings
     - match: '(@\$|\$@)"'
       scope: punctuation.definition.string.begin.cs
-      push: inside_long_format_string
+      push:
+        - inside_long_format_string
+        - inside_long_format_string_syntax
 
   inside_raw_string_literal:
     - meta_include_prototype: false
@@ -2017,6 +2021,21 @@ contexts:
       scope: punctuation.section.interpolation.begin.cs
       push: inside_long_format_string_interpolation
 
+  inside_long_format_string_syntax:
+    - meta_include_prototype: false
+    - match: (?={{sql_indicator}})
+      set: scope:source.sql
+      with_prototype:
+        - include: long_string_escaped
+        - match: (?=")
+          pop: true
+        - include: string_placeholder_escape
+        - match: \{
+          scope: punctuation.section.interpolation.begin.cs
+          push: inside_long_format_string_interpolation
+    - match: (?=\S)
+      pop: true
+
   inside_long_format_string_interpolation:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.cs
@@ -2127,13 +2146,26 @@ contexts:
 
   inside_long_string:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.raw.cs
+    - meta_scope: meta.string.cs string.quoted.double.raw.cs
     - include: long_string_escaped
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_placeholders
     - include: extended_long_string_placeholders
+
+  inside_long_string_syntax:
+    - meta_include_prototype: false
+    - match: (?={{sql_indicator}})
+      set: scope:source.sql
+      with_prototype:
+        - include: long_string_escaped
+        - match: (?=")
+          pop: true
+        - include: string_placeholders
+        - include: extended_long_string_placeholders
+    - match: (?=\S)
+      pop: true
 
   escaped:
     - match: '{{escaped_char}}'
