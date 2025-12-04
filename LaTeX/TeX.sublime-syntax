@@ -582,22 +582,6 @@ contexts:
 
 ###[ MATH ]####################################################################
 
-  inline-math:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push: inline-math-dollar-body
-
-  inline-math-dollar-body:
-    - meta_scope: meta.environment.math.inline.dollar.tex
-    - meta_content_scope: markup.math.inline
-    - include: inline-math-dollar-end
-    - include: math-content
-
-  inline-math-dollar-end:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.end.tex
-      pop: 1
-
   block-math:
     - match: \$\$
       scope: string.other.math.tex punctuation.definition.string.begin.tex
@@ -611,6 +595,22 @@ contexts:
 
   block-math-dollar-end:
     - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: 1
+
+  inline-math:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push: inline-math-dollar-body
+
+  inline-math-dollar-body:
+    - meta_scope: meta.environment.math.inline.dollar.tex
+    - meta_content_scope: markup.math.inline
+    - include: inline-math-dollar-end
+    - include: math-content
+
+  inline-math-dollar-end:
+    - match: \$
       scope: string.other.math.tex punctuation.definition.string.end.tex
       pop: 1
 
