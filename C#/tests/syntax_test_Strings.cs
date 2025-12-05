@@ -115,5 +115,5 @@ var verbatim_singleline_sql_interpolated = $@"
 
 """
     no sql here
-/// ^^^^^^^^^^^^ meta.string.cs string.quoted.triple.cs meta.string.cs string.quoted.triple.cs - source.sql
+/// ^^^^^^^^^^^^ meta.string.cs string.quoted.triple.cs - source.sql
 """;
