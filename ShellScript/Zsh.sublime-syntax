@@ -670,24 +670,6 @@ contexts:
     - include: eregexp-group-content
     - include: word-end
 
-###[ ARITHMETIC EXPANSIONS ]###################################################
-
-  arithmetic-expansions:
-    - meta_prepend: true
-    - match: (\$)(\[)
-      captures:
-        1: punctuation.definition.variable.shell.zsh
-        2: punctuation.section.interpolation.begin.shell.zsh
-      push: zsh-arithmetic-expansion-body
-
-  zsh-arithmetic-expansion-body:
-    - meta_scope: meta.interpolation.arithmetic.shell.zsh
-    - match: \]
-      scope: punctuation.section.interpolation.end.shell.zsh
-      pop: 1
-    - include: expression-content
-    - include: expression-illegals
-
 ###[ BRACE EXPANSIONS ]########################################################
 
   brace-interpolations:
@@ -1755,9 +1737,6 @@ variables:
   oct_digit: '[0-7_]'
 
   case_clause_end: ;[;&|]
-
-  # Parameter expansions
-  is_interpolation: (?=\$[({\[{{identifier_char}}{{special_variables}}]|`)
 
   # A character that, when unquoted, separates words.
   # Bash ones + `{` and `}`

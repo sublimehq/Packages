@@ -117,6 +117,9 @@ $((
 # ^^^^^^^^^^ - comment
 ))
 
+$[ # comment ]
+#^^^^^^^^^^^^^ - comment
+
 cmd \
 # comment after line continuation
 # <- comment.line.number-sign.shell punctuation.definition.comment.shell
@@ -4152,6 +4155,13 @@ x="$(( foo++ ))"
 #   ^^ punctuation.section.interpolation.begin.shell
 #         ^^ keyword
 #            ^^ punctuation.section.interpolation.end.shell
+
+x="$[ foo++ ]"
+#^ keyword.operator.assignment.shell
+#  ^ punctuation.definition.variable.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#        ^^ keyword
+#           ^ punctuation.section.interpolation.end.shell
 
 # These are all legal identifiers for variables.
 alias=hello
@@ -9164,11 +9174,31 @@ stash) || true)
 # https://www.gnu.org/software/bash/manual/bash.html#Arithmetic-Expansion     #
 ###############################################################################
 
+$(())
+# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell punctuation.definition.variable.shell
+#^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell
+#^^ punctuation.section.interpolation.begin.shell
+#  ^^ punctuation.section.interpolation.end.shell
+
+$(( var + 1 ))
+# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell punctuation.definition.variable.shell
+#^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell
+#^^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite.shell
+#       ^ keyword.operator.arithmetic.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#           ^^ punctuation.section.interpolation.end.shell
+
 : $(())
+#^^^^^^ meta.function-call.arguments.shell
 # ^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^^ punctuation.section.interpolation.begin.shell
+#    ^^ punctuation.section.interpolation.end.shell
 
 : $((  ))
-# ^^^^^^^ meta.interpolation.arithmetic.shell
+#^^^^^^^^ meta.function-call.arguments.shell
+# ^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
 # ^ punctuation.definition.variable.shell
 #  ^^ punctuation.section.interpolation.begin.shell
 #      ^^ punctuation.section.interpolation.end.shell
@@ -9204,6 +9234,66 @@ stash) || true)
 #       ^^^ variable.other.readwrite.shell
 #          ^ punctuation.section.interpolation.end.shell
 #            ^^ punctuation.section.interpolation.end.shell
+
+$[]
+# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell.shell punctuation.definition.variable.shell.shell
+#^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell.shell
+#^ punctuation.section.interpolation.begin.shell.shell
+# ^ punctuation.section.interpolation.end.shell.shell
+
+$[var + 1]
+# <- meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell.shell punctuation.definition.variable.shell.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.command.shell meta.interpolation.arithmetic.shell.shell
+#^ punctuation.section.interpolation.begin.shell.shell
+# ^^^ variable.other.readwrite.shell
+#     ^ keyword.operator.arithmetic.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#        ^ punctuation.section.interpolation.end.shell.shell
+
+: $[]
+#^^^^ meta.function-call.arguments.shell
+# ^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell.shell
+# ^ punctuation.definition.variable.shell.shell
+#  ^ punctuation.section.interpolation.begin.shell.shell
+#   ^ punctuation.section.interpolation.end.shell.shell
+
+: $[  ]
+# ^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell.shell
+# ^ punctuation.definition.variable.shell.shell
+#  ^ punctuation.section.interpolation.begin.shell.shell
+#     ^ punctuation.section.interpolation.end.shell.shell
+
+: $[ `date +%Y`[2] ]
+# ^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^^^ meta.interpolation.command.shell
+#    ^ punctuation.section.interpolation.begin.shell
+#             ^ punctuation.section.interpolation.end.shell
+#              ^^^ meta.item-access.shell
+#                  ^ punctuation.section.interpolation.end.shell
+
+: $[ ${var} + 5 * ($var-1) ]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.glob.shell meta.interpolation.arithmetic.shell.shell
+# ^ punctuation.definition.variable.shell.shell
+#  ^ punctuation.section.interpolation.begin.shell.shell
+#    ^^^^^^ meta.interpolation.parameter.shell
+#    ^ punctuation.definition.variable.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^^^ variable.other.readwrite.shell
+#         ^ punctuation.section.interpolation.end.shell
+#           ^ keyword.operator.arithmetic.shell
+#             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#               ^ keyword.operator.arithmetic.shell
+#                 ^^^^^^^^ meta.group.shell
+#                 ^ punctuation.section.group.begin.shell
+#                  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^ punctuation.definition.variable.shell
+#                      ^ keyword.operator.arithmetic.shell
+#                       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                        ^ punctuation.section.group.end.shell
+#                          ^ punctuation.section.interpolation.end.shell.shell
+
 
 ###############################################################################
 # 3.5.8.1 Pattern Matching                                                    #
