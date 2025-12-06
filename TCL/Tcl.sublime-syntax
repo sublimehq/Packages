@@ -24,7 +24,26 @@ variables:
 
 contexts:
   main:
-    - include: commands
+    - meta_include_prototype: false
+    - match: ''
+      push: [commands, shebang]
+
+  shebang:
+    - meta_include_prototype: false
+    - match: ^\s*(\#!)
+      captures:
+        1: punctuation.definition.comment.tcl
+      set: shebang-body
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if tcl is embedded.
+      pop: true
+
+  shebang-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.shebang.tcl
+    - match: '{{shebang_language}}'
+      scope: constant.language.shebang.tcl
+    - match: $\n?
+      pop: true
 
   commands:
     - match: ^(?=\s*[^\[\{])
