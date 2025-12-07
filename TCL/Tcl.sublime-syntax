@@ -9,8 +9,8 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \s* \# .*? -\*- .*? \btcl\b .*? -\*-  # editorconfig
-  | ^ \#! .* {{shebang_language}}
+    ^ \#! .* {{shebang_language}}
+  | ^ \s* \# .*? -\*- .*? \btcl\b .*? -\*-  # editorconfig
   )
 
 variables:
