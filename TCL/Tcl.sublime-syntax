@@ -14,7 +14,7 @@ first_line_match: |-
   )
 
 variables:
-  shebang_language: \btclsh(\d(\.\d)?)?\b
+  shebang_language: \b(?:tclsh(?:\d(?:\.\d+)?)?|jimsh)\b
   special_chars: '[;{}\[\]"\\]'
   unquoted_string: '[^\s{{special_chars}}][^\s${{special_chars}}]*'
   end_chars: '[;\n\}\]]'
