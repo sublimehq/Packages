@@ -1,0 +1,3 @@
+#! SYNTAX TEST "Tcl.sublime-syntax" tclsh8
+#!^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.shebang.tcl
+#!                                  ^^^^^^ constant.language.shebang.tcl
