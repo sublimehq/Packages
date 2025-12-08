@@ -1837,14 +1837,14 @@ contexts:
     - include: strings
 
   strings:
-    - match: '"""(?!")'
-      scope: punctuation.definition.string.begin.cs
-      push:
-        - inside_raw_string_literal
-        - inside_raw_string_literal_syntax
-    - match: '("""+)'
+    - match: '(""""+)'
       scope: punctuation.definition.string.begin.cs
       push: inside_raw_string_literal
+    - match: '"""'
+      scope: punctuation.definition.string.begin.cs
+      push:
+        - inside_triple_quoted_raw_string_literal
+        - inside_triple_quoted_raw_string_literal_syntax
     - match: '"'
       scope: punctuation.definition.string.begin.cs
       push: inside_string
@@ -1880,39 +1880,31 @@ contexts:
   inside_raw_string_literal:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.triple.cs
-    - include: string_escaped
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
+    - include: string_escaped
     - include: string_placeholders
     - include: extended_string_placeholders
 
-  inside_raw_string_literal_syntax:
-    - meta_include_prototype: false
-    - match: (?={{sql_indicator}})
-      set:
-        - close_raw_string_literal
-        - scope:source.sql
-      with_prototype:
-        - match: (?=""")
-          pop: 1
-    - match: (?=\S)
-      set: inside_raw_string_literal_raw
-
-  inside_raw_string_literal_raw:
+  inside_triple_quoted_raw_string_literal:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.triple.cs
-    - include: string_escaped
     - match: '"""'
       scope: punctuation.definition.string.end.cs
       pop: true
+    - include: string_escaped
     - include: string_placeholders
     - include: extended_string_placeholders
 
-  close_raw_string_literal:
+  inside_triple_quoted_raw_string_literal_syntax:
     - meta_include_prototype: false
-    - match: '"""'
-      scope: punctuation.definition.string.end.cs
+    - match: (?={{sql_indicator}})
+      set: scope:source.sql
+      with_prototype:
+        - match: (?=""")
+          pop: true
+    - match: (?=\S)
       pop: true
 
   inside_string:
