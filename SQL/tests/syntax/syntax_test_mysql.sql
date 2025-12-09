@@ -87,14 +87,12 @@
 --                 ^^^^^ constant.language.boolean.false.sql
 --                      ^ - constant
 
-    all default maxvalue
+    all maxvalue
 -- ^ - constant
 --  ^^^ constant.language.sql
 --     ^ - constant
---      ^^^^^^^ constant.language.sql
---             ^ - constant
---              ^^^^^^^^ constant.language.sql
---                      ^ - constant
+--      ^^^^^^^^ constant.language.sql
+--              ^ - constant
 
     inplace copy nocopy instant exclusive shared
 -- ^ - constant
@@ -1381,6 +1379,64 @@ create table fancy_table (
 --                                          ^^ keyword.operator.comparison
 --                                             ^^^^^^^^^^ meta.column-name
 );
+
+
+ALTER TABLE abc
+    ADD COLUMN column1 VARCHAR(10) NOT NULL DEFAULT 'Foo' AFTER bar,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                     ^^^^^^^^^^^ storage.type.sql
+--                            ^^^^ meta.parens.sql
+--                            ^ punctuation.definition.parens.begin.sql
+--                             ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                               ^ punctuation.definition.parens.end.sql
+--                                 ^^^ keyword.operator.logical.sql
+--                                     ^^^^ constant.language.null.sql
+--                                          ^^^^^^^ storage.modifier.sql
+--                                                  ^^^^^ meta.string.sql string.quoted.single.sql
+--                                                  ^ punctuation.definition.string.begin.sql
+--                                                      ^ punctuation.definition.string.end.sql
+--                                                        ^^^^^ keyword.other.position.sql
+--                                                              ^^^ meta.column-name.sql
+--                                                                 ^ punctuation.separator.sequence.sql
+    ADD COLUMN column2 DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) AFTER column1,
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^^ keyword.other.ddl.sql
+--             ^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                     ^^^^^^^^^^^ storage.type.sql
+--                             ^^^ meta.parens.sql
+--                             ^ punctuation.definition.parens.begin.sql
+--                              ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                               ^ punctuation.definition.parens.end.sql
+--                                 ^^^ keyword.operator.logical.sql
+--                                     ^^^^ constant.language.null.sql
+--                                          ^^^^^^^ storage.modifier.sql
+--                                                  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
+--                                                  ^^^^^^^^^^^^^^^^^ support.function.scalar.sql
+--                                                                   ^^^ meta.group.sql
+--                                                                   ^ punctuation.section.arguments.begin.sql
+--                                                                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                                     ^ punctuation.section.arguments.end.sql
+--                                                                       ^^^^^ keyword.other.position.sql
+--                                                                             ^^^^^^^ meta.column-name.sql
+--                                                                                    ^ punctuation.separator.sequence.sql
+    ADD COLUMN column3 DATETIME(6) NULL AFTER column2,
+    ADD INDEX idx_abc_foo (column1, column2);
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--  ^^^ keyword.other.ddl.sql
+--      ^^^^^ keyword.other.ddl.sql
+--            ^^^^^^^^^^^ meta.index-name.sql
+--                        ^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                        ^ punctuation.section.group.begin.sql
+--                         ^^^^^^^ meta.column-name.sql
+--                                ^ punctuation.separator.sequence.sql
+--                                  ^^^^^^^ meta.column-name.sql
+--                                         ^ punctuation.section.group.end.sql
+--                                          ^ punctuation.terminator.statement.sql
+
 
 CREATE TABLE foo LIKE bar;
 -- <- meta.statement.create.sql keyword.other.ddl.sql
