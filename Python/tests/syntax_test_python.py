@@ -2763,6 +2763,14 @@ generator = (i for i in range(100))
 #              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.loop.for.generator
 #                    ^^ keyword.control.loop.in
+
+generator = (*i for i in k)
+#           ^^^^^^^^^^^^^^^ meta.sequence.generator.python
+#            ^ keyword.operator.unpacking.sequence.python
+#               ^^^^^^^^ meta.expression.generator.python
+#               ^^^ keyword.control.loop.for.generator
+#                     ^^ keyword.control.loop.in
+
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
@@ -2997,9 +3005,13 @@ foo, bar = get_vars()
 #  ^ punctuation.separator.sequence.python
 #        ^ keyword.operator.assignment.python
 
+t = (*tuple())
+#   ^^^^^^^^^^ meta.sequence.tuple.python
+#    ^ keyword.operator.unpacking.sequence.python
+
 t = (*tuple(), *[1, 2], 3*1)
 #   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
-#    ^ keyword.operator.arithmetic.python
+#    ^ keyword.operator.unpacking.sequence.python
 #     ^^^^^ support.type.python
 #              ^ keyword.operator.unpacking.sequence.python
 #                        ^ keyword.operator.arithmetic.python
