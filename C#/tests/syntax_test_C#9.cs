@@ -303,7 +303,7 @@ if (e is not Customer) { }
 public record A(int Num);
 ///    ^^^^^^^^ meta.class.record
 ///            ^^^^^^^^^ meta.class.constructor.parameters
-///                     ^ - meta.class
+///                     ^ meta.class.record.body punctuation.terminator.statement
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.section.parameters.begin
@@ -315,7 +315,7 @@ public record B<T>(T Num)<NoGeneric>;
 ///    ^^^^^^^^^^^ meta.class.record
 ///               ^^^^^^^ meta.class.constructor.parameters
 ///                      ^^^^^^^^^^^ meta.class.record - meta.generic
-///                                 ^ - meta.class
+///                                 ^ meta.class.record.body punctuation.terminator.statement
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^^^ meta.generic
@@ -329,7 +329,7 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///    ^^^^^^^^^^^^^^^ meta.class.record.cs
 ///                   ^^^^^^^^^^ meta.class.constructor.parameters.cs
 ///                             ^^^^^^^^^^^^^^^^^^^ meta.class.record.cs
-///                                                ^ - meta.class
+///                                                ^ meta.class.record.body punctuation.terminator.statement
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
