@@ -78,7 +78,7 @@ variables:
     | second(?: _microsecond )? | quarter | month | week )
 
   builtin_constants: |-
-    (?xi: all | default | maxvalue
+    (?xi: all | maxvalue
     # index algorithm/lock values
     | inplace | copy | nocopy | instant | exclusive | shared
     | system\s+versioning )
