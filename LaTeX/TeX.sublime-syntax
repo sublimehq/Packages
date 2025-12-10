@@ -623,6 +623,8 @@ contexts:
     - include: math-operators
     - include: math-variables
     - include: math-numbers
+    - include: macro-variables
+    - include: boxes
     - include: general-constants
     - include: stray-brace-pop
 
