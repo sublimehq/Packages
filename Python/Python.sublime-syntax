@@ -1986,7 +1986,14 @@ contexts:
   maybe-group:
     - match: \(
       scope: punctuation.section.group.begin.python
-      set: group-body
+      set:
+        - group-body
+        - maybe-group-begin
+
+  maybe-group-begin:
+    - match: (?=\*)
+      fail: generators-groups-and-tuples
+    - include: else-pop
 
   group-body:
     - meta_scope: meta.group.python
@@ -2000,7 +2007,9 @@ contexts:
   maybe-generator:
     - match: \(
       scope: punctuation.section.sequence.begin.python
-      set: generator-body
+      set:
+        - generator-body
+        - allow-unpack-operators
 
   generator-body:
     - meta_scope: meta.sequence.generator.python
@@ -2012,7 +2021,9 @@ contexts:
   maybe-tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.python
-      set: tuple-body
+      set:
+        - tuple-body
+        - allow-unpack-operators
 
   tuple-body:
     - meta_scope: meta.sequence.tuple.python
