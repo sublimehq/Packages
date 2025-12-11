@@ -853,7 +853,7 @@ contexts:
   class-definition-end:
     - meta_content_scope: meta.class.python
     - match: '{{colon}}'
-      scope: meta.class.python punctuation.section.class.begin.python
+      scope: meta.class.python punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
 
@@ -1053,7 +1053,7 @@ contexts:
     - match: (\s*)({{colon}})
       captures:
         1: meta.function.return-type.python
-        2: meta.function.python punctuation.section.function.begin.python
+        2: meta.function.python punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
     - include: function-return-type-content
@@ -1066,7 +1066,7 @@ contexts:
 
   function-definition-end:
     - match: '{{colon}}'
-      scope: meta.function.python punctuation.section.function.begin.python
+      scope: meta.function.python punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
     - include: illegal-assignment-expressions
@@ -1258,7 +1258,7 @@ contexts:
     - match: '{{colon}}'
       scope:
         meta.statement.conditional.case.python
-        punctuation.section.block.conditional.case.python
+        punctuation.section.block.begin.python
       pop: 1
 
   case-statement-fail:
@@ -1493,12 +1493,12 @@ contexts:
       scope: meta.statement.conditional.else.python
       captures:
         1: keyword.control.conditional.else.python
-        2: punctuation.section.block.conditional.else.python
+        2: punctuation.section.block.begin.python
 
   if-statement-condition:
     - meta_scope: meta.statement.conditional.if.python
     - match: '{{colon}}'
-      scope: punctuation.section.block.conditional.if.python
+      scope: punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1506,7 +1506,7 @@ contexts:
   elif-statement-condition:
     - meta_scope: meta.statement.conditional.elseif.python
     - match: '{{colon}}'
-      scope: punctuation.section.block.conditional.elseif.python
+      scope: punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1531,7 +1531,7 @@ contexts:
   except-statement-exception-list:
     - meta_scope: meta.statement.exception.catch.python
     - match: '{{colon}}'
-      scope: punctuation.section.block.exception.catch.python
+      scope: punctuation.section.block.begin.python
       pop: 1
     - match: as\b
       scope: keyword.control.exception.catch.as.python
@@ -1543,7 +1543,7 @@ contexts:
   except-statement-as:
     - meta_content_scope: meta.statement.exception.catch.python
     - match: '{{colon}}'
-      scope: meta.statement.exception.catch.python punctuation.section.block.exception.catch.python
+      scope: meta.statement.exception.catch.python punctuation.section.block.begin.python
       pop: 1
     - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
@@ -1572,7 +1572,7 @@ contexts:
   for-statement-in:
     - meta_content_scope: meta.statement.loop.for.python
     - match: '{{colon}}'
-      scope: meta.statement.loop.for.python punctuation.section.block.loop.for.python
+      scope: meta.statement.loop.for.python punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1610,7 +1610,7 @@ contexts:
 
   match-statement-end:
     - match: '{{colon}}'
-      scope: punctuation.section.block.conditional.match.python
+      scope: punctuation.section.block.begin.python
       set: maybe-first-case-statement
 
   maybe-first-case-statement:
@@ -1671,7 +1671,7 @@ contexts:
   while-statement-condition:
     - meta_scope: meta.statement.loop.while.python
     - match: '{{colon}}'
-      scope: punctuation.section.block.loop.while.python
+      scope: punctuation.section.block.begin.python
       pop: 1
     - include: line-continuation-or-pop
     - include: expression-in-a-statement
@@ -1691,7 +1691,7 @@ contexts:
   with-statement-plain:
     - meta_scope: meta.statement.with.python
     - match: '{{colon}}'
-      scope: punctuation.section.block.with.python
+      scope: punctuation.section.block.begin.python
       pop: 1
     - match: as\b
       scope: keyword.control.flow.with.as.python
@@ -1735,7 +1735,7 @@ contexts:
   with-statement-tuple-end:
     - meta_content_scope: meta.statement.with.python
     - match: '{{colon}}'
-      scope: meta.statement.with.python punctuation.section.block.with.python
+      scope: meta.statement.with.python punctuation.section.block.begin.python
       pop: 1
     - include: with-statement-tuple-else-fail
 
@@ -1907,7 +1907,7 @@ contexts:
   lambda-in-group-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
     - match: '{{colon}}'
-      scope: meta.function.inline.python punctuation.section.function.begin.python
+      scope: meta.function.inline.python punctuation.section.block.begin.python
       set:
         - meta_include_prototype: false
         - match: ''
@@ -1937,7 +1937,7 @@ contexts:
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
     - match: '{{colon}}'
-      scope: meta.function.inline.python punctuation.section.function.begin.python
+      scope: meta.function.inline.python punctuation.section.block.begin.python
       set:
         - meta_include_prototype: false
         - match: ''

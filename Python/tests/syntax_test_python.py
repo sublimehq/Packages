@@ -639,7 +639,7 @@ def _():
     c = lambda: pass
 #       ^^^^^^^^^^^^ meta.function.inline
 #       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
-#             ^ punctuation.section.function.begin
+#             ^ punctuation.section.block.begin
 #               ^^^^ invalid.illegal.name.python
 
     c = lambda x, y=0: x + y
@@ -649,7 +649,7 @@ def _():
 #                     ^^^^^^ meta.function.inline.body.python
 #       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 #              ^ meta.function.inline.parameters.python variable.parameter.python
-#                    ^ punctuation.section.function.begin
+#                    ^ punctuation.section.block.begin
 #                        ^ keyword.operator.arithmetic.python
 
     {key: lambda x, y: 10}
@@ -705,7 +705,7 @@ def _():
         b=2: True
 #       ^^^^^^^^^ meta.function.inline
 #        ^ keyword.operator.assignment
-#          ^ punctuation.section.function.begin
+#          ^ punctuation.section.block.begin
 #           ^^^^^ meta.function.inline.body
 #            ^^^^ constant.language.boolean.true.python
 
@@ -741,7 +741,7 @@ def _():
 #            ^ punctuation.separator.parameters.python
 #              ^ variable.parameter.python
 #               ^ punctuation.section.group.end.python
-#                ^ punctuation.section.function.begin.python
+#                ^ punctuation.section.block.begin.python
     lambda (
 #   ^^^^^^^^^ - meta.function.inline meta.function.inline
 #   ^^^^^^ meta.function.inline.python
@@ -759,7 +759,7 @@ def _():
 #^^^^^^ - meta.function.inline meta.function.inline
 #^^^^ meta.function.inline.parameters.python meta.group.python
 #   ^ punctuation.section.group.end.python
-#    ^ punctuation.section.function.begin.python
+#    ^ punctuation.section.block.begin.python
         pass
 #       ^^^^ keyword.control.flow.pass.python
 
@@ -950,14 +950,14 @@ def _():
         in \
         b:
 #       ^^ meta.statement.loop.for
-#        ^ punctuation.section.block.loop.for.python
+#        ^ punctuation.section.block.begin.python
 
     async for i in myfunc():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
 #   ^^^^^ storage.modifier.async
 #         ^^^ keyword.control.loop.for
 #               ^^ keyword.control.loop.in
-#                          ^ punctuation.section.block.loop.for
+#                          ^ punctuation.section.block.begin
         pass
 
     for i:
@@ -992,7 +992,7 @@ def _():
 #                                   ^ punctuation.section.arguments.end.python
 #                                     ^^ keyword.control.flow.with.as.python
 #                                        ^ meta.generic-name.python
-#                                         ^ punctuation.section.block.with.python
+#                                         ^ punctuation.section.block.begin.python
 
     with ((folder / "file.txt").open() as x):
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
@@ -1016,7 +1016,7 @@ def _():
 #                                      ^^ keyword.control.flow.with.as.python
 #                                         ^ meta.generic-name.python
 #                                          ^ punctuation.section.sequence.end.python
-#                                           ^ punctuation.section.block.with.python
+#                                           ^ punctuation.section.block.begin.python
 #
 
     # multiple nesting is not allowed
@@ -1043,7 +1043,7 @@ def _():
 #                                          ^ meta.generic-name.python
 #                                           ^ punctuation.section.group.end.python
 #                                            ^ invalid.illegal.stray.python
-#                                             ^ punctuation.section.block.with.python
+#                                             ^ punctuation.section.block.begin.python
 
     with open(), open() as x, open() as as:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
@@ -1080,7 +1080,7 @@ def _():
     ):
 # ^^^^ - meta.statement.with meta.statement.with
 # ^^^ meta.statement.with.python meta.sequence.tuple.python
-#    ^ meta.statement.with.python punctuation.section.block.with.python
+#    ^ meta.statement.with.python punctuation.section.block.begin.python
 
     with captured() as (out, err):
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
@@ -1094,7 +1094,7 @@ def _():
 #                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
 #                               ^ punctuation.section.sequence.end
-#                                ^ punctuation.section.block.with
+#                                ^ punctuation.section.block.begin
 
     with captured() \
     as (
@@ -1106,7 +1106,7 @@ def _():
 #       ^^^ meta.generic-name
     ):
 #   ^ punctuation.section.sequence.end
-#    ^ punctuation.section.block.with
+#    ^ punctuation.section.block.begin
 
     with captured() as [out, err]:
 #   ^^^^ keyword.control.flow.with
@@ -1119,7 +1119,7 @@ def _():
 #                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
 #                               ^ punctuation.section.sequence.end
-#                                ^ punctuation.section.block.with
+#                                ^ punctuation.section.block.begin
 
     with captured() \
     as [
@@ -1131,13 +1131,13 @@ def _():
 #       ^^^ meta.generic-name
     ]:
 #   ^ punctuation.section.sequence.end
-#    ^ punctuation.section.block.with
+#    ^ punctuation.section.block.begin
 
     async with context_manager() as c:
 #   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
 #                                ^^ keyword.control.flow.with.as
-#                                    ^ punctuation.section.block.with
+#                                    ^ punctuation.section.block.begin
         await something()
 #       ^^^^^ keyword.control.flow.await
 
@@ -1156,7 +1156,7 @@ def _():
 #          ^^^^^^^^^ support.class.exception.python
 #                    ^^ keyword.control.exception.catch.as.python
 #                       ^ meta.generic-name.python
-#                        ^ punctuation.section.block.exception.catch.python
+#                        ^ punctuation.section.block.begin.python
         pass
     finally :
 #   ^^^^^^^^^ meta.statement.exception.finally.python
@@ -1173,7 +1173,7 @@ def _():
 #       ^^^^^^ meta.statement.loop.while.python
 #         ^^ keyword.operator.logical.python
     ):
-#    ^ meta.statement.loop.while.python punctuation.section.block.loop.while.python
+#    ^ meta.statement.loop.while.python punctuation.section.block.begin.python
         sleep()
         if a:
             break
@@ -1187,27 +1187,27 @@ def _():
 #   ^^ keyword.control.conditional.if.python
 #      ^^^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^^ keyword.operator.logical.python
-#                ^ punctuation.section.block.conditional.if.python
+#                ^ punctuation.section.block.begin.python
         pass
     elif:
 #   ^^^^^ meta.statement.conditional.elseif.python
-#       ^ punctuation.section.block.conditional.elseif.python
+#       ^ punctuation.section.block.begin.python
         pass
     elif False :
 #   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
 #        ^^^^^ constant.language.boolean.false.python
-#              ^ punctuation.section.block.conditional.elseif.python
+#              ^ punctuation.section.block.begin.python
         pass
     else  :
 #   ^^^^^^^ meta.statement.conditional.else.python
-#         ^ punctuation.section.block.conditional.else.python
+#         ^ punctuation.section.block.begin.python
         pass
 
     if \
         True:
 #       ^^^^^ meta.statement.conditional.if.python
 #       ^^^^ constant.language.boolean.true.python
-#           ^ punctuation.section.block.conditional.if.python
+#           ^ punctuation.section.block.begin.python
 #
 
     # verify that keywords also work when they are bare (useful when typing)
@@ -1245,7 +1245,7 @@ def _():
 #   ^^^^^^^^^^^ meta.statement.conditional.match.python
 #   ^^^^^ keyword.control.conditional.match.python
 #         ^^^^ meta.path.python meta.generic-name.python
-#             ^ punctuation.section.block.conditional.match.python
+#             ^ punctuation.section.block.begin.python
 
     match(expr,)
 #   ^^^^^^^^^^^^ meta.function-call
@@ -1260,7 +1260,7 @@ def _():
 #         ^^^^ meta.path.python meta.generic-name.python
 #             ^ punctuation.separator.sequence.python
 #              ^ punctuation.section.sequence.end.python
-#               ^ punctuation.section.block.conditional.match.python
+#               ^ punctuation.section.block.begin.python
 
     match *named_expr, other:
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.match.python
@@ -1269,13 +1269,13 @@ def _():
 #          ^^^^^^^^^^ meta.path.python meta.generic-name.python
 #                    ^ punctuation.separator.sequence.python
 #                      ^^^^^ meta.path.python meta.generic-name.python
-#                           ^ punctuation.section.block.conditional.match.python
+#                           ^ punctuation.section.block.begin.python
 
     match http_code:
 #   ^^^^^^^^^^^^^^^^ meta.statement.conditional.match.python
 #   ^^^^^ keyword.control.conditional.match.python
 #         ^^^^^^^^^ meta.path.python meta.generic-name.python
-#                  ^ punctuation.section.block.conditional.match.python
+#                  ^ punctuation.section.block.begin.python
     case "200":
 #   ^^^^^^^^^^^^ meta.disable-dedentation.python
 #   ^^^^ meta.statement.conditional.case.python
@@ -1284,7 +1284,7 @@ def _():
 #              ^ - meta.statement
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^^^ string.quoted.double.python
-#             ^ punctuation.section.block.conditional.case.python
+#             ^ punctuation.section.block.begin.python
         print("OK")
 
     case ["403",
@@ -1301,7 +1301,7 @@ def _():
 #             ^ meta.statement.conditional.case.python - meta.sequence
 #       ^^^^^ string.quoted.double.python
 #            ^ punctuation.section.sequence.end.python
-#             ^ punctuation.section.block.conditional.case.python
+#             ^ punctuation.section.block.begin.python
         print("Not Found")
 
     case \
@@ -1310,7 +1310,7 @@ def _():
 #          ^ meta.statement.conditional.case.python - meta.sequence
 #           ^^^ - meta.statement
 #       ^^^ meta.number.integer.decimal.python constant.numeric.value.python
-#          ^ punctuation.section.block.conditional.case.python
+#          ^ punctuation.section.block.begin.python
 #            ^ punctuation.terminator.statement.python
 #              ^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 
@@ -1324,7 +1324,7 @@ def _():
 #         ^^^ constant.numeric.value.python
 #            ^ keyword.operator.arithmetic.python
 #             ^^^ constant.numeric.value.python
-#                ^ punctuation.section.block.conditional.case.python
+#                ^ punctuation.section.block.begin.python
 
     case _: # comment
 #   ^^^^ meta.statement.conditional.case.python
@@ -1332,7 +1332,7 @@ def _():
 #         ^ meta.statement.conditional.case.python
 #   ^^^^ keyword.control.conditional.case.python
 #        ^ variable.language.anonymous.python
-#         ^ punctuation.section.block.conditional.case.python
+#         ^ punctuation.section.block.begin.python
 #           ^^^^^^^^^^ comment.line.number-sign.python
         print("Code not found")
 
@@ -1342,7 +1342,7 @@ def _():
 #             ^ meta.statement.conditional.case.python
 #        ^ keyword.operator.unpacking.sequence.python
 #         ^^^^ meta.generic-name.python
-#             ^ punctuation.section.block.conditional.case.python
+#             ^ punctuation.section.block.begin.python
 
     case () if foo is True:
 #   ^^^^ meta.statement.conditional.case.python - meta.sequence
@@ -1358,7 +1358,7 @@ def _():
 #              ^^^ meta.generic-name.python
 #                  ^^ keyword.operator.logical.python
 #                     ^^^^ constant.language.boolean.true.python
-#                         ^ punctuation.section.block.conditional.case.python
+#                         ^ punctuation.section.block.begin.python
 
     case (,) if foo in ('bar', 'baz'):
 #   ^^^^ meta.statement.conditional.case.python - meta.sequence
@@ -1380,7 +1380,7 @@ def _():
 #                            ^ punctuation.separator.sequence.python
 #                              ^^^^^ string.quoted.single.python
 #                                   ^ punctuation.section.sequence.end.python
-#                                    ^ punctuation.section.block.conditional.case.python
+#                                    ^ punctuation.section.block.begin.python
 
     case [] if foo in ['bar', 'baz']:
 #   ^^^^ meta.statement.conditional.case.python - meta.sequence
@@ -1401,7 +1401,7 @@ def _():
 #                           ^ punctuation.separator.sequence.python
 #                             ^^^^^ string.quoted.single.python
 #                                  ^ punctuation.section.sequence.end.python
-#                                   ^ punctuation.section.block.conditional.case.python
+#                                   ^ punctuation.section.block.begin.python
 
     case [*expr, (*foo, *bar), *baz]:
 #   ^^^^ meta.statement.conditional.case.python - meta.sequence
@@ -1425,7 +1425,7 @@ def _():
 #              ^^^ meta.generic-name.python
 #                  ^^ keyword.operator.logical.python
 #                     ^^^^ constant.language.boolean.true.python
-#                         ^ punctuation.section.block.conditional.case.python
+#                         ^ punctuation.section.block.begin.python
 
     case { s_key : 'value' , num.key: 100, **pattern} if foo in {'foo', 'bar'}:
 #   ^^^^ meta.statement.conditional.case.python - meta.mapping
@@ -1464,7 +1464,7 @@ def _():
 #                                                                     ^ punctuation.separator.set.python
 #                                                                       ^^^^^ string.quoted.single.python
 #                                                                            ^ punctuation.section.set.end.python
-#                                                                             ^ punctuation.section.block.conditional.case.python
+#                                                                             ^ punctuation.section.block.begin.python
 
     case {
         'key'    # comment
@@ -1481,7 +1481,7 @@ def _():
 #              ^^^^^^^^^^^^ meta.mapping.value.python
     }:
 # ^^^ meta.statement.conditional.case.patterns.python meta.mapping.python
-#    ^ meta.statement.conditional.case.python punctuation.section.block.conditional.case.python
+#    ^ meta.statement.conditional.case.python punctuation.section.block.begin.python
 #
     case int():
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
@@ -1493,7 +1493,7 @@ def _():
 #        ^^^ support.type.python
 #           ^ punctuation.section.arguments.begin.python
 #            ^ punctuation.section.arguments.end.python
-#             ^ punctuation.section.block.conditional.case.python
+#             ^ punctuation.section.block.begin.python
 
     case else():
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
@@ -1505,7 +1505,7 @@ def _():
 #        ^^^^ invalid.illegal.name.python
 #            ^ punctuation.section.arguments.begin.python
 #             ^ punctuation.section.arguments.end.python
-#              ^ punctuation.section.block.conditional.case.python
+#              ^ punctuation.section.block.begin.python
 
     case name(*pattern, *expr):
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
@@ -1523,7 +1523,7 @@ def _():
 #                       ^ keyword.operator.unpacking.sequence.python
 #                        ^^^^ meta.generic-name.python
 #                            ^ punctuation.section.arguments.end.python
-#                             ^ punctuation.section.block.conditional.case.python
+#                             ^ punctuation.section.block.begin.python
 
     case name(key = pattern):
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
@@ -1539,7 +1539,7 @@ def _():
 #                 ^ keyword.operator.assignment.python
 #                   ^^^^^^^ meta.path.python meta.generic-name.python
 #                          ^ punctuation.section.arguments.end.python
-#                           ^ punctuation.section.block.conditional.case.python
+#                           ^ punctuation.section.block.begin.python
 
     case path.name(key = pattern):
 #   ^^^^ meta.statement.conditional.case.python - meta.function-call
@@ -1558,7 +1558,7 @@ def _():
 #                      ^ keyword.operator.assignment.python
 #                        ^^^^^^^ meta.path.python meta.generic-name.python
 #                               ^ punctuation.section.arguments.end.python
-#                                ^ punctuation.section.block.conditional.case.python
+#                                ^ punctuation.section.block.begin.python
 
     case path \
         . \
@@ -1573,7 +1573,7 @@ def _():
 #                ^ keyword.operator.assignment.python
 #                  ^^^^^^^ meta.generic-name.python
 #                         ^ punctuation.section.arguments.end.python
-#                          ^ punctuation.section.block.conditional.case.python
+#                          ^ punctuation.section.block.begin.python
 
     case int(), MyClass(keyword=('('|')') as foo, if=*args), else() if foo is None:
 #  ^ - meta.statement
@@ -1623,7 +1623,7 @@ def _():
 #                                                                      ^^^ meta.generic-name.python
 #                                                                          ^^ keyword.operator.logical.python
 #                                                                             ^^^^ constant.language.null.python
-#                                                                                 ^ punctuation.section.block.conditional.case.python
+#                                                                                 ^ punctuation.section.block.begin.python
 
     case *expr as _:
 #              ^^ keyword.control.conditional.case.as.python
@@ -1737,7 +1737,7 @@ def my_func(): # comment
 #   ^^^^^^^ entity.name.function.python
 #          ^ punctuation.section.parameters.begin.python
 #           ^ punctuation.section.parameters.end.python
-#            ^ punctuation.section.function.begin.python
+#            ^ punctuation.section.block.begin.python
 #              ^^^^^^^^^ comment.line.number-sign.python
 
 def my_func(param1, # Multi-line function definition
@@ -1777,7 +1777,7 @@ def my_func(param1, # Multi-line function definition
 # <- meta.function.parameters.python punctuation.section.parameters.end
 #^^ meta.function.python - meta.function meta.function
 #  ^ - meta.function
-# ^ punctuation.section.function.begin.python
+# ^ punctuation.section.block.begin.python
     print('Hi!')
 
 
@@ -1823,7 +1823,7 @@ def type_annotations(param1: int, param2: MyType | None , param3: max(2, 3), par
 #                                                                                                        ^ punctuation.section.parameters.end
 #                                                                                                          ^^ punctuation.separator.return-type.python
 #                                                                                                             ^^^ support.type
-#                                                                                                                 ^ punctuation.section.function.begin
+#                                                                                                                 ^ punctuation.section.block.begin
 
 def type_annotations_arrow_only() ->
     pass
@@ -1878,7 +1878,7 @@ def type_annotations_line_continuation() \
 #           ^ meta.function.python
 #     ^^ punctuation.separator.return-type.python
 #        ^^^ meta.type support.type
-#           ^ punctuation.section.function.begin
+#           ^ punctuation.section.block.begin
     pass
 
 def type_annotations_line_continuation() \
@@ -1887,7 +1887,7 @@ def type_annotations_line_continuation() \
 # <- meta.function.return-type.python - meta.type
 #^^^^^ meta.function.return-type.python - meta.type
 #     ^^^ meta.function.return-type.python meta.type.python support.type.python
-#        ^ meta.function.python punctuation.section.function.begin.python
+#        ^ meta.function.python punctuation.section.block.begin.python
     pass
 
 def type_annotations_line_continuation() \
@@ -1896,7 +1896,7 @@ def type_annotations_line_continuation() \
       :
 # <- meta.function.return-type.python - meta.type
 #^^^^^ meta.function.return-type.python - meta.type
-#     ^ meta.function.python punctuation.section.function.begin.python
+#     ^ meta.function.python punctuation.section.block.begin.python
     pass
 
 def type_annotation_with_defaults(foo: str | None = None)
@@ -2144,7 +2144,7 @@ def f[
 #     ^ punctuation.section.parameters.end.python
 #       ^^ punctuation.separator.return-type.python
 #          ^ meta.type.python meta.path.python meta.generic-name.python
-#           ^ meta.function.python punctuation.section.function.begin.python
+#           ^ meta.function.python punctuation.section.block.begin.python
 
 
 ##################
@@ -2252,7 +2252,7 @@ class MyClass(func(var, arg=var), module.func(var, arg=var)):
 #                                                      ^^^ meta.generic-name.python
 #                                                         ^ punctuation.section.arguments.end.python
 #                                                          ^ punctuation.section.inheritance.end.python
-#                                                           ^ punctuation.section.class.begin.python
+#                                                           ^ punctuation.section.block.begin.python
 
 class MyClass:
     def foo():
@@ -2293,7 +2293,7 @@ class GenericClass[T: X, **U]:
 #                        ^^ keyword.operator.unpacking.mapping.python
 #                          ^ variable.parameter.type.python
 #                           ^ punctuation.definition.generic.end.python
-#                            ^ punctuation.section.class.begin.python
+#                            ^ punctuation.section.block.begin.python
 
     from typing import override
 #                      ^^^^^^^^ support.function.typing.python
@@ -2927,7 +2927,7 @@ list_ = [lambda: 1 for i in range(10)]
 #                                     ^ - meta.sequence
 #       ^ punctuation.section.sequence.begin.python
 #        ^^^^^^ keyword.declaration.function.inline.python
-#              ^ punctuation.section.function.begin.python
+#              ^ punctuation.section.block.begin.python
 #                ^ constant.numeric.value.python
 #                  ^^^ keyword.control.loop.for.generator.python
 #                      ^ meta.generic-name.python
@@ -2947,7 +2947,7 @@ generator_ = (lambda: 1 for i in range(10))
 #                                          ^ - meta.sequence
 #            ^ punctuation.section.sequence.begin.python
 #             ^^^^^^ keyword.declaration.function.inline.python
-#                   ^ punctuation.section.function.begin.python
+#                   ^ punctuation.section.block.begin.python
 #                     ^ constant.numeric.value.python
 #                       ^^^ keyword.control.loop.for.generator.python
 #                           ^ meta.generic-name.python
@@ -2967,7 +2967,7 @@ set_ = {lambda: 1 for i in range(10)}
 #                                    ^ - meta.set
 #      ^ punctuation.section.set.begin.python
 #       ^^^^^^ keyword.declaration.function.inline.python
-#             ^ punctuation.section.function.begin.python
+#             ^ punctuation.section.block.begin.python
 #               ^ constant.numeric.value.python
 #                 ^^^ keyword.control.loop.for.generator.python
 #                     ^ meta.generic-name.python
@@ -3093,7 +3093,7 @@ class Cls:
 #       ^^^^^^ entity.name.function.python
 #             ^ punctuation.section.parameters.begin.python
 #              ^ punctuation.section.parameters.end.python
-#               ^ punctuation.section.function.begin.python
+#               ^ punctuation.section.block.begin.python
 
 ##################
 # Exception handling
@@ -3820,7 +3820,7 @@ class Test:
 #^^^^^^^^^^ meta.class.python
 #^^^^ keyword.declaration.class.python
 #     ^^^^ entity.name.class.python
-#         ^ punctuation.section.class.begin.python
+#         ^ punctuation.section.block.begin.python
     pass
 
 
@@ -3912,11 +3912,11 @@ if any(len(longline := line) >= 100 for line in lines):
 
 def foo := :
 #       ^^ invalid.illegal.assignment.python
-#          ^ punctuation.section.function.begin.python
+#          ^ punctuation.section.block.begin.python
 
 def foo() := :
 #         ^^ invalid.illegal.assignment.python
-#            ^ punctuation.section.function.begin.python
+#            ^ punctuation.section.block.begin.python
 
 def foo(x = y := 42): pass
 #             ^^ invalid.illegal.assignment.python
