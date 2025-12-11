@@ -15,6 +15,9 @@ contexts:
   main:
     - meta_prepend: true
     - include: docstrip-preamble
+
+  expressions:
+    - meta_prepend: true
     - include: docstrip-config
     - include: docstrip-user-io
     - include: docstrip-keywords
@@ -71,7 +74,7 @@ contexts:
 
   docstrip-file-argument-path:
     - meta_content_scope: meta.path.tex.docstrip
-    - include: macro-braces-body
+    - include: brace-group-body
 
   docstrip-config:
     - match: (\\)(?:usedir|showdirectory|BaseDirectory|DeclareDir|UseTDS|maxfiles|maxoutfiles){{endcs}}

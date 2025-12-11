@@ -19,26 +19,43 @@ first_line_match: |-
 variables:
   simpletext: '[^\\{}%$~&#_^]*'
 
+###############################################################################
+
 contexts:
 
   main:
     - meta_prepend: true
-    - include: latex
-    - include: packages
-
-  latex:
-    - include: preamble
-    - include: structure
-    - include: includes
-    - include: sections
-    - include: text-decorators
-    - include: footnote
-    - include: references
-    - include: verbatim
-    - include: verb
-    - include: url
-    - include: graphics
+    # packages
+    - include: pkg-array
+    - include: pkg-comment-envs
+    - include: pkg-beamer-envs
+    - include: pkg-listings-envs
+    - include: pkg-minted-envs
+    # latex
     - include: lists
+    - include: sections
+    - include: verbatim
+
+  expressions:
+    # NOTE: within braces, it is possible that only part of some nested
+    # structure is present. Don't include any context's here that break if
+    # they are only partially matched.
+    - meta_prepend: true
+    # packages
+    - include: pkg-listings
+    - include: pkg-minted
+    # latex
+    - include: footnote
+    - include: graphics
+    - include: includes
+    - include: preamble
+    - include: references
+    - include: structure
+    - include: text-decorators
+    - include: url
+    - include: verb
+
+###[ BLOCKS ]##################################################################
 
   # these are used to identify arguments in commands
   general-optional-arguments:
@@ -49,24 +66,15 @@ contexts:
         - match: \]
           scope: punctuation.definition.group.bracket.end.latex
           pop: 1
-        - include: general-constants
-        - include: general-commands
-        - include: braces
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
+        - include: expressions
         - include: stray-brace-pop
-
-  argument-brace:
-    - meta_scope: meta.group.brace.tex
-    - match: \}
-      scope: punctuation.definition.group.brace.end.tex
-      pop: 1
-    - include: main
 
   argument:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      set: argument-brace
+      set: brace-group-body
     - include: else-pop
 
   optional-arguments:
@@ -113,9 +121,7 @@ contexts:
     - include: latex-newcommand-optarg-end
     - match: \d+\b
       scope: meta.number.integer.decimal.latex constant.numeric.value.latex
-    - include: general-constants
-    - include: general-commands
-    - include: macro-braces
+    - include: expressions
 
   latex-newcommand-optarg:
     - match: \[
@@ -128,9 +134,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex
     - include: latex-newcommand-optarg-end
-    - include: general-constants
-    - include: general-commands
-    - include: macro-braces
+    - include: expressions
 
   latex-newcommand-optarg-end:
     - match: \]
@@ -177,7 +181,7 @@ contexts:
     - meta_content_scope: meta.function.latex
     - match: (?=\\)
       set: latex-newcommand-expression
-    - include: def-function-block
+    - include: macro-replacement
     - include: paragraph-pop
     - include: else-pop
 
@@ -230,7 +234,7 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.latex
     - include: brace-group-end
-    - include: macro-braces
+    - include: braces
     - include: xparse-newcommand-single-argspec
     # not actually allowed, but included here to future-proof highlighting
     - include: general-constants
@@ -339,8 +343,7 @@ contexts:
   xparse-newcommand-optarg-wrapped-value:
     - clear_scopes: 1
     - meta_scope: meta.function.parameters.default-value.latex meta.group.brace.tex
-    - include: brace-group-end
-    - include: macro-braces-content
+    - include: brace-group-body
 
 ###[ CONSTANTS ]###############################################################
 
@@ -373,8 +376,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.box.latex
-        - include: brace-group-end
-        - include: main
+        - include: brace-group-body
     - match: ((\\)(?:framebox|makebox))\b
       captures:
         1: support.function.box.latex
@@ -477,8 +479,7 @@ contexts:
       push:
         - meta_scope: meta.section.latex
         - meta_content_scope: entity.name.section.latex
-        - include: brace-group-end
-        - include: main
+        - include: brace-group-body
 
   structure:
     - match: ((\\)(?:frontmatter|mainmatter|backmatter|appendix|printindex))\b
@@ -772,14 +773,12 @@ contexts:
 
   text-body:
     - meta_scope: meta.function.text.latex
-    - include: brace-group-end
-    - include: main
+    - include: brace-group-body
 
   text-underline-body:
     - meta_scope: meta.function.underline.latex
     - meta_content_scope: markup.underline.other.latex
-    - include: brace-group-end
-    - include: main
+    - include: brace-group-body
 
   text-normal-select-font-family:
     - match: (\\)textrm{{endcs}}
@@ -876,8 +875,7 @@ contexts:
         - expect-text-markup-open-brace
 
   text-normal-body:
-    - include: brace-group-end
-    - include: main
+    - include: brace-group-body
 
   text-bold-body:
     - include: brace-group-end
@@ -886,7 +884,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
       push: text-bold-brace-group-body
-    - include: main
+    - include: expressions
     - match: .{{simpletext}}
       scope: markup.bold.latex
 
@@ -979,7 +977,7 @@ contexts:
         - emph-meta
         - text-normal-body
         - brace-group-begin
-    - include: main
+    - include: expressions
     - match: .{{simpletext}}
       scope: markup.italic.latex
 
@@ -1041,14 +1039,12 @@ contexts:
     - include: text-italic-body
 
   text-it-and-bf-body:
-    - include: brace-group-end
-    - include: main
+    - include: brace-group-body
     - match: .{{simpletext}}
       scope: markup.bold.latex markup.italic.latex
 
   texttt-body:
-    - include: brace-group-end
-    - include: main
+    - include: brace-group-body
     - match: .{{simpletext}}
       scope: markup.raw.inline.latex
 
@@ -1132,8 +1128,7 @@ contexts:
           set:
             - meta_scope: meta.function.footnote.latex meta.group.brace.tex
             - meta_content_scope: markup.italic.footnote.latex
-            - include: brace-group-end
-            - include: main
+            - include: brace-group-body
         - match: (?=\S)
           pop: 1
     - match: |-
@@ -1240,16 +1235,10 @@ contexts:
         4: variable.parameter.function.latex
         5: punctuation.definition.group.brace.end.tex
 
-  # external packages
-  packages:
-    - include: pkglistings
-    - include: minted
-    - include: pkgcomment
-    - include: beamer
-    - include: pkgarray
+###[ PACKAGES ]################################################################
 
   # listings package
-  pkglistings:
+  pkg-listings:
     - match: (\\)lstinline\b
       scope: meta.environment.verbatim.lstinline.latex support.function.lstinline.latex
       captures:
@@ -1275,6 +1264,7 @@ contexts:
               scope: punctuation.definition.verb.latex
               pop: 1
 
+  pkg-listings-envs:
     - match: ((\\)begin)(\{)(lstlisting)(\})
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
@@ -1402,11 +1392,7 @@ contexts:
             - match: (?=\\end\{lstlisting\})
               pop: 1
 
-  minted:
-    - include: minted-env
-    - include: mint
-
-  minted-env:
+  pkg-minted-envs:
     - match: ((\\)begin)(\{)(minted)(\})
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
@@ -1616,7 +1602,7 @@ contexts:
             - match: (?=\\end\{minted\})
               pop: 1
 
-  mint:
+  pkg-minted:
     - match: ((\\)mint)\b|((\\)mintinline)\b
       captures:
         1: support.function.mint.latex
@@ -1952,7 +1938,7 @@ contexts:
           pop: 1
 
   # comment package
-  pkgcomment:
+  pkg-comment-envs:
     - match: ^(\\)comment\b
       captures:
         0: punctuation.definition.comment.start.latex
@@ -1984,7 +1970,7 @@ contexts:
           pop: 1
 
   # beamer support
-  beamer:
+  pkg-beamer-envs:
     - match: ((\\)begin)(\{)(frame)(\})
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
@@ -2016,7 +2002,7 @@ contexts:
        5: punctuation.definition.group.brace.end.tex
 
   # support for array package
-  pkgarray:
+  pkg-array:
     - match: |-
         (?x)
         (
@@ -2087,9 +2073,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
       push:
-        - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
+        - include: brace-group-body
         - include: array-preamble
 
     - match: l|r|c
@@ -2107,10 +2091,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.before-column-decl.latex
-        - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: brace-group-body
 
     - match: (<)\s*(\{)
       captures:
@@ -2118,10 +2099,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.after-column-decl.latex
-        - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: brace-group-body
 
     - match: \|
       scope: keyword.operator.inter-column-line.latex
@@ -2132,10 +2110,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.inter-column-decl.latex
-        - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: brace-group-body
 
     - match: (!)\s*(\{)
       captures:
@@ -2143,10 +2118,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.inter-column-decl.latex
-        - include: brace-group-end
-        - include: general-constants
-        - include: general-commands
-        - include: macro-braces
+        - include: brace-group-body
 
     - match: (\*)\s*(\{)
       captures:
@@ -2156,7 +2128,7 @@ contexts:
         - meta_content_scope: meta.function.insert-repeated-count.latex
         - match: \d+
           scope: constant.numeric.array-count.latex
-        - include: general-commands
+        - include: expressions
         - match: \}
           scope: meta.function.insert-repeated-count.latex punctuation.definition.group.brace.end.tex
           set:
