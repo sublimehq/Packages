@@ -1727,10 +1727,12 @@ contexts:
 
   funcptr_type_modifier:
     - match: \s*(managed)\b
-      scope: storage.modifier.delegate.cs
+      captures:
+        1: storage.modifier.delegate.cs
       pop: 1
     - match: \s*(unmanaged)\b
-      scope: storage.modifier.delegate.cs
+      captures:
+        1: storage.modifier.delegate.cs
       set: funcptr_type_calling_convention
     - match: (?=[^\n])
       pop: true
