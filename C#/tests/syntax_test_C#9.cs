@@ -481,7 +481,8 @@ delegate* managed<int, int>;
 ///^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///^^^^^ storage.type.delegate.cs
 ///     ^ keyword.operator.pointer.cs
-///      ^^^^^^^^ storage.modifier.delegate.cs
+///      ^ - keyword - storage
+///       ^^^^^^^ storage.modifier.delegate.cs
 ///              ^^^^^^^^^^ meta.generic.cs
 ///              ^ punctuation.definition.generic.begin.cs
 ///               ^^^ storage.type.cs
@@ -497,7 +498,8 @@ delegate* unmanaged<int, int>;
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///^^^^^ storage.type.delegate.cs
 ///     ^ keyword.operator.pointer.cs
-///      ^^^^^^^^^^ storage.modifier.delegate.cs
+///      ^ - keyword - storage
+///       ^^^^^^^^^ storage.modifier.delegate.cs
 ///                ^^^^^^^^^^ meta.generic.cs
 ///                ^ punctuation.definition.generic.begin.cs
 ///                 ^^^ storage.type.cs
@@ -513,7 +515,8 @@ delegate* unmanaged[Cdecl] <int, int>;
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///^^^^^ storage.type.delegate.cs
 ///     ^ keyword.operator.pointer.cs
-///      ^^^^^^^^^^ storage.modifier.delegate.cs
+///      ^ - keyword - storage
+///       ^^^^^^^^^ storage.modifier.delegate.cs
 ///                ^^^^^^^ meta.brackets.cs
 ///                ^ punctuation.section.brackets.begin.cs
 ///                 ^^^^^ storage.modifier.funcptr.cs
@@ -534,7 +537,8 @@ delegate* unmanaged[Stdcall, SuppressGCTransition] <in int, out int, readonly re
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///^^^^^ storage.type.delegate.cs
 ///     ^ keyword.operator.pointer.cs
-///      ^^^^^^^^^^ storage.modifier.delegate.cs
+///      ^ - keyword - storage
+///       ^^^^^^^^^ storage.modifier.delegate.cs
 ///                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.cs
 ///                ^ punctuation.section.brackets.begin.cs
 ///                 ^^^^^^^ storage.modifier.funcptr.cs
@@ -561,6 +565,7 @@ delegate*
 ///     ^ keyword.operator.pointer.cs
     unmanaged
 ///^^^^^^^^^^^ meta.type.funcptr.cs
+///^ - storage
 /// ^^^^^^^^^ storage.modifier.delegate.cs
     [
 ///^ meta.type.funcptr.cs - meta.brackets
@@ -636,7 +641,8 @@ unsafe class TestFunctionPointers {
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///     ^^^^^^^^ storage.type.delegate.cs
 ///             ^ keyword.operator.pointer.cs
-///              ^^^^^^^^ storage.modifier.delegate.cs
+///              ^ - keyword - storage
+///               ^^^^^^^ storage.modifier.delegate.cs
 ///                      ^^^^^^^^^^^^^^^ meta.generic.cs
 ///                      ^ punctuation.definition.generic.begin.cs
 ///                       ^^^ storage.type.cs
@@ -657,7 +663,8 @@ unsafe class TestFunctionPointers {
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///     ^^^^^^^^ storage.type.delegate.cs
 ///             ^ keyword.operator.pointer.cs
-///              ^^^^^^^^^^ storage.modifier.delegate.cs
+///              ^ - keyword - storage
+///               ^^^^^^^^^ storage.modifier.delegate.cs
 ///                        ^^^^^^^^^^^^^^^ meta.generic.cs
 ///                        ^ punctuation.definition.generic.begin.cs
 ///                         ^^^ storage.type.cs
@@ -727,7 +734,8 @@ unsafe class TestFunctionPointers {
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type.funcptr.cs
 ///                  ^^^^^^^^ storage.type.delegate.cs
 ///                          ^ keyword.operator.pointer.cs
-///                           ^^^^^^^^^^ storage.modifier.delegate.cs
+///                           ^ - keyword - storage
+///                            ^^^^^^^^^ storage.modifier.delegate.cs
 ///                                     ^^^^^^ meta.generic.cs
 ///                                     ^ punctuation.definition.generic.begin.cs
 ///                                      ^^^^ storage.type.cs
