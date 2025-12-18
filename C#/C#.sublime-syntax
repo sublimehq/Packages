@@ -1975,10 +1975,8 @@ contexts:
   inside_triple_quoted_raw_string_literal_syntax:
     - meta_include_prototype: false
     - match: (?={{sql_indicator}})
-      set: scope:source.sql
-      with_prototype:
-        - match: (?=""")
-          pop: true
+      embed: scope:source.sql
+      escape: (?=""")
     - match: (?=\S)
       pop: true
 
