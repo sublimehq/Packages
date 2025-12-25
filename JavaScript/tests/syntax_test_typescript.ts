@@ -745,7 +745,7 @@ function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ punctuation.separator.type
 //             ^^^^^^^^^ meta.type
-//               ^^ keyword.operator.word.is
+//               ^^ keyword.operator.type.is
 //                  ^^^ support.type.any
 
 function f(x): asserts x is any {};
@@ -753,7 +753,7 @@ function f(x): asserts x is any {};
 //           ^ punctuation.separator.type
 //            ^^^^^^^^^^^^^^^^^ meta.type
 //             ^^^^^^^ storage.modifier.asserts
-//                       ^^ keyword.operator.word.is
+//                       ^^ keyword.operator.type.is
 //                          ^^^ support.type.any
 
 function f(this : any) {}

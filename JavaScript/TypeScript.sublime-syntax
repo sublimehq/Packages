@@ -854,7 +854,7 @@ contexts:
       scope: keyword.operator.type.union.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
     - match: is{{identifier_break}}
-      scope: keyword.operator.word.is.js
+      scope: keyword.operator.type.is.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
     - match: as{{identifier_break}}
       scope: keyword.operator.type.js
