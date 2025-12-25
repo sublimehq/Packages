@@ -983,8 +983,11 @@ contexts:
       fail: for-in-of
 
   for-in-of-word:
-    - match: (?:of|in){{identifier_break}}
-      scope: keyword.operator.word.js
+    - match: in{{identifier_break}}
+      scope: keyword.operator.word.in.js
+      pop: 1
+    - match: of{{identifier_break}}
+      scope: keyword.operator.word.of.js
       pop: 1
     - match: (?=\S)
       fail: for-in-of
