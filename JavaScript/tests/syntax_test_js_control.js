@@ -200,20 +200,20 @@
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^^^ keyword.declaration
-//               ^^ keyword.operator.word.in
+//               ^^ keyword.control.loop.in
 
     for (const x of list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^^^ keyword.declaration
-//               ^^ keyword.operator.word.of
+//               ^^ keyword.control.loop.of
 
     for (x in list) {}
 //  ^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^ meta.group
-//         ^^ keyword.operator.word.in
+//         ^^ keyword.control.loop.in
 
     for (a in b, c ? d: e, f(g());) {};
 //  ^^^^ meta.for - meta.group
@@ -225,7 +225,7 @@
 //  ^^^ keyword.control.loop.for
 //      ^ punctuation.section.group.begin
 //       ^ variable.other.readwrite
-//         ^^ keyword.operator.word.in
+//         ^^ keyword.control.loop.in
 //            ^ variable.other.readwrite
 //             ^ keyword.operator.comma
 //               ^ variable.other.readwrite
@@ -248,7 +248,7 @@
 //  ^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^ meta.group
-//         ^^ keyword.operator.word.of
+//         ^^ keyword.control.loop.of
 
     for (x.y.z of list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^ meta.for
@@ -260,7 +260,7 @@
 //         ^ meta.property.object
 //          ^ punctuation.accessor
 //           ^ meta.property.object
-//             ^^ keyword.operator.word.of
+//             ^^ keyword.control.loop.of
 //                ^^^^ variable.other.readwrite
 //                    ^ punctuation.section.group.end
 //                      ^^ meta.block
@@ -276,7 +276,7 @@
 //      ^ punctuation.section.group.begin
 //        ^^^^^ keyword.declaration
 //              ^ meta.binding.name variable.other.readwrite
-//                ^^ keyword.operator.word.of
+//                ^^ keyword.control.loop.of
 //                   ^^^^ variable.other.readwrite
 //                        ^ punctuation.section.group.end
 //                          ^^ meta.block
@@ -291,7 +291,7 @@
 //        ^^^^^ keyword.declaration
 //              ^^^^^ keyword.declaration
 //                    ^ meta.binding.name variable.other.readwrite
-//                      ^^ keyword.operator.word.of
+//                      ^^ keyword.control.loop.of
 //                         ^^^^ variable.other.readwrite
 //                              ^ punctuation.section.group.end
 //                                ^^ meta.block
@@ -304,7 +304,7 @@
 //        ^^^^^ keyword.declaration
 //              ^^^^^ keyword.declaration
 //                    ^^ meta.binding.name variable.other.readwrite
-//                       ^^ keyword.operator.word.of
+//                       ^^ keyword.control.loop.of
 //                          ^^^^ variable.other.readwrite
 //                               ^ punctuation.section.group.end
 //                                 ^^ meta.block
@@ -317,7 +317,7 @@
 //      ^^^^^^^^^^^^^^^^^ meta.group
 //      ^ punctuation.section.group.begin
 //        ^^^^^ variable.other.readwrite
-//              ^^ keyword.operator.word.of
+//              ^^ keyword.control.loop.of
 //                 ^^^^ variable.other.readwrite
 //                      ^ punctuation.section.group.end
 //                        ^^ meta.block
@@ -332,7 +332,7 @@
 //              ^ punctuation.section.brackets.begin
 //               ^ variable.other.readwrite
 //                ^ punctuation.section.brackets.end
-//                  ^^ keyword.operator.word.of
+//                  ^^ keyword.control.loop.of
 //                     ^^^^ variable.other.readwrite
 //                          ^ punctuation.section.group.end
 //                            ^^ meta.block

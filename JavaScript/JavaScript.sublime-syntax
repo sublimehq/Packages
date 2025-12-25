@@ -984,10 +984,10 @@ contexts:
 
   for-in-of-word:
     - match: in{{identifier_break}}
-      scope: keyword.operator.word.in.js
+      scope: keyword.control.loop.in.js
       pop: 1
     - match: of{{identifier_break}}
-      scope: keyword.operator.word.of.js
+      scope: keyword.control.loop.of.js
       pop: 1
     - match: (?=\S)
       fail: for-in-of
