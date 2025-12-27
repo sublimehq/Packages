@@ -126,19 +126,30 @@ variables:
   # special notation to refer to (non-printable) characters in TeX
   charbycode: (?:\^\^(?:{{lchexdigit}}{{lchexdigit}}|.))
 
+###############################################################################
+
 contexts:
+
   prototype:
     - include: comments
 
   main:
-    - include: macros
-    - include: controls
-    - include: character-codes
-    - include: braces
-    - include: boxes
+    - include: expressions
+
+  expressions:
+    # NOTE: within braces, it is possible that only part of some nested
+    # structure is present. Don't include any context's here that break if
+    # they are only partially matched.
     - include: block-math
     - include: inline-math
+    - include: braces
+    - include: macro-variables
+    - include: math-builtins
+    - include: controls
+    - include: boxes
+    - include: macros
     - include: registers
+    - include: character-codes
     - include: tex-constants
     - include: general-constants
     - include: general-commands
@@ -192,12 +203,14 @@ contexts:
   brace-group-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
-    - include: main
+    - include: expressions
 
   brace-group-end:
     - match: \}
       scope: punctuation.definition.group.brace.end.tex
       pop: 1
+
+###[ BOXES ]###################################################################
 
   boxes:
     - match: ((\\)[hv]box)\s*(\{)
@@ -209,8 +222,7 @@ contexts:
 
   box-body:
     - meta_scope: meta.function.box.tex
-    - include: brace-group-end
-    - include: main
+    - include: brace-group-body
 
 ###[ CHARACTER CODES ]#########################################################
 
@@ -467,104 +479,67 @@ contexts:
       scope: meta.function.tex keyword.declaration.function.tex
       captures:
         1: punctuation.definition.backslash.tex
-      push: def-function-identifier
+      push: macro-identifier
     - match: (\\)(?:outer|long|global){{endcs}}
       scope: storage.modifier.definition.tex
       captures:
         1: punctuation.definition.backslash.tex
 
-  def-function-identifier:
+  macro-identifier:
     - meta_content_scope: meta.function.tex
     - match: (\\){{macroname}}
       scope: meta.function.identifier.tex entity.name.function.internal.tex
       captures:
         1: punctuation.definition.backslash.tex
-      set: def-function-parameters
+      set: macro-parameter-list
     - match: (\\){{cmdname}}
       scope: meta.function.identifier.tex entity.name.function.tex
       captures:
         1: punctuation.definition.backslash.tex
-      set: def-function-parameters
+      set: macro-parameter-list
     - match: (?=[#\[\{])
-      set: def-function-parameters
+      set: macro-parameter-list
     - include: else-pop
 
-  def-function-parameters:
+  macro-parameter-list:
     - meta_content_scope: meta.function.parameters.tex
-    - include: def-function-block
-    - include: def-function-parameter-brackets
-    - include: macro-parameters
-    - include: general-constants
+    - include: macro-replacement
+    - include: macro-parameter-content
     - include: stray-brace-pop
     - include: stray-bracket-pop
 
-  def-function-parameter-brackets:
+  macro-parameter-content:
+    - match: \{
+      scope: punctuation.definition.group.brace.begin.tex
+      push: macro-parameter-brace-body
     - match: \[
       scope: punctuation.definition.group.bracket.begin.tex
-      push: def-function-parameter-bracket-body
+      push: macro-parameter-bracket-body
+    - include: macro-parameters
+    - include: general-constants
 
-  def-function-parameter-bracket-body:
+  macro-parameter-brace-body:
+    - meta_scope: meta.group.brace.tex
+    - include: brace-group-end
+    - include: macro-parameter-content
+    - include: stray-bracket-pop
+
+  macro-parameter-bracket-body:
     - meta_scope: meta.group.bracket.tex
     - match: \]
       scope: punctuation.definition.group.bracket.end.tex
       pop: 1
-    - include: def-function-parameter-brackets
-    - include: def-function-parameter-braces
-    - include: macro-parameters
-    - include: general-constants
+    - include: macro-parameter-content
     - include: stray-brace-pop
 
-  def-function-parameter-braces:
+  macro-replacement:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: def-function-parameter-braces-body
+      set: macro-replacement-body
 
-  def-function-parameter-braces-body:
-    - meta_scope: meta.group.brace.tex
-    - include: brace-group-end
-    - include: def-function-parameter-brackets
-    - include: def-function-parameter-braces
-    - include: macro-parameters
-    - include: general-constants
-    - include: stray-bracket-pop
-
-  def-function-block:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      set: def-function-block-body
-
-  def-function-block-body:
+  macro-replacement-body:
     - meta_scope: meta.function.body.tex meta.group.brace.tex
-    - include: macro-braces-end
-    - include: macro-braces-content
-
-  macro-braces:
-    - match: \{
-      scope: punctuation.definition.group.brace.begin.tex
-      push: macro-braces-body
-
-  macro-braces-end:
-     - match: \}
-       scope: punctuation.definition.group.brace.end.tex
-       pop: 1
-
-  macro-braces-body:
-    - meta_scope: meta.group.brace.tex
-    - include: macro-braces-end
-    - include: macro-braces-content
-
-  # within macros, it is possible that only part of some nested structure
-  # is present. Don't include any context's here that break if they are
-  # only partially matched.
-  macro-braces-content:
-    - include: macro-braces
-    - include: macro-variables
-    - include: controls
-    - include: registers
-    - include: math-builtins
-    - include: tex-constants
-    - include: general-constants
-    - include: general-commands
+    - include: brace-group-body
 
   macro-parameters:
     # parameter declarations in macro signatures
@@ -582,22 +557,6 @@ contexts:
 
 ###[ MATH ]####################################################################
 
-  inline-math:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.begin.tex
-      push: inline-math-dollar-body
-
-  inline-math-dollar-body:
-    - meta_scope: meta.environment.math.inline.dollar.tex
-    - meta_content_scope: markup.math.inline
-    - include: inline-math-dollar-end
-    - include: math-content
-
-  inline-math-dollar-end:
-    - match: \$
-      scope: string.other.math.tex punctuation.definition.string.end.tex
-      pop: 1
-
   block-math:
     - match: \$\$
       scope: string.other.math.tex punctuation.definition.string.begin.tex
@@ -614,11 +573,26 @@ contexts:
       scope: string.other.math.tex punctuation.definition.string.end.tex
       pop: 1
 
+  inline-math:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push: inline-math-dollar-body
+
+  inline-math-dollar-body:
+    - meta_scope: meta.environment.math.inline.dollar.tex
+    - meta_content_scope: markup.math.inline
+    - include: inline-math-dollar-end
+    - include: math-content
+
+  inline-math-dollar-end:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.end.tex
+      pop: 1
+
   math-content:
     - include: math-builtins
     - include: math-brackets
     - include: math-braces
-    - include: boxes
     - include: math-commands
     - include: math-operators
     - include: math-variables
@@ -687,9 +661,9 @@ contexts:
   math-braces:
     - match: \{
       scope: punctuation.definition.group.brace.begin.tex
-      push: math-braces-body
+      push: math-brace-body
 
-  math-braces-body:
+  math-brace-body:
     - meta_scope: meta.group.brace.tex
     - include: brace-group-end
     - include: math-content
