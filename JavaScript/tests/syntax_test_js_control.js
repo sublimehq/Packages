@@ -179,7 +179,7 @@
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^ meta.group
 //       ^ punctuation.separator.expression
-//           ^^ keyword.operator
+//           ^^ keyword.operator.logical
 //                  ^ punctuation.separator.expression
 
     for (a[x in list];;;) {}
@@ -187,7 +187,7 @@
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^ meta.group
 //        ^^^^^^^^^^^ meta.brackets
-//           ^^ keyword.operator
+//           ^^ keyword.operator.logical
 //                   ^ punctuation.separator.expression
 //                    ^ punctuation.separator.expression
 //                     ^ invalid.illegal.unexpected-token
@@ -363,9 +363,10 @@
 //                                   ^ punctuation.section.group.end
 //                                     ^^ meta.block
 
-    for (var in list) (i = 0 ; i < 10; i++)
-//  ^^^^^^^^^^^^^^^^^^ meta.for.js
-//                    ^^^^^^^^^^^^^^^^^^^^^ meta.group.js - meta.for
+    for (i in list) (i = 0 ; i < 10; i++)
+//  ^^^^^^^^^^^^^^^ meta.for.js
+//         ^^ keyword.control.loop.in.js
+//                  ^^^^^^^^^^^^^^^^^^^^^ meta.group.js - meta.for
 
 for
     42;

@@ -280,6 +280,6 @@ using [ x ] = 0;
 await using in x;
 //^^^ keyword.control.flow.await
 //    ^^^^^ variable.other.readwrite
-//          ^^ keyword.operator
+//          ^^ keyword.operator.logical
 //             ^ variable.other.readwrite
 //              ^ punctuation.terminator.statement

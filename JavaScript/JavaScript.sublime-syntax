@@ -1567,7 +1567,7 @@ contexts:
       scope: keyword.operator.js
       push: expression-begin
     - match: in{{identifier_break}}
-      scope: keyword.operator.js
+      scope: keyword.operator.logical.js
       push: expression-begin
     - match: '=(?![=>])'
       scope: keyword.operator.assignment.js

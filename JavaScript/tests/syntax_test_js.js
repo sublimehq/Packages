@@ -1338,7 +1338,7 @@ a = /\//u + 0;
 
     x
     in y;
-//  ^^ keyword.operator
+//  ^^ keyword.operator.logical
 
     x
     instanceof y;
