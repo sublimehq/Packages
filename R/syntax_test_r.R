@@ -417,7 +417,7 @@ if (1) {} else {return()}
 for (i in 1:10) {
 # <- keyword.control.loop.for.r
 #   ^ punctuation.section.parens.begin.r
-#      ^^ keyword.operator.interation.in.r
+#      ^^ keyword.control.loop.in.r
 #             ^ punctuation.section.parens.end.r
 #               ^ punctuation.section.braces.begin.r
 }

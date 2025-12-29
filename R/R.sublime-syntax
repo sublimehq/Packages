@@ -229,7 +229,7 @@ contexts:
     - match: \bwhile\b(?=\s*\()
       scope: keyword.control.loop.while.r
     - match: \bin\b
-      scope: keyword.operator.interation.in.r
+      scope: keyword.control.loop.in.r
 
   accessor:
     - meta_include_prototype: false
