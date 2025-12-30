@@ -27,21 +27,7 @@ contexts:
           pop: 1
           embed: commit-header
           escape: '{{commit_or_diff_begin}}'
-        - match: (\()(HEAD)\s*(->)
-          captures:
-            1: punctuation.section.parens.begin.git.log
-            2: support.type.git.log
-            3: punctuation.separator.mapping.git.log
-          push:
-            - match: \)
-              scope: punctuation.section.parens.end.git.log
-              pop: 1
-            - match: \b(?:master|main)\b
-              scope: entity.other.branch-name.master.git.log
-            - match: (\w+)(?:(/)(\w+))?
-              scope: entity.other.branch-name.git.log
-            - match: ','
-              scope: punctuation.separator.sequence.git.log
+        - include: decorations
     - match: (?={{diff_begin}})
       embed: Git Diff.sublime-syntax#diffs
       embed_scope: source.diff.git
@@ -65,6 +51,31 @@ contexts:
     # https://github.com/SublimeTextIssues/Core/issues/2395
     - match: ^
       push: Git Commit Message.sublime-syntax
+
+  decorations:
+    - match: \(
+      scope: punctuation.section.parens.begin.git.log
+      push: decoration-body
+
+  decoration-body:
+    - meta_scope: meta.parens.decoration.log
+    - match: \)
+      scope: punctuation.section.parens.end.git.log
+      pop: 1
+    - match: (HEAD)\s*(->)
+      captures:
+        1: support.type.git.log
+        2: punctuation.separator.mapping.git.log
+    - match: \b(?:master|main)\b
+      scope: entity.other.branch-name.master.git.log
+    - match: \b(tag)(:)\s*([\w./-]+)
+      captures:
+        2: punctuation.separator.log
+        3: entity.other.tag.git.log
+    - match: ([\w.-]+)(?:(/)([\w.-]+))?
+      scope: entity.other.branch-name.git.log
+    - match: ','
+      scope: punctuation.separator.sequence.git.log
 
 
 variables:
