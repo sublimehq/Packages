@@ -5,25 +5,26 @@ commit e2077c6e006acfd2f060aef03c4ef8f89c4db362
 #^^^^^ keyword.other.commit.git.log
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.log
 Author: username <user-name.last@host.com>
-# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
-#^^^^^^^ - string.unquoted.log
-#^^^^^ keyword.other.header.git.log
-#     ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
-#                ^ punctuation.definition.reference.email.begin.git
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log meta.mapping.diff
+#^^^^^ keyword.other.diff
+#     ^ punctuation.separator.mapping.key-value.diff
+#       ^^^^^^^^ meta.reference.user.git
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+#                ^ punctuation.definition.reference.email.begin.git
 #                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                               ^ punctuation.separator.email.git
 #                                    ^ punctuation.separator.domain.git
 #                                        ^ punctuation.definition.reference.email.end.git
 Date:   Thu Sep 21 22:53:04 2017 +0200
-# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
-#^^^^^^^ - string.unquoted.log
-#^^^ keyword.other.header.git.log
-#   ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log meta.mapping.diff
+#^^^ keyword.other.diff
+#   ^ punctuation.separator.mapping.key-value.diff
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff constant.numeric.value.diff
+#                    ^ punctuation.separator.date.diff
+#                       ^ punctuation.separator.date.diff
+#                                ^^^^^ storage.modifier.diff
 
 # <- text.git.log - meta.header.git.commit - markup.raw.block.git.log - keyword.other.header.git.log
 
@@ -55,25 +56,26 @@ commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/bra
 #                                                                     ^^^^^^^^^^^^^^^^^^ entity.other.branch-name.git
 #                                                                                       ^ punctuation.section.parens.end.git
 Author: username <user-name.last@host.com>
-# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
-#^^^^^^^ - string.unquoted.log
-#^^^^^ keyword.other.header.git.log
-#     ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
-#                ^ punctuation.definition.reference.email.begin.git
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log meta.mapping.diff
+#^^^^^ keyword.other.diff
+#     ^ punctuation.separator.mapping.key-value.diff
+#       ^^^^^^^^ meta.reference.user.git
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
+#                ^ punctuation.definition.reference.email.begin.git
 #                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                               ^ punctuation.separator.email.git
 #                                    ^ punctuation.separator.domain.git
 #                                        ^ punctuation.definition.reference.email.end.git
 Date:   Thu Sep 21 22:53:04 2017 +0200
-# <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
-#^^^^^^^ - string.unquoted.log
-#^^^ keyword.other.header.git.log
-#   ^ punctuation.separator.key-value.git.log - keyword.other.header.git.log
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.log
+# <- meta.header.git.commit markup.raw.block.git.log keyword.other
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log meta.mapping.diff
+#^^^ keyword.other.diff
+#   ^ punctuation.separator.mapping.key-value.diff
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff constant.numeric.value.diff
+#                    ^ punctuation.separator.date.diff
+#                       ^ punctuation.separator.date.diff
+#                                ^^^^^ storage.modifier.diff
 
 commit 344d003a330e244cc507d17c2f224bb295013511 (HEAD -> git_show, sublimehq/master, master)
 Author: Thomas Smith <thom@thomthesmith.com>
@@ -190,3 +192,27 @@ move to JavaScript/tests/syntax_test_typescript_not_tsx.ts
 commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> main, origin/main)
 #^^^^^ meta.header.git.commit markup.raw.block.git keyword.other.commit.git - source.diff
 #                                                        ^^^^ entity.other.branch-name.master.git.log
+Merge: b61d808 4ac410c
+#^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log meta.mapping.diff
+#^^^^ keyword.other.diff
+#    ^ punctuation.separator.mapping.key-value.diff
+#      ^^^^^^^ constant.other.hash.git
+#              ^^^^^^^ constant.other.hash.git
+diff --cc messages.json
+#^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.header.diff meta.toc-list.git
+#^^^ meta.function-call.identifier.git variable.function.diff
+#   ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.git
+#    ^^^^ variable.parameter.diff
+#    ^^ punctuation.definition.parameter.diff
+index b493aae,ece2390..6f8533d
+--- a/messages.json
++++ b/messages.json
+@@@ -1,4 -1,4 +1,5 @@@
+  {
+ +      "5.0.0": "messages/5.0.0.md",
+-       "3.1.1": "messages/3.1.1.md"
++       "4.2.0": "messages/4.2.0.md",
++       "3.1.1": "messages/3.1.1.md"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff.git meta.block.delta.diff markup.inserted.diff
+#^ punctuation.definition.inserted.diff
+  }
