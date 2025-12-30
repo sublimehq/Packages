@@ -9,11 +9,6 @@ file_extensions:
 
 first_line_match: ^commit\s+\h{7,}
 
-variables:
-  diff_begin: ^diff\s+--git\s
-  commit_begin: ^(commit)\s+(\h{7,})
-  commit_or_diff_begin: (?={{diff_begin}}|{{commit_begin}})
-
 contexts:
   prototype:
     - include: Git Common.sublime-syntax#comments-line
@@ -71,3 +66,9 @@ contexts:
     # https://github.com/SublimeTextIssues/Core/issues/2395
     - match: ^
       push: Git Commit Message.sublime-syntax
+
+
+variables:
+  diff_begin: ^diff\s+--(?:git|cc|combined)\s
+  commit_begin: ^(commit)\s+(\h{7,})
+  commit_or_diff_begin: (?={{diff_begin}}|{{commit_begin}})

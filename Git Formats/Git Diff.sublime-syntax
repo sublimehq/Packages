@@ -17,7 +17,7 @@ file_extensions:
 
 first_line_match: |-
   ^(?x:
-    diff[ ]--(?:git|combined|cc)[ ]
+      diff [ ] --(?:git|combined|cc) [ ]          # Any git-diff indicator
     | From [ ] \w+@z [ ]
       Thu [ ] Jan [ ]{2} 1 [ ] 00:00:00 [ ] 1970  # git-send-email
     | From [ ] {{git_hash_full}} [ ]
