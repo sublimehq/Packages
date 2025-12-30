@@ -49,19 +49,18 @@ contexts:
 
   commit-header:
     # All header attributes are mappings of `key: value` format.
-    # For simplicity we do not want to distinguish the entries.
     # Author: first lastname <mail@domain.com>
     # Date:   Wed Sep 13 22:42:14 2017 +0200
-    - match: ^(\w+)\s*(:)\s*
-      captures:
-        1: keyword.other.header.git.log
-        2: punctuation.separator.key-value.git.log
+    - match: ^(?=[\w-]+:)
       push:
         - meta_scope: meta.header.git.commit markup.raw.block.git.log
-        - meta_content_scope: string.unquoted.log
-        - match: \n
+        - include: Git Diff.sublime-syntax#email-header-person
+        - include: Git Diff.sublime-syntax#email-header-commit
+        - include: Git Diff.sublime-syntax#email-header-subject-line
+        - include: Git Diff.sublime-syntax#email-header-date
+        - include: Git Diff.sublime-syntax#email-header-generic
+        - match: ^(?=\n)
           pop: 1
-        - include: Git Common.sublime-syntax#email
     # using push instead of include as workaround for
     # https://github.com/SublimeTextIssues/Core/issues/2395
     - match: ^

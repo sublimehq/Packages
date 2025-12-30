@@ -80,7 +80,7 @@ contexts:
     - include: pop-before-eol
 
   email-header-commit:
-    - match: '{{bol}}(In-Reply-To|References)(:)'
+    - match: '{{bol}}(In-Reply-To|References|Merge)(:)'
       captures:
         1: keyword.other.diff
         2: punctuation.separator.mapping.key-value.diff
@@ -135,6 +135,7 @@ contexts:
 
   email-header-date-body:
     - meta_scope: meta.mapping.diff
+    # git-format-patch and git-send-email
     - match: |-
         (?x)
         {{day3}}(,) [ ]  # Day of week
@@ -151,6 +152,22 @@ contexts:
         2: punctuation.separator.date.diff
         3: punctuation.separator.date.diff
         4: storage.modifier.diff
+    # git-show
+    - match: |-
+        (?x)
+        {{day3}} [ ]  # Day of week
+        {{month3}} [ ]   # Month
+        [0-3]?[0-9] [ ]  # Day of month
+        [0-9]{2} (:)     # Hour
+        [0-9]{2} (:)     # Minute
+        [0-9]{2} [ ]     # Second
+        [0-9]{4}         # Year
+        (?:[ ]([+-][0-9]{4}))? # Optional UTC offset
+      scope: meta.date.diff constant.numeric.value.diff
+      captures:
+        1: punctuation.separator.date.diff
+        2: punctuation.separator.date.diff
+        3: storage.modifier.diff
     - include: pop-before-next-email-header
 
   email-header-generic:
