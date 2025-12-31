@@ -57,11 +57,7 @@ contexts:
   commit-header:
     - meta_scope: meta.header.git.commit
     - include: Git Common.sublime-syntax#comments-line
-    - include: Git Diff.sublime-syntax#email-header-person
-    - include: Git Diff.sublime-syntax#email-header-commit
-    - include: Git Diff.sublime-syntax#email-header-subject-line
-    - include: Git Diff.sublime-syntax#email-header-date
-    - include: Git Diff.sublime-syntax#email-header-generic
+    - include: Git Common.sublime-syntax#commit-headers
     - match: ^
       set: Git Commit Message.sublime-syntax
 

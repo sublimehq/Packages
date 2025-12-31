@@ -3,10 +3,9 @@ From 8f72bad1baf19a53459661343e21d6491c3908d3 Mon Sep 17 00:00:00 2001
 \ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.diff
 \    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git
 From: Tony Luck <tony.luck@intel.com>
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.diff
-\^^^ keyword
-\   ^ punctuation.separator.mapping.key-value.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.git
+\^^^ keyword.other.git
+\   ^ punctuation.separator.mapping.key-value.git
 \     ^^^^^^^^^ meta.reference.user.git
 \               ^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 \               ^ punctuation.definition.reference.email.begin.git
@@ -15,33 +14,34 @@ From: Tony Luck <tony.luck@intel.com>
 \                               ^ punctuation.separator.domain.git
 \                                   ^ punctuation.definition.reference.email.end.git
 Date: Tue, 13 Jul 2010 11:42:54 -0700
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-\^^^ keyword
-\   ^ punctuation.separator.mapping.key-value.diff
-\     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.value.diff
-\        ^ punctuation.separator.date.diff
-\                        ^ punctuation.separator.date.diff
-\                           ^ punctuation.separator.date.diff
-\                               ^^^^^ storage.modifier.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.git
+\^^^ keyword.other.git
+\   ^ punctuation.separator.mapping.key-value.git
+\     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.git constant.numeric.value.git
+\        ^ punctuation.separator.date.git
+\                        ^ punctuation.separator.date.git
+\                           ^ punctuation.separator.date.git
+\                               ^^^^^ storage.modifier.git
 Subject: [PATCH v2 1/2] [IA64] Put ia64 config files on the Uwe Kleine-Koenig
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-\               ^^ meta.annotation.patch-version.diff storage.modifier.diff
-\                  ^^^ meta.annotation.patch-sequence.diff
-\^^^^^^ keyword
-\      ^ punctuation.separator.mapping.key-value.diff
-\        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.diff
-\        ^^^^^^^^^^^^^^ variable.annotation.diff
-\        ^ punctuation.definition.annotation.begin.diff
-\                  ^ meta.number.integer.decimal.diff constant.numeric.value.diff
-\                   ^ punctuation.separator.sequence.diff
-\                    ^ meta.number.integer.decimal.diff constant.numeric.value.diff
-\                     ^ punctuation.definition.annotation.end.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.git
+\^^^^^^ keyword.other.git
+\      ^ punctuation.separator.mapping.key-value.git
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git
+\        ^^^^^^^^^^^^^^ variable.annotation.git
+\        ^ punctuation.definition.annotation.begin.git
+\               ^^ meta.annotation.patch-version.git storage.modifier.git
+\                  ^^^ meta.annotation.patch-sequence.git
+\                  ^ meta.number.integer.decimal.git constant.numeric.value.git
+\                   ^ punctuation.separator.sequence.git
+\                    ^ meta.number.integer.decimal.git constant.numeric.value.git
+\                     ^ punctuation.definition.annotation.end.git
  diet
-\^^^^^ meta.block.git-header.diff meta.mapping.diff markup.heading.diff
+\^^^^^ meta.block.git-header.diff meta.mapping.git markup.heading.git
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-\^^^^^^^^^^^ keyword.other.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.git
+\^^^^^^^^^^^ keyword.other.git
+\           ^ punctuation.separator.mapping.key-value.git
 Content-Transfer-Encoding: 8bit
 
 arch/arm config files were slimmed down using a python script
@@ -56,15 +56,15 @@ Do the same for ia64 so we can have sleek & trim looking
 \  ^^ support.function.scissors.git
 \           ^^ support.function.scissors.git
 Subject: [RFC PATCH v3] How about this instead?
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.diff
-\         ^^^ storage.modifier.diff
-\                   ^^ meta.annotation.patch-version.diff storage.modifier.diff
-\^^^^^^ keyword
-\      ^ punctuation.separator.mapping.key-value.diff
-\        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.diff
-\        ^^^^^^^^^^^^^^ variable.annotation.diff
-\        ^ punctuation.definition.annotation.begin.diff
-\                     ^ punctuation.definition.annotation.end.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-header.diff meta.mapping.git
+\^^^^^^ keyword.other.git
+\      ^ punctuation.separator.mapping.key-value.git
+\       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git
+\        ^^^^^^^^^^^^^^ variable.annotation.git
+\        ^ punctuation.definition.annotation.begin.git
+\         ^^^ storage.modifier.git
+\                   ^^ meta.annotation.patch-version.git storage.modifier.git
+\                     ^ punctuation.definition.annotation.end.git
 
 > Do the same for ia64 so we can have sleek & trim looking
 \^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.git-body.diff markup.quote.git

@@ -5,10 +5,9 @@ commit e2077c6e006acfd2f060aef03c4ef8f89c4db362
 #^^^^^ keyword.other.commit.git.log
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.log
 Author: username <user-name.last@host.com>
-# <- meta.header.git.commit keyword.other
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.diff
-#^^^^^ keyword.other.diff
-#     ^ punctuation.separator.mapping.key-value.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
+#^^^^^ keyword.other.git
+#     ^ punctuation.separator.mapping.key-value.git
 #       ^^^^^^^^ meta.reference.user.git
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 #                ^ punctuation.definition.reference.email.begin.git
@@ -17,14 +16,13 @@ Author: username <user-name.last@host.com>
 #                                    ^ punctuation.separator.domain.git
 #                                        ^ punctuation.definition.reference.email.end.git
 Date:   Thu Sep 21 22:53:04 2017 +0200
-# <- meta.header.git.commit keyword.other
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.diff
-#^^^ keyword.other.diff
-#   ^ punctuation.separator.mapping.key-value.diff
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff constant.numeric.value.diff
-#                    ^ punctuation.separator.date.diff
-#                       ^ punctuation.separator.date.diff
-#                                ^^^^^ storage.modifier.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
+#^^^ keyword.other.git
+#   ^ punctuation.separator.mapping.key-value.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.git constant.numeric.value.git
+#                    ^ punctuation.separator.date.git
+#                       ^ punctuation.separator.date.git
+#                                ^^^^^ storage.modifier.git
 
 # <- text.git.log - meta.header.git.commit - keyword.other.header.git.log
 
@@ -56,10 +54,9 @@ commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/bra
 #                                                                     ^^^^^^^^^^^^^^^^^^ entity.other.branch-name.git
 #                                                                                       ^ punctuation.section.parens.end.git
 Author: username <user-name.last@host.com>
-# <- meta.header.git.commit keyword.other
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.diff
-#^^^^^ keyword.other.diff
-#     ^ punctuation.separator.mapping.key-value.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
+#^^^^^ keyword.other.git
+#     ^ punctuation.separator.mapping.key-value.git
 #       ^^^^^^^^ meta.reference.user.git
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 #                ^ punctuation.definition.reference.email.begin.git
@@ -68,14 +65,13 @@ Author: username <user-name.last@host.com>
 #                                    ^ punctuation.separator.domain.git
 #                                        ^ punctuation.definition.reference.email.end.git
 Date:   Thu Sep 21 22:53:04 2017 +0200
-# <- meta.header.git.commit keyword.other
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.diff
-#^^^ keyword.other.diff
-#   ^ punctuation.separator.mapping.key-value.diff
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.diff constant.numeric.value.diff
-#                    ^ punctuation.separator.date.diff
-#                       ^ punctuation.separator.date.diff
-#                                ^^^^^ storage.modifier.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
+#^^^ keyword.other.git
+#   ^ punctuation.separator.mapping.key-value.git
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.date.git constant.numeric.value.git
+#                    ^ punctuation.separator.date.git
+#                       ^ punctuation.separator.date.git
+#                                ^^^^^ storage.modifier.git
 
 commit 344d003a330e244cc507d17c2f224bb295013511 (HEAD -> git_show, sublimehq/master, master)
 Author: Thomas Smith <thom@thomthesmith.com>
@@ -193,9 +189,9 @@ commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> main, origin/main)
 #^^^^^ meta.header.git.commit keyword.other.commit.git - source.diff
 #                                                        ^^^^ entity.other.branch-name.master.git.log
 Merge: b61d808 4ac410c
-#^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.diff
-#^^^^ keyword.other.diff
-#    ^ punctuation.separator.mapping.key-value.diff
+#^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
+#^^^^ keyword.other.git
+#    ^ punctuation.separator.mapping.key-value.git
 #      ^^^^^^^ constant.other.hash.git
 #              ^^^^^^^ constant.other.hash.git
 diff --cc messages.json
