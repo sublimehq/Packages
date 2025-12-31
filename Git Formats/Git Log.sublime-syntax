@@ -39,10 +39,10 @@ contexts:
     - match: \)
       scope: punctuation.section.parens.end.git.log
       pop: 1
-    - match: (HEAD)\s*(->)
-      captures:
-        1: support.type.git.log
-        2: punctuation.separator.mapping.git.log
+    - match: \bHEAD(?![\w-])
+      scope: support.type.git.log
+    - match: ->
+      scope: punctuation.separator.mapping.git.log
     - match: \b(?:master|main)\b
       scope: entity.other.branch-name.master.git.log
     - match: \b(tag)(:)\s*([\w./-]+)
