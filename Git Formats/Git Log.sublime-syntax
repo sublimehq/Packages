@@ -27,7 +27,7 @@ contexts:
       escape: (?={{commit_begin}})
 
   commit-decoration:
-    - meta_scope: meta.header.git.commit markup.raw.block.git.log
+    - meta_scope: meta.header.git.commit
     - match: \(
       scope: punctuation.section.parens.begin.git.log
       push: commit-decoration-body
@@ -55,7 +55,7 @@ contexts:
       scope: punctuation.separator.sequence.git.log
 
   commit-header:
-    - meta_scope: meta.header.git.commit markup.raw.block.git.log
+    - meta_scope: meta.header.git.commit
     - include: Git Common.sublime-syntax#comments-line
     - include: Git Diff.sublime-syntax#email-header-person
     - include: Git Diff.sublime-syntax#email-header-commit
