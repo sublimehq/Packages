@@ -7,17 +7,6 @@ scope: text.git.common
 version: 2
 hidden: true
 
-variables:
-  comment_char: '[#;]'
-  hash: \b\h{7,}\b
-  repository_ref: |-
-    (?x:
-      [\w-]+ (/) [\w-]+   # user / repo
-    | [\w-]{2,}           # user with a heuristic to exclude C#7, F#7, ...
-    )
-  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
-  pretty_formats_empty_value_modifiers: '[-+ ]?'
-
 contexts:
   main:
     - include: references
@@ -152,6 +141,149 @@ contexts:
         /?[\w\d\-.?,!'(){}\[\]/+&@%$#=:"|~;]*                    # url path and query string
         [\w\d\-~:/#@$*+=]                                        # allowed end chars
       scope: markup.underline.link.git
+
+###[ COMMIT HEADERS ]##########################################################
+
+  commit-headers:
+    - include: commit-headers-person
+    - include: commit-headers-commit
+    - include: commit-headers-subject-line
+    - include: commit-headers-date
+    - include: commit-headers-generic
+
+  commit-headers-person:
+    - match: |-
+        {{bol}}(?x:
+          ( From | To | Author | Committer
+          | Co-authored-by
+          | Signed-off-by
+          | Reviewed-by
+          | Acked-by
+          | Helped-by
+          )
+          (:)
+        )
+      captures:
+        1: keyword.other.git
+        2: punctuation.separator.mapping.key-value.git
+      push: commit-header-person
+
+  commit-header-person:
+    - meta_scope: meta.mapping.git
+    - include: scope:text.git.mailmap
+    # The mailmap include has bad interactions with
+    # pop-before-next-commit-header
+    - include: pop-before-eol
+
+  commit-headers-commit:
+    - match: '{{bol}}(In-Reply-To|References|Merge)(:)'
+      captures:
+        1: keyword.other.git
+        2: punctuation.separator.mapping.key-value.git
+      push: commit-header-commit
+
+  commit-header-commit:
+    - meta_scope: meta.mapping.git
+    - include: commit
+    - include: pop-before-next-commit-header
+
+  commit-headers-subject-line:
+    - match: '{{bol}}(Subject)(:)'
+      captures:
+        1: keyword.other.git
+        2: punctuation.separator.mapping.key-value.git
+      push: commit-header-subject-line
+
+  commit-header-subject-line:
+    - meta_scope: meta.mapping.git
+    - meta_content_scope: markup.heading.git
+    - include: patch-annotation
+    - include: pop-before-next-commit-header
+
+  patch-annotation:
+    - match: (\[)(?:(RFC) )?PATCH
+      captures:
+        1: punctuation.definition.annotation.begin.git
+        2: storage.modifier.git
+      push: patch-annotation-content
+
+  patch-annotation-content:
+    - meta_scope: variable.annotation.git
+    - match: \]
+      scope: punctuation.definition.annotation.end.git
+      pop: 1
+    - match: \bv[0-9]+\b
+      scope: meta.annotation.patch-version.git storage.modifier.git
+    - match: ([0-9]+)(/)([0-9]+)
+      scope: meta.annotation.patch-sequence.git
+      captures:
+        1: meta.number.integer.decimal.git constant.numeric.value.git
+        2: punctuation.separator.sequence.git
+        3: meta.number.integer.decimal.git constant.numeric.value.git
+
+  commit-headers-date:
+    - match: '{{bol}}((?:Author|Committer)?Date)(:)'
+      captures:
+        1: keyword.other.git
+        2: punctuation.separator.mapping.key-value.git
+      push: commit-header-date
+
+  commit-header-date:
+    - meta_scope: meta.mapping.git
+    # git-format-patch and git-send-email
+    - match: |-
+        (?x)
+        {{day3}}(,) [ ]  # Day of week
+        [0-3]?[0-9] [ ]  # Day of month
+        {{month3}} [ ]   # Month
+        [0-9]{4} [ ]     # Year
+        [0-9]{2} (:)     # Hour
+        [0-9]{2} (:)     # Minute
+        [0-9]{2}         # Second
+        (?:[ ]([+-][0-9]{4}))? # Optional UTC offset
+      scope: meta.date.git constant.numeric.value.git
+      captures:
+        1: punctuation.separator.date.git
+        2: punctuation.separator.date.git
+        3: punctuation.separator.date.git
+        4: storage.modifier.git
+    # git-show
+    - match: |-
+        (?x)
+        {{day3}} [ ]     # Day of week
+        {{month3}} [ ]   # Month
+        [0-3]?[0-9] [ ]  # Day of month
+        [0-9]{2} (:)     # Hour
+        [0-9]{2} (:)     # Minute
+        [0-9]{2} [ ]     # Second
+        [0-9]{4}         # Year
+        (?:[ ]([+-][0-9]{4}))? # Optional UTC offset
+      scope: meta.date.git constant.numeric.value.git
+      captures:
+        1: punctuation.separator.date.git
+        2: punctuation.separator.date.git
+        3: storage.modifier.git
+    - include: pop-before-next-commit-header
+
+  commit-headers-generic:
+    - match: '{{bol}}\b([\w-]+)\b(:)'
+      captures:
+        1: keyword.other.git
+        2: punctuation.separator.mapping.key-value.git
+      push: commit-header-generic
+
+  commit-header-generic:
+    - meta_scope: meta.mapping.git
+    - include: pop-before-next-commit-header
+
+  pop-before-next-commit-header:
+    # Hack in `\` to support unit tests
+    - match: '{{bol}}(?! \S|\\)'
+      pop: 1
+
+  pop-before-eol:
+    - match: $
+      pop: 1
 
 ###[ FNMATCH ]#################################################################
 
@@ -416,3 +548,19 @@ contexts:
               scope: support.constant.trailer.git.config
             - match: \b\w+\b
               scope: constant.other.trailer.pretty-formats.git
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  comment_char: '[#;]'
+  hash: \b\h{7,}\b
+  bol: ^
+  repository_ref: |-
+    (?x:
+      [\w-]+ (/) [\w-]+   # user / repo
+    | [\w-]{2,}           # user with a heuristic to exclude C#7, F#7, ...
+    )
+  day3: (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)
+  month3: (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)
+  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
+  pretty_formats_empty_value_modifiers: '[-+ ]?'
