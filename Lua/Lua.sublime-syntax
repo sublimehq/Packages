@@ -831,7 +831,8 @@ contexts:
     - match: (?=\S)
       push:
         - expression-list-end
-        - pattern-expression
+        - pattern-expression-endpopc
+        - pattern-expression-begin
 
   function-arguments-fmtstr-at1:
     - include: fmtstr-string
@@ -850,7 +851,8 @@ contexts:
     - match: (?=\S)
       push:
         - expression-list-end
-        - fmtstr-expression
+        - fmtstr-expression-endpopc
+        - fmtstr-expression-begin
 
   function-arguments-packstr-at1:
     - include: packstr-string
@@ -869,13 +871,49 @@ contexts:
     - match: (?=\S)
       push:
         - expression-list-end
-        - packstr-expression
+        - packstr-expression-endpopc
+        - packstr-expression-begin
 
 ###[ PATTERNS ]################################################################
 
   pattern-expression:
+    - match: ''
+      set:
+        - pattern-expression-end
+        - pattern-expression-begin
+
+  pattern-expression-begin:
     - include: pattern-string
     - include: expression-begin
+
+  pattern-expression-endpopc:
+    - match: ','
+      pop: 1
+    - include: pattern-expression-end
+
+  pattern-expression-end:
+    - match: (?:[=<>~]=)
+      scope: keyword.operator.comparison.lua
+      push: pattern-expression-begin
+    - match: (?://|[-+*/%^])
+      scope: keyword.operator.arithmetic.lua
+      push: pattern-expression-begin
+    - match: (?:>>|<<|[&|~])
+      scope: keyword.operator.bitwise.lua
+      push: pattern-expression-begin
+    - match: (?:[<>])
+      scope: keyword.operator.comparison.lua
+      push: pattern-expression-begin
+    - match: \.\.
+      scope: keyword.operator.concatenation.lua
+      push: pattern-expression-begin
+    - match: =
+      scope: keyword.operator.assignment.lua
+      push: pattern-expression-begin
+    - match: (?:and|or){{identifier_break}}
+      scope: keyword.operator.logical.lua
+      push: pattern-expression-begin
+    - include: expression-end
 
   expression-list-end-pattern-next:
     - match: ','
@@ -1148,8 +1186,43 @@ contexts:
 ###[ PATTERNS / STRING PATTERNS / FMT STRING ]#################################
 
   fmtstr-expression:
+    - match: ''
+      set:
+        - fmtstr-expression-end
+        - fmtstr-expression-begin
+
+  fmtstr-expression-begin:
     - include: fmtstr-string
     - include: expression-begin
+
+  fmtstr-expression-endpopc:
+    - match: ','
+      pop: 1
+    - include: fmtstr-expression-end
+
+  fmtstr-expression-end:
+    - match: (?:[=<>~]=)
+      scope: keyword.operator.comparison.lua
+      push: fmtstr-expression-begin
+    - match: (?://|[-+*/%^])
+      scope: keyword.operator.arithmetic.lua
+      push: fmtstr-expression-begin
+    - match: (?:>>|<<|[&|~])
+      scope: keyword.operator.bitwise.lua
+      push: fmtstr-expression-begin
+    - match: (?:[<>])
+      scope: keyword.operator.comparison.lua
+      push: fmtstr-expression-begin
+    - match: \.\.
+      scope: keyword.operator.concatenation.lua
+      push: fmtstr-expression-begin
+    - match: =
+      scope: keyword.operator.assignment.lua
+      push: fmtstr-expression-begin
+    - match: (?:and|or){{identifier_break}}
+      scope: keyword.operator.logical.lua
+      push: fmtstr-expression-begin
+    - include: expression-end
 
   fmtstr-string:
     - match: \[(=*)\[
@@ -1202,8 +1275,43 @@ contexts:
 ###[ PATTERNS / STRING PATTERNS / PACK STR ]###################################
 
   packstr-expression:
+    - match: ''
+      set:
+        - packstr-expression-end
+        - packstr-expression-begin
+
+  packstr-expression-begin:
     - include: packstr-string
     - include: expression-begin
+
+  packstr-expression-endpopc:
+    - match: ','
+      pop: 1
+    - include: packstr-expression-end
+
+  packstr-expression-end:
+    - match: (?:[=<>~]=)
+      scope: keyword.operator.comparison.lua
+      push: packstr-expression-begin
+    - match: (?://|[-+*/%^])
+      scope: keyword.operator.arithmetic.lua
+      push: packstr-expression-begin
+    - match: (?:>>|<<|[&|~])
+      scope: keyword.operator.bitwise.lua
+      push: packstr-expression-begin
+    - match: (?:[<>])
+      scope: keyword.operator.comparison.lua
+      push: packstr-expression-begin
+    - match: \.\.
+      scope: keyword.operator.concatenation.lua
+      push: packstr-expression-begin
+    - match: =
+      scope: keyword.operator.assignment.lua
+      push: packstr-expression-begin
+    - match: (?:and|or){{identifier_break}}
+      scope: keyword.operator.logical.lua
+      push: packstr-expression-begin
+    - include: expression-end
 
   packstr-string:
     - match: \[(=*)\[
