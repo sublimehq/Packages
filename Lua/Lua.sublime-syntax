@@ -1079,10 +1079,13 @@ contexts:
   # this gets included in expressions that want to have a pattern string
   pattern-string:
     - match: \[(=*)\[
-      scope: punctuation.definition.string.begin.lua
-      set:
-        - pattern-multiline-string-body
-        - pattern-test-first-caret-multiline
+      scope: meta.string.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+      embed: pattern-multiline-string-body
+      embed_scope: meta.string.lua string.quoted.multiline.lua
+      escape: \]\1\]
+      escape_captures:
+        0: meta.string.lua string.quoted.multiline.lua punctuation.definition.string.end.lua
+      pop: 1
     - match: \'
       scope: punctuation.definition.string.begin.lua
       set:
@@ -1108,12 +1111,6 @@ contexts:
     # in order to work with the multiline below
     - match: (?=[^\^])
       pop: 1
-
-  pattern-test-first-caret-multiline:
-    - meta_include_prototype: false
-    - match: $\n?
-      set: pattern-test-first-caret
-    - include: pattern-test-first-caret
 
   pattern-single-quoted-string-body:
     - meta_include_prototype: false
@@ -1141,14 +1138,10 @@ contexts:
 
   pattern-multiline-string-body:
     - meta_include_prototype: false
-    - meta_scope: meta.string.lua string.quoted.multiline.lua
-    - include: multiline-string-body
-    - match: ''
-      embed: pattern-unquoted
-      # we don't seem to be able to use the capture to get the right one
-      # this means that patterns that contain something that matches this
-      # will lose their context half way through.
-      escape: (?=\]=*\])
+    - match: \n?
+      push:
+        - pattern-unquoted
+        - pattern-test-first-caret
 
 ###[ PATTERNS / STRING PATTERNS / FMT STRING ]#################################
 
@@ -1159,44 +1152,50 @@ contexts:
   fmtstr-string:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
-      set: multiline-string-body
-      with_prototype:
-        - include: fmtstr-embed
-
+      set: multiline-fmtstr-body
     - match: \'
       scope: punctuation.definition.string.begin.lua
-      set: single-quoted-string-body
-      with_prototype:
-        - include: fmtstr-embed
-
+      set: single-quoted-fmtstr-body
     - match: \"
       scope: punctuation.definition.string.begin.lua
-      set: double-quoted-string-body
-      with_prototype:
-        - include: fmtstr-embed
+      set: double-quoted-fmtstr-body
 
-  fmtstr-embed:
+  single-quoted-fmtstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: single-quoted-string-body
+    - include: fmtstr-placeholder
+
+  double-quoted-fmtstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: double-quoted-string-body
+    - include: fmtstr-placeholder
+
+  multiline-fmtstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - include: multiline-string-body
+    - include: fmtstr-placeholder
+
+  fmtstr-placeholder:
     - meta_include_prototype: false
     - match: '%%'
       scope: constant.character.escape.lua
-
-    - match: '%'
+    - match: |-
+        (?x)
+        %
+        \#?      # alternate form
+        0?       # pad with zeros
+        \-?      # left-adjust
+        \ ?      # implicit sign
+        [+-]?    # sign
+        \d*      # width
+        (\.\d*)? # precision
+        [cdiuoxXaAfeEgGpqs%]
       scope: constant.other.placeholder.lua
-      push: fmtstr-pattern
-
-  fmtstr-pattern:
-    - meta_include_prototype: false
-    # these characters never appear in a format pattern so it can be simpler
-    - match: (?=[\\\"\'\]])
-      pop: 1
-    - match: '[-+#0-9. ]'
-      scope: constant.other.placeholder.lua
-    - match: '[cdiuoxXaAfeEgGpqs]'
-      scope: constant.other.placeholder.lua
-      pop: 1
-    - match: '.'
+    - match: '%[^"''\\\]]'
       scope: invalid.illegal.invalid-format.lua
-      pop: 1
 
 ###[ PATTERNS / STRING PATTERNS / PACK STR ]###################################
 
@@ -1207,24 +1206,33 @@ contexts:
   packstr-string:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
-      set: multiline-string-body
-      with_prototype:
-        - include: packstr-pattern
-
+      set: multiline-packstr-body
     - match: \'
       scope: punctuation.definition.string.begin.lua
-      set: single-quoted-string-body
-      with_prototype:
-        - include: packstr-pattern
-
+      set: single-quoted-packstr-body
     - match: \"
       scope: punctuation.definition.string.begin.lua
-      set: double-quoted-string-body
-      with_prototype:
-        - include: packstr-pattern
+      set: double-quoted-packstr-body
 
-  packstr-pattern:
+  single-quoted-packstr-body:
     - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: single-quoted-string-body
+    - include: packstr-patterns
+
+  double-quoted-packstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: double-quoted-string-body
+    - include: packstr-patterns
+
+  multiline-packstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - include: multiline-string-body
+    - include: packstr-patterns
+
+  packstr-patterns:
     - match: '[=<>]|![0-9]*'
       scope: storage.modifier.lua
 
@@ -1234,7 +1242,7 @@ contexts:
     - match: '[xX]'
       scope: punctuation.separator.padding.lua
 
-    - match: (?:[^\\\"\'\]\s])
+    - match: '[^"''\\\]\s]'
       scope: invalid.illegal.invalid-storage.lua
 
 ###[ MODULES ]#################################################################
