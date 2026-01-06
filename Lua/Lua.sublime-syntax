@@ -702,22 +702,74 @@ contexts:
   parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.begin.lua
+      branch_point: special-string-paren
+      branch:
+        - special-string-is-fmtstr
+        - special-string-is-packstr
+        - special-string-is-nothing
+
+  special-string-is-fmtstr:
+    - match: ''
       set:
-        - meta_scope: meta.group.lua
-        - match: \)
-          scope: punctuation.section.group.end.lua
-          pop: 1
-        - include: reserved-word-expression-pop
-        - match: (?="(?:{{string_char_escape}}|[^\\"])*"\s*\)\s*:\s*format{{identifier_break}})
-          push: fmtstr-expression
-        - match: (?='(?:{{string_char_escape}}|[^\\'])*'\s*\)\s*:\s*format{{identifier_break}})
-          push: fmtstr-expression
-        - match: (?="(?:{{string_char_escape}}|[^\\"])*"\s*\)\s*:\s*(?:pack|unpack|packsize){{identifier_break}})
-          push: packstr-expression
-        - match: (?='(?:{{string_char_escape}}|[^\\'])*'\s*\)\s*:\s*(?:pack|unpack|packsize){{identifier_break}})
-          push: packstr-expression
-        - match: (?=\S)
-          push: expression
+        - parenthesized-expression-end-fmtstr
+        - parenthesized-expression-inside-fmtstr
+
+  special-string-is-packstr:
+    - match: ''
+      set:
+        - parenthesized-expression-end-packstr
+        - parenthesized-expression-inside-packstr
+
+  special-string-is-nothing:
+    - match: ''
+      set:
+        - parenthesized-expression-end-normal
+        - parenthesized-expression-inside-normal
+
+  # at this point the stack is:
+  # - expression-end # <- where we need to get to
+  # - expression-begin
+  # - parenthesized-expression-end-X
+  parenthesized-expression-end-normal:
+    - match: ''
+      pop: 2 # pop this as well as expression-begin
+
+  parenthesized-expression-end-fmtstr:
+    - match: (?=:\s*format{{identifier_break}})
+      pop: 2 # pop this as well as expression-begin
+
+    - match: (?=\S)
+      fail: special-string-paren
+
+  parenthesized-expression-end-packstr:
+    - match: (?=:\s*(pack|unpack|packsize){{identifier_break}})
+      pop: 2 # pop this as well as expression-begin
+
+    - match: (?=\S)
+      fail: special-string-paren
+
+
+  parenthesized-expression-inside-base:
+    - meta_scope: meta.group.lua
+    - match: \)
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: reserved-word-expression-pop
+
+  parenthesized-expression-inside-normal:
+    - include: parenthesized-expression-inside-base
+    - match: (?=\S)
+      push: expression
+
+  parenthesized-expression-inside-fmtstr:
+    - include: parenthesized-expression-inside-base
+    - match: (?=\S)
+      push: fmtstr-expression
+
+  parenthesized-expression-inside-packstr:
+    - include: parenthesized-expression-inside-base
+    - match: (?=\S)
+      push: packstr-expression
 
 ###[ MAPPINGS ]################################################################
 
