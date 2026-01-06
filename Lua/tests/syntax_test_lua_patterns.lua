@@ -218,3 +218,34 @@
 (''):match[[[]];
 --          ^ punctuation.definition.set.begin.lua
 --           ^^ punctuation.definition.string.end.lua
+
+------------------
+-- testing concatted and other expressions
+------------------
+
+;("%s" .. "%%" .. "%02s"):format(that)
+-- ^^ constant.other.placeholder.lua
+--     ^^ keyword.operator.concatenation.lua
+--         ^^ constant.character.escape.lua
+--                 ^^^^ constant.other.placeholder.lua
+
+;("szs" .. "I3"):pack(that)
+-- ^^^ storage.type.lua
+--          ^^ storage.type.lua
+
+;("%s"):this()
+-- ^^ - constant.other.placeholder
+
+string.format("est" .. "%s that")
+--                      ^^ constant.other.placeholder.lua
+
+string.match("this", "test(%[ [^123] this) ()" .. "%+[^test](that)")
+--                         ^^ constant.character.escape.lua
+--                                                 ^^ constant.character.escape.lua
+
+string.match("this", "%w" .. "hi" .. "%S")
+--                    ^^ keyword.control.character-class.lua
+--                                    ^^ keyword.control.character-class.lua
+
+string.format("%+10s")
+--             ^^^^^ constant.other.placeholder.lua
