@@ -4,16 +4,16 @@
 -- Anchors and escapes
 --------------------
 
-(''):match('\'')
+(''):match('\'');
 --          ^^ constant.character.escape.lua
 
-(''):match(' \'')
+(''):match(' \'');
 --           ^^ constant.character.escape.lua
 
-(''):match(" \"")
+(''):match(" \"");
 --           ^^ constant.character.escape.lua
 
-(''):match('^foo ^bbar$ %f[test] %b() <test>$')
+(''):match('^foo ^bbar$ %f[test] %b() <test>$');
 --          ^ keyword.control.anchor.lua
 --               ^ - keyword.control.anchor.lua
 --                    ^ - keyword.control.anchor.lua
@@ -24,7 +24,7 @@
 --                               ^^^^ keyword.control.balanced.lua
 --                                          ^ keyword.control.anchor.lua
 
-(''):match[[^foo ^bbar$ %f[test] %b() <test>$]]
+(''):match[[^foo ^bbar$ %f[test] %b() <test>$]];
 --          ^ keyword.control.anchor.lua
 --               ^ - keyword.control.anchor.lua
 --                    ^ - keyword.control.anchor.lua
@@ -36,11 +36,11 @@
 --                                          ^ keyword.control.anchor.lua
 
 
-(''):match('%^foo ^bbar$ <test>%$')
+(''):match('%^foo ^bbar$ <test>%$');
 --           ^ - keyword.control.anchor.lua
 --                              ^ - keyword.control.anchor.lua
 
-(''):match[[%^foo ^bbar$ <test>%$]]
+(''):match[[%^foo ^bbar$ <test>%$]];
 --          ^^ constant.character.escape.lua
 --           ^ - keyword.control.anchor.lua
 --                              ^ - keyword.control.anchor.lua
@@ -51,58 +51,58 @@
 -- <- keyword.control.anchor.lua
 --      ^ keyword.control.anchor.lua
 
-(''):match('%1')
+(''):match('%1');
 --          ^ keyword.other.backref-and-recursion
 --           ^ variable.other.backref-and-recursion
 
-(''):match('%W')
+(''):match('%W');
 --          ^^ keyword.control.character-class
 
-(''):match('%f[test]')
+(''):match('%f[test]');
 --          ^^ keyword.control.anchor
 
-(''):match('% ')
+(''):match('% ');
 --          ^^ constant.character.escape.lua
 
-(''):match('%"')
+(''):match('%"');
 --          ^^ constant.character.escape.lua
 
-(''):match("%'")
+(''):match("%'");
 --          ^^ constant.character.escape.lua
 
-(''):match('%\x1b')
+(''):match('%\x1b');
 --          ^ constant.character.escape.lua
 --           ^^^^ constant.character.escape.hexadecimal.lua
 
-(''):match('%\1234')
+(''):match('%\1234');
 --          ^ constant.character.escape.lua
 --           ^^^^ constant.character.escape.decimal.lua
 --               ^ - constant.character.escape.decimal.lua
 
-(''):match('%\r %\n')
+(''):match('%\r %\n');
 --          ^^^ constant.character.escape.lua
 --              ^^^ constant.character.escape.lua
 
-(''):match("%\u{2d}")
+(''):match("%\u{2d}");
 --          ^ constant.character.escape.lua
 --           ^^^^^^ constant.character.escape.unicode.lua
 
 -- note: this pattern only repeats the first byte of the UTF-8 character.
-(''):match("%\u{2013}")
+(''):match("%\u{2013}");
 --          ^ constant.character.escape.lua
 --           ^^^^^^^^ constant.character.escape.unicode.lua
 
 -- invalid patterns that we allow because of highlighting concerns
 
-(''):match('%')
+(''):match('%');
 --          ^ constant.character.escape.lua
 --           ^ punctuation.definition.string.end.lua
 
-(''):match("%")
+(''):match("%");
 --          ^ constant.character.escape.lua
 --           ^ punctuation.definition.string.end.lua
 
-(''):match[[%]]
+(''):match[[%]];
 --          ^ constant.character.escape.lua
 --           ^^ punctuation.definition.string.end.lua
 
@@ -111,7 +111,7 @@
 -- Quantifiers
 --------------------
 
-(''):match('\x00**++--??')
+(''):match('\x00**++--??');
 --          ^^^^ constant.character.escape
 --              ^ keyword.operator.quantifier.lua
 --               ^ - keyword.operator.quantifier.lua
@@ -122,32 +122,32 @@
 --                    ^ keyword.operator.quantifier.lua
 --                     ^ - keyword.operator.quantifier.lua
 
-(''):match('(ab)+')
+(''):match('(ab)+');
 --              ^ - keyword.operator.quantifier.lua
 
-(''):match('?(?abc)')
+(''):match('?(?abc)');
 --          ^ - keyword.operator.quantifier.lua
 --            ^ - keyword.operator.quantifier.lua
 
-(''):match('hello**')
+(''):match('hello**');
 --               ^ keyword.operator.quantifier.lua
 --                ^ - keyword.operator.quantifier.lua
 
-(''):match(')')
+(''):match(')');
 --          ^ - punctuation.section.group.end.lua
 
 --------------------
 -- Sets
 --------------------
 
-(''):match(' [b-c]')
+(''):match(' [b-c]');
 --           ^^^^^ meta.set.lua
 --           ^ punctuation.definition.set.begin.lua
 --               ^ punctuation.definition.set.end.lua
 --            ^^^ constant.other.range.lua
 --             ^ punctuation.separator.sequence.lua
 
-(''):match('[\x00-\123]')
+(''):match('[\x00-\123]');
 --          ^ meta.set.lua punctuation.definition.set.begin.lua
 --          ^^^^^^^^^^^ meta.set.lua
 --           ^^^^^^^^^ constant.other.range
@@ -156,12 +156,12 @@
 --                ^^^^ constant.character.escape
 --                    ^ punctuation.definition.set.end.lua
 
-(''):match('[^][]')
+(''):match('[^][]');
 --           ^ keyword.operator.logical.lua
 --            ^ - punctuation.definition.set.end.lua
 --             ^ - punctuation.definition.set.begin.lua
 
-(''):match('[^abc%w\w0-9]')
+(''):match('[^abc%w\w0-9]');
 --           ^^^^^^^^^^^^ meta.set.lua
 --          ^ punctuation.definition.set.begin.lua
 --           ^ keyword.operator.logical.lua
@@ -171,42 +171,42 @@
 --                    ^ punctuation.separator.sequence.lua
 --                      ^ punctuation.definition.set.end.lua
 
-(''):match('[a-c-x]')
+(''):match('[a-c-x]');
 --           ^^^ constant.other.range
 --              ^^ - constant.other.range
 
-(''):match('[]-]')
+(''):match('[]-]');
 --          ^ punctuation.definition.set.begin.lua
 --           ^ - punctuation
 --            ^ - constant.other.range
 --             ^ punctuation.definition.set.end.lua
 
-(''):match('[-a-n]')
+(''):match('[-a-n]');
 --          ^ punctuation.definition.set.begin.lua
 --           ^ - constant.other.range
 --            ^^^ constant.other.range
 --               ^ punctuation.definition.set.end.lua
 
-(''):match('[%-a]')
+(''):match('[%-a]');
 --          ^ punctuation.definition.set.begin.lua
 --           ^^^ - constant.other.range
 --              ^ punctuation.definition.set.end.lua
 
-(''):match('[a-z%-9]')
+(''):match('[a-z%-9]');
 --              ^^^ - constant.other.range
 --                 ^ punctuation.definition.set.end.lua
 
-(''):match('[%--z]')
+(''):match('[%--z]');
 --            ^^ - comment
 --           ^^ constant.character.escape.lua
 
-(''):match('[a-%z]')
+(''):match('[a-%z]');
 --          ^ punctuation.definition.set.begin.lua
 --           ^^^ constant.other.range
 --              ^ - constant.other.range
 --               ^ punctuation.definition.set.end.lua
 
-(''):match('[a-%-]')
+(''):match('[a-%-]');
 --          ^ punctuation.definition.set.begin.lua
 --           ^^^ constant.other.range
 --              ^ - constant.other.range
@@ -215,6 +215,6 @@
 ------------------
 -- Other various tests
 ------------------
-(''):match[[[]]
+(''):match[[[]];
 --          ^ punctuation.definition.set.begin.lua
 --           ^^ punctuation.definition.string.end.lua
