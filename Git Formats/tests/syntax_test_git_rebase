@@ -4,7 +4,7 @@ label onto
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^ meta.branch.label.git.rebase
 #^^^^ keyword.other.label.git.rebase
-#     ^^^^ constant.language.branch-name.git.commit
+#     ^^^^ entity.name.reference.branch.git.commit
 reset 9698953 # Fix form submission
 # <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
 #^^^^^^^^^^^^ meta.branch.reset.git.rebase
@@ -68,13 +68,13 @@ a 6746x20 Invalid command and hash # no comment (#403)
 l feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
-# ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+# ^^^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.commit
 #        ^ punctuation.separator.path.git.commit
 label feature/branch-name
 # <- meta.branch.label.git.rebase keyword.other.label.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.label.git.rebase
 #^^^^ keyword.other.label.git.rebase
-#     ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#     ^^^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.commit
 #            ^ punctuation.separator.path.git.commit
 update-ref refs/heads/feature-branch
 # <- meta.branch.update-ref.git.rebase keyword.operator.update-ref.git.rebase
@@ -93,12 +93,12 @@ u refs/heads/feature-branch
 t onto
 # <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
 #^^^^^ meta.branch.reset.git.rebase
-# ^^^^ constant.language.branch-name.git.commit
+# ^^^^ entity.name.reference.branch.git.commit
 reset onto
 # <- meta.branch.reset.git.rebase keyword.operator.branch.reset.git.rebase
 #^^^^^^^^^ meta.branch.reset.git.rebase
 #^^^^ keyword.operator.branch.reset.git.rebase
-#     ^^^^ constant.language.branch-name.git.commit
+#     ^^^^ entity.name.reference.branch.git.commit
 m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
@@ -110,7 +110,7 @@ m -c c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # ^^ variable.parameter.option.git.rebase
 # ^ punctuation.definition.variable.git.rebase
 #    ^^^^^^^ constant.other.hash.git.rebase
-#            ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#            ^^^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.commit
 merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 # <- meta.branch.merge.git.rebase keyword.operator.branch.merge.git.rebase
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.branch.merge.git.rebase
@@ -122,11 +122,11 @@ merge -C c7cba2e feature/branch-name # Merge branch 'alicja/loyalty'
 #     ^^ variable.parameter.option.git.rebase
 #     ^ punctuation.definition.variable.git.rebase
 #        ^^^^^^^ constant.other.hash.git.rebase
-#                ^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#                ^^^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.commit
 
 # highlight illegal reference characters
 l ~/.foo.bar..baz:buuz/.br^an~ch/.br\anch-#name.lock
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.commit
 # ^ invalid.illegal.unexpected-token.git.commit
 #  ^ punctuation.separator.path.git.commit
 #   ^ invalid.illegal.unexpected-token.git.commit

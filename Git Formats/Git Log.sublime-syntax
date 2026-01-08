@@ -42,15 +42,16 @@ contexts:
     - match: \bHEAD(?![\w-])
       scope: support.type.git.log
     - match: ->
-      scope: punctuation.separator.mapping.git.log
+      scope: keyword.operator.reference.git.log
     - match: \b(?:master|main)\b
-      scope: entity.other.branch-name.master.git.log
+      scope: variable.language.master.git.log
     - match: \b(tag)(:)\s*([\w./-]+)
       captures:
+        1: storage.type.label.git.log
         2: punctuation.separator.log
-        3: entity.other.tag.git.log
+        3: entity.name.reference.tag.git.log
     - match: ([\w.-]+)(?:(/)([\w.-]+))?
-      scope: entity.other.branch-name.git.log
+      scope: entity.name.reference.branch.git.log
     - match: ','
       scope: punctuation.separator.sequence.git.log
 

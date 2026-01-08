@@ -45,14 +45,17 @@ Date:   Thu Sep 21 22:53:04 2017 +0200
 #                                       ^ punctuation.definition.reference.issue.git
 
 commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> branch_name, origin/branch_name)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git
-#                                               ^ punctuation.section.parens.begin.git
-#                                                ^^^^ support.type.git
-#                                                     ^^ punctuation.separator.mapping.git
-#                                                        ^^^^^^^^^^^ entity.other.branch-name.git
-#                                                                   ^ punctuation.separator.sequence.git
-#                                                                     ^^^^^^^^^^^^^^^^^^ entity.other.branch-name.git
-#                                                                                       ^ punctuation.section.parens.end.git
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit
+#^^^^^ keyword.other.commit.git.log
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.log
+#                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.decoration.log
+#                                               ^ punctuation.section.parens.begin.git.log
+#                                                ^^^^ support.type.git.log
+#                                                     ^^ keyword.operator.reference.git.log
+#                                                        ^^^^^^^^^^^ entity.name.reference.branch.git.log
+#                                                                   ^ punctuation.separator.sequence.git.log
+#                                                                     ^^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.log
+#                                                                                       ^ punctuation.section.parens.end.git.log
 Author: username <user-name.last@host.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
 #^^^^^ keyword.other.git
@@ -185,9 +188,22 @@ move to JavaScript/tests/syntax_test_typescript_not_tsx.ts
 +//  ^^^^^^^^^^^ meta.function
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.diff markup.inserted
 
-commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> main, origin/main)
-#^^^^^ meta.header.git.commit keyword.other.commit.git - source.diff
-#                                                        ^^^^ entity.other.branch-name.master.git.log
+commit e2077c6e006acfd2f060aef03c4ef8f89c4db362 (HEAD -> main, origin/main, tag: v0.0.1)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit - source.diff
+#^^^^^ keyword.other.commit.git.log
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.log
+#                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.decoration.log
+#                                               ^ punctuation.section.parens.begin.git.log
+#                                                ^^^^ support.type.git.log
+#                                                     ^^ keyword.operator.reference.git.log
+#                                                        ^^^^ variable.language.master.git.log
+#                                                            ^ punctuation.separator.sequence.git.log
+#                                                              ^^^^^^^^^^^ entity.name.reference.branch.git.log
+#                                                                         ^ punctuation.separator.sequence.git.log
+#                                                                           ^^^ storage.type.label.git.log
+#                                                                              ^ punctuation.separator.log
+#                                                                                ^^^^^^ entity.name.reference.tag.git.log
+#                                                                                      ^ punctuation.section.parens.end.git.log
 Merge: b61d808 4ac410c
 #^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit meta.mapping.git
 #^^^^ keyword.other.git

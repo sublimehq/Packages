@@ -350,7 +350,7 @@ contexts:
       push: branch-name-body
 
   branch-name-body:
-    - meta_scope: constant.language.branch-name.git.commit
+    - meta_scope: entity.name.reference.branch.git.commit
     - include: ref-name-body
 
   ref-name-body:

@@ -60,7 +60,7 @@ contexts:
     - match: \b({{on_branch}})\s+(.*)
       captures:
         1: markup.heading.on-branch.git.commit
-        2: constant.language.branch-name.git.commit
+        2: entity.name.reference.branch.git.commit
 
   change-list:
     # list body
