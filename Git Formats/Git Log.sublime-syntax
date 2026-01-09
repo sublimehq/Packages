@@ -7,67 +7,62 @@ version: 2
 file_extensions:
   - gitlog   # no real extension but why not?
 
-first_line_match: ^commit\s+\h{7,}
-
-variables:
-  diff_begin: ^diff\s+--git\s
-  commit_begin: ^(commit)\s+(\h{7,})
-  commit_or_diff_begin: (?={{diff_begin}}|{{commit_begin}})
+first_line_match: '{{commit_begin}}'
 
 contexts:
-  prototype:
-    - include: Git Common.sublime-syntax#comments-line
-
   main:
+    - include: Git Common.sublime-syntax#comments-line
     # 1st header line
     # commit d9d9fb804f5d61c13ba2f8746af33a9f3c609075
     - match: '{{commit_begin}}'
       captures:
         1: keyword.other.commit.git.log
         2: constant.other.hash.git.log
-      push:
-        - meta_scope: meta.header.git.commit markup.raw.block.git.log
-        - match: $\n?
-          scope: meta.header.git.commit markup.raw.block.git.log
-          pop: 1
-          embed: commit-header
-          escape: '{{commit_or_diff_begin}}'
-        - match: (\()(HEAD)\s*(->)
-          captures:
-            1: punctuation.section.parens.begin.git.log
-            2: support.type.git.log
-            3: punctuation.separator.mapping.git.log
-          push:
-            - match: \)
-              scope: punctuation.section.parens.end.git.log
-              pop: 1
-            - match: \b(?:master|main)\b
-              scope: entity.other.branch-name.master.git.log
-            - match: (\w+)(?:(/)(\w+))?
-              scope: entity.other.branch-name.git.log
-            - match: ','
-              scope: punctuation.separator.sequence.git.log
+      embed: commit-decoration
+      escape: '{{commit_or_diff_begin}}'
+    # diff output
     - match: (?={{diff_begin}})
       embed: Git Diff.sublime-syntax#diffs
       embed_scope: source.diff.git
       escape: (?={{commit_begin}})
 
-  commit-header:
-    # All header attributes are mappings of `key: value` format.
-    # For simplicity we do not want to distinguish the entries.
-    # Author: first lastname <mail@domain.com>
-    # Date:   Wed Sep 13 22:42:14 2017 +0200
-    - match: ^(\w+)\s*(:)\s*
-      captures:
-        1: keyword.other.header.git.log
-        2: punctuation.separator.key-value.git.log
-      push:
-        - meta_scope: meta.header.git.commit markup.raw.block.git.log
-        - meta_content_scope: string.unquoted.log
-        - match: \n
-          pop: 1
-        - include: Git Common.sublime-syntax#email
-    # using push instead of include as workaround for
-    # https://github.com/SublimeTextIssues/Core/issues/2395
+  commit-decoration:
+    - meta_scope: meta.header.git.commit
+    - match: \(
+      scope: punctuation.section.parens.begin.git.log
+      push: commit-decoration-body
     - match: ^
-      push: Git Commit Message.sublime-syntax
+      set: commit-header
+
+  commit-decoration-body:
+    - meta_scope: meta.parens.decoration.log
+    - match: \)
+      scope: punctuation.section.parens.end.git.log
+      pop: 1
+    - match: \bHEAD(?![\w-])
+      scope: support.type.git.log
+    - match: ->
+      scope: keyword.operator.reference.git.log
+    - match: \b(?:master|main)\b
+      scope: variable.language.master.git.log
+    - match: \b(tag)(:)\s*([\w./-]+)
+      captures:
+        1: storage.type.label.git.log
+        2: punctuation.separator.log
+        3: entity.name.reference.tag.git.log
+    - match: ([\w.-]+)(?:(/)([\w.-]+))?
+      scope: entity.name.reference.branch.git.log
+    - match: ','
+      scope: punctuation.separator.sequence.git.log
+
+  commit-header:
+    - meta_scope: meta.header.git.commit
+    - include: Git Common.sublime-syntax#comments-line
+    - include: Git Common.sublime-syntax#commit-headers
+    - match: ^
+      set: Git Commit Message.sublime-syntax
+
+variables:
+  diff_begin: ^diff\s+--(?:git|cc|combined)\s
+  commit_begin: ^(commit)\s+(\h{7,})
+  commit_or_diff_begin: (?={{diff_begin}}|{{commit_begin}})

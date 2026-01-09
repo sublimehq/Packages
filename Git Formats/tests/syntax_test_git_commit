@@ -239,7 +239,7 @@ This commit applies all changes required to satisfy the JSON format unittest.
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 # ^^^^^^^^^ markup.heading.on-branch.git.commit
-#           ^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#           ^^^^^^^^^^^^^^^^^ entity.name.reference.branch.git.commit
 #
 # Changes to be committed:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
