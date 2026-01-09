@@ -9,125 +9,6 @@ file_extensions:
   - sty
   - cls
 
-variables:
-  greeks: |-
-    (?x: alpha | beta | gamma | delta | epsilon | varepsilon | zeta | eta | theta
-    | vartheta | iota | kappa | lambda | mu | nu | xi | o | pi | varpi | rho
-    | varrho | sigma | varsigma | tau | upsilon | phi | varphi | chi | psi
-    | omega | Gamma | Delta | Theta | Lambda | Xi | Pi | Sigma | Upsilon | Phi
-    | Psi | Omega )
-  mathfun: |-
-    (?x: arccos | cos | csc | exp | ker | limsup | min | sinh
-    | arcsin | cosh | deg | gcd | lg | ln | Pr | sup
-    | arctan | cot | det | hom | lim | log | sec | tan
-    | arg | coth | dim | inf | liminf | max | sin | tan | pmod | bmod)
-  relations: |-
-    (?x: leq | lq | geq | ge | equiv | prec | succ | sim
-    | preceq | succeq | simeq | ll | gg | subset | supset | approx
-    | subseteq | supseteq | cong | sqsubseteq | sqsupseteq | bowtie
-    | in | notin | ne | ni | owns | vdash | dashv | models | smile | mid
-    | doteq | frown | parallel | perp | propto)
-  largeops: |-
-    (?x: sum | prod | coprod | int | oint | bigcap | bigcup | bigsqcup
-    | bigvee | bigwedge | bigodot | bigotimes | bigoplus | biguplus)
-  binops: |-
-    (?x: pm | mp | setminus | cdot | times | ast | star | diamond | circ | bullet
-    | div | cap | cup | uplus | sqcap | sqcup | triangleleft | triangleright
-    | wr | bigcirc | bigtriangleup | bigtriangledown | vee | lor
-    | wedge | land | oplus | ominus | otimes | oslash | odot | dagger
-    | ddagger | amalg)
-  accents: |-
-    (?x: hat | widehat | check | tilde | widetilde | acute | grave | dot
-    | ddot | breve | bar | vec)
-  symbols: |-
-    (?x: aleph | hbar | imath | jmath | ell | wp | Re | Im | partial | infty
-    | prime | emptyset | nabla | surd | top | bot | \| | angle | triangle
-    | backslash | forall | exists | neg | lnot | flat | natural | sharp
-    | clubsuit | diamondsuit | heartsuit | spadesuit)
-  arrows: |-
-    (?x: leftarrow | gets | longleftarrow | Leftarrow | Longleftarrow
-    | rightarrow | to | longrightarrow | Rightarrow | Longrightarrow
-    | leftrightarrow | longleftrightarrow | Leftrightarrow
-    | Longleftrightarrow | mapsto | longmapsto | hookleftarrow
-    | hookrightarrow | uparrow | Uparrow | downarrow | Downarrow
-    | updownarrow | Updownarrow | nearrow | searrow | nwarrow | swarrow)
-  delimiters: |-
-    (?x: lbrack | lbrace | langle | rbrack | rbrace | rangle
-    | vert | lfloor | lceil | Vert | rfloor | rceil)
-
-  registers: |-
-    (?x: box | count | dimen | muskip | skip | toks)
-
-  # here, we define variables for the names of the constants and parameters
-  # of the TeX algorithm. Some of these are defined in terms of pre-reserved
-  # registers instead of built-ins, but in terms of syntax highlighting this
-  # should not make a difference
-  penalties: |-
-    (?x: line | hyphen | exhyphen | binop | rel | club | widow
-    | displaywidow | broken | predisplay | postdisplay | interline
-    | floating | output | inter(?:display|footnote)line)
-
-  tracings: |-
-    (?x: online | macros | stats | paragraphs | pages | output | lostchars
-    | commands | restores)
-
-  skips: |-
-    (?x: baseline | line | par | (?:above|below)display(?:short)?
-    | left | right | top | splittop | tab | space | xspace | parfill
-    | (?:thin|med|thick)mu | normalbaseline | normalline | hide)
-
-  constants: |-
-    (?x: (?:pre)?tolerance | [hv]badness
-    | (?:doublehyphen|finalhyphen|adj)demerits
-    | looseness | pausing | holdinginserts | language | uchyph | lefthyphenmin
-    | righthyphenmin | globaldefs | maxdeadcycles | hangafter | fam | mag
-    | (?:escape|defaulthyphen|defaultskew|endline|newline)char
-    | delimiterfactor | time | day | month | year
-    | showboxbreadth | showboxdepth | errorcontextlines
-    | [hv]fuzz | overfullrule | [hv]size | maxdepth | splitmaxdepth
-    | boxmaxdepth | lineskiplimit | delimitershortfall | nulldelimiterspace
-    | scriptspace | mathsurround | predisplaysize | displaywidth | displayindent
-    | parindent | hangindent | [hv]offset | (?:small|med|big)skipamount
-    | normallineskiplimit | jot | {{skips}}skip | tracing{{tracings}}
-    | {{penalties}}penalty | maxdimen | centering | p@ | z@ | z@skip | voidb@x
-    | magstephalf | magstep\d | @ne | tw@ | thr@@ | sixt@@n | @cclv | @cclvi
-    | @m | @M | @MM | m@ne | count@ | dimen@ | dimen@i | dimen@ii | skip@
-    | toks@ | insc@unt | allocationnumber)
-
-  # These constants are implemented as macros, and thus cannot be = assigned
-  macroconst: |-
-    (?x: (?:thin|negthin|en)space | enskip | q?quad | (?:small|med|big)skip
-    | [lr]q | [lr]brack | space | empty | null )
-
-  dimunits: |-
-    (?x: pt | pc | bp | in | cm | mm | dd | cc | sp | ex | em
-    | fil | fill | filll | mu)
-
-  # letters in the sense of macro names. Whether @ is a letter or not can vary
-  # from a syntax-highlighting perspective, however, we are much safer to
-  # assume it is a letter. Situations where we have `\macro` followed immediately
-  # by `@text` that is to be typeset should be very rare, and if it happens, the
-  # user can still put an explicit space (ignored by TeX) to ensure correct
-  # highlighting. On the other hand, within packages we get lots of \module@macro
-  # type names, and if they were highlighted wrongly the user could not fix this.
-  letter: '[A-Za-z@]'
-  nonletter: '[^A-Za-z@]'
-  # look-ahead for end of command sequence
-  endcs: '(?!{{macrosep}}?{{letter}})'
-  # a command name: either a sequence of letters, or a single non-letter
-  cmdname: '(?x: {{letter}}+ | {{nonletter}})'
-  # internal macro name: a sequence of letters containing `_` and `:` for structure
-  macroname: '_*{{letter}}+(?:{{macrosep}}+{{letter}}+)+'
-  macrosep: '[_:]'
-  # hexadecimal digits in different casing
-  lchexdigit: (?:[0-9a-f])
-  uchexdigit: (?:[0-9A-F])
-  anyhexdigit: (?:[0-9a-fA-F])
-  # special notation to refer to (non-printable) characters in TeX
-  charbycode: (?:\^\^(?:{{lchexdigit}}{{lchexdigit}}|.))
-
-###############################################################################
-
 contexts:
 
   prototype:
@@ -721,3 +602,123 @@ contexts:
   stray-bracket-pop:
     - match: (?=])
       pop: 1
+
+###############################################################################
+
+variables:
+
+  greeks: |-
+    (?x: alpha | beta | gamma | delta | epsilon | varepsilon | zeta | eta | theta
+    | vartheta | iota | kappa | lambda | mu | nu | xi | o | pi | varpi | rho
+    | varrho | sigma | varsigma | tau | upsilon | phi | varphi | chi | psi
+    | omega | Gamma | Delta | Theta | Lambda | Xi | Pi | Sigma | Upsilon | Phi
+    | Psi | Omega )
+  mathfun: |-
+    (?x: arccos | cos | csc | exp | ker | limsup | min | sinh
+    | arcsin | cosh | deg | gcd | lg | ln | Pr | sup
+    | arctan | cot | det | hom | lim | log | sec | tan
+    | arg | coth | dim | inf | liminf | max | sin | tan | pmod | bmod)
+  relations: |-
+    (?x: leq | lq | geq | ge | equiv | prec | succ | sim
+    | preceq | succeq | simeq | ll | gg | subset | supset | approx
+    | subseteq | supseteq | cong | sqsubseteq | sqsupseteq | bowtie
+    | in | notin | ne | ni | owns | vdash | dashv | models | smile | mid
+    | doteq | frown | parallel | perp | propto)
+  largeops: |-
+    (?x: sum | prod | coprod | int | oint | bigcap | bigcup | bigsqcup
+    | bigvee | bigwedge | bigodot | bigotimes | bigoplus | biguplus)
+  binops: |-
+    (?x: pm | mp | setminus | cdot | times | ast | star | diamond | circ | bullet
+    | div | cap | cup | uplus | sqcap | sqcup | triangleleft | triangleright
+    | wr | bigcirc | bigtriangleup | bigtriangledown | vee | lor
+    | wedge | land | oplus | ominus | otimes | oslash | odot | dagger
+    | ddagger | amalg)
+  accents: |-
+    (?x: hat | widehat | check | tilde | widetilde | acute | grave | dot
+    | ddot | breve | bar | vec)
+  symbols: |-
+    (?x: aleph | hbar | imath | jmath | ell | wp | Re | Im | partial | infty
+    | prime | emptyset | nabla | surd | top | bot | \| | angle | triangle
+    | backslash | forall | exists | neg | lnot | flat | natural | sharp
+    | clubsuit | diamondsuit | heartsuit | spadesuit)
+  arrows: |-
+    (?x: leftarrow | gets | longleftarrow | Leftarrow | Longleftarrow
+    | rightarrow | to | longrightarrow | Rightarrow | Longrightarrow
+    | leftrightarrow | longleftrightarrow | Leftrightarrow
+    | Longleftrightarrow | mapsto | longmapsto | hookleftarrow
+    | hookrightarrow | uparrow | Uparrow | downarrow | Downarrow
+    | updownarrow | Updownarrow | nearrow | searrow | nwarrow | swarrow)
+  delimiters: |-
+    (?x: lbrack | lbrace | langle | rbrack | rbrace | rangle
+    | vert | lfloor | lceil | Vert | rfloor | rceil)
+
+  registers: |-
+    (?x: box | count | dimen | muskip | skip | toks)
+
+  # here, we define variables for the names of the constants and parameters
+  # of the TeX algorithm. Some of these are defined in terms of pre-reserved
+  # registers instead of built-ins, but in terms of syntax highlighting this
+  # should not make a difference
+  penalties: |-
+    (?x: line | hyphen | exhyphen | binop | rel | club | widow
+    | displaywidow | broken | predisplay | postdisplay | interline
+    | floating | output | inter(?:display|footnote)line)
+
+  tracings: |-
+    (?x: online | macros | stats | paragraphs | pages | output | lostchars
+    | commands | restores)
+
+  skips: |-
+    (?x: baseline | line | par | (?:above|below)display(?:short)?
+    | left | right | top | splittop | tab | space | xspace | parfill
+    | (?:thin|med|thick)mu | normalbaseline | normalline | hide)
+
+  constants: |-
+    (?x: (?:pre)?tolerance | [hv]badness
+    | (?:doublehyphen|finalhyphen|adj)demerits
+    | looseness | pausing | holdinginserts | language | uchyph | lefthyphenmin
+    | righthyphenmin | globaldefs | maxdeadcycles | hangafter | fam | mag
+    | (?:escape|defaulthyphen|defaultskew|endline|newline)char
+    | delimiterfactor | time | day | month | year
+    | showboxbreadth | showboxdepth | errorcontextlines
+    | [hv]fuzz | overfullrule | [hv]size | maxdepth | splitmaxdepth
+    | boxmaxdepth | lineskiplimit | delimitershortfall | nulldelimiterspace
+    | scriptspace | mathsurround | predisplaysize | displaywidth | displayindent
+    | parindent | hangindent | [hv]offset | (?:small|med|big)skipamount
+    | normallineskiplimit | jot | {{skips}}skip | tracing{{tracings}}
+    | {{penalties}}penalty | maxdimen | centering | p@ | z@ | z@skip | voidb@x
+    | magstephalf | magstep\d | @ne | tw@ | thr@@ | sixt@@n | @cclv | @cclvi
+    | @m | @M | @MM | m@ne | count@ | dimen@ | dimen@i | dimen@ii | skip@
+    | toks@ | insc@unt | allocationnumber)
+
+  # These constants are implemented as macros, and thus cannot be = assigned
+  macroconst: |-
+    (?x: (?:thin|negthin|en)space | enskip | q?quad | (?:small|med|big)skip
+    | [lr]q | [lr]brack | space | empty | null )
+
+  dimunits: |-
+    (?x: pt | pc | bp | in | cm | mm | dd | cc | sp | ex | em
+    | fil | fill | filll | mu)
+
+  # letters in the sense of macro names. Whether @ is a letter or not can vary
+  # from a syntax-highlighting perspective, however, we are much safer to
+  # assume it is a letter. Situations where we have `\macro` followed immediately
+  # by `@text` that is to be typeset should be very rare, and if it happens, the
+  # user can still put an explicit space (ignored by TeX) to ensure correct
+  # highlighting. On the other hand, within packages we get lots of \module@macro
+  # type names, and if they were highlighted wrongly the user could not fix this.
+  letter: '[A-Za-z@]'
+  nonletter: '[^A-Za-z@]'
+  # look-ahead for end of command sequence
+  endcs: '(?!{{macrosep}}?{{letter}})'
+  # a command name: either a sequence of letters, or a single non-letter
+  cmdname: '(?x: {{letter}}+ | {{nonletter}})'
+  # internal macro name: a sequence of letters containing `_` and `:` for structure
+  macroname: '_*{{letter}}+(?:{{macrosep}}+{{letter}}+)+'
+  macrosep: '[_:]'
+  # hexadecimal digits in different casing
+  lchexdigit: '[0-9a-f]'
+  uchexdigit: '[0-9A-F]'
+  anyhexdigit: '[0-9a-fA-F]'
+  # special notation to refer to (non-printable) characters in TeX
+  charbycode: (?:\^\^(?:{{lchexdigit}}{{lchexdigit}}|.))
