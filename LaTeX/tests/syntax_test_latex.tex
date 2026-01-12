@@ -26,7 +26,7 @@
 % <- meta.preamble.documentclass.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.documentclass.latex - meta.preamble.documentclass meta.preamble.documentclass
 %             ^^^^^^ meta.group.bracket.latex
-%                   ^^^^^^^^^ meta.group.brace.tex
+%                   ^^^^^^^^^ meta.group.braces.tex
 %^^^^^^^^^^^^^ keyword.control.preamble.latex
 %             ^ punctuation.definition.group.bracket.begin.latex
 %                  ^ punctuation.definition.group.bracket.end.latex
@@ -35,11 +35,11 @@
 %                           ^ punctuation.definition.group.brace.end.tex
 
 \usepackage[args]{mypackage, anotherpackage}
-% <- meta.preamble.usepackage.latex keyword.control.preamble.latex punctuation.definition.backslash.latex
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.usepackage.latex - meta.preamble.usepackage meta.preamble.usepackage
+% <- meta.preamble.usepackage.latex keyword.control.import.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preamble.usepackage.latex - meta.preamble meta.preamble
 %          ^^^^^^ meta.group.bracket.latex
-%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
-%^^^^^^^^^^ keyword.control.preamble.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.braces.tex
+%^^^^^^^^^^ keyword.control.import.latex
 %          ^ punctuation.definition.group.bracket.begin.latex
 %           ^^^^
 %               ^ punctuation.definition.group.bracket.end.latex
@@ -318,15 +318,6 @@ $$
 %                    ^ punctuation.definition.variable.tex
 $$
 
-\newcolumntype{x}{>{$}c<{$}}
-% ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
-% ^ support.function.newcolumntype.latex
-%                 ^ support.function.insert-before-column.latex
-%                   ^ meta.function.before-column-decl.latex
-%                     ^ meta.function.newcolumntype.latex keyword.other.column-type.latex
-%                      ^ support.function.insert-after-column.latex
-%                        ^ meta.function.after-column-decl.latex
-
 \begin{document}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
 %        ^ variable.parameter.function.latex
@@ -343,88 +334,240 @@ $$
 %     ^^ keyword.other.newline.latex
 %       ^ punctuation.definition.group.bracket.begin.newline.latex
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SECTION COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \part{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%     ^ entity.name.section.latex
+% <- meta.section.latex support.function.section.latex punctuation.definition.backslash.latex
+%^^^^ meta.section.latex support.function.section.latex
+%    ^^^^^^ meta.section.latex meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^ entity.name.section.latex
+%         ^ punctuation.definition.group.brace.end.tex
 \chapter{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%        ^ entity.name.section.latex
-\section{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%        ^ entity.name.section.latex
+% <- meta.section.latex support.function.section.latex punctuation.definition.backslash.latex
+%^^^^^^^ meta.section.latex support.function.section.latex
+%       ^^^^^^ meta.section.latex meta.group.brace.tex
+%       ^ punctuation.definition.group.brace.begin.tex
+%        ^^^^ entity.name.section.latex
+%            ^ punctuation.definition.group.brace.end.tex
+\section[title]{name}
+% <- meta.section.latex support.function.section.latex punctuation.definition.backslash.latex
+%^^^^^^^ meta.section.latex support.function.section.latex
+%       ^^^^^^^ meta.section.latex meta.group.bracket.latex
+%              ^^^^^^ meta.section.latex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%               ^^^^ entity.name.section.latex
+%                   ^ punctuation.definition.group.brace.end.tex
 \subsection{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%           ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^^ support.function.section.latex
+%          ^^^^^^ meta.group.brace.tex
+%          ^ punctuation.definition.group.brace.begin.tex
+%           ^^^^ entity.name.section.latex
+%               ^ punctuation.definition.group.brace.end.tex
 \subsubsection{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%              ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^^^^^ support.function.section.latex
+%             ^^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^^ entity.name.section.latex
+%                  ^ punctuation.definition.group.brace.end.tex
 \paragraph{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%          ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^ support.function.section.latex
+%         ^^^^^^ meta.group.brace.tex
+%         ^ punctuation.definition.group.brace.begin.tex
+%          ^^^^ entity.name.section.latex
+%              ^ punctuation.definition.group.brace.end.tex
 \subparagraph{name}
-% <- meta.section.latex
-% ^ support.function.section.latex
-%             ^ entity.name.section.latex
+%^^^^^^^^^^^^^^^^^^ meta.section.latex
+%^^^^^^^^^^^^ support.function.section.latex
+%            ^^^^^^ meta.group.brace.tex
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^ entity.name.section.latex
+%                 ^ punctuation.definition.group.brace.end.tex
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% STRUCTURE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% REF/LABEL/CITE COMMANDS
+\frontmatter[arg=value]
+% <- meta.function.structure.latex keyword.control.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^ meta.function.structure.latex
+%^^^^^^^^^^^ keyword.control.latex
+%           ^^^^^^^^^^^ meta.group.bracket.latex
+%           ^ punctuation.definition.group.bracket.begin.latex
+%            ^^^ variable.parameter.latex
+%               ^ keyword.operator.assignment.latex
+%                     ^ punctuation.definition.group.bracket.end.latex
 
-\label{sec:name}
-% ^ meta.function.label.latex
-% ^ support.function.label.latex
-%        ^ entity.name
+\mainmatter
+% <- meta.function.structure.latex keyword.control.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.structure.latex keyword.control.latex
 
-\ref{sec:name}
-% ^ meta.function.reference.latex
-% ^ support.function.reference.latex keyword.other.reference.latex
-%        ^ constant.other.reference
+\backmatter
+% <- meta.function.structure.latex keyword.control.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.structure.latex keyword.control.latex
 
-\cite{my:bib:key}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex keyword.other.cite.latex
-%        ^ constant.other.citation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INCLUDE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\include{path/to/file}
+%^^^^^^^^^^^^^^^^^^^^^ meta.function.include.latex
+%^^^^^^^ support.function.include.latex
+%       ^^^^^^^^^^^^^^ meta.group.braces.tex
+%       ^ punctuation.definition.group.brace.begin.tex
+%        ^^^^^^^^^^^^ markup.underline.link.latex
+%                    ^ punctuation.definition.group.brace.end.tex
+
+\includeonly{path/to/file.tex}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.include.latex
+%^^^^^^^^^^^ support.function.include.latex
+%           ^^^^^^^^^^^^^^^^^^ meta.group.braces.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%            ^^^^^^^^^^^^^^^^ markup.underline.link.latex
+%                            ^ punctuation.definition.group.brace.end.tex
+
+\input{path/to/file.tex}
+% ^ meta.function.input.tex
+% ^ keyword.control.input.tex
+
+\includecommand{...}
+% ^^^^^^^^^^ support.function.general.latex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CITE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cite{my:bib:key,your:bib}
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.citation.latex - meta.function meta.function
+%^^^^ support.function.cite.latex
+%    ^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^^^^^^ constant.other.citation.latex
+%               ^ punctuation.separator.sequence.latex
+%                ^^^^^^^^ constant.other.citation.latex
+%                        ^ punctuation.definition.group.brace.end.tex
 
 \cite[\command]{my:bib:key}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%           ^ support.function
-%
+% <- meta.function.citation.latex support.function.cite.latex punctuation.definition.backslash.latex
+%^^^^ meta.function.citation.latex - meta.group - meta.function meta.function
+%    ^^^^^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%              ^^^^^^^^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                          ^ - meta.function - meta.group
 
 \parencite[Proposition~1]{Ref}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%          ^ meta.group.bracket.latex
-%                          ^ constant.other.citation.latex
+% <- meta.function.citation.latex support.function.cite.latex punctuation.definition.backslash.latex
+%^^^^^^^^^ meta.function.citation.latex - meta.group - meta.function meta.function
+%         ^^^^^^^^^^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%                        ^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                             ^ - meta.function - meta.group
+%^^^^^^^^^ support.function.cite.latex
+%         ^ punctuation.definition.group.bracket.begin.latex
+%                     ^ constant.character.space.tex
+%                       ^ punctuation.definition.group.bracket.end.latex
+%                        ^ punctuation.definition.group.brace.begin.tex
+%                         ^^^ constant.other.citation.latex
+%                            ^ punctuation.definition.group.brace.end.tex
 
-\parencites[Proposition~1]{Firstref}[p.~2]{SecondRef}
-% ^ meta.function.citation.latex
-% ^ support.function.cite.latex
-%           ^ meta.group.bracket.latex
-%                          ^ constant.other.citation.latex
-%                                     ^ meta.group.bracket.latex
-%                                          ^ constant.other.citation.latex
+\parencites[Proposition~1]{Firstref} [p.~2] {SecondRef}
+% <- meta.function.citation.latex support.function.cite.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.function.citation.latex - meta.group - meta.function meta.function
+%          ^^^^^^^^^^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%                         ^^^^^^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                                   ^ meta.function.citation.latex - meta.group - meta.function meta.function
+%                                    ^^^^^^ meta.function.citation.latex meta.group.bracket.latex - meta.function meta.function
+%                                          ^ meta.function.citation.latex - meta.group - meta.function meta.function
+%                                           ^^^^^^^^^^^ meta.function.citation.latex meta.group.brace.tex - meta.function meta.function
+%                                                      ^ - meta.function - meta.group
+%^^^^^^^^^^ support.function.cite.latex
+%          ^ punctuation.definition.group.bracket.begin.latex
+%                      ^ constant.character.space.tex
+%                        ^ punctuation.definition.group.bracket.end.latex
+%                         ^ punctuation.definition.group.brace.begin.tex
+%                          ^^^^^^^^ constant.other.citation.latex
+%                                  ^ punctuation.definition.group.brace.end.tex
+%                                    ^ punctuation.definition.group.bracket.begin.latex
+%                                       ^ constant.character.space.tex
+%                                         ^ punctuation.definition.group.bracket.end.latex
+%                                           ^ punctuation.definition.group.brace.begin.tex
+%                                            ^^^^^^^^^ constant.other.citation.latex
+%                                                     ^ punctuation.definition.group.brace.end.tex
 
 \Citeauthor*[]{knuth97} % Hit F12 to go to definition in syntax_test_bibtex.bib
 %^^^^^^^^^^^^^^^^^^^^^^ meta.function.citation.latex
-%^^^^^^^^^^^ support.function.cite.latex keyword.other.cite.latex
+%^^^^^^^^^^^ support.function.cite.latex
 %           ^^ meta.group.bracket.latex
 %             ^^^^^^^^^ meta.group.brace.tex
 %             ^ punctuation.definition.group.brace.begin.tex
 %              ^^^^^^^ constant.other.citation.latex
 %                     ^ punctuation.definition.group.brace.end.tex
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FOOTNOTE COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\footnote{This is a basic footnote}
+% <- meta.function.footnote.latex support.function.footnote.latex punctuation.definition.backslash.latex
+%^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex - meta.function meta.function
+%        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function
+%        ^ punctuation.definition.group.brace.begin.tex
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+%                                 ^ punctuation.definition.group.brace.end.tex
+
+\footnote [ 5 ] {This is a footnote with a specific reference mark}
+% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function
+%         ^ punctuation.definition.group.bracket.begin.latex
+%             ^ punctuation.definition.group.bracket.end.latex
+%               ^ punctuation.definition.group.brace.begin
+%                                                                 ^ punctuation.definition.group.brace.end
+
+\footnotetext{Footnote text without creating a mark}
+% ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex - meta.function meta.function
+%            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex - meta.function meta.function
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+%                                                  ^ punctuation.definition.group.brace.end.tex
+
+\footnotemark
+% <- meta.function.footnote.latex support.function.footnote.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+
+\footnotemark  [ 1   ]
+%^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex - meta.function meta.function
+%^^^^^^^^^^^^ support.function.footnote.latex
+%              ^^^^^^^ meta.group.bracket.latex
+%              ^ punctuation.definition.group.bracket.begin.latex
+%                    ^ punctuation.definition.group.bracket.end.latex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REF/LABEL COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\label{sec:name}
+%^^^^^^^^^^^^^^^ meta.function.label.latex - meta.function meta.function
+%^^^^^ support.function.label.latex
+%     ^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^ entity.name.label.latex
+%              ^ punctuation.definition.group.brace.end.tex
+
+\ref{sec:name}
+%^^^^^^^^^^^^^ meta.function.reference.latex - meta.function meta.function
+%^^^ support.function.reference.latex
+%   ^^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^ constant.other.reference.latex
+%            ^ punctuation.definition.group.brace.end.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % URL COMMAND
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \url{https://www.sublimetext.com/}
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
@@ -441,29 +584,9 @@ $$
 % ^ support.function.url.latex
 %     ^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
 
-
-% INCLUDE COMMANDS
-
-\include{path/to/file}
-% ^ meta.function.include.latex
-% ^ keyword.control.include.latex
-
-\includeonly{path/to/file.tex}
-% ^ meta.function.include.latex
-% ^ keyword.control.include.latex
-
-\input{path/to/file.tex}
-% ^ meta.function.input.tex
-% ^ keyword.control.input.tex
-
-\includecommand{...}
-% ^^^^^^^^^^ support.function.general.latex
-
-\inputminted{py}{path/to/file.py}
-% ^^^^^^^^^^ support.function.general.latex
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MARKUP COMMANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \textnormal{text}
 %^^^^^^^^^^^^^^^^ meta.function.textnormal.latex
@@ -734,37 +857,6 @@ $$
 %^^^^^^ support.function.textbf.latex
 %       ^^^^^^^^^^^^^^^ - meta.function
 
-% FOOTNOTE COMMANDS
-
-\footnote{This is a basic footnote}
-% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
-%        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
-%         ^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-
-\footnote [ 5 ] {This is a footnote with a specific reference mark}
-% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
-%         ^ punctuation.definition.group.bracket.begin.latex
-%         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
-%             ^ punctuation.definition.group.bracket.end.latex
-%               ^ punctuation.definition.group.brace.begin
-%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
-%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-%                                                                 ^ punctuation.definition.group.brace.end
-
-\footnotetext{Footnote text without creating a mark}
-% ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
-%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.tex
-%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
-
-\footnotemark
-% ^^^^^^^^^^^ support.function.footnote.latex
-
-\footnotemark  [ 1   ]
-% ^^^^^^^^^^^ support.function.footnote.latex
-%              ^ punctuation.definition.group.bracket.begin.latex
-%              ^^^^^^^ meta.group.bracket.latex
-%                    ^ punctuation.definition.group.bracket.end.latex
-
 % LIST ENVIRONMENTS
 
 \begin{itemize}
@@ -806,18 +898,31 @@ $$
 % <- - meta.environment.verbatim.verb.latex
 
 \begin{verbatim}
-% ^ support.function.begin.latex keyword.control.flow.begin.latex
-%        ^ variable.parameter.function.latex
+%^^^^^^^^^^^^^^^ meta.environment.verbatim.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^ variable.parameter.function.latex
+%              ^ punctuation.definition.group.brace.end.tex
+%               ^ meta.environment.verbatim.latex - markup.raw
+
 The \emph{verbatim} environment sets everything in verbatim.
-% <- meta.environment.verbatim.verbatim.latex
-% ^ markup.raw.verbatim.latex
-%         ^ - markup.italic.emph.latex
+% <- meta.environment.verbatim.latex markup.raw.verb.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.latex markup.raw.verb.latex - markup.italic
 \command{}
 % ^ - support.function.general.latex
 % This is not a comment
 % <- - comment.line.percentage.tex
-\end{verbatim}
-
+  \end{verbatim}
+% <- meta.environment.verbatim.latex - meta.function - markup.raw
+%^ meta.environment.verbatim.latex - meta.function - markup.raw
+% ^^^^ meta.environment.verbatim.latex meta.function.end.latex - meta.group
+%     ^^^^^^^^^^ meta.environment.verbatim.latex meta.function.end.latex meta.group.brace.tex
+% ^^^^ support.function.end.latex keyword.control.flow.end.latex
+% ^ punctuation.definition.backslash.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^ variable.parameter.function.latex
+%              ^ punctuation.definition.group.brace.end.tex
 
 % COMMANDS INSIDE ARGUMENTS
 
@@ -838,6 +943,38 @@ The \emph{verbatim} environment sets everything in verbatim.
 %                                     ^ punctuation.definition.group.brace.begin
 %                                        ^ meta.group.brace.tex
 %                                         ^ punctuation.definition.group.brace.end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 Beamer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+% <- meta.environment.frame.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.environment.frame.latex
+%     ^^^^^^^ meta.environment.frame.latex meta.group.brace.tex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\frametitle{title}
+% <- meta.environment.frame.latex meta.function.frametitle.latex support.function.frametitle.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^ meta.environment.frame.latex meta.function.frametitle.latex
+%^^^^^^^^^^ support.function.frametitle.latex
+%          ^^^^^^^ meta.group.brace.tex
+%          ^ punctuation.definition.group.brace.begin.tex
+%           ^^^^^ entity.name.section.frame.latex
+%                ^ punctuation.definition.group.brace.end.tex
+
+\end{frame}
+% <- meta.environment.frame.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.environment.frame.latex
+%   ^^^^^^^ meta.environment.frame.latex meta.group.brace.tex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^ variable.parameter.function.latex
+%         ^ punctuation.definition.group.brace.end.tex
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -976,7 +1113,9 @@ The \emph{verbatim} environment sets everything in verbatim.
 % Math Environments
 
 \begin{equation}
-% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^ variable.parameter.function.latex
@@ -985,14 +1124,18 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{equation}
-% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^ variable.parameter.function.latex
 %            ^ punctuation.definition.group.brace.end.tex
 
 \begin{equation*}
-% <- support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^^ variable.parameter.function.latex
@@ -1001,13 +1144,18 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{equation*}
-% <- support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^ variable.parameter.function.latex
 %             ^ punctuation.definition.group.brace.end.tex
 
 \begin{IEEEeqnarray}
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^^^^^ variable.parameter.function.latex
@@ -1016,12 +1164,18 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{IEEEeqnarray}
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^^^^ variable.parameter.function.latex
 %                ^ punctuation.definition.group.brace.end.tex
 
 \begin{IEEEeqnarray}{c}
+% <- meta.function.begin.latex support.function.begin.latex keyword.control.flow.begin.latex punctuation.definition.backslash.latex
+%^^^^^ meta.function.begin.latex - meta.group
+%     ^^^^^^^^^^^^^^^^^ meta.function.begin.latex meta.group.brace.tex
 %^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
 %     ^ punctuation.definition.group.brace.begin.tex
 %      ^^^^^^^^^^^^ variable.parameter.function.latex
@@ -1033,6 +1187,9 @@ f(x) = x^2
 % <- meta.environment.math.block.latex variable.other.math.tex
 %^^^^^^^^^ meta.environment.math.block
 \end{IEEEeqnarray}
+% <- meta.function.end.latex support.function.end.latex keyword.control.flow.end.latex punctuation.definition.backslash.latex
+%^^^ meta.function.end.latex - meta.group
+%   ^^^^^^^^^^^^^^ meta.function.end.latex meta.group.brace.tex
 %^^^ support.function.end.latex keyword.control.flow.end.latex
 %   ^ punctuation.definition.group.brace.begin.tex
 %    ^^^^^^^^^^^^ variable.parameter.function.latex
@@ -1055,53 +1212,278 @@ f(x) = x^2
 %        ^ meta.function.box.latex
 %           ^ -meta.function.box.latex
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGE: array
+% The array package extends array and tabular environments
+% and allows for macros in format specifications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tabular}
+%^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex - meta.environment meta.environment
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+%              ^^^ meta.group.brackets.latex
+%              ^ punctuation.definition.group.bracket.begin.latex
+%               ^ constant.other.column-type.latex
+%                ^ punctuation.definition.group.bracket.end.latex
+%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.column-spec.latex meta.group.brace.tex
+%                 ^ punctuation.definition.group.brace.begin.tex
+%                  ^ keyword.operator.inter-column-line.latex
+%                    ^ keyword.operator.inter-column-line.latex
+%                     ^^^^^^^^^^^^ meta.function.column-decl.latex
+%                     ^ support.function.inter-column-nospace.latex
+%                      ^^^^^^ meta.group.brace.tex
+%                      ^ punctuation.definition.group.brace.begin.tex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ support.function.insert-before-column.latex
+%                              ^^ meta.group.brace.tex
+%                              ^ punctuation.definition.group.brace.begin.tex
+%                               ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ keyword.other.column-type.latex
+%                                  ^^^^ meta.function.column-decl.latex
+%                                  ^ support.function.insert-after-column.latex
+%                                   ^^ meta.group.brace.tex
+%                                   ^ punctuation.definition.group.brace.begin.tex
+%                                    ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                                     ^ punctuation.definition.group.brace.end.tex
+%                                      ^ keyword.operator.inter-column-line.latex
+%                                       ^ punctuation.definition.group.brace.end.tex
+
+\hline
+
+a & b
+% <- meta.environment.tabular.latex
+
+\hline
+
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\begin{tabular}{*{3}{>{$}c<{$}}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+%              ^^^^^^^^^^^^^^^^^ meta.column-spec.latex meta.group.brace.tex
+%              ^ punctuation.definition.group.brace.begin.tex
+%               ^^^^ meta.function.insert-repeated.count.latex
+%               ^ support.function.insert-repeated.latex
+%                ^^^ meta.group.brace.tex
+%                ^ punctuation.definition.group.brace.begin.tex
+%                 ^ meta.number.integer.decimal.latex constant.numeric.value.latex
+%                  ^ punctuation.definition.group.brace.end.tex
+%                   ^^^^^^^^^^^ meta.function.insert-repeated.content.latex meta.group.brace.tex
+%                   ^ punctuation.definition.group.brace.begin.tex
+%                    ^^^^ meta.function.column-decl.latex
+%                    ^ support.function.insert-before-column.latex
+%                     ^^ meta.group.brace.tex
+%                     ^ punctuation.definition.group.brace.begin.tex
+%                      ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                       ^ punctuation.definition.group.brace.end.tex
+%                        ^ keyword.other.column-type.latex
+%                         ^^^^ meta.function.column-decl.latex
+%                         ^ support.function.insert-after-column.latex
+%                          ^^ meta.group.brace.tex
+%                          ^ punctuation.definition.group.brace.begin.tex
+%                           ^ meta.environment.math.inline.dollar.tex string.other.math.tex punctuation.definition.string.begin.tex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.end.tex
+%                              ^ punctuation.definition.group.brace.end.tex
+    a & b & c \\\hline
+    1 & 2 & 3
+%^^^^^^^^^^^^ meta.environment.tabular.latex
+%     ^ constant.character.ampersand.tex
+%         ^ constant.character.ampersand.tex
+
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+% issue 1280
+
+\begin{tabular}{p{2.6cm} | p{6.0cm} }
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment meta.environment
+%               ^ support.function.parbox-column
+%                        ^ keyword.operator.inter-column-line
+%                          ^ support.function.parbox-column
+%                                  ^ meta.environment.tabular
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+% issue 2238
+
+% \usepackage{dcolumn}
+\begin{tabular}{c|D{\%}{\cdot}{-1}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
+%              ^^^^ meta.column-spec.latex meta.group.brace.tex - meta.group meta.group
+%                  ^^^^^^^^^^^^^^^ meta.column-spec.latex meta.group.brace.tex meta.group.brace.tex
+%                                 ^ meta.column-spec.latex meta.group.brace.tex - meta.group meta.group
+%              ^ punctuation.definition.group.brace.begin.tex
+%               ^ keyword.other.column-type.latex
+%                ^ keyword.operator.inter-column-line.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^ constant.character.escape.tex
+%                   ^ punctuation.definition.backslash.tex
+%                     ^ punctuation.definition.group.brace.end.tex
+%                      ^ punctuation.definition.group.brace.begin.tex
+%                       ^^^^^ keyword.other.math.binary-operator.tex
+%                       ^ punctuation.definition.backslash.tex
+%                            ^ punctuation.definition.group.brace.end.tex
+%                             ^ punctuation.definition.group.brace.begin.tex
+%                                ^ punctuation.definition.group.brace.end.tex
+%                                 ^ punctuation.definition.group.brace.end.tex
+\end{tabular}
+%^^^^^^^^^^^^ meta.environment.tabular.latex meta.funciton.end.latex - meta.environment meta.environment
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.funciton.end.latex meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
+
+\newcolumntype{x}{>{$}c<{$}}
+% <- meta.function.newcolumntype.latex keyword.declaration.newcolumntype.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
+%^^^^^^^^^^^^^ keyword.declaration.newcolumntype.latex
+%             ^^^^^^^^^^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^ entity.name.newcolumntype.latex
+%               ^ punctuation.definition.group.brace.end.tex
+%                ^ punctuation.definition.group.brace.begin.tex
+%                 ^^^^ meta.function.column-decl.latex
+%                 ^ support.function.insert-before-column.latex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                    ^ punctuation.definition.group.brace.end.tex
+%                     ^ keyword.other.column-type.latex
+%                      ^^^^ meta.function.column-decl.latex
+%                      ^ support.function.insert-after-column.latex
+%                       ^ punctuation.definition.group.brace.begin.tex
+%                         ^ punctuation.definition.group.brace.end.tex
+%                          ^ punctuation.definition.group.brace.end.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE: comment
 % The comment package can be used to write block comment
 % using an environment.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{comment}
-% ^ support.function.begin.latex keyword.control.flow.begin.latex
-%      ^ variable.parameter.function.latex
-This environment can be used to write
-% <- comment.block.environment.comment.latex
-block comments.
-% <- comment.block.environment.comment.latex
-\end{comment}
+%^^^^^^^^^^^^^^ meta.environment.comment.latex meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^ variable.parameter.function.latex
+%             ^ punctuation.definition.group.brace.end.tex
 
+This environment can be used to write
+% <- comment.block.environment.latex
+block comments.
+% <- comment.block.environment.latex
+
+\end{comment}
+%^^^^^^^^^^^^ meta.environment.comment.latex meta.function.end.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^ variable.parameter.function.latex
+%           ^ punctuation.definition.group.brace.end.tex
 
 \comment
-% <- comment.block.command.comment.latex
-% ^ punctuation.definition.comment.start.latex
+% <- meta.environment.comment.latex keyword.declaration.comment.begin.latex punctuation.definition.backslash.latex
+%^^^^^^^ meta.environment.comment.latex keyword.declaration.comment.begin.latex
 This block comment can be done with
-% <- comment.block.command.comment.latex
+% <- comment.block.command.latex
 opening and closing commands.
-% <- comment.block.command.comment.latex
+% <- comment.block.command.latex
 \endcomment
-% <- comment.block.command.comment.latex
-% ^ punctuation.definition.comment.end.latex
+% <- meta.environment.comment.latex keyword.declaration.comment.end.latex punctuation.definition.backslash.latex
+%^^^^^^^^^^ meta.environment.comment.latex keyword.declaration.comment.end.latex
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE: listings
 % The listings package is used to highlight source code.
 % Supported languages:
 % - python
 % - java
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{lstlisting} % python
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstlisting.latex - markup.raw
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^^^^^ variable.parameter.function.latex
+%                ^ punctuation.definition.group.brace.end.tex
+%                  ^^^^^^^^ comment.line.percentage.tex
+%                  ^ punctuation.definition.comment.tex
 def my_function():
     pass
 % <- meta.environment.verbatim.lstlisting.latex
-% <- meta.environment.embedded.python.latex
 % <- source.python.embedded
 %   ^ keyword.control.flow.pass.python
 \end{lstlisting}
+%^^^^^^^^^^^^^^^ meta.environment.verbatim.lstlisting.latex meta.function.end.latex - markup.raw
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^^^^^ variable.parameter.function.latex
+%              ^ punctuation.definition.group.brace.end.tex
 
 \begin{lstlisting}[frame=single,
                    language=python] %python
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstlisting.latex - markup.raw
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.bracket.latex
+%                  ^^^^^^^^ variable.parameter.latex
+%                          ^ keyword.operator.assignment.latex
+%                                 ^ punctuation.definition.group.bracket.end.latex
+%                                   ^^^^^^^ comment.line.percentage.tex
+%                                   ^ punctuation.definition.comment.tex
 def my_function():
     pass
 % <- meta.environment.verbatim.lstlisting.latex
-% <- meta.environment.embedded.python.latex
 % <- source.python.embedded
 %   ^ keyword.control.flow.pass.python
 \end{lstlisting}
@@ -1109,7 +1491,6 @@ def my_function():
 \begin{lstlisting} %java
 class MyClass() {
 % <- meta.environment.verbatim.lstlisting.latex
-% <- meta.environment.embedded.java.latex
 % <- source.java.embedded
 % ^ keyword.declaration.class.java
 }
@@ -1129,100 +1510,141 @@ class MyClass() {
 %                      ^ - meta.environment.verbatim.lstinline.latex
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE: minted
 % The minted package is used to highlight source code using
 % the Pygments library.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{minted}{raw}
+%^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex - markup.raw
+%^^^^^^^^^^^^^ meta.function.begin.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
+%             ^^^^^ meta.group.brace.tex
+%             ^ punctuation.definition.group.brace.begin.tex
+%              ^^^ constant.other.language-name.latex
+%                 ^ punctuation.definition.group.brace.end.tex
+%                  ^ meta.fold.begin.latex
+
+% <- meta.environment.verbatim.minted.latex markup.raw.verb.latex
+
+  \end{minted}
+% <- meta.environment.verbatim.minted.latex meta.function.end.latex - markup.raw
+%^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex meta.function.end.latex - markup.raw
+% ^^^^ support.function.end.latex keyword.control.flow.end.latex
+% ^ punctuation.definition.backslash.latex
+%     ^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
 
 \begin{minted}[linenos=true]{python}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^^ support.function.begin.latex keyword.control.flow.begin.latex
+%     ^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%      ^^^^^^ variable.parameter.function.latex
+%            ^ punctuation.definition.group.brace.end.tex
+%             ^^^^^^^^^^^^^^ meta.group.bracket.latex
+%             ^ punctuation.definition.group.bracket.begin.latex
+%              ^^^^^^^ variable.parameter.latex
+%                     ^ keyword.operator.assignment.latex
+%                          ^ punctuation.definition.group.bracket.end.latex
+%                           ^^^^^^^^ meta.group.brace.tex
+%                           ^ punctuation.definition.group.brace.begin.tex
+%                            ^^^^^^ constant.other.language-name.latex
+%                                  ^ punctuation.definition.group.brace.end.tex
+%                                   ^ meta.fold.begin.latex - meta.group
+
 def my_function():
     pass
 % <- meta.environment.verbatim.minted.latex
-% <- meta.environment.embedded.python.latex
-% <- source.python.embedded
+% <- source.python.embedded.latex
 %   ^ keyword.control.flow.pass.python
-\end{minted}
 
+\end{minted}
+%^^^^^^^^^^^^ meta.environment.verbatim.minted.latex meta.function.end.latex
+%^^^ support.function.end.latex keyword.control.flow.end.latex
+%   ^^^^^^^^ meta.group.brace.tex
+%   ^ punctuation.definition.group.brace.begin.tex
+%    ^^^^^^ variable.parameter.function.latex
+%          ^ punctuation.definition.group.brace.end.tex
+%           ^ meta.fold.end.latex
 
 \mint{python}{import this}
-%             ^ meta.environment.verbatim.minted.latex
-%             ^ meta.environment.embedded.python.latex
-%             ^ source.python.embedded
-%             ^ keyword.control.import.python
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^ support.function.mint.latex
+%    ^^^^^^^^ meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^^ constant.other.language-name.latex
+%           ^ punctuation.definition.group.brace.end.tex
+%            ^ punctuation.definition.group.brace.begin.tex
+%             ^^^^^^^^^^^ source.python.embedded.latex
+%             ^^^^^^ keyword.control.import.python
+%                        ^ punctuation.definition.group.brace.end.tex
+
+\mint { python } {
+%^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^ support.function.mint.latex
+%     ^^^^^^^^^^ meta.group.brace.tex
+%     ^ punctuation.definition.group.brace.begin.tex
+%       ^^^^^^ constant.other.language-name.latex
+%              ^ punctuation.definition.group.brace.end.tex
+%                ^ punctuation.definition.group.brace.begin.tex
+  import this
+%^^^^^^^^^^^^^ source.python.embedded.latex
+% ^^^^^^ keyword.control.import.python
+}
+% <- meta.environment.verbatim.minted.latex punctuation.definition.group.brace.end.tex
 
 % instead of embedding the code into { and } it is also possible
 % to use an arbitrary character
 \mint{python}|import this|
-%             ^ meta.environment.verbatim.minted.latex
-%             ^ source.python.embedded
-
+%^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^ support.function.mint.latex
+%    ^^^^^^^^ meta.group.brace.tex
+%    ^ punctuation.definition.group.brace.begin.tex
+%     ^^^^^^ constant.other.language-name.latex
+%           ^ punctuation.definition.group.brace.end.tex
+%            ^ punctuation.definition.verb.begin.latex
+%             ^^^^^^^^^^^ source.python.embedded.latex
+%             ^^^^^^ keyword.control.import.python
+%                        ^ punctuation.definition.verb.end.latex
 
 \mintinline{python}{print(x ** 2)}
-%                    ^ meta.environment.verbatim.minted.latex
-%                    ^ meta.environment.embedded.python.latex
-%                    ^ source.python.embedded
-%                    ^ support.function.builtin.python
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.minted.latex
+%^^^^^^^^^^ support.function.mint.latex
+%          ^^^^^^^^ meta.group.brace.tex
+%          ^ punctuation.definition.group.brace.begin.tex
+%           ^^^^^^ constant.other.language-name.latex
+%                 ^ punctuation.definition.group.brace.end.tex
+%                  ^ punctuation.definition.group.brace.begin.tex
+%                   ^^^^^^^^^^^^^ source.python.embedded.latex
+%                   ^^^^^ meta.function-call.identifier.python support.function.builtin.python
+%                        ^^^^^^^^ meta.function-call.arguments.python
+%                        ^ punctuation.section.arguments.begin.python
+%                         ^ meta.path.python meta.generic-name.python
+%                           ^^ keyword.operator.arithmetic.python
+%                              ^ meta.number.integer.decimal.python constant.numeric.value.python
+%                               ^ punctuation.section.arguments.end.python
+%                                ^ punctuation.definition.group.brace.end.tex
 
 \mintinline{python}+print(x ** 2)+
 %                    ^ source.python.embedded
 
+\inputminted{py}{path/to/file.py}
+%^^^^^^^^^^^ support.function.general.latex
+%           ^^^^^^^^^^^^^^^^^^^^^ meta.group.brace.tex
+%           ^ punctuation.definition.group.brace.begin.tex
+%              ^ punctuation.definition.group.brace.end.tex
+%               ^ punctuation.definition.group.brace.begin.tex
+%                               ^ punctuation.definition.group.brace.end.tex
 
-% PACKAGE: array
-% The array package extends array and tabular environments
-% and allows for macros in format specifications
-
-\begin{tabular}
-% <- -meta.environment.tabular.latex
-\end{tabular}
-
-\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
-%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex
-%                  ^ keyword.operator.inter-column-line.latex
-%                     ^ support.function.inter-column-nospace.latex
-
-\hline
-
-a & b
-% <- meta.environment.tabular.latex
-
-\hline
-
-\end{tabular}
-% ^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
-%     ^ variable.parameter.function.latex
-
-
-\begin{tabular}{*{3}{>{$}c<{$}}}
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
-%               ^ support.function.insert-repeated.latex
-%                ^^^ meta.function.insert-repeated-count.latex
-%                 ^ constant.numeric.array-count.latex
-%                    ^ support.function.insert-before-column.latex
-%                   ^^^^^^^^^^^ meta.function.insert-repeated-content.latex
-%                         ^ support.function.insert-after-column.latex
-    a & b & c \\\hline
-    1 & 2 & 3
-\end{tabular}
-
-
-% issue 1280
-
-\begin{tabular}{p{2.6cm} | p{6.0cm} }
-%               ^^^^^^^^^^^^^^^^^^^ meta.environment.tabular meta.function.column-spec
-%               ^ support.function.parbox-column
-%                        ^ keyword.operator.inter-column-line
-%                          ^ support.function.parbox-column
-%                                  ^ meta.environment.tabular meta.function.column-spec
-\end{tabular}
-
-% issue 2238
-
-% \usepackage{dcolumn}
-\begin{tabular}{c|D{\%}{\cdot}{-1}}
-%              ^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex - comment
-%                   ^^ constant.character.escape.tex
-%                       ^^^^^ keyword.other.math.binary-operator.tex
-\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \AnyDeclarationCommand{\eq}{\begin{equation}}
 
