@@ -102,8 +102,11 @@ contexts:
     # however then we run into infinite recursion. It needs to be a prototype
     # since macro_rules! allows constructing new code, thus the metavariables
     # can be inserted in just about any position in the syntax.
-    - match: '\${{identifier}}'
+    # See also: https://doc.rust-lang.org/reference/macros-by-example.html
+    - match: \${{identifier}}
       scope: variable.other.rust
+    - match: \$\(
+      scope: punctuation.section.interpolation.begin.rust
 
   shebang:
     - meta_include_prototype: false
@@ -941,8 +944,10 @@ contexts:
     - include: comments
     - include: attributes
     - include: visibility
-    - match: '{{identifier}}(?=\s*:)'
+    - match: '{{identifier}}'
       scope: variable.other.member.rust
+    - match: ':'
+      scope: punctuation.separator.rust
       push:
         - match: ','
           scope: punctuation.separator.rust
@@ -950,12 +955,10 @@ contexts:
         - match: '(?=\})'
           pop: true
         - include: comments
-        - match: ':'
-          scope: punctuation.separator.rust
         - include: types
-    - match: '(?=\S)'
-      # Abort for an invalid match.
-      pop: true
+        - include: else-pop
+    # Abort for an invalid match.
+    - include: else-pop
 
   ##[ UNIONS ]#################################################################
 
@@ -1262,7 +1265,7 @@ contexts:
       pop: true
     - match: '\S'
       # This is intended to help make it evident when you forget a semicolon.
-      scope: invalid.illegal.rust
+      scope: invalid.illegal.expected-semi-colon.rust
 
   ##[ IMPL DEFINITIONS ]######################################################
 
@@ -1981,9 +1984,20 @@ contexts:
       pop: true
 
   else-pop:
+    - include: macro-repetition-end
     - match: (?=\S)
       pop: true
 
   immediately-pop:
+    - include: macro-repetition-end
     - match: ''
       pop: true
+
+  macro-repetition-end:
+    # This is basically a prototype but needs to be appended to the end of a context.
+    # See also: https://doc.rust-lang.org/reference/macros-by-example.html#repetitions
+    - match: (\))([,;])?([*+?])
+      captures:
+        1: punctuation.section.interpolation.end.rust
+        2: punctuation.separator.rust
+        3: keyword.operator.other.repetition.rust
