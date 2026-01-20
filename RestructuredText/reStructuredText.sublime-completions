@@ -1,0 +1,351 @@
+{
+    "scope": "text.restructuredtext - comment - source - text text",
+    "completions":
+    [
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#comments
+        {
+            "trigger": "comment",
+            "contents": ".. ${1:comment}\n   ${2:more comment}\n\n$0",
+            "annotation": "comment",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        // https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#sections
+        {
+            "trigger": "title",
+            "contents": "${1/./=/g}\n${1:title}\n${1/./=/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "subtitle",
+            "contents": "${1/./-/g}\n${1:title}\n${1/./-/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingequal",
+            "contents": "${1:heading}\n${1/./=/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingplus",
+            "contents": "${1:heading}\n${1/./+/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingminus",
+            "contents": "${1:heading}\n${1/./-/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingdoublequote",
+            "contents": "${1:heading}\n${1/./\"/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingsinglequote",
+            "contents": "${1:heading}\n${1/./'/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingbacktick",
+            "contents": "${1:heading}\n${1/./`/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "headingtilde",
+            "contents": "${1:heading}\n${1/./~/g}\n\n$0",
+            "annotation": "section",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#strong-emphasis
+        {
+            "trigger": "bold",
+            "contents": "**${1:text}**",
+            "annotation": "text style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "strongemphasis",
+            "contents": "**${1:text}**",
+            "annotation": "text style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#emphasis
+        {
+            "trigger": "italic",
+            "contents": "*${1:text}*",
+            "annotation": "text style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "emphasis",
+            "contents": "*${1:text}*",
+            "annotation": "text style",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#inline-literals
+        {
+            "trigger": "literal",
+            "contents": "``${1:text}``",
+            "annotation": "inline literal",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bullet-lists
+        {
+            "trigger": "list",
+            "contents": "* ${1:text}\n* ${2:text}\n* ${3:text}\n\n$0",
+            "annotation": "unordered list",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enumerated-lists
+        {
+            "trigger": "listn",
+            "contents": "1. ${1:item}\n2. ${2:item}\n3. ${3:item}\n\n$0",
+            "annotation": "ordered list",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "listan",
+            "contents": "#. ${1:item}\n#. ${2:item}\n#. ${3:item}\n\n$0",
+            "annotation": "auto-ordered list",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "listdef",
+            "contents": "${1:term}\n${1/./ /g}${2:definition}\n\n$0",
+            "annotation": "definition list",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "listfield",
+            "contents": ":${1:term}: ${2:field}\n\n$0",
+            "annotation": "field list",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#directives
+        {
+            "trigger": "image",
+            "contents": ".. image:: ${1:path}\n\n$0",
+            "annotation": "directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "figure",
+            "contents": ".. figure:: ${1:path}\n\n  ${2:caption}\n\n$0",
+            "annotation": "directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#directives
+        {
+            "trigger": "attention",
+            "contents": ".. attention:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "caution",
+            "contents": ".. caution:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "danger",
+            "contents": ".. danger:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "error",
+            "contents": ".. error:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "hint",
+            "contents": ".. hint:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "important",
+            "contents": ".. important:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "note",
+            "contents": ".. note:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "tip",
+            "contents": ".. tip:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "warning",
+            "contents": ".. warning:: ${1:note}\n\n$0",
+            "annotation": "admonition directive",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+
+
+
+        //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bibliographic-fields
+        {
+            "trigger": "bibliographicfields",
+            "contents": ":Abstract: ${1:topic}\n:Address: ${2:address}\n:Author: ${3:author}\n:Authors: ${4:Doe, Jane; Doe, John}\n:Contact: ${5:contact (email OR mailing address)}\n:Copyright: ${6:copyright}\n:Date: ${7:date}\n:Dedication: ${8:topic}\n:Organization: ${9:organization}\n:Revision: ${10:revision (number)}\n:Status: ${11:Draft OR Final OR Work in Progress}\n:Version: ${12:version (semver)}\n\n$0",
+            "annotation": "bibliographic fields",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "abstract",
+            "contents": ":Abstract: ${1:topic}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "address",
+            "contents": ":Address: ${1:address}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "author",
+            "contents": ":Author: ${1:author}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "authors",
+            "contents": ":Authors: ${1:Doe, Jane; Doe, John}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "contact",
+            "contents": ":Contact: ${1:contact (email OR mailing address)}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "copyright",
+            "contents": ":Copyright: ${1:copyright}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "date",
+            "contents": ":Date: ${1:date}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "dedication",
+            "contents": ":Dedication: ${1:topic}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "organization",
+            "contents": ":organization: ${1:organization}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "revision",
+            "contents": ":Revision: ${1:revision (number)}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "status",
+            "contents": ":Status: ${1:Draft OR Final OR Work in Progress}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        },
+        {
+            "trigger": "version",
+            "contents": ":Version: ${1:version (semver)}\n\n$0",
+            "annotation": "bibliographic field",
+            "kind": ["snippet", "s", "Snippet"],
+            "details": ""
+        }
+    ]
+}
