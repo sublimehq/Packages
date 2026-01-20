@@ -491,3 +491,15 @@ var js = js`
 /*^^^ meta.string.template.js string.quoted.other.js */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ punctuation.terminator.statement.js */
+
+return`template`
+/*^^^^ keyword.control.flow.return.js */
+/*    ^^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*    ^ punctuation.definition.string.begin.js */
+/*             ^ punctuation.definition.string.end.js */
+
+yield`template`
+/*^^^ keyword.control.flow.yield.js */
+/*   ^^^^^^^^^^ meta.string.template.js string.quoted.other.js */
+/*   ^ punctuation.definition.string.begin.js */
+/*            ^ punctuation.definition.string.end.js */
