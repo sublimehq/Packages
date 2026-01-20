@@ -6,6 +6,7 @@
 //         ^^ storage.modifier
 //            ^^^^^^^^^ keyword.declaration
 //                      ^ entity.name.namespace
+//                      @ definition
 //                       ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
 
     export const x: any;
@@ -13,6 +14,7 @@
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^ keyword.declaration
 //               ^ meta.binding.name variable.other.readwrite
+//               @ global-definition
 //                ^ punctuation.separator.type
 //                  ^^^ meta.type support.type.any
 //                     ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
@@ -22,6 +24,7 @@
 //  ^^^^^^ keyword.control.import-export
 //         ^^^ keyword.declaration
 //             ^ meta.binding.name variable.other.readwrite
+//             @ global-definition
 //              ^ punctuation.separator.type
 //                ^^^ meta.type support.type.any
 //                   ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
@@ -31,6 +34,7 @@
 //  ^^^^^^ keyword.control.import-export
 //         ^^^ keyword.declaration
 //             ^ meta.binding.name variable.other.readwrite
+//             @ global-definition
 //              ^ punctuation.separator.type
 //                ^^^ meta.type support.type.any
 //                   ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
@@ -41,6 +45,7 @@
 //         ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //         ^^^^^^^^ keyword.declaration.function
 //                  ^ entity.name.function
+//                  @ definition
 //                   ^^^^^^^^ meta.function.parameters
 //                   ^ punctuation.section.group.begin
 //                    ^ meta.binding.name variable.parameter.function
@@ -57,8 +62,9 @@
 //         ^^^^^^^^^ meta.class
 //         ^^^^^ keyword.declaration.class
 //               ^ entity.name.class
+//               @ definition
 //                 ^ meta.block punctuation.section.block.begin
-        
+
         x: any;
 //      ^ variable.other.readwrite
 //       ^ punctuation.separator.type
@@ -69,6 +75,7 @@
         f(x: any): any;
 //      ^^^^^^^^^^^^^^ meta.function
 //      ^ entity.name.function
+//      @ definition
 //       ^^^^^^^^ meta.function.parameters
 //       ^ punctuation.section.group.begin
 //        ^ meta.binding.name
@@ -90,6 +97,7 @@
 //         ^^^^^^^^^^^^^^ meta.interface
 //         ^^^^^^^^^ keyword.declaration
 //                   ^ entity.name.interface
+//                   @ definition
 //                     ^^ meta.block
 //                     ^ punctuation.section.block.begin
 //                      ^ punctuation.section.block.end
@@ -101,12 +109,14 @@
 //         ^^^^^^^^^^^^^ meta.namespace
 //         ^^^^^^^^^ keyword.declaration
 //                   ^ entity.name.namespace
+//                   @ definition
 //                     ^ meta.block punctuation.section.block.begin
 
         const x: any;
 //      ^^^^^ keyword.declaration
 //            ^ meta.binding.name
 //            ^ variable.other.readwrite
+//            @ global-definition
 //             ^ punctuation.separator.type
 //              ^^^^ meta.type
 //               ^^^ support.type.any
@@ -147,6 +157,7 @@
 //          ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //          ^^^^^^^^ keyword.declaration.function
 //                   ^ entity.name.function
+//                   @ definition
 //                    ^^^^^^^^ meta.function.parameters
 //                    ^ punctuation.section.group.begin
 //                     ^ meta.binding.name variable.parameter.function
@@ -164,6 +175,7 @@
 //          ^^^^^^^^^^ meta.class
 //          ^^^^^ keyword.declaration.class
 //                ^ entity.name.class
+//                @ definition
 //                  ^^ meta.block
 //                  ^ punctuation.section.block.begin
 //                   ^ punctuation.section.block.end
@@ -173,6 +185,7 @@
 //          ^^^^^^^^^^^^^^ meta.namespace
 //          ^^^^^^^^^ keyword.declaration
 //                    ^ entity.name.namespace
+//                    @ definition
 //                      ^^ meta.block
 //                      ^ punctuation.section.block.begin
 //                       ^ punctuation.section.block.end
@@ -182,6 +195,7 @@
 //          ^^^^^^^^^^^^^^^^ meta.module
 //          ^^^^^^ keyword.declaration.module
 //                 ^^^^^^ entity.name.module.js
+//                 @@@@@@ definition
 //                        ^^ meta.block
 
     declare module 'module' {}
@@ -189,6 +203,7 @@
 //          ^^^^^^^^^^^^^^^^^^ meta.module
 //          ^^^^^^ keyword.declaration.module
 //                 ^^^^^^^^ entity.name.module.js
+//                 @@@@@@@@ definition "module"
 //                 ^ punctuation.definition.quoted.begin.js
 //                        ^ punctuation.definition.quoted.end.js
 //                          ^^ meta.block
@@ -198,6 +213,7 @@
 //          ^^^^^^^^^^^^^^^^^^ meta.module
 //          ^^^^^^ keyword.declaration.module
 //                 ^^^^^^^^ entity.name.module.js
+//                 @@@@@@@@ definition "module"
 //                 ^ punctuation.definition.quoted.begin.js
 //                        ^ punctuation.definition.quoted.end.js
 //                          ^^ meta.block
