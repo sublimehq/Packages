@@ -1308,11 +1308,11 @@ contexts:
     - include: string-content
 
   literal-string-templates:
-    - match: (?=(?:(?:/\*\s*{{identifier_name}}\s*\*/|{{identifier_name}})\s*)?{{tagged_template_quote_begin}})
+    - match: (?=(?:(?:/\*\s*{{identifier_name}}\s*\*/|{{non_reserved_identifier}})\s*)?{{tagged_template_quote_begin}})
       push: literal-string-template-begin
 
   literal-string-template:
-    - match: (?=(?:(?:/\*\s*{{identifier_name}}\s*\*/|{{identifier_name}})\s*)?{{tagged_template_quote_begin}})
+    - match: (?=(?:(?:/\*\s*{{identifier_name}}\s*\*/|{{non_reserved_identifier}})\s*)?{{tagged_template_quote_begin}})
       set: literal-string-template-begin
 
   literal-string-template-begin:
