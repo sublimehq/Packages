@@ -58,6 +58,7 @@ file_extensions:
   - rng
   - rss
   - opml
+  - slnx
   - svg
   - xaml
 
