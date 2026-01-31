@@ -234,13 +234,13 @@ contexts:
     - match: \}
       scope: punctuation.section.mapping.end.toml
       pop: 1
-    - match: (?=[#\]])
+    - match: (?=\])
       pop: 1
     - match: ','
       scope: punctuation.separator.sequence.toml
+    - include: comments
     - include: table-keys
     - include: table-values
-    - include: illegal-eol-pop
 
 ###[ CONSTANT VALUES ]#########################################################
 

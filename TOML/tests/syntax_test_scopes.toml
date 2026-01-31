@@ -316,39 +316,6 @@ table = { key = { key = "value", key = 5 } }
 #                                         ^^ meta.mapping.value.toml meta.mapping.toml - meta.mapping meta.mapping meta.mapping
 #                                           ^ meta.mapping.toml
 
-table = {  # inline tables are terminated by eol
-#       ^^^ meta.mapping.value.toml meta.mapping.toml
-#       ^ punctuation.section.mapping.begin.toml
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.toml - meta.mapping.value
-}
-# <- invalid.illegal.unexpected-token.toml
-
-table = { key#comment }
-#^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
-#    ^^^ meta.mapping.toml - meta.mapping meta.mapping
-#       ^^ meta.mapping.value.toml meta.mapping.toml
-#       ^ punctuation.section.mapping.begin.toml
-#         ^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
-#            ^^^^^^^^^^^ comment.line.number-sign.toml - meta.mapping.value
-#            ^ punctuation.definition.comment.toml
-}
-# <- invalid.illegal.unexpected-token.toml
-
-table = { key =
-#       ^^ meta.mapping.value.toml meta.mapping.toml
-#         ^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
-#            ^^^ meta.mapping.value.toml meta.mapping.toml
-#             ^ punctuation.separator.key-value.toml
-#              ^ invalid.illegal.unexpected-eol.toml
-
-table = { key = false
-#       ^^ meta.mapping.value.toml meta.mapping.toml
-#         ^^^ meta.mapping.value.toml meta.mapping.key.toml meta.string.toml string.unquoted.toml
-#            ^^^ meta.mapping.value.toml meta.mapping.toml
-#             ^ punctuation.separator.key-value.toml
-#               ^^^^^ meta.mapping.value.toml meta.mapping.value.toml constant.language.boolean.false.toml
-#                    ^ meta.mapping.value.toml meta.mapping.toml invalid.illegal.unexpected-eol.toml
-
 table = { [ { ] }  # handle incomplete tables
 #       ^^ meta.mapping.value.toml meta.mapping
 #         ^^ meta.mapping.value.toml meta.mapping.value.toml meta.sequence.array.toml
@@ -404,6 +371,44 @@ table = { key, key, key }
 #                   ^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
 #                      ^^ meta.mapping.toml
 #                       ^ punctuation.section.mapping.end.toml
+
+contact = {
+#^^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#      ^^^ meta.mapping.toml
+#       ^ punctuation.separator.key-value.toml
+#         ^^ meta.mapping.value.toml meta.mapping.toml - invalid
+#         ^ punctuation.section.mapping.begin.toml
+
+    personal = {
+#^^^^^^^^^^^^^^^^ meta.mapping.value.toml
+#^^^ meta.mapping.toml
+#   ^^^^^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#           ^^^ meta.mapping.toml
+#            ^ punctuation.separator.key-value.toml
+#              ^^ meta.mapping.value.toml meta.mapping.toml - invalid
+#              ^ punctuation.section.mapping.begin.toml
+
+        name = "Donald Duck",
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml meta.mapping.value.toml
+#^^^^^^^ meta.mapping.toml
+#       ^^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#           ^^^ meta.mapping.toml
+#            ^ punctuation.separator.key-value.toml
+#              ^^^^^^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml
+#              ^ punctuation.definition.string.begin.toml
+#                          ^ punctuation.definition.string.end.toml
+#                           ^^ meta.mapping.toml - invalid
+#                           ^ punctuation.separator.sequence.toml
+
+        email = "donald@duckburg.com",
+    },
+#^^^^^^ meta.mapping.value.toml
+#^^^^ meta.mapping.value.toml meta.mapping.toml
+#   ^ punctuation.section.mapping.end.toml
+#    ^^ meta.mapping.toml - invalid
+#    ^ punctuation.separator.sequence.toml
+}
+# <- meta.mapping.value.toml meta.mapping.toml punctuation.section.mapping.end.toml
 
 ### [ BOOLEANS ]###############################################################
 
