@@ -601,7 +601,23 @@ odt2 = 1979-05-27T00:32:00-07:00
 #                         ^ keyword.operator.arithmetic.toml
 #                            ^ punctuation.separator.time.toml
 
-odt3 = 1979-05-27T00:32:00.999999-07:00
+
+odt3 = 1979-05-27T00:32:00.5-07:00
+#^^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#   ^^^ meta.mapping.toml
+#    ^ punctuation.separator.key-value.toml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
+#          ^ punctuation.separator.date.toml
+#             ^ punctuation.separator.date.toml
+#                ^ punctuation.separator.datetime.toml
+#                   ^ punctuation.separator.time.toml
+#                      ^ punctuation.separator.time.toml
+#                         ^ punctuation.separator.decimal.toml
+#                           ^ keyword.operator.arithmetic.toml
+#                              ^ punctuation.separator.time.toml
+#                                 ^ meta.mapping.toml
+
+odt4 = 1979-05-27T00:32:00.999999-07:00
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.toml constant.other.datetime.toml
 #          ^ punctuation.separator.date.toml
 #             ^ punctuation.separator.date.toml
@@ -653,6 +669,10 @@ lt2 = 00:32:00.999999
 #       ^ punctuation.separator.time.toml
 #          ^ punctuation.separator.time.toml
 #             ^ punctuation.separator.decimal.toml
+
+lt3 = 07:32
+#     ^^^^^ meta.mapping.value.toml constant.other.time.toml
+#       ^ punctuation.separator.time.toml
 
 ldt = 199-05-27T07:32:00
 #     ^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token.toml

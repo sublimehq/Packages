@@ -254,7 +254,7 @@ contexts:
       pop: 1
 
   datetime:
-    # https://toml.io/en/v1.0.0#offset-date-time
+    # https://toml.io/en/v1.1.0#offset-date-time
     # https://datatracker.ietf.org/doc/html/rfc3339
     - match: |-
         (?x)
@@ -262,7 +262,8 @@ contexts:
         {{date_year}} (-) {{date_month}} (-) {{date_mday}}
         # time
         ([ tT])
-        {{time_hour}} (:) {{time_minute}} (:) {{time_second}} (?: (\.) [0-9]+ )?
+        {{time_hour}} (:) {{time_minute}}
+        (?: (:) {{time_second}} (?: (\.) [0-9]+ )? )?
         # offset
         (?: ([zZ]) | ([-+]) {{time_hour}} (:) {{time_minute}} )?
       scope: constant.other.datetime.toml
@@ -287,7 +288,8 @@ contexts:
       pop: 1
     - match: |-
         (?x)
-        {{time_hour}} (:) {{time_minute}} (:) {{time_second}} (?: (\.) [0-9]+ )?
+        {{time_hour}} (:) {{time_minute}}
+        (?: (:) {{time_second}} (?: (\.) [0-9]+ )? )?
       scope: constant.other.time.toml
       captures:
         1: punctuation.separator.time.toml
