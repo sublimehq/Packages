@@ -395,9 +395,11 @@ contexts:
     - include: string-prototype
 
   string-escapes:
-    # https://toml.io/en/v1.0.0#string
-    - match: \\[btnfr"\\]
+    # https://toml.io/en/v1.1.0#string
+    - match: \\[btnfre"\\]
       scope: constant.character.escape.toml
+    - match: \\x\h{2}
+      scope: constant.character.escape.unicode.8bit.toml
     - match: \\u\h{4}
       scope: constant.character.escape.unicode.16bit.toml
     - match: \\U\h{8}

@@ -712,6 +712,10 @@ key = """
 #              ^^^^^^ constant.character.escape.unicode.16bit.toml
 #                    ^ - punctuation
 
+      New escapes in 1.1: \xff \e
+#                         ^^^^ constant.character.escape.unicode.8bit.toml
+#                              ^^ constant.character.escape.toml
+
       """ illegal # comment
 #^^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.block.toml
 #     ^^^ punctuation.definition.string.end.toml
