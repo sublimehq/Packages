@@ -1316,6 +1316,7 @@ contexts:
         2: meta.fold.code-fence.end.markdown
 
   fenced-code-block-body:
+    - meta_include_prototype: false
     # actionscript
     - match: |-
         (?xi)
