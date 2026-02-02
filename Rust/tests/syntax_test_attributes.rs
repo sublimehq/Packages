@@ -1,5 +1,20 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
+#![doc = include_str!("docs/intro.md")]
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//^ punctuation.section.group.begin
+// ^^^ variable.annotation
+//     ^ keyword.operator.assignment
+//       ^^^^^^^^^^^^ support.macro
+//                   ^^^^^^^^^^^^^^^^^ meta.group
+//                   ^ punctuation.section.group.begin
+//                    ^^^^^^^^^^^^^^^ string.quoted.double
+//                    ^ punctuation.definition.string.begin
+//                                  ^ punctuation.definition.string.end
+//                                   ^ punctuation.section.group.end
+//                                    ^ punctuation.section.group.end
+//                                     ^ - meta.annotation
+
 #![warn(unused)]
 // <- meta.annotation punctuation.definition.annotation
 //^^^^^^^^^^^^^^ meta.annotation

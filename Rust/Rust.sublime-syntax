@@ -373,18 +373,30 @@ contexts:
       scope: keyword.operator.assignment.rust
       set:
         - meta_content_scope: meta.annotation.rust
-        - include: strings
-        - include: chars
-        - include: bytes
-        - include: numbers
-        - include: comments
-        - match: '\]'
-          scope: meta.annotation.rust punctuation.section.group.end.rust
-          pop: true
+        - include: attribute-contents
     - match: '\]'
       scope: punctuation.section.group.end.rust
       pop: true
     - include: comments
+
+  attribute-contents:
+    - include: strings
+    - include: chars
+    - include: bytes
+    - include: numbers
+    - include: comments
+    - include: macro-identifiers
+    - match: \(
+      scope: meta.group.rust punctuation.section.group.begin.rust
+      push:
+        - meta_content_scope: meta.group.rust
+        - match: \)
+          scope: meta.group.rust punctuation.section.group.end.rust
+          pop: true
+        - include: attribute-contents
+    - match: '\]'
+      scope: meta.annotation.rust punctuation.section.group.end.rust
+      pop: true
 
   attribute-call:
     - match: \)
