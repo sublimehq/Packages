@@ -1,3 +1,11 @@
 {
+    "auto_complete_selector": "text.restructuredtext - comment - source - text text",
+    "detect_indentation": false,
     "set_unsaved_view_name_for_syntax": true,
+    //  for details compare the "whitespace" sub-section
+    //  of the "syntax-details" section of the documentation at
+    //  https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#whitespace
+    "tab_size": 8,
+    "translate_tabs_to_spaces": true,
+    "use_tab_stops": true
 }
