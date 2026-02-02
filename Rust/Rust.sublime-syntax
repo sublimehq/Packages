@@ -108,7 +108,7 @@ contexts:
   shebang:
     - meta_include_prototype: false
     # allow extending syntaxes like Markdown to ignore indentation restrictions
-    - match: \s*(\#!)
+    - match: \s*(\#!)(?!\[)
       captures:
         1: punctuation.definition.comment.rust
       set: shebang-body
