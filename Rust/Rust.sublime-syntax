@@ -362,24 +362,23 @@ contexts:
     - match: '{{identifier}}'
       scope: meta.path.rust variable.annotation.rust
     - match: '\('
-      scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push:
-        - meta_content_scope: meta.annotation.parameters.rust meta.group.rust
+        - meta_scope: meta.annotation.parameters.rust meta.group.rust
         - match: \)
-          scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - include: attribute-call
     - match: '='
       scope: keyword.operator.assignment.rust
-      set:
-        - meta_content_scope: meta.annotation.rust
-        - include: attribute-contents
+      set: attribute-contents
     - match: '\]'
       scope: punctuation.section.group.end.rust
       pop: true
     - include: comments
 
   attribute-contents:
+    - meta_content_scope: meta.annotation.rust
     - include: strings
     - include: chars
     - include: bytes
@@ -387,18 +386,14 @@ contexts:
     - include: comments
     - include: macro-identifiers
     - match: \(
-      scope: meta.group.rust punctuation.section.group.begin.rust
-      push:
-        - meta_content_scope: meta.group.rust
-        - match: \)
-          scope: meta.group.rust punctuation.section.group.end.rust
-          pop: true
-        - include: attribute-contents
+      scope: meta.function-call.rust meta.group.rust punctuation.section.group.begin.rust
+      push: attribute-call
     - match: '\]'
       scope: meta.annotation.rust punctuation.section.group.end.rust
       pop: true
 
   attribute-call:
+    - meta_content_scope: meta.group.rust
     - match: \)
       scope: meta.function-call.rust meta.group.rust punctuation.section.group.end.rust
       pop: true
@@ -418,11 +413,7 @@ contexts:
       scope: punctuation.separator.rust
     - match: '='
       scope: keyword.operator.assignment.rust
-    - include: strings
-    - include: chars
-    - include: bytes
-    - include: numbers
-    - include: comments
+    - include: attribute-contents
     - include: lifetime
     - include: keywords
     - include: symbols
