@@ -860,7 +860,7 @@ contexts:
 ###[ FUNCTION DEFINITIONS ]###################################################
 
   function-definitions:
-    - match: ^\s*(?:(async)\s+)?(def)\b
+    - match: (?:(async)\s+)?(def)\b
       scope: meta.function.python
       captures:
         1: keyword.declaration.async.python

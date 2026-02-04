@@ -2146,6 +2146,20 @@ def f[
 #          ^ meta.type.python meta.path.python meta.generic-name.python
 #           ^ meta.function.python punctuation.section.block.begin.python
 
+match test:
+    case "func":
+        def func(arg): pass
+# <- meta.disable-dedentation.python - meta.function
+#^^^^^^^ meta.disable-dedentation.python - meta.function
+#       ^^^^^^^^ meta.function.python
+#       ^^^ keyword.declaration.function.python
+#           ^^^^ entity.name.function.python
+#               ^^^^^ meta.function.parameters.python
+#               ^ punctuation.section.parameters.begin.python
+#                ^^^ variable.parameter.python
+#                   ^ punctuation.section.parameters.end.python
+#                    ^ meta.function.python punctuation.section.block.begin.python
+#                      ^^^^ keyword.control.flow.pass.python
 
 ##################
 # Class definitions
@@ -3087,8 +3101,11 @@ class Cls:
     __slots__ = "item",
 
     def method():
-# <- meta.function.python
-#^^^^^^^^^^^^^^^^ meta.function
+# <- - meta.function
+#^^^ - meta.function
+#   ^^^^^^^^^^ meta.function.python
+#             ^^ meta.function.parameters.python
+#               ^ meta.function.python
 #   ^^^ keyword.declaration.function.python
 #       ^^^^^^ entity.name.function.python
 #             ^ punctuation.section.parameters.begin.python
