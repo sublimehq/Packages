@@ -789,10 +789,8 @@ contexts:
 ###[ CLASS DEFINITIONS ]######################################################
 
   class-definitions:
-    - match: ^\s*(class)\b
-      scope: meta.class.python
-      captures:
-        1: keyword.declaration.class.python
+    - match: class\b
+      scope: meta.class.python keyword.declaration.class.python
       push:
         - class-definition-base-list
         - type-parameter-list

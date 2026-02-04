@@ -2324,6 +2324,19 @@ class GenericClass[T: X, **U]:
 #             ^^^^^^^^ meta.function.parameters
 #                   ^ meta.type.python meta.path.python meta.generic-name.python
 
+match test:
+    case "class":
+        class name(): pass
+# <- meta.disable-dedentation.python - meta.class
+#^^^^^^^ meta.disable-dedentation.python - meta.class
+#       ^^^^^^^^^^ meta.class.python
+#       ^^^^^ keyword.declaration.class.python
+#             ^^^^ entity.name.class.python
+#                 ^^ meta.class.inheritance.python
+#                 ^ punctuation.section.inheritance.begin.python
+#                  ^ punctuation.section.inheritance.end.python
+#                   ^ meta.class.python punctuation.section.block.begin.python
+#                     ^^^^ keyword.control.flow.pass.python
 
 ##################
 # Type definitions
