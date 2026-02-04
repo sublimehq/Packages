@@ -1072,7 +1072,7 @@ contexts:
 ###[ TYPE DEFINITIONS ]#######################################################
 
   type-definitions:
-    - match: ^(?=\s*type\b)
+    - match: (?=type\b)
       branch_point: type-definitions
       branch:
         - type-definition
@@ -1080,9 +1080,8 @@ contexts:
 
   type-definition:
     - meta_include_prototype: false
-    - match: \s*(type)\b
-      captures:
-        1: keyword.declaration.class.python
+    - match: type\b
+      scope: keyword.declaration.class.python
       set:
         - type-definition-meta
         - type-definition-value-assignment

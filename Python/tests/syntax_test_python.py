@@ -2416,8 +2416,9 @@ type \
 #        ^ punctuation.section.brackets.end.python
 
   type Alias
-# <- meta.type-alias.python
-#^^^^^^^^^^^ meta.type-alias.python
+# <- - meta.type-alias
+#^ - meta.type-alias
+# ^^^^^^^^^^ meta.type-alias.python
 # ^^^^ keyword.declaration.class.python
 #      ^^^^^ entity.name.type.alias.python
 
@@ -2456,7 +2457,7 @@ class Foo:
 #                      ^^^^ variable.parameter.python
         self.type = type
 #            ^^^^ meta.path.python meta.generic-name.python
-#                   ^^^^ meta.path.python meta.generic-name.python
+#                   ^^^^ meta.generic-name.python
 
         self.me = type(type)
 #                 ^^^^ meta.function-call.identifier.python support.function.builtin.python
@@ -2464,6 +2465,14 @@ class Foo:
 #                     ^ punctuation.section.arguments.begin.python
 #                      ^^^^ meta.path.python meta.generic-name.python
 #                          ^ punctuation.section.arguments.end.python
+
+match test:
+    case "type":
+        type foo
+#^^^^^^^ meta.disable-dedentation.python - meta.type
+#       ^^^^^^^^ meta.type-alias.python
+#       ^^^^ keyword.declaration.class.python
+#            ^^^ entity.name.type.alias.python
 
 ##################
 # Decorators
