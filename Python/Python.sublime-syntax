@@ -1618,11 +1618,19 @@ contexts:
         meta.statement.conditional.case.python
         keyword.control.conditional.case.python
       set:
+        - after-first-case-statement
         - meta-disable-dedentation
         - case-statement-pattern
         - allow-unpack-operators
     - include: comments
     - include: else-pop
+
+  after-first-case-statement:
+    - meta_include_prototype: false
+    - match: \@
+      scope: meta.annotation.python punctuation.definition.annotation.python
+      set: decorator-body
+    - include: immediately-pop
 
   meta-disable-dedentation:
     - meta_include_prototype: false

@@ -2628,6 +2628,14 @@ class Class():
 #                           ^^^^^^^ variable.annotation.python
 #
 
+match test:
+    case "func":
+        @guarded
+#^^^^^^^ meta.disable-dedentation.python - meta.annotation
+#       ^^^^^^^^ meta.annotation.python
+#       ^ punctuation.definition.annotation.python
+#        ^^^^^^^ variable.annotation.python
+
 ##################
 # Collection literals and generators
 ##################
