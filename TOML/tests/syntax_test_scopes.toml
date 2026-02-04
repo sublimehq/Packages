@@ -1,5 +1,22 @@
 # SYNTAX TEST "Packages/TOML/TOML.sublime-syntax"
 
+### [ BARE MAPPINGS ]##########################################################
+
+# comment
+# <- source.toml
+#^^^^^^^^^ source.toml meta.mapping.toml comment.line.number-sign.toml
+
+key = "value"
+# <- source.toml
+#^^^^^^^^^^^^^ source.toml
+#^^ meta.mapping.key.toml meta.string.toml string.unquoted.toml
+#  ^^^ meta.mapping.toml
+#   ^ punctuation.separator.key-value.toml
+#     ^^^^^^^ meta.mapping.value.toml meta.string.toml string.quoted.double.toml
+#     ^ punctuation.definition.string.begin.toml
+#           ^ punctuation.definition.string.end.toml
+#            ^ meta.mapping.toml
+
 ### [ TABLES ]#################################################################
 
 [table-name] illegal # comment
