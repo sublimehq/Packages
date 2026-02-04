@@ -721,3 +721,43 @@ in_strings = ur'''
 #       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 #             ^ meta.block.conflict.end.diff - entity - punctuation
 '''
+
+match test:
+    case "before":
+<<<<<<< HEAD
+# <- meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+# ^^^^^ meta.block.conflict.begin.diff punctuation.section.block.begin.diff
+#      ^ meta.block.conflict.begin.diff - entity - punctuation
+#       ^^^^ meta.block.conflict.begin.diff entity.name.section.diff
+#           ^ meta.block.conflict.begin.diff - entity - punctuation
+    case "ours":
+#   ^^^^ meta.statement.conditional.case.python keyword.control.conditional.case.python
+#       ^^^^^^^ meta.statement.conditional.case.patterns.python
+#        ^^^^^^ meta.string.python string.quoted.double.python
+#        ^ punctuation.definition.string.begin.python
+#             ^ punctuation.definition.string.end.python
+#              ^ meta.statement.conditional.case.python punctuation.section.block.begin.python
+=======
+# <- meta.block.conflict.separator.diff punctuation.section.block.diff
+# ^^^^^ meta.block.conflict.separator.diff punctuation.section.block.diff
+#      ^ meta.block.conflict.separator.diff - punctuation
+    case "theirs":
+#   ^^^^ meta.statement.conditional.case.python keyword.control.conditional.case.python
+#       ^^^^^^^^^ meta.statement.conditional.case.patterns.python
+#        ^^^^^^^^ meta.string.python string.quoted.double.python
+#        ^ punctuation.definition.string.begin.python
+#               ^ punctuation.definition.string.end.python
+#                ^ meta.statement.conditional.case.python punctuation.section.block.begin.python
+>>>>>>> master
+# <- meta.block.conflict.end.diff punctuation.section.block.end.diff
+# ^^^^^ meta.block.conflict.end.diff punctuation.section.block.end.diff
+#      ^ meta.block.conflict.end.diff - entity - punctuation
+#       ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
+#             ^ meta.block.conflict.end.diff - entity - punctuation
+    case "after":
+#   ^^^^ meta.statement.conditional.case.python keyword.control.conditional.case.python
+#       ^^^^^^^^ meta.statement.conditional.case.patterns.python
+#        ^^^^^^^ meta.string.python string.quoted.double.python
+#        ^ punctuation.definition.string.begin.python
+#              ^ punctuation.definition.string.end.python
+#               ^ meta.statement.conditional.case.python punctuation.section.block.begin.python
