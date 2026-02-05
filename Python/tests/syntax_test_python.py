@@ -2469,8 +2469,15 @@ match test:
 ##################
 
 type
-# <- meta.generic-name - keyword
+# <- meta.generic-name - meta.path - keyword
+#^^^ meta.generic-name - meta.path - keyword
+
+type.member
+# <- meta.path.python meta.generic-name - keyword
+#^^^^^^^^^^ meta.path.python
 #^^^ meta.generic-name - keyword
+#   ^ punctuation.accessor.dot.python
+#    ^^^^^^ meta.generic-name.python
 
 type Alias # [T: int] = list[T]
 # <- meta.type-alias.python keyword.declaration.class.python

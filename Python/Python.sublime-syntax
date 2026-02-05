@@ -837,7 +837,7 @@ contexts:
       branch_point: type-definitions
       branch:
         - type-definition
-        - type-definition-fallback
+        - soft-keyword-fallback
 
   type-definition:
     - meta_include_prototype: false
@@ -868,15 +868,6 @@ contexts:
       scope: keyword.operator.assignment.python
       set: variable-annotation
     - include: line-continuation-or-pop
-
-  type-definition-fallback:
-    # Fallback context, used, if `type` doesn't seem to start a type alias
-    - match: (?={{path}}\s*\()
-      set:
-        - function-call-argument-list
-        - function-call-wrapper
-        - qualified-name-until-leaf
-    - include: generic-name
 
 ###[ TYPE PARAMETERS ]########################################################
 
@@ -988,7 +979,7 @@ contexts:
       branch_point: case-statements
       branch:
         - case-statement
-        - structural-pattern-fallback
+        - soft-keyword-fallback
 
   case-statement:
     - meta_include_prototype: false
@@ -1340,7 +1331,7 @@ contexts:
       branch_point: match-statements
       branch:
         - match-statement
-        - structural-pattern-fallback
+        - soft-keyword-fallback
 
   match-statement:
     - match: match
@@ -1384,7 +1375,7 @@ contexts:
     - include: case-statements
     - include: immediately-pop
 
-  structural-pattern-fallback:
+  soft-keyword-fallback:
     - meta_include_prototype: false
     # Fallback context, which is used if `match` or `case` don't seem to
     # start a structural match pattern statement.
@@ -1393,6 +1384,8 @@ contexts:
         - function-call-argument-list
         - function-call-wrapper
         - qualified-name-until-leaf
+    - match: (?={{identifier}}\s*\.)
+      set: qualified-name-content
     - include: generic-name
 
 ###[ MODIFIER STATEMENTS ]####################################################
