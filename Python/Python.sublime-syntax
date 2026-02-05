@@ -1119,13 +1119,6 @@ contexts:
 
 ###[ TYPE PARAMETERS ]########################################################
 
-  type-parameter-lists:
-    - match: \[
-      scope: meta.generic.python punctuation.definition.generic.begin.python
-      push:
-        - type-parameter-list-body
-        - allow-unpack-operators
-
   type-parameter-list:
     - match: \[
       scope: meta.generic.python punctuation.definition.generic.begin.python
