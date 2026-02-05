@@ -281,15 +281,12 @@ contexts:
 
   statements:
     - include: docstrings
-    - include: line-statements
-    - include: block-statements
+    - include: decorators
+    # definitions
     - include: class-definitions
     - include: function-definitions
     - include: type-definitions
-    - include: statement-terminators
-    - include: expression-as-a-statement
-
-  block-statements:
+    # block statements
     - include: case-statements
     - include: conditional-statements
     - include: exception-statements
@@ -297,14 +294,15 @@ contexts:
     - include: match-statements
     - include: while-statements
     - include: with-statements
-
-  line-statements:
-    - include: decorators
+    # line statements
     - include: assignment-statements
     - include: import-statements
     - include: modifier-statements
     - include: flow-statements
     - include: other-statements
+    # expressions
+    - include: statement-terminators
+    - include: expression-as-a-statement
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
