@@ -9,82 +9,29 @@ file_extensions:
 
 first_line_match: |-
   (?xi:
-    ^ \#! .* {{shebang_language}}           # shebang
-  | ^ \s* -- .*? -\*- .*? \blua\b .*? -\*-  # editorconfig
+    ^ \#! .* {{shebang_language}}                                            # shebang
+  | {{leading_wspace}} -- .*? -\*- .*? {{shebang_language}} .*? -\*-         # editorconfig
   )
 
-variables:
-  shebang_language: \blua\b
-
-  reserved_word: |-
-    (?x:(?:
-      and|break|do|elseif|else|end|false|for|function|goto|if|in|
-      local|nil|not|or|repeat|return|then|true|until|while
-    ){{identifier_break}})
-  reserved_word_statement: |- # excludes 'not', 'true', 'nil', 'false', 'function'
-    (?x:(?:
-      and|break|do|elseif|else|end|for|goto|if|in|
-      local|or|repeat|return|then|until|while
-    ){{identifier_break}})
-  metamethod: |- # http://lua-users.org/wiki/MetatableEvents
-    (?x:__(?:
-      # special
-      index|newindex|call|tostring|len|i?pairs|gc|close
-      # math operators
-      |unm|add|sub|mul|i?div|mod|pow|concat
-      # bitwise operators
-      |band|bor|bxor|bnot|shl|shr
-      # comparison
-      |eq|lt|le
-    ){{identifier_break}})
-  # __metatable and __mode don't use functions
-  metaproperty: (?:__(?:metatable|mode|name){{identifier_break}})
-
-  identifier_start: '[A-Za-z_]'
-  identifier_char: '[A-Za-z0-9_]'
-  identifier_break: (?!{{identifier_char}})
-  identifier_raw: (?:{{identifier_start}}{{identifier_char}}*)
-  identifier: (?:(?!{{reserved_word}}){{identifier_raw}})
-
-  trailing_expression_char: '[,\]})]'
-
-  function_args_begin: (?:\(|"|'|\[=*\[|\{)
-  function_call_ahead: (?=\s*{{function_args_begin}})
-  function_assignment_ahead: (?=\s*=\s*function{{identifier_break}})
-
-  dec_exponent: (?:[Ee][-+]?\d*)
-  hex_exponent: (?:[Pp][-+]?\d*)
-
-  doc_comment_tag: |-
-    (?x:@(?:
-      alias|async|author|class|classmod|copyright|deprecated|diagnostic|field
-      |fixme|function|generic|language|lfunction|license|local|module|nodiscard
-      |overload|param|raise|release|return|script|section|see|submodule|table
-      |todo|tparam|treturn|type|usage|vararg|version|warning|within
-    )\b)
-  doc_comment_custom_tag: (?:@\w+\b)
+###[ CONTEXTS ]################################################################
 
 contexts:
+  prototype:
+    - include: comments
+
   main:
     - meta_include_prototype: false
     - match: ''
       push: [statements, shebang]
 
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
-  prototype:
-    - include: comments
+###[ COMMENTS ]################################################################
 
   comments:
     - include: block-comments
     - include: line-comments
     - include: merge-conflict-markers
+
+###[ COMMENTS / BLOCK COMMENTS ]###############################################
 
   block-comments:
     - match: --\[\[--
@@ -100,7 +47,7 @@ contexts:
     - match: \]\]
       scope: punctuation.definition.comment.end.lua
       pop: 1
-    - match: ^\s*(@section)\s+(.*?\S)\s*(?=\]\]|$)
+    - match: '{{leading_wspace}}(@section)\s+(.*?\S)\s*(?=\]\]|$)'
       captures:
         1: entity.name.tag.documentation.lua
         2: entity.name.section.lua
@@ -108,10 +55,10 @@ contexts:
       captures:
         1: entity.name.tag.documentation.lua
         2: variable.parameter.lua
-    - match: ^\s*({{doc_comment_tag}})
+    - match: '{{leading_wspace}}({{doc_comment_tag}})'
       captures:
         1: entity.name.tag.documentation.lua
-    - match: ^\s*({{doc_comment_custom_tag}})
+    - match: '{{leading_wspace}}({{doc_comment_custom_tag}})'
       captures:
         1: entity.name.tag.documentation.custom.lua
     - include: merge-conflict-markers
@@ -123,6 +70,8 @@ contexts:
       scope: punctuation.definition.comment.end.lua
       pop: 1
     - include: merge-conflict-markers
+
+###[ COMMENTS / LINE COMMENTS ]################################################
 
   line-comments:
     - match: -{3,}
@@ -157,7 +106,7 @@ contexts:
       set: maybe-line-doc-comment
 
   maybe-line-doc-comment:
-    - match: ^\s*(?=--(?!\[(=*)\[))
+    - match: '{{leading_wspace}}(?=--(?!\[(=*)\[))'
       set:
         - match: -{2,}
           scope: punctuation.definition.comment.lua
@@ -168,8 +117,9 @@ contexts:
   line-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.lua
-    - match: \n
-      pop: 1
+    - include: eol-pop
+
+###[ COMMENTS / SHEBANG ]######################################################
 
   shebang:
     - meta_include_prototype: false
@@ -185,8 +135,9 @@ contexts:
     - meta_scope: comment.line.shebang.lua
     - match: '{{shebang_language}}'
       scope: constant.language.shebang.lua
-    - match: $\n?
-      pop: 1
+    - include: eol-pop
+
+###[ STATEMENTS ]##############################################################
 
   merge-conflict-markers:
     # see also: Diff.sublime-syntax#conflict-markers
@@ -247,6 +198,8 @@ contexts:
       scope: keyword.control.end.lua
       pop: 1
 
+###[ FUNCTIONS ]###############################################################
+
   function-parameter-list:
     - match: \(
       scope: punctuation.section.group.begin.lua
@@ -295,6 +248,8 @@ contexts:
       scope: meta.property.lua entity.name.function.lua
       pop: 1
     - include: else-pop
+
+###[ CONTROL STATEMENTS ]#####################################################
 
   control-statements:
     - match: do{{identifier_break}}
@@ -384,6 +339,8 @@ contexts:
       scope: keyword.control.conditional.lua
       set: if-block
     - include: statements
+
+###[ EXPRESSIONS ]#############################################################
 
   expression:
     - match: ''
@@ -489,7 +446,11 @@ contexts:
       push: expression-begin
 
   accessor:
-    - match: '[.:]'
+    - match: ':'
+      scope: punctuation.accessor.lua
+      push: property-method
+
+    - match: '\.'
       scope: punctuation.accessor.lua
       push: property
 
@@ -522,6 +483,17 @@ contexts:
       pop: 1
     - include: reserved-word-pop
     - include: else-pop
+
+  property-method:
+    - match: '(?:find|gmatch|gsub|match){{identifier_break}}'
+      scope: meta.property.lua meta.function-call.lua variable.function.lua
+      set:
+        - match: (?={{function_args_begin}})
+          set:
+            - function-arguments-meta
+            - function-arguments-pattern-at1
+        - include: else-pop
+    - include: property
 
   function-arguments-meta:
     - meta_scope: meta.function-call.arguments.lua
@@ -562,6 +534,8 @@ contexts:
       scope: invalid.unexpected-keyword.lua
       pop: 1
 
+###[ CONSTANTS ]###############################################################
+
   builtin:
     - match: false{{identifier_break}}
       scope: constant.language.boolean.false.lua
@@ -597,6 +571,8 @@ contexts:
 
     - include: builtin-modules
 
+###[ VARIABLES ]###############################################################
+
   variable:
     - match: '{{identifier}}{{function_assignment_ahead}}'
       scope: entity.name.function.lua
@@ -609,6 +585,8 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.other.lua
       pop: 1
+
+###[ LITERALS / NUMBERS ]######################################################
 
   number:
     - match: (0[Xx])(\h*(?:(\.)\h*{{hex_exponent}}?|{{hex_exponent}}))
@@ -636,6 +614,8 @@ contexts:
     - match: \d+
       scope: meta.number.integer.decimal.lua constant.numeric.value.lua
       pop: 1
+
+###[ LITERALS / STRINGS ]######################################################
 
   string:
     - include: single-quoted-string
@@ -695,6 +675,7 @@ contexts:
 
     - match: \\z
       push:
+        - meta_include_prototype: false
         - meta_scope: constant.character.escape.whitespace.lua
         - include: else-pop
 
@@ -704,17 +685,114 @@ contexts:
     - match: \\.
       scope: invalid.illegal.invalid-escape.lua
 
+  # pop the context once one escaped character has been matched
+  string-escape-pop:
+    - match: \\[abfnrtv\\'"\[\]\n]
+      scope: constant.character.escape.lua
+      pop: 1
+
+    - match: \\x\h\h
+      scope: constant.character.escape.hexadecimal.lua
+      pop: 1
+
+    - match: \\\d{1,3}
+      scope: constant.character.escape.decimal.lua
+      pop: 1
+
+    # unicode can make multiple, but that is a bit hard to handle
+    - match: \\u\{\h+\}
+      scope: constant.character.escape.unicode.lua
+      pop: 1
+
+    # \z turns into nothing, so we don't pop
+    - match: \\z
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.character.escape.whitespace.lua
+        - include: else-pop
+
+    - match: \n
+      scope: invalid.illegal.unclosed-string.lua
+      pop: 2
+    - match: \\.
+      scope: invalid.illegal.invalid-escape.lua
+      pop: 1
+
+###[ PARENTHESIZED EXPRESSIONS ]###############################################
+
   parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.begin.lua
+      branch_point: special-string-paren
+      branch:
+        - special-string-is-fmtstr
+        - special-string-is-packstr
+        - special-string-is-nothing
+
+  special-string-is-fmtstr:
+    - match: ''
       set:
-        - meta_scope: meta.group.lua
-        - match: \)
-          scope: punctuation.section.group.end.lua
-          pop: 1
-        - include: reserved-word-expression-pop
-        - match: (?=\S)
-          push: expression
+        - parenthesized-expression-end-fmtstr
+        - parenthesized-expression-inside-fmtstr
+
+  special-string-is-packstr:
+    - match: ''
+      set:
+        - parenthesized-expression-end-packstr
+        - parenthesized-expression-inside-packstr
+
+  special-string-is-nothing:
+    - match: ''
+      set:
+        - parenthesized-expression-end-normal
+        - parenthesized-expression-inside-normal
+
+  # at this point the stack is:
+  # - expression-end # <- where we need to get to
+  # - expression-begin
+  # - parenthesized-expression-end-X
+  parenthesized-expression-end-normal:
+    - match: ''
+      pop: 2 # pop this as well as expression-begin
+
+  parenthesized-expression-end-fmtstr:
+    - match: (?=:\s*format{{identifier_break}})
+      pop: 2 # pop this as well as expression-begin
+
+    - match: (?=\S)
+      fail: special-string-paren
+
+  parenthesized-expression-end-packstr:
+    - match: (?=:\s*(pack|unpack|packsize){{identifier_break}})
+      pop: 2 # pop this as well as expression-begin
+
+    - match: (?=\S)
+      fail: special-string-paren
+
+
+  parenthesized-expression-inside-base:
+    - meta_scope: meta.group.lua
+    - match: \)
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: reserved-word-expression-pop
+
+  parenthesized-expression-inside-normal:
+    - include: parenthesized-expression-inside-base
+    - match: (?=\S)
+      push: expression
+
+  parenthesized-expression-inside-fmtstr:
+    - include: parenthesized-expression-inside-base
+    - match: (?=\S)
+      push: fmtstr-expression
+
+  parenthesized-expression-inside-packstr:
+    - include: parenthesized-expression-inside-base
+    - match: (?=\S)
+      push: packstr-expression
+
+###[ MAPPINGS ]################################################################
 
   table-constructor:
     - match: \{
@@ -728,45 +806,54 @@ contexts:
         - match: '[,;]'
           scope: punctuation.separator.field.lua
 
-        - match: \[(?!=*\[)
-          scope: punctuation.section.brackets.begin.lua
-          push:
-            - clear_scopes: 1
-            - meta_scope: meta.mapping.key.lua meta.brackets.lua
-            - match: \]
-              scope: punctuation.section.brackets.end.lua
-              pop: 1
-            - match: (?=\S)
-              push: expression
+        - include: table-constructor-body-brackets
+        - include: table-constructor-body-mapping-key
+        - include: table-constructor-body-mapping-value
 
-        - match: (?={{identifier}}\s*=(?!=))
-          push:
-            - clear_scopes: 1
-            - meta_scope: meta.mapping.key.lua
-            - match: (?:({{metamethod}})|{{identifier}})(?=\s*=\s*function\b)
-              scope: entity.name.function.lua
-              captures:
-                1: support.function.metamethod.lua
-              pop: 1
-            - match: '{{metamethod}}'
-              scope: entity.name.function.lua support.function.metamethod.lua
-              pop: 1
-            - match: '{{metaproperty}}'
-              scope: string.unquoted.key.lua support.other.metaproperty.lua
-              pop: 1
-            - match: '{{identifier}}'
-              scope: string.unquoted.key.lua
-              pop: 1
-
-        - match: =(?!=)
-          scope: meta.mapping.lua punctuation.separator.key-value.lua
-          push:
-            - - clear_scopes: 1
-              - meta_content_scope: meta.mapping.value.lua
-              - include: immediately-pop
-            - expression
+  table-constructor-body-brackets:
+    - match: \[(?!=*\[)
+      scope: punctuation.section.brackets.begin.lua
+      push:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.lua meta.brackets.lua
+        - match: \]
+          scope: punctuation.section.brackets.end.lua
+          pop: 1
         - match: (?=\S)
           push: expression
+
+  table-constructor-body-mapping-key:
+    - match: (?={{identifier}}\s*=(?!=))
+      push:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.lua
+        - match: (?:({{metamethod}})|{{identifier}})(?=\s*=\s*function\b)
+          scope: entity.name.function.lua
+          captures:
+            1: support.function.metamethod.lua
+          pop: 1
+        - match: '{{metamethod}}'
+          scope: entity.name.function.lua support.function.metamethod.lua
+          pop: 1
+        - match: '{{metaproperty}}'
+          scope: string.unquoted.key.lua support.other.metaproperty.lua
+          pop: 1
+        - match: '{{identifier}}'
+          scope: string.unquoted.key.lua
+          pop: 1
+
+  table-constructor-body-mapping-value:
+    - match: =(?!=)
+      scope: meta.mapping.lua punctuation.separator.key-value.lua
+      push:
+        - - clear_scopes: 1
+          - meta_content_scope: meta.mapping.value.lua
+          - include: immediately-pop
+        - expression
+    - match: (?=\S)
+      push: expression
+
+###[ FUNCTION DECLARATIONS ]###################################################
 
   function-literal:
     - match: function{{identifier_break}}
@@ -781,185 +868,860 @@ contexts:
     - meta_scope: meta.function.lua
     - include: immediately-pop
 
+  function-arguments-pattern-at2:
+    - include: string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set: function-arguments-pattern-at2-body
+
+  function-arguments-pattern-at2-body:
+    - meta_scope: meta.group.lua
+    - match: \)
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: reserved-word-expression-pop
+    - match: (?=\S)
+      push:
+        - expression-list-end-pattern-next
+        - expression-begin
+
+  function-arguments-pattern-at1:
+    - include: pattern-string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set: function-arguments-pattern-at1-body
+
+  function-arguments-pattern-at1-body:
+    - meta_scope: meta.group.lua
+    - match: \)
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: reserved-word-expression-pop
+    - match: (?=\S)
+      push:
+        - expression-list-end
+        - pattern-expression-endpopc
+        - pattern-expression-begin
+
+  function-arguments-fmtstr-at1:
+    - include: fmtstr-string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set: function-arguments-fmtstr-at1-body
+
+  function-arguments-fmtstr-at1-body:
+    - meta_scope: meta.group.lua
+    - match: \)
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: reserved-word-expression-pop
+    - match: (?=\S)
+      push:
+        - expression-list-end
+        - fmtstr-expression-endpopc
+        - fmtstr-expression-begin
+
+  function-arguments-packstr-at1:
+    - include: packstr-string
+    - include: table-constructor
+
+    - match: \(
+      scope: punctuation.section.group.begin.lua
+      set: function-arguments-packstr-at1-body
+
+  function-arguments-packstr-at1-body:
+    - meta_scope: meta.group.lua
+    - match: \)
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: reserved-word-expression-pop
+    - match: (?=\S)
+      push:
+        - expression-list-end
+        - packstr-expression-endpopc
+        - packstr-expression-begin
+
+###[ PATTERNS ]################################################################
+
+  pattern-expression:
+    - match: ''
+      set:
+        - pattern-expression-end
+        - pattern-expression-begin
+
+  pattern-expression-begin:
+    - include: pattern-string
+    - include: expression-begin
+
+  pattern-expression-endpopc:
+    - match: ','
+      pop: 1
+    - include: pattern-expression-end
+
+  pattern-expression-end:
+    - match: (?:[=<>~]=)
+      scope: keyword.operator.comparison.lua
+      push: pattern-expression-begin
+    - match: (?://|[-+*/%^])
+      scope: keyword.operator.arithmetic.lua
+      push: pattern-expression-begin
+    - match: (?:>>|<<|[&|~])
+      scope: keyword.operator.bitwise.lua
+      push: pattern-expression-begin
+    - match: (?:[<>])
+      scope: keyword.operator.comparison.lua
+      push: pattern-expression-begin
+    - match: \.\.
+      scope: keyword.operator.concatenation.lua
+      push: pattern-expression-begin
+    - match: =
+      scope: keyword.operator.assignment.lua
+      push: pattern-expression-begin
+    - match: (?:and|or){{identifier_break}}
+      scope: keyword.operator.logical.lua
+      push: pattern-expression-begin
+    - include: expression-end
+
+  expression-list-end-pattern-next:
+    - match: ','
+      scope: punctuation.separator.comma.lua
+      set:
+        - expression-list-end
+        - pattern-expression
+    - include: expression-end
+
+  pattern-shared-charclass:
+    - meta_include_prototype: false
+    - match: \%(?i:[acdglpsuwxz])
+      scope: keyword.control.character-class.lua
+    - match: \%f
+      scope: keyword.control.anchor.lua
+
+    - match: (\%)(\d)
+      captures:
+        1: keyword.other.backref-and-recursion.lua
+        2: variable.other.backref-and-recursion.lua
+      push: pattern-shared-norepetition
+
+    # other alphabetic characters are not defined
+    # this skips `f` and `b` as they are special patterns
+    - match: \%(?i:[ehijkmnoqrtvy])
+      scope: invalid.illegal.invalid-escape.lua
+
+  pattern-shared:
+    - meta_include_prototype: false
+      # start anchor is handled separately as ^ doesn't match the start of the string
+      # It needs to be the end of the string (which $ matches when it is an embedded pattern)
+    - match: \$$(?!\n)
+      scope: keyword.control.anchor.lua
+    - match: '\(\)'
+      scope: punctuation.section.brackets.lua
+    - match: '[+*?\-]'
+      scope: keyword.operator.quantifier.lua
+      push: pattern-shared-norepetition
+    - match: \.
+      scope: keyword.other.any.lua
+
+
+  pattern-shared-norepetition:
+    - meta_include_prototype: false
+    - match: '[+*?\-]'
+      pop: 1
+    - include: immediately-pop
+
+###[ PATTERNS / QUOTED PATTERNS ]##############################################
+
+  # the pattern implementation is split into quoted and unquoted as escapes are only processed
+  # in quoted strings.
+  pattern-quoted:
+    - meta_include_prototype: false
+    - include: string-content
+    - include: pattern-shared
+    - match: '\('
+      scope: punctuation.section.group.begin.lua
+      push:
+        - pattern-shared-norepetition
+        - pattern-quoted-nested
+        - pattern-shared-norepetition
+    - match: '(\[)(\^)?\]?'
+      captures:
+        1: punctuation.definition.set.begin.lua
+        2: keyword.operator.logical.lua
+      push: pattern-quoted-set-body
+    - include: pattern-quoted-charclass
+
+  pattern-quoted-charclass:
+    - meta_include_prototype: false
+    - include: pattern-shared-charclass
+    - match: \%b
+      scope: keyword.control.balanced.lua
+      push:
+        - pattern-quoted-balanced-char
+        - pattern-quoted-balanced-char
+    - match: \%[^'"\\]
+      scope: constant.character.escape.lua
+
+    # this one is split so that it works with quoted strings
+    - match: \%
+      scope: constant.character.escape.lua
+      push:
+        - meta_include_prototype: false
+        - match: '[''"]'
+          scope: constant.character.escape.lua
+          pop: 1
+        - include: else-pop
+
+  pattern-quoted-balanced-char:
+    - meta_include_prototype: false
+    - include: string-escape-pop
+    - match: .
+      scope: keyword.control.balanced.lua
+      pop: 1
+
+  pattern-quoted-nested:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.lua meta.mode.basic.lua
+    - match: '\)'
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: pattern-quoted
+
+  pattern-quoted-set-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.set.lua
+    - match: '\]'
+      scope: punctuation.definition.set.end.lua
+      pop: 1
+    - include: pattern-quoted-set-ranges
+    - include: pattern-quoted-charclass
+    - include: string-content
+
+  pattern-quoted-set-ranges:
+    - meta_include_prototype: false
+    # These only work with direct characters. Lua doesn't support percent escapes in sets
+    - match: (?=({{string_char_escape}}|[^%\]\-])-({{string_char_escape}}|[^\]]))
+      push:
+        - pattern-quoted-set-range-end
+        - pattern-quoted-set-range-begin
+
+  pattern-quoted-set-range-begin:
+    - meta_include_prototype: false
+    - match: '-'
+      scope: punctuation.separator.sequence.lua
+      pop: 1
+    - include: string-content
+
+  pattern-quoted-set-range-end:
+    - meta_include_prototype: false
+    - meta_scope: constant.other.range.lua
+    - include: string-escape-pop
+    - match: .
+      pop: 1
+
+###[ PATTERNS / UNQUOTED PATTERNS ]############################################
+
+  pattern-unquoted:
+    - meta_include_prototype: false
+    - include: pattern-shared
+    - match: '\('
+      scope: punctuation.section.group.begin.lua
+      push:
+        - pattern-shared-norepetition
+        - pattern-unquoted-nested
+        - pattern-shared-norepetition
+    - match: '(\[)(\^)?\]?'
+      captures:
+        1: punctuation.definition.set.begin.lua
+        2: keyword.operator.logical.lua
+      push: pattern-unquoted-set-body
+    - include: pattern-unquoted-charclass
+
+  pattern-unquoted-charclass:
+    - meta_include_prototype: false
+    - include: pattern-shared-charclass
+    - match: \%b.?.?
+      scope: keyword.control.balanced.lua
+    - match: \%.?
+      scope: constant.character.escape.lua
+
+  pattern-unquoted-nested:
+    - meta_include_prototype: false
+    - meta_scope: meta.group.lua meta.mode.basic.lua
+    - match: '\)'
+      scope: punctuation.section.group.end.lua
+      pop: 1
+    - include: pattern-unquoted
+
+  pattern-unquoted-set-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.set.lua
+    - match: '\]'
+      scope: punctuation.definition.set.end.lua
+      pop: 1
+    - include: pattern-unquoted-set-ranges
+    - include: pattern-unquoted-charclass
+
+  pattern-unquoted-set-ranges:
+    - meta_include_prototype: false
+    # These only work with direct characters. Lua doesn't support percent escapes in sets
+    - match: (?=[^%\]\-]-[^\]])
+      push:
+        - pattern-unquoted-set-range-end
+        - pattern-unquoted-set-range-begin
+
+  pattern-unquoted-set-range-begin:
+    - meta_include_prototype: false
+    - match: '-'
+      scope: punctuation.separator.sequence.lua
+      pop: 1
+
+  pattern-unquoted-set-range-end:
+    - meta_include_prototype: false
+    - meta_scope: constant.other.range.lua
+    - match: .
+      pop: 1
+
+###[ PATTERNS / STRING PATTERNS ]##############################################
+
+  # this gets included in expressions that want to have a pattern string
+  pattern-string:
+    - match: \[(=*)\[
+      scope: meta.string.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+      embed: pattern-multiline-string-body
+      embed_scope: meta.string.lua string.quoted.multiline.lua
+      escape: \]\1\]
+      escape_captures:
+        0: meta.string.lua string.quoted.multiline.lua punctuation.definition.string.end.lua
+      pop: 1
+    - match: \'
+      scope: punctuation.definition.string.begin.lua
+      set:
+        - pattern-single-quoted-string-body
+        - pattern-test-first-caret
+    - match: \"
+      scope: punctuation.definition.string.begin.lua
+      set:
+        - pattern-double-quoted-string-body
+        - pattern-test-first-caret
+
+  pattern-test-first-caret:
+    - meta_include_prototype: false
+    - match: (\^)[+*?\-]?
+      captures:
+        1: keyword.control.anchor.lua
+      pop: 1
+
+    # eat these because they can't be a repetition at the start
+    - match: '[+*?\-]'
+      pop: 1
+    # it seems to require this match rather than immediately-pop
+    # in order to work with the multiline below
+    - match: (?=[^\^])
+      pop: 1
+
+  pattern-single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: single-quoted-string-body
+    - match: \$(?=\')
+      scope: keyword.control.anchor.lua
+    - match: ''
+      push: pattern-quoted
+      with_prototype:
+        - match: (?=\$?\')
+          pop: 1
+
+  pattern-double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: double-quoted-string-body
+    - match: \$(?=\")
+      scope: keyword.control.anchor.lua
+    - match: ''
+      push: pattern-quoted
+      with_prototype:
+        - match: (?=\$?\")
+          pop: 1
+
+  pattern-multiline-string-body:
+    - meta_include_prototype: false
+    - match: \n?
+      push:
+        - pattern-unquoted
+        - pattern-test-first-caret
+
+###[ PATTERNS / STRING PATTERNS / FMT STRING ]#################################
+
+  fmtstr-expression:
+    - match: ''
+      set:
+        - fmtstr-expression-end
+        - fmtstr-expression-begin
+
+  fmtstr-expression-begin:
+    - include: fmtstr-string
+    - include: expression-begin
+
+  fmtstr-expression-endpopc:
+    - match: ','
+      pop: 1
+    - include: fmtstr-expression-end
+
+  fmtstr-expression-end:
+    - match: (?:[=<>~]=)
+      scope: keyword.operator.comparison.lua
+      push: fmtstr-expression-begin
+    - match: (?://|[-+*/%^])
+      scope: keyword.operator.arithmetic.lua
+      push: fmtstr-expression-begin
+    - match: (?:>>|<<|[&|~])
+      scope: keyword.operator.bitwise.lua
+      push: fmtstr-expression-begin
+    - match: (?:[<>])
+      scope: keyword.operator.comparison.lua
+      push: fmtstr-expression-begin
+    - match: \.\.
+      scope: keyword.operator.concatenation.lua
+      push: fmtstr-expression-begin
+    - match: =
+      scope: keyword.operator.assignment.lua
+      push: fmtstr-expression-begin
+    - match: (?:and|or){{identifier_break}}
+      scope: keyword.operator.logical.lua
+      push: fmtstr-expression-begin
+    - include: expression-end
+
+  fmtstr-string:
+    - match: \[(=*)\[
+      scope: punctuation.definition.string.begin.lua
+      set: multiline-fmtstr-body
+    - match: \'
+      scope: punctuation.definition.string.begin.lua
+      set: single-quoted-fmtstr-body
+    - match: \"
+      scope: punctuation.definition.string.begin.lua
+      set: double-quoted-fmtstr-body
+
+  single-quoted-fmtstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: single-quoted-string-body
+    - include: fmtstr-placeholder
+
+  double-quoted-fmtstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: double-quoted-string-body
+    - include: fmtstr-placeholder
+
+  multiline-fmtstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - include: multiline-string-body
+    - include: fmtstr-placeholder
+
+  fmtstr-placeholder:
+    - meta_include_prototype: false
+    - match: '%%'
+      scope: constant.character.escape.lua
+    - match: |-
+        (?x)
+        %
+        \#?      # alternate form
+        0?       # pad with zeros
+        \-?      # left-adjust
+        \ ?      # implicit sign
+        [+-]?    # sign
+        \d*      # width
+        (\.\d*)? # precision
+        [cdiuoxXaAfeEgGpqs%]
+      scope: constant.other.placeholder.lua
+    - match: '%[^"''\\\]]'
+      scope: invalid.illegal.invalid-format.lua
+
+###[ PATTERNS / STRING PATTERNS / PACK STR ]###################################
+
+  packstr-expression:
+    - match: ''
+      set:
+        - packstr-expression-end
+        - packstr-expression-begin
+
+  packstr-expression-begin:
+    - include: packstr-string
+    - include: expression-begin
+
+  packstr-expression-endpopc:
+    - match: ','
+      pop: 1
+    - include: packstr-expression-end
+
+  packstr-expression-end:
+    - match: (?:[=<>~]=)
+      scope: keyword.operator.comparison.lua
+      push: packstr-expression-begin
+    - match: (?://|[-+*/%^])
+      scope: keyword.operator.arithmetic.lua
+      push: packstr-expression-begin
+    - match: (?:>>|<<|[&|~])
+      scope: keyword.operator.bitwise.lua
+      push: packstr-expression-begin
+    - match: (?:[<>])
+      scope: keyword.operator.comparison.lua
+      push: packstr-expression-begin
+    - match: \.\.
+      scope: keyword.operator.concatenation.lua
+      push: packstr-expression-begin
+    - match: =
+      scope: keyword.operator.assignment.lua
+      push: packstr-expression-begin
+    - match: (?:and|or){{identifier_break}}
+      scope: keyword.operator.logical.lua
+      push: packstr-expression-begin
+    - include: expression-end
+
+  packstr-string:
+    - match: \[(=*)\[
+      scope: punctuation.definition.string.begin.lua
+      set: multiline-packstr-body
+    - match: \'
+      scope: punctuation.definition.string.begin.lua
+      set: single-quoted-packstr-body
+    - match: \"
+      scope: punctuation.definition.string.begin.lua
+      set: double-quoted-packstr-body
+
+  single-quoted-packstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: single-quoted-string-body
+    - include: packstr-patterns
+
+  double-quoted-packstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: double-quoted-string-body
+    - include: packstr-patterns
+
+  multiline-packstr-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - include: multiline-string-body
+    - include: packstr-patterns
+
+  packstr-patterns:
+    - match: '[=<>]|![0-9]*'
+      scope: storage.modifier.lua
+
+    - match: '[bBhHlLjJTfdnz]|[Iis][0-9]*|c[0-9]+'
+      scope: storage.type.lua
+
+    - match: '[xX]'
+      scope: punctuation.separator.padding.lua
+
+    - match: '[^"''\\\]\s]'
+      scope: invalid.illegal.invalid-storage.lua
+
+###[ MODULES ]#################################################################
+
   builtin-modules:
     - match: coroutine{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  create|isyieldable|resume|running|status|wrap|yield|close
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-coroutine-body
 
     - match: package{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  config|cpath|loaded|path|preload|searchers|loaders
-                ){{identifier_break}}
-              scope: meta.property.lua support.constant.builtin.lua
-              pop: 1
-            - match: |-
-                (?x:
-                  loadlib|searchpath|seeall
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-package-body
 
     - match: string{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  byte|char|dump|find|format|gmatch|gsub|len|lower|match|pack
-                  |packsize|rep|reverse|sub|unpack|upper
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-string-body
 
     - match: utf8{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  charpattern
-                ){{identifier_break}}
-              scope: meta.property.lua support.constant.builtin.lua
-              pop: 1
-            - match: |-
-                (?x:
-                  char|codes|codepoint|len|offset
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-utf8-body
 
     - match: table{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  concat|insert|move|pack|remove|sort|unpack|maxn
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-table-body
 
     - match: math{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  huge|maxinteger|mininteger|pi
-                ){{identifier_break}}
-              scope: meta.property.lua support.constant.builtin.lua
-              pop: 1
-            - match: |-
-                (?x:
-                  abs|acos|asin|atan|ceil|cos|deg|exp|floor|fmod|log|max|min
-                  |modf|rad|random|randomseed|sin|sqrt|tan|tointeger|type|ult
-                  |atan2|cosh|frexp|ldexp|log10|pow|sinh|tanh
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-math-body
 
     - match: io{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  stderr|stdin|stdout
-                ){{identifier_break}}
-              scope: meta.property.lua support.constant.builtin.lua
-              pop: 1
-            - match: |-
-                (?x:
-                  close|flush|input|lines|open|output|popen|read|tmpfile|type|write
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-io-body
 
     - match: os{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  clock|date|difftime|execute|exit|getenv|remove|rename
-                  |setlocale|time|tmpname
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-os-body
 
     - match: debug{{identifier_break}}
       scope: support.constant.builtin.lua
-      set:
-        - match: \.
-          scope: punctuation.accessor.lua
-          set:
-            - match: |-
-                (?x:
-                  debug|gethook|getinfo|getlocal|getmetatable|getregistry
-                  |getupvalue|getuservalue|sethook|setlocal|setmetatable
-                  |setupvalue|setuservalue|traceback|upvalueid|upvaluejoin
-                  |getfenv|setfenv
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+      set: builtin-module-debug-body
 
     - match: bit32{{identifier_break}}
       scope: support.constant.builtin.lua
+      set: builtin-module-bit32-body
+
+  builtin-module-coroutine-body:
+    - match: \.
+      scope: punctuation.accessor.lua
       set:
-        - match: \.
-          scope: punctuation.accessor.lua
+        - match: |-
+            (?x:
+              create|isyieldable|resume|running|status|wrap|yield|close
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-package-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              config|cpath|loaded|path|preload|searchers|loaders
+            ){{identifier_break}}
+          scope: meta.property.lua support.constant.builtin.lua
+          pop: 1
+        - match: |-
+            (?x:
+              loadlib|searchpath|seeall
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-string-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: (?:find|gmatch|gsub|match){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
           set:
-            - match: |-
-                (?x:
-                  arshift|band|bnot|bor|btest|bxor|extract|lrotate|lshift
-                  |replace|rrotate|rshift
-                ){{identifier_break}}
-              scope: meta.property.lua support.function.builtin.lua
-              pop: 1
-            - include: property
-        - include: else-pop
+            - match: (?={{function_args_begin}})
+              set:
+                - function-arguments-meta
+                - function-arguments-pattern-at2
+            - include: else-pop
+        - match: (?:format){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.stringy.lua
+          set:
+            - match: (?={{function_args_begin}})
+              set:
+                - function-arguments-meta
+                - function-arguments-fmtstr-at1
+            - include: else-pop
+        - match: (?:pack|unpack|packsize){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.stringy.lua
+          set:
+            - match: (?={{function_args_begin}})
+              set:
+                - function-arguments-meta
+                - function-arguments-packstr-at1
+            - include: else-pop
+        - match: |-
+            (?x:
+              byte|char|dump|len|lower
+              |rep|reverse|sub|upper
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-utf8-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              charpattern
+            ){{identifier_break}}
+          scope: meta.property.lua support.constant.builtin.lua
+          pop: 1
+        - match: |-
+            (?x:
+              char|codes|codepoint|len|offset
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-table-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              concat|insert|move|pack|remove|sort|unpack|maxn
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-math-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              huge|maxinteger|mininteger|pi
+            ){{identifier_break}}
+          scope: meta.property.lua support.constant.builtin.lua
+          pop: 1
+        - match: |-
+            (?x:
+              abs|acos|asin|atan|ceil|cos|deg|exp|floor|fmod|log|max|min
+              |modf|rad|random|randomseed|sin|sqrt|tan|tointeger|type|ult
+              |atan2|cosh|frexp|ldexp|log10|pow|sinh|tanh
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-io-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              stderr|stdin|stdout
+            ){{identifier_break}}
+          scope: meta.property.lua support.constant.builtin.lua
+          pop: 1
+        - match: |-
+            (?x:
+              close|flush|input|lines|open|output|popen|read|tmpfile|type|write
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-os-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              clock|date|difftime|execute|exit|getenv|remove|rename
+              |setlocale|time|tmpname
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-debug-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              debug|gethook|getinfo|getlocal|getmetatable|getregistry
+              |getupvalue|getuservalue|sethook|setlocal|setmetatable
+              |setupvalue|setuservalue|traceback|upvalueid|upvaluejoin
+              |getfenv|setfenv
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+  builtin-module-bit32-body:
+    - match: \.
+      scope: punctuation.accessor.lua
+      set:
+        - match: |-
+            (?x:
+              arshift|band|bnot|bor|btest|bxor|extract|lrotate|lshift
+              |replace|rrotate|rshift
+            ){{identifier_break}}
+          scope: meta.property.lua support.function.builtin.lua
+          pop: 1
+        - include: property
+    - include: else-pop
+
+###[ PROTOTYPES ]##############################################################
+
+  eol-pop:
+    - match: '$\n?'
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+###[ VARIABLES ]###############################################################
+
+variables:
+  shebang_language: (?:\blua\b)
+  leading_wspace: (?:^\s*)
+  reserved_word: |-
+    (?x:(?:
+      and|break|do|elseif|else|end|false|for|function|goto|if|in|
+      local|nil|not|or|repeat|return|then|true|until|while
+    ){{identifier_break}})
+  reserved_word_statement: |- # excludes 'not', 'true', 'nil', 'false', 'function'
+    (?x:(?:
+      and|break|do|elseif|else|end|for|goto|if|in|
+      local|or|repeat|return|then|until|while
+    ){{identifier_break}})
+  metamethod: |- # http://lua-users.org/wiki/MetatableEvents
+    (?x:__(?:
+      # special
+      index|newindex|call|tostring|len|i?pairs|gc|close
+      # math operators
+      |unm|add|sub|mul|i?div|mod|pow|concat
+      # bitwise operators
+      |band|bor|bxor|bnot|shl|shr
+      # comparison
+      |eq|lt|le
+    ){{identifier_break}})
+  # __metatable and __mode don't use functions
+  metaproperty: (?:__(?:metatable|mode|name){{identifier_break}})
+
+  identifier_start: '[A-Za-z_]'
+  identifier_char: '[A-Za-z0-9_]'
+  identifier_break: (?!{{identifier_char}})
+  identifier_raw: (?:{{identifier_start}}{{identifier_char}}*)
+  identifier: (?:(?!{{reserved_word}}){{identifier_raw}})
+
+  trailing_expression_char: '[,\]})]'
+
+  function_args_begin: (?:\(|"|'|\[=*\[|\{)
+  function_call_ahead: (?=\s*{{function_args_begin}})
+  function_assignment_ahead: (?=\s*=\s*function{{identifier_break}})
+
+  dec_exponent: (?:[Ee][-+]?\d*)
+  hex_exponent: (?:[Pp][-+]?\d*)
+
+  doc_comment_tag: |-
+    (?x:@(?:
+      alias|async|author|class|classmod|copyright|deprecated|diagnostic|field
+      |fixme|function|generic|language|lfunction|license|local|module|nodiscard
+      |overload|param|raise|release|return|script|section|see|submodule|table
+      |todo|tparam|treturn|type|usage|vararg|version|warning|within
+    )\b)
+  doc_comment_custom_tag: (?:@\w+\b)
+
+  string_char_escape: \\(?:[abfnrtv\\'"\[\]\n]|x\h\h|\d{1,3}|u\{\h+\})
