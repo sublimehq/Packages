@@ -789,10 +789,8 @@ contexts:
 ###[ CLASS DEFINITIONS ]######################################################
 
   class-definitions:
-    - match: ^\s*(class)\b
-      scope: meta.class.python
-      captures:
-        1: keyword.declaration.class.python
+    - match: class\b
+      scope: meta.class.python keyword.declaration.class.python
       push:
         - class-definition-base-list
         - type-parameter-list
@@ -860,7 +858,7 @@ contexts:
 ###[ FUNCTION DEFINITIONS ]###################################################
 
   function-definitions:
-    - match: ^\s*(?:(async)\s+)?(def)\b
+    - match: (?:(async)\s+)?(def)\b
       scope: meta.function.python
       captures:
         1: keyword.declaration.async.python
@@ -1074,7 +1072,7 @@ contexts:
 ###[ TYPE DEFINITIONS ]#######################################################
 
   type-definitions:
-    - match: ^(?=\s*type\b)
+    - match: (?=type\b)
       branch_point: type-definitions
       branch:
         - type-definition
@@ -1082,9 +1080,8 @@ contexts:
 
   type-definition:
     - meta_include_prototype: false
-    - match: \s*(type)\b
-      captures:
-        1: keyword.declaration.class.python
+    - match: type\b
+      scope: keyword.declaration.class.python
       set:
         - type-definition-meta
         - type-definition-value-assignment
@@ -1621,11 +1618,19 @@ contexts:
         meta.statement.conditional.case.python
         keyword.control.conditional.case.python
       set:
+        - after-first-case-statement
         - meta-disable-dedentation
         - case-statement-pattern
         - allow-unpack-operators
     - include: comments
     - include: else-pop
+
+  after-first-case-statement:
+    - meta_include_prototype: false
+    - match: \@
+      scope: meta.annotation.python punctuation.definition.annotation.python
+      set: decorator-body
+    - include: immediately-pop
 
   meta-disable-dedentation:
     - meta_include_prototype: false

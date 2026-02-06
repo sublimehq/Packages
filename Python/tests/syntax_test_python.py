@@ -2146,6 +2146,20 @@ def f[
 #          ^ meta.type.python meta.path.python meta.generic-name.python
 #           ^ meta.function.python punctuation.section.block.begin.python
 
+match test:
+    case "func":
+        def func(arg): pass
+# <- meta.disable-dedentation.python - meta.function
+#^^^^^^^ meta.disable-dedentation.python - meta.function
+#       ^^^^^^^^ meta.function.python
+#       ^^^ keyword.declaration.function.python
+#           ^^^^ entity.name.function.python
+#               ^^^^^ meta.function.parameters.python
+#               ^ punctuation.section.parameters.begin.python
+#                ^^^ variable.parameter.python
+#                   ^ punctuation.section.parameters.end.python
+#                    ^ meta.function.python punctuation.section.block.begin.python
+#                      ^^^^ keyword.control.flow.pass.python
 
 ##################
 # Class definitions
@@ -2310,6 +2324,19 @@ class GenericClass[T: X, **U]:
 #             ^^^^^^^^ meta.function.parameters
 #                   ^ meta.type.python meta.path.python meta.generic-name.python
 
+match test:
+    case "class":
+        class name(): pass
+# <- meta.disable-dedentation.python - meta.class
+#^^^^^^^ meta.disable-dedentation.python - meta.class
+#       ^^^^^^^^^^ meta.class.python
+#       ^^^^^ keyword.declaration.class.python
+#             ^^^^ entity.name.class.python
+#                 ^^ meta.class.inheritance.python
+#                 ^ punctuation.section.inheritance.begin.python
+#                  ^ punctuation.section.inheritance.end.python
+#                   ^ meta.class.python punctuation.section.block.begin.python
+#                     ^^^^ keyword.control.flow.pass.python
 
 ##################
 # Type definitions
@@ -2389,8 +2416,9 @@ type \
 #        ^ punctuation.section.brackets.end.python
 
   type Alias
-# <- meta.type-alias.python
-#^^^^^^^^^^^ meta.type-alias.python
+# <- - meta.type-alias
+#^ - meta.type-alias
+# ^^^^^^^^^^ meta.type-alias.python
 # ^^^^ keyword.declaration.class.python
 #      ^^^^^ entity.name.type.alias.python
 
@@ -2429,7 +2457,7 @@ class Foo:
 #                      ^^^^ variable.parameter.python
         self.type = type
 #            ^^^^ meta.path.python meta.generic-name.python
-#                   ^^^^ meta.path.python meta.generic-name.python
+#                   ^^^^ meta.generic-name.python
 
         self.me = type(type)
 #                 ^^^^ meta.function-call.identifier.python support.function.builtin.python
@@ -2437,6 +2465,14 @@ class Foo:
 #                     ^ punctuation.section.arguments.begin.python
 #                      ^^^^ meta.path.python meta.generic-name.python
 #                          ^ punctuation.section.arguments.end.python
+
+match test:
+    case "type":
+        type foo
+#^^^^^^^ meta.disable-dedentation.python - meta.type
+#       ^^^^^^^^ meta.type-alias.python
+#       ^^^^ keyword.declaration.class.python
+#            ^^^ entity.name.type.alias.python
 
 ##################
 # Decorators
@@ -2591,6 +2627,14 @@ class Class():
 #                          ^ punctuation.accessor.dot.python
 #                           ^^^^^^^ variable.annotation.python
 #
+
+match test:
+    case "func":
+        @guarded
+#^^^^^^^ meta.disable-dedentation.python - meta.annotation
+#       ^^^^^^^^ meta.annotation.python
+#       ^ punctuation.definition.annotation.python
+#        ^^^^^^^ variable.annotation.python
 
 ##################
 # Collection literals and generators
@@ -3087,8 +3131,11 @@ class Cls:
     __slots__ = "item",
 
     def method():
-# <- meta.function.python
-#^^^^^^^^^^^^^^^^ meta.function
+# <- - meta.function
+#^^^ - meta.function
+#   ^^^^^^^^^^ meta.function.python
+#             ^^ meta.function.parameters.python
+#               ^ meta.function.python
 #   ^^^ keyword.declaration.function.python
 #       ^^^^^^ entity.name.function.python
 #             ^ punctuation.section.parameters.begin.python
