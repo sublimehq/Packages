@@ -18,7 +18,9 @@ file_extensions:
 
 contexts:
   main:
-    - include: toml
+    - meta_include_prototype: false
+    - match: ''
+      set: toml
 
   toml:
     - meta_content_scope: meta.mapping.toml
