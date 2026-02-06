@@ -308,6 +308,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
+    - include: comments
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambdas
@@ -328,6 +329,7 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - no assignment expressions allowed
     # - accessor and lambda matching continues into the next line
+    - include: comments
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambda-in-groups
@@ -339,6 +341,7 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - accessor and lambda matching continues into the next line
     - include: for-expressions
+    - include: comments
     - include: line-continuations
     - include: assignment-expressions
     - include: lambda-in-groups
@@ -350,7 +353,6 @@ contexts:
     - include: dictionaries-and-sets
     - include: generators-groups-and-tuples
     - include: lists
-    - include: comments
     - include: constants
     - include: numbers
     - include: strings
@@ -826,6 +828,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.inheritance.python
     # expression-in-a-group (without qualified-name)
+    - include: comments
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambda-in-groups
