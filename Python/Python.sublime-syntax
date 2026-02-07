@@ -525,7 +525,7 @@ contexts:
   import-names:
     - match: ','
       scope: punctuation.separator.import-list.python
-    - include: name
+    - include: names
 
   expect-import-end:
     - match: $
@@ -1294,7 +1294,7 @@ contexts:
       pop: 1
     - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
-    - include: name
+    - include: names
 
 ###[ FOR STATEMENTS ]#########################################################
 
@@ -1401,7 +1401,7 @@ contexts:
   modifier-statement-body:
     - meta_scope: meta.statement.modifier.python
     - include: line-continuation-or-pop
-    - include: name
+    - include: names
     - match: ','
       scope: punctuation.separator.storage-list.python
     - match: \S+
@@ -1449,7 +1449,7 @@ contexts:
     - include: line-continuation-or-pop
     - include: generators-groups-and-tuples
     - include: lists
-    - include: name
+    - include: names
     - include: else-pop
 
   with-statement-tuple:
@@ -1477,7 +1477,7 @@ contexts:
     - include: comments
     - include: generators-groups-and-tuples
     - include: lists
-    - include: name
+    - include: names
     - include: else-pop
 
   with-statement-tuple-end:
@@ -2064,7 +2064,7 @@ contexts:
 
 ###[ IDENTIFIERS ]############################################################
 
-  name:
+  names:
     - match: (?={{identifier}})
       push: name-content
 
@@ -2094,7 +2094,7 @@ contexts:
 
   qualified-name-content:
     - meta_scope: meta.path.python
-    - include: name
+    - include: names
     - include: dotted-name
     - include: immediately-pop
 
