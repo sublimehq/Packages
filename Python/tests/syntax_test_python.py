@@ -510,9 +510,13 @@ TypeError module.TypeError
 #                ^^^^^^^^^ meta.generic-name.python
 
 open.open.open.
-#    ^^^^^^^^^ - support
+# <- meta.path.python meta.generic-name.python
+#^^^^^^^^^^^^^^ meta.path.python - keyword - support
+#^^^ meta.generic-name.python
 #   ^ punctuation.accessor.dot.python
+#    ^^^^ meta.generic-name.python
 #        ^ punctuation.accessor.dot.python
+#         ^^^^ meta.generic-name.python
 #             ^ punctuation.accessor.dot.python
 
 ... Ellipsis __debug__
@@ -612,11 +616,12 @@ dotted . identifier(12, True)
 #        ^^^^^^^^^^ variable.function
 
 open.__new__(12, \
-# <- - meta.function-call
+# <- meta.path.python meta.generic-name.python - meta.function-call
 #^^^^ - meta.function-call
 #    ^^^^^^^ meta.function-call.identifier.python
 #           ^^^^^^^ meta.function-call.arguments.python
-#^^^ support.function.builtin
+#^^^^^^^^^^^ meta.path
+#^^^ meta.generic-name.python
 #   ^ punctuation.accessor.dot
 #    ^^^^^^^ support.function.magic
 #                ^ punctuation.separator.continuation.line.python
@@ -653,9 +658,9 @@ module.TypeError()
 #                ^ punctuation.section.arguments.end.python
 
 open.open.open()
-#^^^ support.function.builtin
+#^^^^^^^^^^^^^ - support
 #   ^ punctuation.accessor.dot
-#    ^^^^^^^^^ - support
+#        ^ punctuation.accessor.dot
 #         ^^^^ variable.function
 
 call(2**10, *range(10), **dict(), * *{}, ***a)
@@ -968,10 +973,10 @@ def _():
     print (file=None)
 #   ^^^^^ support.function.builtin - keyword
     print .
-#   ^^^^^ support.function.builtin - keyword
+#   ^^^^^ meta.generic-name.python - keyword - support
 #         ^ punctuation.accessor.dot.python
     print . __class__
-#   ^^^^^ support.function.builtin - keyword
+#   ^^^^^ meta.generic-name.python - keyword - support
 #         ^ punctuation.accessor.dot.python
     print "keyword"
 #   ^^^^^ keyword.other.print
@@ -995,7 +1000,7 @@ def _():
 
     func(
         print
-#       ^^^^^ support.function.builtin - keyword
+#       ^^^^^ meta.generic-name.python - keyword - support
     )
 
     print
@@ -2488,7 +2493,7 @@ class GenericClass[T: X, **U]:
 #                            ^ punctuation.section.block.begin.python
 
     from typing import override
-#                      ^^^^^^^^ support.function.typing.python
+#                      ^^^^^^^^ meta.generic-name.python - keyword - support
 
     __override__ = True
 #   ^^^^^^^^^^^^ support.variable.magic.python

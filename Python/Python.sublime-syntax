@@ -1591,14 +1591,24 @@ contexts:
     - include: immediately-pop
 
   qualified-function-call-name:
-    - include: dotted-special-name
+    - include: magic-function
+    - include: magic-variable
+    - include: wildcard-variable
+    - include: illegal-name
     - include: constant-name
     - include: function-name
     - include: immediately-pop
 
   unqualified-function-call-name:
     - meta_scope: meta.function-call.identifier.python
-    - include: special-name
+    - include: builtin-exception
+    - include: builtin-function
+    - include: builtin-type
+    - include: class-variable
+    - include: magic-function
+    - include: magic-variable
+    - include: wildcard-variable
+    - include: illegal-name
     - include: function-name
     - include: immediately-pop
 
@@ -2103,7 +2113,13 @@ contexts:
       set: name-content
 
   name-content:
-    - include: special-name
+    - include: builtin-exception
+    - include: builtin-type
+    - include: class-variable
+    - include: magic-function
+    - include: magic-variable
+    - include: wildcard-variable
+    - include: illegal-name
     - include: constant-name
     - include: generic-name
     - include: immediately-pop
@@ -2151,26 +2167,13 @@ contexts:
     - include: line-continuation-immediately-pop
 
   dotted-name-content:
-    - include: dotted-special-name
+    - include: magic-function
+    - include: magic-variable
+    - include: wildcard-variable
+    - include: illegal-name
     - include: constant-name
     - include: generic-name
     - include: immediately-pop
-
-  dotted-special-name:
-    - include: magic-function
-    - include: magic-variable
-    - include: wildcard-variable
-    - include: illegal-name
-
-  special-name:
-    - include: builtin-exception
-    - include: builtin-function
-    - include: builtin-type
-    - include: class-variable
-    - include: magic-function
-    - include: magic-variable
-    - include: wildcard-variable
-    - include: illegal-name
 
   builtin-exception:
     - match: '{{builtin_exceptions}}'
