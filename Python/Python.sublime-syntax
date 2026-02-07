@@ -73,7 +73,7 @@ contexts:
     - include: illegal-assignment-expressions
     - include: lambdas
     - include: expressions-common
-    - include: qualified-name
+    - include: qualified-names
 
   expression-in-a-statement:
     # Differs from expression-as-a-statement in that:
@@ -83,7 +83,7 @@ contexts:
     - include: lambdas
     - include: expressions-common
     - include: illegal-name
-    - include: qualified-name
+    - include: qualified-names
 
   expression-in-a-group:  # Always include this last!
     # Differs from expression-in-a-statement in that:
@@ -94,7 +94,7 @@ contexts:
     - include: lambda-in-groups
     - include: expressions-common
     - include: illegal-name
-    - include: qualified-name
+    - include: qualified-names
 
   expression-in-a-sequence:  # Always include this last!
     # Differs from expression-in-a-statement in that:
@@ -105,7 +105,7 @@ contexts:
     - include: lambda-in-groups
     - include: expressions-common
     - include: illegal-name
-    - include: qualified-name
+    - include: qualified-names
 
   expressions-common:
     - include: dictionaries-and-sets
@@ -308,7 +308,7 @@ contexts:
     - include: single-quoted-strings
     - include: builtin-exceptions
     - include: builtin-types
-    - include: qualified-name
+    - include: qualified-names
 
   type-hint-lists:
     - match: \[
@@ -435,7 +435,7 @@ contexts:
       scope: punctuation.separator.import-list.python
       push: expect-absolute-import
     - include: imports-as
-    - include: qualified-name
+    - include: qualified-names
     - include: import-illegal-names
 
   imports-from-body:
@@ -582,13 +582,13 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.inheritance.python
-    # expression-in-a-group (without qualified-name)
+    # expression-in-a-group (without qualified-names)
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambda-in-groups
     - include: expressions-common
     - include: illegal-name
-    # specific "qualified-name" patterns
+    # specific "qualified-names" patterns
     - match: ({{identifier}})\s*({{assignment_operator}})
       captures:
         1: variable.parameter.class-inheritance.python
@@ -1042,7 +1042,7 @@ contexts:
     - include: numbers
     - include: strings
     - include: illegal-names
-    - include: qualified-name
+    - include: qualified-names
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
@@ -2086,7 +2086,7 @@ contexts:
     - include: generic-names
     - include: immediately-pop
 
-  qualified-name:
+  qualified-names:
     - match: (?={{path}})
       push: qualified-name-content
     - match: \.
