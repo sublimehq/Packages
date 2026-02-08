@@ -118,7 +118,6 @@ contexts:
     - include: keywords
     - include: operators
     - include: function-calls
-    - include: items
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
@@ -306,7 +305,7 @@ contexts:
     - include: constants
     - include: double-quoted-strings
     - include: single-quoted-strings
-    - include: qualified-names
+    - include: type-hint-names
 
   type-hint-lists:
     - match: \[
@@ -321,6 +320,23 @@ contexts:
       scope: punctuation.section.brackets.end.python
       pop: 1
     - include: type-hint-body
+
+  type-hint-names:
+    - match: (?=(?:{{identifier}}\s*)?\.)
+      push:
+        - type-hint-qualified-name-content
+        - name-content
+    - match: (?={{identifier_start}})
+      push: name-content
+
+  type-hint-qualified-name-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.python
+    - match: \s*(\.)\s*
+      captures:
+        1: punctuation.accessor.dot.python
+      push: dotted-name-content
+    - include: immediately-pop
 
   type-constants:
     # Note: Enables `None = None` in type hints.
@@ -2002,23 +2018,17 @@ contexts:
 
 ###[ ITEM ACCESS ]############################################################
 
-  items:
-    - match: (?={{path}}\s*\[)
-      push:
-        - item-access
-        - qualified-name-content
-        - name-content
-
   item-access:
-    - match: \[
-      scope: punctuation.section.brackets.begin.python
-      set: maybe-item-access-body
+    - match: \s*(\[)
+      captures:
+        1: meta.brackets.python punctuation.section.brackets.begin.python
+      push: item-access-body
 
-  maybe-item-access-body:
-    - meta_scope: meta.brackets.python
+  item-access-body:
+    - meta_content_scope: meta.brackets.python
     - match: \]
-      scope: punctuation.section.brackets.end.python
-      set: after-expression
+      scope: meta.brackets.python punctuation.section.brackets.end.python
+      pop: 1
     - match: '{{colon}}'
       scope: punctuation.separator.slice.python
     - include: expression-in-a-group
@@ -2106,11 +2116,15 @@ contexts:
 
   names:
     - match: (?={{identifier_start}})
-      push: name-content
+      push:
+        - after-expression
+        - name-content
 
   name:
     - match: (?={{identifier_start}})
-      set: name-content
+      set:
+        - after-expression
+        - name-content
 
   name-content:
     - include: builtin-exception
@@ -2163,7 +2177,9 @@ contexts:
   dotted-name:
     - meta_include_prototype: false
     - match: \s*(?={{identifier_start}})
-      set: dotted-name-content
+      set:
+        - after-expression
+        - dotted-name-content
     - include: line-continuation-immediately-pop
 
   dotted-name-content:
@@ -3998,8 +4014,7 @@ contexts:
   after-expression:
     - match: \s*(?=\()
       set: function-call-argument-list
-    - match: \s*(?=\[)
-      set: item-access
+    - include: item-access
     - include: line-continuation-immediately-pop
 
   else-pop:

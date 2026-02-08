@@ -388,7 +388,7 @@ from sys import (version, # comment
 #                         ^ comment
                  anything \
 #                ^^^^^^^^ meta.generic-name.python - meta.path
-#                         ^ invalid.illegal.name.import.python
+#                         ^ punctuation.separator.continuation.line.python
                  version_info, . ) # comment
 #                ^^^^^^^^^^^^^^^^^ meta.statement.import
 #                ^^^^^^^^^^^^ meta.generic-name.python - meta.path
@@ -916,6 +916,7 @@ self[5] = 0
 #   ^^^ meta.brackets.python
 
 range(20)[10:2:-2]
+#        ^^^^^^^^^ meta.brackets.python
 #           ^ punctuation.separator.slice
 #             ^ punctuation.separator.slice
 
@@ -3798,7 +3799,7 @@ bar: (str | None) = 'b'
 
 bar: list[str | None] = 'b'
 #  ^^ - meta.type
-#    ^^^^ meta.type.python meta.path.python support.type.python
+#    ^^^^ meta.type.python support.type.python - meta.path
 #        ^^^^^^^^^^^^ meta.type.python meta.brackets.python
 #                    ^^^^^^^ - meta.type
 #  ^ punctuation.separator.annotation.python
@@ -4030,6 +4031,31 @@ view = None  # type: sublime.View
 #                    ^^^^^^^ meta.generic-name.python
 #                           ^ punctuation.accessor.dot.python
 #                            ^^^^ meta.generic-name.python
+
+view = None  # type: sublime . View
+#            ^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
+#            ^^ comment.line.number-sign.python - meta.type
+#              ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                                  ^ comment.line.number-sign.python - meta.type
+#            ^ punctuation.definition.comment.python
+#              ^^^^ keyword.other.type.python
+#                  ^ punctuation.separator.type.python
+#                    ^^^^^^^^^^^^^^ meta.path.python
+#                    ^^^^^^^ meta.generic-name.python
+#                            ^ punctuation.accessor.dot.python
+#                              ^^^^ meta.generic-name.python
+
+view = None  # type: . View
+#            ^^^^^^^^^^^^^^^ - meta.type meta.type
+#            ^^ comment.line.number-sign.python - meta.type
+#              ^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python
+#                          ^ comment.line.number-sign.python - meta.type
+#            ^ punctuation.definition.comment.python
+#              ^^^^ keyword.other.type.python
+#                  ^ punctuation.separator.type.python
+#                    ^^^^^^ meta.path.python
+#                    ^ punctuation.accessor.dot.python
+#                      ^^^^ meta.generic-name.python
 
 for a, b in lst: # type: str, int
 #                ^^^^^^^^^^^^^^^^ - meta.type meta.type - meta.path
