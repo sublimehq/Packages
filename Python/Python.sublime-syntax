@@ -1230,6 +1230,7 @@ contexts:
         - structural-pattern-fallback
 
   case-statement:
+    - meta_include_prototype: false
     - match: case
       scope:
         meta.statement.conditional.case.python
@@ -1239,16 +1240,20 @@ contexts:
         - case-statement-begin
 
   case-statement-begin:
+    - meta_include_prototype: false
     # fail if match is directly followed by `:` or end of statement
     - match: (?=$|#|;|:)
       fail: case-statements
     - include: allow-unpack-operators
 
   case-statement-end:
-    - match: '{{colon}}'
-      scope:
-        meta.statement.conditional.case.python
-        punctuation.section.block.begin.python
+    # Note: Consume any whitespace up to eol, including newline, to apply
+    # `meta.disable-dedentation` to full line, which is requied to actually
+    # disable default dedentation rules.
+    - match: ({{colon}})(?:\s*\n)?
+      captures:
+        1: meta.statement.conditional.case.python
+           punctuation.section.block.begin.python
       pop: 1
 
   case-statement-fail:
@@ -1606,31 +1611,20 @@ contexts:
   maybe-first-case-statement:
     # Disable dedentation of first case statement by special indentation rule.
     # see: https://github.com/sublimehq/Packages/issues/3456
-    - match: case\b
-      scope:
-        meta.statement.conditional.case.python
-        keyword.control.conditional.case.python
-      set:
-        - after-first-case-statement
-        - meta-disable-dedentation
-        - case-statement-pattern
-        - allow-unpack-operators
+    - match: (?=case\b)
+      set: first-case-statement
+    - include: line-continuations
     - include: comments
     - include: else-pop
 
-  after-first-case-statement:
-    - meta_include_prototype: false
-    - match: \@
-      scope: meta.annotation.python punctuation.definition.annotation.python
-      set: decorator-body
-    - include: immediately-pop
-
-  meta-disable-dedentation:
+  first-case-statement:
     - meta_include_prototype: false
     - meta_scope: meta.disable-dedentation.python
-    - include: else-pop
+    - include: case-statements
+    - include: immediately-pop
 
   structural-pattern-fallback:
+    - meta_include_prototype: false
     # Fallback context, which is used if `match` or `case` don't seem to
     # start a structural match pattern statement.
     - match: (?={{path}}\s*\()

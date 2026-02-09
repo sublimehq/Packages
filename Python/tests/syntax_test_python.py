@@ -1700,6 +1700,85 @@ def _():
 #         ^ keyword.operator.assignment.python
 #           ^ meta.number.integer.decimal.python constant.numeric.value.python
 
+match incomlete_first_case_expression_01:
+    case
+#   ^^^^ meta.generic-name.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match incomlete_first_case_expression_02:
+    case "foo"
+#   ^^^^ meta.generic-name.python
+#        ^^^^^ meta.string.python string.quoted.double.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match incomlete_first_case_expression_03:
+    case "foo" as bar
+#   ^^^^ meta.generic-name.python
+#        ^^^^^ meta.string.python string.quoted.double.python
+#              ^^ invalid.illegal.name.python
+#                 ^^^ meta.generic-name.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match incomlete_first_case_expression_04:
+    case "foo" if bar
+#   ^^^^ meta.generic-name.python
+#        ^^^^^ meta.string.python string.quoted.double.python
+#              ^^ keyword.control.conditional.if.python
+#                 ^^^ meta.generic-name.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match incomlete_first_case_expression_05:
+    case "foo" if bar  # comment
+#   ^^^^ meta.generic-name.python
+#        ^^^^^ meta.string.python string.quoted.double.python
+#              ^^ keyword.control.conditional.if.python
+#                 ^^^ meta.generic-name.python
+#                      ^^^^^^^^^^ comment.line.number-sign.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match not_a_first_case_expression_01:
+    case = 10
+#   ^^^^ meta.generic-name.python
+#        ^ keyword.operator.assignment.python
+#          ^^ meta.number.integer.decimal.python constant.numeric.value.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match not_a_first_case_expression_02:
+    case: dict[str] = 10
+#   ^^^^ meta.generic-name.python
+#       ^ punctuation.separator.annotation.python
+#         ^^^^^^^^^ meta.type.python
+#         ^^^^ support.type.python
+#             ^^^^^ meta.brackets.python
+#                   ^ keyword.operator.assignment.python
+#                     ^^ meta.number.integer.decimal.python constant.numeric.value.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
+match not_a_first_case_expression_03:
+    case(10)
+#   ^^^^ meta.function-call.identifier.python variable.function.python
+#       ^^^^ meta.function-call.arguments.python
+#       ^ punctuation.section.arguments.begin.python
+#        ^^ meta.number.integer.decimal.python constant.numeric.value.python
+#          ^ punctuation.section.arguments.end.python
+    case foo:
+#   ^^^^^^^^^ meta.statement.conditional.case
+#   ^^^^ keyword.control.conditional.case.python
+
 ##################
 # Function definitions
 ##################
@@ -2149,8 +2228,8 @@ def f[
 match test:
     case "func":
         def func(arg): pass
-# <- meta.disable-dedentation.python - meta.function
-#^^^^^^^ meta.disable-dedentation.python - meta.function
+# <- - meta.disable-dedentation - meta.function
+#^^^^^^^ - meta.disable-dedentation - meta.function
 #       ^^^^^^^^ meta.function.python
 #       ^^^ keyword.declaration.function.python
 #           ^^^^ entity.name.function.python
@@ -2327,8 +2406,22 @@ class GenericClass[T: X, **U]:
 match test:
     case "class":
         class name(): pass
-# <- meta.disable-dedentation.python - meta.class
-#^^^^^^^ meta.disable-dedentation.python - meta.class
+# <- - meta.disable-dedentation - meta.class
+#^^^^^^^ - meta.disable-dedentation - meta.class
+#       ^^^^^^^^^^ meta.class.python
+#       ^^^^^ keyword.declaration.class.python
+#             ^^^^ entity.name.class.python
+#                 ^^ meta.class.inheritance.python
+#                 ^ punctuation.section.inheritance.begin.python
+#                  ^ punctuation.section.inheritance.end.python
+#                   ^ meta.class.python punctuation.section.block.begin.python
+#                     ^^^^ keyword.control.flow.pass.python
+
+match test:
+    case "class":  # comment
+        class name(): pass
+# <- - meta.disable-dedentation - meta.class
+#^^^^^^^ - meta.disable-dedentation - meta.class
 #       ^^^^^^^^^^ meta.class.python
 #       ^^^^^ keyword.declaration.class.python
 #             ^^^^ entity.name.class.python
@@ -2469,7 +2562,17 @@ class Foo:
 match test:
     case "type":
         type foo
-#^^^^^^^ meta.disable-dedentation.python - meta.type
+# <- - meta.disable-dedentation - meta.type
+#^^^^^^^ - meta.disable-dedentation - meta.type
+#       ^^^^^^^^ meta.type-alias.python
+#       ^^^^ keyword.declaration.class.python
+#            ^^^ entity.name.type.alias.python
+
+match test:
+    case "type":  # comment
+        type foo
+# <- - meta.disable-dedentation - meta.type
+#^^^^^^^ - meta.disable-dedentation - meta.type
 #       ^^^^^^^^ meta.type-alias.python
 #       ^^^^ keyword.declaration.class.python
 #            ^^^ entity.name.type.alias.python
@@ -2631,7 +2734,17 @@ class Class():
 match test:
     case "func":
         @guarded
-#^^^^^^^ meta.disable-dedentation.python - meta.annotation
+# <- - meta.disable-dedentation - meta.annotation
+#^^^^^^^ - meta.disable-dedentation - meta.annotation
+#       ^^^^^^^^ meta.annotation.python
+#       ^ punctuation.definition.annotation.python
+#        ^^^^^^^ variable.annotation.python
+
+match test:
+    case "func":  # comment
+        @guarded
+# <- - meta.disable-dedentation - meta.annotation
+#^^^^^^^ - meta.disable-dedentation - meta.annotation
 #       ^^^^^^^^ meta.annotation.python
 #       ^ punctuation.definition.annotation.python
 #        ^^^^^^^ variable.annotation.python
