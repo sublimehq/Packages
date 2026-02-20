@@ -1210,17 +1210,27 @@ def _():
 
     with captured() \
     as (
+# <- meta.statement.with.python
+#^^^^^^ meta.statement.with.python - meta.sequence
+#      ^^ meta.statement.with.python meta.sequence.tuple.python
 #      ^ punctuation.section.sequence.begin
         out,
+#      ^^^^^^ meta.statement.with.python meta.sequence.tuple.python
 #       ^^^ meta.generic-name
 #          ^ punctuation.separator.sequence
         err
+#      ^^^^^ meta.statement.with.python meta.sequence.tuple.python
 #       ^^^ meta.generic-name
     ):
+#^^^^ meta.statement.with.python meta.sequence.tuple.python
+#    ^ meta.statement.with.python - meta.sequence
 #   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.begin
 
     with captured() as [out, err]:
+#   ^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.sequence
+#                      ^^^^^^^^^^ meta.statement.with.python meta.sequence.list.python
+#                                ^ meta.statement.with.python - meta.sequence
 #   ^^^^ keyword.control.flow.with
 #        ^^^^^^^^ variable.function
 #                ^ punctuation.section.arguments.begin
@@ -1235,17 +1245,25 @@ def _():
 
     with captured() \
     as [
+# <- meta.statement.with.python
+#^^^^^^ meta.statement.with.python - meta.sequence
+#      ^^ meta.statement.with.python meta.sequence.list.python
 #      ^ punctuation.section.sequence.begin
         out,
+#      ^^^^^^ meta.statement.with.python meta.sequence.list.python
 #       ^^^ meta.generic-name
 #          ^ punctuation.separator.sequence
         err
+#      ^^^^^ meta.statement.with.python meta.sequence.list.python
 #       ^^^ meta.generic-name
     ]:
+#^^^^ meta.statement.with.python meta.sequence.list.python
+#    ^ meta.statement.with.python - meta.sequence
 #   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.begin
 
     async with context_manager() as c:
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python
 #   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
 #                                ^^ keyword.control.flow.with.as
