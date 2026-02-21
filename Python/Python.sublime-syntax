@@ -117,7 +117,6 @@ contexts:
     - include: strings
     - include: keywords
     - include: operators
-    - include: function-calls
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
@@ -325,9 +324,9 @@ contexts:
     - match: (?=(?:{{identifier}}\s*)?\.)
       push:
         - type-hint-qualified-name-content
-        - name-content
+        - unqualified-name-content
     - match: (?={{identifier_start}})
-      push: name-content
+      push: unqualified-name-content
 
   type-hint-qualified-name-content:
     - meta_include_prototype: false
@@ -335,7 +334,7 @@ contexts:
     - match: \s*(\.)\s*
       captures:
         1: punctuation.accessor.dot.python
-      push: dotted-name-content
+      push: qualified-name-content
     - include: immediately-pop
 
   type-constants:
@@ -372,61 +371,52 @@ contexts:
     - include: strings
     - include: keywords
     - include: operators
-    - include: decorator-function-calls
     - include: decorator-variables
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
 
-  decorator-function-calls:
-    - match: (?=(?:\.\s*)?{{path}}\s*\() # now we do
-      push:
-        - function-call-argument-list
-        - decorator-function-call-name
-        - qualified-name-until-leaf
-
-  decorator-function-call-name:
-    - meta_content_scope: meta.function-call.identifier.python
-    - match: (\.)\s*
-      captures:
-        1: punctuation.accessor.dot.python
-      set: qualified-decorator-function-call-name
-    - match: ''
-      set: unqualified-decorator-function-call-name
-
-  qualified-decorator-function-call-name:
-    - meta_scope: meta.function-call.identifier.python meta.path.python
-    - include: unqualified-decorator-variable-name
-
-  unqualified-decorator-function-call-name:
-    - meta_scope: meta.function-call.identifier.python
-    - include: unqualified-decorator-variable-name
-
   decorator-variables:
-    - match: (?=(?:\.\s*)?{{identifier}})
+    # qualified variables
+    - match: \.
+      scope: punctuation.accessor.dot.python
+      push: decorator-qualified-name-element
+    # note: assume qualified identifier if followed by line continuation
+    - match: ({{identifier}})\s*(?={{item_access}}*(?:\.|\\$))
+      scope: meta.path.python
+      captures:
+        1: variable.annotation.namespace.python
       push:
+        - decorator-qualified-name-accessor
         - after-expression
-        - decorator-variable-name
-        - qualified-name-until-leaf
+    # unqualified variables
+    - match: '{{identifier}}'
+      scope: meta.function-call.identifier.python variable.annotation.python
+      push: after-expression
 
-  decorator-variable-name:
-    - match: (\.)\s*
+  decorator-qualified-name-accessor:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.python
+    - match: \s*(\.)
       captures:
         1: punctuation.accessor.dot.python
-      set: qualified-decorator-variable-name
-    - match: ''
-      set: unqualified-decorator-variable-name
+      set: decorator-qualified-name-element
+    - include: line-continuation-immediately-pop
 
-  qualified-decorator-variable-name:
+  decorator-qualified-name-element:
+    - meta_include_prototype: false
     - meta_scope: meta.path.python
-    - include: unqualified-decorator-variable-name
-
-  unqualified-decorator-variable-name:
-    - include: illegal-name
-    - match: '{{identifier}}'
-      scope: variable.annotation.python
-      pop: 1
-    - include: immediately-pop
+    - match: \s*({{identifier}})\s*(?={{item_access}}*(?:\.|\\$))
+      captures:
+        1: variable.annotation.namespace.python
+      set:
+        - decorator-qualified-name-accessor
+        - after-expression
+    - match: \s*({{identifier}})
+      captures:
+        1: meta.function-call.identifier.python variable.annotation.python
+      set: after-expression
+    - include: line-continuation-immediately-pop
 
 ###[ IMPORT STATEMENTS ]######################################################
 
@@ -461,7 +451,7 @@ contexts:
     - match: as\b
       scope: keyword.control.import.as.python
       set: imports-from-import-names
-    - match: '{{illegal_names}}\b'
+    - match: '{{illegal_names}}'
       scope: meta.import-path.python invalid.illegal.name.python
     - match: '{{identifier}}'
       scope: meta.import-path.python meta.import-name.python
@@ -504,7 +494,7 @@ contexts:
       push: imports-as-inlist-body
 
   imports-as-inlist-body:
-    - include: name
+    - include: unqualified-name
     - include: import-illegal-names-inlist
     - include: else-pop
 
@@ -526,7 +516,7 @@ contexts:
 
   imports-as-body:
     - include: line-continuation-or-pop
-    - include: name
+    - include: unqualified-name
     - include: import-illegal-names
     - include: else-pop
 
@@ -537,7 +527,7 @@ contexts:
   import-names:
     - match: ','
       scope: punctuation.separator.import-list.python
-    - include: names
+    - include: unqualified-names
 
   expect-import-end:
     - match: $
@@ -605,21 +595,46 @@ contexts:
       captures:
         1: variable.parameter.class-inheritance.python
         2: keyword.operator.assignment.python
-    - match: (?={{identifier}}\s*\.)
-      push: qualified-base-class-name
+    - match: (?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      push:
+        - qualified-base-class-separator
+        - after-expression
+        - unqualified-name-content
+    - match: (?={{identifier}}\s*\()
+      push:
+        - function-call-argument-list
+        - unqualified-function-call-name
     - match: '{{identifier}}'
       scope: entity.other.inherited-class.python
 
-  qualified-base-class-name:
-    - meta_scope: meta.path.python
-    - match: '({{identifier}})\s*(\.)\s*'
+  qualified-base-class-separator:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.python
+    - match: \s*(\.)
       captures:
-        1: variable.namespace.python
-        2: punctuation.accessor.dot.python
-    - match: '{{identifier}}'
-      scope: entity.other.inherited-class.python
+        1: punctuation.accessor.dot.python
+      set: qualified-base-class-element
+    - include: line-continuation-immediately-pop
+
+  qualified-base-class-element:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.python
+    - match: (?=\s*{{illegal_names}})
       pop: 1
-    - include: immediately-pop
+    - match: \s*(?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      set:
+        - qualified-base-class-separator
+        - after-expression
+        - qualified-name-content
+    - match: \s*(?={{identifier}}\s*\()
+      set:
+        - function-call-argument-list
+        - qualified-function-call-name
+    - match: \s*({{identifier}})
+      captures:
+        1: entity.other.inherited-class.python
+      pop: 1
+    - include: line-continuation-immediately-pop
 
   class-definition-end:
     - meta_content_scope: meta.class.python
@@ -1051,7 +1066,7 @@ contexts:
     - include: nones
     - include: numbers
     - include: strings
-    - include: qualified-names
+    - include: case-pattern-names
     - include: illegal-stray-brackets
     - include: illegal-stray-braces
     - include: illegal-stray-parens
@@ -1069,36 +1084,51 @@ contexts:
     - include: else-pop
 
   case-pattern-classes:
-    - match: (?=(\.\s*)?{{path}}\s*\()
+    - match: (?={{identifier}}\s*\()
       push:
         - case-pattern-class-arguments-begin
-        - case-pattern-class-wrapper
-        - qualified-name-until-leaf
+        - case-pattern-class-name
 
-  case-pattern-class-wrapper:
-    - match: (\.)\s*
-      scope: meta.path.python
+  case-pattern-names:
+    - match: (?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      push:
+        - case-pattern-name-accessor
+        - maybe-item-access
+        - unqualified-name-content
+    - include: unqualified-names
+
+  case-pattern-name-accessor:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.python
+    - match: \s*(\.)
       captures:
         1: punctuation.accessor.dot.python
-      set:
-        - qualified-case-pattern-class-meta
-        - qualified-case-pattern-class-name
-    - match: ''
-      set: unqualified-case-pattern-class-name
+      set: case-pattern-name-element
+    - include: line-continuation-immediately-pop
 
-  qualified-case-pattern-class-meta:
+  case-pattern-name-element:
     - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.identifier.python meta.path.python
-    - include: immediately-pop
+    - meta_scope: meta.path.python
+    - match: (?=\s*{{illegal_names}})
+      pop: 1
+    - match: \s*(?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      set:
+        - case-pattern-name-accessor
+        - maybe-item-access
+        - qualified-name-content
+    - match: \s*(?={{identifier}}\s*\()
+      set:
+        - case-pattern-class-arguments-begin
+        - qualified-name-meta
+        - case-pattern-class-name
+    - match: \s*(?={{identifier_start}})
+      set:
+        - qualified-name-meta
+        - maybe-item-access
+        - qualified-name-content
+    - include: line-continuation-immediately-pop
 
-  qualified-case-pattern-class-name:
-    - include: builtin-type
-    - include: illegal-name
-    - include: class-name
-    - include: immediately-pop
-
-  unqualified-case-pattern-class-name:
-    - meta_scope: meta.function-call.identifier.python
+  case-pattern-class-name:
     - include: builtin-type
     - include: illegal-name
     - include: class-name
@@ -1106,6 +1136,7 @@ contexts:
 
   case-pattern-class-arguments-begin:
     - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.identifier.python
     - match: \(
       scope: punctuation.section.arguments.begin.python
       set:
@@ -1309,7 +1340,7 @@ contexts:
       pop: 1
     - include: illegal-assignment-expressions
     - include: line-continuation-or-pop
-    - include: names
+    - include: qualified-names
 
 ###[ FOR STATEMENTS ]#########################################################
 
@@ -1392,17 +1423,18 @@ contexts:
 
   soft-keyword-fallback:
     - meta_include_prototype: false
-    # Fallback context, which is used if `match` or `case` don't seem to
-    # start a structural match pattern statement.
-    - match: (?={{path}}\s*\()
+    # qualified function call or identifier
+    - match: (?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      set:
+        - qualified-name-accessor
+        - after-expression
+        - generic-name
+    # unqualified function call
+    - match: (?={{identifier}}\s*\()
       set:
         - function-call-argument-list
-        - function-call-wrapper
-        - qualified-name-until-leaf
-    - match: (?={{identifier}}\s*\.)
-      set:
-        - qualified-name-content
-        - generic-name
+        - unqualified-function-call-name
+    # unqualified identifier
     - include: generic-name
 
 ###[ MODIFIER STATEMENTS ]####################################################
@@ -1418,7 +1450,7 @@ contexts:
   modifier-statement-body:
     - meta_scope: meta.statement.modifier.python
     - include: line-continuation-or-pop
-    - include: names
+    - include: unqualified-names
     - match: ','
       scope: punctuation.separator.storage-list.python
     - match: \S+
@@ -1466,7 +1498,7 @@ contexts:
     - include: line-continuation-or-pop
     - include: generators-groups-and-tuples
     - include: lists
-    - include: names
+    - include: unqualified-names
     - include: else-pop
 
   with-statement-tuple:
@@ -1494,7 +1526,7 @@ contexts:
     - include: comments
     - include: generators-groups-and-tuples
     - include: lists
-    - include: names
+    - include: unqualified-names
     - include: else-pop
 
   with-statement-tuple-end:
@@ -1583,30 +1615,8 @@ contexts:
 
 ###[ FUNCTION CALLS ]#########################################################
 
-  function-calls:
-    - match: (?=(\.\s*)?{{path}}\s*\()
-      push:
-        - function-call-argument-list
-        - function-call-wrapper
-        - qualified-name-until-leaf
-
-  function-call-wrapper:
-    - match: (\.)\s*
-      scope: meta.path.python
-      captures:
-        1: punctuation.accessor.dot.python
-      set:
-        - qualified-function-call-name-meta
-        - qualified-function-call-name
-    - match: ''
-      set: unqualified-function-call-name
-
-  qualified-function-call-name-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.function-call.identifier.python meta.path.python
-    - include: immediately-pop
-
   qualified-function-call-name:
+    - meta_scope: meta.path.python
     - include: magic-function
     - include: magic-variable
     - include: wildcard-variable
@@ -1616,7 +1626,6 @@ contexts:
     - include: immediately-pop
 
   unqualified-function-call-name:
-    - meta_scope: meta.function-call.identifier.python
     - include: builtin-exception
     - include: builtin-function
     - include: builtin-type
@@ -1630,6 +1639,7 @@ contexts:
 
   function-call-argument-list:
     - meta_include_prototype: false
+    - meta_content_scope: meta.function-call.identifier.python
     - match: \(
       scope: punctuation.section.arguments.begin.python
       set:
@@ -2018,6 +2028,10 @@ contexts:
 
 ###[ ITEM ACCESS ]############################################################
 
+  maybe-item-access:
+    - include: item-access
+    - include: line-continuation-immediately-pop
+
   item-access:
     - match: \s*(\[)
       captures:
@@ -2114,22 +2128,62 @@ contexts:
     - include: generic-name
     - include: immediately-pop
 
-  names:
+  qualified-names:
+    - match: \.
+      scope: punctuation.accessor.dot.python
+      push: qualified-name-element
     - match: (?={{identifier_start}})
-      push:
-        - after-expression
-        - name-content
+      push: qualified-name
 
-  name:
-    - match: (?={{identifier_start}})
+  qualified-name:
+    - meta_include_prototype: false
+    # qualified function call or identifier
+    # note: assume qualified identifier if followed by line continuation
+    - match: (?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      set:
+        - qualified-name-accessor
+        - after-expression
+        - unqualified-name-content
+    # unqualified function call
+    - match: (?={{identifier}}\s*\()
+      set:
+        - function-call-argument-list
+        - unqualified-function-call-name
+    # unqualified identifier
+    - include: unqualified-name
+
+  qualified-name-accessor:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.python
+    - match: \s*(\.)
+      captures:
+        1: punctuation.accessor.dot.python
+      set: qualified-name-element
+    - include: line-continuation-immediately-pop
+
+  qualified-name-element:
+    - meta_include_prototype: false
+    - meta_scope: meta.path.python
+    - match: (?=\s*{{illegal_names}})
+      pop: 1
+    - match: \s*(?={{identifier}}\s*{{item_access}}*(?:\.|\\$))
+      set:
+        - qualified-name-accessor
+        - after-expression
+        - qualified-name-content
+    - match: \s*(?={{identifier}}\s*\()
+      set:
+        - function-call-argument-list
+        - qualified-function-call-name
+    - match: \s*(?={{identifier_start}})
       set:
         - after-expression
-        - name-content
+        - qualified-name-meta
+        - maybe-item-access
+        - qualified-name-content
+    - include: line-continuation-immediately-pop
 
-  name-content:
-    - include: builtin-exception
-    - include: builtin-type
-    - include: class-variable
+  qualified-name-content:
     - include: magic-function
     - include: magic-variable
     - include: wildcard-variable
@@ -2138,51 +2192,27 @@ contexts:
     - include: generic-name
     - include: immediately-pop
 
-  qualified-names:
-    - match: \.
-      scope: meta.path.python punctuation.accessor.dot.python
-    - match: (?={{identifier}}\s*\.)
+  qualified-name-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.python
+    - include: immediately-pop
+
+  unqualified-names:
+    - match: (?={{identifier_start}})
       push:
-        - qualified-name-content
-        - name-content
-    - include: names
+        - after-expression
+        - unqualified-name-content
 
-  qualified-name-content:
-    - meta_include_prototype: false
-    - meta_scope: meta.path.python
-    - match: \s*(\.)
-      captures:
-        1: punctuation.accessor.dot.python
-      push: dotted-name
-    - include: line-continuation-immediately-pop
-
-  qualified-name-until-leaf:
-    - meta_include_prototype: false
-    # Push this together with another context to match a qualified name
-    # until the last non-special identifier (if any).
-    # This allows the leaf to be scoped individually.
-    - meta_scope: meta.path.python
-    # If a line continuation follows, this may or may not be the last leaf (most likely not though)
-    - match: (?={{identifier}}\s*(\.|\\))
-      push: name-content
-    - match: (\.)\s*(?={{identifier}}\s*(\.|\\))
-      captures:
-        1: punctuation.accessor.dot.python
-      push: dotted-name-content
-    - match: \.(?!\s*{{identifier}})  # don't match last dot
-      scope: punctuation.accessor.dot.python
-    - match: (?=\S|$)
-      pop: 1
-
-  dotted-name:
-    - meta_include_prototype: false
-    - match: \s*(?={{identifier_start}})
+  unqualified-name:
+    - match: (?={{identifier_start}})
       set:
         - after-expression
-        - dotted-name-content
-    - include: line-continuation-immediately-pop
+        - unqualified-name-content
 
-  dotted-name-content:
+  unqualified-name-content:
+    - include: builtin-exception
+    - include: builtin-type
+    - include: class-variable
     - include: magic-function
     - include: magic-variable
     - include: wildcard-variable
@@ -2255,7 +2285,7 @@ contexts:
       pop: 1
 
   illegal-name:
-    - match: '{{illegal_names}}\b'
+    - match: '{{illegal_names}}'
       scope: invalid.illegal.name.python
       pop: 1
 
@@ -4013,6 +4043,7 @@ contexts:
 
   after-expression:
     - match: \s*(?=\()
+      scope: meta.function-call.python
       set: function-call-argument-list
     - include: item-access
     - include: line-continuation-immediately-pop
@@ -4060,14 +4091,12 @@ contexts:
 variables:
   shebang_language: \b(?:python(?:\d(?:\.\d+)?)?|uv)\b
 
-  path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
-
   identifier: '{{identifier_start}}{{identifier_char}}*'
   identifier_start: '[[:alpha:]_]'
   identifier_char: '[[:alnum:]_]'
   identifier_constant: '(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
 
-  illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
+  illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)\b
 
   digits: (?:\d+(?:_\d+)*)
   exponent: (?:[eE][-+]?{{digits}})
@@ -4080,6 +4109,35 @@ variables:
   assignment_operator: '=(?!=)'
 
   colon: ':(?!=)'
+
+  # up to 4 nested item_access brackets
+  item_access: |-
+    (?x:
+      \[
+        (?:
+          \[
+            (?:
+              \[
+                (?:
+                  \[
+                    [^\]]*
+                  \]
+                | "(?:\\.|[^"])*"
+                | '(?:\\.|[^'])*'
+                | [^\[\]]
+                )*
+              \]
+            | "(?:\\.|[^"])*"
+            | '(?:\\.|[^'])*'
+            | [^\[\]]
+            )*
+          \]
+        | "(?:\\.|[^"])*"
+        | '(?:\\.|[^'])*'
+        | [^\[\]]
+        )*
+      \] \s*
+    )
 
   string_prefix: '[bBfFrRtTuU]{,2}'
 

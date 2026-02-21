@@ -165,17 +165,20 @@ S\u0815mma\ry\n
 
 import sys # comment
 #^^^^^ keyword.control.import
-#      ^^^ - meta.path
+#      ^^^ meta.generic-name.python - meta.path
 #          ^ comment
 import sys. # comment
 #^^^^^ keyword.control.import
 #      ^^^^ meta.path.python
+#      ^^^ meta.generic-name.python
 #         ^ punctuation.accessor.dot.python
 #           ^ comment
 import sys.path # comment
 #^^^^^ keyword.control.import
 #      ^^^^^^^^ meta.path.python
+#      ^^^ meta.generic-name.python
 #         ^ punctuation.accessor.dot.python
+#          ^^^^ meta.generic-name.python
 #               ^ comment
 import .
 #      ^ invalid.illegal.unexpected-relative-import.python
@@ -434,7 +437,11 @@ from a import (b as c)
 #              ^ meta.generic-name.python - meta.path
 #                ^^ keyword.control.import.as.python
 #                   ^ meta.generic-name.python - meta.path
-
+from a import (b as .c, .d)
+#                ^^ keyword.control.import.as.python
+#                   ^^ invalid.illegal.name.import.python
+#                     ^ punctuation.separator.import-list.python
+#                       ^^ invalid.illegal.name.import.python
 import re; re.compile(r'')
 #        ^^^^^^^^^^^^^^^^^ - meta.statement.import
 #        ^ punctuation.terminator.statement
@@ -863,10 +870,10 @@ myobj.method().attribute
 #      ^^^^^ variable.function
 
 'foo'.and()
-#^^^^^ - meta.function-call
-#     ^^^^^ meta.function-call
-#    ^ punctuation.accessor.dot
-#     ^^^ invalid.illegal.name.python
+#^^^^^^^^^^ - meta.function-call
+#    ^ punctuation.accessor.dot.python
+#     ^^^ keyword.operator.logical.python
+#        ^^ meta.sequence.tuple.empty.python
 
 'foo'and()
 #    ^^^ keyword.operator.logical.python
@@ -1672,7 +1679,7 @@ def _():
 #       ^^^^ meta.function-call.identifier.python
 #           ^^^^^^^^^^^^^^^ meta.function-call.arguments.python
 #                          ^ meta.statement.conditional.case.python
-#       ^^^^ support.class.python
+#       ^^^^ meta.path.python support.class.python
 #           ^ punctuation.section.arguments.begin.python
 #            ^^^ variable.parameter.python
 #                ^ keyword.operator.assignment.python
@@ -2389,7 +2396,7 @@ class MyClass(Inherited, \
 #                        ^ punctuation.separator.continuation.line.python
               module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ meta.path - meta.path meta.path
-#             ^^^^^^ variable.namespace - entity
+#             ^^^^^^ meta.generic-name.python
 #                    ^ punctuation.accessor.dot
 #                      ^^^^^^^^^^ entity.other.inherited-class
 #                                ^ punctuation.separator.inheritance
@@ -2406,7 +2413,7 @@ class MyClass(Inherited, \
 
 class DataClass(TypedDict, None, total=False, True=False):
 #     ^^^^^^^^^ entity.name.class.python
-#               ^^^^^^^^^ entity.other.inherited-class.python
+#               ^^^^^^^^^ entity.other.inherited-class.python - meta.path
 #                        ^ punctuation.separator.inheritance.python
 #                          ^^^^ constant.language.null.python
 #                              ^ punctuation.separator.inheritance.python
@@ -2430,7 +2437,7 @@ class MyClass(func(var, arg=var), module.func(var, arg=var)):
 #                                                           ^ meta.class.python
 #     ^^^^^^^ entity.name.class.python
 #            ^ punctuation.section.inheritance.begin.python
-#             ^^^^ variable.function.python
+#             ^^^^ variable.function.python - meta.path
 #                 ^ punctuation.section.arguments.begin.python
 #                  ^^^ meta.generic-name.python
 #                     ^ punctuation.separator.arguments.python
@@ -2439,9 +2446,10 @@ class MyClass(func(var, arg=var), module.func(var, arg=var)):
 #                           ^^^ meta.generic-name.python
 #                              ^ punctuation.section.arguments.end.python
 #                               ^ punctuation.separator.inheritance.python
-#                                 ^^^^^^ meta.path.python meta.generic-name.python
-#                                       ^ meta.path.python punctuation.accessor.dot.python
-#                                        ^^^^ meta.path.python variable.function.python
+#                                 ^^^^^^^^^^^ meta.path.python - meta.path meta.path
+#                                 ^^^^^^ meta.generic-name.python
+#                                       ^ punctuation.accessor.dot.python
+#                                        ^^^^ variable.function.python
 #                                            ^ punctuation.section.arguments.begin.python
 #                                             ^^^ meta.generic-name.python
 #                                                ^ punctuation.separator.arguments.python
@@ -2647,6 +2655,30 @@ type = 10
 #    ^ keyword.operator.assignment.python
 #      ^^ meta.number.integer.decimal.python constant.numeric.value.python
 
+type.type = 10
+#^^^^^^^^ meta.path.python
+#^^^ meta.generic-name.python
+#   ^ punctuation.accessor.dot.python
+#    ^^^^ meta.generic-name.python
+#         ^ keyword.operator.assignment.python
+#           ^^ meta.number.integer.decimal.python constant.numeric.value.python
+
+type[10].type[0] = 10
+#^^^^^^^^^^^^^^^ meta.path.python
+#^^^ meta.generic-name.python
+#   ^^^^ meta.brackets.python
+#   ^ punctuation.section.brackets.begin.python
+#    ^^ meta.number.integer.decimal.python constant.numeric.value.python
+#      ^ punctuation.section.brackets.end.python
+#       ^ punctuation.accessor.dot.python
+#        ^^^^ meta.generic-name.python
+#            ^^^ meta.brackets.python
+#            ^ punctuation.section.brackets.begin.python
+#             ^ meta.number.integer.decimal.python constant.numeric.value.python
+#              ^ punctuation.section.brackets.end.python
+#                ^ keyword.operator.assignment.python
+#                  ^^ meta.number.integer.decimal.python constant.numeric.value.python
+
 class Foo:
     type: Alias
 #   ^^^^ meta.generic-name.python
@@ -2697,30 +2729,32 @@ match test:
 # <- meta.annotation punctuation.definition.annotation
 #^^^^^^^^^^^^^^^^^^^ meta.annotation
 # ^^^^^^^^^^^^^^^^^^ meta.path
-# ^^^^^^ meta.generic-name - variable.annotation
-#          ^^^^^^^^^ variable.annotation
+# ^^^^^^ variable.annotation.namespace.python
 #        ^ punctuation.accessor.dot - variable
+#          ^^^^^^^^^ variable.annotation
 #                   ^ - meta.annotation
 class Class():
 
-    @functools.wraps(method, 12, kwarg=None)# comment
+    @functools.wraps (method, 12, kwarg=None)# comment
 #^^^ - meta.annotation
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.python
-#    ^^^^^^^^^^^^^^^ meta.function-call.identifier.python meta.path.python
-#                   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.python
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.python
+#    ^^^^^^^^^^^^^^^ meta.path.python
+#              ^^^^^ meta.function-call.identifier.python
+#                   ^ meta.function-call.python
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.python
 #   ^ punctuation.definition.annotation
-#    ^^^^^^^^^ meta.generic-name - variable.annotation
+#    ^^^^^^^^^ variable.annotation.namespace.python
 #             ^ punctuation.accessor.dot
 #              ^^^^^ variable.annotation.python
-#                   ^ punctuation.section.arguments.begin
-#                          ^ punctuation.separator.arguments
-#                            ^^ constant.numeric
-#                              ^ punctuation.separator.arguments
-#                                ^^^^^ variable.parameter
-#                                     ^ keyword.operator
-#                                      ^^^^ constant.language
-#                                          ^ punctuation.section.arguments.end
-#                                           ^^^^^^^^^ comment - meta.annotation
+#                    ^ punctuation.section.arguments.begin
+#                           ^ punctuation.separator.arguments
+#                             ^^ constant.numeric
+#                               ^ punctuation.separator.arguments
+#                                 ^^^^^ variable.parameter
+#                                      ^ keyword.operator
+#                                       ^^^^ constant.language
+#                                           ^ punctuation.section.arguments.end
+#                                            ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
         return self.__class__(method)
 
@@ -2758,32 +2792,60 @@ class Class():
 #         ^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^ punctuation.section.brackets.end.python
 
-    @deco[4].foo.bar
-#   ^^^^^^^^^^^^^^^^ meta.annotation.python
-#   ^ punctuation.definition.annotation.python
-#    ^^^^ variable.annotation.python
+    @deco[4].foo[10+idx[4]].bar[buz["]"]]
+#   ^ meta.annotation.python punctuation.definition.annotation.python - meta.path
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.python meta.path.python
+#                              ^^^^^^^^^^ meta.annotation.python - meta.path
+#    ^^^^ variable.annotation.namespace.python
 #        ^^^ meta.brackets.python
 #        ^ punctuation.section.brackets.begin.python
 #         ^ meta.number.integer.decimal.python constant.numeric.value.python
 #          ^ punctuation.section.brackets.end.python
 #           ^ punctuation.accessor.dot.python
-#            ^^^ meta.generic-name.python
-#               ^ punctuation.accessor.dot.python
-#                ^^^ variable.annotation.python
+#            ^^^ variable.annotation.namespace.python
+#               ^^^^^^^ meta.brackets.python - meta.brackets meta.brackets
+#               ^ punctuation.section.brackets.begin.python
+#                ^^ meta.number.integer.decimal.python constant.numeric.value.python
+#                  ^ keyword.operator.arithmetic.python
+#                   ^^^ meta.generic-name.python
+#                      ^^^ meta.brackets.python meta.brackets.python
+#                        ^^ punctuation.section.brackets.end.python
+#                         ^ meta.brackets.python - meta.brackets meta.brackets
+#                          ^ punctuation.accessor.dot.python
+#                           ^^^ variable.annotation.python
+#                              ^^^^ meta.brackets.python - meta.brackets meta.brackets
+#                                  ^^^^^ meta.brackets.python meta.brackets.python
+#                                       ^ meta.brackets.python - meta.brackets meta.brackets
 
     @deco \
         . rator
-#       ^^^^^^^ meta.annotation
+# <- meta.annotation.python meta.path.python
+#^^^^^^^^^^^^^^ meta.annotation.python meta.path.python
 #       ^ punctuation.accessor.dot
+#              ^ - meta.annotation
+
+    @deco . \
+        rator
+# <- meta.annotation.python meta.path.python
+#^^^^^^^^^^^^ meta.annotation.python meta.path.python
+#            ^ - meta.annotation
 
     @ deco \
         . rator()
-#       ^^^^^^^ meta.annotation.python meta.function-call.identifier.python meta.path.python
+#^^^^^^^^^^^^^^ meta.annotation.python meta.path.python
+#         ^^^^^ meta.function-call.identifier.python variable.annotation.python
 #              ^^ meta.annotation.python meta.function-call.arguments.python
-#         ^^^^^ variable.annotation
+
+    @ deco . \
+        rator()
+#^^^^^^^^^^^^ meta.annotation.python meta.path.python
+#       ^^^^^ meta.function-call.identifier.python variable.annotation.python
+#            ^^ meta.annotation.python meta.function-call.arguments.python
 
     @ deco \
-#     ^^^^ meta.path meta.generic-name - variable.annotation
+#   ^^^^^^^^^ meta.annotation.python
+#     ^^^^^^^ meta.path.python
+#     ^^^^ variable.annotation.namespace.python
 #          ^ punctuation.separator.continuation.line
 
     @deco \
@@ -3730,6 +3792,11 @@ with open(x) as y:
 #<- invalid.illegal.stray
 
 class Class(object
+    def __init__(self):
+#   ^^^ invalid.illegal.name
+#      ^ - meta.class
+
+class Class(package.BaseClass
     def __init__(self):
 #   ^^^ invalid.illegal.name
 #      ^ - meta.class
