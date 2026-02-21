@@ -1082,6 +1082,39 @@ def _():
 # ^^^ meta.statement.with.python meta.sequence.tuple.python
 #    ^ meta.statement.with.python punctuation.section.block.begin.python
 
+    with ( open() as x, captured() as :  # unclosed tuple
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python
+#   ^^^^ keyword.control.flow.with.python
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
+#        ^ punctuation.section.sequence.begin.python
+#          ^^^^ meta.function-call.identifier.python support.function.builtin.python
+#              ^^ meta.function-call.arguments.python
+#              ^ punctuation.section.arguments.begin.python
+#               ^ punctuation.section.arguments.end.python
+#                 ^^ keyword.control.flow.with.as.python
+#                    ^ meta.generic-name.python
+#                     ^ punctuation.separator.sequence.python
+#                       ^^^^^^^^ meta.function-call.identifier.python variable.function.python
+#                               ^^ meta.function-call.arguments.python
+#                               ^ punctuation.section.arguments.begin.python
+#                                ^ punctuation.section.arguments.end.python
+#                                  ^^ keyword.control.flow.with.as.python
+#                                     ^ punctuation.section.block.begin.python
+#                                        ^^^^^^^^^^^^^^^^^ comment.line.number-sign.python
+#                                        ^ punctuation.definition.comment.python
+
+    with captured() as out, err:   # `err` is not part of `captured()` context
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.sequence
+#   ^^^^ keyword.control.flow.with
+#        ^^^^^^^^ variable.function
+#                ^ punctuation.section.arguments.begin
+#                 ^ punctuation.section.arguments.end
+#                   ^^ keyword.control.flow.with.as
+#                      ^^^ meta.generic-name
+#                         ^ punctuation.separator.sequence
+#                           ^^^ meta.generic-name
+#                              ^ punctuation.section.block.begin
+
     with captured() as (out, err):
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.with.python - meta.statement.with meta.statement.with
 #   ^^^^ keyword.control.flow.with

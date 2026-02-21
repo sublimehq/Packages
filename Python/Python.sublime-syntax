@@ -1473,6 +1473,8 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.python
       pop: 1
+    - match: (?={{colon}})
+      pop: 1
     - match: as\b
       scope: keyword.control.flow.with.as.python
       push: with-statement-tuple-as
