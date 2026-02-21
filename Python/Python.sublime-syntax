@@ -1678,7 +1678,7 @@ contexts:
     # A lambda keyword within a group may be part of a generator expression
     # Hence pop contexts off stack if `for` keyword is matched in order to
     # not scope it invalid.
-    - match: lambda(?=\s|:|$)
+    - match: lambda\b
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
@@ -1695,20 +1695,20 @@ contexts:
         - meta_include_prototype: false
         - match: ''
           set: lambda-in-group-body
-    - include: lambda-in-group-end
+    - match: (?=[)\]}]|for\b)
+      pop: 1
+    - include: line-continuations
+    - include: comments
     - include: lambda-parameters-common
 
   lambda-in-group-body:
     - meta_scope: meta.function.inline.body.python
-    - include: lambda-in-group-end
-    - include: lambda-body
-
-  lambda-in-group-end:
-    - match: (?=for\b)
+    - match: (?=[,)\]}]|for\b)
       pop: 1
+    - include: expression-in-a-group
 
   lambdas:
-    - match: lambda(?=\s|:|$)
+    - match: lambda\b
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
@@ -1725,6 +1725,7 @@ contexts:
         - meta_include_prototype: false
         - match: ''
           set: lambda-body
+    - include: line-continuation-or-pop
     - include: lambda-parameters-common
 
   lambda-parameters-common:
@@ -1738,21 +1739,13 @@ contexts:
         - allow-unpack-operators
     - include: function-parameter-tuples
     - include: parameter-names
-    - include: illegal-assignment-expressions
-    - include: line-continuation-or-pop
     - match: \S
       scope: invalid.illegal.expected-parameter.python
 
   lambda-body:
     - meta_scope: meta.function.inline.body.python
-    - include: illegal-assignment-expressions
-    # We don't know whether we are within a grouped
-    # or line-statement context at this point.
-    # If we're in a group, the underlying context will take over
-    # at the end of the line.
-    - match: (?=[,:)}\]])|$
-      pop: 1
     - include: line-continuation-or-pop
+    - include: illegal-assignment-expressions
     - include: expression-in-a-statement
 
 ###[ GENERATORS GROUPS TUPLES ]###############################################

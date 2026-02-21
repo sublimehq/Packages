@@ -743,6 +743,55 @@ def _():
 #                      ^^ constant.numeric
 #                        ^ punctuation.section.mapping.end
 
+    {lambda}
+#   ^^^^^^^^ meta.set.python
+#   ^ punctuation.section.set.begin.python
+#    ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#          ^ punctuation.section.set.end.python
+
+    {lambda:}
+#   ^^^^^^^^^ meta.set.python
+#   ^ punctuation.section.set.begin.python
+#    ^^^^^^^ meta.function.inline.python
+#    ^^^^^^ storage.type.function.inline.python keyword.declaration.function.inline.python
+#          ^ punctuation.section.block.begin.python
+#           ^ punctuation.section.set.end.python
+
+    { lambda
+#   ^^^^^^^^^ meta.set.python
+#     ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#           ^ meta.function.inline.parameters.python
+    }
+#^^^^ meta.set.python
+#^^^ meta.function.inline.parameters.python
+#   ^ punctuation.section.set.end.python - meta.function.inline
+
+    { lambda
+#   ^^^^^^^^^ meta.set.python
+#     ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#           ^ meta.function.inline.parameters.python
+        x
+#^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
+#       ^ variable.parameter.python meta.generic-name.python
+        ,
+#^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
+#       ^ punctuation.separator.parameters.python
+        y
+#^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
+#       ^ variable.parameter.python meta.generic-name.python
+        :
+#^^^^^^^^^ meta.set.python
+#^^^^^^^ meta.function.inline.parameters.python
+#       ^ meta.function.inline.python punctuation.section.block.begin.python
+#        ^ meta.function.inline.body.python
+        10
+#^^^^^^^^^^ meta.set.python meta.function.inline.body.python
+#       ^^ meta.number.integer.decimal.python constant.numeric.value.python
+    }
+#^^^^ meta.set.python
+#^^^ meta.function.inline.body.python
+#   ^ punctuation.section.set.end.python - meta.function.inline
+
     {lambda x, y: 10}
 #   ^ punctuation.section.set.begin
 #    ^^^^^^ meta.function.inline.python
@@ -756,6 +805,55 @@ def _():
 #                 ^^ constant.numeric
 #                   ^ punctuation.section.set.end
 
+    [lambda]
+#   ^^^^^^^^ meta.sequence.list.python
+#   ^ punctuation.section.sequence.begin.python
+#    ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#          ^ punctuation.section.sequence.end.python
+
+    [lambda:]
+#   ^^^^^^^^^ meta.sequence.list.python
+#   ^ punctuation.section.sequence.begin.python
+#    ^^^^^^^ meta.function.inline.python
+#    ^^^^^^ storage.type.function.inline.python keyword.declaration.function.inline.python
+#          ^ punctuation.section.block.begin.python
+#           ^ punctuation.section.sequence.end.python
+
+    [ lambda
+#   ^^^^^^^^^ meta.sequence.list.python
+#     ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#           ^ meta.function.inline.parameters.python
+    ]
+#^^^^ meta.sequence.list.python
+#^^^ meta.function.inline.parameters.python
+#   ^ punctuation.section.sequence.end.python - meta.function.inline
+
+    [ lambda
+#   ^^^^^^^^^ meta.sequence.list.python
+#     ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#           ^ meta.function.inline.parameters.python
+        x
+#^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
+#       ^ variable.parameter.python meta.generic-name.python
+        ,
+#^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
+#       ^ punctuation.separator.parameters.python
+        y
+#^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
+#       ^ variable.parameter.python meta.generic-name.python
+        :
+#^^^^^^^^^ meta.sequence.list.python
+#^^^^^^^ meta.function.inline.parameters.python
+#       ^ meta.function.inline.python punctuation.section.block.begin.python
+#        ^ meta.function.inline.body.python
+        10
+#^^^^^^^^^^ meta.sequence.list.python meta.function.inline.body.python
+#       ^^ meta.number.integer.decimal.python constant.numeric.value.python
+    ]
+#^^^^ meta.sequence.list.python
+#^^^ meta.function.inline.body.python
+#   ^ punctuation.section.sequence.end.python - meta.function.inline
+
     [lambda x, y: 10]
 #   ^ punctuation.section.sequence.begin
 #    ^^^^^^ meta.function.inline.python
@@ -768,6 +866,55 @@ def _():
 #              ^ variable.parameter
 #                 ^^ constant.numeric
 #                   ^ punctuation.section.sequence.end
+
+    (lambda)
+#   ^^^^^^^^ meta.group.python
+#   ^ punctuation.section.group.begin.python
+#    ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#          ^ punctuation.section.group.end.python
+
+    (lambda:)
+#   ^^^^^^^^^ meta.group.python
+#   ^ punctuation.section.group.begin.python
+#    ^^^^^^^ meta.function.inline.python
+#    ^^^^^^ storage.type.function.inline.python keyword.declaration.function.inline.python
+#          ^ punctuation.section.block.begin.python
+#           ^ punctuation.section.group.end.python
+
+    ( lambda
+#   ^^^^^^^^^ meta.group.python
+#     ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#           ^ meta.function.inline.parameters.python
+    )
+#^^^^ meta.group.python
+#^^^ meta.function.inline.parameters.python
+#   ^ punctuation.section.group.end.python - meta.function.inline
+
+    ( lambda
+#   ^^^^^^^^^ meta.group.python
+#     ^^^^^^ meta.function.inline.python storage.type.function.inline.python keyword.declaration.function.inline.python
+#           ^ meta.function.inline.parameters.python
+        x
+#^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
+#       ^ variable.parameter.python meta.generic-name.python
+        ,
+#^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
+#       ^ punctuation.separator.parameters.python
+        y
+#^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
+#       ^ variable.parameter.python meta.generic-name.python
+        :
+#^^^^^^^^^ meta.group.python
+#^^^^^^^ meta.function.inline.parameters.python
+#       ^ meta.function.inline.python punctuation.section.block.begin.python
+#        ^ meta.function.inline.body.python
+        10
+#^^^^^^^^^^ meta.group.python meta.function.inline.body.python
+#       ^^ meta.number.integer.decimal.python constant.numeric.value.python
+    )
+#^^^^ meta.group.python
+#^^^ meta.function.inline.body.python
+#   ^ punctuation.section.group.end.python - meta.function.inline
 
     _(lambda x, y: 10)
 #     ^^^^^^^^^^^^^^^ meta.function.inline
