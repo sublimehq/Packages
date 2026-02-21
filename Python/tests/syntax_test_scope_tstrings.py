@@ -29,7 +29,7 @@
 #         ^ storage.type.string.python
 #          ^^^ punctuation.definition.string.begin.python
 #             ^ punctuation.section.interpolation.begin.python
-#              ^^^ meta.generic-name.python
+#              ^^^ variable.other.python
 #                  ^ keyword.operator.arithmetic.python
 #                    ^^^ punctuation.definition.string.begin.python
 #                          ^^^ punctuation.definition.string.end.python
@@ -70,7 +70,7 @@
 #         ^ storage.type.string.python
 #          ^^^ punctuation.definition.string.begin.python
 #             ^ punctuation.section.interpolation.begin.python
-#              ^^^ meta.generic-name.python
+#              ^^^ variable.other.python
 #                  ^ keyword.operator.arithmetic.python
 #                    ^^^ punctuation.definition.string.begin.python
 #                          ^^^ punctuation.definition.string.end.python
@@ -113,7 +113,7 @@
 #          ^ storage.type.string.python
 #           ^^^ punctuation.definition.string.begin.python
 #              ^ punctuation.section.interpolation.begin.python
-#               ^^^ meta.generic-name.python
+#               ^^^ variable.other.python
 #                   ^ keyword.operator.arithmetic.python
 #                     ^^^ punctuation.definition.string.begin.python
 #                           ^^^ punctuation.definition.string.end.python
@@ -158,7 +158,7 @@
 #          ^ storage.type.string.python
 #           ^^^ punctuation.definition.string.begin.python
 #              ^ punctuation.section.interpolation.begin.python
-#               ^^^ meta.generic-name.python
+#               ^^^ variable.other.python
 #                   ^ keyword.operator.arithmetic.python
 #                     ^^^ punctuation.definition.string.begin.python
 #                           ^^^ punctuation.definition.string.end.python
@@ -200,7 +200,7 @@
 #         ^ storage.type.string.python
 #          ^^^ punctuation.definition.string.begin.python
 #             ^ punctuation.section.interpolation.begin.python
-#              ^^^ meta.generic-name.python
+#              ^^^ variable.other.python
 #                  ^ keyword.operator.arithmetic.python
 #                    ^^^ punctuation.definition.string.begin.python
 #                          ^^^ punctuation.definition.string.end.python
@@ -242,7 +242,7 @@
 #         ^ storage.type.string.python
 #          ^^^ punctuation.definition.string.begin.python
 #             ^ punctuation.section.interpolation.begin.python
-#              ^^^ meta.generic-name.python
+#              ^^^ variable.other.python
 #                  ^ keyword.operator.arithmetic.python
 #                    ^^^ punctuation.definition.string.begin.python
 #                          ^^^ punctuation.definition.string.end.python
@@ -284,7 +284,7 @@
 #          ^ storage.type.string.python
 #           ^^^ punctuation.definition.string.begin.python
 #              ^ punctuation.section.interpolation.begin.python
-#               ^^^ meta.generic-name.python
+#               ^^^ variable.other.python
 #                   ^ keyword.operator.arithmetic.python
 #                     ^^^ punctuation.definition.string.begin.python
 #                           ^^^ punctuation.definition.string.end.python
@@ -329,7 +329,7 @@
 #          ^ storage.type.string.python
 #           ^^^ punctuation.definition.string.begin.python
 #              ^ punctuation.section.interpolation.begin.python
-#               ^^^ meta.generic-name.python
+#               ^^^ variable.other.python
 #                   ^ keyword.operator.arithmetic.python
 #                     ^^^ punctuation.definition.string.begin.python
 #                           ^^^ punctuation.definition.string.end.python
@@ -370,7 +370,7 @@
 #       ^ storage.type.string.python
 #        ^ punctuation.definition.string.begin.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^ meta.generic-name.python
+#          ^^^ variable.other.python
 #              ^ keyword.operator.arithmetic.python
 #                ^ punctuation.definition.string.begin.python
 #                    ^ punctuation.definition.string.end.python
@@ -412,7 +412,7 @@
 #       ^ storage.type.string.python
 #        ^ punctuation.definition.string.begin.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^ meta.generic-name.python
+#          ^^^ variable.other.python
 #              ^ keyword.operator.arithmetic.python
 #                ^ punctuation.definition.string.begin.python
 #                    ^ punctuation.definition.string.end.python
@@ -455,7 +455,7 @@
 #        ^ storage.type.string.python
 #         ^ punctuation.definition.string.begin.python
 #          ^ punctuation.section.interpolation.begin.python
-#           ^^^ meta.generic-name.python
+#           ^^^ variable.other.python
 #               ^ keyword.operator.arithmetic.python
 #                 ^ punctuation.definition.string.begin.python
 #                     ^ punctuation.definition.string.end.python
@@ -500,7 +500,7 @@
 #        ^ storage.type.string.python
 #         ^ punctuation.definition.string.begin.python
 #          ^ punctuation.section.interpolation.begin.python
-#           ^^^ meta.generic-name.python
+#           ^^^ variable.other.python
 #               ^ keyword.operator.arithmetic.python
 #                 ^ punctuation.definition.string.begin.python
 #                     ^ punctuation.definition.string.end.python
@@ -540,7 +540,7 @@
 #       ^ storage.type.string.python
 #        ^ punctuation.definition.string.begin.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^ meta.generic-name.python
+#          ^^^ variable.other.python
 #              ^ keyword.operator.arithmetic.python
 #                ^ punctuation.definition.string.begin.python
 #                    ^ punctuation.definition.string.end.python
@@ -582,7 +582,7 @@
 #       ^ storage.type.string.python
 #        ^ punctuation.definition.string.begin.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^ meta.generic-name.python
+#          ^^^ variable.other.python
 #              ^ keyword.operator.arithmetic.python
 #                ^ punctuation.definition.string.begin.python
 #                    ^ punctuation.definition.string.end.python
@@ -625,7 +625,7 @@
 #        ^ storage.type.string.python
 #         ^ punctuation.definition.string.begin.python
 #          ^ punctuation.section.interpolation.begin.python
-#           ^^^ meta.generic-name.python
+#           ^^^ variable.other.python
 #               ^ keyword.operator.arithmetic.python
 #                 ^ punctuation.definition.string.begin.python
 #                     ^ punctuation.definition.string.end.python
@@ -670,7 +670,7 @@
 #        ^ storage.type.string.python
 #         ^ punctuation.definition.string.begin.python
 #          ^ punctuation.section.interpolation.begin.python
-#           ^^^ meta.generic-name.python
+#           ^^^ variable.other.python
 #               ^ keyword.operator.arithmetic.python
 #                 ^ punctuation.definition.string.begin.python
 #                     ^ punctuation.definition.string.end.python

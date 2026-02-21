@@ -283,7 +283,7 @@ query = \
     """ + test
 #   ^^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
 #       ^ keyword.operator.arithmetic.python
-#         ^^^^ meta.generic-name.python - meta.path
+#         ^^^^ variable.other.python - meta.path
 
 query = \
     r"""
@@ -1925,14 +1925,14 @@ f"result: {value:{width}.{precision}}\n"
 #^^^^^^^^^ string.quoted.double.python
 #^ punctuation.definition.string.begin.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^^^ meta.generic-name.python - meta.path
+#          ^^^^^ variable.other.python - meta.path
 #               ^ punctuation.separator.format-spec.python
 #                ^ punctuation.section.interpolation.begin.python
-#                 ^^^^^ meta.generic-name.python - meta.path
+#                 ^^^^^ variable.other.python - meta.path
 #                      ^ punctuation.section.interpolation.end.python
 #                       ^ constant.other.format-spec.python
 #                        ^ punctuation.section.interpolation.begin.python
-#                         ^^^^^^^^^ meta.generic-name.python - meta.path
+#                         ^^^^^^^^^ variable.other.python - meta.path
 #                                  ^ punctuation.section.interpolation.end.python
 #                                   ^ punctuation.section.interpolation.end.python
 #                                    ^^^ string.quoted.double.python
@@ -1944,7 +1944,7 @@ fr"^\s*({label}|{notlabel})"
 #  ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
 #      ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
 #       ^^^^^^^ source.python meta.string.python meta.interpolation.python
-#        ^^^^^ meta.generic-name.python - meta.path
+#        ^^^^^ variable.other.python - meta.path
 #                         ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
 
 re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
@@ -1968,7 +1968,7 @@ fr'\x{c:02x} becomes \xAB'
 #  ^^ source.regexp.python meta.mode.basic.regexp constant.character.escape.regexp
 #    ^^^^^^^ meta.interpolation.python
 #    ^ punctuation.section.interpolation.begin.python
-#     ^ meta.generic-name.python
+#     ^ variable.other.python
 #      ^ punctuation.separator.format-spec.python
 #       ^^^ meta.format-spec.python constant.other.format-spec.python
 #          ^ punctuation.section.interpolation.end.python
@@ -1986,10 +1986,10 @@ rf"{value:{width!s:d}}"
 #                    ^ meta.string.python meta.interpolation.python - meta.format-spec
 # ^ string.quoted.double.python punctuation.definition.string.begin.python
 #  ^ punctuation.section.interpolation.begin.python
-#   ^^^^^ meta.generic-name.python - meta.path
+#   ^^^^^ variable.other.python - meta.path
 #        ^ punctuation.separator.format-spec.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^^^ meta.generic-name.python - meta.path
+#          ^^^^^ variable.other.python - meta.path
 #               ^^ storage.modifier.conversion.python
 #                 ^ punctuation.separator.format-spec.python
 #                  ^ meta.format-spec.python constant.other.format-spec.python
@@ -2064,14 +2064,14 @@ fr"(?P<{name!s}>.*(?&{name})"
 #     ^ punctuation.definition.capture-group-name.begin.regexp
 #      ^^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ punctuation.section.interpolation.begin.python
-#       ^^^^ meta.generic-name.python
+#       ^^^^ variable.other.python
 #           ^^ storage.modifier.conversion.python
 #             ^ punctuation.section.interpolation.end.python
 #              ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
 #                  ^^ keyword.other.backref-and-recursion.regexp
 #                    ^^^^^^ meta.string.python meta.interpolation.python
 #                    ^ punctuation.section.interpolation.begin.python
-#                     ^^^^ meta.generic-name.python
+#                     ^^^^ variable.other.python
 #                         ^ punctuation.section.interpolation.end.python
 #                          ^ punctuation.section.group.end.regexp
 
@@ -2080,14 +2080,14 @@ fr'(?P<{name!s}>.*(?&{name})'
 #     ^ punctuation.definition.capture-group-name.begin.regexp
 #      ^^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ punctuation.section.interpolation.begin.python
-#       ^^^^ meta.generic-name.python
+#       ^^^^ variable.other.python
 #           ^^ storage.modifier.conversion.python
 #             ^ punctuation.section.interpolation.end.python
 #              ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
 #                  ^^ keyword.other.backref-and-recursion.regexp
 #                    ^^^^^^ meta.string.python meta.interpolation.python
 #                    ^ punctuation.section.interpolation.begin.python
-#                     ^^^^ meta.generic-name.python
+#                     ^^^^ variable.other.python
 #                         ^ punctuation.section.interpolation.end.python
 #                          ^ punctuation.section.group.end.regexp
 
@@ -2095,7 +2095,7 @@ fr"(?P={name!s})"
 #   ^^^ keyword.other.backref-and-recursion.regexp
 #      ^^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ punctuation.section.interpolation.begin.python
-#       ^^^^ meta.generic-name.python
+#       ^^^^ variable.other.python
 #           ^^ storage.modifier.conversion.python
 #             ^ punctuation.section.interpolation.end.python
 #              ^ punctuation.section.group.end.regexp
@@ -2104,7 +2104,7 @@ fr'(?P={name!s})'
 #   ^^^ keyword.other.backref-and-recursion.regexp
 #      ^^^^^^^^ meta.string.python meta.interpolation.python
 #      ^ punctuation.section.interpolation.begin.python
-#       ^^^^ meta.generic-name.python
+#       ^^^^ variable.other.python
 #           ^^ storage.modifier.conversion.python
 #             ^ punctuation.section.interpolation.end.python
 #              ^ punctuation.section.group.end.regexp
@@ -2114,7 +2114,7 @@ fr"(?({name!s})yes|no)"
 #    ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.begin.regexp
 #     ^^^^^^^^ meta.string.python meta.interpolation.python
 #     ^ punctuation.section.interpolation.begin.python
-#      ^^^^ meta.generic-name.python
+#      ^^^^ variable.other.python
 #          ^^ storage.modifier.conversion.python
 #            ^ punctuation.section.interpolation.end.python
 #             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
@@ -2124,7 +2124,7 @@ fr'(?({name!s})yes|no)'
 #    ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.begin.regexp
 #     ^^^^^^^^ meta.string.python meta.interpolation.python
 #     ^ punctuation.section.interpolation.begin.python
-#      ^^^^ meta.generic-name.python
+#      ^^^^ variable.other.python
 #          ^^ storage.modifier.conversion.python
 #            ^ punctuation.section.interpolation.end.python
 #             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
@@ -2134,7 +2134,7 @@ fr"\g<{name!s}>"
 #    ^ punctuation.definition.capture-group-name.begin.regexp
 #     ^^^^^^^^ meta.string.python meta.interpolation.python
 #     ^ punctuation.section.interpolation.begin.python
-#      ^^^^ meta.generic-name.python
+#      ^^^^ variable.other.python
 #          ^^ storage.modifier.conversion.python
 #            ^ punctuation.section.interpolation.end.python
 #             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
@@ -2144,7 +2144,7 @@ fr'\g<{name!s}>'
 #    ^ punctuation.definition.capture-group-name.begin.regexp
 #     ^^^^^^^^ meta.string.python meta.interpolation.python
 #     ^ punctuation.section.interpolation.begin.python
-#      ^^^^ meta.generic-name.python
+#      ^^^^ variable.other.python
 #          ^^ storage.modifier.conversion.python
 #            ^ punctuation.section.interpolation.end.python
 #             ^ keyword.other.backref-and-recursion.regexp punctuation.definition.capture-group-name.end.regexp
@@ -2241,7 +2241,7 @@ f"{f"{f"infinite"}":{f"{foo}"}.{"bar"}}"
 #                    ^ storage.type.string.python
 #                     ^ string.quoted.double.python punctuation.definition.string.begin.python
 #                      ^ punctuation.section.interpolation.begin.python
-#                       ^^^ meta.generic-name.python - meta.path
+#                       ^^^ variable.other.python - meta.path
 #                          ^ punctuation.section.interpolation.end.python
 #                           ^ string.quoted.double.python punctuation.definition.string.end.python
 #                            ^ punctuation.section.interpolation.end.python
@@ -2567,7 +2567,7 @@ fr''' {} {\} }
 f"""{
 #   ^^ meta.string.python meta.interpolation.python - invalid
     foo
-#   ^^^ meta.string.python meta.interpolation.python meta.generic-name.python - meta.path
+#   ^^^ meta.string.python meta.interpolation.python variable.other.python - meta.path
     !a:2d
 #   ^^^^^^ meta.string.python meta.interpolation.python
 #   ^^ storage.modifier.conversion.python
@@ -2580,7 +2580,7 @@ f"""{
 f'''{
 #   ^^ meta.string.python meta.interpolation.python - invalid
     foo
-#   ^^^ meta.string.python meta.interpolation.python meta.generic-name.python - meta.path
+#   ^^^ meta.string.python meta.interpolation.python variable.other.python - meta.path
     !a:2d
 #   ^^^^^^ meta.string.python meta.interpolation.python
 #   ^^ storage.modifier.conversion.python
