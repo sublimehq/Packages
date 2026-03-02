@@ -129,11 +129,22 @@ class Foo {
 
 
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-///  ^ support.namespace
-///    ^^ punctuation.accessor.double-colon
-///      ^^^^^^ variable.namespace
-///            ^ punctuation.accessor.dot.namespace
-///             ^^^^^^^ variable.namespace
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.cs
+///^^^^^^ meta.path.cs
+///^^^^ support.namespace.global.cs
+///    ^^ punctuation.accessor.double-colon.namespace.cs
+///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.cs
+///      ^^^^^^ support.type.cs
+///            ^ punctuation.accessor.dot.namespace.cs
+///             ^^^^^^^ support.type.cs
+///                    ^ punctuation.accessor.dot.namespace.cs
+///                     ^^^^^^^^^^^^^^^^ support.type.cs
+///                                     ^ punctuation.accessor.dot.namespace.cs
+///                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.cs
+///                                                                ^^ meta.group.cs
+///                                                                ^ punctuation.section.group.begin.cs
+///                                                                 ^ punctuation.section.group.end.cs
+///                                                                  ^ punctuation.definition.annotation.end.cs
 internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase {
 ///                                  ^^^ meta.path
 ///                                     ^^ punctuation.accessor.double-colon

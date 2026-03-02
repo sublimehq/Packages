@@ -226,3 +226,40 @@ class X {
     {
     }
 }
+
+
+[ApiController]
+[Route("some/path")]
+public class AbcController(IInjectedService injectedService) : ControllerBase
+{
+    [HttpGet("{someId:guid}")]
+    [ProducesResponseType<SuccessResponse>(200)]
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body meta.block
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+/// ^ punctuation.definition.annotation.begin
+///  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation
+///  ^^^^^^^^^^^^^^^^^^^^ support.type
+///                      ^^^^^^^^^^^^^^^^^ meta.generic
+///                      ^ punctuation.definition.generic.begin
+///                       ^^^^^^^^^^^^^^^ support.type
+///                                      ^ punctuation.definition.generic.end
+///                                       ^^^^^ meta.group
+///                                       ^ punctuation.section.group.begin
+///                                        ^^^ meta.number.integer.decimal constant.numeric.value
+///                                           ^ punctuation.section.group.end
+///                                            ^ punctuation.definition.annotation.end
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetAbcDetails(
+        Guid someId,
+        CancellationToken cancellationToken)
+    {
+        var details = await injectedService.GetAbcDetails(
+            someId,
+            cancellationToken);
+
+        if (details == null)
+            return NotFound();
+
+        return Ok(details);
+    }
+}
