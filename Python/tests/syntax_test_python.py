@@ -925,6 +925,12 @@ def _():
 #               ^ variable.parameter
 #                  ^^ constant.numeric
 
+    lambda
+        a,
+#   ^^^^^^^ - meta.function
+#       ^ meta.generic-name.python
+#        ^ punctuation.separator.sequence.python
+
     lambda \
         a, \
         b=2: True
