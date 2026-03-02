@@ -799,10 +799,10 @@ contexts:
       push: allow-unpack-operators
     # default values should follow the argument
     - match: '{{assignment_operator}}'
-      push: function-parameter-illegal-annotation
+      push: function-parameter-illegal-default-value
     # python 2 does not support type annotations
     - match: '{{colon}}'
-      push: function-parameter-illegal-default-value
+      push: function-parameter-illegal-annotation
     - include: comments
     - include: parameter-names
     - include: line-continuations
@@ -810,13 +810,13 @@ contexts:
 
   function-parameter-illegal-annotation:
     - meta_include_prototype: false
-    - meta_scope: invalid.illegal.default-value.python
+    - meta_scope: invalid.illegal.annotation.python
     - match: (?=[,)=])
       pop: 1
 
   function-parameter-illegal-default-value:
     - meta_include_prototype: false
-    - meta_scope: invalid.illegal.annotation.python
+    - meta_scope: invalid.illegal.default-value.python
     - match: (?=[,)=])
       pop: 1
 
