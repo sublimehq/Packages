@@ -2581,6 +2581,19 @@ class MyClass(Inherited, \
 #   ^^^ comment.block.documentation.python
     pass
 
+class MyClass(*bases, *more_bases):
+#^^^^^^^^^^^^ meta.class.python
+#^^^^ keyword.declaration.class.python
+#     ^^^^^^^ entity.name.class.python
+#            ^^^^^^^^^^^^^^^^^^^^^ meta.class.inheritance.python
+#            ^ punctuation.section.inheritance.begin.python
+#             ^ keyword.operator.unpacking.sequence.python
+#              ^^^^^ entity.other.inherited-class.python
+#                   ^ punctuation.separator.inheritance.python
+#                     ^ keyword.operator.unpacking.sequence.python
+#                      ^^^^^^^^^^ entity.other.inherited-class.python
+#                                ^ punctuation.section.inheritance.end.python
+#                                 ^ meta.class.python punctuation.section.block.begin.python
 
 class DataClass(TypedDict, None, total=False, True=False):
 #     ^^^^^^^^^ entity.name.class.python

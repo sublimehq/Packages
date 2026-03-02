@@ -571,7 +571,9 @@ contexts:
     - meta_content_scope: meta.class.python
     - match: \(
       scope: punctuation.section.inheritance.begin.python
-      set: class-definition-base-list-body
+      set:
+        - class-definition-base-list-body
+        - maybe-unpack-operator-in-brackets
     - include: class-definition-end
 
   class-definition-base-list-body:
@@ -584,6 +586,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.inheritance.python
+      push: maybe-unpack-operator-in-brackets
     # expression-in-a-group (without qualified-names)
     - include: line-continuations
     - include: illegal-assignment-expressions
