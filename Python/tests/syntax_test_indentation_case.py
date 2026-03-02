@@ -15,3 +15,9 @@ match var:
         case = 6
     case {"key": "value"}:
         case = 7
+
+# first case with comments
+
+match var:
+    case 10:        # comment
+        case = 1

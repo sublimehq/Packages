@@ -283,7 +283,7 @@ query = \
     """ + test
 #   ^^^ meta.string.python string.quoted.double.block.python punctuation.definition.string.end.python
 #       ^ keyword.operator.arithmetic.python
-#         ^^^^ meta.path.python meta.generic-name.python
+#         ^^^^ meta.generic-name.python - meta.path
 
 query = \
     r"""
@@ -1925,14 +1925,14 @@ f"result: {value:{width}.{precision}}\n"
 #^^^^^^^^^ string.quoted.double.python
 #^ punctuation.definition.string.begin.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^^^ meta.path.python meta.generic-name.python
+#          ^^^^^ meta.generic-name.python - meta.path
 #               ^ punctuation.separator.format-spec.python
 #                ^ punctuation.section.interpolation.begin.python
-#                 ^^^^^ meta.path.python meta.generic-name.python
+#                 ^^^^^ meta.generic-name.python - meta.path
 #                      ^ punctuation.section.interpolation.end.python
 #                       ^ constant.other.format-spec.python
 #                        ^ punctuation.section.interpolation.begin.python
-#                         ^^^^^^^^^ meta.path.python meta.generic-name.python
+#                         ^^^^^^^^^ meta.generic-name.python - meta.path
 #                                  ^ punctuation.section.interpolation.end.python
 #                                   ^ punctuation.section.interpolation.end.python
 #                                    ^^^ string.quoted.double.python
@@ -1944,7 +1944,7 @@ fr"^\s*({label}|{notlabel})"
 #  ^ meta.string.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
 #      ^ source.regexp.python meta.group.regexp punctuation.section.group.begin.regexp
 #       ^^^^^^^ source.python meta.string.python meta.interpolation.python
-#        ^^^^^ meta.path.python meta.generic-name.python
+#        ^^^^^ meta.generic-name.python - meta.path
 #                         ^ source.regexp.python meta.group.regexp punctuation.section.group.end.regexp
 
 re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
@@ -1969,10 +1969,10 @@ rf"{value:{width!s:d}}"
 #                    ^ meta.string.python meta.interpolation.python - meta.format-spec
 # ^ string.quoted.double.python punctuation.definition.string.begin.python
 #  ^ punctuation.section.interpolation.begin.python
-#   ^^^^^ meta.path.python meta.generic-name.python
+#   ^^^^^ meta.generic-name.python - meta.path
 #        ^ punctuation.separator.format-spec.python
 #         ^ punctuation.section.interpolation.begin.python
-#          ^^^^^ meta.path.python meta.generic-name.python
+#          ^^^^^ meta.generic-name.python - meta.path
 #               ^^ storage.modifier.conversion.python
 #                 ^ punctuation.separator.format-spec.python
 #                  ^ meta.format-spec.python constant.other.format-spec.python
@@ -2224,7 +2224,7 @@ f"{f"{f"infinite"}":{f"{foo}"}.{"bar"}}"
 #                    ^ storage.type.string.python
 #                     ^ string.quoted.double.python punctuation.definition.string.begin.python
 #                      ^ punctuation.section.interpolation.begin.python
-#                       ^^^ meta.path.python meta.generic-name.python
+#                       ^^^ meta.generic-name.python - meta.path
 #                          ^ punctuation.section.interpolation.end.python
 #                           ^ string.quoted.double.python punctuation.definition.string.end.python
 #                            ^ punctuation.section.interpolation.end.python
@@ -2550,7 +2550,7 @@ fr''' {} {\} }
 f"""{
 #   ^^ meta.string.python meta.interpolation.python - invalid
     foo
-#   ^^^ meta.string.python meta.interpolation.python meta.path.python meta.generic-name.python
+#   ^^^ meta.string.python meta.interpolation.python meta.generic-name.python - meta.path
     !a:2d
 #   ^^^^^^ meta.string.python meta.interpolation.python
 #   ^^ storage.modifier.conversion.python
@@ -2563,7 +2563,7 @@ f"""{
 f'''{
 #   ^^ meta.string.python meta.interpolation.python - invalid
     foo
-#   ^^^ meta.string.python meta.interpolation.python meta.path.python meta.generic-name.python
+#   ^^^ meta.string.python meta.interpolation.python meta.generic-name.python - meta.path
     !a:2d
 #   ^^^^^^ meta.string.python meta.interpolation.python
 #   ^^ storage.modifier.conversion.python
