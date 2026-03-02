@@ -238,7 +238,6 @@ public class AbcController(IInjectedService injectedService) : ControllerBase
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
 /// ^ punctuation.definition.annotation.begin
 ///  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation
-///  ^^^^^^^^^^^^^^^^^^^^ support.type
 ///                      ^^^^^^^^^^^^^^^^^ meta.generic
 ///                      ^ punctuation.definition.generic.begin
 ///                       ^^^^^^^^^^^^^^^ support.type

@@ -134,13 +134,9 @@ class Foo {
 ///^^^^ support.namespace.global.cs
 ///    ^^ punctuation.accessor.double-colon.namespace.cs
 ///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.cs
-///      ^^^^^^ support.type.cs
 ///            ^ punctuation.accessor.dot.namespace.cs
-///             ^^^^^^^ support.type.cs
 ///                    ^ punctuation.accessor.dot.namespace.cs
-///                     ^^^^^^^^^^^^^^^^ support.type.cs
 ///                                     ^ punctuation.accessor.dot.namespace.cs
-///                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.cs
 ///                                                                ^^ meta.group.cs
 ///                                                                ^ punctuation.section.group.begin.cs
 ///                                                                 ^ punctuation.section.group.end.cs
