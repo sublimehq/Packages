@@ -1,6 +1,21 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 # <- source.python comment.line.number-sign punctuation.definition.comment
 
+# comment
+# <- comment.line.number-sign.python punctuation.definition.comment.python
+#^^^^^^^^^ comment.line.number-sign.python - punctuation
+
+### comment ###
+# <- comment.line.number-sign.python punctuation.definition.comment.python
+#^^ comment.line.number-sign.python punctuation.definition.comment.python
+#  ^^^^^^^^^ comment.line.number-sign.python - punctuation
+#           ^^^ comment.line.number-sign.python punctuation.definition.comment.python
+#              ^ comment.line.number-sign.python - punctuation
+
+####################################
+# <- comment.line.number-sign.python punctuation.definition.comment.python
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.python punctuation.definition.comment.python
+
 # /// script
 # ^^^^^^^^^^^ comment.line.number-sign.python
 # ^^^ punctuation.section.raw.begin.python

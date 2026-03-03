@@ -69,6 +69,7 @@ contexts:
 
   # Always include these last and only one at a time!
   expression-as-a-statement:
+    - include: comments
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambdas
@@ -89,6 +90,7 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - no assignment expressions allowed
     # - accessor and lambda matching continues into the next line
+    - include: comments
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambda-in-groups
@@ -100,6 +102,7 @@ contexts:
     # Differs from expression-in-a-statement in that:
     # - accessor and lambda matching continues into the next line
     - include: for-expressions
+    - include: comments
     - include: line-continuations
     - include: assignment-expressions
     - include: lambda-in-groups
@@ -111,7 +114,6 @@ contexts:
     - include: dictionaries-and-sets
     - include: generators-groups-and-tuples
     - include: lists
-    - include: comments
     - include: constants
     - include: numbers
     - include: strings
@@ -143,7 +145,7 @@ contexts:
     - match: '#:'
       scope: punctuation.definition.comment.python
       push: comment-sphinxdoc-body
-    - match: \#
+    - match: '#+'
       scope: punctuation.definition.comment.python
       push:
         - comment-body
@@ -152,17 +154,21 @@ contexts:
 
   comment-body:
     - meta_scope: comment.line.number-sign.python
-    - match: \n
+    - match: $\n?
       pop: 1
+    - match: '#+$'
+      scope: punctuation.definition.comment.python
 
   comment-sphinxdoc-body:
     - meta_scope: comment.line.documentation.python
-    - match: \n
+    - match: $\n?
       pop: 1
+    - match: '#+$'
+      scope: punctuation.definition.comment.python
 
   shebang:
     - meta_include_prototype: false
-    - match: ^\s*(\#!)
+    - match: ^\s*(#!)
       captures:
         1: punctuation.definition.comment.python
       set: shebang-body
@@ -585,6 +591,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.inheritance.python
     # expression-in-a-group (without qualified-names)
+    - include: comments
     - include: line-continuations
     - include: illegal-assignment-expressions
     - include: lambda-in-groups
