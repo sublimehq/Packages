@@ -1065,22 +1065,23 @@ contexts:
         1: variable.annotation.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [attribute_arguments, arguments, regex_string]
-    - match: '({{name}})\s*(\()'
+    - match: (?={{namespaced_name}})
+      push: annotation_name
+    - match: \s*(\()
       captures:
-        1: variable.annotation.cs
-        2: meta.group.cs punctuation.section.group.begin.cs
+        1: meta.group.cs punctuation.section.group.begin.cs
       set: [attribute_arguments, arguments]
-    - match: '({{name}})\s*(\.)'
-      captures:
-        1: variable.namespace.cs
-        2: punctuation.accessor.dot.namespace.cs
-    - match: '{{name}}'
-      scope: variable.annotation.cs
     - match: ','
       scope: punctuation.separator.annotation.cs
     - match: \]
       scope: punctuation.definition.annotation.end.cs
       pop: true
+
+  annotation_name:
+    - meta_content_scope: variable.annotation.cs
+    - include: type_common_except_bare_custom_type
+    - match: (?=\()
+      pop: 1
 
   code_block_in:
     - match: (?=\S)
@@ -1795,7 +1796,7 @@ contexts:
     - match: (?=\S)
       push: var_declaration_explicit
 
-  type_common:
+  type_common_except_bare_custom_type:
     - include: namespace_variables
     - include: funcptr_types
     - match: (?:class|struct|enum)\b
@@ -1822,10 +1823,13 @@ contexts:
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
-    - match: '{{name}}'
-      scope: support.type.cs
     - match: (?=[]})>,;>:]|=>)
       pop: true
+
+  type_common:
+    - include: type_common_except_bare_custom_type
+    - match: '{{name}}'
+      scope: support.type.cs
 
   type_arg_param_common:
     - match: '(>){{type_suffix_capture}}'
