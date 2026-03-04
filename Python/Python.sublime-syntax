@@ -577,7 +577,9 @@ contexts:
     - meta_content_scope: meta.class.python
     - match: \(
       scope: punctuation.section.inheritance.begin.python
-      set: class-definition-base-list-body
+      set:
+        - class-definition-base-list-body
+        - maybe-unpack-operator-in-brackets
     - include: class-definition-end
 
   class-definition-base-list-body:
@@ -590,6 +592,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.inheritance.python
+      push: maybe-unpack-operator-in-brackets
     # expression-in-a-group (without qualified-names)
     - include: comments
     - include: line-continuations
@@ -680,7 +683,7 @@ contexts:
       scope: meta.function.parameters.python punctuation.section.parameters.begin.python
       set:
         - function-parameter-list-body
-        - function-parameter-allow-unpack-operators
+        - function-parameter-maybe-unpack-operator
     - include: function-definition-end
 
   function-parameter-list-body:
@@ -690,7 +693,7 @@ contexts:
       set: function-after-parameters
     - match: ','
       scope: punctuation.separator.parameters.python
-      push: function-parameter-allow-unpack-operators
+      push: function-parameter-maybe-unpack-operator
     - match: /
       scope: storage.modifier.positional-args-only.python
       push: function-parameter-expect-comma
@@ -706,13 +709,14 @@ contexts:
     - include: line-continuations
     - include: illegal-assignment-expressions
 
-  function-parameter-allow-unpack-operators:
+  function-parameter-maybe-unpack-operator:
+    - meta_include_prototype: false
     - match: (?=\*(?!\*))
       branch_point: unpack-or-separator
       branch:
         - function-parameter-unpack-operator
         - function-parameter-named-only-operator
-    - include: allow-unpack-operators
+    - include: maybe-unpack-operator-in-brackets
 
   function-parameter-named-only-operator:
     - meta_include_prototype: false
@@ -731,7 +735,7 @@ contexts:
     - include: comments
     - match: (?=,)
       fail: unpack-or-separator
-    - match: ^(?!\s*([#,]|$))|(?=\S)
+    - match: (?=\S)
       pop: 2
 
   function-parameter-expect-comma:
@@ -794,7 +798,7 @@ contexts:
       scope: punctuation.section.group.begin.python
       push:
         - function-parameter-tuple-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   function-parameter-tuple-body:
     - meta_scope: meta.group.python
@@ -803,7 +807,7 @@ contexts:
       set: after-expression
     - match: ','
       scope: punctuation.separator.parameters.python
-      push: allow-unpack-operators
+      push: maybe-unpack-operator-in-brackets
     # default values should follow the argument
     - match: '{{assignment_operator}}'
       push: function-parameter-illegal-default-value
@@ -910,7 +914,7 @@ contexts:
       scope: meta.generic.python punctuation.definition.generic.begin.python
       set:
         - type-parameter-list-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
     - include: line-continuation-or-pop
     - include: else-pop
 
@@ -921,7 +925,7 @@ contexts:
       pop: 1
     - match: ','
       scope: punctuation.separator.parameters.python
-      push: allow-unpack-operators
+      push: maybe-unpack-operator-in-brackets
     - match: '{{colon}}'
       scope: meta.generic.python punctuation.separator.bound.python
       set: type-parameter-bound
@@ -1028,7 +1032,7 @@ contexts:
     # fail if match is directly followed by `:` or end of statement
     - match: (?=$|#|;|:)
       fail: case-statements
-    - include: allow-unpack-operators
+    - include: maybe-unpack-operator
 
   case-statement-end:
     # Note: Consume any whitespace up to eol, including newline, to apply
@@ -1147,7 +1151,7 @@ contexts:
       scope: punctuation.section.arguments.begin.python
       set:
         - case-pattern-class-arguments-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   case-pattern-class-arguments-body:
     - meta_scope: meta.function-call.arguments.python
@@ -1165,7 +1169,7 @@ contexts:
   case-pattern-keyword-argument-name:
     - match: '{{assignment_operator}}'
       scope: keyword.operator.assignment.python
-      set: allow-unpack-operators
+      set: maybe-unpack-operator-in-brackets
     - include: parameter-names
 
   case-pattern-operators:
@@ -1220,7 +1224,7 @@ contexts:
     - match: (?=\S)
       set:
         - case-pattern-dictionary-value-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   case-pattern-dictionary-value-body:
     - meta_content_scope: meta.mapping.value.python
@@ -1256,7 +1260,7 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       push:
         - case-pattern-list-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   case-pattern-list-body:
     - meta_scope: meta.sequence.list.python
@@ -1270,7 +1274,7 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       set:
         - case-pattern-tuple-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   case-pattern-tuple-body:
     - meta_scope: meta.sequence.tuple.python
@@ -1393,7 +1397,7 @@ contexts:
     - match: (?=$|#|;|:)
       fail: match-statements
     - include: line-continuations
-    - include: allow-unpack-operators
+    - include: maybe-unpack-operator
 
   match-statement-body:
     - meta_scope: meta.statement.conditional.match.python
@@ -1643,7 +1647,7 @@ contexts:
       scope: punctuation.section.arguments.begin.python
       set:
         - function-call-argument-list-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   function-call-argument-list-body:
     - meta_scope: meta.function-call.arguments.python
@@ -1660,7 +1664,7 @@ contexts:
   argument-separators:
     - match: ','
       scope: punctuation.separator.arguments.python
-      push: allow-unpack-operators
+      push: maybe-unpack-operator-in-brackets
 
   keyword-arguments:
     - match: (?={{identifier}}\s*{{assignment_operator}})
@@ -1671,7 +1675,7 @@ contexts:
       scope: keyword.operator.assignment.python
       set:
         - keyword-argument-value
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
     - include: parameter-names
 
   keyword-argument-value:
@@ -1685,14 +1689,14 @@ contexts:
     # A lambda keyword within a group may be part of a generator expression
     # Hence pop contexts off stack if `for` keyword is matched in order to
     # not scope it invalid.
-    - match: lambda(?=\s|:|$)
+    - match: lambda\b
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
         keyword.declaration.function.inline.python
       push:
         - lambda-in-group-parameters
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   lambda-in-group-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
@@ -1702,27 +1706,38 @@ contexts:
         - meta_include_prototype: false
         - match: ''
           set: lambda-in-group-body
-    - include: lambda-in-group-end
-    - include: lambda-parameters-common
+    - match: (?=[)\]}]|for\b)
+      pop: 1
+    - include: line-continuations
+    - include: comments
+    - match: ','
+      scope: punctuation.separator.parameters.python
+      push: maybe-unpack-operator-in-brackets
+    - match: '{{assignment_operator}}'
+      scope: keyword.operator.assignment.python
+      push:
+        - keyword-argument-value
+        - maybe-unpack-operator-in-brackets
+    - include: function-parameter-tuples
+    - include: parameter-names
+    - match: \S
+      scope: invalid.illegal.expected-parameter.python
 
   lambda-in-group-body:
     - meta_scope: meta.function.inline.body.python
-    - include: lambda-in-group-end
-    - include: lambda-body
-
-  lambda-in-group-end:
-    - match: (?=for\b)
+    - match: (?=[,)\]}]|for\b)
       pop: 1
+    - include: expression-in-a-group
 
   lambdas:
-    - match: lambda(?=\s|:|$)
+    - match: lambda\b
       scope:
         meta.function.inline.python
         storage.type.function.inline.python
         keyword.declaration.function.inline.python
       push:
         - lambda-parameters
-        - allow-unpack-operators
+        - maybe-unpack-operator
 
   lambda-parameters:
     - meta_content_scope: meta.function.inline.parameters.python
@@ -1732,34 +1747,24 @@ contexts:
         - meta_include_prototype: false
         - match: ''
           set: lambda-body
-    - include: lambda-parameters-common
-
-  lambda-parameters-common:
+    - include: line-continuation-or-pop
     - match: ','
       scope: punctuation.separator.parameters.python
-      push: allow-unpack-operators
+      push: maybe-unpack-operator
     - match: '{{assignment_operator}}'
       scope: keyword.operator.assignment.python
       push:
         - keyword-argument-value
-        - allow-unpack-operators
+        - maybe-unpack-operator
     - include: function-parameter-tuples
     - include: parameter-names
-    - include: illegal-assignment-expressions
-    - include: line-continuation-or-pop
     - match: \S
       scope: invalid.illegal.expected-parameter.python
 
   lambda-body:
     - meta_scope: meta.function.inline.body.python
-    - include: illegal-assignment-expressions
-    # We don't know whether we are within a grouped
-    # or line-statement context at this point.
-    # If we're in a group, the underlying context will take over
-    # at the end of the line.
-    - match: (?=[,:)}\]])|$
-      pop: 1
     - include: line-continuation-or-pop
+    - include: illegal-assignment-expressions
     - include: expression-in-a-statement
 
 ###[ GENERATORS GROUPS TUPLES ]###############################################
@@ -1799,7 +1804,7 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       set:
         - generator-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   generator-body:
     - meta_scope: meta.sequence.generator.python
@@ -1813,7 +1818,7 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       set:
         - tuple-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   tuple-body:
     - meta_scope: meta.sequence.tuple.python
@@ -1844,7 +1849,7 @@ contexts:
       scope: punctuation.section.sequence.begin.python
       push:
         - list-body
-        - allow-unpack-operators
+        - maybe-unpack-operator-in-brackets
 
   list-body:
     - meta_scope: meta.sequence.list.python
@@ -1878,7 +1883,7 @@ contexts:
   maybe-dictionary:
     - match: \{
       scope: punctuation.section.mapping.begin.python
-      set: allow-dictionary-unpack-operator
+      set: maybe-dictionary-unpack-operator
 
   dictionary-end:
     - match: \}
@@ -1888,11 +1893,11 @@ contexts:
   dictionary-separator:
     - match: ','
       scope: punctuation.separator.sequence.python
-      set: allow-dictionary-unpack-operator
+      set: maybe-dictionary-unpack-operator
 
-  allow-dictionary-unpack-operator:
+  maybe-dictionary-unpack-operator:
+    - meta_include_prototype: false
     - meta_scope: meta.mapping.python
-    - include: comments
     - match: \*{3,}
       scope: invalid.illegal.syntax.python
       set: dictionary-unpacking-body
@@ -1902,9 +1907,9 @@ contexts:
     - match: \*
       scope: invalid.illegal.unexpected-operator.python
       set: dictionary-unpacking-body
+    - include: line-continuations
+    - include: comments
     - match: (?=\S)
-      set: dictionary-body
-    - match: ^(?!\s*([#*]|$))
       set: dictionary-body
 
   dictionary-unpacking-body:
@@ -1969,7 +1974,7 @@ contexts:
   maybe-set-begin:
     - match: (?=\*\*)  # looks like a dictionary
       fail: dictionaries-and-sets
-    - include: allow-sequence-unpack-operators
+    - include: maybe-sequence-unpack-operator
 
   maybe-set-body:
     - meta_scope: meta.set.python
@@ -1986,12 +1991,12 @@ contexts:
       set: after-expression
     - match: ','
       scope: punctuation.separator.set.python
-      push: allow-sequence-unpack-operators
+      push: maybe-sequence-unpack-operator
     - include: expression-in-a-sequence
     - include: illegal-colons
 
-  allow-sequence-unpack-operators:
-    - include: comments
+  maybe-sequence-unpack-operator:
+    - meta_include_prototype: false
     - match: \*{3,}
       scope: invalid.illegal.syntax.python
       pop: 1
@@ -2001,9 +2006,9 @@ contexts:
     - match: \*
       scope: keyword.operator.unpacking.sequence.python
       pop: 1
+    - include: line-continuations
+    - include: comments
     - include: else-pop
-    - match: ^(?!\s*([#*]|$))
-      pop: 1
 
   empty-dictionaries:
     - match: (\{)\s*(\})
@@ -2078,9 +2083,8 @@ contexts:
       scope: keyword.operator.logical.python
     - include: sequence-separators
 
-  allow-unpack-operators:
-    # Match unpacking operators, if present
-    - include: comments
+  maybe-unpack-operator-in-brackets:
+    - meta_include_prototype: false
     - match: \*{3,}
       scope: invalid.illegal.syntax.python
       pop: 1
@@ -2090,14 +2094,28 @@ contexts:
     - match: \*
       scope: keyword.operator.unpacking.sequence.python
       pop: 1
+    - include: line-continuations
+    - include: comments
     - include: else-pop
-    - match: ^(?!\s*([#*]|$))
+
+  maybe-unpack-operator:
+    - meta_include_prototype: false
+    - match: \*{3,}
+      scope: invalid.illegal.syntax.python
       pop: 1
+    - match: \*\*
+      scope: keyword.operator.unpacking.mapping.python
+      pop: 1
+    - match: \*
+      scope: keyword.operator.unpacking.sequence.python
+      pop: 1
+    - include: line-continuation-or-pop
+    - include: else-pop
 
   sequence-separators:
     - match: ','
       scope: punctuation.separator.sequence.python
-      push: allow-unpack-operators
+      push: maybe-unpack-operator-in-brackets
 
   statement-terminators:
     - match: ;
