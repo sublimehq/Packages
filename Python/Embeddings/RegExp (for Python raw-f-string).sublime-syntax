@@ -10,6 +10,8 @@ variables:
   brace_start: \{\{
   brace_end: \}\}
 
+  invalid_char_escape: \\[cCM]
+
 contexts:
   escaped-chars:
     - meta_prepend: true
