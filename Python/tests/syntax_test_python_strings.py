@@ -1960,6 +1960,23 @@ re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
 #                                   ^ constant.character.escape.regexp - constant.character.escape.python
 #                                    ^^ constant.character.escape.regexp constant.character.escape.python
 
+fr'\x{c:02x} becomes \xAB'
+#^ storage.type.string.python
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.python
+# ^^^ string.quoted.single.python
+# ^ punctuation.definition.string.begin.python
+#  ^^ source.regexp.python meta.mode.basic.regexp constant.character.escape.regexp
+#    ^^^^^^^ meta.interpolation.python
+#    ^ punctuation.section.interpolation.begin.python
+#     ^ meta.generic-name.python
+#      ^ punctuation.separator.format-spec.python
+#       ^^^ meta.format-spec.python constant.other.format-spec.python
+#          ^ punctuation.section.interpolation.end.python
+#           ^^^^^^^^^^^^^^ string.quoted.single.python
+#           ^^^^^^^^^^^^^ source.regexp.python meta.mode.basic.regexp
+#                    ^^^^ constant.character.escape.regexp
+#                        ^ punctuation.definition.string.end.python
+
 rf"{value:{width!s:d}}"
 # <- storage.type.string.python
 #^ storage.type.string.python
