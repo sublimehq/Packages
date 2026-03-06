@@ -2520,7 +2520,7 @@ def f[T: Hashable, U: (int, str), *V, **P](x: T = SOME_CONSTANT, y: U, *args: *T
 #    ^ punctuation.definition.generic.begin.python
 #     ^ variable.parameter.type.python
 #      ^ punctuation.separator.bound.python
-#        ^^^^^^^^ support.class.typing.python
+#        ^^^^^^^^ support.class.python
 #                ^ punctuation.separator.parameters.python
 #                  ^ variable.parameter.type.python
 #                   ^ punctuation.separator.bound.python
@@ -2577,7 +2577,7 @@ def f[
 #              ^ meta.generic.python - meta.type
 #   ^ variable.parameter.type.python
 #    ^ punctuation.separator.bound.python
-#      ^^^^^^^^ support.class.typing.python
+#      ^^^^^^^^ support.class.python
 #              ^ punctuation.separator.parameters.python
     U: (int, str)
 #   ^^ meta.generic.python
@@ -4095,7 +4095,7 @@ foo.bar(baz., True)
 primes: List[int] = []
 #     ^ punctuation.separator.annotation.python
 #     ^^ - meta.type
-#       ^^^^ meta.type.python support.class.typing.python
+#       ^^^^ meta.type.python support.class.python
 #           ^^^^^ meta.type.python meta.brackets.python
 #           ^ punctuation.section.brackets.begin.python
 #            ^^^ support.type.python
@@ -4337,11 +4337,11 @@ lst = []  # type: List[Dict[Any, ...]] # comment
 #         ^ punctuation.definition.comment.python
 #           ^^^^ keyword.other.type.python
 #               ^ punctuation.separator.type.python
-#                 ^^^^ support.class.typing.python
+#                 ^^^^ support.class.python
 #                     ^ punctuation.section.brackets.begin
-#                      ^^^^ support.class.typing.python
+#                      ^^^^ support.class.python
 #                          ^ punctuation.section.brackets.begin.python
-#                           ^^^ support.class.typing.python
+#                           ^^^ support.class.python
 #                              ^ punctuation.separator.sequence.python
 #                                ^^^ constant.language.python
 #                                   ^^ punctuation.section.brackets.end.python
@@ -4428,7 +4428,7 @@ def function(a, b, *c, **d):
 #               ^ punctuation.separator.sequence.python
 #                 ^^^ support.type.python
 #                    ^ punctuation.separator.sequence.python
-#                      ^^^^ support.class.typing.python
+#                      ^^^^ support.class.python
 #                          ^^^^^ meta.brackets.python
 #                          ^ punctuation.section.brackets.begin.python
 #                           ^^^ support.type.python
@@ -4437,7 +4437,7 @@ def function(a, b, *c, **d):
 #                                 ^^^^ support.type.python
 #                                     ^ punctuation.section.parameters.end.python
 #                                       ^^ punctuation.separator.return-type.python
-#                                          ^^^^ support.class.typing.python
+#                                          ^^^^ support.class.python
 #                                              ^^^^^^^^^^ meta.brackets.python
 #                                              ^ punctuation.section.brackets.begin.python
 #                                               ^^^ support.type.python
@@ -4451,7 +4451,7 @@ class TypeCommentTest:
 #                  ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.path
 #                  ^^^^ keyword.other.type.python
 #                      ^ punctuation.separator.type.python
-#                        ^^^^ support.class.typing.python
+#                        ^^^^ support.class.python
 #                            ^^^^^^ meta.brackets.python
 #                            ^ punctuation.section.brackets.begin.python
 #                             ^^^^ support.type.python

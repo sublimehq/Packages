@@ -2260,9 +2260,6 @@ contexts:
     - match: '{{builtin_types}}'
       scope: support.type.python
       pop: 1
-    - match: '{{typing_types}}'
-      scope: support.class.typing.python
-      pop: 1
 
   magic-function:
     # these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
@@ -4279,32 +4276,6 @@ variables:
     | get_args | get_origin | get_overloads | get_type_hints | is_typeddict
     | no_type_check | no_type_check_decorator | overload | override | reveal_type
     | runtime_checkable
-    )\b
-
-  typing_types: |-
-    (?x:
-    # Super-special typing primitives.
-      Annotated | Any | Callable | ClassVar | Concatenate | Final | ForwardRef
-    | Generic | Literal | Optional | ParamSpec | Protocol | Tuple | Type
-    | TypeVar | TypeVarTuple | Union
-    # ABCs (from collections.abc).
-    | AbstractSet | ByteString | Container | ContextManager | Hashable | ItemsView
-    | Iterable | Iterator | KeysView | Mapping | MappingView | MutableMapping
-    | MutableSequence | MutableSet | Sequence | Sized | ValuesView | Awaitable
-    | AsyncIterator | AsyncIterable | Coroutine | Collection | AsyncGenerator
-    | AsyncContextManager
-    # Structural checks, a.k.a. protocols.
-    | Reversible | SupportsAbs | SupportsBytes | SupportsComplex | SupportsFloat
-    | SupportsIndex | SupportsInt | SupportsRound
-    # Concrete collection types.
-    | ChainMap | Counter | Deque | Dict | DefaultDict | List | OrderedDict
-    | Set | FrozenSet | NamedTuple | TypedDict | Generator
-    # Other concrete types.
-    | BinaryIO | IO | Match | Pattern | TextIO
-    # One-off things.
-    | AnyStr | LiteralString | Never | NewType | NoReturn | NotRequired
-    | ParamSpecArgs | ParamSpecKwargs | Required | Self | Text | TypeAlias
-    | TypeGuard | Unpack
     )\b
 
   magic_functions: |-
