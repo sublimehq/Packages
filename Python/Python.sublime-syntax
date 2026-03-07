@@ -1624,7 +1624,6 @@ contexts:
     - include: magic-variable
     - include: wildcard-variable
     - include: illegal-name
-    - include: constant-name
     - include: function-name
     - include: immediately-pop
 

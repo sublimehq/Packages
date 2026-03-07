@@ -637,6 +637,16 @@ dotted . identifier(12, True)
 #      ^ punctuation.accessor.dot
 #        ^^^^^^^^^^ variable.function
 
+dotted . IDENTIFIER(12, True)
+# <- meta.path.python - meta.function-call
+#^^^^^^^^ - meta.function-call
+#        ^^^^^^^^^^ meta.function-call.identifier.python - meta.function-call meta.function-call
+#                  ^^^^^^^^^^ meta.function-call.arguments.python - meta.function-call meta.function-call
+#^^^^^^^^^^^^^^^^^^ meta.path
+#^^^^^^^^ - variable.function
+#      ^ punctuation.accessor.dot
+#        ^^^^^^^^^^ variable.function
+
 open.__new__(12, \
 # <- meta.path.python meta.generic-name.python - meta.function-call
 #^^^^ - meta.function-call
