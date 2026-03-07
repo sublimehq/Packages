@@ -2297,7 +2297,7 @@ contexts:
 
   generic-name:
     - match: '{{identifier}}'
-      scope: meta.generic-name.python
+      scope: variable.other.python
       pop: 1
 
   illegal-name:
