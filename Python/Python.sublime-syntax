@@ -614,8 +614,22 @@ contexts:
       push:
         - function-call-argument-list
         - unqualified-function-call-name
-    - match: '{{identifier}}'
+    - match: (?={{identifier_start}})
+      push: unqualified-base-class-name-content
+
+  unqualified-base-class-name-content:
+    - include: builtin-exception
+    - include: builtin-type
+    - include: class-variable
+    - include: magic-function
+    - include: magic-variable
+    - include: wildcard-variable
+    - include: constant-name
+    - match: '{{identifier_class}}'
       scope: entity.other.inherited-class.python
+      pop: 1
+    - include: generic-name
+    - include: immediately-pop
 
   qualified-base-class-separator:
     - meta_include_prototype: false
@@ -640,9 +654,13 @@ contexts:
       set:
         - function-call-argument-list
         - qualified-function-call-name
-    - match: \s*({{identifier}})
+    - match: \s*({{identifier_class}})
       captures:
         1: entity.other.inherited-class.python
+      pop: 1
+    - match: \s*({{identifier}})
+      captures:
+        1: variable.other.python
       pop: 1
     - include: line-continuation-immediately-pop
 

@@ -2676,17 +2676,23 @@ class MyClass(Inherited, \
 #   ^^^ comment.block.documentation.python
     pass
 
-class MyClass(*bases, *more_bases):
+bases = [Foo, Bar]
+# <- variable.other.python
+#^^^^ variable.other.python
+#        ^^^ support.class.python
+#             ^^^ support.class.python
+
+class MyClass(*bases, *MORE_BASES):
 #^^^^^^^^^^^^ meta.class.python
 #^^^^ keyword.declaration.class.python
 #     ^^^^^^^ entity.name.class.python
 #            ^^^^^^^^^^^^^^^^^^^^^ meta.class.inheritance.python
 #            ^ punctuation.section.inheritance.begin.python
 #             ^ keyword.operator.unpacking.sequence.python
-#              ^^^^^ entity.other.inherited-class.python
+#              ^^^^^ variable.other.python
 #                   ^ punctuation.separator.inheritance.python
 #                     ^ keyword.operator.unpacking.sequence.python
-#                      ^^^^^^^^^^ entity.other.inherited-class.python
+#                      ^^^^^^^^^^ variable.other.constant.python
 #                                ^ punctuation.section.inheritance.end.python
 #                                 ^ meta.class.python punctuation.section.block.begin.python
 
