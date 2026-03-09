@@ -2130,7 +2130,8 @@ contexts:
     - meta_scope: variable.parameter.python
     - include: illegal-name
     - include: class-variable
-    - include: generic-name
+    - match: '{{identifier}}'
+      pop: 1
     - include: immediately-pop
 
   type-parameter-names:
@@ -2141,7 +2142,8 @@ contexts:
     - meta_scope: variable.parameter.type.python
     - include: illegal-name
     - include: class-variable
-    - include: generic-name
+    - match: '{{identifier}}'
+      pop: 1
     - include: immediately-pop
 
   qualified-names:

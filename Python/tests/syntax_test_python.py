@@ -797,13 +797,13 @@ def _():
 #           ^ meta.function.inline.parameters.python
         x
 #^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python variable.other.python
+#       ^ variable.parameter.python
         ,
 #^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
 #       ^ punctuation.separator.parameters.python
         y
 #^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python variable.other.python
+#       ^ variable.parameter.python
         :
 #^^^^^^^^^ meta.set.python
 #^^^^^^^ meta.function.inline.parameters.python
@@ -859,13 +859,13 @@ def _():
 #           ^ meta.function.inline.parameters.python
         x
 #^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python variable.other.python
+#       ^ variable.parameter.python
         ,
 #^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
 #       ^ punctuation.separator.parameters.python
         y
 #^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python variable.other.python
+#       ^ variable.parameter.python
         :
 #^^^^^^^^^ meta.sequence.list.python
 #^^^^^^^ meta.function.inline.parameters.python
@@ -921,13 +921,13 @@ def _():
 #           ^ meta.function.inline.parameters.python
         x
 #^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python variable.other.python
+#       ^ variable.parameter.python
         ,
 #^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
 #       ^ punctuation.separator.parameters.python
         y
 #^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python variable.other.python
+#       ^ variable.parameter.python
         :
 #^^^^^^^^^ meta.group.python
 #^^^^^^^ meta.function.inline.parameters.python
