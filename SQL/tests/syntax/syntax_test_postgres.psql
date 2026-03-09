@@ -449,6 +449,31 @@ ALTER TABLE mytable ADD CONSTRAINT verify_code CHECK (code IN ('A', 'AG', 'AL', 
 --                                                   ^ punctuation.section.group.begin
 --                                                    ^^^^ meta.column-name
 
+ALTER TABLE mytable ADD flag VARCHAR(1) CHECK (code IN ('A', 'B', 'C')) DEFAULT 'A';
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.alter.sql
+--^^^ keyword.other.ddl.sql
+--    ^^^^^ keyword.other.ddl.sql
+--          ^^^^^^^ meta.table-name.sql
+--                  ^^^ keyword.other.ddl.sql
+--                      ^^^^ meta.column-name.sql
+--                           ^^^^^^^^^^ storage.type.sql
+--                                      ^^^^^ keyword.other.sql
+--                                            ^^^^^^^^^ meta.group.sql - meta.group meta.group
+--                                                     ^^^^^^^^^^^^^^^ meta.group.sql meta.group.sql
+--                                                                    ^ meta.group.sql - meta.group meta.group
+--                                            ^ punctuation.section.group.begin.sql
+--                                             ^^^^ meta.column-name.sql
+--                                                  ^^ keyword.operator.logical.sql
+--                                                     ^ punctuation.section.group.begin.sql
+--                                                      ^^^ meta.string.sql string.quoted.single.sql
+--                                                         ^ punctuation.separator.sequence.sql
+--                                                           ^^^ meta.string.sql string.quoted.single.sql
+--                                                              ^ punctuation.separator.sequence.sql
+--                                                                ^^^ meta.string.sql string.quoted.single.sql
+--                                                                   ^^ punctuation.section.group.end.sql
+--                                                                      ^^^^^^^ storage.modifier.sql
+--                                                                              ^^^ meta.string.sql string.quoted.single.sql
+--                                                                                 ^ punctuation.terminator.statement.sql
 
 CREATE TABLE test1 (
     name                     varchar(500)  NOT NULL PRIMARY KEY,

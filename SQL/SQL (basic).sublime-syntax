@@ -798,6 +798,7 @@ contexts:
   column-modifiers:
     - match: \b(?i:check)\b
       scope: keyword.other.sql
+      push: maybe-group
     - match: |-
         \b(?xi:
           (?: (?: fulltext | primary | unique ) \s+ )? key
