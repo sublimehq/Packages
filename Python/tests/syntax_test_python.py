@@ -751,7 +751,7 @@ def _():
 #                    ^ meta.function.inline.python
 #                     ^^^^^^ meta.function.inline.body.python
 #       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
-#              ^ meta.function.inline.parameters.python variable.parameter.python
+#              ^ meta.function.inline.parameters.python variable.parameter.python - variable.other
 #                    ^ punctuation.section.block.begin
 #                        ^ keyword.operator.arithmetic.python
 
@@ -797,13 +797,13 @@ def _():
 #           ^ meta.function.inline.parameters.python
         x
 #^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
         ,
 #^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
 #       ^ punctuation.separator.parameters.python
         y
 #^^^^^^^^^ meta.set.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
         :
 #^^^^^^^^^ meta.set.python
 #^^^^^^^ meta.function.inline.parameters.python
@@ -859,13 +859,13 @@ def _():
 #           ^ meta.function.inline.parameters.python
         x
 #^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
         ,
 #^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
 #       ^ punctuation.separator.parameters.python
         y
 #^^^^^^^^^ meta.sequence.list.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
         :
 #^^^^^^^^^ meta.sequence.list.python
 #^^^^^^^ meta.function.inline.parameters.python
@@ -921,13 +921,13 @@ def _():
 #           ^ meta.function.inline.parameters.python
         x
 #^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
         ,
 #^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
 #       ^ punctuation.separator.parameters.python
         y
 #^^^^^^^^^ meta.group.python meta.function.inline.parameters.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
         :
 #^^^^^^^^^ meta.group.python
 #^^^^^^^ meta.function.inline.parameters.python
@@ -976,8 +976,8 @@ def _():
 #                             ^ meta.function.inline.python
 #                              ^^^^^^^^^ meta.function.inline.body.python
 #          ^ keyword.operator.unpacking.sequence.python
-#           ^ variable.parameter.python
-#                ^^^ variable.parameter.python
+#           ^ variable.parameter.python - variable.other
+#                ^^^ variable.parameter.python - variable.other
 #              ^^ keyword.operator.unpacking.mapping.python
 #                       ^ invalid.illegal.expected-parameter.python
 #                            ^ invalid.illegal.expected-parameter.python
@@ -993,9 +993,9 @@ def _():
 #                ^ meta.function.inline.python
 #                 ^^ meta.function.inline.body.python
 #          ^ punctuation.section.group.begin.python
-#           ^ variable.parameter.python
+#           ^ variable.parameter.python - variable.other
 #            ^ punctuation.separator.parameters.python
-#              ^ variable.parameter.python
+#              ^ variable.parameter.python - variable.other
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.block.begin.python
     lambda (
@@ -1006,11 +1006,11 @@ def _():
 #          ^ punctuation.section.group.begin.python
         x,
 #      ^^^^ meta.function.inline.parameters.python meta.group.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
 #        ^ punctuation.separator.parameters.python
         y
 #      ^^^^ meta.function.inline.parameters.python meta.group.python
-#       ^ variable.parameter.python
+#       ^ variable.parameter.python - variable.other
     ):
 #^^^^^^ - meta.function.inline meta.function.inline
 #^^^^ meta.function.inline.parameters.python meta.group.python
@@ -1843,7 +1843,7 @@ def _():
 #   ^^^^ keyword.control.conditional.case.python
 #        ^^^^ support.class.python
 #            ^ punctuation.section.arguments.begin.python
-#             ^^^ variable.parameter.python
+#             ^^^ variable.parameter.python - variable.other
 #                 ^ keyword.operator.assignment.python
 #                   ^^^^^^^ variable.other.python - meta.path
 #                          ^ punctuation.section.arguments.end.python
@@ -1862,7 +1862,7 @@ def _():
 #            ^ punctuation.accessor.dot.python
 #             ^^^^ support.class.python
 #                 ^ punctuation.section.arguments.begin.python
-#                  ^^^ variable.parameter.python
+#                  ^^^ variable.parameter.python - variable.other
 #                      ^ keyword.operator.assignment.python
 #                        ^^^^^^^ variable.other.python - meta.path
 #                               ^ punctuation.section.arguments.end.python
@@ -1877,7 +1877,7 @@ def _():
 #                          ^ meta.statement.conditional.case.python
 #       ^^^^ meta.path.python support.class.python
 #           ^ punctuation.section.arguments.begin.python
-#            ^^^ variable.parameter.python
+#            ^^^ variable.parameter.python - variable.other
 #                ^ keyword.operator.assignment.python
 #                  ^^^^^^^ variable.other.python
 #                         ^ punctuation.section.arguments.end.python
@@ -1908,7 +1908,7 @@ def _():
 #             ^ punctuation.separator.sequence.python
 #               ^^^^^^^ support.class.python
 #                      ^ punctuation.section.arguments.begin.python
-#                       ^^^^^^^ variable.parameter.python
+#                       ^^^^^^^ variable.parameter.python - variable.other
 #                              ^ keyword.operator.assignment.python
 #                               ^ punctuation.section.group.begin.python
 #                                ^^^ string.quoted.single.python
@@ -2344,7 +2344,7 @@ def func(
 #   ^ keyword.operator.unpacking.sequence.python
 
     args,
-#   ^^^^ variable.parameter.python
+#   ^^^^ variable.parameter.python - variable.other
 
     other_arg
     = 2
@@ -2357,7 +2357,7 @@ def func(
 #   ^^ keyword.operator.unpacking.mapping.python
 
     kwargs
-#   ^^^^^^ variable.parameter.python
+#   ^^^^^^ variable.parameter.python - variable.other
 ):
     pass
 
@@ -2372,9 +2372,9 @@ def func(args, (x, y)=(0,0)):
 #       ^ punctuation.section.parameters.begin.python
 #            ^ punctuation.separator.parameters.python
 #              ^ punctuation.section.group.begin.python
-#               ^ variable.parameter.python
+#               ^ variable.parameter.python - variable.other
 #                ^ punctuation.separator.parameters.python
-#                  ^ variable.parameter.python
+#                  ^ variable.parameter.python - variable.other
 #                   ^ punctuation.section.group.end.python
 #                    ^ keyword.operator.assignment.python
 #                     ^ punctuation.section.sequence.begin.python
@@ -2390,10 +2390,10 @@ def func(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                                      ^^^ - meta.group.python
 #                                         ^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
 #                      ^ punctuation.section.group.begin.python
-#                       ^ variable.parameter.python
+#                       ^ variable.parameter.python - variable.other
 #                        ^^^^^^^ invalid.illegal.annotation.python
 #                               ^ punctuation.separator.parameters.python
-#                                 ^ variable.parameter.python
+#                                 ^ variable.parameter.python - variable.other
 #                                  ^^^ invalid.illegal.default-value.python
 #                                     ^ punctuation.section.group.end.python
 #                                       ^ keyword.operator.assignment.python
@@ -2434,7 +2434,7 @@ def func(
 
     baz: str,
 #  ^^^^^^^^^^^ meta.function.parameters
-#   ^^^ variable.parameter.python
+#   ^^^ variable.parameter.python - variable.other
 #      ^ punctuation.separator.annotation
 #        ^^^ support.type.python
 #           ^ punctuation.separator.parameters.python
@@ -2468,24 +2468,24 @@ def f[T: Hashable, U: (int, str), *V, **P](x: T = SOME_CONSTANT, y: U, *args: *T
 #                                       ^ variable.parameter.type.python
 #                                        ^ punctuation.definition.generic.end.python
 #                                         ^ punctuation.section.parameters.begin.python
-#                                          ^ variable.parameter.python
+#                                          ^ variable.parameter.python - variable.other
 #                                           ^ punctuation.separator.annotation.python
 #                                             ^ meta.type.python variable.other.python - meta.path
 #                                               ^ meta.function.parameters.default-value.python keyword.operator.assignment.python
 #                                                 ^^^^^^^^^^^^^ variable.other.constant.python - meta.path
 #                                                              ^ punctuation.separator.parameters.python
-#                                                                ^ variable.parameter.python
+#                                                                ^ variable.parameter.python - variable.other
 #                                                                 ^ punctuation.separator.annotation.python
 #                                                                   ^ meta.type.python variable.other.python - meta.path
 #                                                                    ^ punctuation.separator.parameters.python
 #                                                                      ^ keyword.operator.unpacking.sequence.python
-#                                                                       ^^^^ variable.parameter.python
+#                                                                       ^^^^ variable.parameter.python - variable.other
 #                                                                           ^ punctuation.separator.annotation.python
 #                                                                             ^ meta.type.python keyword.operator.arithmetic.python
 #                                                                              ^^ meta.type.python variable.other.python - meta.path
 #                                                                                ^ punctuation.separator.parameters.python
 #                                                                                  ^^ keyword.operator.unpacking.mapping.python
-#                                                                                    ^^^^^^ variable.parameter.python
+#                                                                                    ^^^^^^ variable.parameter.python - variable.other
 #                                                                                          ^ punctuation.separator.annotation.python
 #                                                                                            ^ meta.type.python meta.path.python variable.other.python
 #                                                                                             ^ meta.type.python meta.path.python punctuation.accessor.dot.python
@@ -2543,7 +2543,7 @@ match test:
 #           ^^^^ entity.name.function.python
 #               ^^^^^ meta.function.parameters.python
 #               ^ punctuation.section.parameters.begin.python
-#                ^^^ variable.parameter.python
+#                ^^^ variable.parameter.python - variable.other
 #                   ^ punctuation.section.parameters.end.python
 #                    ^ meta.function.python punctuation.section.block.begin.python
 #                      ^^^^ keyword.control.flow.pass.python
@@ -2557,9 +2557,9 @@ class MyClass():
 #            ^^ meta.class.inheritance.python - meta.class meta.class
 #              ^ meta.class.python - meta.class meta.class punctuation.section.class.begin
     def my_func(self, param1, # Multi-line function definition
-#               ^^^^ variable.parameter.python variable.language.python
+#               ^^^^ variable.parameter.python - variable.other variable.language.python
 #                   ^ punctuation.separator.parameters.python
-#                     ^^^^^^ variable.parameter.python - variable.language
+#                     ^^^^^^ variable.parameter.python - variable.other - variable.language
 #                             ^ comment.line.number-sign
         # This is defaulted
 #       ^ comment.line.number-sign
@@ -2650,7 +2650,7 @@ class MyClass(func(var, arg=var), module.func(var, arg=var)):
 #                 ^ punctuation.section.arguments.begin.python
 #                  ^^^ variable.other.python
 #                     ^ punctuation.separator.arguments.python
-#                       ^^^ variable.parameter.python
+#                       ^^^ variable.parameter.python - variable.other
 #                          ^ keyword.operator.assignment.python
 #                           ^^^ variable.other.python
 #                              ^ punctuation.section.arguments.end.python
@@ -2662,7 +2662,7 @@ class MyClass(func(var, arg=var), module.func(var, arg=var)):
 #                                            ^ punctuation.section.arguments.begin.python
 #                                             ^^^ variable.other.python
 #                                                ^ punctuation.separator.arguments.python
-#                                                  ^^^ variable.parameter.python
+#                                                  ^^^ variable.parameter.python - variable.other
 #                                                     ^ keyword.operator.assignment.python
 #                                                      ^^^ variable.other.python
 #                                                         ^ punctuation.section.arguments.end.python
@@ -2900,7 +2900,7 @@ class Foo:
 #          ^^ meta.number.integer.decimal.python constant.numeric.value.python
 
     def __init__(self, type: int):
-#                      ^^^^ variable.parameter.python
+#                      ^^^^ variable.parameter.python - variable.other
         self.type = type
 #            ^^^^ meta.path.python variable.other.python
 #                   ^^^^ variable.other.python
