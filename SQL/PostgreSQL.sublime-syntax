@@ -369,3 +369,16 @@ contexts:
     - match: \\x\h{8}
       scope: constant.character.escape.sql
     - include: string-escapes
+
+###[ LIKE EXPRESSIONS ]########################################################
+
+  like-expressions:
+    - match: \b(?i:i?like)\b
+      scope: keyword.operator.comparison.sql
+      branch_point: like-expressions
+      branch:
+        - like-string-not-followed-by-escape
+        - like-string-followed-by-escape-slash
+        - like-string-followed-by-escape-caret
+        - like-string-followed-by-escape-hash
+        - like-string-followed-by-unknown-escape
