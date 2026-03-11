@@ -778,9 +778,20 @@ BEGIN
 --                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                      ^ punctuation.terminator.statement.sql
 
+    DECLARE @@GLOBAL.var INT = 0;
+--  ^^^^^^^ keyword.declaration.mysql
+--          ^^^^^^^^ variable.language.sql
+--          ^^ punctuation.definition.variable.sql
+--                  ^^^^ variable.other.member.sql
+--                  ^ punctuation.accessor.dot.sql
+--                       ^^^ storage.type.sql
+--                           ^ keyword.operator.assignment.sql
+--                             ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                              ^ punctuation.terminator.statement.sql
+
     DECLARE r ROW (c1 INT, c2 VARCHAR(10));
 --  ^^^^^^^ keyword.declaration.mysql
---          ^ variable.other.mysql
+--          ^ variable.other.sql
 --            ^^^ storage.type.sql
 --                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
 --                ^ punctuation.section.group.begin.sql
@@ -4931,7 +4942,7 @@ SET @@SESSION.max_join_size = @@GLOBAL.max_join_size;
 --                            ^^^^^^^^ variable.language.sql
 --                            ^^ punctuation.definition.variable.sql
 --                                    ^ punctuation.accessor.dot.sql
---                                     ^^^^^^^^^^^^^ variable.other.member.mysql
+--                                     ^^^^^^^^^^^^^ variable.other.member.sql
 --                                                  ^ punctuation.terminator.statement.sql
 
 LOCK TABLES `some_table` WRITE;
