@@ -1343,7 +1343,7 @@ create table fancy_table (
 --                  ^ punctuation.definition.parens.begin.sql
 --                   ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                      ^ punctuation.definition.parens.end.sql
---                        ^^^^^^^^^^^^^^^^^^^ storage.modifier.mysql
+--                        ^^^^^^^^^^^^^^^^^^^ storage.modifier.sql
 --                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
 --                                            ^ punctuation.section.group.begin.sql
 --                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.sql
@@ -2388,14 +2388,14 @@ ALTER ONLINE IGNORE TABLE IF EXISTS tbl_name WAIT 100
 --                              ^ punctuation.separator.sequence.sql
 --                               ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                                ^ punctuation.definition.parens.end.sql
---                                  ^^^^^^^^^^^^^^^^^^^ storage.modifier.mysql
+--                                  ^^^^^^^^^^^^^^^^^^^ storage.modifier.sql
 --                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sql
 --                                                      ^ punctuation.section.group.begin.sql
 --                                                       ^^^^^^^^ meta.column-name.sql
 --                                                               ^ keyword.operator.arithmetic.sql
 --                                                                ^^^^^^^^^^^^^^^ meta.column-name.sql
 --                                                                               ^ punctuation.section.group.end.sql
---                                                                                 ^^^^^^ storage.modifier.mysql
+--                                                                                 ^^^^^^ storage.modifier.sql
 --                                                                                       ^ punctuation.terminator.statement.sql
 
 -- ----------------------------------------------------------------------------

@@ -495,9 +495,50 @@ ALTER TABLE mytable ADD flag VARCHAR(1) CHECK (code IN ('A', 'B', 'C')) DEFAULT 
 --                                                                                 ^ punctuation.terminator.statement.sql
 
 CREATE TABLE test1 (
-    name                     varchar(500)  NOT NULL PRIMARY KEY,
-    description              varchar       NOT NULL DEFAULT '',
-    authors                  varchar[],
+    id            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.table.sql meta.group.table-columns.sql
+--  ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                ^^^^^^ storage.type.sql
+--                       ^^^^^^^^^^^^^^^^^^^ storage.modifier.sql
+--                                           ^^^^^^^^ storage.modifier.sql
+--                                                    ^^^^^^^^^^^ storage.modifier.sql
+--                                                               ^ punctuation.separator.sequence.sql
+    name          varchar(500)  NOT NULL PRIMARY KEY,
+--  ^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                ^^^^^^^^^^^^ storage.type.sql
+--                       ^^^^^ meta.parens.sql
+--                       ^ punctuation.definition.parens.begin.sql
+--                        ^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                           ^ punctuation.definition.parens.end.sql
+--                              ^^^ keyword.operator.logical.sql
+--                                  ^^^^ constant.language.null.sql
+--                                       ^^^^^^^^^^^ storage.modifier.sql
+--                                                  ^ punctuation.separator.sequence.sql
+    description   varchar       NOT NULL DEFAULT '',
+--  ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                ^^^^^^^ storage.type.sql
+--                              ^^^ keyword.operator.logical.sql
+--                                  ^^^^ constant.language.null.sql
+--                                       ^^^^^^^ storage.modifier.sql
+--                                               ^^ meta.string.sql string.quoted.single.sql
+--                                               ^ punctuation.definition.string.begin.sql
+--                                                ^ punctuation.definition.string.end.sql
+--                                                 ^ punctuation.separator.sequence.sql
+--  ^^^^^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                ^^^^^^^ storage.type.sql
+--                              ^^^ keyword.operator.logical.sql
+--                                  ^^^^ constant.language.null.sql
+--                                       ^^^^^^^ storage.modifier.sql
+--                                               ^^ meta.string.sql string.quoted.single.sql
+--                                               ^ punctuation.definition.string.begin.sql
+--                                                ^ punctuation.definition.string.end.sql
+--                                                 ^ punctuation.separator.sequence.sql
+    authors       varchar[],
+--  ^^^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                ^^^^^^^^^ storage.type.sql
+--                       ^ punctuation.section.brackets.begin.psql
+--                        ^ punctuation.section.brackets.end.psql
+--                         ^ punctuation.separator.sequence.sql
 );
 
 CREATE TABLE test2 (
