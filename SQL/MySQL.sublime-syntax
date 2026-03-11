@@ -98,6 +98,7 @@ contexts:
     - match: \b(?i:declare)\b
       scope: keyword.declaration.mysql
       push:
+        - after-type
         - expect-type
         - variable-meta
         - single-identifier
@@ -339,6 +340,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
+        - after-type
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
@@ -1639,28 +1641,20 @@ contexts:
     # https://mariadb.com/kb/en/row
     - match: \b(?i:row)\b
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-column-declaration-list
+      push: maybe-column-declaration-list
     - match: \b(?i:set)(?=\s*\()
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-group
+      push: maybe-group
 
   built-in-type:
     - meta_prepend: true
     # https://mariadb.com/kb/en/row
     - match: \b(?i:row)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-column-declaration-list
+      set: maybe-column-declaration-list
     - match: \b(?i:set)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-group
+      set: maybe-group
 
   after-type:
     - meta_prepend: true

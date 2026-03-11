@@ -445,6 +445,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
+        - after-type
         - expect-type
         - expect-column-name-declaration
     - match: \b(?i:(drop)(?:\s+(column)\b|(?!\s+{{ddl_target}}\b)))
@@ -869,6 +870,7 @@ contexts:
     - include: comma-separators
     - match: (?=\S)
       push:
+        - after-type
         - expect-type
         - expect-parameter-name
         - maybe-parameter-modifier
@@ -895,7 +897,9 @@ contexts:
       push: expect-function-language-name
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
-      push: expect-type
+      push:
+        - after-type
+        - expect-type
     - include: column-modifiers
     - include: create-common-args
 
@@ -1019,9 +1023,7 @@ contexts:
   built-in-types:
     - match: \b(?i:enum)\b
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-group
+      push: maybe-group
     - match: |-
         (?x)
         \b(?: {{simple_types}} | {{types_with_optional_number}} )
@@ -1034,16 +1036,13 @@ contexts:
         4: punctuation.separator.sequence.sql
         5: meta.number.integer.decimal.sql constant.numeric.value.sql
         6: punctuation.definition.parens.end.sql
-      push: after-type
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
 
   built-in-type:
     - match: \b(?i:enum)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-group
+      set: maybe-group
     - match: |-
         (?x)
         \b(?: {{simple_types}} | {{types_with_optional_number}} )
@@ -1056,7 +1055,7 @@ contexts:
         4: punctuation.separator.sequence.sql
         5: meta.number.integer.decimal.sql constant.numeric.value.sql
         6: punctuation.definition.parens.end.sql
-      set: after-type
+      pop: 1
 
   expect-user-type:
     - match: (?=\S)
