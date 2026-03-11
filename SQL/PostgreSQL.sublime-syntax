@@ -11,6 +11,10 @@ file_extensions:
   - psql
 
 variables:
+
+  like_keyword: |-
+    (?xi: ilike | like )
+
   simple_types: |-
     (?xi: smallint | int(?:eger)? | bigint | real | double\s+precision
     | smallserial | serial | bigserial

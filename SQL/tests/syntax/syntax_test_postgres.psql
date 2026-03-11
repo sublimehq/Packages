@@ -223,6 +223,25 @@ SELECT schedule[1:2][2] FROM sal_emp WHERE name = 'Bill';
 --                      ^^^^ keyword.other.dml
 --                           ^^^^^^^ meta.table-name
 
+SELECT columns FROM table WHERE
+    column LIKE 'a_b_c%'
+--         ^^^^ keyword.operator.comparison.sql
+--              ^^^^^^^^ meta.string.like.sql string.quoted.single.sql
+--              ^ punctuation.definition.string.begin.sql
+--                ^ constant.other.wildcard.underscore.sql
+--                  ^ constant.other.wildcard.underscore.sql
+--                    ^ constant.other.wildcard.percent.sql
+--                     ^ punctuation.definition.string.end.sql
+
+SELECT columns FROM table WHERE
+    column ILIKE 'a_b_c%'
+--         ^^^^^ keyword.operator.comparison.sql
+--               ^^^^^^^^ meta.string.like.sql string.quoted.single.sql
+--               ^ punctuation.definition.string.begin.sql
+--                 ^ constant.other.wildcard.underscore.sql
+--                   ^ constant.other.wildcard.underscore.sql
+--                     ^ constant.other.wildcard.percent.sql
+--                      ^ punctuation.definition.string.end.sql
 
 -- ----------------------------------------------------------------------------
 -- CREATE EXTENSION

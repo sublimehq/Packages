@@ -6,7 +6,7 @@ USE master
 
 SELECT columns FROM table WHERE
     column LIKE '%[[]SQL Server Driver]%'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
 --               ^ constant.other.wildcard.percent
@@ -20,7 +20,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE '%[SQL Server Driver]%'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --              ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
 --               ^ constant.other.wildcard.percent
@@ -34,7 +34,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE '%[^a-f]%'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --              ^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
 --               ^ constant.other.wildcard.percent
@@ -49,7 +49,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE 'hello_world'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --              ^^^^^^^^^^^^ meta.string.like string.quoted.single
 --              ^ punctuation.definition.string.begin
 --                    ^ constant.other.wildcard.underscore
@@ -58,7 +58,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE '%\[SQL Server Driver]^%\__' ESCAPE '\'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --               ^ constant.other.wildcard.percent
 --                ^^ constant.character.escape
 --                                    ^ - constant
@@ -73,7 +73,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE '%\[SQL Server Driver]^%\__'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --               ^ constant.other.wildcard.percent
 --                ^^ constant.character.escape
 --                                    ^ - constant
@@ -89,7 +89,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE '%\^[SQL Server Driver]^%_^_' ESCAPE '^'
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --               ^ constant.other.wildcard.percent
 --                ^ - constant
 --                 ^^ constant.character.escape
@@ -104,7 +104,7 @@ SELECT columns FROM table WHERE
 
 SELECT columns FROM table WHERE
     column LIKE '%\^[SQL Server Driver]^%_^_\_{{--' ESCAPE '{' -- uncatered for escape char, scope operators as though unescaped
---         ^^^^ keyword.operator.logical
+--         ^^^^ keyword.operator.comparison
 --               ^ constant.other.wildcard.percent
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character.escape
 --                  ^^^^^^^^^^^^^^^^^^^ meta.set.like

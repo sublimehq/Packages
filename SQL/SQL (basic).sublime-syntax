@@ -57,6 +57,9 @@ variables:
   builtin_user_functions: |-
     (?xi: (?: current | session | system )_user )
 
+  like_keyword: |-
+    (?xi: like )
+
 contexts:
   prototype:
     - include: comments
@@ -1494,8 +1497,8 @@ contexts:
 ###[ LIKE EXPRESSIONS ]########################################################
 
   like-expressions:
-    - match: \b(?i:like)\b
-      scope: keyword.operator.logical.sql
+    - match: \b{{like_keyword}}\b
+      scope: keyword.operator.comparison.sql
       branch_point: like-expressions
       branch:
         - like-string-not-followed-by-escape

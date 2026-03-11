@@ -4642,7 +4642,7 @@ select @@hostname;
 SELECT *
 FROM suppliers
 WHERE supplier_name LIKE 'H%\_';
---                  ^^^^ keyword.operator.logical.sql
+--                  ^^^^ keyword.operator.comparison.sql
 --                       ^^^^^^ meta.string.like.sql string.quoted.single.sql
 --                       ^ punctuation.definition.string.begin.sql
 --                        ^ - constant
@@ -4654,7 +4654,7 @@ WHERE supplier_name LIKE 'H%\_';
 SELECT *
 FROM suppliers
 WHERE supplier_name LIKE 'H%\__' ESCAPE '\\';
---                  ^^^^ keyword.operator.logical.sql
+--                  ^^^^ keyword.operator.comparison.sql
 --                       ^^^^^^ meta.string.like.sql string.quoted.single.sql
 --                        ^ - constant
 --                         ^ constant.other.wildcard.percent.sql
@@ -4669,7 +4669,7 @@ WHERE supplier_name LIKE 'H%\__' ESCAPE '\\';
 SELECT *
 FROM suppliers
 WHERE supplier_name LIKE 'H%\_#_' ESCAPE '#';
---                  ^^^^ keyword.operator.logical.sql
+--                  ^^^^ keyword.operator.comparison.sql
 --                       ^^^^^^^^ meta.string.like.sql string.quoted.single.sql
 --                        ^ - constant
 --                         ^ constant.other.wildcard.percent.sql
