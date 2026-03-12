@@ -1091,10 +1091,13 @@ contexts:
   column-modifiers:
     - meta_prepend: true
     - match: \b(?i:generated\s+always\s+as)\b
-      scope: storage.modifier.mysql
-      push: group
+      scope: storage.modifier.sql
+      push: generated-always-as-expression
     - match: \b(?i:stored|virtual)\b
-      scope: storage.modifier.mysql
+      scope: storage.modifier.sql
+
+  generated-always-as-expression:
+    - include: maybe-group
 
 ###[ EVENT EXPRESSIONS ]#######################################################
 

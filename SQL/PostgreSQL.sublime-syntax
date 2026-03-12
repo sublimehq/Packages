@@ -222,6 +222,13 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.psql
 
+###[ COLUMN EXPRESSIONS ]######################################################
+
+  generated-always-as-expression:
+    - match: \b(?i:identity)\b
+      scope: storage.modifier.sql
+    - include: else-pop
+
 ###[ EXTENSION EXPRESSIONS ]###################################################
 
   extension-attributes:
