@@ -1338,6 +1338,8 @@ contexts:
       set:
         - match: '{{parameter_attribute_lookahead}}'
           set: [value-group-after-parens, function-argument, function-argument-or-type]
+        - match: '(?=[^)]*\)\s*[\{=])'
+          set: [value-group-after-parens, function-argument, function-argument-or-type]
         - match: '(?=\S)'
           set: [value-group-after, value]
     - match: '(?={)'
