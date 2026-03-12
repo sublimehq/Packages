@@ -93,14 +93,9 @@ contexts:
 
   statements:
     - meta_prepend: true
+    - include: declare-statements
     - include: rename-statements
     - include: show-statements
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.mysql
-      push:
-        - expect-type
-        - variable-meta
-        - single-identifier
     - match: \b(?i:table)\b
       scope: keyword.context.mysql
       push: expect-table-name
@@ -253,6 +248,37 @@ contexts:
     - match: (?=\()
       push: column-declaration-list
 
+###[ DDL DECLARE STATEMENTS ]##################################################
+
+  declare-statements:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.mysql
+      push:
+        - after-type
+        - expect-type
+        - declare-variable
+
+  declare-variable:
+    - meta_include_prototype: false
+    - include: pop-on-top-level-reserved-word
+    - match: (@@){{simple_identifier}}\b
+      scope: variable.language.sql
+      captures:
+        1: punctuation.definition.variable.sql
+      set:
+        - variable-member
+        - maybe-identifier-accessor
+    - match: (@){{simple_identifier}}\b
+      scope: variable.other.sql
+      captures:
+        1: punctuation.definition.variable.sql
+      pop: 1
+    - match: (?=\S)
+      set:
+        - variable-meta
+        - maybe-identifier-accessor
+        - identifier-part
+
 ###[ DDL DROP STATEMENTS ]#####################################################
 
   drop-target:
@@ -339,6 +365,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
+        - after-type
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
@@ -742,12 +769,12 @@ contexts:
 
   variable-meta:
     - meta_include_prototype: false
-    - meta_content_scope: variable.other.mysql
+    - meta_content_scope: variable.other.sql
     - include: immediately-pop
 
   variable-member:
     - meta_include_prototype: false
-    - meta_content_scope: variable.other.member.mysql
+    - meta_content_scope: variable.other.member.sql
     - include: immediately-pop
 
 ###[ GRANT STATEMENTS ]########################################################
@@ -1642,28 +1669,20 @@ contexts:
     # https://mariadb.com/kb/en/row
     - match: \b(?i:row)\b
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-column-declaration-list
+      push: maybe-column-declaration-list
     - match: \b(?i:set)(?=\s*\()
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-group
+      push: maybe-group
 
   built-in-type:
     - meta_prepend: true
     # https://mariadb.com/kb/en/row
     - match: \b(?i:row)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-column-declaration-list
+      set: maybe-column-declaration-list
     - match: \b(?i:set)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-group
+      set: maybe-group
 
   after-type:
     - meta_prepend: true
