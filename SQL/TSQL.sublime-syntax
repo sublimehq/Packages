@@ -42,7 +42,7 @@ variables:
 
 contexts:
 
-  sql:
+  statements:
     - meta_prepend: true
     - include: declare-statements
 

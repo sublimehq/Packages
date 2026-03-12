@@ -34,10 +34,6 @@ variables:
 
 contexts:
 
-  sql:
-    - meta_prepend: true
-    - include: declare-statements
-
   statements:
     - meta_prepend: true
     - match: (\$\$)\s+(LANGUAGE)\s+(\w+)(?:\s+(IMMUTABLE|STABLE)\b)?
@@ -53,7 +49,7 @@ contexts:
     - match: \b(?i:for)\b
       scope: keyword.control.loop.psql
       push:
-        - declaration-variable-name
+        - variable-name
         - single-identifier
     - match: \b(?i:loop)\b
       scope: keyword.control.loop.psql
@@ -80,22 +76,31 @@ contexts:
 
 ###[ DECLARE STATEMENTS ]######################################################
 
-  declare-statements:
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.variable.psql
-      push: inside-declaration
-
   inside-declaration:
+    - meta_scope: meta.declaration.sql
+    - include: statement-terminators
+    - include: pop-on-top-level-reserved-word
+    - match: (?=\S)
+      push:
+        - variable-declaration-type
+        - variable-declaration-separator
+        - expect-variable-name
+
+  variable-declaration-type:
+    - match: (?i:(?:a|in)sensitive|binary|(?:no\s+)?scroll)\b
+      scope: storage.modifier.sql
+    - match: (?i:cursor)\b
+      scope: storage.type.cursor.sql
+      set: cursor-declaration-value
     - match: (?=\S)
       set:
+        - variable-declaration-value
         - expect-type
-        - declaration-variable-name
-        - single-identifier
 
-  declaration-variable-name:
-    - meta_include_prototype: false
-    - meta_scope: variable.other.psql
-    - include: immediately-pop
+  cursor-declaration-value:
+    - meta_prepend: true
+    - match: (?i:(?:with(?:out)?\s+)?hold)\b
+      scope: storage.modifier.sql
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 

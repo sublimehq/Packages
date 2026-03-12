@@ -767,90 +767,10 @@ CREATE PROCEDURE
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.create.sql meta.function.sql
 --  ^^^^^^^ variable.parameter.sql
 --          ^^^^^^^^^^^^^^ meta.string.sql string.quoted.single.sql
-BEGIN
-
-    DECLARE @var INT = 0;
---  ^^^^^^^ keyword.declaration.mysql
---          ^^^^ variable.other.sql
---          ^ punctuation.definition.variable.sql
---               ^^^ storage.type
---                   ^ keyword.operator.assignment.sql
---                     ^ meta.number.integer.decimal.sql constant.numeric.value.sql
---                      ^ punctuation.terminator.statement.sql
-
-    DECLARE @@GLOBAL.var INT = 0;
---  ^^^^^^^ keyword.declaration.mysql
---          ^^^^^^^^ variable.language.sql
---          ^^ punctuation.definition.variable.sql
---                  ^^^^ variable.other.member.sql
---                  ^ punctuation.accessor.dot.sql
---                       ^^^ storage.type.sql
---                           ^ keyword.operator.assignment.sql
---                             ^ meta.number.integer.decimal.sql constant.numeric.value.sql
---                              ^ punctuation.terminator.statement.sql
-
-    DECLARE r ROW (c1 INT, c2 VARCHAR(10));
---  ^^^^^^^ keyword.declaration.mysql
---          ^ variable.other.sql
---            ^^^ storage.type.sql
---                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
---                ^ punctuation.section.group.begin.sql
---                 ^^ meta.column-name.sql variable.other.member.declaration.sql
---                    ^^^ storage.type.sql
---                       ^ punctuation.separator.sequence.sql
---                         ^^ meta.column-name.sql variable.other.member.declaration.sql
---                            ^^^^^^^^^^^ storage.type.sql
---                                       ^ punctuation.section.group.end.sql
-
-    IF @var = TRUE THEN
---  ^^ keyword.control.conditional.sql
---     ^^^^ variable.other.sql
---          ^ keyword.operator.comparison.sql
---            ^^^^ constant.language.boolean.true.sql
---                 ^^^^ keyword.control.conditional.sql
-
-    ELSEIF @var = FALSE THEN
---  ^^^^^^ keyword.control.conditional.sql
---         ^^^^ variable.other.sql
---              ^ keyword.operator.comparison.sql
---                ^^^^^ constant.language.boolean.false.sql
---                      ^^^^ keyword.control.conditional.sql
-
-    ELSE
---  ^^^^ keyword.control.conditional.sql
-
-    END IF
---  ^^^^^^ keyword.control.conditional.sql
-
-    LOOP
---  ^^^^ keyword.control.loop.sql
-
-    END LOOP
---  ^^^^^^^^ keyword.control.loop.sql
-
-    REPEAT
---  ^^^^^^ keyword.control.loop.sql
-
-    END REPEAT
---  ^^^^^^^^^^ keyword.control.loop.sql
-
-    WHILE TRUE
---  ^^^^^ keyword.control.loop.sql
---        ^^^^ constant.language.boolean.true.sql
-
-    END WHILE
---  ^^^^^^^^^ keyword.control.loop.sql
-
-    CONTINUE
---  ^^^^^^^^ keyword.control.flow.continue.sql
-
-    EXIT
---  ^^^^ keyword.control.flow.exit.sql
-
-    RETURN
---  ^^^^^^ keyword.control.flow.return.sql
-
-END
+BEGIN END
+-- <- keyword.other.luw.sql
+-- ^^ keyword.other.luw.sql
+--    ^^^ keyword.control.flow.end.sql
 
 -- ----------------------------------------------------------------------------
 -- Create Index Statements
@@ -5505,3 +5425,432 @@ SELECT
 -- ^^^^^^^^^^^ meta.block.conflict.end.diff
 -- ^^^^ punctuation.section.block.end.diff
 --      ^^^^^^ entity.name.section.diff
+
+
+-- ============================================================================
+-- Programmatic & Compound Statements
+-- see: https://mariadb.com/docs/server/reference/sql-statements/programmatic-compound-statements
+-- ============================================================================
+
+
+-- ----------------------------------------------------------------------------
+-- DECLARE CURSOR
+--
+-- https://dev.mysql.com/doc/refman/8.4/en/declare-cursor.html
+--
+-- DECLARE cursor_name CURSOR FOR select_statement
+-- ----------------------------------------------------------------------------
+
+    DECLARE cursor CURSOR FOR SELECT * FROM table;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.type.cursor.sql
+--                        ^^^ keyword.other.sql
+--                            ^^^^^^ keyword.other.dml.sql
+--                                   ^ constant.other.wildcard.asterisk.sql
+--                                     ^^^^ keyword.other.dml.sql
+--                                          ^^^^^ meta.table-name.sql
+--                                               ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
+-- DECLARE CONDITION
+--
+-- https://mariadb.com/docs/server/reference/sql-statements/programmatic-compound-statements/declare-condition
+--
+-- DECLARE condition_name CONDITION FOR condition_value
+--
+-- condition_value:
+--     SQLSTATE [VALUE] sqlstate_value
+--   | mysql_error_code
+-- ----------------------------------------------------------------------------
+
+    DECLARE condition CONDITION
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^^^ variable.other.sql
+--                    ^^^^^^^^^ storage.type.condition.sql
+
+    DECLARE condition CONDITION FOR 102044
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^^^ variable.other.sql
+--                    ^^^^^^^^^ storage.type.condition.sql
+--                              ^^^ keyword.other.sql
+--                                  ^^^^^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+
+    DECLARE condition CONDITION FOR SQLSTATE "0005";
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^^^ variable.other.sql
+--                    ^^^^^^^^^ storage.type.condition.sql
+--                              ^^^ keyword.other.sql
+--                                  ^^^^^^^^ storage.modifier.sql
+--                                           ^^^^^^ meta.string.sql string.quoted.double.sql
+--                                           ^ punctuation.definition.string.begin.sql
+--                                                ^ punctuation.definition.string.end.sql
+--                                                 ^ punctuation.terminator.statement.sql
+
+    DECLARE condition CONDITION FOR SQLSTATE VALUE '0000';
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^^^ variable.other.sql
+--                    ^^^^^^^^^ storage.type.condition.sql
+--                              ^^^ keyword.other.sql
+--                                  ^^^^^^^^^^^^^^ storage.modifier.sql
+--                                                 ^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                 ^ punctuation.definition.string.begin.sql
+--                                                      ^ punctuation.definition.string.end.sql
+--                                                       ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
+-- DECLARE HANDLER
+--
+-- DECLARE handler_type HANDLER
+--     FOR condition_value [, condition_value] ...
+--     statement
+--
+-- handler_type:
+--     CONTINUE
+--   | EXIT
+--   | UNDO
+--
+-- condition_value:
+--     SQLSTATE [VALUE] sqlstate_value
+--   | condition_name
+--   | SQLWARNING
+--   | NOT FOUND
+--   | SQLEXCEPTION
+--   | mariadb_error_code
+-- ----------------------------------------------------------------------------
+
+    DECLARE HANDLER;
+--  ^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^ variable.other.sql
+--                 ^ punctuation.terminator.statement.sql
+
+    DECLARE CONTINUE HANDLER;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^^ entity.name.handler.sql
+--                   ^^^^^^^ storage.type.handler.sql
+--                          ^ punctuation.terminator.statement.sql
+
+    DECLARE EXIT HANDLER;
+--  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                      ^ punctuation.terminator.statement.sql
+
+    DECLARE UNDO HANDLER;
+--  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                      ^ punctuation.terminator.statement.sql
+
+    DECLARE name HANDLER;
+--  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ variable.other.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                      ^ punctuation.terminator.statement.sql
+
+    DECLARE EXIT HANDLER FOR SQLSTATE "0005";
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                       ^^^ keyword.other.sql
+--                           ^^^^^^^^ storage.modifier.sql
+--                                    ^^^^^^ meta.string.sql string.quoted.double.sql
+--                                    ^ punctuation.definition.string.begin.sql
+--                                         ^ punctuation.definition.string.end.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+    DECLARE EXIT HANDLER FOR SQLSTATE VALUE "0005";
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                       ^^^ keyword.other.sql
+--                           ^^^^^^^^^^^^^^ storage.modifier.sql
+--                                          ^^^^^^ meta.string.sql string.quoted.double.sql
+--                                          ^ punctuation.definition.string.begin.sql
+--                                               ^ punctuation.definition.string.end.sql
+--                                                ^ punctuation.terminator.statement.sql
+
+    DECLARE EXIT HANDLER FOR condition, other_condition;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                       ^^^ keyword.other.sql
+--                           ^^^^^^^^^ variable.other.sql
+--                                    ^ punctuation.separator.sequence.sql
+--                                      ^^^^^^^^^^^^^^^ variable.other.sql
+--                                                     ^ punctuation.terminator.statement.sql
+
+    DECLARE EXIT HANDLER FOR NOT FOUND;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                       ^^^ keyword.other.sql
+--                           ^^^^^^^^^ constant.language.condition.sql
+--                                    ^ punctuation.terminator.statement.sql
+
+    DECLARE UNDO HANDLER FOR SQLEXCEPTION;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ entity.name.handler.sql
+--               ^^^^^^^ storage.type.handler.sql
+--                       ^^^ keyword.other.sql
+--                           ^^^^^^^^^^^^ constant.language.condition.sql
+--                                       ^ punctuation.terminator.statement.sql
+
+    DECLARE CONTINUE HANDLER FOR SQLWARNING SET done = TRUE;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^^ entity.name.handler.sql
+--                   ^^^^^^^ storage.type.handler.sql
+--                           ^^^ keyword.other.sql
+--                               ^^^^^^^^^^ constant.language.condition.sql
+--                                          ^^^ keyword.other.dml.sql
+--                                              ^^^^ meta.column-name.sql
+--                                                   ^ keyword.operator.comparison.sql
+--                                                     ^^^^ constant.language.boolean.true.sql
+--                                                         ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
+-- DECLARE Type
+--
+-- https://mariadb.com/docs/server/reference/sql-statements/programmatic-compound-statements/declare-type
+--
+-- DECLARE
+--    TYPE type_name [IS] TABLE OF rec_type_name INDEX BY idx_type_name
+-- ----------------------------------------------------------------------------
+
+    DECLARE TYPE array_t IS TABLE OF VARCHAR2(64) INDEX BY PLS_INTEGER;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--         ^ - keyword - storage
+--          ^^^^ keyword.declaration.type.sql
+--              ^ - entity - keyword - storage
+--               ^^^^^^^ entity.name.type.sql
+--                      ^ - entity - keyword - storage
+--                       ^^ keyword.other.is.sql
+--                         ^ - keyword - storage
+--                          ^^^^^ storage.type.table.sql
+--                               ^ - keyword - storage
+--                                ^^ keyword.other.of.sql
+--                                  ^ - keyword - storage
+--                                   ^^^^^^^^ support.type.sql
+--                                           ^^^^ meta.group.sql
+--                                           ^ punctuation.section.group.begin.sql
+--                                            ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                              ^ punctuation.section.group.end.sql
+--                                               ^ - keyword - storage
+--                                                ^^^^^^^^ storage.modifier.table.sql
+--                                                        ^ - keyword - storage
+--                                                         ^^^^^^^^^^^ support.type.sql
+--                                                                    ^ punctuation.terminator.statement.sql
+
+    DECLARE TYPE array_t IS TABLE OF NUMBER INDEX BY VARCHAR2(20);
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ keyword.declaration.type.sql
+--               ^^^^^^^ entity.name.type.sql
+--                       ^^ keyword.other.is.sql
+--                          ^^^^^ storage.type.table.sql
+--                                ^^ keyword.other.of.sql
+--                                   ^^^^^^ storage.type.sql
+--                                          ^^^^^^^^ storage.modifier.table.sql
+--                                                   ^^^^^^^^ support.type.sql
+--                                                           ^^^^ meta.group.sql
+--                                                           ^ punctuation.section.group.begin.sql
+--                                                            ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                              ^ punctuation.section.group.end.sql
+--                                                               ^ punctuation.terminator.statement.sql
+
+    DECLARE TYPE person_t IS RECORD ( first VARCHAR(64), last VARCHAR(64) );
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^ keyword.declaration.type.sql
+--               ^^^^^^^^ entity.name.type.sql
+--                        ^^ keyword.other.is.sql
+--                           ^^^^^^ storage.type.struct.sql
+--                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                                  ^ punctuation.section.group.begin.sql
+--                                    ^^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                          ^^^^^^^^^^^ storage.type.sql
+--                                                 ^^^^ meta.parens.sql
+--                                                 ^ punctuation.definition.parens.begin.sql
+--                                                  ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                    ^ punctuation.definition.parens.end.sql
+--                                                     ^ punctuation.separator.sequence.sql
+--                                                       ^^^^ meta.column-name.sql variable.other.member.declaration.sql
+--                                                            ^^^^^^^^^^^ storage.type.sql
+--                                                                   ^^^^ meta.parens.sql
+--                                                                   ^ punctuation.definition.parens.begin.sql
+--                                                                    ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                                                      ^ punctuation.definition.parens.end.sql
+--                                                                        ^ punctuation.section.group.end.sql
+--                                                                         ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
+-- DECLARE Variable
+--
+-- https://mariadb.com/docs/server/reference/sql-statements/programmatic-compound-statements/declare-variable
+-- https://dev.mysql.com/doc/refman/8.4/en/declare-local-variable.html
+--
+-- DECLARE var_name [, var_name] ... [[ROW] TYPE OF]] type [DEFAULT value]
+-- ----------------------------------------------------------------------------
+
+    DECLARE var INT DEFAULT 0;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^ variable.other.sql
+--              ^^^ storage.type.sql
+--                  ^^^^^^^ keyword.other.sql
+--                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                           ^ punctuation.terminator.statement.sql
+
+    DECLARE foo, bar, baz INT DEFAULT 0;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^ variable.other.sql
+--             ^ punctuation.separator.sequence.sql
+--               ^^^ variable.other.sql
+--                  ^ punctuation.separator.sequence.sql
+--                    ^^^ variable.other.sql
+--                        ^^^ storage.type.sql
+--                            ^^^^^^^ keyword.other.sql
+--                                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                     ^ punctuation.terminator.statement.sql
+
+    DECLARE var TYPE OF table.column DEFAULT 0;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^ variable.other.sql
+--              ^^^^^^^ keyword.other.sql
+--                      ^^^^^^^^^^^^ meta.column-name.sql
+--                           ^ punctuation.accessor.dot.sql
+--                                   ^^^^^^^ keyword.other.sql
+--                                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                            ^ punctuation.terminator.statement.sql
+
+    DECLARE var ROW TYPE OF `column` DEFAULT 0;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^ variable.other.sql
+--              ^^^^^^^^^^^ keyword.other.sql
+--                          ^^^^^^^^ meta.column-name.sql
+--                          ^ punctuation.definition.identifier.begin.sql
+--                                 ^ punctuation.definition.identifier.end.sql
+--                                   ^^^^^^^ keyword.other.sql
+--                                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                            ^ punctuation.terminator.statement.sql
+
+    DECLARE r ROW (c1 INT, c2 VARCHAR(10));
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^ variable.other.sql
+--            ^^^ storage.type.sql
+--                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.table-columns.sql
+--                ^ punctuation.section.group.begin.sql
+--                 ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                    ^^^ storage.type.sql
+--                       ^ punctuation.separator.sequence.sql
+--                         ^^ meta.column-name.sql variable.other.member.declaration.sql
+--                            ^^^^^^^^^^^ storage.type.sql
+--                                   ^^^^ meta.parens.sql
+--                                   ^ punctuation.definition.parens.begin.sql
+--                                    ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                                      ^ punctuation.definition.parens.end.sql
+--                                       ^ punctuation.section.group.end.sql
+--                                        ^ punctuation.terminator.statement.sql
+
+-- ----------------------------------------------------------------------------
+-- IF
+--
+-- IF search_condition THEN statement_list
+--     [ELSEIF search_condition THEN statement_list] ...
+--     [ELSE statement_list]
+-- END IF;
+-- ----------------------------------------------------------------------------
+
+    IF @var = TRUE THEN
+--  ^^ keyword.control.conditional.sql
+--     ^^^^ variable.other.sql
+--          ^ keyword.operator.comparison.sql
+--            ^^^^ constant.language.boolean.true.sql
+--                 ^^^^ keyword.control.conditional.sql
+
+    ELSEIF @var = FALSE THEN
+--  ^^^^^^ keyword.control.conditional.sql
+--         ^^^^ variable.other.sql
+--              ^ keyword.operator.comparison.sql
+--                ^^^^^ constant.language.boolean.false.sql
+--                      ^^^^ keyword.control.conditional.sql
+
+    ELSE
+--  ^^^^ keyword.control.conditional.sql
+
+    END IF
+--  ^^^^^^ keyword.control.conditional.sql
+
+-- ----------------------------------------------------------------------------
+-- LOOP
+--
+-- [begin_label:] LOOP
+--     statement_list
+-- END LOOP [end_label]
+-- ----------------------------------------------------------------------------
+
+    LOOP
+--  ^^^^ keyword.control.loop.sql
+
+    END LOOP
+--  ^^^^^^^^ keyword.control.loop.sql
+
+-- ----------------------------------------------------------------------------
+-- REPEAT LOOP
+--
+-- [begin_label:] REPEAT
+--     statement_list
+-- UNTIL search_condition
+-- END REPEAT [end_label]
+-- ----------------------------------------------------------------------------
+
+    REPEAT
+--  ^^^^^^ keyword.control.loop.sql
+
+    END REPEAT
+--  ^^^^^^^^^^ keyword.control.loop.sql
+
+-- ----------------------------------------------------------------------------
+-- WHILE
+--
+-- [begin_label:] WHILE search_condition DO
+--     statement_list
+-- END WHILE [end_label]
+-- ----------------------------------------------------------------------------
+
+    WHILE TRUE
+--  ^^^^^ keyword.control.loop.sql
+--        ^^^^ constant.language.boolean.true.sql
+
+    END WHILE
+--  ^^^^^^^^^ keyword.control.loop.sql
+
+    CONTINUE
+--  ^^^^^^^^ keyword.control.flow.continue.sql
+
+    EXIT
+--  ^^^^ keyword.control.flow.exit.sql
+
+    RETURN
+--  ^^^^^^ keyword.control.flow.return.sql

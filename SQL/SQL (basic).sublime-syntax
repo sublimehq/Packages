@@ -1304,6 +1304,25 @@ contexts:
     - meta_content_scope: meta.table-name.sql
     - include: immediately-pop
 
+  expect-type-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [type-creation-name, single-identifier]
+
+  type-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.type.sql
+    - include: immediately-pop
+
+  expect-other-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [other-creation-name, single-identifier]
+
   expect-user-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -1329,25 +1348,6 @@ contexts:
     - meta_content_scope: entity.name.user.sql
     - include: immediately-pop
 
-  expect-type-creation-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [type-creation-name, single-identifier]
-
-  type-creation-name:
-    - meta_include_prototype: false
-    - meta_scope: entity.name.type.cql
-    - include: immediately-pop
-
-  expect-other-creation-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [other-creation-name, single-identifier]
-
   other-creation-name:
     - meta_include_prototype: false
     - meta_scope: entity.name.struct.other.sql
@@ -1363,6 +1363,18 @@ contexts:
   other-name:
     - meta_include_prototype: false
     - meta_scope: meta.other-name.sql
+    - include: immediately-pop
+
+  expect-variable-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [variable-name, single-identifier]
+
+  variable-name:
+    - meta_include_prototype: false
+    - meta_scope: variable.other.sql
     - include: immediately-pop
 
   variable-parameter:
