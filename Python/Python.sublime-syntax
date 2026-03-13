@@ -614,8 +614,22 @@ contexts:
       push:
         - function-call-argument-list
         - unqualified-function-call-name
-    - match: '{{identifier}}'
+    - match: (?={{identifier_start}})
+      push: unqualified-base-class-name-content
+
+  unqualified-base-class-name-content:
+    - include: builtin-exception
+    - include: builtin-type
+    - include: class-variable
+    - include: magic-function
+    - include: magic-variable
+    - include: wildcard-variable
+    - include: constant-name
+    - match: '{{identifier_class}}'
       scope: entity.other.inherited-class.python
+      pop: 1
+    - include: generic-name
+    - include: immediately-pop
 
   qualified-base-class-separator:
     - meta_include_prototype: false
@@ -640,9 +654,13 @@ contexts:
       set:
         - function-call-argument-list
         - qualified-function-call-name
-    - match: \s*({{identifier}})
+    - match: \s*({{identifier_class}})
       captures:
         1: entity.other.inherited-class.python
+      pop: 1
+    - match: \s*({{identifier}})
+      captures:
+        1: variable.other.python
       pop: 1
     - include: line-continuation-immediately-pop
 
@@ -1141,7 +1159,9 @@ contexts:
   case-pattern-class-name:
     - include: builtin-type
     - include: illegal-name
-    - include: class-name
+    - match: '{{identifier}}'
+      scope: support.class.python
+      pop: 1
     - include: immediately-pop
 
   case-pattern-class-arguments-begin:
@@ -1624,6 +1644,7 @@ contexts:
     - include: magic-variable
     - include: wildcard-variable
     - include: illegal-name
+    - include: class-name
     - include: function-name
     - include: immediately-pop
 
@@ -1636,6 +1657,7 @@ contexts:
     - include: magic-variable
     - include: wildcard-variable
     - include: illegal-name
+    - include: class-name
     - include: function-name
     - include: immediately-pop
 
@@ -2207,6 +2229,7 @@ contexts:
     - include: wildcard-variable
     - include: illegal-name
     - include: constant-name
+    - include: class-name
     - include: generic-name
     - include: immediately-pop
 
@@ -2236,6 +2259,7 @@ contexts:
     - include: wildcard-variable
     - include: illegal-name
     - include: constant-name
+    - include: class-name
     - include: generic-name
     - include: immediately-pop
 
@@ -2256,9 +2280,6 @@ contexts:
     - match: '{{builtin_types}}'
       scope: support.type.python
       pop: 1
-    - match: '{{typing_types}}'
-      scope: support.class.typing.python
-      pop: 1
 
   magic-function:
     # these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
@@ -2278,7 +2299,7 @@ contexts:
       pop: 1
 
   class-name:
-    - match: '{{identifier}}'
+    - match: '{{identifier_class}}'
       scope: support.class.python
       pop: 1
 
@@ -4112,6 +4133,7 @@ variables:
   identifier: '{{identifier_start}}{{identifier_char}}*'
   identifier_start: '[[:alpha:]_]'
   identifier_char: '[[:alnum:]_]'
+  identifier_class: '_?\p{Lu}(?:[\p{Lu}\d_]*\p{Ll}+\w*)?\b'
   identifier_constant: '(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
 
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)\b
@@ -4274,32 +4296,6 @@ variables:
     | get_args | get_origin | get_overloads | get_type_hints | is_typeddict
     | no_type_check | no_type_check_decorator | overload | override | reveal_type
     | runtime_checkable
-    )\b
-
-  typing_types: |-
-    (?x:
-    # Super-special typing primitives.
-      Annotated | Any | Callable | ClassVar | Concatenate | Final | ForwardRef
-    | Generic | Literal | Optional | ParamSpec | Protocol | Tuple | Type
-    | TypeVar | TypeVarTuple | Union
-    # ABCs (from collections.abc).
-    | AbstractSet | ByteString | Container | ContextManager | Hashable | ItemsView
-    | Iterable | Iterator | KeysView | Mapping | MappingView | MutableMapping
-    | MutableSequence | MutableSet | Sequence | Sized | ValuesView | Awaitable
-    | AsyncIterator | AsyncIterable | Coroutine | Collection | AsyncGenerator
-    | AsyncContextManager
-    # Structural checks, a.k.a. protocols.
-    | Reversible | SupportsAbs | SupportsBytes | SupportsComplex | SupportsFloat
-    | SupportsIndex | SupportsInt | SupportsRound
-    # Concrete collection types.
-    | ChainMap | Counter | Deque | Dict | DefaultDict | List | OrderedDict
-    | Set | FrozenSet | NamedTuple | TypedDict | Generator
-    # Other concrete types.
-    | BinaryIO | IO | Match | Pattern | TextIO
-    # One-off things.
-    | AnyStr | LiteralString | Never | NewType | NoReturn | NotRequired
-    | ParamSpecArgs | ParamSpecKwargs | Required | Self | Text | TypeAlias
-    | TypeGuard | Unpack
     )\b
 
   magic_functions: |-

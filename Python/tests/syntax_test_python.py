@@ -524,12 +524,82 @@ __bool__ abc.__nonzero__
 #^^^^^^^ support.function.magic
 #            ^^^^^^^^^^^ support.function.magic
 
+T module.T  # most commonly used in generics
+# <- support.class.python
+# ^^^^^^^^ meta.path.python
+# ^^^^^^ variable.other.python
+#       ^ punctuation.accessor.dot.python
+#        ^ support.class.python
+
+_T module._T
+#^ support.class.python
+#  ^^^^^^^^^ meta.path.python
+#  ^^^^^^ variable.other.python
+#        ^ punctuation.accessor.dot.python
+#         ^^ support.class.python
+
 TypeError module.TypeError
 #^^^^^^^^ support.class.exception - meta.path
-#         ^^^^^^^^^^^^^^^^ meta.path.python - support
+#         ^^^^^^^^^^^^^^^^ meta.path.python
 #         ^^^^^^ variable.other.python
 #               ^ punctuation.accessor.dot.python
-#                ^^^^^^^^^ variable.other.python
+#                ^^^^^^^^^ support.class.python
+
+AnyClass module.AnyClass
+#^^^^^^^ support.class.python
+#        ^^^^^^^^^^^^^^^ meta.path.python
+#        ^^^^^^ variable.other.python
+#              ^ punctuation.accessor.dot.python
+#               ^^^^^^^^ support.class.python
+
+ABCClass module.ABCClass
+#^^^^^^^ support.class.python
+#        ^^^^^^^^^^^^^^^ meta.path.python
+#        ^^^^^^ variable.other.python
+#              ^ punctuation.accessor.dot.python
+#               ^^^^^^^^ support.class.python
+
+M0Class module.M0Class
+#^^^^^^ support.class.python
+#       ^^^^^^^^^^^^^^ meta.path.python
+#       ^^^^^^ variable.other.python
+#             ^ punctuation.accessor.dot.python
+#              ^^^^^^^ support.class.python
+
+MClassName0 module.MClassName0
+#^^^^^^^^^^ support.class.python
+#           ^^^^^^^^^^^^^^^^^^ meta.path.python
+#           ^^^^^^ variable.other.python
+#                 ^ punctuation.accessor.dot.python
+#                  ^^^^^^^^^^^ support.class.python
+
+M_Class module.M_Class
+#^^^^^^ support.class.python
+#       ^^^^^^^^^^^^^^ meta.path.python
+#       ^^^^^^ variable.other.python
+#             ^ punctuation.accessor.dot.python
+#              ^^^^^^^ support.class.python
+
+M0_Class module.M0_Class
+#^^^^^^^ support.class.python
+#        ^^^^^^^^^^^^^^^ meta.path.python
+#        ^^^^^^ variable.other.python
+#              ^ punctuation.accessor.dot.python
+#               ^^^^^^^^ support.class.python
+
+ANY_CLASs module.ANY_CLASs
+#^^^^^^^^ support.class.python
+#         ^^^^^^^^^^^^^^^^ meta.path.python
+#         ^^^^^^ variable.other.python
+#               ^ punctuation.accessor.dot.python
+#                ^^^^^^^^^ support.class.python
+
+_0variable module._0variable
+#^^^^^^^^^ variable.other.python
+#          ^^^^^^^^^^^^^^^^^ meta.path.python
+#          ^^^^^^ variable.other.python
+#                ^ punctuation.accessor.dot.python
+#                 ^^^^^^^^^^ variable.other.python
 
 open.open.open.
 # <- meta.path.python variable.other.python
@@ -685,7 +755,7 @@ module.TypeError()
 #^^^^^^^^^^^^^^^ meta.path.python
 #^^^^^ variable.other.python
 #     ^ punctuation.accessor.dot.python
-#      ^^^^^^^^^ variable.function - support
+#      ^^^^^^^^^ support.class.python
 #               ^ punctuation.section.arguments.begin.python
 #                ^ punctuation.section.arguments.end.python
 
@@ -2190,7 +2260,7 @@ def type_annotations(param1: int, param2: MyType | None , param3: max(2, 3), par
 #                                 ^^^^^^ variable.parameter
 #                                       ^ punctuation.separator.annotation
 #                                         ^^^^^^^^^^^^^ meta.type.python
-#                                         ^^^^^^ variable.other.python - meta.path
+#                                         ^^^^^^ support.class.python - meta.path
 #                                                ^ keyword.operator.arithmetic.python
 #                                                  ^^^^ constant.language.null.python
 #                                                       ^ punctuation.separator.parameters
@@ -2450,7 +2520,7 @@ def f[T: Hashable, U: (int, str), *V, **P](x: T = SOME_CONSTANT, y: U, *args: *T
 #    ^ punctuation.definition.generic.begin.python
 #     ^ variable.parameter.type.python
 #      ^ punctuation.separator.bound.python
-#        ^^^^^^^^ support.class.typing.python
+#        ^^^^^^^^ support.class.python
 #                ^ punctuation.separator.parameters.python
 #                  ^ variable.parameter.type.python
 #                   ^ punctuation.separator.bound.python
@@ -2470,29 +2540,29 @@ def f[T: Hashable, U: (int, str), *V, **P](x: T = SOME_CONSTANT, y: U, *args: *T
 #                                         ^ punctuation.section.parameters.begin.python
 #                                          ^ variable.parameter.python - variable.other
 #                                           ^ punctuation.separator.annotation.python
-#                                             ^ meta.type.python variable.other.python - meta.path
+#                                             ^ meta.type.python support.class.python - meta.path
 #                                               ^ meta.function.parameters.default-value.python keyword.operator.assignment.python
 #                                                 ^^^^^^^^^^^^^ variable.other.constant.python - meta.path
 #                                                              ^ punctuation.separator.parameters.python
 #                                                                ^ variable.parameter.python - variable.other
 #                                                                 ^ punctuation.separator.annotation.python
-#                                                                   ^ meta.type.python variable.other.python - meta.path
+#                                                                   ^ meta.type.python support.class.python - meta.path
 #                                                                    ^ punctuation.separator.parameters.python
 #                                                                      ^ keyword.operator.unpacking.sequence.python
 #                                                                       ^^^^ variable.parameter.python - variable.other
 #                                                                           ^ punctuation.separator.annotation.python
 #                                                                             ^ meta.type.python keyword.operator.arithmetic.python
-#                                                                              ^^ meta.type.python variable.other.python - meta.path
+#                                                                              ^^ meta.type.python support.class.python - meta.path
 #                                                                                ^ punctuation.separator.parameters.python
 #                                                                                  ^^ keyword.operator.unpacking.mapping.python
 #                                                                                    ^^^^^^ variable.parameter.python - variable.other
 #                                                                                          ^ punctuation.separator.annotation.python
-#                                                                                            ^ meta.type.python meta.path.python variable.other.python
+#                                                                                            ^ meta.type.python meta.path.python support.class.python
 #                                                                                             ^ meta.type.python meta.path.python punctuation.accessor.dot.python
 #                                                                                              ^^^^^^ meta.type.python meta.path.python variable.other.python
 #                                                                                                    ^ punctuation.section.parameters.end.python
 #                                                                                                      ^^ punctuation.separator.return-type.python
-#                                                                                                         ^ meta.type.python variable.other.python - meta.path
+#                                                                                                         ^ meta.type.python support.class.python - meta.path
 
 def f[
 # ^^^ meta.function.python - meta.generic
@@ -2507,7 +2577,7 @@ def f[
 #              ^ meta.generic.python - meta.type
 #   ^ variable.parameter.type.python
 #    ^ punctuation.separator.bound.python
-#      ^^^^^^^^ support.class.typing.python
+#      ^^^^^^^^ support.class.python
 #              ^ punctuation.separator.parameters.python
     U: (int, str)
 #   ^^ meta.generic.python
@@ -2530,7 +2600,7 @@ def f[
 #    ^ punctuation.section.parameters.begin.python
 #     ^ punctuation.section.parameters.end.python
 #       ^^ punctuation.separator.return-type.python
-#          ^ meta.type.python variable.other.python - meta.path
+#          ^ meta.type.python support.class.python - meta.path
 #           ^ meta.function.python punctuation.section.block.begin.python
 
 match test:
@@ -2606,17 +2676,23 @@ class MyClass(Inherited, \
 #   ^^^ comment.block.documentation.python
     pass
 
-class MyClass(*bases, *more_bases):
+bases = [Foo, Bar]
+# <- variable.other.python
+#^^^^ variable.other.python
+#        ^^^ support.class.python
+#             ^^^ support.class.python
+
+class MyClass(*bases, *MORE_BASES):
 #^^^^^^^^^^^^ meta.class.python
 #^^^^ keyword.declaration.class.python
 #     ^^^^^^^ entity.name.class.python
 #            ^^^^^^^^^^^^^^^^^^^^^ meta.class.inheritance.python
 #            ^ punctuation.section.inheritance.begin.python
 #             ^ keyword.operator.unpacking.sequence.python
-#              ^^^^^ entity.other.inherited-class.python
+#              ^^^^^ variable.other.python
 #                   ^ punctuation.separator.inheritance.python
 #                     ^ keyword.operator.unpacking.sequence.python
-#                      ^^^^^^^^^^ entity.other.inherited-class.python
+#                      ^^^^^^^^^^ variable.other.constant.python
 #                                ^ punctuation.section.inheritance.end.python
 #                                 ^ meta.class.python punctuation.section.block.begin.python
 
@@ -2703,7 +2779,7 @@ class GenericClass[T: X, **U]:
 #                 ^ punctuation.definition.generic.begin.python
 #                  ^ variable.parameter.type.python
 #                   ^ punctuation.separator.bound.python
-#                     ^ variable.other.python - meta.path
+#                     ^ support.class.python - meta.path
 #                      ^ punctuation.separator.parameters.python
 #                        ^^ keyword.operator.unpacking.mapping.python
 #                          ^ variable.parameter.type.python
@@ -2723,7 +2799,7 @@ class GenericClass[T: X, **U]:
     def method(arg: T):
 #   ^^^^^^^^^^ meta.function.python
 #             ^^^^^^^^ meta.function.parameters
-#                   ^ meta.type.python variable.other.python - meta.path
+#                   ^ meta.type.python support.class.python - meta.path
 
 match test:
     case "class":
@@ -2788,7 +2864,7 @@ type Alias[T: int] = list[T]
 #                    ^^^^ support.type.python
 #                        ^^^ meta.brackets.python
 #                        ^ punctuation.section.brackets.begin.python
-#                         ^ variable.other.python
+#                         ^ support.class.python
 #                          ^ punctuation.section.brackets.end.python
 
 type \
@@ -2805,7 +2881,7 @@ type \
 #                ^^^^ support.type.python
 #                    ^^^ meta.brackets.python
 #                    ^ punctuation.section.brackets.begin.python
-#                     ^ variable.other.python
+#                     ^ support.class.python
 #                      ^ punctuation.section.brackets.end.python
 
 type \
@@ -2822,7 +2898,7 @@ type \
 #           ^^^^ support.type.python
 #               ^^^ meta.brackets.python
 #               ^ punctuation.section.brackets.begin.python
-#                ^ variable.other.python
+#                ^ support.class.python
 #                 ^ punctuation.section.brackets.end.python
 
 type \
@@ -2834,7 +2910,7 @@ type \
 #  ^^^^ support.type.python
 #      ^^^ meta.brackets.python
 #      ^ punctuation.section.brackets.begin.python
-#       ^ variable.other.python
+#       ^ support.class.python
 #        ^ punctuation.section.brackets.end.python
 
   type Alias
@@ -2856,7 +2932,7 @@ type: Alias
 # <- variable.other.python
 #^^^ variable.other.python
 #   ^ punctuation.separator.annotation.python
-#     ^^^^^ meta.type.python variable.other.python - meta.path
+#     ^^^^^ meta.type.python support.class.python - meta.path
 
 type = 10
 # <- variable.other.python
@@ -2892,7 +2968,7 @@ class Foo:
     type: Alias
 #   ^^^^ variable.other.python
 #       ^ punctuation.separator.annotation.python
-#         ^^^^^ meta.type.python variable.other.python - meta.path
+#         ^^^^^ meta.type.python support.class.python - meta.path
 
     type = 10
 #   ^^^^ variable.other.python
@@ -4025,7 +4101,7 @@ foo.bar(baz., True)
 primes: List[int] = []
 #     ^ punctuation.separator.annotation.python
 #     ^^ - meta.type
-#       ^^^^ meta.type.python support.class.typing.python
+#       ^^^^ meta.type.python support.class.python
 #           ^^^^^ meta.type.python meta.brackets.python
 #           ^ punctuation.section.brackets.begin.python
 #            ^^^ support.type.python
@@ -4267,11 +4343,11 @@ lst = []  # type: List[Dict[Any, ...]] # comment
 #         ^ punctuation.definition.comment.python
 #           ^^^^ keyword.other.type.python
 #               ^ punctuation.separator.type.python
-#                 ^^^^ support.class.typing.python
+#                 ^^^^ support.class.python
 #                     ^ punctuation.section.brackets.begin
-#                      ^^^^ support.class.typing.python
+#                      ^^^^ support.class.python
 #                          ^ punctuation.section.brackets.begin.python
-#                           ^^^ support.class.typing.python
+#                           ^^^ support.class.python
 #                              ^ punctuation.separator.sequence.python
 #                                ^^^ constant.language.python
 #                                   ^^ punctuation.section.brackets.end.python
@@ -4306,7 +4382,7 @@ view = None  # type: sublime.View
 #                    ^^^^^^^^^^^^ meta.path.python
 #                    ^^^^^^^ variable.other.python
 #                           ^ punctuation.accessor.dot.python
-#                            ^^^^ variable.other.python
+#                            ^^^^ support.class.python
 
 view = None  # type: sublime . View
 #            ^^^^^^^^^^^^^^^^^^^^^^ - meta.type meta.type
@@ -4319,7 +4395,7 @@ view = None  # type: sublime . View
 #                    ^^^^^^^^^^^^^^ meta.path.python
 #                    ^^^^^^^ variable.other.python
 #                            ^ punctuation.accessor.dot.python
-#                              ^^^^ variable.other.python
+#                              ^^^^ support.class.python
 
 view = None  # type: . View
 #            ^^^^^^^^^^^^^^^ - meta.type meta.type
@@ -4331,7 +4407,7 @@ view = None  # type: . View
 #                  ^ punctuation.separator.type.python
 #                    ^^^^^^ meta.path.python
 #                    ^ punctuation.accessor.dot.python
-#                      ^^^^ variable.other.python
+#                      ^^^^ support.class.python
 
 for a, b in lst: # type: str, int
 #                ^^^^^^^^^^^^^^^^ - meta.type meta.type - meta.path
@@ -4358,7 +4434,7 @@ def function(a, b, *c, **d):
 #               ^ punctuation.separator.sequence.python
 #                 ^^^ support.type.python
 #                    ^ punctuation.separator.sequence.python
-#                      ^^^^ support.class.typing.python
+#                      ^^^^ support.class.python
 #                          ^^^^^ meta.brackets.python
 #                          ^ punctuation.section.brackets.begin.python
 #                           ^^^ support.type.python
@@ -4367,7 +4443,7 @@ def function(a, b, *c, **d):
 #                                 ^^^^ support.type.python
 #                                     ^ punctuation.section.parameters.end.python
 #                                       ^^ punctuation.separator.return-type.python
-#                                          ^^^^ support.class.typing.python
+#                                          ^^^^ support.class.python
 #                                              ^^^^^^^^^^ meta.brackets.python
 #                                              ^ punctuation.section.brackets.begin.python
 #                                               ^^^ support.type.python
@@ -4381,7 +4457,7 @@ class TypeCommentTest:
 #                  ^^^^^^^^^^^^^^^^ comment.line.number-sign.python meta.type.python - meta.path
 #                  ^^^^ keyword.other.type.python
 #                      ^ punctuation.separator.type.python
-#                        ^^^^ support.class.typing.python
+#                        ^^^^ support.class.python
 #                            ^^^^^^ meta.brackets.python
 #                            ^ punctuation.section.brackets.begin.python
 #                             ^^^^ support.type.python
