@@ -94,7 +94,7 @@ contexts:
       set: cursor-declaration-value
     - match: (?=\S)
       set:
-        - variable-declaration-value
+        - maybe-default-value
         - expect-type
 
   cursor-declaration-value:

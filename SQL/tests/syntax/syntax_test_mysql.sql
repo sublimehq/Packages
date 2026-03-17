@@ -5714,7 +5714,7 @@ SELECT
 --  ^^^^^^^ keyword.declaration.sql
 --          ^^^ variable.other.sql
 --              ^^^ storage.type.sql
---                  ^^^^^^^ keyword.other.sql
+--                  ^^^^^^^ storage.modifier.sql
 --                          ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                           ^ punctuation.terminator.statement.sql
 
@@ -5727,7 +5727,7 @@ SELECT
 --                  ^ punctuation.separator.sequence.sql
 --                    ^^^ variable.other.sql
 --                        ^^^ storage.type.sql
---                            ^^^^^^^ keyword.other.sql
+--                            ^^^^^^^ storage.modifier.sql
 --                                    ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                                     ^ punctuation.terminator.statement.sql
 
@@ -5738,7 +5738,7 @@ SELECT
 --              ^^^^^^^ keyword.other.sql
 --                      ^^^^^^^^^^^^ meta.column-name.sql
 --                           ^ punctuation.accessor.dot.sql
---                                   ^^^^^^^ keyword.other.sql
+--                                   ^^^^^^^ storage.modifier.sql
 --                                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                                            ^ punctuation.terminator.statement.sql
 
@@ -5750,7 +5750,7 @@ SELECT
 --                          ^^^^^^^^ meta.column-name.sql
 --                          ^ punctuation.definition.identifier.begin.sql
 --                                 ^ punctuation.definition.identifier.end.sql
---                                   ^^^^^^^ keyword.other.sql
+--                                   ^^^^^^^ storage.modifier.sql
 --                                           ^ meta.number.integer.decimal.sql constant.numeric.value.sql
 --                                            ^ punctuation.terminator.statement.sql
 

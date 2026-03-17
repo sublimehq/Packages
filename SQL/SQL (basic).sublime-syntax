@@ -811,7 +811,7 @@ contexts:
       scope: storage.modifier.sql
     - match: \b(?i:default)\b
       scope: storage.modifier.sql
-      push: expression-or-pop
+      push: inside-default-value
     - match: |-
         \b(?xi:
           foreign\s+key
@@ -870,6 +870,7 @@ contexts:
     - include: comma-separators
     - match: (?=\S)
       push:
+        - maybe-default-value
         - after-type
         - expect-type
         - expect-parameter-name
@@ -1074,9 +1075,14 @@ contexts:
     - include: assignment-operators
     - include: else-pop
 
-  expression-or-pop:
-    - match: (?=\))
-      pop: 1
+  maybe-default-value:
+    - match: \b(?i:default)\b
+      scope: storage.modifier.sql
+      set: inside-default-value
+    - include: else-pop
+
+  inside-default-value:
+    - include: pop-on-top-level-reserved-word
     - include: expressions
     - include: else-pop
 

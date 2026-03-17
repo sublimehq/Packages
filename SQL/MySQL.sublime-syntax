@@ -190,11 +190,11 @@ contexts:
     - match: (?i:(?:row\s+)?type\s+of)\b
       scope: keyword.other.sql
       set:
-        - variable-declaration-value
+        - maybe-default-value
         - expect-column-name
     - match: (?=\S)
       set:
-        - variable-declaration-value
+        - maybe-default-value
         - expect-type
 
   condition-declaration-value:
@@ -233,16 +233,6 @@ contexts:
         - variable-name
         - maybe-identifier-accessor
         - identifier-part
-
-  variable-declaration-value:
-    - match: (?i:default)\b
-      scope: keyword.other.sql
-      set: inside-variable-declaration-value
-    - include: else-pop
-
-  inside-variable-declaration-value:
-    - include: pop-on-top-level-reserved-word
-    - include: expressions
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
