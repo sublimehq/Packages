@@ -5709,6 +5709,23 @@ SELECT
 -- DECLARE var_name [, var_name] ... [[ROW] TYPE OF]] type [DEFAULT value]
 -- ----------------------------------------------------------------------------
 
+    DECLARE varchar VARCHAR(20) CHARSET UTF8 DEFAULT 'varchar';
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^^ variable.other.sql
+--                  ^^^^^^^^^^^ storage.type.sql
+--                         ^^^^ meta.parens.sql
+--                         ^ punctuation.definition.parens.begin.sql
+--                          ^^ meta.number.integer.decimal.sql constant.numeric.value.sql
+--                            ^ punctuation.definition.parens.end.sql
+--                              ^^^^^^^ storage.modifier.mysql
+--                                      ^^^^ constant.language.mysql
+--                                           ^^^^^^^ storage.modifier.sql
+--                                                   ^^^^^^^^^ meta.string.sql string.quoted.single.sql
+--                                                   ^ punctuation.definition.string.begin.sql
+--                                                           ^ punctuation.definition.string.end.sql
+--                                                            ^ punctuation.terminator.statement.sql
+
     DECLARE var INT DEFAULT 0;
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
 --  ^^^^^^^ keyword.declaration.sql

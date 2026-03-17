@@ -95,6 +95,7 @@ contexts:
     - match: (?=\S)
       set:
         - maybe-default-value
+        - maybe-type-modifier
         - expect-type
 
   cursor-declaration-value:

@@ -445,7 +445,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
     - match: \b(?i:(drop)(?:\s+(column)\b|(?!\s+{{ddl_target}}\b)))
@@ -763,7 +763,6 @@ contexts:
     - match: (?=\S)
       set:
         - maybe-column-modifier
-        - after-type
         - expect-type
         - column-name-declaration
         - single-identifier
@@ -790,14 +789,13 @@ contexts:
     - match: (?=\S)
       push:
         - maybe-column-modifier
-        - after-type
         - expect-type
         - column-name-declaration
         - single-identifier
 
   maybe-column-modifier:
     - include: column-modifiers
-    - include: else-pop
+    - include: maybe-type-modifier
 
   column-modifiers:
     - match: \b(?i:check)\b
@@ -871,7 +869,7 @@ contexts:
     - match: (?=\S)
       push:
         - maybe-default-value
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-parameter-name
         - maybe-parameter-modifier
@@ -899,7 +897,7 @@ contexts:
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
       push:
-        - after-type
+        - maybe-type-modifier
         - expect-type
     - include: column-modifiers
     - include: create-common-args
@@ -1060,7 +1058,7 @@ contexts:
 
   expect-user-type:
     - match: (?=\S)
-      set: [maybe-group, after-type, inside-user-type]
+      set: [maybe-group, maybe-type-modifier, inside-user-type]
 
   inside-user-type:
     # note: may contain foreign variable interpolation
@@ -1068,10 +1066,9 @@ contexts:
     - match: '{{simple_identifier_break}}'
       pop: 1
 
-  after-type:
+  maybe-type-modifier:
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
-    - include: column-modifiers
     - include: assignment-operators
     - include: else-pop
 

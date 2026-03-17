@@ -162,6 +162,7 @@ contexts:
         2: keyword.other.of.sql
       set:
         - type-declaration-index-by
+        - maybe-type-modifier
         - expect-type
     - include: else-pop
 
@@ -195,6 +196,7 @@ contexts:
     - match: (?=\S)
       set:
         - maybe-default-value
+        - maybe-type-modifier
         - expect-type
 
   condition-declaration-value:
@@ -447,7 +449,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
@@ -605,7 +607,7 @@ contexts:
   alter-table-change-column:
     - match: (?=\S)
       set:
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
@@ -656,7 +658,7 @@ contexts:
   alter-table-modify-column:
     - match: (?=\S)
       set:
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
         - maybe-condition
@@ -1758,7 +1760,7 @@ contexts:
       scope: storage.type.sql
       set: maybe-group
 
-  after-type:
+  maybe-type-modifier:
     - meta_prepend: true
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.modifier.sql
