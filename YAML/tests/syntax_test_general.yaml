@@ -18,12 +18,12 @@
 ## Document markers
 
 ---
-#^^ entity.other.document.begin
-# <- entity.other.document.begin
+#^^ punctuation.section.document.begin
+# <- punctuation.section.document.begin
 
 ...
-#^^ entity.other.document.end
-# <- entity.other.document.end
+#^^ punctuation.section.document.end
+# <- punctuation.section.document.end
 
 
 ##############################################################################

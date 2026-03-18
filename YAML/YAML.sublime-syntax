@@ -222,9 +222,9 @@ contexts:
 
   main:
     - match: ^---
-      scope: entity.other.document.begin.yaml
+      scope: punctuation.section.document.begin.yaml
     - match: ^\.{3}
-      scope: entity.other.document.end.yaml
+      scope: punctuation.section.document.end.yaml
     - include: directive
     - include: node
 
