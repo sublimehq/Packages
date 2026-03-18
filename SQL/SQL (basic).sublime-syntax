@@ -445,6 +445,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
     - match: \b(?i:(drop)(?:\s+(column)\b|(?!\s+{{ddl_target}}\b)))
@@ -762,7 +763,6 @@ contexts:
     - match: (?=\S)
       set:
         - maybe-column-modifier
-        - after-type
         - expect-type
         - column-name-declaration
         - single-identifier
@@ -789,14 +789,13 @@ contexts:
     - match: (?=\S)
       push:
         - maybe-column-modifier
-        - after-type
         - expect-type
         - column-name-declaration
         - single-identifier
 
   maybe-column-modifier:
     - include: column-modifiers
-    - include: else-pop
+    - include: maybe-type-modifier
 
   column-modifiers:
     - match: \b(?i:check)\b
@@ -810,7 +809,7 @@ contexts:
       scope: storage.modifier.sql
     - match: \b(?i:default)\b
       scope: storage.modifier.sql
-      push: expression-or-pop
+      push: inside-default-value
     - match: |-
         \b(?xi:
           foreign\s+key
@@ -869,6 +868,8 @@ contexts:
     - include: comma-separators
     - match: (?=\S)
       push:
+        - maybe-default-value
+        - maybe-type-modifier
         - expect-type
         - expect-parameter-name
         - maybe-parameter-modifier
@@ -895,7 +896,9 @@ contexts:
       push: expect-function-language-name
     - match: \b(?i:returns)\b
       scope: keyword.other.ddl.sql
-      push: expect-type
+      push:
+        - maybe-type-modifier
+        - expect-type
     - include: column-modifiers
     - include: create-common-args
 
@@ -1019,9 +1022,7 @@ contexts:
   built-in-types:
     - match: \b(?i:enum)\b
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-group
+      push: maybe-group
     - match: |-
         (?x)
         \b(?: {{simple_types}} | {{types_with_optional_number}} )
@@ -1034,16 +1035,13 @@ contexts:
         4: punctuation.separator.sequence.sql
         5: meta.number.integer.decimal.sql constant.numeric.value.sql
         6: punctuation.definition.parens.end.sql
-      push: after-type
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
 
   built-in-type:
     - match: \b(?i:enum)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-group
+      set: maybe-group
     - match: |-
         (?x)
         \b(?: {{simple_types}} | {{types_with_optional_number}} )
@@ -1056,11 +1054,11 @@ contexts:
         4: punctuation.separator.sequence.sql
         5: meta.number.integer.decimal.sql constant.numeric.value.sql
         6: punctuation.definition.parens.end.sql
-      set: after-type
+      pop: 1
 
   expect-user-type:
     - match: (?=\S)
-      set: [maybe-group, after-type, inside-user-type]
+      set: [maybe-group, maybe-type-modifier, inside-user-type]
 
   inside-user-type:
     # note: may contain foreign variable interpolation
@@ -1068,16 +1066,20 @@ contexts:
     - match: '{{simple_identifier_break}}'
       pop: 1
 
-  after-type:
+  maybe-type-modifier:
     - match: \b{{type_modifiers}}\b
       scope: storage.modifier.sql
-    - include: column-modifiers
     - include: assignment-operators
     - include: else-pop
 
-  expression-or-pop:
-    - match: (?=\))
-      pop: 1
+  maybe-default-value:
+    - match: \b(?i:default)\b
+      scope: storage.modifier.sql
+      set: inside-default-value
+    - include: else-pop
+
+  inside-default-value:
+    - include: pop-on-top-level-reserved-word
     - include: expressions
     - include: else-pop
 
@@ -1305,6 +1307,25 @@ contexts:
     - meta_content_scope: meta.table-name.sql
     - include: immediately-pop
 
+  expect-type-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [type-creation-name, single-identifier]
+
+  type-creation-name:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.type.sql
+    - include: immediately-pop
+
+  expect-other-creation-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [other-creation-name, single-identifier]
+
   expect-user-name:
     # prevent prototypes from inheriting syntaxes
     - meta_include_prototype: false
@@ -1330,25 +1351,6 @@ contexts:
     - meta_content_scope: entity.name.user.sql
     - include: immediately-pop
 
-  expect-type-creation-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [type-creation-name, single-identifier]
-
-  type-creation-name:
-    - meta_include_prototype: false
-    - meta_scope: entity.name.type.cql
-    - include: immediately-pop
-
-  expect-other-creation-name:
-    # prevent prototypes from inheriting syntaxes
-    - meta_include_prototype: false
-    - include: comments
-    - match: (?=\S)
-      set: [other-creation-name, single-identifier]
-
   other-creation-name:
     - meta_include_prototype: false
     - meta_scope: entity.name.struct.other.sql
@@ -1364,6 +1366,18 @@ contexts:
   other-name:
     - meta_include_prototype: false
     - meta_scope: meta.other-name.sql
+    - include: immediately-pop
+
+  expect-variable-name:
+    # prevent prototypes from inheriting syntaxes
+    - meta_include_prototype: false
+    - include: comments
+    - match: (?=\S)
+      set: [variable-name, single-identifier]
+
+  variable-name:
+    - meta_include_prototype: false
+    - meta_scope: variable.other.sql
     - include: immediately-pop
 
   variable-parameter:

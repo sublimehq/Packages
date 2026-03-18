@@ -42,7 +42,7 @@ variables:
 
 contexts:
 
-  sql:
+  statements:
     - meta_prepend: true
     - include: declare-statements
 
@@ -875,18 +875,21 @@ contexts:
     - meta_prepend: true
     - include: variables
 
-  after-type:
+  maybe-type-modifier:
     - meta_prepend: true
-    - match: \b(?i:generated\s+always\s+as\s+row\s+(?:start|end)(?:\s+hidden)?)\b
-      scope: keyword.other.tsql
     - match: \b(?i:encrypted\s+with)\b
       scope: storage.modifier.tsql
-      set:
+      push:
         - maybe-table-alias
         - maybe-with-group
     - match: \b(?i:readonly)\b
       scope: storage.modifier.tsql
+
+  maybe-column-modifier:
+    - meta_prepend: true
     - include: collate-expressions
+    - match: \b(?i:generated\s+always\s+as\s+row\s+(?:start|end)(?:\s+hidden)?)\b
+      scope: keyword.other.tsql
 
 ###[ IDENTIFIERS ]#############################################################
 

@@ -590,7 +590,7 @@ CREATE FUNCTION highlight_result_array(vals varchar[], something tsquery, someth
 --                                                  ^ punctuation.section.brackets.end
 --                                                                                                                     ^^ punctuation.section.block.begin
 DECLARE
--- ^^^^ keyword.declaration.variable
+-- ^^^^ keyword.declaration
     output varchar[];
 -- ^ - variable
 --  ^^^^^^ variable.other
@@ -624,9 +624,16 @@ $$ LANGUAGE plpgsql STABLE;
 --                        ^ punctuation.terminator.statement
 
 DECLARE var varchar[];
---     ^ - variable
---      ^^^ variable.other.psql
---         ^ - variable - storage
+--^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--^^^^^^ meta.declaration.sql
+--^^^^^ keyword.declaration.sql
+--     ^ - keyword - variable
+--      ^^^ variable.other.sql
+--         ^ - storage - variable
+--          ^^^^^^^^^ storage.type.sql
+--                 ^ punctuation.section.brackets.begin.psql
+--                  ^ punctuation.section.brackets.end.psql
+--                   ^ punctuation.terminator.statement.sql
 
 DROP TRIGGER blah ON some_table;
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.drop
@@ -683,14 +690,46 @@ CREATE OR REPLACE FUNCTION public."AutAppB_getBatchOrders"(
 
 AS $BODY$
 
-# variable_conflict use_column
 DECLARE
     "@@iIndex" INT;
+--^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^^^^ variable.other.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--           ^ punctuation.definition.identifier.end.sql
+--             ^^^ storage.type.sql
+--                ^ punctuation.terminator.statement.sql
     "@@iTotal" INT;
+--^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^^^^ variable.other.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--           ^ punctuation.definition.identifier.end.sql
+--             ^^^ storage.type.sql
+--                ^ punctuation.terminator.statement.sql
     "@@bLog" SMALLINT;
+--^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^^ variable.other.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--         ^ punctuation.definition.identifier.end.sql
+--           ^^^^^^^^ storage.type.sql
+--                   ^ punctuation.terminator.statement.sql
     "@@dtLate" TIMESTAMP;
+--^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^^^^ variable.other.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--           ^ punctuation.definition.identifier.end.sql
+--             ^^^^^^^^^ storage.type.sql
+--                      ^ punctuation.terminator.statement.sql
     "@@dtEff" TIMESTAMP;
+--^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^^^ variable.other.sql
+--  ^ punctuation.definition.identifier.begin.sql
+--          ^ punctuation.definition.identifier.end.sql
+--            ^^^^^^^^^ storage.type.sql
+--                     ^ punctuation.terminator.statement.sql
 BEGIN
+-- <- keyword.other.luw.sql
+--^^^ keyword.other.luw.sql
+
   IF "isAuth"("@ValidAccess") = 1 THEN
     "@sBatchTy" = left("@sBatchTy", 1);
     "@lBatchNum" = left("@lBatchNum", 10);
@@ -753,3 +792,224 @@ BEGIN
     WHERE  D."sKey" = 'dtEff'
     AND A."sKey" = 'AutApprBLog'
     ;
+
+
+-- ----------------------------------------------------------------------------
+-- DECLARE Cursor
+--
+-- https://www.postgresql.org/docs/current/sql-declare.html
+--
+-- DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
+--     CURSOR [ { WITH | WITHOUT } HOLD ] FOR query
+-- ----------------------------------------------------------------------------
+
+    DECLARE cursor CURSOR FOR SELECT * FROM table;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.type.cursor.sql
+--                        ^^^ keyword.other.sql
+--                            ^^^^^^ keyword.other.dml.sql
+--                                   ^ constant.other.wildcard.asterisk.sql
+--                                     ^^^^ keyword.other.dml.sql
+--                                          ^^^^^ meta.table-name.sql
+--                                               ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor CURSOR HOLD FOR SELECT * FROM table;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.type.cursor.sql
+--                        ^^^^ storage.modifier.sql
+--                             ^^^ keyword.other.sql
+--                                 ^^^^^^ keyword.other.dml.sql
+--                                        ^ constant.other.wildcard.asterisk.sql
+--                                          ^^^^ keyword.other.dml.sql
+--                                               ^^^^^ meta.table-name.sql
+--                                                    ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor CURSOR WITH HOLD FOR SELECT * FROM table;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.type.cursor.sql
+--                        ^^^^^^^^^ storage.modifier.sql
+--                                  ^^^ keyword.other.sql
+--                                      ^^^^^^ keyword.other.dml.sql
+--                                             ^ constant.other.wildcard.asterisk.sql
+--                                               ^^^^ keyword.other.dml.sql
+--                                                    ^^^^^ meta.table-name.sql
+--                                                         ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor CURSOR WITHOUT HOLD FOR SELECT * FROM table;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.type.cursor.sql
+--                        ^^^^^^^^^^^^ storage.modifier.sql
+--                                     ^^^ keyword.other.sql
+--                                         ^^^^^^ keyword.other.dml.sql
+--                                                ^ constant.other.wildcard.asterisk.sql
+--                                                  ^^^^ keyword.other.dml.sql
+--                                                       ^^^^^ meta.table-name.sql
+--                                                            ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor ASENSITIVE CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^^^^^ storage.modifier.sql
+--                            ^^^^^^ storage.type.cursor.sql
+--                                  ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor ASENSITIVE SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^^^^^ storage.modifier.sql
+--                            ^^^^^^ storage.modifier.sql
+--                                   ^^^^^^ storage.type.cursor.sql
+--                                         ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor ASENSITIVE NO SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^^^^^ storage.modifier.sql
+--                            ^^^^^^^^^ storage.modifier.sql
+--                                      ^^^^^^ storage.type.cursor.sql
+--                                            ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor INSENSITIVE CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^^^^^^ storage.modifier.sql
+--                             ^^^^^^ storage.type.cursor.sql
+--                                   ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor INSENSITIVE SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^^^^^^ storage.modifier.sql
+--                             ^^^^^^ storage.modifier.sql
+--                                    ^^^^^^ storage.type.cursor.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor INSENSITIVE NO SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^^^^^^ storage.modifier.sql
+--                             ^^^^^^^^^ storage.modifier.sql
+--                                       ^^^^^^ storage.type.cursor.sql
+--                                             ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^ storage.type.cursor.sql
+--                              ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^ storage.modifier.sql
+--                               ^^^^^^ storage.type.cursor.sql
+--                                     ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY NO SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^ storage.modifier.sql
+--                                  ^^^^^^ storage.type.cursor.sql
+--                                        ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY ASENSITIVE CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^^ storage.modifier.sql
+--                                   ^^^^^^ storage.type.cursor.sql
+--                                         ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY ASENSITIVE SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^^ storage.modifier.sql
+--                                   ^^^^^^ storage.modifier.sql
+--                                          ^^^^^^ storage.type.cursor.sql
+--                                                ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY ASENSITIVE NO SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^^ storage.modifier.sql
+--                                   ^^^^^^^^^ storage.modifier.sql
+--                                             ^^^^^^ storage.type.cursor.sql
+--                                                   ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY INSENSITIVE CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^^^ storage.modifier.sql
+--                                    ^^^^^^ storage.type.cursor.sql
+--                                          ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY INSENSITIVE SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^^^ storage.modifier.sql
+--                                    ^^^^^^ storage.modifier.sql
+--                                           ^^^^^^ storage.type.cursor.sql
+--                                                 ^ punctuation.terminator.statement.sql
+
+    DECLARE cursor BINARY INSENSITIVE NO SCROLL CURSOR;
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.sql
+--  ^^^^^^^ keyword.declaration.sql
+--          ^^^^^^ variable.other.sql
+--                 ^^^^^^ storage.modifier.sql
+--                        ^^^^^^^^^^^ storage.modifier.sql
+--                                    ^^^^^^^^^ storage.modifier.sql
+--                                              ^^^^^^ storage.type.cursor.sql
+--                                                    ^ punctuation.terminator.statement.sql
+
+    DECLARE
+--  ^^^^^^^ keyword.declaration.sql
+        cursor
+--      ^^^^^^ variable.other.sql
+        BINARY
+--      ^^^^^^ storage.modifier.sql
+        INSENSITIVE
+--      ^^^^^^^^^^^ storage.modifier.sql
+        NO SCROLL
+--      ^^^^^^^^^ storage.modifier.sql
+        CURSOR
+--      ^^^^^^ storage.type.cursor.sql
+        HOLD
+--      ^^^^ storage.modifier.sql
+        FOR
+--      ^^^ keyword.other.sql
+        SELECT * FROM db.table;
+--      ^^^^^^ keyword.other.dml.sql
+--             ^ constant.other.wildcard.asterisk.sql
+--               ^^^^ keyword.other.dml.sql
+--                    ^^^^^^^^ meta.table-name.sql
+--                      ^ punctuation.accessor.dot.sql
+--                            ^ punctuation.terminator.statement.sql

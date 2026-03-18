@@ -9,7 +9,7 @@ extends: Packages/SQL/SQL (basic).sublime-syntax
 variables:
   additional_toplevel_reserved: |-
     (?xi: {{conditional_keywords}} | {{flow_keywords}} | {{loop_keywords}}
-    | begin | end | rename | show )
+    | begin | declare | end | rename | show )
 
   conditional_keywords: |-
     (?xi: if | end\s+if | else(?:if)? | then )
@@ -21,7 +21,7 @@ variables:
     (?xi: loop | end\s+(?: loop | repeat | while ) | repeat | while | do )
 
   other_keywords: |-
-    (?xi: close | cursor | declare | deallocate | delimiter | execute | fetch
+    (?xi: close | cursor | deallocate | delimiter | execute | fetch
     | for | found | open | prepare | with )
 
   function_parameter_modifier: |-
@@ -93,14 +93,9 @@ contexts:
 
   statements:
     - meta_prepend: true
+    - include: declare-statements
     - include: rename-statements
     - include: show-statements
-    - match: \b(?i:declare)\b
-      scope: keyword.declaration.mysql
-      push:
-        - expect-type
-        - variable-meta
-        - single-identifier
     - match: \b(?i:table)\b
       scope: keyword.context.mysql
       push: expect-table-name
@@ -125,6 +120,121 @@ contexts:
     - meta_scope: comment.line.number-sign.sql
     - match: \n
       pop: 1
+
+###[ DECLARE STATEMENTS ]######################################################
+
+  declare-statements:
+    - match: \b(?i:declare)\b
+      scope: keyword.declaration.sql
+      push: inside-declaration
+
+  inside-declaration:
+    - meta_scope: meta.declaration.sql
+    - match: (?i:type)\b
+      scope: keyword.declaration.type.sql
+      push:
+        - type-declaration-type
+        - type-declaration-is
+        - expect-type-creation-name
+    - match: (?i:continue|exit|undo)\b
+      scope: entity.name.handler.sql
+      push: variable-declaration-type
+    - include: pop-on-top-level-reserved-word
+    - match: (?=\S)
+      push:
+        - variable-declaration-type
+        - variable-declaration-separator
+        - expect-variable-name
+
+  type-declaration-is:
+    - match: (?i:is)\b
+      scope: keyword.other.is.sql
+      pop: 1
+    - match: else-pop
+
+  type-declaration-type:
+    - match: (?i:record)\b
+      scope: storage.type.struct.sql
+      set: column-declaration-list
+    - match: (?i:(table)(?:\s+(of))?)\b
+      captures:
+        1: storage.type.table.sql
+        2: keyword.other.of.sql
+      set:
+        - type-declaration-index-by
+        - maybe-type-modifier
+        - expect-type
+    - include: else-pop
+
+  type-declaration-index-by:
+    - match: (?i:index\s+by)\b
+      scope: storage.modifier.table.sql
+      set: expect-type
+    - include: else-pop
+
+  variable-declaration-separator:
+    - match: ','
+      scope: punctuation.separator.sequence.sql
+      push: expect-variable-name
+    - include: else-pop
+
+  variable-declaration-type:
+    - match: (?i:condition)\b
+      scope: storage.type.condition.sql
+      set: condition-declaration-value
+    - match: (?i:cursor)\b
+      scope: storage.type.cursor.sql
+      set: cursor-declaration-value
+    - match: (?i:handler)\b
+      scope: storage.type.handler.sql
+      set: handler-declaration-value
+    - match: (?i:(?:row\s+)?type\s+of)\b
+      scope: keyword.other.sql
+      set:
+        - maybe-default-value
+        - expect-column-name
+    - match: (?=\S)
+      set:
+        - maybe-default-value
+        - maybe-type-modifier
+        - expect-type
+
+  condition-declaration-value:
+    - match: (?i:for)\b
+      scope: keyword.other.sql
+      set: inside-condition-declaration-value
+    - include: else-pop
+
+  inside-condition-declaration-value:
+    - include: pop-on-top-level-reserved-word
+    - match: (?i:sqlstate(?:\s+value)?)\b
+      scope: storage.modifier.sql
+    - include: expressions
+
+  cursor-declaration-value:
+    - match: (?i:for)\b
+      scope: keyword.other.sql
+      pop: 1  # todo: single SELECT STATEMENT
+    - include: else-pop
+
+  handler-declaration-value:
+    - match: (?i:for)\b
+      scope: keyword.other.sql
+      set: inside-handler-declaration-value
+    - include: else-pop
+
+  inside-handler-declaration-value:
+    - include: pop-on-top-level-reserved-word
+    - match: (?i:sqlstate(?:\s+value)?)\b
+      scope: storage.modifier.sql
+    - match: (?i:not\s+found|sql(?:exception|warning))\b
+      scope: constant.language.condition.sql
+    - include: expressions
+    - match: (?=\S)
+      push:
+        - variable-name
+        - maybe-identifier-accessor
+        - identifier-part
 
 ###[ DDL CREATE STATEMENTS ]###################################################
 
@@ -339,6 +449,7 @@ contexts:
         1: keyword.other.ddl.sql
         2: keyword.other.ddl.sql
       push:
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
@@ -496,7 +607,7 @@ contexts:
   alter-table-change-column:
     - match: (?=\S)
       set:
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
         - expect-column-name
@@ -547,7 +658,7 @@ contexts:
   alter-table-modify-column:
     - match: (?=\S)
       set:
-        - after-type
+        - maybe-type-modifier
         - expect-type
         - expect-column-name-declaration
         - maybe-condition
@@ -740,14 +851,9 @@ contexts:
     - include: expressions
     - include: pop-on-top-level-reserved-word
 
-  variable-meta:
-    - meta_include_prototype: false
-    - meta_content_scope: variable.other.mysql
-    - include: immediately-pop
-
   variable-member:
     - meta_include_prototype: false
-    - meta_content_scope: variable.other.member.mysql
+    - meta_content_scope: variable.other.member.sql
     - include: immediately-pop
 
 ###[ GRANT STATEMENTS ]########################################################
@@ -1642,30 +1748,22 @@ contexts:
     # https://mariadb.com/kb/en/row
     - match: \b(?i:row)\b
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-column-declaration-list
+      push: maybe-column-declaration-list
     - match: \b(?i:set)(?=\s*\()
       scope: storage.type.sql
-      push:
-        - after-type
-        - maybe-group
+      push: maybe-group
 
   built-in-type:
     - meta_prepend: true
     # https://mariadb.com/kb/en/row
     - match: \b(?i:row)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-column-declaration-list
+      set: maybe-column-declaration-list
     - match: \b(?i:set)\b
       scope: storage.type.sql
-      set:
-        - after-type
-        - maybe-group
+      set: maybe-group
 
-  after-type:
+  maybe-type-modifier:
     - meta_prepend: true
     - match: \b(?i:with(?:out)?\s+time\s+zone)\b
       scope: storage.modifier.sql
