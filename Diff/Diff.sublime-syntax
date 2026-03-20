@@ -160,24 +160,24 @@ contexts:
 
   diff-deltas:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
-    - match: '{{bol}}(>) ?'
+    - match: '{{bol}}(>)[ ]?'
       captures:
         1: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: '{{bol}}(<) ?'
+    - match: '{{bol}}(<)[ ]?'
       captures:
         1: punctuation.definition.deleted.diff
       push: line-deleted
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-    - match: '{{bol}}(\+) ?'
+    - match: '{{bol}}(\+)[ ]?'
       captures:
         1: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: '{{bol}}(-) ?'
+    - match: '{{bol}}(-)[ ]?'
       captures:
         1: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: '{{bol}}(!) ?'
+    - match: '{{bol}}(!)[ ]?'
       captures:
         1: punctuation.definition.changed.diff
       push: line-changed
