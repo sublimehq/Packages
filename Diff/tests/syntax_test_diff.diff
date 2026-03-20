@@ -129,8 +129,7 @@ Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Examp
 \  ^ punctuation.separator.range.diff
 < The Named is the mother of all things.
 \ <- markup.deleted.diff punctuation.definition.deleted.diff
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff
-\^ punctuation.definition.deleted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.diff - punctuation
 ---
 \ <- meta.separator.diff punctuation.separator.block.diff
 \^^ meta.separator.diff punctuation.separator.block.diff
@@ -146,8 +145,7 @@ Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Examp
 > Deeper and more profound,
 > The door of all subtleties!
 \ <- markup.inserted.diff punctuation.definition.inserted.diff
-\^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.inserted.diff
-\^ punctuation.definition.inserted.diff
+\^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.inserted.diff - punctuation
 
 
 Context Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
@@ -253,8 +251,9 @@ Unified Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Exam
 Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
 ====2
 \ <- meta.hunk.diff punctuation.section.hunk.diff
-\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\^^^^ meta.hunk.diff punctuation.section.hunk.diff
 \   ^ constant.numeric.from-file.diff
+\    ^ meta.hunk.diff - punctuation
 1:1,2c
 \ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
 \^^^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
@@ -274,8 +273,9 @@ Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html
 \   ^ - meta.toc-list
 ====1
 \ <- meta.hunk.diff punctuation.section.hunk.diff
-\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\^^^^ meta.hunk.diff punctuation.section.hunk.diff
 \   ^ constant.numeric.from-file.diff
+\    ^ meta.hunk.diff - punctuation
 1:4c
   The Named is the mother of all things.
 2:2,3c
@@ -284,8 +284,9 @@ Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html
   
 ====3
 \ <- meta.hunk.diff punctuation.section.hunk.diff
-\^^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\^^^^ meta.hunk.diff punctuation.section.hunk.diff
 \   ^ constant.numeric.from-file.diff
+\    ^ meta.hunk.diff - punctuation
 1:8c
 \ <- meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff constant.numeric.from-file.diff
 \^^^ meta.hunk.diff meta.diff.range.normal meta.range.normal.diff meta.toc-list.hunk.diff
@@ -298,7 +299,8 @@ Diff3 Normal Format https://www.gnu.org/software/diffutils/manual/diffutils.html
     so we may see their result.
 ====
 \ <- meta.hunk.diff punctuation.section.hunk.diff
-\^^^^ meta.hunk.diff punctuation.section.hunk.diff
+\^^^ meta.hunk.diff punctuation.section.hunk.diff
+\   ^ meta.hunk.diff - punctuation
 1:11a
 2:11,13c
   They both may be called deep and profound.
