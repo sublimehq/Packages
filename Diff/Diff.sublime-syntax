@@ -159,34 +159,39 @@ contexts:
 ###[ DELTAS ]##################################################################
 
   diff-deltas:
-    - meta_prepend: true
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Normal
-    - match: '{{bol}}> ?'
-      scope: punctuation.definition.inserted.diff
+    - match: '{{bol}}(>)[ ]?'
+      captures:
+        1: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: '{{bol}}< ?'
-      scope: punctuation.definition.deleted.diff
+    - match: '{{bol}}(<)[ ]?'
+      captures:
+        1: punctuation.definition.deleted.diff
       push: line-deleted
-
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Context
-    - match: '{{bol}}\+ ?'
-      scope: punctuation.definition.inserted.diff
+    - match: '{{bol}}(\+)[ ]?'
+      captures:
+        1: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: '{{bol}}- ?'
-      scope: punctuation.definition.deleted.diff
+    - match: '{{bol}}(-)[ ]?'
+      captures:
+        1: punctuation.definition.deleted.diff
       push: line-deleted
-    - match: '{{bol}}! ?'
-      scope: punctuation.definition.changed.diff
+    - match: '{{bol}}(!)[ ]?'
+      captures:
+        1: punctuation.definition.changed.diff
       push: line-changed
+    - include: incomplete-line
 
 ###[ DIFF3 ]###################################################################
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-diff3-Normal
   diff3-normal:
-    - match: '{{bol}}====([1-3]?){{eol}}'
-      scope: meta.hunk.diff punctuation.section.hunk.diff
+    - match: '{{bol}}(====([1-3]?)){{eol}}'
+      scope: meta.hunk.diff
       captures:
-        1: constant.numeric.from-file.diff
+        1: punctuation.section.hunk.diff
+        2: constant.numeric.from-file.diff
 
     - match: '{{bol}}(([1-3])(:)(?:\d+(a)|\d+(?:(,)\d+)?(c))){{eol}}'
       scope: meta.diff.range.normal meta.range.normal.diff

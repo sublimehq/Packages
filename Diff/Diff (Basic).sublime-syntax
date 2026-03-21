@@ -83,18 +83,21 @@ contexts:
 
   diff-deltas:
     # https://www.gnu.org/software/diffutils/manual/diffutils.html#Example-Unified
-    - match: '{{bol}}\+'
-      scope: punctuation.definition.inserted.diff
+    - match: '{{bol}}(\+)'
+      captures:
+        1: punctuation.definition.inserted.diff
       push: line-inserted
-    - match: '{{bol}}-'
-      scope: punctuation.definition.deleted.diff
+    - match: '{{bol}}(-)'
+      captures:
+        1: punctuation.definition.deleted.diff
       push: line-deleted
     - include: incomplete-line
 
   # https://www.gnu.org/software/diffutils/manual/diffutils.html#Incomplete-Lines
   incomplete-line:
-    - match: '{{bol}}[\\/]'
-      scope: punctuation.definition.comment.begin.diff
+    - match: '{{bol}}([\\/])'
+      captures:
+        1: punctuation.definition.comment.begin.diff
       push: line-ignored
 
   line-deleted:
