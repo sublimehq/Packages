@@ -1327,19 +1327,13 @@ contexts:
           set: [value-after, function-definition-begin]
         - match: '(?=\S)'
           set: [value-after, function-definition-begin, meta-function, type]
-    - match: '(\()\s*(\))'
-      scope: meta.function.parameters.d
-      captures:
-        1: punctuation.section.parens.begin.d
-        2: punctuation.section.parens.end.d
-      set: [value-after, value-group-after-parens]
     - match: '\('
       scope: punctuation.section.group.begin.d
-      set:
-        - match: '{{parameter_attribute_lookahead}}'
-          set: [value-group-after-parens, function-argument, function-argument-or-type]
-        - match: '(?=\S)'
-          set: [value-group-after, value]
+      branch_point: group-or-lambda
+      branch:
+        - value-group-begin
+        - lambda-argument-definition-list-begin
+      pop: true
     - match: '(?={)'
       set: [value-after, block-statement]
     - match: '\['
@@ -1466,41 +1460,6 @@ contexts:
     - match: '(?=\S)'
       set: type
     - include: not-whitespace-illegal-pop
-  value-group-after:
-    - match: '\b(function|delegate)\b'
-      scope: keyword.other.d
-      set: [value-group-after, basic-type2, function-type]
-    - match: '\)'
-      scope: punctuation.section.group.end.d
-      set: value-group-after-parens
-    - match: '\b({{name}})\b'
-      scope: variable.parameter.d
-      set: value-group-after
-    - match: ','
-      scope: punctuation.separator.sequence.d
-      set: [value-group-after-parens, function-argument, function-argument-or-type]
-    - match: '\.\.\.'
-      scope: keyword.operator.variadic.d
-    - include: not-whitespace-illegal-pop
-  value-group-after-parens:
-    - match: '{{function_attribute_lookahead}}'
-      set: value-group-after-lambda
-    - match: (?={)
-      set: [value-after, meta-function, block-statement]
-    - match: '=>'
-      scope: meta.function.d keyword.declaration.function.anonymous.d
-      set: [meta-function, value]
-    - match: (?=\S)
-      set: value-after
-  value-group-after-lambda:
-    - meta_scope: meta.function.d
-    - include: function-attribute-in
-    - match: (?={)
-      set: [value-after, meta-function, block-statement]
-    - match: '=>'
-      scope: meta.function.d keyword.declaration.function.anonymous.d
-      set: [meta-function, value]
-    - include: not-whitespace-illegal-pop
   value-identifier:
     - match: '\b{{name}}\b(?=\s*{{exclamation_mark}})'
       scope: meta.function-call.template.d meta.path.d variable.function.d
@@ -1621,6 +1580,49 @@ contexts:
     - match: '\]'
       scope: punctuation.section.brackets.end.d
       set: value-after
+    - include: not-whitespace-illegal-pop
+
+  value-group-begin:
+    - meta_scope: meta.group.d
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: value-group-after
+    - match: '(?=\S)'
+      set: [value-group-end, value]
+  value-group-end:
+    - meta_scope: meta.group.d
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: value-group-after
+    - match: '(?=\S)'
+      fail: group-or-lambda
+  value-group-after:
+    - match: '{|=>|{{function_attribute_lookahead}}'
+      fail: group-or-lambda
+    - match: '(?=\S)'
+      set: value-after
+
+  lambda-argument-definition-list-begin:
+    - meta_scope: meta.function.parameters.d
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: lambda-argument-definition-list-meta
+    - match: '(?=\S)'
+      set: [lambda-argument-definition-list-meta, function-argument, function-argument-or-type]
+  lambda-argument-definition-list-meta:
+    - meta_content_scope: meta.function.parameters.d
+    - match: ''
+      set: lambda-argument-definition-list-after
+  lambda-argument-definition-list-after:
+    - meta_content_scope: meta.function.d
+    - include: function-attribute-in
+    - match: '(?={)'
+      set: [value-after, meta-function, block-statement]
+    - match: '(?==>)'
+      set:
+        - match: '=>'
+          scope: keyword.declaration.function.anonymous.d
+          set: [meta-function, value]
     - include: not-whitespace-illegal-pop
 
   argument-list:

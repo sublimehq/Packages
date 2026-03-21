@@ -792,7 +792,7 @@ extern(1)
 //^^^^^ keyword.control.alias.d
 //      ^^^^^ entity.name.type.d
 //            ^ keyword.operator.assignment.d
-//              ^^^^^^ meta.function.d
+//              ^^^^^^ meta.function.d - meta.function meta.function
 //              ^ variable.parameter.d
 //                ^^ keyword.declaration.function.anonymous.d
 //                   ^ meta.path.d variable.other.d
@@ -2991,9 +2991,9 @@ extern(1)
 //              ^ punctuation.terminator.d
 
   () @trusted => 2;
-//^^ meta.function.parameters.d
-//^ punctuation.section.parens.begin.d
-// ^ punctuation.section.parens.end.d
+//^^ meta.function.parameters.d - meta.function meta.function
+//^ punctuation.section.group.begin.d
+// ^ punctuation.section.group.end.d
 //   ^^^^^^^^^^^^^ meta.function.d
 //   ^^^^^^^^ storage.modifier.d
 //            ^^ keyword.declaration.function.anonymous.d
@@ -3008,10 +3008,11 @@ extern(1)
 //       ^ punctuation.section.group.end.d
 //        ^ punctuation.terminator.d
   (foo) @trusted => foo(3);
+//^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
-// ^^^ variable.other.d
+// ^^^ variable.parameter.d
 //    ^ punctuation.section.group.end.d
-//      ^^^^^^^^^^^^^^^^^^ meta.function.d
+//     ^^^^^^^^^^^^^^^^^^^ meta.function.d - meta.function meta.function
 //      ^^^^^^^^ storage.modifier.d
 //               ^^ keyword.declaration.function.anonymous.d
 //                  ^^^^^^ meta.function-call.d
@@ -3021,34 +3022,38 @@ extern(1)
 //                       ^ punctuation.section.parens.end.d
 //                        ^ punctuation.terminator.d
   (foo..., bar) @safe {};
+//^^^^^^^^^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
-// ^^^ variable.other.d
+// ^^^ variable.parameter.d
 //    ^^^ keyword.operator.variadic.d
 //       ^ punctuation.separator.sequence.d
 //         ^^^ variable.parameter.d
 //            ^ punctuation.section.group.end.d
-//              ^^^^^^^^ meta.function.d
+//             ^^^^^^^^^ meta.function.d - meta.function meta.function
 //              ^^^^^ storage.modifier.d
 //                    ^^ meta.block.d
 //                    ^ punctuation.section.block.begin.d
 //                     ^ punctuation.section.block.end.d
 //                      ^ punctuation.terminator.d
   (foo) {} ();
+//^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
-// ^^^ variable.other.d
+// ^^^ variable.parameter.d
 //    ^ punctuation.section.group.end.d
-//      ^^ meta.function.d meta.block.d
+//     ^^^ meta.function.d - meta.function meta.function
+//      ^^ meta.block.d
 //      ^ punctuation.section.block.begin.d
 //       ^ punctuation.section.block.end.d
 //         ^ punctuation.section.parens.begin.d
 //          ^ punctuation.section.parens.end.d
 //           ^ punctuation.terminator.d
   (int foo) pure @safe {};
+//^^^^^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
 // ^^^ storage.type.d
 //     ^^^ variable.parameter.d
 //        ^ punctuation.section.group.end.d
-//          ^^^^^^^^^^^^^ meta.function.d
+//         ^^^^^^^^^^^^^^ meta.function.d - meta.function meta.function
 //          ^^^^ storage.modifier.d
 //               ^^^^^ storage.modifier.d
 //                     ^^ meta.block.d
@@ -3056,8 +3061,9 @@ extern(1)
 //                      ^ punctuation.section.block.end.d
 //                       ^ punctuation.terminator.d
   (a, int b, c, int d) {};
+//^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
-// ^ variable.other.d
+// ^ variable.parameter.d
 //  ^ punctuation.separator.sequence.d
 //    ^^^ storage.type.d
 //        ^ variable.parameter.d
@@ -3067,7 +3073,8 @@ extern(1)
 //              ^^^ storage.type.d
 //                  ^ variable.parameter.d
 //                   ^ punctuation.section.group.end.d
-//                     ^^ meta.function.d meta.block.d
+//                    ^^^ meta.function.d - meta.function meta.function
+//                     ^^ meta.block.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 //                       ^ punctuation.terminator.d
@@ -3133,17 +3140,19 @@ extern(1)
 //                                                             ^ meta.function.d punctuation.terminator.d
   return () @trusted inout {};
 //^^^^^^ keyword.control.flow.d
-//       ^^ meta.function.parameters.d
-//       ^ punctuation.section.parens.begin.d
-//        ^ punctuation.section.parens.end.d
-//          ^^^^^^^^^^^^^^^^^ meta.function.d
-//                         ^^ meta.block.d
+//       ^^ meta.function.parameters.d - meta.function meta.function
+//       ^ punctuation.section.group.begin.d
+//        ^ punctuation.section.group.end.d
+//         ^^^^^^^^^^^^^^^^ meta.function.d - meta.block - meta.group
+//                         ^^ meta.function.d meta.block.d
   (in ref a) {};
+//^^^^^^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
 // ^^ storage.modifier.d
 //    ^^^ storage.modifier.d
 //        ^ variable.parameter.d
 //         ^ punctuation.section.group.end.d
+//          ^ meta.function.d - meta.block - meta.group
 //           ^^ meta.function.d meta.block.d
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
@@ -3495,6 +3504,7 @@ extern(1)
   a = (immutable ref Outer.Inner inner) => inner.x;
 //^ meta.path.d variable.other.d
 //  ^ keyword.operator.assignment.d
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.d - meta.function meta.function
 //    ^ punctuation.section.group.begin.d
 //     ^^^^^^^^^ storage.modifier.d
 //               ^^^ storage.modifier.d
@@ -3504,7 +3514,7 @@ extern(1)
 //                         ^^^^^ storage.type.d
 //                               ^^^^^ variable.parameter.d
 //                                    ^ punctuation.section.group.end.d
-//                                      ^^^^^^^^^^ meta.function.d
+//                                     ^^^^^^^^^^^ meta.function.d - meta.function meta.function
 //                                      ^^ keyword.declaration.function.anonymous.d
 //                                         ^^^^^^^ meta.path.d
 //                                         ^^^^^ variable.other.d
