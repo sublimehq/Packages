@@ -269,7 +269,7 @@ namespace TestNamespace . Test
 ///         ^ keyword.control.loop
 ///         ^^^^ - meta.group
 ///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///             ^ punctuation.section.group.begin
+///             ^ punctuation.section.group.begin - meta.group meta.group
 ///              ^^^ storage.type
 ///                  ^ variable.other
 ///                    ^ keyword.operator.assignment
@@ -288,7 +288,7 @@ namespace TestNamespace . Test
 ///         ^ keyword.control.loop
 ///         ^^^^^^^^ - meta.group
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-///                 ^ punctuation.section.group.begin
+///                 ^ punctuation.section.group.begin - meta.group meta.group
 ///                  ^^^ storage.type
 ///                      ^^^^ variable.other
 ///                           ^^ keyword.control.loop.in.cs
