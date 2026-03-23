@@ -8,14 +8,19 @@ hidden: true
 extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
-  prototype_without_comments:
+
+  prototype:
     - meta_prepend: true
     - include: scope:source.go#match-raw-text-content
 
-  string-escape:
+  comment-prototype:
     - meta_prepend: true
-    - include: scope:source.go#match-raw-string-content
+    - include: scope:source.go#match-raw-text-content
 
-  string-interpolation:
+  identifier-prototype:
+    - meta_prepend: true
+    - include: scope:source.go#match-raw-text-content
+
+  string-prototype:
     - meta_prepend: true
     - include: scope:source.go#match-raw-string-content

@@ -63,9 +63,6 @@ variables:
 contexts:
   prototype:
     - include: comments
-    - include: prototype_without_comments
-
-  prototype_without_comments: []
 
   main:
     - include: sql
@@ -108,6 +105,7 @@ contexts:
     - meta_scope: comment.line.double-dash.sql
     - match: \n
       pop: 1
+    - include: comment-prototype
 
   inside-comment-docblock:
     - meta_scope: comment.block.documentation.sql
@@ -117,6 +115,7 @@ contexts:
     - match: ^\s*(\*)(?!\**/)
       captures:
         1: punctuation.definition.comment.sql
+    - include: comment-prototype
     - include: merge-conflict-markers
 
   inside-comment-block:
@@ -124,7 +123,10 @@ contexts:
     - match: \*+/
       scope: punctuation.definition.comment.end.sql
       pop: 1
+    - include: comment-prototype
     - include: merge-conflict-markers
+
+  comment-prototype: []
 
 ###[ MERGE CONFLICT MARKERS ]##################################################
 
@@ -1063,6 +1065,7 @@ contexts:
   inside-user-type:
     # note: may contain foreign variable interpolation
     - meta_scope: support.type.sql
+    - include: identifier-prototype
     - match: '{{simple_identifier_break}}'
       pop: 1
 
@@ -1423,6 +1426,7 @@ contexts:
     - match: \`
       scope: punctuation.definition.identifier.end.sql
       pop: 1
+    - include: identifier-prototype
 
   double-quoted-identifier-part:
     - match: \"
@@ -1432,10 +1436,10 @@ contexts:
   inside-double-quoted-identifier-part:
     # note: may contain foreign variable interpolation
     - meta_include_prototype: false
-    - include: prototype_without_comments
     - match: \"
       scope: punctuation.definition.identifier.end.sql
       pop: 1
+    - include: identifier-prototype
 
   single-quoted-identifier-part:
     - match: \'
@@ -1445,10 +1449,10 @@ contexts:
   inside-single-quoted-identifier-part:
     # note: may contain foreign variable interpolation
     - meta_include_prototype: false
-    - include: prototype_without_comments
     - match: \'
       scope: punctuation.definition.identifier.end.sql
       pop: 1
+    - include: identifier-prototype
 
   simple-identifier-part:
     - match: (?=\S)
@@ -1456,8 +1460,12 @@ contexts:
 
   inside-simple-identifier-part:
     # note: may contain foreign variable interpolation
+    - meta_include_prototype: false
+    - include: identifier-prototype
     - match: '{{simple_identifier_break}}'
       pop: 1
+
+  identifier-prototype: []
 
   wildcard-identifiers:
     - match: \*
@@ -1502,11 +1510,14 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - include: string-escapes
 
   string-escapes:
     - match: '{{string_escape}}'
       scope: constant.character.escape.sql
+
+  string-prototype: []
 
 ###[ LIKE EXPRESSIONS ]########################################################
 
@@ -1597,6 +1608,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - match: '%'
       scope: constant.other.wildcard.percent.sql
     - match: '_'

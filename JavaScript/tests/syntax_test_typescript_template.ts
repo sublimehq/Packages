@@ -350,6 +350,37 @@ var sql = sql`SELECT * FROM ${users};`
 /*                                  ^ punctuation.terminator.statement.sql - meta.interpolation.js */
 /*                                   ^ string.quoted.other.js punctuation.definition.string.end.js */
 
+var sql = SQL`"${this.tableName}"."createdAt" <= '${values.length}'`
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js */
+/*            ^^^^^^^^^^^^^^^^^^^ meta.string.sql */
+/*            ^ string.quoted.double.sql punctuation.definition.string.begin.sql */
+/*             ^^^^^^^^^^^^^^^^^ meta.interpolation.js */
+/*             ^^ punctuation.section.interpolation.begin.js */
+/*               ^^^^^^^^^^^^^^ source.js.embedded */
+/*               ^^^^ variable.language.this.js */
+/*                   ^ punctuation.accessor.js */
+/*                    ^^^^^^^^^ meta.property.object.js */
+/*                             ^ punctuation.section.interpolation.end.js */
+/*                              ^ string.quoted.double.sql punctuation.definition.string.end.sql */
+/*                               ^^^^^^^^^^^^ meta.column-name.sql */
+/*                               ^ punctuation.accessor.dot.sql */
+/*                                ^ punctuation.definition.identifier.begin.sql */
+/*                                          ^ punctuation.definition.identifier.end.sql */
+/*                                            ^^ keyword.operator.comparison.sql */
+/*                                               ^^^^^^^^^^^^^^^^^^ meta.string.sql */
+/*                                               ^ string.quoted.single.sql punctuation.definition.string.begin.sql */
+/*                                                ^^^^^^^^^^^^^^^^ meta.interpolation.js */
+/*                                                ^^ punctuation.section.interpolation.begin.js */
+/*                                                  ^^^^^^^^^^^^^ source.js.embedded */
+/*                                                  ^^^^^^ variable.other.readwrite.js */
+/*                                                        ^ punctuation.accessor.js */
+/*                                                         ^^^^^^ meta.property.object.js */
+/*                                                               ^ punctuation.section.interpolation.end.js */
+/*                                                                ^ string.quoted.single.sql punctuation.definition.string.end.sql */
+/*                                                                 ^ string.quoted.other.js punctuation.definition.string.end.js */
+
 /*
  * Unknown Template
  */
