@@ -145,8 +145,10 @@ contexts:
   unique-variables:
     - match: \b_cmd\b
       scope: variable.other.selector.objc
-    - match: \b(self|super)\b
-      scope: variable.language.objc
+    - match: \bself\b
+      scope: variable.language.this.objc
+    - match: \bsuper\b
+      scope: variable.language.super.objc
     - match: \bNSApp\b
       scope: support.variable.foundation
 

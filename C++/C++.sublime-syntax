@@ -116,7 +116,7 @@ contexts:
 
   unique-variables:
     - match: \bthis\b
-      scope: variable.language.c++
+      scope: variable.language.this.c++
     # common C++ instance var naming idiom -- fMemberName
     - match: '\b(f|m)[[:upper:]]\w*\b'
       scope: variable.other.readwrite.member.c++

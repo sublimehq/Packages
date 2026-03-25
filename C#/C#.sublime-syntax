@@ -873,7 +873,7 @@ contexts:
         - include: type_parameter
     - match: '(this)\s*(\[)'
       captures:
-        1: variable.language.cs
+        1: variable.language.this.cs
         2: meta.brackets.cs punctuation.section.brackets.begin.cs
       set: [method_accessor, method_params_bracket]
     - match: '({{name}})\s*(\.)'
@@ -952,10 +952,11 @@ contexts:
       set:
         - match: \s+
           scope: meta.method.constructor.prebody.cs
-        - match: (this|base)\s*(\()
+        - match: (?:(this)|(base))\s*(\()
           captures:
-            1: variable.language.cs
-            2: meta.group.cs punctuation.section.group.begin.cs
+            1: variable.language.this.cs
+            2: variable.language.super.cs
+            3: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_initializer, arguments]
         - match: '(?=\{)'
           set: method_body
@@ -1282,14 +1283,17 @@ contexts:
 
   keywords:
     - include: funcptr_types
-    - match: \b(this|base)\s*(\[)
+    - match: (?:(this)|(base))\s*(\[)
       captures:
-        1: variable.language.cs
-        2: meta.brackets.cs punctuation.section.brackets.begin.cs
+        1: variable.language.this.cs
+        2: variable.language.super.cs
+        3: meta.brackets.cs punctuation.section.brackets.begin.cs
       push: accessor_arguments
-    - match: \b(this|base)\b
-      scope: variable.language.cs
-    - match: \b(await)\b
+    - match: \bthis\b
+      scope: variable.language.this.cs
+    - match: \bbase\b
+      scope: variable.language.super.cs
+    - match: \bawait\b
       scope: keyword.control.other.cs
     - match: \b(nameof)(\()
       captures:

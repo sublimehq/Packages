@@ -1151,7 +1151,7 @@ module: 'module'
 ##################
 
 [self.class.name, @name].map do |*args|
-# ^ variable.language.ruby
+#^^^^ variable.language.this.ruby
 #                 ^ variable.other.readwrite.instance.ruby punctuation.definition.variable.ruby
 #                  ^^^^ variable.other.readwrite.instance.ruby
 #                                ^ keyword.operator.splat.ruby
@@ -1246,14 +1246,14 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   class <<self
 # ^^^^^ keyword.declaration.class.ruby
 #       ^^ keyword.operator.assignment.augmented.ruby
-#         ^^^^ variable.language.ruby
+#         ^^^^ variable.language.this.ruby
   end
 # ^^^ keyword.control.block.end.ruby
 
   class << self
 # ^^^^^ keyword.declaration.class.ruby
 #       ^^ keyword.operator.assignment.augmented.ruby
-#          ^^^^ variable.language.ruby
+#          ^^^^ variable.language.this.ruby
   end
 # ^^^ keyword.control.block.end.ruby
 

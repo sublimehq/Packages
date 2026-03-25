@@ -84,7 +84,7 @@ end C
 
 
 end this
-//  ^^^^ variable.language.scala
+//  ^^^^ variable.language.this.scala
 
 end extension
 //  ^^^^^^^^^ keyword.declaration.extension.scala
