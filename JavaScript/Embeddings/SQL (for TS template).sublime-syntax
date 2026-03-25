@@ -9,6 +9,19 @@ hidden: true
 extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
+
   prototype:
     - meta_prepend: true
     - include: scope:source.ts#text-interpolations
+
+  comment-prototype:
+    - meta_prepend: true
+    - include: scope:source.ts#text-interpolations
+
+  identifier-prototype:
+    - meta_prepend: true
+    - include: scope:source.ts#text-interpolations
+
+  string-prototype:
+    - meta_prepend: true
+    - include: scope:source.ts#string-interpolations

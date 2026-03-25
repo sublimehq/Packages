@@ -7,16 +7,32 @@ hidden: true
 extends: Packages/SQL/SQL.sublime-syntax
 
 contexts:
-  prototype_without_comments:
-    - meta_prepend: true
-    - include: php-single-quoted-strings
-    - include: php-string-single-quoted-escapes
 
   main:
     - meta_prepend: true
     # prevent stray bracket highlighting
     - match: \)
       scope: punctuation.section.group.end.sql
+
+  prototype:
+    - meta_prepend: true
+    - include: php-single-quoted-strings
+    - include: php-string-single-quoted-escapes
+
+  comment-prototype:
+    - meta_prepend: true
+    - include: php-single-quoted-strings
+    - include: php-string-single-quoted-escapes
+
+  identifier-prototype:
+    - meta_prepend: true
+    - include: php-single-quoted-strings
+    - include: php-string-single-quoted-escapes
+
+  string-prototype:
+    - meta_prepend: true
+    - include: php-single-quoted-strings
+    - include: php-string-single-quoted-escapes
 
   php-string-single-quoted-escapes:
     - match: \\[\\']

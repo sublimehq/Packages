@@ -120,6 +120,7 @@ contexts:
     - meta_scope: comment.line.number-sign.sql
     - match: \n
       pop: 1
+    - include: comment-prototype
 
 ###[ DECLARE STATEMENTS ]######################################################
 
@@ -1902,6 +1903,7 @@ contexts:
     - match: /
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - include: string-interpolations
     - match: \\/
       scope: constant.character.escape.slash.sql
@@ -1924,6 +1926,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - include: string-interpolations
 
   interpolations:
@@ -1937,6 +1940,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - include: string-interpolations
 
   string-interpolations:
@@ -1954,6 +1958,7 @@ contexts:
     - match: \'
       scope: meta.string.mysql punctuation.definition.string.end.mysql
       pop: 1
+    - include: string-prototype
     - match: '[$.\[\]]'
       scope: punctuation.accessor.mysql
     - match: \w+
