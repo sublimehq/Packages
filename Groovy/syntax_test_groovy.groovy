@@ -21,6 +21,10 @@
 //      ^^^^^^ meta.block.conflict.end.diff entity.name.section.diff
 //            ^ meta.block.conflict.end.diff - entity - punctuation
 
+  this super
+//^^^^ variable.language.this.groovy
+//     ^^^^^ variable.language.super.groovy
+
 // Tests for issue 1260
 
 def defectiveSyntaxTest(String value) {

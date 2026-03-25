@@ -640,8 +640,10 @@ contexts:
       scope: punctuation.section.group.begin.groovy
       push: inside-parens
   variables:
-    - match: \b(this|super)\b
-      scope: variable.language.groovy
+    - match: '\bsuper\b'
+      scope: variable.language.super.groovy
+    - match: '\bthis\b'
+      scope: variable.language.this.groovy
     - match: \b(sh)\s+(''')
       captures:
         1: support.function.groovy
