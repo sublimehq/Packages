@@ -2116,8 +2116,9 @@ extern(1)
   }();
 // <- meta.function.d meta.block.d
 //^ meta.function.d meta.block.d punctuation.section.block.end.d
-// ^ punctuation.section.parens.begin.d
-//  ^ punctuation.section.parens.end.d
+// ^^ meta.group.d
+// ^ punctuation.section.group.begin.d
+//  ^ punctuation.section.group.end.d
 //   ^ punctuation.terminator.d
 
   mixin template f(int a) {
