@@ -1335,8 +1335,9 @@ contexts:
           set: [value-group-after-parens, function-argument, function-argument-or-type]
         - match: '(?=\S)'
           set: [value-group-after, value]
-    - match: '(?={)'
-      set: [value-after, block-statement]
+    - match: '\{'
+      scope: punctuation.section.block.begin.d
+      set: [value-block-after, value-array-list]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [value-bracket-after, value-array-list]
@@ -1605,6 +1606,12 @@ contexts:
     - match: ':'
       scope: keyword.operator.ternary.d
       set: value
+    - include: not-whitespace-illegal-pop
+  value-block-after:
+    - meta_scope: meta.block.d
+    - match: \}
+      scope: punctuation.section.block.end.d
+      set: value-after
     - include: not-whitespace-illegal-pop
   value-parens-after:
     - match: '\)'
