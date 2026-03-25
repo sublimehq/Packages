@@ -1245,16 +1245,12 @@ contexts:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
-      set: value
     - match: '~'
       scope: keyword.operator.bitwise.d
-      set: value
-    - match: '(\+\+|--|\+|-)'
+    - match: '\+\+|--|\+|-'
       scope: keyword.operator.arithmetic.d
-      set: value
-    - match: '(\*|&)'
+    - match: '\*|&'
       scope: keyword.operator.bitwise.d
-      set: value
     - match: '\bcast\b'
       scope: keyword.operator.word.d
       set:
@@ -1264,7 +1260,6 @@ contexts:
         - include: not-whitespace-illegal-pop
     - match: '\bdelete\b'
       scope: keyword.operator.word.d
-      set: value
     - match: '\bnew\b'
       scope: keyword.operator.word.d
       set:
