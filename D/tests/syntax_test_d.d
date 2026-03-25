@@ -135,7 +135,7 @@ auto wysiwygInter = i`string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                   ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
 //                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                           ^^ punctuation.section.interpolation.begin.d
-//                             ^^^^ variable.language.d
+//                             ^^^^ variable.language.this.d
 //                                 ^ punctuation.accessor.dot.d
 //                                  ^^^ variable.other.d
 //                                     ^ punctuation.section.interpolation.end.d
@@ -144,7 +144,7 @@ auto wysiwygInter = i`string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                                                   ^^ constant.character.escape.d
 //                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                                                                 ^^ punctuation.section.interpolation.begin.d
-//                                                                   ^^^^ variable.language.d
+//                                                                   ^^^^ variable.language.this.d
 //                                                                       ^ punctuation.accessor.dot.d
 //                                                                        ^^^ variable.function.d
 //                                                                           ^ punctuation.section.parens.begin.d
@@ -178,7 +178,7 @@ auto interpolated = i"string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                   ^^^^^^^^ meta.string.d string.quoted.double.d
 //                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                           ^^ punctuation.section.interpolation.begin.d
-//                             ^^^^ variable.language.d
+//                             ^^^^ variable.language.this.d
 //                                 ^ punctuation.accessor.dot.d
 //                                  ^^^ variable.other.d
 //                                     ^ punctuation.section.interpolation.end.d
@@ -187,7 +187,7 @@ auto interpolated = i"string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                                                   ^^ constant.character.escape.d
 //                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                                                                 ^^ punctuation.section.interpolation.begin.d
-//                                                                   ^^^^ variable.language.d
+//                                                                   ^^^^ variable.language.this.d
 //                                                                       ^ punctuation.accessor.dot.d
 //                                                                        ^^^ variable.function.d
 //                                                                           ^ punctuation.section.parens.begin.d
@@ -258,7 +258,7 @@ auto tokenString = q{
 //                  ^ punctuation.definition.string.begin.d
     this is not real code 12
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
-//  ^^^^ variable.language.d
+//  ^^^^ variable.language.this.d
 //       ^^ keyword.d
 //              ^^^^ storage.type.d
 //                        ^^ meta.number.integer.decimal.d constant.numeric.value.d
@@ -329,7 +329,7 @@ auto interpolTokenStr = iq{ if $(this.var) { me = $(this.bar) } }
 //                          ^^ keyword.d
 //                             ^^^^^^^^^^^ meta.interpolation.d
 //                             ^^ punctuation.section.interpolation.begin.d
-//                               ^^^^ variable.language.d
+//                               ^^^^ variable.language.this.d
 //                                   ^ punctuation.accessor.dot.d
 //                                    ^^^ variable.other.d
 //                                       ^ punctuation.section.interpolation.end.d
@@ -337,7 +337,7 @@ auto interpolTokenStr = iq{ if $(this.var) { me = $(this.bar) } }
 //                                              ^ keyword.operator.assignment.d
 //                                                ^^^^^^^^^^^ meta.interpolation.d
 //                                                ^^ punctuation.section.interpolation.begin.d
-//                                                  ^^^^ variable.language.d
+//                                                  ^^^^ variable.language.this.d
 //                                                      ^ punctuation.accessor.dot.d
 //                                                       ^^^ variable.other.d
 //                                                          ^ punctuation.section.interpolation.end.d
@@ -2617,7 +2617,7 @@ extern(1)
   //              ^ punctuation.section.block.begin.d
       this.foo = num;
     //^^^^^^^^^^^^^^^^ meta.class.d meta.block.d meta.function.d meta.block.d
-    //^^^^ variable.language.d
+    //^^^^ variable.language.this.d
     //    ^^^^ meta.path.d
     //    ^ punctuation.accessor.dot.d
     //     ^^^ variable.other.d
@@ -3212,7 +3212,7 @@ extern(1)
 //                          ^ punctuation.section.parens.begin.d
 //                           ^^^^^^^^^ constant.other.d
 //                                    ^ punctuation.separator.sequence.d
-//                                      ^^^^ variable.language.d
+//                                      ^^^^ variable.language.this.d
 //                                          ^ punctuation.separator.sequence.d
 //                                            ^^^^^^^^^^ meta.path.d variable.other.d
 //                                                      ^^ punctuation.section.parens.end.d
