@@ -119,7 +119,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //       ^^^ entity.name.class
 //          ^ - storage - entity
 //           ^^^^^^^ storage.modifier.access
-//                   ^^^^ variable.language.scala
+//                   ^^^^ variable.language.this.scala
 //                          ^ variable.parameter
 //                                  ^ variable.parameter
 
@@ -349,10 +349,10 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^ support.constant.scala
 
    this
-// ^^^^ variable.language.scala
+// ^^^^ variable.language.this.scala
 
    super
-// ^^^^^ variable.language.scala
+// ^^^^^ variable.language.super.scala
 
    "testing"
 // ^ punctuation.definition.string.begin.scala
@@ -1950,10 +1950,10 @@ import scalaz._
 //                                               ^ keyword.operator.assignment.scala
 
    type P = Repr.this
-//               ^^^^ variable.language.scala
+//               ^^^^ variable.language.this.scala
 
    type P = Repr.super
-//               ^^^^^ variable.language.scala
+//               ^^^^^ variable.language.super.scala
 
 a match {
 //      ^ punctuation.section.block.begin.scala
