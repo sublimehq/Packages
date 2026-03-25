@@ -74,13 +74,13 @@ namespace YourNamespace
 ///                              ^^^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
 ///                                     ^^ keyword.declaration.function.arrow.cs
-///                                        ^^^^ variable.language
+///                                        ^^^^ variable.language.this
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
 ///                                                      ^^ keyword.operator
 ///                                                         ^^^^^^^^^^^^^^^ meta.group
 ///                                                         ^ punctuation.section.group.begin
-///                                                          ^^^^ variable.language
+///                                                          ^^^^ variable.language.this
 ///                                                               ^^ keyword.operator.reflection
 ///                                                                  ^^^^^ support.type
 ///                                                                       ^ punctuation.section.group.end
@@ -263,7 +263,7 @@ namespace TestNamespace . Test
 ///            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 ///            ^^^^^^^ entity.name.function.constructor
 ///                                         ^^^^^^^^^^^^^^^^^^ meta.method.constructor
-///                                           ^^^^ variable.language
+///                                           ^^^^ variable.language.super
 ///                                               ^^^^^^^^^^^^ meta.group
             for (int i = 0; i < items.Count; ++i)
 ///         ^ keyword.control.loop
@@ -373,7 +373,7 @@ namespace TestNamespace . Test
 ///                      ^ punctuation.separator.case-statement
                 case this.test;
 ///             ^^^^ keyword.control.switch.case
-///                  ^^^^ variable.language
+///                  ^^^^ variable.language.this
 ///                      ^ punctuation.accessor.dot
                 case 1*2:
 ///             ^^^^ keyword.control.switch.case
@@ -698,7 +698,7 @@ namespace TestNamespace . Test
 ///                    ^^^^^^^^^^^^^^^^ support.type
 ///                                    ^^^^^^ meta.group
 ///                                    ^ punctuation.section.group.begin
-///                                     ^^^^ variable.language
+///                                     ^^^^ variable.language.this
 ///                                         ^ punctuation.section.group.end
         }
 
@@ -721,7 +721,7 @@ namespace TestNamespace . Test
 ///               ^^^^^^^^^^^^^^^ - meta.method
 ///                                  ^ - meta.method
 ///                                       ^^^ - meta.method
-///               ^^^^ variable.language
+///               ^^^^ variable.language.this
 ///                   ^^^^^^^^^ meta.brackets
 ///                   ^ punctuation.section.brackets.begin
 ///                           ^ punctuation.section.brackets.end
