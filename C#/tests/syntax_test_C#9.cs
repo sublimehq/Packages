@@ -296,6 +296,17 @@ Point p = new (3, 5);
 ///                ^ punctuation.section.group.end
 ///                 ^ punctuation.terminator.statement
 
+if (input is null) { }
+/// ^^^^^ variable.other
+///       ^^ keyword.operator.reflection
+///          ^^^^ constant.language.null.cs
+
+if (input is not null) { }
+/// ^^^^^ variable.other
+///       ^^ keyword.operator.reflection
+///          ^^^ keyword.operator.reflection.cs
+///              ^^^^ constant.language.null.cs
+
 if (e is not Customer) { }
 ///   ^^^^^^ keyword.operator.reflection
 ///          ^^^^^^^^ support.type
