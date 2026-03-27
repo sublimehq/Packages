@@ -61,8 +61,8 @@ string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 ///                                                                         ^ string.quoted.double punctuation.definition.string
 
 string interpolated = $"{t.Word}";
-string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
-///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {t.id,width:F4} {{";
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 ///                            ^ variable.other
 ///                                  ^ punctuation.separator
 ///                                   ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
@@ -74,8 +74,17 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                                           ^ punctuation.separator
 ///                                                            ^^ constant.other.format-spec
-///                                                                ^^ constant.character.escape
-///                                                                  ^ punctuation.definition.string.end
+///                                                              ^ punctuation.section.interpolation.end
+///                                                                ^ punctuation.section.interpolation.begin
+///                                                                 ^ variable.other
+///                                                                   ^^ variable.other
+///                                                                     ^ punctuation.separator
+///                                                                      ^^^^^ variable.other
+///                                                                           ^ punctuation.separator
+///                                                                            ^^ constant.other.format-spec.cs
+///                                                                              ^ punctuation.section.interpolation.end
+///                                                                                ^^ constant.character.escape
+///                                                                                  ^ punctuation.definition.string.end
 
 string unclosed_string = "inner ;
 ///                              ^ invalid.illegal.unclosed-string

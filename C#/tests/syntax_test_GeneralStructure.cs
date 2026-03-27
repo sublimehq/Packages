@@ -1203,11 +1203,14 @@ namespace TestNamespace . Test
 ///         ^ punctuation.section.brackets.begin
 ///             ^ punctuation.section.brackets.end
 
-        Console.WriteLine("{0,-20} {1,5}\n", "Name", "Hours");
+        Console.WriteLine("{0,-20} {1,width}\n", "Name", "Hours");
 ///                        ^^^^^^^ constant.other.placeholder - invalid
 ///                               ^ string - constant
-///                                ^^^^^ constant.other.placeholder - invalid
-///                                     ^^ constant.character.escape
+///                                ^^ constant.other.placeholder - invalid
+///                                  ^^^^^^ constant.other.placeholder.cs invalid.illegal.unexpected-character-in-placeholder.cs
+///                                        ^ constant.other.placeholder - invalid
+///                                         ^^ constant.character.escape
+
         for (int ctr = 0; ctr < names.Length; ctr++)
             Console.WriteLine("{0,-20} {1,5:N1}", names[ctr], hours[ctr]);
 ///                           ^^^^^^^^^^^^^^^^^^ string.quoted.double - invalid

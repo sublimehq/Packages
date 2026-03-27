@@ -2054,7 +2054,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
-    - include: string_placeholder_width
+    - include: string_replacement_width
     - include: string_placeholder_format
     - include: line_of_code_in
 
@@ -2089,7 +2089,7 @@ contexts:
     - match: '\}\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
-    - include: string_placeholder_width
+    - include: string_replacement_width
     - include: string_placeholder_format
     - include: line_of_code_in
 
@@ -2183,12 +2183,21 @@ contexts:
     - match: (?=[}"])
       pop: true
 
+  string_replacement_width:
+    - match: '\s*(?:(,)\s*(?:((-?)\d+)|({{name}}))\s*)?'
+      captures:
+        1: punctuation.separator.arguments.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+        3: keyword.operator.arithmetic.cs
+        4: variable.other.cs
+
   string_placeholder_width:
     - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
         3: keyword.operator.arithmetic.cs
+        4: variable.other.cs
 
   string_placeholder_format:
     - match: ':(?=")'
