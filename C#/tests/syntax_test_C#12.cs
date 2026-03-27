@@ -1,5 +1,19 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
+using MyTuple = (float x, vec3 y);
+/// <- keyword.control.using.cs
+///   ^^^^^^^ entity.name.type.cs
+///           ^ keyword.operator.assignment.cs
+///             ^^^^^^^^^^^^^^^^^ meta.sequence.tuple.cs
+///             ^ punctuation.section.sequence.begin.cs
+///              ^^^^^ storage.type.cs
+///                    ^ variable.other.cs
+///                     ^ punctuation.separator.sequence.cs
+///                       ^^^^ support.type.cs
+///                            ^ variable.other.cs
+///                             ^ punctuation.section.sequence.end.cs
+///                              ^ punctuation.terminator.statement.cs
+
 public class InvalidException(string _message) : Exception(_message);
 ///^^^ storage.modifier.access.cs
 ///    ^^^^^^^^^^^^^^^^^^^^^^ meta.class.cs

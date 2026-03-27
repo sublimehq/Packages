@@ -297,14 +297,16 @@ contexts:
   using:
     - match: \bglobal\b
       scope: storage.modifier.cs
-    - match: \b(using)\s+(?=var\b)
+    - match: \b(using)\s+(?=var\b|{{name}}\s+{{name}}\s*=)
       captures:
         1: keyword.control.using.cs
       push: var_declaration
-    - match: \b(using)\s+(?={{name}}\s+{{name}}\s*=)
+    - match: \b(using)\s+({{name}})\s*(=)\s*(?=\()
       captures:
         1: keyword.control.using.cs
-      push: var_declaration
+        2: entity.name.type.cs
+        3: keyword.operator.assignment.cs
+      push: type_tuple
     - match: \b(using)\s+(?={{name}}\s*=)
       captures:
         1: keyword.control.import.cs
