@@ -1728,7 +1728,7 @@ type T = Foo | ... 100 more ... | Bar;
 
     new class extends Bar {};
 //  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//     ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
 //      ^^^^^^^^^^^^^^^^^^^^ meta.class.js
 //      ^^^^^ keyword.declaration.class.js
 //            ^^^^^^^ storage.modifier.extends.js
@@ -1739,7 +1739,7 @@ type T = Foo | ... 100 more ... | Bar;
 
     new class Foo extends Bar {};
 //  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
 //      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
 //      ^^^^^ keyword.declaration.class.js
 //            ^^^ entity.name.class.js
@@ -1751,7 +1751,7 @@ type T = Foo | ... 100 more ... | Bar;
 
     new class implements IBar {};
 //  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
 //      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
 //      ^^^^^ keyword.declaration.class.js
 //            ^^^^^^^^^^ storage.modifier.implements.js
@@ -1762,7 +1762,7 @@ type T = Foo | ... 100 more ... | Bar;
 
     new class Foo implements IBar {};
 //  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor.js
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
 //      ^^^^^ keyword.declaration.class.js
 //            ^^^ entity.name.class.js

@@ -1494,56 +1494,57 @@ contexts:
     - match: new{{identifier_break}}
       scope: keyword.operator.word.new.js
       set:
-        - match: (?=\s*\.)
-          set: new-target
-        - match: (?=\s*\S)
-          set:
-            - constructor-meta
-            - constructor-body-expect-arguments
-            - constructor-body-expect-class-end
-            - constructor-body-expect-class-begin
+        - constructor-meta
+        - constructor-body
 
   constructor-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.function-call.constructor.js
+    - meta_scope: meta.instantiation.js
     - include: immediately-pop
 
-  constructor-body-expect-arguments:
+  constructor-body:
+    - match: \.
+      scope: punctuation.accessor.dot.js
+      set: constructor-target
+    - match: (?=\S)
+      set:
+        - constructor-expect-arguments
+        - constructor-expect-class-end
+        - constructor-expect-class-name
+
+  constructor-expect-arguments:
+    - meta_content_scope: meta.function-call.identifier.js
     - include: function-call-arguments
     - include: else-pop
 
-  constructor-body-expect-class-end:
+  constructor-expect-class-end:
     - include: property-access
     - include: else-pop
 
-  constructor-body-expect-class-begin:
+  constructor-expect-class-name:
     - match: (?={{non_reserved_identifier}}\s*\()
-      set:
-        - include: support
-        - match: '{{dollar_only_identifier}}'
-          scope: support.class.dollar.only.js punctuation.dollar.js
-          pop: 1
-        - match: '{{dollar_identifier}}'
-          scope: support.class.dollar.js
-          captures:
-            1: punctuation.dollar.js
-          pop: 1
-        - match: '{{identifier_name}}'
-          scope: support.class.js
-          pop: 1
-        - include: else-pop
-
+      set: constructor-class-name
     - include: expression-begin
 
-  new-target:
-    - match: \.
-      scope: punctuation.accessor.dot.js
-      set:
-        - match: target{{identifier_break}}
-          scope: variable.language.target.js
-          pop: 1
-        - include: else-pop
+  constructor-class-name:
+    - include: support
+    - match: '{{dollar_only_identifier}}'
+      scope: support.class.dollar.only.js punctuation.dollar.js
+      pop: 1
+    - match: '{{dollar_identifier}}'
+      scope: support.class.dollar.js
+      captures:
+        1: punctuation.dollar.js
+      pop: 1
+    - match: '{{identifier_name}}'
+      scope: support.class.js
+      pop: 1
+    - include: else-pop
 
+  constructor-target:
+    - match: target{{identifier_break}}
+      scope: variable.language.target.js
+      pop: 1
     - include: else-pop
 
   prefix-operators:
