@@ -2054,6 +2054,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
+    - include: string_placeholder_width
     - include: string_placeholder_format
     - include: line_of_code_in
 
@@ -2088,6 +2089,7 @@ contexts:
     - match: '\}\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
+    - include: string_placeholder_width
     - include: string_placeholder_format
     - include: line_of_code_in
 
@@ -2152,6 +2154,7 @@ contexts:
   inside_extended_string_placeholder:
     - meta_scope: constant.other.placeholder.cs
     - include: string_placeholder_end
+    - include: string_placeholder_width
     - include: string_placeholder_format
     - match: '[^"}]+'
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
@@ -2166,6 +2169,7 @@ contexts:
   inside_extended_long_string_placeholder:
     - meta_scope: constant.other.placeholder.cs
     - include: string_placeholder_end
+    - include: string_placeholder_width
     - include: long_string_placeholder_format
     - match: '[^"}]+'
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
@@ -2179,7 +2183,7 @@ contexts:
     - match: (?=[}"])
       pop: true
 
-  string_placeholder_format_before_colon:
+  string_placeholder_width:
     - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
@@ -2187,7 +2191,6 @@ contexts:
         3: keyword.operator.arithmetic.cs
 
   string_placeholder_format:
-    - include: string_placeholder_format_before_colon
     - match: ':(?=")'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -2208,7 +2211,6 @@ contexts:
       scope: invalid.illegal.unescaped-placeholder.cs
 
   long_string_placeholder_format:
-    - include: string_placeholder_format_before_colon
     - match: ':(?="(?!"))'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
