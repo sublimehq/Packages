@@ -321,7 +321,7 @@ import foo;
 //            ^^^ entity.name.interface
 //                ^^^^^ meta.generic
 //                ^ punctuation.definition.generic.begin
-//                  ^ variable.parameter.generic
+//                  ^ variable.parameter.type
 //                    ^ punctuation.definition.generic.end
 //                      ^^^^^^^ storage.modifier.extends
 //                              ^^^ entity.other.inherited-class
@@ -404,7 +404,7 @@ import foo;
 //       ^ entity.name.type
 //         ^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
-//           ^ variable.parameter.generic
+//           ^ variable.parameter.type
 //             ^ punctuation.definition.generic.end
 //               ^ keyword.operator.assignment
 //                 ^^^ meta.type-alias support.type.any
@@ -415,7 +415,7 @@ import foo;
 //       ^ entity.name.type
 //         ^^^^^^^^^^^ meta.generic
 //         ^ punctuation.definition.generic.begin
-//           ^ variable.parameter.generic
+//           ^ variable.parameter.type
 //             ^ keyword.operator.assignment
 //               ^^^ support.class
 //                   ^ punctuation.definition.generic.end
@@ -591,7 +591,7 @@ import foo;
 //        ^^^ entity.name.class
 //            ^^^^^ meta.generic
 //            ^ punctuation.definition.generic.begin
-//              ^ variable.parameter.generic
+//              ^ variable.parameter.type
 //                ^ punctuation.definition.generic.end
 //                  ^^^^^^^ storage.modifier.extends
 //                          ^^^ entity.other.inherited-class
@@ -731,15 +731,15 @@ function f ( @foo x , @bar() y ) {}
 function f<T, U>() {}
 //^^^^^^^^^^^^^^^^^^^ meta.function
 //        ^^^^^^ meta.generic
-//         ^ variable.parameter.generic
+//         ^ variable.parameter.type
 //          ^ punctuation.separator.comma
-//            ^ variable.parameter.generic
+//            ^ variable.parameter.type
 
 function f<const T>() {}
 //^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //        ^^^^^^^^^ meta.generic
 //         ^^^^^ storage.modifier.const
-//               ^ variable.parameter.generic
+//               ^ variable.parameter.type
 
 function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -932,7 +932,7 @@ let x: Foo<any, any>;
 
 function f<T extends Foo>() {}
 //        ^^^^^^^^^^^^^^^ meta.function meta.generic
-//         ^ variable.parameter.generic
+//         ^ variable.parameter.type
 //           ^^^^^^^ storage.modifier.extends
 //                   ^^^ support.class
 
@@ -1083,7 +1083,7 @@ let x: {
     <T>( foo : any ) : any ;
 //  ^^^ meta.generic
 //  ^ punctuation.definition.generic.begin
-//   ^ meta.generic variable.parameter.generic
+//   ^ meta.generic variable.parameter.type
 //    ^ punctuation.definition.generic.end
 //     ^ punctuation.section.group.begin
 //       ^^^ meta.binding.name variable.parameter.function
@@ -1110,7 +1110,7 @@ let x: {
 //  ^ variable.other.readwrite
 //    ^^^ meta.generic
 //    ^ punctuation.definition.generic.begin
-//     ^ meta.generic variable.parameter.generic
+//     ^ meta.generic variable.parameter.type
 //      ^ punctuation.definition.generic.end
 //       ^ punctuation.section.group.begin
 //         ^^^ meta.binding.name variable.parameter.function
@@ -1142,7 +1142,7 @@ let x: {
     new <T>( foo : any ) : any ;
 //      ^^^ meta.generic
 //      ^ punctuation.definition.generic.begin
-//       ^ meta.generic variable.parameter.generic
+//       ^ meta.generic variable.parameter.type
 //        ^ punctuation.definition.generic.end
 //         ^ punctuation.section.group.begin
 //           ^^^ meta.binding.name variable.parameter.function
@@ -1291,7 +1291,7 @@ let x: (this: any) => any;
 let x: < T > ( ... foo : any ) => any;
 //     ^^^^^ meta.generic
 //     ^ punctuation.definition.generic.begin
-//       ^ variable.parameter.generic
+//       ^ variable.parameter.type
 //         ^ punctuation.definition.generic.end
 //           ^^^^^^^^^^^^^^^^^ meta.group
 //           ^ punctuation.section.group.begin
@@ -1307,7 +1307,7 @@ let x: < const T > ( ... foo : any ) => any;
 //     ^^^^^^^^^^^ meta.generic
 //     ^ punctuation.definition.generic.begin
 //       ^^^^^ storage.modifier.const
-//             ^ variable.parameter.generic
+//             ^ variable.parameter.type
 //               ^ punctuation.definition.generic.end
 //                 ^^^^^^^^^^^^^^^^^ meta.group
 //                 ^ punctuation.section.group.begin
@@ -1323,7 +1323,7 @@ let x: < in T > ( ... foo : any ) => any;
 //     ^^^^^^^^ meta.generic
 //     ^ punctuation.definition.generic.begin
 //       ^^ storage.modifier.variance
-//          ^ variable.parameter.generic
+//          ^ variable.parameter.type
 //            ^ punctuation.definition.generic.end
 //              ^^^^^^^^^^^^^^^^^ meta.group
 //              ^ punctuation.section.group.begin
@@ -1339,7 +1339,7 @@ let x: < out T > ( ... foo : any ) => any;
 //     ^^^^^^^^^ meta.generic
 //     ^ punctuation.definition.generic.begin
 //       ^^^ storage.modifier.variance
-//           ^ variable.parameter.generic
+//           ^ variable.parameter.type
 //             ^ punctuation.definition.generic.end
 //               ^^^^^^^^^^^^^^^^^ meta.group
 //               ^ punctuation.section.group.begin
@@ -1505,7 +1505,7 @@ const f = <T,>(): U => {};
 //        ^^^^^^^^^^^^^^^ meta.function
 //        ^^^ meta.generic
 //        ^ punctuation.definition.generic.begin
-//         ^ variable.parameter.generic
+//         ^ variable.parameter.type
 //          ^ punctuation.separator.comma
 //           ^ punctuation.definition.generic.end
 //            ^^ meta.function.parameters
@@ -1527,7 +1527,7 @@ const f = <const T>() => foo;
 //                   ^^^^^^^ meta.function - meta.function meta.function
 //        ^ punctuation.definition.generic.begin
 //         ^^^^^ storage.modifier.const
-//               ^ variable.parameter.generic
+//               ^ variable.parameter.type
 //                ^ punctuation.definition.generic.end
 //                 ^ punctuation.section.group.begin
 //                  ^ punctuation.section.group.end
@@ -1543,7 +1543,7 @@ const f = <const T>(a: T,): T => foo;
 //                            ^^^^^^ meta.function - meta.type - meta.function meta.function
 //        ^ punctuation.definition.generic.begin
 //         ^^^^^ storage.modifier.const
-//               ^ variable.parameter.generic
+//               ^ variable.parameter.type
 //                ^ punctuation.definition.generic.end
 //                 ^ punctuation.section.group.begin
 //                  ^ variable.parameter.function
@@ -1566,11 +1566,11 @@ const f = <const T extends Foo, X extends Bar>(a: T,): X => foo;
 //                                                       ^^^^^^ meta.function - meta.type - meta.function meta.function
 //        ^ punctuation.definition.generic.begin
 //         ^^^^^ storage.modifier.const
-//               ^ variable.parameter.generic
+//               ^ variable.parameter.type
 //                 ^^^^^^^ storage.modifier.extends
 //                         ^^^ support.class
 //                            ^ punctuation.separator.comma
-//                              ^ variable.parameter.generic
+//                              ^ variable.parameter.type
 //                                ^^^^^^^ storage.modifier.extends
 //                                        ^^^ support.class
 //                                           ^ punctuation.definition.generic.end
@@ -1629,9 +1629,9 @@ const x = {
 //             ^ punctuation.separator.type
 //              ^^^^^^^^^^^^^^^^^^^^^ meta.type
 //               ^^^^^^^^^^^ meta.generic
-//                ^ variable.parameter.generic
+//                ^ variable.parameter.type
 //                 ^ punctuation.separator.comma
-//                  ^^^ variable.parameter.generic
+//                  ^^^ variable.parameter.type
 //                     ^ keyword.operator.assignment
 //                      ^^^ meta.string string.quoted.double
 //                          ^^ meta.group
@@ -1699,7 +1699,7 @@ type T<in out U> = V;
 //    ^ punctuation.definition.generic.begin
 //     ^^ storage.modifier.variance
 //        ^^^ storage.modifier.variance
-//            ^ variable.parameter.generic
+//            ^ variable.parameter.type
 //             ^ punctuation.definition.generic.end
 
 type T = Foo | ... 100 more ... | Bar;
