@@ -120,7 +120,7 @@ delegate bool TryParse<T>(string text, out T result);
 //            ^^^^^^^^ variable.other.member.delegate.cs
 //                    ^^^ meta.generic.cs
 //                    ^ punctuation.definition.generic.begin.cs
-//                     ^ support.type.cs
+//                     ^ variable.parameter.type.cs
 //                      ^ meta.delegate.cs meta.generic.cs punctuation.definition.generic.end.cs
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate.parameters.cs
 //                       ^ punctuation.section.parameters.begin.cs

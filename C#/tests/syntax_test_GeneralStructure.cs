@@ -668,7 +668,7 @@ namespace TestNamespace . Test
 ///                      ^^^ entity.name.function
 ///                                     ^^^ meta.generic
 ///                                     ^ punctuation.definition.generic.begin
-///                                      ^ support.type
+///                                      ^ variable.parameter.type
 ///                                         ^ support.type
 ///                                           ^ variable.parameter
 ///                                               ^ variable.function
@@ -840,9 +840,9 @@ namespace TestNamespace . Test
 ///                             ^ variable.other.member.delegate
 ///                                      ^^^^^^^^^^^^^^^^^ meta.generic
 ///                                      ^ punctuation.definition.generic.begin
-///                                       ^^^^^^ support.type
+///                                       ^^^^^^ variable.parameter.type
 ///                                             ^ punctuation.separator
-///                                               ^^^^^^^ support.type
+///                                               ^^^^^^^ variable.parameter.type
 ///                                                      ^ punctuation.definition.generic.end
 ///                                                        ^^^^^^^^^^^^^ meta.delegate.parameters
 ///                                                        ^ - meta.delegate meta.delegate
