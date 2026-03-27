@@ -135,7 +135,7 @@ auto wysiwygInter = i`string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                   ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
 //                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                           ^^ punctuation.section.interpolation.begin.d
-//                             ^^^^ variable.language.d
+//                             ^^^^ variable.language.this.d
 //                                 ^ punctuation.accessor.dot.d
 //                                  ^^^ variable.other.d
 //                                     ^ punctuation.section.interpolation.end.d
@@ -144,7 +144,7 @@ auto wysiwygInter = i`string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                                                   ^^ constant.character.escape.d
 //                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                                                                 ^^ punctuation.section.interpolation.begin.d
-//                                                                   ^^^^ variable.language.d
+//                                                                   ^^^^ variable.language.this.d
 //                                                                       ^ punctuation.accessor.dot.d
 //                                                                        ^^^ variable.function.d
 //                                                                           ^ punctuation.section.parens.begin.d
@@ -178,7 +178,7 @@ auto interpolated = i"string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                   ^^^^^^^^ meta.string.d string.quoted.double.d
 //                           ^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                           ^^ punctuation.section.interpolation.begin.d
-//                             ^^^^ variable.language.d
+//                             ^^^^ variable.language.this.d
 //                                 ^ punctuation.accessor.dot.d
 //                                  ^^^ variable.other.d
 //                                     ^ punctuation.section.interpolation.end.d
@@ -187,7 +187,7 @@ auto interpolated = i"string $(this.foo)\r\nescaped: \$(bar) func: $(this.baz())
 //                                                   ^^ constant.character.escape.d
 //                                                                 ^^^^^^^^^^^^^ meta.string.d meta.interpolation.d
 //                                                                 ^^ punctuation.section.interpolation.begin.d
-//                                                                   ^^^^ variable.language.d
+//                                                                   ^^^^ variable.language.this.d
 //                                                                       ^ punctuation.accessor.dot.d
 //                                                                        ^^^ variable.function.d
 //                                                                           ^ punctuation.section.parens.begin.d
@@ -258,7 +258,7 @@ auto tokenString = q{
 //                  ^ punctuation.definition.string.begin.d
     this is not real code 12
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
-//  ^^^^ variable.language.d
+//  ^^^^ variable.language.this.d
 //       ^^ keyword.d
 //              ^^^^ storage.type.d
 //                        ^^ meta.number.integer.decimal.d constant.numeric.value.d
@@ -329,7 +329,7 @@ auto interpolTokenStr = iq{ if $(this.var) { me = $(this.bar) } }
 //                          ^^ keyword.d
 //                             ^^^^^^^^^^^ meta.interpolation.d
 //                             ^^ punctuation.section.interpolation.begin.d
-//                               ^^^^ variable.language.d
+//                               ^^^^ variable.language.this.d
 //                                   ^ punctuation.accessor.dot.d
 //                                    ^^^ variable.other.d
 //                                       ^ punctuation.section.interpolation.end.d
@@ -337,7 +337,7 @@ auto interpolTokenStr = iq{ if $(this.var) { me = $(this.bar) } }
 //                                              ^ keyword.operator.assignment.d
 //                                                ^^^^^^^^^^^ meta.interpolation.d
 //                                                ^^ punctuation.section.interpolation.begin.d
-//                                                  ^^^^ variable.language.d
+//                                                  ^^^^ variable.language.this.d
 //                                                      ^ punctuation.accessor.dot.d
 //                                                       ^^^ variable.other.d
 //                                                          ^ punctuation.section.interpolation.end.d
@@ -2063,15 +2063,21 @@ extern(1)
 //                 ^ punctuation.section.group.end.d
 //                   ^ punctuation.section.block.begin.d
     template a(size_t f) {
-  //^^^^^^^^ keyword.declaration.template.d
-  //         ^ entity.name.template.d
-  //          ^ punctuation.section.group.begin.d
-  //           ^^^^^^ support.type.builtin-alias.d
-  //                  ^ variable.parameter.d
-  //                   ^ punctuation.section.group.end.d
-  //                     ^ punctuation.section.block.begin.d
+//  ^^^^^^^^ keyword.declaration.template.d
+//           ^ entity.name.template.d
+//            ^ punctuation.section.group.begin.d
+//             ^^^^^^ support.type.builtin-alias.d
+//                    ^ variable.parameter.d
+//                     ^ punctuation.section.group.end.d
+//                       ^ punctuation.section.block.begin.d
+      T a;
+//    ^ storage.type.d
+//      ^ variable.other.d
+//       ^ punctuation.terminator.d
     }
-  //^ punctuation.section.block.end.d
+// <- meta.block.d meta.block.d
+//^^^ meta.block.d meta.block.d
+//  ^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
   template foo(T) if (is(T : class)) {}
@@ -2091,20 +2097,25 @@ extern(1)
 //                                 ^ punctuation.section.parens.end.d
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
-  @property foo(T) = {
+
+// https://dlang.org/spec/function.html#property-functions
+  @property foo(T) {
 //^^^^^^^^^ storage.modifier.d
+//          ^^^ meta.function.d
+//             ^^^ meta.function.parameters.d
+//                 ^^ meta.function.d meta.block.d
 //          ^^^ entity.name.function.d
 //             ^ punctuation.section.group.begin.d
 //              ^ variable.parameter.d
 //               ^ punctuation.section.group.end.d
-//                 ^ keyword.operator.assignment.d
-//                   ^ punctuation.section.block.begin.d
+//                 ^ punctuation.section.block.begin.d
     T a;
-  //^ storage.type.d
-  //  ^ variable.other.d
-  //   ^ punctuation.terminator.d
+//  ^ storage.type.d
+//    ^ variable.other.d
+//     ^ punctuation.terminator.d
   }();
-//^ punctuation.section.block.end.d
+// <- meta.function.d meta.block.d
+//^ meta.function.d meta.block.d punctuation.section.block.end.d
 // ^ punctuation.section.parens.begin.d
 //  ^ punctuation.section.parens.end.d
 //   ^ punctuation.terminator.d
@@ -2118,6 +2129,10 @@ extern(1)
 //                     ^ variable.parameter.d
 //                      ^ punctuation.section.group.end.d
 //                        ^ punctuation.section.block.begin.d
+    T a;
+//  ^ storage.type.d
+//    ^ variable.other.d
+//     ^ punctuation.terminator.d
   }
 //^ punctuation.section.block.end.d
   mixin Foo!("foo");
@@ -2207,6 +2222,10 @@ extern(1)
 //    ^ meta.number.integer.decimal.d
 //     ^ punctuation.section.parens.end.d
 //       ^ punctuation.section.block.begin.d
+    T s;
+//  ^ storage.type.d
+//    ^ variable.other.d
+//     ^ punctuation.terminator.d
   }
 //^ punctuation.section.block.end.d
   if (1) {} else {}
@@ -2288,6 +2307,10 @@ extern(1)
   //^^ keyword.control.loop.d
     {
   //^ punctuation.section.block.begin.d
+      T s;
+  //  ^ storage.type.d
+  //    ^ variable.other.d
+  //     ^ punctuation.terminator.d
     } while (1);
   //^ punctuation.section.block.end.d
   //  ^^^^^ keyword.control.loop.d
@@ -2316,6 +2339,10 @@ extern(1)
 //           ^ meta.number.integer.decimal.d
 //            ^ punctuation.section.parens.end.d
 //              ^ punctuation.section.block.begin.d
+    T s;
+//  ^ storage.type.d
+//    ^ variable.other.d
+//     ^ punctuation.terminator.d
   }
 //^ punctuation.section.block.end.d
   for(int a;;12) {
@@ -2617,7 +2644,7 @@ extern(1)
   //              ^ punctuation.section.block.begin.d
       this.foo = num;
     //^^^^^^^^^^^^^^^^ meta.class.d meta.block.d meta.function.d meta.block.d
-    //^^^^ variable.language.d
+    //^^^^ variable.language.this.d
     //    ^^^^ meta.path.d
     //    ^ punctuation.accessor.dot.d
     //     ^^^ variable.other.d
@@ -3021,6 +3048,22 @@ extern(1)
 //                      ^ meta.number.integer.decimal.d
 //                       ^ punctuation.section.parens.end.d
 //                        ^ punctuation.terminator.d
+  (int foo) => { id: "value", name: foo };
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.d
+//          ^^ meta.function.d keyword.declaration.function.anonymous.d
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.d
+//             ^ punctuation.section.block.begin.d
+//               ^^ variable.other.d
+//                 ^ punctuation.separator.key-value.d
+//                   ^^^^^^^ meta.string.d string.quoted.double.d
+//                   ^ punctuation.definition.string.begin.d
+//                         ^ punctuation.definition.string.end.d
+//                          ^ punctuation.separator.sequence.d
+//                            ^^^^ variable.other.d
+//                                ^ punctuation.separator.key-value.d
+//                                  ^^^ variable.other.d
+//                                      ^ punctuation.section.block.end.d
+//                                       ^ punctuation.terminator.d
   (foo..., bar) @safe {};
 //^^^^^^^^^^^^^ meta.function.parameters.d - meta.function meta.function
 //^ punctuation.section.group.begin.d
@@ -3221,7 +3264,7 @@ extern(1)
 //                          ^ punctuation.section.parens.begin.d
 //                           ^^^^^^^^^ constant.other.d
 //                                    ^ punctuation.separator.sequence.d
-//                                      ^^^^ variable.language.d
+//                                      ^^^^ variable.language.this.d
 //                                          ^ punctuation.separator.sequence.d
 //                                            ^^^^^^^^^^ meta.path.d variable.other.d
 //                                                      ^^ punctuation.section.parens.end.d
@@ -3552,8 +3595,8 @@ extern(1)
 //    ^ keyword.operator.assignment.d
 //      ^^^^^^^^^^^^^^^^^ meta.block.d
 //      ^ punctuation.section.block.begin.d
-//        ^ entity.name.label.d
-//         ^ punctuation.separator.d
+//        ^ variable.other.d
+//         ^ punctuation.separator.key-value.d
 //           ^ meta.number.integer.decimal.d
 //            ^ punctuation.separator.sequence.d
 //              ^ variable.other.d
@@ -3606,3 +3649,4 @@ extern(1)
 //               ^ keyword.operator.assignment.d
 //                 ^^ constant.numeric.value.d
 //                   ^ punctuation.section.parens.end.d
+

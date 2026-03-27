@@ -407,7 +407,7 @@ class Foo {
 ///                                                ^ punctuation.terminator.statement
         var abc = (this as object, input);
 ///               ^ punctuation.section.sequence.begin
-///                ^^^^ variable.language
+///                ^^^^ variable.language.this
 ///                     ^^ keyword.operator.reflection
 ///                        ^^^^^^ storage.type
 ///                              ^ punctuation.separator.sequence
@@ -677,11 +677,13 @@ public readonly struct S
     {
         this.Age = age;
         this.Name = name;
+///     ^^^^ variable.language.this.cs
     }
 
     public S(S other)
     {
         this = other;
+///     ^^^^ variable.language.this.cs
     }
 }
 

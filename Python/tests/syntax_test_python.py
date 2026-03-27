@@ -572,7 +572,7 @@ NO_SWEAT NO AA1
 _ self
 # <- variable.language.anonymous.python - meta.path
 #^ - variable - meta.path
-# ^^^^ variable.language.python - meta.path
+# ^^^^ variable.language.this.python - meta.path
 #     ^ - variable - meta.path
 
 _.member
@@ -583,9 +583,9 @@ _.member
 #       ^ - meta.path
 
 self.member
-# <- meta.path.python variable.language.python
+# <- meta.path.python variable.language.this.python
 #^^^^^^^^^^ meta.path.python
-#^^^ variable.language.python
+#^^^ variable.language.this.python
 #   ^ punctuation.accessor.dot.python
 #    ^^^^^^ variable.other.python
 #          ^ - meta.path
@@ -3531,10 +3531,13 @@ list((i for i in generator), 123)
 _ = [m
      for cls in self.__class__.mro()
 #    ^^^ keyword.control.loop.for.generator
+#        ^^^ variable.language.this.python
 #            ^^ keyword.control.loop.in
+#               ^^^^ variable.language.this.python
      for m in cls.__dict__]
 #    ^^^ keyword.control.loop.for.generator
 #          ^^ keyword.control.loop.in
+#             ^^^ variable.language.this.python
 
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async

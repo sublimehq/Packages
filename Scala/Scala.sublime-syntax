@@ -331,8 +331,10 @@ contexts:
 
   base-constants:
     - include: literal-constants
-    - match: \b(?:this|super)\b
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
     # base-types with try-dispatch followup
     - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
@@ -485,7 +487,7 @@ contexts:
           scope: keyword.other.scala
           pop: 1
         - match: '\bthis\b'
-          scope: variable.language.scala
+          scope: variable.language.this.scala
           pop: 1
         - match: '\btry\b'
           scope: keyword.control.exception.scala
@@ -810,8 +812,10 @@ contexts:
     - match: '\]'
       scope: punctuation.definition.generic.end.scala
       pop: 1
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
     - include: type-constraints
     - include: delimited-type-expression
 
@@ -1986,8 +1990,10 @@ contexts:
     - include: base-types
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
     - match: '(?={{keywords}})'
       pop: 1
     - match: '{{upperid}}'
@@ -2008,8 +2014,11 @@ contexts:
       set: single-type-expression-tail-no-function-no-or
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+      set: single-type-expression-tail-no-function-no-or
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
       set: single-type-expression-tail-no-function-no-or
     - match: '{{upperid}}'
       scope: support.class.scala
@@ -2038,8 +2047,11 @@ contexts:
       set: single-type-expression-tail-no-function
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+      set: single-type-expression-tail-no-function
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
       set: single-type-expression-tail-no-function
     - match: '{{upperid}}'
       scope: support.class.scala
@@ -2073,8 +2085,11 @@ contexts:
       set: single-type-expression-tail
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+      set: single-type-expression-tail
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
       set: single-type-expression-tail
     - match: '{{upperid}}'
       scope: support.class.scala
@@ -2155,8 +2170,11 @@ contexts:
       set: single-type-expression-tail-no-function-type-expectation
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+      set: single-type-expression-tail-no-function-type-expectation
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
       set: single-type-expression-tail-no-function-type-expectation
     - match: '{{upperid}}'
       scope: support.class.scala
@@ -2209,8 +2227,11 @@ contexts:
       set: single-type-expression-tail-no-function-no-or-type-expectation
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+      set: single-type-expression-tail-no-function-no-or-type-expectation
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
       set: single-type-expression-tail-no-function-no-or-type-expectation
     - match: '{{upperid}}'
       scope: support.class.scala
@@ -2271,8 +2292,11 @@ contexts:
       set: single-type-expression-tail-type-expectation
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
-    - match: '\b(?:this|super)\b'
-      scope: variable.language.scala
+    - match: '\bsuper\b'
+      scope: variable.language.super.scala
+      set: single-type-expression-tail-type-expectation
+    - match: '\bthis\b'
+      scope: variable.language.this.scala
       set: single-type-expression-tail-type-expectation
     - match: '\bmatch\b'
       scope: keyword.control.flow.scala

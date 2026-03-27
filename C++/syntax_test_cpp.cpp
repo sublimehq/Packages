@@ -2160,7 +2160,7 @@ class FooBar {
 /*                               ^ storage.modifier */
 /*                                        ^ storage.modifier */
         this->g(1);
-/*      ^ variable.language */
+/*      ^^^^ variable.language.this.c++ */
     }
 
 private:

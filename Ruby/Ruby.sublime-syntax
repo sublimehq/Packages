@@ -256,8 +256,11 @@ contexts:
     - match: '\btrue\b(?![?!])'
       scope: constant.language.boolean.true.ruby
       push: after-constant
-    - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
+    - match: '\b(__(FILE|LINE|ENCODING)__)\b(?![?!])'
       scope: variable.language.ruby
+      push: after-constant
+    - match: '\bself\b(?![?!])'
+      scope: variable.language.this.ruby
       push: after-constant
     # hexadecimal imaginary numbers: 0xAi, 0xAri
     - match: '\b(0[xX])({{hex_digits}})(r?i(r)?)\b'
@@ -1021,7 +1024,7 @@ contexts:
         - meta_content_scope: meta.function.ruby
         - match: '(self)(\.)({{identifier}}{{method_punctuation}}|===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?)'
           captures:
-            1: variable.language.ruby
+            1: variable.language.this.ruby
             2: punctuation.accessor.dot.ruby
             3: entity.name.function.ruby
           set: method-parameters-start

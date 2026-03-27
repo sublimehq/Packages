@@ -622,8 +622,10 @@ contexts:
       scope: storage.type.d
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
-    - match: '\b({{language_variable}})\b'
-      scope: variable.language.d
+    - match: '\bsuper\b'
+      scope: variable.language.super.d
+    - match: '\bthis\b'
+      scope: variable.language.this.d
     - include: character-in
     - include: string-in
     - include: number-in
@@ -1188,8 +1190,11 @@ contexts:
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
       set: first-value-after
-    - match: '\b({{language_variable}})\b'
-      scope: variable.language.d
+    - match: '\bsuper\b'
+      scope: variable.language.super.d
+      set: first-value-after
+    - match: '\bthis\b'
+      scope: variable.language.this.d
       set: first-value-after
     - match: '{{name_lookahead}}'
       set: [first-value-after, value-identifier]
@@ -1245,16 +1250,12 @@ contexts:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
-      set: value
     - match: '~'
       scope: keyword.operator.bitwise.d
-      set: value
-    - match: '(\+\+|--|\+|-)'
+    - match: '\+\+|--|\+|-'
       scope: keyword.operator.arithmetic.d
-      set: value
-    - match: '(\*|&)'
+    - match: '\*|&'
       scope: keyword.operator.bitwise.d
-      set: value
     - match: '\bcast\b'
       scope: keyword.operator.word.d
       set:
@@ -1264,7 +1265,6 @@ contexts:
         - include: not-whitespace-illegal-pop
     - match: '\bdelete\b'
       scope: keyword.operator.word.d
-      set: value
     - match: '\bnew\b'
       scope: keyword.operator.word.d
       set:
@@ -1334,8 +1334,9 @@ contexts:
         - value-group-begin
         - lambda-argument-definition-list-begin
       pop: true
-    - match: '(?={)'
-      set: [value-after, block-statement]
+    - match: '\{'
+      scope: punctuation.section.block.begin.d
+      set: [value-block-after, value-array-list]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [value-bracket-after, value-array-list]
@@ -1350,8 +1351,11 @@ contexts:
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
       set: value-after
-    - match: '\b({{language_variable}})\b'
-      scope: variable.language.d
+    - match: '\bsuper\b'
+      scope: variable.language.super.d
+      set: value-after
+    - match: '\bthis\b'
+      scope: variable.language.this.d
       set: value-after
     - match: '\$'
       scope: variable.language.d
@@ -1547,8 +1551,11 @@ contexts:
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
       pop: true
-    - match: '\b({{language_variable}})\b'
-      scope: variable.language.d
+    - match: '\bsuper\b'
+      scope: variable.language.super.d
+      pop: true
+    - match: '\bthis\b'
+      scope: variable.language.this.d
       pop: true
     - match: '{{name_lookahead}}|\.'
       set: identifier-ref
@@ -1569,6 +1576,12 @@ contexts:
     - match: ':'
       scope: keyword.operator.ternary.d
       set: value
+    - include: not-whitespace-illegal-pop
+  value-block-after:
+    - meta_scope: meta.block.d
+    - match: \}
+      scope: punctuation.section.block.end.d
+      set: value-after
     - include: not-whitespace-illegal-pop
   value-parens-after:
     - match: '\)'

@@ -363,6 +363,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - match: \\[0-7]{1,3}
       scope: constant.character.escape.sql
     - match: \\x\h{1,2}
@@ -381,6 +382,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.sql
       pop: 1
+    - include: string-prototype
     - match: \\[0-7]{1,3}
       scope: constant.character.escape.sql
     - match: \\x\h{8}

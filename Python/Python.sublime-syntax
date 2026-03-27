@@ -2284,7 +2284,7 @@ contexts:
 
   class-variable:
     - match: (?:self|cls)\b
-      scope: variable.language.python
+      scope: variable.language.this.python
       pop: 1
 
   constant-name:
