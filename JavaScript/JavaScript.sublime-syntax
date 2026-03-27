@@ -1521,15 +1521,15 @@ contexts:
       set:
         - include: support
         - match: '{{dollar_only_identifier}}'
-          scope: variable.type.dollar.only.js punctuation.dollar.js
+          scope: support.class.dollar.only.js punctuation.dollar.js
           pop: 1
         - match: '{{dollar_identifier}}'
-          scope: variable.type.dollar.js
+          scope: support.class.dollar.js
           captures:
             1: punctuation.dollar.js
           pop: 1
         - match: '{{identifier_name}}'
-          scope: variable.type.js
+          scope: support.class.js
           pop: 1
         - include: else-pop
 

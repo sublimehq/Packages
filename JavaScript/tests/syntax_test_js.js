@@ -1145,7 +1145,7 @@ func(a, b) ;
 
 var instance = new Constructor(param1, param2)
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
-//                 ^^^^^^^^^^^ variable.type
+//                 ^^^^^^^^^^^ support.class
 //                            ^^^^^^^^^^^^^^^^ meta.group
 //                            ^ punctuation.section.group.begin
 //                             ^ variable.other.readwrite
@@ -1211,13 +1211,13 @@ new foo()/**/;
 function f() {
     new.target;
 //  ^^^ keyword.operator.word.new
-//     ^ punctuation.accessor.dot.js
+//     ^ punctuation.accessor.dot
 //      ^^^^^^ variable.language.target
 
     new
 //  ^^^ keyword.operator.word.new
     .target;
-//  ^ punctuation.accessor.dot.js
+//  ^ punctuation.accessor.dot
 //   ^^^^^^ variable.language.target
 }
 
@@ -1227,10 +1227,11 @@ new Date().getTime()
 //^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
 
 new $();
-//  ^ variable.type.dollar.only punctuation.dollar
+//  ^ support.class.dollar.only punctuation.dollar
 
 new $Dollar();
-//  ^ variable.type.dollar punctuation.dollar
+//  ^^^^^^^ support.class.dollar
+//  ^ punctuation.dollar
 
 void {
     'test1': [],
