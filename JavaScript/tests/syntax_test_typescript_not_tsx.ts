@@ -30,7 +30,7 @@ let strLength: number = (<string>someValue).length; // </string>
 //  ^^^^^^^^^^^ meta.function
 //  ^^^ meta.generic
 //  ^ punctuation.definition.generic.begin
-//   ^ variable.parameter.generic
+//   ^ variable.parameter.type
 //    ^ punctuation.definition.generic.end
 //     ^^ meta.function.parameters
 //        ^^ keyword.declaration.function.arrow
