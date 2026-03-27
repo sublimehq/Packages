@@ -1326,7 +1326,7 @@ contexts:
     - match: \b(as|is(?:\s+not)?)\s+
       captures:
         1: keyword.operator.reflection.cs
-      push: [maybe_pattern_matching_object, type_no_space_pop_if_anonymous]
+      push: [maybe_pattern_matching_object, maybe_type_or_null]
     - match: \b(checked|unchecked)\b
       scope: keyword.other.cs
       push:
@@ -1431,7 +1431,10 @@ contexts:
           set: [constructor_arguments, arguments]
         - include: type
 
-  type_no_space_pop_if_anonymous:
+  maybe_type_or_null:
+    - match: null\b
+      scope: constant.language.null.cs
+      pop: 2
     - match: (?=\{)
       pop: true
     - include: type_no_space
