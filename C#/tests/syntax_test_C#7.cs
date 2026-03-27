@@ -105,9 +105,9 @@ class Foo {
 ///                      ^^^ entity.name.function
 ///                         ^^^^^^ meta.generic
 ///                         ^ punctuation.definition.generic.begin
-///                          ^ support.type
+///                          ^ variable.parameter.type
 ///                           ^ punctuation.separator
-///                             ^ support.type
+///                             ^ variable.parameter.type
 ///                              ^ punctuation.definition.generic.end
 ///                               ^^^^^^^ meta.method.parameters
 ///                               ^ punctuation.section.parameters.begin
@@ -760,10 +760,10 @@ public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg) ;
 ///             ^^^^ storage.type
 ///                  ^^^^^^^^^^ variable.other.member.delegate
 ///                            ^^^^^^^^^^^^ meta.generic
-///                             ^ support.type
+///                             ^ variable.parameter.type
 ///                              ^ punctuation.separator.type
 ///                                ^^ storage.modifier
-///                                   ^^^^ support.type
+///                                   ^^^^ variable.parameter.type
 ///                                                                 ^ punctuation.terminator.statement.cs
 
 void Test ()

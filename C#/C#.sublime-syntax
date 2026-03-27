@@ -1853,17 +1853,20 @@ contexts:
       pop: true
     - match: ','
       scope: punctuation.separator.type.cs
-    - include: type
 
   type_argument:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
+    - include: type
 
   type_parameter:
     - meta_content_scope: meta.generic.cs
+    - include: type_arg_param_common
+    - include: type_common_except_bare_custom_type
     - match: (?:in|out)\b
       scope: storage.modifier.cs
-    - include: type_arg_param_common
+    - match: '{{name}}'
+      scope: variable.parameter.type.cs
 
   type_no_space:
     - include: type

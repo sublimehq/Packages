@@ -331,7 +331,7 @@ public record B<T>(T Num)<NoGeneric>;
 ///           ^ entity.name.class
 ///            ^^^ meta.generic
 ///            ^ punctuation.definition.generic.begin
-///             ^ support.type
+///             ^ variable.parameter.type
 ///              ^ punctuation.definition.generic.end
 ///               ^ punctuation.section.parameters.begin
 ///                     ^ punctuation.section.parameters.end
@@ -344,7 +344,7 @@ public record C<TNum> (TNum Num) where TNum : class;
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
-///             ^^^^ support.type
+///             ^^^^ variable.parameter.type
 ///                 ^ punctuation.definition.generic.end
 ///                   ^ punctuation.section.parameters.begin
 ///                    ^^^^ support.type
@@ -363,7 +363,7 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///    ^^^^^^ keyword.declaration.class.record
 ///           ^ entity.name.class
 ///            ^ punctuation.definition.generic.begin
-///             ^^^^ support.type
+///             ^^^^ variable.parameter.type
 ///                 ^ punctuation.definition.generic.end
 ///                   ^ punctuation.section.parameters.begin
 ///                    ^^^^ support.type
@@ -420,7 +420,7 @@ public class MyClass { public record MyRecord <T> (int nums) { public const int 
 ///                           ^^^^^^ keyword.declaration.class.record
 ///                                  ^^^^^^^^ entity.name.class
 ///                                           ^ punctuation.definition.generic.begin
-///                                            ^ support.type
+///                                            ^ variable.parameter.type
 ///                                             ^ punctuation.definition.generic.end
 ///                                               ^ meta.class.constructor.parameters punctuation.section.parameters.begin
 ///                                                ^^^ storage.type
