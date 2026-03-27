@@ -1145,10 +1145,9 @@ func(a, b) ;
 
 var instance = new Constructor(param1, param2)
 //             ^^^^ meta.instantiation - meta.function-call
-//                 ^^^^^^^^^^^ meta.instantiation.js meta.function-call.identifier.js
-//                            ^^^^^^^^^^^^^^^^ meta.instantiation.js meta.function-call.arguments.js meta.group.js
+//                 ^^^^^^^^^^^ meta.instantiation meta.function-call.identifier
+//                            ^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.arguments meta.group
 //                 ^^^^^^^^^^^ support.class
-//                            ^^^^^^^^^^^^^^^^ meta.group
 //                            ^ punctuation.section.group.begin
 //                             ^ variable.other.readwrite
 //                                           ^ punctuation.section.group.end
