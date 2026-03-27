@@ -2193,17 +2193,19 @@ contexts:
       pop: true
     - match: ':'
       scope: punctuation.separator.cs
-      push:
-        - meta_scope: constant.other.format-spec.cs
-        - include: string_placeholder_escape
-        - include: string_escaped
-        - match: '(?=\})'
-          pop: true
-        - match: '(?:[^}"\\](?:\\.)*)+(?=")'
-          scope: invalid.illegal.unclosed-string-placeholder.cs
-          pop: true
-        - match: '\{'
-          scope: invalid.illegal.unescaped-placeholder.cs
+      push: inside_string_placeholder_format
+
+  inside_string_placeholder_format:
+    - meta_scope: constant.other.format-spec.cs
+    - include: string_placeholder_escape
+    - include: string_escaped
+    - match: '(?=\})'
+      pop: true
+    - match: '(?:[^}"\\](?:\\.)*)+(?=")'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: '\{'
+      scope: invalid.illegal.unescaped-placeholder.cs
 
   long_string_placeholder_format:
     - include: string_placeholder_format_before_colon
@@ -2212,19 +2214,21 @@ contexts:
       pop: true
     - match: ':'
       scope: punctuation.separator.cs
-      push:
-        - meta_scope: constant.other.format-spec.cs
-        - include: string_placeholder_escape
-        - include: long_string_escaped
-        - match: (?=\})
-          pop: true
-        - match: \\(?:""|[^"])
-          scope: constant.character.escape.cs
-        - match: (?:[^}"]|"")+(?="(?!"))
-          scope: invalid.illegal.unclosed-string-placeholder.cs
-          pop: true
-        - match: \{
-          scope: invalid.illegal.unescaped-placeholder.cs
+      push: inside_long_string_placeholder_format
+
+  inside_long_string_placeholder_format:
+    - meta_scope: constant.other.format-spec.cs
+    - include: string_placeholder_escape
+    - include: long_string_escaped
+    - match: (?=\})
+      pop: true
+    - match: \\(?:""|[^"])
+      scope: constant.character.escape.cs
+    - match: (?:[^}"]|"")+(?="(?!"))
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: \{
+      scope: invalid.illegal.unescaped-placeholder.cs
 
   inside_long_string:
     - meta_include_prototype: false
