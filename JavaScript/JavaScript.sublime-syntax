@@ -1198,7 +1198,7 @@ contexts:
     - include: literal-string-template
     - include: literal-string
     - include: regexp-complete
-    - include: constructor
+    - include: instantiation
     - include: literal-number
     - include: prefix-operators
     - include: import-meta-expression
@@ -1490,43 +1490,43 @@ contexts:
             pop: 1
           - include: scope:source.regexp.js
 
-  constructor:
+  instantiation:
     - match: new{{identifier_break}}
       scope: keyword.operator.word.new.js
       set:
-        - constructor-meta
-        - constructor-body
+        - instantiation-meta
+        - instantiation-body
 
-  constructor-meta:
+  instantiation-meta:
     - meta_include_prototype: false
     - meta_scope: meta.instantiation.js
     - include: immediately-pop
 
-  constructor-body:
+  instantiation-body:
     - match: \.
       scope: punctuation.accessor.dot.js
-      set: constructor-target
+      set: instantiation-target
     - match: (?=\S)
       set:
-        - constructor-expect-arguments
-        - constructor-expect-class-end
-        - constructor-expect-class-name
+        - instantiation-expect-arguments
+        - instantiation-expect-class-end
+        - instantiation-expect-class-name
 
-  constructor-expect-arguments:
+  instantiation-expect-arguments:
     - meta_content_scope: meta.function-call.identifier.js
     - include: function-call-arguments
     - include: else-pop
 
-  constructor-expect-class-end:
+  instantiation-expect-class-end:
     - include: property-access
     - include: else-pop
 
-  constructor-expect-class-name:
+  instantiation-expect-class-name:
     - match: (?={{non_reserved_identifier}}\s*\()
-      set: constructor-class-name
+      set: instantiation-class-name
     - include: expression-begin
 
-  constructor-class-name:
+  instantiation-class-name:
     - include: support
     - match: '{{dollar_only_identifier}}'
       scope: support.class.dollar.only.js punctuation.dollar.js
@@ -1541,7 +1541,7 @@ contexts:
       pop: 1
     - include: else-pop
 
-  constructor-target:
+  instantiation-target:
     - match: target{{identifier_break}}
       scope: variable.language.target.js
       pop: 1
