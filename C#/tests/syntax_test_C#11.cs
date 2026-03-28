@@ -50,19 +50,29 @@ var location = $"""
 ///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
 ///   ^ punctuation.terminator.statement - string
 
+// Note: Verbatim strings may look like raw strings when starting with escaped double-quotes
 var location = @$"""
-///            ^^^^^ meta.string.interpolated string.quoted.triple
-///            ^^^^ punctuation.definition.string.begin
-///                ^ - invalid
+///            ^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///            ^^^ punctuation.definition.string.begin.cs
+///               ^^ constant.character.escape.cs
    You are at {{{Longitude}} \t {{Latitude}}}
-///^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///             ^^^^^^^^^^^ meta.string.interpolated meta.interpolation - string
-///                        ^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///                          ^^ - constant.character.escape
+///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///             ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                        ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///           ^^ constant.character.escape.cs
+///             ^ punctuation.section.interpolation.begin.cs
+///              ^^^^^^^^^ variable.other.cs
+///                       ^ punctuation.section.interpolation.end.cs
+///                        ^^^^^ - constant
+///                             ^^ constant.character.escape.cs
+///                                       ^^ constant.character.escape.cs
+///                                         ^ - constant
    """;
-/// <- meta.string.interpolated string.quoted.triple
-///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
-///   ^ punctuation.terminator.statement - string
+/// <- meta.string.interpolated.cs string.quoted.double.raw.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///^^ constant.character.escape.cs
+///  ^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
 
 var pointMessage = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
 ///                ^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
@@ -128,11 +138,13 @@ string s2 = @$"He said, ""This is the last \u0063hance\x0021""";
 ///                     ^^ constant.character.escape
 ///                                        ^^^^^^^^^^^^^^^^^ - constant
 
-
 string s2 = @$$"""He said, ""This is the last \u0063hance\x0021""";
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///         ^^^^^^ punctuation.definition.string.begin
-///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+///         ^ invalid.illegal.reserved-char.cs
+///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
+///          ^^^^^ punctuation.definition.string.begin
+///                        ^^ - constant.character
+///                                           ^^^^^^ constant.character.escape.cs
+///                                                      ^^^^^^ constant.character.escape.cs
 ///                                                            ^^^ punctuation.definition.string.end
 
 public class C2 {

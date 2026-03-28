@@ -1950,13 +1950,6 @@ contexts:
     - match: '\$\$("""+)'
       scope: punctuation.definition.string.begin.cs
       push: inside_raw_format_string_2
-    # interpolated raw verbatim format strings
-    - match: '@\$("""+)'
-      scope: punctuation.definition.string.begin.cs
-      push: inside_raw_verbatim_format_string_1
-    - match: '@\$\$("""+)'
-      scope: punctuation.definition.string.begin.cs
-      push: inside_raw_format_string_literal_2
     # interpolated quoted format strings
     - match: '\$"'
       scope: punctuation.definition.string.begin.cs
@@ -2040,15 +2033,6 @@ contexts:
     - include: string_placeholder_escape
     - include: format_string_interpolation
 
-  inside_raw_verbatim_format_string_1:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
-    - match: '\1'
-      scope: punctuation.definition.string.end.cs
-      pop: true
-    - include: string_placeholder_escape
-    - include: format_string_interpolation
-
   format_string_interpolation:
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
@@ -2072,15 +2056,6 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_escaped
-    - include: string_placeholder_escape
-    - include: format_string_interpolation_2
-
-  inside_raw_format_string_literal_2:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
-    - match: '\1'
-      scope: punctuation.definition.string.end.cs
-      pop: true
     - include: string_placeholder_escape
     - include: format_string_interpolation_2
 
