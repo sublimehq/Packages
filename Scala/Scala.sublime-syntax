@@ -712,7 +712,7 @@ contexts:
           set:
             - match: '(\*)\s*(?=[\),=])'
               captures:
-                1: keyword.operator.varargs.scala
+                1: keyword.operator.quantifier.scala
             - match: '(?=\))'
               pop: 1
             - match: ','
@@ -840,7 +840,7 @@ contexts:
               set:
                 - match: '(\*)\s*(?=[\),=])'
                   captures:
-                    1: keyword.operator.varargs.scala
+                    1: keyword.operator.quantifier.scala
                 - match: '(?=\))'
                   pop: 1
                 - match: ','
@@ -890,7 +890,7 @@ contexts:
               set:
                 - match: '(\*)\s*(?=[\),=])'
                   captures:
-                    1: keyword.operator.varargs.scala
+                    1: keyword.operator.quantifier.scala
                 - match: '(?=\))'
                   pop: 1
                 - match: ','
@@ -1732,10 +1732,10 @@ contexts:
     - match: '{{op}}'     # let it fall through
     - match: '@'
       scope: keyword.operator.at.scala
-    - match: '_\s*\*'
-      scope: keyword.operator.varargs.scala
-    - match: '_'
-      scope: variable.language.anonymous.scala
+    - match: '(_)(?:\s*(\*))?'
+      captures:
+        1: variable.language.anonymous.scala
+        2: keyword.operator.quantifier.scala
     - match: ','
       scope: punctuation.separator.scala
     - include: ascription
@@ -1872,10 +1872,10 @@ contexts:
         - include: delimited-type-expression
     - match: '@'
       scope: keyword.operator.at.scala
-    - match: '_\s*\*'
-      scope: keyword.operator.varargs.scala
-    - match: '_'
-      scope: variable.language.anonymous.scala
+    - match: '(_)(?:\s*(\*))?'
+      captures:
+        1: variable.language.anonymous.scala
+        2: keyword.operator.quantifier.scala
     - match: ','
       scope: punctuation.separator.scala
     - match: (?=\})
@@ -1938,8 +1938,10 @@ contexts:
           scope: punctuation.definition.block.end.scala
           pop: 1
         - include: declarations
-    - match: '_\s*\*'
-      scope: keyword.operator.varargs.scala
+    - match: '(_)(?:\s*(\*))?'
+      captures:
+        1: variable.language.anonymous.scala
+        2: keyword.operator.quantifier.scala
     # the whitespace covering is required to deal with the very aggressive scope popping for single type exprs
     - match: '\s*(=>>)\s*'
       captures:
