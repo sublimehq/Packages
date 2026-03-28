@@ -3,18 +3,11 @@
 name: TSX (Plain)
 scope: source.tsx.plain
 version: 2
+hidden: true
 
 extends:
   - JSX (Plain).sublime-syntax
   - TypeScript (Plain).sublime-syntax
-
-file_extensions:
-  - tsx
-
-first_line_match: |-
-  (?xi:
-    ^ \s* // .*? -\*- .*? \btsx\b .*? -\*-  # editorconfig
-  )
 
 contexts:
 

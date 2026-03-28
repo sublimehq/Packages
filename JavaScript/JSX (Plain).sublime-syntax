@@ -3,16 +3,9 @@
 name: JSX (Plain)
 scope: source.jsx.plain
 version: 2
+hidden: true
 
 extends: JavaScript (Plain).sublime-syntax
-
-file_extensions:
-  - jsx
-
-first_line_match: |-
-  (?xi:
-    ^ \s* // .*? -\*- .*? \bjsx\b .*? -\*-  # editorconfig
-  )
 
 variables:
   jsx_identifier_part: (?:{{identifier_part}}|-)

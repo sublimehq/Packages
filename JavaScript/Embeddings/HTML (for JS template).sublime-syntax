@@ -16,10 +16,16 @@ contexts:
 
   prototype:
     - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
     - include: scope:source.js.plain#text-interpolations
+
+  tag-attributes:
+    - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
 
   cdata-content:
     - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
     - include: scope:source.js.plain#string-interpolations
 
   script-javascript-content:
@@ -115,8 +121,10 @@ contexts:
 
   tag-attribute-value-content:
     - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
     - include: scope:source.js.plain#string-interpolations
 
   strings-common-content:
     - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
     - include: scope:source.js.plain#string-interpolations
