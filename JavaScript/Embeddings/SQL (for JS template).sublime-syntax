@@ -12,16 +12,16 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: scope:source.js.plain#text-interpolations
 
   comment-prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: scope:source.js.plain#text-interpolations
 
   identifier-prototype:
     - meta_prepend: true
-    - include: scope:source.js#text-interpolations
+    - include: scope:source.js.plain#text-interpolations
 
   string-prototype:
     - meta_prepend: true
-    - include: scope:source.js#string-interpolations
+    - include: scope:source.js.plain#string-interpolations

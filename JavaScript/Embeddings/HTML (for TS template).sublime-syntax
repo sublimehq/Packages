@@ -16,11 +16,11 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.ts#text-interpolations
+    - include: scope:source.ts.plain#text-interpolations
 
   cdata-content:
     - meta_prepend: true
-    - include: scope:source.ts#string-interpolations
+    - include: scope:source.ts.plain#string-interpolations
 
   script-javascript-content:
     - meta_include_prototype: false
@@ -115,8 +115,8 @@ contexts:
 
   tag-attribute-value-content:
     - meta_prepend: true
-    - include: scope:source.js#string-interpolations
+    - include: scope:source.js.plain#string-interpolations
 
   strings-common-content:
     - meta_prepend: true
-    - include: scope:source.js#string-interpolations
+    - include: scope:source.js.plain#string-interpolations

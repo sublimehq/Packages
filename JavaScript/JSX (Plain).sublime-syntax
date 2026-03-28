@@ -1,10 +1,10 @@
 %YAML 1.2
 ---
-name: JSX
-scope: source.jsx
+name: JSX (Plain)
+scope: source.jsx.plain
 version: 2
 
-extends: JavaScript.sublime-syntax
+extends: JavaScript (Plain).sublime-syntax
 
 file_extensions:
   - jsx

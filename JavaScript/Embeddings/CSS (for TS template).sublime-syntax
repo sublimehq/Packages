@@ -16,11 +16,11 @@ contexts:
 
   prototype:
     - meta_prepend: true
-    - include: scope:source.ts#text-interpolations
+    - include: scope:source.ts.plain#text-interpolations
 
   strings-content:
     - meta_prepend: true
-    - include: scope:source.ts#string-interpolations
+    - include: scope:source.ts.plain#string-interpolations
 
   main:
     # support properties in top-level context
