@@ -4500,7 +4500,11 @@ class MethodDeclarationTests {
     return someMethod (new Function<V, V>() {
 //        ^ - meta.function-call
 //         ^^^^^^^^^^^ meta.function-call.identifier.java - meta.function-call meta.function-call
-//                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java - meta.function-call meta.function-call
+//                    ^ meta.function-call.arguments.java meta.group.java - meta.instantiation - meta.function-call meta.function-call
+//                     ^^^ meta.function-call.arguments.java meta.group.java meta.instantiation.java - meta.function-call meta.function-call
+//                        ^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java meta.instantiation.java meta.function-call.identifier.java
+//                                       ^^ meta.function-call.arguments.java meta.group.java meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                                         ^^^ meta.function-call.arguments.java meta.group.java meta.instantiation.java - meta.function-call meta.function-call
 //                                          ^ meta.class.java punctuation.section.block.begin.java
 //        ^ - variable
 //         ^^^^^^^^^^ variable.function.java
@@ -6415,6 +6419,9 @@ class SwitchExpressionsTests {
          default:
             throw new IllegalStateException("Invalid day: " + day);
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.conditional.switch.java meta.block.java meta.statement.flow.throw.java
+//                ^^^ meta.instantiation.java - meta.function-call
+//                   ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//                                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
 //          ^^^^^ keyword.control.flow.throw.java
 //                ^^^ keyword.other.storage.new.java
 //                    ^^^^^^^^^^^^^^^^^^^^^ support.class.java
@@ -8113,32 +8120,40 @@ class InstanceCreationExpressionsTests {
 //  ^^^^ variable.other.java - keyword
 
     new TestClass ;
-//  ^^^^^^^^^^^^^^ meta.instantiation.java
-//                ^^ - meta.instantiation
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//                ^^ - meta.instantiation - meta.function-call
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //                ^ punctuation.terminator.java
 
     new TestClass(
-//  ^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^ meta.group.java
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//               ^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //               ^ punctuation.section.group.begin.java
+   ;
+// <- meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+// ^ punctuation.terminator.java
 
     new TestClass( ;
-//  ^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^ meta.group.java
-//                 ^^ - meta.instantiation - meta.group
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//               ^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                 ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //               ^ punctuation.section.group.begin.java
 //                 ^ punctuation.terminator.java
 
     new TestClass(foo ;
-//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^^^^ meta.group.java
-//                    ^^ - meta.instantiation - meta.group
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//               ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                    ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //               ^ punctuation.section.group.begin.java
@@ -8146,9 +8161,10 @@ class InstanceCreationExpressionsTests {
 //                    ^ punctuation.terminator.java
 
     new TestClass(foo);
-//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^^^^ meta.group.java
-//                    ^^ - meta.instantiation
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//               ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                    ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //               ^ punctuation.section.group.begin.java
@@ -8157,9 +8173,10 @@ class InstanceCreationExpressionsTests {
 //                    ^ punctuation.terminator.java
 
     new testclass(foo);
-//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^^^^ meta.group.java
-//                    ^^ - meta.instantiation
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
+//               ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                    ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
 //               ^ punctuation.section.group.begin.java
@@ -8167,11 +8184,12 @@ class InstanceCreationExpressionsTests {
 //                   ^ punctuation.section.group.end.java
 
     new @Foo TestClass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
 //      ^^^^ meta.annotation.identifier.java
 //          ^^^^^^^^^^^^^^^ - meta.annotation
-//                    ^^^^^ meta.group.java
-//                         ^^ - meta.instantiation
+//                    ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                         ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //       ^^^ variable.annotation.java
 //           ^^^^^^^^^ support.class.java
@@ -8180,11 +8198,12 @@ class InstanceCreationExpressionsTests {
 //                        ^ punctuation.section.group.end.java
 
     new @foo testclass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java
 //      ^^^^ meta.annotation.identifier.java
 //          ^^^^^^^^^^^^^^^ - meta.annotation
-//                    ^^^^^ meta.group.java
-//                         ^^ - meta.instantiation
+//                    ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                         ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //       ^^^ variable.annotation.java
 //           ^^^^^^^^^ support.class.java
@@ -8193,9 +8212,11 @@ class InstanceCreationExpressionsTests {
 //                        ^ punctuation.section.group.end.java
 
     new com.java.TestClass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^^^^^^^^^^^^^^ meta.path.java
-//                             ^^ - meta.instantiation
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^ meta.instantiation.java meta.function-call.identifier.java - meta.path
+//      ^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java meta.path.java
+//                        ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                             ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
@@ -8208,9 +8229,11 @@ class InstanceCreationExpressionsTests {
 //                            ^ punctuation.section.group.end.java
 
     new com.java.testclass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^^^^^^^^^^^^^^ meta.path.java
-//                             ^^ - meta.instantiation
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^ meta.instantiation.java meta.function-call.identifier.java - meta.path
+//      ^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java meta.path.java
+//                        ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                             ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
@@ -8223,17 +8246,24 @@ class InstanceCreationExpressionsTests {
 //                            ^ punctuation.section.group.end.java
 
     new OuterClass.InnerClass();
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^ meta.instantiation.java meta.function-call.identifier.java - meta.path
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java meta.path.java
+//                           ^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                             ^^ - meta.instantiation - meta.function-call - meta.group
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^^ support.class.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^^^^ support.class.java
 
     new @Foo com . @Foo java . @Foo OuterClass . @Foo InnerClass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^ meta.instantiation.java meta.function-call.identifier.java - meta.path
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java meta.path.java
+//                                                              ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                                                                   ^^ - meta.instantiation - meta.function-call - meta.group
 //      ^^^^ meta.annotation.identifier.java
 //          ^^^^^^^ - meta.annotation
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                 ^^^^ meta.annotation.identifier.java
 //                     ^^^^^^^^ - meta.annotation
 //                             ^^^^ meta.annotation.identifier.java
@@ -8262,7 +8292,11 @@ class InstanceCreationExpressionsTests {
 //                                                                  ^ punctuation.section.group.end.java
 
     new @foo com . @foo java . @foo outerclass . @foo innerclass(foo) { };
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.block meta.block meta.block
+//  ^^^ meta.instantiation.java - meta.function-call
+//     ^^^^^^ meta.instantiation.java meta.function-call.identifier.java - meta.path
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.function-call.identifier.java meta.path.java
+//                                                              ^^^^^ meta.instantiation.java meta.function-call.arguments.java meta.group.java
+//                                                                   ^ meta.instantiation.java - meta.function-call - meta.instantiation.java meta.class
 //                                                                    ^^^ meta.instantiation.java meta.class.java meta.block.java
 //      ^^^^ meta.annotation.identifier.java
 //          ^^^^^^^ - meta.annotation

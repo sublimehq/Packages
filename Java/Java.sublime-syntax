@@ -1764,11 +1764,12 @@ contexts:
     - include: else-pop
 
   instantiation-arguments:
+    - meta_content_scope: meta.function-call.identifier.java
     - match: \(
       scope: punctuation.section.group.begin.java
       set:
         - class-block
-        - group-body
+        - method-call-arguments-body
     - include: array-dimensions
     - include: else-pop
 
