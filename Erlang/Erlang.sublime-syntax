@@ -1070,7 +1070,7 @@ contexts:
       scope: punctuation.section.parameters.begin.erlang
       set:
         - meta_scope: meta.fun.parameters.erlang
-        - include: variable-any
+        - include: variadic-operators
         - include: parameters-common
         - include: type-parameter
     - include: else-pop
@@ -1164,7 +1164,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.list.erlang
-        - include: variable-any
+        - include: variadic-operators
         - include: list-common
         - include: type-expressions
 
@@ -1174,7 +1174,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.list.erlang
-        - include: variable-any
+        - include: variadic-operators
         - include: list-common
         - include: type-parameter
 
@@ -1383,7 +1383,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.tuple.erlang
-        - include: variable-any
+        - include: variadic-operators
         - include: tuple-common
         - include: type-expressions
 
@@ -1393,7 +1393,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.tuple.erlang
-        - include: variable-any
+        - include: variadic-operators
         - include: tuple-common
         - include: type-parameter
 
@@ -1547,10 +1547,6 @@ contexts:
     - match: _{{ident_break}}
       scope: variable.language.anonymous.erlang
       pop: 1
-
-  variable-any:
-    - match: \.{3}
-      scope: variable.language.any.erlang
 
   variable-other:
     - match: '{{variable}}'
@@ -2049,6 +2045,10 @@ contexts:
     - include: else-pop
 
 ###[ OPERATORS ]##############################################################
+
+  variadic-operators:
+    - match: \.{3}
+      scope: keyword.operator.variadic.erlang
 
   operator-comprehension:
     - match: \|\|
