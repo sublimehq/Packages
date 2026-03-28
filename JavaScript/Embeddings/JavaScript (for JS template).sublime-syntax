@@ -19,13 +19,10 @@ contexts:
 
   prototype:
     - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
     - include: scope:source.js.plain#text-interpolations
 
   string-content:
     - meta_prepend: true
+    - include: scope:source.js.plain#literal-string-template-end-ahead
     - include: scope:source.js.plain#string-interpolations
-
-  literal-string-template-begin:
-    - meta_include_prototype: false
-    - include: literal-string-template-raw
-    - include: immediately-pop

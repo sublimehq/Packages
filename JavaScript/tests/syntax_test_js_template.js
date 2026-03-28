@@ -184,8 +184,9 @@ var script = js`
 /*                       ^^^^^^^^^^^ meta.string.template.js source.js.embedded.js meta.string.js meta.interpolation.js */
 /*                                  ^ meta.string.template.js source.js.embedded.js meta.string.js string.quoted.double.js */
     `
-/* <- meta.string.template.js string.quoted.other.js - source.js.embedded */
-/*^^^ meta.string.template.js string.quoted.other.js - source.js.embedded */
+/* <- meta.string.template.js source.js.embedded */
+/*^^ meta.string.template.js source.js.embedded */
+/*  ^ meta.string.template.js string.quoted.other.js - source.js.embedded */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
@@ -340,6 +341,25 @@ WHERE   f.a IS NULL
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ - meta.string */
 
+var sql = sql`SELECT * FROM \`foo\` WHERE \`foo\` IS "any" GROUP BY \`${foo}\`;`
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js */
+/*           ^ string.quoted.other.js punctuation.definition.string.begin.js */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.sql.embedded.js - string.quoted.other.js */
+/*                          ^^^^^^^ meta.table-name.sql */
+/*                          ^^ punctuation.definition.identifier.begin.sql */
+/*                               ^^ punctuation.definition.identifier.end.sql */
+/*                                  ^^^^^ keyword.other.dml.sql */
+/*                                        ^^^^^^^ meta.column-name.sql */
+/*                                        ^^ punctuation.definition.identifier.begin.sql */
+/*                                             ^^ punctuation.definition.identifier.end.sql */
+/*                                                   ^^^^^ meta.string.sql string.quoted.double.sql */
+/*                                                                  ^^^^^^^^^^ meta.column-name.sql */
+/*                                                                  ^^ punctuation.definition.identifier.begin.sql */
+/*                                                                    ^^^^^^ meta.interpolation.js */
+/*                                                                          ^^ punctuation.definition.identifier.end.sql */
+/*                                                                            ^ punctuation.terminator.statement.sql */
+/*                                                                             ^ string.quoted.other.js punctuation.definition.string.end.js */
+
 var sql = sql`SELECT * FROM ${users};`
 /*            ^^^^^^^^^^^^^^ meta.string.template.js source.sql.embedded.js - meta.interpolation.js */
 /*                          ^^^^^^^^ meta.string.template.js source.sql.embedded.js meta.interpolation.js */
@@ -450,6 +470,11 @@ var raw = `
 
 var html = html`
     <style>
+/*  ^^^^^^^ meta.string.template.js text.html.embedded.js meta.tag.style.begin.html */
+/*  ^ punctuation.definition.tag.begin.html */
+/*   ^^^^^ entity.name.tag.style.html */
+/*        ^ punctuation.definition.tag.end.html */
+
         div { color: ${color}; }
 /*      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js text.html.embedded.js source.css.embedded.html */
 /*      ^^^^ meta.selector.css */
@@ -465,7 +490,13 @@ var html = html`
 /*                          ^ punctuation.section.interpolation.end.js */
 /*                           ^ punctuation.terminator.rule.css */
 /*                             ^ punctuation.section.block.end.css */
+
     </style>
+/*  ^^^^^^^^ meta.string.template.js text.html.embedded.js meta.tag.style.end.html */
+/*  ^^ punctuation.definition.tag.begin.html */
+/*    ^^^^^ entity.name.tag.style.html */
+/*         ^ punctuation.definition.tag.end.html */
+
     <script>
         let html = html\`
 /*^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js text.html.embedded.js source.js.embedded.html */
@@ -503,8 +534,16 @@ var html = html`
 /*            ^ meta.string.template text.html.embedded source.js.embedded.html punctuation.terminator.statement */
 /*          ^^ punctuation.definition.string.end */
 /*            ^ punctuation.terminator.statement */
+
     </script>
+/*  ^^^^^^^^^ meta.string.template.js text.html.embedded.js meta.tag.script.end.html */
+/*  ^^ punctuation.definition.tag.begin.html */
+/*    ^^^^^^ entity.name.tag.script.html */
+/*          ^ punctuation.definition.tag.end.html */
     `
+/*^^^ meta.string.template.js string.quoted.other.js */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string - string */
 
 var js = js`
     var js = js\`
@@ -522,6 +561,103 @@ var js = js`
 /*^^^ meta.string.template.js string.quoted.other.js */
 /*  ^ punctuation.definition.string.end.js */
 /*   ^ punctuation.terminator.statement.js */
+
+
+/**
+ * tagged template strings in interpolations
+ */
+
+var html = html`
+    <style>
+/*  ^^^^^^^ meta.string.template.js text.html.embedded.js meta.tag.style.begin.html */
+/*  ^ punctuation.definition.tag.begin.html */
+/*   ^^^^^ entity.name.tag.style.html */
+/*        ^ punctuation.definition.tag.end.html */
+
+        div { background: ${ `tagged-${var}` } }
+/*      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.template.js text.html.embedded.js source.css.embedded.html */
+/*      ^^^^ meta.selector.css */
+/*      ^^^ entity.name.tag.html.css */
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                        ^^^ source.css meta.interpolation.js - meta.interpolation.js meta.string */
+/*                        ^^ punctuation.section.interpolation.begin.js */
+/*                           ^^^^^^^^ source.css meta.interpolation.js meta.string.template.js string.quoted.other.js */
+/*                           ^ punctuation.definition.string.begin.js */
+/*                                   ^^^^^^ source.css  meta.interpolation.js meta.string.template.js meta.interpolation.js */
+/*                                   ^^ punctuation.section.interpolation.begin.js */
+/*                                         ^ source.css meta.interpolation.js meta.string.template.js string.quoted.other.js punctuation.definition.string.end.js */
+/*                                          ^^ source.css meta.interpolation.js - meta.interpolation.js meta.string */
+/*                                           ^ punctuation.section.interpolation.end.js */
+/*                                            ^^ - source.css meta.interpolation */
+    </style>
+/*  ^^^^^^^^ meta.string.template.js text.html.embedded.js meta.tag.style.end.html */
+/*  ^^ punctuation.definition.tag.begin.html */
+/*    ^^^^^ entity.name.tag.style.html */
+/*         ^ punctuation.definition.tag.end.html */
+
+    <script>
+/*  ^^^^^^^^ meta.string.template.js text.html.embedded.js meta.tag.script.begin.html */
+/*  ^ punctuation.definition.tag.begin.html */
+/*   ^^^^^^ entity.name.tag.script.html */
+/*         ^ punctuation.definition.tag.end.html */
+
+        let var i = ${ `tagged-${var}` }
+/*                  ^^^ source.js meta.interpolation.js - meta.interpolation.js meta.string */
+/*                  ^^ punctuation.section.interpolation.begin.js */
+/*                     ^^^^^^^^ source.js meta.interpolation.js meta.string.template.js string.quoted.other.js */
+/*                     ^ punctuation.definition.string.begin.js */
+/*                             ^^^^^^ source.js  meta.interpolation.js meta.string.template.js meta.interpolation.js */
+/*                             ^^ punctuation.section.interpolation.begin.js */
+/*                                   ^ source.js meta.interpolation.js meta.string.template.js string.quoted.other.js punctuation.definition.string.end.js */
+/*                                    ^^ source.js meta.interpolation.js - meta.interpolation.js meta.string */
+/*                                     ^ punctuation.section.interpolation.end.js */
+/*                                      ^^ - source.js meta.interpolation */
+
+    </script>
+
+    <!-- tag attributes with tempalte strings in interpolation -->
+
+    <div ${ `attr-${`foo` + $name}` }="${ `foo-${val}` }">${ `foo ${ `foo` + text }` }</div>
+/*  ^^^^^^^^ meta.string.template.js - meta.string meta.string */
+/*          ^^^^^^^^ meta.string.template.js meta.string.template.js - meta.string meta.string meta.string */
+/*                  ^^^^^ meta.string.template.js meta.string.template.js meta.string.template.js */
+/*                       ^^^^^^^^^^ meta.string.template.js meta.string.template.js - meta.string meta.string meta.string */
+/*                                 ^^^ meta.string.template.js - meta.string meta.string */
+/*                                    ^^^^ meta.string.template.js meta.string.html - meta.string meta.string meta.string */
+/*                                        ^^^^^^^^^^^^ meta.string.template.js meta.string.html meta.string.template.js */
+/*                                                    ^^^ meta.string.template.js meta.string.html - meta.string meta.string meta.string */
+/*                                                       ^^^^ meta.string.template.js - meta.string meta.string */
+/*                                                           ^^^^^^^^ meta.string.template.js meta.string.template.js - meta.string meta.string meta.string */
+/*                                                                   ^^^^^ meta.string.template.js meta.string.template.js meta.string.template.js */
+/*                                                                        ^^^^^^^^^^ meta.string.template.js meta.string.template.js - meta.string meta.string meta.string */
+/*                                                                                  ^^^^^^^^ meta.string.template.js - meta.string meta.string */
+
+    <!-- inline style with template strings in interpolation -->
+
+    <div style="color: ${ `foo-${ `bar-${ baz }` }` }">
+/*  ^^^^^^^^^^^ meta.string.template.js - meta.string meta.string */
+/*             ^^^^^^^^^^^ meta.string.template.js meta.string.html - meta.string meta.string meta.string */
+/*                        ^^^^^^^^ meta.string.template.js meta.string.html meta.string.template.js - meta.string meta.string meta.string meta.string */
+/*                                ^^^^^^^^^^^^^^ meta.string.template.js meta.string.html meta.string.template.js meta.string.template.js */
+/*                                              ^^^ meta.string.template.js meta.string.html meta.string.template.js - meta.string meta.string meta.string meta.string */
+/*                                                 ^^^ meta.string.template.js meta.string.html - meta.string meta.string meta.string */
+/*                                                    ^ meta.string.template.js - meta.string meta.string */
+
+    <!-- inline script with template strings in interpolation -->
+
+    <div onclick="event(${ `foo-${ `bar-${ baz }` }` })">
+/*  ^^^^^^^^^^^^^ meta.string.template.js - meta.string meta.string */
+/*               ^^^^^^^^^^ meta.string.template.js meta.string.html - meta.string meta.string meta.string */
+/*                         ^^^^^^^^ meta.string.template.js meta.string.html meta.string.template.js - meta.string meta.string meta.string meta.string */
+/*                                 ^^^^^^^^^^^^^^ meta.string.template.js meta.string.html meta.string.template.js meta.string.template.js */
+/*                                               ^^^ meta.string.template.js meta.string.html meta.string.template.js - meta.string meta.string meta.string meta.string */
+/*                                                  ^^^ meta.string.template.js meta.string.html - meta.string meta.string meta.string */
+/*                                                      ^ meta.string.template.js - meta.string meta.string */
+
+    `
+/*^^^ meta.string.template.js string.quoted.other.js */
+/*  ^ punctuation.definition.string.end.js */
+/*   ^ - meta.string - string */
 
 return`template`
 /*^^^^ keyword.control.flow.return.js */
