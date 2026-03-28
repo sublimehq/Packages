@@ -1095,7 +1095,7 @@ foo.tag ``;
 //  ^^^ variable.function.tagged-template
 
 return new Promise(resolve => preferenceObject.set({value}, resolve));
-//                                                                  ^ meta.function-call.constructor punctuation.section.group.end
+//                                                                  ^ meta.instantiation punctuation.section.group.end
 
 var anotherSingle = function(){a = param => param; return param2 => param2 * a}
 //                                 ^ meta.function variable.parameter.function
@@ -1143,29 +1143,236 @@ func(a, b) ;
 //       ^ punctuation.section.group.end
 //        ^ - meta.function-call
 
-var instance = new Constructor(param1, param2)
-//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
-//                 ^^^^^^^^^^^ variable.type
-//                            ^^^^^^^^^^^^^^^^ meta.group
-//                            ^ punctuation.section.group.begin
-//                             ^ variable.other.readwrite
-//                                           ^ punctuation.section.group.end
+// instantiations
+
+var obj = new Constructor(param1, param2)
+//        ^^^^ meta.instantiation - meta.function-call
+//            ^^^^^^^^^^^ meta.instantiation meta.function-call.identifier
+//                       ^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.arguments meta.group
+//            ^^^^^^^^^^^ support.class
+//                       ^ punctuation.section.group.begin
+//                        ^ variable.other.readwrite
+//                                      ^ punctuation.section.group.end
 
 var obj = new function() {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.function
+//            ^^^^^^^^ meta.instantiation meta.function-call.identifier meta.function
+//                    ^^ meta.instantiation meta.function-call.identifier meta.function.parameters
+//                      ^^^ meta.instantiation meta.function-call.identifier meta.function
+//                         ^^ meta.instantiation meta.function-call.arguments meta.group
+//                           ^ - meta.instantiation - meta.function-call - meta.function
 //            ^^^^^^^^ keyword.declaration.function
+//                    ^ punctuation.section.group.begin
+//                     ^ punctuation.section.group.end
+//                       ^ punctuation.section.block.begin
+//                        ^ punctuation.section.block.end
+//                         ^ punctuation.section.group.begin
+//                          ^ punctuation.section.group.end
+//                           ^ punctuation.terminator.statement
+
+var obj = new (function() {})();
+//        ^^^^ meta.instantiation - meta.function-call - meta.function
+//            ^ meta.instantiation meta.function-call.identifier meta.group
+//             ^^^^^^^^ meta.instantiation meta.function-call.identifier meta.group meta.function
+//                     ^^ meta.instantiation meta.function-call.identifier meta.group meta.function.parameters
+//                       ^ meta.instantiation meta.function-call.identifier meta.group meta.function - meta.block
+//                        ^^ meta.instantiation meta.function-call.identifier meta.group meta.function meta.block
+//                          ^ meta.instantiation meta.function-call.identifier meta.group - meta.function - meta.block
+//                           ^^ meta.instantiation meta.function-call.arguments meta.group
+//                             ^ - meta.instantiation - meta.function-call - meta.function
+//            ^ punctuation.section.group.begin
+//             ^^^^^^^^ keyword.declaration.function
+//                     ^ punctuation.section.group.begin
+//                      ^ punctuation.section.group.end
+//                        ^ punctuation.section.block.begin
+//                         ^ punctuation.section.block.end
+//                          ^ punctuation.section.group.end
+//                           ^ punctuation.section.group.begin
+//                            ^ punctuation.section.group.end
+//                             ^ punctuation.terminator.statement
+
+var obj = new class {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                    ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                      ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^ punctuation.section.block.begin
+//                   ^ punctuation.section.block.end
+//                    ^ punctuation.section.group.begin
+//                     ^ punctuation.section.group.end
+//                      ^ punctuation.terminator.statement
+
+var obj = new class Foo{}();
+//        ^^^^ meta.instantiation - meta.class
+//            ^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                       ^^ meta.instantiation meta.function-call.arguments meta.group
+//                         ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^ entity.name.class
+//                     ^ punctuation.section.block.begin
+//                      ^ punctuation.section.block.end
+//                       ^ punctuation.section.group.begin
+//                        ^ punctuation.section.group.end
+//                         ^ punctuation.terminator.statement
 
 var obj = new class extends Foo {}();
-//            ^^^^^ keyword.declaration.class.js
-//                  ^^^^^^^ storage.modifier.extends.js
-//                          ^^^ entity.other.inherited-class.js
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                                  ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^^^^^ storage.modifier.extends
+//                          ^^^ entity.other.inherited-class
+//                              ^ punctuation.section.block.begin
+//                               ^ punctuation.section.block.end
+//                                ^ punctuation.section.group.begin
+//                                 ^ punctuation.section.group.end
+//                                  ^ punctuation.terminator.statement
+
+var obj = new class Foo extends Bar {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                    ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                                      ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^ entity.name.class
+//                      ^^^^^^^ storage.modifier.extends
+//                              ^^^ entity.other.inherited-class
+//                                  ^ punctuation.section.block.begin
+//                                   ^ punctuation.section.block.end
+//                                    ^ punctuation.section.group.begin
+//                                     ^ punctuation.section.group.end
+//                                      ^ punctuation.terminator.statement
 
 var obj = new class implements IFoo {}();
-//            ^^^^^ keyword.declaration.class.js
-//                  ^^^^^^^^^^ invalid.illegal.unexpected-token.js
+//        ^^^^ meta.instantiation - meta.class
+//            ^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                             ^^^^^^^^^^^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^^^^^^^^ invalid.illegal.unexpected-token
 //                             ^^^^ - entity.other
+//                                  ^ punctuation.section.block.begin
+//                                   ^ punctuation.section.block.end
+//                                    ^ punctuation.section.group.begin
+//                                     ^ punctuation.section.group.end
+//                                      ^ punctuation.terminator.statement
 
-var obj2 = new class Foo{}();
-//             ^^^^^ keyword.declaration.class
+var obj = new class Foo implements IBar {}();
+//        ^^^^ meta.instantiation - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                 ^^^^^^^^^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^ entity.name.class
+//                      ^^^^^^^^^^ invalid.illegal.unexpected-token
+//                                 ^^^^ - entity.other
+//                                      ^ punctuation.section.block.begin
+//                                       ^ punctuation.section.block.end
+//                                        ^ punctuation.section.group.begin
+//                                         ^ punctuation.section.group.end
+//                                          ^ punctuation.terminator.statement
+
+// Tests to ensure the new keyword is highlighted properly even when the
+// following element is not an identifier
+var abc = new ABC(
+//        ^^^^ meta.instantiation - meta.function-call - meta.group
+//            ^^^ meta.instantiation meta.function-call.identifier - meta.group
+//               ^^ meta.instantiation meta.function-call.arguments meta.group
+//        ^^^ keyword.operator.word.new
+//            ^^^ support.class
+//               ^ punctuation.section.group.begin
+    'my-name-is-abc',
+    new (function () {
+//  ^^^^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation - meta.function-call meta.function-call - meta.function
+//      ^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group
+//       ^^^^^^^^^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group meta.function
+//                ^^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group meta.function.parameters
+//                  ^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group meta.function - meta.block
+//                   ^^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group meta.function meta.block
+//  ^^^ keyword.operator.word.new
+//      ^ punctuation.section.group.begin
+//       ^^^^^^^^ keyword.declaration.function
+//                ^ punctuation.section.group.begin
+//                 ^ punctuation.section.group.end
+//                   ^ punctuation.section.block.begin
+        var foo = 1;
+//      ^^^^^^^^^^^^ meta.instantiation meta.instantiation meta.group meta.block
+    })
+//^^^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group meta.function meta.block
+//   ^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier meta.group - meta.function - meta.block
+//    ^ meta.instantiation meta.function-call.arguments meta.group meta.instantiation meta.function-call.identifier - meta.function - meta.block
+//  ^ punctuation.section.block.end
+//   ^ punctuation.section.group.end
+);
+
+new foo()/**/;
+// <- meta.instantiation
+//^^^^^^^ meta.instantiation
+//       ^^^^^ - meta.instantiation
+
+function f() {
+    new.target;
+//  ^^^^^^^^^^ meta.instantiation
+//  ^^^ keyword.operator.word.new
+//     ^ punctuation.accessor.dot
+//      ^^^^^^ variable.language.target
+
+    new
+//  ^^^^ meta.instantiation
+//  ^^^ keyword.operator.word.new
+    .target;
+//^^^^^^^^^ meta.instantiation
+//  ^ punctuation.accessor.dot
+//   ^^^^^^ variable.language.target
+}
+
+new Date().getTime()
+// <- meta.instantiation keyword.operator.word.new
+//^^ meta.instantiation - meta.function-call
+//  ^^^^ meta.instantiation meta.function-call.identifier support.class.builtin
+//      ^^ meta.instantiation meta.function-call.arguments meta.group
+//        ^ - meta.instantiation - meta.function-call
+//         ^^^^^^^^^ meta.function-call - meta.instantiation
+//  ^^^^ support.class
+//      ^ punctuation.section.group.begin
+//       ^ punctuation.section.group.end
+//        ^ punctuation.accessor
+//         ^^^^^^^ variable.function
+//                ^ punctuation.section.group.begin
+//                 ^ punctuation.section.group.end
+
+new $();
+//^^^^^ meta.instantiation
+//  ^ meta.function-call.identifier support.class.dollar.only punctuation.dollar
+//   ^^ meta.function-call.arguments meta.group
+//   ^ punctuation.section.group.begin
+//    ^ punctuation.section.group.end
+//     ^ punctuation.terminator.statement
+
+new $Dollar();
+//^^^^^^^^^^^ meta.instantiation
+//  ^^^^^^^ meta.function-call.identifier support.class.dollar
+//  ^ punctuation.dollar
+//         ^^ meta.function-call.arguments meta.group
+//         ^ punctuation.section.group.begin
+//          ^ punctuation.section.group.end
+//           ^ punctuation.terminator.statement
+
+void {
+    'test1': [],
+    'test2': new SomeObjectHash["default"],
+//           ^^^^^^^^^^^^^^^^^^ meta.instantiation - meta.brackets
+//                             ^^^^^^^^^^^ meta.instantiation meta.brackets
+//                                        ^ - meta.instantiation - meta.brackets
+//               ^^^^^^^^^^^^^^ support.class
+//                             ^ punctuation.section.brackets.begin
+//                              ^^^^^^^^^ string.quoted.double
+//                                       ^ punctuation.section.brackets.end
+//                                        ^ punctuation.separator.comma
+
+    'test3': "asdf"
+}
+// <- meta.mapping punctuation.section.mapping.end
 
 this.func()
 // <- variable.language.this
@@ -1188,58 +1395,6 @@ var Constructor = function() {
     // ^ variable.language.this
     //    ^ entity.name.function
 }
-
-// Tests to ensure the new keyword is highlighted properly even when the
-// following element is not an identifier
-var abc = new ABC(
-//        ^^^ keyword.operator.word.new
-//            ^^^^ meta.function-call.constructor
-//        ^^^^^^^^ - meta.instance.constructor
-    'my-name-is-abc',
-    new (function () {
-//  ^^^ keyword.operator.word.new
-//  ^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
-//      ^^^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group
-        var foo = 1;
-//      ^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group meta.block
-    })
-);
-
-new foo()/**/;
-//       ^ - meta.function-call.constructor
-
-function f() {
-    new.target;
-//  ^^^ keyword.operator.word.new
-//     ^ punctuation.accessor.dot.js
-//      ^^^^^^ variable.language.target
-
-    new
-//  ^^^ keyword.operator.word.new
-    .target;
-//  ^ punctuation.accessor.dot.js
-//   ^^^^^^ variable.language.target
-}
-
-new Date().getTime()
-//  ^^^^^^ meta.function-call.constructor
-//  ^^^^ support.class
-//^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
-
-new $();
-//  ^ variable.type.dollar.only punctuation.dollar
-
-new $Dollar();
-//  ^ variable.type.dollar punctuation.dollar
-
-void {
-    'test1': [],
-    'test2': new SomeObjectHash["default"],
-//               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
-//                             ^ meta.brackets
-    'test3': "asdf"
-}
-// <- meta.mapping punctuation.section.mapping.end
 
 // This tests parsing semi-broken object literals, which should help while a
 // user is in the middle of typing code
