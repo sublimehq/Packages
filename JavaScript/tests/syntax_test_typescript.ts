@@ -1726,49 +1726,138 @@ type T = Foo | ... 100 more ... | Bar;
 
 // instantiations
 
-    new class extends Bar {};
-//  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
-//      ^^^^^^^^^^^^^^^^^^^^ meta.class.js
-//      ^^^^^ keyword.declaration.class.js
-//            ^^^^^^^ storage.modifier.extends.js
-//                    ^^^ entity.other.inherited-class.js
-//                        ^^ meta.block.js
-//                        ^ punctuation.section.block.begin.js
-//                         ^ punctuation.section.block.end.js
+var obj = new.target;
+//        ^^^^^^^^^^ meta.instantiation
+//        ^^^ keyword.operator.word.new
+//           ^ punctuation.accessor.dot
+//            ^^^^^^ variable.language.target
+//                  ^ punctuation.terminator.statement
 
-    new class Foo extends Bar {};
-//  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
-//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
-//      ^^^^^ keyword.declaration.class.js
-//            ^^^ entity.name.class.js
-//                ^^^^^^^ storage.modifier.extends.js
-//                        ^^^ entity.other.inherited-class.js
-//                            ^^ meta.block.js
-//                            ^ punctuation.section.block.begin.js
-//                             ^ punctuation.section.block.end.js
+var obj = new Constructor(param1, param2);
+//        ^^^^ meta.instantiation - meta.function-call
+//            ^^^^^^^^^^^ meta.instantiation meta.function-call.identifier
+//                       ^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.arguments meta.group
+//            ^^^^^^^^^^^ support.class
+//                       ^ punctuation.section.group.begin
+//                        ^ variable.other.readwrite
+//                                      ^ punctuation.section.group.end
 
-    new class implements IBar {};
-//  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
-//      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
-//      ^^^^^ keyword.declaration.class.js
-//            ^^^^^^^^^^ storage.modifier.implements.js
-//                       ^^^^ entity.other.inherited-class.js
-//                            ^^ meta.block.js
-//                            ^ punctuation.section.block.begin.js
-//                             ^ punctuation.section.block.end.js
+var obj = new function() {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.function
+//            ^^^^^^^^ meta.instantiation meta.function-call.identifier meta.function
+//                    ^^ meta.instantiation meta.function-call.identifier meta.function.parameters
+//                      ^^^ meta.instantiation meta.function-call.identifier meta.function
+//                         ^^ meta.instantiation meta.function-call.arguments meta.group
+//                           ^ - meta.instantiation - meta.function-call - meta.function
+//            ^^^^^^^^ keyword.declaration.function
+//                    ^ punctuation.section.group.begin
+//                     ^ punctuation.section.group.end
+//                       ^ punctuation.section.block.begin
+//                        ^ punctuation.section.block.end
+//                         ^ punctuation.section.group.begin
+//                          ^ punctuation.section.group.end
+//                           ^ punctuation.terminator.statement
 
-    new class Foo implements IBar {};
-//  ^^^ keyword.operator.word.new.js
-//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.js
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.js
-//      ^^^^^ keyword.declaration.class.js
-//            ^^^ entity.name.class.js
-//                ^^^^^^^^^^ storage.modifier.implements.js
-//                           ^^^^ entity.other.inherited-class.js
-//                                ^^ meta.block.js
-//                                ^ punctuation.section.block.begin.js
-//                                 ^ punctuation.section.block.end.js
-//                                  ^ punctuation.terminator.statement.js
+var obj = new (function() {})();
+//        ^^^^ meta.instantiation - meta.function-call - meta.function
+//            ^ meta.instantiation meta.function-call.identifier meta.group
+//             ^^^^^^^^ meta.instantiation meta.function-call.identifier meta.group meta.function
+//                     ^^ meta.instantiation meta.function-call.identifier meta.group meta.function.parameters
+//                       ^ meta.instantiation meta.function-call.identifier meta.group meta.function - meta.block
+//                        ^^ meta.instantiation meta.function-call.identifier meta.group meta.function meta.block
+//                          ^ meta.instantiation meta.function-call.identifier meta.group - meta.function - meta.block
+//                           ^^ meta.instantiation meta.function-call.arguments meta.group
+//                             ^ - meta.instantiation - meta.function-call - meta.function
+//            ^ punctuation.section.group.begin
+//             ^^^^^^^^ keyword.declaration.function
+//                     ^ punctuation.section.group.begin
+//                      ^ punctuation.section.group.end
+//                        ^ punctuation.section.block.begin
+//                         ^ punctuation.section.block.end
+//                          ^ punctuation.section.group.end
+//                           ^ punctuation.section.group.begin
+//                            ^ punctuation.section.group.end
+//                             ^ punctuation.terminator.statement
+
+var obj = new class {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                    ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                      ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^ punctuation.section.block.begin
+//                   ^ punctuation.section.block.end
+//                    ^ punctuation.section.group.begin
+//                     ^ punctuation.section.group.end
+//                      ^ punctuation.terminator.statement
+
+var obj = new class Foo{}();
+//        ^^^^ meta.instantiation - meta.class
+//            ^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                       ^^ meta.instantiation meta.function-call.arguments meta.group
+//                         ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^ entity.name.class
+//                     ^ punctuation.section.block.begin
+//                      ^ punctuation.section.block.end
+//                       ^ punctuation.section.group.begin
+//                        ^ punctuation.section.group.end
+//                         ^ punctuation.terminator.statement
+
+var obj = new class extends Foo {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                                  ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^^^^^ storage.modifier.extends
+//                          ^^^ entity.other.inherited-class
+//                              ^ punctuation.section.block.begin
+//                               ^ punctuation.section.block.end
+//                                ^ punctuation.section.group.begin
+//                                 ^ punctuation.section.group.end
+//                                  ^ punctuation.terminator.statement
+
+var obj = new class Foo extends Bar {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                    ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                                      ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^ entity.name.class
+//                      ^^^^^^^ storage.modifier.extends
+//                              ^^^ entity.other.inherited-class
+//                                  ^ punctuation.section.block.begin
+//                                   ^ punctuation.section.block.end
+//                                    ^ punctuation.section.group.begin
+//                                     ^ punctuation.section.group.end
+//                                      ^ punctuation.terminator.statement
+
+var obj = new class implements Foo {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                   ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                                     ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^^^^^^^^ storage.modifier.implements
+//                             ^^^ entity.other.inherited-class
+//                                 ^ punctuation.section.block.begin
+//                                  ^ punctuation.section.block.end
+//                                   ^ punctuation.section.group.begin
+//                                    ^ punctuation.section.group.end
+//                                     ^ punctuation.terminator.statement
+
+var obj = new class Foo implements Bar {}();
+//        ^^^^ meta.instantiation - meta.function-call - meta.class
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation meta.function-call.identifier meta.class
+//                                       ^^ meta.instantiation meta.function-call.arguments meta.group - meta.class
+//                                         ^ - meta.instantiation - meta.function-call - meta.class
+//            ^^^^^ keyword.declaration.class
+//                  ^^^ entity.name.class
+//                      ^^^^^^^^^^ storage.modifier.implements
+//                                 ^^^ entity.other.inherited-class
+//                                     ^ punctuation.section.block.begin
+//                                      ^ punctuation.section.block.end
+//                                       ^ punctuation.section.group.begin
+//                                        ^ punctuation.section.group.end
+//                                         ^ punctuation.terminator.statement
