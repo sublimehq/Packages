@@ -2680,7 +2680,7 @@ preprocessor_spec_tests() -> .
 %                                                    ^ punctuation.section.sequence.begin.erlang
 %                                                     ^^^^ support.type.erlang
 %                                                           ^ punctuation.separator.sequence.erlang
-%                                                             ^^^ variable.language.any.erlang
+%                                                             ^^^ keyword.operator.variadic.erlang
 %                                                                ^ punctuation.terminator.clause.erlang
 
 -spec Foo.
@@ -3317,7 +3317,7 @@ preprocessor_fun_type_tests() -> .
 %              ^^^ support.type.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
 %                  ^ punctuation.section.parameters.begin.erlang
-%                   ^^^ variable.language.any.erlang
+%                   ^^^ keyword.operator.variadic.erlang
 %                      ^ punctuation.section.parameters.end.erlang
 %                        ^^ punctuation.separator.parameters-return-type.erlang
 %                           ^^^ storage.type.erlang
