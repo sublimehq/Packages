@@ -1944,12 +1944,18 @@ contexts:
       scope: punctuation.definition.string.begin.cs
       push: inside_string
     # interpolated raw format strings
-    - match: '\$("""+)'
+    - match: '\${1}("""+)'
       scope: punctuation.definition.string.begin.cs
       push: inside_raw_format_string_1
-    - match: '\$\$("""+)'
+    - match: '\${2}("""+)'
       scope: punctuation.definition.string.begin.cs
       push: inside_raw_format_string_2
+    - match: '\${3}("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_format_string_3
+    - match: '\${4}("""+)'
+      scope: punctuation.definition.string.begin.cs
+      push: inside_raw_format_string_4
     # interpolated quoted format strings
     - match: '\$"'
       scope: punctuation.definition.string.begin.cs
@@ -2078,6 +2084,56 @@ contexts:
     - meta_scope: meta.interpolation.cs
     - meta_content_scope: source.cs
     - match: \}{2}
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - match: (?=")
+      pop: true
+    - include: string_interpolation_width
+    - include: raw_string_placeholder_format
+    - include: line_of_code_in
+
+  inside_raw_format_string_3:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - match: \1
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - match: \{{3}(?!\{)
+      scope: punctuation.section.interpolation.begin.cs
+      push: inside_raw_format_string_interpolation_3
+    - match: \}{3,}
+      scope: invalid.illegal.unexpected-token.cs
+
+  inside_raw_format_string_interpolation_3:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.cs
+    - meta_content_scope: source.cs
+    - match: \}{3}
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - match: (?=")
+      pop: true
+    - include: string_interpolation_width
+    - include: raw_string_placeholder_format
+    - include: line_of_code_in
+
+  inside_raw_format_string_4:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - match: \1
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - match: \{{4}(?!\{)
+      scope: punctuation.section.interpolation.begin.cs
+      push: inside_raw_format_string_interpolation_4
+    - match: \}{4,}
+      scope: invalid.illegal.unexpected-token.cs
+
+  inside_raw_format_string_interpolation_4:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.cs
+    - meta_content_scope: source.cs
+    - match: \}{4}
       scope: punctuation.section.interpolation.end.cs
       pop: true
     - match: (?=")
