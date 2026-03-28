@@ -1,8 +1,8 @@
 %YAML 1.2
 ---
 # Derived from JavaScript Next: https://github.com/Benvie/JavaScriptNext.tmLanguage
-name: JavaScript
-scope: source.js
+name: JavaScript (Plain)
+scope: source.js.plain
 version: 2
 
 file_extensions:
