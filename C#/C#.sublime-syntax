@@ -1929,6 +1929,8 @@ contexts:
         2: constant.numeric.suffix.cs
     - include: strings
 
+###[ STRINGS ]#################################################################
+
   strings:
     # literal raw strings
     - match: '(""""+)'
@@ -1973,6 +1975,8 @@ contexts:
         - inside_verbatim_format_string
         - inside_verbatim_format_string_syntax
 
+###[ QUOTED STRINGS ]##########################################################
+
   inside_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.double.cs
@@ -1980,11 +1984,24 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_escapes
+    - include: string_placeholder_escapes
     - include: string_placeholders
-    - include: extended_string_placeholders
+    - match: (\{)(\d+)
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+      push: inside_extended_string_placeholder
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
+
+  inside_extended_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: string_placeholder_width
+    - include: string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
 
   inside_format_string:
     - meta_include_prototype: false
@@ -2014,14 +2031,138 @@ contexts:
     - include: string_placeholder_format
     - include: line_of_code_in
 
-  inside_raw_string:
+  string_placeholder_format:
+    - match: ':(?=")'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.cs
+      push: inside_string_placeholder_format
+
+  inside_string_placeholder_format:
+    - meta_scope: meta.format-spec.cs
+    - meta_content_scope: constant.other.format-spec.cs
+    - include: string_escapes
+    - include: string_placeholder_escapes
+    - match: (?=\})
+      pop: true
+    - match: (?:[^}"\\](?:\\.)*)+(?=")
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: \{
+      scope: invalid.illegal.unescaped-placeholder.cs
+
+###[ VERBATIM STRINGS ]########################################################
+
+  inside_verbatim_string:
     - meta_include_prototype: false
-    - meta_scope: meta.string.cs string.quoted.triple.cs
-    - match: \1
+    - meta_scope: meta.string.cs string.quoted.double.raw.cs
+    - include: verbatim_string_escapes
+    - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
+    - include: string_placeholder_escapes
     - include: string_placeholders
-    - include: extended_raw_string_placeholders
+    - include: extended_verbatim_string_placeholders
+
+  inside_verbatim_string_syntax:
+    - meta_include_prototype: false
+    - match: (?={{sql_indicator}})
+      set: scope:source.sql
+      with_prototype:
+        - include: verbatim_string_escapes
+        - match: (?=")
+          pop: true
+        - include: string_placeholder_escapes
+        - include: string_placeholders
+        - include: extended_verbatim_string_placeholders
+    - match: (?=\S)
+      pop: true
+
+  extended_verbatim_string_placeholders:
+    - match: (\{)(\d+)
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+      push: inside_extended_verbatim_string_placeholder
+
+  inside_extended_verbatim_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: string_placeholder_width
+    - include: verbatim_string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  inside_verbatim_format_string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
+    - include: verbatim_string_escapes
+    - match: '"'
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_placeholder_escapes
+    - include: verbatim_format_string_interpolations
+
+  inside_verbatim_format_string_syntax:
+    - meta_include_prototype: false
+    - match: (?={{sql_indicator}})
+      set: scope:source.sql
+      with_prototype:
+        - include: verbatim_string_escapes
+        - match: (?=")
+          pop: true
+        - include: string_placeholder_escapes
+        - include: verbatim_format_string_interpolations
+    - match: (?=\S)
+      pop: true
+
+  verbatim_format_string_interpolations:
+    - match: \{
+      scope: punctuation.section.interpolation.begin.cs
+      push: inside_verbatim_format_string_interpolation
+
+  inside_verbatim_format_string_interpolation:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.cs
+    - meta_content_scope: source.cs
+    - match: \}
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - match: (?=")
+      pop: true
+    - include: string_interpolation_width
+    - include: verbatim_string_placeholder_format
+    - include: line_of_code_in
+
+  verbatim_string_placeholder_format:
+    - match: ':(?="(?!"))'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.cs
+      push: inside_verbatim_string_placeholder_format
+
+  inside_verbatim_string_placeholder_format:
+    - meta_scope: meta.format-spec.cs
+    - meta_content_scope: constant.other.format-spec.cs
+    - include: verbatim_string_escapes
+    - include: string_placeholder_escapes
+    - match: (?=\})
+      pop: true
+    - match: \\(?:""|[^"])
+      scope: constant.character.escape.cs
+    - match: (?:[^}"]|"")+(?="(?!"))
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: \{
+      scope: invalid.illegal.unescaped-placeholder.cs
+
+  verbatim_string_escapes:
+    - match: '""'
+      scope: constant.character.escape.cs
+
+###[ RAW STRINGS ]#############################################################
 
   inside_triple_quoted_raw_string:
     - meta_include_prototype: false
@@ -2029,6 +2170,7 @@ contexts:
     - match: '"""'
       scope: punctuation.definition.string.end.cs
       pop: true
+    - include: string_placeholder_escapes
     - include: string_placeholders
     - include: extended_raw_string_placeholders
 
@@ -2041,6 +2183,31 @@ contexts:
           pop: true
     - match: (?=\S)
       pop: true
+
+  inside_raw_string:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.cs string.quoted.triple.cs
+    - match: \1
+      scope: punctuation.definition.string.end.cs
+      pop: true
+    - include: string_placeholder_escapes
+    - include: string_placeholders
+    - include: extended_raw_string_placeholders
+
+  extended_raw_string_placeholders:
+    - match: (\{)(\d+)
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+      push: inside_extended_raw_string_placeholder
+
+  inside_extended_raw_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: string_placeholder_end
+    - include: string_placeholder_width
+    - include: raw_string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
 
   inside_raw_format_string_1:
     - meta_include_prototype: false
@@ -2142,153 +2309,6 @@ contexts:
     - include: raw_string_placeholder_format
     - include: line_of_code_in
 
-  inside_verbatim_format_string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
-    - include: verbatim_string_escapes
-    - match: '"'
-      scope: punctuation.definition.string.end.cs
-      pop: true
-    - include: string_placeholder_escapes
-    - match: \{
-      scope: punctuation.section.interpolation.begin.cs
-      push: inside_verbatim_format_string_interpolation
-
-  inside_verbatim_format_string_syntax:
-    - meta_include_prototype: false
-    - match: (?={{sql_indicator}})
-      set: scope:source.sql
-      with_prototype:
-        - include: verbatim_string_escapes
-        - match: (?=")
-          pop: true
-        - include: string_placeholder_escapes
-        - match: \{
-          scope: punctuation.section.interpolation.begin.cs
-          push: inside_verbatim_format_string_interpolation
-    - match: (?=\S)
-      pop: true
-
-  inside_verbatim_format_string_interpolation:
-    - clear_scopes: 1
-    - meta_scope: meta.interpolation.cs
-    - meta_content_scope: source.cs
-    - match: \}
-      scope: punctuation.section.interpolation.end.cs
-      pop: true
-    - match: (?=")
-      pop: true
-    - include: string_interpolation_width
-    - include: verbatim_string_placeholder_format
-    - include: line_of_code_in
-
-  string_placeholder_escapes:
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.cs
-
-  string_placeholders:
-    - include: string_placeholder_escapes
-    - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
-      scope: constant.other.guid.cs
-    - match: '(\{)(\d+)(?=")'
-      scope: constant.other.placeholder.cs
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs invalid.illegal.unclosed-string-placeholder.cs
-
-  extended_string_placeholders:
-    - match: '(\{)(\d+)'
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: inside_extended_string_placeholder
-
-  inside_extended_string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: string_placeholder_end
-    - include: string_placeholder_width
-    - include: string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
-
-  extended_raw_string_placeholders:
-    - match: '(\{)(\d+)'
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: inside_extended_raw_string_placeholder
-
-  inside_extended_raw_string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: string_placeholder_end
-    - include: string_placeholder_width
-    - include: raw_string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
-
-  extended_verbatim_string_placeholders:
-    - match: '(\{)(\d+)'
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-      push: inside_extended_verbatim_string_placeholder
-
-  inside_extended_verbatim_string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
-    - include: string_placeholder_end
-    - include: string_placeholder_width
-    - include: verbatim_string_placeholder_format
-    - match: '[^"}]+'
-      scope: invalid.illegal.unexpected-character-in-placeholder.cs
-
-  string_placeholder_end:
-    - match: '(\})(\}(?!\}))?'
-      captures:
-        1: punctuation.definition.placeholder.end.cs
-        2: invalid.illegal.unescaped-placeholder.cs
-      pop: true
-    - match: (?=")
-      pop: true
-
-  string_interpolation_width:
-    - match: '\s*(?:(,)\s*(?:((-?)\d+)|({{name}}))\s*)?'
-      scope: meta.format-spec.cs
-      captures:
-        1: punctuation.separator.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-        3: keyword.operator.arithmetic.cs
-        4: variable.other.cs
-
-  string_placeholder_width:
-    - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
-      scope: meta.format-spec.cs
-      captures:
-        1: punctuation.separator.cs
-        2: meta.number.integer.decimal.cs constant.numeric.value.cs
-        3: keyword.operator.arithmetic.cs
-        4: variable.other.cs
-
-  string_placeholder_format:
-    - match: ':(?=")'
-      scope: invalid.illegal.unclosed-string-placeholder.cs
-      pop: true
-    - match: ':'
-      scope: punctuation.separator.cs
-      push: inside_string_placeholder_format
-
-  inside_string_placeholder_format:
-    - meta_scope: meta.format-spec.cs
-    - meta_content_scope: constant.other.format-spec.cs
-    - include: string_placeholder_escapes
-    - include: string_escapes
-    - match: '(?=\})'
-      pop: true
-    - match: '(?:[^}"\\](?:\\.)*)+(?=")'
-      scope: invalid.illegal.unclosed-string-placeholder.cs
-      pop: true
-    - match: '\{'
-      scope: invalid.illegal.unescaped-placeholder.cs
-
   raw_string_placeholder_format:
     - match: ':'
       scope: punctuation.separator.cs
@@ -2304,51 +2324,7 @@ contexts:
     - match: \{
       scope: invalid.illegal.unescaped-placeholder.cs
 
-  verbatim_string_placeholder_format:
-    - match: ':(?="(?!"))'
-      scope: invalid.illegal.unclosed-string-placeholder.cs
-      pop: true
-    - match: ':'
-      scope: punctuation.separator.cs
-      push: inside_verbatim_string_placeholder_format
-
-  inside_verbatim_string_placeholder_format:
-    - meta_scope: meta.format-spec.cs
-    - meta_content_scope: constant.other.format-spec.cs
-    - include: string_placeholder_escapes
-    - include: verbatim_string_escapes
-    - match: (?=\})
-      pop: true
-    - match: \\(?:""|[^"])
-      scope: constant.character.escape.cs
-    - match: (?:[^}"]|"")+(?="(?!"))
-      scope: invalid.illegal.unclosed-string-placeholder.cs
-      pop: true
-    - match: \{
-      scope: invalid.illegal.unescaped-placeholder.cs
-
-  inside_verbatim_string:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.cs string.quoted.double.raw.cs
-    - include: verbatim_string_escapes
-    - match: '"'
-      scope: punctuation.definition.string.end.cs
-      pop: true
-    - include: string_placeholders
-    - include: extended_verbatim_string_placeholders
-
-  inside_verbatim_string_syntax:
-    - meta_include_prototype: false
-    - match: (?={{sql_indicator}})
-      set: scope:source.sql
-      with_prototype:
-        - include: verbatim_string_escapes
-        - match: (?=")
-          pop: true
-        - include: string_placeholders
-        - include: extended_verbatim_string_placeholders
-    - match: (?=\S)
-      pop: true
+###[ STRING PROTOTYPES ]#######################################################
 
   string_escapes:
     - match: '{{escaped_char}}'
@@ -2356,9 +2332,47 @@ contexts:
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
-  verbatim_string_escapes:
-    - match: '""'
+  string_placeholder_escapes:
+    - match: \{\{|\}\}
       scope: constant.character.escape.cs
+
+  string_placeholders:
+    - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
+      scope: constant.other.guid.cs
+    - match: (\{)(\d+)(?=")
+      scope: constant.other.placeholder.cs
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs invalid.illegal.unclosed-string-placeholder.cs
+
+  string_placeholder_end:
+    - match: (\})(\}(?!\}))?
+      captures:
+        1: punctuation.definition.placeholder.end.cs
+        2: invalid.illegal.unescaped-placeholder.cs
+      pop: true
+    - match: (?=")
+      pop: true
+
+  string_placeholder_width:
+    - match: \s*(?:(,)\s*((-?)\d+)\s*)?
+      scope: meta.format-spec.cs
+      captures:
+        1: punctuation.separator.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+        3: keyword.operator.arithmetic.cs
+        4: variable.other.cs
+
+  string_interpolation_width:
+    - match: \s*(?:(,)\s*(?:((-?)\d+)|({{name}}))\s*)?
+      scope: meta.format-spec.cs
+      captures:
+        1: punctuation.separator.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+        3: keyword.operator.arithmetic.cs
+        4: variable.other.cs
+
+###[ INITIALIZERS ]############################################################
 
   initializer_constructor:
     - meta_content_scope: meta.instance.cs meta.braces.cs
