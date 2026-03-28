@@ -616,7 +616,7 @@ type Foo = Bar[A] forSome { type A }
 //       ^^^ variable.parameter
 //            ^^^ support.class
 //                 ^^^ variable.parameter
-//                       ^ variable.language.underscore.scala
+//                       ^ variable.language.anonymous.scala
 //                          ^^ keyword.declaration.function.arrow.case.scala
 
    case abc @ `abc` =>
@@ -628,7 +628,7 @@ type Foo = Bar[A] forSome { type A }
 //            ^^^^^ - variable.parameter
 
    case foo: (Int => Boolean) :: _ =>
-//                               ^ variable.language.underscore.scala
+//                               ^ variable.language.anonymous.scala
 
    case /* testing */ =>
 //      ^^^^^^^^^^^^^ comment.block.scala
@@ -738,7 +738,7 @@ type Foo = Bar[A] forSome { type A }
 //    ^ variable.parameter
 //       ^ variable.parameter
 //         ^ keyword.operator.at.scala
-//           ^ variable.language.underscore.scala
+//           ^ variable.language.anonymous.scala
 //              ^^ keyword.operator.assignment.scala
 //                 ^ - keyword
        _
@@ -775,7 +775,7 @@ type Foo = Bar[A] forSome { type A }
 //               ^ variable.parameter
 //                  ^ variable.parameter
 //                    ^ keyword.operator.at.scala
-//                      ^ variable.language.underscore.scala
+//                      ^ variable.language.anonymous.scala
 //                         ^ keyword.operator.assignment.scala
 //                           ^ - variable.parameter
 //                              ^^^ storage.type.stable.scala
@@ -808,7 +808,7 @@ type Foo = Bar[A] forSome { type A }
   val baseSettings: Seq[Def.Setting[_]] = _
 //    ^^^^^^^^^^^^ variable.other.constant.scala
 //                  ^^^ support.class
-//                                  ^ variable.language.underscore.scala - keyword
+//                                  ^ variable.language.anonymous.scala - keyword
 
   for {
     r <- blah
@@ -1131,10 +1131,10 @@ import foo.{
 }
 
 import foo._
-//         ^ variable.language.underscore.scala
+//         ^ variable.language.anonymous.scala
 
 import foo.{Foo => _}
-//                 ^ variable.language.underscore.scala
+//                 ^ variable.language.anonymous.scala
 
 for {} yield ()
 //     ^^^^^ keyword.control.flow.scala
@@ -1175,7 +1175,7 @@ for (if things >= stuff)
 //                ^^^^^ - variable.parameter
 
    _
-// ^ variable.language.underscore.scala
+// ^ variable.language.anonymous.scala
 
 foo._1
 //  ^ - variable.language.scala
@@ -1187,11 +1187,11 @@ foo_
 // ^ - variable.language
 
 foo({ _ => () })
-//    ^ variable.language.underscore.scala
+//    ^ variable.language.anonymous.scala
 //      ^^ keyword.declaration.function.arrow
 
 foo({ _: Unit => () })
-//    ^ variable.language.underscore.scala
+//    ^ variable.language.anonymous.scala
 //            ^^ keyword.declaration.function.arrow
 
   stuff: _*
@@ -2035,27 +2035,27 @@ val (foo(), _) = 42
 
 for {
    _<- fu
-// ^ variable.language.underscore.scala
+// ^ variable.language.anonymous.scala
 //  ^^ keyword.operator.assignment.scala
 
    _← fu
-// ^ variable.language.underscore.scala
+// ^ variable.language.anonymous.scala
 //  ^ keyword.operator.assignment.scala
 
    _= fu
-// ^ variable.language.underscore.scala
+// ^ variable.language.anonymous.scala
 //  ^ keyword.operator.assignment.scala
 }
 
 for (_<- fu; _← fu; _= fu)
 //  ^ punctuation.section.group.begin.scala
-//   ^ variable.language.underscore.scala
+//   ^ variable.language.anonymous.scala
 //    ^^ keyword.operator.assignment.scala
 //         ^ punctuation.terminator.scala
-//           ^ variable.language.underscore.scala
+//           ^ variable.language.anonymous.scala
 //            ^ keyword.operator.assignment.scala
 //                ^ punctuation.terminator.scala
-//                  ^ variable.language.underscore.scala
+//                  ^ variable.language.anonymous.scala
 //                   ^ keyword.operator.assignment.scala
 //                       ^ punctuation.section.group.end.scala
 
@@ -2142,7 +2142,7 @@ s"testing '$foo' bar"
 //   ^^^^^^ meta.import.scala keyword.declaration.import.scala
 //          ^^^^^^^^^^^ meta.import.scala
 //                     ^ meta.import.scala punctuation.accessor.dot.scala
-//                      ^ meta.import.scala variable.language.underscore.scala
+//                      ^ meta.import.scala variable.language.anonymous.scala
    } foo
    bar
 // ^^^ - support
@@ -2302,7 +2302,7 @@ f[F[Throwable, -?]]
 //              ^ variable.language.hole.scala
 
 type abc = _ \/ a
-//         ^ variable.language.underscore.scala
+//         ^ variable.language.anonymous.scala
 //           ^^ support.type.scala
 //              ^ support.type.scala
 
@@ -2323,7 +2323,7 @@ completed: F[_ >: A] => B)
 //             ^^ keyword.operator.bound.scala
 
     _()
-//  ^ variable.language.underscore.scala
+//  ^ variable.language.anonymous.scala
 //   ^ punctuation.section.group.begin.scala
 //    ^ punctuation.section.group.end.scala
 
