@@ -1727,7 +1727,13 @@ class B
         //                    ^^ punctuation.separator.key-value.php
 
         return new self();
-//                 ^^^^ variable.language.this.php
+//             ^^^^^^^^^^ meta.instantiation.php
+//             ^^^ keyword.other.new.php
+//                 ^^^^ meta.function-call.identifier.php variable.language.this.php
+//                     ^^ meta.function-call.arguments.php meta.group.php
+//                     ^ punctuation.section.group.begin.php
+//                      ^ punctuation.section.group.end.php
+//                       ^ punctuation.terminator.statement.php
     }
 }
 
@@ -2638,6 +2644,8 @@ $f9 = [Foo::class, 'staticmethod'](...);
 
 $f10 = (new MyClass)->myMethod(...);
 //     ^^^^^^^^^^^^^ meta.group.php
+//      ^^^^ meta.instantiation.php - meta.function-call
+//          ^^^^^^^ meta.instantiation.php meta.function-call.identifier.php
 //                    ^^^^^^^^ meta.function-call.identifier.php
 //                            ^^^^^ meta.function-call.arguments.php meta.group.php
 //     ^ punctuation.section.group.begin.php
@@ -2957,11 +2965,17 @@ try {
 // <- keyword.control.exception
     echo inverse(5) . "\n";
     throw new \Exception('Error!');
+//        ^^^^ meta.instantiation.php
+//            ^^^^^^^^^^ meta.instantiation.php meta.function-call.identifier.php meta.path.php
+//                      ^^^^^^^^^^ meta.instantiation.php meta.function-call.arguments.php meta.group.php
 //  ^^^^^ keyword.control.flow.throw.php
 //            ^^^^^^^^^^ meta.path.php
 //            ^ punctuation.accessor.namespace.php - support.class
 //             ^^^^^^^^^ support.class.builtin.php
     throw new \Custom\Exception('Error!');
+//        ^^^^ meta.instantiation.php
+//            ^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.function-call.identifier.php meta.path.php
+//                             ^^^^^^^^^^ meta.instantiation.php meta.function-call.arguments.php meta.group.php
 //  ^^^^^ keyword.control.flow.throw.php
 //            ^^^^^^^^^^^^^^^^^ meta.path.php
 //            ^ punctuation.accessor.namespace.php
@@ -3499,22 +3513,21 @@ $statement = match ($this->lexer->lookahead['type']) {
  *****************************************************************************/
 
 $test = new Test1;
-//      ^^^^^^^^^ meta.instantiation.php
+//      ^^^^ meta.instantiation.php - meta.function-call
+//          ^^^^^ meta.instantiation.php meta.function-call.identifier.php
 //      ^ keyword.other.new.php
 //          ^^^^^ support.class.php - meta.path
 //          ^ support.class.php
 
 $anon = new readonly class{};
 //      ^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class
-//      ^^^^          meta.instantiation.php - meta.class
-//          ^^^^^^^^ meta.instantiation.php storage.modifier.php - meta.class
+//      ^^^^^^^^^^^^^ meta.instantiation.php - meta.class
 //                   ^^^^^ meta.instantiation.php meta.class.php - meta.block
 //                        ^^ meta.instantiation.php meta.class.php meta.block.php
 //                          ^ - meta.instantiation - meta.class - meta.block
 //      ^ keyword.other.new.php
-//                   ^ keyword.declaration.class
-//                        ^^ meta.class.php
-//                        ^^ meta.block.php
+//          ^^^^^^^^ storage.modifier.php
+//                   ^^^^^ keyword.declaration.class.php
 //                        ^ punctuation.section.block.begin.php
 //                         ^ punctuation.section.block.end.php
 
@@ -3530,9 +3543,9 @@ $anon = new class};
 $anon = new class ( {};
 //      ^^^^^^^^^^^^^^ - meta.class meta.class
 //      ^^^^ meta.instantiation.php - meta.class
-//          ^^^^^^ meta.instantiation.php meta.class.php - meta.block - meta.group
-//                ^^ meta.instantiation.php meta.class.php meta.group.php - meta.block
-//                  ^^ meta.instantiation.php meta.class.php meta.block.php
+//          ^^^^^^ meta.instantiation.php meta.class.php meta.function-call.identifier.php - meta.block - meta.group
+//                ^^ meta.instantiation.php meta.class.php meta.function-call.arguments.php meta.group.php - meta.block
+//                  ^^ meta.instantiation.php meta.class.php meta.block.php - meta.function-call
 //                    ^ - meta.instantiation - meta.class - meta.block
 //      ^^^ keyword.other.new.php
 //          ^^^^^ keyword.declaration.class.php
@@ -3541,10 +3554,12 @@ $anon = new class ( {};
 //                   ^ punctuation.section.block.end.php
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class
+//      ^^^^ meta.instantiation.php - meta.class.php - meta.function-call
+//          ^^^^^ meta.instantiation.php meta.class.php meta.function-call.identifier.php keyword.declaration.class.php
+//               ^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php meta.function-call.arguments.php meta.group.php
+//                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.class.php - meta.class meta.class - meta.function-call
 //      ^ keyword.other.new.php
 //          ^ keyword.declaration.class
-//               ^^^^^^^^^^^^^^^^^^ meta.group.php
 //               ^ punctuation.section.group.begin.php
 //                ^ variable.other.php
 //                       ^ punctuation.separator.sequence
@@ -3577,9 +3592,10 @@ $anon = new /* comment */ #[anno] class($param1, $param2) extends Test1 implemen
 //                                                                                           ^^ meta.block.php
 
 $user_1 = new User("John", "a@b.com");
-//        ^^^^^^^^ meta.instantiation.php - meta.group
-//                ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
-//                                   ^ - meta.instantiation - meta.group
+//        ^^^^ meta.instantiation.php - meta.function-call - meta.group
+//            ^^^^ meta.instantiation.php meta.function-call.identifier.php
+//                ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.function-call.arguments.php meta.group.php
+//                                   ^ - meta.instantiation - meta.function-call - meta.group
 //        ^^^ keyword.other.new.php
 //            ^^^^ support.class.php
 //                ^ punctuation.section.group.begin.php
@@ -3592,9 +3608,10 @@ $user_1 = new User("John", "a@b.com");
 $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
 //        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.annotation
 //                          ^^^^^^^ meta.instantiation.php meta.annotation
-//                                 ^^^^^  meta.instantiation.php - meta.annotation - meta.group
-//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
-//                                                         ^ - meta.instantiation - meta.group
+//                                 ^ meta.instantiation.php - meta.annotation - meta.function-call - meta.group
+//                                  ^^^^ meta.instantiation.php  meta.function-call.identifier.php - meta.annotation - meta.group
+//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.function-call.arguments.php meta.group.php
+//                                                         ^ - meta.instantiation - meta.function-call - meta.group
 //        ^^^ keyword.other.new.php
 //            ^^^^^^^^^^^^^ comment.block.php
 //                          ^^^^^^^ meta.annotation
@@ -3609,9 +3626,10 @@ $user_1 = new /* comment */ #[anno] User("John", "a@b.com");
 $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 //        ^^^^^^^^^^^^^^^^^^ meta.instantiation.php - meta.annotation
 //                          ^^^^^^^ meta.instantiation.php meta.annotation
-//                                 ^^^^^  meta.instantiation.php - meta.annotation - meta.group
-//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.group.php
-//                                                         ^ - meta.instantiation - meta.group
+//                                 ^ meta.instantiation.php - meta.annotation - meta.function-call - meta.group
+//                                  ^^^^ meta.instantiation.php  meta.function-call.identifier.php - meta.annotation - meta.group
+//                                      ^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.function-call.arguments.php meta.group.php
+//                                                         ^ - meta.instantiation - meta.function-call - meta.group
 //        ^^^ keyword.other.new.php
 //            ^^^^^^^^^^^^^ comment.block.php
 //                          ^^^^^^^ meta.annotation
@@ -3625,9 +3643,9 @@ $user_1 = new /* comment */ #[anno] $cls("John", "a@b.com");
 
 $object = new \MyNamespace\ClassName();
 // <- variable.other.php punctuation.definition.variable.php
-//        ^^^^ meta.instantiation.php - meta.path
-//            ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.path.php
-//                                  ^^ meta.instantiation.php meta.group.php
+//        ^^^^ meta.instantiation.php - meta.function-call - meta.path
+//            ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.php meta.function-call.identifier.php meta.path.php
+//                                  ^^ meta.instantiation.php meta.function-call.arguments.php meta.group.php
 //^^^^^ variable.other.php
 //      ^ keyword.operator.assignment.php
 //        ^^^ keyword.other.new.php
