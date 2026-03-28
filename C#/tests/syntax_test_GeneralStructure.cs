@@ -1282,20 +1282,34 @@ namespace TestNamespace . Test
         formatted = string.Format("GMT is {0:yyyyMMdd\\THHmmss\\Z}", DateTime.Now.ToUniversalTime());
 ///                                       ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double constant.other.placeholder
         Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
-///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
-///                                              ^ punctuation.separator
-///                                              ^^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                 ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^ punctuation.separator - constant.other.format-spec
+///                                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                                 ^ punctuation.section.interpolation.end
+///                                                                  ^ punctuation.definition.string.end
         Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
-///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
-///                                             ^ punctuation.separator
-///                                             ^^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^ punctuation.separator - constant.other.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
 ///                                                      ^ invalid.illegal.lone-escape
 ///                                                              ^ invalid.illegal.lone-escape
+///                                                                ^ punctuation.section.interpolation.end
+///                                                                 ^ punctuation.definition.string.end
         Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\T\""\x1043HHmmss\Z}");
-///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.format-spec - invalid
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                          ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^ punctuation.separator - constant.other.format-spec
+///                                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
 ///                                                       ^^^^^^^ constant.character.escape
 ///                                                              ^^^^^^^^^^ - constant.character.escape
 ///                                                                        ^^ constant.character.escape
+///                                                                          ^ punctuation.section.interpolation.end
+///                                                                           ^ punctuation.definition.string.end
     }
 }
 ///<- punctuation.section.block.end
