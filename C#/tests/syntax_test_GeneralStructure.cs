@@ -1254,6 +1254,7 @@ namespace TestNamespace . Test
 ///                                               ^ invalid.illegal.unclosed-string-placeholder
 ///                                                ^ punctuation.definition.string.end
 ///                                                    ^ string - invalid - constant.other - punctuation
+///                                                                ^ string - invalid - constant.other - punctuation
         formatted = string.Format("{0", myInt);
 ///                                ^^ constant.other.placeholder
 ///                                 ^ invalid.illegal.unclosed-string-placeholder
@@ -1262,6 +1263,8 @@ namespace TestNamespace . Test
 ///                                   ^^ constant.character.escape
 ///                                     ^^^ invalid.illegal.unclosed-string-placeholder
 ///                                        ^ punctuation.definition.string.end
+///                                                   ^ string - invalid - constant.other - punctuation
+
         formatted = string.Format("{1:\",{{}} {}", myInt, "}");
 ///                                ^^^^^^^^^^^^^ constant.other.placeholder
 ///                                ^ punctuation.definition.placeholder.begin
@@ -1269,6 +1272,7 @@ namespace TestNamespace . Test
 ///                                      ^^^^ constant.character.escape
 ///                                           ^ invalid.illegal.unescaped-placeholder
 ///                                            ^ punctuation.definition.placeholder.end
+///                                                        ^ string - invalid - constant.other - punctuation
         formatted = string.Format(@"{0:00.00000{{}}test""} me", 5);
 ///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                            ^^^^ constant.character.escape
