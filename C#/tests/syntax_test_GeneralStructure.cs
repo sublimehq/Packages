@@ -1310,6 +1310,22 @@ namespace TestNamespace . Test
 ///                                                                        ^^ constant.character.escape
 ///                                                                          ^ punctuation.section.interpolation.end
 ///                                                                           ^ punctuation.definition.string.end
+        Console.WriteLine($@"GMT is {DateTime.Now,-20:yyyyMMdd\THHmmss\Z}");
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                     ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                                  ^ punctuation.separator - constant.other.format-spec
+///                                                   ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                                     ^ punctuation.section.interpolation.end
+///                                                                      ^ punctuation.definition.string.end
+        Console.WriteLine($@"GMT is {DateTime.Now,anyWidth:yyyyMMdd\THHmmss\Z}");
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                          ^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                                       ^ punctuation.separator - constant.other.format-spec
+///                                                        ^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                                          ^ punctuation.section.interpolation.end
+///                                                                           ^ punctuation.definition.string.end
     }
 }
 ///<- punctuation.section.block.end

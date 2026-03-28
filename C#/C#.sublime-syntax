@@ -2127,6 +2127,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
+    - include: string_replacement_width
     - include: long_string_placeholder_format
     - include: line_of_code_in
 
