@@ -1973,7 +1973,6 @@ contexts:
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_escaped
     - include: string_placeholders
     - include: extended_string_placeholders
 
@@ -1983,7 +1982,6 @@ contexts:
     - match: '"""'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_escaped
     - include: string_placeholders
     - include: extended_string_placeholders
 
@@ -2000,10 +1998,10 @@ contexts:
   inside_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.double.cs
-    - include: string_escaped
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
+    - include: string_escaped
     - include: string_placeholders
     - include: extended_string_placeholders
     - match: $\n?
@@ -2029,7 +2027,6 @@ contexts:
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_escaped
     - include: string_placeholder_escape
     - include: format_string_interpolation
 
@@ -2055,7 +2052,6 @@ contexts:
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_escaped
     - include: string_placeholder_escape
     - include: format_string_interpolation_2
 

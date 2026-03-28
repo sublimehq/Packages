@@ -11,6 +11,9 @@ string longMessage = """
     Some should start at the first column.
     Some have "quoted text" in them.
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.triple - punctuation
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character - invalid
     """;
 /// ^^^ string.quoted.triple punctuation.definition.string.end
 
@@ -19,7 +22,8 @@ This raw string literal has four """", count them: """" four!
 embedded quote characters in a sequence. That's why it starts and ends
 with five double quotes.
 
-You could extend this example with as many embedded quotes as needed for your text.
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character - invalid
 """""
 // - no semi-colon on the line above
 
@@ -27,13 +31,14 @@ var location = $$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
 ///            ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
-   You are at {{{Longitude}}, {{Latitude}}}
+   You are at {{{Longitude}} \t {{Latitude}}}
 ///           ^^ meta.string.interpolated string.quoted.triple constant.character.escape
 ///             ^ - constant
 ///                       ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///                           ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///                                     ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///                                       ^ - constant
+///                          ^^ - constant
+///                             ^^ meta.string.interpolated string.quoted.triple constant.character.escape
+///                                       ^^ meta.string.interpolated string.quoted.triple constant.character.escape
+///                                         ^ - constant
    """;
 
 var location = $"""
@@ -44,7 +49,7 @@ var location = $"""
 ///^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
 ///             ^^^^^^^^^^^ meta.string.interpolated meta.interpolation - string
 ///                        ^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///                          ^^ constant.character.escape
+///                          ^^ - constant.character
    """;
 /// <- meta.string.interpolated string.quoted.triple
 ///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
@@ -143,8 +148,7 @@ string s2 = @$$"""He said, ""This is the last \u0063hance\x0021""";
 ///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
 ///          ^^^^^ punctuation.definition.string.begin
 ///                        ^^ - constant.character
-///                                           ^^^^^^ constant.character.escape.cs
-///                                                      ^^^^^^ constant.character.escape.cs
+///                                           ^^^^^^^^^^^^^^^^^ - constant
 ///                                                            ^^^ punctuation.definition.string.end
 
 public class C2 {
