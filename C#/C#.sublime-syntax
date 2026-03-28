@@ -2057,6 +2057,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
+    - include: string_replacement_width
     - include: string_placeholder_format
     - include: line_of_code_in
 
@@ -2091,6 +2092,7 @@ contexts:
     - match: '\}\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
+    - include: string_replacement_width
     - include: string_placeholder_format
     - include: line_of_code_in
 
@@ -2128,6 +2130,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
+    - include: string_replacement_width
     - include: long_string_placeholder_format
     - include: line_of_code_in
 
@@ -2155,6 +2158,7 @@ contexts:
   inside_extended_string_placeholder:
     - meta_scope: constant.other.placeholder.cs
     - include: string_placeholder_end
+    - include: string_placeholder_width
     - include: string_placeholder_format
     - match: '[^"}]+'
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
@@ -2169,6 +2173,7 @@ contexts:
   inside_extended_long_string_placeholder:
     - meta_scope: constant.other.placeholder.cs
     - include: string_placeholder_end
+    - include: string_placeholder_width
     - include: long_string_placeholder_format
     - match: '[^"}]+'
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
@@ -2182,52 +2187,67 @@ contexts:
     - match: (?=[}"])
       pop: true
 
-  string_placeholder_format_before_colon:
-    - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
+  string_replacement_width:
+    - match: '\s*(?:(,)\s*(?:((-?)\d+)|({{name}}))\s*)?'
+      scope: meta.format-spec.cs
       captures:
-        1: punctuation.separator.arguments.cs
+        1: punctuation.separator.cs
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
         3: keyword.operator.arithmetic.cs
+        4: variable.other.cs
+
+  string_placeholder_width:
+    - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
+      scope: meta.format-spec.cs
+      captures:
+        1: punctuation.separator.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+        3: keyword.operator.arithmetic.cs
+        4: variable.other.cs
 
   string_placeholder_format:
-    - include: string_placeholder_format_before_colon
     - match: ':(?=")'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
     - match: ':'
       scope: punctuation.separator.cs
-      push:
-        - meta_scope: constant.other.format-spec.cs
-        - include: string_placeholder_escape
-        - include: string_escaped
-        - match: '(?=\})'
-          pop: true
-        - match: '(?:[^}"\\](?:\\.)*)+(?=")'
-          scope: invalid.illegal.unclosed-string-placeholder.cs
-          pop: true
-        - match: '\{'
-          scope: invalid.illegal.unescaped-placeholder.cs
+      push: inside_string_placeholder_format
+
+  inside_string_placeholder_format:
+    - meta_scope: meta.format-spec.cs
+    - meta_content_scope: constant.other.format-spec.cs
+    - include: string_placeholder_escape
+    - include: string_escaped
+    - match: '(?=\})'
+      pop: true
+    - match: '(?:[^}"\\](?:\\.)*)+(?=")'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: '\{'
+      scope: invalid.illegal.unescaped-placeholder.cs
 
   long_string_placeholder_format:
-    - include: string_placeholder_format_before_colon
     - match: ':(?="(?!"))'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
     - match: ':'
       scope: punctuation.separator.cs
-      push:
-        - meta_scope: constant.other.format-spec.cs
-        - include: string_placeholder_escape
-        - include: long_string_escaped
-        - match: (?=\})
-          pop: true
-        - match: \\(?:""|[^"])
-          scope: constant.character.escape.cs
-        - match: (?:[^}"]|"")+(?="(?!"))
-          scope: invalid.illegal.unclosed-string-placeholder.cs
-          pop: true
-        - match: \{
-          scope: invalid.illegal.unescaped-placeholder.cs
+      push: inside_long_string_placeholder_format
+
+  inside_long_string_placeholder_format:
+    - meta_scope: meta.format-spec.cs
+    - meta_content_scope: constant.other.format-spec.cs
+    - include: string_placeholder_escape
+    - include: long_string_escaped
+    - match: (?=\})
+      pop: true
+    - match: \\(?:""|[^"])
+      scope: constant.character.escape.cs
+    - match: (?:[^}"]|"")+(?="(?!"))
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: \{
+      scope: invalid.illegal.unescaped-placeholder.cs
 
   inside_long_string:
     - meta_include_prototype: false
