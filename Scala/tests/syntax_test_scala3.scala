@@ -213,10 +213,10 @@ given ctx : global.Context with { type Symbol; type Kind }
 //                                     ^^^^^^ entity.name.type.scala
 
 import foo.*
-//         ^ variable.language.wildcard.scala
+//         ^ constant.other.wildcard.asterisk.scala
 
 import foo.{*, given}
-//          ^ variable.language.wildcard.scala
+//          ^ constant.other.wildcard.asterisk.scala
 //             ^^^^^ storage.modifier.other.scala
 
 import foo.given T
@@ -429,12 +429,12 @@ export foo.Bar
 export foo.{bar as _, *}
 // <- keyword.declaration.import.scala
 //              ^^ keyword.operator.as.scala
-//                    ^ variable.language.wildcard.scala
+//                    ^ constant.other.wildcard.asterisk.scala
 
 import foo.{bar as _, *}
 // <- keyword.declaration.import.scala
 //              ^^ keyword.operator.as.scala
-//                    ^ variable.language.wildcard.scala
+//                    ^ constant.other.wildcard.asterisk.scala
 
 open class Writer
 // <- storage.modifier.other.scala

@@ -1104,7 +1104,7 @@ contexts:
             - match: '(?=\S)'
               pop: 1
         - match: '\*'
-          scope: variable.language.wildcard.scala
+          scope: constant.other.wildcard.asterisk.scala
         - match: '{{id}}'
         - match: \.
           scope: punctuation.accessor.dot.scala
@@ -1134,7 +1134,7 @@ contexts:
                 - match: '(?=\S)'
                   pop: 1
             - match: '\*'
-              scope: variable.language.wildcard.scala
+              scope: constant.other.wildcard.asterisk.scala
             - match: '{{id}}'
             - match: '_'
               scope: variable.language.anonymous.scala
