@@ -248,7 +248,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.scala
     - match: '_'
-      scope: variable.language.underscore.scala
+      scope: variable.language.anonymous.scala
 
   lambda-declaration-parens:
     - match: '{{typeprefix}}'
@@ -1109,7 +1109,7 @@ contexts:
         - match: \.
           scope: punctuation.accessor.dot.scala
         - match: '_'
-          scope: variable.language.underscore.scala
+          scope: variable.language.anonymous.scala
         - match: "{"
           scope: punctuation.section.group.begin.scala
           push:
@@ -1137,7 +1137,7 @@ contexts:
               scope: variable.language.wildcard.scala
             - match: '{{id}}'
             - match: '_'
-              scope: variable.language.underscore.scala
+              scope: variable.language.anonymous.scala
 
 ###[ OPERATORS ]###############################################################
 
@@ -1362,7 +1362,7 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.scala
     - match: '_'
-      scope: variable.language.underscore.scala
+      scope: variable.language.anonymous.scala
       push: try-dispatch
     - match: '\.'
       scope: punctuation.accessor.scala
@@ -1735,7 +1735,7 @@ contexts:
     - match: '_\s*\*'
       scope: keyword.operator.varargs.scala
     - match: '_'
-      scope: variable.language.underscore.scala
+      scope: variable.language.anonymous.scala
     - match: ','
       scope: punctuation.separator.scala
     - include: ascription
@@ -1875,7 +1875,7 @@ contexts:
     - match: '_\s*\*'
       scope: keyword.operator.varargs.scala
     - match: '_'
-      scope: variable.language.underscore.scala
+      scope: variable.language.anonymous.scala
     - match: ','
       scope: punctuation.separator.scala
     - match: (?=\})
@@ -1999,7 +1999,7 @@ contexts:
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: _
-      scope: variable.language.underscore.scala
+      scope: variable.language.anonymous.scala
     - match: '{{typeid}}'
       scope: support.type.scala
     - match: '(<:|>:)'
@@ -2081,7 +2081,7 @@ contexts:
       scope: storage.type.primitive.scala
       set: single-type-expression-tail
     - match: '_(?!\s*\*)'
-      scope: variable.language.underscore.scala
+      scope: variable.language.anonymous.scala
       set: single-type-expression-tail
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala

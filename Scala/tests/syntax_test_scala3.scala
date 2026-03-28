@@ -303,7 +303,7 @@ x: [A] =>> Foo[A]
 x: [A, B[_], C] =>> Foo[A, B, C]
 // ^ punctuation.definition.generic.begin.scala
 //  ^ support.class.scala
-//       ^ variable.language.underscore.scala
+//       ^ variable.language.anonymous.scala
 //              ^^^ keyword.operator.arrow.type-lambda.scala
 //                  ^^^ support.class.scala
 
