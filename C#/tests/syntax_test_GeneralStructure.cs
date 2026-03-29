@@ -1303,6 +1303,51 @@ namespace TestNamespace . Test
 ///                                                              ^ invalid.illegal.lone-escape
 ///                                                                ^ punctuation.section.interpolation.end
 ///                                                                 ^ punctuation.definition.string.end
+        Console.WriteLine(@$"GMT is {DateTime.Now");
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+        Console.WriteLine(@$"GMT is {DateTime.Now""");
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^ meta.string.interpolated.cs string.quoted.double.raw.cs constant.character.escape.cs
+///                                                ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+        Console.WriteLine(@$"GMT is {DateTime.Now:");
+///                                 ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^ invalid.illegal.unclosed-string-placeholder.cs
+///                                               ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+        Console.WriteLine(@$"GMT is {DateTime.Now:""");
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                                                 ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+        Console.WriteLine(@$"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z");
+///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                 ^ meta.string.interpolated - meta.interpolation - meta.format-spec
+///                                              ^ punctuation.separator - constant.other.format-spec
+///                                               ^^^^^^^^^^^^^^^^^^ invalid.illegal.unclosed-string-placeholder.cs
+///                                                                 ^ punctuation.definition.string.end
+        Console.WriteLine($"GMT is {DateTime.Now");
+///                                ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+        Console.WriteLine($"GMT is {DateTime.Now""");
+///                                ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+///                                              ^^ meta.string.cs string.quoted.double.cs punctuation
+        Console.WriteLine($"GMT is {DateTime.Now:");
+///                                ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^ invalid.illegal.unclosed-string-placeholder.cs
+///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+        Console.WriteLine($"GMT is {DateTime.Now:""");
+///                                ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^ invalid.illegal.unclosed-string-placeholder.cs
+///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
+///                                               ^^ meta.string.cs string.quoted.double.cs punctuation
+        Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z");
+///                                ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
+///                                             ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
+///                                                                ^ meta.string.interpolated - meta.interpolation - meta.format-spec
+///                                             ^ punctuation.separator - constant.other.format-spec
+///                                              ^^^^^^^^^^^^^^^^^^ invalid.illegal.unclosed-string-placeholder.cs
+///                                                                ^ punctuation.definition.string.end
         Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\T\""\x1043HHmmss\Z}");
 ///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
 ///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
