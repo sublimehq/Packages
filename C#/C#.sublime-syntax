@@ -2001,7 +2001,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_escaped
+    - include: string_escapes
     - include: string_placeholders
     - include: extended_string_placeholders
     - match: $\n?
@@ -2014,8 +2014,8 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_escaped
-    - include: string_placeholder_escape
+    - include: string_escapes
+    - include: string_placeholder_escapes
     - include: format_string_interpolation
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
@@ -2027,7 +2027,7 @@ contexts:
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_placeholder_escape
+    - include: string_placeholder_escapes
     - include: format_string_interpolation
 
   format_string_interpolation:
@@ -2052,7 +2052,7 @@ contexts:
     - match: '\1'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_placeholder_escape
+    - include: string_placeholder_escapes
     - include: format_string_interpolation_2
 
   format_string_interpolation_2:
@@ -2074,11 +2074,11 @@ contexts:
   inside_verbatim_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
-    - include: verbatim_string_escaped
+    - include: verbatim_string_escapes
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_placeholder_escape
+    - include: string_placeholder_escapes
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push: inside_verbatim_format_string_interpolation
@@ -2088,10 +2088,10 @@ contexts:
     - match: (?={{sql_indicator}})
       set: scope:source.sql
       with_prototype:
-        - include: verbatim_string_escaped
+        - include: verbatim_string_escapes
         - match: (?=")
           pop: true
-        - include: string_placeholder_escape
+        - include: string_placeholder_escapes
         - match: \{
           scope: punctuation.section.interpolation.begin.cs
           push: inside_verbatim_format_string_interpolation
@@ -2109,12 +2109,12 @@ contexts:
     - include: verbatim_string_placeholder_format
     - include: line_of_code_in
 
-  string_placeholder_escape:
+  string_placeholder_escapes:
     - match: '\{\{|\}\}'
       scope: constant.character.escape.cs
 
   string_placeholders:
-    - include: string_placeholder_escape
+    - include: string_placeholder_escapes
     - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
       scope: constant.other.guid.cs
     - match: '(\{)(\d+)(?=")'
@@ -2191,8 +2191,8 @@ contexts:
   inside_string_placeholder_format:
     - meta_scope: meta.format-spec.cs
     - meta_content_scope: constant.other.format-spec.cs
-    - include: string_placeholder_escape
-    - include: string_escaped
+    - include: string_placeholder_escapes
+    - include: string_escapes
     - match: '(?=\})'
       pop: true
     - match: '(?:[^}"\\](?:\\.)*)+(?=")'
@@ -2212,8 +2212,8 @@ contexts:
   inside_verbatim_string_placeholder_format:
     - meta_scope: meta.format-spec.cs
     - meta_content_scope: constant.other.format-spec.cs
-    - include: string_placeholder_escape
-    - include: verbatim_string_escaped
+    - include: string_placeholder_escapes
+    - include: verbatim_string_escapes
     - match: (?=\})
       pop: true
     - match: \\(?:""|[^"])
@@ -2227,7 +2227,7 @@ contexts:
   inside_verbatim_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.cs string.quoted.double.raw.cs
-    - include: verbatim_string_escaped
+    - include: verbatim_string_escapes
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -2239,7 +2239,7 @@ contexts:
     - match: (?={{sql_indicator}})
       set: scope:source.sql
       with_prototype:
-        - include: verbatim_string_escaped
+        - include: verbatim_string_escapes
         - match: (?=")
           pop: true
         - include: string_placeholders
@@ -2247,16 +2247,13 @@ contexts:
     - match: (?=\S)
       pop: true
 
-  escaped:
+  string_escapes:
     - match: '{{escaped_char}}'
       scope: constant.character.escape.cs
-
-  string_escaped:
-    - include: escaped
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
-  verbatim_string_escaped:
+  verbatim_string_escapes:
     - match: '""'
       scope: constant.character.escape.cs
 
