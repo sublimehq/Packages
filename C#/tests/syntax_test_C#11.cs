@@ -76,10 +76,10 @@ var location = $"""
 ///            ^ punctuation.section.interpolation.begin.cs
 ///             ^^^^^^^^^ variable.other.cs
 ///                      ^ punctuation.section.interpolation.end.cs
-///                       ^ invalid.illegal.unescaped-placeholder.cs
+///                       ^ invalid.illegal.unexpected-token.cs
 ///                         ^^ - constant.character
-///                            ^^ invalid.illegal.unescaped-placeholder.cs
-///                                      ^^^ invalid.illegal.unescaped-placeholder.cs
+///                            ^^ invalid.illegal.unexpected-token.cs
+///                                      ^^^ invalid.illegal.unexpected-token.cs
 
     GMT is {DateTime.Now,width:yyyyMMdd\THHmmss\Z}!
 ///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
@@ -98,34 +98,38 @@ var location = $"""
 ///                                            ^ invalid.illegal.lone-escape.cs
 ///                                              ^ punctuation.section.interpolation.end.cs
 
-    "{Incomplete:F"} "{Incomplete:F\"} {Brace:{}}
+    "{In+"complete":F"} "{Incomplete:F\"} {Brace:{}}
 ///^^ meta.string.interpolated.cs string.quoted.double.block.cs
-///  ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///               ^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
-///                   ^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                 ^^^ meta.string.interpolated.cs string.quoted.double.block.cs
-///                                    ^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                             ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///      ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                  ^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                      ^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                    ^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                       ^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^ punctuation.section.interpolation.begin.cs
-///   ^^^^^^^^^^ variable.other.cs
-///             ^^ meta.format-spec.cs
-///             ^ punctuation.separator.cs
-///              ^ constant.other.format-spec.cs
-///                ^ invalid.illegal.unescaped-placeholder.cs
-///                   ^ punctuation.section.interpolation.begin.cs
-///                    ^^^^^^^^^^ variable.other.cs
-///                              ^^^ meta.format-spec.cs
-///                              ^ punctuation.separator.cs
-///                               ^^ constant.other.format-spec.cs
-///                                ^ invalid.illegal.lone-escape.cs
-///                                  ^ invalid.illegal.unescaped-placeholder.cs
-///                                    ^ punctuation.section.interpolation.begin.cs
-///                                     ^^^^^ variable.other.cs
-///                                          ^^ meta.format-spec.cs
-///                                          ^ punctuation.separator.cs
-///                                           ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
-///                                            ^ punctuation.section.interpolation.end.cs
-///                                             ^ invalid.illegal.unescaped-placeholder.cs
+///   ^^ variable.other.cs
+///     ^ keyword.operator.cs
+///      ^^^^^^^^^^ string.quoted.double.cs
+///                ^^ meta.format-spec.cs
+///                ^ punctuation.separator.cs
+///                 ^ constant.other.format-spec.cs
+///                   ^ invalid.illegal.unexpected-token.cs
+///                      ^ punctuation.section.interpolation.begin.cs
+///                       ^^^^^^^^^^ variable.other.cs
+///                                 ^^^ meta.format-spec.cs
+///                                 ^ punctuation.separator.cs
+///                                  ^^ constant.other.format-spec.cs
+///                                   ^ invalid.illegal.lone-escape.cs
+///                                     ^ invalid.illegal.unexpected-token.cs
+///                                       ^ punctuation.section.interpolation.begin.cs
+///                                        ^^^^^ variable.other.cs
+///                                             ^^ meta.format-spec.cs
+///                                             ^ punctuation.separator.cs
+///                                              ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                               ^ punctuation.section.interpolation.end.cs
+///                                                ^ invalid.illegal.unexpected-token.cs
    """;
 /// <- meta.string.interpolated string.quoted.double.block
 ///^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.end
@@ -195,7 +199,7 @@ var location = $$"""
 ///               ^^^^^^^^^ variable.other.cs
 ///                        ^^ punctuation.section.interpolation.end.cs
 ///                          ^^^^^^ - constant - invalid - punctuation
-///                                        ^^ invalid.illegal.unescaped-placeholder.cs
+///                                        ^^ invalid.illegal.unexpected-token.cs
 ///                                           ^ - constant - invalid - punctuation
 
     GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
@@ -214,6 +218,39 @@ var location = $$"""
 ///                                     ^ invalid.illegal.lone-escape.cs
 ///                                             ^ invalid.illegal.lone-escape.cs
 ///                                               ^^ punctuation.section.interpolation.end.cs
+
+    "{{In+"complete":F"}} "{{Incomplete:F\"}} {{Brace:{}}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///       ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                 ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                   ^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                        ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                       ^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                           ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                      ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^ punctuation.section.interpolation.begin.cs
+///    ^^ variable.other.cs
+///      ^ keyword.operator.cs
+///       ^^^^^^^^^^ string.quoted.double.cs
+///                 ^^ meta.format-spec.cs
+///                 ^ punctuation.separator.cs
+///                  ^ constant.other.format-spec.cs
+///                    ^^ invalid.illegal.unexpected-token.cs
+///                        ^^ punctuation.section.interpolation.begin.cs
+///                          ^^^^^^^^^^ variable.other.cs
+///                                    ^^^ meta.format-spec.cs
+///                                    ^ punctuation.separator.cs
+///                                     ^^ constant.other.format-spec.cs
+///                                      ^ invalid.illegal.lone-escape.cs
+///                                        ^^ invalid.illegal.unexpected-token.cs
+///                                           ^^ punctuation.section.interpolation.begin.cs
+///                                             ^^^^^ variable.other.cs
+///                                                  ^^ meta.format-spec.cs
+///                                                  ^ punctuation.separator.cs
+///                                                   ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                                    ^^ punctuation.section.interpolation.end.cs
+///                                                      ^ - invalid.illegal
    """;
 ///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
@@ -237,7 +274,7 @@ var location = @$$"""
 ///               ^^^^^^^^^ variable.other.cs
 ///                        ^^ punctuation.section.interpolation.end.cs
 ///                          ^^^^^^ - constant - invalid - punctuation
-///                                        ^^ invalid.illegal.unescaped-placeholder.cs
+///                                        ^^ invalid.illegal.unexpected-token.cs
 ///                                           ^ - constant - invalid - punctuation
 
     GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
@@ -297,6 +334,39 @@ var location = $$$"""
 ///                                      ^ invalid.illegal.lone-escape.cs
 ///                                              ^ invalid.illegal.lone-escape.cs
 ///                                                ^^^ punctuation.section.interpolation.end.cs
+
+    "{{{In+"complete":F"}}} "{{{Incomplete:F\"}}} {{{Brace:{}}}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///        ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                  ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                    ^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                          ^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                          ^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                               ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                            ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^ punctuation.section.interpolation.begin.cs
+///     ^^ variable.other.cs
+///       ^ keyword.operator.cs
+///        ^^^^^^^^^^ string.quoted.double.cs
+///                  ^^ meta.format-spec.cs
+///                  ^ punctuation.separator.cs
+///                   ^ constant.other.format-spec.cs
+///                     ^^^ invalid.illegal.unexpected-token.cs
+///                          ^^^ punctuation.section.interpolation.begin.cs
+///                             ^^^^^^^^^^ variable.other.cs
+///                                       ^^^ meta.format-spec.cs
+///                                       ^ punctuation.separator.cs
+///                                        ^^ constant.other.format-spec.cs
+///                                         ^ invalid.illegal.lone-escape.cs
+///                                           ^^^ invalid.illegal.unexpected-token.cs
+///                                               ^^^ punctuation.section.interpolation.begin.cs
+///                                                  ^^^^^ variable.other.cs
+///                                                       ^^ meta.format-spec.cs
+///                                                       ^ punctuation.separator.cs
+///                                                        ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                                         ^^^ punctuation.section.interpolation.end.cs
+///                                                            ^ - invalid.illegal
    """;
 ///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
@@ -380,6 +450,39 @@ var location = $$$$"""
 ///                                       ^ invalid.illegal.lone-escape.cs
 ///                                               ^ invalid.illegal.lone-escape.cs
 ///                                                 ^^^^ punctuation.section.interpolation.end.cs
+
+    "{{{{In+"complete":F"}}}} "{{{{Incomplete:F\"}}}} {{{{Brace:{}}}}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///         ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                   ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                     ^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                            ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                             ^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                                   ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                                  ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^ punctuation.section.interpolation.begin.cs
+///      ^^ variable.other.cs
+///        ^ keyword.operator.cs
+///         ^^^^^^^^^^ string.quoted.double.cs
+///                   ^^ meta.format-spec.cs
+///                   ^ punctuation.separator.cs
+///                    ^ constant.other.format-spec.cs
+///                      ^^^^ invalid.illegal.unexpected-token.cs
+///                            ^^^^ punctuation.section.interpolation.begin.cs
+///                                ^^^^^^^^^^ variable.other.cs
+///                                          ^^^ meta.format-spec.cs
+///                                          ^ punctuation.separator.cs
+///                                           ^^ constant.other.format-spec.cs
+///                                            ^ invalid.illegal.lone-escape.cs
+///                                              ^^^^ invalid.illegal.unexpected-token.cs
+///                                                   ^^^^ punctuation.section.interpolation.begin.cs
+///                                                       ^^^^^ variable.other.cs
+///                                                            ^^ meta.format-spec.cs
+///                                                            ^ punctuation.separator.cs
+///                                                             ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                                              ^^^ punctuation.section.interpolation.end.cs
+///                                                                 ^ - invalid.illegal
    """;
 ///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs

@@ -46,6 +46,18 @@ var interpolated_none = $"foo";
 ///                     ^^^^^^ meta.string.interpolated.cs string.quoted.double.cs
 var interpolated_yes = $"foo {bar} foo";
 ///                    ^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
+var interpolated_quotes = $"|{"Left",-7}|{"Right",7}|";
+///                       ^^^ meta.string.interpolated.cs
+///                          ^ meta.string.interpolated.cs meta.interpolation.cs punctuation.section.interpolation.begin.cs
+///                           ^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs string.quoted.double.cs
+///                                 ^^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs - string
+///                                    ^ meta.string.interpolated.cs meta.interpolation.cs punctuation.section.interpolation.end.cs
+///                                     ^ meta.string.interpolated.cs string.quoted.double.cs
+///                                      ^ meta.string.interpolated.cs meta.interpolation.cs punctuation.section.interpolation.begin.cs
+///                                       ^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs string.quoted.double.cs
+///                                              ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs - string
+///                                                ^ meta.string.interpolated.cs meta.interpolation.cs punctuation.section.interpolation.end.cs
+///                                                 ^^ meta.string.interpolated.cs string.quoted.double.cs
 var verbatim_singleline = @"foo";
 ///                       ^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
 var verbatim_singleline_interpolated_none = $@"foo bar";

@@ -2024,7 +2024,9 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.cs
     - meta_content_scope: source.cs
-    - include: string_interpolation_end
+    - match: \}
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
     - include: string_interpolation_width
     - include: string_placeholder_format
     - include: line_of_code_in
@@ -2042,11 +2044,11 @@ contexts:
     - meta_content_scope: constant.other.format-spec.cs
     - include: string_escapes
     - include: string_placeholder_escapes
-    - match: (?=[}"])
+    - match: (?=\})
       pop: true
-    - match: (?:[^}"\\](?:\\.)*)+(?=")
+    - match: (?:[^}"\\](?:\\.)*)*(?=")
       scope: invalid.illegal.unclosed-string-placeholder.cs
-      pop: true
+      pop: 2
     - match: \{
       scope: invalid.illegal.unescaped-placeholder.cs
 
@@ -2126,7 +2128,9 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.cs
     - meta_content_scope: source.cs
-    - include: string_interpolation_end
+    - match: \}
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
     - include: string_interpolation_width
     - include: verbatim_string_placeholder_format
     - include: line_of_code_in
@@ -2144,13 +2148,13 @@ contexts:
     - meta_content_scope: constant.other.format-spec.cs
     - include: verbatim_string_escapes
     - include: string_placeholder_escapes
-    - match: (?=[}"])
+    - match: (?=\})
       pop: true
     - match: \\(?:""|[^"])
       scope: constant.character.escape.cs
-    - match: (?:[^}"]|"")+(?="(?!"))
+    - match: (?:[^}"]|"")*(?="(?!"))
       scope: invalid.illegal.unclosed-string-placeholder.cs
-      pop: true
+      pop: 2
     - match: \{
       scope: invalid.illegal.unescaped-placeholder.cs
 
@@ -2212,7 +2216,7 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - match: \{{2,}|\}{1,}
-      scope: invalid.illegal.unescaped-placeholder.cs
+      scope: invalid.illegal.unexpected-token.cs
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push: inside_raw_format_string_interpolation_1
@@ -2221,7 +2225,9 @@ contexts:
     - clear_scopes: 1
     - meta_scope: meta.interpolation.cs
     - meta_content_scope: source.cs
-    - include: string_interpolation_end
+    - match: \}
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
     - include: line_of_code_in
@@ -2236,7 +2242,7 @@ contexts:
       scope: punctuation.section.interpolation.begin.cs
       push: inside_raw_format_string_interpolation_2
     - match: \}{2,}
-      scope: invalid.illegal.unescaped-placeholder.cs
+      scope: invalid.illegal.unexpected-token.cs
 
   inside_raw_format_string_interpolation_2:
     - clear_scopes: 1
@@ -2244,8 +2250,6 @@ contexts:
     - meta_content_scope: source.cs
     - match: \}{2}
       scope: punctuation.section.interpolation.end.cs
-      pop: true
-    - match: (?=")
       pop: true
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
@@ -2270,8 +2274,6 @@ contexts:
     - match: \}{3}
       scope: punctuation.section.interpolation.end.cs
       pop: true
-    - match: (?=")
-      pop: true
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
     - include: line_of_code_in
@@ -2295,8 +2297,6 @@ contexts:
     - match: \}{4}
       scope: punctuation.section.interpolation.end.cs
       pop: true
-    - match: (?=")
-      pop: true
     - include: string_interpolation_width
     - include: raw_string_placeholder_format
     - include: line_of_code_in
@@ -2309,8 +2309,10 @@ contexts:
   inside_raw_string_placeholder_format:
     - meta_scope: meta.format-spec.cs
     - meta_content_scope: constant.other.format-spec.cs
-    - match: (?=[}"])
+    - match: (?=\})
       pop: true
+    - match: (?=")
+      pop: 2
     - match: \\
       scope: invalid.illegal.lone-escape.cs
     - match: \{
@@ -2354,13 +2356,6 @@ contexts:
         2: meta.number.integer.decimal.cs constant.numeric.value.cs
         3: keyword.operator.arithmetic.cs
         4: variable.other.cs
-
-  string_interpolation_end:
-    - match: \}
-      scope: punctuation.section.interpolation.end.cs
-      pop: true
-    - match: (?=")
-      pop: true
 
   string_interpolation_width:
     - match: \s*(?:(,)\s*(?:((-?)\d+)|({{name}}))\s*)?
