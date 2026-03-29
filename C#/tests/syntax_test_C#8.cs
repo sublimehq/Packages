@@ -362,7 +362,7 @@ public class CustomAutoDataAttribute() : AutoDataAttribute(
 var payload = JsonConverter.Deserialize<SomeType>(serializedData);
 var for_same_value = (payload is { SomeProperty: var propValue } && propValue == compare);
 /// ^^^^^^^^^^^^^^ variable.other.cs
-///                ^ keyword.operator.assignment.variable.cs
+///                ^ keyword.operator.assignment.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^^^ variable.other.cs

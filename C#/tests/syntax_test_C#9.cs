@@ -379,7 +379,7 @@ public record D<TNum> (TNum Num) where TNum : class { public const int TEST = 4;
 ///                                                          ^^^^^ storage.modifier
 ///                                                                ^^^ storage.type
 ///                                                                    ^^^^ variable.other
-///                                                                         ^ keyword.operator.assignment.variable
+///                                                                         ^ keyword.operator.assignment
 ///                                                                           ^ constant.numeric.value
 ///                                                                            ^ punctuation.terminator.statement
 ///                                                                              ^ punctuation.section.block.end
@@ -704,7 +704,7 @@ unsafe class TestFunctionPointers {
 ///                                  ^^^^^^ storage.type.cs
 ///                                        ^ punctuation.definition.generic.end.cs
 ///                                          ^ variable.other.cs
-///                                            ^ keyword.operator.assignment.variable.cs
+///                                            ^ keyword.operator.assignment.cs
 ///                                              ^ keyword.operator.cs
 ///                                               ^^^^^^^^ variable.other.cs
 ///                                                       ^ punctuation.terminator.statement.cs

@@ -31,7 +31,7 @@ namespace YourNamespace
 ///             ^ punctuation.section.brackets.begin
 ///              ^ punctuation.section.brackets.end
 ///                ^^^^ variable.other.member
-///                     ^ keyword.operator.assignment.variable
+///                     ^ keyword.operator.assignment
 
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter
@@ -1407,14 +1407,14 @@ public class AfterTopLevelMethod {
     }
 
     Action<float> actionDelegate = delegate { };
-///                              ^ keyword.operator.assignment.variable
+///                              ^ keyword.operator.assignment
 ///                                ^^^^^^^^ keyword.other
 ///                                         ^ punctuation.section.block.begin
 ///                                           ^ punctuation.section.block.end
     event Action<float> eventAction;
 /// ^^^^^ storage.modifier
     event Action<float> eventActionDelegate = delegate { };
-///                                         ^ keyword.operator.assignment.variable
+///                                         ^ keyword.operator.assignment
 ///                                           ^^^^^^^^ keyword.other
 ///                                                    ^ punctuation.section.block.begin
 ///                                                      ^ punctuation.section.block.end
@@ -1446,7 +1446,7 @@ public class MyClass
 ///                             ^^ punctuation.definition.generic.end
 ///                                ^^^^^^ variable.other.member
         = new Dictionary<MyEnum, List<uint>>
-///     ^ keyword.operator.assignment.variable
+///     ^ keyword.operator.assignment
 ///       ^^^ keyword.operator.new
         {
             [One] = new List<uint>

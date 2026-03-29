@@ -96,7 +96,7 @@ class TestGenericList
 //      ^^^ storage.type
 //          ^ storage.type.nullable
 //            ^^^^^ variable.other
-//                  ^ keyword.operator.assignment.variable
+//                  ^ keyword.operator.assignment
 //                    ^ meta.number.integer.decimal constant.numeric.value
     }
 }
@@ -365,7 +365,7 @@ public class Program {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.cs meta.block.cs meta.method.body.cs meta.block.cs
 //      ^^^ storage.type.variable.cs
 //          ^^^^^^^ variable.other.cs
-//                  ^ keyword.operator.assignment.variable.cs
+//                  ^ keyword.operator.assignment.cs
 //                    ^^^ variable.other.cs
 //                       ^ punctuation.accessor.dot.cs
 //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.cs

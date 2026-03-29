@@ -140,7 +140,7 @@ TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out
 //       ^^^ storage.type.cs
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
-//                   ^ keyword.operator.assignment.variable.cs
+//                   ^ keyword.operator.assignment.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
@@ -172,7 +172,7 @@ TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
 //       ^^^ storage.type.cs
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
-//                   ^ keyword.operator.assignment.variable.cs
+//                   ^ keyword.operator.assignment.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 //                     ^ punctuation.section.group.begin.cs
@@ -203,7 +203,7 @@ TryParse<int> parse1 = (text, out Int32 result) => Int32.TryParse(text, out resu
 //       ^^^ storage.type.cs
 //          ^ punctuation.definition.generic.end.cs
 //            ^^^^^^ variable.other.cs
-//                   ^ keyword.operator.assignment.variable.cs
+//                   ^ keyword.operator.assignment.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 //                     ^ punctuation.section.group.begin.cs

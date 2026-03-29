@@ -584,7 +584,7 @@ class Foo {
 ///                                                ^ punctuation.section.sequence.end
 ///                                                 ^ punctuation.definition.generic.end
 ///                                                   ^^^^ variable.other
-///                                                        ^ keyword.operator.assignment.variable
+///                                                        ^ keyword.operator.assignment
 ///                                                          ^ variable.parameter
 ///                                                            ^^ keyword.declaration.function.arrow
 ///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
@@ -665,11 +665,11 @@ public readonly struct S
 
     public readonly int X = 0, Y = 1;    // All fields must be readonly
 ///                     ^ variable.other.member
-///                       ^ keyword.operator.assignment.variable.cs
+///                       ^ keyword.operator.assignment.cs
 ///                         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                          ^ punctuation.separator.variables
 ///                            ^ variable.other.member
-///                              ^ keyword.operator.assignment.variable.cs
+///                              ^ keyword.operator.assignment.cs
 ///                                ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                 ^ punctuation.terminator.statement
 
@@ -776,7 +776,7 @@ void Test ()
 /// ^^^ storage.modifier
 ///     ^^^ storage.type
 ///         ^^^^^ variable.other
-///               ^ keyword.operator.assignment.variable
+///               ^ keyword.operator.assignment
 ///                 ^^^ keyword.other
 ///                     ^^^^ variable.function
     place = 9; // replaces 7 with 9 in the array
