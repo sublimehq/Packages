@@ -1,5 +1,47 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
+
+    var c = 5 * 4;
+///         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///           ^ keyword.operator
+///           ^ - keyword.operator.pointer
+///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+
+    x >>= y
+///   ^^^ keyword.operator
+
+    x = x >> y
+///   ^ keyword.operator.assignment
+///       ^^ keyword.operator
+
+condition ? first_expression : second_expression;
+///       ^ keyword.operator.ternary
+///                          ^ keyword.operator.ternary
+
+/// Accessors /////////////////////////////////////////////////////////////////
+
+    (*x).y;
+///  ^ keyword.operator.pointer.cs
+///     ^ punctuation.accessor.dot.cs
+///       ^ punctuation.terminator.statement.cs
+
+    T::m;
+///  ^^ punctuation.accessor.double-colon.namespace.cs
+
+    x.y;
+///  ^ punctuation.accessor.dot.cs
+///    ^ punctuation.terminator.statement.cs
+
+    x?.y;
+///  ^^ punctuation.accessor.null-coalescing.cs
+///     ^ punctuation.terminator.statement.cs
+
+    x->y;
+///  ^^ punctuation.accessor.arrow.cs
+///     ^ punctuation.terminator.statement.cs
+
+/// Unllable Type Modifiers ///////////////////////////////////////////////////
+
 int? length = customers?.Length;
 /// <- storage.type
 ///^ storage.type.nullable
@@ -51,31 +93,7 @@ A?.B?.C?[0] == E;
 ///         ^^ keyword.operator
 ///             ^ punctuation.terminator
 
-     x->y;
-///   ^^ punctuation.accessor.arrow
-///      ^ punctuation.terminator
-
-    (*x).y;
-///  ^ keyword.operator.pointer
-///     ^ punctuation.accessor.dot
-///       ^ punctuation.terminator
-
-    var c = 5 * 4;
-///         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///           ^ keyword.operator
-///           ^ - keyword.operator.pointer
-///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-
-    x >>= y
-///   ^^^ keyword.operator
-
-    x = x >> y
-///   ^ keyword.operator.assignment
-///       ^^ keyword.operator
-
-condition ? first_expression : second_expression;
-///       ^ keyword.operator.ternary
-///                          ^ keyword.operator.ternary
+/// Type Casts ////////////////////////////////////////////////////////////////
 
     ((Test.Example . State)item.State).ToString();
 ///  ^^^^^^^^^^^^^^^^^^^^^^ meta.cast
