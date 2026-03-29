@@ -109,11 +109,11 @@ var verbatim_singleline_sql_interpolated = $@"
 """
     SELECT *
     FROM some_table
-/// ^^^^ meta.string.cs string.quoted.triple.cs source.sql keyword.other.dml.sql
+/// ^^^^ meta.string.cs string.quoted.double.block.cs source.sql keyword.other.dml.sql
 """;
-/// <- meta.string.cs string.quoted.triple.cs punctuation.definition.string.end.cs
+/// <- meta.string.cs string.quoted.double.block.cs punctuation.definition.string.end.cs
 
 """
     no sql here
-/// ^^^^^^^^^^^^ meta.string.cs string.quoted.triple.cs - source.sql
+/// ^^^^^^^^^^^^ meta.string.cs string.quoted.double.block.cs - source.sql
 """;

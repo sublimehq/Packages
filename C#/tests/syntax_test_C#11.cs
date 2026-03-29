@@ -3,14 +3,14 @@
 // https://learn.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-11#raw-string-literals
 
 string longMessage = """
-///                  ^^^ string.quoted.triple punctuation.definition.string.begin
+///                  ^^^ string.quoted.double.block punctuation.definition.string.begin
     This is a long message.
     It has several lines.
         Some are indented
                 more than others.
     Some should start at the first column.
     Some have "quoted text" in them.
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.triple - punctuation
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block - punctuation
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
@@ -32,7 +32,7 @@ string longMessage = """
 ///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 ///                                               ^^ constant.character.escape.cs
     """;
-/// ^^^ string.quoted.triple punctuation.definition.string.end
+/// ^^^ string.quoted.double.block punctuation.definition.string.end
 
 longMessage = """""
 This raw string literal has four """", count them: """" four!
@@ -62,7 +62,7 @@ with five double quotes.
 // - no semi-colon on the line above
 
 var location = $"""
-///            ^^^^^ meta.string.interpolated string.quoted.triple
+///            ^^^^^ meta.string.interpolated string.quoted.double.block
 ///            ^^^^ punctuation.definition.string.begin
 ///                ^ - invalid
 
@@ -70,9 +70,9 @@ var location = $"""
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {Longitude}} \t {{Latitude}}}
-///^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                       ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                       ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^ punctuation.section.interpolation.begin.cs
 ///             ^^^^^^^^^ variable.other.cs
 ///                      ^ punctuation.section.interpolation.end.cs
@@ -82,9 +82,9 @@ var location = $"""
 ///                                      ^^^ invalid.illegal.unescaped-placeholder.cs
 
     GMT is {DateTime.Now,width:yyyyMMdd\THHmmss\Z}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                               ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                               ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^ punctuation.section.interpolation.begin.cs
 ///         ^^^^^^^^ variable.other.cs
 ///                 ^ punctuation.accessor.dot.cs
@@ -99,13 +99,13 @@ var location = $"""
 ///                                              ^ punctuation.section.interpolation.end.cs
 
     "{Incomplete:F"} "{Incomplete:F\"} {Brace:{}}
-///^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///               ^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///               ^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///                   ^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                 ^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                 ^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///                                    ^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                             ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                             ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^ punctuation.section.interpolation.begin.cs
 ///   ^^^^^^^^^^ variable.other.cs
 ///             ^^ meta.format-spec.cs
@@ -127,8 +127,8 @@ var location = $"""
 ///                                            ^ punctuation.section.interpolation.end.cs
 ///                                             ^ invalid.illegal.unescaped-placeholder.cs
    """;
-/// <- meta.string.interpolated string.quoted.triple
-///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
+/// <- meta.string.interpolated string.quoted.double.block
+///^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.end
 ///   ^ punctuation.terminator.statement - string
 
 // Note: Verbatim strings may look like raw strings when starting with escaped double-quotes
@@ -181,15 +181,15 @@ var location = @$"""
 var location = $$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
-///            ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{Longitude}}} \t {Latitude}} }
-///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///             ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                          ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                          ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^ - constant - invalid - punctuation
 ///             ^^ punctuation.section.interpolation.begin.cs
 ///               ^^^^^^^^^ variable.other.cs
@@ -199,9 +199,9 @@ var location = $$"""
 ///                                           ^ - constant - invalid - punctuation
 
     GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                                 ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                                 ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^ punctuation.section.interpolation.begin.cs
 ///          ^^^^^^^^ variable.other.cs
 ///                  ^ punctuation.accessor.dot.cs
@@ -215,7 +215,7 @@ var location = $$"""
 ///                                             ^ invalid.illegal.lone-escape.cs
 ///                                               ^^ punctuation.section.interpolation.end.cs
    """;
-///^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
 
@@ -223,15 +223,15 @@ var location = @$$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
-///             ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{Longitude}}} \t {Latitude}} }
-///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///             ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                          ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                          ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^ - constant - invalid - punctuation
 ///             ^^ punctuation.section.interpolation.begin.cs
 ///               ^^^^^^^^^ variable.other.cs
@@ -241,9 +241,9 @@ var location = @$$"""
 ///                                           ^ - constant - invalid - punctuation
 
     GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                                 ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                                 ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^ punctuation.section.interpolation.begin.cs
 ///          ^^^^^^^^ variable.other.cs
 ///                  ^ punctuation.accessor.dot.cs
@@ -257,22 +257,22 @@ var location = @$$"""
 ///                                             ^ invalid.illegal.lone-escape.cs
 ///                                               ^^ punctuation.section.interpolation.end.cs
    """;
-///^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
-///            ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{{{Longitude}}}}} \t {{Latitude}}} }}
-///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///              ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^^ - constant - invalid - punctuation
 ///              ^^^ punctuation.section.interpolation.begin.cs
 ///                 ^^^^^^^^^ source.cs variable.other.cs
@@ -282,9 +282,9 @@ var location = $$$"""
 ///                                                 ^^ - constant - invalid - punctuation
 
     GMT is {{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                                   ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                                   ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^ punctuation.section.interpolation.begin.cs
 ///           ^^^^^^^^ variable.other.cs
 ///                   ^ punctuation.accessor.dot.cs
@@ -298,7 +298,7 @@ var location = $$$"""
 ///                                              ^ invalid.illegal.lone-escape.cs
 ///                                                ^^^ punctuation.section.interpolation.end.cs
    """;
-///^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
 
@@ -306,15 +306,15 @@ var location = @$$$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
-///             ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{{{Longitude}}}}} \t {{Latitude}}} }}
-///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///              ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^^ - constant - invalid - punctuation
 ///              ^^^ punctuation.section.interpolation.begin.cs
 ///                 ^^^^^^^^^ source.cs variable.other.cs
@@ -324,9 +324,9 @@ var location = @$$$"""
 ///                                                 ^^ - constant - invalid - punctuation
 
     GMT is {{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                                   ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                                   ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^ punctuation.section.interpolation.begin.cs
 ///           ^^^^^^^^ variable.other.cs
 ///                   ^ punctuation.accessor.dot.cs
@@ -340,22 +340,22 @@ var location = @$$$"""
 ///                                              ^ invalid.illegal.lone-escape.cs
 ///                                                ^^^ punctuation.section.interpolation.end.cs
    """;
-///^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
 
 var location = $$$$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
-///            ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{{{{{Longitude}}}}}}} \t {{{Latitude}}}} }}}
-///^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///               ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^^^ - constant - invalid - punctuation
 ///               ^^^^ punctuation.section.interpolation.begin.cs
 ///                   ^^^^^^^^^ source.cs variable.other.cs
@@ -365,9 +365,9 @@ var location = $$$$"""
 ///                                                       ^^^ - constant - invalid - punctuation
 
     GMT is {{{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                                     ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                                     ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^ punctuation.section.interpolation.begin.cs
 ///            ^^^^^^^^ variable.other.cs
 ///                    ^ punctuation.accessor.dot.cs
@@ -381,7 +381,7 @@ var location = $$$$"""
 ///                                               ^ invalid.illegal.lone-escape.cs
 ///                                                 ^^^^ punctuation.section.interpolation.end.cs
    """;
-///^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
 
@@ -389,15 +389,15 @@ var location = @$$$$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
 ///            ^ invalid.illegal.reserved-char.cs
-///             ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
     Escapes like \0 \a \f \n \t "" are literals.
 ///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{{{{{Longitude}}}}}}} \t {{{Latitude}}}} }}}
-///^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///               ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///            ^^^ - constant - invalid - punctuation
 ///               ^^^^ punctuation.section.interpolation.begin.cs
 ///                   ^^^^^^^^^ source.cs variable.other.cs
@@ -407,9 +407,9 @@ var location = @$$$$"""
 ///                                                       ^^^ - constant - invalid - punctuation
 
     GMT is {{{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                                     ^^ meta.string.interpolated.cs string.quoted.triple.cs
+///                                                     ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///        ^^^^ punctuation.section.interpolation.begin.cs
 ///            ^^^^^^^^ variable.other.cs
 ///                    ^ punctuation.accessor.dot.cs
@@ -423,20 +423,20 @@ var location = @$$$$"""
 ///                                               ^ invalid.illegal.lone-escape.cs
 ///                                                 ^^^^ punctuation.section.interpolation.end.cs
    """;
-///^^^ meta.string.interpolated.cs string.quoted.triple.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///^^^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
 
 var pointMessage = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
-///                ^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///                ^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 ///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
-///                    ^^^^^^^^^^^ string.quoted.triple - meta.interpolation
+///                    ^^^^^^^^^^^ string.quoted.double.block - meta.interpolation
 ///                               ^^^ meta.interpolation - string
-///                                  ^^ string.quoted.triple - meta.interpolation
+///                                  ^^ string.quoted.double.block - meta.interpolation
 ///                                    ^^^ meta.interpolation - string
-///                                       ^^^^^ string.quoted.triple - meta.interpolation
+///                                       ^^^^^ string.quoted.double.block - meta.interpolation
 ///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation - string
-///                                                                      ^^^^^^^^^^^^^^^^^^^ string.quoted.triple - meta.interpolation
+///                                                                      ^^^^^^^^^^^^^^^^^^^ string.quoted.double.block - meta.interpolation
 ///                               ^ punctuation.section.interpolation.begin
 ///                                ^ variable.other
 ///                                 ^ punctuation.section.interpolation.end
@@ -493,7 +493,7 @@ string s2 = @$"He said, ""This is the last \u0063hance\x0021""";
 
 string s2 = @$$"""He said, ""This is the last \u0063hance\x0021""";
 ///         ^ invalid.illegal.reserved-char.cs
-///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple - constant
+///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block - constant
 ///          ^^^^^ punctuation.definition.string.begin
 ///                        ^^ - constant.character
 ///                                           ^^^^^^^^^^^^^^^^^ - constant

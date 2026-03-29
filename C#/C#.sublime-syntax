@@ -2162,7 +2162,7 @@ contexts:
 
   inside_triple_quoted_raw_string:
     - meta_include_prototype: false
-    - meta_scope: meta.string.cs string.quoted.triple.cs
+    - meta_scope: meta.string.cs string.quoted.double.block.cs
     - match: '"""'
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -2182,7 +2182,7 @@ contexts:
 
   inside_raw_string:
     - meta_include_prototype: false
-    - meta_scope: meta.string.cs string.quoted.triple.cs
+    - meta_scope: meta.string.cs string.quoted.double.block.cs
     - match: \1
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -2207,7 +2207,7 @@ contexts:
 
   inside_raw_format_string_1:
     - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.block.cs
     - match: \1
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -2228,7 +2228,7 @@ contexts:
 
   inside_raw_format_string_2:
     - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.block.cs
     - match: \1
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -2253,7 +2253,7 @@ contexts:
 
   inside_raw_format_string_3:
     - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.block.cs
     - match: \1
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -2278,7 +2278,7 @@ contexts:
 
   inside_raw_format_string_4:
     - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.triple.cs
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.block.cs
     - match: \1
       scope: punctuation.definition.string.end.cs
       pop: true
