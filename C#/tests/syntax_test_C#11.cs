@@ -110,7 +110,7 @@ var location = $"""
 ///                                                ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^ punctuation.section.interpolation.begin.cs
 ///   ^^ variable.other.cs
-///     ^ keyword.operator.cs
+///     ^ keyword.operator.arithmetic.cs
 ///      ^^^^^^^^^^ string.quoted.double.cs
 ///                ^^ meta.format-spec.cs
 ///                ^ punctuation.separator.cs
@@ -231,7 +231,7 @@ var location = $$"""
 ///                                                      ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^^ punctuation.section.interpolation.begin.cs
 ///    ^^ variable.other.cs
-///      ^ keyword.operator.cs
+///      ^ keyword.operator.arithmetic.cs
 ///       ^^^^^^^^^^ string.quoted.double.cs
 ///                 ^^ meta.format-spec.cs
 ///                 ^ punctuation.separator.cs
@@ -347,7 +347,7 @@ var location = $$$"""
 ///                                                            ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^^^ punctuation.section.interpolation.begin.cs
 ///     ^^ variable.other.cs
-///       ^ keyword.operator.cs
+///       ^ keyword.operator.arithmetic.cs
 ///        ^^^^^^^^^^ string.quoted.double.cs
 ///                  ^^ meta.format-spec.cs
 ///                  ^ punctuation.separator.cs
@@ -463,7 +463,7 @@ var location = $$$$"""
 ///                                                                  ^^ meta.string.interpolated.cs string.quoted.double.block.cs
 ///  ^^^^ punctuation.section.interpolation.begin.cs
 ///      ^^ variable.other.cs
-///        ^ keyword.operator.cs
+///        ^ keyword.operator.arithmetic.cs
 ///         ^^^^^^^^^^ string.quoted.double.cs
 ///                   ^^ meta.format-spec.cs
 ///                   ^ punctuation.separator.cs
