@@ -47,20 +47,20 @@ var interpolated_none = $"foo";
 var interpolated_yes = $"foo {bar} foo";
 ///                    ^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
 var verbatim_singleline = @"foo";
-///                       ^^^^^^ meta.string.cs string.quoted.double.raw.cs - meta.string.interpolated
+///                       ^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
 var verbatim_singleline_interpolated_none = $@"foo bar";
-///                                         ^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///                                         ^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 var verbatim_singleline_interpolated_yes = $@"foo {bar} foo";
-///                                        ^^^^^^^ string.quoted.double.raw.cs
+///                                        ^^^^^^^ string.quoted.double.verbatim.cs
 ///                                        ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs
 var verbatim_multiline = @"foo bar
-///                      ^^^^^^^^^^ meta.string.cs string.quoted.double.raw.cs - meta.string.interpolated
+///                      ^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
 baz";
 var verbatim_multiline_interpolated_none = $@"foo bar
-///                                        ^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///                                        ^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 baz";
 var verbatim_multiline_interpolated_yes = $@"foo {bar}
-///                                       ^^^^^^ string.quoted.double.raw.cs
+///                                       ^^^^^^ string.quoted.double.verbatim.cs
 ///                                       ^^^^^^^^^^^^ meta.string.interpolated.cs
 baz";
 
@@ -68,7 +68,7 @@ var verbatim_singleline_sql = @"
     SELECT  *
     FROM    foo
     WHERE   SQLi='{0}'";
-///^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.raw.cs - meta.string.interpolated
+///^^^^^^^^^^^^^^^^^^^^ meta.string.cs string.quoted.double.verbatim.cs - meta.string.interpolated
 ///^^^^^^^^^^^^^^^^^^^ source.sql
 /// ^^^^^ keyword.other.dml.sql
 ///         ^^^^ meta.column-name.sql
@@ -87,7 +87,7 @@ var verbatim_singleline_sql_interpolated = $@"
     SELECT  *
     FROM    foo
     WHERE   SQLi='{bar}'";
-///^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///^^^^^^^^^^^^^^^^^^^^^ source.sql
 /// ^^^^^ keyword.other.dml.sql
 ///         ^^^^ meta.column-name.sql

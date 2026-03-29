@@ -2054,7 +2054,7 @@ contexts:
 
   inside_verbatim_string:
     - meta_include_prototype: false
-    - meta_scope: meta.string.cs string.quoted.double.raw.cs
+    - meta_scope: meta.string.cs string.quoted.double.verbatim.cs
     - include: verbatim_string_escapes
     - match: '"'
       scope: punctuation.definition.string.end.cs
@@ -2094,7 +2094,7 @@ contexts:
 
   inside_verbatim_format_string:
     - meta_include_prototype: false
-    - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.verbatim.cs
     - include: verbatim_string_escapes
     - match: '"'
       scope: punctuation.definition.string.end.cs

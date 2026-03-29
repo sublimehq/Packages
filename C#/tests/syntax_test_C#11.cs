@@ -133,7 +133,7 @@ var location = $"""
 
 // Note: Verbatim strings may look like raw strings when starting with escaped double-quotes
 var location = @$"""
-///            ^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///            ^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///            ^^^ punctuation.definition.string.begin.cs
 ///               ^^ constant.character.escape.cs
 
@@ -143,9 +143,9 @@ var location = @$"""
 ///                               ^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
     You are at {{{Longitude}} \t {{Latitude}}}
-///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///              ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                         ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///                         ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///            ^^ constant.character.escape.cs
 ///              ^ punctuation.section.interpolation.begin.cs
 ///               ^^^^^^^^^ variable.other.cs
@@ -156,9 +156,9 @@ var location = @$"""
 ///                                          ^ - constant
 
     GMT is {DateTime.Now,width:yyyyMMdd\THHmmss\Z}!
-///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
-///                                               ^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+///                                               ^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///        ^ punctuation.section.interpolation.begin.cs
 ///         ^^^^^^^^ variable.other.cs
 ///                 ^ punctuation.accessor.dot.cs
@@ -172,8 +172,8 @@ var location = @$"""
 ///                                            ^^ constant.character.escape.cs
 ///                                              ^ punctuation.section.interpolation.end.cs
    """;
-/// <- meta.string.interpolated.cs string.quoted.double.raw.cs
-///^^^ meta.string.interpolated.cs string.quoted.double.raw.cs
+/// <- meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
 ///^^ constant.character.escape.cs
 ///  ^ punctuation.definition.string.end.cs
 ///   ^ punctuation.terminator.statement.cs
@@ -486,7 +486,7 @@ Console.WriteLine($"{name} is {age} year{(age == 1 ? "" : "s")} old.");
 // Horace is 34 years old.
 
 string s2 = @$"He said, ""This is the last \u0063hance\x0021""";
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.raw
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.verbatim
 ///         ^^^ punctuation.definition.string.begin
 ///                     ^^ constant.character.escape
 ///                                        ^^^^^^^^^^^^^^^^^ - constant

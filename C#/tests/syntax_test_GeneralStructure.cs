@@ -1292,7 +1292,7 @@ namespace TestNamespace . Test
 ///                                            ^^ constant.character.escape.cs
 
         formatted = string.Format(@"GMT is {0:yyyyMMdd\THHmmss\Z}", DateTime.Now.ToUniversalTime());
-///                                        ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw constant.other.placeholder
+///                                        ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.verbatim constant.other.placeholder
         formatted = string.Format("GMT is {0:yyyyMMdd\\THHmmss\\Z}", DateTime.Now.ToUniversalTime());
 ///                                       ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double constant.other.placeholder
 
@@ -1323,7 +1323,7 @@ namespace TestNamespace . Test
 ///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
         Console.WriteLine(@$"GMT is {DateTime.Now""");
 ///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
-///                                              ^^ meta.string.interpolated.cs string.quoted.double.raw.cs constant.character.escape.cs
+///                                              ^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs constant.character.escape.cs
 ///                                                ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
         Console.WriteLine(@$"GMT is {DateTime.Now:");
 ///                                 ^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
