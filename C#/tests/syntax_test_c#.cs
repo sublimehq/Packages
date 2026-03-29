@@ -229,6 +229,114 @@ class Syntax
     public ulong bad = 1UU;
     //                  ^ constant.numeric.suffix.cs
     //                   ^ - constant.numeric.suffix.cs
+
+    public long long1 = 0b1l;
+    //                  ^^^^ meta.number.integer.binary.cs
+    //                  ^^ constant.numeric.base.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^ constant.numeric.suffix.cs
+    public long long2 = 0b1L;
+    //                  ^^^^ meta.number.integer.binary.cs
+    //                  ^^ constant.numeric.base.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^ constant.numeric.suffix.cs
+    public ulong ulong1 = 0b1ul;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong2 = 0b1UL;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong3 = 0b1lu;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong4 = 0b1LU;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong5 = 0b1uL;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong6 = 0b1Ul;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong7 = 0b1lU;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong8 = 0b1Lu;
+    //                    ^^^^^ meta.number.integer.binary.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong bad = 0b1UU;
+    //                    ^ constant.numeric.suffix.cs
+    //                     ^ - constant.numeric.suffix.cs
+
+    public long long1 = 0x1l;
+    //                  ^^^^ meta.number.integer.hexadecimal.cs
+    //                  ^^ constant.numeric.base.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^ constant.numeric.suffix.cs
+    public long long2 = 0x2L;
+    //                  ^^^^ meta.number.integer.hexadecimal.cs
+    //                  ^^ constant.numeric.base.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^ constant.numeric.suffix.cs
+    public ulong ulong1 = 0x1ul;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong2 = 0x2UL;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong3 = 0x3lu;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong4 = 0x4LU;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong5 = 0x5uL;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong6 = 0x6Ul;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong7 = 0x7lU;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong ulong8 = 0x8Lu;
+    //                    ^^^^^ meta.number.integer.hexadecimal.cs
+    //                    ^^ constant.numeric.base.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^^ constant.numeric.suffix.cs
+    public ulong bad = 0x1UU;
+    //                    ^ constant.numeric.suffix.cs
+    //                     ^ - constant.numeric.suffix.cs
 }
 
 class Car

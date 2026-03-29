@@ -1902,16 +1902,18 @@ contexts:
     - match: (')[^']+(')
       scope: invalid.illegal.not_a_char.cs
     # numbers
-    - match: (0[xX])([\h_]*\h)
+    - match: (0[xX])([\h_]*\h)({{integer_suffix}})?
       scope: meta.number.integer.hexadecimal.cs
       captures:
         1: constant.numeric.base.cs
         2: constant.numeric.value.cs
-    - match: (0[bB])([01_]*[01])
+        3: constant.numeric.suffix.cs
+    - match: (0[bB])([01_]*[01])({{integer_suffix}})?
       scope: meta.number.integer.binary.cs
       captures:
         1: constant.numeric.base.cs
         2: constant.numeric.value.cs
+        3: constant.numeric.suffix.cs
     - match: '({{dec_digits}})(?:(?:((\.){{dec_digits}})({{dec_exponent}})?|({{dec_exponent}}))({{float_suffix}})?|({{float_suffix}}))'
       scope: meta.number.float.decimal.cs
       captures:
