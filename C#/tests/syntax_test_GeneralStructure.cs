@@ -1264,7 +1264,6 @@ namespace TestNamespace . Test
 ///                                     ^^^ invalid.illegal.unclosed-string-placeholder
 ///                                        ^ punctuation.definition.string.end
 ///                                                   ^ string - invalid - constant.other - punctuation
-
         formatted = string.Format("{1:\",{{}} {}", myInt, "}");
 ///                                ^^^^^^^^^^^^^ constant.other.placeholder
 ///                                ^ punctuation.definition.placeholder.begin
@@ -1273,6 +1272,7 @@ namespace TestNamespace . Test
 ///                                           ^ invalid.illegal.unescaped-placeholder
 ///                                            ^ punctuation.definition.placeholder.end
 ///                                                        ^ string - invalid - constant.other - punctuation
+
         formatted = string.Format(@"{0:00.00000{{}}test""} me", 5);
 ///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                            ^^^^ constant.character.escape
@@ -1281,10 +1281,21 @@ namespace TestNamespace . Test
 ///                                     ^^^^^ variable.other - variable.parameter
 ///                                                    ^^^^^ variable.other - variable.parameter
 ///                                           ^^ keyword.operator - keyword.operator.assignment
+
+        formatted = string.Format(@"GMT is {{ } }}");
+///                                        ^^ constant.character.escape.cs
+///                                           ^ - invalid
+///                                             ^^ constant.character.escape.cs
+        formatted = string.Format("GMT is {{ } }}");
+///                                       ^^ constant.character.escape.cs
+///                                          ^ - invalid
+///                                            ^^ constant.character.escape.cs
+
         formatted = string.Format(@"GMT is {0:yyyyMMdd\THHmmss\Z}", DateTime.Now.ToUniversalTime());
 ///                                        ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw constant.other.placeholder
         formatted = string.Format("GMT is {0:yyyyMMdd\\THHmmss\\Z}", DateTime.Now.ToUniversalTime());
 ///                                       ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double constant.other.placeholder
+
         Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
 ///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
 ///                                              ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation meta.format-spec
@@ -1303,6 +1314,10 @@ namespace TestNamespace . Test
 ///                                                              ^ invalid.illegal.lone-escape
 ///                                                                ^ punctuation.section.interpolation.end
 ///                                                                 ^ punctuation.definition.string.end
+        Console.WriteLine(@$"GMT is {{ } }}");
+///                                 ^^ constant.character.escape.cs
+///                                    ^ invalid.illegal.unescaped-placeholder.cs
+///                                      ^^ constant.character.escape.cs
         Console.WriteLine(@$"GMT is {DateTime.Now");
 ///                                 ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
 ///                                              ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec
@@ -1325,6 +1340,10 @@ namespace TestNamespace . Test
 ///                                              ^ punctuation.separator - constant.other.format-spec
 ///                                               ^^^^^^^^^^^^^^^^^^ invalid.illegal.unclosed-string-placeholder.cs
 ///                                                                 ^ punctuation.definition.string.end
+        Console.WriteLine($"GMT is {{ } }}");
+///                                ^^ constant.character.escape.cs
+///                                   ^ invalid.illegal.unescaped-placeholder.cs
+///                                     ^^ constant.character.escape.cs
         Console.WriteLine($"GMT is {DateTime.Now");
 ///                                ^^^^^^^^^^^^^ meta.string.interpolated meta.interpolation - meta.format-spec
 ///                                             ^ meta.string.interpolated punctuation.definition.string.end - meta.interpolation - meta.format-spec

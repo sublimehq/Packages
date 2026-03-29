@@ -2014,6 +2014,8 @@ contexts:
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push: inside_format_string_interpolation
+    - match: \}
+      scope: invalid.illegal.unescaped-placeholder.cs
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
@@ -2117,6 +2119,8 @@ contexts:
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push: inside_verbatim_format_string_interpolation
+    - match: \}
+      scope: invalid.illegal.unescaped-placeholder.cs
 
   inside_verbatim_format_string_interpolation:
     - clear_scopes: 1
