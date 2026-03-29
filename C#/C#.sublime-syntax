@@ -22,7 +22,7 @@ variables:
   shebang_language: \bdotnet\s+run\b
 
   # operators
-  unary_op: '(?x: \+\+ | -- | && | \|\| | <<<? | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
+  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
 
   # numbers
   dec_digits: (?:[\d_]*\d)
@@ -1489,7 +1489,7 @@ contexts:
     - match: \.
       scope: punctuation.accessor.dot.cs
       push: maybe_pointer
-    - match: '(?x: <<<? | >>>? | \?\? | [-+*/%|&^] )='
+    - match: '(?x: << | >>>? | \?\? | [-+*/%|&^] )='
       scope: keyword.operator.assignment.augmented.cs
       push: maybe_pointer
     - match: '(?x: \+\+? | --? | [*/%] )'
@@ -1498,7 +1498,7 @@ contexts:
     - match: '(?x: && | \|\| | !(?!=) )'
       scope: keyword.operator.logical.cs
       push: maybe_pointer
-    - match: '(?x: <<<? | >>>? | [|&^~] )'
+    - match: '(?x: << | >>>? | [|&^~] )'
       scope: keyword.operator.bitwise.cs
       push: maybe_pointer
     - match: '(?x: <=? | >=? | == | != )'

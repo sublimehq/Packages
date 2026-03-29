@@ -49,9 +49,6 @@ class TestOperatorDefinitions {
     public bool operator << (int arg);
 ///                      ^^ entity.name.function.cs
 
-    public bool operator <<< (int arg);
-///                      ^^^ entity.name.function.cs
-
     public bool operator >> (int arg);
 ///                      ^^ entity.name.function.cs
 
@@ -115,6 +112,8 @@ class TestOperatorDefinitions {
     public bool operator -> (int arg);
 ///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
 
+    public bool operator <<< (int arg);
+///                      ^^^ entity.name.function.cs invalid.illegal.operator.cs
 }
 
 /// Operators /////////////////////////////////////////////////////////////////
@@ -156,11 +155,10 @@ class TestOperatorDefinitions {
 ///        ^ keyword.operator.bitwise.cs
 ///          ^ keyword.operator.bitwise.cs
 
-    a >> b >>> c << d <<< e;
+    a >> b >>> c << d;
 ///   ^^ keyword.operator.bitwise.cs
 ///        ^^^ keyword.operator.bitwise.cs
 ///              ^^ keyword.operator.bitwise.cs
-///                   ^^^ keyword.operator.bitwise.cs
 
     x &= y;
 ///   ^^ keyword.operator.assignment.augmented.cs
@@ -178,9 +176,6 @@ class TestOperatorDefinitions {
 ///   ^^^ keyword.operator.assignment.augmented.cs
 
     x >>>= y;
-///   ^^^^ keyword.operator.assignment.augmented.cs
-
-    x <<<= y;
 ///   ^^^^ keyword.operator.assignment.augmented.cs
 
     // Comparison
