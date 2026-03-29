@@ -502,7 +502,7 @@ namespace TestNamespace . Test
 ///                                             ^ - meta.group
 ///                 ^ punctuation.section.group.begin
 ///                  ^^^^^^ support.type
-///                        ^ punctuation.accessor.dot.namespace
+///                        ^ punctuation.accessor.dot
 ///                         ^^^^^^^^^^^^^^^^^ support.type
 ///                                           ^ variable.other
 ///                                            ^ punctuation.section.group.end

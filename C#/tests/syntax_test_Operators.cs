@@ -297,9 +297,9 @@ A?.B?.C?[0] == E;
 ///                       ^ punctuation.section.group.end
 ///                        ^^^^ variable.other - meta.cast
 ///   ^^^^ support.type
-///       ^ punctuation.separator.namespace
+///       ^ punctuation.accessor.dot
 ///        ^^^^^^^ support.type
-///                ^ punctuation.separator.namespace
+///                ^ punctuation.accessor.dot
 ///                  ^^^^^ support.type
 
     (int)test.example(abc);

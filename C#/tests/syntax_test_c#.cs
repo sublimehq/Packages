@@ -89,7 +89,7 @@ class TestGenericList
 //            ^^^ storage.type
 //                ^ storage.type.nullable
 //                 ^ punctuation.definition.generic.end
-//                   ^ punctuation.accessor.dot.namespace
+//                   ^ punctuation.accessor.dot
 //                     ^^^^^^^^^^ support.type
 //                                ^ variable.other
         int ? test2 = 4;

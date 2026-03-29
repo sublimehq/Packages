@@ -4,14 +4,14 @@ global using Newtonsoft.Json;
 /// ^^ storage.modifier
 ///    ^^^^^ keyword.control.import
 ///          ^^^^^^^^^^^^^^^ meta.path
-///                    ^ punctuation.separator.namespace
+///                    ^ punctuation.accessor.dot
 ///                         ^ punctuation.terminator - meta.path
 global using static Console.WriteLine;
 /// ^^ storage.modifier
 ///    ^^^^^ keyword.control.import
 ///          ^^^^^^ keyword.control.import
 ///                 ^^^^^^^^^^^^^^^^^ meta.path
-///                        ^ punctuation.separator.namespace
+///                        ^ punctuation.accessor.dot
 ///                                  ^ punctuation.terminator
 
 namespace Example;

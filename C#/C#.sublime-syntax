@@ -333,7 +333,7 @@ contexts:
       scope: keyword.operator.assignment.cs
       push: maybe_pointer
     - match: \.
-      scope: meta.path.cs punctuation.separator.namespace.cs
+      scope: meta.path.cs punctuation.accessor.dot.cs
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
@@ -688,7 +688,7 @@ contexts:
     - match: '({{name}})?(\.)'
       captures:
         1: meta.path.cs
-        2: meta.path.cs punctuation.accessor.dot.namespace.cs
+        2: meta.path.cs punctuation.accessor.dot.cs
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
@@ -1593,7 +1593,7 @@ contexts:
         - match: '{{name}}'
           scope: support.type.cs
         - match: '\.'
-          scope: punctuation.separator.namespace.cs
+          scope: punctuation.accessor.dot.cs
         - match: '{{type_suffix_capture}}'
           captures:
             1: punctuation.section.brackets.begin.cs
@@ -1868,7 +1868,7 @@ contexts:
         4: punctuation.section.brackets.end.cs
     - match: \s*(\.)\s*
       captures:
-        1: punctuation.accessor.dot.namespace.cs
+        1: punctuation.accessor.dot.cs
     - match: '\*'
       scope: keyword.operator.pointer.cs
     - match: \s*(\?)
@@ -2659,7 +2659,7 @@ contexts:
     - match: '({{name}})\s*(\.)'
       captures:
         1: support.type.cs
-        2: punctuation.accessor.dot.namespace.cs
+        2: punctuation.accessor.dot.cs
     - match: '({{name}})\s*(<)'
       captures:
         1: support.type.cs
