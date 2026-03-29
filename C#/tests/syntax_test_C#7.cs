@@ -51,7 +51,7 @@ class Foo {
 ///                      ^^^^^^^^^^^^^^^ meta.method.body meta.method.body
 ///                      ^ punctuation.section.block.begin
 ///                       ^^^^^^ keyword.control
-///                                ^ keyword.operator
+///                                ^ keyword.operator.arithmetic
 ///                                   ^ punctuation.terminator
 ///                                    ^ punctuation.section.block.end
 
@@ -66,7 +66,7 @@ class Foo {
 ///                ^ punctuation.section.parameters.end
 ///                  ^^^^^^^^^^^^^^^ meta.method.body
 ///                   ^^^^^^ keyword.control
-///                            ^ keyword.operator
+///                            ^ keyword.operator.arithmetic
 ///                               ^ punctuation.terminator
 ///                                ^ punctuation.section.block.end
 ///                                 ^ punctuation.terminator
@@ -89,7 +89,7 @@ class Foo {
 ///                          ^ punctuation.section.parameters.end
 ///                            ^^^^^^^^^^^^^^^ meta.method.body
 ///                             ^^^^^^ keyword.control
-///                                      ^ keyword.operator
+///                                      ^ keyword.operator.arithmetic
 ///                                         ^ punctuation.terminator
 ///                                          ^ punctuation.section.block.end
 ///                                           ^ punctuation.terminator
@@ -116,7 +116,7 @@ class Foo {
 ///                                     ^ punctuation.section.parameters.end
 ///                                       ^^^^^^^^^^^^^^^ meta.method.body
 ///                                        ^^^^^^ keyword.control
-///                                                 ^ keyword.operator
+///                                                 ^ keyword.operator.arithmetic
 ///                                                    ^ punctuation.terminator
 ///                                                     ^ punctuation.section.block.end
 ///                                                      ^ punctuation.terminator
@@ -129,7 +129,7 @@ class Foo {
 ///               ^^^^^^ storage.type
 ///                     ^ punctuation.definition.generic.end
 ///                       ^^^^^ variable.other
-///                             ^ keyword.operator
+///                             ^ keyword.operator.assignment
 ///                               ^^^^^^ meta.group
 ///                               ^ punctuation.section.group.begin
 ///                                    ^ punctuation.section.group.end
@@ -201,7 +201,7 @@ class Foo {
 ///                               ^^ variable.other
 ///                                 ^ punctuation.accessor.dot
 ///                                  ^^^^ variable.other
-///                                       ^^ keyword.operator
+///                                       ^^ keyword.operator.comparison
 ///                                          ^ meta.number.integer.decimal constant.numeric.value
 ///                                           ^ punctuation.separator.case-statement
                 Console.WriteLine($"The shape: {sh.GetType().Name} with no dimensions");
@@ -213,7 +213,7 @@ class Foo {
 ///                   ^^^^^^^ variable.other
 ///                           ^^^^ keyword.control.switch.case.when
 ///                                ^^^^^^^ variable.other
-///                                        ^^ keyword.operator
+///                                        ^^ keyword.operator.comparison
 ///                                           ^ meta.number.integer.decimal constant.numeric.value
 ///                                            ^ punctuation.separator.case-statement
             case Shape<Shape> shape when shape.Area > 0:
@@ -227,7 +227,7 @@ class Foo {
 ///                                      ^^^^^ variable.other
 ///                                           ^ punctuation.accessor.dot
 ///                                            ^^^^ variable.other
-///                                                 ^ keyword.operator
+///                                                 ^ keyword.operator.comparison
 ///                                                   ^ meta.number.integer.decimal constant.numeric.value
 ///                                                    ^ punctuation.separator.case-statement
         }

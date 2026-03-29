@@ -40,11 +40,11 @@ otherPerson = person with { LastName = "Hanselman" };
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/patterns3
 if (myValue is > 0 and <= 10)
 /// ^^^^^^^ variable.other
-///         ^^ keyword.operator
-///            ^ keyword.operator
+///         ^^ keyword.operator.reflection
+///            ^ keyword.operator.comparison
 ///              ^ constant.numeric.value
 ///                ^^^ keyword.operator.logical
-///                    ^^ keyword.operator
+///                    ^^ keyword.operator.comparison
 ///                       ^^ constant.numeric.value
     Console.WriteLine("More than 0 but less than or equal to 10");
 
@@ -52,17 +52,17 @@ switch (myValue)
 {
     case <= 0:
 /// ^^^^ keyword.control.switch.case
-///      ^^ keyword.operator
+///      ^^ keyword.operator.comparison
 ///         ^ constant.numeric.value
 ///          ^ punctuation.separator.case-statement
         Console.WriteLine("Less than or equal to 0");
         break;
     case > 0 and <= 10:
 /// ^^^^ keyword.control.switch.case
-///      ^ keyword.operator
+///      ^ keyword.operator.comparison
 ///        ^ constant.numeric.value
 ///          ^^^ keyword.operator.logical
-///              ^^ keyword.operator
+///              ^^ keyword.operator.comparison
 ///                 ^^ constant.numeric.value
 ///                   ^ punctuation.separator.case-statement
         Console.WriteLine("More than 0 but less than or equal to 10");
@@ -79,16 +79,16 @@ var message = myValue switch
 ///                   ^^^^^^ keyword.control.flow
 {
     <= 0 => "Less than or equal to 0",
-/// ^^ keyword.operator
+/// ^^ keyword.operator.comparison
 ///    ^ constant.numeric.value
 ///      ^^ punctuation.separator.case-expression
 ///         ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 ///                                  ^ punctuation.terminator.case-expression
     > 0 and <= 10 => "More than 0 but less than or equal to 10",
-/// ^ keyword.operator
+/// ^ keyword.operator.comparison
 ///   ^ constant.numeric.value
 ///     ^^^ keyword.operator.logical
-///         ^^ keyword.operator
+///         ^^ keyword.operator.comparison
 ///            ^^ constant.numeric.value
 ///               ^^ punctuation.separator.case-expression
     _ => "More than 10"
@@ -117,7 +117,7 @@ static bool CheckIfCanWalkIntoBank(Bank bank, bool isVip)
 ///                     ^ punctuation.accessor.dot
 ///                      ^^^^^^^^^^^^^^^^ variable.other
 ///                                       ^^^^ keyword.control.switch.case.when
-///                                            ^ keyword.operator
+///                                            ^ keyword.operator.logical
 ///                                             ^^^^^ variable.other
 ///                                                   ^^ punctuation.separator.case-expression
 ///                                                      ^^^^^ constant.language
@@ -254,7 +254,7 @@ public class TollCalculator
 ///                ^^ punctuation.separator.case-expression
 ///                   ^^^^ constant.numeric.value
 ///                       ^ constant.numeric.suffix
-///                         ^ keyword.operator
+///                         ^ keyword.operator.arithmetic
 ///                           ^ punctuation.section.group.begin
 ///                            ^ variable.other
 ///                             ^ punctuation.accessor.dot
@@ -642,7 +642,7 @@ unsafe class TestFunctionPointers {
 ///                            ^ punctuation.definition.generic.end.cs
 ///                              ^^ variable.other.cs
 ///                                 ^ keyword.operator.assignment.cs
-///                                   ^ keyword.operator.cs
+///                                   ^ keyword.operator.pointer.cs
 ///                                    ^^^^^^^^^^^^^^^^^^^^ variable.other.cs
 ///                                                        ^ punctuation.accessor.dot.cs
 ///                                                         ^^^ variable.other.cs
@@ -664,7 +664,7 @@ unsafe class TestFunctionPointers {
 ///                                    ^ punctuation.definition.generic.end.cs
 ///                                      ^^ variable.other.cs
 ///                                         ^ keyword.operator.assignment.cs
-///                                           ^ keyword.operator.cs
+///                                           ^ keyword.operator.pointer.cs
 ///                                            ^^^^^^^^^^^^^^^^^^^^ variable.other.cs
 ///                                                                ^ punctuation.accessor.dot.cs
 ///                                                                 ^^^ variable.other.cs
@@ -686,7 +686,7 @@ unsafe class TestFunctionPointers {
 ///                                      ^ punctuation.definition.generic.end.cs
 ///                                        ^^ variable.other.cs
 ///                                           ^ keyword.operator.assignment.cs
-///                                             ^ keyword.operator.cs
+///                                             ^ keyword.operator.pointer.cs
 ///                                              ^^^^^^^^^^^^^^^^^^^^ variable.other.cs
 ///                                                                  ^ punctuation.accessor.dot.cs
 ///                                                                   ^^^ variable.other.cs
@@ -705,7 +705,7 @@ unsafe class TestFunctionPointers {
 ///                                        ^ punctuation.definition.generic.end.cs
 ///                                          ^ variable.other.cs
 ///                                            ^ keyword.operator.assignment.cs
-///                                              ^ keyword.operator.cs
+///                                              ^ keyword.operator.pointer.cs
 ///                                               ^^^^^^^^ variable.other.cs
 ///                                                       ^ punctuation.terminator.statement.cs
     }

@@ -77,7 +77,7 @@ namespace YourNamespace
 ///                                        ^^^^ variable.language.this
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
-///                                                      ^^ keyword.operator
+///                                                      ^^ keyword.operator.logical.cs
 ///                                                         ^^^^^^^^^^^^^^^ meta.group
 ///                                                         ^ punctuation.section.group.begin
 ///                                                          ^^^^ variable.language.this
@@ -875,7 +875,7 @@ namespace TestNamespace . Test
 ///                                                         ^^^ variable.parameter.cs
 ///                                                             ^^ keyword.declaration.function.arrow.cs
 ///                                                                ^ variable.other.cs
-///                                                                  ^ keyword.operator.cs
+///                                                                  ^ keyword.operator.arithmetic.cs
 ///                                                                    ^ meta.number.integer.decimal.cs
 ///                                                                     ^ - meta.function.anonymous
 

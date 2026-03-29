@@ -55,7 +55,7 @@ public static class IntExtensions
 //^^^^^^^^^^^^^^^^^^^^^ meta.method.cs
 //          ^^ keyword.declaration.function.arrow.cs
 //             ^^^^^^ variable.other.cs
-//                   ^^ keyword.operator.cs
+//                   ^^ keyword.operator.arithmetic.cs
 //                     ^ punctuation.terminator.statement.cs
     }
 }
@@ -93,7 +93,7 @@ public static class EnumerableExtensions
 //                          ^ punctuation.section.parameters.end.cs
 //                           ^^^^^^^^^^^^^^^^^ meta.method.cs
 //                            ^^ keyword.declaration.function.arrow.cs
-//                               ^ keyword.operator.cs
+//                               ^ keyword.operator.logical.cs
 //                                ^^^^^^ variable.other.cs
 //                                      ^ punctuation.accessor.dot.cs
 //                                       ^^^^^ meta.function-call.cs

@@ -1,22 +1,218 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
+class TestOperatorDefinitions {
 
-    var c = 5 * 4;
-///         ^ meta.number.integer.decimal.cs constant.numeric.value.cs
-///           ^ keyword.operator
-///           ^ - keyword.operator.pointer
-///             ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+    // Arithmetic Operators
 
-    x >>= y
-///   ^^^ keyword.operator
+    public bool operator + (int arg);
+///             ^^^^^^^^ storage.modifier.other.cs
+///                      ^ meta.method.cs entity.name.function.cs
+///                        ^^^^^^^^^ meta.method.parameters.cs
+///                        ^ punctuation.section.parameters.begin.cs
+///                         ^^^ storage.type.cs
+///                             ^^^ variable.parameter.cs
+///                                ^ punctuation.section.parameters.end.cs
+///                                 ^ punctuation.terminator.statement.cs
 
-    x = x >> y
-///   ^ keyword.operator.assignment
-///       ^^ keyword.operator
+    public bool operator - (int arg);
+///                      ^ entity.name.function.cs
 
-condition ? first_expression : second_expression;
-///       ^ keyword.operator.ternary
-///                          ^ keyword.operator.ternary
+    public bool operator * (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator / (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator % (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator ++ (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator -- (int arg);
+///                      ^^ entity.name.function.cs
+
+    // Binary Operators
+
+    public bool operator ~ (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator ^ (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator | (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator & (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator << (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator <<< (int arg);
+///                      ^^^ entity.name.function.cs
+
+    public bool operator >> (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator >>> (int arg);
+///                      ^^^ entity.name.function.cs
+
+    // Comparison Operators
+
+    public bool operator == (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator != (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator < (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator <= (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator > (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator >= (int arg);
+///                      ^^ entity.name.function.cs
+
+    // Logical Operators
+
+    public bool operator ! (int arg);
+///                      ^ entity.name.function.cs
+
+    public bool operator || (int arg);
+///                      ^^ entity.name.function.cs
+
+    public bool operator && (int arg);
+///                      ^^ entity.name.function.cs
+
+    // Invalid Operators
+
+    public bool operator += (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator -= (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator *= (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator /= (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator ?? (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator .? (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator => (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+    public bool operator -> (int arg);
+///                      ^^ entity.name.function.cs invalid.illegal.operator.cs
+
+}
+
+/// Operators /////////////////////////////////////////////////////////////////
+
+    // Arithmetic
+
+    c = 1 + 2 - 3 * 4 / 5 % 6;
+///   ^ keyword.operator.assignment.cs
+///       ^ keyword.operator.arithmetic.cs
+///           ^ keyword.operator.arithmetic.cs
+///               ^ keyword.operator.arithmetic.cs
+///                   ^ keyword.operator.arithmetic.cs
+///                       ^ keyword.operator.arithmetic.cs
+
+    c++ d--;
+///  ^^ keyword.operator.arithmetic.cs
+///      ^^ keyword.operator.arithmetic.cs
+
+    // Binary
+
+    a += b;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    a -= b;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    a *= b;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    a /= b;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    a %= b;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    a & ~b | ^c
+///   ^ keyword.operator.bitwise.cs
+///     ^ keyword.operator.bitwise.cs
+///        ^ keyword.operator.bitwise.cs
+///          ^ keyword.operator.bitwise.cs
+
+    a >> b >>> c << d <<< e;
+///   ^^ keyword.operator.bitwise.cs
+///        ^^^ keyword.operator.bitwise.cs
+///              ^^ keyword.operator.bitwise.cs
+///                   ^^^ keyword.operator.bitwise.cs
+
+    x &= y;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    x |= y;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    x ^= y;
+///   ^^ keyword.operator.assignment.augmented.cs
+
+    x >>= y;
+///   ^^^ keyword.operator.assignment.augmented.cs
+
+    x <<= y;
+///   ^^^ keyword.operator.assignment.augmented.cs
+
+    x >>>= y;
+///   ^^^^ keyword.operator.assignment.augmented.cs
+
+    x <<<= y;
+///   ^^^^ keyword.operator.assignment.augmented.cs
+
+    // Comparison
+
+    a == b != c <= d < e > f >= g
+///   ^^ keyword.operator.comparison.cs
+///        ^^ keyword.operator.comparison.cs
+///             ^^ keyword.operator.comparison.cs
+///                  ^ keyword.operator.comparison.cs
+///                      ^ keyword.operator.comparison.cs
+///                          ^^ keyword.operator.comparison.cs
+
+    // Logical
+
+    a && b || !c
+///   ^^ keyword.operator.logical.cs
+///        ^^ keyword.operator.logical.cs
+///           ^ keyword.operator.logical.cs
+
+    // Ternary
+
+    condition ? first_expression : second_expression;
+///           ^ keyword.operator.ternary
+///                              ^ keyword.operator.ternary
+
+    // Pointer Arithmetic
+
+    a = &obj;
+///     ^ keyword.operator.pointer.cs
+
+    a = *obj;
+///     ^ keyword.operator.pointer.cs
 
 /// Accessors /////////////////////////////////////////////////////////////////
 
@@ -52,7 +248,7 @@ Customer? first = customers?[0];
 /// <- support.type
 ///     ^ storage.type.nullable
 ///       ^^^^^ variable.other
-///             ^ keyword.operator.assignment.variable
+///             ^ keyword.operator.assignment
 ///               ^^^^^^^^^ variable.other
 ///                        ^ keyword.operator.null-coalescing - meta.brackets
 ///                         ^^^ meta.brackets
