@@ -13,7 +13,7 @@ first_line_match: '^(?:drop|edit|fixup|pick|reword|squash|[defprsx]) \h{7,} '
 
 variables:
   comment_char: '[#;]'
-  hash: \b\h{7,}\b
+  hash: \b\h{4,}\b
   option: (-)[[:alnum:]]+\b
 
 contexts:
