@@ -21,8 +21,8 @@ first_line_match: |-
 variables:
   shebang_language: \bdotnet\s+run\b
 
-  bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
-  unary_op: '(?:\+\+|--|-|~|!|&|\*)'
+  # operators
+  unary_op: '(?x: \+\+ | -- | && | \|\| | << | >>>? | <=? | >=? | == | != | [-+*/%|&^~!] )'
 
   # numbers
   dec_digits: (?:[\d_]*\d)
@@ -331,8 +331,9 @@ contexts:
       scope: meta.path.cs
     - match: '='
       scope: keyword.operator.assignment.cs
+      push: maybe_pointer
     - match: \.
-      scope: meta.path.cs punctuation.separator.namespace.cs
+      scope: meta.path.cs punctuation.accessor.dot.cs
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
@@ -446,7 +447,9 @@ contexts:
                 scope: entity.name.constant.cs
               - match: '='
                 scope: keyword.operator.assignment.cs
-                push: line_of_code_in
+                push:
+                  - line_of_code_in
+                  - maybe_pointer
               - match: ','
                 scope: punctuation.separator.enum.cs
 
@@ -685,7 +688,7 @@ contexts:
     - match: '({{name}})?(\.)'
       captures:
         1: meta.path.cs
-        2: meta.path.cs punctuation.accessor.dot.namespace.cs
+        2: meta.path.cs punctuation.accessor.dot.cs
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
@@ -782,11 +785,12 @@ contexts:
   method_name_or_member_variable:
     - match: '\.'
       scope: punctuation.accessor.dot.cs
-    - match: '(operator)\s*({{unary_op}}|{{bin_op}})\s*(\()'
+    - match: '(operator)\s*({{unary_op}}|([^\s(]*))\s*(\()'
       captures:
         1: storage.modifier.other.cs
         2: meta.method.cs entity.name.function.cs
-        3: meta.method.parameters.cs punctuation.section.parameters.begin.cs
+        3: invalid.illegal.operator.cs
+        4: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       set: [method_body_transition, method_params]
     - match: (?={{name}})
       branch_point: method_or_member_variable_name
@@ -922,8 +926,10 @@ contexts:
     - match: '{{name}}'
       scope: variable.parameter.cs
     - match: '='
-      scope: keyword.operator.assignment.default-value.cs
-      push: line_of_code_in
+      scope: keyword.operator.assignment.cs
+      push:
+        - line_of_code_in
+        - maybe_pointer
     - match: ','
       scope: punctuation.separator.parameter.function.cs
       pop: true
@@ -1179,13 +1185,16 @@ contexts:
       captures:
         1: storage.type.variable.cs
         2: invalid.illegal.cs
-        3: keyword.operator.assignment.variable.cs
+        3: keyword.operator.assignment.cs
+      set: maybe_pointer
     - match: '(var|dynamic)\s+({{name}})\s*(=)'
       captures:
         1: storage.type.variable.cs
         2: variable.other.cs
-        3: keyword.operator.assignment.variable.cs
-      set: line_of_code_in
+        3: keyword.operator.assignment.cs
+      set:
+        - line_of_code_in
+        - maybe_pointer
     - match: (?=var\s*\()
       push: var_declaration
     - include: lambdas
@@ -1244,11 +1253,10 @@ contexts:
 
   member_variables_declaration:
     - match: '='
-      scope: keyword.operator.assignment.variable.cs
+      scope: keyword.operator.assignment.cs
       push:
-        - match: (?=;|,)
-          pop: true
-        - include: line_of_code_in
+        - member_variables_declaration_value
+        - maybe_pointer
     - match: '(?=\{)'
       push: method_accessor
     - match: '{{name}}'
@@ -1261,18 +1269,17 @@ contexts:
     - match: (?=[]})>;])
       pop: true
 
+  member_variables_declaration_value:
+    - match: (?=;|,)
+      pop: true
+    - include: line_of_code_in
+
   variables_declaration:
     - match: '='
-      scope: keyword.operator.assignment.variable.cs
+      scope: keyword.operator.assignment.cs
       push:
-        - match: (?=;|,)
-          pop: true
-        - match: (?=\{)
-          push:
-            - match: (?=[^,\s{}])
-              pop: true
-            - include: initializer_constructor
-        - include: line_of_code_in
+        - variables_declaration_value
+        - maybe_pointer
     - match: '{{name}}'
       scope: variable.other.cs
     - match: ','
@@ -1282,6 +1289,16 @@ contexts:
       pop: true
     - match: (?=\{|\}|\)|>|\])
       pop: true
+
+  variables_declaration_value:
+    - match: (?=;|,)
+      pop: true
+    - match: (?=\{)
+      push:
+        - match: (?=[^,\s{}])
+          pop: true
+        - include: initializer_constructor
+    - include: line_of_code_in
 
   keywords:
     - include: funcptr_types
@@ -1386,7 +1403,9 @@ contexts:
       captures:
         1: variable.other.member.cs
         2: keyword.operator.assignment.cs
-      push: line_of_code_in
+      push:
+        - line_of_code_in
+        - maybe_pointer
     - match: (?=\S)
       push: line_of_code_in
 
@@ -1457,24 +1476,42 @@ contexts:
     # Cannot neg-ahead "(" because clauses can follow several of the sql words
     - match: \b(let|select|equals|from|in|where|join|orderby|group|by|on|into|into|ascending|descending)\b(?!\s*[.,;+=&\|\[\]\)])
       scope: keyword.other.sql.cs
-    - match: \?\.
-      scope: punctuation.accessor.null-coalescing.cs
-    - match: \.\.
-      scope: keyword.operator.range.cs
-    - match: \.
-      scope: punctuation.accessor.dot.cs
-    - include: parenthesized_lambdas
-    # Match this before {{bin_op}} to scope specially in the generic context
+    # operators (Note: order matters!)
     - match: '->'
       scope: punctuation.accessor.arrow.cs
-    - match: '{{bin_op}}='
+      push: maybe_pointer
+    - match: \?\.
+      scope: punctuation.accessor.null-coalescing.cs
+      push: maybe_pointer
+    - match: \.\.
+      scope: keyword.operator.range.cs
+      push: maybe_pointer
+    - match: \.
+      scope: punctuation.accessor.dot.cs
+      push: maybe_pointer
+    - match: '(?x: << | >>>? | \?\? | [-+*/%|&^] )='
       scope: keyword.operator.assignment.augmented.cs
-    - match: \?\?
-      scope: keyword.operator.null-coalescing.cs
-    - match: '{{bin_op}}|{{unary_op}}'
-      scope: keyword.operator.cs
+      push: maybe_pointer
+    - match: '(?x: \+\+? | --? | [*/%] )'
+      scope: keyword.operator.arithmetic.cs
+      push: maybe_pointer
+    - match: '(?x: && | \|\| | !(?!=) )'
+      scope: keyword.operator.logical.cs
+      push: maybe_pointer
+    - match: '(?x: << | >>>? | [|&^~] )'
+      scope: keyword.operator.bitwise.cs
+      push: maybe_pointer
+    - match: '(?x: <=? | >=? | == | != )'
+      scope: keyword.operator.comparison.cs
+      push: maybe_pointer
     - match: '='
       scope: keyword.operator.assignment.cs
+      push: maybe_pointer
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.cs
+      push: maybe_pointer
+    # expressions
+    - include: parenthesized_lambdas
     - include: literals
     - match: '({{name}})(?={{generic_declaration}}\()\s*(<)'
       captures:
@@ -1556,7 +1593,7 @@ contexts:
         - match: '{{name}}'
           scope: support.type.cs
         - match: '\.'
-          scope: punctuation.separator.namespace.cs
+          scope: punctuation.accessor.dot.cs
         - match: '{{type_suffix_capture}}'
           captures:
             1: punctuation.section.brackets.begin.cs
@@ -1576,6 +1613,13 @@ contexts:
           pop: true
         - include: code_block_in
     - match: (?=[]}>,]|{{reserved}})
+      pop: true
+
+  maybe_pointer:
+    - match: '[*&]'
+      scope: keyword.operator.pointer.cs
+      pop: true
+    - match: (?=\S)
       pop: true
 
   group_begin:
@@ -1684,7 +1728,9 @@ contexts:
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
-      push: line_of_code_in
+      push:
+        - line_of_code_in
+        - maybe_pointer
     - match: '({{name}})\s*(:)'
       captures:
         1: variable.parameter.cs
@@ -1822,7 +1868,7 @@ contexts:
         4: punctuation.section.brackets.end.cs
     - match: \s*(\.)\s*
       captures:
-        1: punctuation.accessor.dot.namespace.cs
+        1: punctuation.accessor.dot.cs
     - match: '\*'
       scope: keyword.operator.pointer.cs
     - match: \s*(\?)
@@ -2568,8 +2614,10 @@ contexts:
 
   for_var_assignment:
     - match: '='
-      scope: keyword.operator.assignment.variable.loop.cs
-      set: line_of_code_in
+      scope: keyword.operator.assignment.cs
+      set:
+        - line_of_code_in
+        - maybe_pointer
     - match: (?=;|\)|\})
       pop: true
 
@@ -2611,7 +2659,7 @@ contexts:
     - match: '({{name}})\s*(\.)'
       captures:
         1: support.type.cs
-        2: punctuation.accessor.dot.namespace.cs
+        2: punctuation.accessor.dot.cs
     - match: '({{name}})\s*(<)'
       captures:
         1: support.type.cs
@@ -2660,8 +2708,10 @@ contexts:
 
   using_var_assignment:
     - match: '='
-      scope: keyword.operator.assignment.variable.using.cs
-      push: line_of_code_in
+      scope: keyword.operator.assignment.cs
+      push:
+        - line_of_code_in
+        - maybe_pointer
     - match: (?=;|\)|\})
       pop: true
     - match: ','

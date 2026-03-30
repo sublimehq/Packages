@@ -2,7 +2,7 @@
 using System.Text;
 /// <- keyword.control.import
 ///    ^ meta.path
-///         ^ punctuation.separator.namespace
+///         ^ punctuation.accessor.dot
 ///            ^ meta.path
 ///              ^ punctuation.terminator
 using static System.Math.Foo;
@@ -25,7 +25,7 @@ using col = global::System.Collections;
 ///         ^^^^^^ support.namespace
 ///               ^^ punctuation.accessor.double-colon.namespace
 ///                 ^^^^^^ meta.path
-///                       ^ punctuation.separator.namespace
+///                       ^ punctuation.accessor.dot
 ///                        ^^^^^^^^^^^ meta.path
 ///                                   ^ punctuation.terminator
 using sys = global::System;
@@ -134,9 +134,9 @@ class Foo {
 ///^^^^ support.namespace.global.cs
 ///    ^^ punctuation.accessor.double-colon.namespace.cs
 ///      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.cs
-///            ^ punctuation.accessor.dot.namespace.cs
-///                    ^ punctuation.accessor.dot.namespace.cs
-///                                     ^ punctuation.accessor.dot.namespace.cs
+///            ^ punctuation.accessor.dot.cs
+///                    ^ punctuation.accessor.dot.cs
+///                                     ^ punctuation.accessor.dot.cs
 ///                                                                ^^ meta.group.cs
 ///                                                                ^ punctuation.section.group.begin.cs
 ///                                                                 ^ punctuation.section.group.end.cs
@@ -145,7 +145,7 @@ internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase 
 ///                                  ^^^ meta.path
 ///                                     ^^ punctuation.accessor.double-colon
 ///                                       ^^^^^^^^^^^^^ meta.path
-///                                                    ^ punctuation.accessor.dot.namespace
+///                                                    ^ punctuation.accessor.dot
 ///                                                     ^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 
     private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));

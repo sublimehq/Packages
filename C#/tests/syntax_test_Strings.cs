@@ -2,7 +2,7 @@
 
 var character = 'y';
 /// ^^^^^^^^^ variable.other.cs
-///           ^ keyword.operator.assignment.variable.cs
+///           ^ keyword.operator.assignment.cs
 ///             ^^^ meta.string.cs string.quoted.single.cs
 ///             ^ punctuation.definition.string.begin.cs
 ///              ^ constant.character.literal.cs
@@ -10,7 +10,7 @@ var character = 'y';
 ///                ^ punctuation.terminator.statement.cs
 var character_too_long = 'no';
 /// ^^^^^^^^^^^^^^^^^^ variable.other.cs
-///                    ^ keyword.operator.assignment.variable.cs
+///                    ^ keyword.operator.assignment.cs
 ///                      ^^^^ invalid.illegal.not_a_char.cs
 ///                          ^ punctuation.terminator.statement.cs
 

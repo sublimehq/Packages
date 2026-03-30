@@ -57,7 +57,7 @@ public static decimal CalculateToll(object vehicle) =>
 ///                          ^ variable.other
 ///                           ^ punctuation.accessor.dot
 ///                            ^^^^^^^^^^^^^^^^ variable.other
-///                                             ^ keyword.operator
+///                                             ^ keyword.operator.comparison
 ///                                               ^^^^ constant.numeric.value
 ///                                                    ^^ punctuation.separator.case-expression
 ///                                                                     ^ punctuation.terminator.case-expression
@@ -208,7 +208,7 @@ static async Task Main()
 // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges
 Index i1 = 3;  // number 3 from beginning
 Index i2 = ^4; // number 4 from end
-///        ^ keyword.operator
+///        ^ keyword.operator.bitwise
 ///         ^ constant.numeric.value
 int[] a = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 Console.WriteLine($"{a[i1]}, {a[i2]}"); // "3, 6"
@@ -216,7 +216,7 @@ var slice = a[i1..i2]; // { 3, 4, 5 }
 ///             ^^ keyword.operator.range
 
 var lazyDog = words[^2..^0];
-///                 ^ keyword.operator
+///                 ^ keyword.operator.bitwise
 ///                   ^^ keyword.operator.range
 var allWords = words[..]; // contains "The" through "dog".
 ///                  ^^ keyword.operator.range
@@ -261,11 +261,11 @@ static Quadrant GetQuadrant(Point point) => point switch
 ///     ^^^^^^ meta.sequence.tuple
 ///            ^^^^ keyword.control.switch.case.when
 ///                 ^ variable.other
-///                   ^ keyword.operator
+///                   ^ keyword.operator.comparison
 ///                     ^ constant.numeric.value
-///                       ^^ keyword.operator
+///                       ^^ keyword.operator.logical
 ///                          ^ variable.other
-///                            ^ keyword.operator
+///                            ^ keyword.operator.comparison
 ///                              ^ constant.numeric.value
 ///                                ^^ punctuation.separator.case-expression
 ///                                   ^^^^^^^^ variable.other
@@ -362,7 +362,7 @@ public class CustomAutoDataAttribute() : AutoDataAttribute(
 var payload = JsonConverter.Deserialize<SomeType>(serializedData);
 var for_same_value = (payload is { SomeProperty: var propValue } && propValue == compare);
 /// ^^^^^^^^^^^^^^ variable.other.cs
-///                ^ keyword.operator.assignment.variable.cs
+///                ^ keyword.operator.assignment.cs
 ///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.cs
 ///                  ^ punctuation.section.group.begin.cs
 ///                   ^^^^^^^ variable.other.cs
@@ -374,9 +374,9 @@ var for_same_value = (payload is { SomeProperty: var propValue } && propValue ==
 ///                                              ^^^ storage.type.variable.cs
 ///                                                  ^^^^^^^^^ variable.other.cs
 ///                                                            ^ punctuation.section.block.end.cs
-///                                                              ^^ keyword.operator.cs
+///                                                              ^^ keyword.operator.logical.cs
 ///                                                                 ^^^^^^^^^ variable.other.cs
-///                                                                           ^^ keyword.operator.cs
+///                                                                           ^^ keyword.operator.comparison.cs
 ///                                                                              ^^^^^^^ variable.other.cs
 ///                                                                                     ^ punctuation.section.group.end.cs
 ///                                                                                      ^ punctuation.terminator.statement.cs

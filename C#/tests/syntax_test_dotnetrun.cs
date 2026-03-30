@@ -27,7 +27,7 @@
 
 var builder = WebApplication.CreateBuilder();
 #!  ^^^^^^^ variable.other.cs
-#!          ^ keyword.operator.assignment.variable.cs
+#!          ^ keyword.operator.assignment.cs
 #!            ^^^^^^^^^^^^^^ variable.other.cs
 #!                          ^ punctuation.accessor.dot.cs
 #!                           ^^^^^^^^^^^^^^^ meta.function-call.cs
