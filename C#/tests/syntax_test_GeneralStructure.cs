@@ -31,7 +31,7 @@ namespace YourNamespace
 ///             ^ punctuation.section.brackets.begin
 ///              ^ punctuation.section.brackets.end
 ///                ^^^^ variable.other.member
-///                     ^ keyword.operator.assignment.variable
+///                     ^ keyword.operator.assignment
 
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter
@@ -77,7 +77,7 @@ namespace YourNamespace
 ///                                        ^^^^ variable.language.this
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
-///                                                      ^^ keyword.operator
+///                                                      ^^ keyword.operator.logical.cs
 ///                                                         ^^^^^^^^^^^^^^^ meta.group
 ///                                                         ^ punctuation.section.group.begin
 ///                                                          ^^^^ variable.language.this
@@ -502,7 +502,7 @@ namespace TestNamespace . Test
 ///                                             ^ - meta.group
 ///                 ^ punctuation.section.group.begin
 ///                  ^^^^^^ support.type
-///                        ^ punctuation.accessor.dot.namespace
+///                        ^ punctuation.accessor.dot
 ///                         ^^^^^^^^^^^^^^^^^ support.type
 ///                                           ^ variable.other
 ///                                            ^ punctuation.section.group.end
@@ -875,7 +875,7 @@ namespace TestNamespace . Test
 ///                                                         ^^^ variable.parameter.cs
 ///                                                             ^^ keyword.declaration.function.arrow.cs
 ///                                                                ^ variable.other.cs
-///                                                                  ^ keyword.operator.cs
+///                                                                  ^ keyword.operator.arithmetic.cs
 ///                                                                    ^ meta.number.integer.decimal.cs
 ///                                                                     ^ - meta.function.anonymous
 
@@ -1461,14 +1461,14 @@ public class AfterTopLevelMethod {
     }
 
     Action<float> actionDelegate = delegate { };
-///                              ^ keyword.operator.assignment.variable
+///                              ^ keyword.operator.assignment
 ///                                ^^^^^^^^ keyword.other
 ///                                         ^ punctuation.section.block.begin
 ///                                           ^ punctuation.section.block.end
     event Action<float> eventAction;
 /// ^^^^^ storage.modifier
     event Action<float> eventActionDelegate = delegate { };
-///                                         ^ keyword.operator.assignment.variable
+///                                         ^ keyword.operator.assignment
 ///                                           ^^^^^^^^ keyword.other
 ///                                                    ^ punctuation.section.block.begin
 ///                                                      ^ punctuation.section.block.end
@@ -1500,7 +1500,7 @@ public class MyClass
 ///                             ^^ punctuation.definition.generic.end
 ///                                ^^^^^^ variable.other.member
         = new Dictionary<MyEnum, List<uint>>
-///     ^ keyword.operator.assignment.variable
+///     ^ keyword.operator.assignment
 ///       ^^^ keyword.operator.new
         {
             [One] = new List<uint>
