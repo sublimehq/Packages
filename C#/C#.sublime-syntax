@@ -490,47 +490,40 @@ contexts:
     - match: \b(delegate)\s+
       captures:
         1: storage.type.delegate.cs
-      push: delegate_type
-
-  delegate_type:
-    - meta_scope: meta.delegate.cs
-    - match: \s
-      set: delegate_name
-    - include: type
+      push:
+        - delegate_parameters
+        - delegate_type_parameter
+        - delegate_name
+        - type_no_space
 
   delegate_name:
-    - match: '\s+'
-      scope: meta.delegate.cs
-    - match: '({{name}})(\s*)(<)'
-      captures:
-        1: meta.delegate.cs variable.other.member.delegate.cs
-        2: meta.delegate.cs
-        3: meta.delegate.cs meta.generic.cs punctuation.definition.generic.begin.cs
-      set:
-        - meta_content_scope: meta.delegate.cs meta.generic.cs
-        - match: '>'
-          scope: meta.delegate.cs meta.generic.cs punctuation.definition.generic.end.cs
-          set:
-            - match: '\s+'
-              scope: meta.delegate.cs
-            - match: \(
-              scope: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
-              set: delegate_params
-        - include: type_parameter
-    - match: '({{name}})(\s*)(\()'
-      captures:
-        1: meta.delegate.cs variable.other.member.delegate.cs
-        2: meta.delegate.cs
-        3: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
-      set: delegate_params
-    - match: '(?=\S)'
+    - match: '{{name}}'
+      scope: variable.other.member.delegate.cs
+      pop: true
+    - match: (?=\S)
       pop: true
 
-  delegate_params:
-    - meta_content_scope: meta.delegate.parameters.cs
+  delegate_type_parameter:
+    - match: '<'
+      scope: meta.generic.cs punctuation.definition.generic.begin.cs
+      push: type_parameter
+    - match: (?=\S)
+      pop: true
+
+  delegate_parameters:
+    - meta_scope: meta.delegate.cs
+    - match: \(
+      scope: punctuation.section.parameters.begin.cs
+      push: inside_delegate_parameters
+    - match: (?=\S)
+      pop: true
+
+  inside_delegate_parameters:
+    - clear_scopes: 1
+    - meta_scope: meta.delegate.parameters.cs
     - match: \)
       scope: punctuation.section.parameters.end.cs
-      set: delegate_end
+      pop: 2
     - match: (?=\S)
       push: [method_param, method_param_type]
 
@@ -539,12 +532,6 @@ contexts:
       captures:
         1: punctuation.terminator.statement.cs
       pop: 1
-
-  delegate_end:
-    - include: terminator
-    - match: \s*(?=\S)
-      scope: invalid.illegal.expected.colon
-      pop: true
 
   maybe_constructor_parameters:
     - match: \(
