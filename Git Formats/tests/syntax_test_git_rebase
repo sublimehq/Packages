@@ -22,6 +22,15 @@ pick d284bb2 Initial commit
 #    ^^^^^^^ constant.other.hash
 #           ^ - constant - comment
 #            ^^^^^^^^^^^^^^^ comment.line.git.rebase
+pick d284 Initial commit
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- keyword.operator.commit.pick
+#^^^ keyword.operator.commit.pick
+#   ^ - storage.type.commit
+#    ^^^^ constant.other.hash
+#        ^ - constant - comment
+#         ^^^^^^^^^^^^^^^ comment.line.git.rebase
 pick d284bb2 # Initial commit
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
