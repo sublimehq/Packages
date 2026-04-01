@@ -946,12 +946,10 @@ contexts:
       pop: true
 
   method_param_type_modifier:
-    - match: '\s*({{method_param_type_modifier}})\s'
+    - match: ({{method_param_type_modifier}})\s*
       captures:
         1: storage.modifier.parameter.cs
-    - match: \s
-      pop: true
-    - include: type
+    - include: type_no_space
 
   constructor_prebody:
     - meta_scope: meta.method.constructor.cs
@@ -1454,8 +1452,6 @@ contexts:
     - match: null\b
       scope: constant.language.null.cs
       pop: 2
-    - match: (?=\{)
-      pop: true
     - include: type_no_space
 
   line_of_code_in:
@@ -1916,7 +1912,7 @@ contexts:
 
   type_no_space:
     - include: type
-    - match: \s
+    - match: ''
       pop: true
 
   # bools, numbers, chars, simple strings

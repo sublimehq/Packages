@@ -93,6 +93,27 @@ namespace YourNamespace
 ///                                                                                      ^^^^^ variable.language
 ///                                                                                           ^ punctuation.section.group.end
 ///                                                                                            ^ punctuation.terminator
+        // see: https://github.com/sublimehq/Packages/issues/4491
+        internal static void SetFrom(this   s8[]   A,   int   I,  params);
+///     ^^^^^^^^ storage.modifier.access.cs
+///              ^^^^^^ storage.modifier.cs
+///                     ^^^^ storage.type.cs
+///                          ^^^^^^^ meta.method.cs entity.name.function.cs
+///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.cs
+///                                 ^ punctuation.section.parameters.begin.cs
+///                                  ^^^^ storage.modifier.parameter.cs
+///                                         ^^ support.type.cs
+///                                           ^^ meta.brackets.cs
+///                                           ^ punctuation.section.brackets.begin.cs
+///                                            ^ punctuation.section.brackets.end.cs
+///                                                ^ variable.parameter.cs
+///                                                 ^ punctuation.separator.parameter.function.cs
+///                                                     ^^^ storage.type.cs
+///                                                           ^ variable.parameter.cs
+///                                                            ^ punctuation.separator.parameter.function.cs
+///                                                               ^^^^^^ storage.modifier.parameter.cs
+///                                                                     ^ punctuation.section.parameters.end.cs
+///                                                                      ^ meta.method.cs punctuation.terminator.statement.cs
 
         public bool IsZero => IsConst(Numeric<Type>.Zero);
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property
