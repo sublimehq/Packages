@@ -341,21 +341,21 @@ class Foo {
 ///                     ^^^^^^^^^ meta.sequence.tuple
 ///                      ^ meta.number.integer.decimal constant.numeric.value
 ///                       ^ punctuation.separator.sequence
-        (string Alpha, string Beta) namedLetters = ("a", "b");
+        (string Alpha, MyString Beta) namedLetters = ("a", "b");
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple
 ///     ^ punctuation.section.sequence.begin
 ///      ^^^^^^ storage.type
 ///             ^^^^^ variable.other
 ///                  ^ punctuation.separator.sequence
-///                    ^^^^^^ storage.type
-///                           ^^^^ variable.other
-///                               ^ punctuation.section.sequence.end
-///                                 ^^^^^^^^^^^^ variable.other
-///                                              ^ keyword.operator.assignment
-///                                                ^ punctuation.section.sequence.begin
-///                                                    ^ punctuation.separator.sequence
-///                                                         ^ punctuation.section.sequence.end
-///                                                          ^ punctuation.terminator.statement
+///                    ^^^^^^^^ support.type.cs
+///                             ^^^^ variable.other
+///                                 ^ punctuation.section.sequence.end
+///                                   ^^^^^^^^^^^^ variable.other
+///                                                ^ keyword.operator.assignment
+///                                                  ^ punctuation.section.sequence.begin
+///                                                      ^ punctuation.separator.sequence
+///                                                           ^ punctuation.section.sequence.end
+///                                                            ^ punctuation.terminator.statement
 
         (
 ///     ^ meta.sequence.tuple punctuation.section.sequence.begin
@@ -363,7 +363,9 @@ class Foo {
 ///         ^^^^^^ storage.type
 ///                ^^^^^ variable.other
 ///                     ^ punctuation.separator.sequence
-            string Beta
+            MyString Beta
+///         ^^^^^^^^ support.type.cs
+///                  ^^^^ variable.other
         ) namedLetters = ("a", "b");
 ///     ^ punctuation.section.sequence.end
 ///       ^^^^^^^^^^^^ variable.other

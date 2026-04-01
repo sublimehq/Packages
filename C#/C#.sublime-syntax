@@ -1645,7 +1645,7 @@ contexts:
       scope: keyword.operator.assignment.cs
     - match: _\b
       scope: variable.language.anonymous.cs
-    - match: (?!{{reserved}})(?={{namespaced_name}}{{type_suffix}}\s+{{name}}\s*[:,])
+    - match: (?!{{reserved}})(?={{namespaced_name}}{{type_suffix}}\s+{{name}})
       push: var_declaration_explicit
     - match: '({{name}})(<)'
       captures:
