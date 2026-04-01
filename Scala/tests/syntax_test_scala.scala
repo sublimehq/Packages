@@ -1933,14 +1933,14 @@ import scalaz._
 // ^^^^^^ - support.type
 
   type Foo = Thing { val a: Int }
-  //               ^ punctuation.definition.block.begin.scala
-  //                            ^ punctuation.definition.block.end.scala
+  //               ^ punctuation.section.block.begin.scala
+  //                            ^ punctuation.section.block.end.scala
 
   type Foo = (Bar op (Baz))
-  //         ^ punctuation.definition.group.begin.scala
-  //                 ^ punctuation.definition.group.begin.scala
-  //                     ^ punctuation.definition.group.end.scala
-  //                      ^ punctuation.definition.group.end.scala
+  //         ^ punctuation.section.group.begin.scala
+  //                 ^ punctuation.section.group.begin.scala
+  //                     ^ punctuation.section.group.end.scala
+  //                      ^ punctuation.section.group.end.scala
 
    def identity: CFId
    override final def equals(other: Any): Boolean

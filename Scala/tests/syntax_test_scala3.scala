@@ -53,11 +53,11 @@ againmore: (x, y) => 42
 //             ^ variable.parameter.scala
 
 againmore: (x, y)
-//         ^ punctuation.definition.group.begin.scala
+//         ^ punctuation.section.group.begin.scala
 //          ^ support.type.scala
 //           ^ punctuation.separator.scala
 //             ^ support.type.scala
-//              ^ punctuation.definition.group.end.scala
+//              ^ punctuation.section.group.end.scala
 
 confusion: (x: Int) => 12
 //          ^ variable.parameter.scala
@@ -381,7 +381,7 @@ case Foo => ()
 type Elem[X] = X match {
 //             ^ support.class.scala
 //               ^^^^^ keyword.control.flow.scala
-//                     ^ punctuation.definition.block.begin.scala
+//                     ^ punctuation.section.block.begin.scala
 
 
    case String => Foo
@@ -402,7 +402,7 @@ type Elem[X] = X match {
 
 
 }
-// <- punctuation.definition.block.end.scala
+// <- punctuation.section.block.end.scala
 
 trait Greeting(val name: String)
 //                 ^^^^ variable.parameter.scala
@@ -502,7 +502,7 @@ val i: 0x01 = 0x01
 
 type Foo = (true)
 //          ^^^^ constant.language.boolean.true.scala
-//              ^ punctuation.definition.group.end.scala
+//              ^ punctuation.section.group.end.scala
 
 enum Color {
 // <- keyword.declaration.enum.scala

@@ -1918,10 +1918,10 @@ contexts:
       scope: punctuation.terminator.scala
       pop: 1
     - match: \(
-      scope: punctuation.definition.group.begin.scala
+      scope: punctuation.section.group.begin.scala
       push:
         - match: \)
-          scope: punctuation.definition.group.end.scala
+          scope: punctuation.section.group.end.scala
           pop: 1
         - include: delimited-type-group-expression
     - match: \[
@@ -1932,10 +1932,10 @@ contexts:
           pop: 1
         - include: delimited-type-expression
     - match: \{
-      scope: punctuation.definition.block.begin.scala
+      scope: punctuation.section.block.begin.scala
       push:
         - match: \}
-          scope: punctuation.definition.block.end.scala
+          scope: punctuation.section.block.end.scala
           pop: 1
         - include: declarations
     - match: '_\s*\*'
@@ -2110,10 +2110,10 @@ contexts:
           set: single-type-expression-tail
         - include: delimited-type-expression
     - match: '\('
-      scope: punctuation.definition.group.begin.scala
+      scope: punctuation.section.group.begin.scala
       set:
         - match: '\)'
-          scope: punctuation.definition.group.end.scala
+          scope: punctuation.section.group.end.scala
           set: single-type-expression-tail
         - include: delimited-type-group-expression
     - include: base-type-expression
@@ -2185,10 +2185,10 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail-no-function-type-expectation
     - match: '\{'
-      scope: punctuation.definition.block.begin.scala
+      scope: punctuation.section.block.begin.scala
       set:
         - match: \}
-          scope: punctuation.definition.block.end.scala
+          scope: punctuation.section.block.end.scala
           set: single-type-expression-tail-no-function
         - include: main
     - match: '(?=\()'
@@ -2245,11 +2245,11 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail-no-function-no-or-type-expectation
     - match: '\{'
-      scope: punctuation.definition.block.begin.scala
+      scope: punctuation.section.block.begin.scala
       set:
         - meta_scope: meta.block.scala
         - match: \}
-          scope: punctuation.definition.block.end.scala
+          scope: punctuation.section.block.end.scala
           set: single-type-expression-tail-no-function-no-or
         - include: main
     - match: '(?=\()'
@@ -2315,10 +2315,10 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail-type-expectation
     - match: '\{'
-      scope: punctuation.definition.block.begin.scala
+      scope: punctuation.section.block.begin.scala
       set:
         - match: \}
-          scope: punctuation.definition.block.end.scala
+          scope: punctuation.section.block.end.scala
           set: single-type-expression-tail
         - include: main
     - match: '(?=\()'
@@ -2334,7 +2334,7 @@ contexts:
 
   type-match-body:
     - match: '\{'
-      scope: punctuation.definition.block.begin.scala
+      scope: punctuation.section.block.begin.scala
       set: delimited-type-match-body
     - match: '\n'
       set: type-match-body-newline
@@ -2355,7 +2355,7 @@ contexts:
 
   delimited-type-match-body:
     - match: '\}'
-      scope: punctuation.definition.block.end.scala
+      scope: punctuation.section.block.end.scala
       pop: 1
     - match: '\bcase\b'
       scope: keyword.declaration.other.scala
@@ -2381,7 +2381,7 @@ contexts:
 
   delimited-type-case-rightarrow:
     - match: '\}'
-      scope: punctuation.definition.block.end.scala
+      scope: punctuation.section.block.end.scala
       pop: 1
     - match: '(?=\bcase\b)'
       set: delimited-type-match-body
