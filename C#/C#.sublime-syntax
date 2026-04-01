@@ -327,6 +327,7 @@ contexts:
 
   using_namespace:
     - include: namespace_variables
+    - include: type_arguments
     - match: '{{name}}'
       scope: meta.path.cs
     - match: '='
@@ -334,9 +335,6 @@ contexts:
       push: maybe_pointer
     - match: \.
       scope: meta.path.cs punctuation.accessor.dot.cs
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_argument
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
@@ -466,9 +464,7 @@ contexts:
       push: extension_declaration_maybe_generic
 
   extension_declaration_maybe_generic:
-    - match: '<'
-      scope: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_argument
+    - include: type_arguments
     - match: \(
       scope: punctuation.section.parameters.begin.cs
       set: [method_body, method_params]
@@ -721,7 +717,7 @@ contexts:
       captures:
         1: support.type.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: [method_name_or_member_variable, type_argument]
+      push: [method_name_or_member_variable, inside_type_argument]
     - match: '(~{{name}})(\s*)(\()'
       captures:
         1: meta.method.cs entity.name.function.destructor.cs
@@ -1850,7 +1846,7 @@ contexts:
     - match: \s*(<)
       captures:
         1: meta.generic.cs punctuation.definition.generic.begin.cs
-      push: type_argument
+      push: inside_type_argument
     - match: (?=[]})>,;>:]|=>)
       pop: true
 
@@ -1873,7 +1869,12 @@ contexts:
     - match: ','
       scope: punctuation.separator.type.cs
 
-  type_argument:
+  type_arguments:
+    - match: '<'
+      scope: meta.generic.cs punctuation.definition.generic.begin.cs
+      push: inside_type_argument
+
+  inside_type_argument:
     - meta_content_scope: meta.generic.cs
     - include: type_arg_param_common
     - include: type
@@ -2655,7 +2656,7 @@ contexts:
               pop: true
             - match: (?=[,);}])
               pop: true
-        - include: type_argument
+        - include: inside_type_argument
     - match: '({{base_type}}){{type_suffix_capture}}'
       captures:
         1: storage.type.cs
