@@ -731,7 +731,7 @@ contexts:
       push: [constructor_prebody, method_params]
     - match: '({{name}})\s*(\.)'
       captures:
-        1: entity.other.inherited-class.cs
+        1: support.type.cs
         2: punctuation.accessor.dot.cs
     - match: \b(?:({{base_type}})|({{name}}))
       captures:

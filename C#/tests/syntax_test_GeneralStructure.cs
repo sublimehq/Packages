@@ -33,6 +33,12 @@ namespace YourNamespace
 ///                ^^^^ variable.other.member
 ///                     ^ keyword.operator.assignment
 
+        Some.Thing sumthin = new();  // Wrong. This is not an inherited class.
+///     ^^^^ support.type.cs
+///         ^ punctuation.accessor.dot.cs
+///          ^^^^^ support.type.cs
+///                ^^^^^^^ variable.other.member.cs
+
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter
 ///                                ^ keyword.operator.assignment
