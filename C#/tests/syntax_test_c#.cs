@@ -33,10 +33,10 @@ class X
 }
 
 string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
-//                ^^ string.quoted.double.raw punctuation.definition.string.begin
+//                ^^ string.quoted.double.verbatim punctuation.definition.string.begin
 //                                 ^^ constant.character.escape
-//                                                                     ^ string.quoted.double.raw - constant
-//                                                                          ^ string.quoted.double.raw punctuation.definition.string.end
+//                                                                     ^ string.quoted.double.verbatim - constant
+//                                                                          ^ string.quoted.double.verbatim punctuation.definition.string.end
 
 class A
 {

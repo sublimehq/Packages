@@ -3,77 +3,543 @@
 // https://learn.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-11#raw-string-literals
 
 string longMessage = """
-///                  ^^^ string.quoted.triple punctuation.definition.string.begin
+///                  ^^^ string.quoted.double.block punctuation.definition.string.begin
     This is a long message.
     It has several lines.
         Some are indented
                 more than others.
     Some should start at the first column.
     Some have "quoted text" in them.
-/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.triple - punctuation
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.block - punctuation
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    Literal placeholders {0,20:F3}}!
+///                      ^^^^^^^^^ constant.other.placeholder.cs
+///                      ^ punctuation.definition.placeholder.begin.cs
+///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                        ^^^^^^ meta.format-spec.cs
+///                        ^ punctuation.separator.cs
+///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^ punctuation.separator.cs
+///                            ^^ constant.other.format-spec.cs
+///                              ^ punctuation.definition.placeholder.end.cs
+///                               ^ invalid.illegal.unescaped-placeholder.cs
+
+    GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
+///        ^^ constant.character.escape.cs
+///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+///                                               ^^ constant.character.escape.cs
     """;
-/// ^^^ string.quoted.triple punctuation.definition.string.end
+/// ^^^ string.quoted.double.block punctuation.definition.string.end
 
 longMessage = """""
 This raw string literal has four """", count them: """" four!
 embedded quote characters in a sequence. That's why it starts and ends
 with five double quotes.
 
-You could extend this example with as many embedded quotes as needed for your text.
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    Literal placeholders {0,20:F3}}!
+///                      ^^^^^^^^^ constant.other.placeholder.cs
+///                      ^ punctuation.definition.placeholder.begin.cs
+///                       ^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                        ^^^^^^ meta.format-spec.cs
+///                        ^ punctuation.separator.cs
+///                         ^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                           ^ punctuation.separator.cs
+///                            ^^ constant.other.format-spec.cs
+///                              ^ punctuation.definition.placeholder.end.cs
+///                               ^ invalid.illegal.unescaped-placeholder.cs
+
+    GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
+///        ^^ constant.character.escape.cs
+///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+///                                               ^^ constant.character.escape.cs
 """""
 // - no semi-colon on the line above
+
+var location = $"""
+///            ^^^^^ meta.string.interpolated string.quoted.double.block
+///            ^^^^ punctuation.definition.string.begin
+///                ^ - invalid
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {Longitude}} \t {{Latitude}}}
+///^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                       ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^ punctuation.section.interpolation.begin.cs
+///             ^^^^^^^^^ variable.other.cs
+///                      ^ punctuation.section.interpolation.end.cs
+///                       ^ invalid.illegal.unexpected-token.cs
+///                         ^^ - constant.character
+///                            ^^ invalid.illegal.unexpected-token.cs
+///                                      ^^^ invalid.illegal.unexpected-token.cs
+
+    GMT is {DateTime.Now,width:yyyyMMdd\THHmmss\Z}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                               ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^ punctuation.section.interpolation.begin.cs
+///         ^^^^^^^^ variable.other.cs
+///                 ^ punctuation.accessor.dot.cs
+///                  ^^^ variable.other.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                     ^ punctuation.separator.cs
+///                      ^^^^^ variable.other.cs
+///                           ^ punctuation.separator.cs
+///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                    ^ invalid.illegal.lone-escape.cs
+///                                            ^ invalid.illegal.lone-escape.cs
+///                                              ^ punctuation.section.interpolation.end.cs
+
+    "{In+"complete":F"} "{Incomplete:F\"} {Brace:{}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///      ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                  ^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                      ^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                    ^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                       ^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^ punctuation.section.interpolation.begin.cs
+///   ^^ variable.other.cs
+///     ^ keyword.operator.arithmetic.cs
+///      ^^^^^^^^^^ string.quoted.double.cs
+///                ^^ meta.format-spec.cs
+///                ^ punctuation.separator.cs
+///                 ^ constant.other.format-spec.cs
+///                   ^ invalid.illegal.unexpected-token.cs
+///                      ^ punctuation.section.interpolation.begin.cs
+///                       ^^^^^^^^^^ variable.other.cs
+///                                 ^^^ meta.format-spec.cs
+///                                 ^ punctuation.separator.cs
+///                                  ^^ constant.other.format-spec.cs
+///                                   ^ invalid.illegal.lone-escape.cs
+///                                     ^ invalid.illegal.unexpected-token.cs
+///                                       ^ punctuation.section.interpolation.begin.cs
+///                                        ^^^^^ variable.other.cs
+///                                             ^^ meta.format-spec.cs
+///                                             ^ punctuation.separator.cs
+///                                              ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                               ^ punctuation.section.interpolation.end.cs
+///                                                ^ invalid.illegal.unexpected-token.cs
+   """;
+/// <- meta.string.interpolated string.quoted.double.block
+///^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.end
+///   ^ punctuation.terminator.statement - string
+
+// Note: Verbatim strings may look like raw strings when starting with escaped double-quotes
+var location = @$"""
+///            ^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///            ^^^ punctuation.definition.string.begin.cs
+///               ^^ constant.character.escape.cs
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+///                             ^^ constant.character.escape.cs
+///                               ^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {{{Longitude}} \t {{Latitude}}}
+///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///              ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                         ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///            ^^ constant.character.escape.cs
+///              ^ punctuation.section.interpolation.begin.cs
+///               ^^^^^^^^^ variable.other.cs
+///                        ^ punctuation.section.interpolation.end.cs
+///                         ^^^^^ - constant
+///                              ^^ constant.character.escape.cs
+///                                        ^^ constant.character.escape.cs
+///                                          ^ - constant
+
+    GMT is {DateTime.Now,width:yyyyMMdd\THHmmss\Z}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                               ^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///        ^ punctuation.section.interpolation.begin.cs
+///         ^^^^^^^^ variable.other.cs
+///                 ^ punctuation.accessor.dot.cs
+///                  ^^^ variable.other.cs
+///                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                     ^ punctuation.separator.cs
+///                      ^^^^^ variable.other.cs
+///                           ^ punctuation.separator.cs
+///                            ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs
+///                                    ^^ constant.character.escape.cs
+///                                            ^^ constant.character.escape.cs
+///                                              ^ punctuation.section.interpolation.end.cs
+   """;
+/// <- meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///^^^ meta.string.interpolated.cs string.quoted.double.verbatim.cs
+///^^ constant.character.escape.cs
+///  ^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
 
 var location = $$"""
 /// <- storage.type.variable
 /// ^^^^^^^^ variable.other
-///            ^^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
-   You are at {{{Longitude}}, {{Latitude}}}
-///           ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///             ^ - constant
-///                       ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///                           ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///                                     ^^ meta.string.interpolated string.quoted.triple constant.character.escape
-///                                       ^ - constant
-   """;
+///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 
-var location = $"""
-///            ^^^^^ meta.string.interpolated string.quoted.triple
-///            ^^^^ punctuation.definition.string.begin
-///                ^ - invalid
-   You are at {{{Longitude}} \t {{Latitude}}}
-///^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///             ^^^^^^^^^^^ meta.string.interpolated meta.interpolation - string
-///                        ^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///                          ^^ constant.character.escape
-   """;
-/// <- meta.string.interpolated string.quoted.triple
-///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
-///   ^ punctuation.terminator.statement - string
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
 
-var location = @$"""
-///            ^^^^^ meta.string.interpolated string.quoted.triple
-///            ^^^^ punctuation.definition.string.begin
-///                ^ - invalid
-   You are at {{{Longitude}} \t {{Latitude}}}
-///^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///             ^^^^^^^^^^^ meta.string.interpolated meta.interpolation - string
-///                        ^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///                          ^^ - constant.character.escape
+    You are at {{{Longitude}}} \t {Latitude}} }
+///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///             ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                          ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^ - constant - invalid - punctuation
+///             ^^ punctuation.section.interpolation.begin.cs
+///               ^^^^^^^^^ variable.other.cs
+///                        ^^ punctuation.section.interpolation.end.cs
+///                          ^^^^^^ - constant - invalid - punctuation
+///                                        ^^ invalid.illegal.unexpected-token.cs
+///                                           ^ - constant - invalid - punctuation
+
+    GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                 ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^ punctuation.section.interpolation.begin.cs
+///          ^^^^^^^^ variable.other.cs
+///                  ^ punctuation.accessor.dot.cs
+///                   ^^^ variable.other.cs
+///                      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                      ^ punctuation.separator.cs
+///                       ^^^^^ variable.other.cs
+///                            ^ punctuation.separator.cs
+///                             ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                     ^ invalid.illegal.lone-escape.cs
+///                                             ^ invalid.illegal.lone-escape.cs
+///                                               ^^ punctuation.section.interpolation.end.cs
+
+    "{{In+"complete":F"}} "{{Incomplete:F\"}} {{Brace:{}}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///       ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                 ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                   ^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                        ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                       ^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                           ^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                      ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^ punctuation.section.interpolation.begin.cs
+///    ^^ variable.other.cs
+///      ^ keyword.operator.arithmetic.cs
+///       ^^^^^^^^^^ string.quoted.double.cs
+///                 ^^ meta.format-spec.cs
+///                 ^ punctuation.separator.cs
+///                  ^ constant.other.format-spec.cs
+///                    ^^ invalid.illegal.unexpected-token.cs
+///                        ^^ punctuation.section.interpolation.begin.cs
+///                          ^^^^^^^^^^ variable.other.cs
+///                                    ^^^ meta.format-spec.cs
+///                                    ^ punctuation.separator.cs
+///                                     ^^ constant.other.format-spec.cs
+///                                      ^ invalid.illegal.lone-escape.cs
+///                                        ^^ invalid.illegal.unexpected-token.cs
+///                                           ^^ punctuation.section.interpolation.begin.cs
+///                                             ^^^^^ variable.other.cs
+///                                                  ^^ meta.format-spec.cs
+///                                                  ^ punctuation.separator.cs
+///                                                   ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                                    ^^ punctuation.section.interpolation.end.cs
+///                                                      ^ - invalid.illegal
    """;
-/// <- meta.string.interpolated string.quoted.triple
-///^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.end
-///   ^ punctuation.terminator.statement - string
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///^^^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
+
+var location = @$$"""
+/// <- storage.type.variable
+/// ^^^^^^^^ variable.other
+///            ^ invalid.illegal.reserved-char.cs
+///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {{{Longitude}}} \t {Latitude}} }
+///^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///             ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                          ^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^ - constant - invalid - punctuation
+///             ^^ punctuation.section.interpolation.begin.cs
+///               ^^^^^^^^^ variable.other.cs
+///                        ^^ punctuation.section.interpolation.end.cs
+///                          ^^^^^^ - constant - invalid - punctuation
+///                                        ^^ invalid.illegal.unexpected-token.cs
+///                                           ^ - constant - invalid - punctuation
+
+    GMT is {{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                 ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^ punctuation.section.interpolation.begin.cs
+///          ^^^^^^^^ variable.other.cs
+///                  ^ punctuation.accessor.dot.cs
+///                   ^^^ variable.other.cs
+///                      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                      ^ punctuation.separator.cs
+///                       ^^^^^ variable.other.cs
+///                            ^ punctuation.separator.cs
+///                             ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                     ^ invalid.illegal.lone-escape.cs
+///                                             ^ invalid.illegal.lone-escape.cs
+///                                               ^^ punctuation.section.interpolation.end.cs
+   """;
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///^^^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
+
+var location = $$$"""
+/// <- storage.type.variable
+/// ^^^^^^^^ variable.other
+///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {{{{{Longitude}}}}} \t {{Latitude}}} }}
+///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///              ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^^ - constant - invalid - punctuation
+///              ^^^ punctuation.section.interpolation.begin.cs
+///                 ^^^^^^^^^ source.cs variable.other.cs
+///                          ^^^ punctuation.section.interpolation.end.cs
+///                             ^^^^^^^^ - constant - invalid - punctuation
+///                                             ^^^ invalid.illegal.unexpected-token.cs
+///                                                 ^^ - constant - invalid - punctuation
+
+    GMT is {{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                   ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^ punctuation.section.interpolation.begin.cs
+///           ^^^^^^^^ variable.other.cs
+///                   ^ punctuation.accessor.dot.cs
+///                    ^^^ variable.other.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                       ^ punctuation.separator.cs
+///                        ^^^^^ variable.other.cs
+///                             ^ punctuation.separator.cs
+///                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                      ^ invalid.illegal.lone-escape.cs
+///                                              ^ invalid.illegal.lone-escape.cs
+///                                                ^^^ punctuation.section.interpolation.end.cs
+
+    "{{{In+"complete":F"}}} "{{{Incomplete:F\"}}} {{{Brace:{}}}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///        ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                  ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                    ^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                          ^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                          ^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                               ^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                            ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^ punctuation.section.interpolation.begin.cs
+///     ^^ variable.other.cs
+///       ^ keyword.operator.arithmetic.cs
+///        ^^^^^^^^^^ string.quoted.double.cs
+///                  ^^ meta.format-spec.cs
+///                  ^ punctuation.separator.cs
+///                   ^ constant.other.format-spec.cs
+///                     ^^^ invalid.illegal.unexpected-token.cs
+///                          ^^^ punctuation.section.interpolation.begin.cs
+///                             ^^^^^^^^^^ variable.other.cs
+///                                       ^^^ meta.format-spec.cs
+///                                       ^ punctuation.separator.cs
+///                                        ^^ constant.other.format-spec.cs
+///                                         ^ invalid.illegal.lone-escape.cs
+///                                           ^^^ invalid.illegal.unexpected-token.cs
+///                                               ^^^ punctuation.section.interpolation.begin.cs
+///                                                  ^^^^^ variable.other.cs
+///                                                       ^^ meta.format-spec.cs
+///                                                       ^ punctuation.separator.cs
+///                                                        ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                                         ^^^ punctuation.section.interpolation.end.cs
+///                                                            ^ - invalid.illegal
+   """;
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///^^^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
+
+var location = @$$$"""
+/// <- storage.type.variable
+/// ^^^^^^^^ variable.other
+///            ^ invalid.illegal.reserved-char.cs
+///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {{{{{Longitude}}}}} \t {{Latitude}}} }}
+///^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///              ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                             ^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^^ - constant - invalid - punctuation
+///              ^^^ punctuation.section.interpolation.begin.cs
+///                 ^^^^^^^^^ source.cs variable.other.cs
+///                          ^^^ punctuation.section.interpolation.end.cs
+///                             ^^^^^^^^ - constant - invalid - punctuation
+///                                             ^^^ invalid.illegal.unexpected-token.cs
+///                                                 ^^ - constant - invalid - punctuation
+
+    GMT is {{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                   ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^ punctuation.section.interpolation.begin.cs
+///           ^^^^^^^^ variable.other.cs
+///                   ^ punctuation.accessor.dot.cs
+///                    ^^^ variable.other.cs
+///                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                       ^ punctuation.separator.cs
+///                        ^^^^^ variable.other.cs
+///                             ^ punctuation.separator.cs
+///                              ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                      ^ invalid.illegal.lone-escape.cs
+///                                              ^ invalid.illegal.lone-escape.cs
+///                                                ^^^ punctuation.section.interpolation.end.cs
+   """;
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///^^^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
+
+var location = $$$$"""
+/// <- storage.type.variable
+/// ^^^^^^^^ variable.other
+///            ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {{{{{{{Longitude}}}}}}} \t {{{Latitude}}}} }}}
+///^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///               ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^^^ - constant - invalid - punctuation
+///               ^^^^ punctuation.section.interpolation.begin.cs
+///                   ^^^^^^^^^ source.cs variable.other.cs
+///                            ^^^^ punctuation.section.interpolation.end.cs
+///                                ^^^^^^^^^^ - constant - invalid - punctuation
+///                                                  ^^^^ invalid.illegal.unexpected-token.cs
+///                                                       ^^^ - constant - invalid - punctuation
+
+    GMT is {{{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                     ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^ punctuation.section.interpolation.begin.cs
+///            ^^^^^^^^ variable.other.cs
+///                    ^ punctuation.accessor.dot.cs
+///                     ^^^ variable.other.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                        ^ punctuation.separator.cs
+///                         ^^^^^ variable.other.cs
+///                              ^ punctuation.separator.cs
+///                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                       ^ invalid.illegal.lone-escape.cs
+///                                               ^ invalid.illegal.lone-escape.cs
+///                                                 ^^^^ punctuation.section.interpolation.end.cs
+
+    "{{{{In+"complete":F"}}}} "{{{{Incomplete:F\"}}}} {{{{Brace:{}}}}}
+///^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///         ^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs meta.string.cs
+///                   ^^ meta.string.interpolated.cs meta.interpolation.cs meta.format-spec.cs
+///                     ^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                            ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                             ^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///                                                   ^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                                  ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///  ^^^^ punctuation.section.interpolation.begin.cs
+///      ^^ variable.other.cs
+///        ^ keyword.operator.arithmetic.cs
+///         ^^^^^^^^^^ string.quoted.double.cs
+///                   ^^ meta.format-spec.cs
+///                   ^ punctuation.separator.cs
+///                    ^ constant.other.format-spec.cs
+///                      ^^^^ invalid.illegal.unexpected-token.cs
+///                            ^^^^ punctuation.section.interpolation.begin.cs
+///                                ^^^^^^^^^^ variable.other.cs
+///                                          ^^^ meta.format-spec.cs
+///                                          ^ punctuation.separator.cs
+///                                           ^^ constant.other.format-spec.cs
+///                                            ^ invalid.illegal.lone-escape.cs
+///                                              ^^^^ invalid.illegal.unexpected-token.cs
+///                                                   ^^^^ punctuation.section.interpolation.begin.cs
+///                                                       ^^^^^ variable.other.cs
+///                                                            ^^ meta.format-spec.cs
+///                                                            ^ punctuation.separator.cs
+///                                                             ^ constant.other.format-spec.cs invalid.illegal.unescaped-placeholder.cs
+///                                                              ^^^ punctuation.section.interpolation.end.cs
+///                                                                 ^ - invalid.illegal
+   """;
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///^^^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
+
+var location = @$$$$"""
+/// <- storage.type.variable
+/// ^^^^^^^^ variable.other
+///            ^ invalid.illegal.reserved-char.cs
+///             ^^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
+
+    Escapes like \0 \a \f \n \t "" are literals.
+///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - invalid - punctuation
+
+    You are at {{{{{{{Longitude}}}}}}} \t {{{Latitude}}}} }}}
+///^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///               ^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///            ^^^ - constant - invalid - punctuation
+///               ^^^^ punctuation.section.interpolation.begin.cs
+///                   ^^^^^^^^^ source.cs variable.other.cs
+///                            ^^^^ punctuation.section.interpolation.end.cs
+///                                ^^^^^^^^^^ - constant - invalid - punctuation
+///                                                  ^^^^ invalid.illegal.unexpected-token.cs
+///                                                       ^^^ - constant - invalid - punctuation
+
+    GMT is {{{{DateTime.Now,width:yyyyMMdd\THHmmss\Z}}}}!
+///^^^^^^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.cs meta.interpolation.cs - string
+///                                                     ^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///        ^^^^ punctuation.section.interpolation.begin.cs
+///            ^^^^^^^^ variable.other.cs
+///                    ^ punctuation.accessor.dot.cs
+///                     ^^^ variable.other.cs
+///                        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.format-spec.cs
+///                        ^ punctuation.separator.cs
+///                         ^^^^^ variable.other.cs
+///                              ^ punctuation.separator.cs
+///                               ^^^^^^^^^^^^^^^^^^ constant.other.format-spec.cs - constant.character
+///                                       ^ invalid.illegal.lone-escape.cs
+///                                               ^ invalid.illegal.lone-escape.cs
+///                                                 ^^^^ punctuation.section.interpolation.end.cs
+   """;
+///^^^ meta.string.interpolated.cs string.quoted.double.block.cs
+///^^^ punctuation.definition.string.end.cs
+///   ^ punctuation.terminator.statement.cs
 
 var pointMessage = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
-///                ^^^^ meta.string.interpolated string.quoted.triple punctuation.definition.string.begin
+///                ^^^^ meta.string.interpolated string.quoted.double.block punctuation.definition.string.begin
 ///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
-///                    ^^^^^^^^^^^ string.quoted.triple - meta.interpolation
+///                    ^^^^^^^^^^^ string.quoted.double.block - meta.interpolation
 ///                               ^^^ meta.interpolation - string
-///                                  ^^ string.quoted.triple - meta.interpolation
+///                                  ^^ string.quoted.double.block - meta.interpolation
 ///                                    ^^^ meta.interpolation - string
-///                                       ^^^^^ string.quoted.triple - meta.interpolation
+///                                       ^^^^^ string.quoted.double.block - meta.interpolation
 ///                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation - string
-///                                                                      ^^^^^^^^^^^^^^^^^^^ string.quoted.triple - meta.interpolation
+///                                                                      ^^^^^^^^^^^^^^^^^^^ string.quoted.double.block - meta.interpolation
 ///                               ^ punctuation.section.interpolation.begin
 ///                                ^ variable.other
 ///                                 ^ punctuation.section.interpolation.end
@@ -123,16 +589,17 @@ Console.WriteLine($"{name} is {age} year{(age == 1 ? "" : "s")} old.");
 // Horace is 34 years old.
 
 string s2 = @$"He said, ""This is the last \u0063hance\x0021""";
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.raw
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.verbatim
 ///         ^^^ punctuation.definition.string.begin
 ///                     ^^ constant.character.escape
 ///                                        ^^^^^^^^^^^^^^^^^ - constant
 
-
 string s2 = @$$"""He said, ""This is the last \u0063hance\x0021""";
-///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.triple
-///         ^^^^^^ punctuation.definition.string.begin
-///                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+///         ^ invalid.illegal.reserved-char.cs
+///          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block - constant
+///          ^^^^^ punctuation.definition.string.begin
+///                        ^^ - constant.character
+///                                           ^^^^^^^^^^^^^^^^^ - constant
 ///                                                            ^^^ punctuation.definition.string.end
 
 public class C2 {
