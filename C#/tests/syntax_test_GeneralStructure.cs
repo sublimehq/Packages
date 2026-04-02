@@ -33,7 +33,7 @@ namespace YourNamespace
 ///                ^^^^ variable.other.member
 ///                     ^ keyword.operator.assignment
 
-        Some.Thing sumthin = new();  // Wrong. This is not an inherited class.
+        Some.Thing sumthin = new();  // #4494
 ///     ^^^^ support.type.cs
 ///         ^ punctuation.accessor.dot.cs
 ///          ^^^^^ support.type.cs
